@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Sāciet ar '/' lai izvēlētos sagatavotu atbildi.",
       "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
-      "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu"
+      "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
+      "WHATSAPP_TEMPLATES": "WhatsApp Veidnes"
     },
     "REPLYBOX": {
       "REPLY": "Atbildēt",

@@ -481,7 +481,8 @@
       "HEADER": "Ruch rozmów",
       "NO_CONVERSATIONS": "Brak rozmów",
       "CONVERSATION": "%{count} rozmowa",
-      "CONVERSATIONS": "%{count} rozmowy"
+      "CONVERSATIONS": "%{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Rozmowy według agentów",
@@ -536,6 +537,7 @@
       "LABELS": "Etykieta",
       "TEAMS": "Zespół"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

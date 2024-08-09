@@ -47,28 +47,28 @@
         "OLDEST": "Created at:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "Poslední aktivita:",
+        "ACTIVE": "Poslední aktivita"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Poslední aktivita: od nejstarších"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Poslední aktivita: od nejnovějších"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Vytvořeno: od nejnovějších"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Vytvořeno: od nejstarších"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Priorita: od nejvyšší"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Priorita: Od nejnižší"
       },
       "waiting_since_asc": {
         "TEXT": "Pending Response: Longest first"
@@ -106,12 +106,12 @@
           "LABEL": "Last activity"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "Vytvořeno",
+          "LABEL": "Vytvořeno"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "Poslední zpráva"
         }
       }
     },

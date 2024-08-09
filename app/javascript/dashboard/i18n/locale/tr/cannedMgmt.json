@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Hazır Yanıtlar",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "Hazır yanıt ekle",
     "LOADING": "Hazır yanıtlar getiriliyor...",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok.",
-    "SIDEBAR_TXT": "<p><b>Hazır Yanıtlar</b> </p><p> Hazır Yanıtlar, konuşmalara hızlı yanıt vermenize yardımcı olan önceden yazılmış yanıt şablonlarıdır. Bir sohbet sırasında hazır yanıt eklemek için, ajanlar '/' karakterinden önce kısa bir kodu yazabilirler.</p><p> Hazır yanıtlarınızı bu sayfadan yönetebilir veya \"Hazır yanıt ekle\" düğmesini kullanarak yeni hazır yanıtlar oluşturabilirsiniz.</p><p> Yardım almak için <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Hazır Yanıtlar el kitabını</a> başka bir sekmede açın.</p><p>Ayrıca, tüm yeni <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Hazır Yanıtlar Kütüphanesini</a> kontrol edin.</p>",
     "LIST": {
       "404": "Bu hesapta hazır yanıt yok.",
       "TITLE": "Hazır yanıtları yönetin",

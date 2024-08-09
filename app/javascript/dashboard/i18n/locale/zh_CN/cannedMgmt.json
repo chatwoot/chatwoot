@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "预设回复",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "新增预定义回复",
     "LOADING": "正在检索预定义回复...",
     "SEARCH_404": "没有任何项目符合此查询.",
-    "SIDEBAR_TXT": "<p><b>预定义回复</b></p>\n<p>预定义回复是预先编写的回复模板，帮助您快速回应对话。在聊天过程中插入预定义回复，代理可以输入一个以 '/' 字符开头的短代码。</p>\n<p>您可以从此页面管理预定义回复，或使用\"添加预定义回复\"按钮创建新的回复。</p>\n<p>在<a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">预定义回复手册</a>中查看详细说明。</p>\n<p>此外，请查看全新的<a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">预定义回复库</a>。</p>\n",
     "LIST": {
       "404": "此帐户中没有预设的回复。",
       "TITLE": "管理预设回复",

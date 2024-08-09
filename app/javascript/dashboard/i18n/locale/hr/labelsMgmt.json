@@ -10,7 +10,7 @@
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
       "TABLE_HEADER": [
-        "Name",
+        "Ime",
         "Description",
         "Color"
       ]
@@ -33,10 +33,10 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
-      "EDIT": "Edit",
+      "EDIT": "Uredi",
       "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "DELETE": "Izbriši",
+      "CANCEL": "Odustani"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
@@ -49,7 +49,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Add label",
@@ -67,16 +68,16 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Potvrdi brisanje",
         "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Da, izbriši",
+        "NO": "Ne, zadrži"
       }
     }
   }

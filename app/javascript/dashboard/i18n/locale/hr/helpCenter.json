@@ -4,16 +4,16 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
+      "SETTINGS_BUTTON": "Postavke",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "DRAFT": "Skica",
+        "ARCHIVED": "Arhivirano"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
+        "ALL_ARTICLES": "Svi članci",
+        "MINE": "Moji članci",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
       },
@@ -25,10 +25,10 @@
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
+      "ALL_ARTICLES": "Svi članci",
+      "PUBLISH_BUTTON": "Objavi",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
+      "PREVIEW": "Pretpregled",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
@@ -37,7 +37,7 @@
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
+        "TITLE": "Prenesi sliku",
         "UPLOADING": "Prenosim...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
@@ -106,7 +106,7 @@
         "TITLE": "Portals",
         "PORTAL_SETTINGS": "Portal settings",
         "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
+        "CANCEL_BUTTON_LABEL": "Odustani",
         "CHOOSE_LOCALE_BUTTON": "Choose Locale"
       },
       "PORTAL_SETTINGS": {
@@ -116,12 +116,12 @@
             "ADD": "Add locale",
             "VISIT": "Visit site",
             "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "DELETE": "Izbriši"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Portal Configurations",
             "ITEMS": {
-              "NAME": "Name",
+              "NAME": "Ime",
               "DOMAIN": "Custom domain",
               "SLUG": "Slug",
               "TITLE": "Portal title",
@@ -137,7 +137,7 @@
               "ARTICLE_COUNT": "No. of articles",
               "CATEGORIES": "No. of categories",
               "SWAP": "Swap",
-              "DELETE": "Delete",
+              "DELETE": "Izbriši",
               "DEFAULT_LOCALE": "Default"
             }
           }
@@ -173,7 +173,7 @@
           "TITLE": "Categories in",
           "NEW_CATEGORY": "New category",
           "TABLE": {
-            "NAME": "Name",
+            "NAME": "Ime",
             "DESCRIPTION": "Description",
             "LOCALE": "Locale",
             "ARTICLE_COUNT": "No. of articles",
@@ -181,7 +181,7 @@
               "EDIT": "Edit category",
               "DELETE": "Delete category"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Nisu pronađene kategorije"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -236,7 +236,7 @@
           "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
-          "LABEL": "Name",
+          "LABEL": "Ime",
           "PLACEHOLDER": "Portal name",
           "HELP_TEXT": "The name will be used in the public facing portal internally.",
           "ERROR": "Name is required"
@@ -292,7 +292,7 @@
         },
         "BUTTONS": {
           "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CANCEL": "Odustani"
         },
         "API": {
           "SUCCESS_MESSAGE": "Locale added successfully",
@@ -351,7 +351,7 @@
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
+          "TITLE": "Potvrdi brisanje",
           "MESSAGE": "Are you sure to delete the article?",
           "YES": "Yes, Delete",
           "NO": "No, Keep it"
@@ -377,7 +377,7 @@
         "PORTAL": "Portal",
         "LOCALE": "Locale",
         "NAME": {
-          "LABEL": "Name",
+          "LABEL": "Ime",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Name is required"
@@ -395,7 +395,7 @@
         },
         "BUTTONS": {
           "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CANCEL": "Odustani"
         },
         "API": {
           "SUCCESS_MESSAGE": "Category created successfully",
@@ -408,7 +408,7 @@
         "PORTAL": "Portal",
         "LOCALE": "Locale",
         "NAME": {
-          "LABEL": "Name",
+          "LABEL": "Ime",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
           "ERROR": "Name is required"
@@ -426,7 +426,7 @@
         },
         "BUTTONS": {
           "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CANCEL": "Odustani"
         },
         "API": {
           "SUCCESS_MESSAGE": "Category updated successfully",
@@ -481,6 +481,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

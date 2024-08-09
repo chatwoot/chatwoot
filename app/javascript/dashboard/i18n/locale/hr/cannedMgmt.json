@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Canned Responses",
+    "LEARN_MORE": "Saznajte više o unaprijed pripremljenim odgovorima",
+    "DESCRIPTION": "Unaprijed pripremljeni odgovori su već napisani predlošci za odgovore koji vam pomažu da brzo odgovorite na razgovor. Agenti mogu upisati znak '/' nakon kojeg slijedi kratki kod za umetanje unaprijed pripremljenog odgovora tijekom razgovora.",
     "HEADER_BTN_TXT": "Add canned response",
     "LOADING": "Fetching canned responses...",
     "SEARCH_404": "Ne postoji rezultat za zadano pretraživanje.",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "There are no canned responses available in this account.",
       "TITLE": "Manage canned responses",
@@ -12,13 +13,13 @@
       "TABLE_HEADER": [
         "Short code",
         "Content",
-        "Actions"
+        "Radnje"
       ]
     },
     "ADD": {
       "TITLE": "Add canned response",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short code",
@@ -39,7 +40,7 @@
     },
     "EDIT": {
       "TITLE": "Edit canned response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short code",
@@ -53,14 +54,14 @@
         },
         "SUBMIT": "Submit"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "Uredi",
       "API": {
         "SUCCESS_MESSAGE": "Canned response is updated successfully.",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully.",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"

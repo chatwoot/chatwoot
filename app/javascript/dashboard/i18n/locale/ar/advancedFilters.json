@@ -18,6 +18,7 @@
       "AND": "و",
       "OR": "أو"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "يساوي",
       "not_equal_to": "لا يساوي",

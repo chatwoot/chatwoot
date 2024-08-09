@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakty zostały pomyślnie połączone",
       "ERROR_MESSAGE": "Nie można połączyć kontaktów. Spróbuj ponownie!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

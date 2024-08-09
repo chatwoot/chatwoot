@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt flettet med succes",
       "ERROR_MESSAGE": "Kunne ikke sammenflette kontakter, prøv igen!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

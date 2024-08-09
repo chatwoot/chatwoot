@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Retour",
     "ASSIGN_LABEL": "Assigner",
     "YES": "Oui",
+    "SEARCH_INPUT_PLACEHOLDER": "Rechercher",
     "ASSIGN_AGENT_TOOLTIP": "Assigner un agent",
     "ASSIGN_TEAM_TOOLTIP": "Assigner une équipe",
     "ASSIGN_SUCCESFUL": "Conversations assignées avec succès.",

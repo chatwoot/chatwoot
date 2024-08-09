@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "返回",
     "ASSIGN_LABEL": "分配",
     "YES": "是",
+    "SEARCH_INPUT_PLACEHOLDER": "搜索",
     "ASSIGN_AGENT_TOOLTIP": "分配客服代表",
     "ASSIGN_TEAM_TOOLTIP": "分配一个团队",
     "ASSIGN_SUCCESFUL": "对话分配成功.",

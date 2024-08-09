@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Konversationer",
       "MESSAGES": "Meddelanden"
     },
+    "SEARCHING_DATA": "Searching",
     "EMPTY_STATE": "Ingen %{item} hittades med orden '%{query}'",
     "EMPTY_STATE_FULL": "Inga resultat hittades med orden '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ att fokusera",

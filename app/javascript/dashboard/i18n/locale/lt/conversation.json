@@ -142,7 +142,8 @@
       "MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Pradėkite nuo „/“, kad pasirinktumėte Atsakymo Ruošinį.",
       "PRIVATE_MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Tai bus matoma tik Agentams",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
-      "CLICK_HERE": "Spausti čia kad atnaujinti"
+      "CLICK_HERE": "Spausti čia kad atnaujinti",
+      "WHATSAPP_TEMPLATES": "Whatsapp Šablonai"
     },
     "REPLYBOX": {
       "REPLY": "Atsakyti",

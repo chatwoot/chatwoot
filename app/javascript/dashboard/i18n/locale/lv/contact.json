@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi apvienota",
       "ERROR_MESSAGE": "Nevarēja apvienot kontaktpersonas, mēģiniet vēlreiz!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

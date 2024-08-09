@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "已成功合并联系人",
       "ERROR_MESSAGE": "无法合并联系人，请重试！"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

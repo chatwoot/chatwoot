@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter za novi red. Počni sa '/' da bi ste izabrali brzi odgovor.",
       "PRIVATE_MSG_INPUT": "Shift + enter za novi red. Ovo će biti vidljivo samo agentima",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Potpis poruke nije podešen, molim vas podesite ga u podešavanjima profila.",
-      "CLICK_HERE": "Kliknite ovde da izmenite"
+      "CLICK_HERE": "Kliknite ovde da izmenite",
+      "WHATSAPP_TEMPLATES": "Whatsapp šabloni"
     },
     "REPLYBOX": {
       "REPLY": "Odgovor",

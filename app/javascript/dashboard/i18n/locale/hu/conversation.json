@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
       "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Üzenet aláírása nem változott, kérlek, változtasd meg a profilod beállításaiban. ",
-      "CLICK_HERE": "Frissítéshez kattints ide"
+      "CLICK_HERE": "Frissítéshez kattints ide",
+      "WHATSAPP_TEMPLATES": "Whatsapp sablonok"
     },
     "REPLYBOX": {
       "REPLY": "Válasz",

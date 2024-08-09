@@ -481,7 +481,8 @@
       "HEADER": "Konuşma Trafik",
       "NO_CONVERSATIONS": "Hiç konuşma yok",
       "CONVERSATION": "%{count} konuşma",
-      "CONVERSATIONS": "%{count} konuşmalar"
+      "CONVERSATIONS": "%{count} konuşmalar",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Temsilciler Tarafından Yapılan Konuşmalar",
@@ -536,6 +537,7 @@
       "LABELS": "Etiket",
       "TEAMS": "Ekip"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

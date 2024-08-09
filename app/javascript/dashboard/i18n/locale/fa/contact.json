@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
       "ERROR_MESSAGE": "نمی توان مخاطبین را ادغام کرد، دوباره امتحان کنید!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
       "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signatura del missatge no està configurada, configura-la a la configuració del perfil.",
-      "CLICK_HERE": "Fes clic aquí per actualitzar"
+      "CLICK_HERE": "Fes clic aquí per actualitzar",
+      "WHATSAPP_TEMPLATES": "Plantilles de Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Respon",

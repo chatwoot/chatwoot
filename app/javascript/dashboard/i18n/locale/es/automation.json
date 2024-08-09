@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Necesitas tener al menos una acción para guardar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
+      "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
+      "URL_INPUT_PLACEHOLDER": "Introducir URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
@@ -113,6 +115,15 @@
       "LABEL_UPLOADING": "Subiendo...",
       "LABEL_UPLOADED": "Subido correctamente",
       "LABEL_UPLOAD_FAILED": "Error al subir"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
+      "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
+      "VALUE_REQUIRED": "El valor es requerido",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

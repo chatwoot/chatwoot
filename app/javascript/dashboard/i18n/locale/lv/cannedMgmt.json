@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Sagatavotās Atbildes",
+    "LEARN_MORE": "Uzzināt vairāk par sagatavotajām atbildēm",
+    "DESCRIPTION": "Sagatavotās atbildes ir iepriekš uzrakstītas atbilžu veidnes, kas palīdz ātri atbildēt uz sarunu. Lai sarunas laikā ievietotu gatavu atbildi, aģenti var ierakstīt rakstzīmi “/”, kam seko īskods. ",
     "HEADER_BTN_TXT": "Pievienot sagatavoto atbildi",
     "LOADING": "Notiek sagatavoto atbilžu iegūšana...",
     "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu.",
-    "SIDEBAR_TXT": "<p><b>Sagatavotās Atbildes</b> </p><p> Sagatavotās Atbildes ir iepriekš uzrakstītas atbilžu veidnes, kas palīdz ātri atbildēt uz sarunu. Lai tērzēšanas laikā ievietotu sagatavotu atbildi, aģenti var ievadīt īsu kodu, pirms kura ir rakstzīme “/”. </p><p> Šajā lapā Jūs varat pārvaldīt savas sagatavotās atbildes vai izveidot jaunas, izmantojot pogu \"Pievienot sagatavoto atbildi\".</p><p>Atveriet <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Sagatavoto Atbilžu rokasgrāmatu</a> jaunā cilnē, lai saņemtu palīdzību.</p><p>Apskatiet arī pilnīgi jauno <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Sagatavoto Atbilžu Bibliotēku</a>.</p>",
     "LIST": {
       "404": "Šajā kontā nav pieejama neviena sagatavota atbilde.",
       "TITLE": "Pārvaldīt sagatavotās atbildes",

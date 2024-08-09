@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Retornar",
     "ASSIGN_LABEL": "Atribuir",
     "YES": "Sim",
+    "SEARCH_INPUT_PLACEHOLDER": "Procurar",
     "ASSIGN_AGENT_TOOLTIP": "Atribuir agente",
     "ASSIGN_TEAM_TOOLTIP": "Atribuir equipe",
     "ASSIGN_SUCCESFUL": "Conversas atribuídas com sucesso.",

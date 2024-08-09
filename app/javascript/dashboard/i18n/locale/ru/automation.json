@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Напишите здесь ваше сообщение",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Выберите команды"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Выберите команды",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Включить правило автоматизации",
@@ -113,6 +115,15 @@
       "LABEL_UPLOADING": "Загружаем...",
       "LABEL_UPLOADED": "Успешно загружено",
       "LABEL_UPLOAD_FAILED": "Загрузка не удалась"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необходимо указать значение",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

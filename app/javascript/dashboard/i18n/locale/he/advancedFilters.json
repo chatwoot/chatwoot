@@ -18,6 +18,7 @@
       "AND": "ו/גם",
       "OR": "או"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "שווה ל",
       "not_equal_to": "לא שווה ל",

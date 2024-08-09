@@ -49,7 +49,8 @@
       "DISMISS": "Отклонить",
       "ADD_SELECTED_LABELS": "Добавить выбранные метки",
       "ADD_SELECTED_LABEL": "Добавить метку",
-      "ADD_ALL_LABELS": "Добавить все метки"
+      "ADD_ALL_LABELS": "Добавить все метки",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Добавить категорию",

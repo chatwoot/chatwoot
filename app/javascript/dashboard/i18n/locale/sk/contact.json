@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt úspešne zlúčený",
       "ERROR_MESSAGE": "Nepodarilo sa zlúčiť kontakty, skúste to znova!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

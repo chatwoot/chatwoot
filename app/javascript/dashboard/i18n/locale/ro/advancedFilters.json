@@ -18,6 +18,7 @@
       "AND": "ȘI",
       "OR": "SAU"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Egal cu",
       "not_equal_to": "Nu este egal cu",

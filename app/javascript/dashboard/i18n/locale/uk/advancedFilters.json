@@ -18,6 +18,7 @@
       "AND": "ТА",
       "OR": "АБО"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Дорівнює",
       "not_equal_to": "Не дорівнює",

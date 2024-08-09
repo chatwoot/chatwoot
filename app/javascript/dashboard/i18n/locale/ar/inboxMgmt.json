@@ -439,7 +439,7 @@
         "DISABLED": "معطّل"
       },
       "ENABLE_HMAC": {
-        "LABEL": "تمكين"
+        "LABEL": "تفعيل"
       }
     },
     "DELETE": {
@@ -642,7 +642,7 @@
         "PLACE_HOLDER": "كلمة المرور"
       },
       "DOMAIN": {
-        "LABEL": "الدومين",
+        "LABEL": "النطاق",
         "PLACE_HOLDER": "الدومين"
       },
       "ENCRYPTION": "التشفير",

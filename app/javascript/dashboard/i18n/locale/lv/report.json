@@ -481,7 +481,8 @@
       "HEADER": "Sarunu Satiksme",
       "NO_CONVERSATIONS": "Nav sarunu",
       "CONVERSATION": "%{count} saruna",
-      "CONVERSATIONS": "%{count} sarunas"
+      "CONVERSATIONS": "%{count} sarunas",
+      "DOWNLOAD_REPORT": "Lejupielādēt atskaiti"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Aģentu sarunas",
@@ -536,6 +537,7 @@
       "LABELS": "Etiķete",
       "TEAMS": "Komanda"
     },
+    "WITH": "ar",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Rezultātu Līmenis",

@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "Tilldela",
     "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Sök",
     "ASSIGN_AGENT_TOOLTIP": "Tilldela agent",
     "ASSIGN_TEAM_TOOLTIP": "Tilldela team",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully.",

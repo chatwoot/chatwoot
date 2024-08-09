@@ -49,7 +49,8 @@
       "DISMISS": "نادیده بگیر",
       "ADD_SELECTED_LABELS": "اضافه کردن برچسب‌های انتخاب شده",
       "ADD_SELECTED_LABEL": "اضافه کردن برچسب‌ انتخاب شده",
-      "ADD_ALL_LABELS": "اضافه کردن همه برچسب ها"
+      "ADD_ALL_LABELS": "اضافه کردن همه برچسب ها",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "افزودن برچسب",

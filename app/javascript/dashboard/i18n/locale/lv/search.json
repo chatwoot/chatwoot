@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Sarunas",
       "MESSAGES": "Ziņojumi"
     },
+    "SEARCHING_DATA": "Meklēšana",
     "EMPTY_STATE": "Vaicājumam '%{query}' nav atrasts neviens %{item} vienums",
     "EMPTY_STATE_FULL": "Vaicājumam '%{query}' nav atrasts neviens rezultāts",
     "PLACEHOLDER_KEYBINDING": "/ fokusēt",

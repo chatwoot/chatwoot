@@ -142,7 +142,8 @@
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
-      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren"
+      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
+      "WHATSAPP_TEMPLATES": "WhatsApp-Vorlagen"
     },
     "REPLYBOX": {
       "REPLY": "Antworten",

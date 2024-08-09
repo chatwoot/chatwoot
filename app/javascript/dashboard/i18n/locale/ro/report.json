@@ -481,7 +481,8 @@
       "HEADER": "Trafic de conversație",
       "NO_CONVERSATIONS": "Fără conversații",
       "CONVERSATION": "%{count} conversație",
-      "CONVERSATIONS": "conversații %{count}"
+      "CONVERSATIONS": "conversații %{count}",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversațiile agenților",
@@ -536,6 +537,7 @@
       "LABELS": "Etichetă",
       "TEAMS": "Echipa"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

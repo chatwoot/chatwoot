@@ -481,6 +481,7 @@
           "DESCRIPTION": "Utilisez le portail comme un CMS sans tête avec des frameworks front-end tiers en utilisant nos API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

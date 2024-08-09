@@ -49,7 +49,8 @@
       "DISMISS": "Rejeter",
       "ADD_SELECTED_LABELS": "Ajouter les libellés sélectionnés",
       "ADD_SELECTED_LABEL": "Ajouter le libellé sélectionné",
-      "ADD_ALL_LABELS": "Ajouter tous les libellés"
+      "ADD_ALL_LABELS": "Ajouter tous les libellés",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Ajouter une étiquette",

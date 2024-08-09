@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
-      "CLICK_HERE": "לחץ כאן כדי לעדכן"
+      "CLICK_HERE": "לחץ כאן כדי לעדכן",
+      "WHATSAPP_TEMPLATES": "תבניות וואטסאפ"
     },
     "REPLYBOX": {
       "REPLY": "הגב",

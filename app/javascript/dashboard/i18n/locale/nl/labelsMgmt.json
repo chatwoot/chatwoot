@@ -49,7 +49,8 @@
       "DISMISS": "Negeren",
       "ADD_SELECTED_LABELS": "Voeg geselecteerde labels toe",
       "ADD_SELECTED_LABEL": "Geselecteerde label toevoegen",
-      "ADD_ALL_LABELS": "Voeg alle labels toe"
+      "ADD_ALL_LABELS": "Voeg alle labels toe",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Label toevoegen",

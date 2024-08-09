@@ -481,6 +481,7 @@
           "DESCRIPTION": "Használja a portált fej nélküli CMS-ként harmadik féltől származó front-end keretrendszerekkel a mi API-ink segítségével."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

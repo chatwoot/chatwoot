@@ -18,6 +18,7 @@
       "AND": "E",
       "OR": "O"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Uguale a",
       "not_equal_to": "Non uguale a",

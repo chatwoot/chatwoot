@@ -481,6 +481,7 @@
           "DESCRIPTION": "Izmantot portālu kā headless satura pārvaldības sistēmu ar trešās puses front-end framework, izmantojot mūsu API."
         }
       }
-    }
+    },
+    "LOADING": "Notiek ielāde..."
   }
 }
