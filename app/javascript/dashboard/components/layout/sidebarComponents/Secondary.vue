@@ -165,13 +165,16 @@ export default {
         newLinkTag: 'NEW_LABEL',
         toState: frontendURL(`accounts/${this.accountId}/tickets`),
         toStateName: 'labels_list',
+        showModalForNewItem: true,
+        modalName: 'AddLabel',
+        dataTestid: 'sidebar-new-label-button',
         children: this.labels.map(label => ({
           id: label.id,
           label: label.title,
           color: label.color,
           truncateLabel: true,
           toState: frontendURL(
-            `accounts/${this.accountId}/tickets/?label=${label.title}`
+            `accounts/${this.accountId}/tickets?label=${label.title}`
           ),
         })),
       };

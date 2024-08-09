@@ -185,29 +185,25 @@ export default {
       );
     },
     isCurrentRoute() {
+      if (this.$route.name === this.menuItem.toStateName) return true;
+
       return this.$store.state.route.name.includes(this.menuItem.toStateName);
     },
 
     computedClass() {
-      // If active inbox is present, do not highlight conversations
-      if (this.activeInbox) return ' ';
-      if (
+      if (this.activeInbox) return '';
+
+      const isActiveView =
+        this.isCurrentRoute ||
         this.isAllConversations ||
         this.isMentions ||
-        this.isUnattended ||
-        this.isCurrentRoute
-      ) {
+        this.isUnattended;
+
+      if (isActiveView) {
         return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
       }
+
       if (this.hasSubMenu) {
-        if (
-          this.isTeamsSettings ||
-          this.isInboxSettings ||
-          this.isIntegrationsSettings ||
-          this.isApplicationsSettings
-        ) {
-          return 'bg-woot-25 dark:bg-slate-800 text-woot-500 dark:text-woot-500 hover:text-woot-500 dark:hover:text-woot-500 active-view';
-        }
         return 'hover:text-slate-700 dark:hover:text-slate-100';
       }
 
