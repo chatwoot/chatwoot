@@ -8,11 +8,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @tickets = if current_user.administrator?
-                 current_account.tickets
-               else
-                 current_account.tickets.assigned_to(current_user.id)
-               end
+    @tickets = find_tickets.search(params).order(created_at: :desc)
   end
 
   def conversations
@@ -65,5 +61,13 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   def fetch_ticket
     @ticket = current_account.tickets.find(params[:id])
+  end
+
+  def find_tickets
+    if current_user.administrator?
+      current_account.tickets
+    else
+      current_account.tickets.assigned_to(current_user.id)
+    end
   end
 end
