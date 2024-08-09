@@ -90,6 +90,10 @@ export default {
       if (this.activePrimaryMenu.key === 'conversations') {
         return 'conversation';
       }
+      if (this.activePrimaryMenu.key === 'tickets') {
+        return 'ticket';
+      }
+
       return '';
     },
     customViews() {
