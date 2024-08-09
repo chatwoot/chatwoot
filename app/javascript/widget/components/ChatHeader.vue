@@ -1,5 +1,5 @@
 <script>
-import availabilityMixin from 'widget/mixins/availability';
+import { useAvailability } from 'widget/composables/useAvailability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
@@ -12,7 +12,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, routerMixin, darkMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -35,16 +35,11 @@ export default {
       default: () => {},
     },
   },
-  computed: {
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
+  setup(props) {
+    const { isOnline, replyWaitMessage } = useAvailability(
+      props.availableAgents
+    );
+    return { isOnline, replyWaitMessage };
   },
   methods: {
     onBackButtonClick() {
