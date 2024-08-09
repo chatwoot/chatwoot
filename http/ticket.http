@@ -35,7 +35,7 @@ Authorization: {{token}}
 @account_id = 2
 POST {{api}}/api/v1/accounts/{{account_id}}/tickets
 Content-Type: application/json
-Authorization: {{token}}
+api_access_token: {{api_access_token}}
 
 {
   "title": "Test ticket",
