@@ -90,7 +90,7 @@
     "vue-letter": "^0.1.3",
     "vue-loader": "^15.10.0",
     "vue-multiselect": "~2.1.6",
-    "vue-router": "~3.5.2",
+    "vue-router": "3.6.5",
     "vue-template-compiler": "^2.7.0",
     "vue-upload-component": "2.8.22",
     "vue-virtual-scroll-list": "^2.3.5",
