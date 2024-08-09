@@ -12,6 +12,10 @@ export class TicketsAPI extends CacheEnabledApiClient {
     return 'tickets';
   }
 
+  get(params) {
+    return axios.get(`${this.url}`, { params });
+  }
+
   create(params) {
     return axios.post(`${this.url}`, params);
   }

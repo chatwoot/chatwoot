@@ -84,6 +84,9 @@ export default {
       ticketLists: 'tickets/getTickets',
       ticket: 'tickets/getTicket',
     }),
+    selectedLabel() {
+      return this.$route.query.label || null;
+    },
     assigneeTabItems() {
       return [
         {
@@ -122,16 +125,21 @@ export default {
       return this.ticketList.length && !this.ticketListLoading.isFetching;
     },
   },
+  watch: {
+    selectedLabel(newLabel) {
+      this.fetchTickets(newLabel);
+    },
+  },
   mounted() {
-    this.fetchTickets();
+    this.fetchTickets(this.selectedLabel);
   },
   methods: {
     updateAssigneeTab(selectedTab) {
       this.activeAssigneeTab = selectedTab;
       // this.fetchTickets();
     },
-    fetchTickets() {
-      this.$store.dispatch('tickets/getAllTickets');
+    fetchTickets(label) {
+      this.$store.dispatch('tickets/getAllTickets', label);
     },
     loadMoreTickets() {
       if (!this.ticketListLoading.isFetching) {
