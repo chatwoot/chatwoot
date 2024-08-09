@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import router from '../dashboard/routes';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
@@ -8,9 +9,9 @@ import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
@@ -32,9 +33,14 @@ export default {
     UpgradeBanner,
     PendingEmailVerificationBanner,
   },
+  setup() {
+    const { isRTLEnabled, updateUISettings } = useUISettings();
 
-  mixins: [rtlMixin],
-
+    return {
+      isRTLEnabled,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       showAddAccountModal: false,
@@ -93,6 +99,13 @@ export default {
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },
+    // Move this to a composable if we need to use it in other places
+    updateRTLDirectionView(locale) {
+      const isRTLSupported = getLanguageDirection(locale);
+      this.updateUISettings({
+        rtl_view: isRTLSupported,
+      });
+    },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
       this.$store.dispatch('setActiveAccount', {
@@ -124,8 +137,8 @@ export default {
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
     class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTLView }"
-    :dir="isRTLView ? 'rtl' : 'ltr'"
+    :class="{ 'app-rtl--wrapper': isRTLEnabled }"
+    :dir="isRTLEnabled ? 'rtl' : 'ltr'"
   >
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">

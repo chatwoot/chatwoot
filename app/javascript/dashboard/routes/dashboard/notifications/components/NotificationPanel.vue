@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import NotificationPanelList from './NotificationPanelList.vue';
 
 import { ACCOUNT_EVENTS } from '../../../../helper/AnalyticsHelper/events';
@@ -9,7 +8,6 @@ export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [rtlMixin],
   data() {
     return {
       pageSize: 15,
@@ -21,9 +19,6 @@ export default {
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
-    notificationPanelFooterIconClass() {
-      return this.isRTLView ? '-mr-3' : '-ml-3';
-    },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
     },
@@ -201,7 +196,7 @@ export default {
             <fluent-icon
               icon="chevron-left"
               size="16"
-              :class="notificationPanelFooterIconClass"
+              class="rtl:-mr-3 ltr:-ml-3"
             />
           </woot-button>
           <woot-button
@@ -236,7 +231,7 @@ export default {
             <fluent-icon
               icon="chevron-right"
               size="16"
-              :class="notificationPanelFooterIconClass"
+              class="rtl:-mr-3 ltr:-ml-3"
             />
           </woot-button>
         </div>
