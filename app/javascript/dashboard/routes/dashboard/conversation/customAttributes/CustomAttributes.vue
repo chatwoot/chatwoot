@@ -1,178 +1,172 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useToggle } from '@vueuse/core';
+import { useRoute } from 'dashboard/composables/route';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'dashboard/composables/useI18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 
-export default {
-  components: {
-    CustomAttribute,
+const props = defineProps({
+  attributeType: {
+    type: String,
+    default: 'conversation_attribute',
   },
-  props: {
-    attributeType: {
-      type: String,
-      default: 'conversation_attribute',
-    },
-    attributeClass: {
-      type: String,
-      default: '',
-    },
-    contactId: { type: Number, default: null },
-    attributeFrom: {
-      type: String,
-      required: true,
-    },
-    emptyStateMessage: {
-      type: String,
-      default: '',
-    },
+  contactId: { type: Number, default: null },
+  attributeFrom: {
+    type: String,
+    required: true,
   },
-  setup() {
-    const { uiSettings, updateUISettings } = useUISettings();
+  emptyStateMessage: {
+    type: String,
+    default: '',
+  },
+});
+
+const store = useStore();
+const getters = useStoreGetters();
+const route = useRoute();
+const { t } = useI18n();
+const { uiSettings, updateUISettings } = useUISettings();
+
+const [showAllAttributes, toggleShowAllAttributes] = useToggle(false);
+
+const currentChat = computed(() => getters.getSelectedChat.value);
+const attributes = computed(() =>
+  getters['attributes/getAttributesByModel'].value(props.attributeType)
+);
+
+const contactIdentifier = computed(
+  () =>
+    currentChat.value.meta?.sender?.id ||
+    route.params.contactId ||
+    props.contactId
+);
+
+const contact = computed(() =>
+  getters['contacts/getContact'].value(contactIdentifier.value)
+);
+
+const customAttributes = computed(() => {
+  if (props.attributeType === 'conversation_attribute')
+    return currentChat.value.custom_attributes || {};
+  return contact.value.custom_attributes || {};
+});
+
+const conversationId = computed(() => currentChat.value.id);
+
+const toggleButtonText = computed(() =>
+  !showAllAttributes.value
+    ? t('CUSTOM_ATTRIBUTES.SHOW_MORE')
+    : t('CUSTOM_ATTRIBUTES.SHOW_LESS')
+);
+
+const filteredAttributes = computed(() =>
+  attributes.value.map(attribute => {
+    // Check if the attribute key exists in customAttributes
+    const hasValue = Object.hasOwnProperty.call(
+      customAttributes.value,
+      attribute.attribute_key
+    );
+    const isCheckbox = attribute.attribute_display_type === 'checkbox';
+    const defaultValue = isCheckbox ? false : '';
 
     return {
-      uiSettings,
-      updateUISettings,
+      ...attribute,
+      // Set value from customAttributes if it exists, otherwise use default value
+      value: hasValue
+        ? customAttributes.value[attribute.attribute_key]
+        : defaultValue,
     };
-  },
-  data() {
-    return {
-      showAllAttributes: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
-    attributes() {
-      return this.$store.getters['attributes/getAttributesByModel'](
-        this.attributeType
-      );
-    },
-    customAttributes() {
-      if (this.attributeType === 'conversation_attribute')
-        return this.currentChat.custom_attributes || {};
-      return this.contact.custom_attributes || {};
-    },
-    contactIdentifier() {
-      return (
-        this.currentChat.meta?.sender?.id ||
-        this.$route.params.contactId ||
-        this.contactId
-      );
-    },
-    contact() {
-      return this.$store.getters['contacts/getContact'](this.contactIdentifier);
-    },
-    conversationId() {
-      return this.currentChat.id;
-    },
-    toggleButtonText() {
-      return !this.showAllAttributes
-        ? this.$t('CUSTOM_ATTRIBUTES.SHOW_MORE')
-        : this.$t('CUSTOM_ATTRIBUTES.SHOW_LESS');
-    },
-    filteredAttributes() {
-      return this.attributes.map(attribute => {
-        // Check if the attribute key exists in customAttributes
-        const hasValue = Object.hasOwnProperty.call(
-          this.customAttributes,
-          attribute.attribute_key
-        );
+  })
+);
 
-        const isCheckbox = attribute.attribute_display_type === 'checkbox';
-        const defaultValue = isCheckbox ? false : '';
+const displayedAttributes = computed(() => {
+  // Show only the first 5 attributes or all depending on showAllAttributes
+  if (showAllAttributes.value || filteredAttributes.value.length <= 5) {
+    return filteredAttributes.value;
+  }
+  return filteredAttributes.value.slice(0, 5);
+});
 
-        return {
-          ...attribute,
-          // Set value from customAttributes if it exists, otherwise use default value
-          value: hasValue
-            ? this.customAttributes[attribute.attribute_key]
-            : defaultValue,
-        };
-      });
-    },
-    displayedAttributes() {
-      // Show only the first 5 attributes or all depending on showAllAttributes
-      if (this.showAllAttributes || this.filteredAttributes.length <= 5) {
-        return this.filteredAttributes;
-      }
-      return this.filteredAttributes.slice(0, 5);
-    },
-    showMoreUISettingsKey() {
-      return `show_all_attributes_${this.attributeFrom}`;
-    },
-  },
-  mounted() {
-    this.initializeSettings();
-  },
-  methods: {
-    initializeSettings() {
-      this.showAllAttributes =
-        this.uiSettings[this.showMoreUISettingsKey] || false;
-    },
-    onClickToggle() {
-      this.showAllAttributes = !this.showAllAttributes;
-      this.updateUISettings({
-        [this.showMoreUISettingsKey]: this.showAllAttributes,
-      });
-    },
-    async onUpdate(key, value) {
-      const updatedAttributes = { ...this.customAttributes, [key]: value };
-      try {
-        if (this.attributeType === 'conversation_attribute') {
-          await this.$store.dispatch('updateCustomAttributes', {
-            conversationId: this.conversationId,
-            customAttributes: updatedAttributes,
-          });
-        } else {
-          this.$store.dispatch('contacts/update', {
-            id: this.contactId,
-            custom_attributes: updatedAttributes,
-          });
-        }
-        useAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
-      } catch (error) {
-        const errorMessage =
-          error?.response?.message ||
-          this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR');
-        useAlert(errorMessage);
-      }
-    },
-    async onDelete(key) {
-      try {
-        const { [key]: remove, ...updatedAttributes } = this.customAttributes;
-        if (this.attributeType === 'conversation_attribute') {
-          await this.$store.dispatch('updateCustomAttributes', {
-            conversationId: this.conversationId,
-            customAttributes: updatedAttributes,
-          });
-        } else {
-          this.$store.dispatch('contacts/deleteCustomAttributes', {
-            id: this.contactId,
-            customAttributes: [key],
-          });
-        }
+const showMoreUISettingsKey = computed(
+  () => `show_all_attributes_${props.attributeFrom}`
+);
 
-        useAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
-      } catch (error) {
-        const errorMessage =
-          error?.response?.message ||
-          this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR');
-        useAlert(errorMessage);
-      }
-    },
-    async onCopy(attributeValue) {
-      await copyTextToClipboard(attributeValue);
-      useAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
-    },
-  },
+const initializeSettings = () => {
+  showAllAttributes.value =
+    uiSettings.value[showMoreUISettingsKey.value] || false;
 };
+
+const onClickToggle = () => {
+  toggleShowAllAttributes();
+  updateUISettings({
+    [showMoreUISettingsKey.value]: showAllAttributes.value,
+  });
+};
+
+const onUpdate = async (key, value) => {
+  const updatedAttributes = { ...customAttributes.value, [key]: value };
+  try {
+    if (props.attributeType === 'conversation_attribute') {
+      await store.dispatch('updateCustomAttributes', {
+        conversationId: conversationId.value,
+        customAttributes: updatedAttributes,
+      });
+    } else {
+      store.dispatch('contacts/update', {
+        id: props.contactId,
+        custom_attributes: updatedAttributes,
+      });
+    }
+    useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
+  } catch (error) {
+    const errorMessage =
+      error?.response?.message || t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR');
+    useAlert(errorMessage);
+  }
+};
+
+const onDelete = async key => {
+  try {
+    const { [key]: remove, ...updatedAttributes } = customAttributes.value;
+    if (props.attributeType === 'conversation_attribute') {
+      await store.dispatch('updateCustomAttributes', {
+        conversationId: conversationId.value,
+        customAttributes: updatedAttributes,
+      });
+    } else {
+      store.dispatch('contacts/deleteCustomAttributes', {
+        id: props.contactId,
+        customAttributes: [key],
+      });
+    }
+    useAlert(t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
+  } catch (error) {
+    const errorMessage =
+      error?.response?.message || t('CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR');
+    useAlert(errorMessage);
+  }
+};
+
+const onCopy = async attributeValue => {
+  await copyTextToClipboard(attributeValue);
+  useAlert(t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
+};
+
+onMounted(() => {
+  initializeSettings();
+});
 </script>
 
 <template>
-  <div class="custom-attributes--panel">
+  <div
+    class="[&>*:nth-child(2n+1)]:!bg-white dark:[&>*:nth-child(2n+1)]:!bg-slate-900 [&>*:nth-child(2n)]:!bg-slate-25 dark:[&>*:nth-child(2n)]:!bg-slate-800/50"
+  >
+    <!-- Added the conversation info as a slot here because to use the styles from this component wrapper -->
+    <slot name="conversationInfo" />
     <CustomAttribute
       v-for="attribute in displayedAttributes"
       :key="attribute.id"
@@ -185,8 +179,8 @@ export default {
       show-actions
       :attribute-regex="attribute.regex_pattern"
       :regex-cue="attribute.regex_cue"
-      :class="attributeClass"
       :contact-id="contactId"
+      class="border-b border-solid border-slate-50 dark:border-slate-700/50"
       @update="onUpdate"
       @delete="onDelete"
       @copy="onCopy"
@@ -212,27 +206,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.custom-attributes--panel {
-  .conversation--attribute {
-    @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;
-  }
-
-  &.odd {
-    .conversation--attribute {
-      &:nth-child(2n + 1) {
-        @apply bg-slate-25 dark:bg-slate-800/50;
-      }
-    }
-  }
-
-  &.even {
-    .conversation--attribute {
-      &:nth-child(2n) {
-        @apply bg-slate-25 dark:bg-slate-800/50;
-      }
-    }
-  }
-}
-</style>

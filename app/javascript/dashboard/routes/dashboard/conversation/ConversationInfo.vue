@@ -74,37 +74,32 @@ const staticElements = computed(() =>
 
 <template>
   <div class="conversation--details">
-    <ContactDetailsItem
-      v-for="element in staticElements"
-      :key="element.title"
-      :title="$t(element.title)"
-      :value="element.content.value"
-      class="conversation--attribute"
-    >
-      <a
-        v-if="element.type === 'link'"
-        :href="referer"
-        rel="noopener noreferrer nofollow"
-        target="_blank"
-        class="text-woot-400 dark:text-woot-600"
-      >
-        {{ referer }}
-      </a>
-    </ContactDetailsItem>
     <CustomAttributes
       :class="staticElements.length % 2 === 0 ? 'even' : 'odd'"
-      attribute-class="conversation--attribute"
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
-    />
+    >
+      <!-- Add the conversation info as a slot here because to use the styles from the CustomAttributes component -->
+      <!-- To support the odd/even styling -->
+      <template #conversationInfo>
+        <ContactDetailsItem
+          v-for="element in staticElements"
+          :key="element.title"
+          :title="$t(element.title)"
+          :value="element.content.value"
+          class="border-b border-solid border-slate-50 dark:border-slate-700/50"
+        >
+          <a
+            v-if="element.type === 'link'"
+            :href="referer"
+            rel="noopener noreferrer nofollow"
+            target="_blank"
+            class="text-woot-400 dark:text-woot-600"
+          >
+            {{ referer }}
+          </a>
+        </ContactDetailsItem>
+      </template>
+    </CustomAttributes>
   </div>
 </template>
-
-<style scoped lang="scss">
-.conversation--attribute {
-  @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;
-  &:nth-child(2n) {
-    @apply bg-slate-25 dark:bg-slate-800/50;
-  }
-}
-</style>
