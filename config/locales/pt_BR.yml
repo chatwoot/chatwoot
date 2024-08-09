@@ -86,6 +86,12 @@ pt_BR:
             conversation:
               blank: é obrigatório
               required: é obrigatória
+            account:
+              blank: é obrigatório
+              required: é obrigatório
+            user:
+              blank: é obrigatório
+              required: é obrigatório
   
   reports:
     period: Reportando o período %{since} a %{until}

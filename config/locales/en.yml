@@ -100,6 +100,12 @@ en:
             conversation:
               blank: is required
               required: is required
+            account:
+              blank: is required
+              required: is required
+            user:
+              blank: is required
+              required: is required
 
   reports:
     period: Reporting period %{since} to %{until}
