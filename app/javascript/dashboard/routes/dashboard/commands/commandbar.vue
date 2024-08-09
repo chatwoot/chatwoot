@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/attribute-hyphenation -->
 <script>
 import '@chatwoot/ninja-keys';
 import wootConstants from 'dashboard/constants/globals';
@@ -97,11 +96,12 @@ export default {
 };
 </script>
 
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
   <ninja-keys
     ref="ninjakeys"
-    no-auto-load-md-icons
-    hide-breadcrumbs
+    noAutoLoadMdIcons
+    hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
     @closed="onClosed"
