@@ -1,16 +1,22 @@
 <script>
+import { useAccount } from 'dashboard/composables/useAccount';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import accountMixin from 'dashboard/mixins/account.js';
 export default {
   components: {
     Thumbnail,
   },
-  mixins: [accountMixin],
   props: {
     macro: {
       type: Object,
       required: true,
     },
+  },
+  setup() {
+    const { accountScopedUrl } = useAccount();
+
+    return {
+      accountScopedUrl,
+    };
   },
   computed: {
     createdByName() {
@@ -47,7 +53,7 @@ export default {
     </td>
     <td>{{ visibilityLabel }}</td>
     <td class="button-wrapper">
-      <router-link :to="addAccountScoping(`settings/macros/${macro.id}/edit`)">
+      <router-link :to="accountScopedUrl(`settings/macros/${macro.id}/edit`)">
         <woot-button
           v-tooltip.top="$t('MACROS.EDIT.TOOLTIP')"
           variant="smooth"

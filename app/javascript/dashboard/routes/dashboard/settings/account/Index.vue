@@ -5,13 +5,12 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import configMixin from 'shared/mixins/configMixin';
-import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, configMixin],
+  mixins: [configMixin],
   setup() {
     const { updateUISettings } = useUISettings();
     const v$ = useVuelidate();

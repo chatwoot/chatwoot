@@ -1,12 +1,17 @@
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
-import accountMixin from 'dashboard/mixins/account';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { differenceInDays } from 'date-fns';
 
 export default {
   components: { Banner },
-  mixins: [accountMixin],
+  setup() {
+    const { accountId } = useAccount();
+    return {
+      accountId,
+    };
+  },
   data() {
     return { conversationMeta: {} };
   },
