@@ -115,13 +115,11 @@ export default {
               <CustomAttributes
                 :contact-id="contact.id"
                 attribute-type="contact_attribute"
-                attribute-class="conversation--attribute"
                 attribute-from="contact_panel"
                 :custom-attributes="contact.custom_attributes"
                 :empty-state-message="
                   $t('CONTACT_PANEL.SIDEBAR_SECTIONS.NO_RECORDS_FOUND')
                 "
-                class="even"
               />
             </AccordionItem>
           </div>
