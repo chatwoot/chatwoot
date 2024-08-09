@@ -1,15 +1,14 @@
 <script>
+import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
-import attributeMixin from 'dashboard/mixins/attributeMixin';
 
 export default {
   components: {
     CustomAttribute,
   },
-  mixins: [attributeMixin],
   props: {
     attributeType: {
       type: String,
@@ -43,6 +42,32 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+    }),
+    attributes() {
+      return this.$store.getters['attributes/getAttributesByModel'](
+        this.attributeType
+      );
+    },
+    customAttributes() {
+      if (this.attributeType === 'conversation_attribute')
+        return this.currentChat.custom_attributes || {};
+      return this.contact.custom_attributes || {};
+    },
+    contactIdentifier() {
+      return (
+        this.currentChat.meta?.sender?.id ||
+        this.$route.params.contactId ||
+        this.contactId
+      );
+    },
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactIdentifier);
+    },
+    conversationId() {
+      return this.currentChat.id;
+    },
     toggleButtonText() {
       return !this.showAllAttributes
         ? this.$t('CUSTOM_ATTRIBUTES.SHOW_MORE')
