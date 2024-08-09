@@ -1,12 +1,12 @@
 <script>
 import { VeTable } from 'vue-easytable';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import { dynamicTime } from 'shared/helpers/timeHelper';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 export default {
@@ -15,7 +15,6 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [rtlMixin],
   props: {
     contacts: {
       type: Array,
@@ -41,6 +40,13 @@ export default {
       type: String,
       default: 'desc',
     },
+  },
+  setup() {
+    const { isRTLEnabled } = useUISettings();
+
+    return {
+      isRTLEnabled,
+    };
   },
   data() {
     return {
@@ -85,7 +91,7 @@ export default {
           key: 'name',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
           sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
@@ -121,7 +127,7 @@ export default {
           field: 'email',
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
           sortBy: this.sortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
@@ -145,27 +151,27 @@ export default {
           key: 'phone_number',
           sortBy: this.sortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
         },
         {
           field: 'company',
           key: 'company',
           sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
         },
         {
           field: 'city',
           key: 'city',
           sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
         },
         {
           field: 'country',
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
           sortBy: this.sortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
@@ -182,7 +188,7 @@ export default {
           field: 'profiles',
           key: 'profiles',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             const { profiles } = row;
 
@@ -213,14 +219,14 @@ export default {
           key: 'last_activity_at',
           sortBy: this.sortConfig.last_activity_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
         },
         {
           field: 'created_at',
           key: 'created_at',
           sortBy: this.sortConfig.created_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTLEnabled ? 'right' : 'left',
         },
       ];
     },

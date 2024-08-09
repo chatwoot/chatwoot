@@ -31,7 +31,6 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
@@ -65,7 +64,6 @@ export default {
   mixins: [
     inboxMixin,
     messageFormatterMixin,
-    rtlMixin,
     fileUploadMixin,
     keyboardEventListenerMixins,
   ],
@@ -79,12 +77,14 @@ export default {
     const {
       uiSettings,
       updateUISettings,
+      isRTLEnabled,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
     return {
       uiSettings,
+      isRTLEnabled,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -307,7 +307,7 @@ export default {
       if (this.isOnExpandedLayout || this.popoutReplyBox) {
         return 'emoji-dialog--expanded';
       }
-      if (this.isRTLView) {
+      if (this.isRTLEnabled) {
         return 'emoji-dialog--rtl';
       }
       return '';
