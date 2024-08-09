@@ -50,6 +50,6 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def messages(entry)
-    (entry[:messaging].presence || entry[:standby] || [])
+    entry[:messaging].presence || entry[:standby] || []
   end
 end

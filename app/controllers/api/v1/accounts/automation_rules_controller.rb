@@ -24,7 +24,6 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     ActiveRecord::Base.transaction do
       automation_rule_update
       process_attachments
-
     rescue StandardError => e
       Rails.logger.error e
       render json: { error: @automation_rule.errors.messages }.to_json, status: :unprocessable_entity

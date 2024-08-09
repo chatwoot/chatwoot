@@ -14,7 +14,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     @outgoing_echo = outgoing_echo
     @sender_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
     @message_type = (@outgoing_echo ? :outgoing : :incoming)
-    @attachments = (@response.attachments || [])
+    @attachments = @response.attachments || []
   end
 
   def perform

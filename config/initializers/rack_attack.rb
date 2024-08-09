@@ -48,9 +48,9 @@ class Rack::Attack
 
   throttle('req/ip', limit: ENV.fetch('RACK_ATTACK_LIMIT', '3000').to_i, period: 1.minute, &:ip)
 
-  ###-----------------------------------------------###
-  ###-----Authentication Related Throttling---------###
-  ###-----------------------------------------------###
+  # ##-----------------------------------------------###
+  # ##-----Authentication Related Throttling---------###
+  # ##-----------------------------------------------###
 
   ### Prevent Brute-Force Super Admin Login Attacks ###
   throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
@@ -99,11 +99,11 @@ class Rack::Attack
     req.ip if req.path_without_extentions == '/api/v1/accounts' && req.post?
   end
 
-  ##-----------------------------------------------##
+  # #-----------------------------------------------##
 
-  ###-----------------------------------------------###
-  ###-----------Widget API Throttling---------------###
-  ###-----------------------------------------------###
+  # ##-----------------------------------------------###
+  # ##-----------Widget API Throttling---------------###
+  # ##-----------------------------------------------###
 
   # Rack attack on widget APIs can be disabled by setting ENABLE_RACK_ATTACK_WIDGET_API to false
   # For clients using the widgets in specific conditions like inside and iframe
@@ -125,11 +125,11 @@ class Rack::Attack
     end
   end
 
-  ##-----------------------------------------------##
+  # #-----------------------------------------------##
 
-  ###-----------------------------------------------###
-  ###----------Application API Throttling-----------###
-  ###-----------------------------------------------###
+  # ##-----------------------------------------------###
+  # ##----------Application API Throttling-----------###
+  # ##-----------------------------------------------###
 
   ## Prevent Abuse of Converstion Transcript APIs ###
   throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 30, period: 1.hour) do |req|

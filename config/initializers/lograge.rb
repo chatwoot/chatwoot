@@ -23,7 +23,7 @@ if ActiveModel::Type::Boolean.new.cast(ENV.fetch('LOGRAGE_ENABLED', false)).pres
 
     config.lograge.ignore_custom = lambda do |event|
       # ignore update_presence  events in log
-      return true if event.payload[:channel_class] == 'RoomChannel'
+      true if event.payload[:channel_class] == 'RoomChannel'
     end
   end
 end
