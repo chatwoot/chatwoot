@@ -9,9 +9,9 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   def index
     @tickets = if current_user.administrator?
-                 current_account.tickets.search(params[:query])
+                 current_account.tickets
                else
-                 current_account.tickets.assigned_to(current_user.id).search(params[:query])
+                 current_account.tickets.assigned_to(current_user.id)
                end
   end
 
