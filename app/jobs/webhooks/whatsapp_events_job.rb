@@ -3,7 +3,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
-    return if channel_is_inactive?(channel)
+    return raise('Channel is inactive') if channel_is_inactive?(channel)
 
     case channel.provider
     when 'whatsapp_cloud'
@@ -43,6 +43,6 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     phone_number_id = wb_params[:entry].first[:changes].first.dig(:value, :metadata, :phone_number_id)
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
-    return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+    channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
   end
 end
