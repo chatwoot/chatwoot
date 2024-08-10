@@ -119,7 +119,7 @@ const isEditorHotKeyEnabled = (key, uiSettings) => {
  * @param {Object} uiSettings - Reactive UI settings object.
  * @returns {boolean} True if RTL view is enabled, otherwise false.
  */
-const isRTL = uiSettings => {
+const isRTLEnabled = uiSettings => {
   return computed(() => uiSettings.value.rtl_view);
 };
 
@@ -144,7 +144,7 @@ export function useUISettings() {
   return {
     uiSettings,
     updateUISettings,
-    isRTL: isRTL(uiSettings),
+    isRTL: isRTLEnabled(uiSettings),
     conversationSidebarItemsOrder: useConversationSidebarItemsOrder(uiSettings),
     contactSidebarItemsOrder: useContactSidebarItemsOrder(uiSettings),
     isContactSidebarItemOpen: key => !!uiSettings.value[key],
