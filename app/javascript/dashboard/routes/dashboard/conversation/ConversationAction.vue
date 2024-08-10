@@ -71,7 +71,10 @@ export default {
     },
     teamsList() {
       if (this.hasAnAssignedTeam) {
-        return [{ id: 0, name: 'None' }, ...this.teams];
+        return [
+          { id: 0, name: this.$t('TEAMS_SETTINGS.LIST.NONE') },
+          ...this.teams,
+        ];
       }
       return this.teams;
     },
