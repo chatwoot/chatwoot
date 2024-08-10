@@ -111,3 +111,4 @@ window.onload = () => {
 window.addEventListener('load', () => {
   window.playAudioAlert = () => {};
 });
+// trigger deployment
