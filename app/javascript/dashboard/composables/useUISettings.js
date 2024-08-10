@@ -115,15 +115,6 @@ const isEditorHotKeyEnabled = (key, uiSettings) => {
 };
 
 /**
- * Checks if RTL view is enabled in the UI settings.
- * @param {Object} uiSettings - Reactive UI settings object.
- * @returns {boolean} True if RTL view is enabled, otherwise false.
- */
-const isRTLEnabled = uiSettings => {
-  return computed(() => uiSettings.value.rtl_view);
-};
-
-/**
  * Main composable function for managing UI settings.
  * @returns {Object} An object containing reactive properties and methods for UI settings management.
  */
@@ -141,10 +132,12 @@ export function useUISettings() {
     });
   };
 
+  const isRTL = computed(() => uiSettings.value.rtl_view);
+
   return {
     uiSettings,
     updateUISettings,
-    isRTL: isRTLEnabled(uiSettings),
+    isRTL,
     conversationSidebarItemsOrder: useConversationSidebarItemsOrder(uiSettings),
     contactSidebarItemsOrder: useContactSidebarItemsOrder(uiSettings),
     isContactSidebarItemOpen: key => !!uiSettings.value[key],
