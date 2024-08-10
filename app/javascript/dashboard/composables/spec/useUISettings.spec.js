@@ -141,11 +141,11 @@ describe('useUISettings', () => {
     expect(isEditorHotKeyEnabled('non_existent_key')).toBe(false);
   });
 
-  it('returns correct value for isRTLEnabled', () => {
-    const { isRTLEnabled } = useUISettings();
-    expect(isRTLEnabled.value).toBe(false);
+  it('returns correct value for isRTL', () => {
+    const { isRTL } = useUISettings();
+    expect(isRTL.value).toBe(false);
 
     getUISettingsMock.value.rtl_view = true;
-    expect(isRTLEnabled.value).toBe(true);
+    expect(isRTL.value).toBe(true);
   });
 });

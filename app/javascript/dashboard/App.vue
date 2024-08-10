@@ -34,10 +34,10 @@ export default {
     PendingEmailVerificationBanner,
   },
   setup() {
-    const { isRTLEnabled, updateUISettings } = useUISettings();
+    const { isRTL, updateUISettings } = useUISettings();
 
     return {
-      isRTLEnabled,
+      isRTL,
       updateUISettings,
     };
   },
@@ -137,8 +137,8 @@ export default {
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
     class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTLEnabled }"
-    :dir="isRTLEnabled ? 'rtl' : 'ltr'"
+    :class="{ 'app-rtl--wrapper': isRTL }"
+    :dir="isRTL ? 'rtl' : 'ltr'"
   >
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">

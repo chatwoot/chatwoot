@@ -32,10 +32,10 @@ export default {
     },
   },
   setup() {
-    const { isRTLEnabled } = useUISettings();
+    const { isRTL } = useUISettings();
 
     return {
-      isRTLEnabled,
+      isRTL,
     };
   },
   computed: {
@@ -63,7 +63,7 @@ export default {
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
           ),
           fixed: 'left',
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 25,
           renderBodyCell: ({ row }) => (
             <div class="row-user-block">
@@ -88,7 +88,7 @@ export default {
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
           ),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 10,
         },
         {
@@ -97,7 +97,7 @@ export default {
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
           ),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 10,
         },
       ];

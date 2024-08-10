@@ -42,10 +42,10 @@ export default {
     },
   },
   setup() {
-    const { isRTLEnabled } = useUISettings();
+    const { isRTL } = useUISettings();
 
     return {
-      isRTLEnabled,
+      isRTL,
     };
   },
   data() {
@@ -91,7 +91,7 @@ export default {
           key: 'name',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
@@ -127,7 +127,7 @@ export default {
           field: 'email',
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           sortBy: this.sortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
@@ -151,27 +151,27 @@ export default {
           key: 'phone_number',
           sortBy: this.sortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'company',
           key: 'company',
           sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'city',
           key: 'city',
           sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'country',
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           sortBy: this.sortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
@@ -188,7 +188,7 @@ export default {
           field: 'profiles',
           key: 'profiles',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           renderBodyCell: ({ row }) => {
             const { profiles } = row;
 
@@ -219,14 +219,14 @@ export default {
           key: 'last_activity_at',
           sortBy: this.sortConfig.last_activity_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'created_at',
           key: 'created_at',
           sortBy: this.sortConfig.created_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTLEnabled ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
         },
       ];
     },

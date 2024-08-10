@@ -77,14 +77,14 @@ export default {
     const {
       uiSettings,
       updateUISettings,
-      isRTLEnabled,
+      isRTL,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
     return {
       uiSettings,
-      isRTLEnabled,
+      isRTL,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -307,7 +307,7 @@ export default {
       if (this.isOnExpandedLayout || this.popoutReplyBox) {
         return 'emoji-dialog--expanded';
       }
-      if (this.isRTLEnabled) {
+      if (this.isRTL) {
         return 'emoji-dialog--rtl';
       }
       return '';
