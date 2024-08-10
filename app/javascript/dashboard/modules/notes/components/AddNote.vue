@@ -1,43 +1,34 @@
-<script>
+<script setup>
+import { ref, computed } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-export default {
-  components: {
-    WootMessageEditor,
-  },
-  mixins: [keyboardEventListenerMixins],
-  data() {
-    return {
-      noteContent: '',
-    };
-  },
 
-  computed: {
-    buttonDisabled() {
-      return this.noteContent === '';
-    },
-  },
-  methods: {
-    getKeyboardEvents() {
-      return {
-        '$mod+Enter': {
-          action: () => this.onAdd(),
-          allowOnFocusedInput: true,
-        },
-      };
-    },
-    onAdd() {
-      if (this.noteContent !== '') {
-        this.$emit('add', this.noteContent);
-      }
-      this.noteContent = '';
-    },
+const emit = defineEmits(['add']);
+
+const addNoteRef = ref(null);
+const noteContent = ref('');
+
+const buttonDisabled = computed(() => noteContent.value === '');
+
+const onAdd = () => {
+  if (noteContent.value !== '') {
+    emit('add', noteContent.value);
+  }
+  noteContent.value = '';
+};
+
+const keyboardEvents = {
+  '$mod+Enter': {
+    action: () => onAdd(),
+    allowOnFocusedInput: true,
   },
 };
+useKeyboardEvents(keyboardEvents, addNoteRef);
 </script>
 
 <template>
   <div
+    ref="addNoteRef"
     class="flex flex-col flex-grow p-4 mb-2 overflow-hidden bg-white border border-solid rounded-md shadow-sm border-slate-75 dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-100"
   >
     <WootMessageEditor

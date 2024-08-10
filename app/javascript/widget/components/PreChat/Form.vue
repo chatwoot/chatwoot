@@ -3,25 +3,19 @@ import CustomButton from 'shared/components/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import { getRegexp } from 'shared/helpers/Validators';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
-import customAttributeMixin from '../../../dashboard/mixins/customAttributeMixin';
 
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [
-    routerMixin,
-    darkModeMixin,
-    messageFormatterMixin,
-    configMixin,
-    customAttributeMixin,
-  ],
+  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
   props: {
     options: {
       type: Object,
@@ -184,7 +178,7 @@ export default {
       return this.formValues[name] || null;
     },
     getValidation({ type, name, field_type, regex_pattern }) {
-      let regex = regex_pattern ? this.getRegexp(regex_pattern) : null;
+      let regex = regex_pattern ? getRegexp(regex_pattern) : null;
       const validations = {
         emailAddress: 'email',
         phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],

@@ -1,10 +1,11 @@
 <script>
+import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 
 export default {
@@ -14,7 +15,7 @@ export default {
     AddLabel,
   },
 
-  mixins: [conversationLabelMixin, keyboardEventListenerMixins],
+  mixins: [conversationLabelMixin],
   props: {
     // conversationId prop is used in /conversation/labelMixin,
     // remove this props when refactoring to composable if not needed
@@ -26,14 +27,46 @@ export default {
   },
   setup() {
     const { isAdmin } = useAdmin();
+
+    const conversationLabelBoxRef = ref(null);
+    const showSearchDropdownLabel = ref(false);
+
+    const toggleLabels = () => {
+      showSearchDropdownLabel.value = !showSearchDropdownLabel.value;
+    };
+
+    const closeDropdownLabel = () => {
+      showSearchDropdownLabel.value = false;
+    };
+
+    const keyboardEvents = {
+      KeyL: {
+        action: e => {
+          e.preventDefault();
+          toggleLabels();
+        },
+      },
+      Escape: {
+        action: () => {
+          if (showSearchDropdownLabel.value) {
+            toggleLabels();
+          }
+        },
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents, conversationLabelBoxRef);
     return {
       isAdmin,
+      conversationLabelBoxRef,
+      showSearchDropdownLabel,
+      closeDropdownLabel,
+      toggleLabels,
     };
   },
   data() {
     return {
       selectedLabels: [],
-      showSearchDropdownLabel: false,
     };
   },
 
@@ -42,37 +75,11 @@ export default {
       conversationUiFlags: 'conversationLabels/getUIFlags',
     }),
   },
-  methods: {
-    toggleLabels() {
-      this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
-    },
-    closeDropdownLabel() {
-      this.showSearchDropdownLabel = false;
-    },
-    getKeyboardEvents() {
-      return {
-        KeyL: {
-          action: e => {
-            e.preventDefault();
-            this.toggleLabels();
-          },
-        },
-        Escape: {
-          action: () => {
-            if (this.showSearchDropdownLabel) {
-              this.toggleLabels();
-            }
-          },
-          allowOnFocusedInput: true,
-        },
-      };
-    },
-  },
 };
 </script>
 
 <template>
-  <div class="sidebar-labels-wrap">
+  <div ref="conversationLabelBoxRef" class="sidebar-labels-wrap">
     <div
       v-if="!conversationUiFlags.isFetching"
       class="contact-conversation--list"
