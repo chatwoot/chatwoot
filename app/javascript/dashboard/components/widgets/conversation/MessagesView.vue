@@ -13,9 +13,6 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 
 // mixins
-import conversationMixin, {
-  filterDuplicateSourceMessages,
-} from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -24,6 +21,11 @@ import aiMixin from 'dashboard/mixins/aiMixin';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import {
+  filterDuplicateSourceMessages,
+  readMessages,
+  unReadMessages,
+} from 'dashboard/helper/conversationHelper';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -38,7 +40,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, configMixin, aiMixin],
+  mixins: [inboxMixin, configMixin, aiMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -139,13 +141,13 @@ export default {
       return messages;
     },
     getReadMessages() {
-      return this.readMessages(
+      return readMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
     },
     getUnReadMessages() {
-      return this.unReadMessages(
+      return unReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
