@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Šioje paskyroje nėra sukurtų komandų.",
-      "EDIT_TEAM": "Redaguoti komandą"
+      "EDIT_TEAM": "Redaguoti komandą",
+      "NONE": "Nėra"
     },
     "CREATE_FLOW": {
       "CREATE": {
