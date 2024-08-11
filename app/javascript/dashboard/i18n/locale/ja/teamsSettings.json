@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "このアカウントにはまだ作成したチームはありません。",
-      "EDIT_TEAM": "チームを編集"
+      "EDIT_TEAM": "チームを編集",
+      "NONE": "該当なし"
     },
     "CREATE_FLOW": {
       "CREATE": {
