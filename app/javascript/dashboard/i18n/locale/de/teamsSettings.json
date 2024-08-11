@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Es wurden noch keine Teams auf diesem Konto erstellt.",
-      "EDIT_TEAM": "Team bearbeiten"
+      "EDIT_TEAM": "Team bearbeiten",
+      "NONE": "Keine"
     },
     "CREATE_FLOW": {
       "CREATE": {
