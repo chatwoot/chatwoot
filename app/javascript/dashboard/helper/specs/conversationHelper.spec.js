@@ -29,8 +29,7 @@ const conversationItem = {
       id: 21,
       name: 'Muhsin Keloth',
       role: 'administrator',
-      thumbnail:
-        'http://0.0.0.0:3000/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBEQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7b95641540fadebc733ec9b42117d00bc09600be/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9MY21WemFYcGxTU0lNTWpVd2VESTFNQVk2QmtWVSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--c13bd5229b2a2a692444606e22f76ad61c634661/me.jpg',
+      thumbnail: 'http://example.com/image.jpg',
     },
   },
   id: 5815,
