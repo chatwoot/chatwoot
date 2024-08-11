@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Não existem agentes associados a esta conta.",
-      "EDIT_TEAM": "Editar equipe"
+      "EDIT_TEAM": "Editar equipe",
+      "NONE": "Nenhuma"
     },
     "CREATE_FLOW": {
       "CREATE": {
