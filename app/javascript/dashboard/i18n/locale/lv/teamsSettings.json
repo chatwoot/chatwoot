@@ -7,7 +7,8 @@
     "LEARN_MORE": "Uzzināt vairāk par komandām",
     "LIST": {
       "404": "Šajā kontā nav izveidota neviena komanda.",
-      "EDIT_TEAM": "Rediģēt komandu"
+      "EDIT_TEAM": "Rediģēt komandu",
+      "NONE": "Nav"
     },
     "CREATE_FLOW": {
       "CREATE": {
