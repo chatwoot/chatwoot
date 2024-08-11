@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "В этом аккаунте нет ни одной команды.",
-      "EDIT_TEAM": "Редактировать команду"
+      "EDIT_TEAM": "Редактировать команду",
+      "NONE": "Ничего"
     },
     "CREATE_FLOW": {
       "CREATE": {
