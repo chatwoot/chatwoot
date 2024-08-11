@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Não há equipas configuradas para esta conta.",
-      "EDIT_TEAM": "Editar equipa"
+      "EDIT_TEAM": "Editar equipa",
+      "NONE": "Nenhuma"
     },
     "CREATE_FLOW": {
       "CREATE": {
