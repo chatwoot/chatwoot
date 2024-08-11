@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Na tym koncie nie ma żadnych zespołów.",
-      "EDIT_TEAM": "Edytuj zespół"
+      "EDIT_TEAM": "Edytuj zespół",
+      "NONE": "Brak"
     },
     "CREATE_FLOW": {
       "CREATE": {
