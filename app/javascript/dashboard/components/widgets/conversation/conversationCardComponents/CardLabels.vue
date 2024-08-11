@@ -1,23 +1,27 @@
 <script>
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+
 export default {
-  mixins: [conversationLabelMixin],
   props: {
-    // conversationId prop is used in /conversation/labelMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
     conversationId: {
       type: Number,
       required: true,
     },
-    // conversationLabels prop is used in /conversation/labelMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
     conversationLabels: {
       type: String,
       required: false,
       default: '',
     },
+  },
+  setup(props) {
+    const { activeLabels } = useConversationLabels({
+      conversationId: props.conversationId,
+      conversationLabels: props.conversationLabels,
+    });
+
+    return {
+      activeLabels,
+    };
   },
   data() {
     return {
