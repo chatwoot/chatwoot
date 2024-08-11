@@ -65,6 +65,7 @@ export default {
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
       contextMenuChatId: 'getContextMenuChatId',
+      teams: 'teams/getTeams',
     }),
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
@@ -78,7 +79,18 @@ export default {
     conversationId() {
       return this.currentChat?.id;
     },
-
+    hasAnAssignedTeam() {
+      return !!this.currentChat?.meta?.team;
+    },
+    teamsList() {
+      if (this.hasAnAssignedTeam) {
+        return [
+          { id: 0, name: this.$t('TEAMS_SETTINGS.LIST.NONE') },
+          ...this.teams,
+        ];
+      }
+      return this.teams;
+    },
     statusActions() {
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
