@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Không có nhóm nào được tạo đối với tài khoản này.",
-      "EDIT_TEAM": "Sửa nhóm"
+      "EDIT_TEAM": "Sửa nhóm",
+      "NONE": "Không có"
     },
     "CREATE_FLOW": {
       "CREATE": {
