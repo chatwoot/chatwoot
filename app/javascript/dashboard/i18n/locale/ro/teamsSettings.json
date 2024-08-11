@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Nu există echipe create în acest cont.",
-      "EDIT_TEAM": "Editează echipa"
+      "EDIT_TEAM": "Editează echipa",
+      "NONE": "Nimic"
     },
     "CREATE_FLOW": {
       "CREATE": {
