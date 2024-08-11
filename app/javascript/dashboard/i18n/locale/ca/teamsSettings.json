@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "No hi ha cap equip creat en aquest compte.",
-      "EDIT_TEAM": "Edita l'equip"
+      "EDIT_TEAM": "Edita l'equip",
+      "NONE": "Ningú"
     },
     "CREATE_FLOW": {
       "CREATE": {
