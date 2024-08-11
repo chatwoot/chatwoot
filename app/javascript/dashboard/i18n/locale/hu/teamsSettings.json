@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Ebben a fiókban nincs csapat létrehozva.",
-      "EDIT_TEAM": "Csapat szerkesztése"
+      "EDIT_TEAM": "Csapat szerkesztése",
+      "NONE": "Nincs"
     },
     "CREATE_FLOW": {
       "CREATE": {
