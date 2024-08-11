@@ -1,6 +1,7 @@
 <script>
+import { mapGetters } from 'vuex';
 import { VeTable, VePagination } from 'vue-easytable';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -31,14 +32,15 @@ export default {
       default: 1,
     },
   },
-  setup() {
-    const { isRTL } = useUISettings();
-
-    return {
-      isRTL,
-    };
-  },
   computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      currentAccountId: 'getCurrentAccountId',
+    }),
+    isRTL() {
+      const { locale } = this.getAccount(this.currentAccountId) || {};
+      return locale ? getLanguageDirection(locale) : false;
+    },
     tableData() {
       return this.agentMetrics
         .filter(agentMetric => this.getAgentInformation(agentMetric.id))

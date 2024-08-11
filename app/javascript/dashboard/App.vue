@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useUISettings } from 'dashboard/composables/useUISettings';
 import router from '../dashboard/routes';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
@@ -33,14 +32,6 @@ export default {
     UpgradeBanner,
     PendingEmailVerificationBanner,
   },
-  setup() {
-    const { isRTL, updateUISettings } = useUISettings();
-
-    return {
-      isRTL,
-      updateUISettings,
-    };
-  },
   data() {
     return {
       showAddAccountModal: false,
@@ -63,6 +54,10 @@ export default {
     },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
+    },
+    isRTL() {
+      const { locale } = this.getAccount(this.currentAccountId) || {};
+      return locale ? getLanguageDirection(locale) : false;
     },
   },
 
@@ -99,13 +94,6 @@ export default {
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },
-    // Move this to a composable if we need to use it in other places
-    updateRTLDirectionView(locale) {
-      const isRTLSupported = getLanguageDirection(locale);
-      this.updateUISettings({
-        rtl_view: isRTLSupported,
-      });
-    },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
       this.$store.dispatch('setActiveAccount', {
@@ -115,7 +103,6 @@ export default {
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
-      this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
       this.reconnectService = new ReconnectService(this.$store, router);

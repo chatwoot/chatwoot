@@ -132,12 +132,9 @@ export function useUISettings() {
     });
   };
 
-  const isRTL = computed(() => uiSettings.value.rtl_view);
-
   return {
     uiSettings,
     updateUISettings,
-    isRTL,
     conversationSidebarItemsOrder: useConversationSidebarItemsOrder(uiSettings),
     contactSidebarItemsOrder: useContactSidebarItemsOrder(uiSettings),
     isContactSidebarItemOpen: key => !!uiSettings.value[key],

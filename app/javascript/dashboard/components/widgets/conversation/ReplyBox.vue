@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
@@ -77,14 +78,12 @@ export default {
     const {
       uiSettings,
       updateUISettings,
-      isRTL,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
     return {
       uiSettings,
-      isRTL,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -121,12 +120,18 @@ export default {
   },
   computed: {
     ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      currentAccountId: 'getCurrentAccountId',
       currentChat: 'getSelectedChat',
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
     }),
+    isRTL() {
+      const { locale } = this.getAccount(this.currentAccountId) || {};
+      return locale ? getLanguageDirection(locale) : false;
+    },
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.currentChat.meta.sender.id

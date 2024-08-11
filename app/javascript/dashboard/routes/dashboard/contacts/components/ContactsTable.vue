@@ -1,7 +1,8 @@
 <script>
+import { mapGetters } from 'vuex';
 import { VeTable } from 'vue-easytable';
-import { useUISettings } from 'dashboard/composables/useUISettings';
 import { getCountryFlag } from 'dashboard/helper/flag';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -41,13 +42,6 @@ export default {
       default: 'desc',
     },
   },
-  setup() {
-    const { isRTL } = useUISettings();
-
-    return {
-      isRTL,
-    };
-  },
   data() {
     return {
       sortConfig: {},
@@ -58,6 +52,14 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      currentAccountId: 'getCurrentAccountId',
+    }),
+    isRTL() {
+      const { locale } = this.getAccount(this.currentAccountId) || {};
+      return locale ? getLanguageDirection(locale) : false;
+    },
     tableData() {
       if (this.isLoading) {
         return [];

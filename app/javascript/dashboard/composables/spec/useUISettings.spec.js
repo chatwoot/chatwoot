@@ -13,7 +13,6 @@ const getUISettingsMock = ref({
   conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
   contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
   editor_message_key: 'enter',
-  rtl_view: false,
 });
 
 vi.mock('dashboard/composables/store', () => ({
@@ -38,7 +37,6 @@ describe('useUISettings', () => {
         DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
       contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
       editor_message_key: 'enter',
-      rtl_view: false,
     });
   });
 
@@ -53,7 +51,6 @@ describe('useUISettings', () => {
           DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
         contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
         editor_message_key: 'enter',
-        rtl_view: false,
       },
     });
   });
@@ -68,7 +65,6 @@ describe('useUISettings', () => {
           DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
         contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
         editor_message_key: 'enter',
-        rtl_view: false,
       },
     });
   });
@@ -104,7 +100,6 @@ describe('useUISettings', () => {
         contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
         email_signature_enabled: true,
         editor_message_key: 'enter',
-        rtl_view: false,
       },
     });
   });
@@ -139,13 +134,5 @@ describe('useUISettings', () => {
       undefined
     );
     expect(isEditorHotKeyEnabled('non_existent_key')).toBe(false);
-  });
-
-  it('returns correct value for isRTL', () => {
-    const { isRTL } = useUISettings();
-    expect(isRTL.value).toBe(false);
-
-    getUISettingsMock.value.rtl_view = true;
-    expect(isRTL.value).toBe(true);
   });
 });
