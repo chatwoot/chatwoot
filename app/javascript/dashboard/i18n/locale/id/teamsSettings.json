@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Belum ada tim yang dibuat pada akun ini.",
-      "EDIT_TEAM": "Edit Tim"
+      "EDIT_TEAM": "Edit Tim",
+      "NONE": "Tidak ada"
     },
     "CREATE_FLOW": {
       "CREATE": {
