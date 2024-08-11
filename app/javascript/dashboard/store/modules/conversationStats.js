@@ -18,25 +18,12 @@ export const getters = {
   getUnreadStats: $state => $state.unreadMeta,
 
   getUnreadStatsByKey: $state => key => {
-    if (
-      key &&
-      $state.unreadMeta &&
-      typeof $state.unreadMeta[key] !== 'undefined'
-    ) {
-      return $state.unreadMeta[key] || {};
-    }
-    return {};
+    const itemStats = $state.unreadMeta[key];
+    return itemStats || {};
   },
 
   getUnreadLoadedByKey: $state => key => {
-    if (
-      key &&
-      $state.isUnreadLoaded &&
-      typeof $state.isUnreadLoaded[key] !== 'undefined'
-    ) {
-      return $state.isUnreadLoaded[key] || false;
-    }
-    return false;
+    return $state.isUnreadLoaded[key] || false;
   },
 };
 

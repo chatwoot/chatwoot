@@ -32,6 +32,7 @@ import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 import resizeDirective from '../dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue-clickaway';
+import errorHandler from './errorHandler.js';
 
 Vue.config.env = process.env;
 
@@ -86,6 +87,7 @@ const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
 });
+Vue.mixin(errorHandler);
 
 sync(store, router);
 // load common helpers into js
