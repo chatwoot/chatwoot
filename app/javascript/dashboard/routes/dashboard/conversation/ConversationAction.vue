@@ -6,7 +6,6 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
-import teamMixin from 'dashboard/mixins/conversation/teamMixin';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -16,7 +15,7 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
   },
-  mixins: [agentMixin, teamMixin],
+  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -65,7 +64,20 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
+      teams: 'teams/getTeams',
     }),
+    hasAnAssignedTeam() {
+      return !!this.currentChat?.meta?.team;
+    },
+    teamsList() {
+      if (this.hasAnAssignedTeam) {
+        return [
+          { id: 0, name: this.$t('TEAMS_SETTINGS.LIST.NONE') },
+          ...this.teams,
+        ];
+      }
+      return this.teams;
+    },
     assignedAgent: {
       get() {
         return this.currentChat.meta.assignee;
