@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Það eru engin teymi til á þessum reikningi.",
-      "EDIT_TEAM": "Breyta teymi"
+      "EDIT_TEAM": "Breyta teymi",
+      "NONE": "Enginn"
     },
     "CREATE_FLOW": {
       "CREATE": {
