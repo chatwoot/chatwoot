@@ -7,7 +7,8 @@
     "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "هیچ تیمی در این حساب ایجاد نشده است.",
-      "EDIT_TEAM": "ویرایش تیم"
+      "EDIT_TEAM": "ویرایش تیم",
+      "NONE": "هیچکدام"
     },
     "CREATE_FLOW": {
       "CREATE": {
