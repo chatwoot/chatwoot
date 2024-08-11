@@ -219,7 +219,9 @@ export default {
         const route = frontendURL(
           `accounts/${this.accountId}/pipelines/custom_view/${this.customViewValue}`
         );
-        this.$router.push(route);
+        if (this.$router.currentRoute.path !== route) {
+          this.$router.push(route);
+        }
       } else {
         this.$router.push({ name: 'pipelines_dashboard' });
       }
