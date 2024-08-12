@@ -1,8 +1,8 @@
 <script>
+import { mapGetters } from 'vuex';
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
@@ -13,7 +13,6 @@ export default {
     VeTable,
     VePagination,
   },
-  mixins: [rtlMixin],
   props: {
     agents: {
       type: Array,
@@ -33,6 +32,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      isRTL: 'accounts/isRTL',
+    }),
     tableData() {
       return this.agentMetrics
         .filter(agentMetric => this.getAgentInformation(agentMetric.id))
@@ -57,7 +59,7 @@ export default {
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
           ),
           fixed: 'left',
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 25,
           renderBodyCell: ({ row }) => (
             <div class="row-user-block">
@@ -82,7 +84,7 @@ export default {
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
           ),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 10,
         },
         {
@@ -91,7 +93,7 @@ export default {
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
           ),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 10,
         },
       ];
