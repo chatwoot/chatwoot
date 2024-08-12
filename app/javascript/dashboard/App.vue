@@ -8,7 +8,6 @@ import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import { setColorTheme } from './helper/themeHelper';
@@ -43,6 +42,7 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
@@ -54,10 +54,6 @@ export default {
     },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
-    },
-    isRTL() {
-      const { locale } = this.getAccount(this.currentAccountId) || {};
-      return locale ? getLanguageDirection(locale) : false;
     },
   },
 

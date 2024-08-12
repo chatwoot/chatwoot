@@ -1,6 +1,5 @@
 <script>
 import { VeTable, VePagination } from 'vue-easytable';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
@@ -19,15 +18,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getAccount: 'accounts/getAccount',
-      currentAccountId: 'getCurrentAccountId',
+      isRTL: 'accounts/isRTL',
       csatResponses: 'csat/getCSATResponses',
       metrics: 'csat/getMetrics',
     }),
-    isRTL() {
-      const { locale } = this.getAccount(this.currentAccountId) || {};
-      return locale ? getLanguageDirection(locale) : false;
-    },
     columns() {
       return [
         {
