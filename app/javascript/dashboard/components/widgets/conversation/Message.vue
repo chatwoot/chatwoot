@@ -163,6 +163,7 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -180,7 +181,12 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [
+    alertMixin,
+    messageFormatterMixin,
+    contentTypeMixin,
+    errorCaptureMixin,
+  ],
   props: {
     data: {
       type: Object,

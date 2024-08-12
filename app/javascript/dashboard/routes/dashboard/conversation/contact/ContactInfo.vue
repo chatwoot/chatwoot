@@ -178,6 +178,7 @@ import {
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
 import stringeeChannel from '../../../../api/channel/stringeeChannel';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -187,7 +188,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, clickaway, timeMixin],
+  mixins: [alertMixin, adminMixin, clickaway, timeMixin, errorCaptureMixin],
   props: {
     contact: {
       type: Object,

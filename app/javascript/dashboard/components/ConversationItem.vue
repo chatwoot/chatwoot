@@ -25,10 +25,12 @@
 
 <script>
 import ConversationCard from './widgets/conversation/ConversationCard.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 export default {
   components: {
     ConversationCard,
   },
+  mixins: [errorCaptureMixin],
   inject: [
     'selectConversation',
     'deSelectConversation',

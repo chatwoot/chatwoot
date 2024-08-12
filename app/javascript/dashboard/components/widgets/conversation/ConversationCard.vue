@@ -144,6 +144,7 @@ import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -157,7 +158,13 @@ export default {
     SLACardLabel,
   },
 
-  mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
+  mixins: [
+    inboxMixin,
+    timeMixin,
+    conversationMixin,
+    alertMixin,
+    errorCaptureMixin,
+  ],
   props: {
     activeLabel: {
       type: String,

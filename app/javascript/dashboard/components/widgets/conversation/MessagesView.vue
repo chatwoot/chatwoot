@@ -133,6 +133,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -147,6 +148,7 @@ export default {
     eventListenerMixins,
     configMixin,
     aiMixin,
+    errorCaptureMixin,
   ],
   props: {
     isContactPanelOpen: {

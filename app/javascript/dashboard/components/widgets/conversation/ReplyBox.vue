@@ -173,6 +173,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 import CannedResponse from './CannedResponse.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
@@ -243,6 +244,7 @@ export default {
     messageFormatterMixin,
     rtlMixin,
     fileUploadMixin,
+    errorCaptureMixin,
   ],
   props: {
     popoutReplyBox: {

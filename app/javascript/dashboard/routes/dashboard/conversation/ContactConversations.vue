@@ -25,12 +25,14 @@
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
     ConversationCard,
     Spinner,
   },
+  mixins: [errorCaptureMixin],
   props: {
     contactId: {
       type: [String, Number],

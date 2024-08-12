@@ -35,6 +35,7 @@ import NewConversation from 'dashboard/routes/dashboard/conversation/contact/New
 import AddCustomAttribute from 'dashboard/modules/contact/components/AddCustomAttribute.vue';
 import ContactIntro from './ContactIntro.vue';
 import ContactFields from './ContactFields.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -44,6 +45,7 @@ export default {
     EditContact,
     NewConversation,
   },
+  mixins: [errorCaptureMixin],
   props: {
     contact: {
       type: Object,

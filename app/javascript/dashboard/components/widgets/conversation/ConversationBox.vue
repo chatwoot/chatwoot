@@ -69,6 +69,7 @@ import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -78,7 +79,7 @@ export default {
     EmptyState,
     MessagesView,
   },
-
+  mixins: [errorCaptureMixin],
   props: {
     inboxId: {
       type: [Number, String],

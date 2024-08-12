@@ -39,12 +39,13 @@ import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
     CustomAttribute,
   },
-  mixins: [alertMixin, attributeMixin, uiSettingsMixin],
+  mixins: [alertMixin, attributeMixin, uiSettingsMixin, errorCaptureMixin],
   props: {
     attributeType: {
       type: String,

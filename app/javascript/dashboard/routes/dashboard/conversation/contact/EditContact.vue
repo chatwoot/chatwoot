@@ -27,11 +27,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import ContactForm from './ContactForm.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
     ContactForm,
   },
+  mixins: [errorCaptureMixin],
   props: {
     show: {
       type: Boolean,

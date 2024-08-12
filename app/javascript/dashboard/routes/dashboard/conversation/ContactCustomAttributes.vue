@@ -20,8 +20,10 @@
 
 <script>
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
+  mixins: [errorCaptureMixin],
   props: {
     customAttributes: {
       type: Object,

@@ -169,6 +169,7 @@ import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
 import ContactTransactions from 'dashboard/routes/dashboard/contacts/components/ContactTransactions.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -184,7 +185,7 @@ export default {
     ContactTransactions,
     CustomAttributes,
   },
-  mixins: [alertMixin, uiSettingsMixin],
+  mixins: [alertMixin, uiSettingsMixin, errorCaptureMixin],
   props: {
     conversationId: {
       type: [Number, String],

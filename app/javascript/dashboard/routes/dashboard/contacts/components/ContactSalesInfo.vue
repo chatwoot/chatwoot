@@ -109,6 +109,7 @@ import ContactNewAction from './ContactNewAction.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import contactMixin from 'dashboard/mixins/contactMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -117,7 +118,7 @@ export default {
     AddNote,
     ContactNewAction,
   },
-  mixins: [agentMixin, alertMixin, teamMixin, contactMixin],
+  mixins: [agentMixin, alertMixin, teamMixin, contactMixin, errorCaptureMixin],
   props: {
     contact: {
       type: Object,

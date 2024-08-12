@@ -221,6 +221,7 @@ import {
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import IntersectionObserver from './IntersectionObserver.vue';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -244,6 +245,7 @@ export default {
     alertMixin,
     filterMixin,
     uiSettingsMixin,
+    errorCaptureMixin,
   ],
   provide() {
     return {

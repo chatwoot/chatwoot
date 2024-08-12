@@ -47,13 +47,14 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import router from '../../routes';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [adminMixin, alertMixin, eventListenerMixins],
+  mixins: [errorCaptureMixin, adminMixin, alertMixin, eventListenerMixins],
   props: {
     showSecondarySidebar: {
       type: Boolean,

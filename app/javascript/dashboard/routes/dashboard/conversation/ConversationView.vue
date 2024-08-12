@@ -35,6 +35,7 @@ import PopOverSearch from './search/PopOverSearch.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import wootConstants from 'dashboard/constants/globals';
+import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
 
 export default {
   components: {
@@ -42,7 +43,7 @@ export default {
     ConversationBox,
     PopOverSearch,
   },
-  mixins: [uiSettingsMixin],
+  mixins: [uiSettingsMixin, errorCaptureMixin],
   props: {
     inboxId: {
       type: [String, Number],
