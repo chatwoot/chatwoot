@@ -8,7 +8,6 @@ import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
 import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
@@ -18,7 +17,6 @@ export default {
     bulkActionsHotKeysMixin,
     inboxHotKeysMixin,
     conversationLabelMixin,
-    conversationTeamMixin,
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
