@@ -2,11 +2,11 @@
 import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 
 export default {
   components: {
@@ -14,19 +14,16 @@ export default {
     LabelDropdown,
     AddLabel,
   },
-
-  mixins: [conversationLabelMixin],
-  props: {
-    // conversationId prop is used in /conversation/labelMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    conversationId: {
-      type: Number,
-      required: true,
-    },
-  },
   setup() {
     const { isAdmin } = useAdmin();
+
+    const {
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    } = useConversationLabels();
 
     const conversationLabelBoxRef = ref(null);
     const showSearchDropdownLabel = ref(false);
@@ -58,6 +55,11 @@ export default {
     useKeyboardEvents(keyboardEvents, conversationLabelBoxRef);
     return {
       isAdmin,
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
       conversationLabelBoxRef,
       showSearchDropdownLabel,
       closeDropdownLabel,
