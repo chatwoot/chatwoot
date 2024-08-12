@@ -90,17 +90,18 @@ const i18nConfig = new VueI18n({
 Vue.mixin(errorHandler);
 
 Vue.config.errorHandler = (err, instance, info) => {
-  if (window.errorLoggingConfig) {
-    Sentry.setTag('from', 'errorHandler');
-    if (instance) {
-      Sentry.setContext('errorHandler', { err, instance, info });
+  if (instance) {
+    if (window.errorLoggingConfig) {
+      Sentry.setTag('from', 'errorHandler');
+      Sentry.captureException(err);
     } else {
-      Sentry.setContext('errorHandler', { err, info });
+      // eslint-disable-next-line no-console
+      console.log('errorHandler', err, instance, info);
     }
-    Sentry.captureException(err);
+  } else {
+    // temporary fix to avoid app freeze
+    window.location.reload();
   }
-  // eslint-disable-next-line no-console
-  console.log('errorHandler', err, instance, info);
 };
 
 sync(store, router);

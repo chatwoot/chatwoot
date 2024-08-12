@@ -295,7 +295,7 @@ export default {
   },
   data() {
     return {
-      activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
+      activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ALL,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       activeSortBy: wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC,
       showAdvancedFilters: false,
@@ -386,9 +386,9 @@ export default {
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
+        all: 'allCount',
         me: 'mineCount',
         unassigned: 'unAssignedCount',
-        all: 'allCount',
       };
       return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
         const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;

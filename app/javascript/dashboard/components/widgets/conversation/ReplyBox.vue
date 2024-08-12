@@ -557,6 +557,7 @@ export default {
 
       if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
+        this.$refs.messageInput.focus();
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }

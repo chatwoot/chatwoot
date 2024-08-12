@@ -22,7 +22,7 @@ export default {
     },
     activeTab: {
       type: String,
-      default: wootConstants.ASSIGNEE_TYPE.ME,
+      default: wootConstants.ASSIGNEE_TYPE.ALL,
     },
   },
   computed: {
