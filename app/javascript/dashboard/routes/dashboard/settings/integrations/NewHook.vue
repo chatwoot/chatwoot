@@ -47,6 +47,9 @@ export default {
     isIntegrationDialogflow() {
       return this.integration.id === 'dialogflow';
     },
+    isIntegrationCaptain() {
+      return this.integration.id === 'captain';
+    },
   },
   methods: {
     onClose() {
@@ -117,7 +120,7 @@ export default {
         v-bind="item"
       />
       <formulate-input
-        v-if="isHookTypeInbox"
+        v-if="isHookTypeInbox || isIntegrationCaptain"
         :options="inboxes"
         type="select"
         name="inbox"
