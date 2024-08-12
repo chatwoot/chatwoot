@@ -27,11 +27,11 @@ export const filterDuplicateSourceMessages = (messages = []) => {
   // We should return the message with smaller id when there is a duplicate
   messages.forEach(m1 => {
     if (m1.source_id) {
-      if (
-        messagesWithoutDuplicates.findIndex(
-          m2 => m1.source_id === m2.source_id
-        ) < 0
-      ) {
+      const index = messagesWithoutDuplicates.findIndex(
+        m2 => m1.source_id === m2.source_id
+      );
+
+      if (index < 0) {
         messagesWithoutDuplicates.push(m1);
       }
     } else {
