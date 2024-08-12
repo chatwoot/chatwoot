@@ -4,7 +4,15 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  noRecordsFound: {
+    type: Boolean,
+    default: false,
+  },
   loadingMessage: {
+    type: String,
+    default: '',
+  },
+  noRecordsMessage: {
     type: String,
     default: '',
   },
@@ -14,11 +22,17 @@ defineProps({
 <template>
   <div class="flex flex-col w-full h-full gap-10 font-inter">
     <slot name="header" />
-    <div>
-      <slot v-if="isLoading" name="loading">
-        <woot-loading-state :message="loadingMessage" />
-      </slot>
-      <slot v-else name="body" />
-    </div>
+    <slot v-if="isLoading" name="loading">
+      <woot-loading-state :message="loadingMessage" />
+    </slot>
+    <p
+      v-else-if="noRecordsFound"
+      class="flex-1 text-slate-700 dark:text-slate-100 flex items-center justify-center text-base"
+    >
+      {{ noRecordsMessage }}
+    </p>
+    <slot v-else name="body" />
+    <!-- Do not delete the slot below. It is required to render anything that is not defined in the above slots. -->
+    <slot />
   </div>
 </template>
