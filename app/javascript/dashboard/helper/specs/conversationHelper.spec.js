@@ -112,25 +112,6 @@ const conversationItem = {
   labels: [],
 };
 
-const lastMessageInConversation = {
-  id: 438100,
-  content: 'Hey',
-  account_id: 1,
-  inbox_id: 37,
-  conversation_id: 5815,
-  message_type: 0,
-  created_at: 1621145476,
-  updated_at: '2021-05-16T05:48:43.910Z',
-  private: false,
-  status: 'sent',
-  source_id: null,
-  content_type: 'text',
-  content_attributes: {},
-  sender_type: null,
-  sender_id: null,
-  external_source_ids: {},
-};
-
 const readMessagesArray = [
   {
     id: 438072,
@@ -242,32 +223,68 @@ describe('conversationHelper', () => {
   describe('#lastMessage', () => {
     it("should return last activity message if both api and store doesn't have other messages", () => {
       const conversation = {
-        messages: [conversationItem.messages[0]],
+        messages: [
+          { id: 1, created_at: 1654333, message_type: 2, content: 'Hey' },
+        ],
         last_non_activity_message: null,
       };
-      expect(lastMessage(conversation)).toEqual(conversation.messages[0]);
+      const { messages } = conversation;
+      expect(lastMessage(conversation)).toEqual(messages[messages.length - 1]);
     });
 
     it('should return message from store if store has latest message', () => {
       const conversation = {
         messages: [],
-        last_non_activity_message: lastMessageInConversation,
+        last_non_activity_message: {
+          id: 2,
+          created_at: 1654334,
+          message_type: 2,
+          content: 'Hey',
+        },
       };
-      expect(lastMessage(conversation)).toEqual(lastMessageInConversation);
+      expect(lastMessage(conversation)).toEqual(
+        conversation.last_non_activity_message
+      );
     });
 
     it('should return last non activity message from store if api value is empty', () => {
       const conversation = {
-        messages: [conversationItem.messages[0], conversationItem.messages[1]],
+        messages: [
+          {
+            id: 1,
+            created_at: 1654333,
+            message_type: 1,
+            content: 'Outgoing Message',
+          },
+          { id: 2, created_at: 1654334, message_type: 2, content: 'Hey' },
+        ],
         last_non_activity_message: null,
       };
-      expect(lastMessage(conversation)).toEqual(conversationItem.messages[1]);
+      expect(lastMessage(conversation)).toEqual(conversation.messages[0]);
     });
 
     it("should return last non activity message from store if store doesn't have any messages", () => {
       const conversation = {
-        messages: [conversationItem.messages[1], conversationItem.messages[2]],
-        last_non_activity_message: conversationItem.messages[0],
+        messages: [
+          {
+            id: 1,
+            created_at: 1654333,
+            message_type: 1,
+            content: 'Outgoing Message',
+          },
+          {
+            id: 3,
+            created_at: 1654335,
+            message_type: 0,
+            content: 'Incoming Message',
+          },
+        ],
+        last_non_activity_message: {
+          id: 2,
+          created_at: 1654334,
+          message_type: 2,
+          content: 'Hey',
+        },
       };
       expect(lastMessage(conversation)).toEqual(conversation.messages[1]);
     });
