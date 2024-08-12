@@ -1,23 +1,26 @@
 <script>
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
+import { computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
+
 export default {
-  mixins: [conversationLabelMixin],
   props: {
-    // conversationId prop is used in /conversation/labelMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    conversationId: {
-      type: Number,
+    conversationLabels: {
+      type: Array,
       required: true,
     },
-    // conversationLabels prop is used in /conversation/labelMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    conversationLabels: {
-      type: String,
-      required: false,
-      default: '',
-    },
+  },
+  setup(props) {
+    const accountLabels = useMapGetter('labels/getLabels');
+
+    const activeLabels = computed(() => {
+      return props.conversationLabels.map(label =>
+        accountLabels.value.find(l => l.title === label)
+      );
+    });
+
+    return {
+      activeLabels,
+    };
   },
   data() {
     return {
