@@ -100,7 +100,7 @@ Vue.config.errorHandler = (err, instance, info) => {
     Sentry.captureException(err);
   }
   // eslint-disable-next-line no-console
-  console.err('errorHandler', err, instance, info);
+  console.log('errorHandler', err, instance, info);
 };
 
 sync(store, router);

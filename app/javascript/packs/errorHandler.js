@@ -12,7 +12,7 @@ export default {
       Sentry.captureException(err);
     }
     // eslint-disable-next-line no-console
-    console.error('errorCaptured: ', err, info);
+    console.log('errorCaptured: ', err, info);
     return false;
   },
 };
