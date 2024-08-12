@@ -1,8 +1,9 @@
 <script>
+import { ref } from 'vue';
 import { mapGetters } from 'vuex';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
@@ -23,7 +24,7 @@ export default {
     SLACardLabel,
     Linear,
   },
-  mixins: [inboxMixin, agentMixin, keyboardEventListenerMixins],
+  mixins: [inboxMixin, agentMixin],
   props: {
     chat: {
       type: Object,
@@ -41,6 +42,20 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup(props, { emit }) {
+    const conversationHeaderActionsRef = ref(null);
+
+    const keyboardEvents = {
+      'Alt+KeyO': {
+        action: () => emit('contactPanelToggle'),
+      },
+    };
+    useKeyboardEvents(keyboardEvents, conversationHeaderActionsRef);
+
+    return {
+      conversationHeaderActionsRef,
+    };
   },
   computed: {
     ...mapGetters({
@@ -117,16 +132,6 @@ export default {
       );
     },
   },
-
-  methods: {
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyO': {
-          action: () => this.$emit('contactPanelToggle'),
-        },
-      };
-    },
-  },
 };
 </script>
 
@@ -178,6 +183,7 @@ export default {
           </div>
 
           <div
+            ref="conversationHeaderActionsRef"
             class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
           >
             <InboxName v-if="hasMultipleInboxes" :inbox="inbox" />

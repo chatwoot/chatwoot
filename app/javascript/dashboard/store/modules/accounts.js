@@ -4,6 +4,7 @@ import AccountAPI from '../../api/account';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 const findRecordById = ($state, id) =>
   $state.records.find(record => record.id === Number(id)) || {};
@@ -26,6 +27,13 @@ export const getters = {
   },
   getUIFlags($state) {
     return $state.uiFlags;
+  },
+  isRTL: ($state, _, rootState) => {
+    const accountId = rootState.route?.params?.accountId;
+    if (!accountId) return false;
+
+    const { locale } = findRecordById($state, Number(accountId));
+    return locale ? getLanguageDirection(locale) : false;
   },
   isTrialAccount: $state => id => {
     const account = findRecordById($state, id);
