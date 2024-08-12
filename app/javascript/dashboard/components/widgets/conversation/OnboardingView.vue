@@ -34,7 +34,7 @@ export default {
 
 <template>
   <div
-    class="h-screen grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4 p-8 w-full font-inter bg-white overflow-auto"
+    class="min-h-screen grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4 p-8 w-full font-inter bg-white dark:bg-slate-900 overflow-auto"
   >
     <div class="col-span-full self-start">
       <p
@@ -51,7 +51,7 @@ export default {
       </p>
     </div>
     <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 to-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
+      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
     >
       <img
         src="~dashboard/assets/images/onboarding/omnichannel.png"
@@ -60,7 +60,7 @@ export default {
       />
       <div class="mt-auto">
         <p
-          class="text-base text-slate-800 font-interDisplay font-semibold tracking-[0.3px]"
+          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
         >
           {{ $t('ONBOARDING.ALL_CONVERSATION.TITLE') }}
         </p>
@@ -70,7 +70,7 @@ export default {
       </div>
     </div>
     <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 to-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
+      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
     >
       <img
         src="~dashboard/assets/images/onboarding/teams.png"
@@ -79,17 +79,23 @@ export default {
       />
       <div class="mt-auto">
         <p
-          class="text-base text-slate-800 font-interDisplay font-semibold tracking-[0.3px]"
+          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
         >
           {{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
         </p>
         <p class="text-slate-600 dark:text-slate-400 text-sm">
           {{ $t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION') }}
         </p>
+        <router-link
+          :to="newLabelsURL"
+          class="no-underline text-woot-500 text-sm"
+        >
+          {{ $t('ONBOARDING.TEAM_MEMBERS.NEW_LINK') }} <span>→</span>
+        </router-link>
       </div>
     </div>
     <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 to-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
+      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
     >
       <img
         src="~dashboard/assets/images/onboarding/inboxes.png"
@@ -98,17 +104,23 @@ export default {
       />
       <div class="mt-auto">
         <p
-          class="text-base text-slate-800 font-interDisplay font-semibold tracking-[0.3px]"
+          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
         >
           {{ $t('ONBOARDING.INBOXES.TITLE') }}
         </p>
         <p class="text-slate-600 dark:text-slate-400 text-sm">
           {{ $t('ONBOARDING.INBOXES.DESCRIPTION') }}
         </p>
+        <router-link
+          :to="newLabelsURL"
+          class="no-underline text-woot-500 text-sm"
+        >
+          {{ $t('ONBOARDING.INBOXES.NEW_LINK') }} <span>→</span>
+        </router-link>
       </div>
     </div>
     <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 to-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
+      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
     >
       <img
         src="~dashboard/assets/images/onboarding/labels.png"
@@ -117,13 +129,19 @@ export default {
       />
       <div class="mt-auto">
         <p
-          class="text-base text-slate-800 font-interDisplay font-semibold tracking-[0.3px]"
+          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
         >
           {{ $t('ONBOARDING.LABELS.TITLE') }}
         </p>
         <p class="text-slate-600 dark:text-slate-400 text-sm">
           {{ $t('ONBOARDING.LABELS.DESCRIPTION') }}
         </p>
+        <router-link
+          :to="newLabelsURL"
+          class="no-underline text-woot-500 text-sm"
+        >
+          {{ $t('ONBOARDING.LABELS.NEW_LINK') }} <span>→</span>
+        </router-link>
       </div>
     </div>
   </div>
