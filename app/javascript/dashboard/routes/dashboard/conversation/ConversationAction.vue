@@ -5,7 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
-import agentMixin from 'dashboard/mixins/agentMixin';
+import { generateAgentsList } from 'dashboard/helper/agentHelper.js';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -15,15 +15,11 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
   },
-  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    // inboxId prop is used in /mixins/agentMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
     inboxId: {
       type: Number,
       default: undefined,
@@ -64,6 +60,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
       teams: 'teams/getTeams',
     }),
     hasAnAssignedTeam() {
@@ -77,6 +74,22 @@ export default {
         ];
       }
       return this.teams;
+    },
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inboxId
+      );
+    },
+    isAgentSelected() {
+      return this.currentChat?.meta?.assignee;
+    },
+    agentsList() {
+      return generateAgentsList(
+        this.assignableAgents,
+        this.currentUser,
+        this.currentAccountId,
+        this.isAgentSelected
+      );
     },
     assignedAgent: {
       get() {

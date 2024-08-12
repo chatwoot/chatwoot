@@ -1,7 +1,7 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
 import { emitter } from 'shared/helpers/mitt';
-
+import { generateAgentsList } from 'dashboard/helper/agentHelper.js';
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -66,6 +66,8 @@ export default {
       replyMode: 'draftMessages/getReplyEditorMode',
       contextMenuChatId: 'getContextMenuChatId',
       teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
     }),
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
@@ -90,6 +92,22 @@ export default {
         ];
       }
       return this.teams;
+    },
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inboxId
+      );
+    },
+    isAgentSelected() {
+      return this.currentChat?.meta?.assignee;
+    },
+    agentsList() {
+      return generateAgentsList(
+        this.assignableAgents,
+        this.currentUser,
+        this.currentAccountId,
+        this.isAgentSelected
+      );
     },
     statusActions() {
       const isOpen =

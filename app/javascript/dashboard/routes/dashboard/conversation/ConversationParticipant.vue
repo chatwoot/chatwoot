@@ -2,7 +2,8 @@
 import Spinner from 'shared/components/Spinner.vue';
 import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
-import agentMixin from 'dashboard/mixins/agentMixin';
+import { generateAgentsList } from 'dashboard/helper/agentHelper.js';
+
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
@@ -12,15 +13,11 @@ export default {
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
-  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    // inboxId prop is used in /mixins/agentMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
     inboxId: {
       type: Number,
       default: undefined,
@@ -36,6 +33,7 @@ export default {
     ...mapGetters({
       watchersUiFlas: 'conversationWatchers/getUIFlags',
       currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
     }),
     watchersFromStore() {
       return this.$store.getters['conversationWatchers/getByConversationId'](
@@ -51,6 +49,18 @@ export default {
         const userIds = participants.map(el => el.id);
         this.updateParticipant(userIds);
       },
+    },
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inboxId
+      );
+    },
+    agentsList() {
+      return generateAgentsList(
+        this.assignableAgents,
+        this.currentUser,
+        this.currentAccountId
+      );
     },
     isUserWatching() {
       return this.selectedWatchers.some(

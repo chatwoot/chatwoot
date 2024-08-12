@@ -7,12 +7,10 @@ import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
-import agentMixin from 'dashboard/mixins/agentMixin';
 import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [
-    agentMixin,
     conversationHotKeysMixin,
     bulkActionsHotKeysMixin,
     inboxHotKeysMixin,
