@@ -104,7 +104,7 @@ onBeforeMount(() => {
           <th
             v-for="thHeader in $t('LABEL_MGMT.LIST.TABLE_HEADER')"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
           >
             {{ thHeader }}
           </th>
@@ -113,15 +113,15 @@ onBeforeMount(() => {
           class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
         >
           <tr v-for="(label, index) in records" :key="label.title">
-            <td class="py-4 pr-4">
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span
                 class="font-medium break-words text-slate-700 dark:text-slate-100 mb-1"
               >
                 {{ label.title }}
               </span>
             </td>
-            <td class="py-4 pr-4">{{ label.description }}</td>
-            <td class="leading-6 py-4 pr-4">
+            <td class="py-4 ltr:pr-4 rtl:pl-4">{{ label.description }}</td>
+            <td class="leading-6 py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center">
                 <span
                   class="rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700"
