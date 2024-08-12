@@ -1,42 +1,40 @@
-import { computed } from 'vue';
-
 /**
- * A composable function that provides access to various configuration values.
- * @returns {Object} An object containing computed properties for configuration values.
+ * A function that provides access to various configuration values.
+ * @returns {Object} An object containing configuration values.
  */
 export function useConfig() {
   const config = window.chatwootConfig || {};
 
   /**
-   * @type {import('vue').ComputedRef<string|undefined>}
    * The host URL of the Chatwoot instance.
+   * @type {string|undefined}
    */
-  const hostURL = computed(() => config.hostURL);
+  const hostURL = config.hostURL;
 
   /**
-   * @type {import('vue').ComputedRef<string|undefined>}
    * The VAPID public key for web push notifications.
+   * @type {string|undefined}
    */
-  const vapidPublicKey = computed(() => config.vapidPublicKey);
+  const vapidPublicKey = config.vapidPublicKey;
 
   /**
-   * @type {import('vue').ComputedRef<string[]|undefined>}
    * An array of enabled languages in the Chatwoot instance.
+   * @type {string[]|undefined}
    */
-  const enabledLanguages = computed(() => config.enabledLanguages);
+  const enabledLanguages = config.enabledLanguages;
 
   /**
-   * @type {import('vue').ComputedRef<boolean>}
    * Indicates whether the current instance is an enterprise version.
+   * @type {boolean}
    */
-  const isEnterprise = computed(() => config.isEnterprise === 'true');
+  const isEnterprise = config.isEnterprise === 'true';
 
   /**
-   * @type {import('vue').ComputedRef<string|undefined>}
    * The name of the enterprise plan, if applicable.
-   * returns "community" or "enterprise"
+   * Returns "community" or "enterprise"
+   * @type {string|undefined}
    */
-  const enterprisePlanName = computed(() => config.enterprisePlanName);
+  const enterprisePlanName = config.enterprisePlanName;
 
   return {
     hostURL,
