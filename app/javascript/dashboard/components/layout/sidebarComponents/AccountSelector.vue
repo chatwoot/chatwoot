@@ -69,10 +69,7 @@ export default {
       </div>
     </div>
 
-    <div
-      v-if="globalConfig.createNewAccountFromDashboard"
-      class="flex items-center justify-end gap-2 px-8 pt-4 pb-8"
-    >
+    <div class="flex items-center justify-end gap-2 px-8 pt-4 pb-8">
       <button
         class="w-full button success large expanded nice"
         @click="$emit('showCreateAccountModal')"
