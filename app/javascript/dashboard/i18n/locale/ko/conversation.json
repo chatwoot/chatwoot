@@ -142,7 +142,8 @@
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
       "PRIVATE_MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. 에이전트만 볼 수 있습니다.",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "답글",

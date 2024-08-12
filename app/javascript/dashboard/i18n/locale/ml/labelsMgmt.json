@@ -3,8 +3,9 @@
     "HEADER": "ലേബലുകൾ",
     "HEADER_BTN_TXT": "ലേബൽ ചേർക്കുക",
     "LOADING": "ലേബലുകൾ ലഭ്യമാക്കുന്നു",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല",
-    "SIDEBAR_TXT": "<p> <b> ലേബലുകൾ‌ </b> <p> സംഭാഷണങ്ങൾ‌ തരംതിരിക്കാനും മുൻ‌ഗണന നൽകാനും ലേബലുകൾ‌ നിങ്ങളെ സഹായിക്കുന്നു. സൈഡ്‌പാനലിൽ നിന്നുള്ള സംഭാഷണത്തിലേക്ക് നിങ്ങൾക്ക് ലേബൽ നൽകാം. <br /> <br /> ലേബലുകൾ‌ അക്ക with ണ്ടുമായി ബന്ധിപ്പിച്ചിരിക്കുന്നു കൂടാതെ നിങ്ങളുടെ ഓർ‌ഗനൈസേഷനിൽ‌ ഇച്ഛാനുസൃത വർ‌ക്ക്ഫ്ലോകൾ‌ സൃഷ്‌ടിക്കാനും ഇത് ഉപയോഗിക്കാം. നിങ്ങൾക്ക് ഒരു ലേബലിന് ഇഷ്‌ടാനുസൃത നിറം നൽകാനാകും, ഇത് ലേബൽ തിരിച്ചറിയുന്നത് എളുപ്പമാക്കുന്നു. സംഭാഷണങ്ങൾ‌ എളുപ്പത്തിൽ‌ ഫിൽ‌റ്റർ‌ ചെയ്യുന്നതിന് സൈഡ്‌ബാറിൽ‌ ലേബൽ‌ പ്രദർശിപ്പിക്കാൻ‌ നിങ്ങൾ‌ക്ക് കഴിയും. </p>",
     "LIST": {
       "404": "ഈ അക്കൗണ്ടിൽ ലേബലുകളൊന്നും ലഭ്യമല്ല.",
       "TITLE": "ലേബലുകൾ നിയന്ത്രിക്കുക",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "ലേബൽ ചേർക്കുക",

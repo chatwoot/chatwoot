@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
-      "CLICK_HERE": "Klik di sini untuk memperbarui"
+      "CLICK_HERE": "Klik di sini untuk memperbarui",
+      "WHATSAPP_TEMPLATES": "Templat Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Balas",

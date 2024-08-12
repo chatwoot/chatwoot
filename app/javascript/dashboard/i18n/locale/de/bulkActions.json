@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Zurück",
     "ASSIGN_LABEL": "Zuordnen",
     "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Suchen",
     "ASSIGN_AGENT_TOOLTIP": "Agent zuweisen",
     "ASSIGN_TEAM_TOOLTIP": "Team zuweisen",
     "ASSIGN_SUCCESFUL": "Konversationen erfolgreich zugewiesen.",

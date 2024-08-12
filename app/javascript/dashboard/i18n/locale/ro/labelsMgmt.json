@@ -3,8 +3,9 @@
     "HEADER": "Etichete",
     "HEADER_BTN_TXT": "Adăugare etichetă",
     "LOADING": "Preluarea etichetelor",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
-    "SIDEBAR_TXT": "<p><b>Etichete</b> <p>Etichetele vă ajută să clasificați conversațiile și să le prioritizați. Poți atribui eticheta unei conversații din sidepanel. <br /><br />Etichetele sunt legate de cont și pot fi utilizate pentru a crea fluxuri de lucru personalizate în organizația dvs. Puteți atribui o culoare personalizată unei etichete, aceasta facilitează identificarea etichetei. Veți putea afișa eticheta pe bara laterală pentru a filtra ușor conversațiile.</p>",
     "LIST": {
       "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
       "TITLE": "Gestionați etichetele",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Adăugare etichetă",
