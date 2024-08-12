@@ -10,7 +10,6 @@ import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
@@ -32,9 +31,6 @@ export default {
     UpgradeBanner,
     PendingEmailVerificationBanner,
   },
-
-  mixins: [rtlMixin],
-
   data() {
     return {
       showAddAccountModal: false,
@@ -46,6 +42,7 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
@@ -102,7 +99,6 @@ export default {
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
-      this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
       this.reconnectService = new ReconnectService(this.$store, router);
@@ -124,8 +120,8 @@ export default {
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
     class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTLView }"
-    :dir="isRTLView ? 'rtl' : 'ltr'"
+    :class="{ 'app-rtl--wrapper': isRTL }"
+    :dir="isRTL ? 'rtl' : 'ltr'"
   >
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
