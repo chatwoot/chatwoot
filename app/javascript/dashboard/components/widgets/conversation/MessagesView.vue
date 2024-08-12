@@ -23,8 +23,8 @@ import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
   filterDuplicateSourceMessages,
-  readMessages,
-  unReadMessages,
+  getReadMessages,
+  getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
 
 // constants
@@ -140,14 +140,14 @@ export default {
       }
       return messages;
     },
-    getReadMessages() {
-      return readMessages(
+    readMessages() {
+      return getReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
     },
-    getUnReadMessages() {
-      return unReadMessages(
+    unReadMessages() {
+      return getUnreadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
@@ -470,7 +470,7 @@ export default {
         </li>
       </transition>
       <Message
-        v-for="message in getReadMessages"
+        v-for="message in readMessages"
         :key="message.id"
         class="message--read ph-no-capture"
         data-clarity-mask="True"
@@ -495,7 +495,7 @@ export default {
         </span>
       </li>
       <Message
-        v-for="message in getUnReadMessages"
+        v-for="message in unReadMessages"
         :key="message.id"
         class="message--unread ph-no-capture"
         data-clarity-mask="True"

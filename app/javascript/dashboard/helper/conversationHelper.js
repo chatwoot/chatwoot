@@ -46,7 +46,7 @@ export const filterDuplicateSourceMessages = (messages = []) => {
  * @param {Object} m - The conversation object containing messages.
  * @returns {Object} The last message of the conversation.
  */
-export const lastMessage = m => {
+export const getLastMessage = m => {
   const lastMessageIncludingActivity = m.messages.at(-1);
 
   const nonActivityMessages = m.messages.filter(
@@ -74,7 +74,7 @@ export const lastMessage = m => {
  * @param {number} agentLastSeenAt - The timestamp of when the agent last saw the messages.
  * @returns {Array} An array of read messages.
  */
-export const readMessages = (messages, agentLastSeenAt) => {
+export const getReadMessages = (messages, agentLastSeenAt) => {
   return messages.filter(
     message => message.created_at * 1000 <= agentLastSeenAt * 1000
   );
@@ -86,7 +86,7 @@ export const readMessages = (messages, agentLastSeenAt) => {
  * @param {number} agentLastSeenAt - The timestamp of when the agent last saw the messages.
  * @returns {Array} An array of unread messages.
  */
-export const unReadMessages = (messages, agentLastSeenAt) => {
+export const getUnreadMessages = (messages, agentLastSeenAt) => {
   return messages.filter(
     message => message.created_at * 1000 > agentLastSeenAt * 1000
   );

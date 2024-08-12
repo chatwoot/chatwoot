@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { lastMessage } from 'dashboard/helper/conversationHelper';
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
 import router from '../../../routes';
@@ -118,7 +118,7 @@ export default {
     },
 
     lastMessageInChat() {
-      return lastMessage(this.chat);
+      return getLastMessage(this.chat);
     },
 
     inbox() {
