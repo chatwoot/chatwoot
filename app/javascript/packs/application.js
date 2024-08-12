@@ -89,6 +89,20 @@ const i18nConfig = new VueI18n({
 });
 Vue.mixin(errorHandler);
 
+Vue.config.errorHandler = (err, instance, info) => {
+  if (window.errorLoggingConfig) {
+    Sentry.setTag('from', 'errorHandler');
+    if (instance) {
+      Sentry.setContext('errorHandler', { err, instance, info });
+    } else {
+      Sentry.setContext('errorHandler', { err, info });
+    }
+    Sentry.captureException(err);
+  }
+  // eslint-disable-next-line no-console
+  console.err('errorHandler', err, instance, info);
+};
+
 sync(store, router);
 // load common helpers into js
 commonHelpers();
