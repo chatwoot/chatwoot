@@ -23,6 +23,11 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  startAt: {
+    type: String,
+    default: 'even',
+    validator: value => value === 'even' || value === 'odd',
+  },
 });
 
 const store = useStore();
@@ -159,14 +164,24 @@ const onCopy = async attributeValue => {
 onMounted(() => {
   initializeSettings();
 });
+
+const evenClass = [
+  '[&>*:nth-child(odd)]:!bg-white [&>*:nth-child(even)]:!bg-slate-25',
+  'dark:[&>*:nth-child(odd)]:!bg-slate-900 dark:[&>*:nth-child(even)]:!bg-slate-800/50',
+];
+const oddClass = [
+  '[&>*:nth-child(odd)]:!bg-slate-25 [&>*:nth-child(even)]:!bg-white',
+  'dark:[&>*:nth-child(odd)]:!bg-slate-800/50 dark:[&>*:nth-child(even)]:!bg-slate-900',
+];
+
+const wrapperClass = computed(() => {
+  return props.startAt === 'even' ? evenClass : oddClass;
+});
 </script>
 
+<!-- TODO: After migration to Vue 3, remove the top level div -->
 <template>
-  <div
-    class="[&>*:nth-child(2n+1)]:!bg-white dark:[&>*:nth-child(2n+1)]:!bg-slate-900 [&>*:nth-child(2n)]:!bg-slate-25 dark:[&>*:nth-child(2n)]:!bg-slate-800/50"
-  >
-    <!-- Added the conversation info as a slot here because to use the styles from this component wrapper -->
-    <slot name="conversationInfo" />
+  <div :class="wrapperClass">
     <CustomAttribute
       v-for="attribute in displayedAttributes"
       :key="attribute.id"
