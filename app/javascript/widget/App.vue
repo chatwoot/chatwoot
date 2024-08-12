@@ -8,7 +8,7 @@ import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
-import routerMixin from './mixins/routerMixin';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import {
   getExtraSpaceToScroll,
   loadedEventConfig,
@@ -27,7 +27,11 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin, darkModeMixin],
+  mixins: [availabilityMixin, configMixin, darkModeMixin],
+  setup() {
+    const { replaceRoute } = useRouterHelper();
+    return { replaceRoute };
+  },
   data() {
     return {
       isMobile: false,

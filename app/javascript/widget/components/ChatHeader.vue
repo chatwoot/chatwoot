@@ -3,7 +3,7 @@ import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
-import routerMixin from 'widget/mixins/routerMixin';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import darkMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
@@ -12,7 +12,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, darkMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -34,6 +34,10 @@ export default {
       type: Array,
       default: () => {},
     },
+  },
+  setup() {
+    const { replaceRoute } = useRouterHelper();
+    return { replaceRoute };
   },
   computed: {
     isOnline() {

@@ -5,7 +5,7 @@ import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoad
 
 import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import routerMixin from 'widget/mixins/routerMixin';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import configMixin from 'widget/mixins/configMixin';
 
 export default {
@@ -15,7 +15,11 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin, darkModeMixin],
+  mixins: [configMixin, darkModeMixin],
+  setup() {
+    const { replaceRoute } = useRouterHelper();
+    return { replaceRoute };
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
