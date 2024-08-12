@@ -1,22 +1,17 @@
 import { computed } from 'vue';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 
-export function useConversationLabels({
-  conversationId,
-  conversationLabels,
-} = {}) {
-  console.log('conversationId', conversationId);
+export function useConversationLabels() {
   const store = useStore();
   const getters = useStoreGetters();
+  const currentChat = computed(() => getters.getSelectedChat.value);
+  const conversationId = computed(() => currentChat.value?.id);
 
   const accountLabels = computed(() => getters['labels/getLabels'].value);
 
   const savedLabels = computed(() => {
-    if (conversationLabels) {
-      return conversationLabels.split(',').map(item => item.trim());
-    }
     return store.getters['conversationLabels/getConversationLabels'](
-      conversationId
+      conversationId.value
     );
   });
 
@@ -32,7 +27,7 @@ export function useConversationLabels({
 
   const onUpdateLabels = async selectedLabels => {
     store.dispatch('conversationLabels/update', {
-      conversationId,
+      conversationId: conversationId.value,
       labels: selectedLabels,
     });
   };

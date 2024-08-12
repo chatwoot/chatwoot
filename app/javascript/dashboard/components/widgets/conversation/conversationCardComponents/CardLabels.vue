@@ -1,22 +1,21 @@
 <script>
-import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 export default {
   props: {
-    conversationId: {
-      type: Number,
-      required: true,
-    },
     conversationLabels: {
-      type: String,
-      required: false,
-      default: '',
+      type: Array,
+      required: true,
     },
   },
   setup(props) {
-    const { activeLabels } = useConversationLabels({
-      conversationId: props.conversationId,
-      conversationLabels: props.conversationLabels,
+    const accountLabels = useMapGetter('labels/getLabels');
+
+    const activeLabels = computed(() => {
+      return props.conversationLabels.map(label =>
+        accountLabels.value.find(l => l.title === label)
+      );
     });
 
     return {
