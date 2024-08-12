@@ -6,7 +6,7 @@ import {
 
 describe('#buildSearchParamsWithLocale', () => {
   it('returns correct search params', () => {
-    let windowSpy = jest.spyOn(window, 'window', 'get');
+    let windowSpy = vi.spyOn(window, 'window', 'get');
     windowSpy.mockImplementation(() => ({
       WOOT_WIDGET: {
         $root: {

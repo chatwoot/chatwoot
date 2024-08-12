@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+ruby '3.3.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.1'
+gem 'rails', '~> 7.0.8.4'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -61,7 +61,7 @@ gem 'redis-namespace'
 gem 'activerecord-import'
 
 ##--- gems for server & infra configuration ---##
-gem 'dotenv-rails'
+gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
 gem 'webpacker'
@@ -111,18 +111,18 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.14.0', require: false
+gem 'sentry-rails', '>= 5.18.2', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.15.0', require: false
+gem 'sentry-sidekiq', '>= 5.18.2', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.2.4'
+gem 'sidekiq', '>= 7.3.0'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
 ##-- Push notification service --##
 gem 'fcm'
-gem 'web-push'
+gem 'web-push', '>= 3.0.1'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -228,7 +228,7 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 6.1.3'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

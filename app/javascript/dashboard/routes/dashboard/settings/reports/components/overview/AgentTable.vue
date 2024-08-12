@@ -1,33 +1,3 @@
-<template>
-  <div class="agent-table-container">
-    <ve-table
-      max-height="calc(100vh - 21.875rem)"
-      :fixed-header="true"
-      :columns="columns"
-      :table-data="tableData"
-    />
-    <div v-if="isLoading" class="agents-loader">
-      <spinner />
-      <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
-      }}</span>
-    </div>
-    <empty-state
-      v-else-if="!isLoading && !agentMetrics.length"
-      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
-    />
-    <div v-if="agentMetrics.length > 0" class="table-pagination">
-      <ve-pagination
-        :total="agents.length"
-        :page-index="pageIndex"
-        :page-size="25"
-        :page-size-option="[25]"
-        @on-page-number-change="onPageNumberChange"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
@@ -98,7 +68,7 @@ export default {
                 status={row.status}
               />
               <div class="user-block">
-                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis">
+                <h6 class="overflow-hidden title whitespace-nowrap text-ellipsis">
                   {row.agent}
                 </h6>
                 <span class="sub-title">{row.email}</span>
@@ -129,7 +99,7 @@ export default {
   },
   methods: {
     onPageNumberChange(pageIndex) {
-      this.$emit('page-change', pageIndex);
+      this.$emit('pageChange', pageIndex);
     },
     getAgentInformation(id) {
       return this.agents?.find(agent => agent.id === Number(id));
@@ -137,6 +107,36 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="agent-table-container">
+    <VeTable
+      max-height="calc(100vh - 21.875rem)"
+      fixed-header
+      :columns="columns"
+      :table-data="tableData"
+    />
+    <div v-if="isLoading" class="agents-loader">
+      <Spinner />
+      <span>{{
+        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
+      }}</span>
+    </div>
+    <EmptyState
+      v-else-if="!isLoading && !agentMetrics.length"
+      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+    />
+    <div v-if="agentMetrics.length > 0" class="table-pagination">
+      <VePagination
+        :total="agents.length"
+        :page-index="pageIndex"
+        :page-size="25"
+        :page-size-option="[25]"
+        @on-page-number-change="onPageNumberChange"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .agent-table-container {

@@ -3,7 +3,7 @@ import { actions } from '../actions';
 import * as types from '../../../mutation-types';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 
-jest.mock('dashboard/helper/uploadHelper');
+vi.mock('dashboard/helper/uploadHelper');
 
 const articleList = [
   {
@@ -12,10 +12,10 @@ const articleList = [
     title: 'Documents are required to complete KYC',
   },
 ];
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#index', () => {

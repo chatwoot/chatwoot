@@ -1,37 +1,3 @@
-<template>
-  <div>
-    <div
-      v-if="!uiFlags.isFetching && !macros.length"
-      class="macros_list--empty-state"
-    >
-      <p class="flex h-full items-center flex-col justify-center">
-        {{ $t('MACROS.LIST.404') }}
-      </p>
-      <router-link :to="addAccountScoping('settings/macros')">
-        <woot-button
-          variant="smooth"
-          icon="add"
-          size="tiny"
-          class="macros_add-button"
-        >
-          {{ $t('MACROS.HEADER_BTN_TXT') }}
-        </woot-button>
-      </router-link>
-    </div>
-    <woot-loading-state
-      v-if="uiFlags.isFetching"
-      :message="$t('MACROS.LOADING')"
-    />
-    <div v-if="!uiFlags.isFetching && macros.length" class="macros-list">
-      <macro-item
-        v-for="macro in macros"
-        :key="macro.id"
-        :macro="macro"
-        :conversation-id="conversationId"
-      />
-    </div>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import MacroItem from './MacroItem.vue';
@@ -59,6 +25,42 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <div
+      v-if="!uiFlags.isFetching && !macros.length"
+      class="macros_list--empty-state"
+    >
+      <p class="flex h-full items-center flex-col justify-center">
+        {{ $t('MACROS.LIST.404') }}
+      </p>
+      <router-link :to="addAccountScoping('settings/macros')">
+        <woot-button
+          variant="smooth"
+          icon="add"
+          size="tiny"
+          class="macros_add-button"
+        >
+          {{ $t('MACROS.HEADER_BTN_TXT') }}
+        </woot-button>
+      </router-link>
+    </div>
+    <woot-loading-state
+      v-if="uiFlags.isFetching"
+      :message="$t('MACROS.LOADING')"
+    />
+    <div v-if="!uiFlags.isFetching && macros.length" class="macros-list">
+      <MacroItem
+        v-for="macro in macros"
+        :key="macro.id"
+        :macro="macro"
+        :conversation-id="conversationId"
+      />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .macros-list {
   padding: var(--space-smaller);

@@ -1,0 +1,103 @@
+{
+  "FILTER": {
+    "TITLE": "Filter conversations",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "Cancel",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Value is required.",
+    "TOOLTIP_LABEL": "Filter conversations",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "AND",
+      "OR": "OR"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Equal to",
+      "not_equal_to": "Not equal to",
+      "contains": "Contains",
+      "does_not_contain": "Does not contain",
+      "is_present": "Is present",
+      "is_not_present": "Is not present",
+      "is_greater_than": "Is greater than",
+      "is_less_than": "Is lesser than",
+      "days_before": "Is x days before",
+      "starts_with": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Team name",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "Labels",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "Referer link",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Name is required.",
+        "SAVE_BUTTON": "Save filter",
+        "CANCEL_BUTTON": "Cancel",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully.",
+          "ERROR_MESSAGE": "Error while creating folder."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully.",
+          "ERROR_MESSAGE": "Error while creating segment."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirm deletion",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting folder."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting segment."
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 
 class ActionCableConnector extends BaseActionCableConnector {
@@ -33,34 +34,14 @@ class ActionCableConnector extends BaseActionCableConnector {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {
-    this.syncActiveConversationMessages();
+    emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
   };
 
+  // eslint-disable-next-line class-methods-use-this
   onDisconnected = () => {
-    this.setActiveConversationLastMessageId();
-  };
-
-  setActiveConversationLastMessageId = () => {
-    const {
-      params: { conversation_id },
-    } = this.app.$route;
-    if (conversation_id) {
-      this.app.$store.dispatch('setConversationLastMessageId', {
-        conversationId: Number(conversation_id),
-      });
-    }
-  };
-
-  syncActiveConversationMessages = () => {
-    const {
-      params: { conversation_id },
-    } = this.app.$route;
-    if (conversation_id) {
-      this.app.$store.dispatch('syncActiveConversationMessages', {
-        conversationId: Number(conversation_id),
-      });
-    }
+    emitter.emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   };
 
   isAValidEvent = data => {

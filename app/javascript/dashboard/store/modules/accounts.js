@@ -109,6 +109,10 @@ export const actions = {
       // silent error
     }
   },
+
+  getCacheKeys: async () => {
+    return AccountAPI.getCacheKeys();
+  },
 };
 
 export const mutations = {

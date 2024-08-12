@@ -33,7 +33,7 @@
       "NONE": "Nenhuma",
       "NO_TEAMS_AVAILABLE": "Não há equipas nesta conta.",
       "ASSIGN_SELECTED_TEAMS": "Atribuir equipa selecionada.",
-      "ASSIGN_SUCCESFUL": "Equipas atribuídas com sucesso.",
+      "ASSIGN_SUCCESFUL": "Equipas atribuídas.",
       "ASSIGN_FAILED": "Falha ao atribuir equipa. Tente novamente."
     }
   }

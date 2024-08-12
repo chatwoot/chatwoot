@@ -20,6 +20,7 @@ services:
       - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: always
 
   sidekiq:
     <<: *base
@@ -31,6 +32,7 @@ services:
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
 
   postgres:
     image: postgres:12

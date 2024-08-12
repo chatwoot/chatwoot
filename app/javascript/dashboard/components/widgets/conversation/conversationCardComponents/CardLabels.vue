@@ -1,51 +1,18 @@
-<template>
-  <div
-    v-if="activeLabels.length || $slots.before"
-    ref="labelContainer"
-    v-resize="computeVisibleLabelPosition"
-  >
-    <div
-      class="flex items-end flex-shrink min-w-0 gap-y-1"
-      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
-    >
-      <slot name="before" />
-      <woot-label
-        v-for="(label, index) in activeLabels"
-        :key="label.id"
-        :title="label.title"
-        :description="label.description"
-        :color="label.color"
-        variant="smooth"
-        class="!mb-0 max-w-[calc(100%-0.5rem)]"
-        small
-        :class="{ hidden: !showAllLabels && index > labelPosition }"
-      />
-      <woot-button
-        v-if="showExpandLabelButton"
-        :title="
-          showAllLabels
-            ? $t('CONVERSATION.CARD.HIDE_LABELS')
-            : $t('CONVERSATION.CARD.SHOW_LABELS')
-        "
-        class="sticky right-0 flex-shrink-0 mr-6 show-more--button rtl:rotate-180"
-        color-scheme="secondary"
-        variant="hollow"
-        :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
-        size="tiny"
-        @click="onShowLabels"
-      />
-    </div>
-  </div>
-</template>
 <script>
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 export default {
   mixins: [conversationLabelMixin],
   props: {
+    // conversationId prop is used in /conversation/labelMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     conversationId: {
       type: Number,
       required: true,
     },
+    // conversationLabels prop is used in /conversation/labelMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     conversationLabels: {
       type: String,
       required: false,
@@ -99,6 +66,46 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="activeLabels.length || $slots.before"
+    ref="labelContainer"
+    v-resize="computeVisibleLabelPosition"
+  >
+    <div
+      class="flex items-end flex-shrink min-w-0 gap-y-1"
+      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
+    >
+      <slot name="before" />
+      <woot-label
+        v-for="(label, index) in activeLabels"
+        :key="label.id"
+        :title="label.title"
+        :description="label.description"
+        :color="label.color"
+        variant="smooth"
+        class="!mb-0 max-w-[calc(100%-0.5rem)]"
+        small
+        :class="{ hidden: !showAllLabels && index > labelPosition }"
+      />
+      <woot-button
+        v-if="showExpandLabelButton"
+        :title="
+          showAllLabels
+            ? $t('CONVERSATION.CARD.HIDE_LABELS')
+            : $t('CONVERSATION.CARD.SHOW_LABELS')
+        "
+        class="sticky right-0 flex-shrink-0 mr-6 show-more--button rtl:rotate-180"
+        color-scheme="secondary"
+        variant="hollow"
+        :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
+        size="tiny"
+        @click="onShowLabels"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .show-more--button {

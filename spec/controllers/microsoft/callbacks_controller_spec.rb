@@ -4,9 +4,10 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
   let(:account) { create(:account) }
   let(:code) { SecureRandom.hex(10) }
   let(:email) { Faker::Internet.email }
+  let(:cache_key) { "microsoft::#{email.downcase}" }
 
   before do
-    Redis::Alfred.set(email, account.id)
+    Redis::Alfred.set(cache_key, account.id)
   end
 
   describe 'GET /microsoft/callback' do
@@ -28,14 +29,14 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
       get microsoft_callback_url, params: { code: code }
 
-      expect(response).to redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
       inbox = account.inboxes.last
       expect(inbox.name).to eq 'test'
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]
       expect(inbox.channel.imap_address).to eq 'outlook.office365.com'
-      expect(Redis::Alfred.get(email)).to be_nil
+      expect(Redis::Alfred.get(cache_key)).to be_nil
     end
 
     it 'creates updates inbox channel config if inbox exists and authentication is successful' do
@@ -49,12 +50,12 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
       get microsoft_callback_url, params: { code: code }
 
-      expect(response).to redirect_to app_microsoft_inbox_settings_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]
       expect(inbox.channel.imap_address).to eq 'outlook.office365.com'
-      expect(Redis::Alfred.get(email)).to be_nil
+      expect(Redis::Alfred.get(cache_key)).to be_nil
     end
 
     it 'creates inboxes with fallback_name when account name is not present in id_token' do
@@ -65,7 +66,7 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
       get microsoft_callback_url, params: { code: code }
 
-      expect(response).to redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
       inbox = account.inboxes.last
       expect(inbox.name).to eq email.split('@').first.parameterize.titleize
@@ -80,7 +81,7 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       get microsoft_callback_url, params: { code: code }
 
       expect(response).to redirect_to '/'
-      expect(Redis::Alfred.get(email).to_i).to eq account.id
+      expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
     end
   end
 end

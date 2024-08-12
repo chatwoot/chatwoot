@@ -4,14 +4,14 @@ import { ref, computed } from 'vue';
 import wootConstants from 'dashboard/constants/globals';
 import SLAEventItem from './SLAEventItem.vue';
 
-const { SLA_MISS_TYPES } = wootConstants;
-
 const props = defineProps({
   slaMissedEvents: {
     type: Array,
     required: true,
   },
 });
+
+const { SLA_MISS_TYPES } = wootConstants;
 
 const shouldShowAllNrts = ref(false);
 
@@ -37,6 +37,7 @@ const toggleShowAllNRT = () => {
   shouldShowAllNrts.value = !shouldShowAllNrts.value;
 };
 </script>
+
 <template>
   <div
     class="absolute flex flex-col items-start bg-white dark:bg-slate-800 z-50 p-4 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
@@ -44,12 +45,12 @@ const toggleShowAllNRT = () => {
     <span class="text-sm font-medium text-slate-900 dark:text-slate-25">
       {{ $t('SLA.EVENTS.TITLE') }}
     </span>
-    <SLA-event-item
+    <SLAEventItem
       v-if="frtMisses.length"
       :label="$t('SLA.EVENTS.FRT')"
       :items="frtMisses"
     />
-    <SLA-event-item
+    <SLAEventItem
       v-if="nrtMisses.length"
       :label="$t('SLA.EVENTS.NRT')"
       :items="nrtMisses"
@@ -75,8 +76,8 @@ const toggleShowAllNRT = () => {
           </woot-button>
         </div>
       </template>
-    </SLA-event-item>
-    <SLA-event-item
+    </SLAEventItem>
+    <SLAEventItem
       v-if="rtMisses.length"
       :label="$t('SLA.EVENTS.RT')"
       :items="rtMisses"

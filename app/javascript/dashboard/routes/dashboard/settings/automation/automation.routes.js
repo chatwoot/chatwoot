@@ -15,14 +15,15 @@ export default {
       children: [
         {
           path: '',
-          name: 'automation_wrapper',
           redirect: 'list',
         },
         {
           path: 'list',
           name: 'automation_list',
           component: Automation,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

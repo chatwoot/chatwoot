@@ -1,26 +1,3 @@
-<template>
-  <div
-    v-if="!conversationSize && isFetchingList"
-    class="flex flex-1 items-center h-full bg-black-25 justify-center"
-    :class="{ dark: prefersDarkMode }"
-  >
-    <spinner size="" />
-  </div>
-  <div
-    v-else
-    class="flex flex-col justify-end h-full"
-    :class="{
-      'is-mobile': isMobile,
-      'is-widget-right': isRightAligned,
-      'is-bubble-hidden': hideMessageBubble,
-      'is-flat-design': isWidgetStyleFlat,
-      dark: prefersDarkMode,
-    }"
-  >
-    <router-view />
-  </div>
-</template>
-
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
@@ -60,10 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
-      campaigns: 'campaign/getCampaigns',
       conversationSize: 'conversation/getConversationSize',
-      currentUser: 'contacts/getCurrentUser',
-      hasFetched: 'agent/getHasFetched',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
@@ -71,6 +45,7 @@ export default {
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
+      showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -113,7 +88,7 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('conversation', ['fetchOldConversations']),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -209,8 +184,13 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-
-      if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
+      if (!this.showUnreadMessagesDialog) {
+        this.handleUnreadNotificationDot();
+      } else if (
+        this.isIFrame &&
+        unreadMessageCount > 0 &&
+        !this.isWidgetOpen
+      ) {
         this.replaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
@@ -347,6 +327,29 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="!conversationSize && isFetchingList"
+    class="flex items-center justify-center flex-1 h-full bg-black-25"
+    :class="{ dark: prefersDarkMode }"
+  >
+    <Spinner size="" />
+  </div>
+  <div
+    v-else
+    class="flex flex-col justify-end h-full"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': isRightAligned,
+      'is-bubble-hidden': hideMessageBubble,
+      'is-flat-design': isWidgetStyleFlat,
+      dark: prefersDarkMode,
+    }"
+  >
+    <router-view />
+  </div>
+</template>
 
 <style lang="scss">
 @import '~widget/assets/scss/woot.scss';

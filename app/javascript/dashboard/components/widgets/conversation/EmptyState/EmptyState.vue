@@ -1,41 +1,6 @@
-<template>
-  <div :class="emptyClassName">
-    <woot-loading-state
-      v-if="uiFlags.isFetching || loadingChatList"
-      :message="loadingIndicatorMessage"
-    />
-    <!-- No inboxes attached -->
-    <div
-      v-if="!inboxesList.length && !uiFlags.isFetching && !loadingChatList"
-      class="clearfix"
-    >
-      <onboarding-view v-if="isAdmin" />
-      <empty-state-message
-        v-else
-        :message="$t('CONVERSATION.NO_INBOX_AGENT')"
-      />
-    </div>
-    <!-- Show empty state images if not loading -->
-
-    <div
-      v-else-if="!uiFlags.isFetching && !loadingChatList"
-      class="flex flex-col items-center justify-center h-full"
-    >
-      <!-- No conversations available -->
-      <empty-state-message
-        v-if="!allConversations.length"
-        :message="$t('CONVERSATION.NO_MESSAGE_1')"
-      />
-      <empty-state-message
-        v-else-if="allConversations.length && !currentChat.id"
-        :message="conversationMissingMessage"
-      />
-    </div>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import accountMixin from 'dashboard/mixins/account';
 import OnboardingView from '../OnboardingView.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
@@ -45,12 +10,18 @@ export default {
     OnboardingView,
     EmptyStateMessage,
   },
-  mixins: [accountMixin, adminMixin],
+  mixins: [accountMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   computed: {
     ...mapGetters({
@@ -89,3 +60,36 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div :class="emptyClassName">
+    <woot-loading-state
+      v-if="uiFlags.isFetching || loadingChatList"
+      :message="loadingIndicatorMessage"
+    />
+    <!-- No inboxes attached -->
+    <div
+      v-if="!inboxesList.length && !uiFlags.isFetching && !loadingChatList"
+      class="clearfix"
+    >
+      <OnboardingView v-if="isAdmin" />
+      <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />
+    </div>
+    <!-- Show empty state images if not loading -->
+
+    <div
+      v-else-if="!uiFlags.isFetching && !loadingChatList"
+      class="flex flex-col items-center justify-center h-full"
+    >
+      <!-- No conversations available -->
+      <EmptyStateMessage
+        v-if="!allConversations.length"
+        :message="$t('CONVERSATION.NO_MESSAGE_1')"
+      />
+      <EmptyStateMessage
+        v-else-if="allConversations.length && !currentChat.id"
+        :message="conversationMissingMessage"
+      />
+    </div>
+  </div>
+</template>

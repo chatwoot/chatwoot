@@ -1,3 +1,27 @@
+<script>
+export default {
+  name: 'OnboardingStep',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
+    isComplete: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex items-center gap-2 p-2 text-lg font-bold mb-6 relative before:absolute before:h-10 before:w-[1px] before:bg-slate-200 before:-bottom-8 before:left-[24px] hide-before-of-last"
@@ -24,29 +48,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'OnboardingStep',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      required: true,
-    },
-    isActive: {
-      type: Boolean,
-      default: false,
-    },
-    isComplete: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>
 <style scoped>
 .hide-before-of-last:last-child::before {
   display: none;
