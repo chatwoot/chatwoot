@@ -3,8 +3,9 @@
     "HEADER": "الوسوم",
     "HEADER_BTN_TXT": "إضافة وسم جديد",
     "LOADING": "جار جلب الوسوم",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-    "SIDEBAR_TXT": "<p><b>الوسوم</b> <p>تساعدك الوسو على تصنيف المحادثات وإعطائها الأولوية. يمكنك تعيين وسم إلى محادثة من القائمة الجانبية. <br /><br />الوسوم مرتبطة بالحساب ويمكن استخدامها لإنشاء سير عمل مخصص في مؤسستك. يمكنك تعيين لون مخصص للوسم، مما يسهل التعرف على الوسم. ستتمكن من عرض الوسم على الشريط الجانبي لتصفية المحادثات بسهولة.</p>",
     "LIST": {
       "404": "لا توجد وسوم متوفرة في هذا الحساب.",
       "TITLE": "إدارة الوسوم",
