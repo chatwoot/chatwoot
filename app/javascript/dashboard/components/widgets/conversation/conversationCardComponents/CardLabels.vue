@@ -13,9 +13,9 @@ export default {
     const accountLabels = useMapGetter('labels/getLabels');
 
     const activeLabels = computed(() => {
-      return props.conversationLabels.map(label =>
-        accountLabels.value.find(l => l.title === label)
-      );
+      return props.conversationLabels
+        .map(label => accountLabels.value.find(l => l.title === label))
+        .filter(label => label !== undefined);
     });
 
     return {
