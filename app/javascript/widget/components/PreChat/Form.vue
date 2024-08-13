@@ -8,19 +8,25 @@ import { getRegexp } from 'shared/helpers/Validators';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import configMixin from 'widget/mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [routerMixin, darkModeMixin, messageFormatterMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { preChatFormEnabled } = useConfig();
+    return {
+      preChatFormEnabled,
+    };
   },
   data() {
     return {

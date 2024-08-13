@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
-import configMixin from '../mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
@@ -19,7 +19,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -30,7 +30,13 @@ export default {
       default: () => {},
     },
   },
-
+  setup() {
+    const { hasEmojiPickerEnabled, hasAttachmentsEnabled } = useConfig();
+    return {
+      hasEmojiPickerEnabled,
+      hasAttachmentsEnabled,
+    };
+  },
   data() {
     return {
       userInput: '',

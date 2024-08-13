@@ -3,7 +3,7 @@ import Banner from '../Banner.vue';
 import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
-import configMixin from '../../mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -14,7 +14,12 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin],
+  setup() {
+    const { channelConfig } = useConfig();
+    return {
+      channelConfig,
+    };
+  },
   data() {
     return {
       showPopoutButton: false,

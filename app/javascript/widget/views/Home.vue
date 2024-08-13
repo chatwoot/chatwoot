@@ -6,7 +6,7 @@ import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoad
 import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import routerMixin from 'widget/mixins/routerMixin';
-import configMixin from 'widget/mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 
 export default {
   name: 'Home',
@@ -15,7 +15,13 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin, darkModeMixin],
+  mixins: [routerMixin, darkModeMixin],
+  setup() {
+    const { preChatFormEnabled } = useConfig();
+    return {
+      preChatFormEnabled,
+    };
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',

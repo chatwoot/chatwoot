@@ -4,13 +4,13 @@ import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import configMixin from 'widget/mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import { CONVERSATION_STATUS } from 'shared/constants/messages';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -20,6 +20,12 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  setup() {
+    const { hasEndConversationEnabled } = useConfig();
+    return {
+      hasEndConversationEnabled,
+    };
   },
   computed: {
     ...mapGetters({

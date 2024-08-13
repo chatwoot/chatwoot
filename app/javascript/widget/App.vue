@@ -3,7 +3,7 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import configMixin from './mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -27,7 +27,13 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin, darkModeMixin],
+  mixins: [availabilityMixin, routerMixin, darkModeMixin],
+  setup() {
+    const { shouldShowPreChatForm } = useConfig();
+    return {
+      shouldShowPreChatForm,
+    };
+  },
   data() {
     return {
       isMobile: false,

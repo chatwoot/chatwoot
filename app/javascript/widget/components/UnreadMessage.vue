@@ -1,7 +1,7 @@
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import configMixin from '../mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {
   ON_CAMPAIGN_MESSAGE_CLICK,
@@ -11,7 +11,7 @@ import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
+  mixins: [messageFormatterMixin, darkModeMixin],
   props: {
     message: {
       type: String,
@@ -29,6 +29,14 @@ export default {
       type: Number,
       default: null,
     },
+  },
+  setup() {
+    const { useInboxAvatarForBot, inboxAvatarUrl, channelConfig } = useConfig();
+    return {
+      useInboxAvatarForBot,
+      inboxAvatarUrl,
+      channelConfig,
+    };
   },
   computed: {
     companyName() {

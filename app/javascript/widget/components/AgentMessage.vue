@@ -8,7 +8,7 @@ import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import configMixin from '../mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import { useMessage } from '../composables/useMessage';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
@@ -28,7 +28,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     message: {
       type: Object,
@@ -43,9 +43,13 @@ export default {
     const { messageContentAttributes, hasAttachments } = useMessage(
       props.message
     );
+    const { useInboxAvatarForBot, inboxAvatarUrl, channelConfig } = useConfig();
     return {
       messageContentAttributes,
       hasAttachments,
+      useInboxAvatarForBot,
+      inboxAvatarUrl,
+      channelConfig,
     };
   },
   data() {

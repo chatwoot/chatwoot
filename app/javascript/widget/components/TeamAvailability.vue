@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import configMixin from 'widget/mixins/configMixin';
+import { useConfig } from 'widget/composables/useConfig';
 import availabilityMixin from 'widget/mixins/availability';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
@@ -15,7 +15,7 @@ export default {
     AvailableAgents,
     FluentIcon,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -26,7 +26,12 @@ export default {
       default: false,
     },
   },
-
+  setup() {
+    const { channelConfig } = useConfig();
+    return {
+      channelConfig,
+    };
+  },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
