@@ -15,7 +15,7 @@ export default {
     const activeLabels = computed(() => {
       return props.conversationLabels
         .map(label => accountLabels.value.find(l => l.title === label))
-        .filter(label => label !== undefined);
+        .filter(label => label !== undefined); // Filter out undefined labels, which can happen if the label is deleted
     });
 
     return {
