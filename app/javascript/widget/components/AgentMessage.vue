@@ -11,7 +11,7 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import { useMessage } from '../composables/useMessage';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -28,7 +28,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     message: {
       type: Object,
@@ -40,12 +40,14 @@ export default {
     },
   },
   setup(props) {
+    const { $dm } = useDarkMode();
     const { messageContentAttributes, hasAttachments } = useMessage(
       props.message
     );
     return {
       messageContentAttributes,
       hasAttachments,
+      $dm,
     };
   },
   data() {

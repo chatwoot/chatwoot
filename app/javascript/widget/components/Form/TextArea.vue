@@ -1,7 +1,6 @@
 <script>
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
-  mixins: [darkModeMixin],
   props: {
     label: {
       type: String,
@@ -19,6 +18,10 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   computed: {
     labelClass() {

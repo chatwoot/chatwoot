@@ -7,7 +7,7 @@ import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 
 export default {
@@ -15,12 +15,16 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [routerMixin, messageFormatterMixin, configMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   data() {
     return {

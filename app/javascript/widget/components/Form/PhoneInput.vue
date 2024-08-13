@@ -2,13 +2,13 @@
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [FormulateInputMixin, darkModeMixin],
+  mixins: [FormulateInputMixin],
   props: {
     placeholder: {
       type: String,
@@ -18,6 +18,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   data() {
     return {

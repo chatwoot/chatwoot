@@ -6,14 +6,13 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     FluentIcon,
     Spinner,
   },
-  mixins: [darkModeMixin],
   props: {
     messageId: {
       type: Number,
@@ -25,7 +24,8 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { $dm } = useDarkMode();
+    return { v$: useVuelidate(), $dm };
   },
   data() {
     return {

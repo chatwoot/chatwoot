@@ -1,13 +1,12 @@
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [darkModeMixin],
   props: {
     url: {
       type: String,
@@ -25,6 +24,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   computed: {
     title() {

@@ -6,7 +6,7 @@ import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import IntegrationCard from './template/IntegrationCard.vue';
 
 export default {
@@ -20,7 +20,7 @@ export default {
     CustomerSatisfaction,
     IntegrationCard,
   },
-  mixins: [messageFormatterMixin, darkModeMixin],
+  mixins: [messageFormatterMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -30,6 +30,10 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   computed: {
     isTemplate() {

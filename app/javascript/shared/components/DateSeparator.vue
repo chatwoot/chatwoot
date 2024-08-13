@@ -1,14 +1,17 @@
 <script>
 import { formatDate } from 'shared/helpers/DateHelper';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
-  mixins: [darkModeMixin],
   props: {
     date: {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   computed: {
     formattedDate() {

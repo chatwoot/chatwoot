@@ -1,13 +1,12 @@
 <script>
 import HeaderActions from './HeaderActions.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   name: 'ChatHeaderExpanded',
   components: {
     HeaderActions,
   },
-  mixins: [darkModeMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -25,6 +24,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
 };
 </script>

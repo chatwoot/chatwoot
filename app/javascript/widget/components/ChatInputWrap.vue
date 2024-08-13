@@ -6,7 +6,7 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
@@ -19,7 +19,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -30,7 +30,10 @@ export default {
       default: () => {},
     },
   },
-
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
+  },
   data() {
     return {
       userInput: '',

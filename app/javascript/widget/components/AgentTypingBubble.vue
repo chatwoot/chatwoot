@@ -1,8 +1,11 @@
 <script>
-import darkModeMixing from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'AgentTypingBubble',
-  mixins: [darkModeMixing],
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
+  },
 };
 </script>
 

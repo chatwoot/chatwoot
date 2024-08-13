@@ -1,10 +1,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
-  mixins: [darkModeMixin],
   props: {
     buttonLabel: {
       type: String,
@@ -18,6 +17,10 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   data() {
     return {

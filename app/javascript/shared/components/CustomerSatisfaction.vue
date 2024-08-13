@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
@@ -11,7 +11,6 @@ export default {
     Spinner,
     FluentIcon,
   },
-  mixins: [darkModeMixin],
   props: {
     messageContentAttributes: {
       type: Object,
@@ -21,6 +20,10 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
   data() {
     return {

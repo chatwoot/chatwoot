@@ -1,12 +1,11 @@
 <script>
 import CardButton from 'shared/components/CardButton.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     CardButton,
   },
-  mixins: [darkModeMixin],
   props: {
     title: {
       type: String,
@@ -25,7 +24,10 @@ export default {
       default: () => [],
     },
   },
-  computed: {},
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
+  },
 };
 </script>
 

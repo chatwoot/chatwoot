@@ -1,18 +1,22 @@
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [messageFormatterMixin, darkModeMixin],
+  mixins: [messageFormatterMixin],
   props: {
     items: {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    const { $dm } = useDarkMode();
+    return { $dm };
   },
 };
 </script>
