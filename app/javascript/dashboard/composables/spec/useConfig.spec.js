@@ -1,67 +1,52 @@
-import { ref } from 'vue';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useConfig } from '../useConfig';
 
-vi.mock('../useConfig', () => ({
-  useConfig: vi.fn(),
-}));
-
 describe('useConfig', () => {
+  const originalChatwootConfig = window.chatwootConfig;
+
   beforeEach(() => {
-    useConfig.mockReturnValue({
-      hostURL: ref('https://example.com'),
-      vapidPublicKey: ref('vapid-key'),
-      enabledLanguages: ref(['en', 'fr']),
-      isEnterprise: ref(true),
-      enterprisePlanName: ref('enterprise'),
-    });
+    window.chatwootConfig = {
+      hostURL: 'https://example.com',
+      vapidPublicKey: 'vapid-key',
+      enabledLanguages: ['en', 'fr'],
+      isEnterprise: 'true',
+      enterprisePlanName: 'enterprise',
+    };
   });
 
-  it('returns the correct hostURL', () => {
-    const { hostURL } = useConfig();
-    expect(hostURL.value).toBe('https://example.com');
+  afterEach(() => {
+    window.chatwootConfig = originalChatwootConfig;
   });
 
-  it('returns the correct vapidPublicKey', () => {
-    const { vapidPublicKey } = useConfig();
-    expect(vapidPublicKey.value).toBe('vapid-key');
+  it('returns the correct configuration values', () => {
+    const config = useConfig();
+
+    expect(config.hostURL).toBe('https://example.com');
+    expect(config.vapidPublicKey).toBe('vapid-key');
+    expect(config.enabledLanguages).toEqual(['en', 'fr']);
+    expect(config.isEnterprise).toBe(true);
+    expect(config.enterprisePlanName).toBe('enterprise');
   });
 
-  it('returns the correct enabledLanguages', () => {
-    const { enabledLanguages } = useConfig();
-    expect(enabledLanguages.value).toEqual(['en', 'fr']);
+  it('handles missing configuration values', () => {
+    window.chatwootConfig = {};
+    const config = useConfig();
+
+    expect(config.hostURL).toBeUndefined();
+    expect(config.vapidPublicKey).toBeUndefined();
+    expect(config.enabledLanguages).toBeUndefined();
+    expect(config.isEnterprise).toBe(false);
+    expect(config.enterprisePlanName).toBeUndefined();
   });
 
-  it('returns the correct isEnterprise value', () => {
-    const { isEnterprise } = useConfig();
-    expect(isEnterprise.value).toBe(true);
-  });
+  it('handles undefined window.chatwootConfig', () => {
+    window.chatwootConfig = undefined;
+    const config = useConfig();
 
-  it('returns the correct enterprisePlanName', () => {
-    const { enterprisePlanName } = useConfig();
-    expect(enterprisePlanName.value).toBe('enterprise');
-  });
-
-  it('handles missing config values', () => {
-    useConfig.mockReturnValue({
-      hostURL: ref(undefined),
-      vapidPublicKey: ref(undefined),
-      enabledLanguages: ref(undefined),
-      isEnterprise: ref(false),
-      enterprisePlanName: ref(undefined),
-    });
-
-    const {
-      hostURL,
-      vapidPublicKey,
-      enabledLanguages,
-      isEnterprise,
-      enterprisePlanName,
-    } = useConfig();
-
-    expect(hostURL.value).toBeUndefined();
-    expect(vapidPublicKey.value).toBeUndefined();
-    expect(enabledLanguages.value).toBeUndefined();
-    expect(isEnterprise.value).toBe(false);
-    expect(enterprisePlanName.value).toBeUndefined();
+    expect(config.hostURL).toBeUndefined();
+    expect(config.vapidPublicKey).toBeUndefined();
+    expect(config.enabledLanguages).toBeUndefined();
+    expect(config.isEnterprise).toBe(false);
+    expect(config.enterprisePlanName).toBeUndefined();
   });
 });
