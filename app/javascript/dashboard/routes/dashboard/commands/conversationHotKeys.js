@@ -1,6 +1,7 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
 import { emitter } from 'shared/helpers/mitt';
+
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import aiMixin from 'dashboard/mixins/aiMixin';
