@@ -6,7 +6,7 @@ import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import { useRouterHelper } from 'widget/composables/useRouterHelper';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 
@@ -17,7 +17,7 @@ export default {
     FooterReplyTo,
   },
   setup() {
-    const { replaceRoute } = useRouterHelper();
+    const replaceRoute = useReplaceRoute();
     return { replaceRoute };
   },
   data() {
