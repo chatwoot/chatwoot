@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 it:
-  prompt: "%{client_message}"
   hello: "Ciao mondo"
   messages:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
@@ -169,6 +168,7 @@ it:
       ways_to_reach_you_message_body: "Offri al team un modo per raggiungerti."
       email_input_box_message_body: "Ricevi notifiche via email"
       csat_input_message_body: "Valuta la conversazione"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

@@ -281,6 +281,16 @@ export const mutations = {
   ) {
     _state.syncConversationsMessages[conversationId] = messageId;
   },
+
+  [types.DISABLE_CHATBOT](_state) {
+    const [chat] = getSelectedChatConversation(_state);
+    Vue.set(chat, 'chatbot_status', 'Disabled');
+  },
+
+  [types.ENABLE_CHATBOT](_state) {
+    const [chat] = getSelectedChatConversation(_state);
+    Vue.set(chat, 'chatbot_status', 'Enabled');
+  },
 };
 
 export default {

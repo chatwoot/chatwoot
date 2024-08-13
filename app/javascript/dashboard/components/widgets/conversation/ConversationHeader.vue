@@ -116,10 +116,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    conversationId: {
-      type: Number,
-      required: true,
-    },
   },
   computed: {
     ...mapGetters({

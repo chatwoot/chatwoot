@@ -465,6 +465,24 @@ const actions = {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
   },
 
+  disableChatbot: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.disableChatbot(conversationId);
+      commit(types.DISABLE_CHATBOT);
+    } catch (error) {
+      //
+    }
+  },
+
+  enableChatbot: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.enableChatbot(conversationId);
+      commit(types.ENABLE_CHATBOT);
+    } catch (error) {
+      //
+    }
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };

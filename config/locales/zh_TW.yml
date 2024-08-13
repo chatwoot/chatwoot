@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 zh_TW:
-  prompt: "%{client_message}"
   hello: "你好。"
   messages:
     reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
@@ -169,6 +168,7 @@ zh_TW:
       ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。"
       email_input_box_message_body: "透過電子郵件得到通知。"
       csat_input_message_body: "Please rate the conversation"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

@@ -181,6 +181,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/chatbots`),
       toStateName: 'chatbots_index',
+      beta: true,
     },
     {
       icon: 'credit-card-person',

@@ -16,6 +16,11 @@
         :message-id="messageId"
         :message-content-attributes="messageContentAttributes"
       />
+      <connect-with-team-input
+        v-if="isConnectWithTeam"
+        :message-id="messageId"
+        :message-content-attributes="messageContentAttributes"
+      />
 
       <integration-card
         v-if="isIntegrations"
@@ -69,6 +74,7 @@ import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
+import ConnectWithTeamInput from './template/ConnectWithTeamInput.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -80,6 +86,7 @@ export default {
     EmailInput,
     CustomerSatisfaction,
     IntegrationCard,
+    ConnectWithTeamInput,
   },
   mixins: [messageFormatterMixin, darkModeMixin],
   props: {
@@ -116,6 +123,9 @@ export default {
     },
     isIntegrations() {
       return this.contentType === 'integrations';
+    },
+    isConnectWithTeam() {
+      return this.contentType === 'input_connect_with_team';
     },
   },
   methods: {
