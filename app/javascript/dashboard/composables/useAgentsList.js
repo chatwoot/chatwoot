@@ -15,29 +15,14 @@ import {
 export function useAgentsList(includeNoneAgent = true) {
   const getters = useStoreGetters();
 
-  /**
-   * @type {import('vue').ComputedRef<Object>}
-   */
   const currentUser = computed(() => getters.getCurrentUser.value);
 
-  /**
-   * @type {import('vue').ComputedRef<Object>}
-   */
   const currentChat = computed(() => getters.getSelectedChat.value);
 
-  /**
-   * @type {import('vue').ComputedRef<number>}
-   */
   const currentAccountId = computed(() => getters.getCurrentAccountId.value);
 
-  /**
-   * @type {import('vue').ComputedRef<number|undefined>}
-   */
   const inboxId = computed(() => currentChat.value?.inbox_id);
 
-  /**
-   * @type {import('vue').ComputedRef<boolean>}
-   */
   const isAgentSelected = computed(() => currentChat.value?.meta?.assignee);
 
   /**
