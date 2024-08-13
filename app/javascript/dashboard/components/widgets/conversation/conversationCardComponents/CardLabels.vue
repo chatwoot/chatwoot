@@ -83,7 +83,7 @@ export default {
       <slot name="before" />
       <woot-label
         v-for="(label, index) in activeLabels"
-        :key="label.id"
+        :key="label ? label.id : index"
         :title="label.title"
         :description="label.description"
         :color="label.color"
