@@ -56,5 +56,13 @@ RSpec.describe SmartAction do
         expect(smart_action.conversation.messages.last.sender).to eq conversation.assignee
       end
     end
+
+    context 'resolve_conversation' do
+      it 'resolves conversation' do
+        conversation = create(:conversation)
+        smart_action = create(:smart_action, event: 'resolve_conversation', conversation: conversation)
+        expect(smart_action.conversation.resolved?).to be_truthy
+      end
+    end
   end
 end

@@ -33,6 +33,7 @@ class SmartAction < ApplicationRecord
   CANCEL_BOOKING = 'cancel_booking'.freeze
   ASK_COPILOT = 'ask_copilot'.freeze
   AUTOMATED_RESPONSE = 'automated_response'.freeze
+  RESOLVE_CONVERSATION = 'resolve_conversation'.freeze
 
   MANUAL_ACTION = [
     CREATE_BOOKING,
@@ -69,6 +70,7 @@ class SmartAction < ApplicationRecord
   def execute_after_create_commit_callbacks
     dispatch_create_events
     create_automated_response
+    resolve_conversation
   end
 
   def dispatch_create_events
@@ -81,5 +83,12 @@ class SmartAction < ApplicationRecord
     return unless event == AUTOMATED_RESPONSE
 
     Messages::MessageBuilder.new(conversation.assignee, conversation, { content: content }).perform
+  end
+
+  def resolve_conversation
+    return unless event == RESOLVE_CONVERSATION
+
+    conversation.status = :resolved
+    conversation.save!
   end
 end
