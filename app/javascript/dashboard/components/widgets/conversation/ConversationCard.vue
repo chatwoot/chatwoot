@@ -1,8 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
-import conversationMixin from '../../../mixins/conversations';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
@@ -24,7 +24,7 @@ export default {
     PriorityMark,
     SLACardLabel,
   },
-  mixins: [inboxMixin, conversationMixin],
+  mixins: [inboxMixin],
   props: {
     activeLabel: {
       type: String,
@@ -118,7 +118,7 @@ export default {
     },
 
     lastMessageInChat() {
-      return this.lastMessage(this.chat);
+      return getLastMessage(this.chat);
     },
 
     inbox() {
