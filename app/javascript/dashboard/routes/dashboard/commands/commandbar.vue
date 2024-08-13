@@ -1,6 +1,7 @@
 <script>
 import '@chatwoot/ninja-keys';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useAI } from 'dashboard/composables/useAI';
 import wootConstants from 'dashboard/constants/globals';
 import conversationHotKeysMixin from './conversationHotKeys';
 import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
@@ -28,11 +29,14 @@ export default {
       removeLabelFromConversation,
     } = useConversationLabels();
 
+    const { isAIIntegrationEnabled } = useAI();
+
     return {
       activeLabels,
       inactiveLabels,
       addLabelToConversation,
       removeLabelFromConversation,
+      isAIIntegrationEnabled,
     };
   },
   data() {

@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 // composable
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAI } from 'dashboard/composables/useAI';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -15,7 +16,6 @@ import { mapGetters } from 'vuex';
 // mixins
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
@@ -40,7 +40,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [inboxMixin, configMixin, aiMixin],
+  mixins: [inboxMixin, configMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -71,11 +71,22 @@ export default {
 
     useKeyboardEvents(keyboardEvents, conversationFooterRef);
 
+    const {
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
+    } = useAI();
+
     return {
       conversationFooterRef,
       isPopOutReplyBox,
       closePopOutReplyBox,
       showPopOutReplyBox,
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
     };
   },
   data() {
