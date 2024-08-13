@@ -559,7 +559,9 @@ export default {
 
       if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
-        this.$refs.messageInput.focus();
+        if (this.$refs.messageInput) {
+          this.$refs.messageInput.focus();
+        }
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
@@ -925,9 +927,7 @@ export default {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
         }
-        return;
       }
-      this.$nextTick(() => this.$refs.messageInput.focus());
     },
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';

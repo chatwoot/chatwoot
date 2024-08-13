@@ -78,10 +78,12 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   else
-    config.logger    = ActiveSupport::Logger.new(
-      Rails.root.join("log/#{Rails.env}.log"),
-      1,
-      ENV.fetch('LOG_SIZE', '1024').to_i.megabytes
+    log_file_name = "#{Rails.env}_#{Time.now.strftime('%Y-%m-%d')}.log"
+    log_file_path = Rails.root.join("log", log_file_name)
+    config.logger = ActiveSupport::Logger.new(
+      log_file_path,
+      5,
+      ENV.fetch('LOG_SIZE', '200').to_i.megabytes
     )
   end
 
