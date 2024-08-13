@@ -1,6 +1,7 @@
 <script>
 import '@chatwoot/ninja-keys';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import wootConstants from 'dashboard/constants/globals';
 import conversationHotKeysMixin from './conversationHotKeys';
 import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
@@ -26,7 +27,11 @@ export default {
       removeLabelFromConversation,
     } = useConversationLabels();
 
+    const { agentsList, assignableAgents } = useAgentsList();
+
     return {
+      agentsList,
+      assignableAgents,
       activeLabels,
       inactiveLabels,
       addLabelToConversation,

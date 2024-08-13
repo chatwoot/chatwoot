@@ -2,10 +2,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
-import { generateAgentsList } from 'dashboard/helper/agentHelper.js';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -20,10 +20,12 @@ export default {
       type: [Number, String],
       required: true,
     },
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  },
+  setup() {
+    const { agentsList } = useAgentsList();
+    return {
+      agentsList,
+    };
   },
   data() {
     return {
@@ -60,7 +62,6 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
-      currentAccountId: 'getCurrentAccountId',
       teams: 'teams/getTeams',
     }),
     hasAnAssignedTeam() {
@@ -74,22 +75,6 @@ export default {
         ];
       }
       return this.teams;
-    },
-    assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inboxId
-      );
-    },
-    isAgentSelected() {
-      return this.currentChat?.meta?.assignee;
-    },
-    agentsList() {
-      return generateAgentsList(
-        this.assignableAgents,
-        this.currentUser,
-        this.currentAccountId,
-        this.isAgentSelected
-      );
     },
     assignedAgent: {
       get() {
