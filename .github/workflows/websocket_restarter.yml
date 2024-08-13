@@ -2,9 +2,8 @@ name: Hourly restarter Job
 
 on:
   schedule:
-    - cron: '0 * * * *'  
-  workflow_dispatch:
-    
+    - cron: '10 * * * *'  
+
 jobs:
   run-cron-job:
     runs-on: self-hosted
