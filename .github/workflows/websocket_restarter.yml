@@ -10,7 +10,7 @@ jobs:
 
     steps:
 
-      - name: Run a verification
+      - name: Restart container
         run: |
-          echo "The current time is $(date)."
-          pwd
+          cd /home/ec2-user/chatwoot
+          docker-compose down && docker-compose build && docker-compose up -d
