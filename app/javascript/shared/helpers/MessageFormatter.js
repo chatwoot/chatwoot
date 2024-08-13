@@ -32,7 +32,9 @@ const imgResizeManager = md => {
 
 const escapePeriodInNumbers = md => {
   md.core.ruler.before('normalize', 'escape_period_in_numbers', state => {
-    state.src = state.src.replace(/(\d+)\./g, '$1\\.');
+    state.src = state.src.replace(/^\d+\./g, match =>
+      match.replace('.', '\\.')
+    );
   });
 };
 
