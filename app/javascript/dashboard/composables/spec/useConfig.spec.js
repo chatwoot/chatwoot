@@ -1,4 +1,3 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useConfig } from '../useConfig';
 
 describe('useConfig', () => {
