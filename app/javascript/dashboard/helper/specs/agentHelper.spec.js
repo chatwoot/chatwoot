@@ -2,7 +2,6 @@ import {
   getAgentsByAvailability,
   getSortedAgentsByAvailability,
   getAgentsByUpdatedPresence,
-  generateAgentsList,
 } from '../agentHelper';
 import {
   allAgentsData,
@@ -10,10 +9,9 @@ import {
   busyAgentsData,
   offlineAgentsData,
   sortedByAvailability,
-  formattedAgentsData,
   formattedAgentsByPresenceOnline,
   formattedAgentsByPresenceOffline,
-} from './fixtures/agentFixtures';
+} from 'dashboard/helper/specs/fixtures/agentFixtures';
 
 describe('agentHelper', () => {
   describe('getAgentsByAvailability', () => {
@@ -91,82 +89,6 @@ describe('agentHelper', () => {
       expect(
         getAgentsByUpdatedPresence([], currentUser, currentAccountId)
       ).toEqual([]);
-    });
-  });
-
-  describe('generateAgentsList', () => {
-    const currentUser = {
-      id: 1,
-      accounts: [{ id: 1, availability_status: 'online' }],
-    };
-    const currentAccountId = 1;
-
-    it('generates agents list with "None" when an agent is selected', () => {
-      const isAgentSelected = true;
-      expect(
-        generateAgentsList(
-          allAgentsData,
-          currentUser,
-          currentAccountId,
-          isAgentSelected
-        )
-      ).toEqual(formattedAgentsData);
-    });
-
-    it('generates agents list without "None" when no agent is selected', () => {
-      const isAgentSelected = false;
-      const result = generateAgentsList(
-        allAgentsData,
-        currentUser,
-        currentAccountId,
-        isAgentSelected
-      );
-      expect(result[0].name).not.toBe('None');
-      expect(result).toEqual(formattedAgentsData.slice(1));
-    });
-
-    it('handles empty assignable agents list', () => {
-      const result = generateAgentsList(
-        [],
-        currentUser,
-        currentAccountId,
-        true
-      );
-      expect(result).toEqual([
-        {
-          confirmed: true,
-          name: 'None',
-          id: 0,
-          role: 'agent',
-          account_id: 0,
-          email: 'None',
-        },
-      ]);
-    });
-
-    it('handles undefined assignable agents', () => {
-      const result = generateAgentsList(
-        undefined,
-        currentUser,
-        currentAccountId,
-        false
-      );
-      expect(result).toEqual([]);
-    });
-
-    it('updates current user presence in the generated list', () => {
-      const customCurrentUser = {
-        id: 1,
-        accounts: [{ id: 1, availability_status: 'busy' }],
-      };
-      const result = generateAgentsList(
-        allAgentsData,
-        customCurrentUser,
-        currentAccountId,
-        false
-      );
-      const updatedAgent = result.find(agent => agent.id === 1);
-      expect(updatedAgent.availability_status).toBe('busy');
     });
   });
 });

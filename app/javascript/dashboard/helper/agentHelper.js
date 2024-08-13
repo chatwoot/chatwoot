@@ -2,7 +2,7 @@
  * Default agent object representing 'None'
  * @type {Object}
  */
-const none = {
+export const createNoneAgent = {
   confirmed: true,
   name: 'None',
   id: 0,
@@ -62,33 +62,3 @@ export const getAgentsByUpdatedPresence = (
   );
   return agentsWithDynamicPresenceUpdate;
 };
-
-/**
- * Generates a list of agents based on various criteria
- * @param {Array} assignableAgents - List of assignable agents
- * @param {Object} currentUser - Current user object
- * @param {number} currentAccountId - ID of the current account
- * @param {boolean} [isAgentSelected=false] - Whether an agent is selected
- * @returns {Array} Filtered and sorted list of agents
- */
-export function generateAgentsList(
-  assignableAgents,
-  currentUser,
-  currentAccountId,
-  isAgentSelected = false
-) {
-  const agents = assignableAgents || [];
-  const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
-    agents,
-    currentUser,
-    currentAccountId
-  );
-  const filteredAgentsByAvailability = getSortedAgentsByAvailability(
-    agentsByUpdatedPresence
-  );
-  const filteredAgents = [
-    ...(isAgentSelected ? [none] : []),
-    ...filteredAgentsByAvailability,
-  ];
-  return filteredAgents;
-}
