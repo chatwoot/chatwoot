@@ -13,7 +13,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message.save!
     begin
       response = HTTP.get(
-        ENV.fetch('MICROSERVICE_URL', nil),
+        ENV.fetch('MICROSERVICE_URL', nil)
       )
       if response.status.success?
         chatbot = Chatbot.find_by(website_token: params[:website_token])
@@ -27,9 +27,9 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
               form: { id: chatbot.id, account_id: chatbot.account_id, user_query: client_message },
               headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
             )
-      
+
             bot_message = JSON.parse(res.body)['result']
-            if bot_message == "I don't know" || bot_message == "I don't know."|| bot_message == "No matched documents found"
+            if ["I don't know", "I don't know.", 'No matched documents found'].include?(bot_message)
               bot_message = "Sorry, but I don't have a relevant answer. Someone from our team will join the conversation shortly to assist you."
               conversation.update!(chatbot_status: 'Disabled')
             end
