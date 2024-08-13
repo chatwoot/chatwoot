@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ro:
-  prompt: "%{client_message}"
   hello: "Salutare lume"
   messages:
     reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
@@ -169,6 +168,7 @@ ro:
       ways_to_reach_you_message_body: "Dă-i echipei o modalitate de a te contacta."
       email_input_box_message_body: "Primește notificări prin e-mail"
       csat_input_message_body: "Vă rugăm să evaluați conversația"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

@@ -8,33 +8,40 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def create
-    website_token = params[:website_token]
-    chatbot = Chatbot.find_by(website_token: website_token)
-    if chatbot && chatbot.status == 'Enabled'
-      id = chatbot.id
-      conversation_id = conversation.id
-      conversation = Conversation.find_by(id: conversation_id)
-      @message = conversation.messages.new(message_params)
-      client_message = @message[:content]
-      @message.save!
-      if conversation.present?
-        trigger_chatbot_typing_status(conversation_id, true)
-        res = HTTP.post(
-          ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/query',
-          form: { id: id, user_query: client_message },
-          headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
-        )
-  
-        bot_message = JSON.parse(res.body)['result']
-        email_collect = MessageTemplates::Template::EmailCollect.new(conversation: @conversation)
-        email_collect.chatbot(bot_message)
-        trigger_chatbot_typing_status(conversation_id, false)
+    @message = conversation.messages.new(message_params)
+    build_attachment
+    @message.save!
+    begin
+      response = HTTP.get(
+        ENV.fetch('MICROSERVICE_URL', nil),
+      )
+      if response.status.success?
+        chatbot = Chatbot.find_by(website_token: params[:website_token])
+        conversation_id = conversation.id
+        conversation = Conversation.find_by(id: conversation_id)
+        if chatbot && chatbot.status == 'Enabled' && conversation.chatbot_status == 'Enabled'
+          client_message = @message[:content]
+          if conversation.present?
+            res = HTTP.post(
+              ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/query',
+              form: { id: chatbot.id, account_id: chatbot.account_id, user_query: client_message },
+              headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
+            )
+      
+            bot_message = JSON.parse(res.body)['result']
+            if bot_message == "I don't know" || bot_message == "I don't know."|| bot_message == "No matched documents found"
+              bot_message = "Sorry, but I don't have a relevant answer. Someone from our team will join the conversation shortly to assist you."
+              conversation.update!(chatbot_status: 'Disabled')
+            end
+            MessageTemplates::Template::ChatbotReply.new(conversation: conversation).perform(bot_message)
+          end
+        end
+      else
+        Rails.logger.info("Microservice is unreachable: #{response.status}")
       end
-    else
-      @message = conversation.messages.new(message_params)
-      build_attachment
-      @message.save!
-    end 
+    rescue HTTP::Error => e
+      Rails.logger.info("Failed to connect to microservice: #{e.message}")
+    end
   end
 
   def update
@@ -94,18 +101,5 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def set_message
     @message = @web_widget.inbox.messages.find(permitted_params[:id])
-  end
-
-  def trigger_chatbot_typing_status(conversation_id, typing_status)
-    # Fetch the conversation object based on the conversation_id
-    @conversation = Conversation.find(conversation_id)
-    # Get the current_user object (or an appropriate user object)
-    @current_user = @conversation.assignee
-    params = {
-      typing_status: typing_status ? 'on' : 'off',
-      is_private: false
-    }
-    typing_status_manager = ::Conversations::TypingStatusManager.new(@conversation,@current_user,params) 
-    typing_status_manager.toggle_typing_status
   end
 end

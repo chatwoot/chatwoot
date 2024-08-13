@@ -1,6 +1,22 @@
 <template>
   <div class="flex actions--container relative items-center gap-2">
     <woot-button
+      v-if="isChatbotEnabled"
+      v-tooltip="$t('CHATBOTS.DISABLE_BOT')"
+      variant="smooth"
+      color-scheme="primary"
+      icon="chatbot-icon"
+      @click="disableBot"
+    />
+    <woot-button
+      v-else
+      v-tooltip.left="$t('CHATBOTS.ENABLE_BOT')"
+      variant="smooth"
+      color-scheme="alert"
+      icon="chatbot-icon"
+      @click="enableBot"
+    />
+    <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
       variant="clear"
@@ -59,6 +75,9 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
+    isChatbotEnabled() {
+      return this.currentChat.chatbot_status === 'Enabled';
+    },
   },
   mounted() {
     bus.$on(CMD_MUTE_CONVERSATION, this.mute);
@@ -81,6 +100,14 @@ export default {
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
+    },
+    disableBot() {
+      this.$store.dispatch('disableChatbot', this.currentChat.id);
+      this.showAlert(this.$t('CHATBOTS.DISABLED_SUCCESS'));
+    },
+    enableBot() {
+      this.$store.dispatch('enableChatbot', this.currentChat.id);
+      this.showAlert(this.$t('CHATBOTS.ENABLED_SUCCESS'));
     },
   },
 };

@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 tr:
-  prompt: "%{client_message}"
   hello: "Merhaba Dünya"
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
@@ -169,6 +168,7 @@ tr:
       ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
       email_input_box_message_body: "E-posta ile haberdar olun"
       csat_input_message_body: "Lütfen görüşmeyi değerlendirin"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

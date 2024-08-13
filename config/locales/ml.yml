@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ml:
-  prompt: "%{client_message}"
   hello: "ലോകത്തിനു നമസ്ക്കാരം 🙏"
   messages:
     reset_password_success: Woot! പാസ്‌വേഡ് പുനസജ്ജീകരണത്തിനുള്ള അഭ്യർത്ഥന വിജയകരമാണ്. നിർദ്ദേശങ്ങൾക്കായി നിങ്ങളുടെ മെയിൽ പരിശോധിക്കുക.
@@ -169,6 +168,7 @@ ml:
       ways_to_reach_you_message_body: "നിങ്ങളിലേക്ക് എത്താൻ ടീമിന് ഒരു വഴി നൽകുക."
       email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"
       csat_input_message_body: "Please rate the conversation"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

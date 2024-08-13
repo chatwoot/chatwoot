@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 nl:
-  prompt: "%{client_message}"
   hello: "Hallo wereld"
   messages:
     reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
@@ -169,6 +168,7 @@ nl:
       ways_to_reach_you_message_body: "Geef het team een manier om je te bereiken."
       email_input_box_message_body: "Ontvang een melding via e-mail"
       csat_input_message_body: "Please rate the conversation"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

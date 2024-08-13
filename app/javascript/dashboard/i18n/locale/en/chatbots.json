@@ -10,6 +10,10 @@
     "CHATBOT_INBOX_CONNECT": "Connect Chatbot With Inbox",
     "SUPPORTED_FILE_TYPES": "Supported File Types: .pdf, .doc, .txt",
     "ERROR": "Something went wrong. Please try again",
+    "ENABLE_BOT": "Enable Chatbot",
+    "DISABLE_BOT": "Disable Chatbot",
+    "DISABLED_SUCCESS": "Chatbot disabled for the conversation",
+    "ENABLED_SUCCESS": "Chatbot enabled for the conversation",
     "UPLOAD": {
       "FILE": "Files",
       "TEXT": "Text",

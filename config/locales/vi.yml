@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 vi:
-  prompt: "%{client_message}"
   hello: "Chào thế giới"
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
@@ -169,6 +168,7 @@ vi:
       ways_to_reach_you_message_body: "Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé."
       email_input_box_message_body: "Nhận thông báo qua email"
       csat_input_message_body: "Bạn hãy vui lòng đánh giá hội thoại"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:
