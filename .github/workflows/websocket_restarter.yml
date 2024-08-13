@@ -1,0 +1,17 @@
+name: Hourly restarter Job
+
+on:
+  schedule:
+    - cron: '0 * * * *'  
+  workflow_dispatch:
+    
+jobs:
+  run-cron-job:
+    runs-on: self-hosted
+
+    steps:
+
+      - name: Run a verification
+        run: |
+          echo "The current time is $(date)."
+          pwd
