@@ -2,7 +2,7 @@ name: Hourly restarter Job
 
 on:
   schedule:
-    - cron: '15 * * * *'  
+    - cron: '0 * * * *'  
 
 jobs:
   run-cron-job:
