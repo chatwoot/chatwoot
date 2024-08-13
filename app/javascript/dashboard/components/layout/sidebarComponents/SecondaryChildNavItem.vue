@@ -75,7 +75,7 @@
           />
         </span>
         <span v-if="hasOpenConversation" :title="openConversationTitle()" class="unread shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400">
-          {{ openConversationCount }}
+          {{ openConversationRoundedCount }}
         </span>
       </a>
     </li>
@@ -158,6 +158,9 @@ export default {
       }
 
       return field[this.statsId];
+    },
+    openConversationRoundedCount(){
+      return this.openConversationCount > 99 ? '99+' : this.openConversationCount;
     }
   },
   methods: {
