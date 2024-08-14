@@ -3,14 +3,8 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import hookMixin from './hookMixin';
-import WithLabel from 'v3/components/Form/WithLabel.vue';
-import InboxFilter from 'dashboard/routes/dashboard/settings/reports/components/Filters/Inboxes.vue';
 
 export default {
-  components: {
-    InboxFilter,
-    WithLabel,
-  },
   mixins: [hookMixin],
   props: {
     integration: {
@@ -23,7 +17,6 @@ export default {
       endPoint: '',
       alertMessage: '',
       values: {},
-      inboxIds: [],
     };
   },
   computed: {
@@ -54,16 +47,10 @@ export default {
     isIntegrationDialogflow() {
       return this.integration.id === 'dialogflow';
     },
-    isIntegrationCaptain() {
-      return this.integration.id === 'captain';
-    },
   },
   methods: {
     onClose() {
       this.$emit('close');
-    },
-    setInboxes(selectedInboxes) {
-      this.inboxIds = selectedInboxes.map(inbox => inbox.id);
     },
     buildHookPayload() {
       const hookPayload = {
@@ -86,10 +73,6 @@ export default {
         }
       });
 
-      if (this.isIntegrationCaptain) {
-        hookPayload.settings.inbox_ids = this.inboxIds;
-      }
-
       if (this.isHookTypeInbox && this.values.inbox) {
         hookPayload.inbox_id = this.values.inbox;
       }
@@ -97,14 +80,6 @@ export default {
       return hookPayload;
     },
     async submitForm() {
-      if (this.isIntegrationCaptain && !this.inboxIds.length) {
-        this.alertMessage = this.$t(
-          'INTEGRATION_SETTINGS.CAPTAIN.ERRORS.CREATE_INBOX_IDS'
-        );
-        useAlert(this.alertMessage);
-        return;
-      }
-
       try {
         await this.$store.dispatch(
           'integrations/createHook',
@@ -142,7 +117,7 @@ export default {
         v-bind="item"
       />
       <formulate-input
-        v-if="isIntegrationDialogflow"
+        v-if="isHookTypeInbox"
         :options="inboxes"
         type="select"
         name="inbox"
@@ -151,17 +126,6 @@ export default {
         validation="required"
         validation-name="Inbox"
       />
-      <WithLabel
-        name="inbox"
-        :label="$t('INTEGRATION_APPS.ADD.FORM.INBOX.PLACEHOLDER')"
-      >
-        <InboxFilter
-          v-if="isIntegrationCaptain"
-          class="w-full"
-          multiple
-          @inboxFilterSelection="setInboxes"
-        />
-      </WithLabel>
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button :disabled="hasErrors" :loading="uiFlags.isCreatingHook">
           {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
