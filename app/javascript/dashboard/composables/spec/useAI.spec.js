@@ -1,5 +1,9 @@
 import { useAI } from '../useAI';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStore,
+  useStoreGetters,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from '../useI18n';
 import OpenAPI from 'dashboard/api/integrations/openapi';
@@ -21,9 +25,6 @@ describe('useAI', () => {
 
   const mockGetters = {
     'integrations/getUIFlags': { value: { isFetching: false } },
-    'integrations/getAppIntegrations': { value: [] },
-    getSelectedChat: { value: { id: '123' } },
-    'draftMessages/getReplyEditorMode': { value: 'reply' },
     'draftMessages/get': { value: () => 'Draft message' },
   };
 
@@ -31,6 +32,14 @@ describe('useAI', () => {
     vi.clearAllMocks();
     useStore.mockReturnValue(mockStore);
     useStoreGetters.mockReturnValue(mockGetters);
+    useMapGetter.mockImplementation(getter => {
+      const mockValues = {
+        'integrations/getAppIntegrations': [],
+        getSelectedChat: { id: '123' },
+        'draftMessages/getReplyEditorMode': 'reply',
+      };
+      return { value: mockValues[getter] };
+    });
     useTrack.mockReturnValue(vi.fn());
     useI18n.mockReturnValue({ t: vi.fn() });
     useAlert.mockReturnValue(vi.fn());
@@ -54,7 +63,15 @@ describe('useAI', () => {
   });
 
   it('does not fetch integrations if already loaded', async () => {
-    mockGetters['integrations/getAppIntegrations'].value = [{ id: 'openai' }];
+    useMapGetter.mockImplementation(getter => {
+      const mockValues = {
+        'integrations/getAppIntegrations': [{ id: 'openai' }],
+        getSelectedChat: { id: '123' },
+        'draftMessages/getReplyEditorMode': 'reply',
+      };
+      return { value: mockValues[getter] };
+    });
+
     const { fetchIntegrationsIfRequired } = useAI();
     await fetchIntegrationsIfRequired();
     expect(mockStore.dispatch).not.toHaveBeenCalled();
@@ -84,13 +101,15 @@ describe('useAI', () => {
       data: { message: 'label1, label2' },
     });
 
-    const mockStoreGetters = {
-      'integrations/getAppIntegrations': {
-        value: [{ id: 'openai', hooks: [{ id: 'hook1' }] }],
-      },
-      getSelectedChat: { value: { id: '123' } },
-    };
-    useStoreGetters.mockReturnValue(mockStoreGetters);
+    useMapGetter.mockImplementation(getter => {
+      const mockValues = {
+        'integrations/getAppIntegrations': [
+          { id: 'openai', hooks: [{ id: 'hook1' }] },
+        ],
+        getSelectedChat: { id: '123' },
+      };
+      return { value: mockValues[getter] };
+    });
 
     const { fetchLabelSuggestions } = useAI();
     const result = await fetchLabelSuggestions();

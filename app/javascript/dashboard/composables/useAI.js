@@ -1,5 +1,9 @@
 import { computed, onMounted } from 'vue';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStore,
+  useStoreGetters,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from './useI18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -21,27 +25,9 @@ export function useAI() {
    */
   const uiFlags = computed(() => getters['integrations/getUIFlags'].value);
 
-  /**
-   * Computed property for app integrations.
-   * @type {import('vue').ComputedRef<Array>}
-   */
-  const appIntegrations = computed(
-    () => getters['integrations/getAppIntegrations'].value
-  );
-
-  /**
-   * Computed property for the current chat.
-   * @type {import('vue').ComputedRef<Object>}
-   */
-  const currentChat = computed(() => getters.getSelectedChat.value);
-
-  /**
-   * Computed property for the reply mode.
-   * @type {import('vue').ComputedRef<string>}
-   */
-  const replyMode = computed(
-    () => getters['draftMessages/getReplyEditorMode'].value
-  );
+  const appIntegrations = useMapGetter('integrations/getAppIntegrations');
+  const currentChat = useMapGetter('getSelectedChat');
+  const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
 
   /**
    * Computed property for the AI integration.
