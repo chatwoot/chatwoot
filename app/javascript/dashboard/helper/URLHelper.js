@@ -108,3 +108,12 @@ export const hasValidAvatarUrl = avatarUrl => {
     return false;
   }
 };
+
+export const timeStampAppendedURL = dataUrl => {
+  const url = new URL(dataUrl);
+  if (!url.searchParams.has('t')) {
+    url.searchParams.append('t', Date.now());
+  }
+
+  return url.toString();
+};
