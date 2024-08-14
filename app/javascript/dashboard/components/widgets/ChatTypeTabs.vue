@@ -44,10 +44,15 @@ useKeyboardEvents(keyboardEvents, chatTypeTabsRef);
 
 <template>
   <div ref="chatTypeTabsRef">
-    <woot-tabs :index="activeTabIndex" @change="onTabChange">
+    <woot-tabs
+      :index="activeTabIndex"
+      class="py-0 px-4 w-full"
+      @change="onTabChange"
+    >
       <woot-tabs-item
         v-for="item in items"
         :key="item.key"
+        class="p-0"
         :name="item.name"
         :count="item.count"
       />
