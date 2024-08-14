@@ -1,6 +1,6 @@
 <script setup>
 // TODO: Make this component a standard across the app and use it in other places
-import { ref, onMounted, defineEmits } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 defineProps({
