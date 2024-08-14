@@ -261,6 +261,7 @@ class Message < ApplicationRecord
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
     update_unread_count
+    update_agent_read_if_replied
     notify_via_mail
     set_conversation_activity
     update_message_sentiments
@@ -268,6 +269,10 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
+  end
+
+  def update_agent_read_if_replied
+    conversation.update(assignee_unread_count: 0, assignee_last_seen_at: DateTime.now.utc) if outgoing?
   end
 
   def update_unread_count
