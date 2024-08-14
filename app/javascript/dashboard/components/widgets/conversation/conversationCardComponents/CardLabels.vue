@@ -13,8 +13,8 @@ export default {
     const accountLabels = useMapGetter('labels/getLabels');
 
     const activeLabels = computed(() => {
-      return props.conversationLabels.map(label =>
-        accountLabels.value.find(l => l.title === label)
+      return accountLabels.value.filter(({ title }) =>
+        props.conversationLabels.includes(title)
       );
     });
 
@@ -83,7 +83,7 @@ export default {
       <slot name="before" />
       <woot-label
         v-for="(label, index) in activeLabels"
-        :key="label.id"
+        :key="label ? label.id : index"
         :title="label.title"
         :description="label.description"
         :color="label.color"
