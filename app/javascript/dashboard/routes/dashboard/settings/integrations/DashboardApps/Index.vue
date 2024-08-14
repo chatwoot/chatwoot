@@ -5,12 +5,14 @@ import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
+import IntegrationSettingsLayout from '../Layout.vue';
 
 export default {
   components: {
     BaseSettingsHeader,
     DashboardAppModal,
     DashboardAppsRow,
+    IntegrationSettingsLayout,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -76,62 +78,63 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col flex-1 gap-8 overflow-auto">
-    <BaseSettingsHeader
-      :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')"
-      :description="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')"
-      :link-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LEARN_MORE')"
-      feature-name="dashboard_apps"
-      :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
-    >
-      <template #actions>
-        <woot-button
-          class="rounded-md button nice"
-          icon="add-circle"
-          @click="openCreatePopup"
-        >
-          {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT') }}
-        </woot-button>
-      </template>
-    </BaseSettingsHeader>
-    <div class="w-full overflow-x-auto text-slate-700 dark:text-slate-200">
-      <p
-        v-if="!uiFlags.isFetching && !records.length"
-        class="flex flex-col items-center justify-center h-full"
+  <IntegrationSettingsLayout>
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')"
+        :description="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')"
+        :link-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LEARN_MORE')"
+        feature-name="dashboard_apps"
+        :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
-        {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404') }}
-      </p>
-      <woot-loading-state
-        v-if="uiFlags.isFetching"
-        :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
-      />
-      <table
-        v-if="!uiFlags.isFetching && records.length"
-        class="min-w-full divide-y divide-slate-75 dark:divide-slate-700"
-      >
-        <thead>
-          <th
-            v-for="thHeader in $t(
-              'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER'
-            )"
-            :key="thHeader"
-            class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+        <template #actions>
+          <woot-button
+            class="rounded-md button nice"
+            icon="add-circle"
+            @click="openCreatePopup"
           >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
-          <DashboardAppsRow
-            v-for="(dashboardAppItem, index) in records"
-            :key="dashboardAppItem.id"
-            :index="index"
-            :app="dashboardAppItem"
-            @edit="editApp"
-            @delete="openDeletePopup"
-          />
-        </tbody>
-      </table>
-    </div>
+            {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT') }}
+          </woot-button>
+        </template>
+      </BaseSettingsHeader>
+    </template>
+
+    <p
+      v-if="!uiFlags.isFetching && !records.length"
+      class="flex flex-col items-center justify-center h-full"
+    >
+      {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404') }}
+    </p>
+    <woot-loading-state
+      v-if="uiFlags.isFetching"
+      :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
+    />
+    <table
+      v-if="!uiFlags.isFetching && records.length"
+      class="min-w-full divide-y divide-slate-75 dark:divide-slate-700"
+    >
+      <thead>
+        <th
+          v-for="thHeader in $t(
+            'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER'
+          )"
+          :key="thHeader"
+          class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+        >
+          {{ thHeader }}
+        </th>
+      </thead>
+      <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+        <DashboardAppsRow
+          v-for="(dashboardAppItem, index) in records"
+          :key="dashboardAppItem.id"
+          :index="index"
+          :app="dashboardAppItem"
+          @edit="editApp"
+          @delete="openDeletePopup"
+        />
+      </tbody>
+    </table>
 
     <DashboardAppModal
       v-if="showDashboardAppPopup"
@@ -156,5 +159,5 @@ export default {
       "
       :reject-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_NO')"
     />
-  </div>
+  </IntegrationSettingsLayout>
 </template>
