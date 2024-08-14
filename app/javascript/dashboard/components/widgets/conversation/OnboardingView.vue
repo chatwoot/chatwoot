@@ -18,16 +18,17 @@ export default {
       globalConfig: 'globalConfig/get',
       currentUser: 'getCurrentUser',
     }),
-    greeting() {
-      const time = new Date();
-      const hours = time.getHours();
-      if (hours < 12) return this.$t('ONBOARDING.MORNING');
-      if (hours < 18) return this.$t('ONBOARDING.AFTERNOON');
-      return this.$t('ONBOARDING.EVENING');
-    },
     greetingMessage() {
-      return this.$t('ONBOARDING.GREETING', {
-        greeting: this.greeting,
+      const hours = new Date().getHours();
+      let translationKey;
+      if (hours < 12) {
+        translationKey = 'ONBOARDING.GREETING_MORNING';
+      } else if (hours < 18) {
+        translationKey = 'ONBOARDING.GREETING_AFTERNOON';
+      } else {
+        translationKey = 'ONBOARDING.GREETING_EVENING';
+      }
+      return this.$t(translationKey, {
         name: this.currentUser.name,
         installationName: this.globalConfig.installationName,
       });
@@ -100,62 +101,3 @@ export default {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.onboarding-wrap {
-  display: flex;
-  font-size: var(--font-size-small);
-  justify-content: center;
-  overflow: auto;
-  text-align: left;
-}
-
-.onboarding {
-  height: 100vh;
-  overflow: auto;
-}
-
-.scroll-wrap {
-  padding: var(--space-larger) 8.5rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.features-item {
-  margin-bottom: var(--space-large);
-}
-
-.conversation--title {
-  margin-left: var(--space-minus-smaller);
-}
-
-.page-title {
-  font-size: var(--font-size-big);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-one);
-}
-
-.block-title {
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-smaller);
-  margin-left: var(--space-minus-large);
-}
-
-.intro-body {
-  margin-bottom: var(--space-small);
-  line-height: 1.5;
-}
-
-.onboarding--link {
-  color: var(--w-500);
-  font-weight: var(--font-weight-medium);
-  text-decoration: underline;
-}
-
-.emoji {
-  width: var(--space-large);
-  display: inline-block;
-}
-</style>
