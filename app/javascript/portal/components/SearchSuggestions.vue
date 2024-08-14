@@ -1,9 +1,10 @@
 <script>
-import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
+import { ref, computed, nextTick } from 'vue';
+import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
-  mixins: [mentionSelectionKeyboardMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
   props: {
     items: {
       type: Array,
@@ -26,9 +27,33 @@ export default {
       default: '',
     },
   },
-  data() {
+  setup(props) {
+    const selectedIndex = ref(-1);
+    const portalSearchSuggestionsRef = ref(null);
+
+    const adjustScroll = () => {
+      nextTick(() => {
+        portalSearchSuggestionsRef.value.scrollTop = 102 * selectedIndex.value;
+      });
+    };
+
+    const isSearchItemActive = index => {
+      return index === selectedIndex.value
+        ? 'bg-slate-25 dark:bg-slate-800'
+        : 'bg-white dark:bg-slate-900';
+    };
+
+    useKeyboardNavigableList({
+      elementRef: portalSearchSuggestionsRef,
+      items: computed(() => props.items),
+      adjustScroll,
+      selectedIndex,
+    });
+
     return {
-      selectedIndex: -1,
+      selectedIndex,
+      portalSearchSuggestionsRef,
+      isSearchItemActive,
     };
   },
 
@@ -42,18 +67,8 @@ export default {
   },
 
   methods: {
-    isSearchItemActive(index) {
-      return index === this.selectedIndex
-        ? 'bg-slate-25 dark:bg-slate-800'
-        : 'bg-white dark:bg-slate-900';
-    },
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
-    },
-    adjustScroll() {
-      this.$nextTick(() => {
-        this.$el.scrollTop = 102 * this.selectedIndex;
-      });
     },
     prepareContent(content) {
       return this.highlightContent(
@@ -68,6 +83,7 @@ export default {
 
 <template>
   <div
+    ref="portalSearchSuggestionsRef"
     class="p-5 mt-2 overflow-y-auto text-sm bg-white border border-solid rounded-lg shadow-xl hover:shadow-lg dark:bg-slate-900 max-h-96 scroll-py-2 text-slate-700 dark:text-slate-100 border-slate-50 dark:border-slate-800"
   >
     <div

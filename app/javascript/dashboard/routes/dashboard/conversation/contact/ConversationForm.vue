@@ -78,16 +78,18 @@ export default {
       attachedFiles: [],
     };
   },
-  validations: {
-    subject: {
-      required: requiredIf('isAnEmailInbox'),
-    },
-    message: {
-      required,
-    },
-    targetInbox: {
-      required,
-    },
+  validations() {
+    return {
+      subject: {
+        required: requiredIf(this.isAnEmailInbox),
+      },
+      message: {
+        required,
+      },
+      targetInbox: {
+        required,
+      },
+    };
   },
   computed: {
     ...mapGetters({

@@ -2,11 +2,10 @@
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
+import { getRegexp } from 'shared/helpers/Validators';
 import { ATTRIBUTE_TYPES } from './constants';
-import customAttributeMixin from '../../../../mixins/customAttributeMixin';
 export default {
   components: {},
-  mixins: [customAttributeMixin],
   props: {
     selectedAttribute: {
       type: Object,
@@ -116,7 +115,7 @@ export default {
     },
     setFormValues() {
       const regexPattern = this.selectedAttribute.regex_pattern
-        ? this.getRegexp(this.selectedAttribute.regex_pattern).source
+        ? getRegexp(this.selectedAttribute.regex_pattern).source
         : null;
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;

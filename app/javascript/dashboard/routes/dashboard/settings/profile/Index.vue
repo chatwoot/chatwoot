@@ -229,8 +229,11 @@ export default {
         </button>
       </div>
     </FormSection>
-    <FormSection :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')">
-      <ChangePassword v-if="!globalConfig.disableUserProfileUpdate" />
+    <FormSection
+      v-if="!globalConfig.disableUserProfileUpdate"
+      :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+    >
+      <ChangePassword />
     </FormSection>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"

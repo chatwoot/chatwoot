@@ -5,7 +5,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
-import customAttributeMixin from '../mixins/customAttributeMixin';
+import { getRegexp } from 'shared/helpers/Validators';
 import { useVuelidate } from '@vuelidate/core';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
@@ -15,7 +15,6 @@ export default {
     MultiselectDropdown,
     HelperTextPopup,
   },
-  mixins: [customAttributeMixin],
   props: {
     label: { type: String, required: true },
     description: { type: String, default: '' },
@@ -128,8 +127,7 @@ export default {
         required,
         regexValidation: value => {
           return !(
-            this.attributeRegex &&
-            !this.getRegexp(this.attributeRegex).test(value)
+            this.attributeRegex && !getRegexp(this.attributeRegex).test(value)
           );
         },
       },
