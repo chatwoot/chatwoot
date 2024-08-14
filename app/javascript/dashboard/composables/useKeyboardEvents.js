@@ -1,4 +1,3 @@
-import { useEventListener } from '@vueuse/core';
 import {
   isActiveElementTypeable,
   isEscape,
@@ -7,6 +6,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import { createKeybindingsHandler } from 'tinykeys';
+import { onUnmounted, onMounted } from 'vue';
 
 /**
  * Determines if the keyboard event should be ignored based on the element type and handler settings.
@@ -72,8 +72,19 @@ async function wrapEventsInKeybindingsHandler(events) {
  * @param {Object} keyboardEvents - The keyboard events to handle.
  */
 export async function useKeyboardEvents(keyboardEvents) {
-  if (!keyboardEvents) return;
-  const wrappedEvents = await wrapEventsInKeybindingsHandler(keyboardEvents);
-  const keydownHandler = createKeybindingsHandler(wrappedEvents);
-  useEventListener(document, 'keydown', keydownHandler);
+  let abortController = new AbortController();
+
+  onMounted(async () => {
+    if (!keyboardEvents) return;
+    const wrappedEvents = await wrapEventsInKeybindingsHandler(keyboardEvents);
+    const keydownHandler = createKeybindingsHandler(wrappedEvents);
+
+    document.addEventListener('keydown', keydownHandler, {
+      signal: abortController.signal,
+    });
+  });
+
+  onUnmounted(() => {
+    abortController.abort();
+  });
 }
