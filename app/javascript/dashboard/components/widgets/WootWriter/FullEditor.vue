@@ -18,11 +18,13 @@ import {
   fullSchema,
   buildEditor,
   EditorView,
-  ArticleMarkdownSerializer,
-  ArticleMarkdownTransformer,
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
+
+import { ArticleMarkdownSerializer } from './custom/articleSerializer';
+import { ArticleMarkdownTransformer } from './custom/articleParser';
+
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
