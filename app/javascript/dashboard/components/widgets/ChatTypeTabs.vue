@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -15,8 +15,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['chatTabChange']);
-
-const chatTypeTabsRef = ref(null);
 
 const activeTabIndex = computed(() => {
   return props.items.findIndex(item => item.key === props.activeTab);
@@ -39,18 +37,17 @@ const keyboardEvents = {
     },
   },
 };
-useKeyboardEvents(keyboardEvents, chatTypeTabsRef);
+
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div ref="chatTypeTabsRef">
-    <woot-tabs :index="activeTabIndex" @change="onTabChange">
-      <woot-tabs-item
-        v-for="item in items"
-        :key="item.key"
-        :name="item.name"
-        :count="item.count"
-      />
-    </woot-tabs>
-  </div>
+  <woot-tabs :index="activeTabIndex" @change="onTabChange">
+    <woot-tabs-item
+      v-for="item in items"
+      :key="item.key"
+      :name="item.name"
+      :count="item.count"
+    />
+  </woot-tabs>
 </template>

@@ -141,7 +141,7 @@ export default {
         allowOnFocusedInput: true,
       },
     };
-    useKeyboardEvents(keyboardEvents, conversationListRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       uiSettings,
