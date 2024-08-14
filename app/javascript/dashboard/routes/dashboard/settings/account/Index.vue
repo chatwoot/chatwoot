@@ -4,18 +4,18 @@ import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import configMixin from 'shared/mixins/configMixin';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [configMixin],
   setup() {
     const { updateUISettings } = useUISettings();
+    const { enabledLanguages } = useConfig();
     const v$ = useVuelidate();
 
-    return { updateUISettings, v$ };
+    return { updateUISettings, v$, enabledLanguages };
   },
   data() {
     return {
