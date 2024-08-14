@@ -23,6 +23,8 @@ class WebhookListener < BaseListener
   end
 
   def message_created(event)
+    return if ignore_message_created_event?(event)
+
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
 
@@ -84,6 +86,15 @@ class WebhookListener < BaseListener
   end
 
   private
+
+  def ignore_message_created_event?(event)
+    message = event.data[:message]
+    backpopulated_message?(message)
+  end
+
+  def backpopulated_message?(message)
+    message.additional_attributes['ignore_automation_rules'].present? && message.additional_attributes['ignore_automation_rules']
+  end
 
   def deliver_account_webhooks(payload, account)
     account.webhooks.account_type.each do |webhook|
