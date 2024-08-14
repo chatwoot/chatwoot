@@ -1,8 +1,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAccount } from 'dashboard/composables/useAccount';
+import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
 
 export default {
+  components: {
+    OnboardingFeatureCard,
+  },
   setup() {
     const { accountScopedUrl } = useAccount();
     return {
@@ -17,15 +21,16 @@ export default {
     greeting() {
       const time = new Date();
       const hours = time.getHours();
-      if (hours < 12) return 'Good morning';
-      if (hours < 18) return 'Good afternoon';
-      return 'Good evening';
+      if (hours < 12) return this.$t('ONBOARDING.MORNING');
+      if (hours < 18) return this.$t('ONBOARDING.AFTERNOON');
+      return this.$t('ONBOARDING.EVENING');
     },
     greetingMessage() {
-      return `👋 ${this.greeting}, ${this.currentUser.name}. Welcome to ${this.globalConfig.installationName}.`;
-    },
-    newInboxURL() {
-      return this.accountScopedUrl('settings/inboxes/new');
+      return this.$t('ONBOARDING.GREETING', {
+        greeting: this.greeting,
+        name: this.currentUser.name,
+        installationName: this.globalConfig.installationName,
+      });
     },
     newAgentURL() {
       return this.accountScopedUrl('settings/agents/list');
@@ -33,13 +38,19 @@ export default {
     newLabelsURL() {
       return this.accountScopedUrl('settings/labels/list');
     },
+    newChannelsURL() {
+      return this.accountScopedUrl('settings/inboxes/new');
+    },
+    newCannedResponsesURL() {
+      return this.accountScopedUrl('settings/canned-response/list');
+    },
   },
 };
 </script>
 
 <template>
   <div
-    class="min-h-screen grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4 p-8 w-full font-inter bg-white dark:bg-slate-900 overflow-auto"
+    class="min-h-screen max-w-4xl mx-auto grid grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4 p-8 w-full font-inter overflow-auto"
   >
     <div class="col-span-full self-start">
       <p
@@ -55,100 +66,38 @@ export default {
         }}
       </p>
     </div>
-    <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
-    >
-      <img
-        src="~dashboard/assets/images/onboarding/omnichannel.png"
-        alt="Omnichannel"
-        class="h-32 w-auto mx-auto"
-      />
-      <div class="mt-auto">
-        <p
-          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
-        >
-          {{ $t('ONBOARDING.ALL_CONVERSATION.TITLE') }}
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 text-sm">
-          {{ $t('ONBOARDING.ALL_CONVERSATION.DESCRIPTION') }}
-        </p>
-      </div>
-    </div>
-    <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
-    >
-      <img
-        src="~dashboard/assets/images/onboarding/teams.png"
-        alt="Teams"
-        class="h-36 w-auto mx-auto"
-      />
-      <div class="mt-auto">
-        <p
-          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
-        >
-          {{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 text-sm">
-          {{ $t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION') }}
-        </p>
-        <router-link
-          :to="newLabelsURL"
-          class="no-underline text-woot-500 text-sm"
-        >
-          {{ $t('ONBOARDING.TEAM_MEMBERS.NEW_LINK') }} <span>→</span>
-        </router-link>
-      </div>
-    </div>
-    <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
-    >
-      <img
-        src="~dashboard/assets/images/onboarding/inboxes.png"
-        alt="Connect inboxes"
-        class="h-44 w-auto mx-auto"
-      />
-      <div class="mt-auto">
-        <p
-          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
-        >
-          {{ $t('ONBOARDING.INBOXES.TITLE') }}
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 text-sm">
-          {{ $t('ONBOARDING.INBOXES.DESCRIPTION') }}
-        </p>
-        <router-link
-          :to="newLabelsURL"
-          class="no-underline text-woot-500 text-sm"
-        >
-          {{ $t('ONBOARDING.INBOXES.NEW_LINK') }} <span>→</span>
-        </router-link>
-      </div>
-    </div>
-    <div
-      class="h-full w-full bg-gradient-to-b from-slate-50 dark:from-slate-800 to-white dark:to-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
-    >
-      <img
-        src="~dashboard/assets/images/onboarding/labels.png"
-        alt="Labels"
-        class="h-36 w-auto mx-auto"
-      />
-      <div class="mt-auto">
-        <p
-          class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
-        >
-          {{ $t('ONBOARDING.LABELS.TITLE') }}
-        </p>
-        <p class="text-slate-600 dark:text-slate-400 text-sm">
-          {{ $t('ONBOARDING.LABELS.DESCRIPTION') }}
-        </p>
-        <router-link
-          :to="newLabelsURL"
-          class="no-underline text-woot-500 text-sm"
-        >
-          {{ $t('ONBOARDING.LABELS.NEW_LINK') }} <span>→</span>
-        </router-link>
-      </div>
-    </div>
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/omnichannel-inbox.png"
+      image-alt="Omnichannel"
+      :title="$t('ONBOARDING.ALL_CONVERSATION.TITLE')"
+      :description="$t('ONBOARDING.ALL_CONVERSATION.DESCRIPTION')"
+      :link="newChannelsURL"
+      :link-text="$t('ONBOARDING.ALL_CONVERSATION.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/teams.png"
+      image-alt="Teams"
+      :title="$t('ONBOARDING.TEAM_MEMBERS.TITLE')"
+      :description="$t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION')"
+      :link="newAgentURL"
+      :link-text="$t('ONBOARDING.TEAM_MEMBERS.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/canned-responses.png"
+      image-alt="Canned responses"
+      :title="$t('ONBOARDING.CANNED_RESPONSES.TITLE')"
+      :description="$t('ONBOARDING.CANNED_RESPONSES.DESCRIPTION')"
+      :link="newCannedResponsesURL"
+      :link-text="$t('ONBOARDING.CANNED_RESPONSES.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/labels.png"
+      image-alt="Labels"
+      :title="$t('ONBOARDING.LABELS.TITLE')"
+      :description="$t('ONBOARDING.LABELS.DESCRIPTION')"
+      :link="newLabelsURL"
+      :link-text="$t('ONBOARDING.LABELS.NEW_LINK')"
+    />
   </div>
 </template>
 
