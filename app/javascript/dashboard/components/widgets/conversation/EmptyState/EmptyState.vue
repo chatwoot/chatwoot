@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import accountMixin from 'dashboard/mixins/account';
+import { useAccount } from 'dashboard/composables/useAccount';
 import OnboardingView from '../OnboardingView.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
 
@@ -10,7 +10,6 @@ export default {
     OnboardingView,
     EmptyStateMessage,
   },
-  mixins: [accountMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
@@ -19,8 +18,12 @@ export default {
   },
   setup() {
     const { isAdmin } = useAdmin();
+
+    const { accountScopedUrl } = useAccount();
+
     return {
       isAdmin,
+      accountScopedUrl,
     };
   },
   computed: {
@@ -44,7 +47,7 @@ export default {
       return this.$t('CONVERSATION.404');
     },
     newInboxURL() {
-      return this.addAccountScoping('settings/inboxes/new');
+      return this.accountScopedUrl('settings/inboxes/new');
     },
     emptyClassName() {
       if (

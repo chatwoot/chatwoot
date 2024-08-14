@@ -54,7 +54,7 @@ const showAdditionalActions = computed(
 );
 
 const showOpenButton = computed(() => {
-  return isResolved.value || isSnoozed.value;
+  return isPending.value || isSnoozed.value;
 });
 
 const getConversationParams = () => {
@@ -208,7 +208,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
             color-scheme="secondary"
             size="small"
             icon="book-clock"
-            @click="() => toggleStatus(STATUS_TYPE.PENDING)"
+            @click="() => toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
           >
             {{ t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>

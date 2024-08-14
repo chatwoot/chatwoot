@@ -8,6 +8,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  icon: {
+    type: String,
+    default: '',
+  },
+  iconColor: {
+    type: String,
+    default: '',
+  },
 });
 </script>
 
@@ -20,6 +28,12 @@ defineProps({
     @focus="$emit('focus')"
   >
     <div class="inline-flex items-center gap-3 overflow-hidden">
+      <fluent-icon
+        v-if="icon"
+        :icon="icon"
+        size="18"
+        :style="{ color: iconColor }"
+      />
       <span
         class="text-sm font-medium truncate text-slate-900 dark:text-slate-50"
       >
