@@ -14,6 +14,7 @@ const FEATURE_HELP_URLS = {
   message_reply_to: 'https://chwt.app/hc/reply-to',
   reports: 'https://chwt.app/hc/reports',
   sla: 'https://chwt.app/hc/sla',
+  captain: 'https://chwt.app/hc/captain',
   team_management: 'https://chwt.app/hc/teams',
 };
 

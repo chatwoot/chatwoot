@@ -5,7 +5,11 @@
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily.",
+      "LEARN_MORE": "Learn more about Captain",
       "DISABLED": "Captain is not enabled on your account.",
+      "HEADER_BTN_TXT": "Connect new inbox",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
       "LOADING_CONSOLE": "Loading Captain Console...",
       "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again.",

@@ -4,6 +4,7 @@ const IntegrationHooks = () => import('./IntegrationHooks.vue');
 const Index = () => import('./Index.vue');
 const Webhook = () => import('./Webhooks/Index.vue');
 const DashboardApps = () => import('./DashboardApps/Index.vue');
+const Captain = () => import('./Captain/Index.vue');
 const Slack = () => import('./Slack.vue');
 const SettingsContent = () => import('../Wrapper.vue');
 
@@ -26,6 +27,14 @@ export default {
           path: 'dashboard_apps',
           component: DashboardApps,
           name: 'settings_integrations_dashboard_apps',
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'captain',
+          component: Captain,
+          name: 'settings_integrations_captain',
           meta: {
             permissions: ['administrator'],
           },
