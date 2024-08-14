@@ -1,32 +1,30 @@
-<script>
-export default {
-  props: {
-    imageSrc: {
-      type: String,
-      default: '',
-    },
-    imageAlt: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    description: {
-      type: String,
-      default: '',
-    },
-    link: {
-      type: String,
-      default: '',
-    },
-    linkText: {
-      type: String,
-      default: '',
-    },
+<script setup>
+defineProps({
+  imageSrc: {
+    type: String,
+    default: '',
   },
-};
+  imageAlt: {
+    type: String,
+    default: '',
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
+  link: {
+    type: String,
+    default: '',
+  },
+  linkText: {
+    type: String,
+    default: '',
+  },
+});
 </script>
 
 <template>
