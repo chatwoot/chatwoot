@@ -30,15 +30,11 @@ const isSetup = computed(() => {
         </template>
       </BaseSettingsHeader>
     </template>
-    <EmptyState>
+    <EmptyState v-if="!isSetup">
       <p class="max-w-xs text-sm font-medium text-center">
         {{ $t('INTEGRATION_SETTINGS.CAPTAIN.LIST.EMPTY_STATE') }}
       </p>
-      <woot-button
-        v-if="!isSetup"
-        class="rounded-md button nice"
-        icon="plus-sign"
-      >
+      <woot-button class="rounded-md button nice" icon="plus-sign">
         {{ $t('INTEGRATION_SETTINGS.CAPTAIN.LIST.CONFIGURE') }}
       </woot-button>
     </EmptyState>
