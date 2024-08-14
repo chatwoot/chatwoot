@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 import GalleryView from '../components/GalleryView.vue';
+import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
@@ -42,13 +43,8 @@ export default {
     isAudio() {
       return this.attachment.file_type === ALLOWED_FILE_TYPES.AUDIO;
     },
-    timeStampAppendedURL() {
-      const url = new URL(this.dataUrl);
-      if (!url.searchParams.has('t')) {
-        url.searchParams.append('t', Date.now());
-      }
-
-      return url.toString();
+    timeStampURL() {
+      return timeStampAppendedURL(this.dataUrl);
     },
     attachmentTypeClasses() {
       return {
@@ -116,7 +112,7 @@ export default {
       @click="onClick"
     />
     <audio v-else-if="isAudio" controls class="skip-context-menu mb-0.5">
-      <source :src="timeStampAppendedURL" />
+      <source :src="timeStampURL" />
     </audio>
     <GalleryView
       v-if="show"
