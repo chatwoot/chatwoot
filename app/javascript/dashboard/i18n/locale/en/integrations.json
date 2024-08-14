@@ -15,6 +15,11 @@
       "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again.",
       "ERRORS": {
         "CREATE_INBOX_IDS": "Please select at least one inbox to enable Captain"
+      },
+      "LIST": {
+        "EMPTY_STATE": "There are no inboxes configured with captain. To enable captain, click on the setup.",
+        "TABLE_HEADER": ["Inbox Name", "Type"],
+        "CONFIGURE": "Setup Captain"
       }
     },
     "WEBHOOK": {

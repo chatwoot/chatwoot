@@ -1,6 +1,12 @@
 <script setup>
+import { computed } from 'vue';
 import IntegrationSettingsLayout from '../Layout.vue';
+import EmptyState from './EmptyState.vue';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
+
+const isSetup = computed(() => {
+  return false;
+});
 </script>
 
 <template>
@@ -14,11 +20,27 @@ import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/B
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
         <template #actions>
-          <woot-button class="rounded-md button nice" icon="add-circle">
+          <woot-button
+            v-if="isSetup"
+            class="rounded-md button nice"
+            icon="plus-sign"
+          >
             {{ $t('INTEGRATION_SETTINGS.CAPTAIN.HEADER_BTN_TXT') }}
           </woot-button>
         </template>
       </BaseSettingsHeader>
     </template>
+    <EmptyState>
+      <p class="max-w-xs text-sm font-medium text-center">
+        {{ $t('INTEGRATION_SETTINGS.CAPTAIN.LIST.EMPTY_STATE') }}
+      </p>
+      <woot-button
+        v-if="!isSetup"
+        class="rounded-md button nice"
+        icon="plus-sign"
+      >
+        {{ $t('INTEGRATION_SETTINGS.CAPTAIN.LIST.CONFIGURE') }}
+      </woot-button>
+    </EmptyState>
   </IntegrationSettingsLayout>
 </template>
