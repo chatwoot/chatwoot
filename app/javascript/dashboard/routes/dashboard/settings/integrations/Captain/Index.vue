@@ -34,7 +34,7 @@ const isSetup = computed(() => {
       <p class="max-w-xs text-sm font-medium text-center">
         {{ $t('INTEGRATION_SETTINGS.CAPTAIN.LIST.EMPTY_STATE') }}
       </p>
-      <woot-button class="rounded-md button nice" icon="plus-sign">
+      <woot-button class="px-5 mt-4 rounded-xl" icon="plus-sign">
         {{ $t('INTEGRATION_SETTINGS.CAPTAIN.LIST.CONFIGURE') }}
       </woot-button>
     </EmptyState>
