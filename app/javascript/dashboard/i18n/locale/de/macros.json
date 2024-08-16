@@ -73,6 +73,15 @@
       "BUTTON_TOOLTIP": "Ausführen",
       "PREVIEW": "Makrovorschau",
       "EXECUTED_SUCCESSFULLY": "Makro erfolgreich ausgeführt"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribut-Schlüssel ist erforderlich",
+      "FILTER_OPERATOR_REQUIRED": "Filter-Operator ist erforderlich",
+      "VALUE_REQUIRED": "Wert ist erforderlich",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wert muss zwischen 1 und 998 liegen",
+      "ACTION_PARAMETERS_REQUIRED": "Aktionsparameter sind erforderlich",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Mindestens eine Bedingung ist erforderlich",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Mindestens eine Aktion ist erforderlich"
     }
   }
 }
