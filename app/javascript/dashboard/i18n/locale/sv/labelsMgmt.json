@@ -3,8 +3,9 @@
     "HEADER": "Etiketter",
     "HEADER_BTN_TXT": "Lägg till etikett",
     "LOADING": "Hämtar etiketter",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
-    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>Etiketter hjälper dig att kategorisera konversationer och prioritera dem. Du kan tilldela etiketter till en konversation från sidopanelen. <br /><br />Etiketter är knutna till kontot och kan användas för att skapa anpassade arbetsflöden i din organisation. Du kan tilldela en färg till en etikett, det gör det lättare att identifiera etiketten. Du kommer att kunna visa etiketten på sidofältet för att enkelt filtrera konversationerna.</p>",
     "LIST": {
       "404": "Det finns inga etiketter tillgängliga på detta konto.",
       "TITLE": "Hantera etiketter",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Lägg till etikett",
