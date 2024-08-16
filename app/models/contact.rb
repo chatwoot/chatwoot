@@ -306,7 +306,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(CONTACT_CREATED, Time.zone.now, contact: self)
 
-    return unless stage.code == 'Won'
+    return unless stage&.code == 'Won'
 
     Rails.configuration.dispatcher.dispatch(CONTACT_WON, Time.zone.now, contact: self)
   end
