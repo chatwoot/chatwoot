@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contacte fusionat correctament",
       "ERROR_MESSAGE": "No s'ha pogut fusionar els contactes, torna-ho a provar!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

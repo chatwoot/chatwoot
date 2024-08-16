@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakten har slagits samman",
       "ERROR_MESSAGE": "Kunde inte slå samman kontakter, försök igen!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

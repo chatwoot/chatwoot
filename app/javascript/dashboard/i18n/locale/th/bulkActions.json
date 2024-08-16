@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "มอบหมาย",
     "YES": "ใช่",
+    "SEARCH_INPUT_PLACEHOLDER": "ค้นหา",
     "ASSIGN_AGENT_TOOLTIP": "มอบหมายให้กับ",
     "ASSIGN_TEAM_TOOLTIP": "Assign team",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully.",
