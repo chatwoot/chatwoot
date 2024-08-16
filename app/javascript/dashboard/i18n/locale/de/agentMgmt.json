@@ -3,8 +3,8 @@
     "HEADER": "Agenten",
     "HEADER_BTN_TXT": "Agent hinzufügen",
     "LOADING": "Agentenliste abrufen",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Ein Agent ist ein Mitglied Ihres Kundensupport-Teams, das Nachrichten von Benutzern einsehen und beantworten kann. Die folgende Liste zeigt alle Agenten in Ihrem Konto.",
+    "LEARN_MORE": "Lernen Sie mehr über Benutzerrollen",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
