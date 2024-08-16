@@ -16,7 +16,7 @@ defineProps({
     type: String,
     default: '',
   },
-  link: {
+  to: {
     type: String,
     default: '',
   },
@@ -42,11 +42,12 @@ defineProps({
         {{ description }}
       </p>
       <router-link
-        v-if="link"
-        :to="link"
-        class="no-underline text-woot-500 text-sm"
+        v-if="to"
+        :to="{ name: to }"
+        class="no-underline text-woot-500 text-sm font-medium"
       >
-        {{ linkText }} <span>→</span>
+        <span>{{ linkText }}</span>
+        <span>{{ `→` }}</span>
       </router-link>
     </div>
   </div>
