@@ -190,6 +190,7 @@ export const mutations = {
   },
 
   [types.ADD_CONVERSATION](_state, conversation) {
+    conversation.unread_count = conversation.messages.length;
     _state.allConversations.push(conversation);
   },
 
