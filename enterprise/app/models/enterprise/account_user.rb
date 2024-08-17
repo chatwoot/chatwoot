@@ -1,5 +1,5 @@
 module Enterprise::AccountUser
   def permissions
-    (custom_role&.permissions.presence || super) + ['custom_role']
+    custom_role.present? ? (custom_role.permissions + ['custom_role']) : super
   end
 end
