@@ -254,7 +254,6 @@ export default {
             'admin',
             'conversation_manage',
             'conversation_participating_manage',
-            'conversation_unassigned_manage',
           ],
         },
       };
