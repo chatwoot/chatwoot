@@ -106,12 +106,12 @@
       "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
       "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "CONFIRMATION_LABEL": "Da",
+      "CANCEL_LABEL": "Ne"
     },
     "ATTACHMENT": {
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_IDLE": "Prenesi privitak",
       "LABEL_UPLOADING": "Prenosim...",
       "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
