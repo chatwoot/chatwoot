@@ -1,20 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <div>
-    <woot-delete-modal
-      v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="deleteSavedCustomViews"
-      :title="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.TITLE')"
-      :message="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-    />
-  </div>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -103,3 +86,20 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable vue/no-mutating-props -->
+<template>
+  <div>
+    <woot-delete-modal
+      v-if="showDeletePopup"
+      :show.sync="showDeletePopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="deleteSavedCustomViews"
+      :title="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.TITLE')"
+      :message="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
+  </div>
+</template>

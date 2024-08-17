@@ -1,46 +1,3 @@
-<template>
-  <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
-    <woot-button
-      v-if="showAddButton"
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddHookModal"
-    >
-      {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
-    </woot-button>
-    <div v-if="showIntegrationHooks" class="w-full">
-      <div v-if="isIntegrationMultiple">
-        <multiple-integration-hooks
-          :integration="integration"
-          @delete="openDeletePopup"
-        />
-      </div>
-
-      <div v-if="isIntegrationSingle">
-        <single-integration-hooks
-          :integration="integration"
-          @add="openAddHookModal"
-          @delete="openDeletePopup"
-        />
-      </div>
-    </div>
-
-    <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
-      <new-hook :integration="integration" @close="hideAddHookModal" />
-    </woot-modal>
-
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="deleteTitle"
-      :message="deleteMessage"
-      :confirm-text="confirmText"
-      :reject-text="cancelText"
-    />
-  </div>
-</template>
 <script>
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
@@ -148,3 +105,47 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
+    <woot-button
+      v-if="showAddButton"
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="add-circle"
+      @click="openAddHookModal"
+    >
+      {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
+    </woot-button>
+    <div v-if="showIntegrationHooks" class="w-full">
+      <div v-if="isIntegrationMultiple">
+        <MultipleIntegrationHooks
+          :integration="integration"
+          @delete="openDeletePopup"
+        />
+      </div>
+
+      <div v-if="isIntegrationSingle">
+        <SingleIntegrationHooks
+          :integration="integration"
+          @add="openAddHookModal"
+          @delete="openDeletePopup"
+        />
+      </div>
+    </div>
+
+    <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
+      <NewHook :integration="integration" @close="hideAddHookModal" />
+    </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="deleteTitle"
+      :message="deleteMessage"
+      :confirm-text="confirmText"
+      :reject-text="cancelText"
+    />
+  </div>
+</template>

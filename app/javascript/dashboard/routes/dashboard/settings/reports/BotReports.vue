@@ -1,22 +1,4 @@
-<template>
-  <div class="flex-1 p-4 overflow-auto">
-    <report-filter-selector
-      :show-agents-filter="false"
-      :show-group-by-filter="true"
-      :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
-    />
-
-    <bot-metrics :filters="requestPayload" />
-    <report-container
-      :group-by="groupBy"
-      :report-keys="reportKeys"
-      :account-summary-key="'getBotSummary'"
-    />
-  </div>
-</template>
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import BotMetrics from './components/BotMetrics.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
@@ -46,9 +28,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      accountReport: 'getAccountReports',
-    }),
     requestPayload() {
       return {
         from: this.from,
@@ -105,3 +84,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-4 overflow-auto">
+    <ReportFilterSelector
+      :show-agents-filter="false"
+      show-group-by-filter
+      :show-business-hours-switch="false"
+      @filterChange="onFilterChange"
+    />
+
+    <BotMetrics :filters="requestPayload" />
+    <ReportContainer
+      account-summary-key="getBotSummary"
+      :group-by="groupBy"
+      :report-keys="reportKeys"
+    />
+  </div>
+</template>

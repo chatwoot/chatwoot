@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
-import Vuelidate from 'vuelidate';
 import i18n from 'dashboard/i18n';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
@@ -44,7 +43,7 @@ if (window.errorLoggingConfig) {
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
-Vue.use(Vuelidate);
+
 Vue.use(AnalyticsPlugin);
 Vue.prototype.$emitter = emitter;
 Vue.component('fluent-icon', FluentIcon);

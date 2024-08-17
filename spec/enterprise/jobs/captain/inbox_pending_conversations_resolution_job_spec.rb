@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ResponseBot::InboxPendingConversationsResolutionJob, type: :job do
+RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   include ActiveJob::TestHelper
 
   let!(:inbox) { create(:inbox) }

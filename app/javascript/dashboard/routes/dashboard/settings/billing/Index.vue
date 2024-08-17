@@ -1,50 +1,20 @@
-<template>
-  <div class="flex-1 p-6 overflow-auto dark:bg-slate-900">
-    <woot-loading-state v-if="uiFlags.isFetchingItem" />
-    <div v-else-if="!hasABillingPlan">
-      <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
-    </div>
-    <div v-else class="w-full">
-      <div class="current-plan--details">
-        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
-        <div
-          v-dompurify-html="
-            formatMessage(
-              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
-                plan: planName,
-                quantity: subscribedQuantity,
-              })
-            )
-          "
-        />
-      </div>
-      <billing-item
-        :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
-        :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
-        @click="onClickBillingPortal"
-      />
-      <billing-item
-        :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
-        :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
-        :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
-        button-icon="chat-multiple"
-        @click="onToggleChatWindow"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 import { mapGetters } from 'vuex';
-import accountMixin from '../../../../mixins/account';
+import { useAccount } from 'dashboard/composables/useAccount';
 import BillingItem from './components/BillingItem.vue';
-// sdds
+
 export default {
   components: { BillingItem },
-  mixins: [accountMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
+  setup() {
+    const { accountId } = useAccount();
+
+    return {
+      accountId,
+    };
+  },
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
@@ -86,6 +56,43 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-6 overflow-auto dark:bg-slate-900">
+    <woot-loading-state v-if="uiFlags.isFetchingItem" />
+    <div v-else-if="!hasABillingPlan">
+      <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
+    </div>
+    <div v-else class="w-full">
+      <div class="current-plan--details">
+        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
+        <div
+          v-dompurify-html="
+            formatMessage(
+              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
+                plan: planName,
+                quantity: subscribedQuantity,
+              })
+            )
+          "
+        />
+      </div>
+      <BillingItem
+        :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
+        :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
+        :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
+        @click="onClickBillingPortal"
+      />
+      <BillingItem
+        :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
+        :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
+        :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
+        button-icon="chat-multiple"
+        @click="onToggleChatWindow"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .manage-subscription {

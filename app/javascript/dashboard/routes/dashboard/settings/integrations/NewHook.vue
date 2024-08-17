@@ -1,42 +1,4 @@
 <!-- eslint-disable vue/v-slot-style -->
-<template>
-  <div class="flex flex-col h-auto overflow-auto integration-hooks">
-    <woot-modal-header
-      :header-title="integration.name"
-      :header-content="integration.description"
-    />
-    <formulate-form
-      #default="{ hasErrors }"
-      v-model="values"
-      class="w-full"
-      @submit="submitForm"
-    >
-      <formulate-input
-        v-for="item in formItems"
-        :key="item.name"
-        v-bind="item"
-      />
-      <formulate-input
-        v-if="isHookTypeInbox"
-        :options="inboxes"
-        type="select"
-        name="inbox"
-        :placeholder="$t('INTEGRATION_APPS.ADD.FORM.INBOX.LABEL')"
-        :label="$t('INTEGRATION_APPS.ADD.FORM.INBOX.PLACEHOLDER')"
-        validation="required"
-        validation-name="Inbox"
-      />
-      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button :disabled="hasErrors" :loading="uiFlags.isCreatingHook">
-          {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
-        </woot-button>
-        <woot-button class="button clear" @click.prevent="onClose">
-          {{ $t('INTEGRATION_APPS.ADD.FORM.CANCEL') }}
-        </woot-button>
-      </div>
-    </formulate-form>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -60,7 +22,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'integrations/getUIFlags',
-      websiteInboxes: 'inboxes/getWebsiteInboxes',
       dialogFlowEnabledInboxes: 'inboxes/dialogFlowEnabledInboxes',
     }),
     inboxes() {
@@ -137,3 +98,42 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col h-auto overflow-auto integration-hooks">
+    <woot-modal-header
+      :header-title="integration.name"
+      :header-content="integration.description"
+    />
+    <formulate-form
+      v-slot="{ hasErrors }"
+      v-model="values"
+      class="w-full"
+      @submit="submitForm"
+    >
+      <formulate-input
+        v-for="item in formItems"
+        :key="item.name"
+        v-bind="item"
+      />
+      <formulate-input
+        v-if="isHookTypeInbox"
+        :options="inboxes"
+        type="select"
+        name="inbox"
+        :placeholder="$t('INTEGRATION_APPS.ADD.FORM.INBOX.LABEL')"
+        :label="$t('INTEGRATION_APPS.ADD.FORM.INBOX.PLACEHOLDER')"
+        validation="required"
+        validation-name="Inbox"
+      />
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+        <woot-button :disabled="hasErrors" :loading="uiFlags.isCreatingHook">
+          {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
+        </woot-button>
+        <woot-button class="button clear" @click.prevent="onClose">
+          {{ $t('INTEGRATION_APPS.ADD.FORM.CANCEL') }}
+        </woot-button>
+      </div>
+    </formulate-form>
+  </div>
+</template>

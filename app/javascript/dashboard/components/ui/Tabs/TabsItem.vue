@@ -1,22 +1,3 @@
-<template>
-  <Policy :permissions="permissions">
-    <li
-      :class="{
-        'tabs-title': true,
-        'is-active': active,
-      }"
-    >
-      <a @click="onTabClick">
-        {{ name }}
-        <div v-if="showBadge" class="badge min-w-[20px]">
-          <span>
-            {{ getItemCount }}
-          </span>
-        </div>
-      </a>
-    </li>
-  </Policy>
-</template>
 <script>
 import Policy from 'dashboard/components/policy.vue';
 
@@ -72,3 +53,23 @@ export default {
   },
 };
 </script>
+
+<template>
+  <Policy :permissions="permissions">
+  <li
+    class="tabs-title"
+    :class="{
+      'is-active': active,
+    }"
+  >
+    <a @click="onTabClick">
+      {{ name }}
+      <div v-if="showBadge" class="badge min-w-[20px]">
+        <span>
+          {{ getItemCount }}
+        </span>
+      </div>
+    </a>
+  </li>
+  </Policy>
+</template>

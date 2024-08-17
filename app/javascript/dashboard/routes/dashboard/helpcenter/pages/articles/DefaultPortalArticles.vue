@@ -1,11 +1,3 @@
-<template>
-  <div
-    class="flex items-center justify-center w-full text-slate-600 dark:text-slate-200"
-  >
-    Loading...
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -66,3 +58,11 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex items-center justify-center w-full text-slate-600 dark:text-slate-200"
+  >
+    {{ $t('HELP_CENTER.LOADING') }}
+  </div>
+</template>

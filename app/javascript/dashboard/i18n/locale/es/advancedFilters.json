@@ -18,6 +18,7 @@
       "AND": "Y",
       "OR": "O"
     },
+    "INPUT_PLACEHOLDER": "Introducir valor",
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",
       "not_equal_to": "No igual a",

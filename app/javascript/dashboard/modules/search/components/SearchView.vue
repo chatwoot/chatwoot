@@ -1,91 +1,3 @@
-<template>
-  <div class="search-page">
-    <div class="page-header">
-      <woot-button
-        icon="chevron-left"
-        variant="smooth"
-        size="small "
-        class="back-button"
-        @click="onBack"
-      >
-        {{ $t('GENERAL_SETTINGS.BACK') }}
-      </woot-button>
-    </div>
-    <section class="search-root">
-      <header>
-        <search-header @search="onSearch" />
-        <search-tabs
-          v-if="query"
-          :tabs="tabs"
-          :selected-tab="activeTabIndex"
-          @tab-change="tab => (selectedTab = tab)"
-        />
-      </header>
-      <div class="search-results">
-        <div v-if="showResultsSection">
-          <search-result-contacts-list
-            v-if="filterContacts"
-            :is-fetching="uiFlags.contact.isFetching"
-            :contacts="contacts"
-            :query="query"
-            :show-title="isSelectedTabAll"
-          />
-
-          <Policy
-            :permissions="[
-              'admin',
-              'user',
-              'conversation_manage',
-              'conversation_unassigned_manage',
-              'conversation_participating_manage',
-            ]"
-          >
-            <search-result-messages-list
-              v-if="filterMessages"
-              :is-fetching="uiFlags.message.isFetching"
-              :messages="messages"
-              :query="query"
-              :show-title="isSelectedTabAll"
-            />
-          </Policy>
-
-          <Policy
-            :permissions="[
-              'admin',
-              'user',
-              'conversation_manage',
-              'conversation_unassigned_manage',
-              'conversation_participating_manage',
-            ]"
-          >
-            <search-result-conversations-list
-              v-if="filterConversations"
-              :is-fetching="uiFlags.conversation.isFetching"
-              :conversations="conversations"
-              :query="query"
-              :show-title="isSelectedTabAll"
-            />
-          </Policy>
-        </div>
-        <div v-else-if="showEmptySearchResults" class="empty">
-          <fluent-icon icon="info" size="16px" class="icon" />
-          <p class="empty-state__text">
-            {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
-          </p>
-        </div>
-        <div v-else class="empty text-center">
-          <p class="text-center margin-bottom-0">
-            <fluent-icon icon="search" size="24px" class="icon" />
-          </p>
-          <p class="empty-state__text">
-            {{ $t('SEARCH.EMPTY_STATE_DEFAULT') }}
-          </p>
-        </div>
-      </div>
-    </section>
-  </div>
-</template>
-
 <script>
 import SearchHeader from './SearchHeader.vue';
 import SearchTabs from './SearchTabs.vue';
@@ -229,6 +141,98 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="search-page">
+    <div class="page-header">
+      <woot-button
+        icon="chevron-left"
+        variant="smooth"
+        size="small "
+        class="back-button"
+        @click="onBack"
+      >
+        {{ $t('GENERAL_SETTINGS.BACK') }}
+      </woot-button>
+    </div>
+    <section class="search-root">
+      <header>
+        <SearchHeader @search="onSearch" />
+        <SearchTabs
+          v-if="query"
+          :tabs="tabs"
+          :selected-tab="activeTabIndex"
+          @tabChange="tab => (selectedTab = tab)"
+        />
+      </header>
+      <div class="search-results">
+        <div v-if="showResultsSection">
+          <SearchResultContactsList
+            v-if="filterContacts"
+            :is-fetching="uiFlags.contact.isFetching"
+            :contacts="contacts"
+            :query="query"
+            :show-title="isSelectedTabAll"
+          />
+
+          <Policy
+            :permissions="[
+              'admin',
+              'user',
+              'conversation_manage',
+              'conversation_unassigned_manage',
+              'conversation_participating_manage',
+            ]"
+          >
+
+          <SearchResultMessagesList
+            v-if="filterMessages"
+            :is-fetching="uiFlags.message.isFetching"
+            :messages="messages"
+            :query="query"
+            :show-title="isSelectedTabAll"
+          />
+
+          </Policy>
+
+          <Policy
+            :permissions="[
+              'admin',
+              'user',
+              'conversation_manage',
+              'conversation_unassigned_manage',
+              'conversation_participating_manage',
+            ]"
+          >
+
+          <SearchResultConversationsList
+            v-if="filterConversations"
+            :is-fetching="uiFlags.conversation.isFetching"
+            :conversations="conversations"
+            :query="query"
+            :show-title="isSelectedTabAll"
+          />
+
+          </Policy>
+        </div>
+        <div v-else-if="showEmptySearchResults" class="empty">
+          <fluent-icon icon="info" size="16px" class="icon" />
+          <p class="empty-state__text">
+            {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
+          </p>
+        </div>
+        <div v-else class="text-center empty">
+          <p class="text-center margin-bottom-0">
+            <fluent-icon icon="search" size="24px" class="icon" />
+          </p>
+          <p class="empty-state__text">
+            {{ $t('SEARCH.EMPTY_STATE_DEFAULT') }}
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .search-page {

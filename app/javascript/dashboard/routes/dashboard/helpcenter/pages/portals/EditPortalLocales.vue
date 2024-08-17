@@ -126,7 +126,7 @@ function addLocale() {
       v-if="currentPortal"
       :locales="locales"
       :selected-locale-code="currentPortal.meta.default_locale"
-      @change-default-locale="changeDefaultLocale"
+      @changeDefaultLocale="changeDefaultLocale"
       @delete="deletePortalLocale"
     />
     <woot-modal

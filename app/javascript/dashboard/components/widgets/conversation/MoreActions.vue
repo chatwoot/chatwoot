@@ -1,40 +1,3 @@
-<template>
-  <div class="relative flex items-center gap-2 actions--container">
-    <woot-button
-      v-if="!currentChat.muted"
-      v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="speaker-mute"
-      @click="mute"
-    />
-    <woot-button
-      v-else
-      v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="speaker-1"
-      @click="unmute"
-    />
-    <woot-button
-      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
-      variant="clear"
-      color-scheme="secondary"
-      icon="share"
-      @click="toggleEmailActionsModal"
-    />
-    <resolve-action
-      :conversation-id="currentChat.id"
-      :status="currentChat.status"
-    />
-    <email-transcript-modal
-      v-if="showEmailActionsModal"
-      :show="showEmailActionsModal"
-      :current-chat="currentChat"
-      @cancel="toggleEmailActionsModal"
-    />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -84,6 +47,45 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="relative flex items-center gap-2 actions--container">
+    <woot-button
+      v-if="!currentChat.muted"
+      v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-mute"
+      @click="mute"
+    />
+    <woot-button
+      v-else
+      v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-1"
+      @click="unmute"
+    />
+    <woot-button
+      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="share"
+      @click="toggleEmailActionsModal"
+    />
+    <ResolveAction
+      :conversation-id="currentChat.id"
+      :status="currentChat.status"
+    />
+    <EmailTranscriptModal
+      v-if="showEmailActionsModal"
+      :show="showEmailActionsModal"
+      :current-chat="currentChat"
+      @cancel="toggleEmailActionsModal"
+    />
+  </div>
+</template>
+
 <style scoped lang="scss">
 .more--button {
   @apply items-center flex ml-2 rtl:ml-0 rtl:mr-2;

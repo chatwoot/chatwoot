@@ -1,42 +1,7 @@
-<template>
-  <div
-    class="flex w-full"
-    :class="type === 'stateId' && shouldShowDropdown ? 'h-[150px]' : 'gap-2'"
-  >
-    <label class="w-full" :class="{ error: hasError }">
-      {{ label }}
-      <filter-button
-        right-icon="chevron-down"
-        :button-text="selectedItemName"
-        class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
-        @click="toggleDropdown"
-      >
-        <template v-if="shouldShowDropdown" #dropdown>
-          <filter-list-dropdown
-            v-on-clickaway="toggleDropdown"
-            :show-clear-filter="false"
-            :list-items="items"
-            :active-filter-id="selectedItemId"
-            :input-placeholder="placeholder"
-            enable-search
-            class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
-            @click="onSelect"
-          />
-        </template>
-      </filter-button>
-      <span v-if="hasError" class="mt-1 message">{{ error }}</span>
-    </label>
-  </div>
-</template>
-
 <script setup>
 import { ref, computed, defineComponent } from 'vue';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
-
-defineComponent({
-  name: 'SearchableDropdown',
-});
 
 const props = defineProps({
   type: { type: String, required: true },
@@ -48,6 +13,11 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
+
+defineComponent({
+  name: 'SearchableDropdown',
+});
+
 const shouldShowDropdown = ref(false);
 
 const toggleDropdown = () => {
@@ -71,3 +41,34 @@ const selectedItemName = computed(
 
 const selectedItemId = computed(() => selectedItem.value?.id || null);
 </script>
+
+<template>
+  <div
+    class="flex w-full"
+    :class="type === 'stateId' && shouldShowDropdown ? 'h-[150px]' : 'gap-2'"
+  >
+    <label class="w-full" :class="{ error: hasError }">
+      {{ label }}
+      <FilterButton
+        right-icon="chevron-down"
+        :button-text="selectedItemName"
+        class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
+        @click="toggleDropdown"
+      >
+        <template v-if="shouldShowDropdown" #dropdown>
+          <FilterListDropdown
+            v-on-clickaway="toggleDropdown"
+            :show-clear-filter="false"
+            :list-items="items"
+            :active-filter-id="selectedItemId"
+            :input-placeholder="placeholder"
+            enable-search
+            class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
+            @click="onSelect"
+          />
+        </template>
+      </FilterButton>
+      <span v-if="hasError" class="mt-1 message">{{ error }}</span>
+    </label>
+  </div>
+</template>

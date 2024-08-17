@@ -1,128 +1,3 @@
-<template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddPopup()"
-    >
-      {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
-    </woot-button>
-    <div class="flex flex-row gap-4">
-      <div class="w-full lg:w-3/5">
-        <p
-          v-if="!uiFlags.isFetching && !records.length"
-          class="flex flex-col items-center justify-center h-full"
-        >
-          {{ $t('AUTOMATION.LIST.404') }}
-        </p>
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('AUTOMATION.LOADING')"
-        />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
-          <thead>
-            <th
-              v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
-              :key="thHeader"
-            >
-              {{ thHeader }}
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="(automation, index) in records" :key="index">
-              <td>{{ automation.name }}</td>
-              <td>{{ automation.description }}</td>
-              <td>
-                <woot-switch
-                  :value="automation.active"
-                  @input="toggleAutomation(automation, automation.active)"
-                />
-              </td>
-              <td>{{ readableTime(automation.created_on) }}</td>
-              <td class="button-wrapper">
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  icon="edit"
-                  @click="openEditPopup(automation)"
-                />
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="primary"
-                  class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  icon="copy"
-                  @click="cloneAutomation(automation.id)"
-                />
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  @click="openDeletePopup(automation, index)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="hidden w-1/3 lg:block">
-        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
-      </div>
-    </div>
-    <woot-modal
-      :show.sync="showAddPopup"
-      size="medium"
-      :on-close="hideAddPopup"
-    >
-      <add-automation-rule
-        v-if="showAddPopup"
-        :on-close="hideAddPopup"
-        @saveAutomation="submitAutomation"
-      />
-    </woot-modal>
-
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-    />
-
-    <woot-modal
-      :show.sync="showEditPopup"
-      size="medium"
-      :on-close="hideEditPopup"
-    >
-      <edit-automation-rule
-        v-if="showEditPopup"
-        :on-close="hideEditPopup"
-        :selected-response="selectedResponse"
-        @saveAutomation="submitAutomation"
-      />
-    </woot-modal>
-    <woot-confirm-modal
-      ref="confirmDialog"
-      :title="toggleModalTitle"
-      :description="toggleModalDescription"
-    />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -282,3 +157,129 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-4 overflow-auto">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="add-circle"
+      @click="openAddPopup()"
+    >
+      {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
+    </woot-button>
+    <div class="flex flex-row gap-4">
+      <div class="w-full lg:w-3/5">
+        <p
+          v-if="!uiFlags.isFetching && !records.length"
+          class="flex flex-col items-center justify-center h-full"
+        >
+          {{ $t('AUTOMATION.LIST.404') }}
+        </p>
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('AUTOMATION.LOADING')"
+        />
+        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+          <thead>
+            <th
+              v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
+              :key="thHeader"
+            >
+              {{ thHeader }}
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="(automation, index) in records" :key="index">
+              <td>{{ automation.name }}</td>
+              <td>{{ automation.description }}</td>
+              <td>
+                <woot-switch
+                  :value="automation.active"
+                  @input="toggleAutomation(automation, automation.active)"
+                />
+              </td>
+              <td>{{ readableTime(automation.created_on) }}</td>
+              <td class="button-wrapper">
+                <woot-button
+                  v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
+                  variant="smooth"
+                  size="tiny"
+                  color-scheme="secondary"
+                  class-names="grey-btn"
+                  :is-loading="loading[automation.id]"
+                  icon="edit"
+                  @click="openEditPopup(automation)"
+                />
+                <woot-button
+                  v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
+                  variant="smooth"
+                  size="tiny"
+                  color-scheme="primary"
+                  class-names="grey-btn"
+                  :is-loading="loading[automation.id]"
+                  icon="copy"
+                  @click="cloneAutomation(automation.id)"
+                />
+                <woot-button
+                  v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
+                  class-names="grey-btn"
+                  :is-loading="loading[automation.id]"
+                  @click="openDeletePopup(automation, index)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hidden w-1/3 lg:block">
+        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
+      </div>
+    </div>
+    <woot-modal
+      :show.sync="showAddPopup"
+      size="medium"
+      :on-close="hideAddPopup"
+    >
+      <AddAutomationRule
+        v-if="showAddPopup"
+        :on-close="hideAddPopup"
+        @saveAutomation="submitAutomation"
+      />
+    </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
+
+    <woot-modal
+      :show.sync="showEditPopup"
+      size="medium"
+      :on-close="hideEditPopup"
+    >
+      <EditAutomationRule
+        v-if="showEditPopup"
+        :on-close="hideEditPopup"
+        :selected-response="selectedResponse"
+        @saveAutomation="submitAutomation"
+      />
+    </woot-modal>
+    <woot-confirm-modal
+      ref="confirmDialog"
+      :title="toggleModalTitle"
+      :description="toggleModalDescription"
+    />
+  </div>
+</template>

@@ -1,84 +1,3 @@
-<template>
-  <div class="flex flex-row w-full">
-    <div class="flex flex-col h-full" :class="wrapClass">
-      <contacts-header
-        :search-query="searchQuery"
-        :header-title="pageTitle"
-        :segments-id="segmentsId"
-        this-selected-contact-id=""
-        @on-input-search="onInputSearch"
-        @on-toggle-create="onToggleCreate"
-        @on-toggle-filter="onToggleFilters"
-        @on-search-submit="onSearchSubmit"
-        @on-toggle-import="onToggleImport"
-        @on-export-submit="onExportSubmit"
-        @on-toggle-save-filter="onToggleSaveFilters"
-        @on-toggle-delete-filter="onToggleDeleteFilters"
-        @on-toggle-edit-filter="onToggleFilters"
-      />
-      <contacts-table
-        :contacts="records"
-        :show-search-empty-state="showEmptySearchResult"
-        :is-loading="uiFlags.isFetching"
-        :on-click-contact="openContactInfoPanel"
-        :active-contact-id="selectedContactId"
-        @on-sort-change="onSortChange"
-      />
-      <table-footer
-        class="border-t border-slate-75 dark:border-slate-700/50"
-        :current-page="Number(meta.currentPage)"
-        :total-count="meta.count"
-        :page-size="15"
-        @page-change="onPageChange"
-      />
-    </div>
-
-    <add-custom-views
-      v-if="showAddSegmentsModal"
-      :custom-views-query="segmentsQuery"
-      :filter-type="filterType"
-      :open-last-saved-item="openSavedItemInSegment"
-      @close="onCloseAddSegmentsModal"
-    />
-    <delete-custom-views
-      v-if="showDeleteSegmentsModal"
-      :show-delete-popup.sync="showDeleteSegmentsModal"
-      :active-custom-view="activeSegment"
-      :custom-views-id="segmentsId"
-      :active-filter-type="filterType"
-      :open-last-item-after-delete="openLastItemAfterDeleteInSegment"
-      @close="onCloseDeleteSegmentsModal"
-    />
-
-    <contact-info-panel
-      v-if="showContactViewPane"
-      :contact="selectedContact"
-      :on-close="closeContactInfoPanel"
-    />
-    <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
-    <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
-      <import-contacts v-if="showImportModal" :on-close="onToggleImport" />
-    </woot-modal>
-    <woot-modal
-      :show.sync="showFiltersModal"
-      :on-close="closeAdvanceFiltersModal"
-      size="medium"
-    >
-      <contacts-advanced-filters
-        v-if="showFiltersModal"
-        :on-close="closeAdvanceFiltersModal"
-        :initial-filter-types="contactFilterItems"
-        :initial-applied-filters="appliedFilter"
-        :active-segment-name="activeSegmentName"
-        :is-segments-view="hasActiveSegments"
-        @applyFilter="onApplyFilter"
-        @updateSegment="onUpdateSegment"
-        @clearFilters="clearFilters"
-      />
-    </woot-modal>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -468,3 +387,84 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-row w-full">
+    <div class="flex flex-col h-full" :class="wrapClass">
+      <ContactsHeader
+        :search-query="searchQuery"
+        :header-title="pageTitle"
+        :segments-id="segmentsId"
+        this-selected-contact-id=""
+        @onInputSearch="onInputSearch"
+        @onToggleCreate="onToggleCreate"
+        @onToggleFilter="onToggleFilters"
+        @onSearchSubmit="onSearchSubmit"
+        @onToggleImport="onToggleImport"
+        @onExportSubmit="onExportSubmit"
+        @onToggleSaveFilter="onToggleSaveFilters"
+        @onToggleDeleteFilter="onToggleDeleteFilters"
+        @onToggleEditFilter="onToggleFilters"
+      />
+      <ContactsTable
+        :contacts="records"
+        :show-search-empty-state="showEmptySearchResult"
+        :is-loading="uiFlags.isFetching"
+        :on-click-contact="openContactInfoPanel"
+        :active-contact-id="selectedContactId"
+        @onSortChange="onSortChange"
+      />
+      <TableFooter
+        class="border-t border-slate-75 dark:border-slate-700/50"
+        :current-page="Number(meta.currentPage)"
+        :total-count="meta.count"
+        :page-size="15"
+        @pageChange="onPageChange"
+      />
+    </div>
+
+    <AddCustomViews
+      v-if="showAddSegmentsModal"
+      :custom-views-query="segmentsQuery"
+      :filter-type="filterType"
+      :open-last-saved-item="openSavedItemInSegment"
+      @close="onCloseAddSegmentsModal"
+    />
+    <DeleteCustomViews
+      v-if="showDeleteSegmentsModal"
+      :show-delete-popup.sync="showDeleteSegmentsModal"
+      :active-custom-view="activeSegment"
+      :custom-views-id="segmentsId"
+      :active-filter-type="filterType"
+      :open-last-item-after-delete="openLastItemAfterDeleteInSegment"
+      @close="onCloseDeleteSegmentsModal"
+    />
+
+    <ContactInfoPanel
+      v-if="showContactViewPane"
+      :contact="selectedContact"
+      :on-close="closeContactInfoPanel"
+    />
+    <CreateContact :show="showCreateModal" @cancel="onToggleCreate" />
+    <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
+      <ImportContacts v-if="showImportModal" :on-close="onToggleImport" />
+    </woot-modal>
+    <woot-modal
+      :show.sync="showFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
+      size="medium"
+    >
+      <ContactsAdvancedFilters
+        v-if="showFiltersModal"
+        :on-close="closeAdvanceFiltersModal"
+        :initial-filter-types="contactFilterItems"
+        :initial-applied-filters="appliedFilter"
+        :active-segment-name="activeSegmentName"
+        :is-segments-view="hasActiveSegments"
+        @applyFilter="onApplyFilter"
+        @updateSegment="onUpdateSegment"
+        @clearFilters="clearFilters"
+      />
+    </woot-modal>
+  </div>
+</template>

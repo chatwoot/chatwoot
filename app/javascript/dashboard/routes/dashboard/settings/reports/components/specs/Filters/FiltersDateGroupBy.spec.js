@@ -16,8 +16,8 @@ describe('ReportsFiltersDateGroupBy.vue', () => {
     const selectedFilter = GROUP_BY_OPTIONS.DAY;
     wrapper.vm.changeFilterSelection(selectedFilter);
 
-    expect(wrapper.emitted('on-grouping-change')).toBeTruthy();
-    expect(wrapper.emitted('on-grouping-change')[0]).toEqual([selectedFilter]);
+    expect(wrapper.emitted('onGroupingChange')).toBeTruthy();
+    expect(wrapper.emitted('onGroupingChange')[0]).toEqual([selectedFilter]);
   });
 
   it('updates currentSelectedFilter when selectedOption is changed', async () => {

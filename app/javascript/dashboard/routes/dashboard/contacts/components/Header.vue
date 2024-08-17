@@ -1,3 +1,92 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+
+export default {
+  props: {
+    headerTitle: {
+      type: String,
+      default: '',
+    },
+    searchQuery: {
+      type: String,
+      default: '',
+    },
+    segmentsId: {
+      type: [String, Number],
+      default: 0,
+    },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
+  data() {
+    return {
+      showCreateModal: false,
+      showImportModal: false,
+    };
+  },
+  computed: {
+    searchButtonClass() {
+      return this.searchQuery !== ''
+        ? 'opacity-100 translate-x-0 visible'
+        : '-translate-x-px opacity-0 invisible';
+    },
+    ...mapGetters({
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+    }),
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
+    },
+    hasActiveSegments() {
+      return this.segmentsId !== 0;
+    },
+    exportDescription() {
+      return this.hasAppliedFilters
+        ? this.$t('EXPORT_CONTACTS.CONFIRM.FILTERED_MESSAGE')
+        : this.$t('EXPORT_CONTACTS.CONFIRM.MESSAGE');
+    },
+  },
+  methods: {
+    onToggleSegmentsModal() {
+      this.$emit('onToggleSaveFilter');
+    },
+    onToggleEditSegmentsModal() {
+      this.$emit('onToggleEditFilter');
+    },
+    onToggleDeleteSegmentsModal() {
+      this.$emit('onToggleDeleteFilter');
+    },
+    toggleCreate() {
+      this.$emit('onToggleCreate');
+    },
+    toggleFilter() {
+      this.$emit('onToggleFilter');
+    },
+    toggleImport() {
+      this.$emit('onToggleImport');
+    },
+    async submitExport() {
+      const ok =
+        await this.$refs.confirmExportContactsDialog.showConfirmation();
+
+      if (ok) {
+        this.$emit('onExportSubmit');
+      }
+    },
+    submitSearch() {
+      this.$emit('onSearchSubmit');
+    },
+    inputSearch(event) {
+      this.$emit('onInputSearch', event);
+    },
+  },
+};
+</script>
+
 <template>
   <header
     class="bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800"
@@ -128,92 +217,3 @@
     />
   </header>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-
-export default {
-  props: {
-    headerTitle: {
-      type: String,
-      default: '',
-    },
-    searchQuery: {
-      type: String,
-      default: '',
-    },
-    segmentsId: {
-      type: [String, Number],
-      default: 0,
-    },
-  },
-  setup() {
-    const { isAdmin } = useAdmin();
-    return {
-      isAdmin,
-    };
-  },
-  data() {
-    return {
-      showCreateModal: false,
-      showImportModal: false,
-    };
-  },
-  computed: {
-    searchButtonClass() {
-      return this.searchQuery !== ''
-        ? 'opacity-100 translate-x-0 visible'
-        : '-translate-x-px opacity-0 invisible';
-    },
-    ...mapGetters({
-      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
-    }),
-    hasAppliedFilters() {
-      return this.getAppliedContactFilters.length;
-    },
-    hasActiveSegments() {
-      return this.segmentsId !== 0;
-    },
-    exportDescription() {
-      return this.hasAppliedFilters
-        ? this.$t('EXPORT_CONTACTS.CONFIRM.FILTERED_MESSAGE')
-        : this.$t('EXPORT_CONTACTS.CONFIRM.MESSAGE');
-    },
-  },
-  methods: {
-    onToggleSegmentsModal() {
-      this.$emit('on-toggle-save-filter');
-    },
-    onToggleEditSegmentsModal() {
-      this.$emit('on-toggle-edit-filter');
-    },
-    onToggleDeleteSegmentsModal() {
-      this.$emit('on-toggle-delete-filter');
-    },
-    toggleCreate() {
-      this.$emit('on-toggle-create');
-    },
-    toggleFilter() {
-      this.$emit('on-toggle-filter');
-    },
-    toggleImport() {
-      this.$emit('on-toggle-import');
-    },
-    async submitExport() {
-      const ok =
-        await this.$refs.confirmExportContactsDialog.showConfirmation();
-
-      if (ok) {
-        this.$emit('on-export-submit');
-      }
-    },
-    submitSearch() {
-      this.$emit('on-search-submit');
-    },
-    inputSearch(event) {
-      this.$emit('on-input-search', event);
-    },
-  },
-};
-</script>

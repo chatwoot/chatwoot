@@ -1,83 +1,6 @@
-<template>
-  <modal :show.sync="show" :on-close="onClose">
-    <div class="flex flex-col h-auto overflow-auto">
-      <woot-modal-header :header-title="pageTitle" />
-      <form class="w-full" @submit.prevent="editAgent()">
-        <div class="w-full">
-          <label :class="{ error: $v.agentName.$error }">
-            {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
-            <input
-              v-model.trim="agentName"
-              type="text"
-              :placeholder="$t('AGENT_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
-              @input="$v.agentName.$touch"
-            />
-          </label>
-        </div>
-
-        <div class="w-full">
-          <label :class="{ error: $v.agentType.$error }">
-            {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
-            <select v-model="agentType">
-              <option v-for="role in roles" :key="role.name" :value="role.name">
-                {{ role.label }}
-              </option>
-            </select>
-            <span v-if="$v.agentType.$error" class="message">
-              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.ERROR') }}
-            </span>
-          </label>
-        </div>
-
-        <div class="w-full">
-          <label :class="{ error: $v.agentAvailability.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
-            <select v-model="agentAvailability">
-              <option
-                v-for="role in availabilityStatuses"
-                :key="role.value"
-                :value="role.value"
-              >
-                {{ role.label }}
-              </option>
-            </select>
-            <span v-if="$v.agentAvailability.$error" class="message">
-              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
-            </span>
-          </label>
-        </div>
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <div class="w-[50%]">
-            <woot-submit-button
-              :disabled="
-                $v.agentType.$invalid ||
-                $v.agentName.$invalid ||
-                uiFlags.isUpdating
-              "
-              :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
-              :loading="uiFlags.isUpdating"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-            </button>
-          </div>
-          <div class="w-[50%] text-right">
-            <woot-button
-              icon="lock-closed"
-              variant="clear"
-              @click.prevent="resetPassword"
-            >
-              {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
-            </woot-button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </modal>
-</template>
-
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
@@ -117,6 +40,9 @@ export default {
       type: Function,
       required: true,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -197,3 +123,81 @@ export default {
   },
 };
 </script>
+
+<template>
+  <Modal :show.sync="show" :on-close="onClose">
+    <div class="flex flex-col h-auto overflow-auto">
+      <woot-modal-header :header-title="pageTitle" />
+      <form class="w-full" @submit.prevent="editAgent()">
+        <div class="w-full">
+          <label :class="{ error: v$.agentName.$error }">
+            {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
+            <input
+              v-model.trim="agentName"
+              type="text"
+              :placeholder="$t('AGENT_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
+              @input="v$.agentName.$touch"
+            />
+          </label>
+        </div>
+
+        <div class="w-full">
+          <label :class="{ error: v$.agentType.$error }">
+            {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
+            <select v-model="agentType">
+              <option v-for="role in roles" :key="role.name" :value="role.name">
+                {{ role.label }}
+              </option>
+            </select>
+            <span v-if="v$.agentType.$error" class="message">
+              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.ERROR') }}
+            </span>
+          </label>
+        </div>
+
+        <div class="w-full">
+          <label :class="{ error: v$.agentAvailability.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
+            <select v-model="agentAvailability">
+              <option
+                v-for="role in availabilityStatuses"
+                :key="role.value"
+                :value="role.value"
+              >
+                {{ role.label }}
+              </option>
+            </select>
+            <span v-if="v$.agentAvailability.$error" class="message">
+              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
+            </span>
+          </label>
+        </div>
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+          <div class="w-[50%]">
+            <WootSubmitButton
+              :disabled="
+                v$.agentType.$invalid ||
+                v$.agentName.$invalid ||
+                uiFlags.isUpdating
+              "
+              :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
+              :loading="uiFlags.isUpdating"
+            />
+            <button class="button clear" @click.prevent="onClose">
+              {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
+            </button>
+          </div>
+          <div class="w-[50%] text-right">
+            <woot-button
+              icon="lock-closed"
+              variant="clear"
+              @click.prevent="resetPassword"
+            >
+              {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
+            </woot-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </Modal>
+</template>

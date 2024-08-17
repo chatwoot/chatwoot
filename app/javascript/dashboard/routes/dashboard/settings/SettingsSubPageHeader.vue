@@ -1,3 +1,12 @@
+<script>
+export default {
+  props: {
+    headerTitle: { type: String, default: '' },
+    headerContent: { type: String, default: '' },
+  },
+};
+</script>
+
 <template>
   <div class="flex flex-col w-full items-start">
     <h2
@@ -11,12 +20,3 @@
     />
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    headerTitle: { type: String, default: '' },
-    headerContent: { type: String, default: '' },
-  },
-};
-</script>

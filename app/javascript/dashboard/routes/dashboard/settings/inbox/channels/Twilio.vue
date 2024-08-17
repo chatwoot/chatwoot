@@ -1,144 +1,9 @@
 <!-- Deprecated in favour of separate files for SMS and Whatsapp and also to implement new providers for each platform in the future-->
-<template>
-  <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.channelName.$error }">
-        {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
-        <input
-          v-model.trim="channelName"
-          type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.PLACEHOLDER')"
-          @blur="$v.channelName.$touch"
-        />
-        <span v-if="$v.channelName.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.ERROR')
-        }}</span>
-      </label>
-    </div>
-
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label
-        v-if="useMessagingService"
-        :class="{ error: $v.messagingServiceSID.$error }"
-      >
-        {{ $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.LABEL') }}
-        <input
-          v-model.trim="messagingServiceSID"
-          type="text"
-          :placeholder="
-            $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.PLACEHOLDER')
-          "
-          @blur="$v.messagingServiceSID.$touch"
-        />
-        <span v-if="$v.messagingServiceSID.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.ERROR')
-        }}</span>
-      </label>
-    </div>
-
-    <div
-      v-if="!useMessagingService"
-      class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]"
-    >
-      <label :class="{ error: $v.phoneNumber.$error }">
-        {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
-        <input
-          v-model.trim="phoneNumber"
-          type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.PLACEHOLDER')"
-          @blur="$v.phoneNumber.$touch"
-        />
-        <span v-if="$v.phoneNumber.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.ERROR')
-        }}</span>
-      </label>
-    </div>
-
-    <div class="max-w-[65%] w-full messagingServiceHelptext">
-      <label for="useMessagingService">
-        <input
-          id="useMessagingService"
-          v-model="useMessagingService"
-          type="checkbox"
-          class="checkbox"
-        />
-        {{
-          $t(
-            'INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.USE_MESSAGING_SERVICE'
-          )
-        }}
-      </label>
-    </div>
-
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.accountSID.$error }">
-        {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
-        <input
-          v-model.trim="accountSID"
-          type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
-          @blur="$v.accountSID.$touch"
-        />
-        <span v-if="$v.accountSID.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.ERROR')
-        }}</span>
-      </label>
-    </div>
-    <div class="max-w-[65%] w-full messagingServiceHelptext">
-      <label for="useAPIKey">
-        <input
-          id="useAPIKey"
-          v-model="useAPIKey"
-          type="checkbox"
-          class="checkbox"
-        />
-        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
-      </label>
-    </div>
-    <div v-if="useAPIKey" class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.apiKeySID.$error }">
-        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
-        <input
-          v-model.trim="apiKeySID"
-          type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.API_KEY.PLACEHOLDER')"
-          @blur="$v.apiKeySID.$touch"
-        />
-        <span v-if="$v.apiKeySID.$error" class="message">{{
-          $t('INBOX_MGMT.ADD.TWILIO.API_KEY.ERROR')
-        }}</span>
-      </label>
-    </div>
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.authToken.$error }">
-        {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
-        <input
-          v-model.trim="authToken"
-          type="text"
-          :placeholder="
-            $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)
-          "
-          @blur="$v.authToken.$touch"
-        />
-        <span v-if="$v.authToken.$error" class="message">
-          {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.ERROR`) }}
-        </span>
-      </label>
-    </div>
-
-    <div class="w-full">
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
-      />
-    </div>
-  </form>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
@@ -148,6 +13,9 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -202,8 +70,8 @@ export default {
   },
   methods: {
     async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
 
@@ -239,6 +107,143 @@ export default {
   },
 };
 </script>
+
+<template>
+  <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label :class="{ error: v$.channelName.$error }">
+        {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
+        <input
+          v-model.trim="channelName"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.PLACEHOLDER')"
+          @blur="v$.channelName.$touch"
+        />
+        <span v-if="v$.channelName.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.ERROR')
+        }}</span>
+      </label>
+    </div>
+
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label
+        v-if="useMessagingService"
+        :class="{ error: v$.messagingServiceSID.$error }"
+      >
+        {{ $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.LABEL') }}
+        <input
+          v-model.trim="messagingServiceSID"
+          type="text"
+          :placeholder="
+            $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.PLACEHOLDER')
+          "
+          @blur="v$.messagingServiceSID.$touch"
+        />
+        <span v-if="v$.messagingServiceSID.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.ERROR')
+        }}</span>
+      </label>
+    </div>
+
+    <div
+      v-if="!useMessagingService"
+      class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]"
+    >
+      <label :class="{ error: v$.phoneNumber.$error }">
+        {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
+        <input
+          v-model.trim="phoneNumber"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.PLACEHOLDER')"
+          @blur="v$.phoneNumber.$touch"
+        />
+        <span v-if="v$.phoneNumber.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.ERROR')
+        }}</span>
+      </label>
+    </div>
+
+    <div class="max-w-[65%] w-full messagingServiceHelptext">
+      <label for="useMessagingService">
+        <input
+          id="useMessagingService"
+          v-model="useMessagingService"
+          type="checkbox"
+          class="checkbox"
+        />
+        {{
+          $t(
+            'INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.USE_MESSAGING_SERVICE'
+          )
+        }}
+      </label>
+    </div>
+
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label :class="{ error: v$.accountSID.$error }">
+        {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
+        <input
+          v-model.trim="accountSID"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
+          @blur="v$.accountSID.$touch"
+        />
+        <span v-if="v$.accountSID.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.ERROR')
+        }}</span>
+      </label>
+    </div>
+    <div class="max-w-[65%] w-full messagingServiceHelptext">
+      <label for="useAPIKey">
+        <input
+          id="useAPIKey"
+          v-model="useAPIKey"
+          type="checkbox"
+          class="checkbox"
+        />
+        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
+      </label>
+    </div>
+    <div v-if="useAPIKey" class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label :class="{ error: v$.apiKeySID.$error }">
+        {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
+        <input
+          v-model.trim="apiKeySID"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.TWILIO.API_KEY.PLACEHOLDER')"
+          @blur="v$.apiKeySID.$touch"
+        />
+        <span v-if="v$.apiKeySID.$error" class="message">{{
+          $t('INBOX_MGMT.ADD.TWILIO.API_KEY.ERROR')
+        }}</span>
+      </label>
+    </div>
+    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <label :class="{ error: v$.authToken.$error }">
+        {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
+        <input
+          v-model.trim="authToken"
+          type="text"
+          :placeholder="
+            $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)
+          "
+          @blur="v$.authToken.$touch"
+        />
+        <span v-if="v$.authToken.$error" class="message">
+          {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.ERROR`) }}
+        </span>
+      </label>
+    </div>
+
+    <div class="w-full">
+      <woot-submit-button
+        :loading="uiFlags.isCreating"
+        :button-text="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
+      />
+    </div>
+  </form>
+</template>
+
 <style lang="scss" scoped>
 .messagingServiceHelptext {
   margin-top: -10px;

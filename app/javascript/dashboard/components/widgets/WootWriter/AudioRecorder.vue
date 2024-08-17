@@ -1,9 +1,3 @@
-<template>
-  <div class="audio-wave-wrapper">
-    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
-  </div>
-</template>
-
 <script>
 import getUuid from 'widget/helpers/uuid';
 import 'video.js/dist/video-js.css';
@@ -54,10 +48,6 @@ export default {
     audioRecordFormat: {
       type: String,
       default: AUDIO_FORMATS.WAV,
-    },
-    isAWhatsAppChannel: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -223,7 +213,7 @@ export default {
       this.player.wavesurfer().pause();
     },
     fireRecorderBlob(blob) {
-      this.$emit('finish-record', {
+      this.$emit('finishRecord', {
         name: blob.name,
         type: blob.type,
         size: blob.size,
@@ -231,14 +221,20 @@ export default {
       });
     },
     fireStateRecorderChanged(state) {
-      this.$emit('state-recorder-changed', state);
+      this.$emit('stateRecorderChanged', state);
     },
     fireProgressRecord(duration) {
-      this.$emit('state-recorder-progress-changed', duration);
+      this.$emit('stateRecorderProgressChanged', duration);
     },
   },
 };
 </script>
+
+<template>
+  <div class="audio-wave-wrapper">
+    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
+  </div>
+</template>
 
 <style lang="scss">
 .audio-wave-wrapper {

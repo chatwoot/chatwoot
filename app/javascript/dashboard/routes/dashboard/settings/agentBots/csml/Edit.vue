@@ -1,23 +1,11 @@
-<template>
-  <csml-bot-editor
-    v-if="agentBot.id"
-    :agent-bot="agentBot"
-    @submit="updateBot"
-  />
-  <div v-else class="flex flex-col h-auto overflow-auto no-padding">
-    <spinner />
-  </div>
-</template>
 <script>
 import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
 import CsmlBotEditor from '../components/CSMLBotEditor.vue';
 
-import { mapGetters } from 'vuex';
 export default {
   components: { Spinner, CsmlBotEditor },
   computed: {
-    ...mapGetters({ uiFlags: 'agentBots/uiFlags' }),
     agentBot() {
       return this.$store.getters['agentBots/getBot'](this.$route.params.botId);
     },
@@ -43,3 +31,10 @@ export default {
   },
 };
 </script>
+
+<template>
+  <CsmlBotEditor v-if="agentBot.id" :agent-bot="agentBot" @submit="updateBot" />
+  <div v-else class="flex flex-col h-auto overflow-auto no-padding">
+    <Spinner />
+  </div>
+</template>

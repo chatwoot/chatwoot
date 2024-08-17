@@ -1,25 +1,3 @@
-<template>
-  <div class="flex-1 p-4 overflow-auto">
-    <report-filter-selector
-      :show-agents-filter="true"
-      :show-inbox-filter="true"
-      :show-rating-filter="true"
-      :show-team-filter="isTeamsEnabled"
-      :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
-    />
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
-      @click="downloadReports"
-    >
-      {{ $t('CSAT_REPORTS.DOWNLOAD') }}
-    </woot-button>
-    <csat-metrics :filters="requestPayload" />
-    <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -128,3 +106,26 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-4 overflow-auto">
+    <ReportFilterSelector
+      show-agents-filter
+      show-inbox-filter
+      show-rating-filter
+      :show-team-filter="isTeamsEnabled"
+      :show-business-hours-switch="false"
+      @filterChange="onFilterChange"
+    />
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="arrow-download"
+      @click="downloadReports"
+    >
+      {{ $t('CSAT_REPORTS.DOWNLOAD') }}
+    </woot-button>
+    <CsatMetrics :filters="requestPayload" />
+    <CsatTable :page-index="pageIndex" @pageChange="onPageNumberChange" />
+  </div>
+</template>

@@ -1,3 +1,49 @@
+<script>
+import { useAlert } from 'dashboard/composables';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+
+export default {
+  name: 'ArticleSearchResultItem',
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    title: {
+      type: String,
+      default: 'Untitled',
+    },
+    url: {
+      type: String,
+      default: '',
+    },
+    category: {
+      type: String,
+      default: '',
+    },
+    locale: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    handleInsert(e) {
+      e.stopPropagation();
+      this.$emit('insert', this.id);
+    },
+    handlePreview(e) {
+      e.stopPropagation();
+      this.$emit('preview', this.id);
+    },
+    async handleCopy(e) {
+      e.stopPropagation();
+      await copyTextToClipboard(this.url);
+      useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+    },
+  },
+};
+</script>
+
 <template>
   <button
     class="flex flex-col w-full gap-1 px-2 py-1 bg-white border border-transparent border-solid rounded-md cursor-pointer dark:bg-slate-900 hover:bg-slate-25 hover:dark:bg-slate-800 group focus:outline-none focus:bg-slate-25 focus:border-slate-500 dark:focus:border-slate-400 dark:focus:bg-slate-800"
@@ -40,53 +86,3 @@
     </div>
   </button>
 </template>
-
-<script>
-import { useAlert } from 'dashboard/composables';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
-
-export default {
-  name: 'ArticleSearchResultItem',
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    title: {
-      type: String,
-      default: 'Untitled',
-    },
-    body: {
-      type: String,
-      default: '',
-    },
-    url: {
-      type: String,
-      default: '',
-    },
-    category: {
-      type: String,
-      default: '',
-    },
-    locale: {
-      type: String,
-      default: '',
-    },
-  },
-  methods: {
-    handleInsert(e) {
-      e.stopPropagation();
-      this.$emit('insert', this.id);
-    },
-    handlePreview(e) {
-      e.stopPropagation();
-      this.$emit('preview', this.id);
-    },
-    async handleCopy(e) {
-      e.stopPropagation();
-      await copyTextToClipboard(this.url);
-      useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-    },
-  },
-};
-</script>

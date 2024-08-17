@@ -1,112 +1,3 @@
-<template>
-  <div class="flex items-center justify-between w-full h-16">
-    <div class="flex items-center">
-      <woot-button
-        icon="chevron-left"
-        variant="clear"
-        size="small"
-        color-scheme="primary"
-        class="back-button"
-        @click="onClickGoBack"
-      >
-        {{ backButtonLabel }}
-      </woot-button>
-    </div>
-    <div class="flex items-center gap-1">
-      <span
-        v-if="isUpdating || isSaved"
-        class="draft-status mr-1 ml-4 rtl:ml-2 rtl:mr-4 text-slate-400 dark:text-slate-300 items-center text-xs"
-      >
-        {{ statusText }}
-      </span>
-
-      <woot-button
-        class-names="article--buttons relative"
-        icon="globe"
-        color-scheme="secondary"
-        variant="hollow"
-        size="small"
-        @click="showPreview"
-      >
-        {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
-      </woot-button>
-      <!-- Hidden since this is in V2
-      <woot-button
-        v-if="shouldShowAddLocaleButton"
-        class-names="article--buttons relative"
-        icon="add"
-        color-scheme="secondary"
-        variant="hollow"
-        size="small"
-        @click="onClickAdd"
-      >
-        {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
-      </woot-button> -->
-      <woot-button
-        v-if="!isSidebarOpen"
-        v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
-        icon="pane-open"
-        class-names="article--buttons relative sidebar-button"
-        variant="hollow"
-        size="small"
-        color-scheme="secondary"
-        :is-disabled="enableOpenSidebarButton"
-        @click="openSidebar"
-      />
-      <woot-button
-        v-if="isSidebarOpen"
-        v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.CLOSE_SIDEBAR')"
-        icon="pane-close"
-        class-names="article--buttons relative"
-        variant="hollow"
-        size="small"
-        color-scheme="secondary"
-        @click="closeSidebar"
-      />
-      <div class="article--buttons relative">
-        <div class="button-group">
-          <woot-button
-            class-names="publish-button"
-            size="small"
-            icon="checkmark"
-            color-scheme="primary"
-            :is-disabled="!articleSlug || isPublishedArticle"
-            @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"
-          >
-            {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
-          </woot-button>
-          <woot-button
-            ref="arrowDownButton"
-            size="small"
-            icon="chevron-down"
-            :is-disabled="!articleSlug || isArchivedArticle"
-            @click="openActionsDropdown"
-          />
-        </div>
-        <div
-          v-if="showActionsDropdown"
-          v-on-clickaway="closeActionsDropdown"
-          class="dropdown-pane dropdown-pane--open"
-        >
-          <woot-dropdown-menu>
-            <woot-dropdown-item>
-              <woot-button
-                variant="clear"
-                color-scheme="secondary"
-                size="small"
-                icon="book-clock"
-                @click="updateArticleStatus(ARTICLE_STATUS_TYPES.ARCHIVE)"
-              >
-                {{ $t('HELP_CENTER.EDIT_HEADER.MOVE_TO_ARCHIVE_BUTTON') }}
-              </woot-button>
-            </woot-dropdown-item>
-          </woot-dropdown-menu>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import wootConstants from 'dashboard/constants/globals';
@@ -133,10 +24,6 @@ export default {
       default: false,
     },
     enableOpenSidebarButton: {
-      type: Boolean,
-      default: false,
-    },
-    shouldShowAddLocaleButton: {
       type: Boolean,
       default: false,
     },
@@ -187,7 +74,7 @@ export default {
           articleId: this.articleSlug,
           status: status,
         });
-        this.$emit('update-meta');
+        this.$emit('updateMeta');
         this.statusUpdateSuccessMessage(status);
         this.closeActionsDropdown();
         if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
@@ -231,6 +118,114 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex items-center justify-between w-full h-16">
+    <div class="flex items-center">
+      <woot-button
+        icon="chevron-left"
+        variant="clear"
+        size="small"
+        color-scheme="primary"
+        class="back-button"
+        @click="onClickGoBack"
+      >
+        {{ backButtonLabel }}
+      </woot-button>
+    </div>
+    <div class="flex items-center gap-1">
+      <span
+        v-if="isUpdating || isSaved"
+        class="items-center ml-4 mr-1 text-xs draft-status rtl:ml-2 rtl:mr-4 text-slate-400 dark:text-slate-300"
+      >
+        {{ statusText }}
+      </span>
+
+      <woot-button
+        class-names="article--buttons relative"
+        icon="globe"
+        color-scheme="secondary"
+        variant="hollow"
+        size="small"
+        @click="showPreview"
+      >
+        {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
+      </woot-button>
+      <!-- Hidden since this is in V2
+      <woot-button
+        v-if="shouldShowAddLocaleButton"
+        class-names="article--buttons relative"
+        icon="add"
+        color-scheme="secondary"
+        variant="hollow"
+        size="small"
+        @click="onClickAdd"
+      >
+        {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
+      </woot-button> -->
+      <woot-button
+        v-if="!isSidebarOpen"
+        v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
+        icon="pane-open"
+        class-names="article--buttons relative sidebar-button"
+        variant="hollow"
+        size="small"
+        color-scheme="secondary"
+        :is-disabled="enableOpenSidebarButton"
+        @click="openSidebar"
+      />
+      <woot-button
+        v-if="isSidebarOpen"
+        v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.CLOSE_SIDEBAR')"
+        icon="pane-close"
+        class-names="article--buttons relative"
+        variant="hollow"
+        size="small"
+        color-scheme="secondary"
+        @click="closeSidebar"
+      />
+      <div class="relative article--buttons">
+        <div class="button-group">
+          <woot-button
+            class-names="publish-button"
+            size="small"
+            icon="checkmark"
+            color-scheme="primary"
+            :is-disabled="!articleSlug || isPublishedArticle"
+            @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"
+          >
+            {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
+          </woot-button>
+          <woot-button
+            size="small"
+            icon="chevron-down"
+            :is-disabled="!articleSlug || isArchivedArticle"
+            @click="openActionsDropdown"
+          />
+        </div>
+        <div
+          v-if="showActionsDropdown"
+          v-on-clickaway="closeActionsDropdown"
+          class="dropdown-pane dropdown-pane--open"
+        >
+          <woot-dropdown-menu>
+            <woot-dropdown-item>
+              <woot-button
+                variant="clear"
+                color-scheme="secondary"
+                size="small"
+                icon="book-clock"
+                @click="updateArticleStatus(ARTICLE_STATUS_TYPES.ARCHIVE)"
+              >
+                {{ $t('HELP_CENTER.EDIT_HEADER.MOVE_TO_ARCHIVE_BUTTON') }}
+              </woot-button>
+            </woot-dropdown-item>
+          </woot-dropdown-menu>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .article--buttons {
