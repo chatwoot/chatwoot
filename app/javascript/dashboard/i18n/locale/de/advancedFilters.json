@@ -18,6 +18,7 @@
       "AND": "UND",
       "OR": "ODER"
     },
+    "INPUT_PLACEHOLDER": "Wert eintragen",
     "OPERATOR_LABELS": {
       "equal_to": "Gleich",
       "not_equal_to": "Nicht gleich",
