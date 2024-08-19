@@ -34,6 +34,7 @@ class SmartAction < ApplicationRecord
   ASK_COPILOT = 'ask_copilot'.freeze
   AUTOMATED_RESPONSE = 'automated_response'.freeze
   RESOLVE_CONVERSATION = 'resolve_conversation'.freeze
+  CREATE_PRIVATE_MESSAGE = 'create_private_message'.freeze
 
   MANUAL_ACTION = [
     CREATE_BOOKING,
@@ -71,6 +72,7 @@ class SmartAction < ApplicationRecord
     dispatch_create_events
     create_automated_response
     resolve_conversation
+    create_private_message
   end
 
   def dispatch_create_events
@@ -83,6 +85,12 @@ class SmartAction < ApplicationRecord
     return unless event == AUTOMATED_RESPONSE
 
     Messages::MessageBuilder.new(conversation.assignee, conversation, { content: content }).perform
+  end
+
+  def create_private_message
+    return unless event == CREATE_PRIVATE_MESSAGE
+
+    Messages::MessageBuilder.new(conversation.assignee, conversation, { content: content, private: true }).perform
   end
 
   def resolve_conversation

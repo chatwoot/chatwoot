@@ -64,5 +64,14 @@ RSpec.describe SmartAction do
         expect(smart_action.conversation.resolved?).to be_truthy
       end
     end
+
+    context 'create_private_message' do
+      it {
+        conversation = create(:conversation)
+        smart_action = create(:smart_action, event: 'create_private_message', conversation: conversation, content: 'private content')
+        expect(smart_action.conversation.messages.last.private).to be_truthy
+        expect(smart_action.conversation.messages.last.content).to eq 'private content'
+      }
+    end
   end
 end
