@@ -1,23 +1,24 @@
 {
   "FILTER": {
     "TITLE": "تصفية المحادثات",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
-    "SUBMIT_BUTTON_LABEL": "تطبيق عامل التصفية",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "SUBTITLE": "أضف عوامل التصفية أدناه واضغط على 'تطبيق التصفيات' لتجنب الفوضى في المحادثات.",
+    "EDIT_CUSTOM_FILTER": "تعديل المجلد",
+    "CUSTOM_VIEWS_SUBTITLE": "أضف أو أزل تصفيات وقم بتحديث المجلد الخاص بك.",
+    "ADD_NEW_FILTER": "إضافة تصفية",
+    "FILTER_DELETE_ERROR": "عذرًا، يبدو أننا لا نستطيع حفظ أي شيء! يرجى إضافة تصفية واحدة على الأقل ليتم الحفظ.",
+    "SUBMIT_BUTTON_LABEL": "تطبيق التصفيات",
+    "UPDATE_BUTTON_LABEL": "تحديث المجلد",
     "CANCEL_BUTTON_LABEL": "إلغاء",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "مسح التصفيات",
+    "FOLDER_LABEL": "اسم المجلد",
+    "FOLDER_QUERY_LABEL": "استعلام المجلد",
     "EMPTY_VALUE_ERROR": "القيمة مطلوبة.",
     "TOOLTIP_LABEL": "تصفية المحادثات",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "و",
       "OR": "أو"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "يساوي",
       "not_equal_to": "لا يساوي",
@@ -25,8 +26,8 @@
       "does_not_contain": "لا يحتوي",
       "is_present": "موجود",
       "is_not_present": "غير موجود",
-      "is_greater_than": "هو أكبر من",
-      "is_less_than": "هو أقل من",
+      "is_greater_than": "أكبر من",
+      "is_less_than": "أقل من",
       "days_before": "قبل x أيام",
       "starts_with": "يبدأ بـ"
     },
@@ -36,66 +37,66 @@
     },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "اسم المكلَّف",
       "INBOX_NAME": "اسم صندوق الوارد",
       "TEAM_NAME": "اسم الفريق",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "معرف المحادثة",
+      "CAMPAIGN_NAME": "اسم الحملة",
       "LABELS": "الوسوم",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "لغة المتصفح",
       "PRIORITY": "الأولوية",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "اسم الدولة",
       "REFERER_LINK": "رابط المرجع",
       "CUSTOM_ATTRIBUTE_LIST": "القائمة",
       "CUSTOM_ATTRIBUTE_TEXT": "النص",
       "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
       "CUSTOM_ATTRIBUTE_LINK": "الرابط",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "خانة الاختيار",
       "CREATED_AT": "تم إنشاؤها في",
-      "LAST_ACTIVITY": "النشاط الأخير"
+      "LAST_ACTIVITY": "آخر نشاط"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "التصفيات القياسية",
+      "ADDITIONAL_FILTERS": "التصفيات الإضافية",
+      "CUSTOM_ATTRIBUTES": "الخصائص المخصصة"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "هل تريد حفظ هذا الفلتر؟",
-        "LABEL": "تسمية هذا الفلتر",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "TITLE": "هل تريد حفظ هذه التصفية؟",
+        "LABEL": "تسمية هذه التصفية",
+        "PLACEHOLDER": "قم بتسمية التصفية لتتمكن من الرجوع إليه لاحقًا.",
         "ERROR_MESSAGE": "الاسم مطلوب.",
-        "SAVE_BUTTON": "حفظ الفلتر",
+        "SAVE_BUTTON": "حفظ التصفية",
         "CANCEL_BUTTON": "إلغاء",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح.",
-          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة."
+          "SUCCESS_MESSAGE": "تم إنشاء المجلد بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء إنشاء المجلد."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح.",
-          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة."
+          "SUCCESS_MESSAGE": "تم إنشاء القسم بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء إنشاء القسم."
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "تحرير المجلد"
       },
       "DELETE": {
-        "DELETE_BUTTON": "حذف الفلتر",
+        "DELETE_BUTTON": "حذف التصفية",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "تأكيد الحذف",
-            "MESSAGE": "هل أنت متأكد من حذف الفلتر ",
-            "YES": "Yes, delete",
+            "MESSAGE": "هل أنت متأكد من حذف التصفية ",
+            "YES": "نعم، احذف",
             "NO": "لا، احتفظ به"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "تم حذف طريقة عرض مخصصة بنجاح.",
+          "SUCCESS_MESSAGE": "تم حذف المجلد بنجاح.",
           "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "تم حذف العرض المخصص بنجاح.",
-          "ERROR_MESSAGE": "حدث خطأ أثناء حذف طريقة عرض مخصصة."
+          "SUCCESS_MESSAGE": "تم حذف القسم بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف القسم."
         }
       }
     }

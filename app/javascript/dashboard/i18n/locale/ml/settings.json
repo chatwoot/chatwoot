@@ -239,6 +239,7 @@
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "CONTACTS": "കോൺ‌ടാക്റ്റുകൾ",
+    "CAPTAIN": "Captain",
     "HOME": "ഹോം",
     "AGENTS": "ഏജന്റുമാർ",
     "AGENT_BOTS": "Bots",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "അവലോകനം",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",

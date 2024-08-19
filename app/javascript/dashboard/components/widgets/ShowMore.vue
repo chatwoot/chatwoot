@@ -1,15 +1,3 @@
-<template>
-  <span>
-    {{ textToBeDisplayed }}
-    <button
-      v-if="text.length > limit"
-      class="show-more--button"
-      @click="toggleShowMore"
-    >
-      {{ buttonLabel }}
-    </button>
-  </span>
-</template>
 <script>
 export default {
   props: {
@@ -47,6 +35,20 @@ export default {
   },
 };
 </script>
+
+<template>
+  <span>
+    {{ textToBeDisplayed }}
+    <button
+      v-if="text.length > limit"
+      class="show-more--button"
+      @click="toggleShowMore"
+    >
+      {{ buttonLabel }}
+    </button>
+  </span>
+</template>
+
 <style scoped>
 .show-more--button {
   color: var(--w-500);

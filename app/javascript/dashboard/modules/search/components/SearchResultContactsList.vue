@@ -1,26 +1,3 @@
-<template>
-  <search-result-section
-    :title="$t('SEARCH.SECTION.CONTACTS')"
-    :empty="!contacts.length"
-    :query="query"
-    :show-title="showTitle"
-    :is-fetching="isFetching"
-  >
-    <ul v-if="contacts.length" class="search-list">
-      <li v-for="contact in contacts" :key="contact.id">
-        <search-result-contact-item
-          :id="contact.id"
-          :name="contact.name"
-          :email="contact.email"
-          :phone="contact.phone_number"
-          :account-id="accountId"
-          :thumbnail="contact.thumbnail"
-        />
-      </li>
-    </ul>
-  </search-result-section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 
@@ -57,3 +34,26 @@ export default {
   },
 };
 </script>
+
+<template>
+  <SearchResultSection
+    :title="$t('SEARCH.SECTION.CONTACTS')"
+    :empty="!contacts.length"
+    :query="query"
+    :show-title="showTitle"
+    :is-fetching="isFetching"
+  >
+    <ul v-if="contacts.length" class="search-list">
+      <li v-for="contact in contacts" :key="contact.id">
+        <SearchResultContactItem
+          :id="contact.id"
+          :name="contact.name"
+          :email="contact.email"
+          :phone="contact.phone_number"
+          :account-id="accountId"
+          :thumbnail="contact.thumbnail"
+        />
+      </li>
+    </ul>
+  </SearchResultSection>
+</template>

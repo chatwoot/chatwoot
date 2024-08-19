@@ -239,6 +239,7 @@
     "REPORTS": "Rapporter",
     "SETTINGS": "Inställningar",
     "CONTACTS": "Kontakter",
+    "CAPTAIN": "Captain",
     "HOME": "Hem",
     "AGENTS": "Agenter",
     "AGENT_BOTS": "Bots",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Din Facebook-anslutning har löpt ut, vänligen återanslut din Facebook-sida för att fortsätta med tjänsterna",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Hjälpcenter",
       "ALL_ARTICLES": "Alla artiklar",

@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Réponses standardisées",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "Ajouter une réponse prédéfinie",
     "LOADING": "Récupération des réponses prédéfinies...",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête.",
-    "SIDEBAR_TXT": "<p><b>Réponses prédéfinies</b> </p><p>Les réponses prédéfinies sont des modèles de réponse pré-écrits qui vous aident à répondre rapidement à une conversation. Pour insérer une réponse prédéfinie pendant un chat, les agents peuvent taper un code court précédé du caractère '/'. </p><p>Vous pouvez gérer vos réponses standard à partir de cette page ou en créer de nouvelles à l'aide du bouton \"Ajouter une réponse standard\".</p><p>Ouvrez le <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Manuel des réponses standard</a> dans un autre onglet pour obtenir un coup de main.</p><p>Vérifiez également la toute nouvelle <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Bibliothèque des réponses standard</a>.</p>",
     "LIST": {
       "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
       "TITLE": "Gérer les réponses standardisées",

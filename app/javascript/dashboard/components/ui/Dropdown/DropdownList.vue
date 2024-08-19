@@ -38,13 +38,13 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['on-search']);
+const emit = defineEmits(['onSearch']);
 
 const searchTerm = ref('');
 
 const onSearch = debounce(value => {
   searchTerm.value = value;
-  emits('on-search', value);
+  emit('onSearch', value);
 }, 300);
 
 const filteredListItems = computed(() => {
@@ -71,13 +71,14 @@ const shouldShowEmptyState = computed(() => {
   return !props.isLoading && isDropdownListEmpty.value;
 });
 </script>
+
 <template>
   <div
     class="absolute z-20 w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50 max-h-[400px]"
     @click.stop
   >
     <slot name="search">
-      <dropdown-search
+      <DropdownSearch
         v-if="enableSearch"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
@@ -87,19 +88,21 @@ const shouldShowEmptyState = computed(() => {
       />
     </slot>
     <slot name="listItem">
-      <dropdown-loading-state
+      <DropdownLoadingState
         v-if="shouldShowLoadingState"
         :message="loadingPlaceholder"
       />
-      <dropdown-empty-state
+      <DropdownEmptyState
         v-else-if="shouldShowEmptyState"
         :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
       />
-      <list-item-button
+      <ListItemButton
         v-for="item in filteredListItems"
         :key="item.id"
         :is-active="isFilterActive(item.id)"
         :button-text="item.name"
+        :icon="item.icon"
+        :icon-color="item.iconColor"
         @click="$emit('click', item)"
       />
     </slot>

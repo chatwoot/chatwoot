@@ -1,14 +1,37 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-
-const SettingsContent = () => import('../Wrapper.vue');
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
+const IntegrationHooks = () => import('./IntegrationHooks.vue');
+const Index = () => import('./Index.vue');
 const Webhook = () => import('./Webhooks/Index.vue');
 const DashboardApps = () => import('./DashboardApps/Index.vue');
-const ShowIntegration = () => import('./ShowIntegration.vue');
 const Slack = () => import('./Slack.vue');
-const Index = () => import('./Index.vue');
+const SettingsContent = () => import('../Wrapper.vue');
 
 export default {
   routes: [
+    {
+      path: frontendURL('accounts/:accountId/settings/integrations'),
+      component: SettingsWrapper,
+      props: {},
+      children: [
+        {
+          path: '',
+          name: 'settings_applications',
+          component: Index,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'dashboard_apps',
+          component: DashboardApps,
+          name: 'settings_integrations_dashboard_apps',
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+      ],
+    },
     {
       path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsContent,
@@ -27,25 +50,9 @@ export default {
       },
       children: [
         {
-          path: '',
-          name: 'settings_integrations',
-          component: Index,
-          meta: {
-            permissions: ['administrator'],
-          },
-        },
-        {
           path: 'webhook',
           component: Webhook,
           name: 'settings_integrations_webhook',
-          meta: {
-            permissions: ['administrator'],
-          },
-        },
-        {
-          path: 'dashboard-apps',
-          component: DashboardApps,
-          name: 'settings_integrations_dashboard_apps',
           meta: {
             permissions: ['administrator'],
           },
@@ -61,17 +68,14 @@ export default {
         },
         {
           path: ':integration_id',
-          name: 'settings_integrations_integration',
-          component: ShowIntegration,
+          name: 'settings_applications_integration',
+          component: IntegrationHooks,
           meta: {
             permissions: ['administrator'],
           },
-          props: route => {
-            return {
-              integrationId: route.params.integration_id,
-              code: route.query.code,
-            };
-          },
+          props: route => ({
+            integrationId: route.params.integration_id,
+          }),
         },
       ],
     },

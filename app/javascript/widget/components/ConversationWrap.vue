@@ -1,26 +1,3 @@
-<template>
-  <div class="conversation--container" :class="colorSchemeClass">
-    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
-      <div v-if="isFetchingList" class="message--loader">
-        <spinner />
-      </div>
-      <div
-        v-for="groupedMessage in groupedMessages"
-        :key="groupedMessage.date"
-        class="messages-wrap"
-      >
-        <date-separator :date="groupedMessage.date" />
-        <chat-message
-          v-for="message in groupedMessage.messages"
-          :key="message.id"
-          :message="message"
-        />
-      </div>
-      <agent-typing-bubble v-if="showStatusIndicator" />
-    </div>
-  </div>
-</template>
-
 <script>
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
@@ -117,6 +94,29 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="conversation--container" :class="colorSchemeClass">
+    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
+      <div v-if="isFetchingList" class="message--loader">
+        <Spinner />
+      </div>
+      <div
+        v-for="groupedMessage in groupedMessages"
+        :key="groupedMessage.date"
+        class="messages-wrap"
+      >
+        <DateSeparator :date="groupedMessage.date" />
+        <ChatMessage
+          v-for="message in groupedMessage.messages"
+          :key="message.id"
+          :message="message"
+        />
+      </div>
+      <AgentTypingBubble v-if="showStatusIndicator" />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

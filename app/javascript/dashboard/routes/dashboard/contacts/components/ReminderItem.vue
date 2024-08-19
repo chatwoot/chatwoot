@@ -1,3 +1,42 @@
+<script>
+export default {
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    text: {
+      type: String,
+      default: '',
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    date: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+  },
+
+  methods: {
+    onClick() {
+      this.$emit('completed', this.isCompleted);
+    },
+    onEdit() {
+      this.$emit('edit', this.id);
+    },
+    onDelete() {
+      this.$emit('delete', this.id);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="reminder-wrap">
     <div class="status-wrap">
@@ -43,45 +82,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    text: {
-      type: String,
-      default: '',
-    },
-    isCompleted: {
-      type: Boolean,
-      default: false,
-    },
-    date: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-  },
-
-  methods: {
-    onClick() {
-      this.$emit('completed', this.isCompleted);
-    },
-    onEdit() {
-      this.$emit('edit', this.id);
-    },
-    onDelete() {
-      this.$emit('delete', this.id);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .reminder-wrap {

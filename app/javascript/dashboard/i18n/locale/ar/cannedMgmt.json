@@ -1,14 +1,15 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "الردود السريعة",
+    "HEADER": "الردود الجاهزة",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "إضافة رد جاهز",
     "LOADING": "جاري جلب الردود الجاهزة...",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام.",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "لا توجد ردود جاهزة متوفرة في هذا الحساب.",
       "TITLE": "إدارة الردود الجاهزة",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "DESC": "الردود الجاهزة هي قوالب رسائل معدة مسبقاً يمكن استخدامها لتسريع كتابة الردود في المحادثات.",
       "TABLE_HEADER": [
         "كود مختصر",
         "المحتوى",
@@ -17,7 +18,7 @@
     },
     "ADD": {
       "TITLE": "إضافة رد جاهز",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "DESC": "الردود الجاهزة هي قوالب رسائل معدة مسبقاً يمكن استخدامها لتسريع كتابة الردود في المحادثات.",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
@@ -33,43 +34,43 @@
         "SUBMIT": "إرسال"
       },
       "API": {
-        "SUCCESS_MESSAGE": "تم إضافة الرد المعد مسبقاً بنجاح.",
+        "SUCCESS_MESSAGE": "تم إضافة الرد الجاهز بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "EDIT": {
-      "TITLE": "تعديل الرد المعد مسبقاً",
+      "TITLE": "تعديل الرد الجاهز",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "كود مختصر",
-          "PLACEHOLDER": "من فضلك ادخل الكود مختصر.",
-          "ERROR": "الكود مختصر مطلوب."
+          "PLACEHOLDER": "من فضلك ادخل الكود المختصر.",
+          "ERROR": "الكود المختصر مطلوب."
         },
         "CONTENT": {
           "LABEL": "رسالة",
-          "PLACEHOLDER": "من فضلك ادخل نص لرسالة التي ترغب في حفظها كقالب لاستخدامها لاحقاُ.",
+          "PLACEHOLDER": "من فضلك ادخل نص للرسالة التي ترغب في حفظها كقالب لاستخدامها لاحقاُ.",
           "ERROR": "الرسالة مطلوبة."
         },
-        "SUBMIT": "إرسال"
+        "SUBMIT": "تسليم"
       },
       "BUTTON_TEXT": "تعديل",
       "API": {
-        "SUCCESS_MESSAGE": "تم تحديث الرد المعد مسبقاً بنجاح.",
+        "SUCCESS_MESSAGE": "تم تحديث الرد الجاهز بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "تم حذف الرد المعد مسبقاً بنجاح.",
+        "SUCCESS_MESSAGE": "تم حذف الرد الجاهز بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
         "MESSAGE": "هل أنت متأكد من الحذف ",
-        "YES": "نعم, حذف ",
-        "NO": "لا, قم بالابقاء عليه "
+        "YES": "نعم، احذف ",
+        "NO": "لا، احتفظ به "
       }
     }
   }

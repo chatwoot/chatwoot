@@ -1,6 +1,15 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Інтеграції",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Події з підпискою",
       "FORM": {
@@ -169,6 +178,7 @@
       "HEADER_BTN_TXT": "Додати нову інформаційну панель",
       "SIDEBAR_TXT": "<p><b>Панель управління</b></p><p>Додатки дозволяють організаціям вставляти в панель керування Chatwoot інформацію, щоб надати контекст агентам підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і вставляти його в панелі управління відомості про користувача, їхні замовлення або історію попередніх платежів.</p><p>Коли ви вставляєте свій застосунок за допомогою панелі керування в Chatwoot, ваша програма отримає контекст розмови і зв'яжеться як віконна подія. Налаштуйте слухача для заходу повідомлення на вашій сторінці, щоб отримати контекст.</p><p>Щоб додати нову панель керування, натисніть кнопку 'Додати нову програму'.</p>",
       "DESCRIPTION": "Додатки дозволяють організаціям вбудовувати інформаційну панель керування і надавати контекст для агентів підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і додавати інформацію, що надавали про користувача, його замовлення або історію платежів.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Поки що немає налаштованих додатків в цьому акаунті",
         "LOADING": "Отримання додатків панелі керування...",
@@ -208,6 +218,87 @@
         "MESSAGE": "Ви дійсно бажаєте видалити програму - %{appName}?",
         "API_SUCCESS": "Панель інструментів успішно видалено",
         "API_ERROR": "Не вдалося видалити додаток. Будь ласка, спробуйте ще раз пізніше"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Створити",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Лінк",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Назва",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Необхідно вказати назву"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Опис",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Команда",
+            "PLACEHOLDER": "Виберіть команду",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Пріоритет",
+            "PLACEHOLDER": "Оберіть пріоритет",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Мітка",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Статус",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Створити",
+        "CANCEL": "Скасувати",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Статус",
+        "PRIORITY": "Пріоритет",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Мітки",
+        "CREATED_AT": "Created at %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

@@ -1,5 +1,61 @@
+<script setup>
+import { computed } from 'vue';
+
+// Props
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
+  totalPages: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const emit = defineEmits(['pageChange']);
+const hasLastPage = computed(
+  () => props.currentPage === props.totalPages || props.totalPages === 1
+);
+const hasFirstPage = computed(() => props.currentPage === 1);
+const hasNextPage = computed(() => props.currentPage === props.totalPages);
+const hasPrevPage = computed(() => props.currentPage === 1);
+
+function buttonClass(hasPage) {
+  if (hasPage) {
+    return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
+  }
+  return 'dark:hover:!bg-slate-700/50';
+}
+
+function onPageChange(newPage) {
+  emit('pageChange', newPage);
+}
+
+const onNextPage = () => {
+  if (!onNextPage.value) {
+    onPageChange(props.currentPage + 1);
+  }
+};
+const onPrevPage = () => {
+  if (!hasPrevPage.value) {
+    onPageChange(props.currentPage - 1);
+  }
+};
+const onFirstPage = () => {
+  if (!hasFirstPage.value) {
+    onPageChange(1);
+  }
+};
+const onLastPage = () => {
+  if (!hasLastPage.value) {
+    onPageChange(props.totalPages);
+  }
+};
+</script>
+
 <template>
-  <div class="flex items-center bg-slate-50 dark:bg-slate-800 h-8 rounded-lg">
+  <div class="flex items-center h-8 rounded-lg bg-slate-50 dark:bg-slate-800">
     <woot-button
       size="small"
       variant="smooth"
@@ -16,7 +72,7 @@
         :class="hasFirstPage && 'opacity-40'"
       />
     </woot-button>
-    <div class="bg-slate-75 dark:bg-slate-700/50 w-px rounded-sm h-4" />
+    <div class="w-px h-4 rounded-sm bg-slate-75 dark:bg-slate-700/50" />
     <woot-button
       size="small"
       variant="smooth"
@@ -35,7 +91,7 @@
     </woot-button>
 
     <div
-      class="flex px-3 items-center gap-3 tabular-nums bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-100"
+      class="flex items-center gap-3 px-3 tabular-nums bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-100"
     >
       <span class="text-sm text-slate-800 dark:text-slate-75">
         {{ currentPage }}
@@ -61,7 +117,7 @@
         :class="hasNextPage && 'opacity-40'"
       />
     </woot-button>
-    <div class="bg-slate-75 dark:bg-slate-700/50 w-px rounded-sm h-4" />
+    <div class="w-px h-4 rounded-sm bg-slate-75 dark:bg-slate-700/50" />
     <woot-button
       size="small"
       variant="smooth"
@@ -80,64 +136,3 @@
     </woot-button>
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue';
-
-// Props
-const props = defineProps({
-  currentPage: {
-    type: Number,
-    default: 1,
-  },
-  totalCount: {
-    type: Number,
-    default: 0,
-  },
-  totalPages: {
-    type: Number,
-    default: 0,
-  },
-});
-
-const hasLastPage = computed(
-  () => props.currentPage === props.totalPages || props.totalPages === 1
-);
-const hasFirstPage = computed(() => props.currentPage === 1);
-const hasNextPage = computed(() => props.currentPage === props.totalPages);
-const hasPrevPage = computed(() => props.currentPage === 1);
-
-const emit = defineEmits(['page-change']);
-
-function buttonClass(hasPage) {
-  if (hasPage) {
-    return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
-  }
-  return 'dark:hover:!bg-slate-700/50';
-}
-
-function onPageChange(newPage) {
-  emit('page-change', newPage);
-}
-
-const onNextPage = () => {
-  if (!onNextPage.value) {
-    onPageChange(props.currentPage + 1);
-  }
-};
-const onPrevPage = () => {
-  if (!hasPrevPage.value) {
-    onPageChange(props.currentPage - 1);
-  }
-};
-const onFirstPage = () => {
-  if (!hasFirstPage.value) {
-    onPageChange(1);
-  }
-};
-const onLastPage = () => {
-  if (!hasLastPage.value) {
-    onPageChange(props.totalPages);
-  }
-};
-</script>
