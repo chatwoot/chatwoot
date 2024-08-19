@@ -1,148 +1,24 @@
-<template>
-  <div class="flex-1 overflow-auto">
-    <div class="flex flex-row gap-4 p-8">
-      <div class="w-full lg:w-3/5">
-        <p
-          v-if="!inboxesList.length"
-          class="flex h-full items-center flex-col justify-center"
-        >
-          {{ $t('INBOX_MGMT.LIST.404') }}
-          <router-link
-            v-if="isAdmin"
-            :to="addAccountScoping('settings/inboxes/new')"
-          >
-            {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
-          </router-link>
-        </p>
-
-        <table v-if="inboxesList.length" class="woot-table">
-          <tbody>
-            <tr v-for="item in inboxesList" :key="item.id">
-              <td>
-                <img
-                  v-if="item.avatar_url"
-                  class="woot-thumbnail"
-                  :src="item.avatar_url"
-                  alt="No Page Image"
-                />
-                <img
-                  v-else
-                  class="woot-thumbnail"
-                  src="~dashboard/assets/images/flag.svg"
-                  alt="No Page Image"
-                />
-              </td>
-              <!-- Short Code  -->
-              <td>
-                <span class="agent-name">{{ item.name }}</span>
-                <span v-if="item.channel_type === 'Channel::FacebookPage'">
-                  Facebook
-                </span>
-                <span v-if="item.channel_type === 'Channel::WebWidget'">
-                  Website
-                </span>
-                <span v-if="item.channel_type === 'Channel::TwitterProfile'">
-                  Twitter
-                </span>
-                <span v-if="item.channel_type === 'Channel::TwilioSms'">
-                  {{ twilioChannelName(item) }}
-                </span>
-                <span v-if="item.channel_type === 'Channel::Whatsapp'">
-                  Whatsapp
-                </span>
-                <span v-if="item.channel_type === 'Channel::Sms'"> Sms </span>
-                <span v-if="item.channel_type === 'Channel::Email'">
-                  Email
-                </span>
-                <span v-if="item.channel_type === 'Channel::Telegram'">
-                  Telegram
-                </span>
-                <span v-if="item.channel_type === 'Channel::Line'">Line</span>
-                <span v-if="item.channel_type === 'Channel::Api'">
-                  {{ globalConfig.apiChannelName || 'API' }}
-                </span>
-              </td>
-
-              <!-- Action Buttons -->
-              <td>
-                <div class="button-wrapper">
-                  <router-link
-                    :to="addAccountScoping(`settings/inboxes/${item.id}`)"
-                  >
-                    <woot-button
-                      v-if="isAdmin"
-                      v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
-                      variant="smooth"
-                      size="tiny"
-                      icon="settings"
-                      color-scheme="secondary"
-                      class-names="grey-btn"
-                    />
-                  </router-link>
-
-                  <woot-button
-                    v-if="isAdmin"
-                    v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                    variant="smooth"
-                    color-scheme="alert"
-                    size="tiny"
-                    class-names="grey-btn"
-                    :is-loading="loading[item.id]"
-                    icon="dismiss-circle"
-                    @click="openDelete(item)"
-                  />
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="w-1/3 hidden lg:block">
-        <span
-          v-dompurify-html="
-            useInstallationName(
-              $t('INBOX_MGMT.SIDEBAR_TXT'),
-              globalConfig.installationName
-            )
-          "
-        />
-      </div>
-    </div>
-    <settings
-      v-if="showSettings"
-      :show.sync="showSettings"
-      :on-close="closeSettings"
-      :inbox="selectedInbox"
-    />
-
-    <woot-confirm-delete-modal
-      v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
-      :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="confirmDeleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-      :confirm-value="selectedInbox.name"
-      :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
-    />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Settings from './Settings.vue';
-import adminMixin from '../../../../mixins/isAdmin';
-import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     Settings,
   },
-  mixins: [adminMixin, accountMixin, globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    const { accountScopedUrl } = useAccount();
+    return {
+      isAdmin,
+      accountScopedUrl,
+    };
+  },
   data() {
     return {
       loading: {},
@@ -195,9 +71,9 @@ export default {
     async deleteInbox({ id }) {
       try {
         await this.$store.dispatch('inboxes/delete', id);
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
       }
     },
 
@@ -216,3 +92,140 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 overflow-auto">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full lg:w-3/5">
+        <p
+          v-if="!inboxesList.length"
+          class="flex flex-col items-center justify-center h-full"
+        >
+          {{ $t('INBOX_MGMT.LIST.404') }}
+          <router-link
+            v-if="isAdmin"
+            :to="accountScopedUrl('settings/inboxes/new')"
+          >
+            {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
+          </router-link>
+        </p>
+
+        <table v-if="inboxesList.length" class="woot-table">
+          <tbody>
+            <tr v-for="item in inboxesList" :key="item.id">
+              <td>
+                <img
+                  v-if="item.avatar_url"
+                  class="woot-thumbnail"
+                  :src="item.avatar_url"
+                  alt="No Page Image"
+                />
+                <img
+                  v-else
+                  class="woot-thumbnail"
+                  src="~dashboard/assets/images/flag.svg"
+                  alt="No Page Image"
+                />
+              </td>
+              <!-- Short Code  -->
+              <td>
+                <span class="agent-name">{{ item.name }}</span>
+                <span v-if="item.channel_type === 'Channel::FacebookPage'">
+                  {{ 'Facebook' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::WebWidget'">
+                  {{ 'Website' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::TwitterProfile'">
+                  {{ 'Twitter' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::TwilioSms'">
+                  {{ twilioChannelName(item) }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Whatsapp'">
+                  {{ 'Whatsapp' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Sms'">
+                  {{ 'Sms' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Email'">
+                  {{ 'Email' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Telegram'">
+                  {{ 'Telegram' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Line'">
+                  {{ 'Line' }}
+                </span>
+                <span v-if="item.channel_type === 'Channel::Api'">
+                  {{ globalConfig.apiChannelName || 'API' }}
+                </span>
+              </td>
+
+              <!-- Action Buttons -->
+              <td>
+                <div class="button-wrapper">
+                  <router-link
+                    :to="accountScopedUrl(`settings/inboxes/${item.id}`)"
+                  >
+                    <woot-button
+                      v-if="isAdmin"
+                      v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
+                      variant="smooth"
+                      size="tiny"
+                      icon="settings"
+                      color-scheme="secondary"
+                      class-names="grey-btn"
+                    />
+                  </router-link>
+
+                  <woot-button
+                    v-if="isAdmin"
+                    v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
+                    variant="smooth"
+                    color-scheme="alert"
+                    size="tiny"
+                    class-names="grey-btn"
+                    :is-loading="loading[item.id]"
+                    icon="dismiss-circle"
+                    @click="openDelete(item)"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hidden w-1/3 lg:block">
+        <span
+          v-dompurify-html="
+            useInstallationName(
+              $t('INBOX_MGMT.SIDEBAR_TXT'),
+              globalConfig.installationName
+            )
+          "
+        />
+      </div>
+    </div>
+    <Settings
+      v-if="showSettings"
+      :show.sync="showSettings"
+      :on-close="closeSettings"
+      :inbox="selectedInbox"
+    />
+
+    <woot-confirm-delete-modal
+      v-if="showDeletePopup"
+      :show.sync="showDeletePopup"
+      :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="confirmDeleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+      :confirm-value="selectedInbox.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @onConfirm="confirmDeletion"
+      @onClose="closeDelete"
+    />
+  </div>
+</template>

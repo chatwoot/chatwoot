@@ -1,24 +1,3 @@
-<template>
-  <div
-    class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900 overflow-auto"
-  >
-    <settings-header
-      button-route="new"
-      :icon="icon"
-      :header-title="$t(headerTitle)"
-      :button-text="$t(headerButtonText)"
-      :show-back-button="showBackButton"
-      :back-url="backUrl"
-      :show-new-button="showNewButton"
-      :show-sidemenu-icon="showSidemenuIcon"
-    />
-    <keep-alive v-if="keepAlive">
-      <router-view />
-    </keep-alive>
-    <router-view v-else />
-  </div>
-</template>
-
 <script>
 /* eslint no-console: 0 */
 import SettingsHeader from './SettingsHeader.vue';
@@ -65,3 +44,24 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900 overflow-auto"
+  >
+    <SettingsHeader
+      button-route="new"
+      :icon="icon"
+      :header-title="$t(headerTitle)"
+      :button-text="$t(headerButtonText)"
+      :show-back-button="showBackButton"
+      :back-url="backUrl"
+      :show-new-button="showNewButton"
+      :show-sidemenu-icon="showSidemenuIcon"
+    />
+    <keep-alive v-if="keepAlive">
+      <router-view />
+    </keep-alive>
+    <router-view v-else />
+  </div>
+</template>

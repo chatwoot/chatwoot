@@ -1,96 +1,3 @@
-<template>
-  <div class="phone-input--wrap relative">
-    <div
-      class="flex items-center dark:bg-slate-900 justify-start rounded-md border border-solid"
-      :class="
-        error
-          ? 'border border-solid border-red-400 dark:border-red-400 mb-1'
-          : 'mb-4 border-slate-200 dark:border-slate-600'
-      "
-    >
-      <div
-        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
-        @click.prevent="toggleCountryDropdown"
-      >
-        <h5 v-if="activeCountry" class="mb-0">
-          {{ activeCountry.emoji }}
-        </h5>
-        <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
-        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
-      </div>
-      <span
-        v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
-      >
-        {{ activeDialCode }}
-      </span>
-      <input
-        ref="phoneNumberInput"
-        :value="phoneNumber"
-        type="tel"
-        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
-        :placeholder="placeholder"
-        :readonly="readonly"
-        :style="styles"
-        @input="onChange"
-        @blur="onBlur"
-      />
-    </div>
-    <div
-      v-if="showDropdown"
-      ref="dropdown"
-      v-on-clickaway="onOutsideClick"
-      tabindex="0"
-      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900"
-      @keydown.prevent.up="moveUp"
-      @keydown.prevent.down="moveDown"
-      @keydown.prevent.enter="
-        onSelectCountry(filteredCountriesBySearch[selectedIndex])
-      "
-    >
-      <div class="top-0 sticky bg-white dark:bg-slate-900 p-1">
-        <input
-          ref="searchbar"
-          v-model="searchCountry"
-          type="text"
-          placeholder="Search"
-          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-200 dark:!border-slate-600"
-          @input="onSearchCountry"
-        />
-      </div>
-      <div
-        v-for="(country, index) in filteredCountriesBySearch"
-        ref="dropdownItem"
-        :key="index"
-        class="flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700"
-        :class="{
-          'bg-slate-50 dark:bg-slate-700': country.id === activeCountryCode,
-          'bg-slate-25 dark:bg-slate-800': index === selectedIndex,
-        }"
-        @click="onSelectCountry(country)"
-      >
-        <span class="text-base mr-1">{{ country.emoji }}</span>
-
-        <span
-          class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
-        >
-          {{ country.name }}
-        </span>
-        <span class="ml-1 text-slate-300 dark:text-slate-300 text-xs">{{
-          country.dial_code
-        }}</span>
-      </div>
-      <div v-if="filteredCountriesBySearch.length === 0">
-        <span
-          class="flex items-center justify-center text-sm text-slate-500 dark:text-slate-300 mt-4"
-        >
-          No results found
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
@@ -258,3 +165,96 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="relative phone-input--wrap">
+    <div
+      class="flex items-center justify-start border border-solid rounded-md dark:bg-slate-900"
+      :class="
+        error
+          ? 'border border-solid border-red-400 dark:border-red-400 mb-1'
+          : 'mb-4 border-slate-200 dark:border-slate-600'
+      "
+    >
+      <div
+        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
+        @click.prevent="toggleCountryDropdown"
+      >
+        <h5 v-if="activeCountry" class="mb-0">
+          {{ activeCountry.emoji }}
+        </h5>
+        <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
+        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+      </div>
+      <span
+        v-if="activeDialCode"
+        class="flex py-2 pl-2 pr-0 text-base font-normal leading-normal bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+      >
+        {{ activeDialCode }}
+      </span>
+      <input
+        ref="phoneNumberInput"
+        :value="phoneNumber"
+        type="tel"
+        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        :style="styles"
+        @input="onChange"
+        @blur="onBlur"
+      />
+    </div>
+    <div
+      v-if="showDropdown"
+      ref="dropdown"
+      v-on-clickaway="onOutsideClick"
+      tabindex="0"
+      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900"
+      @keydown.prevent.up="moveUp"
+      @keydown.prevent.down="moveDown"
+      @keydown.prevent.enter="
+        onSelectCountry(filteredCountriesBySearch[selectedIndex])
+      "
+    >
+      <div class="sticky top-0 p-1 bg-white dark:bg-slate-900">
+        <input
+          ref="searchbar"
+          v-model="searchCountry"
+          type="text"
+          :placeholder="$t('GENERAL.PHONE_INPUT.PLACEHOLDER')"
+          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-2000 dark:!border-slate-6000"
+          @input="onSearchCountry"
+        />
+      </div>
+      <div
+        v-for="(country, index) in filteredCountriesBySearch"
+        ref="dropdownItem"
+        :key="index"
+        class="flex items-center px-1 py-0 cursor-pointer h-7 hover:bg-slate-50 dark:hover:bg-slate-700"
+        :class="{
+          'bg-slate-50 dark:bg-slate-700': country.id === activeCountryCode,
+          'bg-slate-25 dark:bg-slate-800': index === selectedIndex,
+        }"
+        @click="onSelectCountry(country)"
+      >
+        <span class="mr-1 text-base">{{ country.emoji }}</span>
+
+        <span
+          class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
+        >
+          {{ country.name }}
+        </span>
+        <span class="ml-1 text-xs text-slate-300 dark:text-slate-300">{{
+          country.dial_code
+        }}</span>
+      </div>
+      <div v-if="filteredCountriesBySearch.length === 0">
+        <span
+          class="flex items-center justify-center mt-4 text-sm text-slate-500 dark:text-slate-300"
+        >
+          {{ $t('GENERAL.PHONE_INPUT.EMPTY_STATE') }}
+        </span>
+      </div>
+    </div>
+  </div>
+</template>

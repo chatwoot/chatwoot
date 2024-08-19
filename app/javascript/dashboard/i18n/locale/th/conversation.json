@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "ข้อความลายเซ็นต์ไม่ได้ถูกตั้งค่า โปรดปรับแต่งในหน้าตั้งค่าข้อมูลส่วนตัว",
-      "CLICK_HERE": "คลิกที่นี่เพื่ออัปเดต"
+      "CLICK_HERE": "คลิกที่นี่เพื่ออัปเดต",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "ตอบ",

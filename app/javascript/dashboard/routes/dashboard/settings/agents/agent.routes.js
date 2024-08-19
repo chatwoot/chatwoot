@@ -1,12 +1,12 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsContent = () => import('../Wrapper.vue');
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const AgentHome = () => import('./Index.vue');
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/agents'),
-      component: SettingsContent,
+      component: SettingsWrapper,
       props: {
         headerTitle: 'AGENT_MGMT.HEADER',
         icon: 'people',

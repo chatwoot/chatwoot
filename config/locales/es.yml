@@ -75,7 +75,7 @@ es:
       avg_first_response_time: Promedio de tiempo de la primera respuesta
       avg_resolution_time: Tiempo promedio de resolución
       resolution_count: Número de resoluciones
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Tiempo promedio de espera del cliente
     inbox_csv:
       inbox_name: Nombre de la bandeja de entrada
       inbox_type: Tipo de bandeja de entrada
@@ -93,7 +93,7 @@ es:
       avg_first_response_time: Promedio de tiempo de la primera respuesta
       avg_resolution_time: Tiempo promedio de resolución
       resolution_count: Número de resoluciones
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Tiempo promedio de espera del cliente
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
@@ -187,28 +187,34 @@ es:
     online:
       delete: "%{contact_name} está conectado, por favor inténtalo más tarde"
   integration_apps:
+    dashboard_apps:
+      name: "Panel de aplicaciones"
+      description: "Las aplicaciones de panel te permiten crear e incrustar aplicaciones que muestran información de usuario, pedidos o historial de pagos, proporcionando más contexto a tus agentes de soporte al cliente."
     dyte:
       name: "Dyte"
-      description: "Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de Chatwoot."
+      description: "Dyte es un producto que integra funcionalidades de audio y video en tu aplicación. Con esta integración, tus agentes pueden iniciar llamadas de video/voz con tus clientes directamente desde Chatwoot."
       meeting_name: "%{agent_name} ha iniciado una reunión"
     slack:
       name: "Slack"
-      description: "Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack."
+      description: "Integra Chatwoot con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack."
     webhooks:
       name: "Webhook"
-      description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
+      description: "Los eventos de webhook proporcionan actualizaciones en tiempo real sobre las actividades en tu cuenta de Chatwoot. Puedes suscribirte a los eventos que prefieras y Chatwoot te enviará llamadas HTTP con las actualizaciones."
     dialogflow:
       name: "Dialogflow"
-      description: "Construya chatboots usando Dialogflow y conéctelos rápidamente a su bandeja de entrada. Permita que los bots gestionen las preguntas and de que pasen a los agentes de servicio al cliente."
-    fullcontact:
-      name: "Nombre completo"
-      description: "La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API."
+      description: "Construye chatbots con Dialogflow e intégralos fácilmente en tu bandeja de entrada. Estos bots pueden manejar consultas iniciales antes de transferirlas a un agente de servicio al cliente."
     google_translate:
       name: "Traductor de Google"
-      description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
+      description: "Integra Google Translate para ayudar a los agentes a traducir fácilmente los mensajes de los clientes. Esta integración detecta automáticamente el idioma y lo convierte al idioma preferido del agente o del administrador."
     openai:
       name: "OpenAI"
-      description: "Integra poderosas características de IA en Chatwoot aprovechando los modelos GPT de OpenAI."
+      description: "Aprovecha el poder de los grandes modelos de lenguaje de OpenAI con funciones como sugerencias de respuestas, resúmenes, reformulación de mensajes, corrección ortográfica y clasificación de etiquetas."
+    linear:
+      name: "Lineal"
+      description: "Crea problemas en Linear directamente desde tu ventana de conversación. Alternativamente, enlaza problemas existentes en Linear para un proceso de seguimiento de problemas más eficiente y ágil."
+    captain:
+      name: "Capitán"
+      description: "Captain es un asistente nativo de inteligencia artificial diseñado para tu producto y entrenado en la base de conocimientos de tu empresa. Responde como un humano y resuelve eficazmente las consultas de los clientes. Configúralo fácilmente para tus buzones de entrada."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...

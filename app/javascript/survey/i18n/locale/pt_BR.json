@@ -6,9 +6,9 @@
       "SUCCESS_MESSAGE": "Obrigado por enviar a classificação"
     },
     "FEEDBACK": {
-      "LABEL": "Você tem alguma ideia que gostaria de compartilhar?",
-      "PLACEHOLDER": "Seu feedback (opcional)",
-      "BUTTON_TEXT": "Enviar feedback"
+      "LABEL": "Você tem alguma opinião que gostaria de compartilhar?",
+      "PLACEHOLDER": "Sua avaliação (opcional)",
+      "BUTTON_TEXT": "Enviar avaliação"
     },
     "API": {
       "SUCCESS_MESSAGE": "Pesquisa atualizada com sucesso",

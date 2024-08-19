@@ -239,6 +239,7 @@
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "کانٹیکٹس",
+    "CAPTAIN": "Captain",
     "HOME": "Home",
     "AGENTS": "ایجنٹ",
     "AGENT_BOTS": "Bots",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",

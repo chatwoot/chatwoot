@@ -134,13 +134,13 @@ function changeCurrentCategory(event) {
       </div>
     </header>
     <div class="category-list">
-      <category-list-item
+      <CategoryListItem
         :categories="categoriesByLocaleCode"
         @delete="deleteCategory"
         @edit="openEditCategoryModal"
       />
     </div>
-    <edit-category
+    <EditCategory
       v-if="showEditCategoryModal"
       :show.sync="showEditCategoryModal"
       :portal-name="currentPortalName"
@@ -149,7 +149,7 @@ function changeCurrentCategory(event) {
       :selected-portal-slug="currentPortalSlug"
       @cancel="closeEditCategoryModal"
     />
-    <add-category
+    <AddCategory
       v-if="showAddCategoryModal"
       :show.sync="showAddCategoryModal"
       :portal-name="currentPortalName"

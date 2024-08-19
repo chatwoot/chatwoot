@@ -1,15 +1,3 @@
-<template>
-  <div
-    :style="{ transform: `translateX(${dragDistance}px)` }"
-    class="will-change-transform"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-    @touchend="resetPosition"
-  >
-    <slot />
-  </div>
-</template>
-
 <script>
 export default {
   name: 'DragWrapper',
@@ -59,3 +47,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    :style="{ transform: `translateX(${dragDistance}px)` }"
+    class="will-change-transform"
+    @touchstart="handleTouchStart"
+    @touchmove="handleTouchMove"
+    @touchend="resetPosition"
+  >
+    <slot />
+  </div>
+</template>

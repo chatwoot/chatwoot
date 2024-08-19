@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een standaard antwoord te selecteren.",
       "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor medewerkers",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Berichtondertekening is niet geconfigureerd, configureer deze in de profielinstellingen.",
-      "CLICK_HERE": "Klik hier om bij te werken"
+      "CLICK_HERE": "Klik hier om bij te werken",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Beantwoorden",
@@ -159,8 +160,8 @@
       "TIP_AUDIORECORDER_PERMISSION": "Sta toegang tot audio toe",
       "TIP_AUDIORECORDER_ERROR": "Geluid kon niet worden geopend",
       "DRAG_DROP": "Sleep hierheen om toe te voegen",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "Start audio-opname",
+      "STOP_AUDIO_RECORDING": "Stop audio-opname",
       "": "",
       "EMAIL_HEAD": {
         "TO": "AAN",

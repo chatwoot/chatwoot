@@ -14,6 +14,7 @@ defineProps({
   },
 });
 </script>
+
 <template>
   <button
     class="inline-flex relative items-center p-1.5 w-fit h-8 gap-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-75 dark:active:bg-slate-800"
