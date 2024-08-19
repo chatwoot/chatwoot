@@ -31,6 +31,10 @@ class SmartActionApi extends ApiClient {
 
     return true;
   }
+
+  takeOverConversation(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/takeover`);
+  }
 }
 
 export default new SmartActionApi();

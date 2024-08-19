@@ -50,6 +50,9 @@
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "HANDLED_BY_AUTOPILOT": "The conversation is handled by autopilot.",
+    "HANDLED_BY_COPILOT": "The conversation is handled by copilot.",
+    "TAKEOVER": "Take Over",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"

@@ -78,6 +78,18 @@
       class="conversation-footer"
       :class="{ 'modal-mask': isPopoutReplyBox }"
     >
+      <div v-if="isHandledByBot" class="bg-indigo-300 bg-opacity-50 text-xs pl-5 py-2">
+        {{ handledByBotMessage }}
+        <woot-button
+          :title="$t('CONVERSATION.TAKEOVER')"
+          size="small"
+          color-scheme="success"
+          class="visible transition-all duration-500 ease-in-out ml-1"
+          @click="takeOver"
+        >
+        {{ $t('CONVERSATION.TAKEOVER') }}
+        </woot-button>
+      </div>
       <div
         v-if="isAnyoneTyping"
         class="items-center flex h-0 absolute w-full -top-7"
@@ -317,6 +329,19 @@ export default {
 
       return { incoming, outgoing };
     },
+    isHandledByBot() {
+      return this.currentChat.handled_by != 'human_agent';
+    },
+    handledByBotMessage() {
+      switch (this.currentChat.handled_by) {
+        case 'copilot':
+          return this.$t('CONVERSATION.HANDLED_BY_COPILOT');
+        case 'autopilot':
+          return this.$t('CONVERSATION.HANDLED_BY_AUTOPILOT');
+        default:
+          return '';
+      }
+    }
   },
 
   watch: {
@@ -557,6 +582,9 @@ export default {
         }
         return false;
       });
+    },
+    takeOver() {
+      this.$store.dispatch('takeOverConversation', this.currentChat.id);
     },
   },
 };

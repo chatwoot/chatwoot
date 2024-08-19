@@ -121,6 +121,7 @@ Rails.application.routes.draw do
               get :related_emails
               post :reply
               post :close
+              post :takeover
             end
           end
 

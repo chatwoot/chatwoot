@@ -28,5 +28,9 @@ export default {
   cancelBooking: async (_, link) => {
     SmartActionApi.cancelBooking(link);
     return true;
-  }
+  },
+
+  takeOverConversation: async (_, conversationId) => {
+    return SmartActionApi.takeOverConversation(conversationId);
+  },
 }

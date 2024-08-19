@@ -12,6 +12,7 @@
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
+#  handled_by             :integer          default("human_agent")
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  priority               :integer
@@ -72,6 +73,7 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum handled_by: { human_agent: 0, copilot: 1, autopilot: 2 }
 
   scope :unclosed, -> { where(closed: false) }
   scope :unassigned, -> { where(assignee_id: nil) }
@@ -301,7 +303,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-       priority]
+       priority handled_by]
   end
 
   def allowed_keys?

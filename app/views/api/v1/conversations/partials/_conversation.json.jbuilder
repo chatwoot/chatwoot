@@ -54,4 +54,5 @@ json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i
 json.sla_policy_id conversation.sla_policy_id
 json.contact_kind conversation.contact_kind
+json.handled_by conversation.handled_by
 json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation if ChatwootApp.enterprise?

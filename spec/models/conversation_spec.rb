@@ -538,6 +538,7 @@ RSpec.describe Conversation do
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
         waiting_since: conversation.waiting_since.to_i,
+        handled_by: 'human_agent',
         priority: nil,
         unread_count: 0
       }
