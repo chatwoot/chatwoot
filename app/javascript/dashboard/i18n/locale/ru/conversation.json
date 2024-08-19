@@ -69,8 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "пропущенный",
+        "DUE": "до"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
       "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Подпись сообщения не настроена, пожалуйста настройте её в настройках профиля.",
-      "CLICK_HERE": "Нажмите здесь, чтобы обновить"
+      "CLICK_HERE": "Нажмите здесь, чтобы обновить",
+      "WHATSAPP_TEMPLATES": "Шаблоны Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Ответить",

@@ -481,7 +481,8 @@
       "HEADER": "Gesprächsprotokoll",
       "NO_CONVERSATIONS": "Keine Konversation",
       "CONVERSATION": "%{count} Konversation",
-      "CONVERSATIONS": "%{count} Konversationen"
+      "CONVERSATIONS": "%{count} Konversationen",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Konversationen von Agenten",
@@ -517,7 +518,7 @@
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
+      "ADD_FIlTER": "Filter hinzufügen",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Keine Ergebnisse gefunden",
@@ -530,12 +531,13 @@
         "LABELS": "Labelname",
         "TEAMS": "Teamname"
       },
-      "SLA": "SLA Policy",
+      "SLA": "SLA-Richtlinie",
       "INBOXES": "Posteingang",
       "AGENTS": "Agent",
       "LABELS": "Label",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

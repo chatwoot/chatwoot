@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Atsijungęs"
+      "OFFLINE": "Atsijungęs",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Atnaujinti"
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "Iki rytojaus",
       "UNTIL_NEXT_MONTH": "Iki kito mėnesio",
       "AN_HOUR_FROM_NOW": "Iki valandos nuo dabar",
-      "CUSTOM": "Personalizuotas...",
+      "UNTIL_CUSTOM_TIME": "Personalizuotas...",
       "CHANGE_APPEARANCE": "Keisti išvaizdą",
       "LIGHT_MODE": "Šviesus",
       "DARK_MODE": "Tamsus",

@@ -1,3 +1,20 @@
+<script>
+export default {
+  props: {
+    message: { type: String, default: '' },
+    action: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    isActionPresent() {
+      return this.action && this.action.message;
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="bg-slate-900 dark:bg-slate-800 rounded-md drop-shadow-md mb-4 max-w-[40rem] inline-flex items-center min-w-[22rem] py-3 px-4"
@@ -13,25 +30,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    message: { type: String, default: '' },
-    action: {
-      type: Object,
-      default: () => ({}),
-    },
-    showButton: Boolean,
-    duration: {
-      type: [String, Number],
-      default: 3000,
-    },
-  },
-  computed: {
-    isActionPresent() {
-      return this.action && this.action.message;
-    },
-  },
-};
-</script>

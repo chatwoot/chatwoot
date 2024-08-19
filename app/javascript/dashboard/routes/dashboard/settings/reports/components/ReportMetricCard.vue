@@ -18,16 +18,19 @@ defineProps({
   },
 });
 </script>
+
+<!-- eslint-disable vue/no-unused-refs -->
+<!-- Added ref for writing specs -->
 <template>
   <div
     ref="reportMetricContainer"
-    class="m-0 p-4"
+    class="p-4 m-0"
     :class="{
       'grayscale pointer-events-none opacity-30': disabled,
     }"
   >
     <h3
-      class="flex items-center text-sm font-medium m-0 text-slate-800 dark:text-slate-100"
+      class="flex items-center m-0 text-sm font-medium text-slate-800 dark:text-slate-100"
     >
       <span ref="reportMetricLabel">{{ label }}</span>
       <fluent-icon
@@ -40,7 +43,7 @@ defineProps({
     </h3>
     <h4
       ref="reportMetricValue"
-      class="text-slate-700 dark:text-slate-100 mb-0 mt-1 font-thin text-3xl"
+      class="mt-1 mb-0 text-3xl font-thin text-slate-700 dark:text-slate-100"
     >
       {{ value }}
     </h4>

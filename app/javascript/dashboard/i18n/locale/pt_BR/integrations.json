@@ -1,6 +1,15 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "FORM": {
@@ -169,6 +178,7 @@
       "HEADER_BTN_TXT": "Adicionar um novo app da dashboard",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem um aplicativo dentro da dashboard do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando a dashboard do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo da dashboard, clique no botão 'Adicionar um novo aplicativo da dashboard'.</p>",
       "DESCRIPTION": "Aplicativos da dashboard permitem que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Ainda não há aplicativos da dashboard nesta conta",
         "LOADING": "Buscando aplicativos da dashboard...",
@@ -208,6 +218,87 @@
         "MESSAGE": "Tem certeza que deseja excluir o aplicativo - %{appName}?",
         "API_SUCCESS": "Aplicativo da dashboard excluído com sucesso",
         "API_ERROR": "Não conseguimos excluir o aplicativo. Por favor, tente novamente mais tarde"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Criar",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Carregando",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Crie issues no Linear a partir de conversas, ou vincule às existentes para um rastreamento integrado.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Insira o título",
+            "REQUIRED_ERROR": "Título é obrigatório"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descrição",
+            "PLACEHOLDER": "Insira a descrição"
+          },
+          "TEAM": {
+            "LABEL": "Times",
+            "PLACEHOLDER": "Selecionar time",
+            "SEARCH": "Pesquisar equipe",
+            "REQUIRED_ERROR": "A equipe é obrigatória"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Responsável",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioridade",
+            "PLACEHOLDER": "Selecionar prioridade",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Nome do campo",
+            "PLACEHOLDER": "Selecione o marcador",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "SItuação",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Criar",
+        "CANCEL": "Cancelar",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "SItuação",
+        "PRIORITY": "Prioridade",
+        "ASSIGNEE": "Responsável",
+        "LABELS": "Marcadores",
+        "CREATED_AT": "Created at %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       }
     }
   }

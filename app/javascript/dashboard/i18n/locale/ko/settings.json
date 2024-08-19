@@ -239,6 +239,7 @@
     "REPORTS": "보고서",
     "SETTINGS": "설정",
     "CONTACTS": "연락처",
+    "CAPTAIN": "Captain",
     "HOME": "홈",
     "AGENTS": "에이전트",
     "AGENT_BOTS": "봇",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오.",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",

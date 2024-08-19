@@ -41,15 +41,15 @@
           "IN_VALID": "Ungültiger Schlüssel"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "Regex Muster",
+          "PLACEHOLDER": "Bitte benutzerdefiniertes Attribut Regex Muster eingeben. (Optional)"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "Regex Hinweis",
+          "PLACEHOLDER": "Bitte geben Sie einen Hinweis zum Regex Muster ein. (Optional)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Regex Validierung aktivieren"
         }
       },
       "API": {
@@ -106,15 +106,15 @@
         "NOT_FOUND": "Es sind keine benutzerdefinierten Attribute konfiguriert"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "LABEL": "Regex Muster",
+        "PLACEHOLDER": "Bitte benutzerdefiniertes Attribut Regex Muster eingeben. (Optional)"
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "LABEL": "Regex Hinweis",
+        "PLACEHOLDER": "Bitte geben Sie einen Hinweis zum Regex Muster ein. (Optional)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "Regex Validierung aktivieren"
       }
     }
   }

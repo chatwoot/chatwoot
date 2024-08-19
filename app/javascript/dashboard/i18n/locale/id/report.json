@@ -481,7 +481,8 @@
       "HEADER": "Lalu Lintas Percakapan",
       "NO_CONVERSATIONS": "Tidak ada percakapan",
       "CONVERSATION": "%{count} percakapan",
-      "CONVERSATIONS": "%{count} percakapan"
+      "CONVERSATIONS": "%{count} percakapan",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Percakapan oleh Agen",
@@ -517,7 +518,7 @@
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
+      "ADD_FIlTER": "Tambah filter",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Tidak ada hasil ditemukan",
@@ -536,6 +537,7 @@
       "LABELS": "Label",
       "TEAMS": "Tim"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

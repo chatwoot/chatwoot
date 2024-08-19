@@ -3,14 +3,15 @@
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Add label",
     "LOADING": "Fetching labels",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
       "TABLE_HEADER": [
-        "Name",
+        "Ime",
         "Description",
         "Color"
       ]
@@ -33,10 +34,10 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
-      "EDIT": "Edit",
+      "EDIT": "Uredi",
       "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "DELETE": "Izbriši",
+      "CANCEL": "Odustani"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Add label",
@@ -67,16 +69,16 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Potvrdi brisanje",
         "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Da, izbriši",
+        "NO": "Ne, zadrži"
       }
     }
   }

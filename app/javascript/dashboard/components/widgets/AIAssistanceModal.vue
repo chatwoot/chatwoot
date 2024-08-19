@@ -1,44 +1,4 @@
-<template>
-  <div class="flex flex-col">
-    <woot-modal-header :header-title="headerTitle" />
-    <form
-      class="modal-content flex flex-col w-full"
-      @submit.prevent="applyText"
-    >
-      <div v-if="draftMessage" class="w-full">
-        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
-        </h4>
-        <p v-dompurify-html="formatMessage(draftMessage, false)" />
-        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
-          }}
-        </h4>
-      </div>
-      <div>
-        <AILoader v-if="isGenerating" />
-        <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
-      </div>
-
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
-        <woot-button variant="clear" @click.prevent="onClose">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
-          }}
-        </woot-button>
-        <woot-button :disabled="!generatedContent">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
-          }}
-        </woot-button>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AILoader from './AILoader.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -62,9 +22,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      appIntegrations: 'integrations/getAppIntegrations',
-    }),
     headerTitle() {
       const translationKey = this.aiOption?.toUpperCase();
       return translationKey
@@ -92,12 +49,51 @@ export default {
     },
     applyText() {
       this.recordAnalytics(this.aiOption);
-      this.$emit('apply-text', this.generatedContent);
+      this.$emit('applyText', this.generatedContent);
       this.onClose();
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col">
+    <woot-modal-header :header-title="headerTitle" />
+    <form
+      class="flex flex-col w-full modal-content"
+      @submit.prevent="applyText"
+    >
+      <div v-if="draftMessage" class="w-full">
+        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
+        </h4>
+        <p v-dompurify-html="formatMessage(draftMessage, false)" />
+        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
+          }}
+        </h4>
+      </div>
+      <div>
+        <AILoader v-if="isGenerating" />
+        <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
+      </div>
+
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+        <woot-button variant="clear" @click.prevent="onClose">
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
+          }}
+        </woot-button>
+        <woot-button :disabled="!generatedContent">
+          {{
+            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
+          }}
+        </woot-button>
+      </div>
+    </form>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .modal-content {

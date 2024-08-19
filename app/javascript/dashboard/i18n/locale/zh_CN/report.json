@@ -138,7 +138,7 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "工作时间",
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "没有检索到相关信息"
@@ -481,7 +481,8 @@
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATIONS": "%{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
@@ -536,6 +537,7 @@
       "LABELS": "标签",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

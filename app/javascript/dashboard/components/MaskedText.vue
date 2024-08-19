@@ -1,3 +1,33 @@
+<script>
+import 'highlight.js/styles/default.css';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { useAlert } from 'dashboard/composables';
+
+export default {
+  props: {
+    value: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      masked: true,
+    };
+  },
+  methods: {
+    async onCopy(e) {
+      e.preventDefault();
+      await copyTextToClipboard(this.value);
+      useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+    },
+    toggleMasked() {
+      this.masked = !this.masked;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="text--container">
     <woot-button size="small" class="button--text" @click="onCopy">
@@ -14,37 +44,6 @@
     <highlightjs v-if="value" :code="masked ? '•'.repeat(10) : value" />
   </div>
 </template>
-
-<script>
-import 'highlight.js/styles/default.css';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import alertMixin from 'shared/mixins/alertMixin';
-
-export default {
-  mixins: [alertMixin],
-  props: {
-    value: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      masked: true,
-    };
-  },
-  methods: {
-    async onCopy(e) {
-      e.preventDefault();
-      await copyTextToClipboard(this.value);
-      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
-    },
-    toggleMasked() {
-      this.masked = !this.masked;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .text--container {

@@ -239,6 +239,7 @@
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
     "CONTACTS": "Contacte",
+    "CAPTAIN": "Captain",
     "HOME": "Acasa",
     "AGENTS": "Agenți",
     "AGENT_BOTS": "Boți",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Prezentare generală",
-    "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Asistenta",
       "ALL_ARTICLES": "Toate articolele",

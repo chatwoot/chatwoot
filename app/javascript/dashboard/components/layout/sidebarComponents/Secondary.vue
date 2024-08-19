@@ -1,28 +1,3 @@
-<template>
-  <div
-    v-if="hasSecondaryMenu"
-    class="h-full overflow-auto w-48 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-800/50 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
-  >
-    <account-context @toggle-accounts="toggleAccountModal" />
-    <transition-group
-      name="menu-list"
-      tag="ul"
-      class="pt-2 list-none ml-0 mb-0"
-    >
-      <secondary-nav-item
-        v-for="menuItem in accessibleMenuItems"
-        :key="menuItem.toState"
-        :menu-item="menuItem"
-      />
-      <secondary-nav-item
-        v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
-        :key="menuItem.key"
-        :menu-item="menuItem"
-        @add-label="showAddLabelPopup"
-      />
-    </transition-group>
-  </div>
-</template>
 <script>
 import { frontendURL } from '../../../helper/URLHelper';
 import SecondaryNavItem from './SecondaryNavItem.vue';
@@ -248,10 +223,10 @@ export default {
   },
   methods: {
     showAddLabelPopup() {
-      this.$emit('add-label');
+      this.$emit('addLabel');
     },
     toggleAccountModal() {
-      this.$emit('toggle-accounts');
+      this.$emit('toggleAccounts');
     },
     showNewLink(featureFlag) {
       return this.isFeatureEnabledonAccount(this.accountId, featureFlag);
@@ -259,3 +234,29 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="hasSecondaryMenu"
+    class="flex flex-col w-48 h-full px-2 pb-8 overflow-auto text-sm bg-white border-r dark:bg-slate-900 dark:border-slate-800/50 rtl:border-r-0 rtl:border-l border-slate-50"
+  >
+    <AccountContext @toggleAccounts="toggleAccountModal" />
+    <transition-group
+      name="menu-list"
+      tag="ul"
+      class="pt-2 mb-0 ml-0 list-none"
+    >
+      <SecondaryNavItem
+        v-for="menuItem in accessibleMenuItems"
+        :key="menuItem.toState"
+        :menu-item="menuItem"
+      />
+      <SecondaryNavItem
+        v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
+        :key="menuItem.key"
+        :menu-item="menuItem"
+        @addLabel="showAddLabelPopup"
+      />
+    </transition-group>
+  </div>
+</template>

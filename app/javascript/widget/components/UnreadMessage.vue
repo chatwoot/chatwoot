@@ -1,28 +1,3 @@
-<template>
-  <div class="chat-bubble-wrap">
-    <button
-      class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-50')"
-      @click="onClickMessage"
-    >
-      <div v-if="showSender" class="row--agent-block">
-        <thumbnail
-          :src="avatarUrl"
-          size="20px"
-          :username="agentName"
-          :status="availabilityStatus"
-        />
-        <span v-dompurify-html="agentName" class="agent--name" />
-        <span v-dompurify-html="companyName" class="company--name" />
-      </div>
-      <div
-        v-dompurify-html="formatMessage(message, false)"
-        class="message-content"
-      />
-    </button>
-  </div>
-</template>
-
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -105,6 +80,32 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="chat-bubble-wrap">
+    <button
+      class="chat-bubble agent"
+      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      @click="onClickMessage"
+    >
+      <div v-if="showSender" class="row--agent-block">
+        <Thumbnail
+          :src="avatarUrl"
+          size="20px"
+          :username="agentName"
+          :status="availabilityStatus"
+        />
+        <span v-dompurify-html="agentName" class="agent--name" />
+        <span v-dompurify-html="companyName" class="company--name" />
+      </div>
+      <div
+        v-dompurify-html="formatMessage(message, false)"
+        class="message-content"
+      />
+    </button>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .chat-bubble {

@@ -1,17 +1,6 @@
-<!-- eslint-disable vue/attribute-hyphenation -->
-<template>
-  <ninja-keys
-    ref="ninjakeys"
-    :no-auto-load-md-icons="true"
-    hideBreadcrumbs
-    :placeholder="placeholder"
-    @selected="onSelected"
-    @closed="onClosed"
-  />
-</template>
-
 <script>
 import '@chatwoot/ninja-keys';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import wootConstants from 'dashboard/constants/globals';
 import conversationHotKeysMixin from './conversationHotKeys';
 import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
@@ -19,23 +8,33 @@ import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
-import adminMixin from 'dashboard/mixins/isAdmin';
 import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [
-    adminMixin,
     agentMixin,
     conversationHotKeysMixin,
     bulkActionsHotKeysMixin,
     inboxHotKeysMixin,
-    conversationLabelMixin,
-    conversationTeamMixin,
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
+  setup() {
+    // used in conversationHotKeysMixin
+    const {
+      activeLabels,
+      inactiveLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    } = useConversationLabels();
+
+    return {
+      activeLabels,
+      inactiveLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    };
+  },
   data() {
     return {
       // Added selectedSnoozeType to track the selected snooze type
@@ -109,6 +108,18 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable vue/attribute-hyphenation -->
+<template>
+  <ninja-keys
+    ref="ninjakeys"
+    noAutoLoadMdIcons
+    hideBreadcrumbs
+    :placeholder="placeholder"
+    @selected="onSelected"
+    @closed="onClosed"
+  />
+</template>
 
 <style lang="scss">
 ninja-keys {

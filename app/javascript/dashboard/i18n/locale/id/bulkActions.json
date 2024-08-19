@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Kembali",
     "ASSIGN_LABEL": "Tugaskan",
     "YES": "Ya",
+    "SEARCH_INPUT_PLACEHOLDER": "Cari",
     "ASSIGN_AGENT_TOOLTIP": "Tugaskan agen",
     "ASSIGN_TEAM_TOOLTIP": "Tugaskan tim",
     "ASSIGN_SUCCESFUL": "Percakapan berhasil ditugaskan.",
@@ -33,7 +34,7 @@
       "NONE": "Tidak ada",
       "NO_TEAMS_AVAILABLE": "Belum ada tim yang ditambahkan ke akun ini.",
       "ASSIGN_SELECTED_TEAMS": "Tugaskan tim terpilih.",
-      "ASSIGN_SUCCESFUL": "Tim berhasil ditugaskan.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }

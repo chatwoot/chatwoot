@@ -44,7 +44,7 @@ async function updatePortalSettings(portalObj) {
 </script>
 
 <template>
-  <portal-settings-customization-form
+  <PortalSettingsCustomizationForm
     v-if="currentPortal"
     :portal="currentPortal"
     :is-submitting="uiFlags.isUpdating"
