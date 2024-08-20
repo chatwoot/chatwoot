@@ -37,32 +37,31 @@ class OnehashChatAndroidAppController < ApplicationController
     return unless introspect_res['active']
 
     get_resource(email)
-    if @user.present?
-      account = AccountUser.find_by(user_id: @user.id)
-      all_accounts_of_user = AccountUser.where(user_id: @user.id)
-      all_accounts_of_user_transformed = all_accounts_of_user.map do |account_user|
-        account_user.attributes.merge(
-          id: account_user.account_id,
-          status: Account.find_by(id: account_user.account_id).status,
-          name: Account.find_by(id: account_user.account_id).name,
-          availability_status: account_user.availability_status
-        )
-      end
-      @payload = {
-        name: @user.name,
-        id: @user.id,
-        account_id: account.account_id,
-        accounts: all_accounts_of_user_transformed,
-        email: @user.email,
-        pubsub_token: @user.pubsub_token,
-        avatar_url: @user.avatar_url,
-        available_name: @user.name,
-        role: account.role
-      }
-      @payload
-    else
-      create_account
+    if @user.blank?
+        create_account(email)
     end
+    account = AccountUser.find_by(user_id: @user.id)
+    all_accounts_of_user = AccountUser.where(user_id: @user.id)
+    all_accounts_of_user_transformed = all_accounts_of_user.map do |account_user|
+    account_user.attributes.merge(
+        id: account_user.account_id,
+        status: Account.find_by(id: account_user.account_id).status,
+        name: Account.find_by(id: account_user.account_id).name,
+        availability_status: account_user.availability_status
+    )
+    end
+    @payload = {
+    name: @user.name,
+    id: @user.id,
+    account_id: account.account_id,
+    accounts: all_accounts_of_user_transformed,
+    email: @user.email,
+    pubsub_token: @user.pubsub_token,
+    avatar_url: @user.avatar_url,
+    available_name: @user.name,
+    role: account.role
+    }
+    @payload
   end
 
   def get_resource(email)
@@ -70,7 +69,13 @@ class OnehashChatAndroidAppController < ApplicationController
     @user = User.where(email: email).first
   end
 
-  def create_account
-    puts 'creating'
+  def create_account(email)
+    @user, @account = AccountBuilder.new(
+        account_name: extract_domain_without_tld(email),
+        user_full_name: email,
+        email: email
+        locale: I18n.locale,
+        confirmed: true
+      ).perform
   end
 end
