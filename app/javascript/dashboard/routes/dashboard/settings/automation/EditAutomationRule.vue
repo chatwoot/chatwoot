@@ -105,6 +105,7 @@
               :show-action-input="showActionInput(action.action_name)"
               :v="$v.automation.actions.$each[i]"
               :initial-file-name="getFileName(action, automation.files)"
+              :inbox-id="isWhatsappChannel(automation.conditions[i])"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
@@ -198,9 +199,13 @@ export default {
     },
     automationActionTypes() {
       const isSLAEnabled = this.isFeatureEnabled('sla');
+
+      const filteredActionTypes = this.filterSendTemplateOption(
+        AUTOMATION_ACTION_TYPES
+      );
       return isSLAEnabled
-        ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
+        ? filteredActionTypes
+        : filteredActionTypes.filter(action => action.key !== 'add_sla');
     },
   },
   mounted() {
@@ -211,6 +216,41 @@ export default {
   methods: {
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
+    },
+
+    filterSendTemplateOption(actionTypes) {
+      if (this.automation) {
+        const hasWhatsappChannel = this.automation.conditions.some(
+          condition => {
+            if (Array.isArray(condition.values)) {
+              return condition.values.some(
+                value => value.channel_type === 'Channel::Whatsapp'
+              );
+            }
+            return false;
+          }
+        );
+
+        if (!hasWhatsappChannel) {
+          return actionTypes.filter(action => action.key !== 'send_template');
+        }
+      }
+
+      return actionTypes;
+    },
+    isWhatsappChannel() {
+      const whatsappChannel = this.automation.conditions?.find(condition => {
+        if (
+          condition.attribute_key === 'inbox_id' &&
+          Array.isArray(condition.values)
+        ) {
+          return condition.values.some(
+            value => value.id && value.channel_type === 'Channel::Whatsapp'
+          );
+        }
+        return false;
+      });
+      return whatsappChannel?.values[0]?.id;
     },
   },
 };

@@ -43,7 +43,8 @@
         "Name",
         "Description",
         "Active",
-        "Created on"
+        "Created on",
+        "Triggers"
       ],
       "404": "No automation rules found"
     },

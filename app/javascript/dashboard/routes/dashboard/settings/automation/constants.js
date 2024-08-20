@@ -113,6 +113,11 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'send_template',
+        name: 'Send a template',
+        attributeI18nKey: 'SEND_TEMPLATE',
+      },
     ],
   },
   conversation_created: {
@@ -243,6 +248,11 @@ export const AUTOMATIONS = {
         key: 'send_attachment',
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
+      },
+      {
+        key: 'send_template',
+        name: 'Send a template',
+        attributeI18nKey: 'SEND_TEMPLATE',
       },
     ],
   },
@@ -389,6 +399,11 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'send_template',
+        name: 'Send a template',
+        attributeI18nKey: 'SEND_TEMPLATE',
+      },
     ],
   },
   conversation_opened: {
@@ -522,6 +537,11 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'send_template',
+        name: 'Send a template',
+        attributeI18nKey: 'SEND_TEMPLATE',
+      },
     ],
   },
 };
@@ -605,6 +625,11 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_message',
     label: 'Send a message',
     inputType: 'textarea',
+  },
+  {
+    key: 'send_template',
+    label: 'Send a template',
+    inputType: 'template',
   },
   {
     key: 'change_priority',

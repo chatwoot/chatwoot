@@ -43,7 +43,9 @@
         "Nome:",
         "Descrição",
         "Ativa",
-        "Criado em"
+        "Criado em",
+        "Disparos",
+        "Modelo"
       ],
       "404": "Nenhuma regra de automação encontrada"
     },

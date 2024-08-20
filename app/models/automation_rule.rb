@@ -2,16 +2,17 @@
 #
 # Table name: automation_rules
 #
-#  id          :bigint           not null, primary key
-#  actions     :jsonb            not null
-#  active      :boolean          default(TRUE), not null
-#  conditions  :jsonb            not null
-#  description :text
-#  event_name  :string           not null
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
+#  id            :bigint           not null, primary key
+#  actions       :jsonb            not null
+#  active        :boolean          default(TRUE), not null
+#  conditions    :jsonb            not null
+#  description   :text
+#  event_name    :string           not null
+#  name          :string           not null
+#  trigger_count :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  account_id    :bigint           not null
 #
 # Indexes
 #
@@ -40,7 +41,7 @@ class AutomationRule < ApplicationRecord
 
   def actions_attributes
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
-       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript send_template].freeze
   end
 
   def file_base_data

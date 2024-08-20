@@ -16,6 +16,7 @@ class AutomationRules::ActionService < ActionService
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
+    increment_trigger_count
   ensure
     Current.reset
   end
@@ -47,6 +48,19 @@ class AutomationRules::ActionService < ActionService
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
+  def send_template(template_params)
+    channel = find_channel_by_inbox(@conversation.inbox_id)
+    contact = Contact.find(@conversation.contact_id)
+    template = template_params[0]
+    processed_template = {
+                            name: template['name'],
+                            namespace: template['namespace'],
+                            lang_code:  template['language'],
+                            parameters: template['processed_params']&.map { |_, value| { type: 'text', text: value } }
+                          }
+    channel.send_template(contact.phone_number, processed_template)
+  end
+
   def send_email_to_team(params)
     teams = Team.where(id: params[0][:team_ids])
 
@@ -54,4 +68,13 @@ class AutomationRules::ActionService < ActionService
       TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
     end
   end
-end
+
+  def find_channel_by_inbox(inbox_id)
+    inbox = Inbox.find(@conversation.inbox_id)
+    Channel::Whatsapp.find(inbox.channel_id)
+  end
+
+  def increment_trigger_count
+    @rule.increment!(:trigger_count)
+  end
+end 
