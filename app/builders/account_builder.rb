@@ -36,7 +36,7 @@ class AccountBuilder
     if address.valid? # && !address.disposable?
       true
     else
-      raise InvalidEmail.new(valid: address.valid?)
+      raise InvalidEmail.new({ valid: address.valid?, disposable: address.disposable? })
     end
   end
 
