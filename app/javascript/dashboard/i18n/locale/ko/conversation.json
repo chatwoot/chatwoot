@@ -241,25 +241,29 @@
   "ONBOARDING": {
     "TITLE": "안녕하세요 👋, %{installationName}에 오신 것을 환영합니다!",
     "DESCRIPTION": "가입해주셔서 감사합니다. 저희 %{installationName}의 모든 기능을 최대로 누리기 위해 아래 몇 가지를 해주시겠어요?",
+    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
+    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
     "READ_LATEST_UPDATES": "최근 업데이트 내용 보기",
     "ALL_CONVERSATION": {
       "TITLE": "모든 대화를 한 곳에서",
-      "DESCRIPTION": "고객들과의 모든 대화를 하나의 대시보드에서 확인하세요. 대화들을 채널별, 라벨별, 상태별로 필터링 할 수 있습니다."
+      "DESCRIPTION": "고객들과의 모든 대화를 하나의 대시보드에서 확인하세요. 대화들을 채널별, 라벨별, 상태별로 필터링 할 수 있습니다.",
+      "NEW_LINK": "클릭하여 받은 메시지함을 생성하세요."
     },
     "TEAM_MEMBERS": {
       "TITLE": "팀 구성원들을 초대하세요.",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "클릭하여 팀원을 초대하세요."
     },
-    "INBOXES": {
-      "TITLE": "받은 메시지함에 연결하기",
-      "DESCRIPTION": "고객들과 대화할 수 있는 여러 채널들을 연결하세요. 웹사이트 라이브챗이 될 수도 있고, 페이스북 또는 트위터 페이지, 심지어는 왓츠앱 번호가 될 수도 있습니다.",
-      "NEW_LINK": "클릭하여 받은 메시지함을 생성하세요."
-    },
     "LABELS": {
       "TITLE": "대화들을 라벨로 정리하기",
       "DESCRIPTION": "라벨들은 대화들을 분류할 수 있는 쉬운 방법을 제공합니다. 예를 들면 #support-enquiry, #billing-question 등과 같은 라벨을 생성해서 나중에 대화할 때 사용할 수 있습니다.",
       "NEW_LINK": "클릭하여 태그를 생성하세요."
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
