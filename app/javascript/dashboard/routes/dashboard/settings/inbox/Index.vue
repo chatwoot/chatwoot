@@ -4,19 +4,20 @@ import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Settings from './Settings.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 
 export default {
   components: {
     Settings,
   },
-  mixins: [globalConfigMixin],
   setup() {
     const { isAdmin } = useAdmin();
     const { accountScopedUrl } = useAccount();
+    const { useInstallationName } = useGlobalConfig();
     return {
       isAdmin,
       accountScopedUrl,
+      useInstallationName,
     };
   },
   data() {

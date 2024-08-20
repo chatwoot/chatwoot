@@ -1,5 +1,5 @@
 <script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -8,12 +8,17 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
   props: {
     disableBranding: {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { useInstallationName } = useGlobalConfig();
+    return {
+      useInstallationName,
+    };
   },
   data() {
     return {

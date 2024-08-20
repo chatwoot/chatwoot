@@ -1,16 +1,22 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
-  mixins: [globalConfigMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
   props: {
     hasConnectedAChannel: {
       type: Boolean,
       default: true,
     },
+  },
+  setup() {
+    const { useInstallationName } = useGlobalConfig();
+    return {
+      useInstallationName,
+    };
   },
   data() {
     return { selectedChannelId: '', availableChannels: [] };

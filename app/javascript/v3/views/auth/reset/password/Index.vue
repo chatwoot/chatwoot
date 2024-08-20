@@ -3,16 +3,16 @@ import { useVuelidate } from '@vuelidate/core';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
 
 export default {
   components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { useInstallationName } = useGlobalConfig();
+    return { v$: useVuelidate(), useInstallationName };
   },
   data() {
     return {

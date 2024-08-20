@@ -1,12 +1,17 @@
 <script>
 import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 export default {
   components: {
     SettingsHeader,
   },
-  mixins: [globalConfigMixin],
+  setup() {
+    const { useInstallationName } = useGlobalConfig();
+    return {
+      useInstallationName,
+    };
+  },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',

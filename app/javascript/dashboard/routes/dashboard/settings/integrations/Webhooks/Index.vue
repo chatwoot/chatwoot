@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 import WebhookRow from './WebhookRow.vue';
 
 export default {
@@ -12,7 +12,12 @@ export default {
     EditWebhook,
     WebhookRow,
   },
-  mixins: [globalConfigMixin],
+  setup() {
+    const { useInstallationName } = useGlobalConfig();
+    return {
+      useInstallationName,
+    };
+  },
   data() {
     return {
       loading: {},

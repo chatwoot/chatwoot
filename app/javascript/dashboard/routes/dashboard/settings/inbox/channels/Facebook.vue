@@ -10,7 +10,7 @@ import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/browser';
@@ -20,10 +20,11 @@ export default {
     LoadingState,
     PageHeader,
   },
-  mixins: [globalConfigMixin],
   setup() {
+    const { useInstallationName } = useGlobalConfig();
     const { accountId } = useAccount();
     return {
+      useInstallationName,
       accountId,
       v$: useVuelidate(),
     };

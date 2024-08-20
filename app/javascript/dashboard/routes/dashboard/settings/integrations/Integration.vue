@@ -2,10 +2,9 @@
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
 
 export default {
-  mixins: [globalConfigMixin],
   props: {
     integrationId: {
       type: [String, Number],
@@ -17,6 +16,12 @@ export default {
     integrationAction: { type: String, default: '' },
     actionButtonText: { type: String, default: '' },
     deleteConfirmationText: { type: Object, default: () => ({}) },
+  },
+  setup() {
+    const { useInstallationName } = useGlobalConfig();
+    return {
+      useInstallationName,
+    };
   },
   data() {
     return {
