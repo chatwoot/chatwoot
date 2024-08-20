@@ -22,7 +22,7 @@
         "INBOX": "Yes, Delete",
         "ACCOUNT": "Yes, Disconnect"
       },
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
@@ -32,7 +32,7 @@
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Inbox",
       "DELETE": {
-        "BUTTON_TEXT": "Delete"
+        "BUTTON_TEXT": "Izbriši"
       }
     },
     "ADD": {
@@ -42,7 +42,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Create",
-        "CANCEL": "Cancel"
+        "CANCEL": "Odustani"
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",

@@ -3,8 +3,9 @@
     "HEADER": "Etiķetes",
     "HEADER_BTN_TXT": "Pievienot etiķeti",
     "LOADING": "Notiek etiķešu iegūšana",
+    "DESCRIPTION": "Etiķetes palīdz kategorizēt sarunas, interesentus un noteikt to prioritātes. Etiķeti, sarunai vai kontaktpersonai, varat piešķirt Izmantojot sānu paneli.",
+    "LEARN_MORE": "Uzzināt vairāk par etiķetēm",
     "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
-    "SIDEBAR_TXT": "<p><b>Etiķetes</b> <p>Etiķetes palīdz Jums klasificēt sarunas un noteikt tām prioritātes. Jūs varat piešķirt etiķeti sarunai izmantojot sānjoslu. <br /><br />Etiķetes ir piesaistītas kontam, un tās var izmantot lai izveidotu pielāgotas darbplūsmas jūsu organizācijā. Jūs varat piešķirt pielāgotu krāsu etiķetei, lai etiķeti vieglāk varētu atpazīt. Jūs varēsiet attēlot etiķeti sānjoslā, lai viegli varētu filtrēt sarunas.</p>",
     "LIST": {
       "404": "Šajā kontā nav izveidotas etiķetes.",
       "TITLE": "Pārvaldīt Etiķetes",
@@ -49,7 +50,8 @@
       "DISMISS": "Atcelt",
       "ADD_SELECTED_LABELS": "Pievienot izvēlētās etiķetes",
       "ADD_SELECTED_LABEL": "Pievienot izvēlēto etiķeti",
-      "ADD_ALL_LABELS": "Pievienot visas etiķetes"
+      "ADD_ALL_LABELS": "Pievienot visas etiķetes",
+      "SUGGESTED_LABELS": "Ieteiktās etiķetes"
     },
     "ADD": {
       "TITLE": "Pievienot etiķeti",

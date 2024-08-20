@@ -3,8 +3,9 @@
     "HEADER": "ラベル",
     "HEADER_BTN_TXT": "ラベルを追加",
     "LOADING": "ラベルを取得中",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
-    "SIDEBAR_TXT": "<p><b>ラベル</b> <p>ラベルは会話のカテゴリー分けや優先順位づけに便利です。サイドパネルから、会話に対してラベルを設定することができます。<br /><br />ラベルはアカウントと関連付けられ、組織内のカスタムワークフローにも利用できます。ラベルには個別の色を設定できるので、認識が容易になります。サイドバーにラベルを表示させることによって、会話を絞り込むことが簡単にできます。</p>",
     "LIST": {
       "404": "このアカウントには利用可能なラベルがありません。",
       "TITLE": "ラベルの管理",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "ラベルを追加",
