@@ -33,7 +33,7 @@ class AccountBuilder
 
   def validate_email
     address = ValidEmail2::Address.new(@email)
-    if address.valid? # && !address.disposable?
+    if address.valid? && !address.disposable?
       true
     else
       raise InvalidEmail.new({ valid: address.valid?, disposable: address.disposable? })
