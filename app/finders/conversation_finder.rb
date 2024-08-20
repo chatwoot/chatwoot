@@ -120,8 +120,7 @@ class ConversationFinder
   end
 
   def unread_conversations
-    @conversations = @conversations.where("agent_unread_count > 0 or
-	                    (assignee_id is not null and assignee_id = #{current_user.id} and assignee_unread_count > 0)")
+    @conversations = @conversations.where('assignee_unread_count > 0')
   end
 
   def filter_by_query
