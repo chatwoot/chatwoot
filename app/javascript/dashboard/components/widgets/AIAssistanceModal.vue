@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import AILoader from './AILoader.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
@@ -7,14 +7,19 @@ export default {
   components: {
     AILoader,
   },
-  mixins: [aiMixin, messageFormatterMixin],
+  mixins: [aiMixin],
   props: {
     aiOption: {
       type: String,
       required: true,
     },
   },
-
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
+  },
   data() {
     return {
       generatedContent: '',
