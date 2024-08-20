@@ -25,8 +25,5 @@ jobs:
         with: 
           issue-inactive-days: '30'
           issue-lock-reason: 'resolved'
-          add-issue-labels: 'stale'
           pr-inactive-days: '30'
           pr-lock-reason: 'resolved'
-          add-pr-labels: 'stale'
-          
