@@ -73,7 +73,7 @@ class OnehashChatAndroidAppController < ApplicationController
     @user, @account = AccountBuilder.new(
         account_name: extract_domain_without_tld(email),
         user_full_name: email,
-        email: email
+        email: email,
         locale: I18n.locale,
         confirmed: true
       ).perform
