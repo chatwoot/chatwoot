@@ -5,7 +5,7 @@
     "BACK": "Voltar",
     "DISMISS": "Descartar",
     "UPDATE": {
-      "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
+      "ERROR": "Não foi possível atualizar as configurações, por favor, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
     },
     "FORM": {
