@@ -481,7 +481,8 @@
       "HEADER": "תנועת שיחות",
       "NO_CONVERSATIONS": "בלי שיחות",
       "CONVERSATION": "שיחה %{count}",
-      "CONVERSATIONS": "%{count} שיחות"
+      "CONVERSATIONS": "%{count} שיחות",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "שיחות של סוכנים",
@@ -536,6 +537,7 @@
       "LABELS": "תווית",
       "TEAMS": "צוות"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

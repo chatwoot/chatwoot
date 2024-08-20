@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Создать новую команду",
     "HEADER": "Команды",
-    "SIDEBAR_TXT": "<p><b>Команды</b></p> <p>Команды позволяют вам организовывать своих операторов в группы в зависимости от их обязанностей. <br /> Пользователь может быть частью нескольких команд. Вы можете назначить разговоры команде, когда вы работаете совместно. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "В этом аккаунте нет ни одной команды.",
-      "EDIT_TEAM": "Редактировать команду"
+      "EDIT_TEAM": "Редактировать команду",
+      "NONE": "Ничего"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Не удалось удалить команду. Повторите попытку."
       },
       "CONFIRM": {
-        "TITLE": "Вы уверены, что хотите удалить - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Пожалуйста, введите {teamName} для подтверждения",
         "MESSAGE": "Удаление команды снимет назначение команды из бесед, связанных с этой командой.",
         "YES": "Удалить ",
