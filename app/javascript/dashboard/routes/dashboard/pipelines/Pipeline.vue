@@ -324,11 +324,18 @@ export default {
       const page = this.stageMeta[status].currentPage + 1;
       this.fetchContacts(status, page);
     },
-    fetchAllContacts() {
+    async fetchAllContacts() {
       this.$store.dispatch('contacts/clearContacts');
-      this.stages.forEach(stage => {
-        this.fetchContacts(stage.code, DEFAULT_PAGE);
-      });
+
+      await this.stages.reduce(async (prevPromise, stage) => {
+        await prevPromise;
+        await this.fetchContacts(stage.code, DEFAULT_PAGE);
+        if (stage !== this.stages[this.stages.length - 1]) {
+          await new Promise(resolve => {
+            setTimeout(resolve, 50);
+          });
+        }
+      }, Promise.resolve());
     },
     fetchContacts(code, page) {
       let value = '';
