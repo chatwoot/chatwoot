@@ -25,6 +25,6 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def audit_logs_enabled?
-    !Current.account.feature_enabled?(:audit_logs)
+    Current.account.feature_enabled?(:audit_logs)
   end
 end
