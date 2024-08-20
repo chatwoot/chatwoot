@@ -3,11 +3,11 @@
     "HEADER": "Bots",
     "LOADING_EDITOR": "A carregar editor...",
     "HEADER_BTN_TXT": "Adicionar configuração do bot",
-    "SIDEBAR_TXT": "<p><b>Agente Bots</b> <p>Agente Bots são como os mais fabulosos membros da sua equipe. Eles podem lidar com pequenis processos, para que se possa focar nas coisas mais importantes. Experimente.</p> <p> Pode gerenciar os seus bots a partir desta página ou criar novos usando o botão 'Adicionar configuração do bot'.</p> <p> Abra o manual dos bots <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agente</a> em nova janela, caso necessite de ajuda.</p>",
+    "SIDEBAR_TXT": "<p><b>Agentes bots</b> <p>Agentes bots podem ser considerados os membros mais extraordinários da sua equipa. Podem lidar com pequenos processos, para que se possa focar nas coisas mais importantes. </p> <p> Pode gerir os seus bots a partir desta página ou criar novos usando o botão 'Adicionar configuração do bot'.</p> <p> Abra o manual dos bots <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agente</a> em nova janela, caso necessite de ajuda.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Nome do bot",
-        "PLACEHOLDER": "Nomeie o seu bot.",
+        "PLACEHOLDER": "Dê um nome ao seu bot.",
         "ERROR": "O nome do bot é obrigatório."
       },
       "DESCRIPTION": {
@@ -15,25 +15,25 @@
         "PLACEHOLDER": "O que faz este bot?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Por favor, insira acima, a sua configuração CSML do bot.",
-        "API_ERROR": "A sua configuração CSML é inválida. Por favor corrija-a e tente novamente."
+        "ERROR": "Por favor, insira, acima, a sua configuração CSML do bot.",
+        "API_ERROR": "A sua configuração CSML é inválida. Por favor, corrija-a e tente novamente."
       },
-      "SUBMIT": "Validar e salvar"
+      "SUBMIT": "Validar e guardar"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Selecione um agent bot",
-      "DESC": "Atribua um Agent Bot à sua caixa de entrada. Eles podem lidar com conversas iniciais e transferi-las para um agente humano quando necessário.",
+      "TITLE": "Selecione um agente bot",
+      "DESC": "Atribua um agente bot à sua caixa de entrada. Eles podem lidar com conversas iniciais e transferi-las para um agente humano quando necessário.",
       "SUBMIT": "Atualização",
       "DISCONNECT": "Desligar bot",
-      "SUCCESS_MESSAGE": "Agent bot atualizado com sucesso.",
+      "SUCCESS_MESSAGE": "Agente bot atualizado com sucesso.",
       "DISCONNECTED_SUCCESS_MESSAGE": "O agente bot foi desligado com sucesso.",
-      "ERROR_MESSAGE": "Não foi possível atualizar o agent bot. Por favor, tente novamente.",
-      "DISCONNECTED_ERROR_MESSAGE": "Não foi possível desliga o agent bot. Por favor, tente novamente.",
+      "ERROR_MESSAGE": "Não foi possível atualizar o agente bot. Por favor, tente novamente.",
+      "DISCONNECTED_ERROR_MESSAGE": "Não foi possível desligar o agente bot. Por favor, tente novamente.",
       "SELECT_PLACEHOLDER": "Selecionar bot"
     },
     "ADD": {
       "TITLE": "Configurar novo bot",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível adicionar o bot. Por favor, tente novamente mais tarde."
@@ -41,25 +41,25 @@
     },
     "LIST": {
       "404": "Nenhum bot encontrado. Pode criar um bot clicando no botão 'Configurar novo bot' ↗️",
-      "LOADING": "Carregando bots...",
+      "LOADING": "A carregar bots...",
       "TYPE": "Tipo de bot"
     },
     "DELETE": {
-      "BUTTON_TEXT": "excluir",
+      "BUTTON_TEXT": "Excluir",
       "TITLE": "Apagar bot",
-      "SUBMIT": "excluir",
-      "CANCEL_BUTTON_TEXT": "cancelar",
-      "DESCRIPTION": "Tem certeza que pretende excluir este bot? Esta ação é irreversível.",
+      "SUBMIT": "Excluir",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "DESCRIPTION": "Tem a certeza que pretende excluir este bot? Esta ação é irreversível.",
       "API": {
         "SUCCESS_MESSAGE": "Bot apagado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível apagar o bot. Por favor, tente novamente."
       }
     },
     "EDIT": {
-      "BUTTON_TEXT": "Alterar",
-      "LOADING": "Carregando bots...",
+      "BUTTON_TEXT": "Editar",
+      "LOADING": "A carregar bots...",
       "TITLE": "Editar bot",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível atualizar o bot. Por favor, tente novamente."

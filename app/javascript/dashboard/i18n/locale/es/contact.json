@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contacto fusionado con éxito",
       "ERROR_MESSAGE": "No se pudo combinar los contactos, ¡inténtalo de nuevo!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }
