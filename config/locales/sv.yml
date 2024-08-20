@@ -168,6 +168,7 @@ sv:
       ways_to_reach_you_message_body: "Ge teamet ett sätt att nå dig."
       email_input_box_message_body: "Få meddelande via e-post"
       csat_input_message_body: "Please rate the conversation"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

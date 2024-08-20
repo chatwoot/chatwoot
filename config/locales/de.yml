@@ -168,6 +168,7 @@ de:
       ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
       email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"
       csat_input_message_body: "Bitte bewerte die Unterhaltung"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

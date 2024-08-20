@@ -32,7 +32,7 @@ class DefaultMailbox < ApplicationMailbox
   def find_channel
     find_channel_with_forward_to_mail if @channel.blank?
 
-    raise 'Email channel/inbox not found' if @channel.nil?
+    raise 'Email channel/inbox not found in default mailbox' if @channel.nil?
     @channel
   end
 

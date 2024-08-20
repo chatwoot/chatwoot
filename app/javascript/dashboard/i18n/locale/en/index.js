@@ -33,6 +33,7 @@ import sla from './sla.json';
 import inbox from './inbox.json';
 import general from './general.json';
 import datePicker from './datePicker.json';
+import chatbots from './chatbots.json';
 
 export default {
   ...advancedFilters,
@@ -44,6 +45,7 @@ export default {
   ...bulkActions,
   ...campaign,
   ...cannedMgmt,
+  ...chatbots,
   ...chatlist,
   ...contact,
   ...contactFilters,

@@ -168,6 +168,7 @@ ja:
       ways_to_reach_you_message_body: "チームがあなたに連絡する方法を設定してください"
       email_input_box_message_body: "Eメールで通知を受ける"
       csat_input_message_body: "Please rate the conversation"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

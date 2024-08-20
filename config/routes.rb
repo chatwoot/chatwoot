@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
+  # Custom route for OneHash Chat mobile authentication
+  post 'mobile_auth', to: 'onehash_chat_android_app#authenticate'
+
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
@@ -114,6 +117,8 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              post :disable_chatbot
+              post :enable_chatbot
             end
           end
 
@@ -247,6 +252,14 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          resources :chatbots, only: [:index, :show, :update] do
+            collection do
+              post :create_chatbot
+              delete :destroy_chatbot
+              post :retrain_chatbot
+            end
+          end
         end
       end
       # end of account scoped api routes
@@ -254,7 +267,7 @@ Rails.application.routes.draw do
 
       namespace :keycloak do
         resources :logout, only: [:create]
-        resources :check_keycloak_session, only: [:create] 
+        resources :check_keycloak_session, only: [:create]
       end
 
       namespace :integrations do
@@ -430,7 +443,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  #OneHash Stripe Billing Route
+  # OneHash Stripe Billing Route
   post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
 
   namespace :twitter do
@@ -512,4 +525,8 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+  # ----------------------------------------------------------------------
+  # Routes for Chatbot
+  post 'chatbots/callback', to: 'chatbots/callbacks#update_status'
 end
