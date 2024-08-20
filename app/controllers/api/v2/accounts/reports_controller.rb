@@ -66,7 +66,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+    return if Current.account_user.administrator? || Current.account_user.custom_role&.permissions&.include?('report_manage')
+
+    raise Pundit::NotAuthorizedError
   end
 
   def common_params

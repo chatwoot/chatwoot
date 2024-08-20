@@ -36,6 +36,10 @@ export default {
       type: String,
       default: '',
     },
+    customRoleId: {
+      type: Number,
+      default: null,
+    },
     onClose: {
       type: Function,
       required: true,
@@ -59,6 +63,7 @@ export default {
       agentName: this.name,
       agentAvailability: this.availability,
       agentType: this.type,
+      agentCustomRoleId: this.customRoleId,
       agentCredentials: {
         email: this.email,
       },
@@ -83,7 +88,14 @@ export default {
     },
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      getCustomRoles: 'getCustomRoles',
     }),
+    customRoles() {
+      return this.getCustomRoles.map(role => ({
+        id: role.id,
+        name: role.name,
+      }));
+    },
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
         (statusLabel, index) => ({
@@ -102,6 +114,7 @@ export default {
           id: this.id,
           name: this.agentName,
           role: this.agentType,
+          custom_role_id: this.agentCustomRoleId,
           availability: this.agentAvailability,
         });
         useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
@@ -172,6 +185,18 @@ export default {
             </span>
           </label>
         </div>
+
+        <div class="w-full" v-if="agentType === 'agent'">
+          <label>
+            {{ $t('AGENT_MGMT.EDIT.FORM.CUSTOM_ROLE.LABEL') }}
+            <select v-model="agentCustomRoleId">
+              <option v-for="item in customRoles" :key="item.name" :value="item.id">
+          {{ item.name }}
+              </option>
+            </select>
+          </label>
+        </div>
+
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <div class="w-[50%]">
             <WootSubmitButton

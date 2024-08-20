@@ -80,6 +80,10 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "CUSTOM_ROLE": {
+          "LABEL": "Custom Role",
+          "PLACEHOLDER": "Please select a custom role"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",

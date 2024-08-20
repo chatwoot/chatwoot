@@ -24,7 +24,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def update
     @agent.update!(agent_params.slice(:name).compact)
-    @agent.current_account_user.update!(agent_params.slice(:role, :availability, :auto_offline).compact)
+    @agent.current_account_user.update!(agent_params.slice(:role, :availability, :auto_offline, :custom_role_id).compact)
   end
 
   def destroy
@@ -68,7 +68,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def agent_params
-    params.require(:agent).permit(:name, :email, :name, :role, :availability, :auto_offline)
+    params.require(:agent).permit(:name, :email, :name, :role, :availability, :auto_offline, :custom_role_id)
   end
 
   def new_agent_params
