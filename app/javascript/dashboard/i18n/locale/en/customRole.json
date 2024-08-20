@@ -1,0 +1,60 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Custom Roles",
+    "LEARN_MORE": "Learn more about custom roles",
+    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "HEADER_BTN_TXT": "Add custom role",
+    "LOADING": "Fetching custom roles...",
+    "SEARCH_404": "There are no items matching this query.",
+    "LIST": {
+      "404": "There are no custom roles available in this account.",
+      "TITLE": "Manage custom roles",
+      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "TABLE_HEADER": [
+        "Name",
+        "Description",
+        "Permissions",
+        "Actions"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Add custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Please enter a name.",
+          "ERROR": "Name is required."
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Please enter a description.",
+          "ERROR": "Description is required."
+        },
+        "PERMISSIONS": {
+          "LABEL": "Permissions",
+          "ERROR": "Permissions are required."
+        },
+        "SUBMIT": "Submit"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role added successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
+      }
+    }
+  }
+}
