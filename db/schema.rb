@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_04_080836) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_02_072935) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -394,6 +394,30 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_04_080836) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
+  create_table "chatbot_items", force: :cascade do |t|
+    t.integer "chatbot_id", null: false
+    t.text "text"
+    t.float "temperature"
+    t.jsonb "files", default: {}
+    t.jsonb "urls", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "chatbots", force: :cascade do |t|
+    t.string "account_id", default: "0", null: false
+    t.string "status"
+    t.string "name", null: false
+    t.integer "inbox_id"
+    t.string "inbox_name"
+    t.datetime "last_trained_at"
+    t.string "website_token"
+    t.float "temperature", default: 0.1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_chatbots_on_account_id"
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -476,6 +500,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_04_080836) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
+    t.string "chatbot_status", default: "Enabled"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"

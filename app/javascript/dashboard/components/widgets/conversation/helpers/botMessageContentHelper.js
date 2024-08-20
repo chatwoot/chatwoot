@@ -60,6 +60,14 @@ const generateCSATContent = (
   return messageContent;
 };
 
+const generateConnectWithTeamContent = contentAttributes => {
+  const { submitted_email: submittedEmail = '' } = contentAttributes;
+  if (submittedEmail) {
+    return `<strong>${submittedEmail}</strong>`;
+  }
+  return '';
+};
+
 export const generateBotMessageContent = (
   contentType,
   contentAttributes,
@@ -73,6 +81,7 @@ export const generateBotMessageContent = (
     input_email: generateInputEmailContent,
     form: generateFormContent,
     input_csat: generateCSATContent,
+    input_connect_with_team: generateConnectWithTeamContent,
   };
 
   const contentTypeMethod = contentTypeMethods[contentType];

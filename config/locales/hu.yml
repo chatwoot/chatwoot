@@ -168,6 +168,7 @@ hu:
       ways_to_reach_you_message_body: "Adj egy elérhetőséget hogy megkereshessenek."
       email_input_box_message_body: "E-mail értesítés kérése"
       csat_input_message_body: "Kérlek értékeld a beszélgetést"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

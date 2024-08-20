@@ -168,6 +168,7 @@ he:
       ways_to_reach_you_message_body: "\"תן לצוות דרך להגיע אליך\"."
       email_input_box_message_body: "קבל הודעה במייל"
       csat_input_message_body: "אנא דרג את השיחה"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

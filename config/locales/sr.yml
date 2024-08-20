@@ -168,6 +168,7 @@ sr-Latn:
       ways_to_reach_you_message_body: "Pružite timu način da vas kontaktira."
       email_input_box_message_body: "Budite obavešteni putem e-poruke"
       csat_input_message_body: "Molim vas ocenite ovaj razgovor"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

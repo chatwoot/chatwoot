@@ -168,6 +168,7 @@ lv:
       ways_to_reach_you_message_body: "Dodiet komandai iespēju ar jums sazināties."
       email_input_box_message_body: "Saņemiet paziņojumus pa e-pastu"
       csat_input_message_body: "Lūdzu, novērtējiet sarunu"
+      connect_with_team_message_body: "Connect with team"
     reply:
       email:
         header:

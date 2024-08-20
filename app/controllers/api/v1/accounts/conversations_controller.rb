@@ -116,6 +116,16 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def disable_chatbot
+    @conversation.update!(chatbot_status: 'Disabled')
+    head :ok
+  end
+
+  def enable_chatbot
+    @conversation.update!(chatbot_status: 'Enabled')
+    head :ok
+  end
+
   private
 
   def permitted_update_params
