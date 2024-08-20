@@ -23,6 +23,16 @@ resource "aws_ssm_parameter" "azure_secret" {
   }
 }
 
+resource "aws_ssm_parameter" "azure_tenant_id" {
+  name  = "/${terraform.workspace}/${local.system_name}/AZURE_TENANT_ID"
+  type  = "SecureString"
+  value = "bar"
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
 resource "aws_ssm_parameter" "secret_key_base" {
   name  = "/${terraform.workspace}/${local.system_name}/SECRET_KEY_BASE"
   type  = "SecureString"
