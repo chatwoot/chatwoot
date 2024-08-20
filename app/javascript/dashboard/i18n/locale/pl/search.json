@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Rozmowy",
       "MESSAGES": "Wiadomości"
     },
+    "SEARCHING_DATA": "Wyszukiwanie",
     "EMPTY_STATE": "Nie znaleziono %{item} dla zapytania '%{query}'",
     "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ aby skupić się",
