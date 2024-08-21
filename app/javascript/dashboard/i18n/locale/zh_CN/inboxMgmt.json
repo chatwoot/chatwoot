@@ -367,12 +367,19 @@
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "输入电子邮件地址",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "输入电子邮件地址",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "在 Facebook 上认证你... ..",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "出错了，请刷新页面...",
       "ERROR_FB_UNAUTHORIZED": "您无权执行此操作。 ",
       "ERROR_FB_UNAUTHORIZED_HELP": "请确保您拥有对 Facebook 页面的完全控制权。您可以在<a href=\" https://www.facebook.com/help/187316341316631\">这里</a>阅读更多关于 Facebook 角色的信息。",
@@ -736,6 +743,7 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "其他提供商"
     }
   }
