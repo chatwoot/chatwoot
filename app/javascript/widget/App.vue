@@ -8,7 +8,7 @@ import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
-import { useRouterHelper } from 'widget/composables/useRouterHelper';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import {
   getExtraSpaceToScroll,
   loadedEventConfig,
@@ -28,10 +28,6 @@ export default {
     Spinner,
   },
   mixins: [availabilityMixin, configMixin, darkModeMixin],
-  setup() {
-    const { replaceRoute } = useRouterHelper();
-    return { replaceRoute };
-  },
   data() {
     return {
       isMobile: false,
@@ -145,15 +141,15 @@ export default {
         this.setUnreadView();
       });
       emitter.on(ON_UNREAD_MESSAGE_CLICK, () => {
-        this.replaceRoute('messages').then(() => this.unsetUnreadView());
+        useReplaceRoute('messages').then(() => this.unsetUnreadView());
       });
     },
     registerCampaignEvents() {
       emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
         if (this.shouldShowPreChatForm) {
-          this.replaceRoute('prechat-form');
+          useReplaceRoute('prechat-form');
         } else {
-          this.replaceRoute('messages');
+          useReplaceRoute('messages');
           emitter.emit('execute-campaign', {
             campaignId: this.activeCampaign.id,
           });
@@ -164,7 +160,7 @@ export default {
         const { customAttributes, campaignId } = campaignDetails;
         const { websiteToken } = window.chatwootWebChannel;
         this.executeCampaign({ campaignId, websiteToken, customAttributes });
-        this.replaceRoute('messages');
+        useReplaceRoute('messages');
       });
       emitter.on('snooze-campaigns', () => {
         const expireBy = addHours(new Date(), 1);
@@ -180,7 +176,7 @@ export default {
         !messageCount &&
         !shouldSnoozeCampaign;
       if (this.isIFrame && isCampaignReadyToExecute) {
-        this.replaceRoute('campaigns').then(() => {
+        useReplaceRoute('campaigns').then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
@@ -195,7 +191,7 @@ export default {
         unreadMessageCount > 0 &&
         !this.isWidgetOpen
       ) {
-        this.replaceRoute('unread-messages').then(() => {
+        useReplaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
@@ -302,12 +298,12 @@ export default {
             ['unread-messages', 'campaigns'].includes(this.$route.name);
 
           if (shouldShowMessageView) {
-            this.replaceRoute('messages');
+            useReplaceRoute('messages');
           }
           if (shouldShowHomeView) {
             this.$store.dispatch('conversation/setUserLastSeen');
             this.unsetUnreadView();
-            this.replaceRoute('home');
+            useReplaceRoute('home');
           }
           if (!message.isOpen) {
             this.resetCampaign();

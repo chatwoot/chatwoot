@@ -6,7 +6,7 @@ import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import { useRouterHelper } from 'widget/composables/useRouterHelper';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 
@@ -15,10 +15,6 @@ export default {
     ChatInputWrap,
     CustomButton,
     FooterReplyTo,
-  },
-  setup() {
-    const { replaceRoute } = useRouterHelper();
-    return { replaceRoute };
   },
   data() {
     return {
@@ -88,7 +84,7 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
-      this.replaceRoute('prechat-form');
+      useReplaceRoute('prechat-form');
       IFrameHelper.sendMessage({
         event: 'onEvent',
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,

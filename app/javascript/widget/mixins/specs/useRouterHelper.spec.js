@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useRouterHelper } from '../../composables/useRouterHelper';
+import { useReplaceRoute } from '../../composables/useReplaceRoute';
 
 const mockRouter = {
   currentRoute: { name: 'initialRoute' },
   replace: vi.fn(),
 };
 
-vi.mock('../../composables/useRouterHelper', () => ({
-  useRouterHelper: () => ({
+vi.mock('../../composables/useReplaceRoute', () => ({
+  useReplaceRoute: () => ({
     replaceRoute: async (name, params = {}) => {
       if (mockRouter.currentRoute.name !== name) {
         return mockRouter.replace({ name, params });
@@ -17,13 +17,13 @@ vi.mock('../../composables/useRouterHelper', () => ({
   }),
 }));
 
-describe('useRouterHelper', () => {
+describe('useReplaceRoute', () => {
   let routerHelper;
 
   beforeEach(() => {
     vi.resetAllMocks();
     mockRouter.currentRoute = { name: 'initialRoute' };
-    routerHelper = useRouterHelper();
+    routerHelper = useReplaceRoute();
   });
 
   describe('replaceRoute', () => {

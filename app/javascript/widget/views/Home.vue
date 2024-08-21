@@ -5,7 +5,7 @@ import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoad
 
 import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import { useRouterHelper } from 'widget/composables/useRouterHelper';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import configMixin from 'widget/mixins/configMixin';
 
 export default {
@@ -16,10 +16,6 @@ export default {
     ArticleCardSkeletonLoader,
   },
   mixins: [configMixin, darkModeMixin],
-  setup() {
-    const { replaceRoute } = useRouterHelper();
-    return { replaceRoute };
-  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
@@ -67,9 +63,9 @@ export default {
   methods: {
     startConversation() {
       if (this.preChatFormEnabled && !this.conversationSize) {
-        return this.replaceRoute('prechat-form');
+        return useReplaceRoute('prechat-form');
       }
-      return this.replaceRoute('messages');
+      return useReplaceRoute('messages');
     },
     openArticleInArticleViewer(link) {
       let linkToOpen = `${link}?show_plain_layout=true`;

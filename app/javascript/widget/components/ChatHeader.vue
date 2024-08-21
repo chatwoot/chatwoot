@@ -3,7 +3,7 @@ import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
-import { useRouterHelper } from 'widget/composables/useRouterHelper';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import darkMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
@@ -35,10 +35,6 @@ export default {
       default: () => {},
     },
   },
-  setup() {
-    const { replaceRoute } = useRouterHelper();
-    return { replaceRoute };
-  },
   computed: {
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -52,7 +48,7 @@ export default {
   },
   methods: {
     onBackButtonClick() {
-      this.replaceRoute('home');
+      useReplaceRoute('home');
     },
   },
 };
