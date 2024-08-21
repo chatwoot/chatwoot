@@ -3,41 +3,16 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
+import {
+  DEFAULT_MESSAGE_CREATED_CONDITION,
+  DEFAULT_CONVERSATION_OPENED_CONDITION,
+  DEFAULT_OTHER_CONDITION,
+  DEFAULT_ACTIONS,
+  MESSAGE_CONDITION_VALUES,
+  PRIORITY_CONDITION_VALUES,
+} from 'dashboard/constants/automation';
 import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
-const MESSAGE_CONDITION_VALUES = [
-  {
-    id: 'incoming',
-    name: 'Incoming Message',
-  },
-  {
-    id: 'outgoing',
-    name: 'Outgoing Message',
-  },
-];
-
-export const PRIORITY_CONDITION_VALUES = [
-  {
-    id: 'nil',
-    name: 'None',
-  },
-  {
-    id: 'low',
-    name: 'Low',
-  },
-  {
-    id: 'medium',
-    name: 'Medium',
-  },
-  {
-    id: 'high',
-    name: 'High',
-  },
-  {
-    id: 'urgent',
-    name: 'Urgent',
-  },
-];
 
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
@@ -198,45 +173,16 @@ export const getFileName = (action, files = []) => {
 
 export const getDefaultConditions = eventName => {
   if (eventName === 'message_created') {
-    return [
-      {
-        attribute_key: 'message_type',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-        custom_attribute_type: '',
-      },
-    ];
+    return DEFAULT_MESSAGE_CREATED_CONDITION;
   }
   if (eventName === 'conversation_opened') {
-    return [
-      {
-        attribute_key: 'browser_language',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-        custom_attribute_type: '',
-      },
-    ];
+    return DEFAULT_CONVERSATION_OPENED_CONDITION;
   }
-  return [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: '',
-      query_operator: 'and',
-      custom_attribute_type: '',
-    },
-  ];
+  return DEFAULT_OTHER_CONDITION;
 };
 
 export const getDefaultActions = () => {
-  return [
-    {
-      action_name: 'assign_agent',
-      action_params: [],
-    },
-  ];
+  return DEFAULT_ACTIONS;
 };
 
 export const filterCustomAttributes = customAttributes => {

@@ -15,8 +15,8 @@ import {
   languages,
   countries,
   slaPolicies,
-  MESSAGE_CONDITION_VALUES,
 } from 'dashboard/helper/specs/fixtures/automationFixtures.js';
+import { MESSAGE_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables');
