@@ -10,7 +10,7 @@ import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShor
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import portalMixin from '../mixins/portalMixin';
+import { usePortal } from '../composables/usePortal';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const CommandBar = () =>
@@ -28,13 +28,14 @@ export default {
     UpgradePage,
     WootKeyShortcutModal,
   },
-  mixins: [portalMixin],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
+    const { accountId } = usePortal();
 
     return {
       uiSettings,
       updateUISettings,
+      accountId,
     };
   },
   data() {
@@ -51,7 +52,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       portals: 'portals/allPortals',
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',

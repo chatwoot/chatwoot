@@ -1,6 +1,6 @@
 <script>
 import { dynamicTime } from 'shared/helpers/timeHelper';
-import portalMixin from '../mixins/portalMixin';
+import { usePortal } from '../composables/usePortal';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
@@ -8,7 +8,6 @@ export default {
   components: {
     Thumbnail,
   },
-  mixins: [portalMixin],
   props: {
     showDragIcon: {
       type: Boolean,
@@ -44,7 +43,10 @@ export default {
       default: 0,
     },
   },
-
+  setup() {
+    const { accountId, portalSlug, locale, localeName } = usePortal();
+    return { accountId, portalSlug, locale, localeName };
+  },
   computed: {
     lastUpdatedAt() {
       return dynamicTime(this.updatedAt);

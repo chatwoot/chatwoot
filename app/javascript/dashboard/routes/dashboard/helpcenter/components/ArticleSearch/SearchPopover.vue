@@ -7,7 +7,7 @@ import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
-import portalMixin from '../../mixins/portalMixin';
+import { usePortal } from '../../composables/usePortal';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -16,12 +16,15 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin],
   props: {
     selectedPortalSlug: {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { localeName } = usePortal();
+    return { localeName };
   },
   data() {
     return {

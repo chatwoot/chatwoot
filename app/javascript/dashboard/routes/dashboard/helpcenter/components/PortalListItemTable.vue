@@ -1,7 +1,6 @@
 <script>
-import portalMixin from '../mixins/portalMixin';
+import { usePortal } from '../composables/usePortal';
 export default {
-  mixins: [portalMixin],
   props: {
     locales: {
       type: Array,
@@ -12,7 +11,10 @@ export default {
       default: '',
     },
   },
-
+  setup() {
+    const { localeName } = usePortal();
+    return { localeName };
+  },
   methods: {
     changeDefaultLocale(localeCode) {
       this.$emit('changeDefaultLocale', { localeCode });

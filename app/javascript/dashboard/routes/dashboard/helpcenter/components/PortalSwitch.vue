@@ -1,12 +1,11 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import portalMixin from '../mixins/portalMixin';
+import { usePortal } from '../composables/usePortal';
 
 export default {
   components: {
     Thumbnail,
   },
-  mixins: [portalMixin],
   props: {
     portal: {
       type: Object,
@@ -24,6 +23,10 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { localeName } = usePortal();
+    return { localeName };
   },
   data() {
     return {

@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
-import portalMixin from '../../mixins/portalMixin';
+import { usePortal } from '../../composables/usePortal';
 import ArticleSettings from './ArticleSettings.vue';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
@@ -12,7 +12,10 @@ export default {
     ArticleEditor,
     ArticleSettings,
   },
-  mixins: [portalMixin],
+  setup() {
+    const { locale } = usePortal();
+    return { locale };
+  },
   data() {
     return {
       articleTitle: '',
