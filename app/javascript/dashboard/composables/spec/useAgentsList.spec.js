@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useAgentsList } from '../useAgentsList';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
 import { allAgentsData, formattedAgentsData } from './fixtures/agentFixtures';
 import * as agentHelper from 'dashboard/helper/agentHelper';
 
@@ -16,11 +16,14 @@ describe('useAgentsList', () => {
       formattedAgentsData.slice(1)
     );
 
-    useStoreGetters.mockReturnValue({
-      getCurrentUser: ref(allAgentsData[0]),
-      getSelectedChat: ref({ inbox_id: 1, meta: { assignee: true } }),
-      getCurrentAccountId: ref(1),
-      'inboxAssignableAgents/getAssignableAgents': ref(() => allAgentsData),
+    useMapGetter.mockImplementation(getter => {
+      const getters = {
+        getCurrentUser: ref(allAgentsData[0]),
+        getSelectedChat: ref({ inbox_id: 1, meta: { assignee: true } }),
+        getCurrentAccountId: ref(1),
+        'inboxAssignableAgents/getAssignableAgents': ref(() => allAgentsData),
+      };
+      return getters[getter];
     });
   });
 
@@ -49,9 +52,14 @@ describe('useAgentsList', () => {
   });
 
   it('handles empty assignable agents', () => {
-    useStoreGetters.mockReturnValue({
-      ...useStoreGetters(),
-      'inboxAssignableAgents/getAssignableAgents': ref(() => []),
+    useMapGetter.mockImplementation(getter => {
+      const getters = {
+        getCurrentUser: ref(allAgentsData[0]),
+        getSelectedChat: ref({ inbox_id: 1, meta: { assignee: true } }),
+        getCurrentAccountId: ref(1),
+        'inboxAssignableAgents/getAssignableAgents': ref(() => []),
+      };
+      return getters[getter];
     });
     agentHelper.getSortedAgentsByAvailability.mockReturnValue([]);
 
@@ -62,10 +70,14 @@ describe('useAgentsList', () => {
   });
 
   it('handles missing inbox_id', () => {
-    useStoreGetters.mockReturnValue({
-      ...useStoreGetters(),
-      getSelectedChat: ref({ meta: { assignee: true } }),
-      'inboxAssignableAgents/getAssignableAgents': ref(() => []),
+    useMapGetter.mockImplementation(getter => {
+      const getters = {
+        getCurrentUser: ref(allAgentsData[0]),
+        getSelectedChat: ref({ meta: { assignee: true } }),
+        getCurrentAccountId: ref(1),
+        'inboxAssignableAgents/getAssignableAgents': ref(() => []),
+      };
+      return getters[getter];
     });
     agentHelper.getSortedAgentsByAvailability.mockReturnValue([]);
 
