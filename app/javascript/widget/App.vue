@@ -8,7 +8,7 @@ import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
-import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import {
   getExtraSpaceToScroll,
   loadedEventConfig,
@@ -29,7 +29,7 @@ export default {
   },
   mixins: [availabilityMixin, configMixin, darkModeMixin],
   setup() {
-    const replaceRoute = useReplaceRoute();
+    const { replaceRoute } = useRouterHelper();
     return { replaceRoute };
   },
   data() {

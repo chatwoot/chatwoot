@@ -1,7 +1,7 @@
 <script>
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
-import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
 
@@ -11,7 +11,7 @@ export default {
   },
   mixins: [configMixin],
   setup() {
-    const replaceRoute = useReplaceRoute();
+    const { replaceRoute } = useRouterHelper();
     return { replaceRoute };
   },
   mounted() {

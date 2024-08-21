@@ -5,7 +5,7 @@ import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoad
 
 import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import configMixin from 'widget/mixins/configMixin';
 
 export default {
@@ -17,7 +17,7 @@ export default {
   },
   mixins: [configMixin, darkModeMixin],
   setup() {
-    const replaceRoute = useReplaceRoute();
+    const { replaceRoute } = useRouterHelper();
     return { replaceRoute };
   },
   computed: {

@@ -6,7 +6,7 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
+import { useRouterHelper } from 'widget/composables/useRouterHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
 
@@ -23,7 +23,7 @@ export default {
     },
   },
   setup() {
-    const replaceRoute = useReplaceRoute();
+    const { replaceRoute } = useRouterHelper();
     return { replaceRoute };
   },
   data() {
