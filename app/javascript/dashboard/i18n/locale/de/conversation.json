@@ -241,25 +241,29 @@
   "ONBOARDING": {
     "TITLE": "Hallo 👋, Willkommen bei %{installationName}!",
     "DESCRIPTION": "Danke für's Registrieren. Wir möchten, dass Sie %{installationName} optimal nutzen. Hier sind ein paar Dinge, die Sie in %{installationName} tun können, um das Erlebnis angenehm zu gestalten.",
+    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
+    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
     "READ_LATEST_UPDATES": "Lesen Sie unsere neuesten Updates",
     "ALL_CONVERSATION": {
       "TITLE": "All Ihre Konversationen an einem Ort",
-      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern."
+      "DESCRIPTION": "Zeigen Sie alle Konversationen Ihrer Kunden in einem einzigen Dashboard an. Sie können die Konversationen nach eingehendem Kanal, Bezeichnung und Status filtern.",
+      "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Laden Sie Ihre Teammitglieder ein",
       "DESCRIPTION": "Da Sie sich darauf vorbereiten, mit Ihrem Kunden zu sprechen, ziehen Sie Ihre Teamkollegen hinzu, um Ihnen zu helfen. Sie können Ihre Teamkollegen einladen, indem Sie deren E-Mail-Adressen zur Agentenliste hinzufügen.",
       "NEW_LINK": "Klicken Sie hier, um ein Teammitglied einzuladen"
     },
-    "INBOXES": {
-      "TITLE": "Posteingänge verbinden",
-      "DESCRIPTION": "Verbinden Sie verschiedene Kanäle, über die Ihre Kunden mit Ihnen sprechen würden. Das kann ein Website-Live-Chat, Ihre Facebook- oder Twitter-Seite oder sogar Ihre WhatsApp-Nummer sein.",
-      "NEW_LINK": "Hier klicken, um einen Posteingang zu erstellen"
-    },
     "LABELS": {
       "TITLE": "Organisieren Sie Konversationen mit Labels",
       "DESCRIPTION": "Labels bieten eine einfachere Möglichkeit, Ihre Konversation zu kategorisieren. Erstellen Sie einige Labels wie #support-enquiry, #billing-quest etc., damit Sie sie später in einem Gespräch verwenden können.",
       "NEW_LINK": "Hier klicken, um Tags zu erstellen"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {

@@ -2,9 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Neues Team erstellen",
     "HEADER": "Teams",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "Teams werden abgerufen",
+    "DESCRIPTION": "Teams ermöglichen es Ihnen, Agenten basierend auf ihren Aufgaben in Gruppen zu organisieren. Ein Agent kann mehreren Teams angehören. Bei der Zusammenarbeit können Sie Unterhaltungen bestimmten Teams zuweisen.",
+    "LEARN_MORE": "Erfahren Sie mehr über Teams",
     "LIST": {
       "404": "Es wurden noch keine Teams auf diesem Konto erstellt.",
       "EDIT_TEAM": "Team bearbeiten",
@@ -100,7 +100,7 @@
         "ERROR_MESSAGE": "Das Team konnte nicht gelöscht werden. Versuchen Sie es erneut."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Sind Sie sicher, dass Sie das Team löschen möchten?",
         "PLACE_HOLDER": "Bitte geben Sie {teamName} zur Bestätigung ein",
         "MESSAGE": "Das Löschen des Teams wird die Teamzuordnung aus den Konversationen entfernen, die diesem Team zugewiesen wurden.",
         "YES": "Löschen ",
