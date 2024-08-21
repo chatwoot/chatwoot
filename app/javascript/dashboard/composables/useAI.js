@@ -151,7 +151,7 @@ export function useAI() {
       } = result;
 
       return cleanLabels(labels);
-    } catch (error) {
+    } catch {
       return [];
     }
   };
