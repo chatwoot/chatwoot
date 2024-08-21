@@ -2,18 +2,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useHook } from './useHook';
+import hookMixin from './hookMixin';
 
 export default {
+  mixins: [hookMixin],
   props: {
     integration: {
       type: Object,
       default: () => ({}),
     },
-  },
-  setup(props) {
-    const { isHookTypeInbox } = useHook(props.integration);
-    return { isHookTypeInbox };
   },
   data() {
     return {

@@ -1,16 +1,13 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useHook } from './useHook';
+import hookMixin from './hookMixin';
 export default {
+  mixins: [hookMixin],
   props: {
     integration: {
       type: Object,
       default: () => ({}),
     },
-  },
-  setup(props) {
-    const { isHookTypeInbox, hasConnectedHooks } = useHook(props.integration);
-    return { isHookTypeInbox, hasConnectedHooks };
   },
   computed: {
     ...mapGetters({
