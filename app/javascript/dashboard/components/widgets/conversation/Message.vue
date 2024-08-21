@@ -113,7 +113,7 @@
         class="sender--info"
       >
         <woot-thumbnail
-          :src="sender.thumbnail"
+          :src="senderAvatarUrl"
           :username="senderNameForAvatar"
           size="16px"
         />
@@ -488,6 +488,9 @@ export default {
       if (this.isPending || this.isFailed) return false;
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
+    isSentByChatwootBotAnna() {
+      return !this.sender.type || (this.sender.type === 'agent_bot' && this.sender.bot_type === 'digitaltolk');
+    },
     shouldShowContextMenu() {
       return !(this.isFailed || this.isPending || this.isUnsupported);
     },
@@ -498,11 +501,20 @@ export default {
       return this.isATweet && this.isIncoming && this.sender;
     },
     senderNameForAvatar() {
+      if (this.isSentByChatwootBotAnna) {
+        return 'Anna';
+      }
       if (this.isOutgoing || this.isTemplate) {
         const { name = this.$t('CONVERSATION.BOT') } = this.sender || {};
         return name;
       }
       return '';
+    },
+    senderAvatarUrl() {
+      if (this.isSentByChatwootBotAnna) {
+        return '/dashboard/images/agent-bots/bot_anna.png';
+      }
+      return this.sender.thumbnail;
     },
     firstCsat() {
       if (this.csatMessages.length === 0) {

@@ -120,6 +120,9 @@
       "AUTO_ASSIGN": {
         "LABEL": "Allow auto assign for this team."
       },
+      "HIGH_PRIORITY": {
+        "LABEL": "Set team as high priority."
+      },
       "SUBMIT_CREATE": "Create team"
     }
   }

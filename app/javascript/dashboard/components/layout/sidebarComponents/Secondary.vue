@@ -189,10 +189,14 @@ export default {
           id: team.id,
           label: team.name,
           truncateLabel: true,
+          high_priority: team.high_priority,
           statsField: 'myTeamsOpenCount',
           showOpenConversationCount: true,
           toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
-        })),
+        }))
+        .sort((a, b) =>
+          b.high_priority - a.high_priority
+        ),
       };
     },
     foldersSection() {
