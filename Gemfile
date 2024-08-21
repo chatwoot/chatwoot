@@ -111,12 +111,12 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.18.2', require: false
+gem 'sentry-rails', '>= 5.19.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.18.2', require: false
+gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.3.0'
+gem 'sidekiq', '>= 7.3.1'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
@@ -228,7 +228,7 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 6.1.3'
+  gem 'rspec-rails', '>= 6.1.4'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

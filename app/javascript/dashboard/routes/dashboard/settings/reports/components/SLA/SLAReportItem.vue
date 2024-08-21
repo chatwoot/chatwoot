@@ -1,8 +1,9 @@
 <script setup>
+import { computed } from 'vue';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import CardLabels from 'dashboard/components/widgets/conversation/conversationCardComponents/CardLabels.vue';
 import SLAViewDetails from './SLAViewDetails.vue';
-defineProps({
+const props = defineProps({
   slaName: {
     type: String,
     required: true,
@@ -19,6 +20,12 @@ defineProps({
     type: Array,
     default: () => [],
   },
+});
+
+const conversationLabels = computed(() => {
+  return props.conversation.labels
+    ? props.conversation.labels.split(',').map(item => item.trim())
+    : [];
 });
 </script>
 
@@ -41,7 +48,7 @@ defineProps({
       <CardLabels
         class="w-[80%]"
         :conversation-id="conversationId"
-        :conversation-labels="conversation.labels"
+        :conversation-labels="conversationLabels"
       />
     </div>
     <div
