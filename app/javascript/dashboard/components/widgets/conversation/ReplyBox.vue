@@ -12,7 +12,7 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
-import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
+import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -1017,6 +1017,19 @@ export default {
       if (cc.includes(conversationContact)) {
         cc = cc.filter(email => email !== conversationContact);
       }
+
+      // Add each address in emailAttributes.to to the cc variable, except when the address is:
+      // The Inbox email address (e.g. support@mycompany.example.com in the example above)
+      // A reply email address (e.g. reply+xxx@mycompany.example.com)
+      // The current conversation contact's email
+      cc.push(
+        ...emailAttributes.to.filter(
+          email =>
+            email !== this.inbox.email &&
+            !email.startsWith('reply+') &&
+            email !== conversationContact
+        )
+      );
 
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
