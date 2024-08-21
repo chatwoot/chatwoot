@@ -34,7 +34,7 @@ const visibilityLabel = computed(() => {
 <template>
   <tr>
     <td class="py-4 ltr:pr-4 rtl:pl-4 truncate">{{ macro.name }}</td>
-    <td class="py-4 pr-4">
+    <td class="py-4 ltr:pr-4 rtl:pl-4">
       <div v-if="macro.created_by" class="flex items-center">
         <Thumbnail :username="createdByName" size="24px" />
         <span class="mx-2">{{ createdByName }}</span>
