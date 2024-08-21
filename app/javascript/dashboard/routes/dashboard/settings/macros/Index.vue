@@ -53,6 +53,7 @@ const confirmDeletion = () => {
     :no-records-found="!records.length"
     :is-loading="uiFlags.isFetching"
     :loading-message="$t('MACROS.LOADING')"
+    feature-name="macros"
   >
     <template #header>
       <BaseSettingsHeader
