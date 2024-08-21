@@ -34,8 +34,14 @@ describe('#validateAuthenticateRoutePermission', () => {
             getCurrentUser: {
               account_id: 1,
               id: 1,
-              permissions: ['agent'],
-              accounts: [{ id: 1, role: 'agent', status: 'active' }],
+              accounts: [
+                {
+                  permissions: ['agent'],
+                  id: 1,
+                  role: 'agent',
+                  status: 'active',
+                },
+              ],
             },
           };
           validateAuthenticateRoutePermission(to, next, { getters });
@@ -55,8 +61,14 @@ describe('#validateAuthenticateRoutePermission', () => {
             getCurrentUser: {
               account_id: 1,
               id: 1,
-              permissions: ['administrator'],
-              accounts: [{ id: 1, role: 'administrator', status: 'active' }],
+              accounts: [
+                {
+                  id: 1,
+                  role: 'administrator',
+                  permissions: ['administrator'],
+                  status: 'active',
+                },
+              ],
             },
           };
           validateAuthenticateRoutePermission(to, next, { getters });
