@@ -1,18 +1,10 @@
 import {
   getConversationDashboardRoute,
-  getCurrentAccount,
   isAConversationRoute,
   routeIsAccessibleFor,
   validateLoggedInRoutes,
   isAInboxViewRoute,
 } from '../routeHelpers';
-
-describe('#getCurrentAccount', () => {
-  it('should return the current account', () => {
-    expect(getCurrentAccount({ accounts: [{ id: 1 }] }, 1)).toEqual({ id: 1 });
-    expect(getCurrentAccount({ accounts: [] }, 1)).toEqual(undefined);
-  });
-});
 
 describe('#routeIsAccessibleFor', () => {
   it('should return the correct access', () => {
