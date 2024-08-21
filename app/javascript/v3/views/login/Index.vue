@@ -96,7 +96,7 @@ import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
 // import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 // import FormInput from '../../components/Form/Input.vue';
-import { login } from '../../api/auth';
+import { login, keycloakRedirectUrl } from '../../api/auth';
 // import Spinner from 'shared/components/Spinner.vue';
 // import RedirectLoader from 'shared/components/RedirectLoader.vue';
 
@@ -229,22 +229,15 @@ export default {
         });
     },
     redirectToKeycloak() {
-      const realm = window.chatwootConfig.keycloakRealm;
-      const clientId = window.chatwootConfig.keycloakClientId;
-      const redirectUri = window.chatwootConfig.keycloakCallbackUrl;
-      const keycloakUri = window.chatwootConfig.keycloakUrl;
-      const baseUrl = `${keycloakUri}/realms/${realm}/protocol/openid-connect/auth`;
-      const responseType = 'code';
-      const scope = 'openid';
-
-      const queryString = new URLSearchParams({
-        client_id: clientId,
-        redirect_uri: redirectUri,
-        response_type: responseType,
-        scope: scope,
-      }).toString();
-
-      window.location.href = `${baseUrl}?${queryString}`;
+      keycloakRedirectUrl()
+        .then(response => {
+          setTimeout(() => {
+            window.location.href = response.data.url;
+          }, 3000);
+        })
+        .catch(response => {
+          this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
+        });
     },
   },
 };

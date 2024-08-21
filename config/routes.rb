@@ -268,6 +268,7 @@ Rails.application.routes.draw do
       namespace :keycloak do
         resources :logout, only: [:create]
         resources :check_keycloak_session, only: [:create]
+        resources :create_redirect_url, only: [:create]
       end
 
       namespace :integrations do
