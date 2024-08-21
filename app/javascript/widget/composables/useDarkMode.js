@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
 
 /**
  * Composable for handling dark mode.
@@ -7,8 +7,7 @@ import { useStoreGetters } from 'dashboard/composables/store';
  */
 
 export function useDarkMode() {
-  const getters = useStoreGetters();
-  const darkMode = computed(() => getters['appConfig/getDarkMode'].value);
+  const darkMode = useMapGetter('appConfig/getDarkMode');
   const prefersDarkMode = computed(() => {
     const isOSOnDarkMode =
       darkMode.value === 'auto' &&
