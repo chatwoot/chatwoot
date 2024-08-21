@@ -25,8 +25,8 @@
 # 'knowledge_base_manage' - Can manage knowledge base
 #
 class CustomRole < ApplicationRecord
-  belongs_to :account
-  has_many :account_users
+  belongs_to :account, dependent: :destroy_async
+  has_many :account_users, dependent: :nullify
 
   PERMISSIONS = %w[
     conversation_manage
@@ -37,5 +37,6 @@ class CustomRole < ApplicationRecord
     knowledge_base_manage
   ].freeze
 
+  validates :name, presence: true
   validates :permissions, inclusion: { in: PERMISSIONS }
 end
