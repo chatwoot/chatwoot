@@ -93,7 +93,7 @@ const confirmDeletion = () => {
             v-for="(macro, index) in records"
             :key="index"
             :macro="macro"
-            @delete="openDeletePopup(macro, index)"
+            @delete="openDeletePopup(macro)"
           />
         </tbody>
       </table>
