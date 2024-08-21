@@ -17,6 +17,7 @@ RSpec.describe 'Enterprise Agents API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(other_agent.account_users.first.reload.custom_role_id).to eq(custom_role.id)
+        expect(JSON.parse(response.body)['custom_role_id']).to eq(custom_role.id)
       end
     end
   end
