@@ -8,7 +8,10 @@ import { useRoute, useRouter } from 'dashboard/composables/route';
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
 import { routesWithPermissions } from '../../routes';
-import { hasPermissions } from '../../helper/permissionsHelper';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from '../../helper/permissionsHelper';
 
 export default {
   components: {
@@ -113,7 +116,10 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
-      const userPermissions = this.currentUser.permissions;
+      const userPermissions = getUserPermissions(
+        this.currentUser,
+        this.accountId
+      );
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = hasPermissions(

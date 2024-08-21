@@ -1,9 +1,8 @@
-import { hasPermissions } from './permissionsHelper';
-
-// eslint-disable-next-line default-param-last
-export const getCurrentAccount = ({ accounts } = {}, accountId) => {
-  return accounts.find(account => account.id === accountId);
-};
+import {
+  hasPermissions,
+  getUserPermissions,
+  getCurrentAccount,
+} from './permissionsHelper';
 
 export const routeIsAccessibleFor = (route, userPermissions = []) => {
   const { meta: { permissions: routePermissions = [] } = {} } = route;
@@ -19,7 +18,9 @@ const validateActiveAccountRoutes = (to, user) => {
     return accountDashboardURL;
   }
 
-  const isAccessible = routeIsAccessibleFor(to, user.permissions);
+  const userPermissions = getUserPermissions(user, to.params.accountId);
+
+  const isAccessible = routeIsAccessibleFor(to, userPermissions);
   // If the route is not accessible for the user, return to dashboard screen
   return isAccessible ? null : accountDashboardURL;
 };
