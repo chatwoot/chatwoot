@@ -1,6 +1,7 @@
 <script>
 import { ref } from 'vue';
 // composable
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 // components
@@ -14,7 +15,6 @@ import { mapGetters } from 'vuex';
 
 // mixins
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import configMixin from 'shared/mixins/configMixin';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
@@ -40,7 +40,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [inboxMixin, configMixin, aiMixin],
+  mixins: [inboxMixin, aiMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -54,6 +54,7 @@ export default {
   setup() {
     const conversationFooterRef = ref(null);
     const isPopOutReplyBox = ref(false);
+    const { isEnterprise } = useConfig();
 
     const closePopOutReplyBox = () => {
       isPopOutReplyBox.value = false;
@@ -72,6 +73,7 @@ export default {
     useKeyboardEvents(keyboardEvents, conversationFooterRef);
 
     return {
+      isEnterprise,
       conversationFooterRef,
       isPopOutReplyBox,
       closePopOutReplyBox,

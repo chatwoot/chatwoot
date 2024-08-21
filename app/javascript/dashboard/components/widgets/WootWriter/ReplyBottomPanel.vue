@@ -116,29 +116,27 @@ export default {
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
+
     const uploadRef = ref(null);
     // TODO: This is really hacky, we need to replace the file picker component with
     // a custom one, where the logic and the component markup is isolated.
     // Once we have the custom component, we can remove the hacky logic below.
-    const uploadTriggerButton = computed(() => {
-      if (uploadRef.value) {
-        return uploadRef.value.$children[1].$el;
-      }
-
-      return null;
-    });
+    const uploadRefElem = computed(() => uploadRef.value?.$el);
 
     const keyboardEvents = {
       'Alt+KeyA': {
         action: () => {
-          uploadTriggerButton.value.click();
+          const uploadTriggerButton = document.querySelector(
+            '#conversationAttachment'
+          );
+          uploadTriggerButton.click();
         },
         allowOnFocusedInput: true,
       },
     };
 
     watchEffect(() => {
-      useKeyboardEvents(keyboardEvents, uploadTriggerButton);
+      useKeyboardEvents(keyboardEvents, uploadRefElem);
     });
 
     return {
