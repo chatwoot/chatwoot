@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Nepieciešams tālruņa numurs",
         "DIAL_CODE_VALID_ERROR": "Lūdzu, izvēlieties valsts kodu",
         "VALID_ERROR": "Lūdzu ievadiet derīgu telefona numuru",
-        "DROPDOWN_EMPTY": "Nav atrasts"
+        "DROPDOWN_EMPTY": "Nav atrasts",
+        "DROPDOWN_SEARCH": "Meklēt valsti"
       },
       "MESSAGE": {
         "LABEL": "Ziņojums",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Meklēt emocijzīmes",
-    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam"
+    "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam",
+    "ARIA_LABEL": "Emocijzīmju atlasītājs"
   },
   "CSAT": {
     "TITLE": "Novērtējiet Jūsu sarunu",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "ir kopīgojis URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Atbildot uz:"
   }
 }
