@@ -1,46 +1,12 @@
-import { hasPermissions } from './permissionsHelper';
-
-// eslint-disable-next-line default-param-last
-export const getCurrentAccount = ({ accounts } = {}, accountId) => {
-  return accounts.find(account => account.id === accountId);
-};
+import {
+  hasPermissions,
+  getUserPermissions,
+  getCurrentAccount,
+} from './permissionsHelper';
 
 export const routeIsAccessibleFor = (route, userPermissions = []) => {
   const { meta: { permissions: routePermissions = [] } = {} } = route;
   return hasPermissions(routePermissions, userPermissions);
-};
-
-const ROLE_PERMISSIONS = ['agent', 'administrator'];
-const CONVERSATION_PERMISSIONS = [
-  'conversation_manage',
-  'conversation_unassigned_manage',
-  'conversation_participating_manage',
-];
-const CONTACT_PERMISSIONS = ['contact_manage'];
-const REPORTS_PERMISSIONS = ['report_manage'];
-const PORTAL_PERMISSIONS = ['knowledge_base_manage'];
-
-const defaultRedirectPage = (to, user) => {
-  if (
-    hasPermissions(ROLE_PERMISSIONS, user.permissions) ||
-    hasPermissions(CONVERSATION_PERMISSIONS, user.permissions)
-  ) {
-    return `accounts/${to.params.accountId}/dashboard`;
-  }
-
-  if (hasPermissions(CONTACT_PERMISSIONS, user.permissions)) {
-    return `accounts/${to.params.accountId}/contacts`;
-  }
-
-  if (hasPermissions(REPORTS_PERMISSIONS, user.permissions)) {
-    return `accounts/${to.params.accountId}/reports/overview`;
-  }
-
-  if (hasPermissions(PORTAL_PERMISSIONS, user.permissions)) {
-    return `accounts/${to.params.accountId}/portals`;
-  }
-
-  return `accounts/${to.params.accountId}/dashboard`;
 };
 
 const validateActiveAccountRoutes = (to, user) => {
@@ -52,9 +18,11 @@ const validateActiveAccountRoutes = (to, user) => {
     return accountDashboardURL;
   }
 
-  const isAccessible = routeIsAccessibleFor(to, user.permissions);
+  const userPermissions = getUserPermissions(user, to.params.accountId);
+
+  const isAccessible = routeIsAccessibleFor(to, userPermissions);
   // If the route is not accessible for the user, return to dashboard screen
-  return isAccessible ? null : defaultRedirectPage(to, user);
+  return isAccessible ? null : accountDashboardURL;
 };
 
 export const validateLoggedInRoutes = (to, user) => {

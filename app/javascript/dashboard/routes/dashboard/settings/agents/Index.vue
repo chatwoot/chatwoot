@@ -158,7 +158,7 @@ const confirmDeletion = () => {
 
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span class="block font-medium capitalize">
-                {{ agent.custom_role_id === null ? $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`) : 'Custom Role' }}
+                {{ $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`) }}
               </span>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
@@ -211,7 +211,6 @@ const confirmDeletion = () => {
         :type="currentAgent.role"
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"
-        :custom-role-id="currentAgent.custom_role_id"
         :on-close="hideEditPopup"
       />
     </woot-modal>

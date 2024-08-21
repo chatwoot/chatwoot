@@ -54,7 +54,6 @@ useKeyboardEvents(keyboardEvents, chatTypeTabsRef);
         :key="item.key"
         :name="item.name"
         :count="item.count"
-        :permissions="item.permissions"
       />
     </woot-tabs>
   </div>

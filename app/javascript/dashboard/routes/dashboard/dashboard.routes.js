@@ -38,7 +38,7 @@ export default {
       path: frontendURL('accounts/:accountId/suspended'),
       name: 'account_suspended',
       meta: {
-        permissions: ['administrator', 'agent', 'custom_role'],
+        permissions: ['administrator', 'agent'],
       },
       component: Suspended,
     },

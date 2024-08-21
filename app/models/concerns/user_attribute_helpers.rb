@@ -43,10 +43,6 @@ module UserAttributeHelpers
     current_account_user&.role
   end
 
-  def custom_role_id
-    current_account_user&.custom_role_id
-  end
-
   # Used internally for Chatwoot in Chatwoot
   def hmac_identifier
     hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']

@@ -10,4 +10,3 @@ json.custom_attributes resource.custom_attributes if resource.custom_attributes.
 json.name resource.name
 json.role resource.role
 json.thumbnail resource.avatar_url
-json.custom_role_id resource.custom_role_id

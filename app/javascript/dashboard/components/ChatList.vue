@@ -228,44 +228,16 @@ export default {
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
-        me: {
-          count: 'mineCount',
-          permissions: [
-            'user',
-            'admin',
-            'conversation_manage',
-            'conversation_unassigned_manage',
-            'conversation_participating_manage',
-          ],
-        },
-        unassigned: {
-          count: 'unAssignedCount',
-          permissions: [
-            'user',
-            'admin',
-            'conversation_manage',
-            'conversation_unassigned_manage',
-          ],
-        },
-        all: {
-          count: 'allCount',
-          permissions: [
-            'user',
-            'admin',
-            'conversation_manage',
-            'conversation_participating_manage',
-          ],
-        },
+        me: 'mineCount',
+        unassigned: 'unAssignedCount',
+        all: 'allCount',
       };
-
       return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
-        const count =
-          this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key].count] || 0;
+        const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
         return {
           key,
           name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
           count,
-          permissions: ASSIGNEE_TYPE_TAB_KEYS[key].permissions,
         };
       });
     },

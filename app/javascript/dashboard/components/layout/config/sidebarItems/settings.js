@@ -38,7 +38,7 @@ const settings = accountId => ({
     'settings_teams_finish',
     'settings_teams_list',
     'settings_teams_new',
-    'sla_list'
+    'sla_list',
   ],
   menuItems: [
     {
