@@ -1,9 +1,9 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import {
-  createNoneAgent,
   getAgentsByUpdatedPresence,
   getSortedAgentsByAvailability,
+  getCombinedAgents,
 } from 'dashboard/helper/agentHelper';
 
 /**
@@ -43,11 +43,11 @@ export function useAgentsList(includeNoneAgent = true) {
       agentsByUpdatedPresence
     );
 
-    const filteredAgents = [
-      ...(includeNoneAgent && isAgentSelected.value ? [createNoneAgent] : []),
-      ...filteredAgentsByAvailability,
-    ];
-    return filteredAgents;
+    return getCombinedAgents(
+      filteredAgentsByAvailability,
+      includeNoneAgent,
+      isAgentSelected.value
+    );
   });
 
   return {

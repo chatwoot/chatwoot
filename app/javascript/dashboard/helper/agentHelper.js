@@ -62,3 +62,22 @@ export const getAgentsByUpdatedPresence = (
   );
   return agentsWithDynamicPresenceUpdate;
 };
+
+/**
+ * Combines the filtered agents with the 'None' agent option if applicable.
+ *
+ * @param {Array} filteredAgentsByAvailability - The list of agents sorted by availability.
+ * @param {boolean} includeNoneAgent - Whether to include the 'None' agent option.
+ * @param {boolean} isAgentSelected - Whether an agent is currently selected.
+ * @returns {Array} The combined list of agents, potentially including the 'None' agent.
+ */
+export const getCombinedAgents = (
+  filteredAgentsByAvailability,
+  includeNoneAgent,
+  isAgentSelected
+) => {
+  return [
+    ...(includeNoneAgent && isAgentSelected ? [createNoneAgent] : []),
+    ...filteredAgentsByAvailability,
+  ];
+};
