@@ -335,6 +335,9 @@ Rails.application.routes.draw do
               get :conversations
               get :conversation_traffic
               get :bot_metrics
+              get :template_summary
+              get :template
+              get :template_csv
             end
           end
         end

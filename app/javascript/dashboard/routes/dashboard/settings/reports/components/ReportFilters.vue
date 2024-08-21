@@ -101,6 +101,9 @@
           <template v-else-if="type === 'team'">
             {{ $t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL') }}
           </template>
+          <template v-else-if="type === 'template'">
+            {{ $t('TEMPLATE_REPORTS.FILTER_DROPDOWN_LABEL') }}
+          </template>
           <!-- handle default condition because the prop is not limited to the given 4 values -->
           <template v-else>
             {{ $t('FORMS.MULTISELECT.SELECT_ONE') }}
@@ -147,6 +150,7 @@
           :value="customDateRange"
           :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
           :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+          :limit-time="limitRange"
           @change="onChange"
         />
       </div>
@@ -212,12 +216,19 @@ export default {
       type: Object,
       default: () => {},
     },
+    limitRange: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       currentSelectedFilter: null,
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
+      dateRange:
+        this.type === 'template'
+          ? this.$t('TEMPLATE_REPORTS.DATE_RANGE')
+          : this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
       businessHoursSelected: false,
@@ -243,6 +254,7 @@ export default {
         2: 89,
         3: 179,
         4: 364,
+        6: 59,
       };
       const diff = dateRange[this.currentDateRangeSelection.id];
       const fromDate = subDays(new Date(), diff);
@@ -254,6 +266,7 @@ export default {
         label: this.$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL'),
         inbox: this.$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL'),
         team: this.$t('TEAM_REPORTS.FILTER_DROPDOWN_LABEL'),
+        template: this.$t('TEMPLATE_REPORTS.FILTER_DROPDOWN_LABEL'),
       };
       return typeLabels[this.type] || this.$t('FORMS.MULTISELECT.SELECT_ONE');
     },
@@ -267,6 +280,7 @@ export default {
         2: GROUP_BY_FILTER[3].period,
         3: GROUP_BY_FILTER[3].period,
         4: GROUP_BY_FILTER[4].period,
+        6: GROUP_BY_FILTER[2].period,
       };
       return groupRange[this.currentDateRangeSelection.id];
     },

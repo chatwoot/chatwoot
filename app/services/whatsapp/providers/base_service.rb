@@ -27,6 +27,10 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
+  def get_template_analytics(_start_date, _end_date, _template_ids)
+    raise 'Overwrite this method in child class'
+  end
+
   def create_buttons(items)
     buttons = []
     items.each do |item|

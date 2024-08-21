@@ -10,6 +10,7 @@ const CsatResponses = () => import('./CsatResponses.vue');
 const BotReports = () => import('./BotReports.vue');
 const LiveReports = () => import('./LiveReports.vue');
 const SLAReports = () => import('./SLAReports.vue');
+const TempleReports = () => import('./TemplateReports.vue');
 
 export default {
   routes: [
@@ -184,6 +185,25 @@ export default {
             permissions: ['administrator'],
           },
           component: SLAReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TEMPLATE_REPORTS.HEADER',
+        icon: 'template',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'templates',
+          name: 'template_reports',
+          meta: {
+            permissions: ['administrator'],
+          },
+          component: TempleReports,
         },
       ],
     },

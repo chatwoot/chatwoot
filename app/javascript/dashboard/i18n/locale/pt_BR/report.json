@@ -558,5 +558,69 @@
       },
       "VIEW_DETAILS": "Ver detalhes"
     }
+  },
+  "TEMPLATE_REPORTS": {
+    "HEADER": "Modelos",
+    "LOADING_CHART": "Carregando dados do gráfico...",
+    "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
+    "DOWNLOAD_TEMPLATE_REPORTS": "Baixar relatórios do modelo",
+    "FILTER_DROPDOWN_LABEL": "Selecionar modelo",
+    "METRICS": {
+      "AMOUNT_SPEND": {
+        "NAME": "Valor usado",
+        "DESC": "( Total )",
+        "TOOLTIP": "O valor total aproximado que você usou no seu modelo de mensagem"
+      },
+      "COST_PER_MESSAGE": {
+        "NAME": "Custo por mensagem entregue",
+        "DESC": "( Total )",
+        "TOOLTIP": "O custo por mensagem entregue é calculado como o valor usado dividido pelo número de mensagens entregues em até 7 dias após o envio de uma mensagem."
+      },
+      "COST_PER_BUTTON": {
+        "NAME": "Custo por clique no botão do site",
+        "DESC": "( Total )",
+        "TOOLTIP": "O custo por clique no botão do site é calculado como o valor usado dividido pelo número de cliques no botão"
+      },
+      "MESSAGES_SENT": {
+        "NAME": "Mensagens enviadas",
+        "DESC": "( Total )"
+      },
+      "MESSAGES_DELIVERED": {
+        "NAME": "Mensagens entregues",
+        "DESC": "( Total )"
+      },
+      "MESSAGES_READ": {
+        "NAME": "Mensagens lidas",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últimos 7 dias"
+      },
+      {
+        "id": 1,
+        "name": "Últimos 30 dias"
+      },
+      {
+        "id": 6,
+        "name": "Últimos 60 dias"
+      },
+      {
+        "id": 5,
+        "name": "Intervalo de datas personalizado"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Aplicar",
+      "PLACEHOLDER": "Selecionar intervalo de datas"
+    },
+
+    "INSIGHT_ALERT": {
+      "TITLE": "Os insights do modelo não estão ativados",
+      "TEXT": "Para poder ver os insights dos modelos, você precisa habilitar esse recurso no seu Gerenciador do WhatsApp.",
+      "BUTTON": "Saiba mais"
+    }
   }
 }

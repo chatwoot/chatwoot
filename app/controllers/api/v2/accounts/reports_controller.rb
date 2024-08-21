@@ -18,6 +18,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: build_summary(:bot_summary)
   end
 
+  def template_summary
+    render json: build_template_summary(:summary)
+  end
+
   def agents
     @report_data = generate_agents_report
     generate_csv('agents_report', 'api/v2/accounts/reports/agents')
@@ -38,6 +42,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     generate_csv('teams_report', 'api/v2/accounts/reports/teams')
   end
 
+  def template
+    template_data = build_template_report(:report, params[:metric])
+    render json: template_data
+  end
+
   def conversation_traffic
     @report_data = generate_conversations_heatmap_report
     timezone_offset = (params[:timezone_offset] || 0).to_f
@@ -55,6 +64,17 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def bot_metrics
     bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, params).metrics
     render json: bot_metrics
+  end
+
+  def template_csv
+    @report_data = params[:summary_data]
+
+    if @report_data.present?
+      generate_csv('template_report', 'api/v2/accounts/reports/template')
+    else
+
+      render json: { error: 'Report data is missing' }, status: :unprocessable_entity
+    end
   end
 
   private
@@ -86,11 +106,38 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
                         })
   end
 
+  def current_template_summary_params
+    common_params.merge({
+                          since: range[:current][:since],
+                          until: range[:current][:until],
+                          timezone_offset: params[:timezone_offset],
+                          channel_id: params[:channel_id]
+                        })
+  end
+
   def previous_summary_params
     common_params.merge({
                           since: range[:previous][:since],
                           until: range[:previous][:until],
                           timezone_offset: params[:timezone_offset]
+                        })
+  end
+
+  def previous_template_summary_params
+    common_params.merge({
+                          since: range[:previous][:since],
+                          until: range[:previous][:until],
+                          timezone_offset: params[:timezone_offset],
+                          channel_id: params[:channel_id]
+                        })
+  end
+
+  def template_report_params
+    common_params.merge({
+                          since: params[:since],
+                          until: params[:until],
+                          timezone_offset: params[:timezone_offset],
+                          channel_id: params[:channel_id]
                         })
   end
 
@@ -129,6 +176,18 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     current_summary = builder.new(Current.account, current_summary_params).send(method)
     previous_summary = builder.new(Current.account, previous_summary_params).send(method)
     current_summary.merge(previous: previous_summary)
+  end
+
+  def build_template_summary(method)
+    builder = V2::Reports::Templates::MetricBuilder
+    current_summary = builder.new(Current.account, current_template_summary_params).send(method)
+    # previous_summary = builder.new(Current.account, previous_template_summary_params).send(method)
+    current_summary.merge(previous: current_summary)
+  end
+
+  def build_template_report(method, metric)
+    builder = V2::Reports::Templates::ReportBuilder.new(Current.account, template_report_params)
+    builder.send(method, metric)
   end
 
   def conversation_metrics

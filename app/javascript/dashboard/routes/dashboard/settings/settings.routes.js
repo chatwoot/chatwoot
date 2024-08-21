@@ -49,7 +49,7 @@ export default {
     ...labels.routes,
     ...macros.routes,
     ...reports.routes,
-    ...sla.routes,
+    // ...sla.routes,
     ...teams.routes,
     ...profile.routes,
   ],

@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilidade",
-        "STATUSES_LIST": [
-          "Disponível",
-          "Ocupado",
-          "Desconectado"
-        ],
+        "STATUSES_LIST": ["Disponível", "Ocupado", "Desconectado"],
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
         "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
@@ -269,6 +265,7 @@
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
     "REPORTS_SLA": "SLA",
+    "REPORTS_TEMPLATE": "Modelos",
     "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",

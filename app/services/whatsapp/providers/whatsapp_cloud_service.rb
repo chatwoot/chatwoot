@@ -120,6 +120,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
+  def process_template_analytics_response(response) 
+    error_subcode = response.dig('error', 'error_subcode')
+
+    if response.success?
+      response['data']
+    elsif error_subcode == 4182004
+      'Insights are not enabled'
+    else
+      Rails.logger.error response.body
+      nil
+    end
+  end
+
   def template_body_parameters(template_info)
     {
       name: template_info[:name],
@@ -158,5 +171,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response)
+  end
+
+  def get_template_analytics(start_date, end_date, template_ids)
+
+    response = HTTParty.get("#{business_account_path}/template_analytics?start=#{start_date}&end=#{end_date}&granularity=daily&metric_types=cost%2Cclicked%2Cdelivered%2Cread%2Csent&template_ids=#{template_ids}" ,
+    headers: api_headers)
+
+    process_template_analytics_response(response)
   end
 end

@@ -107,6 +107,49 @@ export const getters = {
     );
   },
 
+  getWhatsAppInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.WHATSAPP
+    );
+  },
+
+  getAllTemplates($state) {
+    const whatsappInboxes = $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.WHATSAPP
+    );
+
+    let allTemplates = [];
+
+    whatsappInboxes.forEach(inbox => {
+      const {
+        message_templates: whatsAppMessageTemplates,
+        additional_attributes: additionalAttributes,
+      } = inbox || {};
+
+      const { message_templates: apiInboxMessageTemplates } =
+        additionalAttributes || {};
+
+      const messagesTemplates =
+        whatsAppMessageTemplates || apiInboxMessageTemplates;
+
+      const messagesTemplatesWithId = messagesTemplates.map(template => ({
+        ...template,
+        channelId: inbox.channel_id,
+      }));
+
+      if (messagesTemplatesWithId instanceof Array) {
+        const filteredTemplates = messagesTemplatesWithId.filter(template => {
+          return !template.components.some(
+            i => i.format === 'IMAGE' || i.format === 'VIDEO'
+          );
+        });
+
+        allTemplates = allTemplates.concat(filteredTemplates);
+      }
+    });
+    return allTemplates;
+  },
+
   getTwilioInboxes($state) {
     return $state.records.filter(
       item => item.channel_type === INBOX_TYPES.TWILIO
