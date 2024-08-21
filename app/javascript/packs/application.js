@@ -87,21 +87,6 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 
-Vue.config.errorHandler = (err, instance, info) => {
-  if (instance) {
-    if (window.errorLoggingConfig) {
-      Sentry.setTag('from', 'errorHandler');
-      Sentry.captureException(err);
-    } else {
-      // eslint-disable-next-line no-console
-      console.log('errorHandler', err, instance, info);
-    }
-  } else {
-    // temporary fix to avoid app freeze
-    window.location.reload();
-  }
-};
-
 sync(store, router);
 // load common helpers into js
 commonHelpers();
@@ -126,4 +111,3 @@ window.onload = () => {
 window.addEventListener('load', () => {
   window.playAudioAlert = () => {};
 });
-// trigger deployment

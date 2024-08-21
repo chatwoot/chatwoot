@@ -1188,6 +1188,9 @@ export default {
 
       this.inReplyTo = this.currentChat?.messages?.find(message => {
         if (message.id === replyToMessageId) {
+          if (this.$refs.messageInput) {
+            this.$refs.messageInput.focus();
+          }
           return true;
         }
         return false;
