@@ -4,7 +4,14 @@ import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import { useAutomation } from 'dashboard/composables/useAutomation';
 import { validateAutomation } from 'dashboard/helper/validations';
-import { generateAutomationPayload } from 'dashboard/helper/automationHelper';
+import {
+  generateAutomationPayload,
+  getAttributes,
+  getInputType,
+  getOperators,
+  getCustomAttributeType,
+  showActionInput,
+} from 'dashboard/helper/automationHelper';
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
@@ -24,34 +31,24 @@ export default {
   setup() {
     const {
       onEventChange,
-      getAttributes,
-      getInputType,
-      getOperators,
-      getCustomAttributeType,
       getConditionDropdownValues,
       appendNewCondition,
       appendNewAction,
       removeFilter,
       removeAction,
       resetFilter,
-      showActionInput,
       resetAction,
       getActionDropdownValues,
       manifestCustomAttributes,
     } = useAutomation();
     return {
       onEventChange,
-      getAttributes,
-      getInputType,
-      getOperators,
-      getCustomAttributeType,
       getConditionDropdownValues,
       appendNewCondition,
       appendNewAction,
       removeFilter,
       removeAction,
       resetFilter,
-      showActionInput,
       resetAction,
       getActionDropdownValues,
       manifestCustomAttributes,
@@ -121,6 +118,11 @@ export default {
     this.manifestCustomAttributes(this.automationTypes);
   },
   methods: {
+    getAttributes,
+    getInputType,
+    getOperators,
+    getCustomAttributeType,
+    showActionInput,
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
     },

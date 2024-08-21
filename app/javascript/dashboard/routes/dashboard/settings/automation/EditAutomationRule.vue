@@ -6,6 +6,11 @@ import AutomationActionInput from 'dashboard/components/widgets/AutomationAction
 import {
   getFileName,
   generateAutomationPayload,
+  getAttributes,
+  getInputType,
+  getOperators,
+  getCustomAttributeType,
+  showActionInput,
 } from 'dashboard/helper/automationHelper';
 import { validateAutomation } from 'dashboard/helper/validations';
 
@@ -33,17 +38,12 @@ export default {
   setup() {
     const {
       onEventChange,
-      getAttributes,
-      getInputType,
-      getOperators,
-      getCustomAttributeType,
       getConditionDropdownValues,
       appendNewCondition,
       appendNewAction,
       removeFilter,
       removeAction,
       resetFilter,
-      showActionInput,
       resetAction,
       getActionDropdownValues,
       formatAutomation,
@@ -51,17 +51,12 @@ export default {
     } = useAutomation();
     return {
       onEventChange,
-      getAttributes,
-      getInputType,
-      getOperators,
-      getCustomAttributeType,
       getConditionDropdownValues,
       appendNewCondition,
       appendNewAction,
       removeFilter,
       removeAction,
       resetFilter,
-      showActionInput,
       resetAction,
       getActionDropdownValues,
       formatAutomation,
@@ -115,6 +110,11 @@ export default {
   },
   methods: {
     getFileName,
+    getAttributes,
+    getInputType,
+    getOperators,
+    getCustomAttributeType,
+    showActionInput,
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
     },
