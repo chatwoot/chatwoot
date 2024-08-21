@@ -3,6 +3,20 @@ import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from '../useI18n';
 import * as automationHelper from 'dashboard/helper/automationHelper';
+import {
+  customAttributes,
+  agents,
+  teams,
+  labels,
+  statusFilterOptions,
+  campaigns,
+  contacts,
+  inboxes,
+  languages,
+  countries,
+  slaPolicies,
+  MESSAGE_CONDITION_VALUES,
+} from 'dashboard/helper/specs/fixtures/automationFixtures.js';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables');
@@ -10,70 +24,99 @@ vi.mock('../useI18n');
 vi.mock('dashboard/helper/automationHelper');
 
 describe('useAutomation', () => {
-  const mockAgents = [
-    { id: 1, name: 'Agent 1', email: 'agent1@paperlayer.test' },
-    { id: 2, name: 'Agent 2', email: 'agent2@paperlayer.test' },
-  ];
-  const mockCampaigns = [
-    { id: 1, name: 'Campaign 1' },
-    { id: 2, name: 'Campaign 2' },
-  ];
-  const mockContacts = [
-    { id: 1, name: 'Contact 1', email: 'contact1@paperlayer.test' },
-    { id: 2, name: 'Contact 2', email: 'contact2@paperlayer.test' },
-  ];
-  const mockInboxes = [
-    { id: 1, name: 'Inbox 1', channel_type: 'Channel::WebWidget' },
-    { id: 2, name: 'Inbox 2', channel_type: 'Channel::Email' },
-  ];
-  const mockLabels = [
-    { id: 1, title: 'Label 1' },
-    { id: 2, title: 'Label 2' },
-  ];
-  const mockTeams = [
-    { id: 1, name: 'Team 1' },
-    { id: 2, name: 'Team 2' },
-  ];
-  const mockSLAPolicies = [
-    { id: 1, name: 'SLA 1' },
-    { id: 2, name: 'SLA 2' },
-  ];
-  const mockAttributes = [
-    { id: 1, name: 'Attribute 1' },
-    { id: 2, name: 'Attribute 2' },
-  ];
-
   beforeEach(() => {
     useStoreGetters.mockReturnValue({
-      'attributes/getAttributes': { value: mockAttributes },
+      'attributes/getAttributes': { value: customAttributes },
+      'attributes/getAttributesByModel': {
+        value: model => {
+          return model === 'conversation_attribute'
+            ? [{ id: 1, name: 'Conversation Attribute' }]
+            : [{ id: 2, name: 'Contact Attribute' }];
+        },
+      },
     });
     useMapGetter.mockImplementation(getter => {
       const getterMap = {
-        'agents/getAgents': mockAgents,
-        'campaigns/getAllCampaigns': mockCampaigns,
-        'contacts/getContacts': mockContacts,
-        'inboxes/getInboxes': mockInboxes,
-        'labels/getLabels': mockLabels,
-        'teams/getTeams': mockTeams,
-        'sla/getSLA': mockSLAPolicies,
+        'agents/getAgents': agents,
+        'campaigns/getAllCampaigns': campaigns,
+        'contacts/getContacts': contacts,
+        'inboxes/getInboxes': inboxes,
+        'labels/getLabels': labels,
+        'teams/getTeams': teams,
+        'sla/getSLA': slaPolicies,
       };
       return { value: getterMap[getter] };
     });
     useI18n.mockReturnValue({ t: key => key });
     useAlert.mockReturnValue(vi.fn());
+
+    // Mock getConditionOptions for different types
+    automationHelper.getConditionOptions.mockImplementation(options => {
+      const { type } = options;
+      switch (type) {
+        case 'status':
+          return statusFilterOptions;
+        case 'team_id':
+          return teams;
+        case 'assignee_id':
+          return agents;
+        case 'contact':
+          return contacts;
+        case 'inbox_id':
+          return inboxes;
+        case 'campaigns':
+          return campaigns;
+        case 'browser_language':
+          return languages;
+        case 'country_code':
+          return countries;
+        case 'message_type':
+          return MESSAGE_CONDITION_VALUES;
+        default:
+          return [];
+      }
+    });
+
+    // Mock getActionOptions for different types
+    automationHelper.getActionOptions.mockImplementation(options => {
+      const { type } = options;
+      switch (type) {
+        case 'add_label':
+          return labels;
+        case 'assign_team':
+          return teams;
+        case 'assign_agent':
+          return agents;
+        case 'send_email_to_team':
+          return teams;
+        case 'send_message':
+          return [];
+        case 'add_sla':
+          return slaPolicies;
+        default:
+          return [];
+      }
+    });
   });
 
   it('initializes computed properties correctly', () => {
-    const { agents, campaigns, contacts, inboxes, labels, teams, slaPolicies } =
-      useAutomation();
+    const {
+      agents: computedAgents,
+      campaigns: computedCampaigns,
+      contacts: computedContacts,
+      inboxes: computedInboxes,
+      labels: computedLabels,
+      teams: computedTeams,
+      slaPolicies: computedSlaPolicies,
+    } = useAutomation();
 
-    expect(agents.value).toEqual(mockAgents);
-    expect(campaigns.value).toEqual(mockCampaigns);
-    expect(contacts.value).toEqual(mockContacts);
-    expect(inboxes.value).toEqual(mockInboxes);
-    expect(labels.value).toEqual(mockLabels);
-    expect(teams.value).toEqual(mockTeams);
-    expect(slaPolicies.value).toEqual(mockSLAPolicies);
+    expect(computedAgents.value).toEqual(agents);
+    expect(computedCampaigns.value).toEqual(campaigns);
+    expect(computedContacts.value).toEqual(contacts);
+    expect(computedInboxes.value).toEqual(inboxes);
+    expect(computedLabels.value).toEqual(labels);
+    expect(computedTeams.value).toEqual(teams);
+    expect(computedSlaPolicies.value).toEqual(slaPolicies);
   });
 
   it('appends new condition and action correctly', () => {
@@ -168,7 +211,7 @@ describe('useAutomation', () => {
 
     const result = formatAutomation(
       mockAutomation,
-      mockAttributes,
+      customAttributes,
       mockAutomationTypes,
       mockAutomationActionTypes
     );
@@ -180,18 +223,6 @@ describe('useAutomation', () => {
   });
 
   it('manifests custom attributes correctly', () => {
-    const mockGetters = {
-      'attributes/getAttributes': { value: mockAttributes },
-      'attributes/getAttributesByModel': {
-        value: model => {
-          return model === 'conversation_attribute'
-            ? [{ id: 1, name: 'Conversation Attribute' }]
-            : [{ id: 2, name: 'Contact Attribute' }];
-        },
-      },
-    };
-    useStoreGetters.mockReturnValue(mockGetters);
-
     const { manifestCustomAttributes } = useAutomation();
     const mockAutomationTypes = {
       message_created: { conditions: [] },
@@ -212,5 +243,53 @@ describe('useAutomation', () => {
     Object.values(mockAutomationTypes).forEach(type => {
       expect(type.conditions).toHaveLength(0);
     });
+  });
+
+  it('gets condition dropdown values correctly', () => {
+    const { getConditionDropdownValues } = useAutomation();
+
+    expect(getConditionDropdownValues('status')).toEqual(statusFilterOptions);
+    expect(getConditionDropdownValues('team_id')).toEqual(teams);
+    expect(getConditionDropdownValues('assignee_id')).toEqual(agents);
+    expect(getConditionDropdownValues('contact')).toEqual(contacts);
+    expect(getConditionDropdownValues('inbox_id')).toEqual(inboxes);
+    expect(getConditionDropdownValues('campaigns')).toEqual(campaigns);
+    expect(getConditionDropdownValues('browser_language')).toEqual(languages);
+    expect(getConditionDropdownValues('country_code')).toEqual(countries);
+    expect(getConditionDropdownValues('message_type')).toEqual(
+      MESSAGE_CONDITION_VALUES
+    );
+  });
+
+  it('gets action dropdown values correctly', () => {
+    const { getActionDropdownValues } = useAutomation();
+
+    expect(getActionDropdownValues('add_label')).toEqual(labels);
+    expect(getActionDropdownValues('assign_team')).toEqual(teams);
+    expect(getActionDropdownValues('assign_agent')).toEqual(agents);
+    expect(getActionDropdownValues('send_email_to_team')).toEqual(teams);
+    expect(getActionDropdownValues('send_message')).toEqual([]);
+    expect(getActionDropdownValues('add_sla')).toEqual(slaPolicies);
+  });
+
+  it('handles event change correctly', () => {
+    const { onEventChange } = useAutomation();
+    const mockAutomation = {
+      event_name: 'message_created',
+      conditions: [],
+      actions: [],
+    };
+
+    automationHelper.getDefaultConditions.mockReturnValue([{}]);
+    automationHelper.getDefaultActions.mockReturnValue([{}]);
+
+    onEventChange(mockAutomation);
+
+    expect(automationHelper.getDefaultConditions).toHaveBeenCalledWith(
+      'message_created'
+    );
+    expect(automationHelper.getDefaultActions).toHaveBeenCalled();
+    expect(mockAutomation.conditions).toHaveLength(1);
+    expect(mockAutomation.actions).toHaveLength(1);
   });
 });
