@@ -3,8 +3,9 @@
     "HEADER": "Étiquettes",
     "HEADER_BTN_TXT": "Ajouter une étiquette",
     "LOADING": "Récupération des étiquettes",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-    "SIDEBAR_TXT": "<p><b>Étiquettes</b> <p>Les étiquettes vous aident à catégoriser les conversations et à les prioriser. Vous pouvez assigner une étiquette à une conversation depuis le panneau latéral. <br /><br />Les étiquettes sont liées au compte et peuvent être utilisées pour créer des processus personnalisés dans votre entreprise. Vous pouvez assigner une couleur personnalisée à une étiquette, cela rend plus facile l'identification de l'étiquette. Vous serez en mesure d'afficher l'étiquette dans la barre latérale pour filtrer les conversations facilement.</p>",
     "LIST": {
       "404": "Il n'y a aucune étiquette disponible dans ce compte.",
       "TITLE": "Gérer les étiquettes",
@@ -49,7 +50,8 @@
       "DISMISS": "Rejeter",
       "ADD_SELECTED_LABELS": "Ajouter les libellés sélectionnés",
       "ADD_SELECTED_LABEL": "Ajouter le libellé sélectionné",
-      "ADD_ALL_LABELS": "Ajouter tous les libellés"
+      "ADD_ALL_LABELS": "Ajouter tous les libellés",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Ajouter une étiquette",

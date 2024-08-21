@@ -90,10 +90,10 @@
         "ERROR_MESSAGE": "There was an error, please try again"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Potvrdi brisanje",
         "MESSAGE": "Are you sure you want to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Da, izbriši",
+        "NO": "Ne, zadrži"
       }
     },
     "EVENTS": {
