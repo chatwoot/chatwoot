@@ -126,7 +126,7 @@ export default {
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
     },
-    submitAutomation() {
+    emitSaveAutomation() {
       this.errors = validateAutomation(this.automation);
       if (Object.keys(this.errors).length === 0) {
         const automation = generateAutomationPayload(this.automation);
@@ -310,7 +310,7 @@ export default {
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
             </woot-button>
-            <woot-button @click="submitAutomation">
+            <woot-button @click="emitSaveAutomation">
               {{ $t('AUTOMATION.ADD.SUBMIT') }}
             </woot-button>
           </div>
