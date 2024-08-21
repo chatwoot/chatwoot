@@ -16,14 +16,14 @@
 #
 #
 
-# Aavailable permissions for custom roles
-# 'conversation_manage' - Can manage all conversations
-# 'conversation_unassigned_manage' - Can manage unassigned conversations & assign to self
-# 'conversation_participating_manage' - Can manage conversations they are participating in ( assigned in or is a participant )
-# 'contact_manage' - Can manage contacts
-# 'report_manage' - Can manage reports
-# 'knowledge_base_manage' - Can manage knowledge base
-#
+# Available permissions for custom roles:
+# - 'conversation_manage': Can manage all conversations.
+# - 'conversation_unassigned_manage': Can manage unassigned conversations and assign to self.
+# - 'conversation_participating_manage': Can manage conversations they are participating in (assigned to or a participant).
+# - 'contact_manage': Can manage contacts.
+# - 'report_manage': Can manage reports.
+# - 'knowledge_base_manage': Can manage knowledge base portals.
+
 class CustomRole < ApplicationRecord
   belongs_to :account, dependent: :destroy_async
   has_many :account_users, dependent: :nullify
