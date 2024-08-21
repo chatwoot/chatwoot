@@ -36,7 +36,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
     params = { email: email, sso_auth_token: sso_auth_token }.compact
     params[:error] = error if error.present?
-
     "#{frontend_url}/app/login?#{params.to_query}"
   end
 
@@ -46,8 +45,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def get_resource_from_keycloak
     code = params[:code]
-    redirect_to 'https://www.onehash.ai', allow_other_host: true unless code
-    # Exchange code for auth token
     realm = ENV.fetch('KEYCLOAK_REALM', nil)
     keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
     token_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/token").to_s
@@ -56,42 +53,45 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
     client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
 
-    keycloak_res = HTTParty.post(
+    token_response = HTTParty.post(
       token_url, {
-      body: {
-        grant_type: 'authorization_code',
-        client_id: client_id,
-        client_secret: client_secret,
-        redirect_uri: redirect_uri,
-        code: code
-      },
-    })
-    if keycloak_res.success?
-        auth_token = keycloak_res.parsed_response['access_token']
-        user_info_response = HTTParty.get(
-          userinfo_url, 
-          {
-            headers: {
-              'Authorization' => "Bearer #{auth_token}"
-            }
+        body: {
+          grant_type: 'authorization_code',
+          client_id: client_id,
+          client_secret: client_secret,
+          redirect_uri: redirect_uri,
+          code: code
+        },
+        headers: {
+          'Content-Type' => 'application/x-www-form-urlencoded'
+        }
+      }
+    )
+    if token_response.success?
+      auth_token = token_response.parsed_response['access_token']
+      user_info_response = HTTParty.get(
+        userinfo_url,
+        {
+          headers: {
+            'Authorization' => "Bearer #{auth_token}",
+            'Content-Type' => 'application/x-www-form-urlencoded'
           }
+        }
+      )
+      if user_info_response.success?
+        @user_info = user_info_response.parsed_response
+        token = SecureRandom.uuid
+        KeycloakSessionInfo.create(
+          browser_token: token,
+          metadata: token_response
         )
-        if user_info_response.success?
-          @user_info = user_info_response.parsed_response
-          token = SecureRandom.uuid
-          KeycloakSessionInfo.create(
-            browser_token: token,
-            metadata: keycloak_res,
-          )
-          cookies[:keycloak_token] = token
-          get_resource_from_user_info
-        else
-          # User info retrieval failed
-          redirect_to 'https://www.onehash.ai', allow_other_host: true
-        end
+        cookies[:keycloak_token] = token
+        get_resource_from_user_info
+      else
+        render json: { message: 'User info from token failed', redirect_url: '/' }, status: :unprocessable_entity
+      end
     else
-      # Token exchange failed
-      redirect_to 'https://www.onehash.ai', allow_other_host: true
+      render json: { message: 'Token exchange failed', redirect_url: '/' }, status: :unprocessable_entity
     end
   end
 

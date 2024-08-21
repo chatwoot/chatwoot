@@ -98,3 +98,8 @@ export const checkKeycloakSession = async () => {
   }
   return 'Keycloak Token missing from cookies';
 };
+
+export const keycloakRedirectUrl = async () => {
+  const response = await wootAPI.post('api/v1/keycloak/create_redirect_url');
+  return response;
+};
