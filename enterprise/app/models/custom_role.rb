@@ -28,12 +28,14 @@ class CustomRole < ApplicationRecord
   belongs_to :account
   has_many :account_users
 
-  validates :permissions, inclusion: { in: %w[
+  PERMISSIONS = %w[
     conversation_manage
     conversation_unassigned_manage
     conversation_participating_manage
     contact_manage
     report_manage
     knowledge_base_manage
-  ] }
+  ].freeze
+
+  validates :permissions, inclusion: { in: PERMISSIONS }
 end
