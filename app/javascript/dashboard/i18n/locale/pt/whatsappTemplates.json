@@ -1,7 +1,7 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Template do Whatsapp",
+            "TITLE": "Template do WhatsApp",
             "SUBTITLE": "Selecione o template do whatsapp que você deseja enviar",
             "TEMPLATE_SELECTED_SUBTITLE": "Processo %{templateName}"
         },

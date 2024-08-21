@@ -481,6 +481,7 @@
           "DESCRIPTION": "Utilitza el portal com a CMS sense cap amb marcs de front-end de tercers mitjançant les nostres API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

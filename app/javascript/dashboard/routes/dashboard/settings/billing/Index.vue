@@ -2,12 +2,19 @@
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 import { mapGetters } from 'vuex';
-import accountMixin from '../../../../mixins/account';
+import { useAccount } from 'dashboard/composables/useAccount';
 import BillingItem from './components/BillingItem.vue';
-// sdds
+
 export default {
   components: { BillingItem },
-  mixins: [accountMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
+  setup() {
+    const { accountId } = useAccount();
+
+    return {
+      accountId,
+    };
+  },
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',

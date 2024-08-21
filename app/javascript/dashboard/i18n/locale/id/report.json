@@ -481,7 +481,8 @@
       "HEADER": "Lalu Lintas Percakapan",
       "NO_CONVERSATIONS": "Tidak ada percakapan",
       "CONVERSATION": "%{count} percakapan",
-      "CONVERSATIONS": "%{count} percakapan"
+      "CONVERSATIONS": "%{count} percakapan",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Percakapan oleh Agen",
@@ -536,6 +537,7 @@
       "LABELS": "Label",
       "TEAMS": "Tim"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

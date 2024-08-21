@@ -1,159 +1,80 @@
-<script>
-import { mapGetters } from 'vuex';
-import accountMixin from '../../../mixins/account';
+<script setup>
+import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
+import { computed } from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { useStoreGetters } from 'dashboard/composables/store';
 
-export default {
-  mixins: [accountMixin],
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    newInboxURL() {
-      return this.addAccountScoping('settings/inboxes/new');
-    },
-    newAgentURL() {
-      return this.addAccountScoping('settings/agents/list');
-    },
-    newLabelsURL() {
-      return this.addAccountScoping('settings/labels/list');
-    },
-  },
-};
+const getters = useStoreGetters();
+const { t } = useI18n();
+const globalConfig = computed(() => getters['globalConfig/get'].value);
+const currentUser = computed(() => getters.getCurrentUser.value);
+
+const greetingMessage = computed(() => {
+  const hours = new Date().getHours();
+  let translationKey;
+  if (hours < 12) {
+    translationKey = 'ONBOARDING.GREETING_MORNING';
+  } else if (hours < 18) {
+    translationKey = 'ONBOARDING.GREETING_AFTERNOON';
+  } else {
+    translationKey = 'ONBOARDING.GREETING_EVENING';
+  }
+  return t(translationKey, {
+    name: currentUser.value.name,
+    installationName: globalConfig.value.installationName,
+  });
+});
 </script>
 
 <template>
-  <div class="onboarding-wrap">
-    <div class="onboarding">
-      <div class="scroll-wrap">
-        <div class="features-item">
-          <h1 class="text-2xl text-slate-900 dark:text-slate-50">
-            <span>{{
-              $t('ONBOARDING.TITLE', {
-                installationName: globalConfig.installationName,
-              })
-            }}</span>
-          </h1>
-          <p class="intro-body">
-            {{
-              $t('ONBOARDING.DESCRIPTION', {
-                installationName: globalConfig.installationName,
-              })
-            }}
-          </p>
-          <p v-if="globalConfig.installationName === 'Chatwoot'">
-            <a
-              href="https://www.chatwoot.com/changelog"
-              target="_blank"
-              rel="noopener nofollow noreferrer"
-              class="onboarding--link"
-            >
-              {{ $t('ONBOARDING.READ_LATEST_UPDATES') }}
-            </a>
-            <span>🎉</span>
-          </p>
-        </div>
-        <div class="features-item">
-          <h2 class="text-lg text-black-900 dark:text-slate-200">
-            <span class="emoji">💬</span>
-            <span class="conversation--title">{{
-              $t('ONBOARDING.ALL_CONVERSATION.TITLE')
-            }}</span>
-          </h2>
-          <p class="intro-body">
-            {{ $t('ONBOARDING.ALL_CONVERSATION.DESCRIPTION') }}
-          </p>
-        </div>
-        <div class="features-item">
-          <h2 class="text-lg text-black-900 dark:text-slate-200">
-            <span class="emoji">👥</span>
-            {{ $t('ONBOARDING.TEAM_MEMBERS.TITLE') }}
-          </h2>
-          <p class="intro-body">
-            {{ $t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION') }}
-          </p>
-          <router-link :to="newAgentURL" class="onboarding--link">
-            {{ $t('ONBOARDING.TEAM_MEMBERS.NEW_LINK') }}
-          </router-link>
-        </div>
-        <div class="features-item">
-          <h2 class="text-lg text-black-900 dark:text-slate-200">
-            <span class="emoji">📥</span>{{ $t('ONBOARDING.INBOXES.TITLE') }}
-          </h2>
-          <p class="intro-body">
-            {{ $t('ONBOARDING.INBOXES.DESCRIPTION') }}
-          </p>
-          <router-link :to="newInboxURL" class="onboarding--link">
-            {{ $t('ONBOARDING.INBOXES.NEW_LINK') }}
-          </router-link>
-        </div>
-        <div class="features-item">
-          <h2 class="text-lg text-black-900 dark:text-slate-200">
-            <span class="emoji">🔖</span>{{ $t('ONBOARDING.LABELS.TITLE') }}
-          </h2>
-          <p class="intro-body">
-            {{ $t('ONBOARDING.LABELS.DESCRIPTION') }}
-          </p>
-          <router-link :to="newLabelsURL" class="onboarding--link">
-            {{ $t('ONBOARDING.LABELS.NEW_LINK') }}
-          </router-link>
-        </div>
-      </div>
+  <div
+    class="min-h-screen max-w-4xl mx-auto grid grid-cols-1 xl:grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4 p-8 w-full font-inter overflow-auto"
+  >
+    <div class="col-span-full self-start">
+      <p
+        class="text-xl font-semibold text-slate-900 dark:text-white font-interDisplay tracking-[0.3px]"
+      >
+        {{ greetingMessage }}
+      </p>
+      <p class="text-slate-600 dark:text-slate-400 max-w-2xl text-base">
+        {{
+          $t('ONBOARDING.DESCRIPTION', {
+            installationName: globalConfig.installationName,
+          })
+        }}
+      </p>
     </div>
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/omnichannel-inbox.png"
+      image-alt="Omnichannel"
+      to="settings_inbox_new"
+      :title="$t('ONBOARDING.ALL_CONVERSATION.TITLE')"
+      :description="$t('ONBOARDING.ALL_CONVERSATION.DESCRIPTION')"
+      :link-text="$t('ONBOARDING.ALL_CONVERSATION.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/teams.png"
+      image-alt="Teams"
+      to="settings_teams_new"
+      :title="$t('ONBOARDING.TEAM_MEMBERS.TITLE')"
+      :description="$t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION')"
+      :link-text="$t('ONBOARDING.TEAM_MEMBERS.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/canned-responses.png"
+      image-alt="Canned responses"
+      to="canned_list"
+      :title="$t('ONBOARDING.CANNED_RESPONSES.TITLE')"
+      :description="$t('ONBOARDING.CANNED_RESPONSES.DESCRIPTION')"
+      :link-text="$t('ONBOARDING.CANNED_RESPONSES.NEW_LINK')"
+    />
+    <OnboardingFeatureCard
+      image-src="/dashboard/images/onboarding/labels.png"
+      image-alt="Labels"
+      to="labels_list"
+      :title="$t('ONBOARDING.LABELS.TITLE')"
+      :description="$t('ONBOARDING.LABELS.DESCRIPTION')"
+      :link-text="$t('ONBOARDING.LABELS.NEW_LINK')"
+    />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.onboarding-wrap {
-  display: flex;
-  font-size: var(--font-size-small);
-  justify-content: center;
-  overflow: auto;
-  text-align: left;
-}
-.onboarding {
-  height: 100vh;
-  overflow: auto;
-}
-
-.scroll-wrap {
-  padding: var(--space-larger) 8.5rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.features-item {
-  margin-bottom: var(--space-large);
-}
-
-.conversation--title {
-  margin-left: var(--space-minus-smaller);
-}
-
-.page-title {
-  font-size: var(--font-size-big);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-one);
-}
-
-.block-title {
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-smaller);
-  margin-left: var(--space-minus-large);
-}
-
-.intro-body {
-  margin-bottom: var(--space-small);
-  line-height: 1.5;
-}
-
-.onboarding--link {
-  color: var(--w-500);
-  font-weight: var(--font-weight-medium);
-  text-decoration: underline;
-}
-
-.emoji {
-  width: var(--space-large);
-  display: inline-block;
-}
-</style>

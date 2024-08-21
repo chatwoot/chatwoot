@@ -18,6 +18,7 @@
       "AND": "VÀ",
       "OR": "HOẶC"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Bằng",
       "not_equal_to": "Không bằng",
