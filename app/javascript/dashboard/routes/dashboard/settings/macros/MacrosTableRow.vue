@@ -48,7 +48,7 @@ const visibilityLabel = computed(() => {
       </div>
       <div v-else>--</div>
     </td>
-    <td class="py-4 pr-4">{{ visibilityLabel }}</td>
+    <td class="py-4 ltr:pr-4 rtl:pl-4">{{ visibilityLabel }}</td>
     <td class="py-4 flex justify-end gap-1">
       <router-link :to="{ name: 'macros_edit', params: { macroId: macro.id } }">
         <woot-button
