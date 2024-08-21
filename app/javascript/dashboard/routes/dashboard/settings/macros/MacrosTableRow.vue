@@ -1,59 +1,56 @@
-<script>
-import { useAccount } from 'dashboard/composables/useAccount';
+<script setup>
+import { computed } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
-  },
-  props: {
-    macro: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup() {
-    const { accountScopedUrl } = useAccount();
+import { useI18n } from 'dashboard/composables/useI18n';
 
-    return {
-      accountScopedUrl,
-    };
+const props = defineProps({
+  macro: {
+    type: Object,
+    required: true,
   },
-  computed: {
-    createdByName() {
-      const createdBy = this.macro.created_by;
-      return createdBy.available_name ?? createdBy.email ?? '';
-    },
-    updatedByName() {
-      const updatedBy = this.macro.updated_by;
-      return updatedBy.available_name ?? updatedBy.email ?? '';
-    },
-    visibilityLabel() {
-      return this.macro.visibility === 'global'
-        ? this.$t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL')
-        : this.$t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL');
-    },
-  },
-};
+});
+defineEmits(['delete']);
+const { t } = useI18n();
+
+const createdByName = computed(() => {
+  const createdBy = props.macro.created_by;
+  return createdBy.available_name ?? createdBy.email ?? '';
+});
+
+const updatedByName = computed(() => {
+  const updatedBy = props.macro.updated_by;
+  return updatedBy.available_name ?? updatedBy.email ?? '';
+});
+
+const visibilityLabel = computed(() => {
+  const i18nKey =
+    props.macro.visibility === 'global'
+      ? 'MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL'
+      : 'MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL';
+  return t(i18nKey);
+});
 </script>
 
 <template>
   <tr>
-    <td>{{ macro.name }}</td>
-    <td>
-      <div v-if="macro.created_by" class="avatar-container">
+    <td class="py-4 ltr:pr-4 rtl:pl-4 truncate">{{ macro.name }}</td>
+    <td class="py-4 ltr:pr-4 rtl:pl-4">
+      <div v-if="macro.created_by" class="flex items-center">
         <Thumbnail :username="createdByName" size="24px" />
-        <span>{{ createdByName }}</span>
+        <span class="mx-2">{{ createdByName }}</span>
       </div>
+      <div v-else>--</div>
     </td>
-    <td>
-      <div v-if="macro.updated_by" class="avatar-container">
+    <td class="py-4 ltr:pr-4 rtl:pl-4">
+      <div v-if="macro.updated_by" class="flex items-center">
         <Thumbnail :username="updatedByName" size="24px" />
-        <span>{{ updatedByName }}</span>
+        <span class="mx-2">{{ updatedByName }}</span>
       </div>
+      <div v-else>--</div>
     </td>
-    <td>{{ visibilityLabel }}</td>
-    <td class="button-wrapper">
-      <router-link :to="accountScopedUrl(`settings/macros/${macro.id}/edit`)">
+    <td class="py-4 ltr:pr-4 rtl:pl-4">{{ visibilityLabel }}</td>
+    <td class="py-4 flex justify-end gap-1">
+      <router-link :to="{ name: 'macros_edit', params: { macroId: macro.id } }">
         <woot-button
           v-tooltip.top="$t('MACROS.EDIT.TOOLTIP')"
           variant="smooth"
@@ -75,15 +72,3 @@ export default {
     </td>
   </tr>
 </template>
-
-<style scoped lang="scss">
-.avatar-container {
-  display: flex;
-  align-items: center;
-
-  span {
-    margin-left: var(--space-small);
-    margin-right: var(--space-small);
-  }
-}
-</style>
