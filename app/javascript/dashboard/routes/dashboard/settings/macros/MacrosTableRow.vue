@@ -41,7 +41,7 @@ const visibilityLabel = computed(() => {
       </div>
       <div v-else>--</div>
     </td>
-    <td class="py-4 pr-4">
+    <td class="py-4 ltr:pr-4 rtl:pl-4">
       <div v-if="macro.updated_by" class="flex items-center">
         <Thumbnail :username="updatedByName" size="24px" />
         <span class="mx-2">{{ updatedByName }}</span>
