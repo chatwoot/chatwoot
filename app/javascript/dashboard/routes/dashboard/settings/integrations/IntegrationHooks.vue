@@ -2,7 +2,7 @@
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import hookMixin from './hookMixin';
+import { useHook } from './useHook';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
@@ -13,12 +13,16 @@ export default {
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
   },
-  mixins: [hookMixin],
   props: {
     integrationId: {
       type: [String, Number],
       required: true,
     },
+  },
+  setup(props) {
+    const { integrationId } = props;
+    const { isHookTypeInbox } = useHook(integrationId);
+    return { isHookTypeInbox };
   },
   data() {
     return {

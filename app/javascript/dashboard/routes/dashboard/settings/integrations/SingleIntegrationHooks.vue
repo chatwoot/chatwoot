@@ -1,12 +1,15 @@
 <script>
-import hookMixin from './hookMixin';
+import { useHook } from './useHook';
 export default {
-  mixins: [hookMixin],
   props: {
     integration: {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup(props) {
+    const { hasConnectedHooks } = useHook(props.integration);
+    return { hasConnectedHooks };
   },
 };
 </script>
