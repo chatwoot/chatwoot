@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from './useI18n';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
@@ -9,8 +9,6 @@ import {
   getActionOptions,
   getConditionOptions,
   getCustomAttributeInputType,
-  getOperatorTypes,
-  isACustomAttribute,
   getDefaultConditions,
   getDefaultActions,
   filterCustomAttributes,
@@ -23,13 +21,13 @@ export function useAutomation() {
   const getters = useStoreGetters();
   const { t } = useI18n();
 
-  const agents = computed(() => getters['agents/getAgents'].value);
-  const campaigns = computed(() => getters['campaigns/getAllCampaigns'].value);
-  const contacts = computed(() => getters['contacts/getContacts'].value);
-  const inboxes = computed(() => getters['inboxes/getInboxes'].value);
-  const labels = computed(() => getters['labels/getLabels'].value);
-  const teams = computed(() => getters['teams/getTeams'].value);
-  const slaPolicies = computed(() => getters['sla/getSLA'].value);
+  const agents = useMapGetter('agents/getAgents');
+  const campaigns = useMapGetter('campaigns/getAllCampaigns');
+  const contacts = useMapGetter('contacts/getContacts');
+  const inboxes = useMapGetter('inboxes/getInboxes');
+  const labels = useMapGetter('labels/getLabels');
+  const teams = useMapGetter('teams/getTeams');
+  const slaPolicies = useMapGetter('sla/getSLA');
 
   const booleanFilterOptions = computed(() => [
     { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
@@ -50,55 +48,6 @@ export function useAutomation() {
   const onEventChange = automation => {
     automation.conditions = getDefaultConditions(automation.event_name);
     automation.actions = getDefaultActions();
-  };
-
-  const getAttributes = (automationTypes, key) => {
-    return automationTypes[key].conditions;
-  };
-
-  const getAutomationType = (automationTypes, automation, key) => {
-    return automationTypes[automation.event_name].conditions.find(
-      condition => condition.key === key
-    );
-  };
-
-  const getInputType = (
-    allCustomAttributes,
-    automationTypes,
-    automation,
-    key
-  ) => {
-    const customAttribute = isACustomAttribute(allCustomAttributes, key);
-    if (customAttribute) {
-      return getCustomAttributeInputType(
-        customAttribute.attribute_display_type
-      );
-    }
-    const type = getAutomationType(automationTypes, automation, key);
-    return type.inputType;
-  };
-
-  const getOperators = (
-    allCustomAttributes,
-    automationTypes,
-    automation,
-    mode,
-    key
-  ) => {
-    if (mode === 'edit') {
-      const customAttribute = isACustomAttribute(allCustomAttributes, key);
-      if (customAttribute) {
-        return getOperatorTypes(customAttribute.attribute_display_type);
-      }
-    }
-    const type = getAutomationType(automationTypes, automation, key);
-    return type.filterOperators;
-  };
-
-  const getCustomAttributeType = (automationTypes, automation, key) => {
-    return automationTypes[automation.event_name].conditions.find(
-      i => i.key === key
-    ).customAttributeType;
   };
 
   const getConditionDropdownValues = type => {
@@ -153,13 +102,6 @@ export function useAutomation() {
       condition => condition.key === currentCondition.attribute_key
     ).filterOperators[0].value;
     automation.conditions[index].values = '';
-  };
-
-  const showActionInput = (automationActionTypes, action) => {
-    if (action === 'send_email_to_team' || action === 'send_message')
-      return false;
-    const type = automationActionTypes.find(i => i.key === action).inputType;
-    return !!type;
   };
 
   const resetAction = (automation, index) => {
@@ -309,18 +251,12 @@ export function useAutomation() {
     booleanFilterOptions,
     statusFilterOptions,
     onEventChange,
-    getAttributes,
-    getInputType,
-    getOperators,
-    getAutomationType,
-    getCustomAttributeType,
     getConditionDropdownValues,
     appendNewCondition,
     appendNewAction,
     removeFilter,
     removeAction,
     resetFilter,
-    showActionInput,
     resetAction,
     formatAutomation,
     getActionDropdownValues,
