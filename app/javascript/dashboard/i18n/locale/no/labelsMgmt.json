@@ -3,8 +3,9 @@
     "HEADER": "Etiketter",
     "HEADER_BTN_TXT": "Legg til etikett",
     "LOADING": "Henter etiketter",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
-    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>hjelper deg med å kategorisere samtaler og prioritere dem. Du kan tilordne etiketter til en samtale fra sidepanelet. <br /><br />Etiketter er knyttet til kontoen og kan brukes til å opprette egendefinerte arbeidsstrømmer i din organisasjon. Du kan tilordne egendefinert farge til en etikett- det gjør det enklere å identifisere etiketten. Du vil kunne vise etiketten på sidepanelet for å enkelt filtrere samtalene.</p>",
     "LIST": {
       "404": "Det er ingen etiketter tilgjengelig i denne kontoen.",
       "TITLE": "Administrer etiketter",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Legg til etikett",

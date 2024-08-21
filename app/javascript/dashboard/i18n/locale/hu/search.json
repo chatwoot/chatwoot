@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Beszélgetések",
       "MESSAGES": "Üzenetek"
     },
+    "SEARCHING_DATA": "Keresés",
     "EMPTY_STATE": "Nem található %{item}, a keresésre: '%{query}'",
     "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ a fókuszáláshoz",
