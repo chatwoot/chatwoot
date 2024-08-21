@@ -25,7 +25,7 @@
 # - 'knowledge_base_manage': Can manage knowledge base portals.
 
 class CustomRole < ApplicationRecord
-  belongs_to :account, dependent: :destroy_async
+  belongs_to :account
   has_many :account_users, dependent: :nullify
 
   PERMISSIONS = %w[
