@@ -81,7 +81,7 @@ const confirmDeletion = () => {
           <th
             v-for="thHeader in $t('MACROS.LIST.TABLE_HEADER')"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
           >
             {{ thHeader }}
           </th>
