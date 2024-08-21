@@ -297,3 +297,57 @@ export const generateCustomAttributes = (
   }
   return customAttributes;
 };
+
+export const getAttributes = (automationTypes, key) => {
+  return automationTypes[key].conditions;
+};
+
+export const getAutomationType = (automationTypes, automation, key) => {
+  return automationTypes[automation.event_name].conditions.find(
+    condition => condition.key === key
+  );
+};
+
+export const getInputType = (
+  allCustomAttributes,
+  automationTypes,
+  automation,
+  key
+) => {
+  const customAttribute = isACustomAttribute(allCustomAttributes, key);
+  if (customAttribute) {
+    return getCustomAttributeInputType(customAttribute.attribute_display_type);
+  }
+  const type = getAutomationType(automationTypes, automation, key);
+  return type.inputType;
+};
+
+export const getOperators = (
+  allCustomAttributes,
+  automationTypes,
+  automation,
+  mode,
+  key
+) => {
+  if (mode === 'edit') {
+    const customAttribute = isACustomAttribute(allCustomAttributes, key);
+    if (customAttribute) {
+      return getOperatorTypes(customAttribute.attribute_display_type);
+    }
+  }
+  const type = getAutomationType(automationTypes, automation, key);
+  return type.filterOperators;
+};
+
+export const getCustomAttributeType = (automationTypes, automation, key) => {
+  return automationTypes[automation.event_name].conditions.find(
+    i => i.key === key
+  ).customAttributeType;
+};
+
+export const showActionInput = (automationActionTypes, action) => {
+  if (action === 'send_email_to_team' || action === 'send_message')
+    return false;
+  const type = automationActionTypes.find(i => i.key === action).inputType;
+  return !!type;
+};
