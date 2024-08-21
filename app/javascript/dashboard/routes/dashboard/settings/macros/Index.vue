@@ -12,12 +12,12 @@ const store = useStore();
 const { t } = useI18n();
 
 const showDeleteConfirmationPopup = ref(false);
-const selectedResponse = ref({});
+const selectedMacro = ref({});
 
 const records = computed(() => getters['macros/getMacros'].value);
 const uiFlags = computed(() => getters['macros/getUIFlags'].value);
 
-const deleteMessage = computed(() => ` ${selectedResponse.value.name}?`);
+const deleteMessage = computed(() => ` ${selectedMacro.value.name}?`);
 
 onMounted(() => {
   store.dispatch('macros/get');
@@ -34,7 +34,7 @@ const deleteMacro = async id => {
 
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
-  selectedResponse.value = response;
+  selectedMacro.value = response;
 };
 
 const closeDeletePopup = () => {
@@ -43,7 +43,7 @@ const closeDeletePopup = () => {
 
 const confirmDeletion = () => {
   closeDeletePopup();
-  deleteMacro(selectedResponse.value.id);
+  deleteMacro(selectedMacro.value.id);
 };
 </script>
 
