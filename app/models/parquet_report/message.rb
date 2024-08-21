@@ -3,11 +3,13 @@
 # Table name: parquet_reports
 #
 #  id            :bigint           not null, primary key
+#  elapse_time   :integer          default(0)
 #  error_message :string
 #  file_name     :string
 #  file_url      :string
 #  params        :jsonb
 #  progress      :integer          default(0)
+#  record_count  :integer          default(0)
 #  status        :string
 #  type          :string
 #  created_at    :datetime         not null

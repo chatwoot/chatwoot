@@ -122,6 +122,7 @@ Rails.application.routes.draw do
               post :reply
               post :close
               post :takeover
+              get :handled_by_tags
             end
           end
 

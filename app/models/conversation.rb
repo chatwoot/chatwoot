@@ -127,6 +127,7 @@ class Conversation < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :smart_actions, dependent: :destroy_async
+  has_many :conversation_handled_by_tags, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
@@ -256,6 +257,7 @@ class Conversation < ApplicationRecord
     create_activity
     notify_conversation_updation
     send_csat_survey_email
+    log_handled_by_tag_change
   end
 
   def send_csat_survey_email
@@ -266,6 +268,12 @@ class Conversation < ApplicationRecord
     return if Digitaltolk::MailHelper.csat_disabled?(messages.incoming.last)
 
     CsatSurveyWorker.perform_in(5.seconds, id)
+  end
+
+  def log_handled_by_tag_change
+    return unless saved_change_to_handled_by?
+
+    ConversationHandledByTag.create(conversation_id: id, handled_by: handled_by, user_id: Current.user&.id)
   end
 
   def ensure_snooze_until_reset

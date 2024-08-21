@@ -223,6 +223,14 @@ RSpec.describe Conversation do
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
                                content: system_resolved_message })
     end
+
+    it 'creates conversation handled_by_tag' do
+      conversation.update(handled_by: 'autopilot')
+      expect(conversation.conversation_handled_by_tags.count).to eq(1)
+      conversation.update(handled_by: 'human_agent')
+      expect(conversation.conversation_handled_by_tags.count).to eq(2)
+      expect(conversation.conversation_handled_by_tags.pluck(:handled_by)).to eq(['autopilot', 'human_agent'])
+    end
   end
 
   describe '#update_labels' do

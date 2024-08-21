@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_15_144803) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_20_124534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -434,6 +434,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_15_144803) do
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
+  end
+
+  create_table "conversation_handled_by_tags", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id"
+    t.string "handled_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_conversation_handled_by_tags_on_conversation_id"
+    t.index ["user_id"], name: "index_conversation_handled_by_tags_on_user_id"
   end
 
   create_table "conversation_participants", force: :cascade do |t|
@@ -1071,6 +1081,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_15_144803) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversation_handled_by_tags", "conversations"
+  add_foreign_key "conversation_handled_by_tags", "users"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "parquet_reports", "accounts"
   add_foreign_key "parquet_reports", "users"

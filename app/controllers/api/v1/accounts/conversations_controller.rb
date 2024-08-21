@@ -179,6 +179,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def handled_by_tags
+    @tags = @conversation.conversation_handled_by_tags.order(created_at: :desc)
+  end
+
   private
 
   def permitted_update_params
