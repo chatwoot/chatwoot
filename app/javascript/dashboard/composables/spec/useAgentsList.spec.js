@@ -28,6 +28,14 @@ describe('useAgentsList', () => {
     agentHelper.getSortedAgentsByAvailability.mockReturnValue(
       formattedAgentsData.slice(1)
     );
+    agentHelper.getCombinedAgents.mockImplementation(
+      (agents, includeNone, isAgentSelected) => {
+        if (includeNone && isAgentSelected) {
+          return [agentHelper.createNoneAgent, ...agents];
+        }
+        return agents;
+      }
+    );
 
     mockUseMapGetter();
   });
