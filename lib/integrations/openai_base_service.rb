@@ -42,10 +42,13 @@ class Integrations::OpenaiBaseService
     return nil unless event_is_cacheable?
     return nil if cache_key.blank?
 
-    value_from_cache = Redis::Alfred.get(cache_key)
-    return nil if value_from_cache.blank?
+    deserialize_cached_value(Redis::Alfred.get(cache_key))
+  end
 
-    JSON.parse(value_from_cache, symbolize_names: true)
+  def deserialize_cached_value(value)
+    return nil if value.blank?
+
+    JSON.parse(value, symbolize_names: true)
   rescue JSON::ParserError
     nil
   end
