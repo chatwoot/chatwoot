@@ -1,16 +1,14 @@
-import { computed, ref } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 export const useIntegrationHook = (integrationObj, integrationId) => {
-  const store = useStore();
-  const integration = ref(null);
+  const integration = computed(() => {
+    if (integrationId) {
+      return useMapGetter('integrations/getIntegration')(integrationId);
+    }
 
-  if (integrationId) {
-    integration.value =
-      store.getters['integrations/getIntegration'](integrationId);
-  } else {
-    integration.value = integrationObj;
-  }
+    return integrationObj;
+  });
 
   const isHookTypeInbox = computed(() => {
     return integration.value.hook_type === 'inbox';
