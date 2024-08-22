@@ -367,12 +367,19 @@
         "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
         "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
         "SIGN_IN": "Pierakstīties ar Microsoft",
-        "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
         "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "GOOGLE": {
+        "TITLE": "Google e-pasts",
+        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Google. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
+        "SIGN_IN": "Pierakstīties ar Google",
+        "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Google, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
+      "ERROR_FB_LOADING": "Ielādējot Facebook SDK, radās kļūda. Lūdzu, atspējojiet visus reklāmu bloķētājus un mēģiniet vēlreiz no citas pārlūkprogrammas.",
       "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
       "ERROR_FB_UNAUTHORIZED": "Jums nav tiesību veikt šo darbību. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Lūdzu, pārliecinieties, ka Jums ir pilna piekļuve Facebook lapai. Vairāk par Facebook lomām varat lasīt <a href=\" https://www.facebook.com/help/187316341316631\">šeit</a>.",
@@ -736,6 +743,7 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
     }
   }
