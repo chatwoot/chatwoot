@@ -1,5 +1,4 @@
 <script>
-import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -29,7 +28,6 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const sidebarRef = ref(null);
     const route = useRoute();
     const router = useRouter();
 
@@ -67,11 +65,10 @@ export default {
         action: () => navigateToRoute('agent_list'),
       },
     };
-    useKeyboardEvents(keyboardEvents, sidebarRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       toggleKeyShortcutModal,
-      sidebarRef,
     };
   },
   data() {
@@ -201,7 +198,7 @@ export default {
 </script>
 
 <template>
-  <aside ref="sidebarRef" class="flex h-full">
+  <aside class="flex h-full">
     <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
