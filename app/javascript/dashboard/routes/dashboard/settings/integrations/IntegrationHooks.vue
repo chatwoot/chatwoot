@@ -2,7 +2,7 @@
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import hookMixin from './hookMixin';
+import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
@@ -13,12 +13,27 @@ export default {
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
   },
-  mixins: [hookMixin],
   props: {
     integrationId: {
       type: [String, Number],
       required: true,
     },
+  },
+  setup(props) {
+    const { integrationId } = props;
+
+    const {
+      integration,
+      isIntegrationMultiple,
+      isIntegrationSingle,
+      isHookTypeInbox,
+    } = useIntegrationHook(integrationId);
+    return {
+      integration,
+      isIntegrationMultiple,
+      isIntegrationSingle,
+      isHookTypeInbox,
+    };
   },
   data() {
     return {
@@ -31,22 +46,8 @@ export default {
   },
   computed: {
     ...mapGetters({ uiFlags: 'integrations/getUIFlags' }),
-    integration() {
-      return this.$store.getters['integrations/getIntegration'](
-        this.integrationId
-      );
-    },
     showIntegrationHooks() {
       return !this.uiFlags.isFetching && !isEmptyObject(this.integration);
-    },
-    integrationType() {
-      return this.integration.allow_multiple_hooks ? 'multiple' : 'single';
-    },
-    isIntegrationMultiple() {
-      return this.integrationType === 'multiple';
-    },
-    isIntegrationSingle() {
-      return this.integrationType === 'single';
     },
     showAddButton() {
       return this.showIntegrationHooks && this.isIntegrationMultiple;
@@ -120,14 +121,14 @@ export default {
     <div v-if="showIntegrationHooks" class="w-full">
       <div v-if="isIntegrationMultiple">
         <MultipleIntegrationHooks
-          :integration="integration"
+          :integration-id="integrationId"
           @delete="openDeletePopup"
         />
       </div>
 
       <div v-if="isIntegrationSingle">
         <SingleIntegrationHooks
-          :integration="integration"
+          :integration-id="integrationId"
           @add="openAddHookModal"
           @delete="openDeletePopup"
         />
@@ -135,7 +136,7 @@ export default {
     </div>
 
     <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
-      <NewHook :integration="integration" @close="hideAddHookModal" />
+      <NewHook :integration-id="integrationId" @close="hideAddHookModal" />
     </woot-modal>
 
     <woot-delete-modal
