@@ -90,12 +90,6 @@ describe('useAI', () => {
     });
   });
 
-  it('cleans labels correctly', () => {
-    const { cleanLabels } = useAI();
-    const result = cleanLabels('Label1, label2, Label1, label3');
-    expect(result).toEqual(['label1', 'label2', 'label3']);
-  });
-
   it('fetches label suggestions', async () => {
     OpenAPI.processEvent.mockResolvedValue({
       data: { message: 'label1, label2' },

@@ -10,6 +10,20 @@ import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 
 /**
+ * Cleans and normalizes a list of labels.
+ * @param {string} labels - A comma-separated string of labels.
+ * @returns {string[]} An array of cleaned and unique labels.
+ */
+const cleanLabels = labels => {
+  return labels
+    .toLowerCase() // Set it to lowercase
+    .split(',') // split the string into an array
+    .filter(label => label.trim()) // remove any empty strings
+    .map(label => label.trim()) // trim the words
+    .filter((label, index, self) => self.indexOf(label) === index);
+};
+
+/**
  * A composable function for AI-related operations in the dashboard.
  * @returns {Object} An object containing AI-related methods and computed properties.
  */
@@ -119,20 +133,6 @@ export function useAI() {
   };
 
   /**
-   * Cleans and normalizes a list of labels.
-   * @param {string} labels - A comma-separated string of labels.
-   * @returns {string[]} An array of cleaned and unique labels.
-   */
-  const cleanLabels = labels => {
-    return labels
-      .toLowerCase() // Set it to lowercase
-      .split(',') // split the string into an array
-      .filter(label => label.trim()) // remove any empty strings
-      .map(label => label.trim()) // trim the words
-      .filter((label, index, self) => self.indexOf(label) === index);
-  };
-
-  /**
    * Fetches label suggestions for the current conversation.
    * @returns {Promise<string[]>} An array of suggested labels.
    */
@@ -200,6 +200,5 @@ export function useAI() {
     recordAnalytics,
     fetchLabelSuggestions,
     processEvent,
-    cleanLabels,
   };
 }
