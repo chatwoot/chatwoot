@@ -905,7 +905,6 @@ export default {
       v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
-      class="tab--chat-type"
       @chatTabChange="updateAssigneeTab"
     />
 
@@ -992,15 +991,5 @@ export default {
 <style scoped lang="scss">
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
-}
-
-.tab--chat-type {
-  @apply py-0 px-4;
-
-  ::v-deep {
-    .tabs {
-      @apply p-0;
-    }
-  }
 }
 </style>

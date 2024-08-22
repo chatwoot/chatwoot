@@ -18,6 +18,7 @@
       "AND": "EN",
       "OR": "OF"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Gelijk aan",
       "not_equal_to": "Niet gelijk aan",

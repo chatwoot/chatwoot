@@ -11,6 +11,7 @@
       "CONVERSATIONS": "گفتگوها",
       "MESSAGES": "پیام‌ها"
     },
+    "SEARCHING_DATA": "در حال جستجو",
     "EMPTY_STATE": "هیچ %{item} برای درخواست '%{query}' یافت نشد",
     "EMPTY_STATE_FULL": "هیچ نتیجه ای برای پرس و جو «%{query}» یافت نشد",
     "PLACEHOLDER_KEYBINDING": "/ برای تمرکز",

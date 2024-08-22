@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Conversații",
       "MESSAGES": "Mesaje"
     },
+    "SEARCHING_DATA": "In căutare",
     "EMPTY_STATE": "Nu s-a găsit niciun %{item} pentru interogarea \"%{query}\"",
     "EMPTY_STATE_FULL": "Nu s-au găsit rezultate pentru interogarea \"%{query}\"",
     "PLACEHOLDER_KEYBINDING": "/ să se concentreze",
