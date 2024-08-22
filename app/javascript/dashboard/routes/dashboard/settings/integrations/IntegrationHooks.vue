@@ -2,7 +2,7 @@
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useIntegrationHook } from './useIntegrationHook';
+import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';

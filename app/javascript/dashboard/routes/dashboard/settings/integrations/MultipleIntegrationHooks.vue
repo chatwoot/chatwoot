@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useIntegrationHook } from './useIntegrationHook';
+import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 export default {
   props: {
     integration: {
