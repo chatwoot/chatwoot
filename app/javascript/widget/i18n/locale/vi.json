@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Chúng tôi đang trực tuyến",
-    "OFFLINE": "Hiện tại chúng tôi đang bận chút"
+    "OFFLINE": "Hiện tại chúng tôi đang bận một chút"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
@@ -31,12 +31,12 @@
     "Thứ Sáu",
     "Thứ Bảy"
   ],
-  "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
+  "START_CONVERSATION": "Bắt đầu hội thoại",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
   "YOU": "You",
   "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Bạn có tin nhắn chưa đọc",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
     "CLOSE_MESSAGES_BUTTON": "Đóng",
@@ -44,7 +44,7 @@
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Trò chuyện với chúng tôi"
+    "LABEL": "Nhắn tin cho chúng tôi"
   },
   "POWERED_BY": "CC bởi Chatwoot",
   "EMAIL_PLACEHOLDER": "Vui lòng nhập email",

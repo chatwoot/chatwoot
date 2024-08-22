@@ -115,8 +115,8 @@ export default {
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
-      activeCountryCode: '',
-      activeDialCode: '',
+      activeCountryCode: 'VN',
+      activeDialCode: '+84',
       phoneNumber: '',
     };
   },
