@@ -40,7 +40,6 @@ const onSelect = () => {
 };
 
 useKeyboardNavigableList({
-  elementRef: tagAgentsRef,
   items,
   onSelect,
   adjustScroll,

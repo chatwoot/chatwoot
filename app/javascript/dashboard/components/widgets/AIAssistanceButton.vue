@@ -23,7 +23,6 @@ export default {
 
     const { isAdmin } = useAdmin();
 
-    const aiAssistanceButtonRef = ref(null);
     const initialMessage = ref('');
 
     const initializeMessage = draftMsg => {
@@ -40,13 +39,12 @@ export default {
         allowOnFocusedInput: true,
       },
     };
-    useKeyboardEvents(keyboardEvents, aiAssistanceButtonRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       uiSettings,
       updateUISettings,
       isAdmin,
-      aiAssistanceButtonRef,
       initialMessage,
       initializeMessage,
       recordAnalytics,
@@ -122,7 +120,7 @@ export default {
 </script>
 
 <template>
-  <div ref="aiAssistanceButtonRef">
+  <div>
     <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
