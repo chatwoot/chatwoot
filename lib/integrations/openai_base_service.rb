@@ -50,7 +50,10 @@ class Integrations::OpenaiBaseService
 
     JSON.parse(value, symbolize_names: true)
   rescue JSON::ParserError
-    value
+    # If json parse failed, returning the value as is will fail too
+    # since we access the keys as symbols down the line
+    # So it's best to return nil
+    nil
   end
 
   def save_to_cache(response)
