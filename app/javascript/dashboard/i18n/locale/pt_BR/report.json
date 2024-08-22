@@ -619,7 +619,7 @@
 
     "INSIGHT_ALERT": {
       "TITLE": "Os insights do modelo não estão ativados",
-      "TEXT": "Para poder ver os insights dos modelos, você precisa habilitar esse recurso no seu Gerenciador do WhatsApp.",
+      "TEXT": "Para visualizar os insights dos modelos, você precisa habilitar esse recurso no seu Gerenciador do WhatsApp.",
       "BUTTON": "Saiba mais"
     }
   }
