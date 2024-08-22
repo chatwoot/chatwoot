@@ -6,14 +6,17 @@ import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 
 export default {
   props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
+    integrationId: {
+      type: String,
+      required: true,
     },
   },
   setup(props) {
-    const { isHookTypeInbox } = useIntegrationHook(props.integration);
-    return { isHookTypeInbox };
+    const { integration, isHookTypeInbox } = useIntegrationHook(
+      props.integrationId
+    );
+
+    return { integration, isHookTypeInbox };
   },
   data() {
     return {

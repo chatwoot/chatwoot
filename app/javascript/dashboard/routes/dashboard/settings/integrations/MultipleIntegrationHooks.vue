@@ -3,16 +3,15 @@ import { mapGetters } from 'vuex';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 export default {
   props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
+    integrationId: {
+      type: String,
+      required: true,
     },
   },
   setup(props) {
-    const { isHookTypeInbox, hasConnectedHooks } = useIntegrationHook(
-      props.integration
-    );
-    return { isHookTypeInbox, hasConnectedHooks };
+    const { integration, isHookTypeInbox, hasConnectedHooks } =
+      useIntegrationHook(props.integrationId);
+    return { integration, isHookTypeInbox, hasConnectedHooks };
   },
   computed: {
     ...mapGetters({

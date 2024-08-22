@@ -2,14 +2,16 @@
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 export default {
   props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
+    integrationId: {
+      type: String,
+      required: true,
     },
   },
   setup(props) {
-    const { hasConnectedHooks } = useIntegrationHook(props.integration);
-    return { hasConnectedHooks };
+    const { integration, hasConnectedHooks } = useIntegrationHook(
+      props.integrationId
+    );
+    return { integration, hasConnectedHooks };
   },
 };
 </script>
