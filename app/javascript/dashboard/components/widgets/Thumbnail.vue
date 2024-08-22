@@ -28,6 +28,13 @@
       :src="`/integrations/channels/badges/${badgeSrc}.png`"
       alt="Badge"
     />
+    <p
+      v-if="txtBadge"
+      class="source-badge font-semibold text-woot-500 text-[8px]"
+      :style="txtBadgeStyle"
+    >
+      {{ txtBadge }}
+    </p>
     <div
       v-if="showStatusIndicator"
       :class="`source-badge user-online-status user-online-status--${status}`"
@@ -86,6 +93,10 @@ export default {
     variant: {
       type: String,
       default: 'circle',
+    },
+    txtBadge: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -148,6 +159,12 @@ export default {
         return !this.imgError;
       }
       return false;
+    },
+    txtBadgeStyle() {
+      const size = Math.floor(this.avatarSize / 3);
+      const hSize = `${size + 2}px`;
+      const wSize = `${size + 5}px`;
+      return { width: wSize, height: hSize, lineHeight: hSize };
     },
   },
   watch: {

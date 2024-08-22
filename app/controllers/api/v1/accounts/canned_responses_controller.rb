@@ -1,19 +1,28 @@
 class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseController
+  include ::FileTypeHelper
+  include ::AttachmentConcern
+  include RequestExceptionHandler
+
   before_action :fetch_canned_response, only: [:update, :destroy]
 
   def index
-    render json: canned_responses
+    @canned_responses = fetch_canned_responses
   end
 
   def create
-    @canned_response = Current.account.canned_responses.new(canned_response_params)
-    @canned_response.save!
-    render json: @canned_response
+    account = Current.account
+    cb = CannedResponseBuilder.new(account, canned_response_params)
+    @canned_response = cb.perform
   end
 
   def update
-    @canned_response.update!(canned_response_params)
-    render json: @canned_response
+    @canned_response.update!(canned_response_params.except(:attachments))
+    process_attachments_to_be_added(
+      resource: @canned_response,
+      call_remove_handler: true,
+      params: canned_response_params
+    )
+    @canned_response.save!
   end
 
   def destroy
@@ -28,10 +37,10 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def canned_response_params
-    params.require(:canned_response).permit(:short_code, :content)
+    params.require(:canned_response).permit(:short_code, :content, attachments: [])
   end
 
-  def canned_responses
+  def fetch_canned_responses
     if params[:search]
       Current.account.canned_responses
              .where('short_code ILIKE :search OR content ILIKE :search', search: "%#{params[:search]}%")

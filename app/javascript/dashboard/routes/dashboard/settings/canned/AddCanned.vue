@@ -34,6 +34,26 @@
             />
           </div>
         </div>
+
+        <div class="w-full">
+          <div
+            v-if="hasAttachments"
+            class="attachment-preview-box"
+            @paste="onPaste"
+          >
+            <attachment-preview
+              class="flex-col mt-4"
+              :attachments="attachedFiles"
+              :remove-attachment="removeAttachment"
+            />
+          </div>
+          <canned-bottom-panel
+            :enable-multiple-file-upload="true"
+            :on-file-upload="onFileUpload"
+            :show-file-upload="true"
+            :show-attach-help-text="true"
+          />
+        </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <woot-submit-button
             :disabled="
@@ -60,14 +80,20 @@ import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vu
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
+import CannedBottomPanel from 'dashboard/components/widgets/WootWriter/CannedBottomPanel.vue';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     WootSubmitButton,
     Modal,
     WootMessageEditor,
+    AttachmentPreview,
+    CannedBottomPanel,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, fileUploadMixin],
   props: {
     responseContent: {
       type: String,
@@ -87,7 +113,16 @@ export default {
         message: '',
       },
       show: true,
+      attachedFiles: [],
     };
+  },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
+    hasAttachments() {
+      return this.attachedFiles.length;
+    },
   },
   validations: {
     shortCode: {
@@ -98,22 +133,47 @@ export default {
       required,
     },
   },
+  mounted() {
+    document.addEventListener('paste', this.onPaste);
+  },
+  destroyed() {
+    document.removeEventListener('paste', this.onPaste);
+  },
   methods: {
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.attachedFiles = [];
       this.$v.shortCode.$reset();
       this.$v.content.$reset();
+    },
+    getCannedPayload() {
+      let cannedPayload = {
+        shortCode: this.shortCode,
+        content: this.content,
+      };
+
+      if (this.attachedFiles && this.attachedFiles.length) {
+        cannedPayload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          if (this.globalConfig.directUploadsEnabled) {
+            cannedPayload.files.push(attachment.blobSignedId);
+          } else {
+            cannedPayload.files.push(attachment.resource.file);
+          }
+        });
+      }
+
+      return cannedPayload;
     },
     addCannedResponse() {
       // Show loading on button
       this.addCanned.showLoading = true;
+      // Get payload for API call
+      const cannedPayload = this.getCannedPayload();
       // Make API Calls
       this.$store
-        .dispatch('createCannedResponse', {
-          short_code: this.shortCode,
-          content: this.content,
-        })
+        .dispatch('createCannedResponse', cannedPayload)
         .then(() => {
           // Reset Form, Show success message
           this.addCanned.showLoading = false;
@@ -127,6 +187,32 @@ export default {
             error?.message || this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
           this.showAlert(errorMessage);
         });
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          resource: blob || file,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
+    },
+    removeAttachment(itemIndex) {
+      this.attachedFiles = this.attachedFiles.filter(
+        (item, index) => itemIndex !== index
+      );
+    },
+    onPaste(e) {
+      const data = e.clipboardData.files;
+      if (!data.length || !data[0]) {
+        return;
+      }
+      data.forEach(file => {
+        const { name, type, size } = file;
+        this.onFileUpload({ name, type, size, file: file });
+      });
     },
   },
 };

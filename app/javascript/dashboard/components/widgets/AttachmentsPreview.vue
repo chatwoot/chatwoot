@@ -34,7 +34,7 @@
           v-if="!isTypeAudio(attachment.resource)"
           class="remove--attachment clear secondary"
           icon="dismiss"
-          @click="() => onRemoveAttachment(index)"
+          @click.prevent="() => onRemoveAttachment(index)"
         />
       </div>
     </div>

@@ -553,7 +553,7 @@ export default {
 
       return false;
     },
-    insertCannedResponse(cannedItem) {
+    insertCannedResponse(cannedItem, images = []) {
       const updatedMessage = replaceVariablesInMessage({
         message: cannedItem,
         variables: this.variables,
@@ -575,6 +575,11 @@ export default {
       this.insertNodeIntoEditor(node, from, this.range.to);
 
       this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+
+      if (images && images.length) {
+        this.$emit('replace-attached-files', images);
+      }
+
       return false;
     },
     insertVariable(variable) {
@@ -611,6 +616,12 @@ export default {
 
       this.$refs.imageUpload.value = '';
     },
+    // replaceAttachedFiles(images) {
+    //   images.forEach(({ data_url }) => {
+    //     this.onImageInsertInEditor(data_url);
+    //   });
+    //   this.$emit('replaceAttachedFiles')
+    // },
     async uploadImageToStorage(file) {
       try {
         const { fileUrl } = await uploadFile(file);

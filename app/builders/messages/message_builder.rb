@@ -1,5 +1,6 @@
 class Messages::MessageBuilder
   include ::FileTypeHelper
+  include ::AttachmentConcern
   attr_reader :message
 
   def initialize(user, conversation, params)
@@ -18,7 +19,7 @@ class Messages::MessageBuilder
 
   def perform
     @message = @conversation.messages.build(message_params)
-    process_attachments
+    process_attachments_to_be_added(resource: @message, params: @params)
     process_emails
     @message.save!
     @message
@@ -56,29 +57,6 @@ class Messages::MessageBuilder
     JSON.parse(content, symbolize_names: true)
   rescue JSON::ParserError
     {}
-  end
-
-  def process_attachments
-    return if @attachments.blank?
-
-    @attachments.each do |uploaded_attachment|
-      filename = I18n.transliterate(uploaded_attachment.original_filename)
-      filename = filename.gsub(/[?]/, '')
-      uploaded_attachment.original_filename = filename
-
-      attachment = @message.attachments.build(
-        account_id: @message.account_id,
-        file: uploaded_attachment
-      )
-
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
-    end
   end
 
   def process_emails

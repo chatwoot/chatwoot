@@ -94,6 +94,7 @@
         @toggle-canned-menu="toggleCannedMenu"
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
+        @replace-attached-files="replaceAttachedFiles"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -898,7 +899,7 @@ export default {
       });
       this.hideWhatsappTemplatesModal();
     },
-    replaceText(message) {
+    replaceText(message, images = []) {
       if (this.sendWithSignature && !this.private) {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
@@ -911,10 +912,25 @@ export default {
         variables: this.messageVariables,
       });
 
+      if (images && images.length) {
+        this.replaceAttachedFiles(images);
+      }
+
       setTimeout(() => {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
       }, 100);
+    },
+    replaceAttachedFiles(images) {
+      images.forEach(({ blob, thumb_url, signed_id }) => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: blob,
+          isPrivate: this.isPrivate,
+          thumb: thumb_url,
+          blobSignedId: signed_id,
+        });
+      });
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
@@ -1070,9 +1086,10 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         let caption = message;
         this.attachedFiles.forEach(attachment => {
-          const attachedFile = this.globalConfig.directUploadsEnabled
-            ? attachment.blobSignedId
-            : attachment.resource.file;
+          const attachedFile =
+            this.globalConfig.directUploadsEnabled || attachment.blobSignedId
+              ? attachment.blobSignedId
+              : attachment.resource.file;
           let attachmentPayload = {
             conversationId: this.currentChat.id,
             files: [attachedFile],
@@ -1112,7 +1129,10 @@ export default {
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
         this.attachedFiles.forEach(attachment => {
-          if (this.globalConfig.directUploadsEnabled) {
+          if (
+            this.globalConfig.directUploadsEnabled ||
+            attachment.blobSignedId
+          ) {
             messagePayload.files.push(attachment.blobSignedId);
           } else {
             messagePayload.files.push(attachment.resource.file);

@@ -53,8 +53,24 @@
               <td class="break-all whitespace-normal">
                 {{ cannedItem.content }}
               </td>
+              <td class="w-[7.75rem]">
+                <div
+                  v-if="cannedItem.attachments && cannedItem.attachments.length"
+                >
+                  <thumbnail
+                    :src="cannedItem.attachments[0].thumb_url"
+                    size="36px"
+                    :txt-badge="
+                      $t('CANNED_MGMT.LIST.QTY', {
+                        number: cannedItem.attachments.length,
+                      })
+                    "
+                  />
+                </div>
+                <div v-else>---</div>
+              </td>
               <!-- Action Buttons -->
-              <td class="flex justify-end gap-1 min-w-[12.5rem]">
+              <td class="flex justify-end gap-1 min-w-[10.5rem]">
                 <woot-button
                   v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
                   variant="smooth"
@@ -95,6 +111,7 @@
         :id="selectedResponse.id"
         :edshort-code="selectedResponse.short_code"
         :edcontent="selectedResponse.content"
+        :edattachments="selectedResponse.attachments"
         :on-close="hideEditPopup"
       />
     </woot-modal>
@@ -116,9 +133,11 @@
 import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
+import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 
 export default {
   components: {
+    Thumbnail,
     AddCanned,
     EditCanned,
   },

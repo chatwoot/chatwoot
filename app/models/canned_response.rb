@@ -11,6 +11,10 @@
 #
 
 class CannedResponse < ApplicationRecord
+  NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+
+  has_many :canned_attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
+
   validates :content, presence: true
   validates :short_code, presence: true
   validates :account, presence: true
@@ -27,4 +31,8 @@ class CannedResponse < ApplicationRecord
 
     order(Arel.sql(order_clause) => :desc)
   }
+
+  def validate_attachments_limit(_attachment)
+    errors.add(:canned_attachments, message: 'exceeded maximum allowed') if canned_attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+  end
 end

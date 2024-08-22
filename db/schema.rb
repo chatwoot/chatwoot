@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_06_013430) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_10_182452) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -225,6 +225,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_06_013430) do
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
     t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
     t.index ["scheduled_at"], name: "index_campaigns_on_scheduled_at"
+  end
+
+  create_table "canned_attachments", id: :serial, force: :cascade do |t|
+    t.integer "file_type", default: 0
+    t.integer "canned_response_id", null: false
+    t.integer "account_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_canned_attachments_on_account_id"
+    t.index ["canned_response_id"], name: "index_canned_attachments_on_canned_response_id"
   end
 
   create_table "canned_responses", id: :serial, force: :cascade do |t|
