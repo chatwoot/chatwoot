@@ -50,7 +50,7 @@ class Integrations::OpenaiBaseService
 
     JSON.parse(value, symbolize_names: true)
   rescue JSON::ParserError
-    nil
+    value
   end
 
   def save_to_cache(response)
