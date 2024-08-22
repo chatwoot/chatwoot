@@ -4,9 +4,9 @@ import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAI } from 'dashboard/composables/useAI';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
-import aiMixin from 'dashboard/mixins/aiMixin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
@@ -16,17 +16,18 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  mixins: [aiMixin],
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
+
+    const { isAIIntegrationEnabled, draftMessage, recordAnalytics } = useAI();
 
     const { isAdmin } = useAdmin();
 
     const aiAssistanceButtonRef = ref(null);
     const initialMessage = ref('');
 
-    const initializeMessage = draftMessage => {
-      initialMessage.value = draftMessage;
+    const initializeMessage = draftMsg => {
+      initialMessage.value = draftMsg;
     };
     const keyboardEvents = {
       '$mod+KeyZ': {
@@ -48,6 +49,9 @@ export default {
       aiAssistanceButtonRef,
       initialMessage,
       initializeMessage,
+      recordAnalytics,
+      isAIIntegrationEnabled,
+      draftMessage,
     };
   },
   data: () => ({
