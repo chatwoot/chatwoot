@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
@@ -24,7 +23,7 @@ export default {
     SLACardLabel,
     Linear,
   },
-  mixins: [inboxMixin, agentMixin],
+  mixins: [inboxMixin],
   props: {
     chat: {
       type: Object,
