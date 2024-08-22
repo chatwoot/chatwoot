@@ -2,10 +2,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
-import agentMixin from 'dashboard/mixins/agentMixin';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -15,19 +15,17 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
   },
-  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    // inboxId prop is used in /mixins/agentMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  },
+  setup() {
+    const { agentsList } = useAgentsList();
+    return {
+      agentsList,
+    };
   },
   data() {
     return {
