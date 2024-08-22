@@ -100,7 +100,11 @@ export default {
         } = result;
         return generatedMessage;
       } catch (error) {
-        useAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+        const errorData = error.response.data.error;
+        const errorMessage =
+          errorData?.error?.message ||
+          this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
+        useAlert(errorMessage);
         return '';
       }
     },
