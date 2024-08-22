@@ -19,10 +19,11 @@ const readableDateWithTime = date =>
   messageStamp(new Date(date), 'LLL d, yyyy hh:mm a');
 
 const toggle = () => {
+  const { id, name, active } = props.automation;
   emit('toggle', {
-    id: props.automation.id,
-    name: props.automation.name,
-    status: props.automation.active,
+    id,
+    name,
+    status: active,
   });
 };
 </script>
