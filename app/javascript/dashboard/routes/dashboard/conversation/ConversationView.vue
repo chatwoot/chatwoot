@@ -87,6 +87,7 @@ export default {
       this.fetchConversationIfUnavailable();
     },
   },
+
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();
@@ -94,6 +95,12 @@ export default {
     this.$watch('chatList.length', () => {
       this.setActiveChat();
     });
+  },
+
+  created() {
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
   },
 
   methods: {
