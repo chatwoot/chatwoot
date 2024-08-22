@@ -2,7 +2,7 @@
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useHook } from './useHook';
+import { useIntegrationHook } from './useIntegrationHook';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
@@ -21,7 +21,7 @@ export default {
   },
   setup(props) {
     const { integrationId } = props;
-    const { isHookTypeInbox } = useHook(integrationId);
+    const { isHookTypeInbox } = useIntegrationHook(integrationId);
     return { isHookTypeInbox };
   },
   data() {

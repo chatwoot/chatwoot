@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useHook } from './useHook';
+import { useIntegrationHook } from './useIntegrationHook';
 export default {
   props: {
     integration: {
@@ -9,7 +9,9 @@ export default {
     },
   },
   setup(props) {
-    const { isHookTypeInbox, hasConnectedHooks } = useHook(props.integration);
+    const { isHookTypeInbox, hasConnectedHooks } = useIntegrationHook(
+      props.integration
+    );
     return { isHookTypeInbox, hasConnectedHooks };
   },
   computed: {

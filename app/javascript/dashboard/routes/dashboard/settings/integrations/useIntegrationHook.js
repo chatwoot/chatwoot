@@ -1,9 +1,10 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 
-export const useHook = (integrationObj, integrationId) => {
+export const useIntegrationHook = (integrationObj, integrationId) => {
   const store = useStore();
   const integration = ref(null);
+
   if (integrationId) {
     integration.value =
       store.getters['integrations/getIntegration'](integrationId);

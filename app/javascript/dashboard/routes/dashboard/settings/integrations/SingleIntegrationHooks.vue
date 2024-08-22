@@ -1,5 +1,5 @@
 <script>
-import { useHook } from './useHook';
+import { useIntegrationHook } from './useIntegrationHook';
 export default {
   props: {
     integration: {
@@ -8,7 +8,7 @@ export default {
     },
   },
   setup(props) {
-    const { hasConnectedHooks } = useHook(props.integration);
+    const { hasConnectedHooks } = useIntegrationHook(props.integration);
     return { hasConnectedHooks };
   },
 };

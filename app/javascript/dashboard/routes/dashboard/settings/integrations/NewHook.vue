@@ -2,7 +2,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useHook } from './useHook';
+import { useIntegrationHook } from './useIntegrationHook';
 
 export default {
   props: {
@@ -12,7 +12,7 @@ export default {
     },
   },
   setup(props) {
-    const { isHookTypeInbox } = useHook(props.integration);
+    const { isHookTypeInbox } = useIntegrationHook(props.integration);
     return { isHookTypeInbox };
   },
   data() {
