@@ -54,7 +54,7 @@ class Integrations::OpenaiBaseService
     return nil unless event_is_cacheable?
 
     # if the response is a hash, save it as a json
-    # This allows the fetching to be simplified
+    # This allows the parsing to be simplified when getting from cache
     response = response.to_json if response.is_a?(Hash)
     Redis::Alfred.setex(cache_key, response)
   end
