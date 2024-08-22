@@ -1,9 +1,12 @@
 <script>
+import { mapGetters } from 'vuex';
+import {
+  getSortedAgentsByAvailability,
+  getAgentsByUpdatedPresence,
+} from 'dashboard/helper/agentHelper.js';
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 export default {
   components: {
@@ -11,7 +14,6 @@ export default {
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [agentMixin],
   props: {
     chatId: {
       type: Number,
@@ -112,13 +114,19 @@ export default {
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
+      currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
     }),
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
-      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
-      const filteredAgents = this.sortedAgentsByAvailability(
+      const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
+        agents,
+        this.currentUser,
+        this.currentAccountId
+      );
+      const filteredAgents = getSortedAgentsByAvailability(
         agentsByUpdatedPresence
       );
       return filteredAgents;
