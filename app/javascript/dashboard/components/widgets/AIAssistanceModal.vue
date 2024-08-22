@@ -1,20 +1,27 @@
 <script>
+import { useAI } from 'dashboard/composables/useAI';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AILoader from './AILoader.vue';
-import aiMixin from 'dashboard/mixins/aiMixin';
 
 export default {
   components: {
     AILoader,
   },
-  mixins: [aiMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
   props: {
     aiOption: {
       type: String,
       required: true,
     },
   },
-
+  setup() {
+    const { draftMessage, processEvent, recordAnalytics } = useAI();
+    return {
+      draftMessage,
+      processEvent,
+      recordAnalytics,
+    };
+  },
   data() {
     return {
       generatedContent: '',
