@@ -136,7 +136,7 @@ export default {
     </div>
 
     <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
-      <NewHook :integration="integration" @close="hideAddHookModal" />
+      <NewHook :integration-id="integrationId" @close="hideAddHookModal" />
     </woot-modal>
 
     <woot-delete-modal
