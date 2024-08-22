@@ -7,4 +7,5 @@ json.conditions automation_rule.conditions
 json.actions automation_rule.actions
 json.created_on automation_rule.created_at.to_i
 json.active automation_rule.active?
+json.trigger_count automation_rule.trigger_count
 json.files automation_rule.file_base_data if automation_rule.files.any?

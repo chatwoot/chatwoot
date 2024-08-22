@@ -54,6 +54,16 @@
               :option-height="104"
             />
           </div>
+
+          <whatsapp-templates
+            v-if="inputType === 'template' && inboxId"
+            v-model="action_params"
+            :inbox-id="inboxId"
+            :show-message-button="false"
+            @select-template="toggleWaTemplate"
+            @change-variable="templateParams"
+          />
+
           <input
             v-else-if="inputType === 'email'"
             v-model="action_params"
@@ -109,11 +119,14 @@
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+
+import WhatsappTemplates from 'dashboard/routes/dashboard/conversation/contact/WhatsappTemplates.vue';
 export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
     WootMessageEditor,
+    WhatsappTemplates,
   },
   props: {
     value: {
@@ -127,6 +140,10 @@ export default {
     dropdownValues: {
       type: Array,
       default: () => [],
+    },
+    inboxId: {
+      type: null,
+      default: '',
     },
     v: {
       type: Object,
@@ -194,6 +211,17 @@ export default {
     },
     resetAction() {
       this.$emit('resetAction');
+    },
+    toggleWaTemplate(template) {
+      const payload = this.value || {};
+      this.$emit('input', { ...payload, action_params: template });
+    },
+    templateParams(params) {
+      const payload = this.value;
+      this.$emit('input', {
+        ...payload,
+        action_params: { ...payload.action_params, processed_params: params },
+      });
     },
   },
 };

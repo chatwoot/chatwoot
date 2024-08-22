@@ -32,6 +32,7 @@
           <tbody>
             <tr v-for="(automation, index) in records" :key="index">
               <td>{{ automation.name }}</td>
+
               <td>{{ automation.description }}</td>
               <td>
                 <woot-switch
@@ -40,6 +41,11 @@
                 />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
+              <td>{{ automation.trigger_count }}</td>
+              <td v-if="whatsappTemplateName(automation)">
+                {{ whatsappTemplateName(automation) }}
+              </td>
+              <td v-else class="text-center">---</td>
               <td class="button-wrapper">
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
@@ -77,7 +83,7 @@
         </table>
       </div>
 
-      <div class="hidden w-1/3 lg:block">
+      <div class="hidden w-1/3 xl:block">
         <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -183,6 +189,7 @@ export default {
     this.$store.dispatch('automations/get');
     if (this.isSLAEnabled) this.$store.dispatch('sla/get');
   },
+
   methods: {
     openAddPopup() {
       this.showAddPopup = true;
@@ -209,6 +216,23 @@ export default {
       this.closeDeletePopup();
       this.deleteAutomation(this.selectedResponse.id);
     },
+
+    whatsappTemplateName(automation) {
+      const hasWhatsapp = automation.actions.find(
+        action => action.action_name === 'send_template'
+      );
+
+      if (hasWhatsapp) {
+        const templateParam = hasWhatsapp.action_params.find(
+          param => param.name
+        );
+
+        return templateParam ? templateParam.name : null;
+      }
+
+      return null;
+    },
+
     async deleteAutomation(id) {
       try {
         await this.$store.dispatch('automations/delete', id);

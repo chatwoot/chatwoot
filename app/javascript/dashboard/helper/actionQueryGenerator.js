@@ -18,7 +18,7 @@ const formatArray = params => {
 };
 
 const generatePayloadForObject = item => {
-  if (item.action_params.id) {
+  if (item.action_params.id && item.action_name !== 'send_template') {
     item.action_params = [item.action_params.id];
   } else {
     item.action_params = [item.action_params];
