@@ -38,7 +38,7 @@ const deleteRejectText = computed(
 const deleteMessage = computed(() => ` ${selectedAutomation.value.name}?`);
 
 const isSLAEnabled = computed(() =>
-  getters['accounts/isFeatureEnabledonAccount'].value(accountId, 'sla')
+  getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
 );
 
 onMounted(() => {
@@ -81,9 +81,10 @@ const deleteAutomation = async id => {
   try {
     await store.dispatch('automations/delete', id);
     useAlert(t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
-    loading.value[selectedAutomation.value.id] = false;
   } catch (error) {
     useAlert(t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
+  } finally {
+    loading.value[selectedAutomation.value.id] = false;
   }
 };
 const confirmDeletion = () => {
@@ -96,9 +97,10 @@ const cloneAutomation = async ({ id }) => {
     await store.dispatch('automations/clone', id);
     useAlert(t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
     store.dispatch('automations/get');
-    loading.value[selectedAutomation.value.id] = false;
   } catch (error) {
     useAlert(t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
+  } finally {
+    loading.value[selectedAutomation.value.id] = false;
   }
 };
 
