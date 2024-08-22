@@ -52,7 +52,7 @@ const keyboardEvents = {
   },
 };
 
-useKeyboardEvents(keyboardEvents, dropdownMenuRef);
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
