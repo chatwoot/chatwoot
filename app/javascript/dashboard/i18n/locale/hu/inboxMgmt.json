@@ -367,12 +367,19 @@
         "DESCRIPTION": "A kezdéshez kattintson a Bejelentkezés a Microsofttal gombra. A rendszer átirányítja az e-mail bejelentkezési oldalra. Miután elfogadta a kért engedélyeket, a rendszer visszairányítja a beérkező levelek létrehozásának lépéséhez.",
         "EMAIL_PLACEHOLDER": "E-mailcím megadása",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Ha Microsoft-fiókját csatornaként szeretné hozzáadni, hitelesítenie kell Microsoft-fiókját a \"Bejelentkezés Microsoft-fiókkal\" lehetőségre kattintva ",
         "ERROR_MESSAGE": "Hiba történt a Microsoft szervereihez való csatlakozáskor, kérjük próbáld később"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "E-mailcím megadása",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Facebookkal azonosítunk...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Valami elromlott, kérjük töltsd újra az oldalt...",
       "ERROR_FB_UNAUTHORIZED": "Nincs jogosultsága erre a tevékenységre. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Bizonyosodjon meg, hogy teljes hozzáférése van a Facebook oldalhoz. Bővebb információt <a href=\" https://www.facebook.com/help/187316341316631\">itt talál</a>.",
@@ -736,6 +743,7 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "360Dialog",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Más szolgáltató"
     }
   }
