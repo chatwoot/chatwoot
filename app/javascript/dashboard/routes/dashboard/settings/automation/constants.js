@@ -578,12 +578,22 @@ export const AUTOMATION_ACTION_TYPES = [
   },
   {
     key: 'add_label',
-    label: 'Add a label',
+    label: 'Add conversation label',
     inputType: 'multi_select',
   },
   {
     key: 'remove_label',
-    label: 'Remove a label',
+    label: 'Remove conversation label',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'add_contact_label',
+    label: 'Add contact label',
+    inputType: 'multi_select',
+  },
+  {
+    key: 'remove_contact_label',
+    label: 'Remove contact label',
     inputType: 'multi_select',
   },
   {
