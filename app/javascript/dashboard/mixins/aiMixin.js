@@ -104,7 +104,7 @@ export default {
         const errorMessage =
           errorData?.error?.message ||
           this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
-        useAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+        useAlert(errorMessage);
         return '';
       }
     },
