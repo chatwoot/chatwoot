@@ -174,7 +174,11 @@ export function useAI() {
       } = result;
       return generatedMessage;
     } catch (error) {
-      useAlert(t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
+      const errorData = error.response.data.error;
+      const errorMessage =
+        errorData?.error?.message ||
+        t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
+      useAlert(errorMessage);
       return '';
     }
   };
