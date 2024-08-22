@@ -367,12 +367,19 @@
         "DESCRIPTION": "Spustelėkite mygtuką Prisijungti naudojant Microsoft, kad pradėtumėte. Būsite nukreipti į prisijungimo el. pašto pagalba puslapį. Kai sutiksite su prašomais leidimais, būsite nukreipti atgal į gautų laiškų aplanko kūrimo veiksmą.",
         "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Norėdami pridėti „Microsoft“ paskyrą kaip kanalą, jūs turite autentifikuoti savo Microsoft paskyrą spustelėdami „Prisijungti naudojant Microsoft“ ",
         "ERROR_MESSAGE": "Prisijungiant prie Microsoft įvyko klaida, bandykite dar kartą"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentifikuojamas jus naudojant Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Kažkas nepavyko, atnaujinkite puslapį...",
       "ERROR_FB_UNAUTHORIZED": "Jūs nesate įgalioti atlikti šį veiksmą. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Įsitikinkite, kad turite prieigą prie „Facebook“ puslapio su visapusiška kontrole. Daugiau apie „Facebook“ vaidmenis galite perskaityti <a href=\" https://www.facebook.com/help/187316341316631\">čia</a>.",
@@ -736,6 +743,7 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Kiti Tiekėjai"
     }
   }
