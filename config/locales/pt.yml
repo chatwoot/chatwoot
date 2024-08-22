@@ -188,7 +188,7 @@ pt:
       delete: "%{contact_name} está Online, por favor, tente novamente mais tarde"
   integration_apps:
     dashboard_apps:
-      name: "Dashboard Apps"
+      name: "Apps de dashboard"
       description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
