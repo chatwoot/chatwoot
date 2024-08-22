@@ -367,12 +367,19 @@
         "DESCRIPTION": "Cliquez sur le bouton Connexion avec Microsoft pour commencer. Vous allez rediriger vers la page de connexion par courriel. Une fois que vous avez accepté les autorisations demandées, vous serez redirigé vers l'étape de création de la boîte de réception.",
         "EMAIL_PLACEHOLDER": "Entrez votre adresse e-mail",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Pour ajouter votre compte Microsoft en tant que canal, vous devez authentifier votre compte Microsoft en cliquant sur 'Connexion avec Microsoft' ",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Microsoft, veuillez réessayer"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Entrez votre adresse e-mail",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Authentification avec Facebook ...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Une erreur s'est produite, veuillez rafraîchir la page ...",
       "ERROR_FB_UNAUTHORIZED": "Vous n'êtes pas autorisé à effectuer cette action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Veuillez vous assurer que vous avez un contrôle total sur la page Facebook. Vous pouvez en savoir plus sur les rôles Facebook <a href=\" https://www.facebook.com/help/187316341316631\">ici</a>.",
@@ -736,6 +743,7 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Autres fournisseurs"
     }
   }
