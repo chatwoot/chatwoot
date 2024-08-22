@@ -42,12 +42,20 @@ class Integrations::OpenaiBaseService
     return nil unless event_is_cacheable?
     return nil if cache_key.blank?
 
-    Redis::Alfred.get(cache_key)
+    value_from_cache = Redis::Alfred.get(cache_key)
+    return nil if value_from_cache.blank?
+
+    JSON.parse(value_from_cache, symbolize_names: true)
+  rescue JSON::ParserError
+    nil
   end
 
   def save_to_cache(response)
     return nil unless event_is_cacheable?
 
+    # if the response is a hash, save it as a json
+    # This allows the fetching to be simplified
+    response = response.to_json if response.is_a?(Hash)
     Redis::Alfred.setex(cache_key, response)
   end
 
