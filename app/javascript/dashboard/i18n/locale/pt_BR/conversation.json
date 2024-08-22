@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "CLICK_HERE": "Clique aqui para atualizar"
+      "CLICK_HERE": "Clique aqui para atualizar",
+      "WHATSAPP_TEMPLATES": "Templates do Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -240,25 +241,29 @@
   "ONBOARDING": {
     "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
     "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de %{installationName}. Aqui estão algumas coisas que você consegue fazer no(a) %{installationName} para que tenha uma experiência agradável.",
+    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
+    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
     "READ_LATEST_UPDATES": "Leia as últimas atualizações",
     "ALL_CONVERSATION": {
       "TITLE": "Todas as suas conversas em um só lugar",
-      "DESCRIPTION": "Veja todas as conversas dos seus clientes em um único painel. Você pode filtrar as conversas pelo canal de entrada, rótulo e status."
+      "DESCRIPTION": "Veja todas as conversas dos seus clientes em um único painel. Você pode filtrar as conversas pelo canal de entrada, rótulo e status.",
+      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar membros da sua equipe",
       "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando os endereços de e-mail deles na lista de agentes.",
       "NEW_LINK": "Clique aqui para convidar um membro da equipe"
     },
-    "INBOXES": {
-      "TITLE": "Conectar caixas de entrada",
-      "DESCRIPTION": "Conecte vários canais através dos quais seus clientes estariam conversando com você. Podendo ser a partir de um chat ao vivo no seu website, sua página do Facebook ou Twitter ou até mesmo seu número do WhatsApp.",
-      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
-    },
     "LABELS": {
       "TITLE": "Organizar conversas com marcadores",
       "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar a sua conversa. Criar algumas estiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em uma conversa posteriormente.",
       "NEW_LINK": "Clique aqui para criar marcadores"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {

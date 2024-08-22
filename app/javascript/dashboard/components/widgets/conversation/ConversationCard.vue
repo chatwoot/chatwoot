@@ -1,8 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
-import conversationMixin from '../../../mixins/conversations';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
@@ -24,7 +24,7 @@ export default {
     PriorityMark,
     SLACardLabel,
   },
-  mixins: [inboxMixin, conversationMixin],
+  mixins: [inboxMixin],
   props: {
     activeLabel: {
       type: String,
@@ -118,7 +118,7 @@ export default {
     },
 
     lastMessageInChat() {
-      return this.lastMessage(this.chat);
+      return getLastMessage(this.chat);
     },
 
     inbox() {
@@ -316,7 +316,11 @@ export default {
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <CardLabels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0">
+      <CardLabels
+        :conversation-id="chat.id"
+        :conversation-labels="chat.labels"
+        class="mt-0.5 mx-2 mb-0"
+      >
         <template v-if="hasSlaPolicyId" #before>
           <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
         </template>

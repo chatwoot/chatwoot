@@ -218,8 +218,6 @@ export default {
             >
               <CustomAttributes
                 attribute-type="contact_attribute"
-                attribute-class="conversation--attribute"
-                class="even"
                 attribute-from="conversation_contact_panel"
                 :contact-id="contact.id"
                 :empty-state-message="

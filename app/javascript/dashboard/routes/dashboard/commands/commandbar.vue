@@ -1,27 +1,46 @@
 <script>
 import '@chatwoot/ninja-keys';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useAI } from 'dashboard/composables/useAI';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import wootConstants from 'dashboard/constants/globals';
 import conversationHotKeysMixin from './conversationHotKeys';
 import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
 import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [
-    agentMixin,
     conversationHotKeysMixin,
     bulkActionsHotKeysMixin,
     inboxHotKeysMixin,
-    conversationLabelMixin,
-    conversationTeamMixin,
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
+  setup() {
+    // used in conversationHotKeysMixin
+    const {
+      activeLabels,
+      inactiveLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    } = useConversationLabels();
+
+    const { isAIIntegrationEnabled } = useAI();
+    const { agentsList, assignableAgents } = useAgentsList();
+
+    return {
+      agentsList,
+      assignableAgents,
+      activeLabels,
+      inactiveLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+      isAIIntegrationEnabled,
+    };
+  },
   data() {
     return {
       // Added selectedSnoozeType to track the selected snooze type

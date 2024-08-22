@@ -1,7 +1,9 @@
 <script>
 import { ref } from 'vue';
 // composable
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAI } from 'dashboard/composables/useAI';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -13,17 +15,17 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 
 // mixins
-import conversationMixin, {
-  filterDuplicateSourceMessages,
-} from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import configMixin from 'shared/mixins/configMixin';
-import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import {
+  filterDuplicateSourceMessages,
+  getReadMessages,
+  getUnreadMessages,
+} from 'dashboard/helper/conversationHelper';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -38,7 +40,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [conversationMixin, inboxMixin, configMixin, aiMixin],
+  mixins: [inboxMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -50,8 +52,8 @@ export default {
     },
   },
   setup() {
-    const conversationFooterRef = ref(null);
     const isPopOutReplyBox = ref(false);
+    const { isEnterprise } = useConfig();
 
     const closePopOutReplyBox = () => {
       isPopOutReplyBox.value = false;
@@ -67,13 +69,24 @@ export default {
       },
     };
 
-    useKeyboardEvents(keyboardEvents, conversationFooterRef);
+    useKeyboardEvents(keyboardEvents);
+
+    const {
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
+    } = useAI();
 
     return {
-      conversationFooterRef,
+      isEnterprise,
       isPopOutReplyBox,
       closePopOutReplyBox,
       showPopOutReplyBox,
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
     };
   },
   data() {
@@ -138,14 +151,14 @@ export default {
       }
       return messages;
     },
-    getReadMessages() {
-      return this.readMessages(
+    readMessages() {
+      return getReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
     },
-    getUnReadMessages() {
-      return this.unReadMessages(
+    unReadMessages() {
+      return getUnreadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
@@ -468,7 +481,7 @@ export default {
         </li>
       </transition>
       <Message
-        v-for="message in getReadMessages"
+        v-for="message in readMessages"
         :key="message.id"
         class="message--read ph-no-capture"
         data-clarity-mask="True"
@@ -493,7 +506,7 @@ export default {
         </span>
       </li>
       <Message
-        v-for="message in getUnReadMessages"
+        v-for="message in unReadMessages"
         :key="message.id"
         class="message--unread ph-no-capture"
         data-clarity-mask="True"
@@ -514,7 +527,6 @@ export default {
       />
     </ul>
     <div
-      ref="conversationFooterRef"
       class="conversation-footer"
       :class="{ 'modal-mask': isPopOutReplyBox }"
     >

@@ -169,7 +169,7 @@ GEM
     climate_control (1.2.0)
     coderay (1.1.3)
     commonmarker (0.23.10)
-    concurrent-ruby (1.3.3)
+    concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crack (1.0.0)
       bigdecimal
@@ -230,7 +230,7 @@ GEM
       ruby2_keywords
     email_reply_trimmer (0.1.13)
     erubi (1.13.0)
-    et-orbi (1.2.7)
+    et-orbi (1.2.11)
       tzinfo
     execjs (2.8.1)
     facebook-messenger (2.0.1)
@@ -268,8 +268,8 @@ GEM
       rake
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
-    fugit (1.9.0)
-      et-orbi (~> 1, >= 1.2.7)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     gapic-common (0.18.0)
       faraday (>= 1.9, < 3.a)
@@ -467,7 +467,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.24.1)
+    minitest (5.25.1)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -480,7 +480,7 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.12)
+    net-imap (0.4.14)
       date
       net-protocol
     net-pop (0.1.2)
@@ -644,7 +644,7 @@ GEM
     rspec-mocks (3.13.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-rails (6.1.3)
+    rspec-rails (6.1.4)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       railties (>= 6.1)
@@ -710,19 +710,19 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.18.2)
+    sentry-rails (5.19.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.18.2)
-    sentry-ruby (5.18.2)
+      sentry-ruby (~> 5.19.0)
+    sentry-ruby (5.19.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.18.2)
-      sentry-ruby (~> 5.18.2)
+    sentry-sidekiq (5.19.0)
+      sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.3.0)
+    sidekiq (7.3.1)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       logger
@@ -796,7 +796,7 @@ GEM
     uniform_notifier (1.16.0)
     uri (0.13.0)
     uri_template (0.7.0)
-    valid_email2 (4.0.6)
+    valid_email2 (5.2.6)
       activemodel (>= 3.2)
       mail (~> 2.5)
     version_gem (1.1.4)
@@ -930,7 +930,7 @@ DEPENDENCIES
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
-  rspec-rails (>= 6.1.3)
+  rspec-rails (>= 6.1.4)
   rspec_junit_formatter
   rubocop
   rubocop-performance
@@ -939,11 +939,11 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails (>= 5.18.2)
+  sentry-rails (>= 5.19.0)
   sentry-ruby
-  sentry-sidekiq (>= 5.18.2)
+  sentry-sidekiq (>= 5.19.0)
   shoulda-matchers
-  sidekiq (>= 7.3.0)
+  sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
   slack-ruby-client (~> 2.2.0)
