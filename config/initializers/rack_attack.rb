@@ -21,7 +21,7 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1', ENV.fetch('RACK_ATTACK_ALLOWED_IP', '127.0.0.1')]
+      allowed_ips = ['127.0.0.1', '::1', ENV.fetch('RACK_ATTACK_ALLOWED_IP_1', '127.0.0.1'), ENV.fetch('RACK_ATTACK_ALLOWED_IP_2', '127.0.0.1'), ENV.fetch('RACK_ATTACK_ALLOWED_IP_3', '127.0.0.1')]
       allowed_ips.include?(remote_ip)
     end
 
