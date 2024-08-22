@@ -87,6 +87,27 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 
+Vue.config.errorHandler = (err, instance, info) => {
+  if (window.errorLoggingConfig) {
+    Sentry.setTag('from', 'errorHandler');
+    if (instance) {
+      Sentry.setContext('errorHandler', { err, instance, info });
+    } else {
+      Sentry.setContext('errorHandler', { err, info });
+    }
+    Sentry.captureException(err);
+  }
+  if (instance) {
+    // eslint-disable-next-line no-console
+    console.log('errorHandler', err, instance, info);
+  } else {
+    // temporary fix to avoid app freeze
+    window.location.reload();
+    // eslint-disable-next-line no-console
+    console.log('errorHandler', err, info);
+  }
+};
+
 sync(store, router);
 // load common helpers into js
 commonHelpers();
