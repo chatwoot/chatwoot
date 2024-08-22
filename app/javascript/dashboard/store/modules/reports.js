@@ -11,6 +11,7 @@ import {
 
 const state = {
   fetchingStatus: false,
+  isAccountSummaryAvailable: false,
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -34,6 +35,34 @@ const state = {
       bot_handoffs_count: [],
       reply_time: [],
     },
+  },
+  templateReport: {
+    isFetching: {
+      messages_sent: false,
+      messages_delivered: false,
+      messages_read: false,
+    },
+    data: {
+      amount_spent: 0,
+      cost_per_message_delivered: 0,
+      cost_per_website_button_click: 0,
+      messages_sent: [],
+      messages_delivered: [],
+      messages_read: [],
+    },
+
+    error: null,
+    isInsightsEnabled: true,
+  },
+
+  templateSummary: {
+    messages_sent: 0,
+    messages_delivered: 0,
+    messages_read: 0,
+    cost_per_website_button_click: 0,
+    cost_per_message_delivered: 0,
+    amount_spent: 0,
+    previous: {},
   },
   accountSummary: {
     avg_first_response_time: 0,
@@ -68,8 +97,17 @@ const getters = {
   getAccountReports(_state) {
     return _state.accountReport;
   },
+  getTemplateReports(_state) {
+    return _state.templateReport;
+  },
   getAccountSummary(_state) {
     return _state.accountSummary;
+  },
+  getIsAccountSummaryAvailable(_state) {
+    return _state.isAccountSummaryAvailable;
+  },
+  getTemplateSummary(_state) {
+    return _state.templateSummary;
   },
   getBotSummary(_state) {
     return _state.botSummary;
@@ -97,6 +135,7 @@ export const actions = {
     });
     Report.getReports(reportObj).then(accountReport => {
       let { data } = accountReport;
+
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
       commit(types.default.SET_ACCOUNT_REPORTS, {
         metric,
@@ -108,6 +147,43 @@ export const actions = {
       });
     });
   },
+
+  fetchTemplateReport({ commit }, reportObj) {
+    const { metric } = reportObj;
+    commit(types.default.TOGGLE_TEMPLATE_REPORT_LOADING, {
+      metric,
+      value: true,
+    });
+
+    Report.getTemplateReports({
+      metric: metric,
+      from: reportObj.from,
+      to: reportObj.to,
+      businessHours: reportObj.businessHours,
+      id: reportObj.id,
+      channelId: reportObj.channelId,
+      groupBy: reportObj.groupBy,
+    })
+      .then(templateReport => {
+        let { data } = templateReport;
+        // data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
+        commit(types.default.SET_TEMPLATE_REPORTS, {
+          metric,
+          data,
+        });
+        commit(types.default.TOGGLE_TEMPLATE_REPORT_LOADING, {
+          metric,
+          value: false,
+        });
+      })
+      .catch(error => {
+        commit(types.default.TOGGLE_TEMPLATE_REPORT_LOADING, {
+          metric,
+          value: false,
+        });
+      });
+  },
+
   fetchAccountConversationHeatmap({ commit }, reportObj) {
     commit(types.default.TOGGLE_HEATMAP_LOADING, true);
     Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
@@ -137,6 +213,32 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+      });
+  },
+
+  fetchTemplateSummary({ commit }, reportObj) {
+    Report.getTemplateSummary({
+      from: reportObj.from,
+      to: reportObj.to,
+      businessHours: reportObj.businessHours,
+      id: reportObj.id,
+      channelId: reportObj.channelId,
+      groupBy: reportObj.groupBy,
+    })
+      .then(templateSummary => {
+        commit(types.default.SET_TEMPLATE_SUMMARY, templateSummary.data);
+      })
+      .catch(error => {
+        const errorHtml = error.response?.data;
+        if (errorHtml.includes('Insights are not enabled')) {
+          commit(
+            types.default.SET_TEMPLATE_ERROR,
+            'Template Insights not enabled'
+          );
+        } else {
+          commit(types.default.SET_TEMPLATE_ERROR, error.message);
+        }
+        commit(types.default.TOGGLE_TEMPLATE_REPORT_LOADING, false);
       });
   },
   fetchBotSummary({ commit }, reportObj) {
@@ -233,6 +335,21 @@ export const actions = {
         console.error(error);
       });
   },
+
+  downloadTemplateReports(_, reportObj) {
+    return Report.getTemplateCsv(reportObj)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'template',
+          businessHours: reportObj?.businessHours,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+
   downloadAccountConversationHeatmap(_, reportObj) {
     Report.getConversationTrafficCSV()
       .then(response => {
@@ -257,7 +374,14 @@ export const actions = {
 
 const mutations = {
   [types.default.SET_ACCOUNT_REPORTS](_state, { metric, data }) {
+    _state.isAccountSummaryAvailable = true;
     _state.accountReport.data[metric] = data;
+  },
+  [types.default.SET_TEMPLATE_REPORTS](_state, { metric, data }) {
+    _state.isAccountSummaryAvailable = false;
+    _state.templateReport.error = null;
+    _state.templateReport.isInsightsEnabled = true;
+    _state.templateReport.data[metric] = data;
   },
   [types.default.SET_HEATMAP_DATA](_state, heatmapData) {
     _state.overview.accountConversationHeatmap = heatmapData;
@@ -265,14 +389,30 @@ const mutations = {
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, { metric, value }) {
     _state.accountReport.isFetching[metric] = value;
   },
+  [types.default.TOGGLE_TEMPLATE_REPORT_LOADING](_state, { metric, value }) {
+    _state.templateReport.isFetching[metric] = value;
+  },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
+    _state.isAccountSummaryAvailable = true;
     _state.accountSummary = summaryData;
   },
   [types.default.SET_BOT_SUMMARY](_state, summaryData) {
     _state.botSummary = summaryData;
+  },
+  [types.default.SET_TEMPLATE_SUMMARY](_state, summaryData) {
+    _state.isAccountSummaryAvailable = false;
+    _state.templateReport.error = null;
+    _state.templateReport.isInsightsEnabled = true;
+    _state.templateSummary = summaryData;
+  },
+  [types.default.SET_TEMPLATE_ERROR](_state, error) {
+    if (error === 'Template Insights not enabled') {
+      _state.templateReport.isInsightsEnabled = false;
+    }
+    _state.templateReport.error = error;
   },
   [types.default.SET_ACCOUNT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.accountConversationMetric = metricData;

@@ -1,0 +1,5 @@
+<%= CSVSafe.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>
+
+<% @report_data.each do |row| %>
+<%= CSVSafe.generate_line row -%>
+<% end %>

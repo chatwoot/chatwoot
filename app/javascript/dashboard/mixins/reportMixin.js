@@ -7,33 +7,58 @@ export default {
       type: String,
       default: 'getAccountSummary',
     },
+    templateSummaryKey: {
+      type: String,
+      default: 'getTemplateSummary',
+    },
   },
   computed: {
     ...mapGetters({
       accountReport: 'getAccountReports',
+      templateReport: 'getTemplateReports',
+      templateSummary: 'getTemplateSummary',
     }),
+    templateSummary() {
+      return this.$store.getters[this.templateSummaryKey];
+    },
     accountSummary() {
       return this.$store.getters[this.accountSummaryKey];
     },
+    isUsingAccountSummary() {
+      return this.$store.getters['getIsAccountSummaryAvailable'];
+    },
   },
+
   methods: {
     calculateTrend(key) {
-      if (!this.accountSummary.previous[key]) return 0;
-      const diff = this.accountSummary[key] - this.accountSummary.previous[key];
-      return Math.round((diff / this.accountSummary.previous[key]) * 100);
+      const summary = this.isUsingAccountSummary
+        ? this.accountSummary
+        : this.templateSummary;
+
+      if (!summary.previous[key]) return 0;
+      const diff = summary[key] - summary.previous[key];
+      return Math.round((diff / summary.previous[key]) * 100);
     },
     displayMetric(key) {
+      const summary = this.isUsingAccountSummary
+        ? this.accountSummary
+        : this.templateSummary;
+
       if (this.isAverageMetricType(key)) {
-        return formatTime(this.accountSummary[key]);
+        return formatTime(summary[key]);
       }
-      return Number(this.accountSummary[key] || '').toLocaleString();
+      return Number(summary[key] || '').toLocaleString();
     },
     displayInfoText(key) {
+      const reportData = this.isUsingAccountSummary
+        ? this.accountReport.data
+        : this.templateReport.data;
+
       if (this.metrics[this.currentSelection].KEY !== key) {
         return '';
       }
       if (this.isAverageMetricType(key)) {
-        const total = this.accountReport.data
+        const total = reportData
           .map(item => item.count)
           .reduce((prev, curr) => prev + curr, 0);
         return `${this.metrics[this.currentSelection].INFO_TEXT} ${total}`;

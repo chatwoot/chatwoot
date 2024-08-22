@@ -102,6 +102,58 @@ class ReportsAPI extends ApiClient {
       },
     });
   }
+
+  getTemplateSummary({ from, to, groupBy, businessHours, id, channelId } = {}) {
+    return axios.get(`${this.url}/template_summary`, {
+      params: {
+        since: from,
+        until: to,
+        group_by: groupBy,
+        business_hours: businessHours,
+        type: 'template',
+        id: id,
+        channel_id: channelId,
+      },
+    });
+  }
+
+  getTemplateCsv({ from, to, groupBy, businessHours, summary }) {
+    return axios.get(`${this.url}/template_csv`, {
+      params: {
+        since: from,
+        until: to,
+        type: 'template',
+        group_by: groupBy,
+        business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
+        summary_data: summary,
+      },
+    });
+  }
+
+  getTemplateReports({
+    metric,
+    from,
+    to,
+    id,
+    groupBy,
+    businessHours,
+    channelId,
+  }) {
+    return axios.get(`${this.url}/template`, {
+      params: {
+        metric,
+        since: from,
+        until: to,
+        type: 'template',
+        id,
+        group_by: groupBy,
+        business_hours: businessHours,
+        channel_id: channelId,
+        timezone_offset: getTimeOffset(),
+      },
+    });
+  }
 }
 
 export default new ReportsAPI();

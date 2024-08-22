@@ -198,6 +198,12 @@ export const METRIC_CHART = {
   bot_handoffs_count: DEFAULT_CHART,
 };
 
+export const TEMPLATE_METRIC_CHART = {
+  messages_sent: DEFAULT_CHART,
+  messages_delivered: DEFAULT_CHART,
+  messages_read: DEFAULT_CHART,
+};
+
 export const OVERVIEW_METRICS = {
   open: 'OPEN',
   unattended: 'UNATTENDED',

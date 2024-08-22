@@ -558,5 +558,69 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "TEMPLATE_REPORTS": {
+    "HEADER": "Templates",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_TEMPLATE_REPORTS": "Download template reports",
+    "FILTER_DROPDOWN_LABEL": "Select template",
+    "METRICS": {
+      "AMOUNT_SPEND": {
+        "NAME": "Amount spent",
+        "DESC": "( Total )",
+        "TOOLTIP": "Total amount spent on conversations"
+      },
+      "COST_PER_MESSAGE": {
+        "NAME": "Cost per message delivered",
+        "DESC": "( Total )",
+        "TOOLTIP": "The amount_spent value divided by the number of times the template was delivered within"
+      },
+      "COST_PER_BUTTON": {
+        "NAME": "Cost per website button click",
+        "DESC": "( Total )",
+        "TOOLTIP": "The amount_spent value divided by the number of times the template's URL button was clicked"
+      },
+      "MESSAGES_SENT": {
+        "NAME": "Messages sent",
+        "DESC": "( Total )"
+      },
+      "MESSAGES_DELIVERED": {
+        "NAME": "Messages delivered",
+        "DESC": "( Total )"
+      },
+      "MESSAGES_READ": {
+        "NAME": "Messages read",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 6,
+        "name": "Last 60 days"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+
+    "INSIGHT_ALERT": {
+      "TITLE": "Template insights are not enabled",
+      "TEXT": "To be able to see template insights, you need to enable this feature in your WhatsApp Manager.",
+      "BUTTON": "Find out more"
+    }
   }
 }
