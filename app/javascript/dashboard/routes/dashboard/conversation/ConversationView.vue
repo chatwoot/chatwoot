@@ -88,6 +88,16 @@ export default {
     },
   },
 
+  created() {
+    // Clear selected state early if no conversation is selected
+    // This prevents child components from accessing stale data
+    // and resolves timing issues during navigation
+    // with conversation view and other screens
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+  },
+
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();
@@ -95,12 +105,6 @@ export default {
     this.$watch('chatList.length', () => {
       this.setActiveChat();
     });
-  },
-
-  created() {
-    if (!this.conversationId) {
-      this.$store.dispatch('clearSelectedState');
-    }
   },
 
   methods: {
