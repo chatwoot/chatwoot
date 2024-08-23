@@ -1,31 +1,22 @@
 # Pull Request Template
 
-## Description
+## Descrição
 
-Please include a summary of the change and issue(s) fixed. Also, mention relevant motivation, context, and any dependencies that this change requires.
-Fixes # (issue)
+Elabore um breve resumo sobre as alterações que essa branch trás para o sistema.
 
-## Type of change
+## Tipo de mudança
 
-Please delete options that are not relevant.
+- [ ] Bug fix (mudança que não causa quebra e corrige um problema)
+- [ ] New feature (mudança que não causa quebra e adiciona nova funcionalidade)
+- [ ] Breaking change (correção ou funcionalidade que faz com que alguma funcionalidade existente não funcione como esperado)
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality not to work as expected)
-- [ ] This change requires a documentation update
+## Como o sistema foi testado?
 
-## How Has This Been Tested?
-
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration.
-
+Por favor especifique os testes que você rodou para verificar suas alterações. Faça todos os testes necessários rodando o sistema em docker, para que os resultados sejam os mesmos para todos.
 
 ## Checklist:
 
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my code
-- [ ] I have commented on my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] Meu código segue as boas práticas de desenvolvimento desse projeto
+- [ ] EU realizei uma validação em todas as linhas de código dessa pull request
+- [ ] Eu comentei meu código, particularmente nas áreas de leitura complexas 
+- [ ] Eu testei o sistema o suficiente para confirmar o bom funcionamento do meu código  
