@@ -12,10 +12,10 @@ import {
   ICON_SNOOZE_CONVERSATION,
   ICON_REOPEN_CONVERSATION,
   ICON_RESOLVE_CONVERSATION,
-} from './dashboard/helper/commandbar/icons';
+} from 'dashboard/helper/commandbar/icons';
 import { emitter } from 'shared/helpers/mitt';
 
-import { createSnoozeHandlers } from './dashboard/helper/commandbar/actions';
+import { createSnoozeHandlers } from 'dashboard/helper/commandbar/actions';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 

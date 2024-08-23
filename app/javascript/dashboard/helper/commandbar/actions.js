@@ -17,7 +17,7 @@ import {
   ICON_SEND_TRANSCRIPT,
   ICON_SNOOZE_CONVERSATION,
   ICON_UNMUTE_CONVERSATION,
-} from './dashboard/helper/commandbar/icons';
+} from 'dashboard/helper/commandbar/icons';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 

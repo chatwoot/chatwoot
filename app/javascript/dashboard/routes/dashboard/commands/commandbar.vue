@@ -5,11 +5,11 @@ import { useStore } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
 import { useRoute } from 'dashboard/composables/route';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { useAppearanceHotKeys } from './useAppearanceHotKeys';
-import { useInboxHotKeys } from './useInboxHotKeys';
-import { useGoToCommandHotKeys } from './useGoToCommandHotKeys';
-import { useBulkActionsHotKeys } from './useBulkActionsHotKeys';
-import { useConversationHotKeys } from './useConversationHotKeys';
+import { useAppearanceHotKeys } from 'dashboard/composables/commands/useAppearanceHotKeys';
+import { useInboxHotKeys } from 'dashboard/composables/commands/useInboxHotKeys';
+import { useGoToCommandHotKeys } from 'dashboard/composables/commands/useGoToCommandHotKeys';
+import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkActionsHotKeys';
+import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
 import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 

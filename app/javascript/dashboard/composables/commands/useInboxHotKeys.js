@@ -4,7 +4,7 @@ import { useRoute } from 'dashboard/composables/route';
 import wootConstants from 'dashboard/constants/globals';
 
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';
-import { ICON_SNOOZE_NOTIFICATION } from './dashboard/helper/commandbar/icons';
+import { ICON_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/icons';
 import { emitter } from 'shared/helpers/mitt';
 
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';

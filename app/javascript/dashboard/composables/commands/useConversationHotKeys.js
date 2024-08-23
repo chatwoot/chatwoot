@@ -27,7 +27,7 @@ import {
   ICON_AI_SHORTEN,
   ICON_AI_EXPAND,
   ICON_AI_GRAMMAR,
-} from './dashboard/helper/commandbar/icons';
+} from 'dashboard/helper/commandbar/icons';
 
 import {
   OPEN_CONVERSATION_ACTIONS,
@@ -36,7 +36,7 @@ import {
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
   MUTE_ACTION,
-} from './dashboard/helper/commandbar/actions';
+} from 'dashboard/helper/commandbar/actions';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
