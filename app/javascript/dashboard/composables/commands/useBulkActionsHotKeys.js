@@ -7,15 +7,15 @@ import {
   CMD_BULK_ACTION_SNOOZE_CONVERSATION,
   CMD_BULK_ACTION_REOPEN_CONVERSATION,
   CMD_BULK_ACTION_RESOLVE_CONVERSATION,
-} from './helpers/events';
+} from 'dashboard/helper/CommandBar/events';
 import {
   ICON_SNOOZE_CONVERSATION,
   ICON_REOPEN_CONVERSATION,
   ICON_RESOLVE_CONVERSATION,
-} from './helpers/icons';
+} from 'dashboard/helper/CommandBar/icons';
 import { emitter } from 'shared/helpers/mitt';
 
-import { createSnoozeHandlers } from './helpers/actions';
+import { createSnoozeHandlers } from 'dashboard/helper/CommandBar/actions';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 

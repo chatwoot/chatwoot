@@ -6,7 +6,7 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
-import { CMD_SNOOZE_CONVERSATION } from 'dashboard/composables/commands/helpers/events';
+import { CMD_SNOOZE_CONVERSATION } from 'dashboard/helper/CommandBar/events';
 import wootConstants from 'dashboard/constants/globals';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 

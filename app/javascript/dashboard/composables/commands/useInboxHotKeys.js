@@ -3,8 +3,8 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { useRoute } from 'dashboard/composables/route';
 import wootConstants from 'dashboard/constants/globals';
 
-import { CMD_SNOOZE_NOTIFICATION } from './helpers/events';
-import { ICON_SNOOZE_NOTIFICATION } from './helpers/icons';
+import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/CommandBar/events';
+import { ICON_SNOOZE_NOTIFICATION } from 'dashboard/helper/CommandBar/icons';
 import { emitter } from 'shared/helpers/mitt';
 
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';

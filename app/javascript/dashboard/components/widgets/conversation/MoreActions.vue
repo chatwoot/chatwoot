@@ -7,7 +7,7 @@ import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
   CMD_UNMUTE_CONVERSATION,
-} from 'dashboard/composables/commands/helpers/events';
+} from 'dashboard/helper/CommandBar/events';
 
 export default {
   components: {

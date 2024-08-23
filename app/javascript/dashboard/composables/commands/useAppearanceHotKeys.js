@@ -5,7 +5,7 @@ import {
   ICON_LIGHT_MODE,
   ICON_DARK_MODE,
   ICON_SYSTEM_MODE,
-} from './helpers/icons';
+} from 'dashboard/helper/CommandBar/icons';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { setColorTheme } from 'dashboard/helper/themeHelper.js';
