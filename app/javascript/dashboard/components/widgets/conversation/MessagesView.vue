@@ -14,7 +14,8 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 
 // mixins
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import { useInbox, INBOX_FEATURES } from 'shared/composables/useInbox';
+
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
@@ -40,7 +41,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [inboxMixin, aiMixin],
+  mixins: [aiMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -52,6 +53,16 @@ export default {
     },
   },
   setup() {
+    const {
+      inbox,
+      isAWhatsAppChannel,
+      isAPIInbox,
+      is360DialogWhatsAppChannel,
+      isAWebWidgetInbox,
+      isAFacebookInbox,
+      isAnEmailChannel,
+      inboxHasFeature,
+    } = useInbox({ getCurrentChat: true });
     const conversationFooterRef = ref(null);
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
@@ -78,6 +89,14 @@ export default {
       isPopOutReplyBox,
       closePopOutReplyBox,
       showPopOutReplyBox,
+      inbox,
+      isAWhatsAppChannel,
+      isAPIInbox,
+      is360DialogWhatsAppChannel,
+      isAWebWidgetInbox,
+      isAFacebookInbox,
+      isAnEmailChannel,
+      inboxHasFeature,
     };
   },
   data() {
@@ -111,9 +130,6 @@ export default {
     },
     inboxId() {
       return this.currentChat.inbox_id;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     typingUsersList() {
       const userList = this.$store.getters[

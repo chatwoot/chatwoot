@@ -6,7 +6,7 @@ import MessagePreview from './MessagePreview.vue';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'shared/composables/useInbox';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
@@ -24,7 +24,6 @@ export default {
     PriorityMark,
     SLACardLabel,
   },
-  mixins: [inboxMixin],
   props: {
     activeLabel: {
       type: String,
@@ -66,6 +65,14 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup(props) {
+    const { inbox_id: inboxId } = props.chat;
+    const { inboxBadge, inbox } = useInbox({ inboxId });
+    return {
+      inboxBadge,
+      inbox,
+    };
   },
   data() {
     return {
@@ -119,12 +126,6 @@ export default {
 
     lastMessageInChat() {
       return getLastMessage(this.chat);
-    },
-
-    inbox() {
-      const { inbox_id: inboxId } = this.chat;
-      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
-      return stateInbox;
     },
 
     showInboxName() {

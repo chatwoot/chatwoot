@@ -1,6 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'shared/composables/useInbox';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
@@ -13,15 +13,30 @@ export default {
     ImapSettings,
     SmtpSettings,
   },
-  mixins: [inboxMixin],
   props: {
     inbox: {
       type: Object,
       default: () => ({}),
     },
   },
-  setup() {
-    return { v$: useVuelidate() };
+  setup(props) {
+    const {
+      isAPIInbox,
+      isAWebWidgetInbox,
+      isATwilioChannel,
+      isALineChannel,
+      isAnEmailChannel,
+    } = useInbox({
+      inboxObj: props.inbox,
+    });
+    return {
+      v$: useVuelidate(),
+      isAPIInbox,
+      isAWebWidgetInbox,
+      isATwilioChannel,
+      isALineChannel,
+      isAnEmailChannel,
+    };
   },
   data() {
     return {

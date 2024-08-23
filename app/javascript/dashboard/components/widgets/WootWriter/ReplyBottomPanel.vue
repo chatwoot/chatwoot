@@ -4,7 +4,6 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
@@ -19,7 +18,6 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [inboxMixin],
   props: {
     mode: {
       type: String,
@@ -36,13 +34,6 @@ export default {
     recordingAudioDurationText: {
       type: String,
       default: '',
-    },
-    // inbox prop is used in /mixins/inboxMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    inbox: {
-      type: Object,
-      default: () => ({}),
     },
     showFileUpload: {
       type: Boolean,
@@ -111,6 +102,22 @@ export default {
     portalSlug: {
       type: String,
       required: true,
+    },
+    isALineChannel: {
+      type: Boolean,
+      default: false,
+    },
+    isATwilioWhatsAppChannel: {
+      type: Boolean,
+      default: false,
+    },
+    isAWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isAPIInbox: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -217,7 +224,6 @@ export default {
       return !this.isOnPrivateNote;
     },
     sendWithSignature() {
-      // channelType is sourced from inboxMixin
       return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToggleTooltip() {

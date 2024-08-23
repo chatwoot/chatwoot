@@ -1,10 +1,9 @@
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'shared/composables/useInbox';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 export default {
-  mixins: [inboxMixin],
   props: {
     sender: {
       type: Object,
@@ -55,10 +54,33 @@ export default {
       default: 0,
     },
   },
+  setup(props) {
+    const {
+      inbox,
+      isAWhatsAppChannel,
+      isATwilioChannel,
+      isAFacebookInbox,
+      isASmsInbox,
+      isATelegramChannel,
+      isALineChannel,
+      isAWebWidgetInbox,
+      isAPIInbox,
+      isAnEmailChannel,
+    } = useInbox({ inboxId: props.inboxId });
+    return {
+      inbox,
+      isAWhatsAppChannel,
+      isATwilioChannel,
+      isAFacebookInbox,
+      isASmsInbox,
+      isATelegramChannel,
+      isALineChannel,
+      isAWebWidgetInbox,
+      isAPIInbox,
+      isAnEmailChannel,
+    };
+  },
   computed: {
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
     isIncoming() {
       return MESSAGE_TYPE.INCOMING === this.messageType;
     },

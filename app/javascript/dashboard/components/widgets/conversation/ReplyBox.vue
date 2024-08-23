@@ -27,7 +27,7 @@ import {
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import { useInbox, INBOX_FEATURES } from 'shared/composables/useInbox';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -61,12 +61,7 @@ export default {
     MessageSignatureMissingAlert,
     ArticleSearchPopover,
   },
-  mixins: [
-    inboxMixin,
-    messageFormatterMixin,
-    fileUploadMixin,
-    keyboardEventListenerMixins,
-  ],
+  mixins: [messageFormatterMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
     popoutReplyBox: {
       type: Boolean,
@@ -74,6 +69,22 @@ export default {
     },
   },
   setup() {
+    const {
+      is360DialogWhatsAppChannel,
+      isAPIInbox,
+      isAWhatsAppChannel,
+      isATwitterInbox,
+      isAFacebookInbox,
+      isASmsInbox,
+      isAWebWidgetInbox,
+      isAnEmailChannel,
+      isATelegramChannel,
+      isALineChannel,
+      channelType,
+      isAWhatsAppCloudChannel,
+      isATwilioWhatsAppChannel,
+      inbox,
+    } = useInbox({ getCurrentChat: true });
     const {
       uiSettings,
       updateUISettings,
@@ -86,6 +97,20 @@ export default {
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
+      is360DialogWhatsAppChannel,
+      isAPIInbox,
+      isAWhatsAppChannel,
+      isATwitterInbox,
+      isAFacebookInbox,
+      isASmsInbox,
+      isAWebWidgetInbox,
+      isAnEmailChannel,
+      isATelegramChannel,
+      isALineChannel,
+      channelType,
+      isAWhatsAppCloudChannel,
+      isATwilioWhatsAppChannel,
+      inbox,
     };
   },
   data() {
@@ -194,9 +219,6 @@ export default {
     },
     inboxId() {
       return this.currentChat.inbox_id;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     messagePlaceHolder() {
       return this.isPrivate
@@ -1208,6 +1230,12 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
+      :is-a-line-channel="isALineChannel"
+      :is-a-twilio-whatsapp-channel="isATwilioWhatsAppChannel"
+      :is-a-web-widget-inbox="isAWebWidgetInbox"
+      :is-an-email-channel="isAnEmailChannel"
+      :is-api-inbox="isAPIInbox"
+      :channel-type="channelType"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
       @toggleEditor="toggleRichContentEditor"
       @replaceText="replaceText"

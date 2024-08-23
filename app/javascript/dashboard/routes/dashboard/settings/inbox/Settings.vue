@@ -5,7 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import SettingsSection from '../../../../components/SettingsSection.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'shared/composables/useInbox';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
@@ -33,9 +33,42 @@ export default {
     SenderNameExamplePreview,
     MicrosoftReauthorize,
   },
-  mixins: [inboxMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const {
+      isAMicrosoftInbox,
+      isAGoogleInbox,
+      isAPIInbox,
+      isATwitterInbox,
+      isAFacebookInbox,
+      isAWebWidgetInbox,
+      isATwilioChannel,
+      isALineChannel,
+      isAnEmailChannel,
+      isATwilioSMSChannel,
+      isASmsInbox,
+      isATwilioWhatsAppChannel,
+      isAWhatsAppCloudChannel,
+      is360DialogWhatsAppChannel,
+      isAWhatsAppChannel,
+    } = useInbox({ inboxId: this.currentInboxId });
+    return {
+      v$: useVuelidate(),
+      isAMicrosoftInbox,
+      isAGoogleInbox,
+      isAPIInbox,
+      isATwitterInbox,
+      isAFacebookInbox,
+      isAWebWidgetInbox,
+      isATwilioChannel,
+      isALineChannel,
+      isAnEmailChannel,
+      isATwilioSMSChannel,
+      isASmsInbox,
+      isATwilioWhatsAppChannel,
+      isAWhatsAppCloudChannel,
+      is360DialogWhatsAppChannel,
+      isAWhatsAppChannel,
+    };
   },
   data() {
     return {

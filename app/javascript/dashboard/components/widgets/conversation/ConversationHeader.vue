@@ -4,7 +4,7 @@ import { mapGetters } from 'vuex';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'shared/composables/useInbox';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Thumbnail from '../Thumbnail.vue';
@@ -24,7 +24,7 @@ export default {
     SLACardLabel,
     Linear,
   },
-  mixins: [inboxMixin, agentMixin],
+  mixins: [agentMixin],
   props: {
     chat: {
       type: Object,
@@ -45,7 +45,7 @@ export default {
   },
   setup(props, { emit }) {
     const conversationHeaderActionsRef = ref(null);
-
+    const { inbox, inboxBadge } = useInbox({ inboxId: props.chat.inbox_id });
     const keyboardEvents = {
       'Alt+KeyO': {
         action: () => emit('contactPanelToggle'),
@@ -55,6 +55,8 @@ export default {
 
     return {
       conversationHeaderActionsRef,
+      inbox,
+      inboxBadge,
     };
   },
   computed: {
@@ -109,10 +111,6 @@ export default {
           ? this.$t('CONVERSATION.HEADER.CLOSE')
           : this.$t('CONVERSATION.HEADER.OPEN')
       } ${this.$t('CONVERSATION.HEADER.DETAILS')}`;
-    },
-    inbox() {
-      const { inbox_id: inboxId } = this.chat;
-      return this.$store.getters['inboxes/getInbox'](inboxId);
     },
     hasMultipleInboxes() {
       return this.$store.getters['inboxes/getInboxes'].length > 1;

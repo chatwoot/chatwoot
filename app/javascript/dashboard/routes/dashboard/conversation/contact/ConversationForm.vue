@@ -9,12 +9,11 @@ import CannedResponse from 'dashboard/components/widgets/conversation/CannedResp
 import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox, INBOX_TYPES } from 'shared/composables/useInbox';
 import FileUpload from 'vue-upload-component';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
@@ -36,7 +35,7 @@ export default {
     AttachmentPreview,
     MessageSignatureMissingAlert,
   },
-  mixins: [inboxMixin, fileUploadMixin],
+  mixins: [fileUploadMixin],
   props: {
     contact: {
       type: Object,
@@ -47,12 +46,18 @@ export default {
       default: () => {},
     },
   },
-  setup() {
+  setup(props) {
+    const { channelType } = useInbox({ inboxObj: props.targetInbox });
     const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
       useUISettings();
     const v$ = useVuelidate();
 
-    return { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox, v$ };
+    return {
+      fetchSignatureFlagFromUISettings,
+      setSignatureFlagForInbox,
+      v$,
+      channelType,
+    };
   },
   data() {
     return {

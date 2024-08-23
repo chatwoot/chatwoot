@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'shared/composables/useInbox';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import BusinessDay from './BusinessDay.vue';
@@ -23,12 +23,21 @@ export default {
     BusinessDay,
     WootMessageEditor,
   },
-  mixins: [inboxMixin],
   props: {
     inbox: {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup(props) {
+    const { isATwilioChannel, isATwitterInbox, isAFacebookInbox } = useInbox({
+      inboxObj: props.inbox,
+    });
+    return {
+      isATwitterInbox,
+      isAFacebookInbox,
+      isATwilioChannel,
+    };
   },
   data() {
     return {
