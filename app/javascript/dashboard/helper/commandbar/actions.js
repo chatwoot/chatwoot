@@ -46,6 +46,7 @@ export const SNOOZE_CONVERSATION_ACTIONS = [
   {
     id: 'snooze_conversation',
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
+    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
     children: Object.values(SNOOZE_OPTIONS),
   },
