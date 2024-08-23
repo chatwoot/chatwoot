@@ -184,3 +184,14 @@ export const mockInactiveLabels = [
     show_on_sidebar: true,
   },
 ];
+
+export const MOCK_FEATURE_FLAGS = {
+  CRM: 'crm',
+  AGENT_MANAGEMENT: 'agent_management',
+  TEAM_MANAGEMENT: 'team_management',
+  INBOX_MANAGEMENT: 'inbox_management',
+  REPORTS: 'reports',
+  LABELS: 'labels',
+  CANNED_RESPONSES: 'canned_responses',
+  INTEGRATIONS: 'integrations',
+};
