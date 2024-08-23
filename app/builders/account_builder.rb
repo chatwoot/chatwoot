@@ -95,7 +95,6 @@ class AccountBuilder
 
   def blocked_domains
     domains = GlobalConfigService.load('BLOCKED_EMAIL_DOMAINS', '')
-    # split by new line and return
     domains.split("\n").map(&:strip)
   end
 end
