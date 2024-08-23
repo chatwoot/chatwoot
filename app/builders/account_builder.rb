@@ -84,7 +84,7 @@ class AccountBuilder
   end
 
   def domain_blocked?(email)
-    domain = email.split('@').las
+    domain = email.split('@').last
 
     blocked_domains.each do |blocked_domain|
       return true if domain.match?(blocked_domain)
