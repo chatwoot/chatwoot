@@ -84,7 +84,6 @@ export function useBulkActionsHotKeys() {
   });
 
   return {
-    selectedConversations,
     bulkActionsHotKeys,
   };
 }

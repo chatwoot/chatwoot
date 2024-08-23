@@ -152,7 +152,7 @@ export function useConversationHotKeys() {
   } = useConversationLabels();
 
   const { isAIIntegrationEnabled } = useAI();
-  const { agentsList, assignableAgents } = useAgentsList();
+  const { agentsList } = useAgentsList();
 
   const currentChat = useMapGetter('getSelectedChat');
   const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
@@ -403,13 +403,6 @@ export function useConversationHotKeys() {
   });
 
   return {
-    assignableAgents,
-    currentChat,
-    teamsList,
-    activeLabels,
-    draftMessage,
-    replyMode,
-    contextMenuChatId,
     conversationHotKeys,
   };
 }

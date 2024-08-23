@@ -1,9 +1,8 @@
 <script setup>
 import '@chatwoot/ninja-keys';
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watchEffect, onMounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
-import { useRoute } from 'dashboard/composables/route';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useAppearanceHotKeys } from 'dashboard/composables/commands/useAppearanceHotKeys';
 import { useInboxHotKeys } from 'dashboard/composables/commands/useInboxHotKeys';
@@ -14,7 +13,6 @@ import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
-const route = useRoute();
 const track = useTrack();
 const { t } = useI18n();
 
@@ -28,20 +26,10 @@ const selectedSnoozeType = ref(null);
 const { goToAppearanceHotKeys } = useAppearanceHotKeys();
 const { inboxHotKeys } = useInboxHotKeys();
 const { goToCommandHotKeys } = useGoToCommandHotKeys();
-const { bulkActionsHotKeys, selectedConversations } = useBulkActionsHotKeys();
-const {
-  conversationHotKeys,
-  assignableAgents,
-  currentChat,
-  teamsList,
-  activeLabels,
-  draftMessage,
-  replyMode,
-  contextMenuChatId,
-} = useConversationHotKeys();
+const { bulkActionsHotKeys } = useBulkActionsHotKeys();
+const { conversationHotKeys } = useConversationHotKeys();
 
 const placeholder = computed(() => t('COMMAND_BAR.SEARCH_PLACEHOLDER'));
-const routeName = computed(() => route.name);
 
 const hotKeys = computed(() => [
   ...inboxHotKeys.value,
@@ -85,22 +73,11 @@ const onClosed = () => {
   }
 };
 
-watch(
-  [
-    routeName,
-    selectedConversations,
-    assignableAgents,
-    currentChat,
-    teamsList,
-    activeLabels,
-    draftMessage,
-    replyMode,
-    contextMenuChatId,
-  ],
-  () => {
-    setCommandBarData();
+watchEffect(() => {
+  if (ninjakeys.value) {
+    ninjakeys.value.data = hotKeys.value;
   }
-);
+});
 
 onMounted(setCommandBarData);
 </script>

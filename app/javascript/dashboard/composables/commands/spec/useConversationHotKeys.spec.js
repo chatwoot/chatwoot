@@ -57,24 +57,8 @@ describe('useConversationHotKeys', () => {
   });
 
   it('should return the correct computed properties', () => {
-    const {
-      assignableAgents,
-      currentChat,
-      teamsList,
-      activeLabels,
-      draftMessage,
-      replyMode,
-      contextMenuChatId,
-      conversationHotKeys,
-    } = useConversationHotKeys();
+    const { conversationHotKeys } = useConversationHotKeys();
 
-    expect(assignableAgents.value).toEqual(mockAssignableAgents);
-    expect(currentChat.value).toEqual(mockCurrentChat);
-    expect(teamsList.value).toEqual(mockTeamsList);
-    expect(activeLabels.value).toEqual(mockActiveLabels);
-    expect(draftMessage.value).toBeUndefined();
-    expect(replyMode.value).toBe(REPLY_EDITOR_MODES.REPLY);
-    expect(contextMenuChatId.value).toBeNull();
     expect(conversationHotKeys.value).toBeDefined();
   });
 

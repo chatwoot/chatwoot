@@ -27,14 +27,6 @@ describe('useBulkActionsHotKeys', () => {
     emitter.emit = vi.fn();
   });
 
-  it('should return the correct computed properties', () => {
-    const { selectedConversations, bulkActionsHotKeys } =
-      useBulkActionsHotKeys();
-
-    expect(selectedConversations.value).toEqual([]);
-    expect(bulkActionsHotKeys.value).toEqual([]);
-  });
-
   it('should return bulk actions when conversations are selected', () => {
     store.getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
     const { bulkActionsHotKeys } = useBulkActionsHotKeys();
