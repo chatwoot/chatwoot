@@ -1,4 +1,3 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useConversationHotKeys } from '../useConversationHotKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
