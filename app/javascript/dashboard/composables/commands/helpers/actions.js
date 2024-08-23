@@ -8,7 +8,7 @@ import {
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
   CMD_UNMUTE_CONVERSATION,
-} from './commandBarBusEvents';
+} from './events';
 
 import {
   ICON_MUTE_CONVERSATION,
@@ -17,7 +17,7 @@ import {
   ICON_SEND_TRANSCRIPT,
   ICON_SNOOZE_CONVERSATION,
   ICON_UNMUTE_CONVERSATION,
-} from './CommandBarIcons';
+} from './icons';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
