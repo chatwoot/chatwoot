@@ -7,7 +7,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
-import { CMD_AI_ASSIST } from 'dashboard/helper/CommandBar/events';
+import { CMD_AI_ASSIST } from 'dashboard/helper/commandBar/events';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
 export default {

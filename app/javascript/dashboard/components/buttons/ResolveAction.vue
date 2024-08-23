@@ -13,7 +13,7 @@ import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
-} from 'dashboard/helper/CommandBar/events';
+} from 'dashboard/helper/commandBar/events';
 
 const store = useStore();
 const getters = useStoreGetters();

@@ -19,7 +19,7 @@ import {
   ICON_TEAM_REPORTS,
   ICON_USER_PROFILE,
   ICON_CONVERSATION_REPORTS,
-} from 'dashboard/helper/CommandBar/icons';
+} from 'dashboard/helper/commandBar/icons';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 

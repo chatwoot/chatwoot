@@ -6,7 +6,7 @@ import {
   CMD_BULK_ACTION_SNOOZE_CONVERSATION,
   CMD_BULK_ACTION_REOPEN_CONVERSATION,
   CMD_BULK_ACTION_RESOLVE_CONVERSATION,
-} from 'dashboard/helper/CommandBar/events';
+} from 'dashboard/helper/commandBar/events';
 
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
