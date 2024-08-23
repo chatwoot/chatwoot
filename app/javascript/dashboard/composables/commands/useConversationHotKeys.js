@@ -6,7 +6,7 @@ import { emitter } from 'shared/helpers/mitt';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useAI } from 'dashboard/composables/useAI';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
-import { CMD_AI_ASSIST } from './commandBarBusEvents';
+import { CMD_AI_ASSIST } from './helpers/events';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 
 import wootConstants from 'dashboard/constants/globals';
@@ -27,7 +27,7 @@ import {
   ICON_AI_SHORTEN,
   ICON_AI_EXPAND,
   ICON_AI_GRAMMAR,
-} from './CommandBarIcons';
+} from './helpers/icons';
 
 import {
   OPEN_CONVERSATION_ACTIONS,
@@ -36,7 +36,7 @@ import {
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
   MUTE_ACTION,
-} from './commandBarActions';
+} from './helpers/actions';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
