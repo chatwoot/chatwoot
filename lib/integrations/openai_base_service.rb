@@ -42,13 +42,26 @@ class Integrations::OpenaiBaseService
     return nil unless event_is_cacheable?
     return nil if cache_key.blank?
 
-    Redis::Alfred.get(cache_key)
+    deserialize_cached_value(Redis::Alfred.get(cache_key))
+  end
+
+  def deserialize_cached_value(value)
+    return nil if value.blank?
+
+    JSON.parse(value, symbolize_names: true)
+  rescue JSON::ParserError
+    # If json parse failed, returning the value as is will fail too
+    # since we access the keys as symbols down the line
+    # So it's best to return nil
+    nil
   end
 
   def save_to_cache(response)
     return nil unless event_is_cacheable?
 
-    Redis::Alfred.setex(cache_key, response)
+    # Serialize to JSON
+    # This makes parsing easy when response is a hash
+    Redis::Alfred.setex(cache_key, response.to_json)
   end
 
   def conversation
