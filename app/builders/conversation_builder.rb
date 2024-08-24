@@ -2,21 +2,19 @@ class ConversationBuilder
   pattr_initialize [:params!, :contact_inbox!]
 
   def perform
-    look_up_single_conversation || update_existing_conversation || create_new_conversation
+    look_up_existing_conversation || create_new_conversation
   end
 
   private
 
-  def look_up_single_conversation
-    return unless @contact_inbox.inbox.lock_to_single_conversation?
-
-    @contact_inbox.conversations.last
-  end
-
-  def update_existing_conversation
-    last_conversation = @contact_inbox.conversations.where
-                                      .not(status: :resolved)
-                                      .order(updated_at: :asc).last
+  def look_up_existing_conversation
+    last_conversation = if @contact_inbox.inbox.lock_to_single_conversation?
+                          @contact_inbox.conversations.last
+                        else
+                          @contact_inbox.conversations.where
+                                        .not(status: :resolved)
+                                        .order(updated_at: :asc).last
+                        end
     return if last_conversation.blank?
 
     conversation_type = { conversation_type: params[:conversation_type].presence || last_conversation.conversation_type }
