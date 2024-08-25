@@ -114,15 +114,13 @@ vi:
         recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "Một cuộc trò chuyện (#%{display_id}) đã được tạo trong %{inbox_name}"
+      conversation_assignment: "Một cuộc trò chuyện (#%{display_id}) đã được chỉ định cho bạn"
+      sla_missed_first_response: "Mục tiêu SLA phản hồi đầu tiên bị bỏ lỡ cho cuộc trò chuyện (#%{display_id})"
+      sla_missed_next_response: "Mục tiêu SLA phản hồi tiếp theo bị bỏ lỡ cho cuộc trò chuyện (#%{display_id})"
+      sla_missed_resolution: "Đã bỏ lỡ mục tiêu giải quyết SLA cho cuộc trò chuyện (#%{display_id})"
+    attachment: "Tập tin"
+    no_content: "Chưa có nội dung"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
