@@ -107,9 +107,10 @@ class Notification < ApplicationRecord
 
     if notification_type == 'conversation_creation'
       I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
-    elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
-             conversation_mention].include?(notification_type)
+    elsif notification_type == 'conversation_assignment'
       I18n.t(i18n_key, display_id: conversation.display_id)
+    elsif %w[assigned_conversation_new_message participating_conversation_new_message conversation_mention].include?(notification_type)
+      push_message_body
     else
       I18n.t(i18n_key, display_id: primary_actor.display_id)
     end
