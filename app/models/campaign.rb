@@ -11,6 +11,7 @@
 #  flexible_scheduled_at              :jsonb
 #  inboxes                            :jsonb
 #  message                            :text
+#  planned                            :boolean          default(FALSE), not null
 #  private_note                       :text
 #  scheduled_at                       :datetime
 #  title                              :string           not null
@@ -54,8 +55,7 @@ class Campaign < ApplicationRecord
     return unless one_off?
     return if completed?
 
-    Twilio::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Twilio SMS'
-    Sms::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Sms'
+    Campaign::MultiChannelCampaignService.new(campaign: self).perform
   end
 
   private
