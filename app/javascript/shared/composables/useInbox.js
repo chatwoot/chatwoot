@@ -37,6 +37,12 @@ export const INBOX_FEATURE_MAP = {
   ],
 };
 
+// useInbox(inboxId) {}
+// useChatInbox {
+// chat = getCurrentChat
+//  return useInbox(chat.inboxId)
+// }
+
 export function useInbox({ inboxObj, inboxId, chat, getCurrentChat }) {
   const store = useStore();
   const inbox = ref(null);
