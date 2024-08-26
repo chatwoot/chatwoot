@@ -4,7 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Settings from './Settings.vue';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 export default {
   components: {
@@ -13,11 +13,9 @@ export default {
   setup() {
     const { isAdmin } = useAdmin();
     const { accountScopedUrl } = useAccount();
-    const { useInstallationName } = useGlobalConfig();
     return {
       isAdmin,
       accountScopedUrl,
-      useInstallationName,
     };
   },
   data() {
@@ -56,6 +54,7 @@ export default {
     },
   },
   methods: {
+    useInstallationName,
     twilioChannelName(item) {
       const { medium = '' } = item;
       if (medium === 'whatsapp') return 'WhatsApp';

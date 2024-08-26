@@ -1,6 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
 
@@ -12,12 +12,6 @@ export default {
       required: true,
     },
   },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
-  },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
@@ -25,6 +19,7 @@ export default {
     }),
   },
   methods: {
+    useInstallationName,
     async onSubmit(webhook) {
       try {
         await this.$store.dispatch('webhooks/create', { webhook });

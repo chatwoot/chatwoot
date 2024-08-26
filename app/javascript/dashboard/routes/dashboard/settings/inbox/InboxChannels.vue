@@ -1,14 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 export default {
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
-  },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
@@ -22,6 +16,9 @@ export default {
         ),
       }));
     },
+  },
+  methods: {
+    useInstallationName,
   },
 };
 </script>

@@ -3,7 +3,7 @@ import WidgetHead from './WidgetHead.vue';
 import WidgetBody from './WidgetBody.vue';
 import WidgetFooter from './WidgetFooter.vue';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -55,12 +55,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
   },
   data() {
     return {
@@ -149,6 +143,7 @@ export default {
       this.isWidgetVisible = !this.isWidgetVisible;
       this.isDefaultScreen = true;
     },
+    useInstallationName,
   },
 };
 </script>

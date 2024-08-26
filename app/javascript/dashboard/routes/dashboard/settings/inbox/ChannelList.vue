@@ -3,18 +3,12 @@ import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 import { mapGetters } from 'vuex';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 export default {
   components: {
     ChannelItem,
     PageHeader,
-  },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
   },
   data() {
     return {
@@ -61,6 +55,7 @@ export default {
       };
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
+    useInstallationName,
   },
 };
 </script>

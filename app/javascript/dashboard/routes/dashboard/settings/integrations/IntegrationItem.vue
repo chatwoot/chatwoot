@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { frontendURL } from 'dashboard/helper/URLHelper';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 const props = defineProps({
   id: {
@@ -24,7 +24,6 @@ const props = defineProps({
   },
 });
 
-const { useInstallationName } = useGlobalConfig();
 const getters = useStoreGetters();
 const accountId = getters.getCurrentAccountId;
 const globalConfig = getters['globalConfig/get'];

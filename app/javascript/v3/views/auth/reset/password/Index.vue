@@ -3,7 +3,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
@@ -11,8 +11,7 @@ import SubmitButton from '../../../../components/Button/SubmitButton.vue';
 export default {
   components: { FormInput, SubmitButton },
   setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return { v$: useVuelidate(), useInstallationName };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -37,6 +36,7 @@ export default {
     },
   },
   methods: {
+    useInstallationName,
     showAlertMessage(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;

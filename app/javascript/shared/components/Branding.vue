@@ -1,5 +1,5 @@
 <script>
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -13,12 +13,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
   },
   data() {
     return {
@@ -45,6 +39,9 @@ export default {
       }
       return '';
     },
+  },
+  methods: {
+    useInstallationName,
   },
 };
 </script>

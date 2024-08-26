@@ -4,7 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -28,7 +28,6 @@ export default {
     AccessToken,
   },
   setup() {
-    const { useInstallationName } = useGlobalConfig();
     const { uiSettings, updateUISettings, isEditorHotKeyEnabled } =
       useUISettings();
 
@@ -36,7 +35,6 @@ export default {
       uiSettings,
       updateUISettings,
       isEditorHotKeyEnabled,
-      useInstallationName,
     };
   },
   data() {
@@ -87,6 +85,7 @@ export default {
     }
   },
   methods: {
+    useInstallationName,
     initializeUser() {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;

@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 export default {
   props: {
@@ -17,12 +17,6 @@ export default {
     actionButtonText: { type: String, default: '' },
     deleteConfirmationText: { type: Object, default: () => ({}) },
   },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
-  },
   data() {
     return {
       showDeleteConfirmationPopup: false,
@@ -35,6 +29,7 @@ export default {
     }),
   },
   methods: {
+    useInstallationName,
     frontendURL,
     openDeletePopup() {
       this.showDeleteConfirmationPopup = true;

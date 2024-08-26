@@ -10,7 +10,7 @@ import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/browser';
@@ -21,10 +21,8 @@ export default {
     PageHeader,
   },
   setup() {
-    const { useInstallationName } = useGlobalConfig();
     const { accountId } = useAccount();
     return {
-      useInstallationName,
       accountId,
       v$: useVuelidate(),
     };
@@ -75,6 +73,7 @@ export default {
   },
 
   methods: {
+    useInstallationName,
     async startLogin() {
       this.hasLoginStarted = true;
       try {

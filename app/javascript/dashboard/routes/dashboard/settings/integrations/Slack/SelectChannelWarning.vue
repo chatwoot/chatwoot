@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
@@ -11,12 +11,6 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
   },
   data() {
     return { selectedChannelId: '', availableChannels: [] };
@@ -33,6 +27,7 @@ export default {
     },
   },
   methods: {
+    useInstallationName,
     async fetchChannels() {
       try {
         this.availableChannels = await this.$store.dispatch(

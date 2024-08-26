@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import WebhookRow from './WebhookRow.vue';
 
 export default {
@@ -11,12 +11,6 @@ export default {
     NewWebhook,
     EditWebhook,
     WebhookRow,
-  },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
   },
   data() {
     return {
@@ -38,6 +32,7 @@ export default {
     this.$store.dispatch('webhooks/get');
   },
   methods: {
+    useInstallationName,
     openAddPopup() {
       this.showAddPopup = true;
     },

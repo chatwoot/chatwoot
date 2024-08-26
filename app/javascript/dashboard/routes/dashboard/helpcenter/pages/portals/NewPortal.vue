@@ -1,16 +1,10 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useGlobalConfig } from 'shared/composables/useGlobalConfig';
+import { useInstallationName } from 'shared/helpers/installationHelper';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 export default {
   components: {
     SettingsHeader,
-  },
-  setup() {
-    const { useInstallationName } = useGlobalConfig();
-    return {
-      useInstallationName,
-    };
   },
   computed: {
     ...mapGetters({
@@ -42,6 +36,9 @@ export default {
       }
       return '';
     },
+  },
+  methods: {
+    useInstallationName,
   },
 };
 </script>
