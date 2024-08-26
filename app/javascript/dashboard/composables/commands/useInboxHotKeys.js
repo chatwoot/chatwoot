@@ -1,12 +1,18 @@
+import { computed } from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { useRoute } from 'dashboard/composables/route';
 import wootConstants from 'dashboard/constants/globals';
 
-import { CMD_SNOOZE_NOTIFICATION } from './commandBarBusEvents';
-import { ICON_SNOOZE_NOTIFICATION } from './CommandBarIcons';
+import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';
+import { ICON_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/icons';
 import { emitter } from 'shared/helpers/mitt';
 
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
+
+const createSnoozeHandler = option => () =>
+  emitter.emit(CMD_SNOOZE_NOTIFICATION, option);
 
 const INBOX_SNOOZE_EVENTS = [
   {
@@ -21,8 +27,7 @@ const INBOX_SNOOZE_EVENTS = [
     parent: 'snooze_notification',
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
     icon: ICON_SNOOZE_NOTIFICATION,
-    handler: () =>
-      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
+    handler: createSnoozeHandler(SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_TOMORROW,
@@ -30,8 +35,7 @@ const INBOX_SNOOZE_EVENTS = [
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
-    handler: () =>
-      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_TOMORROW),
+    handler: createSnoozeHandler(SNOOZE_OPTIONS.UNTIL_TOMORROW),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_NEXT_WEEK,
@@ -39,8 +43,7 @@ const INBOX_SNOOZE_EVENTS = [
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
-    handler: () =>
-      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
+    handler: createSnoozeHandler(SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_NEXT_MONTH,
@@ -48,8 +51,7 @@ const INBOX_SNOOZE_EVENTS = [
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
-    handler: () =>
-      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
+    handler: createSnoozeHandler(SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME,
@@ -57,26 +59,30 @@ const INBOX_SNOOZE_EVENTS = [
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
-    handler: () =>
-      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
+    handler: createSnoozeHandler(SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
   },
 ];
-export default {
-  computed: {
-    inboxHotKeys() {
-      if (isAInboxViewRoute(this.$route.name)) {
-        return this.prepareActions(INBOX_SNOOZE_EVENTS);
-      }
-      return [];
-    },
-  },
-  methods: {
-    prepareActions(actions) {
-      return actions.map(action => ({
-        ...action,
-        title: this.$t(action.title),
-        section: this.$t(action.section),
-      }));
-    },
-  },
-};
+
+export function useInboxHotKeys() {
+  const { t } = useI18n();
+  const route = useRoute();
+
+  const prepareActions = actions => {
+    return actions.map(action => ({
+      ...action,
+      title: t(action.title),
+      section: action.section ? t(action.section) : undefined,
+    }));
+  };
+
+  const inboxHotKeys = computed(() => {
+    if (isAInboxViewRoute(route.name)) {
+      return prepareActions(INBOX_SNOOZE_EVENTS);
+    }
+    return [];
+  });
+
+  return {
+    inboxHotKeys,
+  };
+}

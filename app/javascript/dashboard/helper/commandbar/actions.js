@@ -8,7 +8,7 @@ import {
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
   CMD_UNMUTE_CONVERSATION,
-} from './commandBarBusEvents';
+} from 'dashboard/helper/commandbar/events';
 
 import {
   ICON_MUTE_CONVERSATION,
@@ -17,7 +17,7 @@ import {
   ICON_SEND_TRANSCRIPT,
   ICON_SNOOZE_CONVERSATION,
   ICON_UNMUTE_CONVERSATION,
-} from './CommandBarIcons';
+} from 'dashboard/helper/commandbar/icons';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
@@ -46,6 +46,7 @@ export const SNOOZE_CONVERSATION_ACTIONS = [
   {
     id: 'snooze_conversation',
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
+    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
     children: Object.values(SNOOZE_OPTIONS),
   },
