@@ -152,11 +152,12 @@ export function useAutomation() {
   };
 
   /**
-   * Manifests conditions for the automation.
-   * @param {Object} automation - The automation object.
-   * @param {Array} allCustomAttributes - All custom attributes.
-   * @param {Object} automationTypes - The automation types object.
-   * @returns {Array} The manifested conditions.
+   * This function sets the conditions for automation.
+   * It help to format the conditions for the automation when we open the edit automation modal.
+   * @param {Object} automation - The automation object containing conditions to manifest.
+   * @param {Array} allCustomAttributes - List of all custom attributes.
+   * @param {Object} automationTypes - Object containing automation type definitions.
+   * @returns {Array} An array of manifested conditions.
    */
   const manifestConditions = (
     automation,
@@ -214,8 +215,8 @@ export function useAutomation() {
   /**
    * Generates an array of actions for the automation.
    * @param {Object} action - The action object.
-   * @param {Array} automationActionTypes - The automation action types.
-   * @returns {Array|Object} The generated actions array or object.
+   * @param {Array} automationActionTypes - List of available automation action types.
+   * @returns {Array|Object} Generated actions array or object based on input type.
    */
   const generateActionsArray = (action, automationActionTypes) => {
     const params = action.action_params;
@@ -239,10 +240,11 @@ export function useAutomation() {
   };
 
   /**
-   * Manifests actions for the automation.
-   * @param {Object} automation - The automation object.
-   * @param {Array} automationActionTypes - The automation action types.
-   * @returns {Array} The manifested actions.
+   * This function sets the actions for automation.
+   * It help to format the actions for the automation when we open the edit automation modal.
+   * @param {Object} automation - The automation object containing actions.
+   * @param {Array} automationActionTypes - List of available automation action types.
+   * @returns {Array} An array of manifested actions.
    */
   const manifestActions = (automation, automationActionTypes) => {
     return automation.actions.map(action => ({
@@ -254,12 +256,13 @@ export function useAutomation() {
   };
 
   /**
-   * Formats the automation object for use.
+   * Formats the automation object for use when we edit the automation.
+   * It help to format the conditions and actions for the automation when we open the edit automation modal.
    * @param {Object} automation - The automation object to format.
-   * @param {Array} allCustomAttributes - All custom attributes.
-   * @param {Object} automationTypes - The automation types object.
-   * @param {Array} automationActionTypes - The automation action types.
-   * @returns {Object} The formatted automation object.
+   * @param {Array} allCustomAttributes - List of all custom attributes.
+   * @param {Object} automationTypes - Object containing automation type definitions.
+   * @param {Array} automationActionTypes - List of available automation action types.
+   * @returns {Object} A new object with formatted automation data, including automation conditions and actions.
    */
   const formatAutomation = (
     automation,
@@ -280,7 +283,9 @@ export function useAutomation() {
 
   /**
    * Manifests custom attributes for automation types.
-   * @param {Object} automationTypes - The automation types object to update.
+   * This function retrieves custom attributes for conversations and contacts,
+   * generates custom attribute types, and adds them to the relevant automation types.
+   * @param {Object} automationTypes - The automation types object to update with custom attributes.
    */
   const manifestCustomAttributes = automationTypes => {
     const conversationCustomAttributesRaw = getters[
