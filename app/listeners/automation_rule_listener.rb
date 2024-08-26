@@ -92,7 +92,7 @@ class AutomationRuleListener < BaseListener
   end
 
   def automated_message?(message)
-    message.additional_attributes['automation_rule_id'].present? && message.additional_attributes['automation_rule_id']
+    message.content_attributes['automation_rule_id'].present? && message.content_attributes['automation_rule_id']
   end
 
   def ignore_message_created_event?(event)
