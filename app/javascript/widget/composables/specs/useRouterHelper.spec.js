@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useRouterHelper } from '../../composables/useRouterHelper';
+import { useRouterHelper } from '../useRouterHelper';
 
 const mockRouter = {
   currentRoute: { name: 'initialRoute' },
