@@ -29,6 +29,7 @@ lt:
       invalid: Netinkami įvykiai
     signup:
       disposable_email: Neleidžiame naudoti vienkartinių el. laiškų
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Įvedėte neteisingą el. pašto adresą
       email_already_exists: "Jūs jau užregistravote paskyrą su %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
