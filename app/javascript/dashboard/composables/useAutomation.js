@@ -282,8 +282,8 @@ export function useAutomation() {
   };
 
   /**
-   * Manifests custom attributes for automation types.
-   * This function retrieves custom attributes for conversations and contacts,
+   * This function formats the custom attributes for automation types.
+   * It retrieves custom attributes for conversations and contacts,
    * generates custom attribute types, and adds them to the relevant automation types.
    * @param {Object} automationTypes - The automation types object to update with custom attributes.
    */
