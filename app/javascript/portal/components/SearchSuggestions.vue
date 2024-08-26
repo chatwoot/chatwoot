@@ -44,7 +44,6 @@ export default {
     };
 
     useKeyboardNavigableList({
-      elementRef: portalSearchSuggestionsRef,
       items: computed(() => props.items),
       adjustScroll,
       selectedIndex,
