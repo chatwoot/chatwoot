@@ -32,6 +32,8 @@ class AccountBuilder
   end
 
   def validate_email
+    raise InvalidEmail.new({ domain_blocked: domain_blocked }) if domain_blocked?
+
     address = ValidEmail2::Address.new(@email)
     if address.valid? && !address.disposable?
       true
@@ -78,5 +80,22 @@ class AccountBuilder
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!
+  end
+
+  def domain_blocked?
+    domain = @email.split('@').last
+
+    blocked_domains.each do |blocked_domain|
+      return true if domain.match?(blocked_domain)
+    end
+
+    false
+  end
+
+  def blocked_domains
+    domains = GlobalConfigService.load('BLOCKED_EMAIL_DOMAINS', '')
+    domains.split("\n").map(&:strip) if domains.present?
+
+    []
   end
 end
