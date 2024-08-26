@@ -29,6 +29,7 @@ pl:
       invalid: Nieprawidłowe zdarzenia
     signup:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
