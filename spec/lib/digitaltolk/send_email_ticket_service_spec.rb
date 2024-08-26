@@ -94,12 +94,12 @@ describe Digitaltolk::SendEmailTicketService do
       end
     end
 
-    # context 'with sender' do
-    #   it 'assigns creator as sender' do
-    #     result = service.perform
-    #     convo = inbox.conversations.find_by(display_id: result[:conversation_id])
-    #     expect(convo.messages.last.sender).to eq(creator)
-    #   end
-    # end
+    context 'creates with customer id' do
+      it 'creates a conversation and message' do
+        result = service.perform
+        convo = inbox.conversations.find_by(display_id: result[:conversation_id])
+        expect(convo.contact.custom_attributes['customer_id']).to eq('123')
+      end
+    end
   end
 end

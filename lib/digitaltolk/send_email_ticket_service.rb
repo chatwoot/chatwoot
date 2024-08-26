@@ -21,6 +21,7 @@ class Digitaltolk::SendEmailTicketService
         validate_data
         create_message
         update_status
+        update_customer_id
       end
     rescue StandardError => e
       Rails.logger.error e
@@ -214,6 +215,16 @@ class Digitaltolk::SendEmailTicketService
     @conversation.status = params[:status]
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
     @conversation.save
+  end
+
+  def update_customer_id
+    return unless params[:dt_user_id].present?
+
+    contact = @conversation.contact
+    return unless contact.present?
+
+    contact.custom_attributes[:customer_id] = params[:dt_user_id]
+    contact.save
   end
 
   def valid_status?
