@@ -431,6 +431,7 @@ export default {
       type: this.campaignType,
     });
     this.$store.dispatch('customViews/get', 'contact');
+    this.$store.dispatch('labels/get');
     this.planned = this.plannedDefault;
     if (this.selectedCampaign) {
       this.setFormValues();
