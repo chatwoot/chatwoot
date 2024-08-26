@@ -1,3 +1,8 @@
+import { computed } from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useRouter } from 'dashboard/composables/route';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import {
   ICON_ACCOUNT_SETTINGS,
   ICON_AGENT_REPORTS,
@@ -14,11 +19,9 @@ import {
   ICON_TEAM_REPORTS,
   ICON_USER_PROFILE,
   ICON_CONVERSATION_REPORTS,
-} from './CommandBarIcons';
-import { frontendURL } from '../../../helper/URLHelper';
-import { mapGetters } from 'vuex';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-import { FEATURE_FLAGS } from '../../../featureFlags';
+} from 'dashboard/helper/commandbar/icons';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const GO_TO_COMMANDS = [
   {
@@ -172,45 +175,45 @@ const GO_TO_COMMANDS = [
   },
 ];
 
-export default {
-  setup() {
-    const { isAdmin } = useAdmin();
-    return {
-      isAdmin,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
-    goToCommandHotKeys() {
-      let commands = GO_TO_COMMANDS.filter(cmd => {
-        if (cmd.featureFlag) {
-          return this.isFeatureEnabledonAccount(
-            this.accountId,
-            cmd.featureFlag
-          );
-        }
-        return true;
-      });
+export function useGoToCommandHotKeys() {
+  const { t } = useI18n();
+  const router = useRouter();
+  const { isAdmin } = useAdmin();
 
-      if (!this.isAdmin) {
-        commands = commands.filter(command => command.role.includes('agent'));
+  const currentAccountId = useMapGetter('getCurrentAccountId');
+  const isFeatureEnabledOnAccount = useMapGetter(
+    'accounts/isFeatureEnabledonAccount'
+  );
+
+  const openRoute = url => {
+    router.push(frontendURL(url));
+  };
+
+  const goToCommandHotKeys = computed(() => {
+    let commands = GO_TO_COMMANDS.filter(cmd => {
+      if (cmd.featureFlag) {
+        return isFeatureEnabledOnAccount.value(
+          currentAccountId.value,
+          cmd.featureFlag
+        );
       }
+      return true;
+    });
 
-      return commands.map(command => ({
-        id: command.id,
-        section: this.$t(command.section),
-        title: this.$t(command.title),
-        icon: command.icon,
-        handler: () => this.openRoute(command.path(this.accountId)),
-      }));
-    },
-  },
-  methods: {
-    openRoute(url) {
-      this.$router.push(frontendURL(url));
-    },
-  },
-};
+    if (!isAdmin.value) {
+      commands = commands.filter(command => command.role.includes('agent'));
+    }
+
+    return commands.map(command => ({
+      id: command.id,
+      section: t(command.section),
+      title: t(command.title),
+      icon: command.icon,
+      handler: () => openRoute(command.path(currentAccountId.value)),
+    }));
+  });
+
+  return {
+    goToCommandHotKeys,
+  };
+}
