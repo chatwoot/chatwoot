@@ -29,6 +29,7 @@ ar:
       invalid: أحداث غير صالحة
     signup:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
