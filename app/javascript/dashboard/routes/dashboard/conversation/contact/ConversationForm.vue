@@ -370,6 +370,13 @@ export default {
       if (this.bccEmails) {
         payload.message.bcc_emails = this.bccEmails;
       }
+
+      if (this.isAPIInbox) {
+        payload.message = {
+          content: '',
+        };
+      }
+
       return payload;
     },
     selectedInbox: {
