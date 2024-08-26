@@ -19,7 +19,6 @@ const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
 
-const resolveActionsRef = ref(null);
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
 
@@ -131,17 +130,14 @@ const keyboardEvents = {
   },
 };
 
-useKeyboardEvents(keyboardEvents, resolveActionsRef);
+useKeyboardEvents(keyboardEvents);
 
 useEmitter(CMD_REOPEN_CONVERSATION, onCmdOpenConversation);
 useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 </script>
 
 <template>
-  <div
-    ref="resolveActionsRef"
-    class="relative flex items-center justify-end resolve-actions"
-  >
+  <div class="relative flex items-center justify-end resolve-actions">
     <div class="button-group">
       <woot-button
         v-if="isOpen"
