@@ -1,6 +1,11 @@
 class Contacts::FilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
+  def initialize(params, user, filter_account = nil)
+    @account = filter_account || Current.account
+    super(params, user)
+  end
+
   def perform
     @contacts = query_builder(@filters['contacts'])
     @contacts = contacts_by_stage_type(@contacts) if @params[:stage_type].present?
@@ -20,7 +25,7 @@ class Contacts::FilterService < FilterService
   end
 
   def contacts_by_stage_code(contacts)
-    stage = Current.account.stages.find_by(code: @params[:stage_code])
+    stage = @account.stages.find_by(code: @params[:stage_code])
     contacts.where(stage_id: stage.id)
   end
 
@@ -36,7 +41,7 @@ class Contacts::FilterService < FilterService
   end
 
   def base_relation
-    Current.account.contacts
+    @account.contacts
   end
 
   def filter_config

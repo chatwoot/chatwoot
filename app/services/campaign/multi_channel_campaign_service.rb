@@ -5,19 +5,36 @@ class Campaign::MultiChannelCampaignService
     raise 'Completed Campaign' if campaign.completed?
 
     # marks campaign completed so that other jobs won't pick it up
+
     campaign.completed!
 
-    audience_label_ids = campaign.audience.select { |audience| audience['type'] == 'label' }.pluck('id')
-    audience_labels = campaign.account.labels.where(id: audience_label_ids).pluck(:title)
-    process_audience(audience_labels)
+    audiences = audience_from_filters.merge(audience_from_labels)
+    audiences.each do |contact|
+      process_channel(contact)
+    end
   end
 
   private
 
-  def process_audience(audience_labels)
-    campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
-      process_channel(contact)
+  def audience_from_labels
+    audience_label_ids = campaign.audience.select { |audience| audience['type'] == 'label' }.pluck('id')
+    audience_labels = campaign.account.labels.where(id: audience_label_ids).pluck(:title)
+    campaign.account.contacts.tagged_with(audience_labels, any: true)
+  end
+
+  def audience_from_filters
+    all_contacts = Contact.none
+    custom_filter_ids = campaign.audience.select { |audience| audience['type'] == 'custom_filter' }.pluck('id')
+    custom_filter_ids.each do |custom_filter_id|
+      filter = CustomFilter.find(custom_filter_id)
+      next if filter.blank?
+
+      action_params = ActionController::Parameters.new(filter.query)
+      result = ::Contacts::FilterService.new(action_params.permit!, nil, campaign.account).perform
+      contacts = result[:contacts]
+      all_contacts = all_contacts.or(contacts)
     end
+    all_contacts.distinct
   end
 
   def process_channel(contact)
@@ -28,6 +45,7 @@ class Campaign::MultiChannelCampaignService
       next unless contactable_inbox
 
       process_message(contact, contactable_inbox)
+      break
     end
   end
 
