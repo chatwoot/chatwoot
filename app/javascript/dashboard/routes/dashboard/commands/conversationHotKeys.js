@@ -4,7 +4,6 @@ import { emitter } from 'shared/helpers/mitt';
 
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import aiMixin from 'dashboard/mixins/aiMixin';
 import {
   ICON_ADD_LABEL,
   ICON_ASSIGN_AGENT,
@@ -36,7 +35,6 @@ import {
   isAInboxViewRoute,
 } from '../../../helper/routeHelpers';
 export default {
-  mixins: [aiMixin],
   watch: {
     assignableAgents() {
       this.setCommandbarData();

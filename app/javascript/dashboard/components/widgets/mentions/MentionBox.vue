@@ -39,7 +39,6 @@ const onSelect = () => {
 };
 
 useKeyboardNavigableList({
-  elementRef: mentionsListContainerRef,
   items: computed(() => props.items),
   onSelect,
   adjustScroll,
