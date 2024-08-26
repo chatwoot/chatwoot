@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {

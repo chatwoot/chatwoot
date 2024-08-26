@@ -4,7 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Settings from './Settings.vue';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 
 export default {
   components: {

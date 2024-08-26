@@ -3,7 +3,7 @@ import WidgetHead from './WidgetHead.vue';
 import WidgetBody from './WidgetBody.vue';
 import WidgetFooter from './WidgetFooter.vue';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 import { mapGetters } from 'vuex';
 
 export default {

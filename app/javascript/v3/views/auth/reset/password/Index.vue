@@ -3,7 +3,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';

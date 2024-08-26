@@ -1,6 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
 

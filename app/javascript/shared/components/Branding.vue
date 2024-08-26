@@ -1,5 +1,5 @@
 <script>
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,

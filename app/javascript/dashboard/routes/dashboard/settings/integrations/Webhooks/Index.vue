@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 import WebhookRow from './WebhookRow.vue';
 
 export default {

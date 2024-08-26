@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 export default {
   components: {

@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useInstallationName } from 'shared/helpers/installationHelper';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
 
 export default {
   computed: {
