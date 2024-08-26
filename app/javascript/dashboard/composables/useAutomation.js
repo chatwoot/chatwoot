@@ -17,6 +17,10 @@ import {
   generateCustomAttributes,
 } from 'dashboard/helper/automationHelper';
 
+/**
+ * Composable for handling automation-related functionality.
+ * @returns {Object} An object containing various automation-related functions and computed properties.
+ */
 export function useAutomation() {
   const getters = useStoreGetters();
   const { t } = useI18n();
@@ -45,11 +49,20 @@ export function useAutomation() {
     ];
   });
 
+  /**
+   * Handles the event change for an automation.
+   * @param {Object} automation - The automation object to update.
+   */
   const onEventChange = automation => {
     automation.conditions = getDefaultConditions(automation.event_name);
     automation.actions = getDefaultActions();
   };
 
+  /**
+   * Gets the condition dropdown values for a given type.
+   * @param {string} type - The type of condition.
+   * @returns {Array} An array of condition dropdown values.
+   */
   const getConditionDropdownValues = type => {
     return getConditionOptions({
       agents: agents.value,
@@ -66,14 +79,27 @@ export function useAutomation() {
     });
   };
 
+  /**
+   * Appends a new condition to the automation.
+   * @param {Object} automation - The automation object to update.
+   */
   const appendNewCondition = automation => {
     automation.conditions.push(...getDefaultConditions(automation.event_name));
   };
 
+  /**
+   * Appends a new action to the automation.
+   * @param {Object} automation - The automation object to update.
+   */
   const appendNewAction = automation => {
     automation.actions.push(...getDefaultActions());
   };
 
+  /**
+   * Removes a filter from the automation.
+   * @param {Object} automation - The automation object to update.
+   * @param {number} index - The index of the filter to remove.
+   */
   const removeFilter = (automation, index) => {
     if (automation.conditions.length <= 1) {
       useAlert(t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
@@ -82,6 +108,11 @@ export function useAutomation() {
     }
   };
 
+  /**
+   * Removes an action from the automation.
+   * @param {Object} automation - The automation object to update.
+   * @param {number} index - The index of the action to remove.
+   */
   const removeAction = (automation, index) => {
     if (automation.actions.length <= 1) {
       useAlert(t('AUTOMATION.ACTION.DELETE_MESSAGE'));
@@ -90,6 +121,13 @@ export function useAutomation() {
     }
   };
 
+  /**
+   * Resets a filter in the automation.
+   * @param {Object} automation - The automation object to update.
+   * @param {Object} automationTypes - The automation types object.
+   * @param {number} index - The index of the filter to reset.
+   * @param {Object} currentCondition - The current condition object.
+   */
   const resetFilter = (
     automation,
     automationTypes,
@@ -104,10 +142,22 @@ export function useAutomation() {
     automation.conditions[index].values = '';
   };
 
+  /**
+   * Resets an action in the automation.
+   * @param {Object} automation - The automation object to update.
+   * @param {number} index - The index of the action to reset.
+   */
   const resetAction = (automation, index) => {
     automation.actions[index].action_params = [];
   };
 
+  /**
+   * Manifests conditions for the automation.
+   * @param {Object} automation - The automation object.
+   * @param {Array} allCustomAttributes - All custom attributes.
+   * @param {Object} automationTypes - The automation types object.
+   * @returns {Array} The manifested conditions.
+   */
   const manifestConditions = (
     automation,
     allCustomAttributes,
@@ -145,6 +195,11 @@ export function useAutomation() {
     });
   };
 
+  /**
+   * Gets the action dropdown values for a given type.
+   * @param {string} type - The type of action.
+   * @returns {Array} An array of action dropdown values.
+   */
   const getActionDropdownValues = type => {
     return getActionOptions({
       agents: agents.value,
@@ -156,6 +211,12 @@ export function useAutomation() {
     });
   };
 
+  /**
+   * Generates an array of actions for the automation.
+   * @param {Object} action - The action object.
+   * @param {Array} automationActionTypes - The automation action types.
+   * @returns {Array|Object} The generated actions array or object.
+   */
   const generateActionsArray = (action, automationActionTypes) => {
     const params = action.action_params;
     const inputType = automationActionTypes.find(
@@ -177,6 +238,12 @@ export function useAutomation() {
     return [...params];
   };
 
+  /**
+   * Manifests actions for the automation.
+   * @param {Object} automation - The automation object.
+   * @param {Array} automationActionTypes - The automation action types.
+   * @returns {Array} The manifested actions.
+   */
   const manifestActions = (automation, automationActionTypes) => {
     return automation.actions.map(action => ({
       ...action,
@@ -186,6 +253,14 @@ export function useAutomation() {
     }));
   };
 
+  /**
+   * Formats the automation object for use.
+   * @param {Object} automation - The automation object to format.
+   * @param {Array} allCustomAttributes - All custom attributes.
+   * @param {Object} automationTypes - The automation types object.
+   * @param {Array} automationActionTypes - The automation action types.
+   * @returns {Object} The formatted automation object.
+   */
   const formatAutomation = (
     automation,
     allCustomAttributes,
@@ -203,6 +278,10 @@ export function useAutomation() {
     };
   };
 
+  /**
+   * Manifests custom attributes for automation types.
+   * @param {Object} automationTypes - The automation types object to update.
+   */
   const manifestCustomAttributes = automationTypes => {
     const conversationCustomAttributesRaw = getters[
       'attributes/getAttributesByModel'

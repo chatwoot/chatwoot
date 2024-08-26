@@ -244,16 +244,37 @@ export const generateCustomAttributes = (
   return customAttributes;
 };
 
+/**
+ * Get attributes for a given key from automation types.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {string} key - The key to get attributes for.
+ * @returns {Array} Array of condition objects for the given key.
+ */
 export const getAttributes = (automationTypes, key) => {
   return automationTypes[key].conditions;
 };
 
+/**
+ * Get the automation type for a given key.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} key - The key to get the automation type for.
+ * @returns {Object} The automation type object.
+ */
 export const getAutomationType = (automationTypes, automation, key) => {
   return automationTypes[automation.event_name].conditions.find(
     condition => condition.key === key
   );
 };
 
+/**
+ * Get the input type for a given key.
+ * @param {Array} allCustomAttributes - Array of all custom attributes.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} key - The key to get the input type for.
+ * @returns {string} The input type.
+ */
 export const getInputType = (
   allCustomAttributes,
   automationTypes,
@@ -268,6 +289,15 @@ export const getInputType = (
   return type.inputType;
 };
 
+/**
+ * Get operators for a given key.
+ * @param {Array} allCustomAttributes - Array of all custom attributes.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} mode - The mode ('edit' or other).
+ * @param {string} key - The key to get operators for.
+ * @returns {Array} Array of operators.
+ */
 export const getOperators = (
   allCustomAttributes,
   automationTypes,
@@ -285,12 +315,25 @@ export const getOperators = (
   return type.filterOperators;
 };
 
+/**
+ * Get the custom attribute type for a given key.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} key - The key to get the custom attribute type for.
+ * @returns {string} The custom attribute type.
+ */
 export const getCustomAttributeType = (automationTypes, automation, key) => {
   return automationTypes[automation.event_name].conditions.find(
     i => i.key === key
   ).customAttributeType;
 };
 
+/**
+ * Determine if an action input should be shown.
+ * @param {Array} automationActionTypes - Array of automation action type objects.
+ * @param {string} action - The action to check.
+ * @returns {boolean} True if the action input should be shown, false otherwise.
+ */
 export const showActionInput = (automationActionTypes, action) => {
   if (action === 'send_email_to_team' || action === 'send_message')
     return false;
