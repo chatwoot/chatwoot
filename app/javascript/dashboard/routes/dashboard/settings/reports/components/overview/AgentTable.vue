@@ -61,22 +61,22 @@ export default {
           fixed: 'left',
           align: this.isRTL ? 'right' : 'left',
           width: 25,
-          renderBodyCell: ({ row }) => (
-            <div class="row-user-block">
-              <Thumbnail
-                src={row.thumbnail}
-                size="32px"
-                username={row.agent}
-                status={row.status}
-              />
-              <div class="user-block">
-                <h6 class="overflow-hidden title whitespace-nowrap text-ellipsis">
-                  {row.agent}
-                </h6>
-                <span class="sub-title">{row.email}</span>
-              </div>
-            </div>
-          ),
+          // renderBodyCell: ({ row }) => (
+          //   <div class="row-user-block">
+          //     <Thumbnail
+          //       src={row.thumbnail}
+          //       size="32px"
+          //       username={row.agent}
+          //       status={row.status}
+          //     />
+          //     <div class="user-block">
+          //       <h6 class="overflow-hidden title whitespace-nowrap text-ellipsis">
+          //         {row.agent}
+          //       </h6>
+          //       <span class="sub-title">{row.email}</span>
+          //     </div>
+          //   </div>
+          // ),
         },
         {
           field: 'open',

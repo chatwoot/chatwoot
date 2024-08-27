@@ -30,18 +30,18 @@ export default {
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.CONTACT_NAME'),
           align: this.isRTL ? 'right' : 'left',
           width: 200,
-          renderBodyCell: ({ row }) => {
-            if (row.contact) {
-              return (
-                <UserAvatarWithName
-                  textClass="text-sm text-slate-800"
-                  size="24px"
-                  user={row.contact}
-                />
-              );
-            }
-            return '---';
-          },
+          // renderBodyCell: ({ row }) => {
+          //   if (row.contact) {
+          //     return (
+          //       <UserAvatarWithName
+          //         textClass="text-sm text-slate-800"
+          //         size="24px"
+          //         user={row.contact}
+          //       />
+          //     );
+          //   }
+          //   return '---';
+          // },
         },
         {
           field: 'assignedAgent',
@@ -49,14 +49,14 @@ export default {
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.AGENT_NAME'),
           align: this.isRTL ? 'right' : 'left',
           width: 200,
-          renderBodyCell: ({ row }) => {
-            if (row.assignedAgent) {
-              return (
-                <UserAvatarWithName size="24px" user={row.assignedAgent} />
-              );
-            }
-            return '---';
-          },
+          // renderBodyCell: ({ row }) => {
+          //   if (row.assignedAgent) {
+          //     return (
+          //       <UserAvatarWithName size="24px" user={row.assignedAgent} />
+          //     );
+          //   }
+          //   return '---';
+          // },
         },
         {
           field: 'rating',
@@ -64,14 +64,14 @@ export default {
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.RATING'),
           align: 'center',
           width: 80,
-          renderBodyCell: ({ row }) => {
-            const [ratingObject = {}] = CSAT_RATINGS.filter(
-              rating => rating.value === row.rating
-            );
-            return (
-              <span class="emoji-response">{ratingObject.emoji || '---'}</span>
-            );
-          },
+          // renderBodyCell: ({ row }) => {
+          //   const [ratingObject = {}] = CSAT_RATINGS.filter(
+          //     rating => rating.value === row.rating
+          //   );
+          //   return (
+          //     <span class="emoji-response">{ratingObject.emoji || '---'}</span>
+          //   );
+          // },
         },
         {
           field: 'feedbackText',
@@ -86,22 +86,22 @@ export default {
           title: '',
           align: this.isRTL ? 'right' : 'left',
           width: 100,
-          renderBodyCell: ({ row }) => {
-            const routerParams = {
-              name: 'inbox_conversation',
-              params: { conversation_id: row.conversationId },
-            };
-            return (
-              <div class="text-right">
-                <router-link to={routerParams}>
-                  {`#${row.conversationId}`}
-                </router-link>
-                <div class="csat--timestamp" v-tooltip={row.createdAt}>
-                  {row.createdAgo}
-                </div>
-              </div>
-            );
-          },
+          // renderBodyCell: ({ row }) => {
+          //   const routerParams = {
+          //     name: 'inbox_conversation',
+          //     params: { conversation_id: row.conversationId },
+          //   };
+          //   return (
+          //     <div class="text-right">
+          //       <router-link to={routerParams}>
+          //         {`#${row.conversationId}`}
+          //       </router-link>
+          //       <div class="csat--timestamp" v-tooltip={row.createdAt}>
+          //         {row.createdAgo}
+          //       </div>
+          //     </div>
+          //   );
+          // },
         },
       ];
     },
