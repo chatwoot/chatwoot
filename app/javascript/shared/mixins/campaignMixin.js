@@ -36,7 +36,7 @@ export default {
         .map(item => ({
           key: item.attributeKey,
           name: this.$t(`CONTACTS_FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
-          type: 'attribute',
+          type: 'contact_attribute',
         }));
 
       const allCustomAttributes =
@@ -48,7 +48,7 @@ export default {
         .map(attr => ({
           key: attr.attribute_key,
           name: attr.attribute_display_name,
-          type: 'custom_attribute',
+          type: 'contact_custom_attribute',
         }));
 
       const allProductAttributes =
@@ -60,7 +60,7 @@ export default {
         .map(attr => ({
           key: attr.attribute_key,
           name: attr.attribute_display_name,
-          type: 'product_attribute',
+          type: 'product_custom_attribute',
         }));
 
       return [...attributes, ...customAttributes, ...productAttributes];

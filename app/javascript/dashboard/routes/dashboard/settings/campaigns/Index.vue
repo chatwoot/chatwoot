@@ -1,16 +1,25 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddPopup"
-    >
-      {{ buttonText }}
-    </woot-button>
+    <div class="button--fixed-top flex flex-row items-center gap-2">
+      <woot-button
+        v-if="isOneOffType || isFlexibleType"
+        color-scheme="secondary"
+        icon="add-circle"
+        @click="openAddPlan"
+      >
+        {{ $t('CAMPAIGN.HEADER_BTN_TXT.CREATE_PLAN') }}
+      </woot-button>
+      <woot-button
+        color-scheme="success"
+        icon="add-circle"
+        @click="openAddCampaign"
+      >
+        {{ $t('CAMPAIGN.HEADER_BTN_TXT.CREATE_CAMPAIGN') }}
+      </woot-button>
+    </div>
     <campaign />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign @on-close="hideAddPopup" />
+      <add-campaign :planned-default="planned" @on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>
@@ -27,21 +36,21 @@ export default {
   },
   mixins: [campaignMixin],
   data() {
-    return { showAddPopup: false };
-  },
-  computed: {
-    buttonText() {
-      if (this.isOngoingType) {
-        return this.$t('CAMPAIGN.HEADER_BTN_TXT.ONGOING');
-      }
-      return this.$t('CAMPAIGN.HEADER_BTN_TXT.ONE_OFF');
-    },
+    return {
+      showAddPopup: false,
+      planned: true,
+    };
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
   },
   methods: {
-    openAddPopup() {
+    openAddPlan() {
+      this.planned = true;
+      this.showAddPopup = true;
+    },
+    openAddCampaign() {
+      this.planned = false;
       this.showAddPopup = true;
     },
     hideAddPopup() {

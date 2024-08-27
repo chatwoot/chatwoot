@@ -14,6 +14,12 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed daily at 0030 UTC
+trigger_flexible_campaigns_job:
+  cron: '30 00 * * *'
+  class: 'Campaigns::TriggerFlexibleCampaignsJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'

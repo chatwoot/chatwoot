@@ -12,6 +12,7 @@ json.message resource.message
 json.private_note resource.private_note
 json.campaign_status resource.campaign_status
 json.enabled resource.enabled
+json.planned resource.planned
 json.campaign_type resource.campaign_type
 json.scheduled_at resource.scheduled_at if resource.campaign_type == 'one_off'
 json.flexible_scheduled_at resource.flexible_scheduled_at if resource.campaign_type == 'flexible'

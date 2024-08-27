@@ -33,7 +33,7 @@
         </div>
 
         <div v-else>
-          <label :class="{ error: $v.message.$error }">
+          <label v-if="!planned" :class="{ error: $v.message.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
@@ -46,6 +46,7 @@
             </span>
           </label>
           <woot-input
+            v-else
             v-model="privateNote"
             :label="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.LABEL')"
             type="text"
@@ -276,12 +277,17 @@ export default {
       type: Object,
       default: () => {},
     },
+    plannedDefault: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       title: '',
       message: '',
       privateNote: '',
+      planned: true,
       selectedSender: 0,
       selectedInbox: null,
       endPoint: '',
@@ -308,12 +314,12 @@ export default {
       },
       message: {
         required: requiredIf(() => {
-          return this.privateNote === '';
+          return this.planned === false;
         }),
       },
       privateNote: {
         required: requiredIf(() => {
-          return this.message === '';
+          return this.planned === true;
         }),
       },
       selectedInbox: {
@@ -395,6 +401,12 @@ export default {
       }
       const inboxes = this.$store.getters['inboxes/getInboxes'];
 
+      if (this.planned) {
+        return inboxes.filter(
+          item => item.channel_type !== 'Channel::WebWidget'
+        );
+      }
+
       return inboxes.filter(
         item =>
           item.channel_type !== 'Channel::StringeePhoneCall' &&
@@ -419,6 +431,8 @@ export default {
       type: this.campaignType,
     });
     this.$store.dispatch('customViews/get', 'contact');
+    this.$store.dispatch('labels/get');
+    this.planned = this.plannedDefault;
     if (this.selectedCampaign) {
       this.setFormValues();
     }
@@ -461,6 +475,7 @@ export default {
         title,
         message,
         private_note: privateNote,
+        planned,
         enabled,
         trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
@@ -479,6 +494,7 @@ export default {
       this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
+      this.planned = planned;
       this.setFlexibleSchedule();
       this.loadInboxMembers();
     },
@@ -486,7 +502,7 @@ export default {
       if (!this.selectedCampaign.flexible_scheduled_at?.calculation) return;
       const {
         calculation,
-        contact_attribute: attribute,
+        attribute,
         extra_days: extraDays,
       } = this.selectedCampaign.flexible_scheduled_at;
       this.scheduledCalculation = this.scheduledCalculations.find(
@@ -542,11 +558,12 @@ export default {
           title: this.title,
           message: this.message,
           private_note: this.privateNote,
+          planned: this.planned,
           inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
           flexible_scheduled_at: {
             calculation: this.scheduledCalculation?.key,
-            contact_attribute: {
+            attribute: {
               key: this.scheduledAttribute?.key,
               type: this.scheduledAttribute?.type,
             },
