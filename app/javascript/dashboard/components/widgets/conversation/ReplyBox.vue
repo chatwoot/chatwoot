@@ -40,7 +40,7 @@ import {
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
-
+import { emitter } from 'shared/helpers/mitt';
 const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
 export default {
@@ -446,15 +446,12 @@ export default {
     );
 
     this.fetchAndSetReplyTo();
-    this.$emitter.on(
-      BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE,
-      this.fetchAndSetReplyTo
-    );
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
     // TODO need to find a better solution
-    this.$emitter.on(
+    emitter.on(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
     );
@@ -462,13 +459,10 @@ export default {
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
-    this.$emitter.off(
-      BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE,
-      this.fetchAndSetReplyTo
-    );
+    emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
   beforeDestroy() {
-    this.$emitter.off(
+    emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
     );
@@ -481,7 +475,7 @@ export default {
         const lines = title.split('\n');
         const nonEmptyLines = lines.filter(line => line.trim() !== '');
         const filteredMarkdown = nonEmptyLines.join(' ');
-        this.$emitter.emit(
+        emitter.emit(
           BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
           `[${filteredMarkdown}](${url})`
         );
@@ -723,8 +717,8 @@ export default {
           'createPendingMessageAndSend',
           messagePayload
         );
-        this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        this.$emitter.emit(BUS_EVENTS.MESSAGE_SENT);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
         this.sendMessageAnalyticsData(messagePayload.private);
       } catch (error) {
@@ -1050,7 +1044,7 @@ export default {
     resetReplyToMessage() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
       LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
     },
     onNewConversationModalActive(isActive) {
       // Issue is if the new conversation modal is open and we drag and drop the file

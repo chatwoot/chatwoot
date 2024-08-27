@@ -25,6 +25,7 @@ import {
   findNodeToInsertImage,
   setURLWithQueryAndSize,
 } from 'dashboard/helper/editorHelper';
+import { emitter } from 'shared/helpers/mitt';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
@@ -318,13 +319,13 @@ export default {
     // Components using this
     // 1. SearchPopover.vue
 
-    this.$emitter.on(
+    emitter.on(
       BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
       this.insertContentIntoEditor
     );
   },
   beforeDestroy() {
-    this.$emitter.off(
+    emitter.off(
       BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
       this.insertContentIntoEditor
     );

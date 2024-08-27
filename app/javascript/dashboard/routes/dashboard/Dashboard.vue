@@ -9,6 +9,7 @@ import NotificationPanel from 'dashboard/routes/dashboard/notifications/componen
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 const CommandBar = () => import('./commands/commandbar.vue');
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -76,11 +77,11 @@ export default {
   mounted() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
-    this.$emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-    this.$emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
 
   methods: {

@@ -1,6 +1,7 @@
 <script>
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_BULK_ACTION_SNOOZE_CONVERSATION,
@@ -58,29 +59,29 @@ export default {
     };
   },
   mounted() {
-    this.$emitter.on(
+    emitter.on(
       CMD_BULK_ACTION_SNOOZE_CONVERSATION,
       this.onCmdSnoozeConversation
     );
-    this.$emitter.on(
+    emitter.on(
       CMD_BULK_ACTION_REOPEN_CONVERSATION,
       this.onCmdReopenConversation
     );
-    this.$emitter.on(
+    emitter.on(
       CMD_BULK_ACTION_RESOLVE_CONVERSATION,
       this.onCmdResolveConversation
     );
   },
   destroyed() {
-    this.$emitter.off(
+    emitter.off(
       CMD_BULK_ACTION_SNOOZE_CONVERSATION,
       this.onCmdSnoozeConversation
     );
-    this.$emitter.off(
+    emitter.off(
       CMD_BULK_ACTION_REOPEN_CONVERSATION,
       this.onCmdReopenConversation
     );
-    this.$emitter.off(
+    emitter.off(
       CMD_BULK_ACTION_RESOLVE_CONVERSATION,
       this.onCmdResolveConversation
     );

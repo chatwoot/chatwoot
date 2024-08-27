@@ -6,6 +6,7 @@ import InboxEmptyState from './InboxEmptyState.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -111,7 +112,7 @@ export default {
       this.$store
         .dispatch('setActiveChat', { data: selectedConversation })
         .then(() => {
-          this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
     },
     findConversation() {

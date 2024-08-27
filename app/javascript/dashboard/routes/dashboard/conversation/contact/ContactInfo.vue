@@ -16,6 +16,7 @@ import {
   isAInboxViewRoute,
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -105,7 +106,7 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
-      this.$emitter.emit(
+      emitter.emit(
         BUS_EVENTS.NEW_CONVERSATION_MODAL,
         this.showConversationModal
       );

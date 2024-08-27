@@ -8,6 +8,7 @@ import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import PaginationButton from './PaginationButton.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -35,10 +36,10 @@ export default {
     ...mapGetters({ meta: 'notifications/getMeta' }),
   },
   mounted() {
-    this.$emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
+    emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   destroyed() {
-    this.$emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
+    emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   methods: {
     openSnoozeNotificationModal() {

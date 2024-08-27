@@ -5,6 +5,7 @@ import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   name: 'Unread',
@@ -34,7 +35,7 @@ export default {
   },
   methods: {
     openConversationView() {
-      this.$emitter.emit(ON_UNREAD_MESSAGE_CLICK);
+      emitter.emit(ON_UNREAD_MESSAGE_CLICK);
     },
     closeFullView() {
       this.$emit('close');

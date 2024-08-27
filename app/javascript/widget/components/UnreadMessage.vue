@@ -8,6 +8,8 @@ import {
   ON_UNREAD_MESSAGE_CLICK,
 } from '../constants/widgetBusEvents';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { emitter } from 'shared/helpers/mitt';
+
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
@@ -77,9 +79,9 @@ export default {
     },
     onClickMessage() {
       if (this.campaignId) {
-        this.$emitter.emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
+        emitter.emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
       } else {
-        this.$emitter.emit(ON_UNREAD_MESSAGE_CLICK);
+        emitter.emit(ON_UNREAD_MESSAGE_CLICK);
       }
     },
   },

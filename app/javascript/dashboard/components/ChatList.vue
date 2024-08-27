@@ -29,6 +29,7 @@ import {
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 // import IntersectionObserver from './IntersectionObserver.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -434,7 +435,7 @@ export default {
       this.$store.dispatch('campaigns/get');
     }
 
-    this.$emitter.on('fetch_conversation_stats', () => {
+    emitter.on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
   },
@@ -605,7 +606,7 @@ export default {
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
         this.resetBulkActions();
-        this.$emitter.emit('clearSearchInput');
+        emitter.emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();

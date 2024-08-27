@@ -9,6 +9,7 @@ import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   name: 'LiveReports',
@@ -56,7 +57,7 @@ export default {
     this.$store.dispatch('agents/get');
     this.fetchAllData();
 
-    this.$emitter.on('fetch_overview_reports', () => {
+    emitter.on('fetch_overview_reports', () => {
       this.fetchAllData();
     });
   },

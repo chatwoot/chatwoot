@@ -13,6 +13,8 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { emitter } from 'shared/helpers/mitt';
+
 const CommandBar = () =>
   import('dashboard/routes/dashboard/commands/commandbar.vue');
 
@@ -214,7 +216,7 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
 
     const slug = this.$route.params.portalSlug;
     if (slug) this.lastActivePortalSlug = slug;
@@ -222,7 +224,7 @@ export default {
     this.fetchPortalAndItsCategories();
   },
   beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   updated() {
     const slug = this.$route.params.portalSlug;
