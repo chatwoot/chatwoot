@@ -15,7 +15,7 @@ export const state = {
 
 export const getters = {
   getAutomations(_state) {
-    return _state.records;
+    return _state.records.sort((a1, a2) => a1.id - a2.id);
   },
   getUIFlags(_state) {
     return _state.uiFlags;

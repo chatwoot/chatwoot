@@ -1,4 +1,3 @@
-import { onMounted, onBeforeUnmount, unref } from 'vue';
 import {
   isActiveElementTypeable,
   isEscape,
@@ -7,8 +6,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import { createKeybindingsHandler } from 'tinykeys';
-
-const keyboardListenerMap = new WeakMap();
+import { onUnmounted, onMounted } from 'vue';
 
 /**
  * Determines if the keyboard event should be ignored based on the element type and handler settings.
@@ -70,48 +68,23 @@ async function wrapEventsInKeybindingsHandler(events) {
 }
 
 /**
- * Sets up keyboard event listeners on the specified element.
- * @param {Element} root - The DOM element to attach listeners to.
- * @param {Object} events - The events to listen for.
- */
-const setupListeners = (root, events) => {
-  if (root instanceof Element && events) {
-    const keydownHandler = createKeybindingsHandler(events);
-    document.addEventListener('keydown', keydownHandler);
-    keyboardListenerMap.set(root, keydownHandler);
-  }
-};
-
-/**
- * Removes keyboard event listeners from the specified element.
- * @param {Element} root - The DOM element to remove listeners from.
- */
-const removeListeners = root => {
-  // In the future, let's use the abort controller to remove the listeners
-  // https://caniuse.com/abortcontroller
-  if (root instanceof Element) {
-    const handlerToRemove = keyboardListenerMap.get(root);
-    document.removeEventListener('keydown', handlerToRemove);
-    keyboardListenerMap.delete(root);
-  }
-};
-
-/**
  * Vue composable to handle keyboard events with support for different keyboard layouts.
  * @param {Object} keyboardEvents - The keyboard events to handle.
- * @param {ref} elRef - A Vue ref to the element to attach the keyboard events to.
  */
-export function useKeyboardEvents(keyboardEvents, elRef = null) {
+export async function useKeyboardEvents(keyboardEvents) {
+  let abortController = new AbortController();
+
   onMounted(async () => {
-    const el = unref(elRef);
-    const getKeyboardEvents = () => keyboardEvents || null;
-    const events = getKeyboardEvents();
-    const wrappedEvents = await wrapEventsInKeybindingsHandler(events);
-    setupListeners(el, wrappedEvents);
+    if (!keyboardEvents) return;
+    const wrappedEvents = await wrapEventsInKeybindingsHandler(keyboardEvents);
+    const keydownHandler = createKeybindingsHandler(wrappedEvents);
+
+    document.addEventListener('keydown', keydownHandler, {
+      signal: abortController.signal,
+    });
   });
 
-  onBeforeUnmount(() => {
-    const el = unref(elRef);
-    removeListeners(el);
+  onUnmounted(() => {
+    abortController.abort();
   });
 }
