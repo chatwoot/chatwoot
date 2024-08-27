@@ -5,5 +5,5 @@ json.content resource.content
 json.created_at resource.created_at
 json.updated_at resource.updated_at
 if resource.canned_attachments.reload.present?
-  json.attachments resource.canned_attachments.reload.map {|a| {blob: a.file_blob, signed_id: a.file_blob.signed_id}.merge(**a.push_event_data) }
+  json.attachments resource.canned_attachments.reload.map { |a| { blob: a.file_blob, signed_id: a.file_blob.signed_id }.merge(**a.push_event_data) }
 end

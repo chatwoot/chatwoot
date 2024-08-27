@@ -121,14 +121,14 @@ export default {
     flexibleScheduledLabel() {
       let label = '';
       const schedule = this.campaign.flexible_scheduled_at;
-      if (schedule.contact_attribute.type === 'attribute') {
+      if (schedule.attribute.type === 'contact_attribute') {
         const attr = this.contactFilterItems.find(
-          i => i.attributeKey === schedule.contact_attribute.key
+          i => i.attributeKey === schedule.attribute.key
         );
         label = this.$t(`CONTACTS_FILTER.ATTRIBUTES.${attr.attributeI18nKey}`);
       } else {
         const attr = this.$store.getters['attributes/getAttributeByKey'](
-          schedule.contact_attribute.key
+          schedule.attribute.key
         );
         label = attr?.attribute_display_name;
       }

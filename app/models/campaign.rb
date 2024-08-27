@@ -52,7 +52,7 @@ class Campaign < ApplicationRecord
   after_commit :set_display_id, unless: :display_id?
 
   def trigger!
-    return unless one_off?
+    return if ongoing?
     return if completed?
 
     Campaign::MultiChannelCampaignService.new(campaign: self).perform

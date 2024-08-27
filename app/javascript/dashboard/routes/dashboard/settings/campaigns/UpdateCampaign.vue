@@ -502,7 +502,7 @@ export default {
       if (!this.selectedCampaign.flexible_scheduled_at?.calculation) return;
       const {
         calculation,
-        contact_attribute: attribute,
+        attribute,
         extra_days: extraDays,
       } = this.selectedCampaign.flexible_scheduled_at;
       this.scheduledCalculation = this.scheduledCalculations.find(
@@ -563,7 +563,7 @@ export default {
           scheduled_at: this.scheduledAt,
           flexible_scheduled_at: {
             calculation: this.scheduledCalculation?.key,
-            contact_attribute: {
+            attribute: {
               key: this.scheduledAttribute?.key,
               type: this.scheduledAttribute?.type,
             },

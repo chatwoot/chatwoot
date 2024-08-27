@@ -20,10 +20,10 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi",
+        "NAME": "Thời gian tiếp nhận",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
-        "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
+        "TOOLTIP_TEXT": "Thời gian phản hồi lần đầu là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
