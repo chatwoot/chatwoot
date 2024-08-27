@@ -1,13 +1,20 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import { mapGetters } from 'vuex';
-import accountMixin from '../../../../mixins/account';
+import { useAccount } from 'dashboard/composables/useAccount';
 import BillingItem from './components/BillingItem.vue';
-// sdds
+
 export default {
   components: { BillingItem },
-  mixins: [accountMixin, messageFormatterMixin],
+  setup() {
+    const { accountId } = useAccount();
+    const { formatMessage } = useMessageFormatter();
+    return {
+      accountId,
+      formatMessage,
+    };
+  },
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',

@@ -481,6 +481,7 @@
           "DESCRIPTION": "Utilice el portal como un CMS sin cabeceras con frameworks front-end de terceros usando nuestras APIs."
         }
       }
-    }
+    },
+    "LOADING": "Cargando..."
   }
 }

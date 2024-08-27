@@ -17,7 +17,6 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -31,7 +30,6 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
@@ -62,13 +60,7 @@ export default {
     MessageSignatureMissingAlert,
     ArticleSearchPopover,
   },
-  mixins: [
-    inboxMixin,
-    messageFormatterMixin,
-    rtlMixin,
-    fileUploadMixin,
-    keyboardEventListenerMixins,
-  ],
+  mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
     popoutReplyBox: {
       type: Boolean,
@@ -121,6 +113,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      isRTL: 'accounts/isRTL',
       currentChat: 'getSelectedChat',
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
@@ -307,7 +300,7 @@ export default {
       if (this.isOnExpandedLayout || this.popoutReplyBox) {
         return 'emoji-dialog--expanded';
       }
-      if (this.isRTLView) {
+      if (this.isRTL) {
         return 'emoji-dialog--rtl';
       }
       return '';

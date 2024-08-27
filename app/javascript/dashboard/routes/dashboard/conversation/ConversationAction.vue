@@ -2,11 +2,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import teamMixin from 'dashboard/mixins/conversation/teamMixin';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -16,19 +15,17 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
   },
-  mixins: [agentMixin, teamMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    // inboxId prop is used in /mixins/agentMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  },
+  setup() {
+    const { agentsList } = useAgentsList();
+    return {
+      agentsList,
+    };
   },
   data() {
     return {
@@ -65,7 +62,20 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
+      teams: 'teams/getTeams',
     }),
+    hasAnAssignedTeam() {
+      return !!this.currentChat?.meta?.team;
+    },
+    teamsList() {
+      if (this.hasAnAssignedTeam) {
+        return [
+          { id: 0, name: this.$t('TEAMS_SETTINGS.LIST.NONE') },
+          ...this.teams,
+        ];
+      }
+      return this.teams;
+    },
     assignedAgent: {
       get() {
         return this.currentChat.meta.assignee;
