@@ -239,6 +239,7 @@
     "REPORTS": "Ataskaitos",
     "SETTINGS": "Nustatymai",
     "CONTACTS": "Kontaktai",
+    "CAPTAIN": "Captain",
     "HOME": "Pagrindinis",
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Apžvalga",
-    "FACEBOOK_REAUTHORIZE": "Jūsų ryšys su Facebook nutrūko. Jei norite toliau nauditis paslaugomis, iš naujo prisijunkite prie Facebook puslapio",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Palaikymo centras",
       "ALL_ARTICLES": "Visi Straipsniai",

@@ -1,3 +1,48 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+
+defineProps({
+  title: {
+    type: String,
+    default: 'Chatwoot',
+  },
+});
+
+const emit = defineEmits(['search', 'close']);
+
+const searchInputRef = ref(null);
+const searchQuery = ref('');
+
+onMounted(() => {
+  searchInputRef.value.focus();
+});
+
+const onInput = e => {
+  emit('search', e.target.value);
+};
+
+const onClose = () => {
+  emit('close');
+};
+
+const keyboardEvents = {
+  Slash: {
+    action: e => {
+      e.preventDefault();
+      searchInputRef.value.focus();
+    },
+  },
+  Escape: {
+    action: () => {
+      onClose();
+    },
+    allowOnFocusedInput: true,
+  },
+};
+useKeyboardEvents(keyboardEvents);
+</script>
+
 <template>
   <div class="flex flex-col py-1">
     <div class="flex items-center justify-between py-2 mb-1">
@@ -20,63 +65,13 @@
         <fluent-icon icon="search" class="" size="18" />
       </div>
       <input
-        ref="searchInput"
+        ref="searchInputRef"
         type="text"
         :placeholder="$t('HELP_CENTER.ARTICLE_SEARCH.PLACEHOLDER')"
         class="block w-full !h-9 ltr:!pl-8 rtl:!pr-8 dark:!bg-slate-700 !bg-slate-25 text-sm rounded-md leading-8 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid border-slate-300 placeholder:text-slate-400 focus:border-woot-600 focus:ring-woot-200 !mb-0 focus:bg-slate-25 dark:focus:bg-slate-700 dark:focus:ring-woot-700"
         :value="searchQuery"
-        @focus="onFocus"
-        @blur="onBlur"
         @input="onInput"
       />
     </div>
   </div>
 </template>
-
-<script>
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-
-export default {
-  name: 'ChatwootSearch',
-  mixins: [keyboardEventListenerMixins],
-  props: {
-    title: {
-      type: String,
-      default: 'Chatwoot',
-    },
-  },
-  data() {
-    return {
-      searchQuery: '',
-      isInputFocused: false,
-    };
-  },
-  mounted() {
-    this.$refs.searchInput.focus();
-  },
-  methods: {
-    onInput(e) {
-      this.$emit('search', e.target.value);
-    },
-    onClose() {
-      this.$emit('close');
-    },
-    onFocus() {
-      this.isInputFocused = true;
-    },
-    onBlur() {
-      this.isInputFocused = false;
-    },
-    getKeyboardEvents() {
-      return {
-        Slash: {
-          action: e => {
-            e.preventDefault();
-            this.$refs.searchInput.focus();
-          },
-        },
-      };
-    },
-  },
-};
-</script>

@@ -1,19 +1,15 @@
-// eslint-disable-next-line default-param-last
-export const getCurrentAccount = ({ accounts } = {}, accountId) => {
-  return accounts.find(account => account.id === accountId);
+import {
+  hasPermissions,
+  getUserPermissions,
+  getCurrentAccount,
+} from './permissionsHelper';
+
+export const routeIsAccessibleFor = (route, userPermissions = []) => {
+  const { meta: { permissions: routePermissions = [] } = {} } = route;
+  return hasPermissions(routePermissions, userPermissions);
 };
 
-// eslint-disable-next-line default-param-last
-export const getUserRole = ({ accounts } = {}, accountId) => {
-  const currentAccount = getCurrentAccount({ accounts }, accountId) || {};
-  return currentAccount.role || null;
-};
-
-export const routeIsAccessibleFor = (route, role, roleWiseRoutes) => {
-  return roleWiseRoutes[role].includes(route);
-};
-
-const validateActiveAccountRoutes = (to, user, roleWiseRoutes) => {
+const validateActiveAccountRoutes = (to, user) => {
   // If the current account is active, then check for the route permissions
   const accountDashboardURL = `accounts/${to.params.accountId}/dashboard`;
 
@@ -22,15 +18,15 @@ const validateActiveAccountRoutes = (to, user, roleWiseRoutes) => {
     return accountDashboardURL;
   }
 
-  const userRole = getUserRole(user, Number(to.params.accountId));
-  const isAccessible = routeIsAccessibleFor(to.name, userRole, roleWiseRoutes);
+  const userPermissions = getUserPermissions(user, to.params.accountId);
+
+  const isAccessible = routeIsAccessibleFor(to, userPermissions);
   // If the route is not accessible for the user, return to dashboard screen
   return isAccessible ? null : accountDashboardURL;
 };
 
-export const validateLoggedInRoutes = (to, user, roleWiseRoutes) => {
+export const validateLoggedInRoutes = (to, user) => {
   const currentAccount = getCurrentAccount(user, Number(to.params.accountId));
-
   // If current account is missing, either user does not have
   // access to the account or the account is deleted, return to login screen
   if (!currentAccount) {
@@ -40,7 +36,7 @@ export const validateLoggedInRoutes = (to, user, roleWiseRoutes) => {
   const isCurrentAccountActive = currentAccount.status === 'active';
 
   if (isCurrentAccountActive) {
-    return validateActiveAccountRoutes(to, user, roleWiseRoutes);
+    return validateActiveAccountRoutes(to, user);
   }
 
   // If the current account is not active, then redirect the user to the suspended screen

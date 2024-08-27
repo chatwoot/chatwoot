@@ -1,30 +1,5 @@
-<template>
-  <div class="chat-bubble-wrap">
-    <button
-      class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-50')"
-      @click="onClickMessage"
-    >
-      <div v-if="showSender" class="row--agent-block">
-        <thumbnail
-          :src="avatarUrl"
-          size="20px"
-          :username="agentName"
-          :status="availabilityStatus"
-        />
-        <span v-dompurify-html="agentName" class="agent--name" />
-        <span v-dompurify-html="companyName" class="company--name" />
-      </div>
-      <div
-        v-dompurify-html="formatMessage(message, false)"
-        class="message-content"
-      />
-    </button>
-  </div>
-</template>
-
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -36,7 +11,7 @@ import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
+  mixins: [configMixin, darkModeMixin],
   props: {
     message: {
       type: String,
@@ -54,6 +29,12 @@ export default {
       type: Number,
       default: null,
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   computed: {
     companyName() {
@@ -105,6 +86,32 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="chat-bubble-wrap">
+    <button
+      class="chat-bubble agent"
+      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      @click="onClickMessage"
+    >
+      <div v-if="showSender" class="row--agent-block">
+        <Thumbnail
+          :src="avatarUrl"
+          size="20px"
+          :username="agentName"
+          :status="availabilityStatus"
+        />
+        <span v-dompurify-html="agentName" class="agent--name" />
+        <span v-dompurify-html="companyName" class="company--name" />
+      </div>
+      <div
+        v-dompurify-html="formatMessage(message, false)"
+        class="message-content"
+      />
+    </button>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .chat-bubble {

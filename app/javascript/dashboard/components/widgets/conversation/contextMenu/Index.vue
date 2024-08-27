@@ -1,82 +1,12 @@
-<template>
-  <div class="bg-white dark:bg-slate-700 shadow-xl rounded-md p-1">
-    <menu-item
-      v-if="!hasUnreadMessages"
-      :option="unreadOption"
-      variant="icon"
-      @click="$emit('mark-as-unread')"
-    />
-    <template v-for="option in statusMenuConfig">
-      <menu-item
-        v-if="show(option.key)"
-        :key="option.key"
-        :option="option"
-        variant="icon"
-        @click="toggleStatus(option.key, null)"
-      />
-    </template>
-    <menu-item
-      v-if="showSnooze"
-      :option="snoozeOption"
-      variant="icon"
-      @click="snoozeConversation()"
-    />
-
-    <menu-item-with-submenu :option="priorityConfig">
-      <menu-item
-        v-for="(option, i) in priorityConfig.options"
-        :key="i"
-        :option="option"
-        @click="assignPriority(option.key)"
-      />
-    </menu-item-with-submenu>
-    <menu-item-with-submenu
-      :option="labelMenuConfig"
-      :sub-menu-available="!!labels.length"
-    >
-      <menu-item
-        v-for="label in labels"
-        :key="label.id"
-        :option="generateMenuLabelConfig(label, 'label')"
-        variant="label"
-        @click="$emit('assign-label', label)"
-      />
-    </menu-item-with-submenu>
-    <menu-item-with-submenu
-      :option="agentMenuConfig"
-      :sub-menu-available="!!assignableAgents.length"
-    >
-      <agent-loading-placeholder v-if="assignableAgentsUiFlags.isFetching" />
-      <template v-else>
-        <menu-item
-          v-for="agent in assignableAgents"
-          :key="agent.id"
-          :option="generateMenuLabelConfig(agent, 'agent')"
-          variant="agent"
-          @click="$emit('assign-agent', agent)"
-        />
-      </template>
-    </menu-item-with-submenu>
-    <menu-item-with-submenu
-      :option="teamMenuConfig"
-      :sub-menu-available="!!teams.length"
-    >
-      <menu-item
-        v-for="team in teams"
-        :key="team.id"
-        :option="generateMenuLabelConfig(team, 'team')"
-        @click="$emit('assign-team', team)"
-      />
-    </menu-item-with-submenu>
-  </div>
-</template>
-
 <script>
+import { mapGetters } from 'vuex';
+import {
+  getSortedAgentsByAvailability,
+  getAgentsByUpdatedPresence,
+} from 'dashboard/helper/agentHelper.js';
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import { mapGetters } from 'vuex';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 export default {
   components: {
@@ -84,7 +14,6 @@ export default {
     MenuItemWithSubmenu,
     AgentLoadingPlaceholder,
   },
-  mixins: [agentMixin],
   props: {
     chatId: {
       type: Number,
@@ -185,13 +114,19 @@ export default {
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
+      currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
     }),
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
-      const agentsByUpdatedPresence = this.getAgentsByUpdatedPresence(agents);
-      const filteredAgents = this.sortedAgentsByAvailability(
+      const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
+        agents,
+        this.currentUser,
+        this.currentAccountId
+      );
+      const filteredAgents = getSortedAgentsByAvailability(
         agentsByUpdatedPresence
       );
       return filteredAgents;
@@ -219,7 +154,7 @@ export default {
   },
   methods: {
     toggleStatus(status, snoozedUntil) {
-      this.$emit('update-conversation', status, snoozedUntil);
+      this.$emit('updateConversation', status, snoozedUntil);
     },
     async snoozeConversation() {
       await this.$store.dispatch('setContextMenuChatId', this.chatId);
@@ -227,7 +162,7 @@ export default {
       ninja.open({ parent: 'snooze_conversation' });
     },
     assignPriority(priority) {
-      this.$emit('assign-priority', priority);
+      this.$emit('assignPriority', priority);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
@@ -250,3 +185,76 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="p-1 bg-white rounded-md shadow-xl dark:bg-slate-700">
+    <MenuItem
+      v-if="!hasUnreadMessages"
+      :option="unreadOption"
+      variant="icon"
+      @click="$emit('markAsUnread')"
+    />
+    <template v-for="option in statusMenuConfig">
+      <MenuItem
+        v-if="show(option.key)"
+        :key="option.key"
+        :option="option"
+        variant="icon"
+        @click="toggleStatus(option.key, null)"
+      />
+    </template>
+    <MenuItem
+      v-if="showSnooze"
+      :option="snoozeOption"
+      variant="icon"
+      @click="snoozeConversation()"
+    />
+
+    <MenuItemWithSubmenu :option="priorityConfig">
+      <MenuItem
+        v-for="(option, i) in priorityConfig.options"
+        :key="i"
+        :option="option"
+        @click="assignPriority(option.key)"
+      />
+    </MenuItemWithSubmenu>
+    <MenuItemWithSubmenu
+      :option="labelMenuConfig"
+      :sub-menu-available="!!labels.length"
+    >
+      <MenuItem
+        v-for="label in labels"
+        :key="label.id"
+        :option="generateMenuLabelConfig(label, 'label')"
+        variant="label"
+        @click="$emit('assignLabel', label)"
+      />
+    </MenuItemWithSubmenu>
+    <MenuItemWithSubmenu
+      :option="agentMenuConfig"
+      :sub-menu-available="!!assignableAgents.length"
+    >
+      <AgentLoadingPlaceholder v-if="assignableAgentsUiFlags.isFetching" />
+      <template v-else>
+        <MenuItem
+          v-for="agent in assignableAgents"
+          :key="agent.id"
+          :option="generateMenuLabelConfig(agent, 'agent')"
+          variant="agent"
+          @click="$emit('assignAgent', agent)"
+        />
+      </template>
+    </MenuItemWithSubmenu>
+    <MenuItemWithSubmenu
+      :option="teamMenuConfig"
+      :sub-menu-available="!!teams.length"
+    >
+      <MenuItem
+        v-for="team in teams"
+        :key="team.id"
+        :option="generateMenuLabelConfig(team, 'team')"
+        @click="$emit('assignTeam', team)"
+      />
+    </MenuItemWithSubmenu>
+  </div>
+</template>

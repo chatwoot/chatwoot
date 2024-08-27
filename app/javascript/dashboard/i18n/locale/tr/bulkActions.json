@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Geri git",
     "ASSIGN_LABEL": "Atama yap",
     "YES": "Evet",
+    "SEARCH_INPUT_PLACEHOLDER": "Ara",
     "ASSIGN_AGENT_TOOLTIP": "Temsilci ata",
     "ASSIGN_TEAM_TOOLTIP": "Takım ata",
     "ASSIGN_SUCCESFUL": "Görüşmeler başarıyla atandı.",
@@ -33,7 +34,7 @@
       "NONE": "Hiçbiri",
       "NO_TEAMS_AVAILABLE": "Bu hesaba henüz eklenmiş takımlar yok.",
       "ASSIGN_SELECTED_TEAMS": "Seçili takımları atama",
-      "ASSIGN_SUCCESFUL": "Takımlar başarıyla atandı.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Takımlar atanırken bir hata oluştu. Lütfen tekrar deneyin."
     }
   }

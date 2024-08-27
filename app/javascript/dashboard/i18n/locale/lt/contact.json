@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontaktas apjungtas sėkmingai",
       "ERROR_MESSAGE": "Nepavyko apjungti kontaktų, bandykite dar kartą!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

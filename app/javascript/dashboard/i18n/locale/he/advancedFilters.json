@@ -1,23 +1,24 @@
 {
   "FILTER": {
     "TITLE": "סינון שיחות",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBTITLE": "הוסף את המסננים שלך למטה ולחץ על 'החל מסננים' כדי לסנן את הצ'אטים.",
+    "EDIT_CUSTOM_FILTER": "ערוך תקיה",
+    "CUSTOM_VIEWS_SUBTITLE": "הוסף או הסר מסננים ועדכן את התיקיה שלך.",
+    "ADD_NEW_FILTER": "הוסף מסנן",
+    "FILTER_DELETE_ERROR": "אופס, נראה שלא ניתן לשמור שום דבר! אנא הוסף לפחות מסנן אחד כדי לשמור.",
     "SUBMIT_BUTTON_LABEL": "שמור סננים",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "עדכן תקיה",
     "CANCEL_BUTTON_LABEL": "ביטול",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "נקה מסננים",
+    "FOLDER_LABEL": "שם התקייה",
+    "FOLDER_QUERY_LABEL": "שאילתת תיקיה",
     "EMPTY_VALUE_ERROR": "חובה ערך.",
     "TOOLTIP_LABEL": "סינון שיחות",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ו/גם",
       "OR": "או"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "שווה ל",
       "not_equal_to": "לא שווה ל",
@@ -42,9 +43,9 @@
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "תוויות",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "שפת הדפדפן",
       "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "שם המדינה",
       "REFERER_LINK": "קישור מפנה",
       "CUSTOM_ATTRIBUTE_LIST": "רשימה",
       "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
@@ -52,18 +53,18 @@
       "CUSTOM_ATTRIBUTE_LINK": "קישור",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
       "CREATED_AT": "נוצר בזמן",
-      "LAST_ACTIVITY": "Last activity"
+      "LAST_ACTIVITY": "פעילות אחרונה"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "ADDITIONAL_FILTERS": "פילטרים נוספים",
+      "CUSTOM_ATTRIBUTES": "מאפיינים מותאמים אישית"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "האם אתה רוצה לשמור את המסנן הזה?",
         "LABEL": "תן שם למסנן הזה",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "תן שם למסנן שלך כדי להתייחס אליו מאוחר יותר.",
         "ERROR_MESSAGE": "שם שדה חובה.",
         "SAVE_BUTTON": "שמור מסנן",
         "CANCEL_BUTTON": "ביטול",

@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Powróć",
     "ASSIGN_LABEL": "Przypisz",
     "YES": "Tak",
+    "SEARCH_INPUT_PLACEHOLDER": "Szukaj",
     "ASSIGN_AGENT_TOOLTIP": "Przypisz Agenta",
     "ASSIGN_TEAM_TOOLTIP": "Przypisz zespół",
     "ASSIGN_SUCCESFUL": "Rozmowy zostały pomyślnie przypisane.",
@@ -33,7 +34,7 @@
       "NONE": "Brak",
       "NO_TEAMS_AVAILABLE": "Na tym koncie nie dodano jeszcze żadnych zespołów.",
       "ASSIGN_SELECTED_TEAMS": "Przypisz wybrany zespół.",
-      "ASSIGN_SUCCESFUL": "Zespoły zostały pomyślnie przypisane.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }

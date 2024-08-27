@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
     "YES": "Có",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm",
     "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
     "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công.",
@@ -33,7 +34,7 @@
       "NONE": "Không có",
       "NO_TEAMS_AVAILABLE": "Chưa có nhóm nào được thêm vào tài khoản này.",
       "ASSIGN_SELECTED_TEAMS": "Chỉ định nhóm đã chọn.",
-      "ASSIGN_SUCCESFUL": "Các nhóm được chỉ định thành công.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }

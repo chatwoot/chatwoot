@@ -239,6 +239,7 @@
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
+    "CAPTAIN": "Captain",
     "HOME": "صفحه اصلی",
     "AGENTS": "ایجنت ها",
     "AGENT_BOTS": "ربات‌ها",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "آزمایشی",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
-    "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "مرکز راهنما",
       "ALL_ARTICLES": "همه مقالات",

@@ -18,11 +18,11 @@ describe('Date formatting functions', () => {
   const testDate = new Date(2020, 4, 15); // May 15, 2020
 
   beforeEach(() => {
-    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en-US');
+    vi.spyOn(navigator, 'language', 'get').mockReturnValue('en-US');
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('returns the correct month name from a date', () => {
@@ -39,7 +39,7 @@ describe('Date formatting functions', () => {
   });
 
   it('returns the correct date format for the current locale en-IN', () => {
-    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en-IN');
+    vi.spyOn(navigator, 'language', 'get').mockReturnValue('en-IN');
     const expected = 'dd/MM/yyyy';
     expect(getIntlDateFormatForLocale()).toBe(expected);
   });
@@ -231,13 +231,13 @@ describe('isHoveringNextDayInRange', () => {
 describe('getActiveDateRange', () => {
   const currentDate = new Date(2020, 5, 15, 12, 0); // May 15, 2020, at noon
 
-  beforeAll(() => {
+  beforeEach(() => {
     // Mocking the current date to ensure consistency in tests
-    jest.useFakeTimers().setSystemTime(currentDate.getTime());
+    vi.useFakeTimers().setSystemTime(currentDate.getTime());
   });
 
-  afterAll(() => {
-    jest.useRealTimers();
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('returns the correct range for "last7days"', () => {

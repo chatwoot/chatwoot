@@ -1,38 +1,16 @@
 import {
   getConversationDashboardRoute,
-  getCurrentAccount,
-  getUserRole,
   isAConversationRoute,
   routeIsAccessibleFor,
   validateLoggedInRoutes,
   isAInboxViewRoute,
 } from '../routeHelpers';
 
-describe('#getCurrentAccount', () => {
-  it('should return the current account', () => {
-    expect(getCurrentAccount({ accounts: [{ id: 1 }] }, 1)).toEqual({ id: 1 });
-    expect(getCurrentAccount({ accounts: [] }, 1)).toEqual(undefined);
-  });
-});
-
-describe('#getUserRole', () => {
-  it('should return the current role', () => {
-    expect(
-      getUserRole({ accounts: [{ id: 1, role: 'administrator' }] }, 1)
-    ).toEqual('administrator');
-    expect(getUserRole({ accounts: [] }, 1)).toEqual(null);
-  });
-});
-
 describe('#routeIsAccessibleFor', () => {
   it('should return the correct access', () => {
-    const roleWiseRoutes = { agent: ['conversations'], admin: ['billing'] };
-    expect(routeIsAccessibleFor('billing', 'agent', roleWiseRoutes)).toEqual(
-      false
-    );
-    expect(routeIsAccessibleFor('billing', 'admin', roleWiseRoutes)).toEqual(
-      true
-    );
+    let route = { meta: { permissions: ['administrator'] } };
+    expect(routeIsAccessibleFor(route, ['agent'])).toEqual(false);
+    expect(routeIsAccessibleFor(route, ['administrator'])).toEqual(true);
   });
 });
 
@@ -40,11 +18,7 @@ describe('#validateLoggedInRoutes', () => {
   describe('when account access is missing', () => {
     it('should return the login route', () => {
       expect(
-        validateLoggedInRoutes(
-          { params: { accountId: 1 } },
-          { accounts: [] },
-          {}
-        )
+        validateLoggedInRoutes({ params: { accountId: 1 } }, { accounts: [] })
       ).toEqual(`app/login`);
     });
   });
@@ -53,9 +27,12 @@ describe('#validateLoggedInRoutes', () => {
       it('return suspended route', () => {
         expect(
           validateLoggedInRoutes(
-            { name: 'conversations', params: { accountId: 1 } },
-            { accounts: [{ id: 1, role: 'agent', status: 'suspended' }] },
-            { agent: ['conversations'] }
+            {
+              name: 'conversations',
+              params: { accountId: 1 },
+              meta: { permissions: ['agent'] },
+            },
+            { accounts: [{ id: 1, role: 'agent', status: 'suspended' }] }
           )
         ).toEqual(`accounts/1/suspended`);
       });
@@ -65,9 +42,22 @@ describe('#validateLoggedInRoutes', () => {
         it('returns null (no action required)', () => {
           expect(
             validateLoggedInRoutes(
-              { name: 'conversations', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] },
-              { agent: ['conversations'] }
+              {
+                name: 'conversations',
+                params: { accountId: 1 },
+                meta: { permissions: ['agent'] },
+              },
+              {
+                permissions: ['agent'],
+                accounts: [
+                  {
+                    id: 1,
+                    role: 'agent',
+                    permissions: ['agent'],
+                    status: 'active',
+                  },
+                ],
+              }
             )
           ).toEqual(null);
         });
@@ -76,9 +66,12 @@ describe('#validateLoggedInRoutes', () => {
         it('returns dashboard url', () => {
           expect(
             validateLoggedInRoutes(
-              { name: 'conversations', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] },
-              { admin: ['conversations'], agent: [] }
+              {
+                name: 'billing',
+                params: { accountId: 1 },
+                meta: { permissions: ['administrator'] },
+              },
+              { accounts: [{ id: 1, role: 'agent', status: 'active' }] }
             )
           ).toEqual(`accounts/1/dashboard`);
         });
@@ -88,8 +81,7 @@ describe('#validateLoggedInRoutes', () => {
           expect(
             validateLoggedInRoutes(
               { name: 'account_suspended', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] },
-              { agent: ['account_suspended'] }
+              { accounts: [{ id: 1, role: 'agent', status: 'active' }] }
             )
           ).toEqual(`accounts/1/dashboard`);
         });

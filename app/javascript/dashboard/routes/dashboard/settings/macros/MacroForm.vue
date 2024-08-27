@@ -1,42 +1,15 @@
-<template>
-  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
-    <div
-      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
-    >
-      <macro-nodes
-        v-model="macro.actions"
-        :files="files"
-        @addNewNode="appendNode"
-        @deleteNode="deleteNode"
-        @resetAction="resetNode"
-      />
-    </div>
-    <div class="w-full md:w-1/3">
-      <macro-properties
-        :macro-name="macro.name"
-        :macro-visibility="macro.visibility"
-        @update:name="updateName"
-        @update:visibility="updateVisibility"
-        @submit="submit"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
+import { provide } from 'vue';
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { validateActions } from 'dashboard/helper/validations';
 
 export default {
   components: {
     MacroNodes,
     MacroProperties,
-  },
-  provide() {
-    return {
-      $v: this.$v,
-    };
   },
   props: {
     macroData: {
@@ -44,9 +17,16 @@ export default {
       default: () => ({}),
     },
   },
+  setup() {
+    const v$ = useVuelidate();
+    provide('v$', v$);
+
+    return { v$ };
+  },
   data() {
     return {
       macro: this.macroData,
+      errors: {},
     };
   },
   computed: {
@@ -77,25 +57,14 @@ export default {
       visibility: {
         required,
       },
-      actions: {
-        required,
-        $each: {
-          action_params: {
-            required: requiredIf(prop => {
-              if (prop.action_name === 'send_email_to_team') return true;
-              return !(
-                prop.action_name === 'mute_conversation' ||
-                prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_conversation' ||
-                prop.action_name === 'remove_assigned_team'
-              );
-            }),
-          },
-        },
-      },
     },
   },
   methods: {
+    removeObjectProperty(obj, keyToRemove) {
+      return Object.fromEntries(
+        Object.entries(obj).filter(([key]) => key !== keyToRemove)
+      );
+    },
     updateName(value) {
       this.macro.name = value;
     },
@@ -109,23 +78,59 @@ export default {
       });
     },
     deleteNode(index) {
+      // remove that index specifically
+      // so that the next item does not get marked invalid
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions.splice(index, 1);
     },
     submit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.errors = validateActions(this.macro.actions);
+      if (Object.keys(this.errors).length !== 0) return;
+
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
+
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      this.$v.macro.actions.$each[index].$reset();
+      // remove that index specifically
+      // so that the next item does not get marked invalid
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
-      this.$v.$reset();
+      this.errors = {};
+      this.v$?.$reset?.();
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
+    <div
+      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
+    >
+      <MacroNodes
+        v-model="macro.actions"
+        :files="files"
+        :errors="errors"
+        @addNewNode="appendNode"
+        @deleteNode="deleteNode"
+        @resetAction="resetNode"
+      />
+    </div>
+    <div class="w-full md:w-1/3">
+      <MacroProperties
+        :macro-name="macro.name"
+        :macro-visibility="macro.visibility"
+        @update:name="updateName"
+        @update:visibility="updateVisibility"
+        @submit="submit"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @tailwind components;

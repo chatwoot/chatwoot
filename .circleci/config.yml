@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     # specify the version you desire here
-    - image: cimg/ruby:3.2.2-browsers
+    - image: cimg/ruby:3.3.3-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -130,10 +130,7 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
-            yarn test:coverage --profile 10 \
-                               --out ~/tmp/test-results/yarn.xml \
-                               -- ${TESTFILES}
+            yarn test:coverage
       - run:
           name: Code Climate Test Coverage
           command: |
