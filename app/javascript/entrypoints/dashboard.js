@@ -5,7 +5,7 @@ import axios from 'axios';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
-import VueFormulate from '@braid/vue-formulate';
+// import VueFormulate from '@braid/vue-formulate';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
 import { sync } from 'vuex-router-sync';
@@ -16,7 +16,8 @@ import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
 import { emitter } from '../shared/helpers/mitt';
 
-import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
+// import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
+import commonHelpers from 'dashboard/helper/commons';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
@@ -71,11 +72,11 @@ app.use(router);
 
 app.use(VueDOMPurifyHTML, domPurifyConfig);
 app.use(WootUiKit);
-app.use(VueFormulate, {
-  rules: {
-    JSON: ({ value }) => isJSONValid(value),
-  },
-});
+// app.use(VueFormulate, {
+//   rules: {
+//     JSON: ({ value }) => isJSONValid(value),
+//   },
+// });
 app.use(VTooltip, {
   defaultHtml: false,
 });
