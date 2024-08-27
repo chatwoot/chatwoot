@@ -1,12 +1,11 @@
 <script>
 import ChatOption from 'shared/components/ChatOption.vue';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 export default {
   components: {
     ChatOption,
   },
-  mixins: [messageFormatterMixin],
   props: {
     title: {
       type: String,
@@ -24,6 +23,12 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   methods: {
     isSelected(option) {

@@ -5,7 +5,7 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
@@ -15,12 +15,18 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [routerMixin, darkModeMixin, configMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   data() {
     return {

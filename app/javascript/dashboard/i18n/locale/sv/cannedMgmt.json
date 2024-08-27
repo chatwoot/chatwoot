@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Svarsmallar",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "Lägg till svarsmall",
     "LOADING": "Hämtar svarsmallar...",
     "SEARCH_404": "Det finns inga objekt som matchar denna fråga.",
-    "SIDEBAR_TXT": "<p><b>Svarsmallar</b> </p><p> Svarsmallar är mallar med färdiga svar som hjälper dig att snabbt svara på en konversation. För att infoga en svarsmall i en chatt, kan agenter skriva en kortkod som föregås av ett \"/\"-tecken. </p><p> Du kan hantera dina svarsmallar från denna sida eller skapa nya med hjälp av knappen \"Lägg till svarsmallar\".</p><p>Öppna <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Dokumentation av svarsmallar</a> i en annan flik för mer information.</p><p>Kolla även in det helt nya <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Biblioteket med svarsmallar</a>.</p>",
     "LIST": {
       "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
       "TITLE": "Hantera svarsmallar",

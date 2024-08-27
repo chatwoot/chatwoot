@@ -3,8 +3,9 @@
     "HEADER": "Категории",
     "HEADER_BTN_TXT": "Добавить категорию",
     "LOADING": "Загрузка категорий",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Нет категорий, соответствующих запросу",
-    "SIDEBAR_TXT": "<p><b>Категории</b> <p>Категории помогают вам классифицировать диалоги и приоритизировать их. Вы можете назначить категорию диалогу из бокового меню. <br /><br />Категории привязаны к учетной записи и могут быть использованы для упрощения рабочих процессов в вашей организации. Вы можете назначить цвет категории. Также вы можете легко отфильтровать диалоги по категориям из боковой панели.</p>",
     "LIST": {
       "404": "У вас нет категорий.",
       "TITLE": "Управлять категориями",
@@ -49,7 +50,8 @@
       "DISMISS": "Отклонить",
       "ADD_SELECTED_LABELS": "Добавить выбранные метки",
       "ADD_SELECTED_LABEL": "Добавить метку",
-      "ADD_ALL_LABELS": "Добавить все метки"
+      "ADD_ALL_LABELS": "Добавить все метки",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Добавить категорию",

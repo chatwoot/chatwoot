@@ -3,8 +3,9 @@
     "HEADER": "Etiquetas",
     "HEADER_BTN_TXT": "Añadir etiqueta",
     "LOADING": "Obteniendo etiquetas",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>Las etiquetas le ayudan a categorizar las conversaciones y priorizarlas. Puede asignar la etiqueta a una conversación desde el panel lateral. <br /><br />Las etiquetas están vinculadas a la cuenta y pueden utilizarse para crear flujos de trabajo personalizados en su organización. Puede asignar un color personalizado a una etiqueta, hace más fácil identificarla. Podrá mostrar la etiqueta en la barra lateral para filtrar las conversaciones fácilmente.</p>",
     "LIST": {
       "404": "No hay etiquetas disponibles en esta cuenta.",
       "TITLE": "Gestionar etiquetas",
@@ -49,7 +50,8 @@
       "DISMISS": "Descartar",
       "ADD_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
       "ADD_SELECTED_LABEL": "Añadir etiqueta seleccionada",
-      "ADD_ALL_LABELS": "Añadir todas las etiquetas"
+      "ADD_ALL_LABELS": "Añadir todas las etiquetas",
+      "SUGGESTED_LABELS": "Etiquetas sugeridas"
     },
     "ADD": {
       "TITLE": "Añadir etiqueta",

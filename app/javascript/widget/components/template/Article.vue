@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
@@ -7,12 +7,18 @@ export default {
   components: {
     FluentIcon,
   },
-  mixins: [messageFormatterMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     items: {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    const { truncateMessage } = useMessageFormatter();
+    return {
+      truncateMessage,
+    };
   },
 };
 </script>

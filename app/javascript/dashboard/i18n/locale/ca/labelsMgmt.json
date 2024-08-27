@@ -3,8 +3,9 @@
     "HEADER": "Etiquetes",
     "HEADER_BTN_TXT": "Afegeix etiqueta",
     "LOADING": "Obtenció d’etiquetes",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta",
-    "SIDEBAR_TXT": "<p><b>Etiquetes</b> <p>Les etiquetes t'ajuden a classificar les converses i a prioritzar-les. Pots assignar una etiqueta a una conversa des del tauler lateral. <br /><br />Les etiquetes estan lligades al compte i es poden utilitzar per crear fluxos de treball personalitzats a la vostra organització. Pots assignar color personalitzat a una etiqueta, cosa que facilita la identificació de l’etiqueta. Pots mostrar l'etiqueta a la barra lateral per filtrar les converses fàcilment.</p>",
     "LIST": {
       "404": "No hi ha etiquetes disponibles en aquest compte.",
       "TITLE": "Gestiona les etiquetes",
@@ -49,7 +50,8 @@
       "DISMISS": "Descartar",
       "ADD_SELECTED_LABELS": "Afegeix les etiquetes seleccionades",
       "ADD_SELECTED_LABEL": "Afegeix les etiquetes seleccionades",
-      "ADD_ALL_LABELS": "Afegiu totes les etiquetes"
+      "ADD_ALL_LABELS": "Afegiu totes les etiquetes",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Afegeix etiqueta",

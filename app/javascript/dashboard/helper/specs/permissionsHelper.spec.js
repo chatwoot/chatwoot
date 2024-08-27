@@ -1,7 +1,30 @@
 import {
   buildPermissionsFromRouter,
+  getCurrentAccount,
+  getUserPermissions,
   hasPermissions,
 } from '../permissionsHelper';
+
+describe('#getCurrentAccount', () => {
+  it('should return the current account', () => {
+    expect(getCurrentAccount({ accounts: [{ id: 1 }] }, 1)).toEqual({ id: 1 });
+    expect(getCurrentAccount({ accounts: [] }, 1)).toEqual(undefined);
+  });
+});
+
+describe('#getUserPermissions', () => {
+  it('should return the correct permissions', () => {
+    const user = {
+      accounts: [
+        { id: 1, permissions: ['conversations_manage'] },
+        { id: 3, permissions: ['contacts_manage'] },
+      ],
+    };
+    expect(getUserPermissions(user, 1)).toEqual(['conversations_manage']);
+    expect(getUserPermissions(user, '3')).toEqual(['contacts_manage']);
+    expect(getUserPermissions(user, 2)).toEqual([]);
+  });
+});
 
 describe('hasPermissions', () => {
   it('returns true if permission is present', () => {

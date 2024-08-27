@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Izveidot jaunu komandu",
     "HEADER": "Komandas",
-    "SIDEBAR_TXT": "<p><b>Komandas</b></p> <p>Komandas ļauj kārtot aģentus grupās, pamatojoties uz viņu pienākumiem. <br /> Aģents var atrasties vairākās komandās. Jūs varat piešķirt sarunas komandai, kad sadarbojaties. </p>",
+    "LOADING": "Notiek komandu iegūšana",
+    "DESCRIPTION": "Komandas ļauj organizēt aģentus grupās, pamatojoties uz viņu pienākumiem. Aģents var piederēt vairākām komandām. Kad strādājat sadarbojoties, varat piešķirt sarunas noteiktām komandām.",
+    "LEARN_MORE": "Uzzināt vairāk par komandām",
     "LIST": {
       "404": "Šajā kontā nav izveidota neviena komanda.",
-      "EDIT_TEAM": "Rediģēt komandu"
+      "EDIT_TEAM": "Rediģēt komandu",
+      "NONE": "Nav"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Nevarēja izdzēst komandu. Lūdzu, mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Vai esat pārliecināts, ka vēlaties izdzēst - %{teamName}",
+        "TITLE": "Vai tiešām vēlaties dzēst komandu?",
         "PLACE_HOLDER": "Lūdzu, uzrakstiet {teamName} lai apstiprinātu",
         "MESSAGE": "Komandas dzēšana noņems komandas uzdevumu no sarunām, kas piešķirtas šai komandai.",
         "YES": "Dzēst ",
