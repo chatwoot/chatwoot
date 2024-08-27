@@ -129,9 +129,11 @@ export default {
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
       <UpgradeBanner />
     </template>
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
     <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
     <WootSnackbarBox />
     <NetworkNotification />
