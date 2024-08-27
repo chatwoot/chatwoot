@@ -4,7 +4,9 @@ import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import VirtualList from 'vue-virtual-scroll-list';
+// import VirtualList from 'vue-virtual-scroll-list';
+// [VITE] Todo: Update the usage, for now we're disabling this since there is no way to test without fixing other issues
+// import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
@@ -933,7 +935,7 @@ export default {
       class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <VirtualList
+      <!-- <VirtualList
         ref="conversationVirtualList"
         data-key="id"
         :data-sources="conversationList"
@@ -958,7 +960,7 @@ export default {
             @observed="loadMoreConversations"
           />
         </template>
-      </VirtualList>
+      </VirtualList> -->
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
