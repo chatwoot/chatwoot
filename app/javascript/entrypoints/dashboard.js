@@ -14,7 +14,7 @@ import WootUiKit from 'dashboard/components';
 import App from 'dashboard/App.vue';
 import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
-import { emitter } from '../shared/helpers/mitt';
+// import { emitter } from '../shared/helpers/mitt';
 
 // import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
 import commonHelpers from 'dashboard/helper/commons';
@@ -97,7 +97,8 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-app.prototype.$emitter = emitter;
+// [VITE] Disabled this, need to renable later
+// app.prototype.$emitter = emitter;
 
 initializeChatwootEvents();
 initializeAnalyticsEvents();
