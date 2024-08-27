@@ -2,7 +2,8 @@
 import Spinner from 'shared/components/Spinner.vue';
 import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
-import agentMixin from 'dashboard/mixins/agentMixin';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
+
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
@@ -12,19 +13,17 @@ export default {
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
-  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    // inboxId prop is used in /mixins/agentMixin,
-    // remove this props when refactoring to composable if not needed
-    // eslint-disable-next-line vue/no-unused-properties
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  },
+  setup() {
+    const { agentsList } = useAgentsList(false);
+    return {
+      agentsList,
+    };
   },
   data() {
     return {

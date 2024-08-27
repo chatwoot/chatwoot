@@ -48,11 +48,7 @@ const loadLinkedIssue = async () => {
     const issues = response.data;
     linkedIssue.value = issues && issues.length ? issues[0] : null;
   } catch (error) {
-    const errorMessage = parseLinearAPIErrorResponse(
-      error,
-      t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR')
-    );
-    useAlert(errorMessage);
+    // We don't want to show an error message here, as it's not critical. When someone clicks on the Linear icon, we can inform them that the integration is disabled.
   }
 };
 
