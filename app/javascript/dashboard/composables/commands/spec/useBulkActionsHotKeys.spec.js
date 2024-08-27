@@ -5,7 +5,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { emitter } from 'shared/helpers/mitt';
 
 vi.mock('dashboard/composables/store');
-vi.mock('dashboard/composables/useI18n');
+vi.mock('vue-i18n');
 vi.mock('shared/helpers/mitt');
 
 describe('useBulkActionsHotKeys', () => {

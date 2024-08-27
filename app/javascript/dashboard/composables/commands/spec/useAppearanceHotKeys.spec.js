@@ -4,7 +4,7 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { setColorTheme } from 'dashboard/helper/themeHelper.js';
 
-vi.mock('dashboard/composables/useI18n');
+vi.mock('vue-i18n');
 vi.mock('shared/helpers/localStorage');
 vi.mock('dashboard/helper/themeHelper.js');
 

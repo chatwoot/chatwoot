@@ -15,7 +15,7 @@ import {
 } from './fixtures';
 
 vi.mock('dashboard/composables/store');
-vi.mock('dashboard/composables/useI18n');
+vi.mock('vue-i18n');
 vi.mock('dashboard/composables/route');
 vi.mock('dashboard/composables/useConversationLabels');
 vi.mock('dashboard/composables/useAI');

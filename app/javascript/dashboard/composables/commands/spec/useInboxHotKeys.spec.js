@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'dashboard/composables/route';
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 
-vi.mock('dashboard/composables/useI18n');
+vi.mock('vue-i18n');
 vi.mock('dashboard/composables/route');
 vi.mock('dashboard/helper/routeHelpers');
 vi.mock('shared/helpers/mitt');

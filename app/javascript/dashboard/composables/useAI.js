@@ -5,7 +5,7 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
-import { useI18n } from './useI18n';
+import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 

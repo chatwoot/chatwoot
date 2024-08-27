@@ -7,7 +7,7 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 import { MOCK_FEATURE_FLAGS } from './fixtures';
 
 vi.mock('dashboard/composables/store');
-vi.mock('dashboard/composables/useI18n');
+vi.mock('vue-i18n');
 vi.mock('dashboard/composables/route');
 vi.mock('dashboard/composables/useAdmin');
 vi.mock('dashboard/helper/URLHelper');
