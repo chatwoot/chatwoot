@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 
-import VueRouter from 'vue-router';
 import axios from 'axios';
 // Global Components
 import hljs from 'highlight.js';
@@ -42,6 +41,9 @@ const i18n = createI18n({
 
 const app = createApp(App);
 app.use(i18n);
+app.use(store);
+app.use(router);
+
 // [VITE] Disabled this, need to renable later
 // if (window.errorLoggingConfig) {
 //   Sentry.init({
@@ -68,7 +70,6 @@ app.use(i18n);
 // }
 
 app.use(VueDOMPurifyHTML, domPurifyConfig);
-app.use(VueRouter);
 app.use(WootUiKit);
 app.use(VueFormulate, {
   rules: {
