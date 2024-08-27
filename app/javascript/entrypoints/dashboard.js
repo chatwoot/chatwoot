@@ -10,15 +10,15 @@ import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
 import { sync } from 'vuex-router-sync';
 import VTooltip from 'v-tooltip';
-import WootUiKit from '../dashboard/components';
-import App from '../dashboard/App';
-import i18n from '../dashboard/i18n';
-import createAxios from '../dashboard/helper/APIHelper';
+import WootUiKit from 'dashboard/components';
+import App from 'dashboard/App.vue';
+import i18n from 'dashboard/i18n';
+import createAxios from 'dashboard/helper/APIHelper';
 import { emitter } from '../shared/helpers/mitt';
 
-import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import router, { initalizeRouter } from '../dashboard/routes';
-import store from '../dashboard/store';
+import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
+import router, { initalizeRouter } from 'dashboard/routes';
+import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
@@ -26,12 +26,12 @@ import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
-} from '../dashboard/helper/scriptHelpers.js';
+} from 'dashboard/helper/scriptHelpers.js';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
-import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer.js';
-import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin.js';
-import resizeDirective from '../dashboard/helper/directives/resize.js';
+import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin.js';
+import resizeDirective from 'dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue-clickaway';
 
 if (window.errorLoggingConfig) {

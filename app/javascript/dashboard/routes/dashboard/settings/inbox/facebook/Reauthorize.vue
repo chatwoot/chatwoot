@@ -1,6 +1,6 @@
 <script>
 /* global FB */
-import InboxReconnectionRequired from '../components/InboxReconnectionRequired';
+import InboxReconnectionRequired from '../components/InboxReconnectionRequired.vue';
 import { useAlert } from 'dashboard/composables';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';

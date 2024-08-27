@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import InboxReconnectionRequired from '../../components/InboxReconnectionRequired';
+import InboxReconnectionRequired from '../../components/InboxReconnectionRequired.vue';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
 
 import { useI18n } from 'dashboard/composables/useI18n';
