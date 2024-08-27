@@ -11,13 +11,14 @@ export function useConfig() {
    */
   const channelConfig = computed(() => window.chatwootWebChannel);
 
-  /**
-   * Computed property to check if the inbox avatar is enabled for the bot.
-   * @returns {Boolean} True if the inbox avatar is enabled for the bot, false otherwise.
-   */
-  const useInboxAvatarForBot = computed(() =>
-    channelConfig.value.enabledFeatures.includes('use_inbox_avatar_for_bot')
-  );
+  const createFeatureChecker = feature =>
+    computed(() => channelConfig.value.enabledFeatures.includes(feature));
+
+  // Use the helper function for feature checks
+  const useInboxAvatarForBot = createFeatureChecker('use_inbox_avatar_for_bot');
+  const hasEmojiPickerEnabled = createFeatureChecker('emoji_picker');
+  const hasAttachmentsEnabled = createFeatureChecker('attachments');
+  const hasEndConversationEnabled = createFeatureChecker('end_conversation');
 
   /**
    * Computed property to check if the agent bot is connected.
@@ -32,30 +33,6 @@ export function useConfig() {
    * @returns {String} The inbox avatar URL.
    */
   const inboxAvatarUrl = computed(() => channelConfig.value.avatarUrl);
-
-  /**
-   * Computed property to check if the emoji picker is enabled.
-   * @returns {Boolean} True if the emoji picker is enabled, false otherwise.
-   */
-  const hasEmojiPickerEnabled = computed(() =>
-    channelConfig.value.enabledFeatures.includes('emoji_picker')
-  );
-
-  /**
-   * Computed property to check if attachments are enabled.
-   * @returns {Boolean} True if attachments are enabled, false otherwise.
-   */
-  const hasAttachmentsEnabled = computed(() =>
-    channelConfig.value.enabledFeatures.includes('attachments')
-  );
-
-  /**
-   * Computed property to check if end conversation is enabled.
-   * @returns {Boolean} True if end conversation is enabled, false otherwise.
-   */
-  const hasEndConversationEnabled = computed(() =>
-    channelConfig.value.enabledFeatures.includes('end_conversation')
-  );
 
   /**
    * Computed property to check if the pre-chat form is enabled.
