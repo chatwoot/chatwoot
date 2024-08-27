@@ -4,6 +4,7 @@ import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useFilter } from 'shared/composables/useFilter';
 import VirtualList from 'vue-virtual-scroll-list';
 
 import ChatListHeader from './ChatListHeader.vue';
@@ -16,7 +17,6 @@ import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
-import filterMixin from 'shared/mixins/filterMixin';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -41,7 +41,6 @@ export default {
     IntersectionObserver,
     VirtualList,
   },
-  mixins: [filterMixin],
   provide() {
     return {
       // Actions to be performed on virtual list item and context menu.
@@ -90,6 +89,15 @@ export default {
     const { uiSettings } = useUISettings();
 
     const conversationListRef = ref(null);
+
+    const {
+      setFilterAttributes,
+      initializeStatusAndAssigneeFilterToModal,
+      initializeInboxTeamAndLabelFilterToModal,
+    } = useFilter({
+      filteri18nKey: 'FILTER',
+      attributeModel: 'conversation_attribute',
+    });
 
     const getKeyboardListenerParams = () => {
       const allConversations = conversationListRef.value.querySelectorAll(
@@ -146,6 +154,9 @@ export default {
     return {
       uiSettings,
       conversationListRef,
+      setFilterAttributes,
+      initializeStatusAndAssigneeFilterToModal,
+      initializeInboxTeamAndLabelFilterToModal,
     };
   },
   data() {
@@ -859,6 +870,25 @@ export default {
     },
     onContextMenuToggle(state) {
       this.isContextMenuOpen = state;
+    },
+    initializeExistingFilterToModal() {
+      const statusFilter = this.initializeStatusAndAssigneeFilterToModal(
+        this.activeStatus,
+        this.currentUserDetails,
+        this.activeAssigneeTab
+      );
+      if (statusFilter) {
+        this.appliedFilter.push(statusFilter);
+      }
+
+      const otherFilters = this.initializeInboxTeamAndLabelFilterToModal(
+        this.conversationInbox,
+        this.inbox,
+        this.teamId,
+        this.activeTeam,
+        this.label
+      );
+      this.appliedFilter.push(...otherFilters);
     },
   },
 };
