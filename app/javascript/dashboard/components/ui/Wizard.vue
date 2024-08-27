@@ -1,9 +1,7 @@
 <script>
 /* eslint no-console: 0 */
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  mixins: [globalConfigMixin],
   props: {
     items: {
       type: Array,

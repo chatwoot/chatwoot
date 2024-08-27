@@ -1,5 +1,4 @@
 <script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 
@@ -8,7 +7,6 @@ export default {
     SettingsHeader,
     SettingIntroBanner,
   },
-  mixins: [globalConfigMixin],
   computed: {
     currentPortal() {
       const slug = this.$route.params.portalSlug;

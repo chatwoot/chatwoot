@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 
 export default {
@@ -12,7 +11,6 @@ export default {
     DashboardAppModal,
     DashboardAppsRow,
   },
-  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},

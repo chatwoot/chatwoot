@@ -2,7 +2,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useInstallationName } from 'shared/helpers/installationNameHelper';
+
 import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
@@ -22,7 +23,6 @@ export default {
     Spinner,
     SubmitButton,
   },
-  mixins: [globalConfigMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
@@ -88,6 +88,7 @@ export default {
     // TODO: Remove this when Safari gets wider support
     // Ref: https://caniuse.com/requestidlecallback
     //
+    useInstallationName,
     requestIdleCallbackPolyfill(callback) {
       if (window.requestIdleCallback) {
         window.requestIdleCallback(callback);
