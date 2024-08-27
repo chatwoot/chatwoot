@@ -4,43 +4,43 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { filterAttributeGroups } from 'dashboard/components/widgets/conversation/advancedFilterItems';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 
+const customAttributeInputType = key => {
+  switch (key) {
+    case 'date':
+      return 'date';
+    case 'text':
+      return 'plain_text';
+    case 'list':
+      return 'search_select';
+    case 'checkbox':
+      return 'search_select';
+    default:
+      return 'plain_text';
+  }
+};
+
+const getOperatorTypes = key => {
+  switch (key) {
+    case 'list':
+      return OPERATORS.OPERATOR_TYPES_1;
+    case 'text':
+      return OPERATORS.OPERATOR_TYPES_3;
+    case 'number':
+      return OPERATORS.OPERATOR_TYPES_1;
+    case 'link':
+      return OPERATORS.OPERATOR_TYPES_1;
+    case 'date':
+      return OPERATORS.OPERATOR_TYPES_4;
+    case 'checkbox':
+      return OPERATORS.OPERATOR_TYPES_1;
+    default:
+      return OPERATORS.OPERATOR_TYPES_1;
+  }
+};
+
 export const useFilter = ({ filteri18nKey, attributeModel }) => {
   const { t: $t } = useI18n();
   const { getters } = useStore();
-
-  const customAttributeInputType = key => {
-    switch (key) {
-      case 'date':
-        return 'date';
-      case 'text':
-        return 'plain_text';
-      case 'list':
-        return 'search_select';
-      case 'checkbox':
-        return 'search_select';
-      default:
-        return 'plain_text';
-    }
-  };
-
-  const getOperatorTypes = key => {
-    switch (key) {
-      case 'list':
-        return OPERATORS.OPERATOR_TYPES_1;
-      case 'text':
-        return OPERATORS.OPERATOR_TYPES_3;
-      case 'number':
-        return OPERATORS.OPERATOR_TYPES_1;
-      case 'link':
-        return OPERATORS.OPERATOR_TYPES_1;
-      case 'date':
-        return OPERATORS.OPERATOR_TYPES_4;
-      case 'checkbox':
-        return OPERATORS.OPERATOR_TYPES_1;
-      default:
-        return OPERATORS.OPERATOR_TYPES_1;
-    }
-  };
 
   const setFilterAttributes = () => {
     const allCustomAttributes =
@@ -166,6 +166,7 @@ export const useFilter = ({ filteri18nKey, attributeModel }) => {
     }
     return filters;
   };
+
   return {
     setFilterAttributes,
     initializeStatusAndAssigneeFilterToModal,
