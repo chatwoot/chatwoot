@@ -1,37 +1,31 @@
+import { useAccount } from 'dashboard/composables/useAccount';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import allLocales from 'shared/constants/locales.js';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useRoute } from 'dashboard/composables/route';
 import { computed } from 'vue';
 
 /**
- * COmposable to work with portal-related data and URLs.
- *
- * @returns {Object} The portal-related data and utilities.
+ * @typedef {Object} PortalComposable
+ * @property {import('vue').ComputedRef<number>} accountId - The current account ID.
+ * @property {import('vue').ComputedRef<string>} portalSlug - The slug of the current portal.
+ * @property {import('vue').ComputedRef<string>} locale - The current locale code.
+ * @property {function(number): string} articleUrl - A function to generate the URL for an article.
+ * @property {function(string): string} localeName - A function to get the localized name of a locale.
+ */
+
+/**
+ * A composable for managing portal-related data and utilities.
+ * @returns {PortalComposable} An object containing portal-related properties and functions.
  */
 export const usePortal = () => {
-  /**
-   * Gets the current account ID.
-   * @type {number}
-   */
-  const accountId = useMapGetter('getCurrentAccountId');
+  const { accountId } = useAccount();
+  const portalSlug = computed(() => useRoute().params.portalSlug);
+  const locale = computed(() => useRoute().params.locale);
 
   /**
-   * Computes the current portal slug.
-   * @type {import('vue').ComputedRef<string>}
-   */
-  const portalSlug = computed(() => useMapGetter('getCurrentPortalSlug'));
-
-  /**
-   * Computes the current locale.
-   * @type {import('vue').ComputedRef<string>}
-   */
-  const locale = computed(() => useMapGetter('getCurrentLocale'));
-
-  /**
-   * Generates the URL for an article based on the account ID, portal slug, and locale.
-   *
-   * @param {number|string} id - The ID of the article.
-   * @returns {string} The URL of the article.
+   * Generates the URL for an article.
+   * @param {number} id - The ID of the article.
+   * @returns {string} The full URL for the article.
    */
   const articleUrl = id => {
     return frontendURL(
@@ -40,14 +34,19 @@ export const usePortal = () => {
   };
 
   /**
-   * Retrieves the locale name using the locale code.
-   *
+   * Gets the localized name of a locale.
    * @param {string} code - The locale code.
-   * @returns {string} The locale name.
+   * @returns {string} The localized name of the locale.
    */
   const localeName = code => {
     return allLocales[code];
   };
 
-  return { accountId, portalSlug, locale, articleUrl, localeName };
+  return {
+    accountId,
+    portalSlug,
+    locale,
+    articleUrl,
+    localeName,
+  };
 };

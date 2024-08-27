@@ -10,6 +10,7 @@ import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShor
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { usePortal } from '../composables/usePortal';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -30,12 +31,14 @@ export default {
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
-    const { accountId } = usePortal();
-
+    const { accountId } = useAccount();
+    const { locale, localeName } = usePortal();
     return {
       uiSettings,
       updateUISettings,
       accountId,
+      locale,
+      localeName,
     };
   },
   data() {

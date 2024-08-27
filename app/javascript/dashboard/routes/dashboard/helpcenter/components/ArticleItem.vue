@@ -3,6 +3,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import { usePortal } from '../composables/usePortal';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 export default {
   components: {
@@ -44,8 +45,9 @@ export default {
     },
   },
   setup() {
-    const { accountId, portalSlug, locale, localeName } = usePortal();
-    return { accountId, portalSlug, locale, localeName };
+    const { accountId } = useAccount();
+    const { articleUrl, portalSlug, locale, localeName } = usePortal();
+    return { accountId, portalSlug, locale, localeName, articleUrl };
   },
   computed: {
     lastUpdatedAt() {

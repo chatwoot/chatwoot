@@ -1,56 +1,68 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { usePortal } from '../usePortal';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useRoute } from 'dashboard/composables/route';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import allLocales from 'shared/constants/locales.js';
 
-vi.mock('dashboard/composables/store', () => ({
-  useMapGetter: vi.fn(),
-}));
-
-vi.mock('dashboard/helper/URLHelper', () => ({
-  frontendURL: vi.fn(),
-}));
+vi.mock('dashboard/composables/useAccount');
+vi.mock('dashboard/composables/route');
+vi.mock('dashboard/helper/URLHelper');
 
 describe('usePortal', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
-
-    useMapGetter
-      .mockReturnValueOnce('1')
-      .mockReturnValueOnce('test-portal')
-      .mockReturnValueOnce('en');
-
-    frontendURL.mockImplementation(url => `/app/${url}`);
+    vi.mocked(useAccount).mockReturnValue({ accountId: { value: 123 } });
   });
 
-  it('returns accountId', () => {
-    const { accountId } = usePortal();
-    expect(accountId.value).toBe('1');
+  it('returns the correct properties', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { portalSlug: 'test-portal', locale: 'en' },
+    });
+
+    const portal = usePortal();
+
+    expect(portal).toHaveProperty('accountId');
+    expect(portal).toHaveProperty('portalSlug');
+    expect(portal).toHaveProperty('locale');
+    expect(portal).toHaveProperty('articleUrl');
+    expect(portal).toHaveProperty('localeName');
   });
 
-  it('returns portalSlug', () => {
-    const { portalSlug } = usePortal();
+  it('computes portalSlug and locale correctly', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { portalSlug: 'test-portal', locale: 'fr' },
+    });
+
+    const { portalSlug, locale } = usePortal();
+
     expect(portalSlug.value).toBe('test-portal');
+    expect(locale.value).toBe('fr');
   });
 
-  it('returns locale', () => {
-    const { locale } = usePortal();
-    expect(locale.value).toBe('en');
-  });
+  it('generates correct article URL', () => {
+    vi.mocked(useAccount).mockReturnValue({ accountId: { value: 456 } });
+    vi.mocked(useRoute).mockReturnValue({
+      params: { portalSlug: 'help-center', locale: 'es' },
+    });
+    vi.mocked(frontendURL).mockReturnValue('https://example.com/article');
 
-  it('generates correct articleUrl', () => {
     const { articleUrl } = usePortal();
-    const url = articleUrl(123);
-    expect(url).toBe('/app/accounts/1/portals/test-portal/en/articles/123');
+    const url = articleUrl(789);
+
     expect(frontendURL).toHaveBeenCalledWith(
-      'accounts/1/portals/test-portal/en/articles/123'
+      'accounts/456/portals/help-center/es/articles/789'
     );
+    expect(url).toBe('https://example.com/article');
   });
 
-  it('returns correct localeName', () => {
+  it('returns correct locale name', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { portalSlug: 'test-portal', locale: 'ja' },
+    });
+
     const { localeName } = usePortal();
-    expect(localeName('es')).toBe(allLocales.es);
-    expect(localeName('fr')).toBe(allLocales.fr);
+    const name = localeName('ja');
+
+    expect(name).toBe(allLocales.ja);
   });
 });
