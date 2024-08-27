@@ -1,5 +1,4 @@
 <script>
-import { ref, watchEffect, computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -117,15 +116,13 @@ export default {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
 
-    const uploadRef = ref(null);
-    // TODO: This is really hacky, we need to replace the file picker component with
-    // a custom one, where the logic and the component markup is isolated.
-    // Once we have the custom component, we can remove the hacky logic below.
-    const uploadRefElem = computed(() => uploadRef.value?.$el);
-
     const keyboardEvents = {
       'Alt+KeyA': {
         action: () => {
+          // TODO: This is really hacky, we need to replace the file picker component with
+          // a custom one, where the logic and the component markup is isolated.
+          // Once we have the custom component, we can remove the hacky logic below.
+
           const uploadTriggerButton = document.querySelector(
             '#conversationAttachment'
           );
@@ -135,14 +132,11 @@ export default {
       },
     };
 
-    watchEffect(() => {
-      useKeyboardEvents(keyboardEvents, uploadRefElem);
-    });
+    useKeyboardEvents(keyboardEvents);
 
     return {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
-      uploadRef,
     };
   },
   computed: {
@@ -267,7 +261,6 @@ export default {
         @click="toggleEmojiPicker"
       />
       <FileUpload
-        ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
         :size="4096 * 4096"
