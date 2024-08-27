@@ -5,7 +5,7 @@ import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
 import { filterAttributeGroups } from './advancedFilterItems';
-import filterMixin from 'shared/mixins/filterMixin';
+import { useFilter } from 'shared/composables/useFilter';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
@@ -14,7 +14,6 @@ export default {
   components: {
     FilterInputBox,
   },
-  mixins: [filterMixin],
   props: {
     onClose: {
       type: Function,
@@ -36,6 +35,15 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { setFilterAttributes } = useFilter({
+      filteri18nKey: 'FILTER',
+      attributeModel: 'conversation_attribute',
+    });
+    return {
+      setFilterAttributes,
+    };
   },
   data() {
     return {
@@ -67,7 +75,11 @@ export default {
     },
   },
   mounted() {
-    this.setFilterAttributes();
+    const { filterGroups, filterTypes } = this.setFilterAttributes();
+
+    this.filterTypes = [...this.filterTypes, ...filterTypes];
+    this.filterGroups = filterGroups;
+
     this.$store.dispatch('campaigns/get');
     if (this.getAppliedConversationFilters.length) {
       this.appliedFilters = [];
