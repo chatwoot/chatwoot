@@ -956,16 +956,9 @@ export default {
       }
 
       const answer = response.content;
-
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i <= answer.length) {
-          this.message = answer.substring(0, i);
-          i += 1;
-        } else {
-          clearInterval(interval);
-        }
-      }, 10);
+      if ( this.currentChat.id === response.conversation_id ) {
+        this.message = answer;
+      }
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;

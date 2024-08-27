@@ -121,7 +121,7 @@
         "LABEL": "Allow auto assign for this team."
       },
       "HIGH_PRIORITY": {
-        "LABEL": "Set team as high priority."
+        "LABEL": "Set team as high priority and allow to handle handover conversations"
       },
       "SUBMIT_CREATE": "Create team"
     }

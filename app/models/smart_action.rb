@@ -73,10 +73,22 @@ class SmartAction < ApplicationRecord
 
   def execute_after_create_commit_callbacks
     dispatch_create_events
+
+    set_agent_bot
     create_automated_response
     resolve_conversation
     create_private_message
     handover_conversation_to_team
+    restore_current_user
+  end
+
+  def set_agent_bot
+    @prev_user = Current.user
+    Current.user = bot_agent
+  end
+
+  def restore_current_user
+    Current.user = @prev_user
   end
 
   def dispatch_create_events
