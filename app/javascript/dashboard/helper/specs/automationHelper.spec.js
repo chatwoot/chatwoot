@@ -11,11 +11,11 @@ import {
   contactAttrs,
   conversationAttrs,
   expectedOutputForCustomAttributeGenerator,
-} from './automationFixtures';
+} from './fixtures/automationFixtures';
 import { AUTOMATIONS } from 'dashboard/routes/dashboard/settings/automation/constants';
 
-describe('automationMethodsMixin', () => {
-  it('getCustomAttributeInputType returns the attribute input type', () => {
+describe('getCustomAttributeInputType', () => {
+  it('returns the attribute input type', () => {
     expect(helpers.getCustomAttributeInputType('date')).toEqual('date');
     expect(helpers.getCustomAttributeInputType('date')).not.toEqual(
       'some_random_value'
@@ -31,33 +31,32 @@ describe('automationMethodsMixin', () => {
       'plain_text'
     );
   });
-  it('isACustomAttribute returns the custom attribute value if true', () => {
+});
+
+describe('isACustomAttribute', () => {
+  it('returns the custom attribute value if true', () => {
     expect(
       helpers.isACustomAttribute(customAttributes, 'signed_up_at')
     ).toBeTruthy();
     expect(helpers.isACustomAttribute(customAttributes, 'status')).toBeFalsy();
   });
-  it('getCustomAttributeListDropdownValues returns the attribute dropdown values', () => {
+});
+
+describe('getCustomAttributeListDropdownValues', () => {
+  it('returns the attribute dropdown values', () => {
     const myListValues = [
-      {
-        id: 'item1',
-        name: 'item1',
-      },
-      {
-        id: 'item2',
-        name: 'item2',
-      },
-      {
-        id: 'item3',
-        name: 'item3',
-      },
+      { id: 'item1', name: 'item1' },
+      { id: 'item2', name: 'item2' },
+      { id: 'item3', name: 'item3' },
     ];
     expect(
       helpers.getCustomAttributeListDropdownValues(customAttributes, 'my_list')
     ).toEqual(myListValues);
   });
+});
 
-  it('isCustomAttributeCheckbox checks if attribute is a checkbox', () => {
+describe('isCustomAttributeCheckbox', () => {
+  it('checks if attribute is a checkbox', () => {
     expect(
       helpers.isCustomAttributeCheckbox(customAttributes, 'prime_user')
         .attribute_display_type
@@ -70,13 +69,19 @@ describe('automationMethodsMixin', () => {
       helpers.isCustomAttributeCheckbox(customAttributes, 'my_list')
     ).not.toEqual('checkbox');
   });
-  it('isCustomAttributeList checks if attribute is a list', () => {
+});
+
+describe('isCustomAttributeList', () => {
+  it('checks if attribute is a list', () => {
     expect(
       helpers.isCustomAttributeList(customAttributes, 'my_list')
         .attribute_display_type
     ).toEqual('list');
   });
-  it('getOperatorTypes returns the correct custom attribute operators', () => {
+});
+
+describe('getOperatorTypes', () => {
+  it('returns the correct custom attribute operators', () => {
     expect(helpers.getOperatorTypes('list')).toEqual(OPERATOR_TYPES_1);
     expect(helpers.getOperatorTypes('text')).toEqual(OPERATOR_TYPES_3);
     expect(helpers.getOperatorTypes('number')).toEqual(OPERATOR_TYPES_1);
@@ -85,93 +90,44 @@ describe('automationMethodsMixin', () => {
     expect(helpers.getOperatorTypes('checkbox')).toEqual(OPERATOR_TYPES_1);
     expect(helpers.getOperatorTypes('some_random')).toEqual(OPERATOR_TYPES_1);
   });
-  it('generateConditionOptions returns expected conditions options array', () => {
-    const testConditions = [
-      {
-        id: 123,
-        title: 'Fayaz',
-        email: 'test@test.com',
-      },
-      {
-        title: 'John',
-        id: 324,
-        email: 'test@john.com',
-      },
-    ];
+});
 
+describe('generateConditionOptions', () => {
+  it('returns expected conditions options array', () => {
+    const testConditions = [
+      { id: 123, title: 'Fayaz', email: 'test@test.com' },
+      { title: 'John', id: 324, email: 'test@john.com' },
+    ];
     const expectedConditions = [
-      {
-        id: 123,
-        name: 'Fayaz',
-      },
-      {
-        id: 324,
-        name: 'John',
-      },
+      { id: 123, name: 'Fayaz' },
+      { id: 324, name: 'John' },
     ];
     expect(helpers.generateConditionOptions(testConditions)).toEqual(
       expectedConditions
     );
   });
-  it('getActionOptions returns expected actions options array', () => {
+});
+
+describe('getActionOptions', () => {
+  it('returns expected actions options array', () => {
     const expectedOptions = [
-      {
-        id: 'testlabel',
-        name: 'testlabel',
-      },
-      {
-        id: 'snoozes',
-        name: 'snoozes',
-      },
+      { id: 'testlabel', name: 'testlabel' },
+      { id: 'snoozes', name: 'snoozes' },
     ];
     expect(helpers.getActionOptions({ labels, type: 'add_label' })).toEqual(
       expectedOptions
     );
   });
-  it('getConditionOptions returns expected conditions options', () => {
+});
+
+describe('getConditionOptions', () => {
+  it('returns expected conditions options', () => {
     const testOptions = [
-      {
-        id: 'open',
-        name: 'Open',
-      },
-      {
-        id: 'resolved',
-        name: 'Resolved',
-      },
-      {
-        id: 'pending',
-        name: 'Pending',
-      },
-      {
-        id: 'snoozed',
-        name: 'Snoozed',
-      },
-      {
-        id: 'all',
-        name: 'All',
-      },
-    ];
-    const expectedOptions = [
-      {
-        id: 'open',
-        name: 'Open',
-      },
-      {
-        id: 'resolved',
-        name: 'Resolved',
-      },
-      {
-        id: 'pending',
-        name: 'Pending',
-      },
-      {
-        id: 'snoozed',
-        name: 'Snoozed',
-      },
-      {
-        id: 'all',
-        name: 'All',
-      },
+      { id: 'open', name: 'Open' },
+      { id: 'resolved', name: 'Resolved' },
+      { id: 'pending', name: 'Pending' },
+      { id: 'snoozed', name: 'Snoozed' },
+      { id: 'all', name: 'All' },
     ];
     expect(
       helpers.getConditionOptions({
@@ -180,14 +136,20 @@ describe('automationMethodsMixin', () => {
         statusFilterOptions: testOptions,
         type: 'status',
       })
-    ).toEqual(expectedOptions);
+    ).toEqual(testOptions);
   });
-  it('getFileName returns the correct file name', () => {
+});
+
+describe('getFileName', () => {
+  it('returns the correct file name', () => {
     expect(
       helpers.getFileName(automation.actions[0], automation.files)
     ).toEqual('pfp.jpeg');
   });
-  it('getDefaultConditions returns the resp default condition model', () => {
+});
+
+describe('getDefaultConditions', () => {
+  it('returns the resp default condition model', () => {
     const messageCreatedModel = [
       {
         attribute_key: 'message_type',
@@ -211,7 +173,10 @@ describe('automationMethodsMixin', () => {
     );
     expect(helpers.getDefaultConditions()).toEqual(genericConditionModel);
   });
-  it('getDefaultActions returns the resp default action model', () => {
+});
+
+describe('getDefaultActions', () => {
+  it('returns the resp default action model', () => {
     const genericActionModel = [
       {
         action_name: 'assign_agent',
@@ -220,7 +185,10 @@ describe('automationMethodsMixin', () => {
     ];
     expect(helpers.getDefaultActions()).toEqual(genericActionModel);
   });
-  it('filterCustomAttributes filters the raw custom attributes', () => {
+});
+
+describe('filterCustomAttributes', () => {
+  it('filters the raw custom attributes', () => {
     const filteredAttributes = [
       { key: 'signed_up_at', name: 'Signed Up At', type: 'date' },
       { key: 'prime_user', name: 'Prime User', type: 'checkbox' },
@@ -235,7 +203,10 @@ describe('automationMethodsMixin', () => {
       filteredAttributes
     );
   });
-  it('getStandardAttributeInputType returns the resp default action model', () => {
+});
+
+describe('getStandardAttributeInputType', () => {
+  it('returns the resp default action model', () => {
     expect(
       helpers.getStandardAttributeInputType(
         AUTOMATIONS,
@@ -258,7 +229,10 @@ describe('automationMethodsMixin', () => {
       )
     ).toEqual('plain_text');
   });
-  it('generateAutomationPayload returns the resp default action model', () => {
+});
+
+describe('generateAutomationPayload', () => {
+  it('returns the resp default action model', () => {
     const testPayload = {
       name: 'Test',
       description: 'This is a test',
@@ -300,7 +274,10 @@ describe('automationMethodsMixin', () => {
       expectedPayload
     );
   });
-  it('isCustomAttribute returns the resp default action model', () => {
+});
+
+describe('isCustomAttribute', () => {
+  it('returns the resp default action model', () => {
     const attrs = helpers.filterCustomAttributes(customAttributes);
     expect(helpers.isCustomAttribute(attrs, 'my_list')).toBeTruthy();
     expect(helpers.isCustomAttribute(attrs, 'my_check')).toBeTruthy();
@@ -309,8 +286,10 @@ describe('automationMethodsMixin', () => {
     expect(helpers.isCustomAttribute(attrs, 'prime_user')).toBeTruthy();
     expect(helpers.isCustomAttribute(attrs, 'hello')).toBeFalsy();
   });
+});
 
-  it('generateCustomAttributes generates and returns correct condition attribute', () => {
+describe('generateCustomAttributes', () => {
+  it('generates and returns correct condition attribute', () => {
     expect(
       helpers.generateCustomAttributes(
         conversationAttrs,
@@ -319,5 +298,118 @@ describe('automationMethodsMixin', () => {
         'Contact Custom Attributes'
       )
     ).toEqual(expectedOutputForCustomAttributeGenerator);
+  });
+});
+
+describe('getAttributes', () => {
+  it('returns the conditions for the given automation type', () => {
+    const result = helpers.getAttributes(AUTOMATIONS, 'message_created');
+    expect(result).toEqual(AUTOMATIONS.message_created.conditions);
+  });
+});
+
+describe('getAttributes', () => {
+  it('returns the conditions for the given automation type', () => {
+    const result = helpers.getAttributes(AUTOMATIONS, 'message_created');
+    expect(result).toEqual(AUTOMATIONS.message_created.conditions);
+  });
+});
+
+describe('getAutomationType', () => {
+  it('returns the automation type for the given key', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getAutomationType(
+      AUTOMATIONS,
+      mockAutomation,
+      'message_type'
+    );
+    expect(result).toEqual(
+      AUTOMATIONS.message_created.conditions.find(c => c.key === 'message_type')
+    );
+  });
+});
+
+describe('getInputType', () => {
+  it('returns the input type for a custom attribute', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getInputType(
+      customAttributes,
+      AUTOMATIONS,
+      mockAutomation,
+      'signed_up_at'
+    );
+    expect(result).toEqual('date');
+  });
+
+  it('returns the input type for a standard attribute', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getInputType(
+      customAttributes,
+      AUTOMATIONS,
+      mockAutomation,
+      'message_type'
+    );
+    expect(result).toEqual('search_select');
+  });
+});
+
+describe('getOperators', () => {
+  it('returns operators for a custom attribute in edit mode', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getOperators(
+      customAttributes,
+      AUTOMATIONS,
+      mockAutomation,
+      'edit',
+      'signed_up_at'
+    );
+    expect(result).toEqual(OPERATOR_TYPES_4);
+  });
+
+  it('returns operators for a standard attribute', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getOperators(
+      customAttributes,
+      AUTOMATIONS,
+      mockAutomation,
+      'create',
+      'message_type'
+    );
+    expect(result).toEqual(
+      AUTOMATIONS.message_created.conditions.find(c => c.key === 'message_type')
+        .filterOperators
+    );
+  });
+});
+
+describe('getCustomAttributeType', () => {
+  it('returns the custom attribute type for the given key', () => {
+    const mockAutomation = { event_name: 'message_created' };
+    const result = helpers.getCustomAttributeType(
+      AUTOMATIONS,
+      mockAutomation,
+      'message_type'
+    );
+    expect(result).toEqual(
+      AUTOMATIONS.message_created.conditions.find(c => c.key === 'message_type')
+        .customAttributeType
+    );
+  });
+});
+
+describe('showActionInput', () => {
+  it('returns false for send_email_to_team and send_message actions', () => {
+    expect(helpers.showActionInput([], 'send_email_to_team')).toBe(false);
+    expect(helpers.showActionInput([], 'send_message')).toBe(false);
+  });
+
+  it('returns true if the action has an input type', () => {
+    const mockActionTypes = [{ key: 'add_label', inputType: 'select' }];
+    expect(helpers.showActionInput(mockActionTypes, 'add_label')).toBe(true);
+  });
+
+  it('returns false if the action does not have an input type', () => {
+    const mockActionTypes = [{ key: 'some_action', inputType: null }];
+    expect(helpers.showActionInput(mockActionTypes, 'some_action')).toBe(false);
   });
 });
