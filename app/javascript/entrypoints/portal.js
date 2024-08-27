@@ -5,7 +5,7 @@ import Vue from 'vue';
 import { InitializationHelpers } from '../portal/portalHelpers';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-import { directive as onClickaway } from 'vue-clickaway';
+import { directive as onClickaway } from 'vue3-click-away';
 
 Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 Vue.directive('on-clickaway', onClickaway);

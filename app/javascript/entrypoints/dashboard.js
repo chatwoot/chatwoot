@@ -32,7 +32,7 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin.js';
 import resizeDirective from 'dashboard/helper/directives/resize.js';
-import { directive as onClickaway } from 'vue-clickaway';
+import { directive as onClickaway } from 'vue3-click-away';
 
 const i18n = createI18n({
   locale: 'en',

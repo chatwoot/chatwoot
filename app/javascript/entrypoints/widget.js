@@ -11,7 +11,7 @@ import {
   isPhoneNumberValidWithDialCode,
 } from 'shared/helpers/Validators';
 import router from '../widget/router';
-import { directive as onClickaway } from 'vue-clickaway';
+import { directive as onClickaway } from 'vue3-click-away';
 import { emitter } from 'shared/helpers/mitt';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');

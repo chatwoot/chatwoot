@@ -4,7 +4,7 @@ import Vue from 'vue';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import { initializeTheme } from './portalThemeHelper.js';
-import { directive as onClickaway } from 'vue-clickaway';
+import { directive as onClickaway } from 'vue3-click-away';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
