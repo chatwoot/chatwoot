@@ -3,7 +3,6 @@ module.exports = {
     'airbnb-base/legacy',
     'prettier',
     'plugin:vue/recommended',
-    'plugin:storybook/recommended',
     'plugin:cypress/recommended',
   ],
   parserOptions: {
