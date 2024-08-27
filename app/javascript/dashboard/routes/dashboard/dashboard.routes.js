@@ -15,7 +15,7 @@ export default {
   routes: [
     ...helpcenterRoutes.routes,
     {
-      path: frontendURL('accounts/:account_id'),
+      path: frontendURL('accounts/:accountId'),
       component: AppContainer,
       children: [
         {
