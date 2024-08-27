@@ -1,12 +1,17 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 export default {
-  mixins: [messageFormatterMixin],
   props: {
     selectedChannelName: {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
 };
 </script>
