@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
@@ -196,7 +195,7 @@ const actions = {
           before: data.messages[0].id,
           conversationId: data.id,
         });
-        Vue.set(data, 'dataFetched', true);
+        data.dataFetched = true;
       } catch (error) {
         // Ignore error
       }
