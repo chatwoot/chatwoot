@@ -1,24 +1,3 @@
-<template>
-  <label class="input-container">
-    <span v-if="label">{{ label }}</span>
-    <input
-      class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-      :value="value"
-      :type="type"
-      :placeholder="placeholder"
-      :readonly="readonly"
-      :style="styles"
-      @input="onChange"
-      @blur="onBlur"
-    />
-    <p v-if="helpText" class="help-text">{{ helpText }}</p>
-    <span v-if="error" class="message">
-      {{ error }}
-    </span>
-    <slot name="masked" />
-  </label>
-</template>
-
 <script>
 export default {
   props: {
@@ -65,6 +44,28 @@ export default {
   },
 };
 </script>
+
+<template>
+  <label class="input-container">
+    <span v-if="label">{{ label }}</span>
+    <input
+      class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
+      :value="value"
+      :type="type"
+      :placeholder="placeholder"
+      :readonly="readonly"
+      :style="styles"
+      @input="onChange"
+      @blur="onBlur"
+    />
+    <p v-if="helpText" class="help-text">{{ helpText }}</p>
+    <span v-if="error" class="message">
+      {{ error }}
+    </span>
+    <slot name="masked" />
+  </label>
+</template>
+
 <style scoped lang="scss">
 .help-text {
   @apply mt-0.5 text-xs not-italic text-slate-600 dark:text-slate-400;

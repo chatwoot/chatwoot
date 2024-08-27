@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "ഇൻ‌ബോക്സുകൾ",
     "SIDEBAR_TXT": "<p> <b> ഇൻ‌ബോക്സ് </b> </p> <p> നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് അല്ലെങ്കിൽ ഒരു ഫേസ്ബുക്ക് പേജ് ചാറ്റ്വൂട്ടിലേക്ക് ബന്ധിപ്പിക്കുമ്പോൾ, അതിനെ <b> ഇൻ‌ബോക്സ് </b> എന്ന് വിളിക്കുന്നു. നിങ്ങളുടെ ചാറ്റ്വൂട്ട് അക്ക in ണ്ടിൽ പരിധിയില്ലാത്ത ഇൻ‌ബോക്സുകൾ‌ നേടാൻ‌ കഴിയും. </p> <p> ഒരു വെബ്‌സൈറ്റോ ഫേസ്ബുക്ക് പേജോ ബന്ധിപ്പിക്കുന്നതിന് <b> ഇൻ‌ബോക്സ് ചേർക്കുക </b> ക്ലിക്കുചെയ്യുക. </p> <p> ഡാഷ്‌ബോർഡിൽ, നിങ്ങളുടെ എല്ലാ ഇൻ‌ബോക്‌സുകളിൽ‌ നിന്നുമുള്ള എല്ലാ സംഭാഷണങ്ങളും ഒരൊറ്റ സ്ഥലത്ത് കാണാനും `സംഭാഷണങ്ങൾ‌ 'ടാബിന് കീഴിൽ അവയോട് പ്രതികരിക്കാനും കഴിയും. </p> <p> ഡാഷ്‌ബോർഡിന്റെ ഇടത് പാളിയിലെ ഇൻ‌ബോക്സ് നാമത്തിൽ ക്ലിക്കുചെയ്തുകൊണ്ട് നിങ്ങൾക്ക് ഇൻ‌ബോക്സിന് പ്രത്യേകമായുള്ള സംഭാഷണങ്ങളും കാണാൻ കഴിയും. </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "ഈ അക്കൗണ്ടിലേക്കു ഇൻ‌ബോക്സുകളൊന്നും ബന്ധിപ്പിച്ചിട്ടില്ല."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }

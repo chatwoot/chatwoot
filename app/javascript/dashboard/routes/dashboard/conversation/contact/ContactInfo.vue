@@ -1,8 +1,174 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import ContactInfoRow from './ContactInfoRow.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import SocialIcons from './SocialIcons.vue';
+import EditContact from './EditContact.vue';
+import NewConversation from './NewConversation.vue';
+import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
+import { getCountryFlag } from 'dashboard/helper/flag';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import {
+  isAConversationRoute,
+  isAInboxViewRoute,
+  getConversationDashboardRoute,
+} from '../../../../helper/routeHelpers';
+
+export default {
+  components: {
+    ContactInfoRow,
+    EditContact,
+    Thumbnail,
+    SocialIcons,
+    NewConversation,
+    ContactMergeModal,
+  },
+  props: {
+    contact: {
+      type: Object,
+      default: () => ({}),
+    },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
+    showCloseButton: {
+      type: Boolean,
+      default: true,
+    },
+    closeIconName: {
+      type: String,
+      default: 'chevron-right',
+    },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
+  data() {
+    return {
+      showEditModal: false,
+      showConversationModal: false,
+      showMergeModal: false,
+      showDeleteModal: false,
+    };
+  },
+  computed: {
+    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    contactProfileLink() {
+      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
+    additionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
+    location() {
+      const {
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.additionalAttributes;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      return this.findCountryFlag(countryCode, cityAndCountry);
+    },
+    socialProfiles() {
+      const {
+        social_profiles: socialProfiles,
+        screen_name: twitterScreenName,
+      } = this.additionalAttributes;
+
+      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
+    },
+    // Delete Modal
+    confirmDeleteMessage() {
+      return ` ${this.contact.name}?`;
+    },
+  },
+  methods: {
+    dynamicTime,
+    toggleMergeModal() {
+      this.showMergeModal = !this.showMergeModal;
+    },
+    toggleEditModal() {
+      this.showEditModal = !this.showEditModal;
+    },
+    onPanelToggle() {
+      this.$emit('togglePanel');
+    },
+    toggleConversationModal() {
+      this.showConversationModal = !this.showConversationModal;
+      this.$emitter.emit(
+        BUS_EVENTS.NEW_CONVERSATION_MODAL,
+        this.showConversationModal
+      );
+    },
+    toggleDeleteModal() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
+    confirmDeletion() {
+      this.deleteContact(this.contact);
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.showDeleteModal = false;
+      this.showConversationModal = false;
+      this.showEditModal = false;
+    },
+    findCountryFlag(countryCode, cityAndCountry) {
+      try {
+        const countryFlag = countryCode ? getCountryFlag(countryCode) : '🌎';
+        return `${cityAndCountry} ${countryFlag}`;
+      } catch (error) {
+        return '';
+      }
+    },
+    async deleteContact({ id }) {
+      try {
+        await this.$store.dispatch('contacts/delete', id);
+        this.$emit('panelClose');
+        useAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+
+        if (isAConversationRoute(this.$route.name)) {
+          this.$router.push({
+            name: getConversationDashboardRoute(this.$route.name),
+          });
+        } else if (isAInboxViewRoute(this.$route.name)) {
+          this.$router.push({
+            name: 'inbox_view',
+          });
+        } else if (this.$route.name !== 'contacts_dashboard') {
+          this.$router.push({
+            name: 'contacts_dashboard',
+          });
+        }
+      } catch (error) {
+        useAlert(
+          error.message
+            ? error.message
+            : this.$t('DELETE_CONTACT.API.ERROR_MESSAGE')
+        );
+      }
+    },
+    openMergeModal() {
+      this.toggleMergeModal();
+    },
+  },
+};
+</script>
+
 <template>
   <div class="relative items-center w-full p-4 bg-white dark:bg-slate-900">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
-        <thumbnail
+        <Thumbnail
           v-if="showAvatar"
           :src="contact.thumbnail"
           size="56px"
@@ -56,7 +222,7 @@
           {{ additionalAttributes.description }}
         </p>
         <div class="flex flex-col items-start w-full gap-2">
-          <contact-info-row
+          <ContactInfoRow
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
             icon="mail"
@@ -64,7 +230,7 @@
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
-          <contact-info-row
+          <ContactInfoRow
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
             icon="call"
@@ -72,40 +238,40 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
             show-copy
           />
-          <contact-info-row
+          <ContactInfoRow
             v-if="contact.identifier"
             :value="contact.identifier"
             icon="contact-identify"
             emoji="🪪"
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
-          <contact-info-row
+          <ContactInfoRow
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
-          <contact-info-row
+          <ContactInfoRow
             v-if="location || additionalAttributes.location"
             :value="location || additionalAttributes.location"
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
-          <social-icons :social-profiles="socialProfiles" />
+          <SocialIcons :social-profiles="socialProfiles" />
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          title="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          :title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           icon="chat"
           size="small"
           @click="toggleConversationModal"
         />
         <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          :title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="edit"
           variant="smooth"
           size="small"
@@ -113,7 +279,7 @@
         />
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
-          title="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          :title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           icon="merge"
           variant="smooth"
           size="small"
@@ -124,7 +290,7 @@
         <woot-button
           v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
-          title="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          :title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           icon="delete"
           variant="smooth"
           size="small"
@@ -133,19 +299,19 @@
           @click="toggleDeleteModal"
         />
       </div>
-      <edit-contact
+      <EditContact
         v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
       />
-      <new-conversation
+      <NewConversation
         v-if="contact.id"
         :show="showConversationModal"
         :contact="contact"
         @cancel="toggleConversationModal"
       />
-      <contact-merge-modal
+      <ContactMergeModal
         v-if="showMergeModal"
         :primary-contact="contact"
         :show="showMergeModal"
@@ -165,168 +331,3 @@
     />
   </div>
 </template>
-<script>
-import { dynamicTime } from 'shared/helpers/timeHelper';
-import ContactInfoRow from './ContactInfoRow.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import SocialIcons from './SocialIcons.vue';
-
-import EditContact from './EditContact.vue';
-import NewConversation from './NewConversation.vue';
-import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import adminMixin from '../../../../mixins/isAdmin';
-import { mapGetters } from 'vuex';
-import { getCountryFlag } from 'dashboard/helper/flag';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import {
-  isAConversationRoute,
-  isAInboxViewRoute,
-  getConversationDashboardRoute,
-} from '../../../../helper/routeHelpers';
-
-export default {
-  components: {
-    ContactInfoRow,
-    EditContact,
-    Thumbnail,
-    SocialIcons,
-    NewConversation,
-    ContactMergeModal,
-  },
-  mixins: [alertMixin, adminMixin],
-  props: {
-    contact: {
-      type: Object,
-      default: () => ({}),
-    },
-    channelType: {
-      type: String,
-      default: '',
-    },
-    showAvatar: {
-      type: Boolean,
-      default: true,
-    },
-    showCloseButton: {
-      type: Boolean,
-      default: true,
-    },
-    closeIconName: {
-      type: String,
-      default: 'chevron-right',
-    },
-  },
-  data() {
-    return {
-      showEditModal: false,
-      showConversationModal: false,
-      showMergeModal: false,
-      showDeleteModal: false,
-    };
-  },
-  computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
-    contactProfileLink() {
-      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
-    },
-    additionalAttributes() {
-      return this.contact.additional_attributes || {};
-    },
-    location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.additionalAttributes;
-      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
-
-      if (!cityAndCountry) {
-        return '';
-      }
-      return this.findCountryFlag(countryCode, cityAndCountry);
-    },
-    socialProfiles() {
-      const {
-        social_profiles: socialProfiles,
-        screen_name: twitterScreenName,
-      } = this.additionalAttributes;
-
-      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
-    },
-    // Delete Modal
-    confirmDeleteMessage() {
-      return ` ${this.contact.name}?`;
-    },
-  },
-  methods: {
-    dynamicTime,
-    toggleMergeModal() {
-      this.showMergeModal = !this.showMergeModal;
-    },
-    toggleEditModal() {
-      this.showEditModal = !this.showEditModal;
-    },
-    onPanelToggle() {
-      this.$emit('toggle-panel');
-    },
-    toggleConversationModal() {
-      this.showConversationModal = !this.showConversationModal;
-      this.$emitter.emit(
-        BUS_EVENTS.NEW_CONVERSATION_MODAL,
-        this.showConversationModal
-      );
-    },
-    toggleDeleteModal() {
-      this.showDeleteModal = !this.showDeleteModal;
-    },
-    confirmDeletion() {
-      this.deleteContact(this.contact);
-      this.closeDelete();
-    },
-    closeDelete() {
-      this.showDeleteModal = false;
-      this.showConversationModal = false;
-      this.showEditModal = false;
-    },
-    findCountryFlag(countryCode, cityAndCountry) {
-      try {
-        const countryFlag = countryCode ? getCountryFlag(countryCode) : '🌎';
-        return `${cityAndCountry} ${countryFlag}`;
-      } catch (error) {
-        return '';
-      }
-    },
-    async deleteContact({ id }) {
-      try {
-        await this.$store.dispatch('contacts/delete', id);
-        this.$emit('panel-close');
-        this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
-
-        if (isAConversationRoute(this.$route.name)) {
-          this.$router.push({
-            name: getConversationDashboardRoute(this.$route.name),
-          });
-        } else if (isAInboxViewRoute(this.$route.name)) {
-          this.$router.push({
-            name: 'inbox_view',
-          });
-        } else if (this.$route.name !== 'contacts_dashboard') {
-          this.$router.push({
-            name: 'contacts_dashboard',
-          });
-        }
-      } catch (error) {
-        this.showAlert(
-          error.message
-            ? error.message
-            : this.$t('DELETE_CONTACT.API.ERROR_MESSAGE')
-        );
-      }
-    },
-    openMergeModal() {
-      this.toggleMergeModal();
-    },
-  },
-};
-</script>

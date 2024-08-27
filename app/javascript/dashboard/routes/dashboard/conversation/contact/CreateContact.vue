@@ -1,21 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
-    <div class="h-auto overflow-auto flex flex-col">
-      <woot-modal-header
-        :header-title="$t('CREATE_CONTACT.TITLE')"
-        :header-content="$t('CREATE_CONTACT.DESC')"
-      />
-      <contact-form
-        :in-progress="uiFlags.isCreating"
-        :on-submit="onSubmit"
-        @success="onSuccess"
-        @cancel="onCancel"
-      />
-    </div>
-  </woot-modal>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import ContactForm from './ContactForm.vue';
@@ -28,10 +10,6 @@ export default {
     show: {
       type: Boolean,
       default: false,
-    },
-    contact: {
-      type: Object,
-      default: () => ({}),
     },
   },
 
@@ -54,3 +32,21 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable vue/no-mutating-props -->
+<template>
+  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
+    <div class="flex flex-col h-auto overflow-auto">
+      <woot-modal-header
+        :header-title="$t('CREATE_CONTACT.TITLE')"
+        :header-content="$t('CREATE_CONTACT.DESC')"
+      />
+      <ContactForm
+        :in-progress="uiFlags.isCreating"
+        :on-submit="onSubmit"
+        @success="onSuccess"
+        @cancel="onCancel"
+      />
+    </div>
+  </woot-modal>
+</template>

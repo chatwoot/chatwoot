@@ -1,42 +1,3 @@
-<template>
-  <div
-    class="w-full h-full bg-slate-25 dark:bg-slate-800"
-    :class="{ 'overflow-auto': isOnHomeView }"
-    @keydown.esc="closeWindow"
-  >
-    <div class="flex flex-col h-full relative">
-      <div
-        class="header-wrap sticky top-0 z-40 transition-all"
-        :class="{
-          expanded: !isHeaderCollapsed,
-          collapsed: isHeaderCollapsed,
-          'custom-header-shadow': isHeaderCollapsed,
-          ...opacityClass,
-        }"
-      >
-        <chat-header-expanded
-          v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-        />
-        <chat-header
-          v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-          :available-agents="availableAgents"
-          :show-back-button="showBackButton"
-        />
-      </div>
-      <banner />
-      <router-view />
-
-      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
-    </div>
-  </div>
-</template>
 <script>
 import Banner from '../Banner.vue';
 import Branding from 'shared/components/Branding.vue';
@@ -67,7 +28,6 @@ export default {
     ...mapGetters({
       appConfig: 'appConfig/getAppConfig',
       availableAgents: 'agent/availableAgents',
-      widgetColor: 'appConfig/getWidgetColor',
     }),
     portal() {
       return window.chatwootWebChannel.portal;
@@ -140,6 +100,46 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="w-full h-full bg-slate-25 dark:bg-slate-800"
+    :class="{ 'overflow-auto': isOnHomeView }"
+    @keydown.esc="closeWindow"
+  >
+    <div class="relative flex flex-col h-full">
+      <div
+        class="sticky top-0 z-40 transition-all header-wrap"
+        :class="{
+          expanded: !isHeaderCollapsed,
+          collapsed: isHeaderCollapsed,
+          'custom-header-shadow': isHeaderCollapsed,
+          ...opacityClass,
+        }"
+      >
+        <ChatHeaderExpanded
+          v-if="!isHeaderCollapsed"
+          :intro-heading="channelConfig.welcomeTitle"
+          :intro-body="channelConfig.welcomeTagline"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+        />
+        <ChatHeader
+          v-if="isHeaderCollapsed"
+          :title="channelConfig.websiteName"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+          :available-agents="availableAgents"
+          :show-back-button="showBackButton"
+        />
+      </div>
+      <Banner />
+      <router-view />
+
+      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables';

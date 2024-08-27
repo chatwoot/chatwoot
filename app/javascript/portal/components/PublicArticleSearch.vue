@@ -1,27 +1,3 @@
-<template>
-  <div v-on-clickaway="closeSearch" class="max-w-5xl w-full relative my-4">
-    <public-search-input
-      v-model="searchTerm"
-      :search-placeholder="searchTranslations.searchPlaceholder"
-      @focus="openSearch"
-    />
-    <div
-      v-if="shouldShowSearchBox"
-      class="absolute top-14 w-full"
-      @mouseover="openSearch"
-    >
-      <search-suggestions
-        :items="searchResults"
-        :is-loading="isLoading"
-        :search-term="searchTerm"
-        :empty-placeholder="searchTranslations.emptyPlaceholder"
-        :results-title="searchTranslations.resultsTitle"
-        :loading-placeholder="searchTranslations.loadingPlaceholder"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import SearchSuggestions from './SearchSuggestions.vue';
 import PublicSearchInput from './PublicSearchInput.vue';
@@ -32,12 +8,6 @@ export default {
   components: {
     PublicSearchInput,
     SearchSuggestions,
-  },
-  props: {
-    value: {
-      type: [String, Number],
-      default: '',
-    },
   },
   data() {
     return {
@@ -121,3 +91,27 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div v-on-clickaway="closeSearch" class="relative w-full max-w-5xl my-4">
+    <PublicSearchInput
+      v-model="searchTerm"
+      :search-placeholder="searchTranslations.searchPlaceholder"
+      @focus="openSearch"
+    />
+    <div
+      v-if="shouldShowSearchBox"
+      class="absolute w-full top-14"
+      @mouseover="openSearch"
+    >
+      <SearchSuggestions
+        :items="searchResults"
+        :is-loading="isLoading"
+        :search-term="searchTerm"
+        :empty-placeholder="searchTranslations.emptyPlaceholder"
+        :results-title="searchTranslations.resultsTitle"
+        :loading-placeholder="searchTranslations.loadingPlaceholder"
+      />
+    </div>
+  </div>
+</template>

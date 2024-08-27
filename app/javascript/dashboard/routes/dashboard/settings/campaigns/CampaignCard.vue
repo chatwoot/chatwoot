@@ -1,3 +1,57 @@
+<script>
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
+import InboxName from 'dashboard/components/widgets/InboxName.vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { messageStamp } from 'shared/helpers/timeHelper';
+
+export default {
+  components: {
+    UserAvatarWithName,
+    InboxName,
+  },
+  props: {
+    campaign: {
+      type: Object,
+      required: true,
+    },
+    isOngoingType: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
+  },
+  computed: {
+    campaignStatus() {
+      if (this.isOngoingType) {
+        return this.campaign.enabled
+          ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
+          : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
+      }
+
+      return this.campaign.campaign_status === 'completed'
+        ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
+        : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+    },
+    colorScheme() {
+      if (this.isOngoingType) {
+        return this.campaign.enabled ? 'success' : 'secondary';
+      }
+      return this.campaign.campaign_status === 'completed'
+        ? 'secondary'
+        : 'success';
+    },
+  },
+  methods: {
+    messageStamp,
+  },
+};
+</script>
+
 <template>
   <div
     class="px-5 py-4 mb-2 bg-white border rounded-md dark:bg-slate-800 border-slate-50 dark:border-slate-900"
@@ -44,8 +98,8 @@
         :color-scheme="colorScheme"
         class="mr-3 text-xs"
       />
-      <inbox-name :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
-      <user-avatar-with-name
+      <InboxName :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
+      <UserAvatarWithName
         v-if="campaign.sender"
         :user="campaign.sender"
         class="mb-1"
@@ -65,53 +119,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
-import InboxName from 'dashboard/components/widgets/InboxName.vue';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { messageStamp } from 'shared/helpers/timeHelper';
-
-export default {
-  components: {
-    UserAvatarWithName,
-    InboxName,
-  },
-  mixins: [messageFormatterMixin],
-  props: {
-    campaign: {
-      type: Object,
-      required: true,
-    },
-    isOngoingType: {
-      type: Boolean,
-      default: true,
-    },
-  },
-
-  computed: {
-    campaignStatus() {
-      if (this.isOngoingType) {
-        return this.campaign.enabled
-          ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-          : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
-      }
-
-      return this.campaign.campaign_status === 'completed'
-        ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
-        : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
-    },
-    colorScheme() {
-      if (this.isOngoingType) {
-        return this.campaign.enabled ? 'success' : 'secondary';
-      }
-      return this.campaign.campaign_status === 'completed'
-        ? 'secondary'
-        : 'success';
-    },
-  },
-  methods: {
-    messageStamp,
-  },
-};
-</script>

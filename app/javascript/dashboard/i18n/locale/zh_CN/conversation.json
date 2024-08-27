@@ -49,10 +49,10 @@
     "NO_RESPONSE": "无响应",
     "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "显示标签",
+      "HIDE_LABELS": "隐藏标签"
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -61,14 +61,14 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "推迟到",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL_NEXT_REPLY": "推迟至下一个回复",
       "SLA_STATUS": {
-        "FRT": "FRT {status}",
-        "NRT": "NRT {status}",
-        "RT": "RT {status}",
+        "FRT": "第一响应时间 {status}",
+        "NRT": "净响应时间 {status}",
+        "RT": "响应时间 {status}",
         "MISSED": "missed",
         "DUE": "due"
       }
@@ -93,33 +93,33 @@
       "OPTIONS": {
         "NONE": "啥都没有",
         "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "HIGH": "高",
+        "MEDIUM": "中",
+        "LOW": "低"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "啥都没有",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "选择优先级",
         "NO_RESULTS": "没有检索到相关信息",
         "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "FAILED": "无法更改优先级。请重试。"
       }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "标记为未读",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "NEXT_REPLY": "直到下次回复",
+        "TOMORROW": "直到明天",
+        "NEXT_WEEK": "直到下周"
       },
       "ASSIGN_AGENT": "分配客服代表",
       "ASSIGN_LABEL": "分配标签",
       "AGENTS_LOADING": "正在加载客服代表...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_TEAM": "分配一个团队",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "对话 ID %{conversationId} 已分配给 \"%{agentName}\"",
@@ -142,7 +142,8 @@
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
-      "CLICK_HERE": "点击此处更新"
+      "CLICK_HERE": "点击此处更新",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "回复",
@@ -240,25 +241,29 @@
   "ONBOARDING": {
     "TITLE": "您好 👋, 欢迎来到 %{installationName}!",
     "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 %{installationName}。 这里有几件您可以在 %{installationName} 做的事情，让体验变得愉快。",
+    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
+    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
     "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
       "TITLE": "您的所有对话都在一个地方",
-      "DESCRIPTION": "在单个面板中查看您客户的所有对话。您可以通过通道、标签和状态筛选对话。"
+      "DESCRIPTION": "在单个面板中查看您客户的所有对话。您可以通过通道、标签和状态筛选对话。",
+      "NEW_LINK": "点击此处创建收件箱"
     },
     "TEAM_MEMBERS": {
       "TITLE": "邀请您的团队成员",
       "DESCRIPTION": "当您准备好与您的客户交谈时，带上您的队友来协助您。 您可以通过添加他们的电子邮件地址到客服代表列表来邀请您的队友。",
       "NEW_LINK": "点击此处邀请一位请团队成员"
     },
-    "INBOXES": {
-      "TITLE": "连接收件箱",
-      "DESCRIPTION": "连接您的客户可以与您交谈的各种通道。可以是一个网站的在线聊天，也可以是您的 Facebook 或者 Twitter 主页，或者甚至可以是您的 WhatsApp 号码。",
-      "NEW_LINK": "点击此处创建收件箱"
-    },
     "LABELS": {
       "TITLE": "使用标签组织对话",
       "DESCRIPTION": "标签提供了一种简单的方法来让您归类对话。创建一些类似 #价格、#问题反馈 这样的标签，之后您可以在对话中使用它们。",
       "NEW_LINK": "点击此处创建标签"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {

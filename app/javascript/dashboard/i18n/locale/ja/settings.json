@@ -239,6 +239,7 @@
     "REPORTS": "レポート",
     "SETTINGS": "設定",
     "CONTACTS": "Contacts",
+    "CAPTAIN": "Captain",
     "HOME": "ホーム",
     "AGENTS": "担当者",
     "AGENT_BOTS": "Bots",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Facebookの接続が期限切れになりました。サービスを継続するには、Facebookページを再接続してください。",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",

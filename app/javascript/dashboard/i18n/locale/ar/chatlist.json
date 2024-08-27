@@ -15,7 +15,7 @@
     "FILTER_ALL": "الكل",
     "ASSIGNEE_TYPE_TABS": {
       "me": "محادثاتي",
-      "unassigned": "غير مسند",
+      "unassigned": "غير معيّن",
       "all": "الكل"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -23,13 +23,13 @@
         "TEXT": "فتح"
       },
       "resolved": {
-        "TEXT": "مغلقة"
+        "TEXT": "تم حلها"
       },
       "pending": {
         "TEXT": "معلق"
       },
       "snoozed": {
-        "TEXT": "غفوة"
+        "TEXT": "مؤجلة"
       },
       "all": {
         "TEXT": "الكل"
@@ -47,34 +47,34 @@
         "OLDEST": "تم إنشاؤها في:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "النشاط الأخير:",
-        "ACTIVE": "النشاط الأخير"
+        "NOT_ACTIVE": "آخر نشاط:",
+        "ACTIVE": "آخر نشاط"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "اخر نشاط: آلأقدم أولا"
+        "TEXT": "آخر نشاط: الأقدم أولا"
       },
       "last_activity_at_desc": {
-        "TEXT": "اخر نشاط: الأحدث أولا"
+        "TEXT": "آخر نشاط: الأحدث أولا"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "وقت الإنشاء: الأحدث أولاً"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "وقت الإنشاء: الأقدم أولاً"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "الأولوية: الأعلى أولا"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "الأولوية: الأقل أولاً"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "الرد المعلق: الأطول أولا"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "الرد المعلق: الأقصر أولاً"
       }
     },
     "ATTACHMENTS": {
@@ -102,15 +102,15 @@
       "DROPDOWN_TITLE": "ترتيب حسب",
       "ITEMS": {
         "LATEST": {
-          "NAME": "النشاط الأخير في",
-          "LABEL": "النشاط الأخير"
+          "NAME": "آخر نشاط في",
+          "LABEL": "آخر نشاط"
         },
         "CREATED_AT": {
           "NAME": "تم إنشاؤها في",
           "LABEL": "تم إنشاؤها في"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
+          "NAME": "آخر رسالة للمستخدم في",
           "LABEL": "أخر رسالة"
         }
       }
@@ -119,13 +119,13 @@
     "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
     "REPLY_TO_TWEET": "الرد على هذه التغريدة",
     "LINK_TO_STORY": "الذهاب إلى قصة الإنستقرام",
-    "SENT": "Sent successfully",
+    "SENT": "تم الإرسال بنجاح",
     "READ": "تمت القراءة بنجاح",
     "DELIVERED": "تم الإرسال بنجاح",
     "NO_MESSAGES": "لا توجد رسائل",
     "NO_CONTENT": "لم يتم العثور على محتوى",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "قرائة"
+    "HIDE_QUOTED_TEXT": "إخفاء النص المقتبس",
+    "SHOW_QUOTED_TEXT": "إظهار النص المقتبس",
+    "MESSAGE_READ": "قراءة"
   }
 }

@@ -1,40 +1,15 @@
-<template>
-  <div class="csat--table-container">
-    <ve-table
-      max-height="calc(100vh - 21.875rem)"
-      :fixed-header="true"
-      :border-around="true"
-      :columns="columns"
-      :table-data="tableData"
-    />
-    <div v-show="!tableData.length" class="csat--empty-records">
-      {{ $t('CSAT_REPORTS.NO_RECORDS') }}
-    </div>
-    <div v-if="metrics.totalResponseCount" class="table-pagination">
-      <ve-pagination
-        :total="metrics.totalResponseCount"
-        :page-index="pageIndex"
-        :page-size="25"
-        :page-size-option="[25]"
-        @on-page-number-change="onPageNumberChange"
-      />
-    </div>
-  </div>
-</template>
 <script>
 import { VeTable, VePagination } from 'vue-easytable';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
 import { messageStamp, dynamicTime } from 'shared/helpers/timeHelper';
-import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
   components: {
     VeTable,
     VePagination,
   },
-  mixins: [rtlMixin],
   props: {
     pageIndex: {
       type: Number,
@@ -43,7 +18,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'csat/getUIFlags',
+      isRTL: 'accounts/isRTL',
       csatResponses: 'csat/getCSATResponses',
       metrics: 'csat/getMetrics',
     }),
@@ -53,7 +28,7 @@ export default {
           field: 'contact',
           key: 'contact',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.CONTACT_NAME'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 200,
           renderBodyCell: ({ row }) => {
             if (row.contact) {
@@ -72,7 +47,7 @@ export default {
           field: 'assignedAgent',
           key: 'assignedAgent',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.AGENT_NAME'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 200,
           renderBodyCell: ({ row }) => {
             if (row.assignedAgent) {
@@ -102,14 +77,14 @@ export default {
           field: 'feedbackText',
           key: 'feedbackText',
           title: this.$t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 400,
         },
         {
           field: 'conversationId',
           key: 'conversationId',
           title: '',
-          align: this.isRTLView ? 'right' : 'left',
+          align: this.isRTL ? 'right' : 'left',
           width: 100,
           renderBodyCell: ({ row }) => {
             const routerParams = {
@@ -144,11 +119,36 @@ export default {
   },
   methods: {
     onPageNumberChange(pageIndex) {
-      this.$emit('page-change', pageIndex);
+      this.$emit('pageChange', pageIndex);
     },
   },
 };
 </script>
+
+<template>
+  <div class="csat--table-container">
+    <VeTable
+      max-height="calc(100vh - 21.875rem)"
+      fixed-header
+      border-around
+      :columns="columns"
+      :table-data="tableData"
+    />
+    <div v-show="!tableData.length" class="csat--empty-records">
+      {{ $t('CSAT_REPORTS.NO_RECORDS') }}
+    </div>
+    <div v-if="metrics.totalResponseCount" class="table-pagination">
+      <VePagination
+        :total="metrics.totalResponseCount"
+        :page-index="pageIndex"
+        :page-size="25"
+        :page-size-option="[25]"
+        @on-page-number-change="onPageNumberChange"
+      />
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .csat--table-container {
   display: flex;

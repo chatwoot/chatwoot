@@ -1,82 +1,6 @@
-<template>
-  <div class="message-text--metadata">
-    <span
-      class="time"
-      :class="{
-        'has-status-icon':
-          showSentIndicator || showDeliveredIndicator || showReadIndicator,
-      }"
-    >
-      {{ readableTime }}
-    </span>
-    <span v-if="externalError" class="read-indicator-wrap">
-      <fluent-icon
-        v-tooltip.top-start="externalError"
-        icon="error-circle"
-        class="action--icon"
-        size="14"
-      />
-    </span>
-    <span v-if="showReadIndicator" class="read-indicator-wrap">
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
-        icon="checkmark-double"
-        class="action--icon read-tick read-indicator"
-        size="14"
-      />
-    </span>
-    <span v-else-if="showDeliveredIndicator" class="read-indicator-wrap">
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.DELIVERED')"
-        icon="checkmark-double"
-        class="action--icon read-tick"
-        size="14"
-      />
-    </span>
-    <span v-else-if="showSentIndicator" class="read-indicator-wrap">
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
-        icon="checkmark"
-        class="action--icon read-tick"
-        size="14"
-      />
-    </span>
-    <fluent-icon
-      v-if="isEmail"
-      v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
-      icon="mail"
-      class="action--icon"
-      size="16"
-    />
-    <fluent-icon
-      v-if="isPrivate"
-      v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
-      icon="lock-closed"
-      class="action--icon lock--icon--private"
-      size="16"
-      @mouseenter="isHovered = true"
-      @mouseleave="isHovered = false"
-    />
-    <a
-      v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
-      :href="linkToTweet"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-    >
-      <fluent-icon
-        v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
-        icon="open"
-        class="cursor-pointer action--icon"
-        size="16"
-      />
-    </a>
-  </div>
-</template>
-
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { mapGetters } from 'vuex';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 export default {
@@ -126,17 +50,12 @@ export default {
       type: String,
       default: '',
     },
-    id: {
-      type: [String, Number],
-      default: '',
-    },
     inboxId: {
       type: [String, Number],
       default: 0,
     },
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
@@ -256,6 +175,81 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="message-text--metadata">
+    <span
+      class="time"
+      :class="{
+        'has-status-icon':
+          showSentIndicator || showDeliveredIndicator || showReadIndicator,
+      }"
+    >
+      {{ readableTime }}
+    </span>
+    <span v-if="externalError" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="externalError"
+        icon="error-circle"
+        class="action--icon"
+        size="14"
+      />
+    </span>
+    <span v-if="showReadIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
+        icon="checkmark-double"
+        class="action--icon read-tick read-indicator"
+        size="14"
+      />
+    </span>
+    <span v-else-if="showDeliveredIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.DELIVERED')"
+        icon="checkmark-double"
+        class="action--icon read-tick"
+        size="14"
+      />
+    </span>
+    <span v-else-if="showSentIndicator" class="read-indicator-wrap">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.SENT')"
+        icon="checkmark"
+        class="action--icon read-tick"
+        size="14"
+      />
+    </span>
+    <fluent-icon
+      v-if="isEmail"
+      v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
+      icon="mail"
+      class="action--icon"
+      size="16"
+    />
+    <fluent-icon
+      v-if="isPrivate"
+      v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
+      icon="lock-closed"
+      class="action--icon lock--icon--private"
+      size="16"
+      @mouseenter="isHovered = true"
+      @mouseleave="isHovered = false"
+    />
+    <a
+      v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
+      :href="linkToTweet"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
+        icon="open"
+        class="cursor-pointer action--icon"
+        size="16"
+      />
+    </a>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .right {

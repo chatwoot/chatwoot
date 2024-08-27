@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "إنشاء فريق جديد",
     "HEADER": "الفرق",
-    "SIDEBAR_TXT": "<p><b>الفريق</b></p> <p>الفرق تسمح لك بتنظيم عملائك في مجموعات على أساس مسؤولياتهم. <br /> يمكن للمستخدم أن يكون جزءا من فرق متعددة. يمكنك تعيين محادثات مع فريق عندما تعمل بشكل تعاوني. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "لا يوجد موظفي دعم مرتبطين بهذا الحساب.",
-      "EDIT_TEAM": "تعديل الفريق"
+      "EDIT_TEAM": "تعديل الفريق",
+      "NONE": "لا شيء"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -21,10 +24,10 @@
         {
           "title": "إنشاء",
           "route": "settings_teams_new",
-          "body": "إنشاء فريق جديد من الوكلاء."
+          "body": "إنشاء فريق جديد للوكلاء."
         },
         {
-          "title": "إضافة موظفين",
+          "title": "إضافة وكلاء",
           "route": "settings_teams_add_agents",
           "body": "إضافة وكيل إلى فريق."
         },
@@ -68,9 +71,9 @@
       "ERROR_MESSAGE": "تعذر حفظ تفاصيل الفريق. حاول مرة أخرى."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "وكيل",
       "EMAIL": "البريد الإلكتروني",
-      "BUTTON_TEXT": "إضافة موظفين",
+      "BUTTON_TEXT": "إضافة وكلاء",
       "ADD_AGENTS": "إضافة وكلاء إلى فريقك...",
       "SELECT": "حدد",
       "SELECT_ALL": "تحديد جميع الوكلاء",
@@ -82,8 +85,8 @@
       "SELECT": "حدد",
       "SELECT_ALL": "تحديد جميع الوكلاء",
       "SELECTED_COUNT": "تم تحديد %{selected} من أصل %{total} وكيل.",
-      "BUTTON_TEXT": "إضافة موظفين",
-      "AGENT_VALIDATION_ERROR": "اختيار وكيل واحد على الأقل."
+      "BUTTON_TEXT": "إضافة وكلاء",
+      "AGENT_VALIDATION_ERROR": "اختر وكيل واحد على الأقل."
     },
     "FINISH": {
       "TITLE": "أصبح فريقك جاهزة الآن!",
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "تعذر حذف الفريق. حاول مرة أخرى."
       },
       "CONFIRM": {
-        "TITLE": "هل أنت متأكد من أنك تريد حذف - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "الرجاء كتابة {teamName} للتأكيد",
         "MESSAGE": "سيؤدي حذف الفريق إلى إزالة مهمة الفريق من المحادثات التي تم تعيينها لهذا الفريق.",
         "YES": "حذف ",

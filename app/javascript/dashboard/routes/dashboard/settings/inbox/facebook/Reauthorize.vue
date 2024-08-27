@@ -1,20 +1,15 @@
-<template>
-  <inbox-reconnection-required class="mx-8 mt-5" @reauthorize="startLogin" />
-</template>
-
 <script>
 /* global FB */
 import InboxReconnectionRequired from '../components/InboxReconnectionRequired';
+import { useAlert } from 'dashboard/composables';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
-import alertMixin from 'shared/mixins/alertMixin';
 import * as Sentry from '@sentry/browser';
 
 export default {
   components: {
     InboxReconnectionRequired,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
@@ -58,11 +53,11 @@ export default {
       } catch (error) {
         if (error.name === 'ScriptLoaderError') {
           // if the error was related to script loading, we show a toast
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
         } else {
           // if the error was anything else, we capture it and show a toast
           Sentry.captureException(error);
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
         }
       }
     },
@@ -74,11 +69,11 @@ export default {
             this.reauthorizeFBPage(response.authResponse.accessToken);
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
-            this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+            useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
           } else {
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
-            this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+            useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
           }
         },
         {
@@ -94,18 +89,18 @@ export default {
           omniauthToken,
           inboxId: this.inboxId,
         });
-        this.showAlert(
-          this.$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.MESSAGE_SUCCESS')
-        );
+        useAlert(this.$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.MESSAGE_SUCCESS'));
       } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.MESSAGE_ERROR')
-        );
+        useAlert(this.$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.MESSAGE_ERROR'));
       }
     },
   },
 };
 </script>
+
+<template>
+  <InboxReconnectionRequired class="mx-8 mt-5" @reauthorize="startLogin" />
+</template>
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables';
