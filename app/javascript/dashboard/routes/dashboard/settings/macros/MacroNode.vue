@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject } from 'vue';
 import { useMacros } from 'dashboard/composables/useMacros';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 
 const props = defineProps({

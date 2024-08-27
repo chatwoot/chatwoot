@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRouter } from 'dashboard/composables/route';
 import { useAdmin } from 'dashboard/composables/useAdmin';

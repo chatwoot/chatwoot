@@ -4,7 +4,7 @@ import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 const getters = useStoreGetters();

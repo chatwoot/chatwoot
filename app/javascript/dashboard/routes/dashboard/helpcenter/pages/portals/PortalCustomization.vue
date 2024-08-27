@@ -5,7 +5,7 @@ import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'dashboard/composables/route';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { defineComponent, onMounted, computed } from 'vue';
 
 defineComponent({

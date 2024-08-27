@@ -4,7 +4,7 @@ import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/compo
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'dashboard/composables/route';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { defineComponent, computed, ref, onMounted } from 'vue';
 
 defineComponent({ name: 'EditPortalBasic' });

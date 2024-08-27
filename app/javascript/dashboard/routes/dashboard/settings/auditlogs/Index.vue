@@ -9,7 +9,7 @@ import {
   generateLogActionKey,
 } from 'dashboard/helper/auditlogHelper';
 import { computed, onMounted, watch } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'dashboard/composables/route';
 
 const getters = useStoreGetters();

@@ -1,6 +1,6 @@
 import { useGoToCommandHotKeys } from '../useGoToCommandHotKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'dashboard/composables/route';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { frontendURL } from 'dashboard/helper/URLHelper';

@@ -1,6 +1,6 @@
 import { useConversationHotKeys } from '../useConversationHotKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'dashboard/composables/route';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useAI } from 'dashboard/composables/useAI';

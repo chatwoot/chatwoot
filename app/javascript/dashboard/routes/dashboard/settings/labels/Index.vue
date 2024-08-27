@@ -1,7 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { computed, onBeforeMount, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 import AddLabel from './AddLabel.vue';

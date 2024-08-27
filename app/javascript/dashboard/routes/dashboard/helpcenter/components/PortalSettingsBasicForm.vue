@@ -3,7 +3,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 
 import { defineComponent, reactive, computed, onMounted } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';

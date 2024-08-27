@@ -2,13 +2,12 @@
 import { defineConfig } from 'vite';
 import RubyPlugin from 'vite-plugin-ruby';
 import path from 'path';
-import Vue2 from '@vitejs/plugin-vue2';
+import Vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
-  plugins: [RubyPlugin(), Vue2()],
+  plugins: [RubyPlugin(), Vue()],
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.esm.js',
       components: path.resolve('./app/javascript/dashboard/components'),
       v3: path.resolve('./app/javascript/v3'),
       dashboard: path.resolve('./app/javascript/dashboard'),

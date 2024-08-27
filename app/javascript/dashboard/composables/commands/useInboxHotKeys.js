@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'dashboard/composables/route';
 import wootConstants from 'dashboard/constants/globals';
 

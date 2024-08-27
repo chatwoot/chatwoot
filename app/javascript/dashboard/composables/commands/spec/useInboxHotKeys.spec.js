@@ -1,5 +1,5 @@
 import { useInboxHotKeys } from '../useInboxHotKeys';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'dashboard/composables/route';
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 

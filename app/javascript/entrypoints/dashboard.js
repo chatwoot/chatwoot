@@ -1,5 +1,6 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
+
 import VueRouter from 'vue-router';
 import axios from 'axios';
 // Global Components
@@ -12,7 +13,7 @@ import { sync } from 'vuex-router-sync';
 import VTooltip from 'v-tooltip';
 import WootUiKit from 'dashboard/components';
 import App from 'dashboard/App.vue';
-import i18n from 'dashboard/i18n';
+import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
 import { emitter } from '../shared/helpers/mitt';
 
@@ -20,9 +21,9 @@ import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
-import * as Sentry from '@sentry/vue';
+// import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
-import { Integrations } from '@sentry/tracing';
+// import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -34,56 +35,59 @@ import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin.js';
 import resizeDirective from 'dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue-clickaway';
 
-if (window.errorLoggingConfig) {
-  Sentry.init({
-    Vue,
-    dsn: window.errorLoggingConfig,
-    denyUrls: [
-      // Chrome extensions
-      /^chrome:\/\//i,
-      /chrome-extension:/i,
-      /extensions\//i,
+const i18n = createI18n({
+  locale: 'en',
+  messages: i18nMessages,
+});
 
-      // Locally saved copies
-      /file:\/\//i,
+const app = createApp(App);
+app.use(i18n);
+// [VITE] Disabled this, need to renable later
+// if (window.errorLoggingConfig) {
+//   Sentry.init({
+//     Vue,
+//     dsn: window.errorLoggingConfig,
+//     denyUrls: [
+//       // Chrome extensions
+//       /^chrome:\/\//i,
+//       /chrome-extension:/i,
+//       /extensions\//i,
 
-      // Safari extensions.
-      /safari-web-extension:/i,
-      /safari-extension:/i,
-    ],
-    integrations: [new Integrations.BrowserTracing()],
-    ignoreErrors: [
-      'ResizeObserver loop completed with undelivered notifications',
-    ],
-  });
-}
+//       // Locally saved copies
+//       /file:\/\//i,
 
-Vue.use(VueDOMPurifyHTML, domPurifyConfig);
-Vue.use(VueRouter);
-Vue.use(VueI18n);
-Vue.use(WootUiKit);
-Vue.use(VueFormulate, {
+//       // Safari extensions.
+//       /safari-web-extension:/i,
+//       /safari-extension:/i,
+//     ],
+//     integrations: [new Integrations.BrowserTracing()],
+//     ignoreErrors: [
+//       'ResizeObserver loop completed with undelivered notifications',
+//     ],
+//   });
+// }
+
+app.use(VueDOMPurifyHTML, domPurifyConfig);
+app.use(VueRouter);
+app.use(WootUiKit);
+app.use(VueFormulate, {
   rules: {
     JSON: ({ value }) => isJSONValid(value),
   },
 });
-Vue.use(VTooltip, {
+app.use(VTooltip, {
   defaultHtml: false,
 });
-Vue.use(hljs.vuePlugin);
-Vue.use(AnalyticsPlugin);
+app.use(hljs.vuePlugin);
+app.use(AnalyticsPlugin);
 
-Vue.component('multiselect', Multiselect);
-Vue.component('woot-switch', WootSwitch);
-Vue.component('woot-wizard', WootWizard);
-Vue.component('fluent-icon', FluentIcon);
+app.component('multiselect', Multiselect);
+app.component('woot-switch', WootSwitch);
+app.component('woot-wizard', WootWizard);
+app.component('fluent-icon', FluentIcon);
 
-Vue.directive('resize', resizeDirective);
-Vue.directive('on-clickaway', onClickaway);
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
+app.directive('resize', resizeDirective);
+app.directive('on-clickaway', onClickaway);
 
 sync(store, router);
 // load common helpers into js
@@ -91,20 +95,14 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-Vue.prototype.$emitter = emitter;
+app.prototype.$emitter = emitter;
 
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
 
 window.onload = () => {
-  window.WOOT = new Vue({
-    router,
-    store,
-    i18n: i18nConfig,
-    components: { App },
-    template: '<App/>',
-  }).$mount('#app');
+  app.mount('#app');
 };
 
 window.addEventListener('load', () => {

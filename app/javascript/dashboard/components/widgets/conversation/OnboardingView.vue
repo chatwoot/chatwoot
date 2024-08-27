@@ -1,7 +1,7 @@
 <script setup>
 import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
 import { computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
 
 const getters = useStoreGetters();
