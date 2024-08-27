@@ -31,7 +31,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
-import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin.js';
+// import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin.js';
 import resizeDirective from 'dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue3-click-away';
 
@@ -81,7 +81,7 @@ app.use(VTooltip, {
   defaultHtml: false,
 });
 app.use(hljs.vuePlugin);
-app.use(AnalyticsPlugin);
+// app.use(AnalyticsPlugin);
 
 app.component('multiselect', Multiselect);
 app.component('woot-switch', WootSwitch);
