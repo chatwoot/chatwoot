@@ -94,8 +94,8 @@ describe Digitaltolk::SendEmailTicketService do
       end
     end
 
-    context 'creates with customer id' do
-      it 'creates a conversation and message' do
+    context 'with customer id' do
+      it 'creates a conversation with customer id' do
         result = service.perform
         convo = inbox.conversations.find_by(display_id: result[:conversation_id])
         expect(convo.contact.custom_attributes['customer_id']).to eq('123')
