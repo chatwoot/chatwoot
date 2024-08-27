@@ -1,4 +1,5 @@
-import { computed, getCurrentInstance } from 'vue';
+import { computed } from 'vue';
+import { useRoute } from 'dashboard/composables/route';
 import { CAMPAIGN_TYPES } from '../constants/campaign';
 
 /**
@@ -7,7 +8,7 @@ import { CAMPAIGN_TYPES } from '../constants/campaign';
  * @returns {Object} - Computed properties for campaign type and its checks.
  */
 export const useCampaign = () => {
-  const instance = getCurrentInstance();
+  const route = useRoute();
 
   /**
    * Computed property to determine the current campaign type based on the route name.
@@ -17,7 +18,7 @@ export const useCampaign = () => {
       ongoing_campaigns: CAMPAIGN_TYPES.ONGOING,
       one_off: CAMPAIGN_TYPES.ONE_OFF,
     };
-    return campaignTypeMap[instance.proxy.$route.name];
+    return campaignTypeMap[route.name];
   });
 
   /**
