@@ -178,8 +178,6 @@ GEM
     csv (3.3.0)
     csv-safe (3.3.1)
       csv (~> 3.0)
-    cypress-on-rails (1.16.0)
-      rack
     database_cleaner (2.0.2)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.1.0)
@@ -870,7 +868,6 @@ DEPENDENCIES
   climate_control
   commonmarker
   csv-safe
-  cypress-on-rails
   database_cleaner
   ddtrace
   debug (~> 1.8)
