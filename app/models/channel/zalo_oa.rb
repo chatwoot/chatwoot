@@ -34,9 +34,9 @@ class Channel::ZaloOa < ApplicationRecord
   end
 
   def send_message(user_id, message, access_token)
-    # check attachment to send first
-    if message.attachments&.first
-      response = send_attachment(user_id, message.attachments.first, access_token)
+    # check attachments to send first
+    message.attachments.each do |attachment|
+      response = send_attachment(user_id, attachment, access_token)
       return response unless (response['error']).zero? && message.content
     end
 
