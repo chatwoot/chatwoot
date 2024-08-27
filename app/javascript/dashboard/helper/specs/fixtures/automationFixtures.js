@@ -1,6 +1,6 @@
-import allLanguages from '../../../dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
+import allLanguages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
-import allCountries from '../../../shared/constants/countries.js';
+import allCountries from 'shared/constants/countries.js';
 
 export const customAttributes = [
   {
