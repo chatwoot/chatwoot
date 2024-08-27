@@ -28,7 +28,7 @@ import {
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
-import IntersectionObserver from './IntersectionObserver.vue';
+// import IntersectionObserver from './IntersectionObserver.vue';
 
 export default {
   components: {
@@ -40,8 +40,8 @@ export default {
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
-    IntersectionObserver,
-    VirtualList,
+    // IntersectionObserver,
+    // VirtualList,
   },
   mixins: [filterMixin],
   provide() {
