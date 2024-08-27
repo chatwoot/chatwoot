@@ -26,11 +26,11 @@ export default {
       meta: {
         permissions: ['administrator', 'agent'],
       },
-      redirect: () => {
+      redirect: to => {
         if (store.getters.getCurrentRole === 'administrator') {
-          return frontendURL('accounts/:accountId/settings/general');
+          return { name: 'general_settings_index', params: to.params };
         }
-        return frontendURL('accounts/:accountId/settings/canned-response');
+        return { name: 'canned_list', params: to.params };
       },
     },
     ...account.routes,
