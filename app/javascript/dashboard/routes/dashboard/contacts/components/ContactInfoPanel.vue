@@ -92,17 +92,14 @@ export default {
     <Draggable
       :list="contactSidebarItems"
       :disabled="!dragEnabled"
+      tag="transition-group"
       class="list-group"
       ghost-class="ghost"
       @start="dragging = true"
       @end="onDragEnd"
     >
-      <transition-group>
-        <div
-          v-for="element in contactSidebarItems"
-          :key="element.name"
-          class="list-group-item"
-        >
+      <template #item="{ element }">
+        <div :key="element.name" class="list-group-item">
           <div v-if="element.name === 'contact_attributes'">
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
@@ -150,7 +147,7 @@ export default {
             </AccordionItem>
           </div>
         </div>
-      </transition-group>
+      </template>
     </Draggable>
   </div>
 </template>

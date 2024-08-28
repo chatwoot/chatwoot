@@ -147,15 +147,12 @@ export default {
       class="list-group"
       ghost-class="ghost"
       handle=".drag-handle"
+      tag="transition-group"
       @start="dragging = true"
       @end="onDragEnd"
     >
-      <transition-group>
-        <div
-          v-for="element in conversationSidebarItems"
-          :key="element.name"
-          class="bg-white dark:bg-gray-800"
-        >
+      <template #item="{ element }">
+        <div :key="element.name" class="bg-white dark:bg-gray-800">
           <div
             v-if="element.name === 'conversation_actions'"
             class="conversation--actions"
@@ -257,7 +254,7 @@ export default {
             </AccordionItem>
           </woot-feature-toggle>
         </div>
-      </transition-group>
+      </template>
     </Draggable>
   </div>
 </template>

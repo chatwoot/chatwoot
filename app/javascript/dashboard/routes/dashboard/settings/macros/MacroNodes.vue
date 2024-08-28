@@ -58,25 +58,27 @@ export default {
       class="macros__nodes-draggable"
       handle=".macros__node-drag-handle"
     >
-      <div v-for="(action, i) in actionData" :key="i" class="macro__node">
-        <MacroNode
-          v-model="actionData[i]"
-          class="macros__node-action"
-          type="add"
-          :index="i"
-          :error-key="errors[`action_${i}`]"
-          :file-name="
-            fileName(
-              actionData[i].action_params[0],
-              actionData[i].action_name,
-              files
-            )
-          "
-          :single-node="actionData.length === 1"
-          @resetAction="$emit('resetAction', i)"
-          @deleteNode="$emit('deleteNode', i)"
-        />
-      </div>
+      <template #item>
+        <div :key="i" class="macro__node">
+          <MacroNode
+            v-model="actionData[i]"
+            class="macros__node-action"
+            type="add"
+            :index="i"
+            :error-key="errors[`action_${i}`]"
+            :file-name="
+              fileName(
+                actionData[i].action_params[0],
+                actionData[i].action_name,
+                files
+              )
+            "
+            :single-node="actionData.length === 1"
+            @resetAction="$emit('resetAction', i)"
+            @deleteNode="$emit('deleteNode', i)"
+          />
+        </div>
+      </template>
     </Draggable>
     <div class="macro__node">
       <div>
