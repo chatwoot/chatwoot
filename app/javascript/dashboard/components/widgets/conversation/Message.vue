@@ -367,9 +367,6 @@ export default {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         return this.compareMessageFileType(this.data, type);
       }
-      if (this.storyReply) {
-        return true;
-      }
       return false;
     },
     compareMessageFileType(messageData, type) {
