@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useConfig } from 'widget/composables/useConfig';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -32,10 +32,12 @@ export default {
   },
   setup() {
     const { useInboxAvatarForBot, inboxAvatarUrl, channelConfig } = useConfig();
+    const { formatMessage } = useMessageFormatter();
     return {
       useInboxAvatarForBot,
       inboxAvatarUrl,
       channelConfig,
+      formatMessage,
     };
   },
   computed: {

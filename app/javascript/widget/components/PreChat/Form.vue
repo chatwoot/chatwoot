@@ -5,7 +5,7 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { useConfig } from 'widget/composables/useConfig';
@@ -24,8 +24,10 @@ export default {
   },
   setup() {
     const { preChatFormEnabled } = useConfig();
+    const { formatMessage } = useMessageFormatter();
     return {
       preChatFormEnabled,
+      formatMessage,
     };
   },
   data() {

@@ -4,7 +4,10 @@ import SecondaryNavItem from './SecondaryNavItem.vue';
 import AccountContext from './AccountContext.vue';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../featureFlags';
-import { hasPermissions } from '../../../helper/permissionsHelper';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from '../../../helper/permissionsHelper';
 import { routesWithPermissions } from '../../../routes';
 
 export default {
@@ -59,7 +62,10 @@ export default {
     accessibleMenuItems() {
       const menuItemsFilteredByPermissions = this.menuConfig.menuItems.filter(
         menuItem => {
-          const { permissions: userPermissions = [] } = this.currentUser;
+          const userPermissions = getUserPermissions(
+            this.currentUser,
+            this.accountId
+          );
           return hasPermissions(
             routesWithPermissions[menuItem.toStateName],
             userPermissions
