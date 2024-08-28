@@ -1,7 +1,8 @@
 <script>
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
+
 export default {
-  components: { Draggable: draggable },
+  components: { Draggable },
   props: {
     preChatFields: {
       type: Array,
@@ -33,7 +34,12 @@ export default {
 </script>
 
 <template>
-  <Draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
+  <Draggable
+    v-model="preChatFieldOptions"
+    tag="tbody"
+    item-key="name"
+    @end="onDragEnd"
+  >
     <template #item="{ element: item }">
       <tr>
         <td class="pre-chat-field"><fluent-icon icon="drag" /></td>

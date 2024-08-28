@@ -53,12 +53,13 @@ export default {
     <Draggable
       :list="actionData"
       animation="200"
+      item-key="id"
       ghost-class="ghost"
       tag="div"
       class="macros__nodes-draggable"
       handle=".macros__node-drag-handle"
     >
-      <template #item>
+      <template #item="{ index: i }">
         <div :key="i" class="macro__node">
           <MacroNode
             v-model="actionData[i]"

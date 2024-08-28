@@ -4,7 +4,7 @@ import ContactConversations from 'dashboard/routes/dashboard/conversation/Contac
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
@@ -14,7 +14,7 @@ export default {
     ContactInfo,
     ContactLabel,
     CustomAttributes,
-    Draggable: draggable,
+    Draggable,
   },
   props: {
     contact: {
@@ -95,6 +95,7 @@ export default {
       tag="transition-group"
       class="list-group"
       ghost-class="ghost"
+      item-key="name"
       @start="dragging = true"
       @end="onDragEnd"
     >

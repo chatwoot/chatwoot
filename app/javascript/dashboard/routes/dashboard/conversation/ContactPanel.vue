@@ -9,7 +9,7 @@ import ConversationParticipant from './ConversationParticipant.vue';
 import ContactInfo from './contact/ContactInfo.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 export default {
   components: {
@@ -20,7 +20,7 @@ export default {
     CustomAttributes,
     ConversationAction,
     ConversationParticipant,
-    Draggable: draggable,
+    Draggable,
     MacrosList,
   },
   props: {
@@ -148,6 +148,7 @@ export default {
       ghost-class="ghost"
       handle=".drag-handle"
       tag="transition-group"
+      item-key="name"
       @start="dragging = true"
       @end="onDragEnd"
     >

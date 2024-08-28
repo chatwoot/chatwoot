@@ -1,13 +1,13 @@
 <script>
 import ArticleItem from './ArticleItem.vue';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 
 export default {
   components: {
     ArticleItem,
     TableFooter,
-    Draggable: draggable,
+    Draggable,
   },
   props: {
     articles: {
@@ -127,6 +127,7 @@ export default {
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
+      item-key="id"
       @start="dragging = true"
       @end="onDragEnd"
     >
