@@ -13863,10 +13863,10 @@ vue-letter@^0.2.0:
   dependencies:
     lettersanitizer "^1.0.5"
 
-vue-multiselect@~2.1.6:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.9.tgz#803628d5ff6c5925320930c965bdaae8934b92b1"
-  integrity sha512-nGEppmzhQQT2iDz4cl+ZCX3BpeNhygK50zWFTIRS+r7K7i61uWXJWSioMuf+V/161EPQjexI8NaEBdUlF3dp+g==
+vue-multiselect@^3.0.0-beta.3:
+  version "3.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-3.0.0-beta.3.tgz#b1348238a84c435582c3f46f2a9c045b29bb976c"
+  integrity sha512-P7Fx+ovVF7WMERSZ0lw6N3p4H4bnQ3NcaY3ORjzFPv0r/6lpIqvFWmK9Xnwze9mgAvmNV1foI1VWrBmjnfBTLQ==
 
 vue-observe-visibility@^2.0.0-alpha.1:
   version "2.0.0-alpha.1"

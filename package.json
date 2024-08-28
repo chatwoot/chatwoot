@@ -87,7 +87,7 @@
     "vue-easytable": "2.5.5",
     "vue-i18n": "9.14.0",
     "vue-letter": "^0.2.0",
-    "vue-multiselect": "~2.1.6",
+    "vue-multiselect": "^3.0.0-beta.3",
     "vue-router": "~4.4.3",
     "vue-upload-component": "^3.1.17",
     "vue-virtual-scroll-list": "^2.3.5",

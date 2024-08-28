@@ -145,7 +145,7 @@ export default {
             />
           </label>
           <multiselect
-            :value="primaryContact"
+            :model-value="primaryContact"
             disabled
             :options="[]"
             :show-labels="false"
