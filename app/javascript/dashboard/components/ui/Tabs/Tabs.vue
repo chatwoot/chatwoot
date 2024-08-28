@@ -1,27 +1,3 @@
-<template>
-  <div
-    :class="{ 'tabs--container--with-border': border, 'tabs--container': true }"
-  >
-    <button
-      v-if="hasScroll"
-      class="tabs--scroll-button button clear secondary button--only-icon"
-      @click="onScrollClick('left')"
-    >
-      <fluent-icon :icon="'chevron-left'" :size="16" />
-    </button>
-    <ul :class="{ tabs: true, 'tabs--with-scroll': hasScroll }">
-      <slot />
-    </ul>
-    <button
-      v-if="hasScroll"
-      class="tabs--scroll-button button clear secondary button--only-icon"
-      @click="onScrollClick('right')"
-    >
-      <fluent-icon :icon="'chevron-right'" :size="16" />
-    </button>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'WootTabs',
@@ -69,3 +45,28 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    :class="{ 'tabs--container--with-border': border }"
+    class="tabs--container"
+  >
+    <button
+      v-if="hasScroll"
+      class="tabs--scroll-button button clear secondary button--only-icon"
+      @click="onScrollClick('left')"
+    >
+      <fluent-icon icon="chevron-left" :size="16" />
+    </button>
+    <ul :class="{ 'tabs--with-scroll': hasScroll }" class="tabs">
+      <slot />
+    </ul>
+    <button
+      v-if="hasScroll"
+      class="tabs--scroll-button button clear secondary button--only-icon"
+      @click="onScrollClick('right')"
+    >
+      <fluent-icon icon="chevron-right" :size="16" />
+    </button>
+  </div>
+</template>
