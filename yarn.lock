@@ -13900,10 +13900,10 @@ vue-template-compiler@^2.6.11:
     de-indent "^1.0.2"
     he "^1.1.0"
 
-vue-upload-component@2.8.23:
-  version "2.8.23"
-  resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-2.8.23.tgz#908df86dbcf1a0d1ffa7fca6987c33c6e5159564"
-  integrity sha512-diy7wOROLmfUj3zBYZ6HwqX7K4P0nmFKguhXTHA2pU2SrxTbUQc/eaOGnJJ6D75vexrvG8x7OPtSBLw9RUYbEQ==
+vue-upload-component@^3.1.17:
+  version "3.1.17"
+  resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-3.1.17.tgz#489f504eb65b518905815f7dbd64b262d7cd624b"
+  integrity sha512-1orTC5apoFzBz4ku2HAydpviaAOck+ABc83rGypIK/Bgl+TqhtoWsQOhXqbb7vDv7pKlvRVWwml9PM224HyhkA==
 
 vue-virtual-scroll-list@^2.3.5:
   version "2.3.5"

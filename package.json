@@ -89,7 +89,7 @@
     "vue-letter": "^0.2.0",
     "vue-multiselect": "~2.1.6",
     "vue-router": "~4.4.3",
-    "vue-upload-component": "2.8.23",
+    "vue-upload-component": "^3.1.17",
     "vue-virtual-scroll-list": "^2.3.5",
     "vue-virtual-scroller": "^1.1.2",
     "vue2-datepicker": "^3.9.1",
