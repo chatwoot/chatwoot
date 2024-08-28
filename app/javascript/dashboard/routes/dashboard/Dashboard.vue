@@ -153,7 +153,7 @@ export default {
       @closeKeyShortcutModal="closeKeyShortcutModal"
       @showAddLabelPopup="showAddLabelPopup"
     />
-    <main>
+    <main class="app-body-wrapper">
       <router-view />
       <CommandBar />
       <AccountSelector
