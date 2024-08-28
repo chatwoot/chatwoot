@@ -145,4 +145,4 @@ export default {
 @import './assets/scss/app';
 </style>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
