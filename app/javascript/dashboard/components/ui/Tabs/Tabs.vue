@@ -1,49 +1,62 @@
-<script>
-export default {
-  name: 'WootTabs',
-  props: {
-    index: {
-      type: Number,
-      default: 0,
-    },
-    border: {
-      type: Boolean,
-      default: true,
-    },
+<script setup>
+// [VITE] TODO: Test this component across different screen sizes and usages
+import { ref, provide, onMounted, computed } from 'vue';
+import { useEventListener } from '@vueuse/core';
+
+const props = defineProps({
+  index: {
+    type: Number,
+    default: 0,
   },
-  data() {
-    return { hasScroll: false };
+  border: {
+    type: Boolean,
+    default: true,
   },
-  created() {
-    window.addEventListener('resize', this.computeScrollWidth);
+});
+
+const emit = defineEmits(['change']);
+
+const hasScroll = ref(false);
+const internalActiveIndex = ref(props.index);
+
+// Create a proxy for activeIndex using computed
+const activeIndex = computed({
+  get: () => internalActiveIndex.value,
+  set: newValue => {
+    internalActiveIndex.value = newValue;
+    emit('change', newValue);
   },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.computeScrollWidth);
-  },
-  mounted() {
-    this.computeScrollWidth();
-  },
-  methods: {
-    computeScrollWidth() {
-      const tabElement = this.$el.getElementsByClassName('tabs')[0];
-      this.hasScroll = tabElement.scrollWidth > tabElement.clientWidth;
-    },
-    onScrollClick(direction) {
-      const tabElement = this.$el.getElementsByClassName('tabs')[0];
-      let scrollPosition = tabElement.scrollLeft;
-      if (direction === 'left') {
-        scrollPosition -= 100;
-      } else {
-        scrollPosition += 100;
-      }
-      tabElement.scrollTo({
-        top: 0,
-        left: scrollPosition,
-        behavior: 'smooth',
-      });
-    },
-  },
+});
+
+provide('activeIndex', activeIndex);
+provide('updateActiveIndex', index => {
+  activeIndex.value = index;
+});
+
+const computeScrollWidth = () => {
+  const tabElement = document.querySelector('.tabs');
+  if (tabElement) {
+    hasScroll.value = tabElement.scrollWidth > tabElement.clientWidth;
+  }
 };
+
+const onScrollClick = direction => {
+  const tabElement = document.querySelector('.tabs');
+  if (tabElement) {
+    let scrollPosition = tabElement.scrollLeft;
+    scrollPosition += direction === 'left' ? -100 : 100;
+    tabElement.scrollTo({
+      top: 0,
+      left: scrollPosition,
+      behavior: 'smooth',
+    });
+  }
+};
+
+useEventListener(window, 'resize', computeScrollWidth);
+onMounted(() => {
+  computeScrollWidth();
+});
 </script>
 
 <template>
