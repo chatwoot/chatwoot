@@ -83,11 +83,11 @@
     "vue": "^3.4.38",
     "vue-chartjs": "3.5.1",
     "vue-color": "2.8.1",
-    "vue-dompurify-html": "^2.5.2",
+    "vue-dompurify-html": "^5.1.0",
     "vue-easytable": "2.5.5",
     "vue-i18n": "9.14.0",
     "vue-letter": "^0.2.0",
-    "vue-multiselect": "^3.0.0-beta.3",
+    "vue-multiselect": "3.0.0",
     "vue-router": "~4.4.3",
     "vue-upload-component": "^3.1.17",
     "vue-virtual-scroll-list": "^2.3.5",
@@ -96,7 +96,7 @@
     "vue3-click-away": "^1.2.4",
     "vuedraggable": "^2.24.3",
     "vuex": "~4.1.0",
-    "vuex-router-sync": "~4.1.2",
+    "vuex-router-sync": "~5.0.0",
     "wavesurfer.js": "^6.0.4"
   },
   "devDependencies": {

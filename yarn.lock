@@ -6357,10 +6357,10 @@ dompurify@2.2.7:
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.2.7.tgz#a5f055a2a471638680e779bd08fc334962d11fd8"
   integrity sha512-jdtDffdGNY+C76jvodNTu9jt5yYj59vuTUyx+wXdzcSwAGTYZDAQkQ7Iwx9zcGrA4ixC1syU4H3RZROqRxokxg==
 
-dompurify@^2.3.4:
-  version "2.3.6"
-  resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.3.6.tgz#2e019d7d7617aacac07cbbe3d88ae3ad354cf875"
-  integrity sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg==
+dompurify@^3.0.0:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.1.6.tgz#43c714a94c6a7b8801850f82e756685300a027e2"
+  integrity sha512-cTOAhc36AalkjtBpfG6O8JimdTMWNXjiePT2xQH/ppBGi/4uIpmj8eKyIkMJErXWARyINV/sB38yf8JCLF5pbQ==
 
 domutils@^1.7.0:
   version "1.7.0"
@@ -13817,12 +13817,12 @@ vue-demi@^0.13.11:
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
   integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
-vue-dompurify-html@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/vue-dompurify-html/-/vue-dompurify-html-2.5.2.tgz#f547d4eacae4640f95eb0e9308e7ef8e223887c6"
-  integrity sha512-G6I135+BhlACJ9xftqK7fvhXyjNrgHCI594qHnUW5e2Bmp8BOTV1kz7cxwI37b4BJnHkj9IY10RwMPOtJqw+pw==
+vue-dompurify-html@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/vue-dompurify-html/-/vue-dompurify-html-5.1.0.tgz#7f720ad0043804642af7d65d4e002c574ce3c951"
+  integrity sha512-616o2/PBdOLM2bwlRWLdzeEC9NerLkwiudqNgaIJ5vBQWXec+u7Kuzh+45DtQQrids67s4pHnTnJZLVfyPMxbA==
   dependencies:
-    dompurify "^2.3.4"
+    dompurify "^3.0.0"
 
 vue-easytable@2.5.5:
   version "2.5.5"
@@ -13863,10 +13863,10 @@ vue-letter@^0.2.0:
   dependencies:
     lettersanitizer "^1.0.5"
 
-vue-multiselect@^3.0.0-beta.3:
-  version "3.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-3.0.0-beta.3.tgz#b1348238a84c435582c3f46f2a9c045b29bb976c"
-  integrity sha512-P7Fx+ovVF7WMERSZ0lw6N3p4H4bnQ3NcaY3ORjzFPv0r/6lpIqvFWmK9Xnwze9mgAvmNV1foI1VWrBmjnfBTLQ==
+vue-multiselect@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-3.0.0.tgz#b1e779b9adf054a6941669c99bc97a0209fceac3"
+  integrity sha512-uupKdINgz7j83lQToCL7KkgQQxvG43el++hsR39YT9pCe1DwzUGmKzPxjVP6rqskXed5P6DtUASYAlCliW740Q==
 
 vue-observe-visibility@^2.0.0-alpha.1:
   version "2.0.0-alpha.1"
@@ -13954,10 +13954,10 @@ vuedraggable@^2.24.3:
   dependencies:
     sortablejs "1.10.2"
 
-vuex-router-sync@~4.1.2:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/vuex-router-sync/-/vuex-router-sync-4.1.3.tgz#f209ec3174de04179bfadd7994437e4c5a81c975"
-  integrity sha1-8gnsMXTeBBeb+t15lEN+TFqByXU=
+vuex-router-sync@~5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/vuex-router-sync/-/vuex-router-sync-5.0.0.tgz#1a225c17a1dd9e2f74af0a1b2c62072e9492b305"
+  integrity sha512-Mry2sO4kiAG64714X1CFpTA/shUH1DmkZ26DFDtwoM/yyx6OtMrc+MxrU+7vvbNLO9LSpgwkiJ8W+rlmRtsM+w==
 
 vuex@~4.1.0:
   version "4.1.0"
