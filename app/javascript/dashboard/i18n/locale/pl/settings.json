@@ -239,6 +239,7 @@
     "REPORTS": "Raporty",
     "SETTINGS": "Ustawienia",
     "CONTACTS": "Kontakty",
+    "CAPTAIN": "Captain",
     "HOME": "Strona główna",
     "AGENTS": "Agenci",
     "AGENT_BOTS": "Boty",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Przegląd",
-    "FACEBOOK_REAUTHORIZE": "Twoje połączenie z Facebookiem wygasło, aby kontynuować usługi, ponownie połącz swoją stronę na Facebooku",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centrum pomocy",
       "ALL_ARTICLES": "Wszystkie artykuły",

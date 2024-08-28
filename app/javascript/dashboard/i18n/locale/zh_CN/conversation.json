@@ -49,10 +49,10 @@
     "NO_RESPONSE": "无响应",
     "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "显示标签",
+      "HIDE_LABELS": "隐藏标签"
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -61,14 +61,14 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "推迟到",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL_NEXT_REPLY": "推迟至下一个回复",
       "SLA_STATUS": {
-        "FRT": "FRT {status}",
-        "NRT": "NRT {status}",
-        "RT": "RT {status}",
+        "FRT": "第一响应时间 {status}",
+        "NRT": "净响应时间 {status}",
+        "RT": "响应时间 {status}",
         "MISSED": "missed",
         "DUE": "due"
       }
@@ -93,33 +93,33 @@
       "OPTIONS": {
         "NONE": "啥都没有",
         "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "HIGH": "高",
+        "MEDIUM": "中",
+        "LOW": "低"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "啥都没有",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "选择优先级",
         "NO_RESULTS": "没有检索到相关信息",
         "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "FAILED": "无法更改优先级。请重试。"
       }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "标记为待处理",
       "RESOLVED": "标记为已解决",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "标记为未读",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
         "TITLE": "推迟",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "NEXT_REPLY": "直到下次回复",
+        "TOMORROW": "直到明天",
+        "NEXT_WEEK": "直到下周"
       },
       "ASSIGN_AGENT": "分配客服代表",
       "ASSIGN_LABEL": "分配标签",
       "AGENTS_LOADING": "正在加载客服代表...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_TEAM": "分配一个团队",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "对话 ID %{conversationId} 已分配给 \"%{agentName}\"",
@@ -142,7 +142,8 @@
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
-      "CLICK_HERE": "点击此处更新"
+      "CLICK_HERE": "点击此处更新",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "回复",

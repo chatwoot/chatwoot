@@ -1,3 +1,28 @@
+<script>
+import Spinner from 'shared/components/Spinner.vue';
+
+export default {
+  name: 'MetricCard',
+  components: {
+    Spinner,
+  },
+  props: {
+    header: {
+      type: String,
+      default: '',
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    loadingMessage: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="metric-card flex flex-col m-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem]"
@@ -36,37 +61,14 @@
       v-else-if="isLoading"
       class="items-center flex text-base justify-center px-12 py-6"
     >
-      <spinner />
+      <Spinner />
       <span class="text-slate-300 dark:text-slate-200">
         {{ loadingMessage }}
       </span>
     </div>
   </div>
 </template>
-<script>
-import Spinner from 'shared/components/Spinner.vue';
 
-export default {
-  name: 'MetricCard',
-  components: {
-    Spinner,
-  },
-  props: {
-    header: {
-      type: String,
-      default: '',
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    loadingMessage: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .metric-card {
   @apply flex flex-col mb-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];

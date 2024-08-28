@@ -239,6 +239,7 @@
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
+    "CAPTAIN": "Captain",
     "HOME": "Головна",
     "AGENTS": "Агенти",
     "AGENT_BOTS": "Боти",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Огляд",
-    "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Довідковий центр",
       "ALL_ARTICLES": "Всі статті",

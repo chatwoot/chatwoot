@@ -1,20 +1,3 @@
-<template>
-  <li
-    :class="{
-      'tabs-title': true,
-      'is-active': active,
-    }"
-  >
-    <a @click="onTabClick">
-      {{ name }}
-      <div v-if="showBadge" class="badge min-w-[20px]">
-        <span>
-          {{ getItemCount }}
-        </span>
-      </div>
-    </a>
-  </li>
-</template>
 <script>
 export default {
   name: 'WootTabsItem',
@@ -61,3 +44,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <li
+    class="tabs-title"
+    :class="{
+      'is-active': active,
+    }"
+  >
+    <a @click="onTabClick">
+      {{ name }}
+      <div v-if="showBadge" class="badge min-w-[20px]">
+        <span>
+          {{ getItemCount }}
+        </span>
+      </div>
+    </a>
+  </li>
+</template>

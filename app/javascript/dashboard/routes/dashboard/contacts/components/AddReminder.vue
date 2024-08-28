@@ -1,3 +1,46 @@
+<script>
+export default {
+  props: {
+    options: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      content: '',
+      date: '',
+      label: '',
+    };
+  },
+  computed: {
+    buttonDisabled() {
+      return this.content && this.date === '';
+    },
+  },
+  methods: {
+    resetValue() {
+      this.content = '';
+      this.date = '';
+    },
+
+    optionSelected(event) {
+      this.label = event.target.value;
+    },
+
+    onAdd() {
+      const task = {
+        content: this.content,
+        date: this.date,
+        label: this.label,
+      };
+      this.$emit('add', task);
+      this.resetValue();
+    },
+  },
+};
+</script>
+
 <template>
   <div class="wrap">
     <div class="input-select-wrap">
@@ -46,49 +89,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    options: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      content: '',
-      date: '',
-      label: '',
-    };
-  },
-  computed: {
-    buttonDisabled() {
-      return this.content && this.date === '';
-    },
-  },
-  methods: {
-    resetValue() {
-      this.content = '';
-      this.date = '';
-    },
-
-    optionSelected(event) {
-      this.label = event.target.value;
-    },
-
-    onAdd() {
-      const task = {
-        content: this.content,
-        date: this.date,
-        label: this.label,
-      };
-      this.$emit('add', task);
-      this.resetValue();
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .wrap {

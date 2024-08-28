@@ -43,8 +43,8 @@ describe('ReportsFiltersAgents.vue', () => {
 
     wrapper.vm.handleInput();
 
-    expect(wrapper.emitted('agents-filter-selection')).toBeTruthy();
-    expect(wrapper.emitted('agents-filter-selection')[0]).toEqual([
+    expect(wrapper.emitted('agentsFilterSelection')).toBeTruthy();
+    expect(wrapper.emitted('agentsFilterSelection')[0]).toEqual([
       selectedAgents,
     ]);
   });

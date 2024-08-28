@@ -13,6 +13,7 @@ describe Messages::Instagram::MessageBuilder do
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
+  let!(:shared_reel_params) { build(:instagram_shared_reel_event).with_indifferent_access }
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
   let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
   let(:fb_object) { double }
@@ -77,6 +78,27 @@ describe Messages::Instagram::MessageBuilder do
 
       expect(instagram_inbox.conversations.count).to be 1
       expect(instagram_inbox.messages.count).to be 1
+    end
+
+    it 'creates message for shared reel' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: 'Sender-id-1',
+          account_id: instagram_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      messaging = shared_reel_params[:entry][0]['messaging'][0]
+      contact_inbox
+      described_class.new(messaging, instagram_inbox).perform
+
+      message = instagram_channel.inbox.messages.first
+      expect(message.attachments.first.file_type).to eq('ig_reel')
+      expect(message.attachments.first.external_url).to eq(
+        shared_reel_params[:entry][0]['messaging'][0]['message']['attachments'][0]['payload']['url']
+      )
     end
 
     it 'creates message with for reply with story id' do

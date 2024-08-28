@@ -239,6 +239,7 @@
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
+    "CAPTAIN": "Captain",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Бета",
     "REPORTS_OVERVIEW": "Обзор",
-    "FACEBOOK_REAUTHORIZE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Центр поддержки",
       "ALL_ARTICLES": "Все статьи",

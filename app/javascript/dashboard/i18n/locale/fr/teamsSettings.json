@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Créer une nouvelle équipe",
     "HEADER": "Équipes",
-    "SIDEBAR_TXT": "<p><b>Équipes</b></p> <p>Les équipes vous permettent d'organiser vos agents en groupes en fonction de leurs responsabilités. <br /> Un utilisateur peut faire partie de plusieurs équipes. Vous pouvez assigner des conversations à une équipe lorsque vous travaillez en collaboration. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Il n'y a aucune équipe créée sur ce compte.",
-      "EDIT_TEAM": "Modifier l'équipe"
+      "EDIT_TEAM": "Modifier l'équipe",
+      "NONE": "Aucun"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Impossible de supprimer l'équipe. Veuillez réessayer."
       },
       "CONFIRM": {
-        "TITLE": "Voulez-vous vraiment supprimer - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Veuillez entrer {teamName} pour confirmer",
         "MESSAGE": "La suppression de l'équipe supprimera les affectations liées aux conversations de cette équipe.",
         "YES": "Supprimer ",

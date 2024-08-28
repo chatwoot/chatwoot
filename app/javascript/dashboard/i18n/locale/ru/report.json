@@ -481,7 +481,8 @@
       "HEADER": "Трафик сообщений",
       "NO_CONVERSATIONS": "Нет сообщений",
       "CONVERSATION": "%{count} разговор",
-      "CONVERSATIONS": "%{count} разговоров"
+      "CONVERSATIONS": "%{count} разговоров",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Диалоги по операторам",
@@ -511,20 +512,20 @@
     "SATURDAY": "Суббота"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
+    "HEADER": "Отчеты по SLA",
     "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "LOADING": "Загрузка данных по SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Скачать отчеты по SLA",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
       "ADD_FIlTER": "Добавить фильтр",
-      "CLEAR_ALL": "Clear all",
+      "CLEAR_ALL": "Очистить всё",
       "CLEAR_FILTER": "Очистить фильтр",
       "EMPTY_LIST": "Результаты не найдены",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "Нет доступных фильтров",
+      "SEARCH": "Поиск по фильтру",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "Название SLA",
         "AGENTS": "Имя оператора",
         "INBOXES": "Имя источника",
         "LABELS": "Название категории",
@@ -536,6 +537,7 @@
       "LABELS": "Метка",
       "TEAMS": "Команда"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

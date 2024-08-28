@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Источники",
     "SIDEBAR_TXT": "<p><b>Источники</b></p> <p> Когда вы подключаете страницу Facebook к Chatwoot, это называется <b>Источником</b>. У вас может быть неограниченное количество источников в вашем аккаунте Chatwoot. </p><p> Нажмите на <b>Добавить источник</b> для подключения сайта или страницы на Facebook. </p><p> На главной страницы вы увидите все диалоги из всех источников и можете отвечать на них во вкладке `Диалоги`. </p><p> Вы можете просмотреть диалоги конкретного источника по нажатию на его имя в левой части главной страницы. </p>",
+    "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
+    "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "LIST": {
       "404": "У вас пока нет источников."
     },
@@ -43,7 +45,7 @@
         "CHOOSE_PLACEHOLDER": "Выберите страницу из списка",
         "INBOX_NAME": "Имя источника",
         "ADD_NAME": "Введите имя источника",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Выберите имя для папки \"Входящие\"",
         "PICK_A_VALUE": "Выберите значение"
       },
       "TWITTER": {
@@ -62,7 +64,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Введите URL-адрес вебхука",
           "ERROR": "Пожалуйста, введите правильный URL"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +177,12 @@
           },
           "API_KEY": {
             "LABEL": "Ключ API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Key",
             "ERROR": "Это поле обязательно"
           },
           "API_SECRET": {
             "LABEL": "Секретный ключ API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Secret",
             "ERROR": "Это поле обязательно"
           },
           "APPLICATION_ID": {
@@ -239,7 +241,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Вебхук верифицировать токен",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Введите верификационный токен, который вы хотите настроить для Facebook webhooks.",
           "ERROR": "Пожалуйста, введите правильное значение."
         },
         "API_KEY": {
@@ -269,7 +271,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Добавьте URL, на который вы бы хотели получать callback-события.",
           "PLACEHOLDER": "URL вебхука"
         },
         "SUBMIT_BUTTON": "Создайте источник API",
@@ -279,7 +281,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email источник",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Интегрируйте ваш почтовый ящик.",
         "CHANNEL_NAME": {
           "LABEL": "имя источника",
           "PLACEHOLDER": "Пожалуйста введите имя источника",
@@ -345,7 +347,7 @@
       "AGENTS": {
         "TITLE": "Операторы",
         "DESC": "Здесь вы можете добавить операторов для управления только что созданным источником. Только эти операторы будут иметь доступ к вашему источнику. Операторы, которые не являются частью этого источника, не смогут видеть диалоги или отвечать на них. <br> <b>PS:</b> Если вам как администратору нужен доступ ко всем источникам, то вы должны добавить себя как операторы во все каналы, которые вы создаете.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "Добавьте хотя бы одного агента в новый канал",
         "PICK_AGENTS": "Выберите агентов для канала"
       },
       "DETAILS": {
@@ -364,6 +366,7 @@
         "TITLE": "Почта Microsoft",
         "DESCRIPTION": "Нажмите на кнопку Войти с помощью Microsoft, чтобы начать. Вы будете перенаправлены на страницу входа по электронной почте. Как только вы согласитесь с запрошенными правами, вы будете перенаправлены обратно на этап создания входящих сообщений.",
         "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
+        "SIGN_IN": "Войти с помощью Microsoft",
         "HELP": "Чтобы добавить учетную запись Microsoft в качестве канала, вам нужно авторизоваться в учетной записи Майкрософт, нажав на кнопку \"Войти с помощью Microsoft\" ",
         "ERROR_MESSAGE": "Произошла ошибка при подключении к Microsoft, попробуйте еще раз"
       }
@@ -406,7 +409,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Имя отправителя",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Выберите имя, отображаемое клиенту, когда он получает письма от ваших агентов.",
         "FOR_EG": "Например:",
         "FRIENDLY": {
           "TITLE": "Дружелюбный",
@@ -508,7 +511,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Введите новый ключ API, используемый для интеграции с WhatsApp API.",
       "WHATSAPP_SECTION_TITLE": "Ключ API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Обновить ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введите сюда новый ключ API",
@@ -585,7 +588,7 @@
       "NOTE_TEXT": "Для включения SMTP, настройте IMAP.",
       "UPDATE": "Обновить настройки IMAP",
       "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "Включение IMAP поможет пользователю получать электронную почту",
       "EDIT": {
         "SUCCESS_MESSAGE": "Настройки IMAP успешно обновлены",
         "ERROR_MESSAGE": "Невозможно обновить настройки IMAP"

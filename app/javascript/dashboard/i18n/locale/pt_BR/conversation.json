@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "CLICK_HERE": "Clique aqui para atualizar"
+      "CLICK_HERE": "Clique aqui para atualizar",
+      "WHATSAPP_TEMPLATES": "Templates do Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -328,7 +329,7 @@
     "TITLE": "Ver conteúdo traduzido",
     "DESC": "Você pode visualizar o conteúdo traduzido em cada idioma.",
     "ORIGINAL_CONTENT": "Conteúdo original",
-    "TRANSLATED_CONTENT": "Conteúdo Traduzido",
+    "TRANSLATED_CONTENT": "Conteúdo traduzido",
     "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
   }
 }

@@ -64,11 +64,12 @@ async function requestAuthorization() {
   }
 }
 </script>
+
 <template>
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <settings-sub-page-header
+    <SettingsSubPageHeader
       :header-title="title"
       :header-content="description"
     />

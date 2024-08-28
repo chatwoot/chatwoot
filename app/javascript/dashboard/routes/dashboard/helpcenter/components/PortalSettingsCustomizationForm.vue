@@ -2,20 +2,11 @@
 import { getRandomColor } from 'dashboard/helper/labelColor';
 import SettingsLayout from './Layout/SettingsLayout.vue';
 import wootConstants from 'dashboard/constants/globals';
-const { EXAMPLE_URL } = wootConstants;
-
 import { useVuelidate } from '@vuelidate/core';
 import { url } from '@vuelidate/validators';
 
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
-
-defineComponent({
-  name: 'PortalSettingsCustomizationForm',
-});
-
-const { t } = useI18n();
-
 const props = defineProps({
   portal: {
     type: Object,
@@ -28,6 +19,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['submit']);
+
+defineComponent({
+  name: 'PortalSettingsCustomizationForm',
+});
+
+const { t } = useI18n();
+
+const { EXAMPLE_URL } = wootConstants;
 
 const state = reactive({
   color: getRandomColor(),

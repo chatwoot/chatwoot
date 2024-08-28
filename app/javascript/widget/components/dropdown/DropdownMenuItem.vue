@@ -1,14 +1,3 @@
-<template>
-  <button :class="['menu-item', itemClass]" @click="action">
-    <fluent-icon
-      v-if="icon"
-      :icon="iconName"
-      :size="iconSize"
-      :class="iconClass"
-    />
-    <span :class="[{ 'pl-3': icon }, textClass]">{{ text }}</span>
-  </button>
-</template>
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
@@ -51,6 +40,19 @@ export default {
   },
 };
 </script>
+
+<template>
+  <button class="menu-item" :class="[itemClass]" @click="action">
+    <FluentIcon
+      v-if="icon"
+      :icon="iconName"
+      :size="iconSize"
+      :class="iconClass"
+    />
+    <span :class="[{ 'pl-3': icon }, textClass]">{{ text }}</span>
+  </button>
+</template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

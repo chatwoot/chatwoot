@@ -1,6 +1,15 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "برنامه‌های تلفیق شده",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "رویدادهای مشترک شده",
       "FORM": {
@@ -169,6 +178,7 @@
       "HEADER_BTN_TXT": "اضافه کردن یک برنامه پیشخوان جدید",
       "SIDEBAR_TXT": "<p><b>برنامه‌های داشبورد</b></p><p>برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد Chatwoot جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه ایجاد کنید و آن را در داشبورد جاسازی کنید تا اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها را ارائه کنید.</p><p>وقتی برنامه خود را با استفاده از داشبورد در Chatwoot جاسازی می کنید، برنامه شما این کار را انجام می دهد. زمینه گفتگو و تماس را به عنوان یک رویداد پنجره دریافت کنید. یک شنونده برای رویداد پیام در صفحه خود اجرا کنید تا زمینه را دریافت کنید.</p><p>برای افزودن یک برنامه داشبورد جدید، روی دکمه \"افزودن یک برنامه داشبورد جدید\" کلیک کنید.</p>",
       "DESCRIPTION": "برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه کاربردی ایجاد کنید و آن را برای ارائه اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها درج کنید.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "هنوز هیچ برنامه داشبوردی روی این حساب پیکربندی نشده است",
         "LOADING": "در حال واکشی برنامه های داشبورد...",
@@ -208,6 +218,87 @@
         "MESSAGE": "آیا مطمئن هستید که برنامه %{appName} حذف شود؟",
         "API_SUCCESS": "برنامه پیشخوان با موفقیت حذف شد",
         "API_ERROR": "ما نتوانستیم برنامه را حذف کنیم. لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "ايجاد كردن",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "پیوند",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "عنوان",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "عنوان الزامی است"
+          },
+          "DESCRIPTION": {
+            "LABEL": "توضیحات",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "تیم‌",
+            "PLACEHOLDER": "انتخاب تیم",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "مسئول",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "اولویت",
+            "PLACEHOLDER": "انتخاب اولویت",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "برچسب",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "وضعیت",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "ايجاد كردن",
+        "CANCEL": "انصراف",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "وضعیت",
+        "PRIORITY": "اولویت",
+        "ASSIGNEE": "مسئول",
+        "LABELS": "برچسب‌ها",
+        "CREATED_AT": "Created at %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

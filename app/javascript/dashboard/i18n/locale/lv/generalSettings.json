@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Bezsaistē"
+      "OFFLINE": "Bezsaistē",
+      "RECONNECTING": "Notiek savienojuma atjaunošana...",
+      "RECONNECT_SUCCESS": "Atkārtoti izveidots savienojums"
     },
     "BUTTON": {
       "REFRESH": "Atjaunot"
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "Līdz rītdienai",
       "UNTIL_NEXT_MONTH": "Līdz nākamajam mēnesim",
       "AN_HOUR_FROM_NOW": "Līdz stundai, no šī brīža",
-      "CUSTOM": "Pielāgot...",
+      "UNTIL_CUSTOM_TIME": "Pielāgot...",
       "CHANGE_APPEARANCE": "Mainīt Izskatu",
       "LIGHT_MODE": "Gaišs",
       "DARK_MODE": "Tumšs",

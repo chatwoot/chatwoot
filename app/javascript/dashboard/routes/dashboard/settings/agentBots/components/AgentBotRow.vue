@@ -1,35 +1,3 @@
-<template>
-  <tr class="space-x-2">
-    <td class="agent-bot--details">
-      <div class="agent-bot--link">
-        {{ agentBot.name }}
-        (<agent-bot-type :bot-type="agentBot.bot_type" />)
-      </div>
-      <div class="agent-bot--description">
-        <show-more :text="agentBot.description" :limit="120" />
-      </div>
-    </td>
-    <td class="flex justify-end gap-1">
-      <woot-button
-        v-if="isACSMLTypeBot"
-        v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        icon="edit"
-        @click="$emit('edit', agentBot)"
-      />
-      <woot-button
-        v-tooltip.top="$t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="dismiss-circle"
-        @click="$emit('delete', agentBot, index)"
-      />
-    </td>
-  </tr>
-</template>
 <script>
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import AgentBotType from './AgentBotType.vue';
@@ -54,6 +22,40 @@ export default {
   },
 };
 </script>
+
+<template>
+  <tr class="space-x-2">
+    <td class="agent-bot--details">
+      <div class="agent-bot--link">
+        {{ agentBot.name }}
+        (<AgentBotType :bot-type="agentBot.bot_type" />)
+      </div>
+      <div class="agent-bot--description">
+        <ShowMore :text="agentBot.description" :limit="120" />
+      </div>
+    </td>
+    <td class="flex justify-end gap-1">
+      <woot-button
+        v-if="isACSMLTypeBot"
+        v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        icon="edit"
+        @click="$emit('edit', agentBot)"
+      />
+      <woot-button
+        v-tooltip.top="$t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
+        variant="smooth"
+        color-scheme="alert"
+        size="tiny"
+        icon="dismiss-circle"
+        @click="$emit('delete', agentBot, index)"
+      />
+    </td>
+  </tr>
+</template>
+
 <style scoped lang="scss">
 .agent-bot--link {
   align-items: center;

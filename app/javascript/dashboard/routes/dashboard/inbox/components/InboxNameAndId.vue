@@ -21,6 +21,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="inline-flex items-center rounded-[4px] border border-slate-100 dark:border-slate-700/50 divide-x divide-slate-100 dark:divide-slate-700/50 bg-none"
