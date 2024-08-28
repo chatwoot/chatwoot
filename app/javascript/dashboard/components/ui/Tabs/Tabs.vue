@@ -17,6 +17,8 @@ const props = defineProps({
 const emit = defineEmits(['change']);
 
 const hasScroll = ref(false);
+// TODO: We may not this internalActiveIndex, we can use activeIndex directly
+// But right I'll keep it and fix it when testing the rest of the codebase
 const internalActiveIndex = ref(props.index);
 
 // Create a proxy for activeIndex using computed
@@ -34,6 +36,7 @@ provide('updateActiveIndex', index => {
 });
 
 const computeScrollWidth = () => {
+  // TODO: use useElementSize from vueuse
   const tabElement = document.querySelector('.tabs');
   if (tabElement) {
     hasScroll.value = tabElement.scrollWidth > tabElement.clientWidth;
@@ -41,6 +44,7 @@ const computeScrollWidth = () => {
 };
 
 const onScrollClick = direction => {
+  // TODO: use useElementSize from vueuse
   const tabElement = document.querySelector('.tabs');
   if (tabElement) {
     let scrollPosition = tabElement.scrollLeft;
