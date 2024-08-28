@@ -5,8 +5,8 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 // import VirtualList from 'vue-virtual-scroll-list';
-// [VITE] Todo: Update the usage, for now we're disabling this since there is no way to test without fixing other issues
-// import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
+// [VITE] Todo: There's a bug with the sizing of the elements, we need to fix that
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
@@ -41,6 +41,8 @@ export default {
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
+    DynamicScroller,
+    DynamicScrollerItem,
     // IntersectionObserver,
     // VirtualList,
   },
@@ -57,6 +59,7 @@ export default {
       toggleContextMenu: this.onContextMenuToggle,
       markAsUnread: this.markAsUnread,
       assignPriority: this.assignPriority,
+      isConversationSelected: this.isConversationSelected,
     };
   },
   props: {
@@ -93,6 +96,7 @@ export default {
     const { uiSettings } = useUISettings();
 
     const conversationListRef = ref(null);
+    const conversationDynamicScroller = ref(null);
 
     const getKeyboardListenerParams = () => {
       const allConversations = conversationListRef.value.querySelectorAll(
@@ -149,6 +153,7 @@ export default {
     return {
       uiSettings,
       conversationListRef,
+      conversationDynamicScroller,
     };
   },
   data() {
@@ -175,16 +180,16 @@ export default {
         rootMargin: '100px 0px 100px 0px',
       },
 
-      itemComponent: ConversationItem,
+      // itemComponent: ConversationItem,
       // virtualListExtraProps is to pass the props to the conversationItem component.
-      virtualListExtraProps: {
-        label: this.label,
-        teamId: this.teamId,
-        foldersId: this.foldersId,
-        conversationType: this.conversationType,
-        showAssignee: false,
-        isConversationSelected: this.isConversationSelected,
-      },
+      // virtualListExtraProps: {
+      //   label: this.label,
+      //   teamId: this.teamId,
+      //   foldersId: this.foldersId,
+      //   conversationType: this.conversationType,
+      //   showAssignee: false,
+      //   isConversationSelected: this.isConversationSelected,
+      // },
     };
   },
   computed: {
@@ -435,9 +440,20 @@ export default {
       this.$store.dispatch('campaigns/get');
     }
 
+    this.$refs.conversationDynamicScroller.$el.addEventListener(
+      'scroll',
+      this.handleScroll
+    );
+
     emitter.on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
+  },
+  beforeUnmount() {
+    this.$refs.conversationDynamicScroller.$el.removeEventListener(
+      'scroll',
+      this.handleScroll
+    );
   },
   methods: {
     updateVirtualListProps(key, value) {
@@ -573,15 +589,31 @@ export default {
       if (this.hasCurrentPageEndReached || this.chatListLoading) {
         return;
       }
+
+      // Increment the current page
+      this.$store.commit('conversationPage/setCurrentPage', {
+        filter: this.currentPageFilterKey,
+        page: this.currentFiltersPage + 1,
+      });
+
       if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
-      }
-      if (this.hasActiveFolders) {
+      } else if (this.hasActiveFolders) {
         const payload = this.activeFolder.query;
         this.fetchSavedFilteredConversations(payload);
-      }
-      if (this.hasAppliedFilters) {
+      } else if (this.hasAppliedFilters) {
         this.fetchFilteredConversations(this.appliedFilters);
+      }
+    },
+
+    // Add a method to handle scroll events
+    handleScroll() {
+      const scroller = this.$refs.conversationDynamicScroller;
+      if (scroller && scroller.hasScrollbar) {
+        const { scrollTop, scrollHeight, clientHeight } = scroller.$el;
+        if (scrollHeight - (scrollTop + clientHeight) < 100) {
+          this.loadMoreConversations();
+        }
       }
     },
     fetchFilteredConversations(payload) {
@@ -936,16 +968,34 @@ export default {
       class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <!-- <VirtualList
-        ref="conversationVirtualList"
-        data-key="id"
-        :data-sources="conversationList"
-        :data-component="itemComponent"
-        :extra-props="virtualListExtraProps"
+      <DynamicScroller
+        ref="conversationDynamicScroller"
+        :items="conversationList"
+        :min-item-size="64"
         class="w-full h-full overflow-auto"
-        footer-tag="div"
+        key-field="id"
+        page-mode
       >
-        <template #footer>
+        <template #default="{ item, index, active }">
+          <DynamicScrollerItem
+            :item="item"
+            :active="active"
+            :data-index="index"
+            :size-dependencies="[item.content]"
+          >
+            <ConversationItem
+              :source="item"
+              :label="label"
+              :team-id="teamId"
+              :folders-id="foldersId"
+              :conversation-type="conversationType"
+              :show-assignee="showAssigneeInConversationCard"
+              @selectConversation="selectConversation"
+              @deSelectConversation="deSelectConversation"
+            />
+          </DynamicScrollerItem>
+        </template>
+        <template #after>
           <div v-if="chatListLoading" class="text-center">
             <span class="mt-4 mb-4 spinner" />
           </div>
@@ -955,13 +1005,8 @@ export default {
           >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
-          <IntersectionObserver
-            v-if="!showEndOfListMessage && !chatListLoading"
-            :options="infiniteLoaderOptions"
-            @observed="loadMoreConversations"
-          />
         </template>
-      </VirtualList> -->
+      </DynamicScroller>
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
