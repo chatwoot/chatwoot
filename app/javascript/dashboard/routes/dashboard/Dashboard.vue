@@ -143,9 +143,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-wrap flex-grow-0 w-full h-full max-w-full min-h-0 ml-auto mr-auto app-wrapper dark:text-slate-300"
-  >
+  <div class="with-sidebar app-wrapper dark:text-slate-300">
     <Sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
@@ -155,7 +153,7 @@ export default {
       @closeKeyShortcutModal="closeKeyShortcutModal"
       @showAddLabelPopup="showAddLabelPopup"
     />
-    <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
+    <main>
       <router-view />
       <CommandBar />
       <AccountSelector
@@ -179,6 +177,24 @@ export default {
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <AddLabelModal @close="hideAddLabelPopup" />
       </woot-modal>
-    </section>
+    </main>
   </div>
 </template>
+
+<style>
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.with-sidebar > :first-child {
+  flex-basis: 16;
+  flex-grow: 1;
+}
+
+.with-sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 50%;
+}
+</style>
