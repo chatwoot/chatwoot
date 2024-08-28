@@ -3,6 +3,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   before_action :set_color_scheme
   before_action :set_global_config
   around_action :set_locale
+  before_action :authenticate_user!
   after_action :allow_iframe_requests
 
   private

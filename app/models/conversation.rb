@@ -247,7 +247,11 @@ class Conversation < ApplicationRecord
   end
 
   def latest_agent
-    messages.outgoing.where.not(sender_id: nil).where.not(sender_type: 'AgentBot').last&.sender
+    messages.outgoing
+            .where.not(sender_id: nil)
+            .where.not(sender_type: 'AgentBot')
+            .where.not(private: true)
+            .last&.sender
   end
 
   private
