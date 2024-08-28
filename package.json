@@ -94,7 +94,7 @@
     "vue-virtual-scroller": "^2.0.0-beta.8",
     "vue2-datepicker": "^3.9.1",
     "vue3-click-away": "^1.2.4",
-    "vuedraggable": "^2.24.3",
+    "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "~5.0.0",
     "wavesurfer.js": "^6.0.4"
