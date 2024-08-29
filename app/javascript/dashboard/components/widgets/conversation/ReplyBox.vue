@@ -26,7 +26,23 @@ import {
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import {
+  getChannelType,
+  inboxHasFeature,
+  is360DialogWhatsAppChannel,
+  isAPIInbox,
+  isAWhatsAppChannel,
+  isATwitterInbox,
+  isAFacebookInbox,
+  isASmsInbox,
+  isAWebWidgetInbox,
+  isAnEmailChannel,
+  isATelegramChannel,
+  isALineChannel,
+  isATwilioWhatsAppChannel,
+  isAWhatsAppCloudChannel,
+} from 'shared/helpers/inboxHelper';
+import { INBOX_FEATURES } from 'shared/constants/inbox';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -60,7 +76,7 @@ export default {
     MessageSignatureMissingAlert,
     ArticleSearchPopover,
   },
-  mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
+  mixins: [fileUploadMixin, keyboardEventListenerMixins],
   props: {
     popoutReplyBox: {
       type: Boolean,
@@ -120,6 +136,9 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
     }),
+    channelType() {
+      return getChannelType(this.inbox);
+    },
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.currentChat.meta.sender.id
@@ -129,8 +148,8 @@ export default {
       return (
         this.inReplyTo?.id &&
         !this.isPrivate &&
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
-        !this.is360DialogWhatsAppChannel
+        inboxHasFeature(this.inbox, INBOX_FEATURES.REPLY_TO) &&
+        !is360DialogWhatsAppChannel(this.inbox)
       );
     },
     showRichContentEditor() {
@@ -138,7 +157,7 @@ export default {
         return true;
       }
 
-      if (this.isAPIInbox) {
+      if (this.isAPIInbox(this.inbox)) {
         const {
           display_rich_content_editor: displayRichContentEditor = false,
         } = this.uiSettings;
@@ -181,7 +200,7 @@ export default {
         .length;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
+      if (this.currentChat.can_reply || isAWhatsAppChannel(this.inbox)) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -204,7 +223,7 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATwitterInbox) return true;
+      if (isATwitterInbox(this.inbox)) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
@@ -228,27 +247,27 @@ export default {
       if (this.isPrivate) {
         return MESSAGE_MAX_LENGTH.GENERAL;
       }
-      if (this.isAFacebookInbox) {
+      if (isAFacebookInbox(this.inbox)) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isAWhatsAppChannel) {
+      if (isAWhatsAppChannel(this.inbox)) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
-      if (this.isASmsInbox) {
+      if (isASmsInbox(this.inbox)) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
       return (
-        this.isAWebWidgetInbox ||
-        this.isAFacebookInbox ||
-        this.isAWhatsAppChannel ||
-        this.isAPIInbox ||
-        this.isAnEmailChannel ||
-        this.isASmsInbox ||
-        this.isATelegramChannel ||
-        this.isALineChannel
+        isAWebWidgetInbox(this.inbox) ||
+        isAFacebookInbox(this.inbox) ||
+        isAWhatsAppChannel(this.inbox) ||
+        this.isAPIInbox(this.inbox) ||
+        isAnEmailChannel(this.inbox) ||
+        isASmsInbox(this.inbox) ||
+        isATelegramChannel(this.inbox) ||
+        isALineChannel(this.inbox)
       );
     },
     replyButtonLabel() {
@@ -277,7 +296,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel;
+      return isAWebWidgetInbox(this.inbox) || isAnEmailChannel(this.inbox);
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;
@@ -312,14 +331,14 @@ export default {
       return !this.message.trim().replace(/\n/g, '').length;
     },
     showReplyHead() {
-      return !this.isOnPrivateNote && this.isAnEmailChannel;
+      return !this.isOnPrivateNote && isAnEmailChannel(this.inbox);
     },
     enableMultipleFileUpload() {
       return (
-        this.isAnEmailChannel ||
-        this.isAWebWidgetInbox ||
-        this.isAPIInbox ||
-        this.isAWhatsAppChannel
+        isAnEmailChannel(this.inbox) ||
+        isAWebWidgetInbox(this.inbox) ||
+        this.isAPIInbox(this.inbox) ||
+        isAWhatsAppChannel(this.inbox)
       );
     },
     isSignatureEnabledForInbox() {
@@ -351,10 +370,10 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isATelegramChannel) {
+      if (isAWhatsAppChannel(this.inbox) || isATelegramChannel(this.inbox)) {
         return AUDIO_FORMATS.MP3;
       }
-      if (this.isAPIInbox) {
+      if (this.isAPIInbox(this.inbox)) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;
@@ -388,7 +407,7 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel) {
+      if (canReply || isAWhatsAppChannel(this.inbox)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -474,6 +493,7 @@ export default {
     );
   },
   methods: {
+    isAPIInbox,
     handleInsert(article) {
       const { url, title } = article;
       if (this.isRichEditorEnabled) {
@@ -658,9 +678,9 @@ export default {
       }
       if (!this.showMentions) {
         const isOnWhatsApp =
-          this.isATwilioWhatsAppChannel ||
-          this.isAWhatsAppCloudChannel ||
-          this.is360DialogWhatsAppChannel;
+          isATwilioWhatsAppChannel(this.inbox) ||
+          isAWhatsAppCloudChannel(this.inbox) ||
+          is360DialogWhatsAppChannel(this.inbox);
         if (isOnWhatsApp && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(this.message);
         } else {
@@ -763,7 +783,7 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
+      if (canReply || isAWhatsAppChannel(this.inbox)) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
@@ -1193,7 +1213,7 @@ export default {
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
       :show-audio-recorder="showAudioRecorder"
-      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
+      :show-editor-toggle="isAPIInbox(inbox) && !isOnPrivateNote"
       :show-emoji-picker="showEmojiPicker"
       :show-file-upload="showFileUpload"
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"

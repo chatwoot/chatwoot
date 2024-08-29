@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import BackButton from '../BackButton.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { getInboxBadge, isAWebWidgetInbox } from 'shared/helpers/inboxHelper';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Thumbnail from '../Thumbnail.vue';
@@ -22,7 +22,6 @@ export default {
     SLACardLabel,
     Linear,
   },
-  mixins: [inboxMixin],
   props: {
     chat: {
       type: Object,
@@ -73,7 +72,7 @@ export default {
       });
     },
     isHMACVerified() {
-      if (!this.isAWebWidgetInbox) {
+      if (!isAWebWidgetInbox(this.inbox)) {
         return true;
       }
       return this.chatMetadata.hmac_verified;
@@ -105,6 +104,9 @@ export default {
     inbox() {
       const { inbox_id: inboxId } = this.chat;
       return this.$store.getters['inboxes/getInbox'](inboxId);
+    },
+    inboxBadge() {
+      return getInboxBadge(this.inbox);
     },
     hasMultipleInboxes() {
       return this.$store.getters['inboxes/getInboxes'].length > 1;

@@ -1,10 +1,9 @@
 <script>
 import DyteVideoCall from './integrations/Dyte.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { isAPIInbox, isAWebWidgetInbox } from 'shared/helpers/inboxHelper';
 
 export default {
   components: { DyteVideoCall },
-  mixins: [inboxMixin],
   props: {
     messageId: {
       type: [String, Number],
@@ -21,7 +20,8 @@ export default {
   },
   computed: {
     showDyteIntegration() {
-      const isEnabledOnTheInbox = this.isAPIInbox || this.isAWebWidgetInbox;
+      const isEnabledOnTheInbox =
+        isAPIInbox(this.inbox) || isAWebWidgetInbox(this.inbox);
       return isEnabledOnTheInbox && this.contentAttributes.type === 'dyte';
     },
     inbox() {

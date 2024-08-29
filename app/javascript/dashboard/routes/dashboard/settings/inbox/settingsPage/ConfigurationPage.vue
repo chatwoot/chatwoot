@@ -1,6 +1,13 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import {
+  isATwilioChannel,
+  isALineChannel,
+  isAWebWidgetInbox,
+  isAPIInbox,
+  isAnEmailChannel,
+  isAWhatsAppChannel,
+} from 'shared/helpers/inboxHelper';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
@@ -13,7 +20,6 @@ export default {
     ImapSettings,
     SmtpSettings,
   },
-  mixins: [inboxMixin],
   props: {
     inbox: {
       type: Object,
@@ -41,6 +47,12 @@ export default {
     this.setDefaults();
   },
   methods: {
+    isATwilioChannel,
+    isALineChannel,
+    isAWebWidgetInbox,
+    isAPIInbox,
+    isAnEmailChannel,
+    isAWhatsAppChannel,
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
     },
@@ -86,7 +98,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="isATwilioChannel" class="mx-8">
+  <div v-if="isATwilioChannel(inbox)" class="mx-8">
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
@@ -94,7 +106,7 @@ export default {
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsSection>
   </div>
-  <div v-else-if="isALineChannel" class="mx-8">
+  <div v-else-if="isALineChannel(inbox)" class="mx-8">
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
@@ -102,7 +114,7 @@ export default {
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsSection>
   </div>
-  <div v-else-if="isAWebWidgetInbox">
+  <div v-else-if="isAWebWidgetInbox(inbox)">
     <div class="mx-8">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
@@ -149,7 +161,7 @@ export default {
       </SettingsSection>
     </div>
   </div>
-  <div v-else-if="isAPIInbox" class="mx-8">
+  <div v-else-if="isAPIInbox(inbox)" class="mx-8">
     <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
@@ -180,7 +192,7 @@ export default {
       </div>
     </SettingsSection>
   </div>
-  <div v-else-if="isAnEmailChannel">
+  <div v-else-if="isAnEmailChannel(inbox)">
     <div class="mx-8">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
@@ -192,7 +204,7 @@ export default {
     <ImapSettings :inbox="inbox" />
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
-  <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
+  <div v-else-if="isAWhatsAppChannel(inbox) && !isATwilioChannel(inbox)">
     <div v-if="inbox.provider_config" class="mx-8">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"

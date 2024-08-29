@@ -3,7 +3,13 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import {
+  isALineChannel,
+  isATwilioWhatsAppChannel,
+  isAWebWidgetInbox,
+  isAPIInbox,
+  getChannelType,
+} from 'shared/helpers/inboxHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
@@ -18,7 +24,6 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [inboxMixin],
   props: {
     mode: {
       type: String,
@@ -36,7 +41,6 @@ export default {
       type: String,
       default: '',
     },
-    // inbox prop is used in /mixins/inboxMixin,
     // remove this props when refactoring to composable if not needed
     // eslint-disable-next-line vue/no-unused-properties
     inbox: {
@@ -162,7 +166,7 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
-      if (this.isALineChannel) {
+      if (isALineChannel(this.inbox)) {
         return false;
       }
       // Disable audio recorder for safari browser as recording is not supported
@@ -183,10 +187,10 @@ export default {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
     allowedFileTypes() {
-      if (this.isATwilioWhatsAppChannel) {
+      if (isATwilioWhatsAppChannel(this.inbox)) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
       }
-      if (this.isALineChannel) {
+      if (isALineChannel(this.inbox)) {
         return ALLOWED_FILE_TYPES_FOR_LINE;
       }
       return ALLOWED_FILE_TYPES;
@@ -210,8 +214,10 @@ export default {
     showMessageSignatureButton() {
       return !this.isOnPrivateNote;
     },
+    channelType() {
+      return getChannelType(this.inbox);
+    },
     sendWithSignature() {
-      // channelType is sourced from inboxMixin
       return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToggleTooltip() {
@@ -234,6 +240,8 @@ export default {
     ActiveStorage.start();
   },
   methods: {
+    isAWebWidgetInbox,
+    isAPIInbox,
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
@@ -337,7 +345,9 @@ export default {
         @click="$emit('selectWhatsappTemplate')"
       />
       <VideoCallButton
-        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+        v-if="
+          (isAWebWidgetInbox(inbox) || isAPIInbox(inbox)) && !isOnPrivateNote
+        "
         :conversation-id="conversationId"
       />
       <AIAssistanceButton

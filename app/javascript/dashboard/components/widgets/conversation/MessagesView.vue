@@ -14,8 +14,16 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 // stores and apis
 import { mapGetters } from 'vuex';
 
-// mixins
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import {
+  isAWhatsAppChannel,
+  isAPIInbox,
+  inboxHasFeature,
+  is360DialogWhatsAppChannel,
+  isAWebWidgetInbox,
+  isAFacebookInbox,
+  isAnEmailChannel,
+} from 'shared/helpers/inboxHelper';
+import { INBOX_FEATURES } from 'shared/constants/inbox';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
@@ -40,7 +48,6 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [inboxMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -146,7 +153,7 @@ export default {
     },
     getMessages() {
       const messages = this.currentChat.messages || [];
-      if (this.isAWhatsAppChannel) {
+      if (isAWhatsAppChannel(this.inbox)) {
         return filterDuplicateSourceMessages(messages);
       }
       return messages;
@@ -190,10 +197,10 @@ export default {
     },
 
     replyWindowBannerMessage() {
-      if (this.isAWhatsAppChannel) {
+      if (isAWhatsAppChannel(this.inbox)) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
-      if (this.isAPIInbox) {
+      if (isAPIInbox(this.inbox)) {
         const { additional_attributes: additionalAttributes = {} } = this.inbox;
         if (additionalAttributes) {
           const {
@@ -206,19 +213,19 @@ export default {
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAWhatsAppChannel) {
+      if (isAWhatsAppChannel(this.inbox)) {
         return REPLY_POLICY.FACEBOOK;
       }
-      if (!this.isAPIInbox) {
+      if (!isAPIInbox(this.inbox)) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
       }
       return '';
     },
     replyWindowLinkText() {
-      if (this.isAWhatsAppChannel) {
+      if (isAWhatsAppChannel(this.inbox)) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
-      if (!this.isAPIInbox) {
+      if (!isAPIInbox(this.inbox)) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
       }
       return '';
@@ -230,10 +237,10 @@ export default {
       return this.conversationType === 'instagram_direct_message';
     },
     inboxSupportsReplyTo() {
-      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const incoming = inboxHasFeature(this.inbox, INBOX_FEATURES.REPLY_TO);
       const outgoing =
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
-        !this.is360DialogWhatsAppChannel;
+        inboxHasFeature(this.inbox, INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+        !is360DialogWhatsAppChannel(this.inbox);
 
       return { incoming, outgoing };
     },
@@ -273,6 +280,10 @@ export default {
   },
 
   methods: {
+    isAWhatsAppChannel,
+    isAWebWidgetInbox,
+    isAFacebookInbox,
+    isAnEmailChannel,
     async fetchSuggestions() {
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
@@ -487,10 +498,10 @@ export default {
         data-clarity-mask="True"
         :data="message"
         :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
+        :is-a-whatsapp-channel="isAWhatsAppChannel(inbox)"
+        :is-web-widget-inbox="isAWebWidgetInbox(inbox)"
+        :is-a-facebook-inbox="isAFacebookInbox(inbox)"
+        :is-an-email-inbox="isAnEmailChannel(inbox)"
         :is-instagram="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -512,9 +523,9 @@ export default {
         data-clarity-mask="True"
         :data="message"
         :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-a-whatsapp-channel="isAWhatsAppChannel(inbox)"
+        :is-web-widget-inbox="isAWebWidgetInbox(inbox)"
+        :is-a-facebook-inbox="isAFacebookInbox(inbox)"
         :is-instagram-dm="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"

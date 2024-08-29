@@ -1,10 +1,19 @@
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-import inboxMixin from 'shared/mixins/inboxMixin';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import {
+  isAnEmailChannel,
+  isAWhatsAppChannel,
+  isATwilioChannel,
+  isAFacebookInbox,
+  isASmsInbox,
+  isATelegramChannel,
+  isALineChannel,
+  isAWebWidgetInbox,
+  isAPIInbox,
+} from 'shared/helpers/inboxHelper';
 
 export default {
-  mixins: [inboxMixin],
   props: {
     sender: {
       type: Object,
@@ -112,21 +121,21 @@ export default {
         return false;
       }
       // Messages will be marked as sent for the Email channel if they have a source ID.
-      if (this.isAnEmailChannel) {
+      if (isAnEmailChannel(this.inbox)) {
         return !!this.sourceId;
       }
 
       if (
-        this.isAWhatsAppChannel ||
-        this.isATwilioChannel ||
-        this.isAFacebookInbox ||
-        this.isASmsInbox ||
-        this.isATelegramChannel
+        isAWhatsAppChannel(this.inbox) ||
+        isATwilioChannel(this.inbox) ||
+        isAFacebookInbox(this.inbox) ||
+        isASmsInbox(this.inbox) ||
+        isATelegramChannel(this.inbox)
       ) {
         return this.sourceId && this.isSent;
       }
       // All messages will be mark as sent for the Line channel, as there is no source ID.
-      if (this.isALineChannel) {
+      if (isALineChannel(this.inbox)) {
         return true;
       }
 
@@ -137,18 +146,18 @@ export default {
         return false;
       }
       if (
-        this.isAWhatsAppChannel ||
-        this.isATwilioChannel ||
-        this.isASmsInbox ||
-        this.isAFacebookInbox
+        isAWhatsAppChannel(this.inbox) ||
+        isATwilioChannel(this.inbox) ||
+        isASmsInbox(this.inbox) ||
+        isAFacebookInbox(this.inbox)
       ) {
         return this.sourceId && this.isDelivered;
       }
       // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+      if (isAWebWidgetInbox(this.inbox) || isAPIInbox(this.inbox)) {
         return this.isSent;
       }
-      if (this.isALineChannel) {
+      if (isALineChannel(this.inbox)) {
         return this.isDelivered;
       }
 
@@ -159,14 +168,14 @@ export default {
         return false;
       }
       if (
-        this.isAWhatsAppChannel ||
-        this.isATwilioChannel ||
-        this.isAFacebookInbox
+        isAWhatsAppChannel(this.inbox) ||
+        isATwilioChannel(this.inbox) ||
+        isAFacebookInbox(this.inbox)
       ) {
         return this.sourceId && this.isRead;
       }
 
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+      if (isAWebWidgetInbox(this.inbox) || isAPIInbox(this.inbox)) {
         return this.isRead;
       }
 

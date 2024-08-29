@@ -1,7 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import {
+  isATwilioChannel,
+  isATwitterInbox,
+  isAFacebookInbox,
+} from 'shared/helpers/inboxHelper';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import BusinessDay from './BusinessDay.vue';
@@ -23,7 +27,6 @@ export default {
     BusinessDay,
     WootMessageEditor,
   },
-  mixins: [inboxMixin],
   props: {
     inbox: {
       type: Object,
@@ -58,9 +61,9 @@ export default {
     },
     isRichEditorEnabled() {
       if (
-        this.isATwilioChannel ||
-        this.isATwitterInbox ||
-        this.isAFacebookInbox
+        isATwilioChannel(this.inbox) ||
+        isATwitterInbox(this.inbox) ||
+        isAFacebookInbox(this.inbox)
       )
         return false;
       return true;

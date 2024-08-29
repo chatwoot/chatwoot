@@ -1,4 +1,4 @@
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import { INBOX_TYPES } from 'shared/constants/inbox';
 
 export const getInboxSource = (type, phoneNumber, inbox) => {
   switch (type) {
