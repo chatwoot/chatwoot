@@ -80,7 +80,7 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
-    channel_email_with_name
+    email_smtp_enabled ? channel_email_with_name :  @account&.support_email
   end
 
   def email_reply_to
