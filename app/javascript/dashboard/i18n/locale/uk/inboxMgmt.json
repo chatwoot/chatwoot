@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Вхідні",
-    "SIDEBAR_TXT": "<p><b>Джерела</b></p> <p> Коли ви підключаєте веб-сайт або сторінку у Facebook до Chatwoot, вони називаються <b>Джерелом</b>. Ви можете мати необмежену кількість джерел у своєму обліковому записі Chatwoot. </p><p> Натисніть <b>Додати папку \"Джерело\"</b>, щоб підключити веб-сайт або сторінку Facebook. </p><p> На інформаційній панелі ви можете переглядати всі бесіди з усіх своїх поштових скриньок в одному місці та відповідати на них на вкладці \"Розмови\". </p><p> Ви також можете переглянути розмови, специфічні для папки \"Джерела\", клацнувши назву папки \"Джерело\" на лівій панелі інформаційної панелі. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Інші постачальники"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Вебсайт",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API канал"
     }
   }
 }
