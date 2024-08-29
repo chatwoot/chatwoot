@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getEventNamei18n } from './webhookHelper';
 
@@ -164,7 +164,7 @@ export default {
             class="checkbox"
           />
           <label :for="event" class="text-sm">
-            {{ `${getEventLabel(event)} (${event})` }}
+            {{ `${$t(getEventNamei18n(event))} (${event})` }}
           </label>
         </div>
       </div>
