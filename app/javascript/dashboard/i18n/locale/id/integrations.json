@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Acara Berlangganan",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Batalkan",
         "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
