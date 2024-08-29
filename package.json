@@ -99,7 +99,7 @@
     "vuex": "~2.1.1",
     "vuex-router-sync": "~4.1.2",
     "wavesurfer.js": "^6.0.4",
-    "webpack": "^4.46.0",
+    "webpack": "^5.94.0",
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
