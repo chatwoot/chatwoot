@@ -3,6 +3,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   props: {
@@ -63,7 +64,7 @@ export default {
             : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.SUCCESS_MESSAGE');
         this.onClose();
 
-        this.$track(CONTACTS_EVENTS.SAVE_FILTER, {
+        useTrack(CONTACTS_EVENTS.SAVE_FILTER, {
           type: this.filterType === 0 ? 'folder' : 'segment',
         });
       } catch (error) {

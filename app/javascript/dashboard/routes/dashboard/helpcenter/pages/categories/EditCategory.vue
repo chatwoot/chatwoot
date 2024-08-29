@@ -1,7 +1,7 @@
 <script>
 import { required, minLength } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import CategoryNameIconInput from './NameEmojiInput.vue';
@@ -105,7 +105,7 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.CATEGORY.EDIT.API.SUCCESS_MESSAGE'
         );
-        this.$track(PORTALS_EVENTS.EDIT_CATEGORY);
+        useTrack(PORTALS_EVENTS.EDIT_CATEGORY);
         this.onClose();
       } catch (error) {
         const errorMessage = error?.message;

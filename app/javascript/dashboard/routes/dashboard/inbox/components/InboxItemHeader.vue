@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { getUnixTime } from 'date-fns';
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';
 import wootConstants from 'dashboard/constants/globals';
@@ -77,7 +77,7 @@ export default {
       }
     },
     deleteNotification() {
-      this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
+      useTrack(INBOX_EVENTS.DELETE_NOTIFICATION);
       this.$store
         .dispatch('notifications/delete', {
           notification: this.activeNotification,

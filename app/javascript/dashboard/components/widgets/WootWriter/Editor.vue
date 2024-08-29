@@ -17,6 +17,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
 import VariableList from '../conversation/VariableList.vue';
+import { useTrack } from 'dashboard/composables';
 import {
   appendSignature,
   removeSignature,
@@ -528,7 +529,7 @@ export default {
       });
 
       this.insertNodeIntoEditor(node, this.range.from, this.range.to);
-      this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
+      useTrack(CONVERSATION_EVENTS.USED_MENTIONS);
 
       return false;
     },
@@ -553,7 +554,7 @@ export default {
 
       this.insertNodeIntoEditor(node, from, this.range.to);
 
-      this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+      useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
       return false;
     },
     insertVariable(variable) {
@@ -567,7 +568,7 @@ export default {
 
       this.insertNodeIntoEditor(node, from, to);
       this.showVariables = false;
-      this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
+      useTrack(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
       return false;
     },
     openFileBrowser() {

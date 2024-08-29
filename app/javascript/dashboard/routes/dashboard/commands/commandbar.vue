@@ -13,7 +13,6 @@ import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
-const track = useTrack();
 const { t } = useI18n();
 
 const ninjakeys = ref(null);
@@ -55,7 +54,7 @@ const onSelected = item => {
     selectedSnoozeType.value = null;
   }
 
-  track(GENERAL_EVENTS.COMMAND_BAR, {
+  useTrack(GENERAL_EVENTS.COMMAND_BAR, {
     section,
     action: title,
   });

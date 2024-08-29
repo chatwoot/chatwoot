@@ -30,7 +30,6 @@ const cleanLabels = labels => {
 export function useAI() {
   const store = useStore();
   const getters = useStoreGetters();
-  const track = useTrack();
   const { t } = useI18n();
 
   /**
@@ -125,7 +124,7 @@ export function useAI() {
   const recordAnalytics = async (type, payload) => {
     const event = OPEN_AI_EVENTS[type.toUpperCase()];
     if (event) {
-      track(event, {
+      useTrack(event, {
         type,
         ...payload,
       });

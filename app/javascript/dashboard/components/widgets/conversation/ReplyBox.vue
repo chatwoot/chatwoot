@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
@@ -485,7 +486,7 @@ export default {
         );
       }
 
-      this.$track(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
+      useTrack(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
     toggleRichContentEditor() {
       this.updateUISettings({
@@ -680,8 +681,8 @@ export default {
     sendMessageAnalyticsData(isPrivate) {
       // Analytics data for message signature is enabled or not in channels
       return isPrivate
-        ? this.$track(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
-        : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
+        ? useTrack(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
+        : useTrack(CONVERSATION_EVENTS.SENT_MESSAGE, {
             channelType: this.channelType,
             signatureEnabled: this.sendWithSignature,
             hasReplyTo: !!this.inReplyTo?.id,
@@ -748,7 +749,7 @@ export default {
       });
 
       setTimeout(() => {
-        this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+        useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
       }, 100);
     },

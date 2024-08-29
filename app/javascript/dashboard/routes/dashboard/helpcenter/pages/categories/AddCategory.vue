@@ -1,7 +1,7 @@
 <script>
 import { required, minLength } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import CategoryNameIconInput from './NameEmojiInput.vue';
@@ -96,7 +96,7 @@ export default {
           'HELP_CENTER.CATEGORY.ADD.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.$track(PORTALS_EVENTS.CREATE_CATEGORY, {
+        useTrack(PORTALS_EVENTS.CREATE_CATEGORY, {
           hasDescription: Boolean(description),
         });
       } catch (error) {

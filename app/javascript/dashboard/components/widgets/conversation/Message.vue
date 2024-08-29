@@ -22,6 +22,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
 import * as Sentry from '@sentry/browser';
+import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
 
 export default {
@@ -404,7 +405,7 @@ export default {
 
       e.preventDefault();
       if (e.type === 'contextmenu') {
-        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+        useTrack(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
       }
       this.contextMenuPosition = {
         x: e.pageX || e.clientX,

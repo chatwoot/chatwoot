@@ -8,7 +8,6 @@ import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
 } from 'dashboard/helper/scriptHelpers';
-import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin';
 import App from '../v3/App.vue';
 import router, { initalizeRouter } from '../v3/views/index';
 import store from '../v3/store';
@@ -45,7 +44,6 @@ if (window.errorLoggingConfig) {
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
-Vue.use(AnalyticsPlugin);
 Vue.prototype.$emitter = emitter;
 Vue.component('fluent-icon', FluentIcon);
 

@@ -9,6 +9,7 @@ import { useFilter } from 'shared/composables/useFilter';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -268,7 +269,7 @@ export default {
           JSON.parse(JSON.stringify(this.appliedFilters))
         );
         this.$emit('applyFilter', this.appliedFilters);
-        this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
+        useTrack(CONVERSATION_EVENTS.APPLY_FILTER, {
           applied_filters: this.appliedFilters.map(filter => ({
             key: filter.attribute_key,
             operator: filter.filter_operator,

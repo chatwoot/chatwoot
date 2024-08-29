@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import portalMixin from '../../mixins/portalMixin';
@@ -67,7 +67,7 @@ export default {
               recentlyCreated: true,
             },
           });
-          this.$track(PORTALS_EVENTS.CREATE_ARTICLE, {
+          useTrack(PORTALS_EVENTS.CREATE_ARTICLE, {
             locale: this.locale,
           });
         } catch (error) {

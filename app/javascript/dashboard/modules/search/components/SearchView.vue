@@ -4,7 +4,7 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
-
+import { useTrack } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 export default {
@@ -126,7 +126,7 @@ export default {
         this.$store.dispatch('conversationSearch/clearSearchResults');
         return;
       }
-      this.$track(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
+      useTrack(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
       this.$store.dispatch('conversationSearch/fullSearch', { q });
     },
     onBack() {

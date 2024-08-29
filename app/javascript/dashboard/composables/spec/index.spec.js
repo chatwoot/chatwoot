@@ -12,16 +12,9 @@ vi.mock('shared/helpers/mitt', () => ({
 }));
 
 describe('useTrack', () => {
-  it('should return $track from the current instance proxy', () => {
-    const mockProxy = { $track: vi.fn() };
-    getCurrentInstance.mockReturnValue({ proxy: mockProxy });
+  it('should return a function', () => {
     const track = useTrack();
-    expect(track).toBe(mockProxy.$track);
-  });
-
-  it('should throw an error if called outside of setup', () => {
-    getCurrentInstance.mockReturnValue(null);
-    expect(useTrack).toThrowError('must be called in setup');
+    expect(typeof track).toBe('function');
   });
 });
 

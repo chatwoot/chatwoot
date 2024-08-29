@@ -11,6 +11,7 @@ import {
 } from '../../../helper/AnalyticsHelper/events';
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -92,7 +93,7 @@ export default {
       this.handleClose();
     },
     showCannedResponseModal() {
-      this.$track(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
+      useTrack(ACCOUNT_EVENTS.ADDED_TO_CANNED_RESPONSE);
       this.isCannedResponseModalOpen = true;
     },
     hideCannedResponseModal() {
@@ -112,7 +113,7 @@ export default {
         messageId: this.messageId,
         targetLanguage: locale || 'en',
       });
-      this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
       this.showTranslateModal = true;
     },

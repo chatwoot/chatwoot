@@ -7,6 +7,7 @@ import NotificationBell from './NotificationBell.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -60,7 +61,7 @@ export default {
       window.$chatwoot.toggle();
     },
     openNotificationPanel() {
-      this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
+      useTrack(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
       this.$emit('openNotificationPanel');
     },
   },

@@ -5,6 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import allLocales from 'shared/constants/locales.js';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -74,7 +75,7 @@ export default {
           'HELP_CENTER.PORTAL.ADD_LOCALE.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.$track(PORTALS_EVENTS.CREATE_LOCALE, {
+        useTrack(PORTALS_EVENTS.CREATE_LOCALE, {
           localeAdded: this.selectedLocale,
           totalLocales: updatedLocales.length,
           from: this.$route.name,

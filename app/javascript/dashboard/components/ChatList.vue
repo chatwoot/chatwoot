@@ -8,6 +8,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 // [VITE] Todo: There's a bug with the sizing of the elements, we need to fix that
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import { useFilter } from 'shared/composables/useFilter';
+import { useTrack } from 'dashboard/composables';
 
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
@@ -764,7 +765,7 @@ export default {
       this.$store
         .dispatch('assignPriority', { conversationId, priority })
         .then(() => {
-          this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+          useTrack(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
             newValue: priority,
             from: 'Context menu',
           });
