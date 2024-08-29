@@ -148,7 +148,7 @@ export default {
                 'HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.SEARCH_PLACEHOLDER'
               )
             "
-            @click="onClickSelectCategory"
+            @select="onClickSelectCategory"
           />
         </label>
         <label>
@@ -168,7 +168,7 @@ export default {
             :input-placeholder="
               $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.AUTHOR.SEARCH_PLACEHOLDER')
             "
-            @click="onClickAssignAuthor"
+            @select="onClickAssignAuthor"
           />
         </label>
         <label>

@@ -322,7 +322,7 @@ export default {
             'CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER'
           )
         "
-        @click="onUpdateListValue"
+        @select="onUpdateListValue"
       />
     </div>
   </div>

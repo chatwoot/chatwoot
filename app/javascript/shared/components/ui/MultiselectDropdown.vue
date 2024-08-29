@@ -37,12 +37,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['select']);
 const [showSearchDropdown, toggleDropdown] = useToggle(false);
 
 const onCloseDropdown = () => toggleDropdown(false);
 const onClickSelectItem = value => {
-  emit('click', value);
+  emit('select', value);
   onCloseDropdown();
 };
 

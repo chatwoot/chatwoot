@@ -233,7 +233,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
-        @click="onClickAssignAgent"
+        @select="onClickAssignAgent"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -252,7 +252,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
         "
-        @click="onClickAssignTeam"
+        @select="onClickAssignTeam"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -270,7 +270,7 @@ export default {
         :input-placeholder="
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
-        @click="onClickAssignPriority"
+        @select="onClickAssignPriority"
       />
     </div>
     <ContactDetailsItem
