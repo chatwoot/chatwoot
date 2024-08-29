@@ -1,8 +1,8 @@
-/* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../../helper/URLHelper';
 import channelFactory from './channel-factory';
 
 const SettingsContent = () => import('../Wrapper.vue');
+const SettingWrapper = () => import('../SettingsWrapper.vue');
 const InboxHome = () => import('./Index.vue');
 const Settings = () => import('./Settings.vue');
 const InboxChannel = () => import('./InboxChannels.vue');
@@ -12,6 +12,24 @@ const FinishSetup = () => import('./FinishSetup.vue');
 
 export default {
   routes: [
+    {
+      path: frontendURL('accounts/:accountId/settings/inboxes'),
+      component: SettingWrapper,
+      children: [
+        {
+          path: '',
+          redirect: 'list',
+        },
+        {
+          path: 'list',
+          name: 'settings_inbox_list',
+          component: InboxHome,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+      ],
+    },
     {
       path: frontendURL('accounts/:accountId/settings/inboxes'),
       component: SettingsContent,
@@ -26,18 +44,6 @@ export default {
         };
       },
       children: [
-        {
-          path: '',
-          redirect: 'list',
-        },
-        {
-          path: 'list',
-          name: 'settings_inbox_list',
-          component: InboxHome,
-          meta: {
-            permissions: ['administrator'],
-          },
-        },
         {
           path: 'new',
           component: InboxChannel,
