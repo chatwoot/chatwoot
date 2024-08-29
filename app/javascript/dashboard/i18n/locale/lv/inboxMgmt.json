@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Iesūtnes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Chatwoot risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu Chatwoot kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
+    "DESCRIPTION": "Kanāls ir saziņas veids, ko klients izvēlas saziņai ar jums. Iesūtne ir vieta, kur pārvaldāt mijiedarbības ar noteiktu kanālu. Tas var ietvert saziņu no dažādiem avotiem, piemēram, e-pasta, tiešsaistes tērzēšanas un sociālajiem medijiem.",
+    "LEARN_MORE": "Uzzināt vairāk par iesūtnēm",
     "RECONNECTION_REQUIRED": "Jūsu iesūtne ir atvienota. Jūs nesaņemsiet jaunus ziņojumus, kamēr nebūsiet tos atkārtoti autorizējis.",
     "CLICK_TO_RECONNECT": "Noklikšķiniet šeit, lai atkārtoti izveidotu savienojumu.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Tīmekļa vietne",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-pasts",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanāls"
     }
   }
 }
