@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Innbokser",
-    "SIDEBAR_TXT": "<p><b>Innboks</b></p> <p> Når du kobler til et nettsted eller en facebook-side til Chatwoot blir den kalt en <b>Innboks</b>. Du kan ha ubegrensede innbokser i din Chatwoot-konto. </p><p> Klikk på <b>Legg til innboks</b> for å koble sammen en nettside eller en facebook-side. </p><p> I oversikten kan du se alle samtalene fra innboksene på et sted og svare på de i samtaler-fanen. </p><p> Du kan også se samtaler for hver enkelt innboks ved å klikke på innboksen på venstre siden av oversikten. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-post",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanal"
     }
   }
 }
