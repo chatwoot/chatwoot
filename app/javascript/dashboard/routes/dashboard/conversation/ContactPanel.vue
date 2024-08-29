@@ -1,6 +1,8 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed, watch, onMounted, ref } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -11,124 +13,83 @@ import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
-export default {
-  components: {
-    AccordionItem,
-    ContactConversations,
-    ContactInfo,
-    ConversationInfo,
-    CustomAttributes,
-    ConversationAction,
-    ConversationParticipant,
-    Draggable,
-    MacrosList,
-  },
-  props: {
-    conversationId: {
-      type: [Number, String],
-      required: true,
-    },
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
-    onToggle: {
-      type: Function,
-      default: () => {},
-    },
-  },
-  setup() {
-    const {
-      updateUISettings,
-      isContactSidebarItemOpen,
-      conversationSidebarItemsOrder,
-      toggleSidebarUIState,
-    } = useUISettings();
 
-    return {
-      updateUISettings,
-      isContactSidebarItemOpen,
-      conversationSidebarItemsOrder,
-      toggleSidebarUIState,
-    };
+const props = defineProps({
+  conversationId: {
+    type: [Number, String],
+    required: true,
   },
-  data() {
-    return {
-      dragEnabled: true,
-      conversationSidebarItems: [],
-      dragging: false,
-    };
+  inboxId: {
+    type: Number,
+    default: undefined,
   },
-  computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
-    conversationAdditionalAttributes() {
-      return this.currentConversationMetaData.additional_attributes || {};
-    },
-    channelType() {
-      return this.currentChat.meta?.channel;
-    },
-    contact() {
-      return this.$store.getters['contacts/getContact'](this.contactId);
-    },
-    contactAdditionalAttributes() {
-      return this.contact.additional_attributes || {};
-    },
-    contactId() {
-      return this.currentChat.meta?.sender?.id;
-    },
-    currentConversationMetaData() {
-      return this.$store.getters[
-        'conversationMetadata/getConversationMetadata'
-      ](this.conversationId);
-    },
-    hasContactAttributes() {
-      const { custom_attributes: customAttributes } = this.contact;
-      return customAttributes && Object.keys(customAttributes).length;
-    },
+  onToggle: {
+    type: Function,
+    default: () => {},
   },
-  watch: {
-    conversationId(newConversationId, prevConversationId) {
-      if (newConversationId && newConversationId !== prevConversationId) {
-        this.getContactDetails();
-      }
-    },
-    contactId() {
-      this.getContactDetails();
-    },
-  },
-  mounted() {
-    this.conversationSidebarItems = this.conversationSidebarItemsOrder;
-    this.getContactDetails();
-    this.$store.dispatch('attributes/get', 0);
-  },
-  methods: {
-    onPanelToggle() {
-      this.onToggle();
-    },
-    getContactDetails() {
-      if (this.contactId) {
-        this.$store.dispatch('contacts/show', { id: this.contactId });
-      }
-    },
-    getAttributesByModel() {
-      if (this.contactId) {
-        this.$store.dispatch('contacts/show', { id: this.contactId });
-      }
-    },
-    openTranscriptModal() {
-      this.showTranscriptModal = true;
-    },
+});
 
-    onDragEnd() {
-      this.dragging = false;
-      this.updateUISettings({
-        conversation_sidebar_items_order: this.conversationSidebarItems,
-      });
-    },
-  },
+const {
+  updateUISettings,
+  isContactSidebarItemOpen,
+  conversationSidebarItemsOrder,
+  toggleSidebarUIState,
+} = useUISettings();
+
+const dragEnabled = ref(true);
+const conversationSidebarItems = ref([]);
+const dragging = ref(false);
+
+const store = useStore();
+const currentChat = useMapGetter('getSelectedChat');
+const conversationId = computed(() => props.conversationId);
+const conversationMetadataGetter = useMapGetter(
+  'conversationMetadata/getConversationMetadata'
+);
+const currentConversationMetaData = computed(() =>
+  conversationMetadataGetter.value(conversationId.value)
+);
+const conversationAdditionalAttributes = computed(
+  () => currentConversationMetaData.value.additional_attributes || {}
+);
+
+const channelType = computed(() => currentChat.value.meta?.channel);
+
+const contactGetter = useMapGetter('contacts/getContact');
+const contactId = computed(() => currentChat.value.meta?.sender?.id);
+const contact = computed(() => contactGetter.value(contactId.value));
+const contactAdditionalAttributes = computed(
+  () => contact.value.additional_attributes || {}
+);
+
+const getContactDetails = () => {
+  if (contactId.value) {
+    store.dispatch('contacts/show', { id: contactId.value });
+  }
 };
+
+watch(conversationId, (newConversationId, prevConversationId) => {
+  if (newConversationId && newConversationId !== prevConversationId) {
+    getContactDetails();
+  }
+});
+
+watch(contactId, getContactDetails);
+
+const onPanelToggle = props.onToggle;
+
+const onDragEnd = () => {
+  dragging.value = false;
+  updateUISettings({
+    conversation_sidebar_items_order: conversationSidebarItems.value,
+  });
+};
+
+onMounted(() => {
+  conversationSidebarItems.value = conversationSidebarItemsOrder.value;
+  getContactDetails();
+  store.dispatch('attributes/get', 0);
+});
 </script>
 
 <template>
