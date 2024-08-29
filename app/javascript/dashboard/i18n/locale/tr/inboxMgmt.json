@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
-    "SIDEBAR_TXT": "<p><b>Gelen Kutusu</b></p> <p> Chatwoot'a bir web sitesi veya Facebook Sayfası bağladığınızda, buna <b> Gelen Kutusu </b> denir. Chatwoot hesabınızda sınırsız gelen kutunuz olabilir. </p> <p> Bir web sitesine veya Facebook Sayfasına bağlanmak için <b> Gelen Kutusu Ekle </b> 'yi tıklayın. </p> <p> Gösterge Panosunda, tüm gelen kutularınızdaki tüm konuşmaları tek bir yerde görebilir ve bunlara 'Görüşmeler' sekmesi altında yanıt verebilirsiniz. </p> <p> Ayrıca, kontrol panelinin sol bölmesindeki gelen kutusu adını tıklayarak bir gelen kutusuna özel görüşmeleri de görebilirsiniz. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Diğer Sağlayıcılar"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-Posta",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanalı"
     }
   }
 }
