@@ -15,7 +15,7 @@ const props = defineProps({
 });
 const getters = useStoreGetters();
 const { t } = useI18n();
-const globalConfig = getters['globalConfig/get'];
+const globalConfig = computed(() => getters['globalConfig/get'].value);
 
 const i18nMap = {
   'Channel::FacebookPage': 'MESSENGER',
@@ -39,7 +39,7 @@ const twilioChannelName = () => {
 
 const readableChannelName = computed(() => {
   if (props.channelType === 'Channel::Api') {
-    return globalConfig.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
+    return globalConfig.value.apiChannelName || t('API');
   }
   if (props.channelType === 'Channel::TwilioSms') {
     return twilioChannelName();
