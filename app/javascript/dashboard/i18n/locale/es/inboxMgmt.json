@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Entradas",
-    "SIDEBAR_TXT": "<p><b>Bandeja de entrada</b></p> <p> Cuando conecta un sitio web o una página de Facebook a Chatwoot, se llama una <b>Bandeja de entrada</b>. Puede tener bandejas de entrada ilimitadas en su cuenta de Chatwoot. </p><p> Haga clic en <b>Añadir bandeja de entrada</b> para conectar un sitio web o una página de Facebook. </p><p> en el panel, puede ver todas las conversaciones de todas su bandejas de entrada en un solo lugar y responder a ellas en la pestaña `Conversaciones`. </p><p> También puede ver conversaciones específicas de una bandeja de entrada haciendo clic en el nombre de la bandeja de entrada en el menú izquierdo del panel. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Tu bandeja de entrada está desconectada. No recibirás mensajes nuevos hasta que lo vuelvas a autorizar.",
     "CLICK_TO_RECONNECT": "Haga clic aquí para volver a conectar.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Otros proveedores"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Sitio web",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canal API"
     }
   }
 }
