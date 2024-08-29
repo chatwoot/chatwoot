@@ -1,10 +1,9 @@
 <script>
-import webhookMixin from './webhookMixin';
+import { getEventNamei18n } from './webhookHelper';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 
 export default {
   components: { ShowMore },
-  mixins: [webhookMixin],
   props: {
     webhook: {
       type: Object,
@@ -18,7 +17,9 @@ export default {
   computed: {
     subscribedEvents() {
       const { subscriptions } = this.webhook;
-      return subscriptions.map(event => this.getEventLabel(event)).join(', ');
+      return subscriptions
+        .map(event => this.$t(getEventNamei18n(event)))
+        .join(', ');
     },
   },
 };
