@@ -17,6 +17,7 @@ const FEATURE_HELP_URLS = {
   reports: 'https://chwt.app/hc/reports',
   sla: 'https://chwt.app/hc/sla',
   team_management: 'https://chwt.app/hc/teams',
+  webhook: 'https://chwt.app/hc/webhooks',
 };
 
 export function getHelpUrlForFeature(featureName) {
