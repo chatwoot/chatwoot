@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Zarządzanie skrzynkami",
-    "SIDEBAR_TXT": "<p><b>Skrzynka odbiorcza</b></p> <p>Gdy podłączysz stronę internetową lub stronę na Facebooku do Chatwoot, nazywana jest <b>skrzynką odbiorczą</b>. Możesz mieć nieograniczoną liczbę skrzynek odbiorczych na swoim koncie Chatwoot.</p><p>Kliknij <b>Dodaj skrzynkę odbiorczą</b>, aby połączyć swoją stronę internetową lub stronę na Facebooku.</p><p>W panelu możesz zobaczyć wszystkie rozmowy ze wszystkich swoich skrzynek odbiorczych w jednym miejscu i odpowiadać na nie w zakładce „Konwersacje”.</p><p>Możesz również zobaczyć rozmowy specyficzne dla danej skrzynki odbiorczej, klikając na nazwę skrzynki odbiorczej w lewym panelu nawigacyjnym.</p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Inni dostawcy"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Kanał API"
     }
   }
 }
