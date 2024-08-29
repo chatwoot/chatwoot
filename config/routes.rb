@@ -529,5 +529,6 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Routes for Chatbot
-  post 'chatbots/callback', to: 'chatbots/callbacks#update_status'
+  post 'chatbots/callback/update_status', to: 'chatbots/callbacks#update_status'
+  post 'chatbots/callback/query_reply', to: 'chatbots/callbacks#query_reply'
 end

@@ -1,6 +1,6 @@
 <template>
   <div class="flex actions--container relative items-center gap-2">
-    <!-- <woot-button
+    <woot-button
       v-if="isChatbotEnabled"
       v-tooltip="$t('CHATBOTS.DISABLE_BOT')"
       variant="smooth"
@@ -15,7 +15,7 @@
       color-scheme="alert"
       icon="chatbot-icon"
       @click="enableBot"
-    /> -->
+    />
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
