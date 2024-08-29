@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Источники",
-    "SIDEBAR_TXT": "<p><b>Источники</b></p> <p> Когда вы подключаете страницу Facebook к Chatwoot, это называется <b>Источником</b>. У вас может быть неограниченное количество источников в вашем аккаунте Chatwoot. </p><p> Нажмите на <b>Добавить источник</b> для подключения сайта или страницы на Facebook. </p><p> На главной страницы вы увидите все диалоги из всех источников и можете отвечать на них во вкладке `Диалоги`. </p><p> Вы можете просмотреть диалоги конкретного источника по нажатию на его имя в левой части главной страницы. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Другие провайдеры"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Сайт",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Источник API"
     }
   }
 }
