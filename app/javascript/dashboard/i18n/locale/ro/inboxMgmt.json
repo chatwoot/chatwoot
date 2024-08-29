@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Căsuțe",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Când conectezi un site web sau o pagină de Facebook la Chatwoot, se numește <b>Inbox</b>. Poți avea inbox-uri nelimitate în contul tău din Chatwoot. </p><p> Faceţi clic pe <b>Adăugaţi Inbox</b> pentru a conecta un website sau o pagină Facebook. </p><p> În tabloul de bord, poți vedea toate conversațiile din toate cutiile tale într-un singur loc și să le răspunzi sub fila `Conversations`. </p><p> De asemenea, poți vedea conversații specifice unei căsuțe poștale făcând clic pe numele inbox-ului din panoul stâng al tabloului de bord. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Alți furnizori"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canal API"
     }
   }
 }
