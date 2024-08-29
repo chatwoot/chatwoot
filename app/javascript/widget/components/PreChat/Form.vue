@@ -8,14 +8,14 @@ import { getRegexp } from 'shared/helpers/Validators';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import configMixin from 'widget/mixins/configMixin';
+import { isPreChatFormEnabled } from 'widget/helpers/widgetConfig';
 
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, configMixin],
+  mixins: [routerMixin, darkModeMixin],
   props: {
     options: {
       type: Object,
@@ -55,10 +55,10 @@ export default {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.hasActiveCampaign || this.preChatFormEnabled;
+      return this.hasActiveCampaign || isPreChatFormEnabled;
     },
     headerMessage() {
-      if (this.preChatFormEnabled) {
+      if (isPreChatFormEnabled) {
         return this.options.preChatMessage;
       }
       if (this.hasActiveCampaign) {
@@ -67,7 +67,7 @@ export default {
       return '';
     },
     preChatFields() {
-      return this.preChatFormEnabled ? this.options.preChatFields : [];
+      return isPreChatFormEnabled ? this.options.preChatFields : [];
     },
     filteredPreChatFields() {
       const isUserEmailAvailable = this.currentUser.has_email;

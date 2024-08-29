@@ -1,6 +1,7 @@
 <script>
 import PreChatForm from '../components/PreChat/Form.vue';
-import configMixin from '../mixins/configMixin';
+import { getPreChatFormOptions } from 'widget/helpers/widgetConfig';
+
 import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
@@ -9,7 +10,13 @@ export default {
   components: {
     PreChatForm,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [routerMixin],
+  setup() {
+    const preChatFormOptions = getPreChatFormOptions();
+    return {
+      preChatFormOptions,
+    };
+  },
   mounted() {
     this.$emitter.on(ON_CONVERSATION_CREATED, () => {
       // Redirect to messages page after conversation is created

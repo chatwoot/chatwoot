@@ -4,13 +4,13 @@ import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
-import configMixin from 'widget/mixins/configMixin';
+import { hasEndConversationEnabled } from 'widget/helpers/widgetConfig';
 import { CONVERSATION_STATUS } from 'shared/constants/messages';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -49,6 +49,7 @@ export default {
     },
   },
   methods: {
+    hasEndConversationEnabled,
     popoutWindow() {
       this.closeWindow();
       const {

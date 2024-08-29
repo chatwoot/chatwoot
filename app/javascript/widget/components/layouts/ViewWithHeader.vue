@@ -3,7 +3,7 @@ import Banner from '../Banner.vue';
 import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
-import configMixin from '../../mixins/configMixin';
+import { getChannelConfig } from 'widget/helpers/widgetConfig';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -14,7 +14,6 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin],
   data() {
     return {
       showPopoutButton: false,
@@ -40,7 +39,8 @@ export default {
     },
     hasIntroText() {
       return (
-        this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
+        this.getChannelConfig.welcomeTitle ||
+        this.getChannelConfig.welcomeTagline
       );
     },
     showBackButton() {
@@ -84,6 +84,7 @@ export default {
     cancelAnimationFrame(this.requestID);
   },
   methods: {
+    getChannelConfig,
     closeWindow() {
       IFrameHelper.sendMessage({ event: 'closeWindow' });
     },
@@ -119,15 +120,15 @@ export default {
       >
         <ChatHeaderExpanded
           v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
+          :intro-heading="getChannelConfig.welcomeTitle"
+          :intro-body="getChannelConfig.welcomeTagline"
+          :avatar-url="getChannelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
         />
         <ChatHeader
           v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
+          :title="getChannelConfig.websiteName"
+          :avatar-url="getChannelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
           :show-back-button="showBackButton"

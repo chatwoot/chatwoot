@@ -8,7 +8,11 @@ import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import configMixin from '../mixins/configMixin';
+import {
+  getWebsiteName,
+  useInboxAvatarForBot,
+  getInboxAvatarUrl,
+} from 'widget/helpers/widgetConfig';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
@@ -28,7 +32,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [configMixin, messageMixin, darkModeMixin],
+  mixins: [messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
@@ -73,8 +77,8 @@ export default {
         return this.message.sender.available_name || this.message.sender.name;
       }
 
-      if (this.useInboxAvatarForBot) {
-        return this.channelConfig.websiteName;
+      if (useInboxAvatarForBot) {
+        return getWebsiteName();
       }
 
       return this.$t('UNREAD_VIEW.BOT');
@@ -83,7 +87,7 @@ export default {
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
-        ? this.inboxAvatarUrl
+        ? getInboxAvatarUrl
         : BotImage;
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {

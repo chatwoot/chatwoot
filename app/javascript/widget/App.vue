@@ -3,7 +3,7 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import configMixin from './mixins/configMixin';
+import { shouldShowPreChatForm } from 'widget/helpers/widgetConfig';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -27,7 +27,7 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin, darkModeMixin],
+  mixins: [availabilityMixin, routerMixin, darkModeMixin],
   data() {
     return {
       isMobile: false,
@@ -146,7 +146,7 @@ export default {
     },
     registerCampaignEvents() {
       emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
-        if (this.shouldShowPreChatForm) {
+        if (shouldShowPreChatForm) {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');

@@ -1,7 +1,11 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import configMixin from '../mixins/configMixin';
+import {
+  getWebsiteName,
+  useInboxAvatarForBot,
+  getInboxAvatarUrl,
+} from 'widget/helpers/widgetConfig';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {
   ON_CAMPAIGN_MESSAGE_CLICK,
@@ -11,7 +15,7 @@ import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
     message: {
       type: String,
@@ -38,16 +42,12 @@ export default {
   },
   computed: {
     companyName() {
-      return `${this.$t('UNREAD_VIEW.COMPANY_FROM')} ${
-        this.channelConfig.websiteName
-      }`;
+      return `${this.$t('UNREAD_VIEW.COMPANY_FROM')} ${getWebsiteName()}`;
     },
     avatarUrl() {
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
-      const displayImage = this.useInboxAvatarForBot
-        ? this.inboxAvatarUrl
-        : BotImage;
+      const displayImage = useInboxAvatarForBot ? getInboxAvatarUrl : BotImage;
       if (this.isSenderExist(this.sender)) {
         const { avatar_url: avatarUrl } = this.sender;
         return avatarUrl;
@@ -59,8 +59,8 @@ export default {
         const { available_name: availableName } = this.sender;
         return availableName;
       }
-      if (this.useInboxAvatarForBot) {
-        return this.channelConfig.websiteName;
+      if (useInboxAvatarForBot) {
+        return getWebsiteName();
       }
       return this.$t('UNREAD_VIEW.BOT');
     },

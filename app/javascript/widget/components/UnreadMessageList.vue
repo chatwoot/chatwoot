@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import configMixin from '../mixins/configMixin';
 import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
@@ -12,7 +11,6 @@ export default {
     FluentIcon,
     UnreadMessage,
   },
-  mixins: [configMixin],
   props: {
     messages: {
       type: Array,
