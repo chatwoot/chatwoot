@@ -3,41 +3,16 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
+import {
+  DEFAULT_MESSAGE_CREATED_CONDITION,
+  DEFAULT_CONVERSATION_OPENED_CONDITION,
+  DEFAULT_OTHER_CONDITION,
+  DEFAULT_ACTIONS,
+  MESSAGE_CONDITION_VALUES,
+  PRIORITY_CONDITION_VALUES,
+} from 'dashboard/constants/automation';
 import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
-const MESSAGE_CONDITION_VALUES = [
-  {
-    id: 'incoming',
-    name: 'Incoming Message',
-  },
-  {
-    id: 'outgoing',
-    name: 'Outgoing Message',
-  },
-];
-
-export const PRIORITY_CONDITION_VALUES = [
-  {
-    id: 'nil',
-    name: 'None',
-  },
-  {
-    id: 'low',
-    name: 'Low',
-  },
-  {
-    id: 'medium',
-    name: 'Medium',
-  },
-  {
-    id: 'high',
-    name: 'High',
-  },
-  {
-    id: 'urgent',
-    name: 'Urgent',
-  },
-];
 
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
@@ -198,45 +173,16 @@ export const getFileName = (action, files = []) => {
 
 export const getDefaultConditions = eventName => {
   if (eventName === 'message_created') {
-    return [
-      {
-        attribute_key: 'message_type',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-        custom_attribute_type: '',
-      },
-    ];
+    return DEFAULT_MESSAGE_CREATED_CONDITION;
   }
   if (eventName === 'conversation_opened') {
-    return [
-      {
-        attribute_key: 'browser_language',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-        custom_attribute_type: '',
-      },
-    ];
+    return DEFAULT_CONVERSATION_OPENED_CONDITION;
   }
-  return [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: '',
-      query_operator: 'and',
-      custom_attribute_type: '',
-    },
-  ];
+  return DEFAULT_OTHER_CONDITION;
 };
 
 export const getDefaultActions = () => {
-  return [
-    {
-      action_name: 'assign_agent',
-      action_params: [],
-    },
-  ];
+  return DEFAULT_ACTIONS;
 };
 
 export const filterCustomAttributes = customAttributes => {
@@ -296,4 +242,101 @@ export const generateCustomAttributes = (
     );
   }
   return customAttributes;
+};
+
+/**
+ * Get attributes for a given key from automation types.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {string} key - The key to get attributes for.
+ * @returns {Array} Array of condition objects for the given key.
+ */
+export const getAttributes = (automationTypes, key) => {
+  return automationTypes[key].conditions;
+};
+
+/**
+ * Get the automation type for a given key.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} key - The key to get the automation type for.
+ * @returns {Object} The automation type object.
+ */
+export const getAutomationType = (automationTypes, automation, key) => {
+  return automationTypes[automation.event_name].conditions.find(
+    condition => condition.key === key
+  );
+};
+
+/**
+ * Get the input type for a given key.
+ * @param {Array} allCustomAttributes - Array of all custom attributes.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} key - The key to get the input type for.
+ * @returns {string} The input type.
+ */
+export const getInputType = (
+  allCustomAttributes,
+  automationTypes,
+  automation,
+  key
+) => {
+  const customAttribute = isACustomAttribute(allCustomAttributes, key);
+  if (customAttribute) {
+    return getCustomAttributeInputType(customAttribute.attribute_display_type);
+  }
+  const type = getAutomationType(automationTypes, automation, key);
+  return type.inputType;
+};
+
+/**
+ * Get operators for a given key.
+ * @param {Array} allCustomAttributes - Array of all custom attributes.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} mode - The mode ('edit' or other).
+ * @param {string} key - The key to get operators for.
+ * @returns {Array} Array of operators.
+ */
+export const getOperators = (
+  allCustomAttributes,
+  automationTypes,
+  automation,
+  mode,
+  key
+) => {
+  if (mode === 'edit') {
+    const customAttribute = isACustomAttribute(allCustomAttributes, key);
+    if (customAttribute) {
+      return getOperatorTypes(customAttribute.attribute_display_type);
+    }
+  }
+  const type = getAutomationType(automationTypes, automation, key);
+  return type.filterOperators;
+};
+
+/**
+ * Get the custom attribute type for a given key.
+ * @param {Object} automationTypes - Object containing automation types.
+ * @param {Object} automation - The automation object.
+ * @param {string} key - The key to get the custom attribute type for.
+ * @returns {string} The custom attribute type.
+ */
+export const getCustomAttributeType = (automationTypes, automation, key) => {
+  return automationTypes[automation.event_name].conditions.find(
+    i => i.key === key
+  ).customAttributeType;
+};
+
+/**
+ * Determine if an action input should be shown.
+ * @param {Array} automationActionTypes - Array of automation action type objects.
+ * @param {string} action - The action to check.
+ * @returns {boolean} True if the action input should be shown, false otherwise.
+ */
+export const showActionInput = (automationActionTypes, action) => {
+  if (action === 'send_email_to_team' || action === 'send_message')
+    return false;
+  const type = automationActionTypes.find(i => i.key === action).inputType;
+  return !!type;
 };

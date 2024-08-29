@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -11,7 +11,7 @@ import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
+  mixins: [configMixin, darkModeMixin],
   props: {
     message: {
       type: String,
@@ -29,6 +29,12 @@ export default {
       type: Number,
       default: null,
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   computed: {
     companyName() {

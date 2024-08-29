@@ -1,5 +1,5 @@
 <script>
-import campaignMixin from 'shared/mixins/campaignMixin';
+import { useCampaign } from 'shared/composables/useCampaign';
 import Campaign from './Campaign.vue';
 import AddCampaign from './AddCampaign.vue';
 
@@ -8,7 +8,10 @@ export default {
     Campaign,
     AddCampaign,
   },
-  mixins: [campaignMixin],
+  setup() {
+    const { isOngoingType } = useCampaign();
+    return { isOngoingType };
+  },
   data() {
     return { showAddPopup: false };
   },

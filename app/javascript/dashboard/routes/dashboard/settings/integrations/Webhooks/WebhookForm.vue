@@ -1,8 +1,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, url, minLength } from '@vuelidate/validators';
-import webhookMixin from './webhookMixin';
 import wootConstants from 'dashboard/constants/globals';
+import { getEventNamei18n } from './webhookHelper';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -18,7 +18,6 @@ const SUPPORTED_WEBHOOK_EVENTS = [
 ];
 
 export default {
-  mixins: [webhookMixin],
   props: {
     value: {
       type: Object,
@@ -70,6 +69,7 @@ export default {
         subscriptions: this.subscriptions,
       });
     },
+    getEventNamei18n,
   },
 };
 </script>
@@ -105,10 +105,10 @@ export default {
             type="checkbox"
             :value="event"
             name="subscriptions"
-            class="checkbox"
+            class="mr-2"
           />
           <label :for="event" class="text-sm">
-            {{ `${getEventLabel(event)} (${event})` }}
+            {{ `${$t(getEventNamei18n(event))} (${event})` }}
           </label>
         </div>
       </div>
@@ -129,9 +129,3 @@ export default {
     </div>
   </form>
 </template>
-
-<style lang="scss" scoped>
-.checkbox {
-  @apply mr-2;
-}
-</style>

@@ -1,25 +1,30 @@
-<script>
-import reportMixin from 'dashboard/mixins/reportMixin';
-export default {
-  mixins: [reportMixin],
-  props: {
-    metric: {
-      type: Object,
-      default: () => ({}),
-    },
+<script setup>
+import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
+
+const props = defineProps({
+  metric: {
+    type: Object,
+    default: () => ({}),
   },
-  methods: {
-    trendColor(value, key) {
-      if (this.isAverageMetricType(key)) {
-        return value > 0
-          ? 'border-red-500 text-red-500'
-          : 'border-green-500 text-green-500';
-      }
-      return value < 0
-        ? 'border-red-500 text-red-500'
-        : 'border-green-500 text-green-500';
-    },
+  accountSummaryKey: {
+    type: String,
+    default: 'getAccountSummary',
   },
+});
+
+const { calculateTrend, displayMetric, isAverageMetricType } = useReportMetrics(
+  props.accountSummaryKey
+);
+
+const trendColor = (value, key) => {
+  if (isAverageMetricType(key)) {
+    return value > 0
+      ? 'border-red-500 text-red-500'
+      : 'border-green-500 text-green-500';
+  }
+  return value < 0
+    ? 'border-red-500 text-red-500'
+    : 'border-green-500 text-green-500';
 };
 </script>
 
@@ -29,7 +34,7 @@ export default {
       {{ metric.NAME }}
     </span>
     <div class="flex items-end">
-      <div class="font-medium text-xl">
+      <div class="text-xl font-medium">
         {{ displayMetric(metric.KEY) }}
       </div>
       <div v-if="metric.trend" class="text-xs ml-4 flex items-center mb-0.5">
