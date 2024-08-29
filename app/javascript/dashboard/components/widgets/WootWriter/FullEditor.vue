@@ -120,7 +120,6 @@ export default {
         if (fileUrl) {
           this.onImageUploadStart(fileUrl);
         }
-        useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR'));
       }
