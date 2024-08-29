@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "收件箱",
-    "SIDEBAR_TXT": "<p><b>收件箱</b></p> <p> 当您将网站或Facebook页面连接到Chatwoot 它被称为一个 <b>收件箱</b>。 您可以在Chatwoot 帐户中拥有无限的收件箱。 </p><p> 点击 <b>添加收件箱</b> 连接网站或 Facebook 页面。 </p><p> 在仪表盘中 您可以在一个地方看到所有收件箱中的所有对话，并在“对话”选项卡下回复。 </p><p> 您也可以通过点击仪表板左侧面板上的收件箱名称看到针对收件箱的对话。 </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "其他提供商"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "网站",
+      "TWITTER_PROFILE": "推特",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API 频道"
     }
   }
 }
