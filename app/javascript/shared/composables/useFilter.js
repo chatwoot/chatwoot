@@ -1,6 +1,6 @@
 import wootConstants from 'dashboard/constants/globals';
 import { useStore } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { filterAttributeGroups } from 'dashboard/components/widgets/conversation/advancedFilterItems';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 
