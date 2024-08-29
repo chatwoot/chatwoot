@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "قنوات التواصل",
-    "SIDEBAR_TXT": "<p><b>قنوات التواصل</b></p> <p> عند ربطك لموقع ويب أو صفحة فيسبوك إلى Chatwoot، يتم تسميتها <b>قناة تواصل</b>. يمكنك إنشاء قنوات تواصل غير محدودة من مختلف الأنواع في حساب Chatwoot الخاص بك. </p><p> انقر فوق <b>إضافة قناة تواصل</b> لربط موقع الويب أو صفحة فيسبوك الخاصة بك. </p><p> من لوحة الإدارة، يمكنك رؤية جميع المحادثات من جميع صناديق الوارد الخاصة بك والرد عليها من مكان موّحد عبر الضغط على علامة التبويب \"المحادثات\". </p><p> يمكنك أيضًا مشاهدة المحادثات الخاصة بصندوق وارد معين بالنقر على اسم صندوق الوارد على الجزء الجانبي من لوحة الإدارة. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "الموقع الإلكتروني",
+      "TWITTER_PROFILE": "تويتر",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "البريد الإلكتروني",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "قناة API"
     }
   }
 }
