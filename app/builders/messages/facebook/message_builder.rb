@@ -149,7 +149,9 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
     return [] if previous_conversation.blank?
 
-    previous_conversation.messages.map do |message|
+    previous_conversation.messages
+                         .reject { |msg| msg.private && msg.content.include?('Conversation with') }
+                         .map do |message|
       message.attributes.except('conversation_id').merge(
         additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true, disable_notifications: true)
       )
