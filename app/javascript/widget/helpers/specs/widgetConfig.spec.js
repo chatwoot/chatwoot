@@ -66,14 +66,6 @@ describe('widgetConfig', () => {
     expect(widgetConfig.workingHoursEnabled()).toBe(true);
   });
 
-  test('getWelcomeTitle returns correct title', () => {
-    expect(widgetConfig.getWelcomeTitle()).toBe('Welcome to our chat');
-  });
-
-  test('getWelcomeTagline returns correct tagline', () => {
-    expect(widgetConfig.getWelcomeTagline()).toBe('How can we help you today?');
-  });
-
   test('getPreChatFormOptions returns correct options', () => {
     expect(widgetConfig.getPreChatFormOptions()).toEqual({
       preChatMessage: 'Welcome',

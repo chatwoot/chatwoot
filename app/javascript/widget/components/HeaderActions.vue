@@ -83,7 +83,7 @@ export default {
     <button
       v-if="
         canLeaveConversation &&
-        hasEndConversationEnabled &&
+        hasEndConversationEnabled() &&
         showEndConversationButton
       "
       class="button transparent compact"

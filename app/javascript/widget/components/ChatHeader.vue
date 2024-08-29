@@ -5,7 +5,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkMixin from 'widget/mixins/darkModeMixin.js';
-
+import { workingHoursEnabled } from 'widget/helpers/widgetConfig';
 export default {
   name: 'ChatHeader',
   components: {
@@ -37,10 +37,9 @@ export default {
   },
   computed: {
     isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;
 
-      if (workingHoursEnabled) {
+      if (workingHoursEnabled()) {
         return this.isInBetweenTheWorkingHours;
       }
       return anyAgentOnline;

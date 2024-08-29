@@ -146,7 +146,7 @@ export default {
     },
     registerCampaignEvents() {
       emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
-        if (shouldShowPreChatForm) {
+        if (shouldShowPreChatForm()) {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');

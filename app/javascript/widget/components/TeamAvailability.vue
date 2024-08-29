@@ -37,7 +37,7 @@ export default {
     isOnline() {
       const anyAgentOnline = this.availableAgents.length > 0;
 
-      if (workingHoursEnabled) {
+      if (workingHoursEnabled()) {
         return this.isInBetweenTheWorkingHours;
       }
       return anyAgentOnline;

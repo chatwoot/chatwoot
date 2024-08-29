@@ -47,7 +47,9 @@ export default {
     avatarUrl() {
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
-      const displayImage = useInboxAvatarForBot ? getInboxAvatarUrl : BotImage;
+      const displayImage = useInboxAvatarForBot()
+        ? getInboxAvatarUrl()
+        : BotImage;
       if (this.isSenderExist(this.sender)) {
         const { avatar_url: avatarUrl } = this.sender;
         return avatarUrl;
@@ -59,7 +61,7 @@ export default {
         const { available_name: availableName } = this.sender;
         return availableName;
       }
-      if (useInboxAvatarForBot) {
+      if (useInboxAvatarForBot()) {
         return getWebsiteName();
       }
       return this.$t('UNREAD_VIEW.BOT');

@@ -48,7 +48,7 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
     }),
     showAttachment() {
-      return hasAttachmentsEnabled && this.userInput.length === 0;
+      return hasAttachmentsEnabled() && this.userInput.length === 0;
     },
     showSendButton() {
       return this.userInput.length > 0;
@@ -156,7 +156,7 @@ export default {
         :on-attach="onSendAttachment"
       />
       <button
-        v-if="hasEmojiPickerEnabled"
+        v-if="hasEmojiPickerEnabled()"
         class="flex items-center justify-center icon-button"
         :aria-label="$t('EMOJI.ARIA_LABEL')"
         @click="toggleEmojiPicker"

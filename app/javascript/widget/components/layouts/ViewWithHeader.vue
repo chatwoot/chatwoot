@@ -39,8 +39,8 @@ export default {
     },
     hasIntroText() {
       return (
-        this.getChannelConfig.welcomeTitle ||
-        this.getChannelConfig.welcomeTagline
+        this.getChannelConfig().welcomeTitle ||
+        this.getChannelConfig().welcomeTagline
       );
     },
     showBackButton() {
@@ -120,15 +120,15 @@ export default {
       >
         <ChatHeaderExpanded
           v-if="!isHeaderCollapsed"
-          :intro-heading="getChannelConfig.welcomeTitle"
-          :intro-body="getChannelConfig.welcomeTagline"
-          :avatar-url="getChannelConfig.avatarUrl"
+          :intro-heading="getChannelConfig().welcomeTitle"
+          :intro-body="getChannelConfig().welcomeTagline"
+          :avatar-url="getChannelConfig().avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
         />
         <ChatHeader
           v-if="isHeaderCollapsed"
-          :title="getChannelConfig.websiteName"
-          :avatar-url="getChannelConfig.avatarUrl"
+          :title="getChannelConfig().websiteName"
+          :avatar-url="getChannelConfig().avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
           :show-back-button="showBackButton"

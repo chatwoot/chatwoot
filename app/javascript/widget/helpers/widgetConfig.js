@@ -6,10 +6,6 @@ export const useInboxAvatarForBot = () => {
   );
 };
 
-export const hasAConnectedAgentBot = () => {
-  return !!getChannelConfig().hasAConnectedAgentBot;
-};
-
 export const getInboxAvatarUrl = () => {
   return getChannelConfig().avatarUrl;
 };
@@ -36,14 +32,6 @@ export const getWebsiteName = () => {
 
 export const workingHoursEnabled = () => {
   return getChannelConfig().workingHoursEnabled;
-};
-
-export const getWelcomeTitle = () => {
-  return getChannelConfig().welcomeTitle;
-};
-
-export const getWelcomeTagline = () => {
-  return getChannelConfig().welcomeTagline;
 };
 
 export const getPreChatFormOptions = () => {

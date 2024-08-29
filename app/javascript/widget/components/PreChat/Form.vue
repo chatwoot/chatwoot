@@ -55,10 +55,10 @@ export default {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.hasActiveCampaign || isPreChatFormEnabled;
+      return this.hasActiveCampaign || isPreChatFormEnabled();
     },
     headerMessage() {
-      if (isPreChatFormEnabled) {
+      if (isPreChatFormEnabled()) {
         return this.options.preChatMessage;
       }
       if (this.hasActiveCampaign) {
@@ -67,7 +67,7 @@ export default {
       return '';
     },
     preChatFields() {
-      return isPreChatFormEnabled ? this.options.preChatFields : [];
+      return isPreChatFormEnabled() ? this.options.preChatFields : [];
     },
     filteredPreChatFields() {
       const isUserEmailAvailable = this.currentUser.has_email;

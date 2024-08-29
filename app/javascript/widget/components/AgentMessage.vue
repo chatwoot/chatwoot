@@ -77,7 +77,7 @@ export default {
         return this.message.sender.available_name || this.message.sender.name;
       }
 
-      if (useInboxAvatarForBot) {
+      if (useInboxAvatarForBot()) {
         return getWebsiteName();
       }
 
@@ -86,8 +86,8 @@ export default {
     avatarUrl() {
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
-      const displayImage = this.useInboxAvatarForBot
-        ? getInboxAvatarUrl
+      const displayImage = useInboxAvatarForBot()
+        ? getInboxAvatarUrl()
         : BotImage;
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
