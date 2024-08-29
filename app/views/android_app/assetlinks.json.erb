@@ -5,7 +5,9 @@
       "namespace": "android_app",
       "package_name": "<%= ENV['ANDROID_BUNDLE_ID'] %>",
       "sha256_cert_fingerprints": [
-        "<%= ENV['ANDROID_SHA256_CERT_FINGERPRINT'] %>"
+        <% ENV['ANDROID_SHA256_CERT_FINGERPRINT'].split(',').each do |fingerprint| %>
+          "<%= fingerprint %>"<%= "," unless fingerprint == ENV['ANDROID_SHA256_CERT_FINGERPRINT'].split(',').last %>
+        <% end %>
       ]
     }
   }
