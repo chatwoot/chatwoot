@@ -45,8 +45,6 @@ const confirmPlaceHolderText = computed(
     })}`
 );
 
-onMounted(() => {});
-
 const deleteAttributes = async ({ id }) => {
   try {
     await store.dispatch('attributes/delete', id);
