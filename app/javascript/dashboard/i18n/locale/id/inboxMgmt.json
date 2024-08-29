@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Kotak masuk",
-    "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke Chatwoot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun Chatwoot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Penyedia Lain"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Channel"
     }
   }
 }
