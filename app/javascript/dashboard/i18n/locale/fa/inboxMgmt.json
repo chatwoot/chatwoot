@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "صندوق‌های ورودی",
-    "SIDEBAR_TXT": "<p><b>صندوق ورودی</b></p>\n <p> وقتی چت ووت به یک وب سایت یا یک صفحه فیس بوک متصل شود به آن <b>صندوق ورودی</b> می‌گوید. شما در حساب  چت ووت خود می‌توانید بی‌نهایت صندوق ورودی داشته باشید. </p><p> روی دکمه <b>اضافه کردن صندوق ورودی</b> کلیک کنید تا به یک وب سایت یا یک صفحه فیس بوک وصل شوید. </p><p> در داشبورد، می‌توانید گفتگوهای همه صندوق‌های ورودی را یکجا ببینید و در تب «گفتگوها» به آن‌ها پاسخ بدهید. </p><p> همچنین می‌توانید با کلیک کردن روی اسم صندوق ورودی از قسمت سمت چپ، فقط گفتگوهای همان صندوق را ببینید. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "مایکروسافت",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "سایر ارائه دهندگان"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "وب سایت",
+      "TWITTER_PROFILE": "توییتر",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "ایمیل",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "کانال API"
     }
   }
 }
