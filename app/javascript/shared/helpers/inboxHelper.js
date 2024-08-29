@@ -58,12 +58,8 @@ export const isAWhatsAppCloudChannel = inbox =>
   isChannelType(inbox, INBOX_TYPES.WHATSAPP) &&
   getWhatsAppAPIProvider(inbox) === 'whatsapp_cloud';
 
-export const is360DialogWhatsAppChannel = inbox => {
-  return (
-    inbox.channel_type === INBOX_TYPES.WHATSAPP &&
-    inbox.provider === '360dialog'
-  );
-};
+export const is360DialogWhatsAppChannel = inbox =>
+  inbox.channel_type === INBOX_TYPES.WHATSAPP && inbox.provider === '360dialog';
 
 export const isAWhatsAppChannel = inbox =>
   isChannelType(inbox, INBOX_TYPES.WHATSAPP) || isATwilioWhatsAppChannel(inbox);
