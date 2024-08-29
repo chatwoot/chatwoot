@@ -152,6 +152,45 @@ export default {
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
     },
+    insertImage(src, alt = '') {
+      const { selection } = this.editorView.state;
+      const from = selection.from;
+      const node = this.editorView.state.schema.nodes.image.create({
+        src,
+        alt,
+      });
+      const paragraphNode = this.editorView.state.schema.node('paragraph');
+
+      if (node) {
+        const tr = this.editorView.state.tr
+          .replaceSelectionWith(paragraphNode)
+          .insert(from + 1, node);
+
+        this.editorView.dispatch(tr.scrollIntoView());
+        this.focusEditorInputField();
+      }
+    },
+    handlePastedText(text, view) {
+      const markdownImageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+      let match;
+      let lastIndex = 0;
+      while ((match = markdownImageRegex.exec(text)) !== null) {
+        // Insert text before the image
+        if (match.index > lastIndex) {
+          const textBefore = text.slice(lastIndex, match.index);
+          view.dispatch(view.state.tr.insertText(textBefore));
+        }
+        // // Insert the image
+        const [, alt, src] = match;
+        this.insertImage(src, alt);
+        lastIndex = markdownImageRegex.lastIndex;
+      }
+      // Insert any remaining text after the last image
+      if (lastIndex < text.length) {
+        const remainingText = text.slice(lastIndex);
+        view.dispatch(view.state.tr.insertText(remainingText));
+      }
+    },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {
         state: this.state,
@@ -173,9 +212,17 @@ export default {
             this.onBlur();
           },
           paste: (view, event) => {
-            const data = event.clipboardData.files;
-            if (data.length > 0) {
-              data.forEach(file => this.uploadImageToStorage(file));
+            const clipboardData = event.clipboardData;
+            const pastedText = clipboardData.getData('text/plain');
+            const files = clipboardData.files;
+
+            if (files.length > 0) {
+              // Handle direct image file paste
+              files.forEach(file => this.uploadImageToStorage(file));
+              event.preventDefault();
+            } else if (pastedText) {
+              // Handle potential markdown image links
+              this.handlePastedText(pastedText, view);
               event.preventDefault();
             }
           },
