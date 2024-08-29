@@ -45,6 +45,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     message[:mid]
   end
 
+  def message_timestamp
+    @messaging[:timestamp] / 1000
+  end
+
   def message_source_id
     @outgoing_echo ? recipient_id : sender_id
   end
@@ -258,8 +262,13 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def private_message_params(content, new_conversation)
-    { account_id: new_conversation.account_id, additional_attributes: { disable_notifications: true }, inbox_id: new_conversation.inbox_id,
-      message_type: :outgoing, content: content, private: true }
+    { account_id: new_conversation.account_id,
+      additional_attributes: { disable_notifications: true },
+      inbox_id: new_conversation.inbox_id,
+      message_type: :outgoing,
+      content: content,
+      private: true,
+      content_attributes: { external_created_at: message_timestamp - 1 } }
   end
 
   def fetch_previous_messages
@@ -330,7 +339,8 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       content: message_content,
       sender: @outgoing_echo ? nil : contact,
       content_attributes: {
-        in_reply_to_external_id: message_reply_attributes
+        in_reply_to_external_id: message_reply_attributes,
+        external_created_at: message_timestamp
       }
     }
 

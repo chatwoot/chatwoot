@@ -13,7 +13,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     @entries = entries
 
     key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: sender_id, ig_account_id: ig_account_id)
-    with_lock(key) do
+    with_lock(key, 20.seconds) do
       process_entries(entries)
     end
   end
