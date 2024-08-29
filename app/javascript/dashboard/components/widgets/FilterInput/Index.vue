@@ -3,7 +3,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: () => null,
+      default: () => {},
     },
     filterAttributes: {
       type: Array,
@@ -104,6 +104,7 @@ export default {
   watch: {
     customAttributeType: {
       handler(value) {
+        console.log(value, this.value);
         if (
           value === 'conversation_attribute' ||
           value === 'contact_attribute'
