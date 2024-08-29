@@ -39,7 +39,7 @@ const twilioChannelName = () => {
 
 const readableChannelName = computed(() => {
   if (props.channelType === 'Channel::Api') {
-    return globalConfig.apiChannelName || t('API');
+    return globalConfig.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
   }
   if (props.channelType === 'Channel::TwilioSms') {
     return twilioChannelName();
