@@ -96,22 +96,20 @@ const openDelete = value => {
       >
         <tr v-for="attribute in attributes" :key="attribute.attribute_key">
           <td
-            class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+            class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
           >
             {{ attribute.attribute_display_name }}
           </td>
-          <td
-            class="pl-0 max-w-[10rem] min-w-[6.25rem] overflow-hidden whitespace-nowrap text-ellipsis"
-          >
+          <td class="py-4 ltr:pr-4 rtl:pl-4">
             {{ attribute.attribute_description }}
           </td>
           <td
-            class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+            class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
           >
             {{ attribute.attribute_display_type }}
           </td>
           <td
-            class="attribute-key pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+            class="py-4 ltr:pr-4 rtl:pl-4 attribute-key overflow-hidden whitespace-nowrap text-ellipsis"
           >
             {{ attribute.attribute_key }}
           </td>
