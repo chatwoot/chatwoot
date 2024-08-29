@@ -96,6 +96,6 @@ class AccountBuilder
     domains = GlobalConfigService.load('BLOCKED_EMAIL_DOMAINS', '')
     return [] if domains.blank?
 
-    domains.split("\n").map(&:strip) if domains.present?
+    domains.split("\n").map(&:strip)
   end
 end
