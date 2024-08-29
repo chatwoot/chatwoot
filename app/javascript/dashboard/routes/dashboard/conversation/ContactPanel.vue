@@ -36,9 +36,8 @@ const {
   toggleSidebarUIState,
 } = useUISettings();
 
-const dragEnabled = ref(true);
-const conversationSidebarItems = ref([]);
 const dragging = ref(false);
+const conversationSidebarItems = ref([]);
 
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
@@ -104,7 +103,6 @@ onMounted(() => {
     <div class="list-group">
       <Draggable
         :list="conversationSidebarItems"
-        :disabled="!dragEnabled"
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
