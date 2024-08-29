@@ -147,7 +147,6 @@ export default {
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
-        tag="transition-group"
         item-key="name"
         @start="dragging = true"
         @end="onDragEnd"

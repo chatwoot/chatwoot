@@ -93,7 +93,6 @@ export default {
       <Draggable
         :list="contactSidebarItems"
         :disabled="!dragEnabled"
-        tag="transition-group"
         ghost-class="ghost"
         item-key="name"
         @start="dragging = true"
