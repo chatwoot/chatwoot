@@ -105,7 +105,7 @@ export default {
                 :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
                 :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
                 compact
-                @click="
+                @toggle="
                   value => toggleSidebarUIState('is_ct_custom_attr_open', value)
                 "
               >
@@ -124,7 +124,7 @@ export default {
               <AccordionItem
                 :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
                 :is-open="isContactSidebarItemOpen('is_ct_labels_open')"
-                @click="
+                @toggle="
                   value => toggleSidebarUIState('is_ct_labels_open', value)
                 "
               >
@@ -137,7 +137,7 @@ export default {
                   $t('CONTACT_PANEL.SIDEBAR_SECTIONS.PREVIOUS_CONVERSATIONS')
                 "
                 :is-open="isContactSidebarItemOpen('is_ct_prev_conv_open')"
-                @click="
+                @toggle="
                   value => toggleSidebarUIState('is_ct_prev_conv_open', value)
                 "
               >
