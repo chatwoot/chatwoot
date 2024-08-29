@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gautų laiškų aplankai",
-    "SIDEBAR_TXT": "<p><b>Gautų laiškų aplankas</b></p> <p> Kai prijungiate svetainė arba Facebook puslapį prie Chatwood, tai vadinama <b>Gautų Laiškų Aplankas</b>. Savo Chatwoot paskyroje galite turėti neribotą gautųjų laiškų aplankų skaičių. </p><p> Spustelėkite <b>Pridėti gautųjų laiškų aplanką</b>, kad susietumėte svetainę arba Facebook puslapį. </p><p> Informacijos suvestinėje galite matyti visus pokalbius iš visų gautųjų laiškų aplankų vienoje vietoje ir atsakyti į juos skirtuke „Pokalbiai“. </p><p> Taip pat galite peržiūrėti pokalbius, susijusius su gautų laiškų aplankais, spustelėję pavadinimą kairėje prietaisų skydelio srityje. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Kiti Tiekėjai"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Internetinis puslapis",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "El. paštas",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API kanalas"
     }
   }
 }
