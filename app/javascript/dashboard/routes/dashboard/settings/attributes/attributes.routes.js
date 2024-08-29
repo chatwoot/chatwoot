@@ -1,17 +1,12 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsContent = () => import('../Wrapper.vue');
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const AttributesHome = () => import('./Index.vue');
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/custom-attributes'),
-      component: SettingsContent,
-      props: {
-        headerTitle: 'ATTRIBUTES_MGMT.HEADER',
-        icon: 'code',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
