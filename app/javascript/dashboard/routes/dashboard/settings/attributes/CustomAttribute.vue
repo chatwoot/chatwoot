@@ -2,7 +2,7 @@
 import { useAlert } from 'dashboard/composables';
 import EditAttribute from './EditAttribute.vue';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
 const props = defineProps({
   attributeModel: {
