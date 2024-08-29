@@ -17,7 +17,8 @@ export const getChannelType = inbox => inbox.channel_type;
 
 export const getWhatsAppAPIProvider = inbox => inbox.provider || '';
 
-export const isChannelType = (inbox, type) => channelsMap[type](inbox);
+export const isChannelType = (inbox, type) =>
+  channelTypeCheckers[type]?.(inbox) || false;
 
 export const isAnEmailChannel = inbox =>
   isChannelType(inbox, INBOX_TYPES.EMAIL);
