@@ -104,7 +104,6 @@
     "autoprefixer": "^10.4.19",
     "babel-core": "^7.0.0-bridge.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
-    "babel-loader": "8.2.2",
     "babel-preset-vue": "^2.0.2",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-base": "15.0.0",
