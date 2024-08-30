@@ -21,7 +21,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
         create_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/create'
         account_id = params['account_id']
         urls = params['urls'].split(',')
-        payload = { id: id, account_id: account_id, urls: urls }
+        payload = { id: id, account_id: account_id, urls: urls, account_char_limit: ENV.fetch('CHAR_LIMIT', 10000000) }
         begin
           response = HTTP.post(create_uri, form: payload)
         rescue HTTP::Error => e
