@@ -5,7 +5,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
-import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
