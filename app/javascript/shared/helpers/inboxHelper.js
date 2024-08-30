@@ -75,13 +75,21 @@ export const getBadge = {
   facebook: chat => getChatAdditionalAttributes(chat).type || 'facebook',
 };
 
+const inboxBadgeMap = {
+  [INBOX_TYPES.TWITTER]: 'twitter',
+  [INBOX_TYPES.FB]: 'facebook',
+  [INBOX_TYPES.TWILIO]: inbox =>
+    isATwilioSMSChannel(inbox) ? 'sms' : 'whatsapp',
+  [INBOX_TYPES.WHATSAPP]: 'whatsapp',
+};
+
 export const getInboxBadge = inbox => {
-  if (isATwitterInbox(inbox)) return 'twitter';
-  if (isAFacebookInbox(inbox)) return 'facebook';
-  if (isATwilioChannel(inbox))
-    return isATwilioSMSChannel(inbox) ? 'sms' : 'whatsapp';
-  if (isAWhatsAppChannel(inbox)) return 'whatsapp';
-  return getChannelType(inbox);
+  const channelType = getChannelType(inbox);
+  const badgeInfo = inboxBadgeMap[channelType];
+
+  return typeof badgeInfo === 'function'
+    ? badgeInfo(inbox)
+    : badgeInfo || channelType;
 };
 
 export const inboxHasFeature = (inbox, feature) =>
