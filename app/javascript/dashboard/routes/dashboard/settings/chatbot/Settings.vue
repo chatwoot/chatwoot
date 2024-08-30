@@ -30,6 +30,14 @@
           :label="$t('CHATBOTS.ADD.CHATBOT_NAME.LABEL')"
           :placeholder="$t('CHATBOTS.ADD.CHATBOT_NAME.PLACEHOLDER')"
         />
+        <woot-input
+          v-model.trim="selectedChatbotReplyOnNoRelevantResult"
+          class="w-3/4 pb-4"
+          :label="$t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.LABEL')"
+          :placeholder="
+            $t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.PLACEHOLDER')
+          "
+        />
         <label class="w-3/4 pb-4">
           {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.LABEL') }}
           <select v-model="chatbotEnabled">
@@ -81,6 +89,7 @@ export default {
     return {
       selectedTabIndex: 0,
       selectedChatbotName: '',
+      selectedChatbotReplyOnNoRelevantResult: '',
       chatbotEnabled: true,
     };
   },
@@ -124,12 +133,15 @@ export default {
   },
   validations: {
     selectedChatbotName: { required },
+    selectedChatbotReplyOnNoRelevantResult: { required },
   },
   methods: {
     async fetchChatbot() {
       this.selectedTabIndex = 0;
       this.$store.dispatch('chatbots/get').then(() => {
         this.selectedChatbotName = this.chatbot.name;
+        this.selectedChatbotReplyOnNoRelevantResult =
+          this.chatbot.reply_on_no_relevant_result;
         this.chatbotEnabled = this.chatbot.status === 'Enabled';
       });
     },
@@ -138,6 +150,8 @@ export default {
         const payload = {
           id: this.currentChatbotId,
           chatbotName: this.selectedChatbotName,
+          chatbotReplyOnNoRelevantResult:
+            this.selectedChatbotReplyOnNoRelevantResult,
           chatbotStatus: this.chatbotEnabled,
         };
         await this.$store.dispatch('chatbots/update', payload);

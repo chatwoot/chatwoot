@@ -1,21 +1,23 @@
 <template>
   <div class="flex actions--container relative items-center gap-2">
-    <woot-button
-      v-if="isChatbotEnabled"
-      v-tooltip="$t('CHATBOTS.DISABLE_BOT')"
-      variant="smooth"
-      color-scheme="primary"
-      icon="chatbot-icon"
-      @click="disableBot"
-    />
-    <woot-button
-      v-else
-      v-tooltip.left="$t('CHATBOTS.ENABLE_BOT')"
-      variant="smooth"
-      color-scheme="alert"
-      icon="chatbot-icon"
-      @click="enableBot"
-    />
+    <div v-if="isWebWidgetInbox">
+      <woot-button
+        v-if="isChatbotEnabled"
+        v-tooltip="$t('CHATBOTS.DISABLE_BOT')"
+        variant="smooth"
+        color-scheme="primary"
+        icon="chatbot-icon"
+        @click="disableBot"
+      />
+      <woot-button
+        v-else
+        v-tooltip.left="$t('CHATBOTS.ENABLE_BOT')"
+        variant="smooth"
+        color-scheme="alert"
+        icon="chatbot-icon"
+        @click="enableBot"
+      />
+    </div>
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
@@ -75,6 +77,12 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
+    isWebWidgetInbox() {
+      const currentInbox = this.$store.getters['inboxes/getInbox'](
+        this.currentChat.inbox_id
+      );
+      return currentInbox.channel_type === 'Channel::WebWidget';
+    },
     isChatbotEnabled() {
       return this.currentChat.chatbot_status === 'Enabled';
     },

@@ -39,7 +39,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
       else
         status = "Disabled"
       end
-      @chatbot.update!(name: params[:chatbotName], status: status)
+      @chatbot.update!(name: params[:chatbotName], reply_on_no_relevant_result: params[:chatbotReplyOnNoRelevantResult], status: status)
     end
   end
 
@@ -77,6 +77,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
   def create_record_in_db(params)
     @chatbot = Chatbot.new(
       name: SecureRandom.alphanumeric(10),
+      reply_on_no_relevant_result: I18n.t('chatbots.reply_on_no_relevant_result'),
       last_trained_at: DateTime.now.strftime('%B %d, %Y at %I:%M %p'),
       account_id: params["accountId"],
       website_token: params["website_token"],

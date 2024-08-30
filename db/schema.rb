@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_02_072935) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_30_072122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -415,6 +415,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_02_072935) do
     t.float "temperature", default: 0.1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reply_on_no_relevant_result"
     t.index ["account_id"], name: "index_chatbots_on_account_id"
   end
 
