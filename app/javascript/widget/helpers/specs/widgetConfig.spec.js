@@ -4,7 +4,6 @@ describe('widgetConfig', () => {
   beforeEach(() => {
     global.chatwootWebChannel = {
       avatarUrl: 'https://test.url',
-      hasAConnectedAgentBot: 'AgentBot',
       enabledFeatures: [
         'emoji_picker',
         'attachments',
@@ -32,10 +31,6 @@ describe('widgetConfig', () => {
 
   test('useInboxAvatarForBot returns correct value', () => {
     expect(widgetConfig.useInboxAvatarForBot()).toBe(true);
-  });
-
-  test('hasAConnectedAgentBot returns correct value', () => {
-    expect(widgetConfig.hasAConnectedAgentBot()).toBe(true);
   });
 
   test('getInboxAvatarUrl returns correct URL', () => {
