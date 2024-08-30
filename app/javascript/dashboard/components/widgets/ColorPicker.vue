@@ -1,5 +1,5 @@
 <script>
-import { Chrome } from 'vue-color';
+import { Chrome } from '@lk77/vue3-color';
 
 export default {
   components: {
