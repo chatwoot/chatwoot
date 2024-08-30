@@ -1,5 +1,5 @@
 <script>
-import DatePicker from 'vue2-datepicker';
+import DatePicker from 'vue-datepicker-next';
 export default {
   components: { DatePicker },
   props: {
