@@ -1,8 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "DESCRIPTION": "Um canal é o modo de comunicação que seu cliente escolhe para interagir com você. Uma caixa de entrada é onde você gerencia interações para um canal específico. Pode incluir comunicações de várias fontes, como e-mail, chat ao vivo e mídia social.",
+    "LEARN_MORE": "Saiba mais sobre as caixas de entrada",
     "RECONNECTION_REQUIRED": "Sua caixa de entrada está desconectada. Você não receberá novas mensagens até reautorizar.",
     "CLICK_TO_RECONNECT": "Clique aqui para reconectar.",
     "LIST": {
@@ -371,16 +371,16 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao conectar com a Microsoft, por favor, tente novamente"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "E-mail do Google",
+        "DESCRIPTION": "Clique no botão Entrar com o Google para começar. Você será redirecionado para o login do e-mail. Depois que você aceitar as permissões solicitadas, você será redirecionado de volta para a etapa de criação da caixa de entrada.",
+        "SIGN_IN": "Entrar com o Google",
         "EMAIL_PLACEHOLDER": "Digite o endereço de e-mail",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "ERROR_MESSAGE": "Houve um erro ao conectar com o Google, por favor, tente novamente"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autenticando você com o Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "Erro ao carregar o SDK do Facebook. Por favor, desative qualquer bloqueador de anúncios e tente novamente de um navegador diferente.",
       "ERROR_FB_AUTH": "Algo deu errado, por favor, atualize a página...",
       "ERROR_FB_UNAUTHORIZED": "Você não está autorizado a realizar esta ação. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "A tradução é:\n\nPor favor, certifique-se de que você tem acesso à página do Facebook com controle total. Você pode ler mais sobre as funções do Facebook <a href=\" https://www.facebook.com/help/187316341316631\">aqui</a>.",
@@ -751,7 +751,7 @@
       "MESSENGER": "Messenger",
       "WEB_WIDGET": "Site",
       "TWITTER_PROFILE": "Twitter",
-      "TWILIO_SMS": "Twilio SMS",
+      "TWILIO_SMS": "SMS Twilio",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "e-mail",
