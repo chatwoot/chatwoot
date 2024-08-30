@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     startConversation() {
-      if (isPreChatFormEnabled && !this.conversationSize) {
+      if (isPreChatFormEnabled() && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');

@@ -1,7 +1,6 @@
 <script>
 import PreChatForm from '../components/PreChat/Form.vue';
 import { getPreChatFormOptions } from 'widget/helpers/widgetConfig';
-
 import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
