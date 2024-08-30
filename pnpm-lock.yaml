@@ -18,8 +18,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@chatwoot/prosemirror-schema':
-        specifier: 1.0.11
-        version: 1.0.11
+        specifier: 1.1.0-next
+        version: 1.1.0-next
       '@chatwoot/utils':
         specifier: ^0.0.25
         version: 0.0.25
@@ -1029,8 +1029,8 @@ packages:
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
 
-  '@chatwoot/prosemirror-schema@1.0.11':
-    resolution: {integrity: sha512-OAUa1CuHtetEPh/ZhRkMLVQHY2/eesCRb2IRdVzjh0z+4spp3fG826y8FbOEsa7m4hisNirnGF/mDH+NMmYetw==}
+  '@chatwoot/prosemirror-schema@1.1.0-next':
+    resolution: {integrity: sha512-IzNrdLX0A+VwI5oLcHtSVNmt8LJZmNVZcBvp5t3OjBYyAaSfsQRcde9FWuFCDwu07jaU1fm9Qqv+yx5rwtyPHA==}
 
   '@chatwoot/utils@0.0.25':
     resolution: {integrity: sha512-2bGfRewHu0Bra47vHwJa3SdZ0VqXK/2q2ampcc6TT3z8ojSfZqpfMdb+1RKJ/Q1tQEYn/0rJTdWtLDRjePF92A==}
@@ -3546,9 +3546,6 @@ packages:
     resolution: {integrity: sha512-Nv9m36S/vxpsI+Hc4/ZGRs0n9mXqSWGGq49zxb/cJfPAQMbUtttJAlNPS4AQzaBdw/pKskw5bMbekT/Y7W/Wlg==}
     engines: {node: '>=6.9.0'}
 
-  entities@2.0.3:
-    resolution: {integrity: sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==}
-
   entities@2.2.0:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
 
@@ -4775,11 +4772,11 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  linkify-it@2.2.0:
-    resolution: {integrity: sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==}
-
   linkify-it@4.0.1:
     resolution: {integrity: sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==}
+
+  linkify-it@5.0.0:
+    resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
 
   lint-staged@14.0.1:
     resolution: {integrity: sha512-Mw0cL6HXnHN1ag0mN/Dg4g6sr8uf8sn98w2Oc1ECtFto9tvRF7nkXGJRbx8gPlHyoR0pLyBr2lQHbWwmUHe1Sw==}
@@ -4911,15 +4908,15 @@ packages:
   markdown-it-link-attributes@4.0.1:
     resolution: {integrity: sha512-pg5OK0jPLg62H4k7M9mRJLT61gUp9nvG0XveKYHMOOluASo9OEF13WlXrpAp2aj35LbedAy3QOCgQCw0tkLKAQ==}
 
-  markdown-it-sup@1.0.0:
-    resolution: {integrity: sha512-E32m0nV9iyhRR7CrhnzL5msqic7rL1juWre6TQNxsnApg7Uf+F97JOKxUijg5YwXz86lZ0mqfOnutoryyNdntQ==}
-
-  markdown-it@10.0.0:
-    resolution: {integrity: sha512-YWOP1j7UbDNz+TumYP1kpwnP0aEa711cJjrAQrzd0UXlbJfc5aAq0F/PZHjiioqDC1NKgvIMX+o+9Bk7yuM2dg==}
-    hasBin: true
+  markdown-it-sup@2.0.0:
+    resolution: {integrity: sha512-5VgmdKlkBd8sgXuoDoxMpiU+BiEt3I49GItBzzw7Mxq9CxvnhE/k09HFli09zgfFDRixDQDfDxi0mgBCXtaTvA==}
 
   markdown-it@13.0.2:
     resolution: {integrity: sha512-FtwnEuuK+2yVU7goGn/MJ0WBZMM9ZPgU9spqlFs7/A/pDIUNSOQZhUgOqYCficIuR2QaFnrt8LHqBWsbTAoI5w==}
+    hasBin: true
+
+  markdown-it@14.1.0:
+    resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
     hasBin: true
 
   md5.js@1.3.5:
@@ -4936,6 +4933,9 @@ packages:
 
   mdurl@1.0.1:
     resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==}
+
+  mdurl@2.0.0:
+    resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
 
   media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
@@ -6039,54 +6039,56 @@ packages:
       bluebird:
         optional: true
 
-  prosemirror-commands@1.1.5:
-    resolution: {integrity: sha512-4CKAnDxLTtUHpjRZZVEF/LLMUYh7NbS3Ze3mP5UEAgar4WRWQYg3Js01wnp/GMqaZueNHhsp9UVvOrAK+7DWbQ==}
+  prosemirror-commands@1.6.0:
+    resolution: {integrity: sha512-xn1U/g36OqXn2tn5nGmvnnimAj/g1pUx2ypJJIe8WkVX83WyJVC5LTARaxZa2AtQRwntu9Jc5zXs9gL9svp/mg==}
 
-  prosemirror-dropcursor@1.3.2:
-    resolution: {integrity: sha512-4c94OUGyobGnwcQI70OXyMhE/9T4aTgjU+CHxkd5c7D+jH/J0mKM/lk+jneFVKt7+E4/M0D9HzRPifu8U28Thw==}
+  prosemirror-dropcursor@1.8.1:
+    resolution: {integrity: sha512-M30WJdJZLyXHi3N8vxN6Zh5O8ZBbQCz0gURTfPmTIBNQ5pxrdU7A58QkNqfa98YEjSAL1HUyyU34f6Pm5xBSGw==}
 
-  prosemirror-gapcursor@1.1.5:
-    resolution: {integrity: sha512-SjbUZq5pgsBDuV3hu8GqgIpZR5eZvGLM+gPQTqjVVYSMUCfKW3EGXTEYaLHEl1bGduwqNC95O3bZflgtAb4L6w==}
+  prosemirror-gapcursor@1.3.2:
+    resolution: {integrity: sha512-wtjswVBd2vaQRrnYZaBCbyDqr232Ed4p2QPtRIUK5FuqHYKGWkEwl08oQM4Tw7DOR0FsasARV5uJFvMZWxdNxQ==}
 
-  prosemirror-history@1.1.3:
-    resolution: {integrity: sha512-zGDotijea+vnfnyyUGyiy1wfOQhf0B/b6zYcCouBV8yo6JmrE9X23M5q7Nf/nATywEZbgRLG70R4DmfSTC+gfg==}
+  prosemirror-history@1.4.1:
+    resolution: {integrity: sha512-2JZD8z2JviJrboD9cPuX/Sv/1ChFng+xh2tChQ2X4bB2HeK+rra/bmJ3xGntCcjhOqIzSDG6Id7e8RJ9QPXLEQ==}
 
-  prosemirror-inputrules@1.1.3:
-    resolution: {integrity: sha512-ZaHCLyBtvbyIHv0f5p6boQTIJjlD6o2NPZiEaZWT2DA+j591zS29QQEMT4lBqwcLW3qRSf7ZvoKNbf05YrsStw==}
+  prosemirror-inputrules@1.4.0:
+    resolution: {integrity: sha512-6ygpPRuTJ2lcOXs9JkefieMst63wVJBgHZGl5QOytN7oSZs3Co/BYbc3Yx9zm9H37Bxw8kVzCnDsihsVsL4yEg==}
 
-  prosemirror-keymap@1.2.0:
-    resolution: {integrity: sha512-TdSfu+YyLDd54ufN/ZeD1VtBRYpgZnTPnnbY+4R08DDgs84KrIPEPbJL8t1Lm2dkljFx6xeBE26YWH3aIzkPKg==}
+  prosemirror-keymap@1.2.2:
+    resolution: {integrity: sha512-EAlXoksqC6Vbocqc0GtzCruZEzYgrn+iiGnNjsJsH4mrnIGex4qbLdWWNza3AW5W36ZRrlBID0eM6bdKH4OStQ==}
 
-  prosemirror-markdown@1.5.1:
-    resolution: {integrity: sha512-QvucPHx+gKOQW1SETKUysrful9VBjKqpCFmPotgLfVZ3BdQEGy/NEIFhaXXo3TcuW316MMnKfA90K7GE5I7z8A==}
+  prosemirror-markdown@1.13.0:
+    resolution: {integrity: sha512-UziddX3ZYSYibgx8042hfGKmukq5Aljp2qoBiJRejD/8MH70siQNz5RB1TrdTPheqLMy4aCe4GYNF10/3lQS5g==}
 
-  prosemirror-menu@1.1.4:
-    resolution: {integrity: sha512-2ROsji/X9ciDnVSRvSTqFygI34GEdHfQSsK4zBKjPxSEroeiHHcdRMS1ofNIf2zM0Vpp5/YqfpxynElymQkqzg==}
+  prosemirror-menu@1.2.4:
+    resolution: {integrity: sha512-S/bXlc0ODQup6aiBbWVsX/eM+xJgCTAfMq/nLqaO5ID/am4wS0tTCIkzwytmao7ypEtjj39i7YbJjAgO20mIqA==}
 
-  prosemirror-model@1.18.3:
-    resolution: {integrity: sha512-yUVejauEY3F1r7PDy4UJKEGeIU+KFc71JQl5sNvG66CLVdKXRjhWpBW6KMeduGsmGOsw85f6EGrs6QxIKOVILA==}
+  prosemirror-model@1.22.3:
+    resolution: {integrity: sha512-V4XCysitErI+i0rKFILGt/xClnFJaohe/wrrlT2NSZ+zk8ggQfDH4x2wNK7Gm0Hp4CIoWizvXFP7L9KMaCuI0Q==}
 
-  prosemirror-schema-list@1.1.4:
-    resolution: {integrity: sha512-pNTuZflacFOBlxrTcWSdWhjoB8BaucwfJVp/gJNxztOwaN3wQiC65axclXyplf6TKgXD/EkWfS/QAov3/Znadw==}
+  prosemirror-schema-list@1.4.1:
+    resolution: {integrity: sha512-jbDyaP/6AFfDfu70VzySsD75Om2t3sXTOdl5+31Wlxlg62td1haUpty/ybajSfJ1pkGadlOfwQq9kgW5IMo1Rg==}
 
-  prosemirror-state@1.4.2:
-    resolution: {integrity: sha512-puuzLD2mz/oTdfgd8msFbe0A42j5eNudKAAPDB0+QJRw8cO1ygjLmhLrg9RvDpf87Dkd6D4t93qdef00KKNacQ==}
+  prosemirror-state@1.4.3:
+    resolution: {integrity: sha512-goFKORVbvPuAQaXhpbemJFRKJ2aixr+AZMGiquiqKxaucC6hlpHNZHWgz5R7dS4roHiwq9vDctE//CZ++o0W1Q==}
 
-  prosemirror-tables@1.3.0:
-    resolution: {integrity: sha512-ujzOb37O2ahmqI626Y0N0V/SZxuA9OGNYnsIMWdfecwkc8S8OShOqeD4kKUxpD0JcP81Z8qy/ulrXQuKhS4WUg==}
+  prosemirror-tables@1.5.0:
+    resolution: {integrity: sha512-VMx4zlYWm7aBlZ5xtfJHpqa3Xgu3b7srV54fXYnXgsAcIGRqKSrhiK3f89omzzgaAgAtDOV4ImXnLKhVfheVNQ==}
+
+  prosemirror-transform@1.10.0:
+    resolution: {integrity: sha512-9UOgFSgN6Gj2ekQH5CTDJ8Rp/fnKR2IkYfGdzzp5zQMFsS4zDllLVx/+jGcX86YlACpG7UR5fwAXiWzxqWtBTg==}
 
   prosemirror-transform@1.7.0:
     resolution: {integrity: sha512-O4T697Cqilw06Zvc3Wm+e237R6eZtJL/xGMliCi+Uo8VL6qHk6afz1qq0zNjT3eZMuYwnP8ZS0+YxX/tfcE9TQ==}
 
-  prosemirror-utils@0.9.6:
-    resolution: {integrity: sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==}
+  prosemirror-utils@1.2.2:
+    resolution: {integrity: sha512-7a2MPf99oCW8/587rQYI1/snX71Ban40+apr1hLkY8TmU9YXd7JeR6QsmktcTisJURO3WRjxIia4lTMsYgZVOw==}
     peerDependencies:
-      prosemirror-model: ^1.0.0
-      prosemirror-state: ^1.0.1
-      prosemirror-tables: ^0.9.1
+      prosemirror-model: ^1.19.2
+      prosemirror-state: ^1.4.3
 
-  prosemirror-view@1.29.1:
-    resolution: {integrity: sha512-OhujVZSDsh0l0PyHNdfaBj6DBkbhYaCfbaxmTeFrMKd/eWS+G6IC+OAbmR9IsLC8Se1HSbphMaXnsXjupHL3UQ==}
+  prosemirror-view@1.34.1:
+    resolution: {integrity: sha512-KS2xmqrAM09h3SLu1S2pNO/ZoIP38qkTJ6KFd7+BeSfmX/ek0n5yOfGuiTZjFNTC8GOsEIUa1tHxt+2FMu3yWQ==}
 
   proto-list@1.2.4:
     resolution: {integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==}
@@ -6115,6 +6117,10 @@ packages:
 
   pumpify@1.5.1:
     resolution: {integrity: sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==}
+
+  punycode.js@2.3.1:
+    resolution: {integrity: sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==}
+    engines: {node: '>=6'}
 
   punycode@1.3.2:
     resolution: {integrity: sha512-RofWgt/7fL5wP1Y7fxE7/EmTLzQVnB0ycyibJ0OOHIlJqTNzglYFxVwETOcIoJqJmpDXJ9xImDv+Fq34F/d4Dw==}
@@ -6962,6 +6968,9 @@ packages:
 
   uc.micro@1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
+
+  uc.micro@2.1.0:
+    resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -8463,23 +8472,23 @@ snapshots:
       hotkeys-js: 3.8.7
       lit: 2.2.6
 
-  '@chatwoot/prosemirror-schema@1.0.11':
+  '@chatwoot/prosemirror-schema@1.1.0-next':
     dependencies:
-      markdown-it-sup: 1.0.0
-      prosemirror-commands: 1.1.5
-      prosemirror-dropcursor: 1.3.2
-      prosemirror-gapcursor: 1.1.5
-      prosemirror-history: 1.1.3
-      prosemirror-inputrules: 1.1.3
-      prosemirror-keymap: 1.2.0
-      prosemirror-markdown: 1.5.1
-      prosemirror-menu: 1.1.4
-      prosemirror-model: 1.18.3
-      prosemirror-schema-list: 1.1.4
-      prosemirror-state: 1.4.2
-      prosemirror-tables: 1.3.0
-      prosemirror-utils: 0.9.6(prosemirror-model@1.18.3)(prosemirror-state@1.4.2)(prosemirror-tables@1.3.0)
-      prosemirror-view: 1.29.1
+      markdown-it-sup: 2.0.0
+      prosemirror-commands: 1.6.0
+      prosemirror-dropcursor: 1.8.1
+      prosemirror-gapcursor: 1.3.2
+      prosemirror-history: 1.4.1
+      prosemirror-inputrules: 1.4.0
+      prosemirror-keymap: 1.2.2
+      prosemirror-markdown: 1.13.0
+      prosemirror-menu: 1.2.4
+      prosemirror-model: 1.22.3
+      prosemirror-schema-list: 1.4.1
+      prosemirror-state: 1.4.3
+      prosemirror-tables: 1.5.0
+      prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
+      prosemirror-view: 1.34.1
 
   '@chatwoot/utils@0.0.25':
     dependencies:
@@ -11398,8 +11407,6 @@ snapshots:
       memory-fs: 0.5.0
       tapable: 1.1.3
 
-  entities@2.0.3: {}
-
   entities@2.2.0: {}
 
   entities@3.0.1: {}
@@ -12801,13 +12808,13 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  linkify-it@2.2.0:
-    dependencies:
-      uc.micro: 1.0.6
-
   linkify-it@4.0.1:
     dependencies:
       uc.micro: 1.0.6
+
+  linkify-it@5.0.0:
+    dependencies:
+      uc.micro: 2.1.0
 
   lint-staged@14.0.1:
     dependencies:
@@ -12958,15 +12965,7 @@ snapshots:
 
   markdown-it-link-attributes@4.0.1: {}
 
-  markdown-it-sup@1.0.0: {}
-
-  markdown-it@10.0.0:
-    dependencies:
-      argparse: 1.0.10
-      entities: 2.0.3
-      linkify-it: 2.2.0
-      mdurl: 1.0.1
-      uc.micro: 1.0.6
+  markdown-it-sup@2.0.0: {}
 
   markdown-it@13.0.2:
     dependencies:
@@ -12975,6 +12974,15 @@ snapshots:
       linkify-it: 4.0.1
       mdurl: 1.0.1
       uc.micro: 1.0.6
+
+  markdown-it@14.1.0:
+    dependencies:
+      argparse: 2.0.1
+      entities: 4.5.0
+      linkify-it: 5.0.0
+      mdurl: 2.0.0
+      punycode.js: 2.3.1
+      uc.micro: 2.1.0
 
   md5.js@1.3.5:
     dependencies:
@@ -12993,6 +13001,8 @@ snapshots:
   mdn-data@2.0.4: {}
 
   mdurl@1.0.1: {}
+
+  mdurl@2.0.0: {}
 
   media-typer@0.3.0: {}
 
@@ -14268,90 +14278,95 @@ snapshots:
     optionalDependencies:
       bluebird: 3.7.2
 
-  prosemirror-commands@1.1.5:
+  prosemirror-commands@1.6.0:
     dependencies:
-      prosemirror-model: 1.18.3
-      prosemirror-state: 1.4.2
+      prosemirror-model: 1.22.3
+      prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.0
 
-  prosemirror-dropcursor@1.3.2:
+  prosemirror-dropcursor@1.8.1:
     dependencies:
-      prosemirror-state: 1.4.2
+      prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.0
-      prosemirror-view: 1.29.1
+      prosemirror-view: 1.34.1
 
-  prosemirror-gapcursor@1.1.5:
+  prosemirror-gapcursor@1.3.2:
     dependencies:
-      prosemirror-keymap: 1.2.0
-      prosemirror-model: 1.18.3
-      prosemirror-state: 1.4.2
-      prosemirror-view: 1.29.1
+      prosemirror-keymap: 1.2.2
+      prosemirror-model: 1.22.3
+      prosemirror-state: 1.4.3
+      prosemirror-view: 1.34.1
 
-  prosemirror-history@1.1.3:
+  prosemirror-history@1.4.1:
     dependencies:
-      prosemirror-state: 1.4.2
+      prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.0
+      prosemirror-view: 1.34.1
       rope-sequence: 1.3.2
 
-  prosemirror-inputrules@1.1.3:
+  prosemirror-inputrules@1.4.0:
     dependencies:
-      prosemirror-state: 1.4.2
+      prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.0
 
-  prosemirror-keymap@1.2.0:
+  prosemirror-keymap@1.2.2:
     dependencies:
-      prosemirror-state: 1.4.2
+      prosemirror-state: 1.4.3
       w3c-keyname: 2.2.4
 
-  prosemirror-markdown@1.5.1:
+  prosemirror-markdown@1.13.0:
     dependencies:
-      markdown-it: 10.0.0
-      prosemirror-model: 1.18.3
+      markdown-it: 14.1.0
+      prosemirror-model: 1.22.3
 
-  prosemirror-menu@1.1.4:
+  prosemirror-menu@1.2.4:
     dependencies:
       crelt: 1.0.5
-      prosemirror-commands: 1.1.5
-      prosemirror-history: 1.1.3
-      prosemirror-state: 1.4.2
+      prosemirror-commands: 1.6.0
+      prosemirror-history: 1.4.1
+      prosemirror-state: 1.4.3
 
-  prosemirror-model@1.18.3:
+  prosemirror-model@1.22.3:
     dependencies:
       orderedmap: 2.1.0
 
-  prosemirror-schema-list@1.1.4:
+  prosemirror-schema-list@1.4.1:
     dependencies:
-      prosemirror-model: 1.18.3
-      prosemirror-transform: 1.7.0
+      prosemirror-model: 1.22.3
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.10.0
 
-  prosemirror-state@1.4.2:
+  prosemirror-state@1.4.3:
     dependencies:
-      prosemirror-model: 1.18.3
+      prosemirror-model: 1.22.3
       prosemirror-transform: 1.7.0
-      prosemirror-view: 1.29.1
+      prosemirror-view: 1.34.1
 
-  prosemirror-tables@1.3.0:
+  prosemirror-tables@1.5.0:
     dependencies:
-      prosemirror-keymap: 1.2.0
-      prosemirror-model: 1.18.3
-      prosemirror-state: 1.4.2
+      prosemirror-keymap: 1.2.2
+      prosemirror-model: 1.22.3
+      prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.0
-      prosemirror-view: 1.29.1
+      prosemirror-view: 1.34.1
+
+  prosemirror-transform@1.10.0:
+    dependencies:
+      prosemirror-model: 1.22.3
 
   prosemirror-transform@1.7.0:
     dependencies:
-      prosemirror-model: 1.18.3
+      prosemirror-model: 1.22.3
 
-  prosemirror-utils@0.9.6(prosemirror-model@1.18.3)(prosemirror-state@1.4.2)(prosemirror-tables@1.3.0):
+  prosemirror-utils@1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3):
     dependencies:
-      prosemirror-model: 1.18.3
-      prosemirror-state: 1.4.2
-      prosemirror-tables: 1.3.0
+      prosemirror-model: 1.22.3
+      prosemirror-state: 1.4.3
 
-  prosemirror-view@1.29.1:
+  prosemirror-view@1.34.1:
     dependencies:
-      prosemirror-model: 1.18.3
-      prosemirror-state: 1.4.2
+      prosemirror-model: 1.22.3
+      prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.0
 
   proto-list@1.2.4: {}
@@ -14391,6 +14406,8 @@ snapshots:
       duplexify: 3.7.1
       inherits: 2.0.4
       pump: 2.0.1
+
+  punycode.js@2.3.1: {}
 
   punycode@1.3.2: {}
 
@@ -15354,6 +15371,8 @@ snapshots:
     optional: true
 
   uc.micro@1.0.6: {}
+
+  uc.micro@2.1.0: {}
 
   unbox-primitive@1.0.2:
     dependencies:
