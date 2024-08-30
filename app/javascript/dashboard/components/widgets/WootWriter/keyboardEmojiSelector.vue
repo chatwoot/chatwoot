@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { shallowRef, computed, onMounted } from 'vue';
 import emojis from 'shared/components/emoji/emojisGroup.json';
 import { picoSearch } from '@scmmishra/pico-search';
 import MentionBox from '../mentions/MentionBox.vue';
@@ -13,15 +13,21 @@ const props = defineProps({
 
 const emit = defineEmits(['click']);
 
-const allEmojis = ref([]);
+const allEmojis = shallowRef([]);
 
 const items = computed(() => {
+  if (!props.searchKey) return [];
   const searchTerm = props.searchKey.toLowerCase();
-  return picoSearch(allEmojis.value, searchTerm, ['slug', 'name']);
+  return picoSearch(allEmojis.value, searchTerm, ['searchString']);
 });
 
 function loadEmojis() {
-  allEmojis.value = emojis.flatMap(group => group.emojis);
+  allEmojis.value = emojis.flatMap(group =>
+    group.emojis.map(emoji => ({
+      ...emoji,
+      searchString: `${emoji.slug} ${emoji.name}`.toLowerCase(),
+    }))
+  );
 }
 
 function handleMentionClick(item = {}) {
