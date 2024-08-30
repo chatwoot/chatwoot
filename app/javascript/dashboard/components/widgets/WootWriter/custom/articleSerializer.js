@@ -16,6 +16,7 @@ import {
   superscript,
   strike,
   strong,
+  link,
   code,
 } from '@chatwoot/prosemirror-schema/src/schema/markdown/serializer';
 
@@ -38,6 +39,7 @@ const ArticleMarkdownSerializer = new MarkdownSerializerBase(
     superscript,
     strike,
     strong,
+    link,
     code,
   }
 );
