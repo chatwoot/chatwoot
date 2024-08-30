@@ -268,3 +268,6 @@ en:
      inbox_name: Inbox
      inbox_type: Inbox Type
     button: Open conversation
+  chatbots:
+    reply_on_no_relevant_result: Sorry, but I don't have a relevant answer. Someone from our team will join the conversation shortly to assist you.
+
