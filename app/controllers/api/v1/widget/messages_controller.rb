@@ -10,13 +10,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message = conversation.messages.new(message_params)
     build_attachment
     @message.save!
-    begin
-      microservice_url = ENV.fetch('MICROSERVICE_URL', nil)
-      response = HTTP.get(microservice_url)
-      ::ChatbotJob.perform_later(@message, params[:website_token], conversation) if response.status.success?
-    rescue HTTP::ConnectionError
-      Rails.logger.warn("Connection refused to #{microservice_url}")
-    end
+    ::ChatbotJob.perform_later(@message, params[:website_token], conversation)
   end
 
   def update
