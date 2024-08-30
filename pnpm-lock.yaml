@@ -155,9 +155,6 @@ importers:
       turbolinks:
         specifier: ^5.2.0
         version: 5.2.0
-      url-loader:
-        specifier: ^2.0.0
-        version: 2.3.0(file-loader@6.2.0(webpack@4.46.0(webpack-cli@3.3.12)))(webpack@4.46.0(webpack-cli@3.3.12))
       urlpattern-polyfill:
         specifier: ^10.0.0
         version: 10.0.0
@@ -7077,16 +7074,6 @@ packages:
   urix@0.1.0:
     resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
     deprecated: Please see https://github.com/lydell/urix#deprecated
-
-  url-loader@2.3.0:
-    resolution: {integrity: sha512-goSdg8VY+7nPZKUEChZSEtW5gjbS66USIGCeSJ1OVOJ7Yfuh/36YxCwMi5HVEJh6mqUYOoy3NJ0vlOMrWsSHog==}
-    engines: {node: '>= 8.9.0'}
-    peerDependencies:
-      file-loader: '*'
-      webpack: ^4.0.0
-    peerDependenciesMeta:
-      file-loader:
-        optional: true
 
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
@@ -15493,15 +15480,6 @@ snapshots:
       punycode: 2.3.1
 
   urix@0.1.0: {}
-
-  url-loader@2.3.0(file-loader@6.2.0(webpack@4.46.0(webpack-cli@3.3.12)))(webpack@4.46.0(webpack-cli@3.3.12)):
-    dependencies:
-      loader-utils: 1.4.2
-      mime: 2.5.2
-      schema-utils: 2.7.1
-      webpack: 4.46.0(webpack-cli@3.3.12)
-    optionalDependencies:
-      file-loader: 6.2.0(webpack@4.46.0(webpack-cli@3.3.12))
 
   url-parse@1.5.10:
     dependencies:
