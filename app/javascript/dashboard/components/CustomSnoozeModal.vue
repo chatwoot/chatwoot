@@ -45,7 +45,7 @@ export default {
     <woot-modal-header :header-title="$t('CONVERSATION.CUSTOM_SNOOZE.TITLE')" />
     <form class="modal-content" @submit.prevent="chooseTime">
       <DatePicker
-        v-model="snoozeTime"
+        v-model:value="snoozeTime"
         type="datetime"
         inline
         :lang="lang"
