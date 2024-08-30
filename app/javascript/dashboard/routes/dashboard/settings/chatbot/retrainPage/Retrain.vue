@@ -68,17 +68,12 @@ export default {
       this.currentUploadType = type;
     },
     async retrainChatbot() {
-      let urls = this.urls;
-      if (this.inbox.help_center) {
-        const portalUrl = `${window.chatwootConfig.hostURL}/hc/${this.inbox.help_center.slug}`;
-        urls = `${urls}, ${portalUrl}`;
-      }
       const payload = {
         accountId: this.accountId,
         chatbotId: this.currentChatbotId,
         files: this.files,
         text: this.text,
-        urls: urls,
+        urls: this.urls,
       };
       await this.$store.dispatch('chatbots/retrain', payload);
       this.$router.push({ name: 'chatbots_index' });
