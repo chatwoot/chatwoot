@@ -127,7 +127,6 @@
     "lint-staged": "14.0.1",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.0.3",
-    "rimraf": "^6.0.1",
     "size-limit": "^8.2.4",
     "vite": "^5.0.0",
     "vite-plugin-ruby": "^5.0.0",
