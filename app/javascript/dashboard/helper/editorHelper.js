@@ -285,6 +285,14 @@ export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
 }
 
 /**
+ * Content Node Creation Helper Functions for
+ * - mention
+ * - canned response
+ * - variable
+ * - emoji
+ */
+
+/**
  * Creates a mention node for the editor state
  * @param {Object} editorView - The editor view instance
  * @param {Object} content - The content object containing user id and name
