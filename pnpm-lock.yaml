@@ -77,9 +77,6 @@ importers:
       activestorage:
         specifier: ^5.2.6
         version: 5.2.8
-      autoprefixer:
-        specifier: ^10.4.14
-        version: 10.4.19(postcss@8.4.41)
       axios:
         specifier: ^1.6.0
         version: 1.6.0
@@ -137,18 +134,9 @@ importers:
       opus-recorder:
         specifier: ^8.0.5
         version: 8.0.5
-      postcss:
-        specifier: ^8.4.31
-        version: 8.4.41
-      postcss-loader:
-        specifier: ^4.2.0
-        version: 4.3.0(postcss@8.4.41)(webpack@4.46.0(webpack-cli@3.3.12))
       semver:
         specifier: 7.5.3
         version: 7.5.3
-      tailwindcss:
-        specifier: ^3.3.2
-        version: 3.3.3
       tinykeys:
         specifier: ^2.1.0
         version: 2.1.0
@@ -237,6 +225,9 @@ importers:
       '@vue/test-utils':
         specifier: ^2.4.6
         version: 2.4.6
+      autoprefixer:
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.41)
       babel-core:
         specifier: ^7.0.0-bridge.0
         version: 7.0.0-bridge.0(@babel/core@7.25.2)
@@ -291,6 +282,9 @@ importers:
       lint-staged:
         specifier: 14.0.1
         version: 14.0.1
+      postcss:
+        specifier: ^8.4.41
+        version: 8.4.41
       postcss-preset-env:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.4.41)
@@ -300,6 +294,9 @@ importers:
       size-limit:
         specifier: ^8.2.4
         version: 8.2.6
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3
       vite:
         specifier: ^5.0.0
         version: 5.2.11(@types/node@22.5.1)(sass@1.62.1)(terser@5.31.6)
@@ -3123,10 +3120,6 @@ packages:
     resolution: {integrity: sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==}
     engines: {node: '>=8'}
 
-  cosmiconfig@7.0.0:
-    resolution: {integrity: sha512-pondGvTuVYDk++upghXJabWzL6Kxu6f26ljFw64Swq9v6sQPUL3EUlVDV56diOjpCayKihL6hVe8exIACU4XcA==}
-    engines: {node: '>=10'}
-
   create-ecdh@4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
 
@@ -5785,13 +5778,6 @@ packages:
   postcss-loader@3.0.0:
     resolution: {integrity: sha512-cLWoDEY5OwHcAjDnkyRQzAXfs2jrKjXpO/HQFcc5b5u/r7aa471wdmChmwfnv7x2u840iat/wi0lQ5nbRgSkUA==}
     engines: {node: '>= 6'}
-
-  postcss-loader@4.3.0:
-    resolution: {integrity: sha512-M/dSoIiNDOo8Rk0mUqoj4kpGq91gcxCfb9PoyZVdZ76/AuhxylHDYZblNE8o+EQ9AMSASeMFEKxZf5aU6wlx1Q==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      postcss: ^7.0.0 || ^8.0.1
-      webpack: ^4.0.0 || ^5.0.0
 
   postcss-logical@3.0.0:
     resolution: {integrity: sha512-1SUKdJc2vuMOmeItqGuNaC+N8MzBWFWEkAnRnLpFYj1tGGa7NqyVBujfRtgNa2gXR+6RkGUiB2O5Vmh7E2RmiA==}
@@ -10955,14 +10941,6 @@ snapshots:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  cosmiconfig@7.0.0:
-    dependencies:
-      '@types/parse-json': 4.0.0
-      import-fresh: 3.3.0
-      parse-json: 5.2.0
-      path-type: 4.0.0
-      yaml: 1.10.2
-
   create-ecdh@4.0.4:
     dependencies:
       bn.js: 4.12.0
@@ -13896,16 +13874,6 @@ snapshots:
       postcss: 7.0.39
       postcss-load-config: 2.1.2
       schema-utils: 1.0.0
-
-  postcss-loader@4.3.0(postcss@8.4.41)(webpack@4.46.0(webpack-cli@3.3.12)):
-    dependencies:
-      cosmiconfig: 7.0.0
-      klona: 2.0.4
-      loader-utils: 2.0.0
-      postcss: 8.4.41
-      schema-utils: 3.0.0
-      semver: 7.6.3
-      webpack: 4.46.0(webpack-cli@3.3.12)
 
   postcss-logical@3.0.0:
     dependencies:
