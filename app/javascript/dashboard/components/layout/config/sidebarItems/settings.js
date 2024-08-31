@@ -37,6 +37,7 @@ const settings = accountId => ({
     'settings_teams_add_agents',
     'settings_teams_edit_finish',
     'settings_teams_edit_members',
+    'settings_teams_choose_leader',
     'settings_teams_edit',
     'settings_teams_finish',
     'settings_teams_list',

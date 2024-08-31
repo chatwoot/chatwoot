@@ -1,5 +1,5 @@
 class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
-  before_action :fetch_team, only: [:show, :update, :destroy]
+  before_action :fetch_team, except: [:index, :create]
   before_action :check_authorization
 
   def index
@@ -19,6 +19,20 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
 
   def destroy
     @team.destroy!
+    head :ok
+  end
+
+  def leader
+    leader = @team.team_members.find_by(leader: true)
+    render json: { user_id: leader&.user_id }
+  end
+
+  def update_leader
+    old_leader = @team.team_members.find_by(leader: true)
+    old_leader.update(leader: false)
+
+    team_member = @team.team_members.find_by(user_id: params[:user_id])
+    team_member.update(leader: true)
     head :ok
   end
 

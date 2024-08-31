@@ -7,6 +7,7 @@ const CreateTeam = () => import('./Create/CreateTeam.vue');
 const EditTeam = () => import('./Edit/EditTeam.vue');
 const AddAgents = () => import('./Create/AddAgents.vue');
 const EditAgents = () => import('./Edit/EditAgents.vue');
+const LeaderSelector = () => import('./LeaderSelector.vue');
 const FinishSetup = () => import('./FinishSetup.vue');
 const SettingsContent = () => import('../Wrapper.vue');
 const TeamsHome = () => import('./Index.vue');
@@ -76,6 +77,12 @@ export default {
               path: 'agents',
               name: 'settings_teams_edit_members',
               component: EditAgents,
+              roles: ['administrator'],
+            },
+            {
+              path: 'leader',
+              name: 'settings_teams_choose_leader',
+              component: LeaderSelector,
               roles: ['administrator'],
             },
             {
