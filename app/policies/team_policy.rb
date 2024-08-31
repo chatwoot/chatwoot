@@ -18,4 +18,12 @@ class TeamPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def leader?
+    @account_user.administrator?
+  end
+
+  def update_leader?
+    @account_user.administrator?
+  end
 end

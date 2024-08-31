@@ -37,6 +37,16 @@ export class TeamsAPI extends CacheEnabledApiClient {
       user_ids: agentsList,
     });
   }
+
+  getLeader(teamId) {
+    return axios.get(`${this.url}/${teamId}/leader`);
+  }
+
+  updateLeader(teamId, userId) {
+    return axios.patch(`${this.url}/${teamId}/update_leader`, {
+      user_id: userId,
+    });
+  }
 }
 
 export default new TeamsAPI();

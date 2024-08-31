@@ -216,6 +216,10 @@ Rails.application.routes.draw do
           resource :notification_settings, only: [:show, :update]
 
           resources :teams do
+            member do
+              get :leader
+              patch :update_leader
+            end
             resources :team_members, only: [:index, :create] do
               collection do
                 delete :destroy
