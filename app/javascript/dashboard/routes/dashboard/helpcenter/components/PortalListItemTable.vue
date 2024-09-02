@@ -1,5 +1,5 @@
 <script>
-import { usePortal } from '../composables/usePortal';
+import { usePortal } from 'dashboard/composables/usePortal';
 export default {
   props: {
     locales: {

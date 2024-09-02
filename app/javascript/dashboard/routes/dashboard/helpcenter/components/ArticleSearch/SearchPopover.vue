@@ -7,7 +7,7 @@ import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
-import { usePortal } from '../../composables/usePortal';
+import { usePortal } from 'dashboard/composables/usePortal';
 
 export default {
   name: 'ArticleSearchPopover',

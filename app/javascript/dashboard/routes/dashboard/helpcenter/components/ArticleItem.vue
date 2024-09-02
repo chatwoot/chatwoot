@@ -1,6 +1,6 @@
 <script>
 import { dynamicTime } from 'shared/helpers/timeHelper';
-import { usePortal } from '../composables/usePortal';
+import { usePortal } from 'dashboard/composables/usePortal';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useAccount } from 'dashboard/composables/useAccount';

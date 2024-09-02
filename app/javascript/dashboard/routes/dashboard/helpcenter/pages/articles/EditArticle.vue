@@ -5,7 +5,7 @@ import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import ArticleSettings from './ArticleSettings.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import { usePortal } from '../../composables/usePortal';
+import { usePortal } from 'dashboard/composables/usePortal';
 import wootConstants from 'dashboard/constants/globals';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';

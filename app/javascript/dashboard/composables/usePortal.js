@@ -19,8 +19,9 @@ import { computed } from 'vue';
  */
 export const usePortal = () => {
   const { accountId } = useAccount();
-  const portalSlug = computed(() => useRoute().params.portalSlug);
-  const locale = computed(() => useRoute().params.locale);
+  const route = useRoute();
+  const portalSlug = computed(() => route.params.portalSlug);
+  const locale = computed(() => route.params.locale);
 
   /**
    * Generates the URL for an article.

@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
-import { usePortal } from '../../composables/usePortal';
+import { usePortal } from 'dashboard/composables/usePortal';
 import ArticleSettings from './ArticleSettings.vue';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
