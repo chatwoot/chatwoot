@@ -188,8 +188,7 @@ export default {
 }
 
 .with-sidebar > :first-child {
-  flex-basis: 16;
-  flex-grow: 1;
+  flex-basis: 16rem;
 }
 
 .with-sidebar > :last-child {

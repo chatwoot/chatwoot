@@ -24,9 +24,13 @@ defineProps({
           :style="{
             width: `${header.getSize()}px`,
           }"
+          class="text-left py-3 first:pl-2 bg-slate-25 border-y border-slate-50 font-bold tracking-wider text-xs uppercase"
           @click="header.column.getToggleSortingHandler()?.($event)"
         >
-          <template v-if="!header.isPlaceholder">
+          <div
+            v-if="!header.isPlaceholder"
+            class="flex place-items-center gap-1"
+          >
             <FlexRender
               :render="header.column.columnDef.header"
               :props="header.getContext()"
@@ -37,13 +41,17 @@ defineProps({
                 v-if="header.column.getCanResize()"
                 :header="header"
               /> -->
-          </template>
+          </div>
         </th>
       </tr>
     </thead>
 
-    <tbody>
-      <tr v-for="row in table.getRowModel().rows" :key="row.id">
+    <tbody class="divide-y divide-slate-25">
+      <tr
+        v-for="row in table.getRowModel().rows"
+        :key="row.id"
+        class="hover:bg-slate-25"
+      >
         <td v-for="cell in row.getVisibleCells()" :key="cell.id" class="py-1">
           <FlexRender
             :render="cell.column.columnDef.cell"

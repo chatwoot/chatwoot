@@ -14,7 +14,5 @@ const sortIconMap = {
 </script>
 
 <template>
-  <button class="sort-btn">
-    <span :class="sortIconMap[header.column.getIsSorted() || 'default']" />
-  </button>
+  <span :class="sortIconMap[header.column.getIsSorted() || 'default']" />
 </template>
