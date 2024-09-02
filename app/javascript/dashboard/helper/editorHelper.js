@@ -3,7 +3,7 @@ import {
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.

@@ -13,7 +13,7 @@ import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 
 export default {
   components: {

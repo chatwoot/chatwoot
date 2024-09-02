@@ -21,7 +21,7 @@ import commonHelpers from 'dashboard/helper/commons';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
-// import * as Sentry from '@sentry/vue';
+import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 // import { Integrations } from '@sentry/tracing';
 import {
@@ -51,29 +51,29 @@ app.use(router);
 window.WOOT_STORE = store;
 
 // [VITE] Disabled this, need to renable later
-// if (window.errorLoggingConfig) {
-//   Sentry.init({
-//     Vue,
-//     dsn: window.errorLoggingConfig,
-//     denyUrls: [
-//       // Chrome extensions
-//       /^chrome:\/\//i,
-//       /chrome-extension:/i,
-//       /extensions\//i,
+if (window.errorLoggingConfig) {
+  Sentry.init({
+    app,
+    dsn: window.errorLoggingConfig,
+    denyUrls: [
+      // Chrome extensions
+      /^chrome:\/\//i,
+      /chrome-extension:/i,
+      /extensions\//i,
 
-//       // Locally saved copies
-//       /file:\/\//i,
+      // Locally saved copies
+      /file:\/\//i,
 
-//       // Safari extensions.
-//       /safari-web-extension:/i,
-//       /safari-extension:/i,
-//     ],
-//     integrations: [new Integrations.BrowserTracing()],
-//     ignoreErrors: [
-//       'ResizeObserver loop completed with undelivered notifications',
-//     ],
-//   });
-// }
+      // Safari extensions.
+      /safari-web-extension:/i,
+      /safari-extension:/i,
+    ],
+    integrations: [Sentry.browserTracingIntegration({ router })],
+    ignoreErrors: [
+      'ResizeObserver loop completed with undelivered notifications',
+    ],
+  });
+}
 
 app.use(VueDOMPurifyHTML, domPurifyConfig);
 app.use(WootUiKit);

@@ -4,7 +4,7 @@ import InboxReconnectionRequired from '../components/InboxReconnectionRequired.v
 import { useAlert } from 'dashboard/composables';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 
 export default {
   components: {

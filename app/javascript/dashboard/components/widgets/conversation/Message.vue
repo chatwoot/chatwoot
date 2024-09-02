@@ -21,7 +21,7 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
 
