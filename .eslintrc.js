@@ -1,11 +1,6 @@
 module.exports = {
   extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/recommended'],
-  parserOptions: {
-    parser: '@babel/eslint-parser',
-    ecmaVersion: 2020,
-    sourceType: 'module',
-  },
-  plugins: ['html', 'prettier', 'babel'],
+  plugins: ['html', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
     camelcase: 'off',
