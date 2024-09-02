@@ -11,7 +11,7 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin],
+  mixins: [configMixin],
   props: {
     message: {
       type: String,
@@ -31,8 +31,16 @@ export default {
     },
   },
   setup() {
+    const { formatMessage, getPlainText, truncateMessage, highlightContent } =
+      useMessageFormatter();
     const { $dm } = useDarkMode();
-    return { $dm };
+    return {
+      formatMessage,
+      getPlainText,
+      truncateMessage,
+      highlightContent,
+      $dm,
+    };
   },
   computed: {
     companyName() {

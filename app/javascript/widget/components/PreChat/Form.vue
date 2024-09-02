@@ -15,7 +15,7 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, messageFormatterMixin, configMixin],
+  mixins: [routerMixin, configMixin],
   props: {
     options: {
       type: Object,
@@ -23,8 +23,9 @@ export default {
     },
   },
   setup() {
+    const { formatMessage } = useMessageFormatter();
     const { $dm } = useDarkMode();
-    return { $dm };
+    return { formatMessage, $dm };
   },
   data() {
     return {

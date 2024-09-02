@@ -20,7 +20,6 @@ export default {
     CustomerSatisfaction,
     IntegrationCard,
   },
-  mixins: [messageFormatterMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
@@ -32,8 +31,16 @@ export default {
     },
   },
   setup() {
+    const { formatMessage, getPlainText, truncateMessage, highlightContent } =
+      useMessageFormatter();
     const { $dm } = useDarkMode();
-    return { $dm };
+    return {
+      formatMessage,
+      getPlainText,
+      truncateMessage,
+      highlightContent,
+      $dm,
+    };
   },
   computed: {
     isTemplate() {
