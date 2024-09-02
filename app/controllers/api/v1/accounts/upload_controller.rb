@@ -21,6 +21,7 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
 
   def create_from_url
     uri = parse_and_validate_uri(params[:external_url])
+    # Checks if a response has already been sent back to the client.
     return if performed?
 
     fetch_and_process_file_from_uri(uri)
