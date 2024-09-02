@@ -36,11 +36,6 @@ defineProps({
               :props="header.getContext()"
             />
             <SortButton v-if="header.column.getCanSort()" :header="header" />
-            <!--
-              <ResizeHandle
-                v-if="header.column.getCanResize()"
-                :header="header"
-              /> -->
           </div>
         </th>
       </tr>
