@@ -1,264 +1,202 @@
-<script>
-import { mapGetters } from 'vuex';
-import { VeTable } from 'vue-easytable';
-import { getCountryFlag } from 'dashboard/helper/flag';
+<script setup>
+import { computed, h } from 'vue';
+// import { ref, computed, defineEmits } from 'vue';
+// import { useMapGetter } from 'dashboard/composables/store';
+// import { mapGetters } from 'vuex';
+// import { VeTable } from 'vue-easytable';
+
+import {
+  useVueTable,
+  createColumnHelper,
+  getCoreRowModel,
+  getSortedRowModel,
+  FlexRender,
+} from '@tanstack/vue-table';
 
 import Spinner from 'shared/components/Spinner.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import { dynamicTime } from 'shared/helpers/timeHelper';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-  components: {
-    EmptyState,
-    Spinner,
-    VeTable,
+// Cell components
+import NameCell from './ContactsTable/NameCell.vue';
+import EmailCell from './ContactsTable/EmailCell.vue';
+import TelCell from './ContactsTable/TelCell.vue';
+import CountryCell from './ContactsTable/CountryCell.vue';
+import ProfilesCell from './ContactsTable/ProfilesCell.vue';
+
+const props = defineProps({
+  contacts: {
+    type: Array,
+    default: () => [],
   },
-  props: {
-    contacts: {
-      type: Array,
-      default: () => [],
-    },
-    showSearchEmptyState: {
-      type: Boolean,
-      default: false,
-    },
-    onClickContact: {
-      type: Function,
-      default: () => {},
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    sortParam: {
-      type: String,
-      default: 'last_activity_at',
-    },
-    sortOrder: {
-      type: String,
-      default: 'desc',
-    },
+  showSearchEmptyState: {
+    type: Boolean,
+    default: false,
   },
-  data() {
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  // sortParam: {
+  //   type: String,
+  //   default: 'last_activity_at',
+  // },
+  // sortOrder: {
+  //   type: String,
+  //   default: 'desc',
+  // },
+});
+
+// const emit = defineEmits(['onSortChange']);
+
+const { t } = useI18n();
+
+// const sortConfig = computed(() => {
+//   return { [props.sortParam]: props.sortOrder };
+// });
+
+// const sortOption = ref({
+//   sortAlways: true,
+//   sortChange: params => emit('onSortChange', params),
+// });
+
+// const isRTL = useMapGetter('accounts/isRTL');
+
+const tableData = computed(() => {
+  if (props.isLoading) {
+    return [];
+  }
+
+  return props.contacts.map(item => {
+    // Note: The attributes used here is in snake case
+    // as it simplier the sort attribute calculation
+    const additional = item.additional_attributes || {};
+    const { last_activity_at: lastActivityAt } = item;
+    const { created_at: createdAt } = item;
     return {
-      sortConfig: {},
-      sortOption: {
-        sortAlways: true,
-        sortChange: params => this.$emit('onSortChange', params),
-      },
+      ...item,
+      company: additional.company_name || '---',
+      profiles: additional.social_profiles || {},
+      city: additional.city || '---',
+      country: additional.country,
+      countryCode: additional.country_code,
+      conversationsCount: item.conversations_count || '---',
+      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : '---',
+      created_at: createdAt ? dynamicTime(createdAt) : '---',
     };
-  },
-  computed: {
-    ...mapGetters({
-      isRTL: 'accounts/isRTL',
-    }),
-    tableData() {
-      if (this.isLoading) {
-        return [];
-      }
-      return this.contacts.map(item => {
-        // Note: The attributes used here is in snake case
-        // as it simplier the sort attribute calculation
-        const additional = item.additional_attributes || {};
-        const { last_activity_at: lastActivityAt } = item;
-        const { created_at: createdAt } = item;
-        return {
-          ...item,
-          phone_number: item.phone_number || '---',
-          company: additional.company_name || '---',
-          profiles: additional.social_profiles || {},
-          city: additional.city || '---',
-          country: additional.country,
-          countryCode: additional.country_code,
-          conversationsCount: item.conversations_count || '---',
-          last_activity_at: lastActivityAt
-            ? dynamicTime(lastActivityAt)
-            : '---',
-          created_at: createdAt ? dynamicTime(createdAt) : '---',
-        };
-      });
-    },
-    columns() {
-      return [
-        {
-          field: 'name',
-          key: 'name',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
-          fixed: 'left',
-          align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.name || '',
-          width: 300,
-          // renderBodyCell: ({ row }) => (
-          //   <woot-button
-          //     variant="clear"
-          //     onClick={() => this.onClickContact(row.id)}
-          //   >
-          //     <div class="row--user-block">
-          //       <Thumbnail
-          //         src={row.thumbnail}
-          //         size="32px"
-          //         username={row.name}
-          //         status={row.availability_status}
-          //       />
-          //       <div class="user-block">
-          //         <h6 class="overflow-hidden text-base whitespace-nowrap text-ellipsis">
-          //           <router-link
-          //             to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
-          //             class="user-name"
-          //           >
-          //             {row.name}
-          //           </router-link>
-          //         </h6>
-          //         <button class="button clear small link view-details--button">
-          //           {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-          //         </button>
-          //       </div>
-          //     </div>
-          //   </woot-button>
-          // ),
-        },
-        {
-          field: 'email',
-          key: 'email',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.email || '',
-          width: 240,
-          // renderBodyCell: ({ row }) => {
-          //   if (row.email)
-          //     return (
-          //       <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
-          //         <a
-          //           target="_blank"
-          //           rel="noopener noreferrer nofollow"
-          //           href={`mailto:${row.email}`}
-          //         >
-          //           {row.email}
-          //         </a>
-          //       </div>
-          //     );
-          //   return '---';
-          // },
-        },
-        {
-          field: 'phone_number',
-          key: 'phone_number',
-          sortBy: this.sortConfig.phone_number || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'company',
-          key: 'company',
-          sortBy: this.sortConfig.company_name || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'city',
-          key: 'city',
-          sortBy: this.sortConfig.city || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'country',
-          key: 'country',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.country || '',
-          // renderBodyCell: ({ row }) => {
-          //   if (row.country) {
-          //     return (
-          //       <div class="overflow-hidden whitespace-nowrap text-ellipsis">
-          //         {`${getCountryFlag(row.countryCode)} ${row.country}`}
-          //       </div>
-          //     );
-          //   }
-          //   return '---';
-          // },
-        },
-        {
-          field: 'profiles',
-          key: 'profiles',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: this.isRTL ? 'right' : 'left',
-          // renderBodyCell: ({ row }) => {
-          //   const { profiles } = row;
+  });
+});
 
-          //   const items = Object.keys(profiles);
+const columnHelper = createColumnHelper();
+const columns = [
+  columnHelper.accessor('name', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
+    cell: cellProps => h(NameCell, cellProps),
+    size: 250,
+  }),
+  columnHelper.accessor('email', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
+    cell: cellProps => h(EmailCell, { email: cellProps.getValue() }),
+    size: 250,
+  }),
+  columnHelper.accessor('phone_number', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
+    size: 200,
+    cell: cellProps => h(TelCell, { phoneNumber: cellProps.getValue() }),
+  }),
+  columnHelper.accessor('company', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
+    size: 200,
+  }),
+  columnHelper.accessor('city', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
+    size: 200,
+  }),
+  columnHelper.accessor('country', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
+    size: 200,
+    cell: cellProps =>
+      h(CountryCell, {
+        countryCode: cellProps.row.original.country_code,
+        country: cellProps.getValue(),
+      }),
+  }),
+  columnHelper.accessor('profiles', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
+    size: 200,
+    cell: cellProps =>
+      h(ProfilesCell, {
+        profiles: cellProps.getValue(),
+      }),
+  }),
+  columnHelper.accessor('last_activity_at', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
+    size: 200,
+  }),
+  columnHelper.accessor('created_at', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
+    size: 200,
+  }),
+];
 
-          //   if (!items.length) return '---';
-
-          //   return (
-          //     <div class="cell--social-profiles flex gap-0.5 items-center">
-          //       {items.map(
-          //         profile =>
-          //           profiles[profile] && (
-          //             <a
-          //               target="_blank"
-          //               rel="noopener noreferrer nofollow"
-          //               href={`https://${profile}.com/${profiles[profile]}`}
-          //             >
-          //               <FluentIcon icon={`brand-${profile}`} />
-          //             </a>
-          //           )
-          //       )}
-          //     </div>
-          //   );
-          // },
-        },
-        {
-          field: 'last_activity_at',
-          key: 'last_activity_at',
-          sortBy: this.sortConfig.last_activity_at || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'created_at',
-          key: 'created_at',
-          sortBy: this.sortConfig.created_at || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-      ];
-    },
+const table = useVueTable({
+  get data() {
+    return tableData.value;
   },
-  watch: {
-    sortOrder() {
-      this.setSortConfig();
-    },
-    sortParam() {
-      this.setSortConfig();
-    },
-  },
-  mounted() {
-    this.setSortConfig();
-  },
-  methods: {
-    setSortConfig() {
-      this.sortConfig = { [this.sortParam]: this.sortOrder };
-    },
-  },
-};
+  columns,
+  columnResizeMode: 'onChange',
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+});
 </script>
 
 <template>
   <section
     class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
   >
-    <VeTable
-      fixed-header
-      max-height="calc(100vh - 7.125rem)"
-      scroll-width="187rem"
-      :columns="columns"
-      :table-data="tableData"
-      :border-around="false"
-      :sort-option="sortOption"
-    />
+    <section class="overflow-x-auto">
+      <table class="table-fixed">
+        <thead>
+          <tr
+            v-for="headerGroup in table.getHeaderGroups()"
+            :key="headerGroup.id"
+          >
+            <th
+              v-for="header in headerGroup.headers"
+              :key="header.id"
+              :style="{
+                width: `${header.getSize()}px`,
+              }"
+              @click="header.column.getToggleSortingHandler()?.($event)"
+            >
+              <template v-if="!header.isPlaceholder">
+                <FlexRender
+                  :render="header.column.columnDef.header"
+                  :props="header.getContext()"
+                />
+                <!-- <SortButton v-if="header.column.getCanSort()" :header="header" />
+              <ResizeHandle
+                v-if="header.column.getCanResize()"
+                :header="header"
+              /> -->
+              </template>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="row in table.getRowModel().rows" :key="row.id">
+            <td v-for="cell in row.getVisibleCells()" :key="cell.id">
+              <FlexRender
+                :render="cell.column.columnDef.cell"
+                :props="cell.getContext()"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
     <EmptyState
       v-if="showSearchEmptyState"
