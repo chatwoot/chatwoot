@@ -5,17 +5,17 @@ import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import useReplaceRoute from 'widget/composables/useReplaceRoute';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [darkModeMixin, configMixin],
   props: {
     options: {
       type: Object,
@@ -23,8 +23,9 @@ export default {
     },
   },
   setup() {
+    const { formatMessage } = useMessageFormatter();
     const replaceRoute = useReplaceRoute();
-    return { replaceRoute };
+    return { replaceRoute, formatMessage };
   },
   data() {
     return {
