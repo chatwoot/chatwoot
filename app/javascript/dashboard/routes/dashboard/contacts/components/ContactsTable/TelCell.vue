@@ -36,5 +36,5 @@ const formattedNumber = computed(() => {
 
 <template>
   <span v-if="phoneNumber">{{ formattedNumber }}</span>
-  <span v-else class="text-slate-200 dark:text-slate-700"> --- </span>
+  <span v-else class="text-slate-300 dark:text-slate-700"> --- </span>
 </template>
