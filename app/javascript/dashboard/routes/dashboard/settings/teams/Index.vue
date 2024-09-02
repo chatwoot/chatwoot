@@ -24,6 +24,19 @@
               </td>
 
               <td>
+                <span class="agent-name">{{
+                  $t('TEAMS_SETTINGS.LIST.LEADER')
+                }}</span>
+                <p>
+                  {{
+                    item.leader
+                      ? item.leader.name
+                      : $t('TEAMS_SETTINGS.LIST.NO_LEADER')
+                  }}
+                </p>
+              </td>
+
+              <td>
                 <div class="button-wrapper">
                   <router-link
                     :to="addAccountScoping(`settings/teams/${item.id}/edit`)"

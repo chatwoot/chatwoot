@@ -23,9 +23,11 @@
           placeholder=""
           label="name"
           track-by="id"
+          :selected-label="$t('PIPELINE_PAGE.DROPDOWN.SELECTED_LABEL')"
+          :select-label="$t('PIPELINE_PAGE.DROPDOWN.SELECT_LABEL')"
+          :deselect-label="$t('PIPELINE_PAGE.DROPDOWN.DESELECT_LABEL')"
           :options="teamMembers"
           :max-height="160"
-          :show-labels="false"
         />
       </div>
 
@@ -62,25 +64,21 @@ export default {
     teamMembers() {
       return this.$store.getters['teamMembers/getTeamMembers'](this.teamId);
     },
+    currentTeam() {
+      return this.$store.getters['teams/getTeam'](this.teamId);
+    },
   },
 
   async mounted() {
-    const userId = await this.$store.dispatch('teams/getLeader', {
-      teamId: this.teamId,
-    });
-    if (userId) {
-      this.leader = this.teamMembers.find(i => i.id === userId);
-    }
+    this.leader = this.currentTeam.leader;
   },
 
   methods: {
     async updateLeader() {
-      if (!this.leader) return;
-
       try {
         await this.$store.dispatch('teams/updateLeader', {
           teamId: this.teamId,
-          userId: this.leader.id,
+          userId: this.leader?.id,
         });
         router.replace({
           name: 'settings_teams_edit_finish',

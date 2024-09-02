@@ -106,7 +106,7 @@ export default {
           agentsList: selectedAgents,
         });
         router.replace({
-          name: 'settings_teams_finish',
+          name: 'settings_teams_choose_leader',
           params: {
             page: 'new',
             teamId,

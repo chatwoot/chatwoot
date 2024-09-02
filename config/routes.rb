@@ -217,7 +217,6 @@ Rails.application.routes.draw do
 
           resources :teams do
             member do
-              get :leader
               patch :update_leader
             end
             resources :team_members, only: [:index, :create] do

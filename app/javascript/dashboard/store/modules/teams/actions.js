@@ -36,7 +36,7 @@ export const actions = {
   get: async ({ commit }) => {
     commit(SET_TEAM_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await TeamsAPI.get(true);
+      const { data } = await TeamsAPI.get();
       commit(CLEAR_TEAMS);
       commit(SET_TEAMS, data);
     } catch (error) {
@@ -87,20 +87,10 @@ export const actions = {
     }
   },
 
-  // eslint-disable-next-line no-unused-vars
-  getLeader: async ({ commit }, { teamId }) => {
-    try {
-      const { data } = await TeamsAPI.getLeader(teamId);
-      return data.user_id;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-
-  // eslint-disable-next-line no-unused-vars
   updateLeader: async ({ commit }, { teamId, userId }) => {
     try {
-      await TeamsAPI.updateLeader(teamId, userId);
+      const response = await TeamsAPI.updateLeader(teamId, userId);
+      commit(EDIT_TEAM, response.data);
     } catch (error) {
       throw new Error(error);
     }
