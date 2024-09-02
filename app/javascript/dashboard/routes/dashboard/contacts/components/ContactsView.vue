@@ -33,6 +33,11 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
+  provide() {
+    return {
+      openContactInfoPanel: this.openContactInfoPanel,
+    };
+  },
   props: {
     label: { type: String, default: '' },
     segmentsId: {
@@ -411,7 +416,6 @@ export default {
         :contacts="records"
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
-        :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
         @onSortChange="onSortChange"
       />
