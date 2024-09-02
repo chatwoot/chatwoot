@@ -15,13 +15,14 @@ const filteredProfiles = computed(() =>
 </script>
 
 <template>
-  <div class="cell--social-profiles flex gap-2 items-center">
+  <div class="flex gap-2 items-center text-slate-300 dark:text-slate-400">
     <template v-if="filteredProfiles.length">
       <a
         v-for="profile in filteredProfiles"
         :key="profile"
         :href="`https://${profile}.com/${profiles[profile]}`"
         target="_blank"
+        class="hover:text-slate-500"
         rel="noopener noreferrer nofollow"
       >
         <FluentIcon class="size-4" :icon="`brand-${profile}`" />
