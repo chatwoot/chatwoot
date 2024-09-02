@@ -23,7 +23,7 @@ const countryFlag = computed(() => {
 
 const formattedCountryName = computed(() => {
   if (!props.country) {
-    return '---';
+    return '';
   }
 
   return `${countryFlag.value} ${props.country}`;
@@ -32,6 +32,7 @@ const formattedCountryName = computed(() => {
 
 <template>
   <div class="overflow-hidden whitespace-nowrap text-ellipsis">
-    {{ formattedCountryName }}
+    <template v-if="country">{{ formattedCountryName }}</template>
+    <span v-else class="text-slate-300 dark:text-slate-700"> --- </span>
   </div>
 </template>

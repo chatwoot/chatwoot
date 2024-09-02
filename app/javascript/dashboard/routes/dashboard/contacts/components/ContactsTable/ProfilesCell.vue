@@ -27,6 +27,6 @@ const filteredProfiles = computed(() =>
         <FluentIcon class="size-4" :icon="`brand-${profile}`" />
       </a>
     </template>
-    <template v-else> --- </template>
+    <span v-else class="text-slate-300 dark:text-slate-700"> --- </span>
   </div>
 </template>

@@ -77,17 +77,21 @@ const tableData = computed(() => {
     const { created_at: createdAt } = item;
     return {
       ...item,
-      company: additional.company_name || '---',
       profiles: additional.social_profiles || {},
-      city: additional.city || '---',
-      country: additional.country,
-      countryCode: additional.country_code,
-      conversationsCount: item.conversations_count || '---',
-      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : '---',
-      created_at: createdAt ? dynamicTime(createdAt) : '---',
+      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : null,
+      created_at: createdAt ? dynamicTime(createdAt) : null,
     };
   });
 });
+
+const defaulSpanRender = cellProps =>
+  h(
+    'span',
+    {
+      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+    },
+    cellProps.getValue() ? cellProps.getValue() : '---'
+  );
 
 const columnHelper = createColumnHelper();
 const columns = [
@@ -106,12 +110,14 @@ const columns = [
     size: 200,
     cell: cellProps => h(TelCell, { phoneNumber: cellProps.getValue() }),
   }),
-  columnHelper.accessor('company', {
+  columnHelper.accessor('company_name', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
     size: 200,
+    cell: defaulSpanRender,
   }),
   columnHelper.accessor('city', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
+    cell: defaulSpanRender,
     size: 200,
   }),
   columnHelper.accessor('country', {
@@ -135,10 +141,12 @@ const columns = [
   columnHelper.accessor('last_activity_at', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
     size: 200,
+    cell: defaulSpanRender,
   }),
   columnHelper.accessor('created_at', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
     size: 200,
+    cell: defaulSpanRender,
   }),
 ];
 
