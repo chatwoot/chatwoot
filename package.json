@@ -120,6 +120,10 @@
     "vitest": "^2.0.1",
     "webpack-dev-server": "^3"
   },
+  "peerDependencies": {
+    "video.js": ">=7.0.5",
+    "videojs-wavesurfer": ">=3.10.0"
+  },
   "engines": {
     "node": "20.x",
     "npm": ">=6.x",
