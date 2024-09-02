@@ -5,12 +5,13 @@ import { computed, h } from 'vue';
 // import { mapGetters } from 'vuex';
 // import { VeTable } from 'vue-easytable';
 
+import Table from 'dashboard/components/table/Table.vue';
+
 import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
   getSortedRowModel,
-  FlexRender,
 } from '@tanstack/vue-table';
 
 import Spinner from 'shared/components/Spinner.vue';
@@ -125,6 +126,7 @@ const columns = [
   columnHelper.accessor('profiles', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
     size: 200,
+    enableSorting: false,
     cell: cellProps =>
       h(ProfilesCell, {
         profiles: cellProps.getValue(),
@@ -156,46 +158,7 @@ const table = useVueTable({
     class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
   >
     <section class="overflow-x-auto">
-      <table class="table-fixed">
-        <thead>
-          <tr
-            v-for="headerGroup in table.getHeaderGroups()"
-            :key="headerGroup.id"
-          >
-            <th
-              v-for="header in headerGroup.headers"
-              :key="header.id"
-              :style="{
-                width: `${header.getSize()}px`,
-              }"
-              @click="header.column.getToggleSortingHandler()?.($event)"
-            >
-              <template v-if="!header.isPlaceholder">
-                <FlexRender
-                  :render="header.column.columnDef.header"
-                  :props="header.getContext()"
-                />
-                <!-- <SortButton v-if="header.column.getCanSort()" :header="header" />
-              <ResizeHandle
-                v-if="header.column.getCanResize()"
-                :header="header"
-              /> -->
-              </template>
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="row in table.getRowModel().rows" :key="row.id">
-            <td v-for="cell in row.getVisibleCells()" :key="cell.id">
-              <FlexRender
-                :render="cell.column.columnDef.cell"
-                :props="cell.getContext()"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <Table fixed :table="table" />
     </section>
 
     <EmptyState
