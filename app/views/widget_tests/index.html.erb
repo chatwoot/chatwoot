@@ -1,6 +1,4 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-
-
 <%
   user_id = 1
   user_hash = OpenSSL::HMAC.hexdigest(
@@ -55,13 +53,19 @@ window.addEventListener('chatwoot:error', function(e) {
   console.log('chatwoot:error', e.detail)
 })
 
-
-window.addEventListener('chatwoot:on-message', function(e) {
-  console.log('chatwoot:on-message', e.detail)
+window.addEventListener('chatwoot:open-dialog', function(e) {
+  console.log('chatwoot:open-dialog', e.detail)
 })
-
 
 window.addEventListener('chatwoot:on-start-conversation', function(e) {
   console.log('chatwoot:on-start-conversation', e.detail)
+})
+
+window.addEventListener('chatwoot:on-submit-pre-chat-form', function(e) {
+  console.log('chatwoot:on-submit-pre-chat-form', e.detail)
+})
+
+window.addEventListener('chatwoot:on-message', function(e) {
+  console.log('chatwoot:on-message', e.detail)
 })
 </script>

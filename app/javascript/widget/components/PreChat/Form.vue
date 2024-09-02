@@ -72,6 +72,8 @@ import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
 import customAttributeMixin from '../../../dashboard/mixins/customAttributeMixin';
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_SUBMIT_PRE_CHAT_FORM } from '../../constants/sdkEvents';
 
 export default {
   components: {
@@ -311,6 +313,11 @@ export default {
         activeCampaignId: this.activeCampaign.id,
         conversationCustomAttributes: this.conversationCustomAttributes,
         contactCustomAttributes: this.contactCustomAttributes,
+      });
+      IFrameHelper.sendMessage({
+        event: 'onEvent',
+        eventIdentifier: CHATWOOT_ON_SUBMIT_PRE_CHAT_FORM,
+        data: {},
       });
     },
   },
