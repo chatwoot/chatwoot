@@ -94,6 +94,8 @@
     "wavesurfer.js": "^6.6.4"
   },
   "devDependencies": {
+    "@egoist/tailwindcss-icons": "^1.8.1",
+    "@iconify-json/lucide": "^1.2.1",
     "@size-limit/file": "^8.2.4",
     "@vitest/coverage-v8": "^2.0.1",
     "@vue/test-utils": "^2.4.6",
