@@ -5,11 +5,11 @@ import { getCountryFlag } from 'dashboard/helper/flag';
 const props = defineProps({
   countryCode: {
     type: String,
-    required: true,
+    default: '',
   },
   country: {
     type: String,
-    required: true,
+    default: '',
   },
 });
 
