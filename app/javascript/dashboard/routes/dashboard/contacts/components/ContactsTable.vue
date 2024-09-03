@@ -1,6 +1,5 @@
 <script setup>
-import { computed, h } from 'vue';
-// import { ref, computed, defineEmits } from 'vue';
+import { h, ref, computed, defineEmits } from 'vue';
 // import { useMapGetter } from 'dashboard/composables/store';
 // import { mapGetters } from 'vuex';
 // import { VeTable } from 'vue-easytable';
@@ -11,7 +10,6 @@ import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
-  getSortedRowModel,
 } from '@tanstack/vue-table';
 
 import Spinner from 'shared/components/Spinner.vue';
@@ -39,28 +37,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  // sortParam: {
-  //   type: String,
-  //   default: 'last_activity_at',
-  // },
-  // sortOrder: {
-  //   type: String,
-  //   default: 'desc',
-  // },
+  sortConfig: {
+    type: Object,
+    default: () => {},
+  },
 });
 
-// const emit = defineEmits(['onSortChange']);
-
+const emit = defineEmits(['onSortChange']);
 const { t } = useI18n();
-
-// const sortConfig = computed(() => {
-//   return { [props.sortParam]: props.sortOrder };
-// });
-
-// const sortOption = ref({
-//   sortAlways: true,
-//   sortChange: params => emit('onSortChange', params),
-// });
 
 // const isRTL = useMapGetter('accounts/isRTL');
 
@@ -150,14 +134,56 @@ const columns = [
   }),
 ];
 
+// type ColumnSort = {
+//   id: string
+//   desc: boolean
+// }
+// type SortingState = ColumnSort[]
+const sortingState = computed(() => {
+  if (!props.sortConfig) {
+    return [];
+  }
+
+  // sortConfig is an object with { [param]: order }
+  // We need to convert it to the format that the table expects
+  const sortParam = Object.keys(props.sortConfig)[0];
+  const sortOrder = props.sortConfig[sortParam];
+
+  return [
+    {
+      id: sortParam,
+      desc: sortOrder === 'desc',
+    },
+  ];
+});
+
 const table = useVueTable({
   get data() {
     return tableData.value;
   },
   columns,
+  enableSortingRemoval: true,
   columnResizeMode: 'onChange',
   getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
+  state: {
+    get sorting() {
+      return sortingState.value;
+    },
+  },
+  onSortingChange: updater => {
+    // onSortingChange returns a callback that allows us to trigger the sort when we need
+    // See more docs here: https://tanstack.com/table/latest/docs/api/features/sorting#onsortingchange
+    // IMO, I don't like this API, but it's what we have for now. Would be great if we could just listen the the changes
+    // to the sorting state and emit the event when it changes
+    // But we can easily wrap this later as a separate composable
+    const updatedSortState = updater(sortingState.value);
+    // we pick the first item from the array, as we are not using multi-sorting
+    const [sort] = updatedSortState;
+
+    emit('onSortChange', {
+      [sort.id]: sort.desc ? 'desc' : 'asc',
+    });
+  },
 });
 </script>
 

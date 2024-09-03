@@ -25,7 +25,7 @@ defineProps({
             width: `${header.getSize()}px`,
           }"
           class="text-left py-3 first:pl-2 bg-slate-25 border-y border-slate-50 font-bold tracking-wider text-xs uppercase"
-          @click="header.column.getToggleSortingHandler()?.($event)"
+          @click="header.column.toggleSorting()"
         >
           <div
             v-if="!header.isPlaceholder"
