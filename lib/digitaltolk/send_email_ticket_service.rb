@@ -218,12 +218,12 @@ class Digitaltolk::SendEmailTicketService
   end
 
   def update_customer_id
-    return unless params[:dt_user_id].present?
+    return unless params[:customer_id].present?
 
     contact = @conversation.contact
     return unless contact.present?
 
-    contact.custom_attributes[:customer_id] = params[:dt_user_id]
+    contact.custom_attributes[:customer_id] = params[:customer_id]
     contact.save
   end
 
