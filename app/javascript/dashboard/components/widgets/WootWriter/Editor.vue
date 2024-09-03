@@ -251,6 +251,7 @@ export default {
           suggestionClass: '',
           onEnter: args => {
             this.showEmojiMenu = true;
+            this.emojiSearchTerm = args.text || '';
             this.range = args.range;
             this.editorView = args.view;
             return false;
@@ -299,6 +300,8 @@ export default {
     },
     editorId() {
       this.showCannedMenu = false;
+      this.showEmojiMenu = false;
+      this.showVariables = false;
       this.cannedSearchTerm = '';
       this.reloadState(this.value);
     },
