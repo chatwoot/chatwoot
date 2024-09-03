@@ -1,7 +1,6 @@
 <script setup>
 import { shallowRef, computed, onMounted } from 'vue';
 import emojis from 'shared/components/emoji/emojisGroup.json';
-import { picoSearch } from '@scmmishra/pico-search';
 import MentionBox from '../mentions/MentionBox.vue';
 
 const props = defineProps({
@@ -18,7 +17,9 @@ const allEmojis = shallowRef([]);
 const items = computed(() => {
   if (!props.searchKey) return [];
   const searchTerm = props.searchKey.toLowerCase();
-  return picoSearch(allEmojis.value, searchTerm, ['searchString']);
+  return allEmojis.value.filter(emoji =>
+    emoji.searchString.includes(searchTerm)
+  );
 });
 
 function loadEmojis() {
