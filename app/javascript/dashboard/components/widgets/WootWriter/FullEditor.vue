@@ -120,7 +120,6 @@ export default {
         if (fileUrl) {
           this.onImageUploadStart(fileUrl);
         }
-        useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('HELP_CENTER.ARTICLE_EDITOR.IMAGE_UPLOAD.ERROR'));
       }
@@ -172,6 +171,18 @@ export default {
           },
           blur: () => {
             this.onBlur();
+          },
+          paste: (view, event) => {
+            const data = event.clipboardData.files;
+            if (data.length > 0) {
+              data.forEach(file => {
+                // Check if the file is an image
+                if (file.type.includes('image')) {
+                  this.uploadImageToStorage(file);
+                }
+              });
+              event.preventDefault();
+            }
           },
         },
       });

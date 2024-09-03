@@ -12,6 +12,12 @@ export default {
       type: Function,
       default: () => {},
     },
+    // Passes 0 or 1 based on the selected AttributeModel tab selected in the UI
+    // Needs a better data type, todo: refactor this component later
+    selectedAttributeModelTab: {
+      type: Number,
+      default: 0,
+    },
   },
   setup() {
     return { v$: useVuelidate() };
@@ -20,7 +26,10 @@ export default {
     return {
       displayName: '',
       description: '',
-      attributeModel: 0,
+      // Using the prop as default. There is no side effect here as the component
+      // is destroyed completely when the modal is closed. The prop doesn't change
+      // dynamically when the modal is active.
+      attributeModel: this.selectedAttributeModelTab || 0,
       attributeType: 0,
       attributeKey: '',
       regexPattern: null,
