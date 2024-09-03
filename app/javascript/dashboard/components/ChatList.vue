@@ -118,25 +118,37 @@ export default {
       };
     };
     const handlePreviousConversation = () => {
+      // Retrieve conversation parameters
       const { allConversations, activeConversationIndex } =
         getKeyboardListenerParams();
-      if (activeConversationIndex === -1) {
-        allConversations[0].click();
-      }
-      if (activeConversationIndex >= 1) {
+
+      // Check if there are conversations and the active index is valid for a previous conversation
+      if (allConversations.length > 0 && activeConversationIndex > 0) {
+        // Click the previous conversation
         allConversations[activeConversationIndex - 1].click();
+      } else if (allConversations.length > 0) {
+        // If no valid previous index, click the first conversation
+        allConversations[0].click();
       }
     };
     const handleNextConversation = () => {
+      // Retrieve conversation parameters
       const {
         allConversations,
         activeConversationIndex,
         lastConversationIndex,
       } = getKeyboardListenerParams();
-      if (activeConversationIndex === -1) {
-        allConversations[lastConversationIndex].click();
-      } else if (activeConversationIndex < lastConversationIndex) {
+
+      // Check if there are conversations and the active index is valid for a next conversation
+      if (
+        allConversations.length > 0 &&
+        activeConversationIndex < lastConversationIndex
+      ) {
+        // Click the next conversation
         allConversations[activeConversationIndex + 1].click();
+      } else if (allConversations.length > 0) {
+        // If no valid next index, click the last conversation
+        allConversations[lastConversationIndex].click();
       }
     };
     const keyboardEvents = {
