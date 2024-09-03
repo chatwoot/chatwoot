@@ -117,47 +117,41 @@ export default {
         lastConversationIndex,
       };
     };
-    const handlePreviousConversation = () => {
-      // Retrieve conversation parameters
-      const { allConversations, activeConversationIndex } =
-        getKeyboardListenerParams();
-
-      // Check if there are conversations and the active index is valid for a previous conversation
-      if (allConversations.length > 0 && activeConversationIndex > 0) {
-        // Click the previous conversation
-        allConversations[activeConversationIndex - 1].click();
-      } else if (allConversations.length > 0) {
-        // If no valid previous index, click the first conversation
-        allConversations[0].click();
-      }
-    };
-    const handleNextConversation = () => {
-      // Retrieve conversation parameters
+    const handleConversationNavigation = direction => {
       const {
         allConversations,
         activeConversationIndex,
         lastConversationIndex,
       } = getKeyboardListenerParams();
 
-      // Check if there are conversations and the active index is valid for a next conversation
+      // Determine the new index based on the direction
+      const newIndex =
+        direction === 'previous'
+          ? activeConversationIndex - 1
+          : activeConversationIndex + 1;
+
+      // Check if the new index is within the valid range
       if (
         allConversations.length > 0 &&
-        activeConversationIndex < lastConversationIndex
+        newIndex >= 0 &&
+        newIndex <= lastConversationIndex
       ) {
-        // Click the next conversation
-        allConversations[activeConversationIndex + 1].click();
+        // Click the conversation at the new index
+        allConversations[newIndex].click();
       } else if (allConversations.length > 0) {
-        // If no valid next index, click the last conversation
-        allConversations[lastConversationIndex].click();
+        // If the new index is out of range, click the first or last conversation based on the direction
+        const fallbackIndex =
+          direction === 'previous' ? 0 : lastConversationIndex;
+        allConversations[fallbackIndex].click();
       }
     };
     const keyboardEvents = {
       'Alt+KeyJ': {
-        action: () => handlePreviousConversation(),
+        action: () => handleConversationNavigation('previous'),
         allowOnFocusedInput: true,
       },
       'Alt+KeyK': {
-        action: () => handleNextConversation(),
+        action: () => handleConversationNavigation('next'),
         allowOnFocusedInput: true,
       },
     };
