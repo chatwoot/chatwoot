@@ -6,10 +6,11 @@ class InboxMembers extends ApiClient {
     super('inbox_members', { accountScoped: true });
   }
 
-  update({ inboxId, agentList }) {
+  update({ inboxId, agentList, teamId }) {
     return axios.patch(this.url, {
       inbox_id: inboxId,
       user_ids: agentList,
+      team_id: teamId,
     });
   }
 }

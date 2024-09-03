@@ -4,21 +4,45 @@
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
     >
-      <multiselect
-        v-model="selectedAgents"
-        :options="agentList"
-        track-by="id"
-        label="name"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        :hide-selected="true"
-        :placeholder="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_PLACEHOLDER')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        @select="$v.selectedAgents.$touch"
-      />
+      <div class="w-full">
+        <label>
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AGENT_SELECTION') }}
+        </label>
+        <multiselect
+          v-model="selectedAgents"
+          :options="agentList"
+          track-by="id"
+          label="name"
+          :multiple="true"
+          :close-on-select="false"
+          :clear-on-select="false"
+          :hide-selected="true"
+          :placeholder="
+            $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_PLACEHOLDER')
+          "
+          selected-label
+          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+          @select="onAgentSelected"
+        />
+      </div>
+
+      <div class="w-[50%]">
+        <label>
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.TEAM_SELECTION') }}
+        </label>
+        <multiselect
+          v-model="selectedTeam"
+          placeholder=""
+          label="name"
+          track-by="id"
+          :options="teamList"
+          :max-height="160"
+          :close-on-select="true"
+          :show-labels="false"
+          @select="onTeamSelected"
+        />
+      </div>
 
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
@@ -101,11 +125,13 @@ export default {
       isAgentListUpdating: false,
       enableAutoAssignment: false,
       maxAssignmentLimit: null,
+      selectedTeam: null,
     };
   },
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
+      teamList: 'teams/getTeams',
     }),
     maxAssignmentLimitErrors() {
       if (this.$v.maxAssignmentLimit.$error) {
@@ -129,6 +155,7 @@ export default {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
+      this.selectedTeam = this.inbox?.team || null;
       this.fetchAttachedAgents();
     },
     async fetchAttachedAgents() {
@@ -143,6 +170,20 @@ export default {
       } catch (error) {
         //  Handle error
       }
+    },
+    onAgentSelected() {
+      if (!this.selectedTeam) return;
+      this.showAlert(
+        this.$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_SELECTION_MESSAGE')
+      );
+      this.selectedTeam = null;
+    },
+    onTeamSelected() {
+      if (this.selectedAgents.length === 0) return;
+      this.showAlert(
+        this.$t('INBOX_MGMT.SETTINGS_POPUP.TEAM_SELECTION_MESSAGE')
+      );
+      this.selectedAgents = [];
     },
     handleEnableAutoAssignment() {
       this.updateInbox();
@@ -161,6 +202,7 @@ export default {
         await this.$store.dispatch('inboxMembers/create', {
           inboxId: this.inbox.id,
           agentList,
+          teamId: this.selectedTeam?.id,
         });
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {

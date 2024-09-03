@@ -26,6 +26,7 @@
 #  account_id                    :integer          not null
 #  channel_id                    :integer          not null
 #  portal_id                     :bigint
+#  team_id                       :integer
 #
 # Indexes
 #
@@ -72,6 +73,7 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  belongs_to :team, optional: true
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
