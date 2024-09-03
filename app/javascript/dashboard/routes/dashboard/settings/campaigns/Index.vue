@@ -3,7 +3,6 @@
     <div class="button--fixed-top flex flex-row items-center gap-2">
       <woot-button
         v-if="isOneOffType || isFlexibleType"
-        color-scheme="secondary"
         icon="add-circle"
         @click="openAddPlan"
       >

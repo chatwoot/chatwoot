@@ -134,7 +134,7 @@ export default {
             teamId,
           },
         });
-        this.$store.dispatch('teams/get');
+        this.$store.dispatch('teamMembers/get', { teamId });
       } catch (error) {
         this.showAlert(error.message);
       }

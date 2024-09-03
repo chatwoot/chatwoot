@@ -22,18 +22,14 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
-  def leader
-    leader = @team.team_members.find_by(leader: true)
-    render json: { user_id: leader&.user_id }
-  end
-
   def update_leader
     old_leader = @team.team_members.find_by(leader: true)
-    old_leader.update(leader: false)
+    old_leader.update(leader: false) if old_leader.present?
+    return if params[:user_id].blank?
 
     team_member = @team.team_members.find_by(user_id: params[:user_id])
     team_member.update(leader: true)
-    head :ok
+    fetch_team
   end
 
   private

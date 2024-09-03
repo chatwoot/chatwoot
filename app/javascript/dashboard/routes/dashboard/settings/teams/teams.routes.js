@@ -61,6 +61,12 @@ export default {
               roles: ['administrator'],
               component: AddAgents,
             },
+            {
+              path: ':teamId/leader',
+              name: 'settings_teams_choose_leader',
+              roles: ['administrator'],
+              component: LeaderSelector,
+            },
           ],
         },
         {
