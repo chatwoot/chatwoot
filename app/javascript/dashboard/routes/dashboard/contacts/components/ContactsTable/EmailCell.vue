@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
   email: {
-    type: Object,
+    type: String,
     required: true,
   },
 });
