@@ -24,7 +24,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       records: 'dashboardApps/getRecords',
       uiFlags: 'dashboardApps/getUIFlags',
     }),
@@ -77,7 +76,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 overflow-auto flex gap-8 flex-col">
+  <div class="flex flex-col flex-1 gap-8 overflow-auto">
     <BaseSettingsHeader
       :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')"
       :description="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')"
@@ -87,7 +86,7 @@ export default {
     >
       <template #actions>
         <woot-button
-          class="button nice rounded-md"
+          class="rounded-md button nice"
           icon="add-circle"
           @click="openCreatePopup"
         >
@@ -95,7 +94,7 @@ export default {
         </woot-button>
       </template>
     </BaseSettingsHeader>
-    <div class="w-full text-slate-700 dark:text-slate-200 overflow-x-auto">
+    <div class="w-full overflow-x-auto text-slate-700 dark:text-slate-200">
       <p
         v-if="!uiFlags.isFetching && !records.length"
         class="flex flex-col items-center justify-center h-full"
@@ -116,13 +115,13 @@ export default {
               'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER'
             )"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
-          <dashboard-apps-row
+          <DashboardAppsRow
             v-for="(dashboardAppItem, index) in records"
             :key="dashboardAppItem.id"
             :index="index"
@@ -134,7 +133,7 @@ export default {
       </table>
     </div>
 
-    <dashboard-app-modal
+    <DashboardAppModal
       v-if="showDashboardAppPopup"
       :show="showDashboardAppPopup"
       :mode="mode"

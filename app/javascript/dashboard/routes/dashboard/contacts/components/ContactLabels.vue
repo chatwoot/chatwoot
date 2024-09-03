@@ -1,12 +1,3 @@
-<template>
-  <label-selector
-    :all-labels="allLabels"
-    :saved-labels="savedLabels"
-    @add="addItem"
-    @remove="removeItem"
-  />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -32,7 +23,6 @@ export default {
     },
 
     ...mapGetters({
-      labelUiFlags: 'contactLabels/getUIFlags',
       allLabels: 'labels/getLabels',
     }),
   },
@@ -85,4 +75,11 @@ export default {
 };
 </script>
 
-<style></style>
+<template>
+  <LabelSelector
+    :all-labels="allLabels"
+    :saved-labels="savedLabels"
+    @add="addItem"
+    @remove="removeItem"
+  />
+</template>

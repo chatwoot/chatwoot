@@ -14,6 +14,8 @@ const props = defineProps({
   endCurrentDate: Date,
 });
 
+const emit = defineEmits(['selectYear']);
+
 const { START_CALENDAR } = CALENDAR_TYPES;
 
 const calculateStartYear = date => {
@@ -52,10 +54,8 @@ const onClickNext = () => {
   startYear.value = addYears(new Date(startYear.value, 0, 1), 10).getFullYear();
 };
 
-const emit = defineEmits(['select-year']);
-
 const selectYear = year => {
-  emit('select-year', year);
+  emit('selectYear', year);
 };
 </script>
 

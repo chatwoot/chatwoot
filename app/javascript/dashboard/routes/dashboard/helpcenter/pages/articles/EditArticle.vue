@@ -1,51 +1,3 @@
-<template>
-  <div class="flex w-full overflow-auto article-container">
-    <div
-      class="flex-1 flex-shrink-0 px-6 overflow-auto"
-      :class="{ 'flex-grow-1 flex-shrink-0': showArticleSettings }"
-    >
-      <edit-article-header
-        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
-        :is-updating="isUpdating"
-        :is-saved="isSaved"
-        :is-sidebar-open="showArticleSettings"
-        @back="onClickGoBack"
-        @open="openArticleSettings"
-        @close="closeArticleSettings"
-        @show="showArticleInPortal"
-        @update-meta="updateMeta"
-      />
-      <div v-if="isFetching" class="h-full p-4 text-base text-center">
-        <spinner size="" />
-        <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
-      </div>
-      <article-editor
-        v-else
-        :is-settings-sidebar-open="showArticleSettings"
-        :article="article"
-        @save-article="saveArticle"
-      />
-    </div>
-    <article-settings
-      v-if="showArticleSettings"
-      :article="article"
-      @save-article="saveArticle"
-      @delete-article="openDeletePopup"
-      @archive-article="archiveArticle"
-      @update-meta="updateMeta"
-    />
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"
-      :message="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.MESSAGE')"
-      :confirm-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.YES')"
-      :reject-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.NO')"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -79,7 +31,6 @@ export default {
   computed: {
     ...mapGetters({
       isFetching: 'articles/isFetching',
-      articles: 'articles/articles',
     }),
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);
@@ -215,3 +166,51 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex w-full overflow-auto article-container">
+    <div
+      class="flex-1 flex-shrink-0 px-6 overflow-auto"
+      :class="{ 'flex-grow-1 flex-shrink-0': showArticleSettings }"
+    >
+      <EditArticleHeader
+        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
+        :is-updating="isUpdating"
+        :is-saved="isSaved"
+        :is-sidebar-open="showArticleSettings"
+        @back="onClickGoBack"
+        @open="openArticleSettings"
+        @close="closeArticleSettings"
+        @show="showArticleInPortal"
+        @updateMeta="updateMeta"
+      />
+      <div v-if="isFetching" class="h-full p-4 text-base text-center">
+        <Spinner size="" />
+        <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
+      </div>
+      <ArticleEditor
+        v-else
+        :is-settings-sidebar-open="showArticleSettings"
+        :article="article"
+        @saveArticle="saveArticle"
+      />
+    </div>
+    <ArticleSettings
+      v-if="showArticleSettings"
+      :article="article"
+      @saveArticle="saveArticle"
+      @deleteArticle="openDeletePopup"
+      @archiveArticle="archiveArticle"
+      @updateMeta="updateMeta"
+    />
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"
+      :message="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.MESSAGE')"
+      :confirm-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.YES')"
+      :reject-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.NO')"
+    />
+  </div>
+</template>

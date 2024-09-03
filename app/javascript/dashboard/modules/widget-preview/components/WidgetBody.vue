@@ -1,51 +1,3 @@
-<template>
-  <div class="widget-body-container">
-    <div v-if="config.isDefaultScreen" class="availability-content">
-      <div class="availability-info">
-        <div class="team-status">
-          {{ getStatusText }}
-        </div>
-        <div class="reply-wait-message">
-          {{ config.replyTime }}
-        </div>
-      </div>
-      <thumbnail username="J" size="40px" />
-    </div>
-    <div v-else class="conversation-content">
-      <div class="conversation-wrap">
-        <div class="message-wrap">
-          <div class="user-message-wrap">
-            <div class="user-message">
-              <div class="message-wrap">
-                <div
-                  class="chat-bubble user"
-                  :style="{ background: config.color }"
-                >
-                  <p>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.USER_MESSAGE') }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="agent-message-wrap">
-          <div class="agent-message">
-            <div class="avatar-wrap" />
-            <div class="message-wrap">
-              <div class="chat-bubble agent">
-                <div class="message-content">
-                  <p>
-                    {{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.AGENT_MESSAGE') }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 export default {
@@ -84,6 +36,54 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="widget-body-container">
+    <div v-if="config.isDefaultScreen" class="availability-content">
+      <div class="availability-info">
+        <div class="team-status">
+          {{ getStatusText }}
+        </div>
+        <div class="reply-wait-message">
+          {{ config.replyTime }}
+        </div>
+      </div>
+      <Thumbnail username="J" size="40px" />
+    </div>
+    <div v-else class="conversation-content">
+      <div class="conversation-wrap">
+        <div class="message-wrap">
+          <div class="user-message-wrap">
+            <div class="user-message">
+              <div class="message-wrap">
+                <div
+                  class="chat-bubble user"
+                  :style="{ background: config.color }"
+                >
+                  <p>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.USER_MESSAGE') }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="agent-message-wrap">
+          <div class="agent-message">
+            <div class="avatar-wrap" />
+            <div class="message-wrap">
+              <div class="chat-bubble agent">
+                <div class="message-content">
+                  <p>
+                    {{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.AGENT_MESSAGE') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .widget-body-container {

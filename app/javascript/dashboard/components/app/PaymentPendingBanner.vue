@@ -1,19 +1,8 @@
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="alert"
-    :banner-message="bannerMessage"
-    :action-button-label="actionButtonMessage"
-    has-action-button
-    @click="routeToBilling"
-  />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Banner from 'dashboard/components/ui/Banner.vue';
-import accountMixin from 'dashboard/mixins/account';
 
 const EMPTY_SUBSCRIPTION_INFO = {
   status: null,
@@ -22,10 +11,13 @@ const EMPTY_SUBSCRIPTION_INFO = {
 
 export default {
   components: { Banner },
-  mixins: [accountMixin],
   setup() {
     const { isAdmin } = useAdmin();
+
+    const { accountId } = useAccount();
+
     return {
+      accountId,
       isAdmin,
     };
   },
@@ -86,3 +78,14 @@ export default {
   },
 };
 </script>
+
+<template>
+  <Banner
+    v-if="shouldShowBanner"
+    color-scheme="alert"
+    :banner-message="bannerMessage"
+    :action-button-label="actionButtonMessage"
+    has-action-button
+    @click="routeToBilling"
+  />
+</template>

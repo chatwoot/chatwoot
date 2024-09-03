@@ -1,3 +1,35 @@
+<script>
+import { mapGetters } from 'vuex';
+import SwitchLayout from './SwitchLayout.vue';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+export default {
+  components: {
+    SwitchLayout,
+  },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
+  },
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
+    searchUrl() {
+      return frontendURL(`accounts/${this.accountId}/search`);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="relative">
     <div
@@ -24,47 +56,14 @@
           {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
         </p>
       </router-link>
-      <switch-layout
+      <SwitchLayout
         :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle="$emit('toggle-conversation-layout')"
+        @toggle="$emit('toggleConversationLayout')"
       />
     </div>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import SwitchLayout from './SwitchLayout.vue';
-import { frontendURL } from 'dashboard/helper/URLHelper';
-export default {
-  components: {
-    SwitchLayout,
-  },
-  directives: {
-    focus: {
-      inserted(el) {
-        el.focus();
-      },
-    },
-  },
-  mixins: [messageFormatterMixin],
-  props: {
-    isOnExpandedLayout: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-    }),
-    searchUrl() {
-      return frontendURL(`accounts/${this.accountId}/search`);
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .search-link {
   &:hover {

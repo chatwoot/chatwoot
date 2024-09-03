@@ -1,8 +1,35 @@
+<script setup>
+import { ref, computed } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+
+const emit = defineEmits(['add']);
+
+const noteContent = ref('');
+
+const buttonDisabled = computed(() => noteContent.value === '');
+
+const onAdd = () => {
+  if (noteContent.value !== '') {
+    emit('add', noteContent.value);
+  }
+  noteContent.value = '';
+};
+
+const keyboardEvents = {
+  '$mod+Enter': {
+    action: () => onAdd(),
+    allowOnFocusedInput: true,
+  },
+};
+useKeyboardEvents(keyboardEvents);
+</script>
+
 <template>
   <div
-    class="flex flex-col mb-2 p-4 border border-solid border-slate-75 dark:border-slate-700 overflow-hidden rounded-md flex-grow shadow-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100"
+    class="flex flex-col flex-grow p-4 mb-2 overflow-hidden bg-white border border-solid rounded-md shadow-sm border-slate-75 dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-100"
   >
-    <woot-message-editor
+    <WootMessageEditor
       v-model="noteContent"
       class="input--note"
       :placeholder="$t('NOTES.ADD.PLACEHOLDER')"
@@ -15,49 +42,11 @@
         :is-disabled="buttonDisabled"
         @click="onAdd"
       >
-        {{ $t('NOTES.ADD.BUTTON') }} (⌘⏎)
+        {{ $t('NOTES.ADD.BUTTON') }} {{ '(⌘⏎)' }}
       </woot-button>
     </div>
   </div>
 </template>
-
-<script>
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-export default {
-  components: {
-    WootMessageEditor,
-  },
-  mixins: [keyboardEventListenerMixins],
-  data() {
-    return {
-      noteContent: '',
-    };
-  },
-
-  computed: {
-    buttonDisabled() {
-      return this.noteContent === '';
-    },
-  },
-  methods: {
-    getKeyboardEvents() {
-      return {
-        '$mod+Enter': {
-          action: () => this.onAdd(),
-          allowOnFocusedInput: true,
-        },
-      };
-    },
-    onAdd() {
-      if (this.noteContent !== '') {
-        this.$emit('add', this.noteContent);
-      }
-      this.noteContent = '';
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .input--note {

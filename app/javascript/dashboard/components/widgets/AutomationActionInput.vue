@@ -1,107 +1,3 @@
-<template>
-  <div class="filter" :class="actionInputStyles">
-    <div class="filter-inputs">
-      <select
-        v-model="action_name"
-        class="action__question"
-        :class="{ 'full-width': !showActionInput }"
-        @change="resetAction()"
-      >
-        <option
-          v-for="attribute in actionTypes"
-          :key="attribute.key"
-          :value="attribute.key"
-        >
-          {{ attribute.label }}
-        </option>
-      </select>
-      <div v-if="showActionInput" class="filter__answer--wrap">
-        <div v-if="inputType" class="w-full">
-          <div
-            v-if="inputType === 'search_select'"
-            class="multiselect-wrap--small"
-          >
-            <multiselect
-              v-model="action_params"
-              track-by="id"
-              label="name"
-              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
-              selected-label
-              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-              deselect-label=""
-              :max-height="160"
-              :options="dropdownValues"
-              :allow-empty="false"
-              :option-height="104"
-            />
-          </div>
-          <div
-            v-else-if="inputType === 'multi_select'"
-            class="multiselect-wrap--small"
-          >
-            <multiselect
-              v-model="action_params"
-              track-by="id"
-              label="name"
-              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
-              :multiple="true"
-              selected-label
-              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-              deselect-label=""
-              :max-height="160"
-              :options="dropdownValues"
-              :allow-empty="false"
-              :option-height="104"
-            />
-          </div>
-          <input
-            v-else-if="inputType === 'email'"
-            v-model="action_params"
-            type="email"
-            class="answer--text-input"
-            placeholder="Enter email"
-          />
-          <input
-            v-else-if="inputType === 'url'"
-            v-model="action_params"
-            type="url"
-            class="answer--text-input"
-            placeholder="Enter url"
-          />
-          <automation-action-file-input
-            v-if="inputType === 'attachment'"
-            v-model="action_params"
-            :initial-file-name="initialFileName"
-          />
-        </div>
-      </div>
-      <woot-button
-        v-if="!isMacro"
-        icon="dismiss"
-        variant="clear"
-        color-scheme="secondary"
-        @click="removeAction"
-      />
-    </div>
-    <automation-action-team-message-input
-      v-if="inputType === 'team_message'"
-      v-model="action_params"
-      :teams="dropdownValues"
-    />
-    <woot-message-editor
-      v-if="inputType === 'textarea'"
-      v-model="castMessageVmodel"
-      rows="4"
-      :enable-variables="true"
-      :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
-      class="action-message"
-    />
-    <p v-if="errorMessage" class="filter-error">
-      {{ errorMessage }}
-    </p>
-  </div>
-</template>
-
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
@@ -195,6 +91,110 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="filter" :class="actionInputStyles">
+    <div class="filter-inputs">
+      <select
+        v-model="action_name"
+        class="action__question"
+        :class="{ 'full-width': !showActionInput }"
+        @change="resetAction()"
+      >
+        <option
+          v-for="attribute in actionTypes"
+          :key="attribute.key"
+          :value="attribute.key"
+        >
+          {{ attribute.label }}
+        </option>
+      </select>
+      <div v-if="showActionInput" class="filter__answer--wrap">
+        <div v-if="inputType" class="w-full">
+          <div
+            v-if="inputType === 'search_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+              :option-height="104"
+            />
+          </div>
+          <div
+            v-else-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              multiple
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+              :option-height="104"
+            />
+          </div>
+          <input
+            v-else-if="inputType === 'email'"
+            v-model="action_params"
+            type="email"
+            class="answer--text-input"
+            :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
+          />
+          <input
+            v-else-if="inputType === 'url'"
+            v-model="action_params"
+            type="url"
+            class="answer--text-input"
+            :placeholder="$t('AUTOMATION.ACTION.URL_INPUT_PLACEHOLDER')"
+          />
+          <AutomationActionFileInput
+            v-if="inputType === 'attachment'"
+            v-model="action_params"
+            :initial-file-name="initialFileName"
+          />
+        </div>
+      </div>
+      <woot-button
+        v-if="!isMacro"
+        icon="dismiss"
+        variant="clear"
+        color-scheme="secondary"
+        @click="removeAction"
+      />
+    </div>
+    <AutomationActionTeamMessageInput
+      v-if="inputType === 'team_message'"
+      v-model="action_params"
+      :teams="dropdownValues"
+    />
+    <WootMessageEditor
+      v-if="inputType === 'textarea'"
+      v-model="castMessageVmodel"
+      rows="4"
+      enable-variables
+      :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
+      class="action-message"
+    />
+    <p v-if="errorMessage" class="filter-error">
+      {{ errorMessage }}
+    </p>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .filter {

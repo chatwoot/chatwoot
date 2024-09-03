@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact unit cu succes",
       "ERROR_MESSAGE": "Contactele nu au putut fi îmbinate, încercați din nou!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

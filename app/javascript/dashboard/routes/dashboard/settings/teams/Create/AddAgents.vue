@@ -1,36 +1,3 @@
-<template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 overflow-x-auto bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
-    <form
-      class="flex flex-wrap mx-0 overflow-x-auto"
-      @submit.prevent="addAgents"
-    >
-      <div class="w-full">
-        <page-header
-          :header-title="headerTitle"
-          :header-content="$t('TEAMS_SETTINGS.ADD.DESC')"
-        />
-      </div>
-
-      <div class="w-full">
-        <div v-if="v$.selectedAgents.$error">
-          <p class="error-message">
-            {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
-          </p>
-        </div>
-        <agent-selector
-          :agent-list="agentList"
-          :selected-agents="selectedAgents"
-          :update-selected-agents="updateSelectedAgents"
-          :is-working="isCreating"
-          :submit-button-text="$t('TEAMS_SETTINGS.ADD.BUTTON_TEXT')"
-        />
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -44,12 +11,6 @@ export default {
   components: {
     PageHeader,
     AgentSelector,
-  },
-  props: {
-    team: {
-      type: Object,
-      default: () => {},
-    },
   },
   validations: {
     selectedAgents: {
@@ -125,3 +86,36 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 overflow-x-auto bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <form
+      class="flex flex-wrap mx-0 overflow-x-auto"
+      @submit.prevent="addAgents"
+    >
+      <div class="w-full">
+        <PageHeader
+          :header-title="headerTitle"
+          :header-content="$t('TEAMS_SETTINGS.ADD.DESC')"
+        />
+      </div>
+
+      <div class="w-full">
+        <div v-if="v$.selectedAgents.$error">
+          <p class="error-message">
+            {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
+          </p>
+        </div>
+        <AgentSelector
+          :agent-list="agentList"
+          :selected-agents="selectedAgents"
+          :update-selected-agents="updateSelectedAgents"
+          :is-working="isCreating"
+          :submit-button-text="$t('TEAMS_SETTINGS.ADD.BUTTON_TEXT')"
+        />
+      </div>
+    </form>
+  </div>
+</template>

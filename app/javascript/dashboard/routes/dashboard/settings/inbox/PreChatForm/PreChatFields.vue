@@ -1,5 +1,39 @@
+<script>
+import draggable from 'vuedraggable';
+export default {
+  components: { Draggable: draggable },
+  props: {
+    preChatFields: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      preChatFieldOptions: this.preChatFields,
+    };
+  },
+  watch: {
+    preChatFields() {
+      this.preChatFieldOptions = this.preChatFields;
+    },
+  },
+  methods: {
+    isFieldEditable(item) {
+      return !item.enabled;
+    },
+    handlePreChatFieldOptions(event, type, item) {
+      this.$emit('update', event, type, item);
+    },
+    onDragEnd() {
+      this.$emit('dragEnd', this.preChatFieldOptions);
+    },
+  },
+};
+</script>
+
 <template>
-  <draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
+  <Draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
     <tr v-for="(item, index) in preChatFieldOptions" :key="index">
       <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
       <td class="pre-chat-field">
@@ -38,42 +72,9 @@
         />
       </td>
     </tr>
-  </draggable>
+  </Draggable>
 </template>
 
-<script>
-import draggable from 'vuedraggable';
-export default {
-  components: { draggable },
-  props: {
-    preChatFields: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      preChatFieldOptions: this.preChatFields,
-    };
-  },
-  watch: {
-    preChatFields() {
-      this.preChatFieldOptions = this.preChatFields;
-    },
-  },
-  methods: {
-    isFieldEditable(item) {
-      return !item.enabled;
-    },
-    handlePreChatFieldOptions(event, type, item) {
-      this.$emit('update', event, type, item);
-    },
-    onDragEnd() {
-      this.$emit('drag-end', this.preChatFieldOptions);
-    },
-  },
-};
-</script>
 <style scoped lang="scss">
 .pre-chat-field {
   @apply py-4 px-2 text-slate-700 dark:text-slate-100;

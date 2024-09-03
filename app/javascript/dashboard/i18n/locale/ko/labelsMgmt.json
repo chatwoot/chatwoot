@@ -3,8 +3,9 @@
     "HEADER": "라벨",
     "HEADER_BTN_TXT": "라벨 추가",
     "LOADING": "라벨을 가져오는 중",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
-    "SIDEBAR_TXT": "<p><b>라벨</b> </p><p>라벨은 대화를 분류하고 우선순위를 정하는 데 도움이 된다. 사이드패널에서 대화에 라벨을 할당할 수 있다.</p><p>라벨은 계정에 연결되며 조직에서 사용자 정의 워크플로우를 만드는 데 사용할 수 있다. 라벨에 사용자 정의 색상을 지정할 수 있으며, 라벨을 쉽게 식별할 수 있다. 사이드바에 라벨을 표시하여 대화를 쉽게 필터링할 수 있다.</p>",
     "LIST": {
       "404": "이 계정에는 사용 가능한 라벨이 없다.",
       "TITLE": "라벨 관리",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "라벨 추가",

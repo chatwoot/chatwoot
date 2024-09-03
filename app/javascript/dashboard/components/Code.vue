@@ -1,27 +1,3 @@
-<template>
-  <div class="code--container">
-    <div class="code--action-area">
-      <form
-        v-if="enableCodePen"
-        class="code--codeopen-form"
-        action="https://codepen.io/pen/define"
-        method="POST"
-        target="_blank"
-      >
-        <input type="hidden" name="data" :value="codepenScriptValue" />
-
-        <button type="submit" class="button secondary tiny">
-          {{ $t('COMPONENTS.CODE.CODEPEN') }}
-        </button>
-      </form>
-      <button class="button secondary tiny" @click="onCopy">
-        {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
-      </button>
-    </div>
-    <highlightjs v-if="script" :language="lang" :code="script" />
-  </div>
-</template>
-
 <script>
 import 'highlight.js/styles/default.css';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -65,6 +41,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="code--container">
+    <div class="code--action-area">
+      <form
+        v-if="enableCodePen"
+        class="code--codeopen-form"
+        action="https://codepen.io/pen/define"
+        method="POST"
+        target="_blank"
+      >
+        <input type="hidden" name="data" :value="codepenScriptValue" />
+
+        <button type="submit" class="button secondary tiny">
+          {{ $t('COMPONENTS.CODE.CODEPEN') }}
+        </button>
+      </form>
+      <button class="button secondary tiny" @click="onCopy">
+        {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
+      </button>
+    </div>
+    <highlightjs v-if="script" :language="lang" :code="script" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .code--container {

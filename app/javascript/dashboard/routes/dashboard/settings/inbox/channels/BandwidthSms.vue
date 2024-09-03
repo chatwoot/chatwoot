@@ -1,3 +1,76 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
+import { required } from '@vuelidate/validators';
+import router from '../../../../index';
+
+const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
+
+export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      accountId: '',
+      apiKey: '',
+      apiSecret: '',
+      applicationId: '',
+      inboxName: '',
+      phoneNumber: '',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+    }),
+  },
+  validations: {
+    inboxName: { required },
+    phoneNumber: { required, shouldStartWithPlusSign },
+    apiKey: { required },
+    apiSecret: { required },
+    applicationId: { required },
+    accountId: { required },
+  },
+  methods: {
+    async createChannel() {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      }
+
+      try {
+        const smsChannel = await this.$store.dispatch('inboxes/createChannel', {
+          name: this.inboxName,
+          channel: {
+            type: 'sms',
+            phone_number: this.phoneNumber,
+            provider_config: {
+              api_key: this.apiKey,
+              api_secret: this.apiSecret,
+              application_id: this.applicationId,
+              account_id: this.accountId,
+            },
+          },
+        });
+
+        router.replace({
+          name: 'settings_inboxes_add_agents',
+          params: {
+            page: 'new',
+            inbox_id: smsChannel.id,
+          },
+        });
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.ADD.SMS.API.ERROR_MESSAGE'));
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
@@ -108,77 +181,3 @@
     </div>
   </form>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
-import { required } from '@vuelidate/validators';
-import router from '../../../../index';
-
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
-
-export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      accountId: '',
-      apiKey: '',
-      apiSecret: '',
-      applicationId: '',
-      inboxName: '',
-      phoneNumber: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-      globalConfig: 'globalConfig/get',
-    }),
-  },
-  validations: {
-    inboxName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
-    apiKey: { required },
-    apiSecret: { required },
-    applicationId: { required },
-    accountId: { required },
-  },
-  methods: {
-    async createChannel() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      }
-
-      try {
-        const smsChannel = await this.$store.dispatch('inboxes/createChannel', {
-          name: this.inboxName,
-          channel: {
-            type: 'sms',
-            phone_number: this.phoneNumber,
-            provider_config: {
-              api_key: this.apiKey,
-              api_secret: this.apiSecret,
-              application_id: this.applicationId,
-              account_id: this.accountId,
-            },
-          },
-        });
-
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: smsChannel.id,
-          },
-        });
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.ADD.SMS.API.ERROR_MESSAGE'));
-      }
-    },
-  },
-};
-</script>

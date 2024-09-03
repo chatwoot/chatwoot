@@ -1,16 +1,3 @@
-<template>
-  <button
-    type="button"
-    class="toggle-button p-0"
-    :class="{ active: value, small: size === 'small' }"
-    role="switch"
-    :aria-checked="value.toString()"
-    @click="onClick"
-  >
-    <span aria-hidden="true" :class="{ active: value }" />
-  </button>
-</template>
-
 <script>
 export default {
   props: {
@@ -24,6 +11,20 @@ export default {
   },
 };
 </script>
+
+<template>
+  <button
+    type="button"
+    class="toggle-button p-0"
+    :class="{ active: value, small: size === 'small' }"
+    role="switch"
+    :aria-checked="value.toString()"
+    @click="onClick"
+  >
+    <span aria-hidden="true" :class="{ active: value }" />
+  </button>
+</template>
+
 <style lang="scss" scoped>
 .toggle-button {
   @apply bg-slate-200 dark:bg-slate-600;

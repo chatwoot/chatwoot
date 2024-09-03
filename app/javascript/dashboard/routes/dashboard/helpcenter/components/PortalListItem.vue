@@ -1,9 +1,196 @@
+<script>
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import LocaleItemTable from './PortalListItemTable.vue';
+import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+
+export default {
+  components: {
+    Thumbnail: thumbnail,
+    LocaleItemTable,
+  },
+  props: {
+    portal: {
+      type: Object,
+      default: () => {},
+    },
+    status: {
+      type: String,
+      default: '',
+      values: ['archived', 'draft', 'published'],
+    },
+  },
+  setup() {
+    const { updateUISettings } = useUISettings();
+
+    return {
+      updateUISettings,
+    };
+  },
+  data() {
+    return {
+      showDeleteConfirmationPopup: false,
+      alertMessage: '',
+      selectedPortalForDelete: {},
+    };
+  },
+  computed: {
+    labelColor() {
+      switch (this.status) {
+        case 'Archived':
+          return 'warning';
+        default:
+          return 'success';
+      }
+    },
+    deleteMessageValue() {
+      return ` ${this.selectedPortalForDelete.name}?`;
+    },
+    locales() {
+      return this.portal ? this.portal.config.allowed_locales : [];
+    },
+    allowedLocales() {
+      return Object.keys(this.locales).map(key => {
+        return this.locales[key].code;
+      });
+    },
+    articleCount() {
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
+    },
+  },
+  methods: {
+    addLocale() {
+      this.$emit('addLocale', this.portal.id);
+    },
+    openSite() {
+      this.$emit('openSite', this.portal.slug);
+    },
+    openSettings() {
+      this.fetchPortalAndItsCategories();
+      this.navigateToPortalEdit();
+    },
+    onClickOpenDeleteModal(portal) {
+      this.selectedPortalForDelete = portal;
+      this.showDeleteConfirmationPopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    async fetchPortalAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const {
+        slug,
+        config: { allowed_locales: allowedLocales },
+      } = this.portal;
+      const selectedPortalParam = {
+        portalSlug: slug,
+        locale: allowedLocales[0].code,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
+    },
+    async onClickDeletePortal() {
+      const { slug } = this.selectedPortalForDelete;
+      try {
+        await this.$store.dispatch('portals/delete', {
+          portalSlug: slug,
+        });
+        this.selectedPortalForDelete = {};
+        this.closeDeletePopup();
+        this.alertMessage = this.$t(
+          'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_SUCCESS'
+        );
+        this.updateUISettings({
+          last_active_portal_slug: undefined,
+          last_active_locale_code: undefined,
+        });
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t(
+            'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR'
+          );
+      } finally {
+        useAlert(this.alertMessage);
+      }
+    },
+    changeDefaultLocale({ localeCode }) {
+      this.updatePortalLocales({
+        allowedLocales: this.allowedLocales,
+        defaultLocale: localeCode,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
+      this.$track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
+        newLocale: localeCode,
+        from: this.$route.name,
+      });
+    },
+    deletePortalLocale({ localeCode }) {
+      const updatedLocales = this.allowedLocales.filter(
+        code => code !== localeCode
+      );
+      const defaultLocale = this.portal.meta.default_locale;
+      this.updatePortalLocales({
+        allowedLocales: updatedLocales,
+        defaultLocale,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
+      this.$track(PORTALS_EVENTS.DELETE_LOCALE, {
+        deletedLocale: localeCode,
+        from: this.$route.name,
+      });
+    },
+    async updatePortalLocales({
+      allowedLocales,
+      defaultLocale,
+      successMessage,
+      errorMessage,
+    }) {
+      try {
+        await this.$store.dispatch('portals/update', {
+          portalSlug: this.portal.slug,
+          config: {
+            default_locale: defaultLocale,
+            allowed_locales: allowedLocales,
+          },
+        });
+        this.alertMessage = successMessage;
+      } catch (error) {
+        this.alertMessage = error?.message || errorMessage;
+      } finally {
+        useAlert(this.alertMessage);
+      }
+    },
+    navigateToPortalEdit() {
+      this.$router.push({
+        name: 'edit_portal_information',
+        params: { portalSlug: this.portal.slug },
+      });
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <div
       class="relative flex p-4 mb-3 bg-white border border-solid rounded-md dark:bg-slate-900 border-slate-100 dark:border-slate-600"
     >
-      <thumbnail :username="portal.name" variant="square" />
+      <Thumbnail :username="portal.name" variant="square" />
       <div class="flex-grow ml-2 rtl:ml-0 rtl:mr-2">
         <header class="flex items-start justify-between mb-8">
           <div>
@@ -167,10 +354,10 @@
               )
             }}
           </h2>
-          <locale-item-table
+          <LocaleItemTable
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
-            @change-default-locale="changeDefaultLocale"
+            @changeDefaultLocale="changeDefaultLocale"
             @delete="deletePortalLocale"
           />
         </div>
@@ -188,190 +375,3 @@
     />
   </div>
 </template>
-
-<script>
-import { useAlert } from 'dashboard/composables';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import LocaleItemTable from './PortalListItemTable.vue';
-import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-
-export default {
-  components: {
-    thumbnail,
-    LocaleItemTable,
-  },
-  props: {
-    portal: {
-      type: Object,
-      default: () => {},
-    },
-    status: {
-      type: String,
-      default: '',
-      values: ['archived', 'draft', 'published'],
-    },
-  },
-  setup() {
-    const { updateUISettings } = useUISettings();
-
-    return {
-      updateUISettings,
-    };
-  },
-  data() {
-    return {
-      showDeleteConfirmationPopup: false,
-      alertMessage: '',
-      selectedPortalForDelete: {},
-    };
-  },
-  computed: {
-    labelColor() {
-      switch (this.status) {
-        case 'Archived':
-          return 'warning';
-        default:
-          return 'success';
-      }
-    },
-    deleteMessageValue() {
-      return ` ${this.selectedPortalForDelete.name}?`;
-    },
-    locales() {
-      return this.portal ? this.portal.config.allowed_locales : [];
-    },
-    allowedLocales() {
-      return Object.keys(this.locales).map(key => {
-        return this.locales[key].code;
-      });
-    },
-    articleCount() {
-      const { allowed_locales: allowedLocales } = this.portal.config;
-      return allowedLocales.reduce((acc, locale) => {
-        return acc + locale.articles_count;
-      }, 0);
-    },
-  },
-  methods: {
-    addLocale() {
-      this.$emit('add-locale', this.portal.id);
-    },
-    openSite() {
-      this.$emit('open-site', this.portal.slug);
-    },
-    openSettings() {
-      this.fetchPortalAndItsCategories();
-      this.navigateToPortalEdit();
-    },
-    onClickOpenDeleteModal(portal) {
-      this.selectedPortalForDelete = portal;
-      this.showDeleteConfirmationPopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    async fetchPortalAndItsCategories() {
-      await this.$store.dispatch('portals/index');
-      const {
-        slug,
-        config: { allowed_locales: allowedLocales },
-      } = this.portal;
-      const selectedPortalParam = {
-        portalSlug: slug,
-        locale: allowedLocales[0].code,
-      };
-      this.$store.dispatch('portals/show', selectedPortalParam);
-      this.$store.dispatch('categories/index', selectedPortalParam);
-    },
-    async onClickDeletePortal() {
-      const { slug } = this.selectedPortalForDelete;
-      try {
-        await this.$store.dispatch('portals/delete', {
-          portalSlug: slug,
-        });
-        this.selectedPortalForDelete = {};
-        this.closeDeletePopup();
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_SUCCESS'
-        );
-        this.updateUISettings({
-          last_active_portal_slug: undefined,
-          last_active_locale_code: undefined,
-        });
-      } catch (error) {
-        this.alertMessage =
-          error?.message ||
-          this.$t(
-            'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR'
-          );
-      } finally {
-        useAlert(this.alertMessage);
-      }
-    },
-    changeDefaultLocale({ localeCode }) {
-      this.updatePortalLocales({
-        allowedLocales: this.allowedLocales,
-        defaultLocale: localeCode,
-        successMessage: this.$t(
-          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
-        ),
-        errorMessage: this.$t(
-          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
-        ),
-      });
-      this.$track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
-        newLocale: localeCode,
-        from: this.$route.name,
-      });
-    },
-    deletePortalLocale({ localeCode }) {
-      const updatedLocales = this.allowedLocales.filter(
-        code => code !== localeCode
-      );
-      const defaultLocale = this.portal.meta.default_locale;
-      this.updatePortalLocales({
-        allowedLocales: updatedLocales,
-        defaultLocale,
-        successMessage: this.$t(
-          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'
-        ),
-        errorMessage: this.$t(
-          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
-        ),
-      });
-      this.$track(PORTALS_EVENTS.DELETE_LOCALE, {
-        deletedLocale: localeCode,
-        from: this.$route.name,
-      });
-    },
-    async updatePortalLocales({
-      allowedLocales,
-      defaultLocale,
-      successMessage,
-      errorMessage,
-    }) {
-      try {
-        await this.$store.dispatch('portals/update', {
-          portalSlug: this.portal.slug,
-          config: {
-            default_locale: defaultLocale,
-            allowed_locales: allowedLocales,
-          },
-        });
-        this.alertMessage = successMessage;
-      } catch (error) {
-        this.alertMessage = error?.message || errorMessage;
-      } finally {
-        useAlert(this.alertMessage);
-      }
-    },
-    navigateToPortalEdit() {
-      this.$router.push({
-        name: 'edit_portal_information',
-        params: { portalSlug: this.portal.slug },
-      });
-    },
-  },
-};
-</script>

@@ -1,52 +1,3 @@
-<template>
-  <div class="widget-preview-container">
-    <div v-if="isWidgetVisible" class="screen-selector">
-      <input-radio-group
-        name="widget-screen"
-        :items="widgetScreens"
-        :action="handleScreenChange"
-      />
-    </div>
-    <div v-if="isWidgetVisible" class="widget-wrapper">
-      <WidgetHead :config="getWidgetHeadConfig" />
-      <div>
-        <WidgetBody :config="getWidgetBodyConfig" />
-        <WidgetFooter :config="getWidgetFooterConfig" />
-        <div class="branding">
-          <a class="branding-link">
-            <img class="branding-image" :src="globalConfig.logoThumbnail" />
-            <span>
-              {{
-                useInstallationName(
-                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
-                  globalConfig.installationName
-                )
-              }}
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="widget-bubble" :style="getBubblePositionStyle">
-      <button
-        class="bubble"
-        :class="getBubbleTypeClass"
-        :style="{ background: color }"
-        @click="toggleWidget"
-      >
-        <img
-          v-if="!isWidgetVisible"
-          src="~dashboard/assets/images/bubble-logo.svg"
-          alt=""
-        />
-        <div>
-          {{ getWidgetBubbleLauncherTitle }}
-        </div>
-      </button>
-    </div>
-  </div>
-</template>
-
 <script>
 import WidgetHead from './WidgetHead.vue';
 import WidgetBody from './WidgetBody.vue';
@@ -75,7 +26,6 @@ export default {
     },
     websiteName: {
       type: String,
-      default: '',
       required: true,
     },
     logo: {
@@ -197,6 +147,55 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="widget-preview-container">
+    <div v-if="isWidgetVisible" class="screen-selector">
+      <InputRadioGroup
+        name="widget-screen"
+        :items="widgetScreens"
+        :action="handleScreenChange"
+      />
+    </div>
+    <div v-if="isWidgetVisible" class="widget-wrapper">
+      <WidgetHead :config="getWidgetHeadConfig" />
+      <div>
+        <WidgetBody :config="getWidgetBodyConfig" />
+        <WidgetFooter :config="getWidgetFooterConfig" />
+        <div class="branding">
+          <a class="branding-link">
+            <img class="branding-image" :src="globalConfig.logoThumbnail" />
+            <span>
+              {{
+                useInstallationName(
+                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
+                  globalConfig.installationName
+                )
+              }}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="widget-bubble" :style="getBubblePositionStyle">
+      <button
+        class="bubble"
+        :class="getBubbleTypeClass"
+        :style="{ background: color }"
+        @click="toggleWidget"
+      >
+        <img
+          v-if="!isWidgetVisible"
+          src="~dashboard/assets/images/bubble-logo.svg"
+          alt=""
+        />
+        <div>
+          {{ getWidgetBubbleLauncherTitle }}
+        </div>
+      </button>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .screen-selector {

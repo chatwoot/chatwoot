@@ -1,30 +1,9 @@
-<template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
-      @click="downloadAgentReports"
-    >
-      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
-    </woot-button>
-    <report-filter-selector
-      :show-agents-filter="false"
-      :show-group-by-filter="true"
-      @filter-change="onFilterChange"
-    />
-    <report-container :group-by="groupBy" />
-  </div>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
-import reportMixin from 'dashboard/mixins/reportMixin';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportContainer from './ReportContainer.vue';
 
@@ -44,7 +23,6 @@ export default {
     ReportFilterSelector,
     ReportContainer,
   },
-  mixins: [reportMixin],
   data() {
     return {
       from: 0,
@@ -52,12 +30,6 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
     };
-  },
-  computed: {
-    ...mapGetters({
-      accountSummary: 'getAccountSummary',
-      accountReport: 'getAccountReports',
-    }),
   },
   methods: {
     fetchAllData() {
@@ -124,3 +96,22 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-4 overflow-auto">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="arrow-download"
+      @click="downloadAgentReports"
+    >
+      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+    </woot-button>
+    <ReportFilterSelector
+      :show-agents-filter="false"
+      show-group-by-filter
+      @filterChange="onFilterChange"
+    />
+    <ReportContainer :group-by="groupBy" />
+  </div>
+</template>

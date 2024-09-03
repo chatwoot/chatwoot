@@ -1,10 +1,78 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+
+export default {
+  components: {
+    Thumbnail,
+  },
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    note: {
+      type: String,
+      default: '',
+    },
+    user: {
+      type: Object,
+      default: () => {},
+    },
+    createdAt: {
+      type: Number,
+      default: 0,
+    },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
+  },
+  data() {
+    return {
+      showDeleteModal: false,
+    };
+  },
+  computed: {
+    readableTime() {
+      return dynamicTime(this.createdAt);
+    },
+    noteAuthor() {
+      return this.user || {};
+    },
+    noteAuthorName() {
+      return this.noteAuthor.name || this.$t('APP_GLOBAL.DELETED_USER');
+    },
+  },
+
+  methods: {
+    toggleDeleteModal() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
+    onDelete() {
+      this.$emit('delete', this.id);
+    },
+    confirmDeletion() {
+      this.onDelete();
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.showDeleteModal = false;
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex flex-col flex-grow p-4 mb-2 overflow-hidden bg-white border border-solid rounded-md shadow-sm border-slate-75 dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-100 note-wrap"
   >
     <div class="flex items-end justify-between gap-1 text-xs">
       <div class="flex items-center">
-        <thumbnail
+        <Thumbnail
           :title="noteAuthorName"
           :src="noteAuthor.thumbnail"
           :username="noteAuthorName"
@@ -49,71 +117,6 @@
     />
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { dynamicTime } from 'shared/helpers/timeHelper';
-
-export default {
-  components: {
-    Thumbnail,
-  },
-
-  mixins: [messageFormatterMixin],
-
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    note: {
-      type: String,
-      default: '',
-    },
-    user: {
-      type: Object,
-      default: () => {},
-    },
-    createdAt: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      showDeleteModal: false,
-    };
-  },
-  computed: {
-    readableTime() {
-      return dynamicTime(this.createdAt);
-    },
-    noteAuthor() {
-      return this.user || {};
-    },
-    noteAuthorName() {
-      return this.noteAuthor.name || this.$t('APP_GLOBAL.DELETED_USER');
-    },
-  },
-
-  methods: {
-    toggleDeleteModal() {
-      this.showDeleteModal = !this.showDeleteModal;
-    },
-    onDelete() {
-      this.$emit('delete', this.id);
-    },
-    confirmDeletion() {
-      this.onDelete();
-      this.closeDelete();
-    },
-    closeDelete() {
-      this.showDeleteModal = false;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 // For RTL direction view

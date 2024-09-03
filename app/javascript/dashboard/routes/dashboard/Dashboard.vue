@@ -1,44 +1,3 @@
-<template>
-  <div
-    class="flex flex-wrap flex-grow-0 w-full h-full max-w-full min-h-0 ml-auto mr-auto app-wrapper dark:text-slate-300"
-  >
-    <sidebar
-      :route="currentRoute"
-      :show-secondary-sidebar="isSidebarOpen"
-      @open-notification-panel="openNotificationPanel"
-      @toggle-account-modal="toggleAccountModal"
-      @open-key-shortcut-modal="toggleKeyShortcutModal"
-      @close-key-shortcut-modal="closeKeyShortcutModal"
-      @show-add-label-popup="showAddLabelPopup"
-    />
-    <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
-      <router-view />
-      <command-bar />
-      <account-selector
-        :show-account-modal="showAccountModal"
-        @close-account-modal="toggleAccountModal"
-        @show-create-account-modal="openCreateAccountModal"
-      />
-      <add-account-modal
-        :show="showCreateAccountModal"
-        @close-account-create-modal="closeCreateAccountModal"
-      />
-      <woot-key-shortcut-modal
-        :show.sync="showShortcutModal"
-        @close="closeKeyShortcutModal"
-        @clickaway="closeKeyShortcutModal"
-      />
-      <notification-panel
-        v-if="isNotificationPanel"
-        @close="closeNotificationPanel"
-      />
-      <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
-        <add-label-modal @close="hideAddLabelPopup" />
-      </woot-modal>
-    </section>
-  </div>
-</template>
-
 <script>
 import Sidebar from '../../components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -181,3 +140,44 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-wrap flex-grow-0 w-full h-full max-w-full min-h-0 ml-auto mr-auto app-wrapper dark:text-slate-300"
+  >
+    <Sidebar
+      :route="currentRoute"
+      :show-secondary-sidebar="isSidebarOpen"
+      @openNotificationPanel="openNotificationPanel"
+      @toggleAccountModal="toggleAccountModal"
+      @openKeyShortcutModal="toggleKeyShortcutModal"
+      @closeKeyShortcutModal="closeKeyShortcutModal"
+      @showAddLabelPopup="showAddLabelPopup"
+    />
+    <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
+      <router-view />
+      <CommandBar />
+      <AccountSelector
+        :show-account-modal="showAccountModal"
+        @closeAccountModal="toggleAccountModal"
+        @showCreateAccountModal="openCreateAccountModal"
+      />
+      <AddAccountModal
+        :show="showCreateAccountModal"
+        @closeAccountCreateModal="closeCreateAccountModal"
+      />
+      <WootKeyShortcutModal
+        :show.sync="showShortcutModal"
+        @close="closeKeyShortcutModal"
+        @clickaway="closeKeyShortcutModal"
+      />
+      <NotificationPanel
+        v-if="isNotificationPanel"
+        @close="closeNotificationPanel"
+      />
+      <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
+        <AddLabelModal @close="hideAddLabelPopup" />
+      </woot-modal>
+    </section>
+  </div>
+</template>

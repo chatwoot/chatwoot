@@ -1,92 +1,225 @@
-<template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddPopup()"
-    >
-      {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
-    </woot-button>
-    <div class="flex flex-row gap-4">
-      <div class="w-full lg:w-3/5">
-        <p
-          v-if="!uiFlags.isFetching && !records.length"
-          class="flex flex-col items-center justify-center h-full"
-        >
-          {{ $t('AUTOMATION.LIST.404') }}
-        </p>
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('AUTOMATION.LOADING')"
-        />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
-          <thead>
-            <th
-              v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
-              :key="thHeader"
-            >
-              {{ thHeader }}
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="(automation, index) in records" :key="index">
-              <td>{{ automation.name }}</td>
-              <td>{{ automation.description }}</td>
-              <td>
-                <woot-switch
-                  :value="automation.active"
-                  @input="toggleAutomation(automation, automation.active)"
-                />
-              </td>
-              <td>{{ readableTime(automation.created_on) }}</td>
-              <td class="button-wrapper">
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  icon="edit"
-                  @click="openEditPopup(automation)"
-                />
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="primary"
-                  class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  icon="copy"
-                  @click="cloneAutomation(automation.id)"
-                />
-                <woot-button
-                  v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  :is-loading="loading[automation.id]"
-                  @click="openDeletePopup(automation, index)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<script setup>
+import { useAlert } from 'dashboard/composables';
+import AddAutomationRule from './AddAutomationRule.vue';
+import EditAutomationRule from './EditAutomationRule.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsLayout from '../SettingsLayout.vue';
+import { computed, onMounted, ref } from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import AutomationRuleRow from './AutomationRuleRow.vue';
+const getters = useStoreGetters();
+const store = useStore();
+const { t } = useI18n();
+const confirmDialog = ref(null);
 
-      <div class="hidden w-1/3 lg:block">
-        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
-      </div>
-    </div>
+const loading = ref({});
+const showAddPopup = ref(false);
+const showEditPopup = ref(false);
+const showDeleteConfirmationPopup = ref(false);
+const selectedAutomation = ref({});
+const toggleModalTitle = ref(t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'));
+const toggleModalDescription = ref(
+  t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION')
+);
+
+const records = computed(() => getters['automations/getAutomations'].value);
+const uiFlags = computed(() => getters['automations/getUIFlags'].value);
+const accountId = computed(() => getters.getCurrentAccountId.value);
+
+const deleteConfirmText = computed(
+  () => `${t('AUTOMATION.DELETE.CONFIRM.YES')} ${selectedAutomation.value.name}`
+);
+
+const deleteRejectText = computed(
+  () => `${t('AUTOMATION.DELETE.CONFIRM.NO')} ${selectedAutomation.value.name}`
+);
+
+const deleteMessage = computed(() => ` ${selectedAutomation.value.name}?`);
+
+const isSLAEnabled = computed(() =>
+  getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
+);
+
+onMounted(() => {
+  store.dispatch('inboxes/get');
+  store.dispatch('agents/get');
+  store.dispatch('contacts/get');
+  store.dispatch('teams/get');
+  store.dispatch('labels/get');
+  store.dispatch('campaigns/get');
+  store.dispatch('automations/get');
+  if (isSLAEnabled.value) {
+    store.dispatch('sla/get');
+  }
+});
+
+const openAddPopup = () => {
+  showAddPopup.value = true;
+};
+const hideAddPopup = () => {
+  showAddPopup.value = false;
+};
+
+const openEditPopup = response => {
+  selectedAutomation.value = response;
+  showEditPopup.value = true;
+};
+const hideEditPopup = () => {
+  showEditPopup.value = false;
+};
+
+const openDeletePopup = response => {
+  showDeleteConfirmationPopup.value = true;
+  selectedAutomation.value = response;
+};
+const closeDeletePopup = () => {
+  showDeleteConfirmationPopup.value = false;
+};
+
+const deleteAutomation = async id => {
+  try {
+    await store.dispatch('automations/delete', id);
+    useAlert(t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
+  } finally {
+    loading.value[selectedAutomation.value.id] = false;
+  }
+};
+const confirmDeletion = () => {
+  loading.value[selectedAutomation.value.id] = true;
+  closeDeletePopup();
+  deleteAutomation(selectedAutomation.value.id);
+};
+const cloneAutomation = async ({ id }) => {
+  try {
+    await store.dispatch('automations/clone', id);
+    useAlert(t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
+    store.dispatch('automations/get');
+  } catch (error) {
+    useAlert(t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
+  } finally {
+    loading.value[selectedAutomation.value.id] = false;
+  }
+};
+
+const submitAutomation = async (payload, mode) => {
+  try {
+    const action =
+      mode === 'edit' ? 'automations/update' : 'automations/create';
+    const successMessage =
+      mode === 'edit'
+        ? t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
+        : t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
+    await store.dispatch(action, payload);
+    useAlert(successMessage);
+    hideAddPopup();
+    hideEditPopup();
+  } catch (error) {
+    const errorMessage =
+      mode === 'edit'
+        ? t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
+        : t('AUTOMATION.ADD.API.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  }
+};
+const toggleAutomation = async ({ id, name, status }) => {
+  try {
+    if (status) {
+      toggleModalTitle.value = t('AUTOMATION.TOGGLE.DEACTIVATION_TITLE');
+      toggleModalDescription.value = t(
+        'AUTOMATION.TOGGLE.DEACTIVATION_DESCRIPTION',
+        {
+          automationName: name,
+        }
+      );
+    } else {
+      toggleModalTitle.value = t('AUTOMATION.TOGGLE.ACTIVATION_TITLE');
+      toggleModalDescription.value = t(
+        'AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION',
+        {
+          automationName: name,
+        }
+      );
+    }
+
+    const ok = await confirmDialog.value.showConfirmation();
+    if (ok) {
+      await store.dispatch('automations/update', {
+        id: id,
+        active: !status,
+      });
+      const message = status
+        ? t('AUTOMATION.TOGGLE.DEACTIVATION_SUCCESFUL')
+        : t('AUTOMATION.TOGGLE.ACTIVATION_SUCCESFUL');
+      useAlert(message);
+    }
+  } catch (error) {
+    useAlert(t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
+  }
+};
+</script>
+
+<template>
+  <SettingsLayout
+    :is-loading="uiFlags.isFetching"
+    :loading-message="$t('AUTOMATION.LOADING')"
+    :no-records-found="!records.length"
+    :no-records-message="$t('AUTOMATION.LIST.404')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('AUTOMATION.HEADER')"
+        :description="$t('AUTOMATION.DESCRIPTION')"
+        :link-text="$t('AUTOMATION.LEARN_MORE')"
+        feature-name="automation"
+      >
+        <template #actions>
+          <woot-button
+            class="button nice rounded-md"
+            icon="add-circle"
+            @click="openAddPopup"
+          >
+            {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
+          </woot-button>
+        </template>
+      </BaseSettingsHeader>
+    </template>
+    <template #body>
+      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+        <thead>
+          <th
+            v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
+            :key="thHeader"
+            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+          >
+            {{ thHeader }}
+          </th>
+        </thead>
+        <tbody
+          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+        >
+          <AutomationRuleRow
+            v-for="automation in records"
+            :key="automation.id"
+            :automation="automation"
+            :loading="loading[automation.id]"
+            @clone="cloneAutomation"
+            @toggle="toggleAutomation"
+            @edit="openEditPopup"
+            @delete="openDeletePopup"
+          />
+        </tbody>
+      </table>
+    </template>
+
     <woot-modal
       :show.sync="showAddPopup"
       size="medium"
       :on-close="hideAddPopup"
     >
-      <add-automation-rule
+      <AddAutomationRule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
         @saveAutomation="submitAutomation"
@@ -109,10 +242,10 @@
       size="medium"
       :on-close="hideEditPopup"
     >
-      <edit-automation-rule
+      <EditAutomationRule
         v-if="showEditPopup"
         :on-close="hideEditPopup"
-        :selected-response="selectedResponse"
+        :selected-response="selectedAutomation"
         @saveAutomation="submitAutomation"
       />
     </woot-modal>
@@ -121,164 +254,5 @@
       :title="toggleModalTitle"
       :description="toggleModalDescription"
     />
-  </div>
+  </SettingsLayout>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-import { messageStamp } from 'shared/helpers/timeHelper';
-import AddAutomationRule from './AddAutomationRule.vue';
-import EditAutomationRule from './EditAutomationRule.vue';
-
-export default {
-  components: {
-    AddAutomationRule,
-    EditAutomationRule,
-  },
-  data() {
-    return {
-      loading: {},
-      showAddPopup: false,
-      showEditPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedResponse: {},
-      toggleModalTitle: this.$t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'),
-      toggleModalDescription: this.$t(
-        'AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION'
-      ),
-    };
-  },
-  computed: {
-    ...mapGetters({
-      records: ['automations/getAutomations'],
-      uiFlags: 'automations/getUIFlags',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
-    // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('AUTOMATION.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.name
-      }`;
-    },
-    deleteRejectText() {
-      return `${this.$t('AUTOMATION.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.name
-      }`;
-    },
-    deleteMessage() {
-      return ` ${this.selectedResponse.name}?`;
-    },
-    isSLAEnabled() {
-      return this.isFeatureEnabledonAccount(this.accountId, 'sla');
-    },
-  },
-  mounted() {
-    this.$store.dispatch('inboxes/get');
-    this.$store.dispatch('agents/get');
-    this.$store.dispatch('contacts/get');
-    this.$store.dispatch('teams/get');
-    this.$store.dispatch('labels/get');
-    this.$store.dispatch('campaigns/get');
-    this.$store.dispatch('automations/get');
-    if (this.isSLAEnabled) this.$store.dispatch('sla/get');
-  },
-  methods: {
-    openAddPopup() {
-      this.showAddPopup = true;
-    },
-    hideAddPopup() {
-      this.showAddPopup = false;
-    },
-    openEditPopup(response) {
-      this.selectedResponse = response;
-      this.showEditPopup = true;
-    },
-    hideEditPopup() {
-      this.showEditPopup = false;
-    },
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedResponse = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    confirmDeletion() {
-      this.loading[this.selectedResponse.id] = true;
-      this.closeDeletePopup();
-      this.deleteAutomation(this.selectedResponse.id);
-    },
-    async deleteAutomation(id) {
-      try {
-        await this.$store.dispatch('automations/delete', id);
-        useAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
-        this.loading[this.selectedResponse.id] = false;
-      } catch (error) {
-        useAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
-      }
-    },
-    async cloneAutomation(id) {
-      try {
-        await this.$store.dispatch('automations/clone', id);
-        useAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
-        this.$store.dispatch('automations/get');
-        this.loading[this.selectedResponse.id] = false;
-      } catch (error) {
-        useAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
-      }
-    },
-    async submitAutomation(payload, mode) {
-      try {
-        const action =
-          mode === 'edit' ? 'automations/update' : 'automations/create';
-        const successMessage =
-          mode === 'edit'
-            ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
-            : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-        await this.$store.dispatch(action, payload);
-        useAlert(successMessage);
-        this.hideAddPopup();
-        this.hideEditPopup();
-      } catch (error) {
-        const errorMessage =
-          mode === 'edit'
-            ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
-            : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-        useAlert(errorMessage);
-      }
-    },
-    async toggleAutomation(automation, status) {
-      try {
-        this.toggleModalTitle = status
-          ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_TITLE')
-          : this.$t('AUTOMATION.TOGGLE.ACTIVATION_TITLE');
-        this.toggleModalDescription = status
-          ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_DESCRIPTION', {
-              automationName: automation.name,
-            })
-          : this.$t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION', {
-              automationName: automation.name,
-            });
-        // Check if user confirms to proceed
-        const ok = await this.$refs.confirmDialog.showConfirmation();
-        if (ok) {
-          await await this.$store.dispatch('automations/update', {
-            id: automation.id,
-            active: !status,
-          });
-          const message = status
-            ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_SUCCESFUL')
-            : this.$t('AUTOMATION.TOGGLE.ACTIVATION_SUCCESFUL');
-          useAlert(message);
-        }
-      } catch (error) {
-        useAlert(this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-    readableTime(date) {
-      return messageStamp(new Date(date), 'LLL d, h:mm a');
-    },
-  },
-};
-</script>

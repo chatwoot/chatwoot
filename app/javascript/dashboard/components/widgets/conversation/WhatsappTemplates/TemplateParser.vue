@@ -1,45 +1,3 @@
-<template>
-  <div class="w-full">
-    <textarea
-      v-model="processedString"
-      rows="4"
-      readonly
-      class="template-input"
-    />
-    <div v-if="variables" class="template__variables-container">
-      <p class="variables-label">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
-      </p>
-      <div
-        v-for="(variable, key) in processedParams"
-        :key="key"
-        class="template__variable-item"
-      >
-        <span class="variable-label">
-          {{ key }}
-        </span>
-        <woot-input
-          v-model="processedParams[key]"
-          type="text"
-          class="variable-input"
-          :styles="{ marginBottom: 0 }"
-        />
-      </div>
-      <p v-if="v$.$dirty && v$.$invalid" class="error">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
-      </p>
-    </div>
-    <footer>
-      <woot-button variant="smooth" @click="resetTemplate">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
-      </woot-button>
-      <woot-button type="button" @click="sendMessage">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
-      </woot-button>
-    </footer>
-  </div>
-</template>
-
 <script>
 /**
  * This component handles parsing and sending WhatsApp message templates.
@@ -146,6 +104,48 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="w-full">
+    <textarea
+      v-model="processedString"
+      rows="4"
+      readonly
+      class="template-input"
+    />
+    <div v-if="variables" class="template__variables-container">
+      <p class="variables-label">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
+      </p>
+      <div
+        v-for="(variable, key) in processedParams"
+        :key="key"
+        class="template__variable-item"
+      >
+        <span class="variable-label">
+          {{ key }}
+        </span>
+        <woot-input
+          v-model="processedParams[key]"
+          type="text"
+          class="variable-input"
+          :styles="{ marginBottom: 0 }"
+        />
+      </div>
+      <p v-if="v$.$dirty && v$.$invalid" class="error">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
+      </p>
+    </div>
+    <footer>
+      <woot-button variant="smooth" @click="resetTemplate">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
+      </woot-button>
+      <woot-button type="button" @click="sendMessage">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
+      </woot-button>
+    </footer>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .template__variables-container {

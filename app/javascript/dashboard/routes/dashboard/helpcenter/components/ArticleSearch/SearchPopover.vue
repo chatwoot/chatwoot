@@ -1,41 +1,6 @@
-<template>
-  <div
-    class="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
-  >
-    <div
-      v-on-clickaway="onClose"
-      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
-    >
-      <search-header
-        :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
-        class="w-full sticky top-0 bg-[inherit]"
-        @close="onClose"
-        @search="onSearch"
-      />
-
-      <article-view
-        v-if="activeId"
-        :url="articleViewerUrl"
-        @back="onBack"
-        @insert="onInsert"
-      />
-      <search-results
-        v-else
-        :search-query="searchQuery"
-        :is-loading="isLoading"
-        :portal-slug="selectedPortalSlug"
-        :articles="searchResultsWithUrl"
-        @preview="handlePreview"
-        @insert="onInsert"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { debounce } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
@@ -51,7 +16,7 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin, keyboardEventListenerMixins],
+  mixins: [portalMixin],
   props: {
     selectedPortalSlug: {
       type: String,
@@ -148,16 +113,40 @@ export default {
       useAlert(this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED'));
       this.onClose();
     },
-    getKeyboardEvents() {
-      return {
-        Escape: {
-          action: () => {
-            this.onClose();
-          },
-          allowOnFocusedInput: true,
-        },
-      };
-    },
   },
 };
 </script>
+
+<template>
+  <div
+    class="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+  >
+    <div
+      v-on-clickaway="onClose"
+      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
+    >
+      <SearchHeader
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"
+        class="w-full sticky top-0 bg-[inherit]"
+        @close="onClose"
+        @search="onSearch"
+      />
+
+      <ArticleView
+        v-if="activeId"
+        :url="articleViewerUrl"
+        @back="onBack"
+        @insert="onInsert"
+      />
+      <SearchResults
+        v-else
+        :search-query="searchQuery"
+        :is-loading="isLoading"
+        :portal-slug="selectedPortalSlug"
+        :articles="searchResultsWithUrl"
+        @preview="handlePreview"
+        @insert="onInsert"
+      />
+    </div>
+  </div>
+</template>

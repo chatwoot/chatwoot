@@ -1,38 +1,3 @@
-<template>
-  <div class="flex items-center w-full gap-3">
-    <woot-input
-      v-model="thresholdTime"
-      :class="{ error: v$.thresholdTime.$error }"
-      class="flex-grow"
-      :styles="{
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-      }"
-      :label="label"
-      :placeholder="placeholder"
-      :error="thresholdTimeErrorMessage"
-      @input="onThresholdTimeChange"
-    />
-    <!-- the mt-7 handles the label offset -->
-    <div class="mt-7">
-      <select
-        v-model="thresholdUnitValue"
-        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 bg-slate-50 rounded-xl hover:cursor-pointer pr-7 text-slate-800 dark:text-slate-300"
-        @change="onThresholdUnitChange"
-      >
-        <option
-          v-for="(option, index) in options"
-          :key="index"
-          :value="option.value"
-        >
-          {{ option.label }}
-        </option>
-      </select>
-    </div>
-  </div>
-</template>
-
 <script>
 import validations from './validations';
 import { useVuelidate } from '@vuelidate/core';
@@ -113,3 +78,38 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex items-center w-full gap-3">
+    <woot-input
+      v-model="thresholdTime"
+      :class="{ error: v$.thresholdTime.$error }"
+      class="flex-grow"
+      :styles="{
+        borderRadius: '12px',
+        padding: '6px 12px',
+        fontSize: '14px',
+      }"
+      :label="label"
+      :placeholder="placeholder"
+      :error="thresholdTimeErrorMessage"
+      @input="onThresholdTimeChange"
+    />
+    <!-- the mt-7 handles the label offset -->
+    <div class="mt-7">
+      <select
+        v-model="thresholdUnitValue"
+        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 bg-slate-50 rounded-xl hover:cursor-pointer pr-7 text-slate-800 dark:text-slate-300"
+        @change="onThresholdUnitChange"
+      >
+        <option
+          v-for="(option, index) in options"
+          :key="index"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+</template>

@@ -173,11 +173,10 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
+      toState: frontendURL(`accounts/${accountId}/settings/audit-logs/list`),
       toStateName: 'auditlogs_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
-      beta: true,
     },
     {
       icon: 'document-list-clock',

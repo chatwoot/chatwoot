@@ -58,9 +58,7 @@ describe('ReportsFiltersInboxes.vue', () => {
 
     wrapper.vm.handleInput();
 
-    expect(wrapper.emitted('inbox-filter-selection')).toBeTruthy();
-    expect(wrapper.emitted('inbox-filter-selection')[0]).toEqual([
-      selectedInbox,
-    ]);
+    expect(wrapper.emitted('inboxFilterSelection')).toBeTruthy();
+    expect(wrapper.emitted('inboxFilterSelection')[0]).toEqual([selectedInbox]);
   });
 });

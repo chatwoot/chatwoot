@@ -1,30 +1,3 @@
-<template>
-  <div
-    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
-    id="app"
-    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTLView }"
-    :dir="isRTLView ? 'rtl' : 'ltr'"
-  >
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="currentAccountId">
-      <pending-email-verification-banner v-if="hideOnOnboardingView" />
-      <payment-pending-banner v-if="hideOnOnboardingView" />
-      <upgrade-banner />
-    </template>
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
-    <add-account-modal
-      :show="showAddAccountModal"
-      :has-accounts="hasAccounts"
-    />
-    <woot-snackbar-box />
-    <network-notification />
-  </div>
-  <loading-state v-else />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import router from '../dashboard/routes';
@@ -37,7 +10,6 @@ import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
@@ -59,9 +31,6 @@ export default {
     UpgradeBanner,
     PendingEmailVerificationBanner,
   },
-
-  mixins: [rtlMixin],
-
   data() {
     return {
       showAddAccountModal: false,
@@ -73,8 +42,8 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',
@@ -130,7 +99,6 @@ export default {
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
-      this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
       this.reconnectService = new ReconnectService(this.$store, router);
@@ -146,6 +114,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
+    id="app"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
+    :class="{ 'app-rtl--wrapper': isRTL }"
+    :dir="isRTL ? 'rtl' : 'ltr'"
+  >
+    <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
+    <template v-if="currentAccountId">
+      <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
+      <PaymentPendingBanner v-if="hideOnOnboardingView" />
+      <UpgradeBanner />
+    </template>
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
+    <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
+    <WootSnackbarBox />
+    <NetworkNotification />
+  </div>
+  <LoadingState v-else />
+</template>
 
 <style lang="scss">
 @import './assets/scss/app';

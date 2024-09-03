@@ -1,80 +1,3 @@
-<template>
-  <div class="mx-8">
-    <settings-section
-      :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
-      :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
-    >
-      <form @submit.prevent="updateInbox">
-        <label for="toggle-business-hours" class="toggle-input-wrap">
-          <input
-            v-model="isBusinessHoursEnabled"
-            type="checkbox"
-            class="ltr:mr-2 rtl:ml-2"
-            name="toggle-business-hours"
-          />
-          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
-        </label>
-        <p class="text-slate-700 dark:text-slate-300 mb-4">
-          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
-        </p>
-        <div v-if="isBusinessHoursEnabled" class="mb-6">
-          <div class="max-w-[37.5rem]">
-            <label class="unavailable-input-wrap">
-              {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
-            </label>
-            <div
-              v-if="isRichEditorEnabled"
-              class="py-0 px-4 border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md mx-0 mt-0 mb-4"
-            >
-              <woot-message-editor
-                v-model="unavailableMessage"
-                :enable-variables="true"
-                :is-format-mode="true"
-                class="message-editor"
-                :min-height="4"
-              />
-            </div>
-            <textarea v-else v-model="unavailableMessage" type="text" />
-          </div>
-          <div class="timezone-input-wrap">
-            <label>
-              {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
-            </label>
-            <multiselect
-              v-model="timeZone"
-              :options="timeZones"
-              deselect-label=""
-              select-label=""
-              selected-label=""
-              track-by="value"
-              label="label"
-              :close-on-select="true"
-              :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-              :allow-empty="false"
-            />
-          </div>
-
-          <label>
-            {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
-          </label>
-          <business-day
-            v-for="timeSlot in timeSlots"
-            :key="timeSlot.day"
-            :day-name="dayNames[timeSlot.day]"
-            :time-slot="timeSlot"
-            @update="data => onSlotUpdate(timeSlot.day, data)"
-          />
-        </div>
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :loading="uiFlags.isUpdating"
-          :disabled="hasError"
-        />
-      </form>
-    </settings-section>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -194,6 +117,84 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="mx-8">
+    <SettingsSection
+      :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
+      :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
+    >
+      <form @submit.prevent="updateInbox">
+        <label for="toggle-business-hours" class="toggle-input-wrap">
+          <input
+            v-model="isBusinessHoursEnabled"
+            type="checkbox"
+            class="ltr:mr-2 rtl:ml-2"
+            name="toggle-business-hours"
+          />
+          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
+        </label>
+        <p class="mb-4 text-slate-700 dark:text-slate-300">
+          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
+        </p>
+        <div v-if="isBusinessHoursEnabled" class="mb-6">
+          <div class="max-w-[37.5rem]">
+            <label class="unavailable-input-wrap">
+              {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
+            </label>
+            <div
+              v-if="isRichEditorEnabled"
+              class="px-4 py-0 mx-0 mt-0 mb-4 bg-white border border-solid rounded-md border-slate-200 dark:border-slate-600 dark:bg-slate-900"
+            >
+              <WootMessageEditor
+                v-model="unavailableMessage"
+                enable-variables
+                is-format-mode
+                class="message-editor"
+                :min-height="4"
+              />
+            </div>
+            <textarea v-else v-model="unavailableMessage" type="text" />
+          </div>
+          <div class="timezone-input-wrap">
+            <label>
+              {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
+            </label>
+            <multiselect
+              v-model="timeZone"
+              :options="timeZones"
+              deselect-label=""
+              select-label=""
+              selected-label=""
+              track-by="value"
+              label="label"
+              close-on-select
+              :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+              :allow-empty="false"
+            />
+          </div>
+
+          <label>
+            {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
+          </label>
+          <BusinessDay
+            v-for="timeSlot in timeSlots"
+            :key="timeSlot.day"
+            :day-name="dayNames[timeSlot.day]"
+            :time-slot="timeSlot"
+            @update="data => onSlotUpdate(timeSlot.day, data)"
+          />
+        </div>
+        <woot-submit-button
+          :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
+          :loading="uiFlags.isUpdating"
+          :disabled="hasError"
+        />
+      </form>
+    </SettingsSection>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .timezone-input-wrap {
   @apply max-w-[37.5rem];

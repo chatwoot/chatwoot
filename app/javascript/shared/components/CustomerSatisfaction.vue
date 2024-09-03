@@ -1,50 +1,3 @@
-<template>
-  <div
-    class="customer-satisfaction"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-    :style="{ borderColor: widgetColor }"
-  >
-    <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
-      {{ title }}
-    </h6>
-    <div class="ratings">
-      <button
-        v-for="rating in ratings"
-        :key="rating.key"
-        :class="buttonClass(rating)"
-        @click="selectRating(rating)"
-      >
-        {{ rating.emoji }}
-      </button>
-    </div>
-    <form
-      v-if="!isFeedbackSubmitted"
-      class="feedback-form"
-      @submit.prevent="onSubmit()"
-    >
-      <input
-        v-model="feedback"
-        class="form-input"
-        :class="inputColor"
-        :placeholder="$t('CSAT.PLACEHOLDER')"
-        @keydown.enter="onSubmit"
-      />
-      <button
-        class="button small"
-        :disabled="isButtonDisabled"
-        :style="{
-          background: widgetColor,
-          borderColor: widgetColor,
-          color: textColor,
-        }"
-      >
-        <spinner v-if="isUpdating && feedback" />
-        <fluent-icon v-else icon="chevron-right" />
-      </button>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
@@ -148,6 +101,53 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="customer-satisfaction"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :style="{ borderColor: widgetColor }"
+  >
+    <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
+      {{ title }}
+    </h6>
+    <div class="ratings">
+      <button
+        v-for="rating in ratings"
+        :key="rating.key"
+        :class="buttonClass(rating)"
+        @click="selectRating(rating)"
+      >
+        {{ rating.emoji }}
+      </button>
+    </div>
+    <form
+      v-if="!isFeedbackSubmitted"
+      class="feedback-form"
+      @submit.prevent="onSubmit()"
+    >
+      <input
+        v-model="feedback"
+        class="form-input"
+        :class="inputColor"
+        :placeholder="$t('CSAT.PLACEHOLDER')"
+        @keydown.enter="onSubmit"
+      />
+      <button
+        class="button small"
+        :disabled="isButtonDisabled"
+        :style="{
+          background: widgetColor,
+          borderColor: widgetColor,
+          color: textColor,
+        }"
+      >
+        <Spinner v-if="isUpdating && feedback" />
+        <FluentIcon v-else icon="chevron-right" />
+      </button>
+    </form>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';

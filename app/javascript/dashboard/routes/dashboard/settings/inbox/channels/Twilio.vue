@@ -1,4 +1,113 @@
 <!-- Deprecated in favour of separate files for SMS and Whatsapp and also to implement new providers for each platform in the future-->
+<script>
+import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
+import { required } from '@vuelidate/validators';
+import router from '../../../../index';
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+
+export default {
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+  },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      accountSID: '',
+      apiKeySID: '',
+      authToken: '',
+      medium: this.type,
+      channelName: '',
+      messagingServiceSID: '',
+      useMessagingService: false,
+      useAPIKey: false,
+      phoneNumber: '',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+    }),
+    authTokeni18nKey() {
+      return this.useAPIKey ? 'API_KEY_SECRET' : 'AUTH_TOKEN';
+    },
+  },
+  validations() {
+    let validations = {
+      channelName: { required },
+
+      authToken: { required },
+      accountSID: { required },
+      medium: { required },
+    };
+    if (this.phoneNumber) {
+      validations = {
+        ...validations,
+        phoneNumber: { required, isPhoneE164OrEmpty },
+        messagingServiceSID: {},
+      };
+    } else {
+      validations = {
+        ...validations,
+        messagingServiceSID: { required },
+        phoneNumber: {},
+      };
+    }
+
+    if (this.useAPIKey) {
+      validations = {
+        ...validations,
+        apiKeySID: { required },
+      };
+    }
+    return validations;
+  },
+  methods: {
+    async createChannel() {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      }
+
+      try {
+        const twilioChannel = await this.$store.dispatch(
+          'inboxes/createTwilioChannel',
+          {
+            twilio_channel: {
+              name: this.channelName,
+              medium: this.medium,
+              account_sid: this.accountSID,
+              api_key_sid: this.apiKeySID,
+              auth_token: this.authToken,
+              messaging_service_sid: this.messagingServiceSID,
+              phone_number: this.messagingServiceSID
+                ? null
+                : `+${this.phoneNumber.replace(/\D/g, '')}`,
+            },
+          }
+        );
+
+        router.replace({
+          name: 'settings_inboxes_add_agents',
+          params: {
+            page: 'new',
+            inbox_id: twilioChannel.id,
+          },
+        });
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE'));
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
@@ -135,114 +244,6 @@
   </form>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
-import { required } from '@vuelidate/validators';
-import router from '../../../../index';
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
-
-export default {
-  props: {
-    type: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      accountSID: '',
-      apiKeySID: '',
-      authToken: '',
-      medium: this.type,
-      channelName: '',
-      messagingServiceSID: '',
-      useMessagingService: false,
-      useAPIKey: false,
-      phoneNumber: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-    }),
-    authTokeni18nKey() {
-      return this.useAPIKey ? 'API_KEY_SECRET' : 'AUTH_TOKEN';
-    },
-  },
-  validations() {
-    let validations = {
-      channelName: { required },
-
-      authToken: { required },
-      accountSID: { required },
-      medium: { required },
-    };
-    if (this.phoneNumber) {
-      validations = {
-        ...validations,
-        phoneNumber: { required, isPhoneE164OrEmpty },
-        messagingServiceSID: {},
-      };
-    } else {
-      validations = {
-        ...validations,
-        messagingServiceSID: { required },
-        phoneNumber: {},
-      };
-    }
-
-    if (this.useAPIKey) {
-      validations = {
-        ...validations,
-        apiKeySID: { required },
-      };
-    }
-    return validations;
-  },
-  methods: {
-    async createChannel() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      }
-
-      try {
-        const twilioChannel = await this.$store.dispatch(
-          'inboxes/createTwilioChannel',
-          {
-            twilio_channel: {
-              name: this.channelName,
-              medium: this.medium,
-              account_sid: this.accountSID,
-              api_key_sid: this.apiKeySID,
-              auth_token: this.authToken,
-              messaging_service_sid: this.messagingServiceSID,
-              phone_number: this.messagingServiceSID
-                ? null
-                : `+${this.phoneNumber.replace(/\D/g, '')}`,
-            },
-          }
-        );
-
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: twilioChannel.id,
-          },
-        });
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE'));
-      }
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .messagingServiceHelptext {
   margin-top: -10px;

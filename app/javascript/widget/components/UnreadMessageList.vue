@@ -1,49 +1,3 @@
-<template>
-  <div class="unread-wrap">
-    <div class="close-unread-wrap">
-      <button class="button small close-unread-button" @click="closeFullView">
-        <span class="flex items-center">
-          <fluent-icon class="mr-1" icon="dismiss" size="12" />
-          {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
-        </span>
-      </button>
-    </div>
-    <div class="unread-messages">
-      <unread-message
-        v-for="(message, index) in messages"
-        :key="message.id"
-        :message-type="message.messageType"
-        :message-id="message.id"
-        :show-sender="!index"
-        :sender="message.sender"
-        :message="getMessageContent(message)"
-        :campaign-id="message.campaignId"
-      />
-    </div>
-
-    <div class="open-read-view-wrap">
-      <button
-        v-if="unreadMessageCount"
-        class="button clear-button"
-        @click="openConversationView"
-      >
-        <span
-          class="flex items-center"
-          :class="{
-            'is-background-light': isBackgroundLighter,
-          }"
-          :style="{
-            color: widgetColor,
-          }"
-        >
-          <fluent-icon class="mr-2" size="16" icon="arrow-right" />
-          {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
-        </span>
-      </button>
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import configMixin from '../mixins/configMixin';
@@ -98,6 +52,53 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="unread-wrap">
+    <div class="close-unread-wrap">
+      <button class="button small close-unread-button" @click="closeFullView">
+        <span class="flex items-center">
+          <FluentIcon class="mr-1" icon="dismiss" size="12" />
+          {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
+        </span>
+      </button>
+    </div>
+    <div class="unread-messages">
+      <UnreadMessage
+        v-for="(message, index) in messages"
+        :key="message.id"
+        :message-type="message.messageType"
+        :message-id="message.id"
+        :show-sender="!index"
+        :sender="message.sender"
+        :message="getMessageContent(message)"
+        :campaign-id="message.campaignId"
+      />
+    </div>
+
+    <div class="open-read-view-wrap">
+      <button
+        v-if="unreadMessageCount"
+        class="button clear-button"
+        @click="openConversationView"
+      >
+        <span
+          class="flex items-center"
+          :class="{
+            'is-background-light': isBackgroundLighter,
+          }"
+          :style="{
+            color: widgetColor,
+          }"
+        >
+          <FluentIcon class="mr-2" size="16" icon="arrow-right" />
+          {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
+        </span>
+      </button>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables';
 

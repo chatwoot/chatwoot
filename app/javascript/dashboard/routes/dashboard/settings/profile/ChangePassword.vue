@@ -1,64 +1,3 @@
-<template>
-  <form @submit.prevent="changePassword()">
-    <div class="flex flex-col w-full gap-4">
-      <woot-input
-        v-model="currentPassword"
-        type="password"
-        :styles="inputStyles"
-        :class="{ error: v$.currentPassword.$error }"
-        :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
-        :placeholder="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')"
-        :error="`${
-          v$.currentPassword.$error
-            ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
-            : ''
-        }`"
-        @input="v$.currentPassword.$touch"
-      />
-
-      <woot-input
-        v-model="password"
-        type="password"
-        :styles="inputStyles"
-        :class="{ error: v$.password.$error }"
-        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
-        :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
-        :error="`${
-          v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
-        }`"
-        @input="v$.password.$touch"
-      />
-
-      <woot-input
-        v-model="passwordConfirmation"
-        type="password"
-        :styles="inputStyles"
-        :class="{ error: v$.passwordConfirmation.$error }"
-        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
-        :placeholder="
-          $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
-        "
-        :error="`${
-          v$.passwordConfirmation.$error
-            ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
-            : ''
-        }`"
-        @input="v$.passwordConfirmation.$touch"
-      />
-
-      <form-button
-        type="submit"
-        color-scheme="primary"
-        variant="solid"
-        size="large"
-        :disabled="isButtonDisabled"
-      >
-        {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-      </form-button>
-    </div>
-  </form>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -139,3 +78,64 @@ export default {
   },
 };
 </script>
+
+<template>
+  <form @submit.prevent="changePassword()">
+    <div class="flex flex-col w-full gap-4">
+      <woot-input
+        v-model="currentPassword"
+        type="password"
+        :styles="inputStyles"
+        :class="{ error: v$.currentPassword.$error }"
+        :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
+        :placeholder="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')"
+        :error="`${
+          v$.currentPassword.$error
+            ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
+            : ''
+        }`"
+        @input="v$.currentPassword.$touch"
+      />
+
+      <woot-input
+        v-model="password"
+        type="password"
+        :styles="inputStyles"
+        :class="{ error: v$.password.$error }"
+        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
+        :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
+        :error="`${
+          v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
+        }`"
+        @input="v$.password.$touch"
+      />
+
+      <woot-input
+        v-model="passwordConfirmation"
+        type="password"
+        :styles="inputStyles"
+        :class="{ error: v$.passwordConfirmation.$error }"
+        :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
+        :placeholder="
+          $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
+        "
+        :error="`${
+          v$.passwordConfirmation.$error
+            ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
+            : ''
+        }`"
+        @input="v$.passwordConfirmation.$touch"
+      />
+
+      <FormButton
+        type="submit"
+        color-scheme="primary"
+        variant="solid"
+        size="large"
+        :disabled="isButtonDisabled"
+      >
+        {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
+      </FormButton>
+    </div>
+  </form>
+</template>

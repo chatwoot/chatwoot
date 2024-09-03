@@ -1,118 +1,3 @@
-<template>
-  <form @submit.prevent="onSubmit">
-    <div>
-      <div>
-        <div
-          class="mt-1 multiselect-wrap--medium"
-          :class="{ error: v$.parentContact.$error }"
-        >
-          <label class="multiselect__label">
-            {{ $t('MERGE_CONTACTS.PARENT.TITLE') }}
-            <woot-label
-              :title="$t('MERGE_CONTACTS.PARENT.HELP_LABEL')"
-              color-scheme="success"
-              small
-              class="ml-2"
-            />
-          </label>
-          <multiselect
-            v-model="parentContact"
-            :options="searchResults"
-            label="name"
-            track-by="id"
-            :internal-search="false"
-            :clear-on-select="false"
-            :show-labels="false"
-            :placeholder="$t('MERGE_CONTACTS.PARENT.PLACEHOLDER')"
-            :allow-empty="true"
-            :loading="isSearching"
-            :max-height="150"
-            open-direction="top"
-            @search-change="searchChange"
-          >
-            <template slot="singleLabel" slot-scope="props">
-              <contact-dropdown-item
-                :thumbnail="props.option.thumbnail"
-                :identifier="props.option.id"
-                :name="props.option.name"
-                :email="props.option.email"
-                :phone-number="props.option.phone_number"
-              />
-            </template>
-            <template slot="option" slot-scope="props">
-              <contact-dropdown-item
-                :thumbnail="props.option.thumbnail"
-                :identifier="props.option.id"
-                :name="props.option.name"
-                :email="props.option.email"
-                :phone-number="props.option.phone_number"
-              />
-            </template>
-            <span slot="noResult">
-              {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
-            </span>
-          </multiselect>
-          <span v-if="v$.parentContact.$error" class="message">
-            {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
-          </span>
-        </div>
-      </div>
-      <div class="flex multiselect-wrap--medium">
-        <div
-          class="w-8 relative text-base text-slate-100 dark:text-slate-600 after:content-[''] after:h-12 after:w-0 after:left-4 after:absolute after:border-l after:border-solid after:border-slate-100 after:dark:border-slate-600 before:content-[''] before:h-0 before:w-4 before:left-4 before:top-12 before:absolute before:border-b before:border-solid before:border-slate-100 before:dark:border-slate-600"
-        >
-          <fluent-icon
-            icon="arrow-up"
-            class="absolute -top-1 left-2"
-            size="17"
-          />
-        </div>
-        <div class="flex flex-col w-full">
-          <label class="multiselect__label">
-            {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
-            <woot-label
-              :title="$t('MERGE_CONTACTS.PRIMARY.HELP_LABEL')"
-              color-scheme="alert"
-              small
-              class="ml-2"
-            />
-          </label>
-          <multiselect
-            :value="primaryContact"
-            disabled
-            :options="[]"
-            :show-labels="false"
-            label="name"
-            track-by="id"
-          >
-            <template slot="singleLabel" slot-scope="props">
-              <contact-dropdown-item
-                :thumbnail="props.option.thumbnail"
-                :name="props.option.name"
-                :identifier="props.option.id"
-                :email="props.option.email"
-                :phone-number="props.option.phoneNumber"
-              />
-            </template>
-          </multiselect>
-        </div>
-      </div>
-    </div>
-    <merge-contact-summary
-      :primary-contact-name="primaryContact.name"
-      :parent-contact-name="parentContactName"
-    />
-    <div class="flex justify-end gap-2 mt-6">
-      <woot-button variant="clear" @click.prevent="onCancel">
-        {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
-      </woot-button>
-      <woot-button type="submit" :is-loading="isMerging">
-        {{ $t('MERGE_CONTACTS.FORM.SUBMIT') }}
-      </woot-button>
-    </div>
-  </form>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
@@ -179,6 +64,121 @@ export default {
   },
 };
 </script>
+
+<template>
+  <form @submit.prevent="onSubmit">
+    <div>
+      <div>
+        <div
+          class="mt-1 multiselect-wrap--medium"
+          :class="{ error: v$.parentContact.$error }"
+        >
+          <label class="multiselect__label">
+            {{ $t('MERGE_CONTACTS.PARENT.TITLE') }}
+            <woot-label
+              :title="$t('MERGE_CONTACTS.PARENT.HELP_LABEL')"
+              color-scheme="success"
+              small
+              class="ml-2"
+            />
+          </label>
+          <multiselect
+            v-model="parentContact"
+            :options="searchResults"
+            label="name"
+            track-by="id"
+            :internal-search="false"
+            :clear-on-select="false"
+            :show-labels="false"
+            :placeholder="$t('MERGE_CONTACTS.PARENT.PLACEHOLDER')"
+            allow-empty
+            :loading="isSearching"
+            :max-height="150"
+            open-direction="top"
+            @search-change="searchChange"
+          >
+            <template slot="singleLabel" slot-scope="props">
+              <ContactDropdownItem
+                :thumbnail="props.option.thumbnail"
+                :identifier="props.option.id"
+                :name="props.option.name"
+                :email="props.option.email"
+                :phone-number="props.option.phone_number"
+              />
+            </template>
+            <template slot="option" slot-scope="props">
+              <ContactDropdownItem
+                :thumbnail="props.option.thumbnail"
+                :identifier="props.option.id"
+                :name="props.option.name"
+                :email="props.option.email"
+                :phone-number="props.option.phone_number"
+              />
+            </template>
+            <span slot="noResult">
+              {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
+            </span>
+          </multiselect>
+          <span v-if="v$.parentContact.$error" class="message">
+            {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
+          </span>
+        </div>
+      </div>
+      <div class="flex multiselect-wrap--medium">
+        <div
+          class="w-8 relative text-base text-slate-100 dark:text-slate-600 after:content-[''] after:h-12 after:w-0 after:left-4 after:absolute after:border-l after:border-solid after:border-slate-100 after:dark:border-slate-600 before:content-[''] before:h-0 before:w-4 before:left-4 before:top-12 before:absolute before:border-b before:border-solid before:border-slate-100 before:dark:border-slate-600"
+        >
+          <fluent-icon
+            icon="arrow-up"
+            class="absolute -top-1 left-2"
+            size="17"
+          />
+        </div>
+        <div class="flex flex-col w-full">
+          <label class="multiselect__label">
+            {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
+            <woot-label
+              :title="$t('MERGE_CONTACTS.PRIMARY.HELP_LABEL')"
+              color-scheme="alert"
+              small
+              class="ml-2"
+            />
+          </label>
+          <multiselect
+            :value="primaryContact"
+            disabled
+            :options="[]"
+            :show-labels="false"
+            label="name"
+            track-by="id"
+          >
+            <template slot="singleLabel" slot-scope="props">
+              <ContactDropdownItem
+                :thumbnail="props.option.thumbnail"
+                :name="props.option.name"
+                :identifier="props.option.id"
+                :email="props.option.email"
+                :phone-number="props.option.phoneNumber"
+              />
+            </template>
+          </multiselect>
+        </div>
+      </div>
+    </div>
+    <MergeContactSummary
+      :primary-contact-name="primaryContact.name"
+      :parent-contact-name="parentContactName"
+    />
+    <div class="flex justify-end gap-2 mt-6">
+      <woot-button variant="clear" @click.prevent="onCancel">
+        {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
+      </woot-button>
+      <woot-button type="submit" :is-loading="isMerging">
+        {{ $t('MERGE_CONTACTS.FORM.SUBMIT') }}
+      </woot-button>
+    </div>
+  </form>
+</template>
 
 <style lang="scss" scoped>
 /* TDOD: Clean errors in forms style */

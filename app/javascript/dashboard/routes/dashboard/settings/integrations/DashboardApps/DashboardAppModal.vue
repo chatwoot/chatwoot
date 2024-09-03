@@ -1,57 +1,3 @@
-<template>
-  <woot-modal :show="show" :on-close="closeModal">
-    <div class="flex flex-col h-auto overflow-auto">
-      <woot-modal-header :header-title="header" />
-      <form class="w-full" @submit.prevent="submit">
-        <woot-input
-          v-model.trim="app.title"
-          :class="{ error: v$.app.title.$error }"
-          class="w-full"
-          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_LABEL')"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_PLACEHOLDER')
-          "
-          :error="
-            v$.app.title.$error
-              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_ERROR')
-              : null
-          "
-          data-testid="app-title"
-          @input="v$.app.title.$touch"
-        />
-        <woot-input
-          v-model.trim="app.content.url"
-          :class="{ error: v$.app.content.url.$error }"
-          class="w-full"
-          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
-          "
-          :error="
-            v$.app.content.url.$error
-              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
-              : null
-          "
-          data-testid="app-url"
-          @input="v$.app.content.url.$touch"
-        />
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <woot-button
-            :is-loading="isLoading"
-            :is-disabled="v$.$invalid"
-            data-testid="label-submit"
-          >
-            {{ submitButtonLabel }}
-          </woot-button>
-          <woot-button class="button clear" @click.prevent="closeModal">
-            {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL') }}
-          </woot-button>
-        </div>
-      </form>
-    </div>
-  </woot-modal>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, url } from '@vuelidate/validators';
@@ -157,3 +103,57 @@ export default {
   },
 };
 </script>
+
+<template>
+  <woot-modal :show="show" :on-close="closeModal">
+    <div class="flex flex-col h-auto overflow-auto">
+      <woot-modal-header :header-title="header" />
+      <form class="w-full" @submit.prevent="submit">
+        <woot-input
+          v-model.trim="app.title"
+          :class="{ error: v$.app.title.$error }"
+          class="w-full"
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_PLACEHOLDER')
+          "
+          :error="
+            v$.app.title.$error
+              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_ERROR')
+              : null
+          "
+          data-testid="app-title"
+          @input="v$.app.title.$touch"
+        />
+        <woot-input
+          v-model.trim="app.content.url"
+          :class="{ error: v$.app.content.url.$error }"
+          class="w-full"
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
+          "
+          :error="
+            v$.app.content.url.$error
+              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
+              : null
+          "
+          data-testid="app-url"
+          @input="v$.app.content.url.$touch"
+        />
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+          <woot-button
+            :is-loading="isLoading"
+            :is-disabled="v$.$invalid"
+            data-testid="label-submit"
+          >
+            {{ submitButtonLabel }}
+          </woot-button>
+          <woot-button class="button clear" @click.prevent="closeModal">
+            {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.CREATE.FORM_CANCEL') }}
+          </woot-button>
+        </div>
+      </form>
+    </div>
+  </woot-modal>
+</template>

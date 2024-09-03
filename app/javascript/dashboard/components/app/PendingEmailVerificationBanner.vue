@@ -1,24 +1,10 @@
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="alert"
-    :banner-message="bannerMessage"
-    :action-button-label="actionButtonMessage"
-    action-button-icon="mail"
-    has-action-button
-    @click="resendVerificationEmail"
-  />
-</template>
-
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
-import accountMixin from 'dashboard/mixins/account';
 import { useAlert } from 'dashboard/composables';
 
 export default {
   components: { Banner },
-  mixins: [accountMixin],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -41,3 +27,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <Banner
+    v-if="shouldShowBanner"
+    color-scheme="alert"
+    :banner-message="bannerMessage"
+    :action-button-label="actionButtonMessage"
+    action-button-icon="mail"
+    has-action-button
+    @click="resendVerificationEmail"
+  />
+</template>

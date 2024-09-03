@@ -1,3 +1,178 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { useAlert } from 'dashboard/composables';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import { useCampaign } from 'shared/composables/useCampaign';
+import { URLPattern } from 'urlpattern-polyfill';
+
+export default {
+  components: {
+    WootMessageEditor,
+  },
+  props: {
+    selectedCampaign: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  setup() {
+    const { isOngoingType } = useCampaign();
+    return { v$: useVuelidate(), isOngoingType };
+  },
+  data() {
+    return {
+      title: '',
+      message: '',
+      selectedSender: '',
+      selectedInbox: null,
+      endPoint: '',
+      timeOnPage: 10,
+      triggerOnlyDuringBusinessHours: false,
+      show: true,
+      enabled: true,
+      senderList: [],
+    };
+  },
+  validations: {
+    title: {
+      required,
+    },
+    message: {
+      required,
+    },
+    selectedSender: {
+      required,
+    },
+    endPoint: {
+      required,
+      shouldBeAValidURLPattern(value) {
+        try {
+          // eslint-disable-next-line
+          new URLPattern(value);
+          return true;
+        } catch (error) {
+          return false;
+        }
+      },
+      shouldStartWithHTTP(value) {
+        if (value) {
+          return value.startsWith('https://') || value.startsWith('http://');
+        }
+        return false;
+      },
+    },
+    timeOnPage: {
+      required,
+    },
+    selectedInbox: {
+      required,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'campaigns/getUIFlags',
+      inboxes: 'inboxes/getTwilioInboxes',
+    }),
+    inboxes() {
+      if (this.isOngoingType) {
+        return this.$store.getters['inboxes/getWebsiteInboxes'];
+      }
+      return this.$store.getters['inboxes/getSMSInboxes'];
+    },
+    pageTitle() {
+      return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
+        this.selectedCampaign.title
+      }`;
+    },
+    sendersAndBotList() {
+      return [
+        {
+          id: 0,
+          name: 'Bot',
+        },
+        ...this.senderList,
+      ];
+    },
+  },
+  mounted() {
+    this.setFormValues();
+  },
+  methods: {
+    onClose() {
+      this.$emit('onClose');
+    },
+
+    async loadInboxMembers() {
+      try {
+        const response = await this.$store.dispatch('inboxMembers/get', {
+          inboxId: this.selectedInbox,
+        });
+        const {
+          data: { payload: inboxMembers },
+        } = response;
+        this.senderList = inboxMembers;
+      } catch (error) {
+        const errorMessage =
+          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
+        useAlert(errorMessage);
+      }
+    },
+    onChangeInbox() {
+      this.loadInboxMembers();
+    },
+    setFormValues() {
+      const {
+        title,
+        message,
+        enabled,
+        trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
+        inbox: { id: inboxId },
+        trigger_rules: { url: endPoint, time_on_page: timeOnPage },
+        sender,
+      } = this.selectedCampaign;
+      this.title = title;
+      this.message = message;
+      this.endPoint = endPoint;
+      this.timeOnPage = timeOnPage;
+      this.selectedInbox = inboxId;
+      this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
+      this.selectedSender = (sender && sender.id) || 0;
+      this.enabled = enabled;
+      this.loadInboxMembers();
+    },
+    async editCampaign() {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      }
+      try {
+        await this.$store.dispatch('campaigns/update', {
+          id: this.selectedCampaign.id,
+          title: this.title,
+          message: this.message,
+          inbox_id: this.selectedInbox,
+          trigger_only_during_business_hours:
+            // eslint-disable-next-line prettier/prettier
+            this.triggerOnlyDuringBusinessHours,
+          sender_id: this.selectedSender || null,
+          enabled: this.enabled,
+          trigger_rules: {
+            url: this.endPoint,
+            time_on_page: this.timeOnPage,
+          },
+        });
+        useAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
+        this.onClose();
+      } catch (error) {
+        useAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
@@ -16,10 +191,10 @@
           <label>
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           </label>
-          <woot-message-editor
+          <WootMessageEditor
             v-model="message"
             class="message-editor"
-            :is-format-mode="true"
+            is-format-mode
             :class="{ editor_warning: v$.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
             @input="v$.message.$touch"
@@ -111,180 +286,6 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import campaignMixin from 'shared/mixins/campaignMixin';
-import { URLPattern } from 'urlpattern-polyfill';
-
-export default {
-  components: {
-    WootMessageEditor,
-  },
-  mixins: [campaignMixin],
-  props: {
-    selectedCampaign: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      title: '',
-      message: '',
-      selectedSender: '',
-      selectedInbox: null,
-      endPoint: '',
-      timeOnPage: 10,
-      triggerOnlyDuringBusinessHours: false,
-      show: true,
-      enabled: true,
-      senderList: [],
-    };
-  },
-  validations: {
-    title: {
-      required,
-    },
-    message: {
-      required,
-    },
-    selectedSender: {
-      required,
-    },
-    endPoint: {
-      required,
-      shouldBeAValidURLPattern(value) {
-        try {
-          // eslint-disable-next-line
-          new URLPattern(value);
-          return true;
-        } catch (error) {
-          return false;
-        }
-      },
-      shouldStartWithHTTP(value) {
-        if (value) {
-          return value.startsWith('https://') || value.startsWith('http://');
-        }
-        return false;
-      },
-    },
-    timeOnPage: {
-      required,
-    },
-    selectedInbox: {
-      required,
-    },
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'campaigns/getUIFlags',
-      inboxes: 'inboxes/getTwilioInboxes',
-    }),
-    inboxes() {
-      if (this.isOngoingType) {
-        return this.$store.getters['inboxes/getWebsiteInboxes'];
-      }
-      return this.$store.getters['inboxes/getSMSInboxes'];
-    },
-    pageTitle() {
-      return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
-        this.selectedCampaign.title
-      }`;
-    },
-    sendersAndBotList() {
-      return [
-        {
-          id: 0,
-          name: 'Bot',
-        },
-        ...this.senderList,
-      ];
-    },
-  },
-  mounted() {
-    this.setFormValues();
-  },
-  methods: {
-    onClose() {
-      this.$emit('on-close');
-    },
-
-    async loadInboxMembers() {
-      try {
-        const response = await this.$store.dispatch('inboxMembers/get', {
-          inboxId: this.selectedInbox,
-        });
-        const {
-          data: { payload: inboxMembers },
-        } = response;
-        this.senderList = inboxMembers;
-      } catch (error) {
-        const errorMessage =
-          error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        useAlert(errorMessage);
-      }
-    },
-    onChangeInbox() {
-      this.loadInboxMembers();
-    },
-    setFormValues() {
-      const {
-        title,
-        message,
-        enabled,
-        trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
-        inbox: { id: inboxId },
-        trigger_rules: { url: endPoint, time_on_page: timeOnPage },
-        sender,
-      } = this.selectedCampaign;
-      this.title = title;
-      this.message = message;
-      this.endPoint = endPoint;
-      this.timeOnPage = timeOnPage;
-      this.selectedInbox = inboxId;
-      this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
-      this.selectedSender = (sender && sender.id) || 0;
-      this.enabled = enabled;
-      this.loadInboxMembers();
-    },
-    async editCampaign() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      }
-      try {
-        await this.$store.dispatch('campaigns/update', {
-          id: this.selectedCampaign.id,
-          title: this.title,
-          message: this.message,
-          inbox_id: this.selectedInbox,
-          trigger_only_during_business_hours:
-            // eslint-disable-next-line prettier/prettier
-            this.triggerOnlyDuringBusinessHours,
-          sender_id: this.selectedSender || null,
-          enabled: this.enabled,
-          trigger_rules: {
-            url: this.endPoint,
-            time_on_page: this.timeOnPage,
-          },
-        });
-        useAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
-        this.onClose();
-      } catch (error) {
-        useAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 ::v-deep .ProseMirror-woot-style {
   height: 5rem;
