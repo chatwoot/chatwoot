@@ -1,5 +1,5 @@
 <script setup>
-import BaseCell from './BaseCell.vue';
+import BaseCell from 'dashboard/components/table/BaseCell.vue';
 defineProps({
   email: {
     type: String,
