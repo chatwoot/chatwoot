@@ -92,7 +92,11 @@ const columns = [
   columnHelper.accessor('phone_number', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
     size: 200,
-    cell: cellProps => h(TelCell, { phoneNumber: cellProps.getValue() }),
+    cell: cellProps =>
+      h(TelCell, {
+        phoneNumber: cellProps.getValue(),
+        defaultCountry: cellProps.row.original.country_code,
+      }),
   }),
   columnHelper.accessor('company_name', {
     header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
@@ -180,9 +184,11 @@ const table = useVueTable({
     // we pick the first item from the array, as we are not using multi-sorting
     const [sort] = updatedSortState;
 
-    emit('onSortChange', {
-      [sort.id]: sort.desc ? 'desc' : 'asc',
-    });
+    if (sort) {
+      emit('onSortChange', { [sort.id]: sort.desc ? 'desc' : 'asc' });
+    } else {
+      emit('onSortChange', {});
+    }
   },
 });
 </script>

@@ -5,7 +5,7 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 const props = defineProps({
   phoneNumber: {
     type: String,
-    required: true,
+    default: '',
   },
   defaultCountry: {
     type: String,
