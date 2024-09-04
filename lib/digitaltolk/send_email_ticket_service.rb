@@ -222,6 +222,7 @@ class Digitaltolk::SendEmailTicketService
 
     contact = @conversation.contact
     return unless contact.present?
+    return if contact.custom_attributes.dig('customer_id').present?
 
     contact.custom_attributes[:customer_id] = params[:customer_id]
     contact.save

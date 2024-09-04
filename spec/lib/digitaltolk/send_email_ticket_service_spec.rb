@@ -13,6 +13,7 @@ describe Digitaltolk::SendEmailTicketService do
 
   describe '#perform' do
     let(:status) { 'open' }
+    let(:customer_id) { '123' }
     let(:params) do
       {
         body: 'Reply with message_type',
@@ -28,7 +29,7 @@ describe Digitaltolk::SendEmailTicketService do
           email: creator.name,
           name: creator.email
         },
-        dt_user_id: '123',
+        customer_id: customer_id,
         inbox_id: inbox.id,
         recipient_type: 2,
         team_id: team.id
@@ -99,6 +100,26 @@ describe Digitaltolk::SendEmailTicketService do
         result = service.perform
         convo = inbox.conversations.find_by(display_id: result[:conversation_id])
         expect(convo.contact.custom_attributes['customer_id']).to eq('123')
+      end
+    end
+
+    context 'without customer_id' do
+      let(:customer_id) { nil }
+
+      it 'does not create a conversation with customer id' do
+        result = service.perform
+        convo = inbox.conversations.find_by(display_id: result[:conversation_id])
+        expect(convo.contact.custom_attributes['customer_id']).to be_nil
+      end
+
+      it 'does not update existing contact customer id' do
+        contact = create(:contact, email: email, custom_attributes: {customer_id: '321'})
+        create(:conversation, contact: contact, inbox: inbox, custom_attributes: { booking_id: booking_id })
+
+        result = service.perform
+        convo = inbox.conversations.find_by(display_id: result[:conversation_id])
+        expect(contact).to eq(convo.contact)
+        expect(convo.contact.custom_attributes['customer_id']).to eq('321')
       end
     end
   end
