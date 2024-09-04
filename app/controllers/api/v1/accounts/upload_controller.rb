@@ -19,18 +19,23 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
   end
 
   def create_from_url
-    uri = parse_and_validate_uri(params[:external_url])
+    uri = parse_uri(params[:external_url])
     return if performed?
 
     fetch_and_process_file_from_uri(uri)
   end
 
-  def parse_and_validate_uri(url)
-    URI.parse(url).tap do |uri|
-      raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-    end
+  def parse_uri(url)
+    uri = URI.parse(url)
+    validate_uri(uri)
+    uri
   rescue URI::InvalidURIError, SocketError
     render_error('Invalid URL provided', :unprocessable_entity)
+    nil
+  end
+
+  def validate_uri(uri)
+    raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
   end
 
   def fetch_and_process_file_from_uri(uri)
