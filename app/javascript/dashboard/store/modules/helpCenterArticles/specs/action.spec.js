@@ -187,30 +187,25 @@ describe('#actions', () => {
 
   describe('attachImage', () => {
     it('should upload the file and return the fileUrl', async () => {
-      // Given
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
 
       const mockFileUrl = 'https://test.com/test.png';
       uploadFile.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
-      // When
       const result = await actions.attachImage({}, { file: mockFile });
 
-      // Then
       expect(uploadFile).toHaveBeenCalledWith(mockFile);
       expect(result).toBe(mockFileUrl);
     });
 
     it('should throw an error if the upload fails', async () => {
-      // Given
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
 
       const mockError = new Error('Upload failed');
       uploadFile.mockRejectedValueOnce(mockError);
 
-      // When & Then
       await expect(actions.attachImage({}, { file: mockFile })).rejects.toThrow(
         'Upload failed'
       );
@@ -219,7 +214,6 @@ describe('#actions', () => {
 
   describe('uploadExternalImage', () => {
     it('should upload the image from external URL and return the fileUrl', async () => {
-      // Given
       const mockUrl = 'https://example.com/image.jpg';
       const mockFileUrl = 'https://uploaded.example.com/image.jpg';
       uploadExternalImage.mockResolvedValueOnce({ fileUrl: mockFileUrl });
@@ -233,12 +227,10 @@ describe('#actions', () => {
     });
 
     it('should throw an error if the upload fails', async () => {
-      // Given
       const mockUrl = 'https://example.com/image.jpg';
       const mockError = new Error('Upload failed');
       uploadExternalImage.mockRejectedValueOnce(mockError);
 
-      // When & Then
       await expect(
         actions.uploadExternalImage({}, { url: mockUrl })
       ).rejects.toThrow('Upload failed');
