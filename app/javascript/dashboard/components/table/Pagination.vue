@@ -27,24 +27,21 @@ const visiblePages = computed(() => {
   return getFormattedPages(currentPage - 1, currentPage + 1);
 });
 
+const total = computed(() => {
+  return props.table.getRowCount();
+});
+
 const start = computed(() => {
-  return (
-    props.table.getState().pagination.pageIndex *
-      props.table.getState().pagination.pageSize +
-    1
-  );
+  const { pagination } = props.table.getState();
+  return pagination.pageIndex * pagination.pageSize + 1;
 });
 
 const end = computed(() => {
+  const { pagination } = props.table.getState();
   return Math.min(
-    (props.table.getState().pagination.pageIndex + 1) *
-      props.table.getState().pagination.pageSize,
-    props.table.getFilteredRowModel().rows.length
+    (pagination.pageIndex + 1) * pagination.pageSize,
+    total.value
   );
-});
-
-const total = computed(() => {
-  return props.table.getFilteredRowModel().rows.length;
 });
 </script>
 

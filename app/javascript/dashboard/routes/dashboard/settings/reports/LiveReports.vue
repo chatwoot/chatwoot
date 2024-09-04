@@ -20,7 +20,9 @@ export default {
   },
   data() {
     return {
-      pageIndex: 1,
+      // always start with 0, this is to manage the pagination in tanstack table
+      // when we send the data, we do a +1 to this value
+      pageIndex: 0,
     };
   },
   computed: {
@@ -109,7 +111,7 @@ export default {
     fetchAgentConversationMetric() {
       this.$store.dispatch('fetchAgentConversationMetric', {
         type: 'agent',
-        page: this.pageIndex,
+        page: this.pageIndex + 1,
       });
     },
     onPageNumberChange(pageIndex) {

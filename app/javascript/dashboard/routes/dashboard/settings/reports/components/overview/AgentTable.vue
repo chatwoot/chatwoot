@@ -1,11 +1,9 @@
 <script setup>
-import { computed, h } from 'vue';
+import { computed, h, ref } from 'vue';
 import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
-  getSortedRowModel,
-  getPaginationRowModel,
 } from '@tanstack/vue-table';
 import { useI18n } from 'vue-i18n';
 
@@ -15,7 +13,7 @@ import Table from 'dashboard/components/table/Table.vue';
 import Pagination from 'dashboard/components/table/Pagination.vue';
 import AgentCell from './AgentCell.vue';
 
-const { agents, agentMetrics } = defineProps({
+const { agents, agentMetrics, pageIndex } = defineProps({
   agents: {
     type: Array,
     default: () => [],
@@ -28,18 +26,14 @@ const { agents, agentMetrics } = defineProps({
     type: Boolean,
     default: false,
   },
-  // pageIndex: {
-  //   type: Number,
-  //   default: 1,
-  // },
+  pageIndex: {
+    type: Number,
+    default: 1,
+  },
 });
 
-// const emit = defineEmits(['pageChange']);
+const emit = defineEmits(['pageChange']);
 const { t } = useI18n();
-
-// function onPageNumberChange(pageIndex) {
-//   emit('pageChange', pageIndex);
-// }
 
 function getAgentInformation(id) {
   return agents?.find(agent => agent.id === Number(id));
@@ -66,6 +60,8 @@ function stringToFloat(inputString) {
   // Normalize to [0, 1] range
   return (hashValue % 1000000) / 1000000.0;
 }
+
+const totalCount = computed(() => agents.length);
 
 const tableData = computed(() => {
   return agentMetrics
@@ -101,7 +97,6 @@ const columns = [
   columnHelper.accessor('agent', {
     header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'),
     cell: cellProps => h(AgentCell, cellProps),
-    enableSorting: false,
     size: 250,
   }),
   columnHelper.accessor('open', {
@@ -116,14 +111,33 @@ const columns = [
   }),
 ];
 
+const paginationParams = computed(() => {
+  return {
+    pageIndex: pageIndex,
+    pageSize: 25,
+  };
+});
+
 const table = useVueTable({
   get data() {
     return tableData.value;
   },
   columns,
-  getPaginationRowModel: getPaginationRowModel(),
+  manualPagination: true,
+  enableSorting: false,
   getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
+  get rowCount() {
+    return totalCount.value;
+  },
+  state: {
+    get pagination() {
+      return paginationParams.value;
+    },
+  },
+  onPaginationChange: updater => {
+    const newPagintaion = updater(paginationParams.value);
+    emit('pageChange', newPagintaion.pageIndex);
+  },
 });
 </script>
 
