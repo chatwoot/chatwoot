@@ -2,18 +2,19 @@
 #
 # Table name: accounts
 #
-#  id                    :integer          not null, primary key
-#  auto_resolve_duration :integer
-#  custom_attributes     :jsonb
-#  domain                :string(100)
-#  feature_flags         :bigint           default(0), not null
-#  limits                :jsonb
-#  locale                :integer          default("en")
-#  name                  :string           not null
-#  status                :integer          default("active")
-#  support_email         :string(100)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  id                      :integer          not null, primary key
+#  auto_resolve_duration   :integer
+#  conversation_assignment :integer          default(0), not null
+#  custom_attributes       :jsonb
+#  domain                  :string(100)
+#  feature_flags           :bigint           default(0), not null
+#  limits                  :jsonb
+#  locale                  :integer          default("en")
+#  name                    :string           not null
+#  status                  :integer          default("active")
+#  support_email           :string(100)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
@@ -85,6 +86,7 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }
+  enum conversation_assignment: { free_change: 0, restriction: 1, change_under_control: 2 }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation

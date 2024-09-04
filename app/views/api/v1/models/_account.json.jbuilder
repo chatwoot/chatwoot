@@ -1,4 +1,5 @@
 json.auto_resolve_duration resource.auto_resolve_duration
+json.conversation_assignment resource.conversation_assignment
 json.created_at resource.created_at
 if resource.custom_attributes.present?
   json.custom_attributes do

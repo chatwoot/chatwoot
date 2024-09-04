@@ -43,6 +43,12 @@
         "PLACEHOLDER": "Nhập số ngày từ 1 đến 999",
         "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)"
       },
+      "CONVERSATION_ASSIGNMENT": {
+        "TITLE": "Tùy chọn thay đổi người phụ trách hội thoại và khách hàng:",
+        "FREE_CHANGE": "Không hạn chế: mọi người dùng có thể thay đổi người phụ trách",
+        "RESTRICTION": "Có hạn chế: Chỉ có trưởng nhóm của kênh hoặc quản trị viên được thay đổi",
+        "CHANGE_UNDER_CONTROL": "Thay đổi có kiểm soát: Trưởng nhóm hoặc quản trị viên được thay đổi, người dùng khác muốn thay đổi người phụ trách phải được chấp thuận"
+      },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tiếp tục cuộc hội thoại trên web qua email được kích hoạt cho tài khoản của bạn.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong tên miền tùy chỉnh của mình ngay bây giờ."
