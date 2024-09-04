@@ -8,7 +8,7 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-import { getImagePastingPlugin } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
+import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -56,7 +56,7 @@ export default {
     return {
       editorView: null,
       state: undefined,
-      plugins: [getImagePastingPlugin(this.handleImageUpload)],
+      plugins: [imagePastePlugin(this.handleImageUpload)],
     };
   },
   computed: {
