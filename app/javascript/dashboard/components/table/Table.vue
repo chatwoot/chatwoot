@@ -1,8 +1,9 @@
 <script setup>
 import { FlexRender } from '@tanstack/vue-table';
 import SortButton from './SortButton.vue';
+import { onMounted } from 'vue';
 
-defineProps({
+const props = defineProps({
   table: {
     type: Object,
     required: true,
@@ -11,6 +12,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+});
+
+onMounted(() => {
+  window.table = props.table;
 });
 </script>
 
@@ -25,7 +30,7 @@ defineProps({
             width: `${header.getSize()}px`,
           }"
           class="text-left py-3 first:pl-2 bg-slate-25 border-y border-slate-50 font-bold tracking-wider text-xs uppercase"
-          @click="header.column.toggleSorting()"
+          @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
           <div
             v-if="!header.isPlaceholder"

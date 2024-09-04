@@ -417,7 +417,6 @@ export default {
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
         :active-contact-id="selectedContactId"
-        :sort-config="sortConfig"
         @onSortChange="onSortChange"
       />
       <TableFooter

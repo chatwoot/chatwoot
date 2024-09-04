@@ -2,7 +2,6 @@
 import { h, ref, computed, defineEmits } from 'vue';
 // import { useMapGetter } from 'dashboard/composables/store';
 // import { mapGetters } from 'vuex';
-// import { VeTable } from 'vue-easytable';
 
 import Table from 'dashboard/components/table/Table.vue';
 
@@ -36,10 +35,6 @@ const props = defineProps({
   isLoading: {
     type: Boolean,
     default: false,
-  },
-  sortConfig: {
-    type: Object,
-    default: () => {},
   },
 });
 
@@ -143,31 +138,14 @@ const columns = [
 //   desc: boolean
 // }
 // type SortingState = ColumnSort[]
-const sortingState = computed(() => {
-  if (!props.sortConfig) {
-    return [];
-  }
-
-  // sortConfig is an object with { [param]: order }
-  // We need to convert it to the format that the table expects
-  const sortParam = Object.keys(props.sortConfig)[0];
-  const sortOrder = props.sortConfig[sortParam];
-
-  return [
-    {
-      id: sortParam,
-      desc: sortOrder === 'desc',
-    },
-  ];
-});
+const sortingState = ref([{ last_activity_at: 'desc' }]);
 
 const table = useVueTable({
   get data() {
     return tableData.value;
   },
   columns,
-  enableSortingRemoval: true,
-  columnResizeMode: 'onChange',
+  enableMultiSort: false,
   getCoreRowModel: getCoreRowModel(),
   state: {
     get sorting() {
@@ -185,8 +163,11 @@ const table = useVueTable({
     const [sort] = updatedSortState;
 
     if (sort) {
+      sortingState.value = updatedSortState;
       emit('onSortChange', { [sort.id]: sort.desc ? 'desc' : 'asc' });
     } else {
+      // If the sorting is empty, we reset to the default sorting
+      sortingState.value = [{ last_activity_at: 'desc' }];
       emit('onSortChange', {});
     }
   },
