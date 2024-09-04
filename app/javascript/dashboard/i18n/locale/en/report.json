@@ -142,6 +142,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "No results found"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {

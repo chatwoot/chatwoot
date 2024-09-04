@@ -1,0 +1,109 @@
+<script setup>
+import { computed } from 'vue';
+const props = defineProps({
+  table: {
+    type: Object,
+    required: true,
+  },
+});
+
+const getFormattedPages = (start, end) => {
+  const formatter = new Intl.NumberFormat(navigator.language);
+  return Array.from({ length: end - start + 1 }, (_, i) =>
+    formatter.format(start + i)
+  );
+};
+
+const visiblePages = computed(() => {
+  const currentPage = props.table.getState().pagination.pageIndex + 1;
+  const totalPages = props.table.getPageCount();
+
+  if (totalPages <= 3) return getFormattedPages(1, totalPages);
+  if (currentPage === 1) return getFormattedPages(1, 3);
+  if (currentPage === totalPages) {
+    return getFormattedPages(totalPages - 2, totalPages);
+  }
+
+  return getFormattedPages(currentPage - 1, currentPage + 1);
+});
+
+const start = computed(() => {
+  return (
+    props.table.getState().pagination.pageIndex *
+      props.table.getState().pagination.pageSize +
+    1
+  );
+});
+
+const end = computed(() => {
+  return Math.min(
+    (props.table.getState().pagination.pageIndex + 1) *
+      props.table.getState().pagination.pageSize,
+    props.table.getFilteredRowModel().rows.length
+  );
+});
+
+const total = computed(() => {
+  return props.table.getFilteredRowModel().rows.length;
+});
+</script>
+
+<template>
+  <div class="flex items-center justify-between">
+    <div class="flex flex-1 items-center justify-between">
+      <div>
+        <p class="text-sm text-gray-700">
+          {{ $t('REPORT.PAGINATION.RESULTS', { start, end, total }) }}
+        </p>
+      </div>
+      <nav class="isolate inline-flex gap-1">
+        <woot-button
+          :disabled="!table.getCanPreviousPage()"
+          variant="clear"
+          class="size-8 flex items-center border border-slate-50"
+          color-scheme="secondary"
+          @click="table.setPageIndex(0)"
+        >
+          <span class="i-lucide-chevrons-left size-3" aria-hidden="true" />
+        </woot-button>
+        <woot-button
+          variant="clear"
+          class="size-8 flex items-center border border-slate-50"
+          color-scheme="secondary"
+          :disabled="!table.getCanPreviousPage()"
+          @click="table.previousPage()"
+        >
+          <span class="i-lucide-chevron-left size-3" aria-hidden="true" />
+        </woot-button>
+        <woot-button
+          v-for="page in visiblePages"
+          :key="page"
+          variant="clear"
+          class="size-8 flex items-center border border-slate-50"
+          color-scheme="secondary"
+          @click="table.setPageIndex(page - 1)"
+        >
+          {{ page }}
+        </woot-button>
+        <woot-button
+          :disabled="!table.getCanNextPage()"
+          variant="clear"
+          class="size-8 flex items-center border border-slate-50"
+          color-scheme="secondary"
+          @click="table.nextPage()"
+        >
+          <span class="i-lucide-chevron-right size-3" aria-hidden="true" />
+        </woot-button>
+        <woot-button
+          :disabled="!table.getCanNextPage()"
+          variant="clear"
+          class="size-8 flex items-center border border-slate-50"
+          color-scheme="secondary"
+          @click="table.setPageIndex(table.getPageCount() - 1)"
+        >
+          <span class="i-lucide-chevrons-right size-3" aria-hidden="true" />
+        </woot-button>
+      </nav>
+    </div>
+  </div>
+</template>

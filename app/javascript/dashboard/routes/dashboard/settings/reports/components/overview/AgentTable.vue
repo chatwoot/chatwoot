@@ -4,12 +4,15 @@ import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
 } from '@tanstack/vue-table';
 import { useI18n } from 'vue-i18n';
 
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import Table from 'dashboard/components/table/Table.vue';
+import Pagination from 'dashboard/components/table/Pagination.vue';
 import AgentCell from './AgentCell.vue';
 
 const { agents, agentMetrics } = defineProps({
@@ -42,6 +45,28 @@ function getAgentInformation(id) {
   return agents?.find(agent => agent.id === Number(id));
 }
 
+// use for debuggin
+function stringToFloat(inputString) {
+  if (!inputString) {
+    return 0.0;
+  }
+
+  // Sum the Unicode values of all characters
+  const unicodeSum = Array.from(inputString).reduce(
+    (sum, char) => sum + char.charCodeAt(0),
+    0
+  );
+
+  // Use a large prime number to create more variance
+  const prime = 2147483647; // Mersenne prime (2^31 - 1)
+
+  // Generate a hash-like value
+  const hashValue = unicodeSum * prime;
+
+  // Normalize to [0, 1] range
+  return (hashValue % 1000000) / 1000000.0;
+}
+
 const tableData = computed(() => {
   return agentMetrics
     .filter(agentMetric => getAgentInformation(agentMetric.id))
@@ -51,8 +76,12 @@ const tableData = computed(() => {
         agent: agentInformation.name || agentInformation.available_name,
         email: agentInformation.email,
         thumbnail: agentInformation.thumbnail,
-        open: agent.metric.open || 0,
-        unattended: agent.metric.unattended || 0,
+        open:
+          agent.metric.open ||
+          Math.floor(stringToFloat(agentInformation.email) * 50),
+        unattended:
+          agent.metric.unattended ||
+          Math.floor(stringToFloat(agentInformation.email) * 30),
         status: agentInformation.availability_status,
       };
     });
@@ -72,6 +101,7 @@ const columns = [
   columnHelper.accessor('agent', {
     header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'),
     cell: cellProps => h(AgentCell, cellProps),
+    enableSorting: false,
     size: 250,
   }),
   columnHelper.accessor('open', {
@@ -91,68 +121,19 @@ const table = useVueTable({
     return tableData.value;
   },
   columns,
-  enableSorting: false,
+  getPaginationRowModel: getPaginationRowModel(),
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
 });
-
-// export default {
-//     columns() {
-//       return [
-//         {
-//           field: 'agent',
-//           key: 'agent',
-//           title: this.$t(
-//             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
-//           ),
-//           fixed: 'left',
-//           align: this.isRTL ? 'right' : 'left',
-//           width: 25,
-//           // renderBodyCell: ({ row }) => (
-//           //   <div class="row-user-block">
-//           //     <Thumbnail
-//           //       src={row.thumbnail}
-//           //       size="32px"
-//           //       username={row.agent}
-//           //       status={row.status}
-//           //     />
-//           //     <div class="user-block">
-//           //       <h6 class="overflow-hidden title whitespace-nowrap text-ellipsis">
-//           //         {row.agent}
-//           //       </h6>
-//           //       <span class="sub-title">{row.email}</span>
-//           //     </div>
-//           //   </div>
-//           // ),
-//         },
-//         {
-//           field: 'open',
-//           key: 'open',
-//           title: this.$t(
-//             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
-//           ),
-//           align: this.isRTL ? 'right' : 'left',
-//           width: 10,
-//         },
-//         {
-//           field: 'unattended',
-//           key: 'unattended',
-//           title: this.$t(
-//             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
-//           ),
-//           align: this.isRTL ? 'right' : 'left',
-//           width: 10,
-//         },
-//       ];
-//     },
-//   },
-// };
 </script>
 
 <template>
-  <div
-    class="agent-table-container border border-t-0 border-slate-50 overflow-hidden"
-  >
-    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
+  <div class="agent-table-container">
+    <Table
+      :table="table"
+      class="max-h-[calc(100vh-21.875rem)] border border-t-0 border-slate-50"
+    />
+    <Pagination class="mt-2" :table="table" />
     <div v-if="isLoading" class="agents-loader">
       <Spinner />
       <span>{{
@@ -163,15 +144,6 @@ const table = useVueTable({
       v-else-if="!isLoading && !agentMetrics.length"
       :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
     />
-    <!-- <div v-if="agentMetrics.length > 0" class="table-pagination">
-      <VePagination
-        :total="agents.length"
-        :page-index="pageIndex"
-        :page-size="25"
-        :page-size-option="[25]"
-        @on-page-number-change="onPageNumberChange"
-      />
-    </div> -->
   </div>
 </template>
 
