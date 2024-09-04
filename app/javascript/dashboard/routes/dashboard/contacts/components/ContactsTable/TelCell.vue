@@ -1,4 +1,5 @@
 <script setup>
+import BaseCell from './BaseCell.vue';
 import { computed } from 'vue';
 import { parsePhoneNumber } from 'libphonenumber-js';
 
@@ -15,7 +16,7 @@ const props = defineProps({
 
 const formattedNumber = computed(() => {
   if (!props.phoneNumber) {
-    return '---';
+    return '';
   }
 
   try {
@@ -35,6 +36,5 @@ const formattedNumber = computed(() => {
 </script>
 
 <template>
-  <span v-if="phoneNumber">{{ formattedNumber }}</span>
-  <span v-else class="text-slate-300 dark:text-slate-700"> --- </span>
+  <BaseCell :content="formattedNumber" />
 </template>

@@ -1,22 +1,18 @@
 <script setup>
 import { h, ref, computed, defineEmits } from 'vue';
-// import { useMapGetter } from 'dashboard/composables/store';
-// import { mapGetters } from 'vuex';
-
-import Table from 'dashboard/components/table/Table.vue';
-
 import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
 } from '@tanstack/vue-table';
-
-import Spinner from 'shared/components/Spinner.vue';
-import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useI18n } from 'vue-i18n';
 
-// Cell components
+import Spinner from 'shared/components/Spinner.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+
+// Table components
+import Table from 'dashboard/components/table/Table.vue';
 import NameCell from './ContactsTable/NameCell.vue';
 import EmailCell from './ContactsTable/EmailCell.vue';
 import TelCell from './ContactsTable/TelCell.vue';
@@ -40,8 +36,6 @@ const props = defineProps({
 
 const emit = defineEmits(['onSortChange']);
 const { t } = useI18n();
-
-// const isRTL = useMapGetter('accounts/isRTL');
 
 const tableData = computed(() => {
   if (props.isLoading) {

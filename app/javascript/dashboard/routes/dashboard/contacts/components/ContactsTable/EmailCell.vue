@@ -1,4 +1,5 @@
 <script setup>
+import BaseCell from './BaseCell.vue';
 defineProps({
   email: {
     type: String,
@@ -8,15 +9,14 @@ defineProps({
 </script>
 
 <template>
-  <div
-    class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500"
-  >
+  <BaseCell>
     <a
       target="_blank"
       rel="noopener noreferrer nofollow"
+      class="text-woot-500 dark:text-woot-500"
       :href="`mailto:${email}`"
     >
       {{ email }}
     </a>
-  </div>
+  </BaseCell>
 </template>
