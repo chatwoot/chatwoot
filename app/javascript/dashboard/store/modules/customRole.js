@@ -24,9 +24,7 @@ const getters = {
 };
 
 const actions = {
-  getCustomRole: async function getCustomRole(
-    { commit }
-  ) {
+  getCustomRole: async function getCustomRole({ commit }) {
     commit(types.default.SET_CUSTOM_ROLE_UI_FLAG, { fetchingList: true });
     try {
       const response = await CustomRoleAPI.get();
@@ -37,10 +35,7 @@ const actions = {
     }
   },
 
-  createCustomRole: async function createCustomRole(
-    { commit },
-    customRoleObj
-  ) {
+  createCustomRole: async function createCustomRole({ commit }, customRoleObj) {
     commit(types.default.SET_CUSTOM_ROLE_UI_FLAG, { creatingItem: true });
     try {
       const response = await CustomRoleAPI.create(customRoleObj);

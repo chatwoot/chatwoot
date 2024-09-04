@@ -20,30 +20,41 @@
       "REPORT_MANAGE": "Manage Reports",
       "KNOWLEDGE_BASE_MANAGE": "Manage Knowledge Base"
     },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Please enter a name.",
+        "ERROR": "Name is required."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Please enter a description.",
+        "ERROR": "Description is required."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissions",
+        "ERROR": "Permissions are required."
+      },
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
     "ADD": {
       "TITLE": "Add custom role",
       "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
-      "FORM": {
-        "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Please enter a name.",
-          "ERROR": "Name is required."
-        },
-        "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Please enter a description.",
-          "ERROR": "Description is required."
-        },
-        "PERMISSIONS": {
-          "LABEL": "Permissions",
-          "ERROR": "Permissions are required."
-        },
-        "SUBMIT": "Submit"
-      },
+      "SUBMIT": "Submit",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role added successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "Custom role added successfully."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "TITLE": "Edit custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "Update",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role updated successfully."
       }
     },
     "DELETE": {

@@ -1,6 +1,6 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import AddCustomRole from './AddCustomRole.vue';
+import CustomRoleModal from './CustomRoleModal.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
@@ -10,27 +10,24 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 
-const showAddPopup = ref(false);
+const showCustomRoleModal = ref(false);
+const customRoleModalMode = ref('add');
+const selectedRole = ref(null);
 const loading = ref({});
-const showEditPopup = ref(false);
 const showDeleteConfirmationPopup = ref(false);
 const activeResponse = ref({});
 const customRoleAPI = ref({ message: '' });
 
-const records = computed(() =>
-  getters.getCustomRoles.value
-);
+const records = computed(() => getters.getCustomRoles.value);
 
 const uiFlags = computed(() => getters.getUIFlags.value);
 
 const deleteConfirmText = computed(
-  () =>
-    `${t('CUSTOM_ROLE.DELETE.CONFIRM.YES')} ${activeResponse.value.name}`
+  () => `${t('CUSTOM_ROLE.DELETE.CONFIRM.YES')} ${activeResponse.value.name}`
 );
 
 const deleteRejectText = computed(
-  () =>
-    `${t('CUSTOM_ROLE.DELETE.CONFIRM.NO')} ${activeResponse.value.name}`
+  () => `${t('CUSTOM_ROLE.DELETE.CONFIRM.NO')} ${activeResponse.value.name}`
 );
 
 const deleteMessage = computed(() => {
@@ -56,19 +53,21 @@ const showAlertMessage = message => {
   useAlert(message);
 };
 
-const openAddPopup = () => {
-  showAddPopup.value = true;
-};
-const hideAddPopup = () => {
-  showAddPopup.value = false;
+const openAddModal = () => {
+  customRoleModalMode.value = 'add';
+  selectedRole.value = null;
+  showCustomRoleModal.value = true;
 };
 
-const openEditPopup = response => {
-  showEditPopup.value = true;
-  activeResponse.value = response;
+const openEditModal = role => {
+  customRoleModalMode.value = 'edit';
+  selectedRole.value = role;
+  showCustomRoleModal.value = true;
 };
-const hideEditPopup = () => {
-  showEditPopup.value = false;
+
+const hideCustomRoleModal = () => {
+  selectedRole.value = null;
+  showCustomRoleModal.value = false;
 };
 
 const openDeletePopup = response => {
@@ -108,23 +107,23 @@ const confirmDeletion = () => {
     >
       <template #actions>
         <woot-button
-          class="button nice rounded-md"
+          class="rounded-md button nice"
           icon="add-circle"
-          @click="openAddPopup"
+          @click="openAddModal"
         >
           {{ $t('CUSTOM_ROLE.HEADER_BTN_TXT') }}
         </woot-button>
       </template>
     </BaseSettingsHeader>
 
-    <div class="mt-6 flex-1">
+    <div class="flex-1 mt-6">
       <woot-loading-state
         v-if="uiFlags.fetchingList"
         :message="$t('CUSTOM_ROLE.LOADING')"
       />
       <p
         v-else-if="!records.length"
-        class="flex flex-col items-center justify-center h-full text-base text-slate-600 dark:text-slate-300 py-8"
+        class="flex flex-col items-center justify-center h-full py-8 text-base text-slate-600 dark:text-slate-300"
       >
         {{ $t('CUSTOM_ROLE.LIST.404') }}
       </p>
@@ -136,33 +135,39 @@ const confirmDeletion = () => {
           <th
             v-for="thHeader in $t('CUSTOM_ROLE.LIST.TABLE_HEADER')"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
           >
-              <span class="mb-0">
-                {{ thHeader }}
-              </span>
+            <span class="mb-0">
+              {{ thHeader }}
+            </span>
           </th>
         </thead>
         <tbody
           class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
         >
-          <tr
-            v-for="(customRole, index) in records"
-            :key="customRole.id"
-          >
+          <tr v-for="(customRole, index) in records" :key="customRole.id">
             <td
-              class="py-4 pr-4 truncate max-w-xs font-medium"
+              class="max-w-xs py-4 pr-4 font-medium truncate"
               :title="customRole.name"
             >
               {{ customRole.name }}
             </td>
-            <td class="py-4 pr-4 md:break-all whitespace-normal">
+            <td class="py-4 pr-4 whitespace-normal md:break-all">
               {{ customRole.description }}
             </td>
-            <td class="py-4 pr-4 md:break-all whitespace-normal">
+            <td class="py-4 pr-4 whitespace-normal md:break-all">
               {{ customRole.permissions }}
             </td>
-            <td class="py-4 flex justify-end gap-1">
+            <td class="flex justify-end gap-1 py-4">
+              <woot-button
+                v-tooltip.top="$t('CUSTOM_ROLE.EDIT.BUTTON_TEXT')"
+                variant="smooth"
+                size="tiny"
+                color-scheme="secondary"
+                class-names="grey-btn"
+                icon="edit"
+                @click="openEditModal(customRole)"
+              />
               <woot-button
                 v-tooltip.top="$t('CUSTOM_ROLE.DELETE.BUTTON_TEXT')"
                 variant="smooth"
@@ -179,8 +184,15 @@ const confirmDeletion = () => {
       </table>
     </div>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <AddCustomRole :on-close="hideAddPopup" />
+    <woot-modal
+      :show.sync="showCustomRoleModal"
+      :on-close="hideCustomRoleModal"
+    >
+      <CustomRoleModal
+        :mode="customRoleModalMode"
+        :selected-role="selectedRole"
+        @close="hideCustomRoleModal"
+      />
     </woot-modal>
 
     <woot-delete-modal
