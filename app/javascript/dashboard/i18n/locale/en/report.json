@@ -490,7 +490,7 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OPEN",
+        "OPEN": "Open",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }
