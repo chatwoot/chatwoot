@@ -2914,10 +2914,10 @@
     hotkeys-js "3.8.7"
     lit "2.2.6"
 
-"@chatwoot/prosemirror-schema@1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.11.tgz#b66201be8b09cd4c6370a60607cc5d4f9d924bdb"
-  integrity sha512-OAUa1CuHtetEPh/ZhRkMLVQHY2/eesCRb2IRdVzjh0z+4spp3fG826y8FbOEsa7m4hisNirnGF/mDH+NMmYetw==
+"@chatwoot/prosemirror-schema@1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.13.tgz#1b7cd82e16bd66d8fcd96bc3415b56e7e40841a0"
+  integrity sha512-Ki7H2kUxkbDup+A8useTRQb2F45BxdTe1C9VsX4oSRh3WHqWriedEMmpnZy1SCzRm0zEFCw57RA4XppgZVkfrg==
   dependencies:
     markdown-it-sup "^1.0.0"
     prosemirror-commands "^1.1.4"
