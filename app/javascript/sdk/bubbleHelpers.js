@@ -1,8 +1,6 @@
 import { addClasses, removeClasses, toggleClass } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
 import { isExpandedView } from './settingsHelper';
-import { CHATWOOT_OPEN_DIALOG } from '../widget/constants/sdkEvents';
-import { dispatchWindowEvent } from '../shared/helpers/CustomEventHelper';
 
 export const bubbleSVG =
   'M240.808 240.808H122.123C56.6994 240.808 3.45695 187.562 3.45695 122.122C3.45695 56.7031 56.6994 3.45697 122.124 3.45697C187.566 3.45697 240.808 56.7031 240.808 122.122V240.808Z';
@@ -77,9 +75,6 @@ export const onBubbleClick = (props = {}) => {
   if (isOpen !== toggleValue) {
     const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
     window.$chatwoot.isOpen = newIsOpen;
-    if (newIsOpen) {
-      dispatchWindowEvent({ eventName: CHATWOOT_OPEN_DIALOG });
-    }
 
     toggleClass(chatBubble, 'woot--hide');
     toggleClass(closeBubble, 'woot--hide');

@@ -23,7 +23,11 @@ import {
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import {
+  CHATWOOT_ERROR,
+  CHATWOOT_OPEN_DIALOG,
+  CHATWOOT_READY,
+} from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
@@ -227,6 +231,7 @@ export const IFrameHelper = {
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (isOpen) {
+        dispatchWindowEvent({ eventName: CHATWOOT_OPEN_DIALOG });
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
