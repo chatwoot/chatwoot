@@ -18,7 +18,7 @@ class AutoAssignment::InboxRoundRobinService
 
   def reset_queue
     clear_queue
-    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
+    add_agent_to_queue(inbox_members.map(&:user_id))
   end
 
   # end of queue management functions
@@ -28,10 +28,14 @@ class AutoAssignment::InboxRoundRobinService
   def available_agent(allowed_agent_ids: [])
     reset_queue unless validate_queue?
     user_id = get_member_from_allowed_agent_ids(allowed_agent_ids)
-    inbox.inbox_members.find_by(user_id: user_id)&.user if user_id.present?
+    inbox_members.find_by(user_id: user_id)&.user if user_id.present?
   end
 
   private
+
+  def inbox_members
+    inbox.team.present? ? inbox.team.team_members : inbox.inbox_members
+  end
 
   def get_member_from_allowed_agent_ids(allowed_agent_ids)
     return nil if allowed_agent_ids.blank?
@@ -49,7 +53,7 @@ class AutoAssignment::InboxRoundRobinService
   end
 
   def validate_queue?
-    return true if inbox.inbox_members.map(&:user_id).sort == queue.map(&:to_i).sort
+    return true if inbox_members.map(&:user_id).sort == queue.map(&:to_i).sort
   end
 
   def queue

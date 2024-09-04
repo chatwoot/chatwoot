@@ -24,6 +24,10 @@ class AutoAssignment::StringeeAssignmentService
 
   private
 
+  def inbox_members
+    inbox.team.present? ? inbox.team.team_members : inbox.inbox_members
+  end
+
   def online_agent_ids
     online_agents = OnlineStatusTracker.get_available_users(inbox.account_id)
     online_agents.select { |_key, value| value.eql?('online') }.keys if online_agents.present?
@@ -48,7 +52,7 @@ class AutoAssignment::StringeeAssignmentService
   end
 
   def validate_queue?
-    return true if inbox.inbox_members.map(&:user_id).sort == queue.map(&:to_i).sort
+    return true if inbox_members.map(&:user_id).sort == queue.map(&:to_i).sort
   end
 
   def clear_queue
@@ -57,7 +61,7 @@ class AutoAssignment::StringeeAssignmentService
 
   def reset_queue
     clear_queue
-    add_agent_to_left_queue(inbox.inbox_members.map(&:user_id))
+    add_agent_to_left_queue(inbox_members.map(&:user_id))
   end
 
   def pop_push_to_left_queue(user_id)
