@@ -21,6 +21,7 @@ const isRTL = useMapGetter('accounts/isRTL');
   <BaseCell>
     <woot-button
       variant="clear"
+      class="!px-0"
       @click="() => openContactInfoPanel(row.original.id)"
     >
       <div class="items-center flex" :class="{ 'flex-row-reverse': isRTL }">
