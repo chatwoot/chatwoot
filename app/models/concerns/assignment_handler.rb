@@ -11,9 +11,14 @@ module AssignmentHandler
   private
 
   def ensure_assignee_is_from_contact_assignee
-    return unless new_record? && conversation_type == :default_type
+    return unless new_record? && default_type?
 
-    self.assignee_id = contact.assignee_id if contact.assignee_id.present?
+    self.assignee = contact.assignee if contact.assignee.present?
+    if contact.team.present?
+      self.team = contact.team
+    elsif inbox.team.present?
+      self.team = inbox.team
+    end
   end
 
   def ensure_assignee_is_from_team
