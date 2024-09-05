@@ -369,7 +369,7 @@
       },
       "AGENTS": {
         "TITLE": "Phân quyền cho kênh",
-        "DESC": "Chọn một trong hai cách:  phân cho một số người dùng cụ thể hoặc phân cho một nhóm làm việc. <br> <b>Lưu ý:</b> Quản trị viên đã có sẵn quyền truy cập vào tất cả các kênh nhưng để được phân công vào hội thoại thì vẫn cần thêm quản trị viên vào đây.",
+        "DESC": "Chọn một trong hai cách:  phân cho một số người dùng cụ thể hoặc phân cho một nhóm làm việc. <br> <b>Lưu ý:</b> Quản trị viên đã có sẵn quyền truy cập vào tất cả các kênh nên không cần phân quyền vào kênh.",
         "VALIDATION_ERROR": "Thêm ít nhất một người dùng vào kênh hội thoại mới của bạn",
         "PICK_AGENTS": "Chọn người dùng cho kênh hội thoại"
       },

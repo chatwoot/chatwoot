@@ -89,13 +89,13 @@
             </span>
             <div class="flex items-center gap-2 mb-1">
               <input
-                id="free_change"
+                id="no_restriction"
                 v-model="conversationAssignment"
                 class="notification--checkbox"
                 type="radio"
-                value="free_change"
+                value="no_restriction"
               />
-              <label for="free_change">
+              <label for="no_restriction">
                 {{
                   $t(
                     'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.FREE_CHANGE'
@@ -203,7 +203,7 @@ export default {
       supportEmail: '',
       features: {},
       autoResolveDuration: null,
-      conversationAssignment: 'free_change',
+      conversationAssignment: 'no_restriction',
       latestChatwootVersion: null,
     };
   },

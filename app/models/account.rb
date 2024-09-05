@@ -86,7 +86,7 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }
-  enum conversation_assignment: { free_change: 0, restriction: 1, change_under_control: 2 }
+  enum conversation_assignment: { no_restriction: 0, restriction: 1, change_under_control: 2 }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation

@@ -200,7 +200,11 @@ const actions = {
       });
       dispatch('setCurrentChatAssignee', response.data);
     } catch (error) {
-      // Handle error
+      if (error.response?.data) {
+        throw new Error(error.response?.data.error);
+      } else {
+        throw error;
+      }
     }
   },
 
@@ -216,7 +220,11 @@ const actions = {
       });
       dispatch('setCurrentChatTeam', { team: response.data, conversationId });
     } catch (error) {
-      // Handle error
+      if (error.response?.data) {
+        throw new Error(error.response?.data.error);
+      } else {
+        throw error;
+      }
     }
   },
 
