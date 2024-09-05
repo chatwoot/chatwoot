@@ -132,5 +132,9 @@
     "fallback": {
       "CONTENT": "has shared a url"
     }
+  },
+  "CHATBOTS": {
+    "CONNECT": "Connect",
+    "REPHRASE": "Rephrase question"
   }
 }

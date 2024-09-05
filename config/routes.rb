@@ -255,9 +255,11 @@ Rails.application.routes.draw do
 
           resources :chatbots, only: [:index, :show, :update] do
             collection do
+              post :fetch_links
               post :create_chatbot
               delete :destroy_chatbot
               post :retrain_chatbot
+              get :saved_links
             end
           end
         end

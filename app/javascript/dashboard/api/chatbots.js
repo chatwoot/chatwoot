@@ -7,6 +7,10 @@ class ChatbotAPI extends ApiClient {
     super('chatbots', { accountScoped: true });
   }
 
+  async fetchLinks(url) {
+    return axios.post(`${this.baseUrl()}/chatbots/fetch_links?url=${url}`);
+  }
+
   async createChatbot(data) {
     const formData = new FormData();
     formData.append('accountId', data.accountId);
@@ -15,7 +19,7 @@ class ChatbotAPI extends ApiClient {
     formData.append('inbox_name', data.inbox_name);
     formData.append('files', data.files);
     formData.append('text', data.text);
-    formData.append('urls', data.urls);
+    formData.append('urls', JSON.stringify(data.urls));
     return axios.post(`${this.baseUrl()}/chatbots/create_chatbot`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -33,12 +37,16 @@ class ChatbotAPI extends ApiClient {
     formData.append('chatbotId', data.chatbotId);
     formData.append('files', data.files);
     formData.append('text', data.text);
-    formData.append('urls', data.urls);
+    formData.append('urls', JSON.stringify(data.urls));
     return axios.post(`${this.baseUrl()}/chatbots/retrain_chatbot`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
+  }
+
+  async getSavedLinks(id) {
+    return axios.get(`${this.baseUrl()}/chatbots/saved_links?id=${id}`);
   }
 }
 
