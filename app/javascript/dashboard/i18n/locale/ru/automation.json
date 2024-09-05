@@ -2,7 +2,7 @@
   "AUTOMATION": {
     "HEADER": "Автоматизация",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
+    "LEARN_MORE": "Узнайте больше об автоматизации",
     "HEADER_BTN_TXT": "Добавить правило автоматизации",
     "LOADING": "Получение правил автоматизации",
     "ADD": {
