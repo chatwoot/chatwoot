@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-import VueRouter from 'vue-router';
-import i18n from 'dashboard/i18n';
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
+
+import i18nMessages from 'dashboard/i18n';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
 import {
@@ -12,15 +12,31 @@ import App from '../v3/App.vue';
 import router, { initalizeRouter } from '../v3/views/index';
 import store from '../v3/store';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
-import { emitter } from '../shared/helpers/mitt';
+// import { emitter } from '../shared/helpers/mitt';
 
 // [VITE] This was added in https://github.com/chatwoot/chatwoot/commit/b57063a8b83c86819bd285f481298d7cd38ad50e
 // Commenting it out for Vite migration
 // Vue.config.env = process.env;
 
+const i18n = createI18n({
+  legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
+  locale: 'en',
+  messages: i18nMessages,
+});
+
+const app = createApp(App);
+app.use(i18n);
+app.use(store);
+app.use(router);
+
+// Vue.use(VueRouter);
+// Vue.use(VueI18n);
+// Vue.prototype.$emitter = emitter;
+app.component('fluent-icon', FluentIcon);
+
 if (window.errorLoggingConfig) {
   Sentry.init({
-    Vue,
+    app,
     dsn: window.errorLoggingConfig,
     denyUrls: [
       // Chrome extensions
@@ -42,22 +58,10 @@ if (window.errorLoggingConfig) {
   });
 }
 
-Vue.use(VueRouter);
-Vue.use(VueI18n);
-Vue.prototype.$emitter = emitter;
-Vue.component('fluent-icon', FluentIcon);
-
-const i18nConfig = new VueI18n({ locale: 'en', messages: i18n });
-
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
+
 window.onload = () => {
-  new Vue({
-    router,
-    store,
-    i18n: i18nConfig,
-    components: { App },
-    template: '<App/>',
-  }).$mount('#app');
+  app.mount('#app');
 };
