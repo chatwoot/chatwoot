@@ -117,72 +117,62 @@ export const DEFAULT_BAR_CHART = {
 export const DEFAULT_CHART = {
   datasets: [DEFAULT_BAR_CHART],
   scales: {
-    xAxes: [
-      {
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-        },
-        gridLines: {
-          drawOnChartArea: false,
+    x: {
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+      },
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+    y: {
+      type: 'linear',
+      position: 'left',
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+        beginAtZero: true,
+        stepSize: 1,
+        callback(value, index, ticks) {
+          if (!index || index === ticks.length - 1) {
+            return value;
+          }
+          return '';
         },
       },
-    ],
-    yAxes: [
-      {
-        id: 'y-left',
-        type: 'linear',
-        position: 'left',
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-          beginAtZero: true,
-          stepSize: 1,
-          callback: (value, index, values) => {
-            if (!index || index === values.length - 1) {
-              return value;
-            }
-            return '';
-          },
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
+      grid: {
+        drawOnChartArea: false,
       },
-    ],
+    },
   },
 };
 
 const TIME_CHART_CONFIG = {
   datasets: [DEFAULT_BAR_CHART],
   scales: {
-    xAxes: [
-      {
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-        },
-        gridLines: {
-          drawOnChartArea: false,
+    x: {
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+      },
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+    y: {
+      type: 'linear',
+      position: 'left',
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+        callback: (value, index, values) => {
+          if (!index || index === values.length - 1) {
+            return formatTime(value);
+          }
+          return '';
         },
       },
-    ],
-    yAxes: [
-      {
-        id: 'y-left',
-        type: 'linear',
-        position: 'left',
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-          callback: (value, index, values) => {
-            if (!index || index === values.length - 1) {
-              return formatTime(value);
-            }
-            return '';
-          },
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
+      grid: {
+        drawOnChartArea: false,
       },
-    ],
+    },
   },
 };
 

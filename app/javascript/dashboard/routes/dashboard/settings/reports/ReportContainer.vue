@@ -91,14 +91,14 @@ export default {
           case 'bar':
             return {
               ...dataset,
-              yAxisID: 'y-left',
+              yAxisID: 'y',
               label: metric.NAME,
               data: data.map(element => element.value),
             };
           case 'line':
             return {
               ...dataset,
-              yAxisID: 'y-right',
+              yAxisID: 'y',
               label: this.metrics[0].NAME,
               data: data.map(element => element.count),
             };

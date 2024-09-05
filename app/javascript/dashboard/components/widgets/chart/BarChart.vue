@@ -44,27 +44,23 @@ const defaultChartOptions = {
     },
   },
   scales: {
-    xAxes: [
-      {
-        ticks: {
-          fontFamily,
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
+    x: {
+      ticks: {
+        fontFamily,
       },
-    ],
-    yAxes: [
-      {
-        ticks: {
-          fontFamily,
-          beginAtZero: true,
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
+      gridLines: {
+        drawOnChartArea: false,
       },
-    ],
+    },
+    y: {
+      ticks: {
+        fontFamily,
+        beginAtZero: true,
+      },
+      gridLines: {
+        drawOnChartArea: false,
+      },
+    },
   },
 };
 
