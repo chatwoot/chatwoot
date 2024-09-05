@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineModel } from 'vue';
 import WithLabel from './WithLabel.vue';
 
 defineProps({
@@ -20,10 +20,6 @@ defineProps({
     type: String,
     default: '',
   },
-  modelValue: {
-    type: [String, Number],
-    required: true,
-  },
   spacing: {
     type: String,
     default: 'base',
@@ -31,15 +27,14 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
-
 defineOptions({
   inheritAttrs: false,
 });
 
-const emitValue = event => {
-  emit('update:modelValue', event.target.value);
-};
+const model = defineModel({
+  type: [String, Number],
+  required: true,
+});
 </script>
 
 <template>
@@ -65,8 +60,7 @@ const emitValue = event => {
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      :value="modelValue"
-      @input="emitValue"
+      v-model="model"
     />
   </WithLabel>
 </template>
