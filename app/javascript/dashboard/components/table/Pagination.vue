@@ -14,17 +14,22 @@ const getFormattedPages = (start, end) => {
   );
 };
 
-const visiblePages = computed(() => {
-  const currentPage = props.table.getState().pagination.pageIndex + 1;
-  const totalPages = props.table.getPageCount();
+const currentPage = computed(() => {
+  return props.table.getState().pagination.pageIndex + 1;
+});
 
-  if (totalPages <= 3) return getFormattedPages(1, totalPages);
-  if (currentPage === 1) return getFormattedPages(1, 3);
-  if (currentPage === totalPages) {
-    return getFormattedPages(totalPages - 2, totalPages);
+const totalPages = computed(() => {
+  return props.table.getPageCount();
+});
+
+const visiblePages = computed(() => {
+  if (totalPages.value <= 3) return getFormattedPages(1, totalPages.value);
+  if (currentPage.value === 1) return getFormattedPages(1, 3);
+  if (currentPage.value === totalPages.value) {
+    return getFormattedPages(totalPages.value - 2, totalPages.value);
   }
 
-  return getFormattedPages(currentPage - 1, currentPage + 1);
+  return getFormattedPages(currentPage.value - 1, currentPage.value + 1);
 });
 
 const total = computed(() => {
@@ -76,11 +81,17 @@ const end = computed(() => {
           v-for="page in visiblePages"
           :key="page"
           variant="clear"
-          class="size-8 flex items-center border border-slate-50"
+          class="size-8 flex items-center justify-center border text-xs leading-none text-center"
+          :class="page == currentPage ? 'border-woot-500' : 'border-slate-50'"
           color-scheme="secondary"
           @click="table.setPageIndex(page - 1)"
         >
-          {{ page }}
+          <div
+            class="text-center"
+            :class="{ 'text-woot-500': page == currentPage }"
+          >
+            {{ page }}
+          </div>
         </woot-button>
         <woot-button
           :disabled="!table.getCanNextPage()"
