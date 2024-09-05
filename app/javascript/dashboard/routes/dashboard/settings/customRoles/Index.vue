@@ -5,6 +5,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { getI18nKey } from '../helper/settingsHelper';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -33,6 +34,12 @@ const deleteRejectText = computed(
 const deleteMessage = computed(() => {
   return ` ${activeResponse.value.name} ? `;
 });
+
+const getFormattedPermissions = role => {
+  return role.permissions
+    .map(event => t(getI18nKey('CUSTOM_ROLE.PERMISSIONS', event)))
+    .join(', ');
+};
 
 const fetchCustomRoles = async () => {
   try {
@@ -156,7 +163,7 @@ const confirmDeletion = () => {
               {{ customRole.description }}
             </td>
             <td class="py-4 pr-4 whitespace-normal md:break-all">
-              {{ customRole.permissions }}
+              {{ getFormattedPermissions(customRole) }}
             </td>
             <td class="flex justify-end gap-1 py-4">
               <woot-button
