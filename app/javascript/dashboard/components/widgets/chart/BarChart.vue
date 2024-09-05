@@ -1,4 +1,27 @@
+<script setup>
+import { computed } from 'vue';
 import { Bar } from 'vue-chartjs';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from 'chart.js';
+
+const props = defineProps({
+  collection: {
+    type: Object,
+    default: () => ({}),
+  },
+  chartOptions: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
 
 const fontFamily =
   'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -45,22 +68,11 @@ const defaultChartOptions = {
   },
 };
 
-export default {
-  extends: Bar,
-  props: {
-    collection: {
-      type: Object,
-      default: () => ({}),
-    },
-    chartOptions: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  mounted() {
-    this.renderChart(this.collection, {
-      ...defaultChartOptions,
-      ...this.chartOptions,
-    });
-  },
-};
+const options = computed(() => {
+  return { ...defaultChartOptions, ...props.chartOptions };
+});
+</script>
+
+<template>
+  <Bar :data="collection" :options="options" />
+</template>
