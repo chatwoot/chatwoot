@@ -21,84 +21,6 @@ export const formatTime = timeInSeconds => {
   return `${days}d`;
 };
 
-export const GROUP_BY_FILTER = {
-  1: { id: 1, period: 'day' },
-  2: { id: 2, period: 'week' },
-  3: { id: 3, period: 'month' },
-  4: { id: 4, period: 'year' },
-};
-
-export const GROUP_BY_OPTIONS = {
-  DAY: {
-    id: 'DAY',
-    period: 'day',
-    translationKey: 'REPORT.GROUPING_OPTIONS.DAY',
-  },
-  WEEK: {
-    id: 'WEEK',
-    period: 'week',
-    translationKey: 'REPORT.GROUPING_OPTIONS.WEEK',
-  },
-  MONTH: {
-    id: 'MONTH',
-    period: 'month',
-    translationKey: 'REPORT.GROUPING_OPTIONS.MONTH',
-  },
-  YEAR: {
-    id: 'YEAR',
-    period: 'year',
-    translationKey: 'REPORT.GROUPING_OPTIONS.YEAR',
-  },
-};
-
-export const DATE_RANGE_OPTIONS = {
-  LAST_7_DAYS: {
-    id: 'LAST_7_DAYS',
-    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS',
-    offset: 6,
-    groupByOptions: [GROUP_BY_OPTIONS.DAY],
-  },
-  LAST_30_DAYS: {
-    id: 'LAST_30_DAYS',
-    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS',
-    offset: 29,
-    groupByOptions: [GROUP_BY_OPTIONS.DAY, GROUP_BY_OPTIONS.WEEK],
-  },
-  LAST_3_MONTHS: {
-    id: 'LAST_3_MONTHS',
-    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_3_MONTHS',
-    offset: 89,
-    groupByOptions: [
-      GROUP_BY_OPTIONS.DAY,
-      GROUP_BY_OPTIONS.WEEK,
-      GROUP_BY_OPTIONS.MONTH,
-    ],
-  },
-  LAST_6_MONTHS: {
-    id: 'LAST_6_MONTHS',
-    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
-    offset: 179,
-    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
-  },
-  LAST_YEAR: {
-    id: 'LAST_YEAR',
-    translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
-    offset: 364,
-    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
-  },
-  CUSTOM_DATE_RANGE: {
-    id: 'CUSTOM_DATE_RANGE',
-    translationKey: 'REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE',
-    offset: null,
-    groupByOptions: [
-      GROUP_BY_OPTIONS.DAY,
-      GROUP_BY_OPTIONS.WEEK,
-      GROUP_BY_OPTIONS.MONTH,
-      GROUP_BY_OPTIONS.YEAR,
-    ],
-  },
-};
-
 export const CHART_FONT_FAMILY =
   'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
@@ -114,7 +36,7 @@ export const DEFAULT_BAR_CHART = {
   backgroundColor: 'rgb(31, 147, 255)',
 };
 
-export const DEFAULT_CHART = {
+const createChartConfig = yAxisTickCallback => ({
   datasets: [DEFAULT_BAR_CHART],
   scales: {
     x: {
@@ -132,49 +54,28 @@ export const DEFAULT_CHART = {
         fontFamily: CHART_FONT_FAMILY,
         beginAtZero: true,
         stepSize: 1,
-        callback(value, index, ticks) {
-          if (!index || index === ticks.length - 1) {
-            return value;
-          }
-          return '';
-        },
+        callback: yAxisTickCallback,
       },
       grid: {
         drawOnChartArea: false,
       },
     },
   },
-};
+});
 
-const TIME_CHART_CONFIG = {
-  datasets: [DEFAULT_BAR_CHART],
-  scales: {
-    x: {
-      ticks: {
-        fontFamily: CHART_FONT_FAMILY,
-      },
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-    y: {
-      type: 'linear',
-      position: 'left',
-      ticks: {
-        fontFamily: CHART_FONT_FAMILY,
-        callback: (value, index, values) => {
-          if (!index || index === values.length - 1) {
-            return formatTime(value);
-          }
-          return '';
-        },
-      },
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-  },
-};
+export const DEFAULT_CHART = createChartConfig((value, index, ticks) => {
+  if (!index || index === ticks.length - 1) {
+    return value;
+  }
+  return '';
+});
+
+export const TIME_CHART_CONFIG = createChartConfig((value, index, values) => {
+  if (!index || index === values.length - 1) {
+    return formatTime(value);
+  }
+  return '';
+});
 
 export const METRIC_CHART = {
   conversations_count: DEFAULT_CHART,
@@ -186,14 +87,4 @@ export const METRIC_CHART = {
   resolutions_count: DEFAULT_CHART,
   bot_resolutions_count: DEFAULT_CHART,
   bot_handoffs_count: DEFAULT_CHART,
-};
-
-export const OVERVIEW_METRICS = {
-  open: 'OPEN',
-  unattended: 'UNATTENDED',
-  unassigned: 'UNASSIGNED',
-  pending: 'PENDING',
-  online: 'ONLINE',
-  busy: 'BUSY',
-  offline: 'OFFLINE',
 };
