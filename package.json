@@ -95,6 +95,7 @@
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
+    "@iconify-json/logos": "^1.2.0",
     "@iconify-json/lucide": "^1.2.2",
     "@size-limit/file": "^8.2.4",
     "@vitest/coverage-v8": "^2.0.1",

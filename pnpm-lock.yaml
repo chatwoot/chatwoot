@@ -213,6 +213,9 @@ importers:
       '@egoist/tailwindcss-icons':
         specifier: ^1.8.1
         version: 1.8.1(tailwindcss@3.4.10)
+      '@iconify-json/logos':
+        specifier: ^1.2.0
+        version: 1.2.0
       '@iconify-json/lucide':
         specifier: ^1.2.2
         version: 1.2.2
@@ -1385,6 +1388,9 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
+
+  '@iconify-json/logos@1.2.0':
+    resolution: {integrity: sha512-VkU9QSqeZR2guWbecdqkcoZEAJfgJJTUm6QAsypuZQ7Cve6zy39wOXDjp2H31I8QyQy4O3Cz96+pNji6UQFg4w==}
 
   '@iconify-json/lucide@1.2.2':
     resolution: {integrity: sha512-pXZ2GvRYW3G3JCnkM6grBhzok5UM9DaCKzUcyHJnBZb+ECxq77VNWJiXdjxrui0LpkwKtnm7hLkmRMVoAn8qNw==}
@@ -8268,6 +8274,10 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
+
+  '@iconify-json/logos@1.2.0':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/lucide@1.2.2':
     dependencies:

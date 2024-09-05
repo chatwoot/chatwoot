@@ -90,7 +90,7 @@ module.exports = {
     // eslint-disable-next-line
     require('@tailwindcss/typography'),
     iconsPlugin({
-      collections: getIconCollections(['lucide']),
+      collections: getIconCollections(['lucide', 'logos']),
     }),
   ],
 };
