@@ -1,6 +1,5 @@
 /* eslint no-plusplus: 0 */
 import AvatarUploader from './widgets/forms/AvatarUploader.vue';
-import Bar from './widgets/chart/BarChart';
 import Button from './ui/WootButton.vue';
 import Code from './Code.vue';
 import ColorPicker from './widgets/ColorPicker.vue';
@@ -11,7 +10,6 @@ import DeleteModal from './widgets/modal/DeleteModal.vue';
 import DropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import FeatureToggle from './widgets/FeatureToggle.vue';
-import HorizontalBar from './widgets/chart/HorizontalBarChart';
 import Input from './widgets/forms/Input.vue';
 import PhoneInput from './widgets/forms/PhoneInput.vue';
 import Label from './ui/Label.vue';
@@ -28,7 +26,6 @@ import DatePicker from './ui/DatePicker/DatePicker.vue';
 
 const WootUIKit = {
   AvatarUploader,
-  Bar,
   Button,
   Code,
   ColorPicker,
@@ -39,7 +36,6 @@ const WootUIKit = {
   DropdownItem,
   DropdownMenu,
   FeatureToggle,
-  HorizontalBar,
   Input,
   PhoneInput,
   Label,
