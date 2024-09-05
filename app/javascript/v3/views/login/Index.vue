@@ -197,7 +197,7 @@ export default {
         <GoogleOAuthButton v-if="showGoogleOAuth" />
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
-            v-model.trim="credentials.email"
+            v-model="credentials.email"
             name="email_address"
             type="text"
             data-testid="email_input"
@@ -209,7 +209,7 @@ export default {
             @input="v$.credentials.email.$touch"
           />
           <FormInput
-            v-model.trim="credentials.password"
+            v-model="credentials.password"
             type="password"
             name="password"
             data-testid="password_input"

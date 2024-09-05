@@ -1,65 +1,44 @@
-<script>
+<script setup>
+import { defineProps, defineEmits } from 'vue';
 import WithLabel from './WithLabel.vue';
-export default {
-  components: {
-    WithLabel,
+
+defineProps({
+  label: {
+    type: String,
+    required: true,
   },
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    tabindex: {
-      type: Number,
-      default: undefined,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    value: {
-      type: [String, Number],
-      default: '',
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: '',
-    },
-    dataTestid: {
-      type: String,
-      default: '',
-    },
-    spacing: {
-      type: String,
-      default: 'base',
-      validator: value => ['base', 'compact'].includes(value),
-    },
+  icon: {
+    type: String,
+    default: '',
   },
-  methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value);
-    },
+  name: {
+    type: String,
+    required: true,
   },
+  hasError: Boolean,
+  errorMessage: {
+    type: String,
+    default: '',
+  },
+  modelValue: {
+    type: [String, Number],
+    required: true,
+  },
+  spacing: {
+    type: String,
+    default: 'base',
+    validator: value => ['base', 'compact'].includes(value),
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const emitValue = event => {
+  emit('update:modelValue', event.target.value);
 };
 </script>
 
@@ -75,15 +54,8 @@ export default {
       <slot />
     </template>
     <input
-      :id="name"
-      :name="name"
-      :type="type"
-      autocomplete="off"
-      :tabindex="tabindex"
-      :required="required"
-      :placeholder="placeholder"
-      :data-testid="dataTestid"
-      :value="value"
+      v-bind="$attrs"
+      class="block w-full border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
       :class="{
         'focus:outline-red-600 outline-red-600 dark:focus:outline-red-600 dark:outline-red-600':
           hasError,
@@ -93,9 +65,8 @@ export default {
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      class="block w-full border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
-      @input="onInput"
-      @blur="$emit('blur')"
+      :value="modelValue"
+      @input="emitValue"
     />
   </WithLabel>
 </template>
