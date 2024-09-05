@@ -4,9 +4,10 @@ import ChatbotAPI from '../../api/chatbots';
 import { throwErrorMessage } from '../utils/api';
 
 const state = {
+  char: 0,
   files: [],
   text: '',
-  urls: [],
+  links: [],
   records: [],
   uiFlags: {
     isFetchingItem: false,
@@ -18,14 +19,17 @@ const state = {
 };
 
 export const getters = {
+  getChar($state) {
+    return $state.char;
+  },
   getFiles($state) {
     return $state.files || [];
   },
   getText($state) {
     return $state.text;
   },
-  getUrls($state) {
-    return $state.urls || [];
+  getLinks($state) {
+    return $state.links || [];
   },
   getChatbots($state) {
     return $state.records;
@@ -39,6 +43,12 @@ export const getters = {
 };
 
 export const actions = {
+  incChar({ commit }, count) {
+    commit(types.INC_CHAR, count);
+  },
+  decChar({ commit }, count) {
+    commit(types.DEC_CHAR, count);
+  },
   addFiles({ commit }, files) {
     commit(types.ADD_FILES, files);
   },
@@ -48,11 +58,17 @@ export const actions = {
   setText({ commit }, text) {
     commit(types.SET_TEXT, text);
   },
-  addUrls({ commit }, urls) {
-    commit(types.ADD_URLS, urls);
+  addLink({ commit }, links) {
+    links.forEach(link => {
+      commit(types.ADD_LINK, link);
+      commit(types.INC_CHAR, link.char_count);
+    });
   },
-  deleteUrls({ commit }, index) {
-    commit(types.DELETE_URLS, index);
+  deleteLink({ commit }, index) {
+    commit(types.DELETE_LINK, index);
+  },
+  deleteLinks({ commit }) {
+    commit(types.DELETE_ALL_LINKS);
   },
   get: async function getChatbots({ commit }) {
     commit(types.SET_CHATBOTS_UI_FLAG, { isFetching: true });
@@ -69,7 +85,7 @@ export const actions = {
     commit(types.SET_CHATBOTS_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await ChatbotAPI.show(chatbotId);
-      commit(types.ADD_CHATBOT, response.data.payload);
+      commit(types.SET_CHATBOTS, response.data.payload);
     } catch (error) {
       // Ignore error
     } finally {
@@ -120,9 +136,36 @@ export const actions = {
       commit(types.SET_CHATBOTS_UI_FLAG, { isUpdating: false });
     }
   },
+  getSavedLinks: async function getSavedLinks({ commit }, chatbotId) {
+    commit(types.SET_CHATBOTS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await ChatbotAPI.getSavedLinks(chatbotId);
+      const savedUrls = response.data.urls;
+      savedUrls.forEach(savedLink => {
+        if (
+          !state.links.some(
+            existingLink => existingLink.link === savedLink.link
+          )
+        ) {
+          commit(types.ADD_LINK, savedLink);
+          commit(types.INC_CHAR, savedLink.char_count);
+        }
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_CHATBOTS_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
 
 export const mutations = {
+  [types.INC_CHAR]($state, count) {
+    $state.char += count;
+  },
+  [types.DEC_CHAR]($state, count) {
+    $state.char -= count;
+  },
   [types.ADD_FILES]($state, files) {
     $state.files.push(...files);
   },
@@ -132,11 +175,14 @@ export const mutations = {
   [types.SET_TEXT]($state, text) {
     $state.text = text;
   },
-  [types.ADD_URLS]($state, urls) {
-    $state.urls.push(urls);
+  [types.ADD_LINK]($state, link) {
+    $state.links.push(link);
   },
-  [types.DELETE_URLS]($state, index) {
-    $state.urls.splice(index, 1);
+  [types.DELETE_LINK]($state, index) {
+    $state.links.splice(index, 1);
+  },
+  [types.DELETE_ALL_LINKS]($state) {
+    $state.links = [];
   },
   [types.SET_CHATBOTS_UI_FLAG]($state, data) {
     $state.uiFlags = {

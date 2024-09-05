@@ -12,8 +12,11 @@
     "ERROR": "Something went wrong. Please try again",
     "ENABLE_BOT": "Enable Chatbot",
     "DISABLE_BOT": "Disable Chatbot",
+    "DELETE_ALL": "Delete All",
     "DISABLED_SUCCESS": "Chatbot disabled for the conversation",
     "ENABLED_SUCCESS": "Chatbot enabled for the conversation",
+    "LIMIT": "%{detectedChar} / %{accountLimit} limit",
+    "TOTAL_DETECTED_CHARACTERS": "Total characters",
     "UPLOAD": {
       "FILE": "Files",
       "TEXT": "Text",
@@ -28,7 +31,7 @@
     "FORM": {
       "TITLE": "Inbox",
       "CONNECT_INBOX": "Connect Inbox",
-      "ADD_URL": "Add URL",
+      "FETCH_LINKS": "Fetch links",
       "NAME": {
         "LABEL": "Chatbot Name",
         "PLACEHOLDER": "Example: Chatbot 1"
@@ -110,8 +113,8 @@
     },
     "RETRAIN": {
       "TITLE": "Retrain",
-      "SUBTITLE": "Retrain your chatbot with new data.",
-      "UPDATE": "Retrain your chatbot"
+      "SUBTITLE": "Retrain your bot",
+      "UPDATE": "Retrain"
     }
   }
 }

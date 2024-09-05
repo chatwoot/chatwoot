@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full"
   >
     <!-- File Upload Area -->
     <div v-if="uploadType === 'file'">
@@ -57,14 +57,27 @@
           type="text"
           placeholder="https://www.example.com"
         />
-        <woot-button @click="addUrl">
-          {{ $t('CHATBOTS.FORM.ADD_URL') }}
+        <woot-button :disabled="value" @click="fetchLinks">
+          {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
         </woot-button>
       </div>
-      <div class="website-urls-container">
+      <div>
+        <loader :progress="progress" />
+      </div>
+      <div v-if="links.length > 0" class="flex justify-end mt-4">
+        <woot-button
+          size="small"
+          variant="smooth"
+          color-scheme="alert"
+          @click="deleteLinks()"
+        >
+          {{ $t('CHATBOTS.DELETE_ALL') }}
+        </woot-button>
+      </div>
+      <div class="website-links">
         <ul>
-          <li v-for="(url, index) in websiteUrls" :key="index" class="url-item">
-            <input type="text" :value="url" readonly />
+          <li v-for="(url, index) in links" :key="index" class="links">
+            <input type="text" :value="url['link']" readonly />
             <woot-button
               v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
               size="small"
@@ -72,7 +85,7 @@
               variant="smooth"
               color-scheme="alert"
               icon="delete"
-              @click="deleteUrl(index)"
+              @click="deleteLink(url, index)"
             />
           </li>
         </ul>
@@ -85,13 +98,23 @@
 import { mapGetters, mapState } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
+import ChatbotAPI from '../../../../api/chatbots';
+import Loader from './helpers/Loader.vue';
 
 export default {
+  components: {
+    Loader,
+  },
   mixins: [alertMixin, accountMixin],
   props: {
+    value: { type: Boolean, default: false },
     uploadType: {
       type: String,
       default: 'website',
+    },
+    progress: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
@@ -106,7 +129,8 @@ export default {
     }),
     ...mapGetters({
       files: 'chatbots/getFiles',
-      websiteUrls: 'chatbots/getUrls',
+      links: 'chatbots/getLinks',
+      detectedChar: 'chatbots/getChar',
     }),
   },
   methods: {
@@ -121,7 +145,7 @@ export default {
       const text = this.textInput;
       this.$store.dispatch('chatbots/setText', text);
     },
-    addUrl() {
+    fetchLinks() {
       const pattern = new RegExp(
         '^https:\\/\\/' + // protocol
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -133,14 +157,35 @@ export default {
       );
       const websiteUrl = this.websiteInput.trim();
       if (websiteUrl !== '' && pattern.test(websiteUrl)) {
-        this.$store.dispatch('chatbots/addUrls', websiteUrl);
-        this.websiteInput = '';
+        if (!this.links.some(obj => obj.link === websiteUrl)) {
+          this.$emit('start-progress');
+          ChatbotAPI.fetchLinks(websiteUrl)
+            .then(response => {
+              const linksWithCharCount = response.data.links_with_char_count;
+              const filteredLinks = linksWithCharCount.filter(link => {
+                return !this.links.some(
+                  existingLink => existingLink.link === link.link
+                );
+              });
+              this.$store.dispatch('chatbots/addLink', filteredLinks);
+              this.$emit('end-progress');
+            })
+            .catch(error => {
+              this.showAlert(error.response.data.message);
+              this.$emit('end-progress');
+            });
+        }
       } else {
         this.showAlert(this.$t('Please enter a valid https Url'));
       }
     },
-    deleteUrl(index) {
-      this.$store.dispatch('chatbots/deleteUrls', index);
+    deleteLink(url, index) {
+      this.$store.dispatch('chatbots/decChar', url.char_count);
+      this.$store.dispatch('chatbots/deleteLink', index);
+    },
+    deleteLinks() {
+      this.$store.dispatch('chatbots/decChar', this.detectedChar);
+      this.$store.dispatch('chatbots/deleteLinks');
     },
   },
 };
@@ -191,11 +236,10 @@ export default {
   display: none;
 }
 .website-input {
-  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+}
+.website-input input {
+  margin-right: 10px;
 }
 .file-names-container {
   margin-top: 10px;
@@ -203,10 +247,19 @@ export default {
 .file-item {
   display: flex;
 }
-.website-urls-container {
-  margin-top: 10px;
+.website-links {
+  margin-top: 20px;
+  height: 600px;
+  overflow: scroll;
 }
-.url-item {
+.website-links::-webkit-scrollbar {
+  display: none;
+}
+.website-links {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.links {
   display: flex;
 }
 </style>

@@ -10,15 +10,6 @@ class MessageTemplates::Template::ChatbotReply
     true
   end
 
-  def connect_with_team
-    ActiveRecord::Base.transaction do
-      conversation.messages.create!(connect_with_team_message_params)
-    end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
-    true
-  end
-
   private
 
   delegate :contact, :account, to: :conversation
@@ -31,16 +22,6 @@ class MessageTemplates::Template::ChatbotReply
       inbox_id: @conversation.inbox_id,
       message_type: :template,
       content: content
-    }
-  end
-
-  def connect_with_team_message_params
-    {
-      account_id: @conversation.account_id,
-      inbox_id: @conversation.inbox_id,
-      message_type: :template,
-      content_type: :input_connect_with_team,
-      content: I18n.t('conversations.templates.connect_with_team_message_body')
     }
   end
 end

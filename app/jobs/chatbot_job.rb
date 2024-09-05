@@ -19,10 +19,9 @@ class ChatbotJob < ApplicationJob
       )
     rescue Errno::ECONNREFUSED => e
       # Handle connection refusal gracefully without marking the job as error
-      puts "Connection refused: #{e.message}"
+      Rails.logger.info "Connection refused: #{e.message}"
     rescue StandardError => e
-      # Handle other possible exceptions
-      puts "An error occurred: #{e.message}"
+      Rails.logger.info "An error occurred: #{e.message}"
     end
   end
 end

@@ -42,7 +42,10 @@ export default {
   },
   computed: {
     canEdit() {
-      return this.chatbot.status !== 'Creating';
+      return (
+        this.chatbot.status !== 'Creating' ||
+        this.chatbot.status !== 'Retraining'
+      );
     },
   },
 };

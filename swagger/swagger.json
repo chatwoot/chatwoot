@@ -6560,8 +6560,7 @@
             "cards",
             "input_select",
             "form",
-            "article",
-            "input_connect_with_team"
+            "article"
           ],
           "example": "cards",
           "description": "if you want to create custom message types"

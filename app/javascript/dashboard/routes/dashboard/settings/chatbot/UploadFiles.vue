@@ -1,5 +1,7 @@
 <template>
-  <div class="overflow-auto p-4 max-w-full flex flex-row flex-nowrap h-full">
+  <div
+    class="overflow-hidden p-4 w-1/4 max-w-1/4 flex flex-row flex-nowrap h-full"
+  >
     <div class="sidebar">
       <!-- <woot-button class="icon" variant="clear" @click="showUploader('file')">
         <fluent-icon icon="document" />
