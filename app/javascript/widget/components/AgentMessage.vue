@@ -28,7 +28,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, messageMixin],
   props: {
     message: {
       type: Object,
@@ -39,15 +39,10 @@ export default {
       default: () => {},
     },
   },
-  setup(props) {
-    const { $dm } = useDarkMode();
-    const { messageContentAttributes, hasAttachments } = useMessage(
-      props.message
-    );
+  setup() {
+    const { getThemeClass } = useDarkMode();
     return {
-      messageContentAttributes,
-      hasAttachments,
-      $dm,
+      getThemeClass,
     };
   },
   data() {
@@ -203,7 +198,9 @@ export default {
             <div
               v-if="hasAttachments"
               class="space-y-2 chat-bubble has-attachment agent"
-              :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+              :class="
+                (wrapClass, getThemeClass('bg-white', 'dark:bg-slate-700'))
+              "
             >
               <div
                 v-for="attachment in message.attachments"
@@ -242,7 +239,7 @@ export default {
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
           class="agent-name"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
         />
       </div>
     </div>

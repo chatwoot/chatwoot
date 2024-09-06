@@ -14,7 +14,7 @@ export function useDarkMode() {
       window.matchMedia('(prefers-color-scheme: dark)').matches;
     return isOSOnDarkMode || darkMode.value === 'dark';
   });
-  const $dm = (light, dark) => {
+  const getThemeClass = (light, dark) => {
     if (darkMode.value === 'light') {
       return light;
     }
@@ -26,6 +26,6 @@ export function useDarkMode() {
   return {
     darkMode,
     prefersDarkMode,
-    $dm,
+    getThemeClass,
   };
 }

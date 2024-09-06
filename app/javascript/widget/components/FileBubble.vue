@@ -26,8 +26,8 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { $dm };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     title() {
@@ -48,7 +48,7 @@ export default {
     },
     titleColor() {
       return !this.isUserBubble
-        ? this.$dm('text-black-900', 'dark:text-slate-50')
+        ? this.getThemeClass('text-black-900', 'dark:text-slate-50')
         : '';
     },
   },

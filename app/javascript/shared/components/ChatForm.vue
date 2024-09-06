@@ -19,8 +19,8 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { $dm };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   data() {
     return {
@@ -36,8 +36,8 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
+        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     isFormValid() {
       return this.items.reduce((acc, { name }) => {
@@ -83,7 +83,7 @@ export default {
 <template>
   <div
     class="form chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
   >
     <form @submit.prevent="onSubmit">
       <div
@@ -94,7 +94,7 @@ export default {
           'has-submitted': hasSubmitted,
         }"
       >
-        <label :class="$dm('text-black-900', 'dark:text-slate-50')">{{
+        <label :class="getThemeClass('text-black-900', 'dark:text-slate-50')">{{
           item.label
         }}</label>
         <input

@@ -22,8 +22,8 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { $dm };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     ...mapGetters({
@@ -96,7 +96,7 @@ export default {
       <FluentIcon
         icon="sign-out"
         size="22"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
     <button
@@ -107,7 +107,7 @@ export default {
       <FluentIcon
         icon="open"
         size="22"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
     <button
@@ -120,7 +120,7 @@ export default {
       <FluentIcon
         icon="dismiss"
         size="24"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
       />
     </button>
   </div>

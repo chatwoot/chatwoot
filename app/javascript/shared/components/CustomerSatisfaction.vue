@@ -22,8 +22,8 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { $dm };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   data() {
     return {
@@ -47,8 +47,8 @@ export default {
       return !(this.selectedRating && this.feedback);
     },
     inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
+        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -108,10 +108,13 @@ export default {
 <template>
   <div
     class="customer-satisfaction"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
     :style="{ borderColor: widgetColor }"
   >
-    <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
+    <h6
+      class="title"
+      :class="getThemeClass('text-slate-900', 'dark:text-slate-50')"
+    >
       {{ title }}
     </h6>
     <div class="ratings">

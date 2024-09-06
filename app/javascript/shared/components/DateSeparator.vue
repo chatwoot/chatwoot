@@ -10,8 +10,8 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { $dm };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     formattedDate() {
@@ -28,7 +28,7 @@ export default {
 <template>
   <div
     class="date--separator"
-    :class="$dm('text-slate-700', 'dark:text-slate-200')"
+    :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
   >
     {{ formattedDate }}
   </div>

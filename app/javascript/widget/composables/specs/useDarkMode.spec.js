@@ -1,68 +1,71 @@
-import { ref } from 'vue';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useDarkMode } from '../useDarkMode';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
 
-vi.mock('dashboard/composables/store');
+vi.mock('dashboard/composables/store', () => ({
+  useMapGetter: vi.fn(),
+}));
 
 describe('useDarkMode', () => {
+  let mockDarkMode;
+
   beforeEach(() => {
-    useStoreGetters.mockReturnValue({
-      'appConfig/getDarkMode': ref('light'),
+    mockDarkMode = { value: 'light' };
+    vi.mocked(useMapGetter).mockReturnValue(mockDarkMode);
+  });
+
+  it('returns darkMode, prefersDarkMode, and getThemeClass', () => {
+    const result = useDarkMode();
+    expect(result).toHaveProperty('darkMode');
+    expect(result).toHaveProperty('prefersDarkMode');
+    expect(result).toHaveProperty('getThemeClass');
+  });
+
+  describe('prefersDarkMode', () => {
+    it('returns false when darkMode is light', () => {
+      const { prefersDarkMode } = useDarkMode();
+      expect(prefersDarkMode.value).toBe(false);
     });
 
-    // Mock window.matchMedia
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      })),
+    it('returns true when darkMode is dark', () => {
+      mockDarkMode.value = 'dark';
+      const { prefersDarkMode } = useDarkMode();
+      expect(prefersDarkMode.value).toBe(true);
+    });
+
+    it('returns true when darkMode is auto and OS prefers dark mode', () => {
+      mockDarkMode.value = 'auto';
+      vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true });
+      const { prefersDarkMode } = useDarkMode();
+      expect(prefersDarkMode.value).toBe(true);
+    });
+
+    it('returns false when darkMode is auto and OS prefers light mode', () => {
+      mockDarkMode.value = 'auto';
+      vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: false });
+      const { prefersDarkMode } = useDarkMode();
+      expect(prefersDarkMode.value).toBe(false);
     });
   });
 
-  it('returns light theme when darkMode is light', () => {
-    const { $dm } = useDarkMode();
-    expect($dm('bg-100', 'bg-600')).toBe('bg-100');
-  });
-
-  it('returns dark theme when darkMode is dark', () => {
-    useStoreGetters.mockReturnValue({
-      'appConfig/getDarkMode': ref('dark'),
+  describe('getThemeClass', () => {
+    it('returns light class when darkMode is light', () => {
+      const { getThemeClass } = useDarkMode();
+      expect(getThemeClass('light-class', 'dark-class')).toBe('light-class');
     });
-    const { $dm } = useDarkMode();
-    expect($dm('bg-100', 'bg-600')).toBe('bg-600');
-  });
 
-  it('returns both themes when darkMode is auto', () => {
-    useStoreGetters.mockReturnValue({
-      'appConfig/getDarkMode': ref('auto'),
+    it('returns dark class when darkMode is dark', () => {
+      mockDarkMode.value = 'dark';
+      const { getThemeClass } = useDarkMode();
+      expect(getThemeClass('light-class', 'dark-class')).toBe('dark-class');
     });
-    const { $dm } = useDarkMode();
-    expect($dm('bg-100', 'bg-600')).toBe('bg-100 bg-600');
-  });
 
-  it('correctly computes prefersDarkMode when OS is in dark mode', () => {
-    useStoreGetters.mockReturnValue({
-      'appConfig/getDarkMode': ref('auto'),
+    it('returns both classes when darkMode is auto', () => {
+      mockDarkMode.value = 'auto';
+      const { getThemeClass } = useDarkMode();
+      expect(getThemeClass('light-class', 'dark-class')).toBe(
+        'light-class dark-class'
+      );
     });
-    window.matchMedia.mockImplementationOnce(query => ({
-      matches: query === '(prefers-color-scheme: dark)',
-      media: query,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    }));
-    const { prefersDarkMode } = useDarkMode();
-    expect(prefersDarkMode.value).toBe(true);
-  });
-
-  it('correctly computes prefersDarkMode when OS is not in dark mode', () => {
-    useStoreGetters.mockReturnValue({
-      'appConfig/getDarkMode': ref('auto'),
-    });
-    const { prefersDarkMode } = useDarkMode();
-    expect(prefersDarkMode.value).toBe(false);
   });
 });

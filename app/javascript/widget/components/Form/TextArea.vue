@@ -20,23 +20,32 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { $dm };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     labelClass() {
       return this.error
-        ? `text-red-400 ${this.$dm('text-black-800', 'dark:text-slate-50')}`
-        : `text-black-800 ${this.$dm('text-black-800', 'dark:text-slate-50')}`;
+        ? `text-red-400 ${this.getThemeClass(
+            'text-black-800',
+            'dark:text-slate-50'
+          )}`
+        : `text-black-800 ${this.getThemeClass(
+            'text-black-800',
+            'dark:text-slate-50'
+          )}`;
     },
     isTextAreaDarkOrLightMode() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
+      return `${this.getThemeClass(
+        'bg-white',
+        'dark:bg-slate-600'
+      )} ${this.getThemeClass('text-slate-700', 'dark:text-slate-50')}`;
     },
     textAreaBorderColor() {
-      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
+      return `${this.getThemeClass(
+        'border-black-200',
+        'dark:border-black-500'
+      )}`;
     },
     isTextAreaHasError() {
       return this.error

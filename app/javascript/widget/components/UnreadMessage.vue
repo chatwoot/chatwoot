@@ -33,13 +33,13 @@ export default {
   setup() {
     const { formatMessage, getPlainText, truncateMessage, highlightContent } =
       useMessageFormatter();
-    const { $dm } = useDarkMode();
+    const { getThemeClass } = useDarkMode();
     return {
       formatMessage,
       getPlainText,
       truncateMessage,
       highlightContent,
-      $dm,
+      getThemeClass,
     };
   },
   computed: {
@@ -97,7 +97,7 @@ export default {
   <div class="chat-bubble-wrap">
     <button
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      :class="getThemeClass('bg-white', 'dark:bg-slate-50')"
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">

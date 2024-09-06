@@ -24,8 +24,8 @@ export default {
     },
   },
   setup() {
-    const { $dm } = useDarkMode();
-    return { v$: useVuelidate(), $dm };
+    const { getThemeClass } = useDarkMode();
+    return { v$: useVuelidate(), getThemeClass };
   },
   data() {
     return {
@@ -47,9 +47,9 @@ export default {
       );
     },
     inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}
-        ${this.$dm('border-black-200', 'dark:border-black-500')}`;
+      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
+        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}
+        ${this.getThemeClass('border-black-200', 'dark:border-black-500')}`;
     },
     inputHasError() {
       return this.v$.email.$error
