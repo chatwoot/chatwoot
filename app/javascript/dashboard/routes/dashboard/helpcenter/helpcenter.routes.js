@@ -33,7 +33,7 @@ const portalRoutes = [
     path: getPortalRoute(''),
     name: 'default_portal_articles',
     meta: {
-      permissions: ['administrator'],
+      permissions: ['administrator', 'knowledge_base_manage'],
     },
     component: DefaultPortalArticles,
   },

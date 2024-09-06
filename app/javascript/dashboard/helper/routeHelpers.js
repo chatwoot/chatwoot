@@ -19,23 +19,23 @@ const CONTACT_PERMISSIONS = ['contact_manage'];
 const REPORTS_PERMISSIONS = ['report_manage'];
 const PORTAL_PERMISSIONS = ['knowledge_base_manage'];
 
-const defaultRedirectPage = (to, user) => {
+const defaultRedirectPage = (to, permissions) => {
   if (
-    hasPermissions(ROLE_PERMISSIONS, user.permissions) ||
-    hasPermissions(CONVERSATION_PERMISSIONS, user.permissions)
+    hasPermissions(ROLE_PERMISSIONS, permissions) ||
+    hasPermissions(CONVERSATION_PERMISSIONS, permissions)
   ) {
     return `accounts/${to.params.accountId}/dashboard`;
   }
 
-  if (hasPermissions(CONTACT_PERMISSIONS, user.permissions)) {
+  if (hasPermissions(CONTACT_PERMISSIONS, permissions)) {
     return `accounts/${to.params.accountId}/contacts`;
   }
 
-  if (hasPermissions(REPORTS_PERMISSIONS, user.permissions)) {
+  if (hasPermissions(REPORTS_PERMISSIONS, permissions)) {
     return `accounts/${to.params.accountId}/reports/overview`;
   }
 
-  if (hasPermissions(PORTAL_PERMISSIONS, user.permissions)) {
+  if (hasPermissions(PORTAL_PERMISSIONS, permissions)) {
     return `accounts/${to.params.accountId}/portals`;
   }
 
@@ -55,7 +55,7 @@ const validateActiveAccountRoutes = (to, user) => {
 
   const isAccessible = routeIsAccessibleFor(to, userPermissions);
   // If the route is not accessible for the user, return to dashboard screen
-  return isAccessible ? null : defaultRedirectPage(to, user);
+  return isAccessible ? null : defaultRedirectPage(to, userPermissions);
 };
 
 export const validateLoggedInRoutes = (to, user) => {
