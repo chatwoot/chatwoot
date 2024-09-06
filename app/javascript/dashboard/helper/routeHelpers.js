@@ -4,20 +4,18 @@ import {
   getCurrentAccount,
 } from './permissionsHelper';
 
+import {
+  ROLE_PERMISSIONS,
+  CONVERSATION_PERMISSIONS,
+  CONTACT_PERMISSIONS,
+  REPORTS_PERMISSIONS,
+  PORTAL_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+
 export const routeIsAccessibleFor = (route, userPermissions = []) => {
   const { meta: { permissions: routePermissions = [] } = {} } = route;
   return hasPermissions(routePermissions, userPermissions);
 };
-
-const ROLE_PERMISSIONS = ['agent', 'administrator'];
-const CONVERSATION_PERMISSIONS = [
-  'conversation_manage',
-  'conversation_unassigned_manage',
-  'conversation_participating_manage',
-];
-const CONTACT_PERMISSIONS = ['contact_manage'];
-const REPORTS_PERMISSIONS = ['report_manage'];
-const PORTAL_PERMISSIONS = ['knowledge_base_manage'];
 
 const defaultRedirectPage = (to, permissions) => {
   if (

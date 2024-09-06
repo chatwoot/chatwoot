@@ -29,8 +29,9 @@ import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import IntersectionObserver from './IntersectionObserver.vue';
 import {
   getUserPermissions,
-  hasPermissions,
+  filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
+import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
@@ -174,7 +175,6 @@ export default {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       activeSortBy: wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC,
-      assigneeTypeTabConfig: wootConstants.ASSIGNEE_TYPE_TAB_CONFIG,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -253,27 +253,15 @@ export default {
       return getUserPermissions(this.currentUser, this.currentAccountId);
     },
     assigneeTabItems() {
-      return (
-        Object.keys(this.assigneeTypeTabConfig)
-          // Filter the tabs based on the user permissions(Custom role permissions).
-          .filter(key => {
-            const requiredPermissions =
-              this.assigneeTypeTabConfig[key].permissions;
-            return hasPermissions(requiredPermissions, this.userPermissions);
-          })
-          // Map the tabs to the assignee type tab config.
-          .map(key => {
-            const count =
-              this.conversationStats[this.assigneeTypeTabConfig[key].count] ||
-              0;
-            return {
-              key,
-              name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-              count,
-              permissions: this.assigneeTypeTabConfig[key].permissions,
-            };
-          })
-      );
+      return filterItemsByPermission(
+        ASSIGNEE_TYPE_TAB_PERMISSIONS,
+        this.userPermissions,
+        item => item.permissions
+      ).map(({ key, count: countKey }) => ({
+        key,
+        name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+        count: this.conversationStats[countKey] || 0,
+      }));
     },
     showAssigneeInConversationCard() {
       return (
