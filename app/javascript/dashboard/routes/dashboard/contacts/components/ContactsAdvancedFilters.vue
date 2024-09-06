@@ -308,7 +308,11 @@ export default {
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
-          :error-message="validationErrors[`filter_${i}`]"
+          :error-message="
+            validationErrors[`filter_${i}`]
+              ? $t(`CONTACTS_FILTER.ERRORS.VALUE_REQUIRED`)
+              : ''
+          "
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
