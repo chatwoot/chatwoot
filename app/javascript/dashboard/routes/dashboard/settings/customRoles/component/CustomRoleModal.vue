@@ -5,6 +5,7 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
+import { AVAILABLE_CUSTOM_ROLE_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -25,15 +26,6 @@ const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
-
-const AVAILABLE_CUSTOM_ROLE_PERMISSIONS = [
-  'conversation_manage',
-  'conversation_unassigned_manage',
-  'conversation_participating_manage',
-  'contact_manage',
-  'report_manage',
-  'knowledge_base_manage',
-];
 
 const name = ref('');
 const description = ref('');
@@ -93,13 +85,13 @@ const handleCustomRole = async () => {
     };
 
     if (props.mode === 'edit') {
-      await store.dispatch('updateCustomRole', {
+      await store.dispatch('customRole/updateCustomRole', {
         id: props.selectedRole.id,
         ...roleData,
       });
       useAlert(t('CUSTOM_ROLE.EDIT.API.SUCCESS_MESSAGE'));
     } else {
-      await store.dispatch('createCustomRole', roleData);
+      await store.dispatch('customRole/createCustomRole', roleData);
       useAlert(t('CUSTOM_ROLE.ADD.API.SUCCESS_MESSAGE'));
     }
 

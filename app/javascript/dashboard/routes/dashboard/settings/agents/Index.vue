@@ -3,7 +3,11 @@ import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
 
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
@@ -34,11 +38,11 @@ const deleteMessage = computed(() => {
 const agentList = computed(() => getters['agents/getAgents'].value);
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
-const customRoles = computed(() => getters.getCustomRoles.value);
+const customRoles = useMapGetter('customRole/getCustomRoles');
 
 onMounted(() => {
   store.dispatch('agents/get');
-  store.dispatch('getCustomRole');
+  store.dispatch('customRole/getCustomRole');
 });
 
 const getAgentRoleName = agent => {

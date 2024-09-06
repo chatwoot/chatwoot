@@ -2,7 +2,11 @@
 import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStore,
+  useStoreGetters,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
@@ -66,7 +70,7 @@ const pageTitle = computed(
 );
 
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
-const getCustomRoles = computed(() => getters.getCustomRoles.value);
+const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 
 const roles = computed(() => {
   const defaultRoles = [

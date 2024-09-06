@@ -1,6 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStore,
+  useStoreGetters,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
@@ -30,7 +34,7 @@ const v$ = useVuelidate(rules, {
 });
 
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
-const getCustomRoles = computed(() => getters.getCustomRoles.value);
+const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 
 const roles = computed(() => {
   const defaultRoles = [
