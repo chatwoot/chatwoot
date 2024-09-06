@@ -17,27 +17,24 @@ export const routeIsAccessibleFor = (route, userPermissions = []) => {
   return hasPermissions(routePermissions, userPermissions);
 };
 
-const defaultRedirectPage = (to, permissions) => {
-  if (
-    hasPermissions(ROLE_PERMISSIONS, permissions) ||
-    hasPermissions(CONVERSATION_PERMISSIONS, permissions)
-  ) {
-    return `accounts/${to.params.accountId}/dashboard`;
-  }
+export const defaultRedirectPage = (to, permissions) => {
+  const { accountId } = to.params;
 
-  if (hasPermissions(CONTACT_PERMISSIONS, permissions)) {
-    return `accounts/${to.params.accountId}/contacts`;
-  }
+  const permissionRoutes = [
+    {
+      permissions: [...ROLE_PERMISSIONS, ...CONVERSATION_PERMISSIONS],
+      path: 'dashboard',
+    },
+    { permissions: CONTACT_PERMISSIONS, path: 'contacts' },
+    { permissions: REPORTS_PERMISSIONS, path: 'reports/overview' },
+    { permissions: PORTAL_PERMISSIONS, path: 'portals' },
+  ];
 
-  if (hasPermissions(REPORTS_PERMISSIONS, permissions)) {
-    return `accounts/${to.params.accountId}/reports/overview`;
-  }
+  const route = permissionRoutes.find(({ permissions: routePermissions }) =>
+    hasPermissions(routePermissions, permissions)
+  );
 
-  if (hasPermissions(PORTAL_PERMISSIONS, permissions)) {
-    return `accounts/${to.params.accountId}/portals`;
-  }
-
-  return `accounts/${to.params.accountId}/dashboard`;
+  return `accounts/${accountId}/${route ? route.path : 'dashboard'}`;
 };
 
 const validateActiveAccountRoutes = (to, user) => {
