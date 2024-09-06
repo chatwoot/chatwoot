@@ -49,13 +49,15 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
 
   def update_agents
     # get all the user_ids which the inbox currently has as members.
-    # get the list of  user_ids from params
+    # get the list of user_ids from params
     # the missing ones are the agents which are to be deleted from StringeePCC
     # the new ones are the agents which are to be added to StringeePCC
     ActiveRecord::Base.transaction do
       agents_to_be_added_ids.each { |user_id| add_agent_to_stringee(user_id) }
       agents_to_be_removed_ids.each { |user_id| remove_agent_from_stringee(user_id) }
     end
+  rescue StandardError => e
+    Rails.logger.error("Failed to update Stringee agents: #{e.message}")
   end
 
   private
