@@ -3,7 +3,7 @@ import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import CustomRoleAPI from '../../api/customRole';
 
-const state = {
+export const state = {
   records: [],
   uiFlags: {
     fetchingList: false,
@@ -13,7 +13,7 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getCustomRoles($state) {
     return $state.records;
   },
@@ -22,7 +22,7 @@ const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   getCustomRole: async function getCustomRole({ commit }) {
     commit(types.default.SET_CUSTOM_ROLE_UI_FLAG, { fetchingList: true });
     try {
@@ -77,7 +77,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [types.default.SET_CUSTOM_ROLE_UI_FLAG](_state, data) {
     _state.uiFlags = {
       ..._state.uiFlags,
