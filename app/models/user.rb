@@ -126,10 +126,13 @@ class User < ApplicationRecord
     if administrator?
       Current.account.inboxes
     else
-      user_inboxes = inboxes.where(account_id: Current.account.id)
-      team_inboxes = Current.account.inboxes.where(team_id: teams.select(:id))
+      user_inbox_ids = inboxes.where(account_id: Current.account.id).pluck(:id)
+      team_inbox_ids = Current.account.inboxes.joins(:team).joins('INNER JOIN team_members ON team_members.team_id = teams.id')
+                              .where(team_members: { user_id: id })
+                              .pluck(:id)
 
-      user_inboxes.any? ? user_inboxes.or(team_inboxes).distinct : team_inboxes
+      combined_ids = (user_inbox_ids + team_inbox_ids).uniq
+      Current.account.inboxes.where(id: combined_ids)
     end
   end
 
