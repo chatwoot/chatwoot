@@ -338,7 +338,11 @@ export default {
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           grouped-filters
-          :error-message="validationErrors[`filter_${i}`]"
+          :error-message="
+            validationErrors[`filter_${i}`]
+              ? $t(`CONTACTS_FILTER.ERRORS.VALUE_REQUIRED`)
+              : ''
+          "
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
