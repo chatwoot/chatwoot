@@ -237,6 +237,9 @@ export default {
       if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
+      if (this.isAnEmailChannel) {
+        return MESSAGE_MAX_LENGTH.EMAIL;
+      }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
