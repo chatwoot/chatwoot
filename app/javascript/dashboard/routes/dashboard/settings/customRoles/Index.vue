@@ -159,10 +159,14 @@ const confirmDeletion = () => {
             >
               {{ customRole.name }}
             </td>
-            <td class="py-4 pr-4 whitespace-normal align-baseline md:break-all">
+            <td
+              class="py-4 pr-4 whitespace-normal align-baseline md:break-words"
+            >
               {{ customRole.description }}
             </td>
-            <td class="py-4 pr-4 whitespace-normal align-baseline md:break-all">
+            <td
+              class="py-4 pr-4 whitespace-normal align-baseline md:break-words"
+            >
               {{ getFormattedPermissions(customRole) }}
             </td>
             <td class="flex justify-end gap-1 py-4">
