@@ -2,11 +2,7 @@
 import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import {
-  useStore,
-  useStoreGetters,
-  useMapGetter,
-} from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
@@ -46,7 +42,6 @@ const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
 const store = useStore();
 const { t } = useI18n();
-const getters = useStoreGetters();
 
 const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
@@ -69,7 +64,7 @@ const pageTitle = computed(
   () => `${t('AGENT_MGMT.EDIT.TITLE')} - ${props.name}`
 );
 
-const uiFlags = computed(() => getters['agents/getUIFlags'].value);
+const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 
 const roles = computed(() => {
