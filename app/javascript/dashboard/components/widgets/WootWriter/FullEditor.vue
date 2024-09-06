@@ -93,6 +93,8 @@ export default {
       { onImageUpload: this.openFileBrowser },
       this.enabledMenuOptions
     );
+
+    this.addClipBoard();
   },
   mounted() {
     this.createEditorView();
@@ -165,6 +167,7 @@ export default {
       );
       this.editorView.updateState(this.state);
       this.focusEditorInputField();
+      this.addClipBoard();
     },
     createEditorView() {
       this.editorView = new EditorView(this.$refs.editor, {
@@ -199,6 +202,57 @@ export default {
       this.editorView.focus();
     },
 
+    addClipBoard() {
+      const menuItems = document.querySelectorAll('.ProseMirror-menuitem')
+      const lastItem = menuItems[menuItems.length - 1]
+
+      if (lastItem) {
+        const copyToClipboard = lastItem.cloneNode(true);
+        const container = copyToClipboard.children[0]
+
+        if (container) {
+          container.style.marginTop = '-10px';
+          const img = document.createElement('img');
+          container.title = 'Copy to clipboard';
+          if (document.body.classList.contains('dark')) {
+            img.src = '/assets/images/dashboard/editor/copy-dark.svg';
+          } else {
+            img.src = '/assets/images/dashboard/editor/copy.svg';
+          }
+          img.style.width = '20px';
+          img.style.height = '20px';
+          img.style.top = '-2px';
+          img.style.position = 'relative';
+          container.innerHTML = ''
+          container.appendChild(img);
+        }
+        lastItem.insertAdjacentElement('afterend', copyToClipboard);
+
+        copyToClipboard.addEventListener('click', () => {
+          container.classList.add('ProseMirror-menu-active');
+
+          setTimeout(() => {
+            container.classList.remove('ProseMirror-menu-active');
+          }, 1000);
+
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(document.getSelection().toString()).then(() => {
+              this.showAlert('copied!');
+            }).catch(err => {
+              this.showAlert('Something went wrong');
+            });
+          } else {
+            try {
+              document.execCommand('copy');
+              this.showAlert('copied!');
+            } catch (err) {
+              this.showAlert('Something went wrong');
+            }
+          }
+        });
+      }
+    },
+    
     emitOnChange() {
       this.editorView.updateState(this.state);
 

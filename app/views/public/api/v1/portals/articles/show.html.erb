@@ -35,4 +35,92 @@
   .article-content li > p {
     margin: 0;
   }
+  .tooltip {
+    position: absolute;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: rgb(34, 34, 34);
+    cursor: pointer;
+  }
 </style>
+<script>
+    function tooltipClickHandler(event) {
+        copyToClipboard(document.getSelection().toString());
+    }
+
+    function tooltipElement(){
+      return document.querySelector('.tooltip');
+    }
+
+    function removeExistingTooltip(){
+      const existingTooltip = tooltipElement();
+      if (existingTooltip) {
+          existingTooltip.remove();
+      }
+    }
+
+    document.addEventListener('mouseup', function(event) {
+      const selection = window.getSelection();
+
+      if (event.target.classList.contains('tooltip')) {
+        return;
+      }
+
+      if (selection.rangeCount > 0 && !selection.isCollapsed) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          removeExistingTooltip()
+          const tooltip = document.createElement('div');
+          tooltip.className = 'tooltip';
+          tooltip.textContent = 'Copy';
+
+          document.body.appendChild(tooltip);
+          tooltip.style.left = `${rect.left + window.scrollX}px`;
+          tooltip.style.top = `${rect.top + window.scrollY - tooltip.offsetHeight}px`;
+          tooltip.addEventListener('mousedown', tooltipClickHandler);
+      } else {
+        removeExistingTooltip()
+      }
+
+      setTimeout(() => {
+        if (document.getSelection().toString() === '') {
+          removeExistingTooltip()
+        }
+      }, 100)
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.key === 'c') {
+        copied();
+      }
+    });
+
+    function copyToClipboard(text) {
+      const tooltip = tooltipElement();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          copied()
+        }).catch(err => {
+          tooltip.remove();
+        });
+      } else {
+        try {
+          document.execCommand('copy');
+          copied()
+        } catch (err) {
+          tooltip.remove();
+        }
+      }
+    }
+
+    function copied(){
+      const tooltip = tooltipElement();
+      tooltip.textContent = 'Copied!';
+
+      setTimeout(() => {
+        tooltip.remove();
+      }, 500);
+    }
+</script>
