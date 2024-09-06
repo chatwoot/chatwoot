@@ -154,15 +154,15 @@ const confirmDeletion = () => {
         >
           <tr v-for="(customRole, index) in records" :key="customRole.id">
             <td
-              class="max-w-xs py-4 pr-4 font-medium truncate"
+              class="max-w-xs py-4 pr-4 font-medium truncate align-baseline"
               :title="customRole.name"
             >
               {{ customRole.name }}
             </td>
-            <td class="py-4 pr-4 whitespace-normal md:break-all">
+            <td class="py-4 pr-4 whitespace-normal align-baseline md:break-all">
               {{ customRole.description }}
             </td>
-            <td class="py-4 pr-4 whitespace-normal md:break-all">
+            <td class="py-4 pr-4 whitespace-normal align-baseline md:break-all">
               {{ getFormattedPermissions(customRole) }}
             </td>
             <td class="flex justify-end gap-1 py-4">
