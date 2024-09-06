@@ -139,7 +139,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.update_column(:agent_last_seen_at, last_seen_at)
     @conversation.update_column(:agent_unread_count, unread_count)
 
-    if update_assignee.present?
+    if update_assignee
       @conversation.update_column(:assignee_last_seen_at, last_seen_at)
       @conversation.update_column(:assignee_unread_count, unread_count)
     end
