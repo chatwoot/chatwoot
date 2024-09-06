@@ -1,11 +1,6 @@
 <script>
-import Policy from 'dashboard/components/policy.vue';
-
 export default {
   name: 'WootTabsItem',
-  components: {
-    Policy,
-  },
   props: {
     index: {
       type: Number,
@@ -26,10 +21,6 @@ export default {
     showBadge: {
       type: Boolean,
       default: true,
-    },
-    permissions: {
-      type: Array,
-      default: () => [],
     },
   },
 
@@ -55,7 +46,6 @@ export default {
 </script>
 
 <template>
-  <Policy :permissions="permissions">
   <li
     class="tabs-title"
     :class="{
@@ -71,5 +61,4 @@ export default {
       </div>
     </a>
   </li>
-  </Policy>
 </template>

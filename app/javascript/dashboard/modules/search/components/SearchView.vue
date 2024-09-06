@@ -184,15 +184,13 @@ export default {
               'conversation_participating_manage',
             ]"
           >
-
-          <SearchResultMessagesList
-            v-if="filterMessages"
-            :is-fetching="uiFlags.message.isFetching"
-            :messages="messages"
-            :query="query"
-            :show-title="isSelectedTabAll"
-          />
-
+            <SearchResultMessagesList
+              v-if="filterMessages"
+              :is-fetching="uiFlags.message.isFetching"
+              :messages="messages"
+              :query="query"
+              :show-title="isSelectedTabAll"
+            />
           </Policy>
 
           <Policy
@@ -204,15 +202,13 @@ export default {
               'conversation_participating_manage',
             ]"
           >
-
-          <SearchResultConversationsList
-            v-if="filterConversations"
-            :is-fetching="uiFlags.conversation.isFetching"
-            :conversations="conversations"
-            :query="query"
-            :show-title="isSelectedTabAll"
-          />
-
+            <SearchResultConversationsList
+              v-if="filterConversations"
+              :is-fetching="uiFlags.conversation.isFetching"
+              :conversations="conversations"
+              :query="query"
+              :show-title="isSelectedTabAll"
+            />
           </Policy>
         </div>
         <div v-else-if="showEmptySearchResults" class="empty">

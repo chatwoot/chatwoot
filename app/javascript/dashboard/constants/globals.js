@@ -64,5 +64,35 @@ export default {
     NRT: 'nrt',
     RT: 'rt',
   },
+  ASSIGNEE_TYPE_TAB_CONFIG: {
+    me: {
+      count: 'mineCount',
+      permissions: [
+        'agent',
+        'administrator',
+        'conversation_manage',
+        'conversation_unassigned_manage',
+        'conversation_participating_manage',
+      ],
+    },
+    unassigned: {
+      count: 'unAssignedCount',
+      permissions: [
+        'agent',
+        'administrator',
+        'conversation_manage',
+        'conversation_unassigned_manage',
+      ],
+    },
+    all: {
+      count: 'allCount',
+      permissions: [
+        'agent',
+        'administrator',
+        'conversation_manage',
+        'conversation_participating_manage',
+      ],
+    },
+  },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';

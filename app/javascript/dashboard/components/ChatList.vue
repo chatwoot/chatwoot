@@ -27,6 +27,10 @@ import {
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import IntersectionObserver from './IntersectionObserver.vue';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from 'dashboard/helper/permissionsHelper.js';
 
 export default {
   components: {
@@ -170,6 +174,7 @@ export default {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
       activeSortBy: wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC,
+      assigneeTypeTabConfig: wootConstants.ASSIGNEE_TYPE_TAB_CONFIG,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -204,6 +209,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -243,48 +249,31 @@ export default {
         name,
       };
     },
+    userPermissions() {
+      return getUserPermissions(this.currentUser, this.currentAccountId);
+    },
     assigneeTabItems() {
-      const ASSIGNEE_TYPE_TAB_KEYS = {
-        me: {
-          count: 'mineCount',
-          permissions: [
-            'user',
-            'admin',
-            'conversation_manage',
-            'conversation_unassigned_manage',
-            'conversation_participating_manage',
-          ],
-        },
-        unassigned: {
-          count: 'unAssignedCount',
-          permissions: [
-            'user',
-            'admin',
-            'conversation_manage',
-            'conversation_unassigned_manage',
-          ],
-        },
-        all: {
-          count: 'allCount',
-          permissions: [
-            'user',
-            'admin',
-            'conversation_manage',
-            'conversation_participating_manage',
-          ],
-        },
-      };
-
-      return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
-        const count =
-          this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key].count] || 0;
-        return {
-          key,
-          name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-          count,
-          permissions: ASSIGNEE_TYPE_TAB_KEYS[key].permissions,
-        };
-      });
+      return (
+        Object.keys(this.assigneeTypeTabConfig)
+          // Filter the tabs based on the user permissions(Custom role permissions).
+          .filter(key => {
+            const requiredPermissions =
+              this.assigneeTypeTabConfig[key].permissions;
+            return hasPermissions(requiredPermissions, this.userPermissions);
+          })
+          // Map the tabs to the assignee type tab config.
+          .map(key => {
+            const count =
+              this.conversationStats[this.assigneeTypeTabConfig[key].count] ||
+              0;
+            return {
+              key,
+              name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+              count,
+              permissions: this.assigneeTypeTabConfig[key].permissions,
+            };
+          })
+      );
     },
     showAssigneeInConversationCard() {
       return (

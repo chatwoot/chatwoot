@@ -1,4 +1,4 @@
-import { frontendURL } from '../../../../helper/URLHelper';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const CustomRolesHome = () => import('./Index.vue');

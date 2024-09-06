@@ -1,5 +1,3 @@
-/* global axios */
-
 import ApiClient from './ApiClient';
 
 class CustomRole extends ApiClient {
