@@ -208,6 +208,16 @@ const actions = {
     }
   },
 
+  agreeToRequest: async ({ dispatch }, { conversationId }) => {
+    const response = await ConversationApi.agreeToRequest({ conversationId });
+    dispatch('setCurrentChatAssignee', response.data);
+  },
+
+  cancelRequest: async ({ commit }, { conversationId }) => {
+    const response = await ConversationApi.cancelRequest({ conversationId });
+    commit(types.UPDATE_CONVERSATION, response.data);
+  },
+
   setCurrentChatAssignee({ commit }, assignee) {
     commit(types.ASSIGN_AGENT, assignee);
   },

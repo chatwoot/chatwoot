@@ -68,6 +68,8 @@ vi:
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
     assignment:
       permission: Bạn không có quyền thay đổi thông tin phụ trách
+      change_requested: Yêu cầu thay đổi người phụ trách đã được gửi đi. Bạn sẽ nhận được thông báo từ hội thoại khi yêu cầu được chấp nhận.
+      change_request_note: Bạn vừa nhận được một yêu cầu thay đổi người phụ trách
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC

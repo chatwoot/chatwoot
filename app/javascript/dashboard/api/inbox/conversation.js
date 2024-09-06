@@ -72,6 +72,18 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/assignments`, params);
   }
 
+  agreeToRequest({ conversationId }) {
+    return axios.patch(
+      `${this.url}/${conversationId}/assignments/agree_to_request`
+    );
+  }
+
+  cancelRequest({ conversationId }) {
+    return axios.patch(
+      `${this.url}/${conversationId}/assignments/cancel_request`
+    );
+  }
+
   markMessageRead({ id }) {
     return axios.post(`${this.url}/${id}/update_last_seen`);
   }

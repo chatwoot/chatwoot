@@ -107,7 +107,12 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
-              resources :assignments, only: [:create]
+              resources :assignments, only: [:create] do
+                collection do
+                  patch :agree_to_request
+                  patch :cancel_request
+                end
+              end
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]

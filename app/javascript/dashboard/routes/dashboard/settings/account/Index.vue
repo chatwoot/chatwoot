@@ -98,7 +98,7 @@
               <label for="no_restriction">
                 {{
                   $t(
-                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.FREE_CHANGE'
+                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.NO_RESTRICTION'
                   )
                 }}
               </label>
@@ -121,16 +121,16 @@
             </div>
             <div class="flex items-center gap-2 mb-1">
               <input
-                id="change_under_control"
+                id="change_from_request"
                 v-model="conversationAssignment"
                 class="notification--checkbox"
                 type="radio"
-                value="change_under_control"
+                value="change_from_request"
               />
-              <label for="change_under_control">
+              <label for="change_from_request">
                 {{
                   $t(
-                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.CHANGE_UNDER_CONTROL'
+                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.CHANGE_FROM_REQUEST'
                   )
                 }}
               </label>

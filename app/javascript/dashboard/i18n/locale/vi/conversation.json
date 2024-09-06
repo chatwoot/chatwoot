@@ -32,6 +32,8 @@
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "NOT_ASSIGNED_TO_YOU": "Hội thoại này không được phân công cho bạn. Bạn có muốn phân công hội thoại này cho chính mình?",
     "ASSIGN_TO_ME": "Phân công cho tôi",
+    "ASSIGNMENT_REQUEST": "{name} đang yêu cầu được phụ trách hội thoại này. Bạn có muốn phân công hội thoại này cho {name} không?",
+    "AGREE_TO_REQUEST": "Đồng ý",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bạn chỉ có thể phản hồi hội thoại này bằng tin nhắn mẫu vì",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "REPLYING_TO": "Bạn đang trả lời:",

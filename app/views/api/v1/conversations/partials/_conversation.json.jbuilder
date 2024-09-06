@@ -17,6 +17,11 @@ json.meta do
       json.partial! 'api/v1/models/team', formats: [:json], resource: conversation.team
     end
   end
+  if conversation.requesting_assignee.present?
+    json.requesting_assignee do
+      json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.requesting_assignee
+    end
+  end
   json.hmac_verified conversation.contact_inbox&.hmac_verified
 end
 

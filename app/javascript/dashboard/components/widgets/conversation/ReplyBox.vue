@@ -10,6 +10,22 @@
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
       @click="onClickSelfAssign"
     />
+    <banner
+      v-if="showAssignmentRequest"
+      action-button-variant="clear"
+      color-scheme="secondary"
+      class="banner--self-assign"
+      :banner-message="
+        $t('CONVERSATION.ASSIGNMENT_REQUEST', {
+          name: currentChat.meta.requesting_assignee.name,
+        })
+      "
+      :has-action-button="true"
+      :has-close-button="true"
+      :action-button-label="$t('CONVERSATION.AGREE_TO_REQUEST')"
+      @click="handleAgreeToRequest"
+      @close="handleCancelRequest"
+    />
     <reply-top-panel
       :mode="replyType"
       :set-reply-mode="setReplyMode"
@@ -295,6 +311,12 @@ export default {
     currentContact() {
       return this.$store.getters['contacts/getContact'](
         this.currentChat.meta.sender.id
+      );
+    },
+    showAssignmentRequest() {
+      return (
+        this.currentChat.meta.requesting_assignee &&
+        this.currentChat.meta.assignee?.id === this.currentUser.id
       );
     },
     shouldShowReplyToMessage() {
@@ -946,6 +968,20 @@ export default {
           this.toggleAudioRecorder();
         }
       }
+    },
+    handleAgreeToRequest() {
+      this.$store
+        .dispatch('agreeToRequest', {
+          conversationId: this.currentChat.id,
+        })
+        .then(() => {
+          this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+        });
+    },
+    handleCancelRequest() {
+      this.$store.dispatch('cancelRequest', {
+        conversationId: this.currentChat.id,
+      });
     },
     clearEditorSelection() {
       this.updateEditorSelectionWith = '';

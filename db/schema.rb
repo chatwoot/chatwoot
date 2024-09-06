@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_04_134621) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_05_132752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -539,6 +539,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_04_134621) do
     t.integer "conversation_type", default: 0, null: false
     t.integer "assignee_unread_count", default: 0, null: false
     t.integer "agent_unread_count", default: 0, null: false
+    t.integer "requesting_assignee_id"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
