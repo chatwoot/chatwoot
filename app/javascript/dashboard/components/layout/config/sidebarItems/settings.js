@@ -180,7 +180,7 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
     },
     {
-      icon: 'document-list-clock',
+      icon: 'scan-person',
       label: 'CUSTOM_ROLES',
       hasSubMenu: false,
       meta: {
