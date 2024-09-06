@@ -7,7 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
  */
 
 export function useDarkMode() {
-  const darkMode = useMapGetter('appConfig/getDarkMode');
+  const darkMode = useMapGetter('appConfig/darkMode');
   const prefersDarkMode = computed(() => {
     const isOSOnDarkMode =
       darkMode.value === 'auto' &&
