@@ -234,6 +234,9 @@ export default {
       if (this.isAWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
+      if (this.isAnEmailChannel) {
+        return MESSAGE_MAX_LENGTH.EMAIL;
+      }
       if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
