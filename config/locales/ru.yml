@@ -24,7 +24,7 @@ ru:
     inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
   errors:
     validations:
-      presence: Не должен быть пустым
+      presence: не должен быть пустым
     webhook:
       invalid: Недопустимые события
     signup:
