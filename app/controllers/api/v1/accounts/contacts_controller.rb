@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   include Sift
+  include AssignmentConcern
   sort_on :email, type: :string
   sort_on :initial_channel_type, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
@@ -102,9 +103,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def update
+    if (contact_update_params[:assignee_id].present? || contact_update_params[:team_id].present?) && !change_assignee_permission?
+      return render_error({ message: I18n.t('errors.assignment.permission') }, :forbidden)
+    end
+
     @contact.assign_attributes(contact_update_params)
     @contact.save!
     process_avatar_from_url
+    update_conversation
   end
 
   def destroy
@@ -207,5 +213,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def render_error(error, error_status)
     render json: error, status: error_status
+  end
+
+  def change_assignee_permission?
+    return true if Current.account.no_restriction? || Current.user.administrator?
+
+    false
   end
 end

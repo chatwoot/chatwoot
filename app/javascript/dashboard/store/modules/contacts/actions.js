@@ -109,6 +109,8 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
       if (error.response?.status === 422) {
         throw new DuplicateContactException(error.response.data.attributes);
+      } else if (error.response?.status === 403) {
+        throw new Error(error.response.data.message);
       } else {
         throw new Error(error);
       }

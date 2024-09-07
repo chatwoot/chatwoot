@@ -23,6 +23,6 @@ module AutoAssignmentHandler
     return false unless inbox.enable_auto_assignment? && inbox.inbox_type != 'PhoneCall'
 
     # run only if assignee is blank or doesn't have access to inbox
-    assignee.blank? || inbox.members.exclude?(assignee)
+    assignee.blank? || inbox.assignable_agents.exclude?(assignee)
   end
 end

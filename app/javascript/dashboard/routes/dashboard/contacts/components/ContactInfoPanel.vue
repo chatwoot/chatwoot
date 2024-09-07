@@ -36,7 +36,10 @@
                 value => toggleSidebarUIState('is_contact_actions_open', value)
               "
             >
-              <contact-sales-info :contact="contact" />
+              <contact-sales-info
+                :contact="contact"
+                :show-assignee-info="true"
+              />
             </accordion-item>
           </div>
           <div v-if="element.name === 'contact_attributes'">
@@ -72,15 +75,6 @@
               />
             </accordion-item>
           </div>
-          <div v-if="element.name === 'contact_labels'">
-            <accordion-item
-              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
-              :is-open="isContactSidebarItemOpen('is_ct_labels_open')"
-              @click="value => toggleSidebarUIState('is_ct_labels_open', value)"
-            >
-              <contact-label :contact-id="contact.id" class="contact-labels" />
-            </accordion-item>
-          </div>
           <div v-if="element.name === 'previous_conversation'">
             <accordion-item
               :title="
@@ -109,7 +103,6 @@ import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
 import ContactSalesInfo from 'dashboard/routes/dashboard/contacts/components/ContactSalesInfo.vue';
-import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -121,7 +114,6 @@ export default {
     ContactConversations,
     ContactInfo,
     ContactSalesInfo,
-    ContactLabel,
     CustomAttributes,
     draggable,
     ContactTransactions,

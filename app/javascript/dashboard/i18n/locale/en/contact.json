@@ -363,13 +363,13 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’s attributes will take precedence.",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the base contact’s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
+      "TITLE": "Merged contact",
       "HELP_LABEL": "To be deleted"
     },
     "PARENT": {
-      "TITLE": "Contact to merge",
+      "TITLE": "Base contact",
       "PLACEHOLDER": "Search for a contact",
       "HELP_LABEL": "To be kept"
     },

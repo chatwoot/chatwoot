@@ -98,7 +98,10 @@
                 value => toggleSidebarUIState('is_contact_actions_open', value)
               "
             >
-              <contact-sales-info :contact="contact" />
+              <contact-sales-info
+                :contact="contact"
+                :show-assignee-info="false"
+              />
             </accordion-item>
           </div>
           <div v-else-if="element.name === 'contact_attributes'">

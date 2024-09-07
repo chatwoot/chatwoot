@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController
   # assigns agent/team to a conversation
+  include AssignmentConcern
   def create
     render json: { error: I18n.t('errors.assignment.permission') }, status: :forbidden and return unless permission?
 
@@ -9,8 +10,10 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       render json: { error: I18n.t('errors.assignment.change_requested') }, status: :forbidden
     elsif params.key?(:assignee_id)
       set_agent
+      update_contact
     elsif params.key?(:team_id)
       set_team
+      update_contact
     else
       render json: nil
     end
@@ -21,6 +24,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     @conversation.assignee = @agent
     @conversation.requesting_assignee = nil
     @conversation.save!
+    update_contact
     render_agent
   end
 
@@ -49,6 +53,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
 
   def set_team
     @team = Current.account.teams.find_by(id: params[:team_id])
+    return render json: nill if @team.present? && @conversation.inbox.team.present? && @conversation.inbox.team.id != @team.id
+
     @conversation.update!(team: @team)
     render json: @team
   end

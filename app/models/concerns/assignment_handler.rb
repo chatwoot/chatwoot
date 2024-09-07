@@ -11,10 +11,18 @@ module AssignmentHandler
   private
 
   def ensure_assignee_is_from_contact_assignee
-    return unless new_record? && default_type?
+    return unless new_record? && default_type? && inbox.channel_id == contact.initial_channel_id
 
-    self.assignee = contact.assignee if contact.assignee.present?
-    if contact.team.present?
+    set_agent
+    set_team
+  end
+
+  def set_agent
+    self.assignee = contact.assignee if contact.assignee.present? && inbox.assignable_agents.include?(contact.assignee)
+  end
+
+  def set_team
+    if contact.team.present? && inbox.team.blank?
       self.team = contact.team
     elsif inbox.team.present?
       self.team = inbox.team
