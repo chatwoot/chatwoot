@@ -55,6 +55,9 @@
       "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "القيمة مطلوبة"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "التصفيات القياسية",
       "ADDITIONAL_FILTERS": "التصفيات الإضافية",
