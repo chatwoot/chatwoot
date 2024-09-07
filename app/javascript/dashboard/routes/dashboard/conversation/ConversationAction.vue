@@ -150,7 +150,6 @@ export default {
       },
       set(agent) {
         const agentId = agent ? agent.id : 0;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
         this.$store
           .dispatch('assignAgent', {
             conversationId: this.currentChat.id,
@@ -158,6 +157,9 @@ export default {
           })
           .then(() => {
             this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          })
+          .catch(error => {
+            this.showAlert(error.message);
           });
       },
     },
@@ -168,11 +170,13 @@ export default {
       set(team) {
         const conversationId = this.currentChat.id;
         const teamId = team ? team.id : 0;
-        this.$store.dispatch('setCurrentChatTeam', { team, conversationId });
         this.$store
           .dispatch('assignTeam', { conversationId, teamId })
           .then(() => {
             this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
+          })
+          .catch(error => {
+            this.showAlert(error.message);
           });
       },
     },

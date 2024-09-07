@@ -3,7 +3,7 @@
     "TITLE": "Cài đặt tài khoản",
     "SUBMIT": "Cập nhật cài đặt",
     "BACK": "Trờ về",
-    "DISMISS": "Dismiss",
+    "DISMISS": "Bỏ qua",
     "UPDATE": {
       "ERROR": "Không thể cập nhật cài đặt, hãy thử lại!",
       "SUCCESS": "Đã cập nhật thành công cài đặt tài khoản"
@@ -42,6 +42,12 @@
         "LABEL": "Hội thoại không hoạt động sẽ tự đóng (hoàn thành) sau số ngày",
         "PLACEHOLDER": "Nhập số ngày từ 1 đến 999",
         "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)"
+      },
+      "CONVERSATION_ASSIGNMENT": {
+        "TITLE": "Tùy chọn thay đổi người phụ trách hội thoại và khách hàng:",
+        "NO_RESTRICTION": "Không hạn chế: mọi người dùng có thể thay đổi người phụ trách",
+        "RESTRICTION": "Hạn chế: Chỉ có trưởng nhóm của kênh hoặc quản trị viên được thay đổi, người dùng khác không thể thay đổi người phụ trách",
+        "CHANGE_FROM_REQUEST": "Được yêu cầu thay đổi: Trưởng nhóm hoặc quản trị viên được thay đổi, người dùng khác có thể yêu cầu để được đồng ý thay đổi người phụ trách"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tiếp tục cuộc hội thoại trên web qua email được kích hoạt cho tài khoản của bạn.",

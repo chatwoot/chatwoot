@@ -83,6 +83,59 @@
               {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR') }}
             </span>
           </label>
+          <div class="mb-4">
+            <span class="text-sm notification-label">
+              {{ $t('GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.TITLE') }}
+            </span>
+            <div class="flex items-center gap-2 mb-1">
+              <input
+                id="no_restriction"
+                v-model="conversationAssignment"
+                class="notification--checkbox"
+                type="radio"
+                value="no_restriction"
+              />
+              <label for="no_restriction">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.NO_RESTRICTION'
+                  )
+                }}
+              </label>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <input
+                id="restriction"
+                v-model="conversationAssignment"
+                class="notification--checkbox"
+                type="radio"
+                value="restriction"
+              />
+              <label for="restriction">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.RESTRICTION'
+                  )
+                }}
+              </label>
+            </div>
+            <div class="flex items-center gap-2 mb-1">
+              <input
+                id="change_from_request"
+                v-model="conversationAssignment"
+                class="notification--checkbox"
+                type="radio"
+                value="change_from_request"
+              />
+              <label for="change_from_request">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.CONVERSATION_ASSIGNMENT.CHANGE_FROM_REQUEST'
+                  )
+                }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -150,6 +203,7 @@ export default {
       supportEmail: '',
       features: {},
       autoResolveDuration: null,
+      conversationAssignment: 'no_restriction',
       latestChatwootVersion: null,
     };
   },
@@ -233,6 +287,7 @@ export default {
           support_email,
           features,
           auto_resolve_duration,
+          conversation_assignment,
           latest_chatwoot_version: latestChatwootVersion,
         } = this.getAccount(this.accountId);
 
@@ -244,6 +299,7 @@ export default {
         this.supportEmail = support_email;
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
+        this.conversationAssignment = conversation_assignment;
         this.latestChatwootVersion = latestChatwootVersion;
       } catch (error) {
         // Ignore error
@@ -263,6 +319,7 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
+          conversation_assignment: this.conversationAssignment,
         });
         this.$root.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
@@ -271,6 +328,10 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
+    },
+
+    handleAssignmentInput(e) {
+      this.conversationAssignment = e.target.value;
     },
 
     updateDirectionView(locale) {

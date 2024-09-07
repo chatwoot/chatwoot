@@ -368,8 +368,8 @@
         "DESC": "Chatwoot hỗ trợ tích hợp Website Live-chat, Zalo OA, Facebook Messenger, SMS, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh mới, bạn có thể sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
       },
       "AGENTS": {
-        "TITLE": "Nhân viên phụ trách",
-        "DESC": "Tại đây bạn có thể thêm người dùng phụ trách kênh hội thoại mới tạo của mình. Chỉ những người dùng được chọn này mới có quyền truy cập vào kênh hội thoại của bạn. Các nhân viên không thuộc kênh hội thoại này sẽ không thể xem hoặc trả lời tin nhắn trong kênh hội thoại này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các kênh hội thoại, bạn nên thêm mình làm người dùng cho tất cả các kênh hội thoại mà bạn tạo.",
+        "TITLE": "Phân quyền cho kênh",
+        "DESC": "Chọn một trong hai cách:  phân cho một số người dùng cụ thể hoặc phân cho một nhóm làm việc. <br> <b>Lưu ý:</b> Quản trị viên đã có sẵn quyền truy cập vào tất cả các kênh nên không cần phân quyền vào kênh.",
         "VALIDATION_ERROR": "Thêm ít nhất một người dùng vào kênh hội thoại mới của bạn",
         "PICK_AGENTS": "Chọn người dùng cho kênh hội thoại"
       },
@@ -405,8 +405,8 @@
       "DESC_ZALO": "Bạn có thể lấy tên hộp thư trong Chatwoot là tên Zalo OA của bạn. Bạn cũng có thể điều chỉnh tên hộp thư để nhận dạng tốt hơn."
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Thêm các người dùng",
-      "ADD_AGENTS": "Thêm các người dùng vào kênh hội thoại của bạn..."
+      "BUTTON_TEXT": "Cập nhật",
+      "ADD_AGENTS": "Cập nhật phân công trực kênh hội thoại của bạn..."
     },
     "FINISH": {
       "TITLE": "Kênh hội thoại của bạn đã sẵn sàng!",
@@ -471,7 +471,7 @@
       "AVATAR_DELETE_BUTTON_TEXT": "Xoá hình đại diện",
       "CONFIRM": {
         "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Bạn có muốn xoá? ",
+        "MESSAGE": "Bạn có muốn xoá ",
         "PLACE_HOLDER": "Vui lòng điền {inboxName} để xác nhận",
         "YES": "Có, Xoá ",
         "NO": "Không, Giữ "
@@ -506,7 +506,11 @@
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
       "INBOX_AGENTS": "Phân quyền cho kênh",
       "INBOX_AGENTS_PLACEHOLDER": "Chọn một hoặc nhiều",
-      "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa người dùng khỏi kênh này",
+      "INBOX_AGENTS_SUB_TEXT": "Chọn một trong hai cách:  phân cho một số người dùng cụ thể hoặc phân cho một nhóm làm việc",
+      "AGENT_SELECTION": "Chọn nhân viên trực kênh",
+      "AGENT_SELECTION_MESSAGE": "Nhóm làm việc đang chọn sẽ được thay bằng nhân viên trực kênh",
+      "TEAM_SELECTION": "Hoặc chọn nhóm làm việc",
+      "TEAM_SELECTION_MESSAGE": "Nhân viên trực kênh đang chọn sẽ được thay bằng nhóm làm việc",
       "AGENT_ASSIGNMENT": "Phân công trực kênh",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Cập nhật phân công trực kênh",
       "UPDATE": "Cập nhật",

@@ -29,6 +29,7 @@
 #  contact_inbox_id       :bigint
 #  display_id             :integer          not null
 #  inbox_id               :integer          not null
+#  requesting_assignee_id :integer
 #  sla_policy_id          :bigint
 #  team_id                :bigint
 #
@@ -100,6 +101,7 @@ class Conversation < ApplicationRecord
   belongs_to :contact_inbox
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
+  belongs_to :requesting_assignee, class_name: 'User', optional: true
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
@@ -241,9 +243,10 @@ class Conversation < ApplicationRecord
   end
 
   def sync_contact_assignee
-    return unless contact.conversations.where(conversation_type: :default_type).count == 1 && assignee_id.present?
+    return unless contact.conversations.where(conversation_type: :default_type).count == 1 && (assignee_id.present? || team_id.present?)
 
     contact.update(assignee_id: assignee_id)
+    contact.update(team_id: team_id)
   end
 
   def notify_conversation_updation

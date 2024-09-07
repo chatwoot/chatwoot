@@ -11,6 +11,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     authorize @inbox, :create?
     ActiveRecord::Base.transaction do
       agents_to_be_added_ids.map { |user_id| @inbox.add_member(user_id) }
+      @inbox.update(team_id: params[:team_id]) if params[:team_id].present?
     end
     fetch_updated_agents
   end
@@ -43,6 +44,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     ActiveRecord::Base.transaction do
       agents_to_be_added_ids.each { |user_id| @inbox.add_member(user_id) }
       agents_to_be_removed_ids.each { |user_id| @inbox.remove_member(user_id) }
+      @inbox.update(team_id: params[:team_id])
     end
   end
 

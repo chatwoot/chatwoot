@@ -26,6 +26,10 @@
             {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
           </label>
         </div>
+        <p
+          v-dompurify-html="$t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.PLACEHOLDER')"
+          class="text-sm w-full text-slate-600 dark:text-slate-300"
+        />
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-full">
             <woot-submit-button

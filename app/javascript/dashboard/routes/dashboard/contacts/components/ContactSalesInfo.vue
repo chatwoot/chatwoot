@@ -6,7 +6,11 @@
         v-if="contact.stage"
         class="text-slate-800 font-medium dark:text-slate-100 text-sm"
       >
-        {{ contact.stage.name }}
+        {{
+          $t('CONTACTS_PAGE.LIST.TABLE_HEADER.STAGE_NAME') +
+          ': ' +
+          contact.stage.name
+        }}
       </p>
       <p v-if="contact.initial_channel_type">
         {{
@@ -66,7 +70,7 @@
       :contact="contact"
       @cancel="toggleNewActionModal"
     />
-    <div class="multiselect-wrap--small">
+    <div v-if="showAssigneeInfo" class="multiselect-wrap--small">
       <contact-details-item
         compact
         :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.ASSIGNEE')"
@@ -81,7 +85,7 @@
         @click="onClickAssignee"
       />
     </div>
-    <div class="multiselect-wrap--small">
+    <div v-if="showAssigneeInfo" class="multiselect-wrap--small">
       <contact-details-item
         compact
         :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.TEAM_NAME')"
@@ -96,6 +100,7 @@
         @click="onClickAssignTeam"
       />
     </div>
+    <contact-label :contact-id="contact.id" class="contact-labels" />
   </div>
 </template>
 
@@ -106,6 +111,7 @@ import ContactDetailsItem from 'dashboard/routes/dashboard/conversation/ContactD
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import AddNote from 'dashboard/modules/notes/components/AddNote.vue';
 import ContactNewAction from './ContactNewAction.vue';
+import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import contactMixin from 'dashboard/mixins/contactMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
@@ -117,12 +123,17 @@ export default {
     MultiselectDropdown,
     AddNote,
     ContactNewAction,
+    ContactLabel,
   },
   mixins: [agentMixin, alertMixin, teamMixin, contactMixin, errorCaptureMixin],
   props: {
     contact: {
       type: Object,
       default: () => ({}),
+    },
+    showAssigneeInfo: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -157,9 +168,14 @@ export default {
           id: this.contact.id,
           assignee_id: agentId,
         };
-        this.$store.dispatch('contacts/update', contactItem).then(() => {
-          this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_AGENT'));
-        });
+        this.$store
+          .dispatch('contacts/update', contactItem)
+          .then(() => {
+            this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_AGENT'));
+          })
+          .catch(error => {
+            this.showAlert(error.message);
+          });
       },
     },
     assignedTeam: {
@@ -172,9 +188,14 @@ export default {
           id: this.contact.id,
           team_id: teamId,
         };
-        this.$store.dispatch('contacts/update', contactItem).then(() => {
-          this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_TEAM'));
-        });
+        this.$store
+          .dispatch('contacts/update', contactItem)
+          .then(() => {
+            this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_TEAM'));
+          })
+          .catch(error => {
+            this.showAlert(error.message);
+          });
       },
     },
   },

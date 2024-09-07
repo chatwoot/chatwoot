@@ -200,8 +200,22 @@ const actions = {
       });
       dispatch('setCurrentChatAssignee', response.data);
     } catch (error) {
-      // Handle error
+      if (error.response?.data) {
+        throw new Error(error.response?.data.error);
+      } else {
+        throw error;
+      }
     }
+  },
+
+  agreeToRequest: async ({ dispatch }, { conversationId }) => {
+    const response = await ConversationApi.agreeToRequest({ conversationId });
+    dispatch('setCurrentChatAssignee', response.data);
+  },
+
+  cancelRequest: async ({ commit }, { conversationId }) => {
+    const response = await ConversationApi.cancelRequest({ conversationId });
+    commit(types.UPDATE_CONVERSATION, response.data);
   },
 
   setCurrentChatAssignee({ commit }, assignee) {
@@ -216,7 +230,11 @@ const actions = {
       });
       dispatch('setCurrentChatTeam', { team: response.data, conversationId });
     } catch (error) {
-      // Handle error
+      if (error.response?.data) {
+        throw new Error(error.response?.data.error);
+      } else {
+        throw error;
+      }
     }
   },
 

@@ -33,6 +33,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
     {
       sender: contact.push_event_data,
       assignee: assignee&.push_event_data,
+      requesting_assignee: requesting_assignee&.push_event_data,
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }

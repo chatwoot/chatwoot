@@ -66,6 +66,10 @@ vi:
       invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
       invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+    assignment:
+      permission: Bạn không có quyền thay đổi thông tin phụ trách
+      change_requested: Yêu cầu thay đổi người phụ trách đã được gửi đi. Bạn sẽ nhận được thông báo từ hội thoại khi yêu cầu được chấp nhận.
+      change_request_note: Bạn vừa nhận được một yêu cầu thay đổi người phụ trách
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC

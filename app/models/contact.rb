@@ -66,9 +66,6 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :product, optional: true
   belongs_to :team, optional: true
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_contacts
-  belongs_to :initial_channel,
-             class_name: :Channel,
-             optional: true
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -246,6 +243,15 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def self.resolved_contacts
     # temporarily change to all and consider the condition later
     all
+  end
+
+  def initial_conversation
+    initial_conversations = if initial_channel_id.blank?
+                              conversations
+                            else
+                              conversations.joins(:inbox).where(inbox: { channel_id: initial_channel_id })
+                            end
+    initial_conversations.order(created_at: :asc).first
   end
 
   def discard_invalid_attrs

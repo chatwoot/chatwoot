@@ -272,7 +272,7 @@ class Message < ApplicationRecord
   end
 
   def update_agent_read_if_replied
-    conversation.update(assignee_unread_count: 0, assignee_last_seen_at: DateTime.now.utc) if outgoing?
+    conversation.update(assignee_unread_count: 0, assignee_last_seen_at: DateTime.now.utc) if outgoing? && !private
   end
 
   def update_unread_count

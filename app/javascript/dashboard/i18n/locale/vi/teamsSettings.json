@@ -135,7 +135,8 @@
         "PLACEHOLDER": "Mô tả ngắn về nhóm này."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Cho phép tự động phân công đối với nhóm này."
+        "LABEL": "Cho phép tự động phân công người phụ trách hội thoại.",
+        "PLACEHOLDER": "Khi phân công một hội thoại cụ thể cho nhóm này, người phụ trách hội thoại cũng sẽ được tự động phân công từ một thành viên trong nhóm."
       },
       "SUBMIT_CREATE": "Tạo nhóm"
     }

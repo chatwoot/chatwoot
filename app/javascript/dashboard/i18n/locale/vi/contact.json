@@ -407,13 +407,13 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Hợp nhất các khách hàng",
-    "DESCRIPTION": "Hợp nhất các khách hàng để kết hợp hai hồ sơ thành một, bao gồm tất cả các thông tin và hội thoại. Trong trường hợp xung đột, các thông tin của khách hàng Chính sẽ được ưu tiên.",
+    "DESCRIPTION": "Hợp nhất để kết hợp hai khách hàng thành một, bao gồm tất cả các thông tin, hội thoại, tin nhắn, ghi chú... Trong trường hợp cả hai khách hàng có thông tin khác nhau, các thông tin của khách hàng cơ sở sẽ được ưu tiên.",
     "PRIMARY": {
-      "TITLE": "Khách hàng chính",
-      "HELP_LABEL": "Sẽ được xoá"
+      "TITLE": "Khách hàng gộp",
+      "HELP_LABEL": "Sẽ bị xoá"
     },
     "PARENT": {
-      "TITLE": "Khách hàng cần gộp",
+      "TITLE": "Khách hàng cơ sở",
       "PLACEHOLDER": "Tìm kiếm khách hàng",
       "HELP_LABEL": "Được giữ"
     },

@@ -11,8 +11,8 @@
       </div>
       <div class="w-3/5">
         <div class="w-full">
-          <label :class="{ error: $v.selectedAgents.$error }">
-            {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
+          <label>
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AGENT_SELECTION') }}
             <multiselect
               v-model="selectedAgents"
               :options="agentList"
@@ -26,12 +26,25 @@
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
               :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
-              @select="$v.selectedAgents.$touch"
+              @select="onAgentSelected"
             />
-            <span v-if="$v.selectedAgents.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
-            </span>
           </label>
+        </div>
+        <div class="w-[50%]">
+          <label>
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.TEAM_SELECTION') }}
+          </label>
+          <multiselect
+            v-model="selectedTeam"
+            placeholder=""
+            label="name"
+            track-by="id"
+            :options="teamList"
+            :max-height="160"
+            :close-on-select="true"
+            :show-labels="false"
+            @select="onTeamSelected"
+          />
         </div>
         <div class="w-full">
           <woot-submit-button
@@ -48,6 +61,7 @@
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
+import alertMixin from 'shared/mixins/alertMixin';
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import StringeeChannelAPI from '../../../../api/channel/stringeeChannel';
 import router from '../../../index';
@@ -57,7 +71,7 @@ export default {
   components: {
     PageHeader,
   },
-
+  mixins: [alertMixin],
   validations: {
     selectedAgents: {
       isEmpty() {
@@ -70,12 +84,14 @@ export default {
     return {
       selectedAgents: [],
       isCreating: false,
+      selectedTeam: null,
     };
   },
 
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
+      teamList: 'teams/getTeams',
     }),
   },
 
@@ -84,6 +100,20 @@ export default {
   },
 
   methods: {
+    onAgentSelected() {
+      if (!this.selectedTeam) return;
+      this.showAlert(
+        this.$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_SELECTION_MESSAGE')
+      );
+      this.selectedTeam = null;
+    },
+    onTeamSelected() {
+      if (this.selectedAgents.length === 0) return;
+      this.showAlert(
+        this.$t('INBOX_MGMT.SETTINGS_POPUP.TEAM_SELECTION_MESSAGE')
+      );
+      this.selectedAgents = [];
+    },
     async addAgents() {
       this.isCreating = true;
       const inboxId = this.$route.params.inbox_id;
@@ -97,7 +127,11 @@ export default {
           });
         }
 
-        await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
+        await InboxMembersAPI.update({
+          inboxId,
+          agentList: selectedAgents,
+          teamId: this.selectedTeam?.id,
+        });
         router.replace({
           name: 'settings_inbox_finish',
           params: {
