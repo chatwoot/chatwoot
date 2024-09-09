@@ -90,7 +90,7 @@
     "vue3-click-away": "^1.2.4",
     "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
-    "vuex-router-sync": "~5.0.0",
+    "vuex-router-sync": "6.0.0-rc.1",
     "wavesurfer.js": "^6.6.4"
   },
   "devDependencies": {
