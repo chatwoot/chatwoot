@@ -1,8 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "قنوات التواصل",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "DESCRIPTION": "القناة هي وضع الاتصال الذي يختاره العميل للتفاعل معك. صندوق الوارد هو المكان الذي تدير فيه التفاعلات لقناة معينة. ويمكن أن تشمل الاتصالات من مصادر مختلفة مثل البريد الإلكتروني، والمحادثة الحية، ووسائط الإعلام الاجتماعية.",
+    "LEARN_MORE": "تعلم المزيد عن صناديق البريد",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -371,11 +371,11 @@
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "البريد الإلكتروني لجوجل",
+        "DESCRIPTION": "انقر على تسجيل الدخول باستخدام زر جوجل للبدء. سيتم إعادة توجيهك إلى صفحة تسجيل الدخول بالبريد الإلكتروني. بمجرد قبول الأذونات المطلوبة، سيتم إعادة توجيهك إلى خطوة إنشاء علبة الوارد.",
+        "SIGN_IN": "تسجيل الدخول باستخدام Google",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بجوجل، الرجاء المحاولة مرة أخرى"
       }
     },
     "DETAILS": {
@@ -752,10 +752,10 @@
       "WEB_WIDGET": "الموقع الإلكتروني",
       "TWITTER_PROFILE": "تويتر",
       "TWILIO_SMS": "Twilio SMS",
-      "WHATSAPP": "WhatsApp",
+      "WHATSAPP": "واتساب",
       "SMS": "SMS",
       "EMAIL": "البريد الإلكتروني",
-      "TELEGRAM": "Telegram",
+      "TELEGRAM": "تيليجرام",
       "LINE": "Line",
       "API": "قناة API"
     }
