@@ -94,50 +94,6 @@
       "MONTH": "Month",
       "YEAR": "Year"
     },
-    "GROUP_BY_DAY_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      }
-    ],
-    "GROUP_BY_WEEK_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      }
-    ],
-    "GROUP_BY_MONTH_OPTIONS": [
-      {
-        "id": 1,
-        "groupBy": "Day"
-      },
-      {
-        "id": 2,
-        "groupBy": "Week"
-      },
-      {
-        "id": 3,
-        "groupBy": "Month"
-      }
-    ],
-    "GROUP_BY_YEAR_OPTIONS": [
-      {
-        "id": 2,
-        "groupBy": "Week"
-      },
-      {
-        "id": 3,
-        "groupBy": "Month"
-      },
-      {
-        "id": 4,
-        "groupBy": "Year"
-      }
-    ],
     "BUSINESS_HOURS": "Business Hours",
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",

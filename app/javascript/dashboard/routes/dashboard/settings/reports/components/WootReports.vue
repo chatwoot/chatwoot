@@ -16,6 +16,24 @@ const REPORTS_KEYS = {
   REPLY_TIME: 'reply_time',
 };
 
+const GROUP_BY_OPTIONS = {
+  DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
+  WEEK: [
+    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+  ],
+  MONTH: [
+    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
+  ],
+  YEAR: [
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
+    { id: 4, groupByKey: 'REPORT.GROUPING_OPTIONS.YEAR' },
+  ],
+};
+
 export default {
   components: {
     ReportFilters,
@@ -45,7 +63,7 @@ export default {
       to: 0,
       selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],
-      groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
+      groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
       selectedGroupByFilter: null,
       businessHours: false,
     };
@@ -125,9 +143,12 @@ export default {
       this.from = from;
       this.to = to;
       this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
-      const filterItems = this.groupByfilterItemsList.filter(
-        item => item.id === this.groupBy.id
-      );
+      // [VITE] [TOOD]: Added the ? check and default [] coz this was erroring out
+      // We gotta fix it "Uncaught (in promise) TypeError: this.groupByfilterItemsList?.filter is not a function"
+      const filterItems =
+        this.groupByfilterItemsList?.filter(
+          item => item.id === this.groupBy.id
+        ) || [];
       if (filterItems.length > 0) {
         this.selectedGroupByFilter = filterItems[0];
       } else {
@@ -155,14 +176,17 @@ export default {
     fetchFilterItems(groupBy) {
       switch (groupBy) {
         case GROUP_BY_FILTER[2].period:
-          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
+          return GROUP_BY_OPTIONS.WEEK.map(this.translateOptions);
         case GROUP_BY_FILTER[3].period:
-          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
+          return GROUP_BY_OPTIONS.MONTH.map(this.translateOptions);
         case GROUP_BY_FILTER[4].period:
-          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
+          return GROUP_BY_OPTIONS.YEAR.map(this.translateOptions);
         default:
-          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
+          return GROUP_BY_OPTIONS.DAY.map(this.translateOptions);
       }
+    },
+    translateOptions(opts) {
+      return { id: opts.id, groupBy: this.$t(opts.groupByKey) };
     },
     onBusinessHoursToggle(value) {
       this.businessHours = value;
