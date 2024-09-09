@@ -102,7 +102,7 @@ export default {
         </div>
       </h3>
       <div class="mt-2">
-        <woot-horizontal-bar :collection="chartData" :height="24" />
+        <!-- <woot-horizontal-bar :collection="chartData" :height="24" /> -->
       </div>
     </div>
   </div>

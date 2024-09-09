@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      pageIndex: 1,
+      pageIndex: 0,
       from: 0,
       to: 0,
       userIds: [],
@@ -59,7 +59,7 @@ export default {
     },
     getResponses() {
       this.$store.dispatch('csat/get', {
-        page: this.pageIndex,
+        page: this.pageIndex + 1,
         ...this.requestPayload,
       });
     },

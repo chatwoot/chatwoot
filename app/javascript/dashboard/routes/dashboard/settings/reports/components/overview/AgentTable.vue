@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, ref } from 'vue';
+import { computed, h } from 'vue';
 import {
   useVueTable,
   createColumnHelper,
@@ -97,6 +97,7 @@ const columns = [
   columnHelper.accessor('agent', {
     header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'),
     cell: cellProps => h(AgentCell, cellProps),
+
     size: 250,
   }),
   columnHelper.accessor('open', {
