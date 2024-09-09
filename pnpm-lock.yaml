@@ -170,9 +170,6 @@ importers:
       vue-dompurify-html:
         specifier: ^5.1.0
         version: 5.1.0(vue@3.5.1(typescript@5.5.4))
-      vue-easytable:
-        specifier: 2.5.5
-        version: 2.5.5(lodash@4.17.21)(vue@3.5.1(typescript@5.5.4))
       vue-i18n:
         specifier: 9.14.0
         version: 9.14.0(vue@3.5.1(typescript@5.5.4))
@@ -3201,9 +3198,6 @@ packages:
   date-format-parse@0.2.7:
     resolution: {integrity: sha512-/+lyMUKoRogMuTeOVii6lUwjbVlesN9YRYLzZT/g3TEZ3uD9QnpjResujeEqUW+OSNbT7T1+SYdyEkTcRv+KDQ==}
 
-  de-indent@1.0.2:
-    resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
-
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -3953,10 +3947,6 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
-
-  he@1.2.0:
-    resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
-    hasBin: true
 
   hex-color-regex@1.1.0:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
@@ -5864,9 +5854,6 @@ packages:
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
-  resize-observer-polyfill@1.5.1:
-    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
-
   resolve-cwd@2.0.0:
     resolution: {integrity: sha512-ccu8zQTrzVr954472aUVPLEcB3YpKSYR3cg/3lo1okzobPBM+1INXBbBZlDbnI/hbEocnf8j0QVo43hQKrbchg==}
     engines: {node: '>=4'}
@@ -6756,12 +6743,6 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  vue-easytable@2.5.5:
-    resolution: {integrity: sha512-2dp2+OWYgCn8+g6p+7tNoCuU85OGHqk1hnQ7QnS4HUyPFVAN1n4mmG+6WkIuRKrc5wsFpsg7ZiFxHQnplos3jw==}
-    peerDependencies:
-      lodash: ^4.17.20
-      vue: '>= 2.6.0'
-
   vue-eslint-parser@9.4.3:
     resolution: {integrity: sha512-2rYRLWlIpaiN8xbPiDyXZXRgLGOtWxERV7ND5fFAv5qo1D2N9Fu9MNajBNc6o13lZ+24DAWCkQCvj4klgmcITg==}
     engines: {node: ^14.17.0 || >=16.0.0}
@@ -6800,9 +6781,6 @@ packages:
     resolution: {integrity: sha512-sv6wmNKx2j3aqJQDMxLFzs/u/mjA9Z5LCgy6BE0f7yFWMjrPLnS/sPNn8ARY/FXw6byV18EFutn5lTO6+UsV5A==}
     peerDependencies:
       vue: ^3.2.0
-
-  vue-template-compiler@2.6.12:
-    resolution: {integrity: sha512-OzzZ52zS41YUbkCBfdXShQTe69j1gQDZ9HIX8miuC9C3rBCk9wIRjLiZZLrmX9V+Ftq/YEyv1JaVr5Y/hNtByg==}
 
   vue-upload-component@3.1.17:
     resolution: {integrity: sha512-1orTC5apoFzBz4ku2HAydpviaAOck+ABc83rGypIK/Bgl+TqhtoWsQOhXqbb7vDv7pKlvRVWwml9PM224HyhkA==}
@@ -10567,8 +10545,6 @@ snapshots:
 
   date-format-parse@0.2.7: {}
 
-  de-indent@1.0.2: {}
-
   debug@2.6.9(supports-color@6.1.0):
     dependencies:
       ms: 2.0.0
@@ -11479,8 +11455,6 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
-
-  he@1.2.0: {}
 
   hex-color-regex@1.1.0: {}
 
@@ -13620,8 +13594,6 @@ snapshots:
 
   requires-port@1.0.0: {}
 
-  resize-observer-polyfill@1.5.1: {}
-
   resolve-cwd@2.0.0:
     dependencies:
       resolve-from: 3.0.0
@@ -14597,13 +14569,6 @@ snapshots:
       dompurify: 3.1.6
       vue: 3.5.1(typescript@5.5.4)
 
-  vue-easytable@2.5.5(lodash@4.17.21)(vue@3.5.1(typescript@5.5.4)):
-    dependencies:
-      lodash: 4.17.21
-      resize-observer-polyfill: 1.5.1
-      vue: 3.5.1(typescript@5.5.4)
-      vue-template-compiler: 2.6.12
-
   vue-eslint-parser@9.4.3(eslint@8.57.0):
     dependencies:
       debug: 4.3.5
@@ -14647,11 +14612,6 @@ snapshots:
     dependencies:
       '@vue/devtools-api': 6.6.3
       vue: 3.5.1(typescript@5.5.4)
-
-  vue-template-compiler@2.6.12:
-    dependencies:
-      de-indent: 1.0.2
-      he: 1.2.0
 
   vue-upload-component@3.1.17: {}
 
