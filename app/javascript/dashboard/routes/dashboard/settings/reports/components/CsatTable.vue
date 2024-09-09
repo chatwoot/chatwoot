@@ -1,13 +1,20 @@
 <script setup>
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
-import { CSAT_RATINGS } from 'shared/constants/messages';
-import { useMapGetter } from 'dashboard/composables/store';
 import { defineEmits, computed, h } from 'vue';
-import { messageStamp, dynamicTime } from 'shared/helpers/timeHelper';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+
+// [TODO] Instead of converting the values to their reprentation when building the tableData
+// We should do the change in the cell
+import { messageStamp, dynamicTime } from 'shared/helpers/timeHelper';
+
+// components
 import Table from 'dashboard/components/table/Table.vue';
 import Pagination from 'dashboard/components/table/Pagination.vue';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import ConversationCell from './ConversationCell.vue';
+
+// constants
+import { CSAT_RATINGS } from 'shared/constants/messages';
 
 import {
   useVueTable,
