@@ -9,7 +9,7 @@ import Multiselect from 'vue-multiselect';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
 import { sync } from 'vuex-router-sync';
-import VTooltip from 'v-tooltip';
+import FloatingVue from 'floating-vue';
 import WootUiKit from 'dashboard/components';
 import App from 'dashboard/App.vue';
 import i18nMessages from 'dashboard/i18n';
@@ -22,7 +22,6 @@ import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
-import 'vue-easytable/libs/theme-default/index.css';
 // import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
@@ -82,8 +81,8 @@ app.use(WootUiKit);
 //     JSON: ({ value }) => isJSONValid(value),
 //   },
 // });
-app.use(VTooltip, {
-  defaultHtml: false,
+app.use(FloatingVue, {
+  html: false,
 });
 app.use(hljs.vuePlugin);
 

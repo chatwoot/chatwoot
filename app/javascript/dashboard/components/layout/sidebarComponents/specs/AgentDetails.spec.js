@@ -2,7 +2,6 @@ import AgentDetails from '../AgentDetails.vue';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
-import VTooltip from 'v-tooltip';
 
 import i18n from 'dashboard/i18n';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
