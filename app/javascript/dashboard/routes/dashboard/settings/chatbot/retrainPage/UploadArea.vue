@@ -152,12 +152,12 @@ export default {
     },
   },
   methods: {
-    handleFileUpload(event) {
+    uploadFile(event) {
       const files = event.target.files;
-      this.$store.dispatch('chatbots/addFiles', files);
+      this.$store.dispatch('chatbots/addFile', files);
     },
-    handleFileDelete(index) {
-      this.$store.dispatch('chatbots/deleteFiles', index);
+    deleteFile(index) {
+      this.$store.dispatch('chatbots/deleteFile', index);
     },
     setText() {
       const text = this.textInput;

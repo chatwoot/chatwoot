@@ -86,7 +86,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def validate_limit
-    render_payment_required('Account limit exceeded. Upgrade to a higher plan') unless can_add_agent? 
+    render_payment_required('Account limit exceeded. Upgrade to a higher plan') unless can_add_agent?
   end
 
   def available_agent_count
