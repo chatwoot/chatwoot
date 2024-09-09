@@ -10,10 +10,6 @@ const resolve = {
     assets: path.resolve('./app/javascript/dashboard/assets'),
     components: path.resolve('./app/javascript/dashboard/components'),
     helpers: path.resolve('./app/javascript/shared/helpers'),
-    './iconfont.eot': 'vue-easytable/libs/font/iconfont.eot',
-    './iconfont.woff': 'vue-easytable/libs/font/iconfont.woff',
-    './iconfont.ttf': 'vue-easytable/libs/font/iconfont.ttf',
-    './iconfont.svg': 'vue-easytable/libs/font/iconfont.svg',
   },
 };
 
