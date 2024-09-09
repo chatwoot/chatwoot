@@ -34,6 +34,8 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 import resizeDirective from 'dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue3-click-away';
 
+import 'floating-vue/dist/style.css';
+
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
@@ -81,9 +83,7 @@ app.use(WootUiKit);
 //     JSON: ({ value }) => isJSONValid(value),
 //   },
 // });
-app.use(FloatingVue, {
-  html: false,
-});
+app.use(FloatingVue);
 app.use(hljs.vuePlugin);
 
 app.component('multiselect', Multiselect);
