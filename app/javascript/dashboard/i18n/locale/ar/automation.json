@@ -95,8 +95,8 @@
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "اكتب رسالتك هنا",
       "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "EMAIL_INPUT_PLACEHOLDER": "أدخل البريد الإلكتروني",
+      "URL_INPUT_PLACEHOLDER": "أدخل رابط"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
