@@ -28,7 +28,7 @@ class AccountDashboard < Administrate::BaseDashboard
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     account_users: Field::HasMany,
     custom_attributes: CustomAttributeField,
-    ltd_attributes:LtdAttributeField,
+    ltd_attributes: LtdAttributeField
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES

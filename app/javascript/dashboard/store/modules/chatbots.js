@@ -49,11 +49,12 @@ export const actions = {
   decChar({ commit }, count) {
     commit(types.DEC_CHAR, count);
   },
-  addFiles({ commit }, files) {
-    commit(types.ADD_FILES, files);
+  addFiles({ commit }, { file, char_count }) {
+    commit(types.ADD_FILES, [file, char_count]);
+    commit(types.INC_CHAR, char_count);
   },
-  deleteFiles({ commit }, index) {
-    commit(types.DELETE_FILES, index);
+  deleteFile({ commit }, index) {
+    commit(types.DELETE_FILE, index);
   },
   setText({ commit }, text) {
     commit(types.SET_TEXT, text);
@@ -169,7 +170,7 @@ export const mutations = {
   [types.ADD_FILES]($state, files) {
     $state.files.push(...files);
   },
-  [types.DELETE_FILES]($state, index) {
+  [types.DELETE_FILE]($state, index) {
     $state.files.splice(index, 1);
   },
   [types.SET_TEXT]($state, text) {

@@ -8,7 +8,7 @@
     "BROWSE_FILES": "Click to select files",
     "UPDATE": "Update",
     "CHATBOT_INBOX_CONNECT": "Connect Chatbot With Inbox",
-    "SUPPORTED_FILE_TYPES": "Supported File Types: .pdf, .doc, .txt",
+    "SUPPORTED_FILE_TYPES": "Supported File Types: .pdf, .doc, .docx, .txt",
     "ERROR": "Something went wrong. Please try again",
     "ENABLE_BOT": "Enable Chatbot",
     "DISABLE_BOT": "Disable Chatbot",
@@ -32,6 +32,8 @@
       "TITLE": "Inbox",
       "CONNECT_INBOX": "Connect Inbox",
       "FETCH_LINKS": "Fetch links",
+      "FETCH_LINKS_DESC": "This will crawl all the links starting with the URL (not including files on the website).",
+      "UPLOAD_FILES_DESC": "If you are uploading a PDF, make sure you can select/highlight the text.",
       "NAME": {
         "LABEL": "Chatbot Name",
         "PLACEHOLDER": "Example: Chatbot 1"
@@ -72,7 +74,7 @@
     "CREATE_FLOW": {
       "CREATE": {
         "TITLE": "Upload Files",
-        "DESC": "This will crawl all the links starting with the URL (not including files on the website)."
+        "DESC": "Upload files to train your bot"
       },
       "CONNECT": {
         "TITLE": "Connect Inbox",
@@ -82,12 +84,12 @@
         {
           "title": "Upload Files",
           "route": "chatbots_new",
-          "body": "Provide your bot with urls"
+          "body": "Upload files and urls"
         },
         {
           "title": "Connect Inbox",
           "route": "chatbots_connect_inbox",
-          "body": "Connect bot to your website widget inbox."
+          "body": "Connect to website widget inbox."
         }
       ]
     },

@@ -15,15 +15,18 @@
         <input
           id="file"
           type="file"
-          accept=".doc,.pdf,.txt"
+          accept=".pdf,.doc,.docx,.txt"
           multiple
-          @change="handleFileUpload"
+          @change="uploadFile"
         />
       </label>
-      <div v-if="botFiles.length > 0" class="file-names-container">
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.UPLOAD_FILES_DESC')
+      }}</span>
+      <div v-if="files.length > 0" class="file-container">
         <ul>
-          <li v-for="(file, index) in botFiles" :key="index" class="file-item">
-            <input type="text" :value="file.name" readonly />
+          <li v-for="(file, index) in files" :key="index" class="file-item">
+            <input type="text" :value="file['name']" readonly />
             <woot-button
               v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
               size="small"
@@ -31,7 +34,7 @@
               variant="smooth"
               color-scheme="alert"
               icon="delete"
-              @click="handleFileDelete(index)"
+              @click="deleteFile(index)"
             />
           </li>
         </ul>
@@ -61,7 +64,10 @@
           {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
         </woot-button>
       </div>
-      <div>
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.FETCH_LINKS_DESC')
+      }}</span>
+      <div class="mt-4">
         <loader :progress="progress" />
       </div>
       <div v-if="links.length > 0" class="flex justify-end mt-4">
@@ -134,12 +140,23 @@ export default {
     }),
   },
   methods: {
-    handleFileUpload(event) {
+    uploadFile(event) {
       const files = event.target.files;
-      this.$store.dispatch('chatbots/addFiles', files);
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const fileContent = e.target.result;
+          const charCount = fileContent.length;
+          this.$store.dispatch('chatbots/addFiles', {
+            file: file,
+            char_count: charCount,
+          });
+        };
+        reader.readAsText(file);
+      });
     },
-    handleFileDelete(index) {
-      this.$store.dispatch('chatbots/deleteFiles', index);
+    deleteFile(index) {
+      this.$store.dispatch('chatbots/deleteFile', index);
     },
     setText() {
       const text = this.textInput;
@@ -201,6 +218,7 @@ export default {
   border-radius: 4px;
   justify-content: center;
   border: 1px solid #e8e9ea;
+  margin-bottom: 10px;
 }
 .file-upload-design {
   display: flex;
@@ -241,8 +259,15 @@ export default {
 .website-input input {
   margin-right: 10px;
 }
-.file-names-container {
-  margin-top: 10px;
+.file-container {
+  margin-top: 20px;
+  height: 400px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.file-container::-webkit-scrollbar {
+  display: none;
 }
 .file-item {
   display: flex;
@@ -251,13 +276,11 @@ export default {
   margin-top: 20px;
   height: 600px;
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .website-links::-webkit-scrollbar {
   display: none;
-}
-.website-links {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 .links {
   display: flex;

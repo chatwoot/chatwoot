@@ -12,5 +12,4 @@
 #  chatbot_id  :integer          not null
 #
 class ChatbotItem < ApplicationRecord
-  
 end
