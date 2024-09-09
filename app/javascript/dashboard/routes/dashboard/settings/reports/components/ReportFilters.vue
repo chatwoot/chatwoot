@@ -35,14 +35,26 @@ export default {
   data() {
     return {
       currentSelectedFilter: null,
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
+      currentDateRangeSelection: {
+        id: 0,
+        name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
+      },
       customDateRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
       businessHoursSelected: false,
     };
   },
   computed: {
+    dateRange() {
+      return [
+        { id: 0, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS') },
+        { id: 1, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS') },
+        { id: 2, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_3_MONTHS') },
+        { id: 3, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS') },
+        { id: 4, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_YEAR') },
+        { id: 5, name: this.$t('REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE') },
+      ];
+    },
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
