@@ -143,12 +143,9 @@ export default {
       this.from = from;
       this.to = to;
       this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
-      // [VITE] [TOOD]: Added the ? check and default [] coz this was erroring out
-      // We gotta fix it "Uncaught (in promise) TypeError: this.groupByfilterItemsList?.filter is not a function"
-      const filterItems =
-        this.groupByfilterItemsList?.filter(
-          item => item.id === this.groupBy.id
-        ) || [];
+      const filterItems = this.groupByfilterItemsList.filter(
+        item => item.id === this.groupBy.id
+      );
       if (filterItems.length > 0) {
         this.selectedGroupByFilter = filterItems[0];
       } else {
