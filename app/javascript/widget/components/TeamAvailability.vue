@@ -1,10 +1,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
+import { useNextAvailabilityTime } from 'widget/composables/useNextAvailabilityTime';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from 'widget/mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
+import { useAvailability } from 'widget/composables/useAvailability';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
@@ -15,7 +15,7 @@ export default {
     AvailableAgents,
     FluentIcon,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
+  mixins: [configMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -26,7 +26,11 @@ export default {
       default: false,
     },
   },
-
+  setup() {
+    const { isInBetweenTheWorkingHours, replyWaitMessage } = useAvailability();
+    const { setTimeSlot } = useNextAvailabilityTime();
+    return { setTimeSlot, isInBetweenTheWorkingHours, replyWaitMessage };
+  },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
@@ -43,6 +47,9 @@ export default {
       }
       return anyAgentOnline;
     },
+  },
+  mounted() {
+    this.setTimeSlot();
   },
   methods: {
     startConversation() {

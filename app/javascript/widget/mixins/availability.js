@@ -26,7 +26,7 @@ export default {
       if (workingHoursEnabled) {
         return this.isOnline
           ? this.replyTimeStatus
-          : `${this.$t('REPLY_TIME.BACK_IN')} ${this.timeLeftToBackInOnline}`;
+          : `${this.$t('REPLY_TIME.BACK_IN')} ${this.timeLeftToBackInOnline}`; // timeLeftToBackInOnline should be pulled in from the useNextAvailabilityTime composable
       }
       return this.isOnline
         ? this.replyTimeStatus

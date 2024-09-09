@@ -4,7 +4,7 @@ import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
+import { useAvailability } from 'widget/composables/useAvailability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
@@ -27,7 +27,11 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin, darkModeMixin],
+  mixins: [configMixin, routerMixin, darkModeMixin],
+  setup() {
+    const { isInBusinessHours } = useAvailability();
+    return { isInBusinessHours };
+  },
   data() {
     return {
       isMobile: false,

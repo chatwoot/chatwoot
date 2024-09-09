@@ -1,6 +1,6 @@
 <script>
-import availabilityMixin from 'widget/mixins/availability';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
+import { useAvailability } from 'widget/composables/useAvailability';
+import { useNextAvailabilityTime } from 'widget/composables/useNextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
@@ -12,7 +12,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [routerMixin, darkMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -30,21 +30,25 @@ export default {
       type: Boolean,
       default: false,
     },
-    availableAgents: {
-      type: Array,
-      default: () => {},
-    },
   },
-  computed: {
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
+  setup() {
+    const {
+      isOnline,
+      channelConfig,
+      isInBetweenTheWorkingHours,
+      replyWaitMessage,
+    } = useAvailability();
+    const { setTimeSlot } = useNextAvailabilityTime();
+    return {
+      isOnline,
+      channelConfig,
+      isInBetweenTheWorkingHours,
+      replyWaitMessage,
+      setTimeSlot,
+    };
+  },
+  mounted() {
+    this.setTimeSlot();
   },
   methods: {
     onBackButtonClick() {
