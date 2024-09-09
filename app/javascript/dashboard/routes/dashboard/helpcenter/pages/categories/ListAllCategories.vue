@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'dashboard/composables/route';
+import { useRoute } from 'vue-router';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';

@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useToggle } from '@vueuse/core';
-import { useRoute } from 'dashboard/composables/route';
+import { useRoute } from 'vue-router';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';

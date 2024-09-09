@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useRoute, useRouter } from 'vue-router';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';

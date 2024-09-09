@@ -1,7 +1,7 @@
 import { useConversationHotKeys } from '../useConversationHotKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'dashboard/composables/route';
+import { useRoute } from 'vue-router';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useAI } from 'dashboard/composables/useAI';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
@@ -16,7 +16,7 @@ import {
 
 vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');
-vi.mock('dashboard/composables/route');
+vi.mock('vue-router');
 vi.mock('dashboard/composables/useConversationLabels');
 vi.mock('dashboard/composables/useAI');
 vi.mock('dashboard/composables/useAgentsList');

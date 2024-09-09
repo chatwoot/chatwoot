@@ -1,10 +1,10 @@
 import { useInboxHotKeys } from '../useInboxHotKeys';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'dashboard/composables/route';
+import { useRoute } from 'vue-router';
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 
 vi.mock('vue-i18n');
-vi.mock('dashboard/composables/route');
+vi.mock('vue-router');
 vi.mock('dashboard/helper/routeHelpers');
 vi.mock('shared/helpers/mitt');
 

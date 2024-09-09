@@ -2,7 +2,7 @@
 import BaseCell from 'dashboard/components/table/BaseCell.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useRoute } from 'dashboard/composables/route';
+import { useRoute } from 'vue-router';
 import { inject } from 'vue';
 
 defineProps({

@@ -1,14 +1,14 @@
 import { useGoToCommandHotKeys } from '../useGoToCommandHotKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'dashboard/composables/route';
+import { useRouter } from 'vue-router';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { MOCK_FEATURE_FLAGS } from './fixtures';
 
 vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');
-vi.mock('dashboard/composables/route');
+vi.mock('vue-router');
 vi.mock('dashboard/composables/useAdmin');
 vi.mock('dashboard/helper/URLHelper');
 

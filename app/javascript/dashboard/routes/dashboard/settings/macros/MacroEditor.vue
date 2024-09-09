@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch, provide } from 'vue';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import MacroForm from './MacroForm.vue';
