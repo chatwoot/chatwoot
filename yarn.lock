@@ -2913,11 +2913,10 @@
     "@material/mwc-icon" "0.25.3"
     hotkeys-js "3.8.7"
     lit "2.2.6"
-
-"@chatwoot/prosemirror-schema@1.0.14":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.14.tgz#bf8537fc298d193b9a9abb89ccde1ba4089cd72e"
-  integrity sha512-DmBxAOD+9crp92sfbNT6tDp3dNVy0OI1k+XmQj1hXzErWygX/+YUUecrgIPrjMxdu57w1ojJ3/fz228zP11EuQ==
+"@chatwoot/prosemirror-schema@1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.16.tgz#63cfd4cff0f138466a95fedba5d237409a0b418e"
+  integrity sha512-qFPHPrfkG14vB0C/8+kF6huAvz4c2h6s07WKznZqUZ5CgJYd+fESQ49CScOYwOTO6luV4ghILv9kAVRjiaenOQ==
   dependencies:
     markdown-it-sup "^1.0.0"
     prosemirror-commands "^1.1.4"
