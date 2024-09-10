@@ -38,4 +38,14 @@ module AssignmentConcern
 
     conversation.team = team
   end
+
+  def change_assignee?
+    @contact.assignee_id != contact_update_params[:assignee_id] || @contact.team_id != contact_update_params[:team_id]
+  end
+
+  def change_assignee_permission?
+    return true if Current.account.no_restriction? || Current.user.administrator?
+
+    false
+  end
 end

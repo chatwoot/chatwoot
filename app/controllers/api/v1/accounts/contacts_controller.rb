@@ -103,9 +103,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    if (contact_update_params[:assignee_id].present? || contact_update_params[:team_id].present?) && !change_assignee_permission?
-      return render_error({ message: I18n.t('errors.assignment.permission') }, :forbidden)
-    end
+    return render_error({ message: I18n.t('errors.assignment.permission') }, :forbidden) if change_assignee? && !change_assignee_permission?
 
     @contact.assign_attributes(contact_update_params)
     @contact.save!
@@ -213,11 +211,5 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def render_error(error, error_status)
     render json: error, status: error_status
-  end
-
-  def change_assignee_permission?
-    return true if Current.account.no_restriction? || Current.user.administrator?
-
-    false
   end
 end

@@ -225,7 +225,7 @@
         "ERROR_MESSAGE": "Không thể xóa hình đại diện khách hàng. Vui lòng thử lại sau."
       }
     },
-    "SUCCESS_MESSAGE": "khách hàng được lưu thành công",
+    "SUCCESS_MESSAGE": "Khách hàng được lưu thành công",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "NEW_CONVERSATION": {

@@ -341,7 +341,7 @@ export default {
         } else if (error instanceof ExceptionWithMessage) {
           this.showAlert(error.data);
         } else {
-          this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+          this.showAlert(error.message);
         }
       }
     },
