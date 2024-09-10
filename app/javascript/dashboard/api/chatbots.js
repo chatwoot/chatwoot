@@ -38,9 +38,12 @@ class ChatbotAPI extends ApiClient {
     const formData = new FormData();
     formData.append('accountId', data.accountId);
     formData.append('chatbotId', data.chatbotId);
-    formData.append('files', data.files);
     formData.append('text', data.text);
     formData.append('urls', JSON.stringify(data.urls));
+    data.files.forEach((fileData, index) => {
+      formData.append(`files[${index}][file]`, fileData.file);
+      formData.append(`files[${index}][char_count]`, fileData.char_count);
+    });
     return axios.post(`${this.baseUrl()}/chatbots/retrain_chatbot`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

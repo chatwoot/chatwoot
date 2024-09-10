@@ -14,7 +14,7 @@ class ChatbotJob < ApplicationJob
       client_message = message[:content]
       HTTP.post(
         ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/query',
-        form: { id: chatbot.id, account_id: chatbot.account_id, user_query: client_message, conversation_id: conversation_id },
+        form: { id: chatbot.id, user_query: client_message, conversation_id: conversation_id },
         headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
       )
     rescue Errno::ECONNREFUSED => e
