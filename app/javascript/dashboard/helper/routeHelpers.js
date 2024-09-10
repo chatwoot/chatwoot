@@ -5,7 +5,7 @@ import {
 } from './permissionsHelper';
 
 import {
-  ROLE_PERMISSIONS,
+  ROLES,
   CONVERSATION_PERMISSIONS,
   CONTACT_PERMISSIONS,
   REPORTS_PERMISSIONS,
@@ -22,7 +22,7 @@ export const defaultRedirectPage = (to, permissions) => {
 
   const permissionRoutes = [
     {
-      permissions: [...ROLE_PERMISSIONS, ...CONVERSATION_PERMISSIONS],
+      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       path: 'dashboard',
     },
     { permissions: CONTACT_PERMISSIONS, path: 'contacts' },

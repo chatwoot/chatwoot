@@ -1,7 +1,7 @@
 /* eslint-disable storybook/default-exports */
 import { frontendURL } from '../../helper/URLHelper';
 import {
-  ROLE_PERMISSIONS,
+  ROLES,
   CONVERSATION_PERMISSIONS,
   CONTACT_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
@@ -14,7 +14,7 @@ export const routes = [
     name: 'search',
     meta: {
       permissions: [
-        ...ROLE_PERMISSIONS,
+        ...ROLES,
         ...CONVERSATION_PERMISSIONS,
         ...CONTACT_PERMISSIONS,
       ],

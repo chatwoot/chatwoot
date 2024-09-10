@@ -7,7 +7,7 @@ export const AVAILABLE_CUSTOM_ROLE_PERMISSIONS = [
   'knowledge_base_manage',
 ];
 
-export const ROLE_PERMISSIONS = ['agent', 'administrator'];
+export const ROLES = ['agent', 'administrator'];
 
 export const CONVERSATION_PERMISSIONS = [
   'conversation_manage',
@@ -34,17 +34,14 @@ export const PORTAL_PERMISSIONS = ['knowledge_base_manage'];
 export const ASSIGNEE_TYPE_TAB_PERMISSIONS = {
   me: {
     count: 'mineCount',
-    permissions: [...ROLE_PERMISSIONS, ...CONVERSATION_PERMISSIONS],
+    permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
   },
   unassigned: {
     count: 'unAssignedCount',
-    permissions: [...ROLE_PERMISSIONS, ...CONVERSATION_UNASSIGNED_PERMISSIONS],
+    permissions: [...ROLES, ...CONVERSATION_UNASSIGNED_PERMISSIONS],
   },
   all: {
     count: 'allCount',
-    permissions: [
-      ...ROLE_PERMISSIONS,
-      ...CONVERSATION_PARTICIPATING_PERMISSIONS,
-    ],
+    permissions: [...ROLES, ...CONVERSATION_PARTICIPATING_PERMISSIONS],
   },
 };

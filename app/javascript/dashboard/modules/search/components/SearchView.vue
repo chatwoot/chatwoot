@@ -6,7 +6,7 @@ import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
 import Policy from 'dashboard/components/policy.vue';
 import {
-  ROLE_PERMISSIONS,
+  ROLES,
   CONVERSATION_PERMISSIONS,
   CONTACT_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
@@ -32,7 +32,7 @@ export default {
       query: '',
       contactPermissions: CONTACT_PERMISSIONS,
       conversationPermissions: CONVERSATION_PERMISSIONS,
-      rolePermissions: ROLE_PERMISSIONS,
+      rolePermissions: ROLES,
     };
   },
 
