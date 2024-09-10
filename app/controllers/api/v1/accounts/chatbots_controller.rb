@@ -27,11 +27,12 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
         if params[:files].present?
           params[:files].each do |_, file_data|
             file = file_data['file']
-            files << HTTP::FormData::File.new(file.tempfile.open, filename: file.original_filename)
+            tempfile = file.tempfile.open
+            files << HTTP::FormData::File.new(tempfile, filename: file.original_filename)
           end
         end
 
-        payload = { id: id, account_id: params[:account_id], urls: links, files: files, text: params[:text] }
+        payload = { id: id, urls: links, files: files, text: params[:text] }
         begin
           response = HTTP.post(create_uri, form: payload)
         rescue HTTP::Error => e
@@ -61,7 +62,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     ChatbotItem.find_by(chatbot_id: params[:id]).destroy!
     begin
       delete_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/delete'
-      payload = { id: chatbot.id, account_id: chatbot.account_id }
+      payload = { id: chatbot.id }
       response = HTTP.delete(delete_uri, form: payload)
     rescue Errno::ECONNREFUSED => e
       puts "Connection refused: #{e.message}"
@@ -74,11 +75,22 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     @chatbot = Chatbot.find_by(id: params[:chatbotId])
     return unless @chatbot
 
-    ChatbotItem.find_by(chatbot_id: params[:chatbotId]).update(urls: JSON.parse(params[:urls]))
+    # TODO
+    ChatbotItem.find_by(chatbot_id: params[:chatbotId]).update(urls: JSON.parse(params[:urls], text: params[:text]))
     retrain_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/retrain'
     parsed_links = JSON.parse(params[:urls])
     links = parsed_links.map { |url_obj| url_obj['link'] }
-    payload = { id: params[:chatbotId], account_id: params[:accountId], urls: links }
+
+    files = []
+    if params[:files].present?
+      params[:files].each do |_, file_data|
+        file = file_data['file']
+        tempfile = file.tempfile.open
+        files << HTTP::FormData::File.new(tempfile, filename: file.original_filename)
+      end
+    end
+
+    payload = { id: id, urls: links, files: files, text: params[:text] }
     begin
       response = HTTP.post(retrain_uri, form: payload)
       @chatbot.update(status: 'Retraining') if response.code == 200
