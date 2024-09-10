@@ -17,9 +17,12 @@ class ChatbotAPI extends ApiClient {
     formData.append('website_token', data.website_token);
     formData.append('inbox_id', data.inbox_id);
     formData.append('inbox_name', data.inbox_name);
-    formData.append('files', data.files);
     formData.append('text', data.text);
     formData.append('urls', JSON.stringify(data.urls));
+    data.files.forEach((fileData, index) => {
+      formData.append(`files[${index}][file]`, fileData.file);
+      formData.append(`files[${index}][char_count]`, fileData.char_count);
+    });
     return axios.post(`${this.baseUrl()}/chatbots/create_chatbot`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
