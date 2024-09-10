@@ -93,9 +93,9 @@ const addAgent = async () => {
 
     let errorMessage = '';
     if (error?.response?.status === 422 && !attributes.includes('base')) {
-      errorMessage = this.$t('AGENT_MGMT.ADD.API.EXIST_MESSAGE');
+      errorMessage = t('AGENT_MGMT.ADD.API.EXIST_MESSAGE');
     } else {
-      errorMessage = this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE');
+      errorMessage = t('AGENT_MGMT.ADD.API.ERROR_MESSAGE');
     }
     useAlert(errorResponse || attrError || errorMessage);
   }
