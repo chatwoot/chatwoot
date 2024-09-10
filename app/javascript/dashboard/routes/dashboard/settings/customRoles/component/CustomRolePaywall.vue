@@ -49,7 +49,9 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const isSuperAdmin = computed(() => {
   return currentUser.value.type === 'SuperAdmin';
 });
-const i18nKey = isOnChatwootCloud.value ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
+const i18nKey = computed(() =>
+  isOnChatwootCloud.value ? 'PAYWALL' : 'ENTERPRISE_PAYWALL'
+);
 
 const goToBillingSettings = () => {
   router.push({

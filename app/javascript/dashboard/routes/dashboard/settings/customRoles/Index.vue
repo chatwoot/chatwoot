@@ -18,7 +18,6 @@ const selectedRole = ref(null);
 const loading = ref({});
 const showDeleteConfirmationPopup = ref(false);
 const activeResponse = ref({});
-const customRoleAPI = ref({ message: '' });
 
 const records = useMapGetter('customRole/getCustomRoles');
 const uiFlags = useMapGetter('customRole/getUIFlags');
@@ -61,16 +60,13 @@ onMounted(() => {
 });
 
 const showAlertMessage = message => {
-  loading[activeResponse.value.id] = false;
+  loading.value[activeResponse.value.id] = false;
   activeResponse.value = {};
-  customRoleAPI.value.message = message;
   useAlert(message);
 };
 
 const openAddModal = () => {
-  if (isBehindAPaywall.value) {
-    return;
-  }
+  if (isBehindAPaywall.value) return;
   customRoleModalMode.value = 'add';
   selectedRole.value = null;
   showCustomRoleModal.value = true;

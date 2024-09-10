@@ -46,7 +46,7 @@ onMounted(() => {
 });
 
 const getAgentRoleName = agent => {
-  if (agent.custom_role_id === null) {
+  if (!agent.custom_role_id) {
     return t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`);
   }
   const customRole = customRoles.value.find(
