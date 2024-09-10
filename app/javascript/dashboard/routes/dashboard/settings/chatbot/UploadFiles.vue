@@ -3,14 +3,14 @@
     class="overflow-hidden p-4 w-1/4 max-w-1/4 flex flex-row flex-nowrap h-full"
   >
     <div class="sidebar">
-      <!-- <woot-button class="icon" variant="clear" @click="showUploader('file')">
+      <woot-button class="icon" variant="clear" @click="showUploader('file')">
         <fluent-icon icon="document" />
         <span>{{ $t('CHATBOTS.UPLOAD.FILE') }}</span>
-      </woot-button> -->
-      <!-- <woot-button class="icon" variant="clear" @click="showUploader('text')">
+      </woot-button>
+      <woot-button class="icon" variant="clear" @click="showUploader('text')">
         <fluent-icon icon="text-align-left" />
         <span>{{ $t('CHATBOTS.UPLOAD.TEXT') }}</span>
-      </woot-button> -->
+      </woot-button>
       <woot-button
         class="icon"
         variant="clear"

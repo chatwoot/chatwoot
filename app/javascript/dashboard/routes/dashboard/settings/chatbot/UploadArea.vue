@@ -26,7 +26,7 @@
       <div v-if="files.length > 0" class="file-container">
         <ul>
           <li v-for="(file, index) in files" :key="index" class="file-item">
-            <input type="text" :value="file['name']" readonly />
+            <input type="text" :value="file['file']['name']" readonly />
             <woot-button
               v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
               size="small"
@@ -34,7 +34,7 @@
               variant="smooth"
               color-scheme="alert"
               icon="delete"
-              @click="deleteFile(index)"
+              @click="deleteFile(file, index)"
             />
           </li>
         </ul>
@@ -47,8 +47,6 @@
           v-model="textInput"
           placeholder="Enter your text here"
           @input="setText"
-          @focus="isTextInputFocused = true"
-          @blur="isTextInputFocused = false"
         />
       </div>
     </div>
@@ -116,7 +114,7 @@ export default {
     value: { type: Boolean, default: false },
     uploadType: {
       type: String,
-      default: 'website',
+      default: 'file',
     },
     progress: {
       type: Number,
@@ -126,6 +124,7 @@ export default {
   data() {
     return {
       textInput: '',
+      previousText: '',
       websiteInput: '',
     };
   },
@@ -142,25 +141,51 @@ export default {
   methods: {
     uploadFile(event) {
       const files = event.target.files;
-      Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = e => {
-          const fileContent = e.target.result;
-          const charCount = fileContent.length;
-          this.$store.dispatch('chatbots/addFiles', {
-            file: file,
-            char_count: charCount,
-          });
-        };
-        reader.readAsText(file);
+      let filesWithCharCount = [];
+      const fileReaders = Array.from(files).map(file => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = e => {
+            const fileContent = e.target.result;
+            const charCount = fileContent.length;
+            filesWithCharCount.push({ file: file, char_count: charCount });
+            resolve();
+          };
+          reader.onerror = reject;
+          reader.readAsText(file);
+        });
       });
+
+      Promise.all(fileReaders)
+        .then(() => {
+          this.$store.dispatch('chatbots/addFiles', filesWithCharCount);
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log('Error reading files:', error);
+        });
     },
-    deleteFile(index) {
+    deleteFile(file, index) {
+      this.$store.dispatch('chatbots/decChar', file.char_count);
       this.$store.dispatch('chatbots/deleteFile', index);
     },
     setText() {
-      const text = this.textInput;
-      this.$store.dispatch('chatbots/setText', text);
+      const newText = this.textInput;
+      const previousText = this.previousText;
+      const newTextLength = newText.length;
+      const previousTextLength = previousText.length;
+
+      this.$store.dispatch('chatbots/setText', newText);
+
+      if (newTextLength > previousTextLength) {
+        const addedChars = newTextLength - previousTextLength;
+        this.$store.dispatch('chatbots/incChar', addedChars);
+      } else if (newTextLength < previousTextLength) {
+        const removedChars = previousTextLength - newTextLength;
+        this.$store.dispatch('chatbots/decChar', removedChars);
+      }
+
+      this.previousText = newText;
     },
     fetchLinks() {
       const pattern = new RegExp(

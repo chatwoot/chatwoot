@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       enabledFeatures: {},
-      currentUploadType: 'website',
+      currentUploadType: 'file',
       fetching: false,
       progress: 0,
       progressInterval: null,

@@ -22,7 +22,16 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
         create_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/create'
         parsed_links = JSON.parse(params[:urls])
         links = parsed_links.map { |url_obj| url_obj['link'] }
-        payload = { id: id, account_id: params['account_id'], urls: links }
+
+        files = []
+        if params[:files].present?
+          params[:files].each do |_, file_data|
+            file = file_data['file']
+            files << HTTP::FormData::File.new(file.tempfile.open, filename: file.original_filename)
+          end
+        end
+
+        payload = { id: id, account_id: params[:account_id], urls: links, files: files, text: params[:text] }
         begin
           response = HTTP.post(create_uri, form: payload)
         rescue HTTP::Error => e
@@ -48,8 +57,8 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     chatbot = Chatbot.find_by(id: params[:id])
     return unless chatbot
 
-    chatbot.destroy
-    ChatbotItem.find_by(chatbot_id: params[:id]).destroy
+    chatbot.destroy!
+    ChatbotItem.find_by(chatbot_id: params[:id]).destroy!
     begin
       delete_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/delete'
       payload = { id: chatbot.id, account_id: chatbot.account_id }
@@ -131,10 +140,22 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     @chatbot.save!
     @chatbot_data = ChatbotItem.new(
       chatbot_id: @chatbot.id,
-      files: params['files'],
       text: params['text'],
       urls: JSON.parse(params['urls'])
     )
+
+    if params[:files].present?
+      params[:files].each do |_, file_data|
+        file = file_data['file']
+        char_count = file_data['char_count']
+        @chatbot_data.files.attach(
+          io: file,
+          filename: file.original_filename,
+          metadata: { char_count: char_count }
+        )
+      end
+    end
+
     render json: { error: @chatbot_data.errors.messages }, status: :unprocessable_entity and return unless @chatbot_data.valid?
 
     @chatbot_data.save!
