@@ -162,28 +162,28 @@ const confirmDeletion = () => {
           @delete="openDeletePopup"
         />
       </table>
-
-      <woot-modal
-        :show.sync="showCustomRoleModal"
-        :on-close="hideCustomRoleModal"
-      >
-        <CustomRoleModal
-          :mode="customRoleModalMode"
-          :selected-role="selectedRole"
-          @close="hideCustomRoleModal"
-        />
-      </woot-modal>
-
-      <woot-delete-modal
-        :show.sync="showDeleteConfirmationPopup"
-        :on-close="closeDeletePopup"
-        :on-confirm="confirmDeletion"
-        :title="$t('CUSTOM_ROLE.DELETE.CONFIRM.TITLE')"
-        :message="$t('CUSTOM_ROLE.DELETE.CONFIRM.MESSAGE')"
-        :message-value="deleteMessage"
-        :confirm-text="deleteConfirmText"
-        :reject-text="deleteRejectText"
-      />
     </template>
+
+    <woot-modal
+      :show.sync="showCustomRoleModal"
+      :on-close="hideCustomRoleModal"
+    >
+      <CustomRoleModal
+        :mode="customRoleModalMode"
+        :selected-role="selectedRole"
+        @close="hideCustomRoleModal"
+      />
+    </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('CUSTOM_ROLE.DELETE.CONFIRM.TITLE')"
+      :message="$t('CUSTOM_ROLE.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
   </SettingsLayout>
 </template>
