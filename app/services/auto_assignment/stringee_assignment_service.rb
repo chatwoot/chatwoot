@@ -34,7 +34,7 @@ class AutoAssignment::StringeeAssignmentService
   end
 
   def allowed_agent_ids
-    inbox.member_ids_with_assignment_capacity
+    inbox.agents.ids
   end
 
   def allowed_online_agent_ids

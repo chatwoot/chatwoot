@@ -163,9 +163,8 @@ class Inbox < ApplicationRecord
     end
   end
 
-  def member_ids_with_assignment_capacity
-    agents = team.blank? ? members : team.members
-    agents.ids
+  def agents
+    team.blank? ? members : team.members
   end
 
   private

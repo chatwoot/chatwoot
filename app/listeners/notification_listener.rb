@@ -3,7 +3,7 @@ class NotificationListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     return if conversation.pending?
 
-    conversation.inbox.members.each do |agent|
+    conversation.inbox.agents.each do |agent|
       NotificationBuilder.new(
         notification_type: 'conversation_creation',
         user: agent,
@@ -17,7 +17,7 @@ class NotificationListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     return if conversation.pending?
 
-    conversation.inbox.members.each do |agent|
+    conversation.inbox.agents.each do |agent|
       NotificationBuilder.new(
         notification_type: 'conversation_creation',
         user: agent,

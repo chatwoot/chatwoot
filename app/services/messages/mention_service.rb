@@ -24,7 +24,7 @@ class Messages::MentionService
 
   def filter_mentioned_ids_by_inbox
     inbox = message.inbox
-    valid_mentionable_ids = inbox.account.administrators.map(&:id) + inbox.members.map(&:id)
+    valid_mentionable_ids = inbox.account.administrators.map(&:id) + inbox.agents.map(&:id)
     # Intersection of ids
     mentioned_ids & valid_mentionable_ids.uniq.map(&:to_s)
   end
