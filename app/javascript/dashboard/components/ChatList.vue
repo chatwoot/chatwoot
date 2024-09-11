@@ -117,35 +117,41 @@ export default {
         lastConversationIndex,
       };
     };
-    const handlePreviousConversation = () => {
-      const { allConversations, activeConversationIndex } =
-        getKeyboardListenerParams();
-      if (activeConversationIndex === -1) {
-        allConversations[0].click();
-      }
-      if (activeConversationIndex >= 1) {
-        allConversations[activeConversationIndex - 1].click();
-      }
-    };
-    const handleNextConversation = () => {
+    const handleConversationNavigation = direction => {
       const {
         allConversations,
         activeConversationIndex,
         lastConversationIndex,
       } = getKeyboardListenerParams();
-      if (activeConversationIndex === -1) {
-        allConversations[lastConversationIndex].click();
-      } else if (activeConversationIndex < lastConversationIndex) {
-        allConversations[activeConversationIndex + 1].click();
+
+      // Determine the new index based on the direction
+      const newIndex =
+        direction === 'previous'
+          ? activeConversationIndex - 1
+          : activeConversationIndex + 1;
+
+      // Check if the new index is within the valid range
+      if (
+        allConversations.length > 0 &&
+        newIndex >= 0 &&
+        newIndex <= lastConversationIndex
+      ) {
+        // Click the conversation at the new index
+        allConversations[newIndex].click();
+      } else if (allConversations.length > 0) {
+        // If the new index is out of range, click the first or last conversation based on the direction
+        const fallbackIndex =
+          direction === 'previous' ? 0 : lastConversationIndex;
+        allConversations[fallbackIndex].click();
       }
     };
     const keyboardEvents = {
       'Alt+KeyJ': {
-        action: () => handlePreviousConversation(),
+        action: () => handleConversationNavigation('previous'),
         allowOnFocusedInput: true,
       },
       'Alt+KeyK': {
-        action: () => handleNextConversation(),
+        action: () => handleConversationNavigation('next'),
         allowOnFocusedInput: true,
       },
     };
