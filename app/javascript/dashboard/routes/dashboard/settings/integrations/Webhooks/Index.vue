@@ -57,6 +57,14 @@ export default {
     hideEditPopup() {
       this.showEditPopup = false;
     },
+    tableHeaders() {
+      return [
+        this.$t(
+          'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.WEBHOOK_ENDPOINT'
+        ),
+        this.$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.ACTIONS'),
+      ];
+    },
     confirmDeletion() {
       this.loading[this.selectedWebHook.id] = true;
       this.closeDeletePopup();
@@ -109,9 +117,7 @@ export default {
       <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
         <thead>
           <th
-            v-for="thHeader in $t(
-              'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER'
-            )"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300 last:text-right last:pr-4"
           >
