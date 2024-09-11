@@ -8,7 +8,7 @@
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Clique aqui para configurar",
       "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "FAILED_TO_LOAD_CONSOLE": ""
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
@@ -230,9 +230,9 @@
         "SEARCH": "Search issues",
         "SELECT": "Select issue",
         "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
+        "EMPTY_LIST": "",
         "LOADING": "Carregando",
-        "ERROR": "There was an error fetching the linear issues, please try again",
+        "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
         "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
