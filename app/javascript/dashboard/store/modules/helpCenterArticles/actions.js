@@ -1,5 +1,5 @@
 import articlesAPI from 'dashboard/api/helpCenter/articles';
-import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 import types from '../../mutation-types';
@@ -129,6 +129,11 @@ export const actions = {
 
   attachImage: async (_, { file }) => {
     const { fileUrl } = await uploadFile(file);
+    return fileUrl;
+  },
+
+  uploadExternalImage: async (_, { url }) => {
+    const { fileUrl } = await uploadExternalImage(url);
     return fileUrl;
   },
 
