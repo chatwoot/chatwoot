@@ -1,13 +1,12 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [darkModeMixin],
   props: {
     items: {
       type: Array,
@@ -16,9 +15,8 @@ export default {
   },
   setup() {
     const { truncateMessage } = useMessageFormatter();
-    return {
-      truncateMessage,
-    };
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass, truncateMessage };
   },
 };
 </script>
@@ -27,7 +25,7 @@ export default {
   <div
     v-if="!!items.length"
     class="chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
   >
     <div v-for="item in items" :key="item.link" class="article-item">
       <a :href="item.link" target="_blank" rel="noopener noreferrer nofollow">
@@ -35,15 +33,16 @@ export default {
           <FluentIcon
             icon="link"
             class="mr-1"
-            :class="$dm('text-black-900', 'dark:text-slate-50')"
+            :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
           />
-          <span :class="$dm('text-slate-900', 'dark:text-slate-50')">{{
-            item.title
-          }}</span>
+          <span
+            :class="getThemeClass('text-slate-900', 'dark:text-slate-50')"
+            >{{ item.title }}</span
+          >
         </span>
         <span
           class="description"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
         >
           {{ truncateMessage(item.description) }}
         </span>

@@ -1,14 +1,17 @@
 <script>
 import { formatDate } from 'shared/helpers/DateHelper';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
-  mixins: [darkModeMixin],
   props: {
     date: {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     formattedDate() {
@@ -25,7 +28,7 @@ export default {
 <template>
   <div
     class="date--separator"
-    :class="$dm('text-slate-700', 'dark:text-slate-200')"
+    :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
   >
     {{ formattedDate }}
   </div>
