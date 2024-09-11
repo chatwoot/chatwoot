@@ -34,6 +34,9 @@ class PortalPolicy < ApplicationPolicy
   private
 
   def portal_member?
-    @record.first.members.include?(@user)
+    false
+    # @record.first.members.include?(@user)
   end
 end
+
+PortalPolicy.prepend(Enterprise::PortalPolicy)

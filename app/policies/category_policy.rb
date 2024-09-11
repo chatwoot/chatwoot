@@ -26,6 +26,10 @@ class CategoryPolicy < ApplicationPolicy
   private
 
   def portal_member?
-    @record.first.portal.members.include?(@user)
+    # TODO: implement this if needed
+    false
+    # @record.first.portal.members.include?(@user)
   end
 end
+
+CategoryPolicy.prepend(Enterprise::CategoryPolicy)
