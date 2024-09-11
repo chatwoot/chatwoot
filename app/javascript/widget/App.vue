@@ -18,7 +18,7 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -27,10 +27,11 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, darkModeMixin],
+  mixins: [availabilityMixin, configMixin],
   setup() {
+    const { prefersDarkMode } = useDarkMode();
     const replaceRoute = useReplaceRoute();
-    return { replaceRoute };
+    return { replaceRoute, prefersDarkMode };
   },
   data() {
     return {

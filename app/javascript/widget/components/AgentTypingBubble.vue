@@ -1,8 +1,11 @@
 <script>
-import darkModeMixing from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'AgentTypingBubble',
-  mixins: [darkModeMixing],
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
+  },
 };
 </script>
 
@@ -13,7 +16,7 @@ export default {
       <div class="message-wrap mt-2">
         <div
           class="typing-bubble chat-bubble agent"
-          :class="$dm('bg-white', 'dark:bg-slate-700')"
+          :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
         >
           <img
             src="~widget/assets/images/typing.gif"
