@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { actions } from '../actions';
+import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import * as types from '../../../mutation-types';
-import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { actions } from '../actions';
 
 vi.mock('dashboard/helper/uploadHelper');
 
@@ -209,6 +209,31 @@ describe('#actions', () => {
       await expect(actions.attachImage({}, { file: mockFile })).rejects.toThrow(
         'Upload failed'
       );
+    });
+  });
+
+  describe('uploadExternalImage', () => {
+    it('should upload the image from external URL and return the fileUrl', async () => {
+      const mockUrl = 'https://example.com/image.jpg';
+      const mockFileUrl = 'https://uploaded.example.com/image.jpg';
+      uploadExternalImage.mockResolvedValueOnce({ fileUrl: mockFileUrl });
+
+      // When
+      const result = await actions.uploadExternalImage({}, { url: mockUrl });
+
+      // Then
+      expect(uploadExternalImage).toHaveBeenCalledWith(mockUrl);
+      expect(result).toBe(mockFileUrl);
+    });
+
+    it('should throw an error if the upload fails', async () => {
+      const mockUrl = 'https://example.com/image.jpg';
+      const mockError = new Error('Upload failed');
+      uploadExternalImage.mockRejectedValueOnce(mockError);
+
+      await expect(
+        actions.uploadExternalImage({}, { url: mockUrl })
+      ).rejects.toThrow('Upload failed');
     });
   });
 });
