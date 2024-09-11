@@ -3,7 +3,8 @@ import { createI18n } from 'vue-i18n';
 
 import axios from 'axios';
 // Global Components
-import hljs from 'highlight.js';
+import hljsVuePlugin from '@highlightjs/vue-plugin';
+
 import Multiselect from 'vue-multiselect';
 // import VueFormulate from '@braid/vue-formulate';
 import WootSwitch from 'components/ui/Switch.vue';
@@ -84,7 +85,7 @@ app.use(WootUiKit);
 //   },
 // });
 app.use(FloatingVue);
-app.use(hljs.vuePlugin);
+app.use(hljsVuePlugin);
 
 app.component('multiselect', Multiselect);
 app.component('woot-switch', WootSwitch);
