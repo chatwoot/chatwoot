@@ -75,6 +75,15 @@ const openDelete = value => {
   showDeletePopup.value = true;
   selectedAttribute.value = value;
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.NAME'),
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.TYPE'),
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.KEY'),
+  ];
+});
 </script>
 
 <template>
@@ -82,7 +91,7 @@ const openDelete = value => {
     <table class="min-w-full overflow-x-auto">
       <thead>
         <th
-          v-for="tableHeader in $t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER')"
+          v-for="tableHeader in tableHeaders"
           :key="tableHeader"
           class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
         >
