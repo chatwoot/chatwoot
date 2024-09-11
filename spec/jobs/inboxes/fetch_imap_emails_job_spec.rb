@@ -1,122 +1,42 @@
 require 'rails_helper'
 
 RSpec.describe Inboxes::FetchImapEmailsJob do
+  include ActiveJob::TestHelper
   include ActionMailbox::TestHelper
 
   let(:account) { create(:account) }
-  let(:imap_email_channel) do
-    create(:channel_email, imap_enabled: true, imap_address: 'imap.gmail.com', imap_port: 993, imap_login: 'imap@gmail.com',
-                           imap_password: 'password', imap_inbox_synced_at: Time.now.utc, account: account)
-  end
-  let(:microsoft_imap_email_channel) do
-    create(:channel_email, provider: 'microsoft', imap_enabled: true, imap_address: 'outlook.office365.com',
-                           imap_port: 993, imap_login: 'imap@outlook.com', imap_password: 'password', account: account,
-                           provider_config: { access_token: 'access_token' })
-  end
-  let(:ms_email_inbox) { create(:inbox, channel: microsoft_imap_email_channel, account: account) }
-  let!(:conversation) { create(:conversation, inbox: imap_email_channel.inbox, account: account) }
-  let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@outlook.com', subject: 'Hello!') }
-  let(:inbound_mail_with_no_date) { create_inbound_email_from_fixture('mail_with_no_date.eml') }
-  let(:inbound_mail_with_attachments) { create_inbound_email_from_fixture('multiple_attachments.eml') }
+  let(:imap_email_channel) { create(:channel_email, :imap_email, account: account) }
+  let(:channel_with_imap_disabled) { create(:channel_email, :imap_email, imap_enabled: false, account: account) }
+  let(:microsoft_imap_email_channel) { create(:channel_email, :microsoft_email) }
 
-  it 'enqueues the job' do
-    expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('scheduled_jobs')
-  end
-
-  context 'when imap fetch new emails' do
-    it 'process the email' do
-      email = Mail.new do
-        to 'test@outlook.com'
-        from 'test@gmail.com'
-        subject :test.to_s
-        body 'hello'
-      end
-
-      imap_fetch_mail = Net::IMAP::FetchData.new
-      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
-
-      imap = double
-
-      allow(Net::IMAP).to receive(:new).and_return(imap)
-      allow(imap).to receive(:authenticate)
-      allow(imap).to receive(:select)
-      allow(imap).to receive(:search).and_return([1])
-      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
-
-      read_mail = Mail::Message.new(date: DateTime.now, from: 'testemail@gmail.com', to: 'imap@outlook.com', subject: 'Hello!')
-      allow(Mail).to receive(:read_from_string).and_return(inbound_mail.mail)
-
-      imap_mailbox = double
-
-      allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-      expect(imap_mailbox).to receive(:process).with(read_mail, imap_email_channel).once
-
-      described_class.perform_now(imap_email_channel)
+  describe '#perform' do
+    it 'enqueues the job' do
+      expect do
+        described_class.perform_later
+      end.to have_enqueued_job(described_class).on_queue('scheduled_jobs')
     end
 
-    it 'process the email with no date' do
-      email = Mail.new do
-        to 'test@outlook.com'
-        from 'test@gmail.com'
-        subject :test.to_s
-        body 'hello'
+    context 'when IMAP is disabled' do
+      it 'does not fetch emails' do
+        expect(Imap::FetchEmailService).not_to receive(:new)
+        expect(Imap::MicrosoftFetchEmailService).not_to receive(:new)
+        described_class.perform_now(channel_with_imap_disabled)
       end
-
-      imap_fetch_mail = Net::IMAP::FetchData.new
-      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
-
-      imap = double
-
-      allow(Net::IMAP).to receive(:new).and_return(imap)
-      allow(imap).to receive(:authenticate)
-      allow(imap).to receive(:select)
-      allow(imap).to receive(:search).and_return([1])
-      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
-
-      allow(Mail).to receive(:read_from_string).and_return(inbound_mail_with_no_date.mail)
-
-      imap_mailbox = double
-
-      allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-      expect(imap_mailbox).to receive(:process).with(inbound_mail_with_no_date.mail, imap_email_channel).once
-
-      described_class.perform_now(imap_email_channel)
     end
-  end
 
-  context 'when imap fetch new emails with more than 15 attachments' do
-    it 'process the email' do
-      email = Mail.new do
-        to 'test@outlook.com'
-        from 'test@gmail.com'
-        subject :test.to_s
-        body 'hello'
+    context 'when IMAP reauthorization is required' do
+      it 'does not fetch emails' do
+        10.times do
+          imap_email_channel.authorization_error!
+        end
+
+        expect(Imap::FetchEmailService).not_to receive(:new)
+        # Confirm the imap_enabled flag is true to avoid false positives.
+        expect(imap_email_channel.imap_enabled?).to be true
+
+        described_class.perform_now(imap_email_channel)
       end
-
-      imap_fetch_mail = Net::IMAP::FetchData.new
-      imap_fetch_mail.attr = { seqno: 1, RFC822: email }.with_indifferent_access
-
-      imap = double
-
-      allow(Net::IMAP).to receive(:new).and_return(imap)
-      allow(imap).to receive(:authenticate)
-      allow(imap).to receive(:select)
-      allow(imap).to receive(:search).and_return([1])
-      allow(imap).to receive(:fetch).and_return([imap_fetch_mail])
-
-      inbound_mail_with_attachments.mail.date = DateTime.now
-
-      allow(Mail).to receive(:read_from_string).and_return(inbound_mail_with_attachments.mail)
-
-      imap_mailbox = Imap::ImapMailbox.new
-
-      allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-
-      described_class.perform_now(imap_email_channel)
-      expect(Message.last.attachments.count).to eq(15)
     end
-  end
 
     context 'when the channel is regular imap' do
       it 'calls the imap fetch service' do
@@ -137,7 +57,6 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         expect(fetch_service).to have_received(:perform)
       end
     end
-  end
 
     context 'when the channel is Microsoft' do
       it 'calls the Microsoft fetch service' do
@@ -182,14 +101,23 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         allow(fetch_service).to receive(:perform).and_return([inbound_mail])
       end
 
-      create(:message, message_type: 'incoming', source_id: email.message_id, account: account, inbox: imap_email_channel.inbox,
-                       conversation: conversation)
+      it 'calls the mailbox to create emails' do
+        allow(mailbox).to receive(:process)
 
         expect(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         expect(fetch_service).to receive(:perform).and_return([inbound_mail])
         expect(mailbox).to receive(:process).with(inbound_mail, imap_email_channel)
 
-      described_class.perform_now(imap_email_channel)
+        described_class.perform_now(imap_email_channel)
+      end
+
+      it 'logs errors if mailbox returns errors' do
+        allow(mailbox).to receive(:process).and_raise(StandardError)
+
+        expect(exception_tracker).to receive(:capture_exception)
+
+        described_class.perform_now(imap_email_channel)
+      end
     end
   end
 end
