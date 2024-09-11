@@ -66,6 +66,14 @@ const confirmDeletion = () => {
   deleteLabel(selectedLabel.value.id);
 };
 
+const tableHeaders = computed(() => {
+  return [
+    t('LABEL_MGMT.LIST.TABLE_HEADER.NAME'),
+    t('LABEL_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('LABEL_MGMT.LIST.TABLE_HEADER.COLOR'),
+  ];
+});
+
 onBeforeMount(() => {
   store.dispatch('labels/get');
 });
@@ -102,7 +110,7 @@ onBeforeMount(() => {
       >
         <thead>
           <th
-            v-for="thHeader in $t('LABEL_MGMT.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-slate-700 dark:text-slate-300"
           >
