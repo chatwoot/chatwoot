@@ -8,14 +8,20 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 export function useDarkMode() {
   const darkMode = useMapGetter('appConfig/darkMode');
-  const prefersDarkMode = computed(() => {
-    const isOSOnDarkMode =
-      darkMode.value === 'auto' &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return isOSOnDarkMode || darkMode.value === 'dark';
-  });
-const getThemeClass = (light, dark) => 
-  darkMode.value === 'auto' ? `${light} ${dark}` : darkMode.value === 'dark' ? dark : light;
+  const memoizedMatchMedia = computed(
+    () => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+  );
+  const prefersDarkMode = computed(
+    () =>
+      (darkMode.value === 'auto' && memoizedMatchMedia.value) ||
+      darkMode.value === 'dark'
+  );
+  const getThemeClass = (light, dark) =>
+    darkMode.value === 'auto'
+      ? `${light} ${dark}`
+      : darkMode.value === 'dark'
+      ? dark
+      : light;
   return {
     darkMode,
     prefersDarkMode,
