@@ -54,7 +54,7 @@ const portalRoutes = [
         name: 'new_portal_information',
         component: PortalDetails,
         meta: {
-          permissions: ['administrator'],
+          permissions: ['administrator', 'knowledge_base_manage'],
         },
       },
       {
@@ -62,7 +62,7 @@ const portalRoutes = [
         name: 'portal_customization',
         component: PortalCustomization,
         meta: {
-          permissions: ['administrator'],
+          permissions: ['administrator', 'knowledge_base_manage'],
         },
       },
       {
@@ -70,7 +70,7 @@ const portalRoutes = [
         name: 'portal_finish',
         component: PortalSettingsFinish,
         meta: {
-          permissions: ['administrator'],
+          permissions: ['administrator', 'knowledge_base_manage'],
         },
       },
     ],
@@ -95,7 +95,7 @@ const portalRoutes = [
         name: 'edit_portal_information',
         component: EditPortalBasic,
         meta: {
-          permissions: ['administrator'],
+          permissions: ['administrator', 'knowledge_base_manage'],
         },
       },
       {
@@ -103,7 +103,7 @@ const portalRoutes = [
         name: 'edit_portal_customization',
         component: EditPortalCustomization,
         meta: {
-          permissions: ['administrator'],
+          permissions: ['administrator', 'knowledge_base_manage'],
         },
       },
       {
@@ -111,7 +111,7 @@ const portalRoutes = [
         name: 'edit_portal_locales',
         component: EditPortalLocales,
         meta: {
-          permissions: ['administrator'],
+          permissions: ['administrator', 'knowledge_base_manage'],
         },
       },
       {
