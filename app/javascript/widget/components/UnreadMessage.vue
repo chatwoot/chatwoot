@@ -7,11 +7,11 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from '../constants/widgetBusEvents';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     message: {
       type: String,
@@ -31,9 +31,15 @@ export default {
     },
   },
   setup() {
-    const { formatMessage } = useMessageFormatter();
+    const { formatMessage, getPlainText, truncateMessage, highlightContent } =
+      useMessageFormatter();
+    const { getThemeClass } = useDarkMode();
     return {
       formatMessage,
+      getPlainText,
+      truncateMessage,
+      highlightContent,
+      getThemeClass,
     };
   },
   computed: {
@@ -91,7 +97,7 @@ export default {
   <div class="chat-bubble-wrap">
     <button
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      :class="getThemeClass('bg-white', 'dark:bg-slate-50')"
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">
