@@ -259,7 +259,9 @@ Rails.application.routes.draw do
               post :create_chatbot
               delete :destroy_chatbot
               post :retrain_chatbot
-              get :saved_links
+              get :saved_data
+              post :process_pdf
+              delete :destroy_attachment
             end
           end
         end

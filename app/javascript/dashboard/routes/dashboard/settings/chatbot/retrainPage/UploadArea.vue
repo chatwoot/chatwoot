@@ -15,15 +15,22 @@
         <input
           id="file"
           type="file"
-          accept=".doc,.pdf,.txt"
+          accept=".pdf,.docx,.txt"
           multiple
-          @change="handleFileUpload"
+          @change="uploadFile"
         />
       </label>
-      <div v-if="botFiles.length > 0" class="file-names-container">
-        <ul>
-          <li v-for="(file, index) in botFiles" :key="index" class="file-item">
-            <input type="text" :value="file.name" readonly />
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.UPLOAD_FILES_DESC')
+      }}</span>
+      <div class="file-container">
+        <ul v-if="savedFiles.length > 0">
+          <li
+            v-for="(file, index) in savedFiles"
+            :key="index"
+            class="file-item"
+          >
+            <input type="text" :value="file.filename" readonly />
             <woot-button
               v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
               size="small"
@@ -31,7 +38,21 @@
               variant="smooth"
               color-scheme="alert"
               icon="delete"
-              @click="handleFileDelete(index)"
+              @click="openDeletePopup(file, index)"
+            />
+          </li>
+        </ul>
+        <ul v-if="files.length > 0">
+          <li v-for="(file, index) in files" :key="index" class="file-item">
+            <input type="text" :value="file['file']['name']" readonly />
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+              size="small"
+              class="mt-1 ml-2"
+              variant="smooth"
+              color-scheme="alert"
+              icon="delete"
+              @click="deleteFile(file, index)"
             />
           </li>
         </ul>
@@ -44,8 +65,6 @@
           v-model="textInput"
           placeholder="Enter your text here"
           @input="setText"
-          @focus="isTextInputFocused = true"
-          @blur="isTextInputFocused = false"
         />
       </div>
     </div>
@@ -61,7 +80,10 @@
           {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
         </woot-button>
       </div>
-      <div>
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.FETCH_LINKS_DESC')
+      }}</span>
+      <div class="mt-4">
         <loader :progress="progress" />
       </div>
       <div v-if="links.length > 0" class="flex justify-end mt-4">
@@ -91,29 +113,36 @@
         </ul>
       </div>
     </div>
-    <woot-submit-button
-      type="submit"
-      class="mt-4"
-      :button-text="$t('CHATBOTS.RETRAIN.UPDATE')"
-      :loading="uiFlags.isUpdating"
-      :disabled="value || limitExceeded"
-      @click="retrain"
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.YES')"
+      :reject-text="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.NO')"
     />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import adminMixin from '../../../../../mixins/isAdmin';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../../mixins/account';
 import ChatbotAPI from '../../../../../api/chatbots';
 import Loader from '../helpers/Loader.vue';
+import {
+  processTextFile,
+  processDocxFile,
+} from '../../../../../helper/chatbotHelper';
 
 export default {
   components: {
     Loader,
   },
-  mixins: [alertMixin, accountMixin],
+  mixins: [adminMixin, alertMixin, accountMixin],
   props: {
     value: { type: Boolean, default: false },
     uploadType: {
@@ -124,11 +153,19 @@ export default {
       type: Number,
       default: 0,
     },
+    savedFiles: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
       textInput: '',
+      previousText: '',
       websiteInput: '',
+      showDeleteConfirmationPopup: false,
+      selectedResponse: {},
+      loading: {},
     };
   },
   computed: {
@@ -136,9 +173,11 @@ export default {
       botText: state => state.chatbots.botText,
     }),
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       accountId: 'getCurrentAccountId',
       uiFlags: 'chatbots/getUIFlags',
+      text: 'chatbots/getText',
       files: 'chatbots/getFiles',
       links: 'chatbots/getLinks',
       detectedChar: 'chatbots/getChar',
@@ -150,18 +189,76 @@ export default {
     limitExceeded() {
       return this.detectedChar > this.accountCharLimit;
     },
+    deleteMessage() {
+      return ` ${this.selectedResponse.filename}?`;
+    },
+  },
+  watch: {
+    text(newText) {
+      this.textInput = newText;
+    },
   },
   methods: {
-    uploadFile(event) {
-      const files = event.target.files;
-      this.$store.dispatch('chatbots/addFile', files);
+    async uploadFile(event) {
+      const files = Array.from(event.target.files);
+      const filesData = await Promise.all(
+        files.map(async file => {
+          try {
+            const charCount = await this.processFile(file);
+            return {
+              file,
+              char_count: charCount,
+            };
+          } catch (error) {
+            return {
+              file,
+              char_count: 0,
+            };
+          }
+        })
+      );
+      this.$store.dispatch('chatbots/addFiles', filesData);
     },
-    deleteFile(index) {
+    async processFile(file) {
+      const fileType = file.type;
+
+      if (fileType === 'text/plain') {
+        return processTextFile(file);
+      }
+      if (fileType === 'application/pdf') {
+        return ChatbotAPI.processPdfFile(file).then(res => {
+          return res.data.char_count;
+        });
+      }
+      if (
+        fileType ===
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ) {
+        return processDocxFile(file);
+      }
+      return Promise.resolve(0); // Unsupported file type
+    },
+    deleteFile(file, index) {
+      this.$store.dispatch('chatbots/decChar', file.char_count);
       this.$store.dispatch('chatbots/deleteFile', index);
     },
     setText() {
-      const text = this.textInput;
-      this.$store.dispatch('chatbots/setText', text);
+      const newText = this.textInput;
+      const previousText = this.previousText;
+      const newTextLength = newText.length;
+      const previousTextLength = previousText.length;
+
+      this.$store.dispatch('chatbots/setText', newText);
+
+      if (newTextLength > previousTextLength) {
+        const addedChars = newTextLength - previousTextLength;
+        this.$store.dispatch('chatbots/incChar', addedChars);
+      } else if (newTextLength < previousTextLength) {
+        const removedChars = previousTextLength - newTextLength;
+        this.$store.dispatch('chatbots/decChar', removedChars);
+      }
+
+      this.previousText = newText;
     },
     fetchLinks() {
       const pattern = new RegExp(
@@ -207,6 +304,42 @@ export default {
     },
     retrain() {
       this.$emit('retrain-chatbot');
+    },
+    extractCharCounts(files) {
+      files.forEach(file => {
+        const char_count = file.metadata.char_count;
+        this.$store.dispatch('chatbots/incChar', char_count);
+      });
+    },
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    confirmDeletion() {
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deleteSavedFile(this.selectedResponse);
+    },
+    async deleteSavedFile(response) {
+      try {
+        await this.$store
+          .dispatch('chatbots/destroyAttachment', response)
+          .then(res => {
+            const filename = res.data.filename;
+            this.$emit('remove-file', filename);
+          });
+        await this.$store.dispatch(
+          'chatbots/decChar',
+          response.metadata.char_count
+        );
+        this.showAlert(this.$t('CHATBOTS.DELETE.API.SUCCESS_MESSAGE'));
+        this.loading[this.selectedResponse.id] = false;
+      } catch (error) {
+        this.showAlert(this.$t('CHATBOTS.DELETE.API.ERROR_MESSAGE'));
+      }
     },
   },
 };
@@ -262,8 +395,15 @@ export default {
 .website-input input {
   margin-right: 10px;
 }
-.file-names-container {
-  margin-top: 10px;
+.file-container {
+  margin-top: 20px;
+  height: 300px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.file-container::-webkit-scrollbar {
+  display: none;
 }
 .file-item {
   display: flex;
@@ -272,13 +412,11 @@ export default {
   margin-top: 20px;
   height: 300px;
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .website-links::-webkit-scrollbar {
   display: none;
-}
-.website-links {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 .links {
   display: flex;

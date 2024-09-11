@@ -3,7 +3,7 @@
     <div v-if="isWebWidgetInbox">
       <woot-button
         v-if="isChatbotEnabled"
-        v-tooltip="$t('CHATBOTS.DISABLE_BOT')"
+        v-tooltip.left="$t('CHATBOTS.DISABLE_BOT')"
         variant="smooth"
         color-scheme="primary"
         icon="chatbot-icon"

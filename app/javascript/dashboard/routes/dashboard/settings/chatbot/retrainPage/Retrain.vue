@@ -6,21 +6,23 @@
         v-model="fetching"
         :progress="progress"
         :upload-type="currentUploadType"
+        :saved-files="savedFiles"
         @start-progress="startProgress"
         @end-progress="endProgress"
         @retrain-chatbot="retrainChatbot"
+        @remove-file="handleRemoveFile"
       />
       <detected-characters
-        :detected-char="detectedChar"
+        :detected-char="totalDetectedChar"
         :account-char-limit="accountCharLimit"
       />
     </div>
-    <!-- <woot-submit-button
+    <woot-submit-button
       type="submit"
       :button-text="$t('CHATBOTS.RETRAIN.UPDATE')"
       :loading="uiFlags.isUpdating"
       @click="retrainChatbot"
-    /> -->
+    />
   </div>
 </template>
 
@@ -48,17 +50,21 @@ export default {
   data() {
     return {
       enabledFeatures: {},
-      currentUploadType: 'website',
+      currentUploadType: 'file',
       fetching: false,
       progress: 0,
       progressInterval: null,
+      savedFiles: [],
+      savedFilesCharCount: 0,
     };
   },
   computed: {
     ...mapGetters({
+      getAccount: 'accounts/getAccount',
       accountId: 'getCurrentAccountId',
       uiFlags: 'chatbots/getUIFlags',
       files: 'chatbots/getFiles',
+      text: 'chatbots/getText',
       links: 'chatbots/getLinks',
       detectedChar: 'chatbots/getChar',
     }),
@@ -68,9 +74,29 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.chatbot.inbox_id);
     },
+    accountCharLimit() {
+      const currentAccount = this.getAccount(this.accountId);
+      return currentAccount.custom_attributes.chatbot_char_limit || 1000000;
+    },
+    limitExceeded() {
+      return this.detectedChar > this.accountCharLimit;
+    },
+    totalDetectedChar() {
+      return this.detectedChar + this.savedFilesCharCount;
+    },
   },
   mounted() {
-    this.$store.dispatch('chatbots/getSavedLinks', this.currentChatbotId);
+    this.$store
+      .dispatch('chatbots/getSavedData', this.currentChatbotId)
+      .then(response => {
+        this.savedFiles =
+          response.length > 0
+            ? response.map(file => {
+                this.savedFilesCharCount += file.metadata.char_count;
+                return file;
+              })
+            : [];
+      });
   },
   methods: {
     handleUploadTypeSelected(type) {
@@ -90,6 +116,13 @@ export default {
     },
     endProgress() {
       this.progress = 100;
+    },
+    handleRemoveFile(filename) {
+      if (this.savedFiles.length > 0) {
+        this.savedFiles = this.savedFiles.filter(
+          file => file.filename !== filename
+        );
+      }
     },
     async retrainChatbot() {
       const payload = {
