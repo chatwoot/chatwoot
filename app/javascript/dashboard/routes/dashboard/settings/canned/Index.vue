@@ -101,6 +101,14 @@ const confirmDeletion = () => {
   closeDeletePopup();
   deleteCannedResponse(activeResponse.value.id);
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.CONTENT'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
+  ];
+});
 </script>
 
 <template>
@@ -139,16 +147,15 @@ const confirmDeletion = () => {
       >
         <thead>
           <th
-            v-for="thHeader in $t('CANNED_MGMT.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
           >
-            <span v-if="thHeader !== $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')">
+            <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}
             </span>
-
             <button
-              v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
+              v-else
               class="flex items-center p-0 cursor-pointer"
               @click="toggleSort"
             >
@@ -156,7 +163,7 @@ const confirmDeletion = () => {
                 {{ thHeader }}
               </span>
               <fluent-icon
-                class="ml-2"
+                class="ml-2 size-4"
                 :icon="sortOrder === 'desc' ? 'chevron-up' : 'chevron-down'"
               />
             </button>
