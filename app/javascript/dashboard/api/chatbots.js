@@ -51,8 +51,28 @@ class ChatbotAPI extends ApiClient {
     });
   }
 
-  async getSavedLinks(id) {
-    return axios.get(`${this.baseUrl()}/chatbots/saved_links?id=${id}`);
+  async getSavedData(id) {
+    return axios.get(`${this.baseUrl()}/chatbots/saved_data?id=${id}`);
+  }
+
+  async processPdfFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axios.post(`${this.baseUrl()}/chatbots/process_pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
+
+  async destroyAttachment(data) {
+    return axios.delete(`${this.baseUrl()}/chatbots/destroy_attachment`, {
+      params: {
+        chatbot_id: data.chatbot_id,
+        attachment_id: data.id,
+        filename: data.filename,
+      },
+    });
   }
 }
 

@@ -15,7 +15,7 @@
         <input
           id="file"
           type="file"
-          accept=".pdf,.doc,.docx,.txt"
+          accept=".pdf,.docx,.txt"
           multiple
           @change="uploadFile"
         />
@@ -104,6 +104,10 @@ import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
 import ChatbotAPI from '../../../../api/chatbots';
 import Loader from './helpers/Loader.vue';
+import {
+  processTextFile,
+  processDocxFile,
+} from '../../../../helper/chatbotHelper';
 
 export default {
   components: {
@@ -139,31 +143,44 @@ export default {
     }),
   },
   methods: {
-    uploadFile(event) {
-      const files = event.target.files;
-      let filesWithCharCount = [];
-      const fileReaders = Array.from(files).map(file => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = e => {
-            const fileContent = e.target.result;
-            const charCount = fileContent.length;
-            filesWithCharCount.push({ file: file, char_count: charCount });
-            resolve();
-          };
-          reader.onerror = reject;
-          reader.readAsText(file);
-        });
-      });
-
-      Promise.all(fileReaders)
-        .then(() => {
-          this.$store.dispatch('chatbots/addFiles', filesWithCharCount);
+    async uploadFile(event) {
+      const files = Array.from(event.target.files);
+      const filesData = await Promise.all(
+        files.map(async file => {
+          try {
+            const charCount = await this.processFile(file);
+            return {
+              file,
+              char_count: charCount,
+            };
+          } catch (error) {
+            return {
+              file,
+              char_count: 0,
+            };
+          }
         })
-        .catch(error => {
-          // eslint-disable-next-line no-console
-          console.log('Error reading files:', error);
+      );
+      this.$store.dispatch('chatbots/addFiles', filesData);
+    },
+    async processFile(file) {
+      const fileType = file.type;
+
+      if (fileType === 'text/plain') {
+        return processTextFile(file);
+      }
+      if (fileType === 'application/pdf') {
+        return ChatbotAPI.processPdfFile(file).then(res => {
+          return res.data.char_count;
         });
+      }
+      if (
+        fileType ===
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ) {
+        return processDocxFile(file);
+      }
+      return Promise.resolve(0); // Unsupported file type
     },
     deleteFile(file, index) {
       this.$store.dispatch('chatbots/decChar', file.char_count);

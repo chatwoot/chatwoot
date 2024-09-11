@@ -59,7 +59,6 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     return unless chatbot
 
     chatbot.destroy!
-    ChatbotItem.find_by(chatbot_id: params[:id]).destroy!
     begin
       delete_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/delete'
       payload = { id: chatbot.id }
@@ -75,8 +74,9 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     @chatbot = Chatbot.find_by(id: params[:chatbotId])
     return unless @chatbot
 
-    # TODO
-    ChatbotItem.find_by(chatbot_id: params[:chatbotId]).update(urls: JSON.parse(params[:urls], text: params[:text]))
+    @chatbot.update(urls: JSON.parse(params[:urls]), text: params[:text])
+    attach_files(params[:files]) if params[:files].present?
+
     retrain_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/retrain'
     parsed_links = JSON.parse(params[:urls])
     links = parsed_links.map { |url_obj| url_obj['link'] }
@@ -90,7 +90,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
       end
     end
 
-    payload = { id: id, urls: links, files: files, text: params[:text] }
+    payload = { id: params[:chatbotId], urls: links, files: files, text: params[:text] }
     begin
       response = HTTP.post(retrain_uri, form: payload)
       @chatbot.update(status: 'Retraining') if response.code == 200
@@ -108,9 +108,41 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     render json: { links_with_char_count: links_with_char_count }, status: :ok
   end
 
-  def saved_links
-    urls = ChatbotItem.find_by(chatbot_id: params[:id]).urls
-    render json: { urls: urls }, status: :ok
+  def saved_data
+    chatbot_data = Chatbot.find_by(id: params[:id])
+    if chatbot_data
+      files = chatbot_data.file_base_data if chatbot_data.files.any?
+      render json: { urls: chatbot_data[:urls], files: files, text: chatbot_data[:text] }, status: :ok
+    else
+      render json: { error: 'Data not found' }, status: :not_found
+    end
+  end
+
+  def process_pdf
+    if params[:file].present?
+      text = ''
+      File.open(params[:file].tempfile, 'rb') do |io|
+        reader = PDF::Reader.new(io)
+        reader.pages.each do |page|
+          text << page.text
+        end
+      end
+      char_count = text.length.to_i
+      render json: { char_count: char_count }, status: :ok
+    else
+      render json: { error: 'No file uploaded' }, status: :bad_request
+    end
+  end
+
+  def destroy_attachment
+    @chatbot = Chatbot.find(params[:chatbot_id])
+    attachment = @chatbot.files.find_by(id: params[:attachment_id])
+    if attachment
+      attachment.purge
+      render json: { message: 'File deleted successfully.', filename: params[:filename] }, status: :ok
+    else
+      render json: { error: 'File not found.' }, status: :not_found
+    end
   end
 
   private
@@ -145,32 +177,13 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
       website_token: params['website_token'],
       inbox_id: params['inbox_id'],
       inbox_name: params['inbox_name'],
-      status: 'Creating'
-    )
-    render json: { error: @chatbot.errors.messages }, status: :unprocessable_entity and return unless @chatbot.valid?
-
-    @chatbot.save!
-    @chatbot_data = ChatbotItem.new(
-      chatbot_id: @chatbot.id,
+      status: 'Creating',
       text: params['text'],
       urls: JSON.parse(params['urls'])
     )
 
-    if params[:files].present?
-      params[:files].each do |_, file_data|
-        file = file_data['file']
-        char_count = file_data['char_count']
-        @chatbot_data.files.attach(
-          io: file,
-          filename: file.original_filename,
-          metadata: { char_count: char_count }
-        )
-      end
-    end
-
-    render json: { error: @chatbot_data.errors.messages }, status: :unprocessable_entity and return unless @chatbot_data.valid?
-
-    @chatbot_data.save!
+    attach_files(params[:files]) if params[:files].present?
+    @chatbot.save!
   end
 
   def is_website_inbox_occupied_by_another_chatbot(params)
@@ -218,5 +231,20 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     end
 
     links_map
+  end
+
+  def attach_files(files)
+    files.each do |_, file_data|
+      next unless file_data['file'] && file_data['char_count']
+
+      file = file_data['file']
+      char_count = file_data['char_count']
+
+      @chatbot.files.attach(
+        io: file,
+        filename: file.original_filename,
+        metadata: { char_count: char_count.to_i }
+      )
+    end
   end
 end

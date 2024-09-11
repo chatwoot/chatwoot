@@ -139,26 +139,52 @@ export const actions = {
       commit(types.SET_CHATBOTS_UI_FLAG, { isUpdating: false });
     }
   },
-  getSavedLinks: async function getSavedLinks({ commit }, chatbotId) {
+  getSavedData: async function getSavedData({ commit }, chatbotId) {
     commit(types.SET_CHATBOTS_UI_FLAG, { isUpdating: true });
     try {
-      const response = await ChatbotAPI.getSavedLinks(chatbotId);
-      const savedUrls = response.data.urls;
-      savedUrls.forEach(savedLink => {
-        if (
-          !state.links.some(
-            existingLink => existingLink.link === savedLink.link
-          )
-        ) {
-          commit(types.ADD_LINK, savedLink);
-          commit(types.INC_CHAR, savedLink.char_count);
+      const response = await ChatbotAPI.getSavedData(chatbotId);
+      const data = response.data;
+      if (data.urls) {
+        data.urls.forEach(savedLink => {
+          if (
+            !state.links.some(
+              existingLink => existingLink.link === savedLink.link
+            )
+          ) {
+            commit(types.ADD_LINK, savedLink);
+            commit(types.INC_CHAR, savedLink.char_count);
+          }
+        });
+      }
+      if (data.text) {
+        if (!state.text.includes(data.text)) {
+          commit(types.SET_TEXT, data.text);
+          const textLength = data.text.length;
+          commit(types.INC_CHAR, textLength);
         }
-      });
+      }
+
+      if (data.files) {
+        return data.files;
+      }
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_CHATBOTS_UI_FLAG, { isUpdating: false });
     }
+    return null;
+  },
+  destroyAttachment: async ({ commit }, data) => {
+    commit(types.SET_CHATBOTS_UI_FLAG, { isDeleting: true });
+    try {
+      const response = await ChatbotAPI.destroyAttachment(data);
+      return response;
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_CHATBOTS_UI_FLAG, { isDeleting: false });
+    }
+    return null;
   },
 };
 
