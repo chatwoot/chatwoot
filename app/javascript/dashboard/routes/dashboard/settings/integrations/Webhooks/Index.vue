@@ -32,6 +32,14 @@ export default {
     integration() {
       return this.$store.getters['integrations/getIntegration']('webhook');
     },
+    tableHeaders() {
+      return [
+        this.$t(
+          'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.WEBHOOK_ENDPOINT'
+        ),
+        this.$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.ACTIONS'),
+      ];
+    },
   },
   mounted() {
     this.$store.dispatch('webhooks/get');
@@ -56,14 +64,6 @@ export default {
     },
     hideEditPopup() {
       this.showEditPopup = false;
-    },
-    tableHeaders() {
-      return [
-        this.$t(
-          'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.WEBHOOK_ENDPOINT'
-        ),
-        this.$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER.ACTIONS'),
-      ];
     },
     confirmDeletion() {
       this.loading[this.selectedWebHook.id] = true;

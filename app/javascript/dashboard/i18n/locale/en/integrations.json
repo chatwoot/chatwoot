@@ -183,7 +183,7 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": ["Name", "Endpoint"],
+        "TABLE_HEADER": { "NAME": "Name", "ENDPOINT": "Endpoint" },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
