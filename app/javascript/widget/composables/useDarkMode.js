@@ -1,9 +1,19 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
-// Helper functions to improve readability and reduce complexity
 const isDarkModeAuto = mode => mode === 'auto';
 const isDarkMode = mode => mode === 'dark';
+
+const getSystemPreference = () =>
+  window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+
+const calculatePrefersDarkMode = (mode, systemPreference) =>
+  isDarkModeAuto(mode) ? systemPreference : isDarkMode(mode);
+
+const calculateThemeClass = (mode, light, dark) => {
+  if (isDarkModeAuto(mode)) return `${light} ${dark}`;
+  return isDarkMode(mode) ? dark : light;
+};
 
 /**
  * Composable for handling dark mode.
@@ -12,22 +22,14 @@ const isDarkMode = mode => mode === 'dark';
 export function useDarkMode() {
   const darkMode = useMapGetter('appConfig/darkMode');
 
-  const memoizedMatchMedia = computed(
-    () => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
-  );
+  const systemPreference = computed(getSystemPreference);
 
   const prefersDarkMode = computed(() =>
-    isDarkModeAuto(darkMode.value)
-      ? memoizedMatchMedia.value
-      : isDarkMode(darkMode.value)
+    calculatePrefersDarkMode(darkMode.value, systemPreference.value)
   );
 
-  const getThemeClass = (light, dark) => {
-    if (isDarkModeAuto(darkMode.value)) {
-      return `${light} ${dark}`;
-    }
-    return isDarkMode(darkMode.value) ? dark : light;
-  };
+  const getThemeClass = (light, dark) =>
+    calculateThemeClass(darkMode.value, light, dark);
 
   return {
     darkMode,
