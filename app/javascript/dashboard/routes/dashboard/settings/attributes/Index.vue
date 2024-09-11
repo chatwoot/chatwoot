@@ -4,7 +4,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AddAttribute from './AddAttribute.vue';
 import CustomAttribute from './CustomAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 const { t } = useI18n();
