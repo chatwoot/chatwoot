@@ -44,23 +44,21 @@
         "TITLE": "Add agents to team - %{teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
-      "WIZARD": [
-        {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
-        },
-        {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
-        },
-        {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Team details",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Change name, description and other details."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Edit Agents",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Edit agents in your team."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finish",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "You are all set to go!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Couldn't save the team details. Try again."
