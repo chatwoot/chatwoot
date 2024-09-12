@@ -18,7 +18,9 @@ export default {
       children: [
         {
           path: '',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'settings_inbox_list', params: to.params };
+          },
         },
         {
           path: 'list',
