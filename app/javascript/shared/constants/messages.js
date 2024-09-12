@@ -157,3 +157,18 @@ export const ATTACHMENT_ICONS = {
   location: 'location',
   fallback: 'link',
 };
+
+export const CHATBOT_RESPONSES = [
+  {
+    key: 'connect',
+    message: 'Connect',
+    translationKey: 'CHATBOTS.CONNECT',
+    value: 1,
+  },
+  {
+    key: 'rephrase',
+    message: 'Rephrase question',
+    translationKey: 'CHATBOTS.REPHRASE',
+    value: 2,
+  },
+];

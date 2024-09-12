@@ -9,5 +9,5 @@
 #  updated_at    :datetime         not null
 #
 class KeycloakSessionInfo < ApplicationRecord
-    validates :browser_token, uniqueness: true
+  validates :browser_token, uniqueness: true
 end

@@ -1,4 +1,3 @@
-require 'http'
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
@@ -11,37 +10,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message = conversation.messages.new(message_params)
     build_attachment
     @message.save!
-    # begin
-    #   response = HTTP.get(
-    #     ENV.fetch('MICROSERVICE_URL', nil)
-    #   )
-    #   if response.status.success?
-    #     chatbot = Chatbot.find_by(website_token: params[:website_token])
-    #     conversation_id = conversation.id
-    #     conversation = Conversation.find_by(id: conversation_id)
-    #     if chatbot && chatbot.status == 'Enabled' && conversation.chatbot_status == 'Enabled'
-    #       client_message = @message[:content]
-    #       if conversation.present?
-    #         res = HTTP.post(
-    #           ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/query',
-    #           form: { id: chatbot.id, account_id: chatbot.account_id, user_query: client_message },
-    #           headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
-    #         )
-
-    #         bot_message = JSON.parse(res.body)['result']
-    #         if ["I don't know", "I don't know.", 'No matched documents found'].include?(bot_message)
-    #           bot_message = "Sorry, but I don't have a relevant answer. Someone from our team will join the conversation shortly to assist you."
-    #           conversation.update!(chatbot_status: 'Disabled')
-    #         end
-    #         MessageTemplates::Template::ChatbotReply.new(conversation: conversation).perform(bot_message)
-    #       end
-    #     end
-    #   else
-    #     Rails.logger.info("Microservice is unreachable: #{response.status}")
-    #   end
-    # rescue HTTP::Error => e
-    #   Rails.logger.info("Failed to connect to microservice: #{e.message}")
-    # end
+    ::ChatbotJob.perform_later(@message, params[:website_token], conversation)
   end
 
   def update

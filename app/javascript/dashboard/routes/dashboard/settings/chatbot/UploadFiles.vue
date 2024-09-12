@@ -1,14 +1,16 @@
 <template>
-  <div class="overflow-auto p-4 max-w-full flex flex-row flex-nowrap h-full">
+  <div
+    class="overflow-hidden p-4 w-1/4 max-w-1/4 flex flex-row flex-nowrap h-full"
+  >
     <div class="sidebar">
-      <!-- <woot-button class="icon" variant="clear" @click="showUploader('file')">
+      <woot-button class="icon" variant="clear" @click="showUploader('file')">
         <fluent-icon icon="document" />
         <span>{{ $t('CHATBOTS.UPLOAD.FILE') }}</span>
       </woot-button>
       <woot-button class="icon" variant="clear" @click="showUploader('text')">
         <fluent-icon icon="text-align-left" />
         <span>{{ $t('CHATBOTS.UPLOAD.TEXT') }}</span>
-      </woot-button> -->
+      </woot-button>
       <woot-button
         class="icon"
         variant="clear"
@@ -25,12 +27,8 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
-// import UploadArea from './UploadArea.vue';
 
 export default {
-  comments: {
-    // UploadArea,
-  },
   mixins: [alertMixin, accountMixin],
   data() {
     return {

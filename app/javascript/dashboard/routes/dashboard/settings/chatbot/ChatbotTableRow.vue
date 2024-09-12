@@ -7,7 +7,7 @@
       <router-link :to="addAccountScoping(`settings/chatbots/${chatbot.id}`)">
         <woot-button
           v-tooltip.top="$t('CHATBOTS.SETTINGS')"
-          :disabled="!canInteract"
+          :disabled="!canEdit"
           variant="smooth"
           size="tiny"
           color-scheme="secondary"
@@ -18,7 +18,6 @@
       <woot-button
         v-if="isAdmin"
         v-tooltip.top="$t('CHATBOTS.DELETE.TOOLTIP')"
-        :disabled="!canInteract"
         variant="smooth"
         color-scheme="alert"
         size="tiny"
@@ -42,8 +41,11 @@ export default {
     },
   },
   computed: {
-    canInteract() {
-      return this.chatbot.status !== 'Creating';
+    canEdit() {
+      return (
+        this.chatbot.status !== 'Creating' ||
+        this.chatbot.status !== 'Retraining'
+      );
     },
   },
 };

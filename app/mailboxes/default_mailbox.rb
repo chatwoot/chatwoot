@@ -33,16 +33,17 @@ class DefaultMailbox < ApplicationMailbox
     find_channel_with_forward_to_mail if @channel.blank?
 
     raise 'Email channel/inbox not found in default mailbox' if @channel.nil?
+
     @channel
   end
 
   def find_channel_with_forward_to_mail
-    Rails.logger.info  "Mail-Header: #{mail.header}"
+    Rails.logger.info "Mail-Header: #{mail.header}"
     email_header = mail.header.to_s
     forward_to_email = email_header.match(/for <([^>]+)>/)[1]
     Rails.logger.info  "Forward-To Email: #{forward_to_email}"
 
-    @channel = Channel::Email.find_by('lower(forward_to_email) = ?',forward_to_email)
+    @channel = Channel::Email.find_by('lower(forward_to_email) = ?', forward_to_email)
   end
 
   def load_account

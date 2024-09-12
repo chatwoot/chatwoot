@@ -42,34 +42,6 @@ export const actions = {
     }
     commit('toggleUpdateStatus', false);
   },
-  update_bot_status: async (
-    { commit, getters: { getUIFlags: uiFlags } },
-    { messageId, submittedValues }
-  ) => {
-    if (uiFlags.isUpdating) {
-      return;
-    }
-    commit('toggleUpdateStatus', true);
-    try {
-      await MessageAPI.update({
-        messageId,
-        values: submittedValues,
-      });
-      commit(
-        'conversation/updateMessage',
-        {
-          id: messageId,
-          content_attributes: {
-            submitted_values: submittedValues,
-          },
-        },
-        { root: true }
-      );
-    } catch (error) {
-      // Ignore error
-    }
-    commit('toggleUpdateStatus', false);
-  },
 };
 
 export const mutations = {
