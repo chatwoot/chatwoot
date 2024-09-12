@@ -143,7 +143,7 @@ export default {
 </script>
 
 <template>
-  <div class="with-sidebar app-wrapper dark:text-slate-300">
+  <div class="flex flex-wrap app-wrapper dark:text-slate-300">
     <Sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
@@ -153,7 +153,7 @@ export default {
       @closeKeyShortcutModal="closeKeyShortcutModal"
       @showAddLabelPopup="showAddLabelPopup"
     />
-    <main class="app-body-wrapper">
+    <main class="app-body-wrapper basis-0 grow [min-inline-size:50%]">
       <router-view />
       <CommandBar />
       <AccountSelector
@@ -180,20 +180,3 @@ export default {
     </main>
   </div>
 </template>
-
-<style>
-.with-sidebar {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.with-sidebar > :first-child {
-  flex-basis: 16rem;
-}
-
-.with-sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: 50%;
-}
-</style>

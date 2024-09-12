@@ -159,6 +159,17 @@ export default {
         ) || {};
       return activePrimaryMenu;
     },
+    hasSecondaryMenu() {
+      return (
+        this.activeSecondaryMenu.menuItems &&
+        this.activeSecondaryMenu.menuItems.length
+      );
+    },
+    hasSecondarySidebar() {
+      // if it is explicitly stated to show and it has secondary menu items to show
+      // showSecondarySidebar corresponds to the UI settings, indicating if the user has toggled it
+      return this.showSecondarySidebar && this.hasSecondaryMenu;
+    },
   },
 
   watch: {
@@ -193,21 +204,18 @@ export default {
     openNotificationPanel() {
       this.$emit('openNotificationPanel');
     },
-    hasSecondaryMenu() {
-      return (
-        this.activeSecondaryMenu.menuItems &&
-        this.activeSecondaryMenu.menuItems.length
-      );
-    },
-    showSecondary() {
-      return this.showSecondarySidebar && this.hasSecondaryMenu;
-    },
   },
 };
 </script>
 
 <template>
-  <aside class="flex h-full">
+  <aside
+    class="flex h-full"
+    :class="{
+      'basis-16': !showSecondary,
+      'basis-64': showSecondary,
+    }"
+  >
     <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
@@ -220,7 +228,7 @@ export default {
       @openNotificationPanel="openNotificationPanel"
     />
     <SecondarySidebar
-      v-if="showSecondarySidebar"
+      v-if="hasSecondarySidebar"
       :class="sidebarClassName"
       :account-id="accountId"
       :inboxes="inboxes"
