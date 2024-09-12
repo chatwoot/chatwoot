@@ -64,7 +64,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col h-full overflow-auto text-sm bg-white border-r w-60 dark:bg-slate-900 dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50"
+    class="flex flex-col h-full min-h-screen overflow-auto text-sm bg-white border-r w-60 dark:bg-slate-900 dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50"
   >
     <SidebarHeader
       :thumbnail-src="thumbnailSrc"
