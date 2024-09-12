@@ -38,7 +38,7 @@ const createState = (
 export default {
   mixins: [keyboardEventListenerMixins],
   props: {
-    value: { type: String, default: '' },
+    modelValue: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
@@ -67,7 +67,7 @@ export default {
     },
   },
   watch: {
-    value(newValue = '') {
+    modelValue(newValue = '') {
       if (newValue !== this.contentFromEditor) {
         this.reloadState();
       }
@@ -78,7 +78,7 @@ export default {
   },
   created() {
     this.state = createState(
-      this.value,
+      this.modelValue,
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
@@ -143,7 +143,7 @@ export default {
     },
     reloadState() {
       this.state = createState(
-        this.value,
+        this.modelValue,
         this.placeholder,
         this.plugins,
         { onImageUpload: this.openFileBrowser },
@@ -199,7 +199,7 @@ export default {
 
     emitOnChange() {
       this.editorView.updateState(this.state);
-
+      this.$emit('update:modelValue', this.contentFromEditor);
       this.$emit('input', this.contentFromEditor);
     },
 
