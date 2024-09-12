@@ -50,6 +50,7 @@ const model = defineModel({
     </template>
     <input
       v-bind="$attrs"
+      v-model="model"
       class="block w-full border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
       :class="{
         'focus:outline-red-600 outline-red-600 dark:focus:outline-red-600 dark:outline-red-600':
@@ -60,7 +61,6 @@ const model = defineModel({
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      v-model="model"
     />
   </WithLabel>
 </template>
