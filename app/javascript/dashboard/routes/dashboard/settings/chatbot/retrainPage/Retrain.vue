@@ -76,7 +76,7 @@ export default {
     },
     accountCharLimit() {
       const currentAccount = this.getAccount(this.accountId);
-      return currentAccount.custom_attributes.chatbot_char_limit;
+      return currentAccount?.custom_attributes?.chatbot_char_limit ?? 1000000;
     },
     limitExceeded() {
       return this.detectedChar > this.accountCharLimit;
