@@ -58,7 +58,7 @@ class User < ApplicationRecord
          :validatable,
          :confirmable,
          :password_has_required_content,
-         :omniauthable, omniauth_providers: [:google_oauth2,:keycloakopenid]
+         :omniauthable, omniauth_providers: [:google_oauth2, :keycloakopenid]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -69,7 +69,7 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, :name, presence: true
-  validates_length_of :name, minimum: 1, maximum: 255
+  validates :name, length: { minimum: 1, maximum: 255 }
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users

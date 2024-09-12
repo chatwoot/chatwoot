@@ -34,7 +34,7 @@ class MessageTemplates::Template::EmailCollect
       content: content
     }
   end
-  
+
   def ways_to_reach_you_message_params
     content = I18n.t('conversations.templates.ways_to_reach_you_message_body',
                      account_name: account.name)

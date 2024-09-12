@@ -255,9 +255,13 @@ Rails.application.routes.draw do
 
           resources :chatbots, only: [:index, :show, :update] do
             collection do
+              post :fetch_links
               post :create_chatbot
               delete :destroy_chatbot
               post :retrain_chatbot
+              get :saved_data
+              post :process_pdf
+              delete :destroy_attachment
             end
           end
         end
@@ -529,5 +533,6 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Routes for Chatbot
-  post 'chatbots/callback', to: 'chatbots/callbacks#update_status'
+  post 'chatbots/callback/update_status', to: 'chatbots/callbacks#update_status'
+  post 'chatbots/callback/query_reply', to: 'chatbots/callbacks#query_reply'
 end

@@ -5,6 +5,7 @@
     <woot-button
       class-names="button--fixed-top"
       color-scheme="primary"
+      :disabled="!selectedInbox"
       @click="createChatbot"
     >
       {{ $t('CHATBOTS.FORM.SUBMIT_CREATE') }}
@@ -54,7 +55,6 @@ export default {
       isButtonActive: false,
       inbox_id: '',
       inbox_name: '',
-      help_center_slug: '',
       showBotCreatingBanner: false,
       showBotCreationFailureBanner: false,
     };
@@ -65,7 +65,7 @@ export default {
       accountId: 'getCurrentAccountId',
       files: 'chatbots/getFiles',
       text: 'chatbots/getText',
-      urls: 'chatbots/getUrls',
+      urls: 'chatbots/getLinks',
     }),
     ...mapGetters({ uiSettings: 'getUISettings' }),
     filteredInboxes() {
@@ -77,11 +77,6 @@ export default {
   methods: {
     async createChatbot() {
       try {
-        let urls = this.urls;
-        if (this.help_center_slug) {
-          const portalUrl = `${window.chatwootConfig.hostURL}/hc/${this.help_center_slug}`;
-          urls = `${urls}, ${portalUrl}`;
-        }
         const payload = {
           accountId: this.accountId,
           website_token: this.website_token,
@@ -89,7 +84,7 @@ export default {
           inbox_name: this.inbox_name,
           files: this.files,
           text: this.text,
-          urls: urls,
+          urls: this.urls,
         };
         await this.$store.dispatch('chatbots/create', payload);
         this.$router.push({ name: 'chatbots_index' });
@@ -108,9 +103,6 @@ export default {
         this.inbox_name = selectedInboxData.name;
         this.website_token = selectedInboxData.website_token;
         this.inbox_id = selectedInboxData.id;
-        this.help_center_slug = selectedInboxData.help_center
-          ? selectedInboxData.help_center.slug
-          : '';
       } else {
         this.isButtonActive = false;
       }

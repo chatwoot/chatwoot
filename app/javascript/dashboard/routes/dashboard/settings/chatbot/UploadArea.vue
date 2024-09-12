@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full"
   >
     <!-- File Upload Area -->
     <div v-if="uploadType === 'file'">
@@ -15,15 +15,18 @@
         <input
           id="file"
           type="file"
-          accept=".doc,.pdf,.txt"
+          accept=".pdf,.docx,.txt"
           multiple
-          @change="handleFileUpload"
+          @change="uploadFile"
         />
       </label>
-      <div v-if="botFiles.length > 0" class="file-names-container">
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.UPLOAD_FILES_DESC')
+      }}</span>
+      <div v-if="files.length > 0" class="file-container">
         <ul>
-          <li v-for="(file, index) in botFiles" :key="index" class="file-item">
-            <input type="text" :value="file.name" readonly />
+          <li v-for="(file, index) in files" :key="index" class="file-item">
+            <input type="text" :value="file['file']['name']" readonly />
             <woot-button
               v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
               size="small"
@@ -31,7 +34,7 @@
               variant="smooth"
               color-scheme="alert"
               icon="delete"
-              @click="handleFileDelete(index)"
+              @click="deleteFile(file, index)"
             />
           </li>
         </ul>
@@ -44,8 +47,6 @@
           v-model="textInput"
           placeholder="Enter your text here"
           @input="setText"
-          @focus="isTextInputFocused = true"
-          @blur="isTextInputFocused = false"
         />
       </div>
     </div>
@@ -57,14 +58,30 @@
           type="text"
           placeholder="https://www.example.com"
         />
-        <woot-button @click="addUrl">
-          {{ $t('CHATBOTS.FORM.ADD_URL') }}
+        <woot-button :disabled="value" @click="fetchLinks">
+          {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
         </woot-button>
       </div>
-      <div class="website-urls-container">
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.FETCH_LINKS_DESC')
+      }}</span>
+      <div class="mt-4">
+        <loader :progress="progress" />
+      </div>
+      <div v-if="links.length > 0" class="flex justify-end mt-4">
+        <woot-button
+          size="small"
+          variant="smooth"
+          color-scheme="alert"
+          @click="deleteLinks()"
+        >
+          {{ $t('CHATBOTS.DELETE_ALL') }}
+        </woot-button>
+      </div>
+      <div class="website-links">
         <ul>
-          <li v-for="(url, index) in websiteUrls" :key="index" class="url-item">
-            <input type="text" :value="url" readonly />
+          <li v-for="(url, index) in links" :key="index" class="links">
+            <input type="text" :value="url['link']" readonly />
             <woot-button
               v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
               size="small"
@@ -72,7 +89,7 @@
               variant="smooth"
               color-scheme="alert"
               icon="delete"
-              @click="deleteUrl(index)"
+              @click="deleteLink(url, index)"
             />
           </li>
         </ul>
@@ -85,18 +102,33 @@
 import { mapGetters, mapState } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
+import ChatbotAPI from '../../../../api/chatbots';
+import Loader from './helpers/Loader.vue';
+import {
+  processTextFile,
+  processDocxFile,
+} from '../../../../helper/chatbotHelper';
 
 export default {
+  components: {
+    Loader,
+  },
   mixins: [alertMixin, accountMixin],
   props: {
+    value: { type: Boolean, default: false },
     uploadType: {
       type: String,
-      default: 'website',
+      default: 'file',
+    },
+    progress: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
     return {
       textInput: '',
+      previousText: '',
       websiteInput: '',
     };
   },
@@ -106,22 +138,73 @@ export default {
     }),
     ...mapGetters({
       files: 'chatbots/getFiles',
-      websiteUrls: 'chatbots/getUrls',
+      links: 'chatbots/getLinks',
+      detectedChar: 'chatbots/getChar',
     }),
   },
   methods: {
-    handleFileUpload(event) {
-      const files = event.target.files;
-      this.$store.dispatch('chatbots/addFiles', files);
+    async uploadFile(event) {
+      const files = Array.from(event.target.files);
+      const filesData = await Promise.all(
+        files.map(async file => {
+          try {
+            const charCount = await this.processFile(file);
+            return {
+              file,
+              char_count: charCount,
+            };
+          } catch (error) {
+            return {
+              file,
+              char_count: 0,
+            };
+          }
+        })
+      );
+      this.$store.dispatch('chatbots/addFiles', filesData);
     },
-    handleFileDelete(index) {
-      this.$store.dispatch('chatbots/deleteFiles', index);
+    async processFile(file) {
+      const fileType = file.type;
+
+      if (fileType === 'text/plain') {
+        return processTextFile(file);
+      }
+      if (fileType === 'application/pdf') {
+        return ChatbotAPI.processPdfFile(file).then(res => {
+          return res.data.char_count;
+        });
+      }
+      if (
+        fileType ===
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ) {
+        return processDocxFile(file);
+      }
+      return Promise.resolve(0); // Unsupported file type
+    },
+    deleteFile(file, index) {
+      this.$store.dispatch('chatbots/decChar', file.char_count);
+      this.$store.dispatch('chatbots/deleteFile', index);
     },
     setText() {
-      const text = this.textInput;
-      this.$store.dispatch('chatbots/setText', text);
+      const newText = this.textInput;
+      const previousText = this.previousText;
+      const newTextLength = newText.length;
+      const previousTextLength = previousText.length;
+
+      this.$store.dispatch('chatbots/setText', newText);
+
+      if (newTextLength > previousTextLength) {
+        const addedChars = newTextLength - previousTextLength;
+        this.$store.dispatch('chatbots/incChar', addedChars);
+      } else if (newTextLength < previousTextLength) {
+        const removedChars = previousTextLength - newTextLength;
+        this.$store.dispatch('chatbots/decChar', removedChars);
+      }
+
+      this.previousText = newText;
     },
-    addUrl() {
+    fetchLinks() {
       const pattern = new RegExp(
         '^https:\\/\\/' + // protocol
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -133,14 +216,35 @@ export default {
       );
       const websiteUrl = this.websiteInput.trim();
       if (websiteUrl !== '' && pattern.test(websiteUrl)) {
-        this.$store.dispatch('chatbots/addUrls', websiteUrl);
-        this.websiteInput = '';
+        if (!this.links.some(obj => obj.link === websiteUrl)) {
+          this.$emit('start-progress');
+          ChatbotAPI.fetchLinks(websiteUrl)
+            .then(response => {
+              const linksWithCharCount = response.data.links_with_char_count;
+              const filteredLinks = linksWithCharCount.filter(link => {
+                return !this.links.some(
+                  existingLink => existingLink.link === link.link
+                );
+              });
+              this.$store.dispatch('chatbots/addLink', filteredLinks);
+              this.$emit('end-progress');
+            })
+            .catch(error => {
+              this.showAlert(error.response.data.message);
+              this.$emit('end-progress');
+            });
+        }
       } else {
         this.showAlert(this.$t('Please enter a valid https Url'));
       }
     },
-    deleteUrl(index) {
-      this.$store.dispatch('chatbots/deleteUrls', index);
+    deleteLink(url, index) {
+      this.$store.dispatch('chatbots/decChar', url.char_count);
+      this.$store.dispatch('chatbots/deleteLink', index);
+    },
+    deleteLinks() {
+      this.$store.dispatch('chatbots/decChar', this.detectedChar);
+      this.$store.dispatch('chatbots/deleteLinks');
     },
   },
 };
@@ -156,6 +260,7 @@ export default {
   border-radius: 4px;
   justify-content: center;
   border: 1px solid #e8e9ea;
+  margin-bottom: 10px;
 }
 .file-upload-design {
   display: flex;
@@ -191,22 +296,35 @@ export default {
   display: none;
 }
 .website-input {
-  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
-.file-names-container {
-  margin-top: 10px;
+.website-input input {
+  margin-right: 10px;
+}
+.file-container {
+  margin-top: 20px;
+  height: 400px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.file-container::-webkit-scrollbar {
+  display: none;
 }
 .file-item {
   display: flex;
 }
-.website-urls-container {
-  margin-top: 10px;
+.website-links {
+  margin-top: 20px;
+  height: 600px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-.url-item {
+.website-links::-webkit-scrollbar {
+  display: none;
+}
+.links {
   display: flex;
 }
 </style>
