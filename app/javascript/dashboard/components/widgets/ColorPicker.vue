@@ -6,7 +6,7 @@ export default {
     Chrome,
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -26,7 +26,7 @@ export default {
       this.isPickerOpen = !this.isPickerOpen;
     },
     updateColor(e) {
-      this.$emit('input', e.hex);
+      this.$emit('update:modelValue', e.hex);
     },
   },
 };
@@ -36,16 +36,16 @@ export default {
   <div class="colorpicker">
     <div
       class="colorpicker--selected"
-      :style="`background-color: ${value}`"
+      :style="`background-color: ${modelValue}`"
       @click.prevent="toggleColorPicker"
     />
     <Chrome
       v-if="isPickerOpen"
       v-on-clickaway="closeTogglePicker"
       disable-alpha
-      :value="value"
+      :model-value="modelValue"
       class="colorpicker--chrome"
-      @input="updateColor"
+      @update:modelValue="updateColor"
     />
   </div>
 </template>
