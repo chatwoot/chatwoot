@@ -13,6 +13,10 @@ export const getters = {
     const contact = $state.records[id];
     return contact.transactions || {};
   },
+  getConversationPlans: $state => id => {
+    const contact = $state.records[id];
+    return contact.conversation_plans || [];
+  },
   getMeta: $state => {
     return $state.meta;
   },

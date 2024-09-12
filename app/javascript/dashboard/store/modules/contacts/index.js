@@ -13,6 +13,7 @@ const state = {
     isFetchingItem: false,
     isFetchingInboxes: false,
     isFetchingTransactions: false,
+    isFetchingConversationPlans: false,
     isUpdating: false,
     isMerging: false,
     isDeleting: false,

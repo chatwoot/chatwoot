@@ -9,13 +9,6 @@ json.stage resource.stage if resource.stage.present?
 json.assignee resource.assignee if resource.assignee.present?
 json.team resource.team if resource.team.present?
 json.last_note resource.notes.order(created_at: :desc).first.content if resource.notes.present?
-if resource.conversations.where(conversation_type: :planned).present?
-  json.current_action do
-    planned_conversation = resource.conversations.where(conversation_type: :planned).order(created_at: :desc).first
-    json.merge! planned_conversation.as_json
-    json.inbox_type planned_conversation.inbox.inbox_type
-  end
-end
 json.first_reply_created_at resource.first_reply_created_at
 json.initial_channel_type resource.initial_channel_type
 json.last_stage_changed_at resource.last_stage_changed_at.to_i if resource[:last_stage_changed_at].present?

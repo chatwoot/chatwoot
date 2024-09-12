@@ -319,4 +319,24 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isFetchingTransactions: false });
     }
   },
+
+  async fetchConversationPlans({ commit }, contactId) {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetchingConversationPlans: true });
+    try {
+      const response = await ContactAPI.getConversationPlans(contactId);
+      const contact = {
+        id: contactId,
+        conversation_plans: response.data.payload,
+      };
+      commit(types.SET_CONTACT_ITEM, contact);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetchingConversationPlans: false });
+    }
+  },
 };

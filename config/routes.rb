@@ -157,6 +157,7 @@ Rails.application.routes.draw do
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :transactions, only: [:index]
+              resources :conversation_plans, only: [:index]
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
