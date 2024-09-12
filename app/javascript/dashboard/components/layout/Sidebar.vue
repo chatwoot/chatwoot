@@ -212,8 +212,8 @@ export default {
   <aside
     class="flex h-full"
     :class="{
-      'basis-16': !showSecondary,
-      'basis-64': showSecondary,
+      'basis-16': !hasSecondarySidebar,
+      'basis-64': hasSecondarySidebar,
     }"
   >
     <PrimarySidebar
