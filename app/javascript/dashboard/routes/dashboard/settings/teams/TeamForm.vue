@@ -7,7 +7,6 @@ export default {
   components: {
     WootSubmitButton,
   },
-
   props: {
     onSubmit: {
       type: Function,

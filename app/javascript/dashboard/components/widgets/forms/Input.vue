@@ -9,7 +9,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -60,7 +60,7 @@ export default {
     <span v-if="label">{{ label }}</span>
     <input
       class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-      :value="value"
+      :value="modelValue"
       :type="type"
       :placeholder="placeholder"
       :readonly="readonly"
