@@ -84,15 +84,20 @@ export default {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
     }),
+    statusList() {
+      return [
+        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.ONLINE'),
+        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.BUSY'),
+        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.OFFLINE'),
+      ];
+    },
     availabilityStatuses() {
-      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        (statusLabel, index) => ({
-          label: statusLabel,
-          value: AVAILABILITY_STATUS_KEYS[index],
-          disabled:
-            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
-        })
-      );
+      return this.statusList.map((statusLabel, index) => ({
+        label: statusLabel,
+        value: AVAILABILITY_STATUS_KEYS[index],
+        disabled:
+          this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
+      }));
     },
   },
   methods: {
