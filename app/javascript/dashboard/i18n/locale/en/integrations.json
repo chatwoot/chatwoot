@@ -204,6 +204,52 @@
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
     },
+    "CUSTOM_API": {
+      "TITLE": "Custom API",
+      "HEADER_BTN_TXT": "Add a new Custom API",
+      "SIDEBAR_TXT": "<p><b>Custom API</b></p><p>Custom API Integration allows organizations to import orders from their own websites and synchronize them with Chatwoot contacts. This feature enables users to seamlessly bring in order data, providing customer support agents with comprehensive context regarding customer interactions. By embedding this integration, agents can easily view and manage customer orders directly within the Chatwoot dashboard, enhancing their ability to deliver efficient and informed support.</p>",
+      "DESCRIPTION": "Custom API Integration allows organizations to import orders from their own websites and synchronize them with Chatwoot contacts. This feature enables users to seamlessly bring in order data, providing customer support agents with comprehensive context regarding customer interactions.",
+      "LIST": {
+        "404": "There are no Custom API configured on this account yet",
+        "LOADING": "Fetching Custom API...",
+        "TABLE_HEADER": ["Name", "Endpoint", "Key"],
+        "EDIT_TOOLTIP": "Edit app",
+        "DELETE_TOOLTIP": "Delete app"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Name",
+        "TITLE_PLACEHOLDER": "Enter a name for your Custom API",
+        "TITLE_ERROR": "A name for the Custom API is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint base URL where your api is hosted",
+        "URL_ERROR": "A valid URL is required",
+        "KEY_LABEL": "Api Key",
+        "KEY_PLACEHOLDER": "Enter your api verification key",
+        "KEY_ERROR": "A api-key for the Custom API is required"
+      },
+      "CREATE": {
+        "HEADER": "Add a new Custom API",
+        "FORM_SUBMIT": "Submit",
+        "FORM_CANCEL": "Cancel",
+        "API_SUCCESS": "Custom API configured successfully",
+        "API_ERROR": "We couldn't create a custom api. Please try again later"
+      },
+      "UPDATE": {
+        "HEADER": "Edit Custom API",
+        "FORM_SUBMIT": "Update",
+        "FORM_CANCEL": "Cancel",
+        "API_SUCCESS": "Custom API updated successfully",
+        "API_ERROR": "We couldn't update the custom api. Please try again later"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "Are you sure to delete the integration - %{integrationName}?",
+        "API_SUCCESS": "Custom API deleted successfully",
+        "API_ERROR": "We couldn't delete the custom api. Please try again later"
+      }
+    },
     "LINEAR": {
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",

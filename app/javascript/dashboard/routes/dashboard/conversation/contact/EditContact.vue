@@ -50,6 +50,7 @@ export default {
     },
     onSuccess() {
       this.$emit('cancel');
+      this.$emit('sucess', this.contact.id);
     },
     async onSubmit(contactItem) {
       await this.$store.dispatch('contacts/update', contactItem);

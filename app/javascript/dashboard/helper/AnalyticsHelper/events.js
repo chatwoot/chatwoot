@@ -50,6 +50,12 @@ export const CONTACTS_EVENTS = Object.freeze({
   IMPORT_SUCCESS: 'Imported contacts successfully',
 });
 
+export const ORDERS_EVENTS = Object.freeze({
+  APPLY_FILTER: 'Applied filters in the orders list',
+  SAVE_FILTER: 'Saved a filter in the orders list',
+  DELETE_FILTER: 'Deleted a filter in the orders list',
+});
+
 // CAMPAIGN EVENTS
 export const CAMPAIGNS_EVENTS = Object.freeze({
   OPEN_NEW_CAMPAIGN_MODAL: 'Opened new campaign modal',

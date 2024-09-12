@@ -1,0 +1,101 @@
+{
+  "ORDER_PANEL": {
+    "CREATED_AT_LABEL": "Created",
+
+    "LABELS": {
+      "GERAL": {
+        "TITLE": "General Info",
+        "STATUS": "Status",
+        "CREATED": "Created at",
+        "MODIFIED": "Modified At"
+      },
+      "CUSTOMER": {
+        "TITLE": "Customer"
+      },
+      "ITEMS": {
+        "TITLE": "Items",
+        "NAME": "Name",
+        "QUANTITY": "Quantity",
+        "PRICE": "Price",
+        "SUBTOTAL": "Subtotal",
+        "SKU": "SKU",
+        "VARIANT": "Variant ID"
+      },
+      "SHIPPING": {
+        "TITLE": "Shipping Info",
+        "ADDRESS": "Address",
+        "TOTAL": "Total value",
+        "TAX": "Shipping Tax"
+      },
+      "VALUES": {
+        "TITLE": "Values",
+        "TOTAL": "Total",
+        "TOTAL_TAX": "Total Tax",
+        "DISCOUNT_COUPON": "Discount Coupon",
+        "TOTAL_DISCOUNT": "Total Discount",
+        "DISCOUNT_TAX": "Discount Tax",
+        "CART_TAX": "Cart Tax"
+      },
+      "PAYMENT": {
+        "TITLE": "Payment Info",
+        "METHOD": "Method",
+        "STATUS": "Status",
+        "DATE_PAID": "Paid at",
+        "TRANSACTION_ID": "Transaction ID"
+      }
+    }
+  },
+
+  "ORDERS_PAGE": {
+    "HEADER": "Integration Orders",
+    "FIELDS": "Orders fields",
+    "SEARCH_BUTTON": "Search",
+    "UPDATE_BUTTON": "Update",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for order",
+    "FILTER_ORDERS": "Filter",
+    "FILTER_ORDERS_SAVE": "Save filter",
+    "FILTER_ORDERS_DELETE": "Delete filter",
+    "FILTER_ORDERS_EDIT": "Edit segment",
+    "TITLE": "Order Info",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading orders...",
+      "404": "No orders matches your search 🔍",
+      "NO_ORDERS": "There are no available orders",
+      "NO_ITEMS": "There are no items available ",
+      "TABLE_HEADER": {
+        "ORDER_NUMBER": "Order Nº",
+        "CUSTOMER": "Customer",
+        "STATUS": "Status",
+        "ITEMS": "Items Qtd",
+        "CREATED_AT": "Created At",
+        "TOTAL": "Total",
+        "PAYMENT_STATUS": "Payment Status",
+        "SHIPPING": "Shipping",
+        "PLATFORM": "Platform",
+        "LAST_ACTIVITY": "Last Activity"
+      },
+      "VIEW_DETAILS": "View details"
+    }
+  },
+
+  "ORDER_DETAILS": {
+    "TITLE": "Order of Nº",
+    "BACK_BUTTON": "Orders",
+    "LOADING": "Loading order details..."
+  },
+
+  "CORRUPTED_CONTACTS": {
+    "TITLE": "Corrupted Contacts",
+    "LIST": {
+      "404": "There are no contacts corrupted.",
+      "NAME": "Corrupted Contacts",
+      "DESCRIPTION": "Contact with the same {corruptedType} as the contact of id ",
+      "IDENTIFIER": "Contact with the same identifier as the contact of id ",
+      "PHONE": "Contact with the same phone number as the contact of id ",
+      "BOTH": "Contact with the same phone number and identifier as the contact of id ",
+      "CONFLICT": "Contact with the same phone number and identifier as the contacts with ids ",
+      "SIDEBAR_TXT": "<p><b>Corrupted Contacts</b> <p>Corrupted contacts are imported through an integration and have a phone number or identifier that matches an existing contact. This creates a conflict, as it is not possible to register two contacts with the same phone number or identifier. </br> </br> These duplicates prevent the system from properly storing both contacts, leading to data integrity issues. Such contacts require special handling to avoid registration errors and ensure the uniqueness of information within the system.</p>",
+      "TABLE_HEADER": ["Name", "Description", "Actions"]
+    }
+  }
+}

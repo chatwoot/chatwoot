@@ -17,6 +17,7 @@ import contactConversations from './modules/contactConversations';
 import contactLabels from './modules/contactLabels';
 import contactNotes from './modules/contactNotes';
 import contacts from './modules/contacts';
+import integrationsView from './modules/integrationsView';
 import conversationLabels from './modules/conversationLabels';
 import conversationMetadata from './modules/conversationMetadata';
 import conversationPage from './modules/conversationPage';
@@ -28,6 +29,7 @@ import conversationWatchers from './modules/conversationWatchers';
 import csat from './modules/csat';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
+import customApi from './modules/customApi';
 import globalConfig from 'shared/store/globalConfig';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
@@ -78,6 +80,8 @@ export default new Vuex.Store({
     csat,
     customViews,
     dashboardApps,
+    customApi,
+    integrationsView,
     globalConfig,
     inboxAssignableAgents,
     inboxes,

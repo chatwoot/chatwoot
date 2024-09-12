@@ -9,6 +9,8 @@ import campaign from './campaign.json';
 import cannedMgmt from './cannedMgmt.json';
 import chatlist from './chatlist.json';
 import contact from './contact.json';
+import order from './order.json';
+import orderFilters from './orderFilters.json';
 import contactFilters from './contactFilters.json';
 import conversation from './conversation.json';
 import csatMgmt from './csatMgmt.json';
@@ -42,6 +44,8 @@ export default {
   ...cannedMgmt,
   ...chatlist,
   ...contact,
+  ...order,
+  ...orderFilters,
   ...contactFilters,
   ...conversation,
   ...csatMgmt,

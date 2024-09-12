@@ -58,6 +58,11 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  getCorruptedContacts() {
+    let requestURL = `${this.url}/corrupted`;
+    return axios.get(requestURL);
+  }
+
   // eslint-disable-next-line default-param-last
   filter(page = 1, sortAttr = 'name', queryPayload) {
     let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;
@@ -76,6 +81,10 @@ class ContactAPI extends ApiClient {
     return axios.post(`${this.url}/${contactId}/destroy_custom_attributes`, {
       custom_attributes: customAttributes,
     });
+  }
+
+  deactivateContact(contactId) {
+    return axios.post(`${this.url}/${contactId}/deactivate_contact`);
   }
 
   destroyAvatar(contactId) {

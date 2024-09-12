@@ -18,4 +18,11 @@ export const getters = {
   getWhatsappContacts: $state => {
     return $state.whatsappContacts;
   },
+
+  getCorruptedContacts: $state => {
+    return Object.values($state.records).filter(
+      contact =>
+        contact.custom_attributes && contact.custom_attributes.contact_corrupted
+    );
+  },
 };

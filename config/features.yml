@@ -85,3 +85,5 @@
   premium: true
 - name: linear_integration
   enabled: false
+- name: integrations_view
+  enabled: true

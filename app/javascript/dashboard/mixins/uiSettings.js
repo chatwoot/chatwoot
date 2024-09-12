@@ -7,11 +7,21 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_attributes' },
   { name: 'previous_conversation' },
   { name: 'conversation_participants' },
+  { name: 'orders' },
 ];
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_attributes' },
   { name: 'contact_labels' },
   { name: 'previous_conversation' },
+  { name: 'orders' },
+];
+
+export const DEFAULT_INTEGRATION_ORDER_SIDEBAR_ITEMS_ORDER = [
+  { name: 'contact' },
+  { name: 'items' },
+  { name: 'shipping' },
+  { name: 'values' },
+  { name: 'payment' },
 ];
 
 const slugifyChannel = name =>
@@ -52,6 +62,12 @@ export default {
       const { contact_sidebar_items_order: itemsOrder } = this.uiSettings;
       return itemsOrder || DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER;
     },
+
+    integrationOrderSidebarItemsOrder() {
+      const { integration_order_sidebar_items_order: itemsOrder } =
+        this.uiSettings;
+      return itemsOrder || DEFAULT_INTEGRATION_ORDER_SIDEBAR_ITEMS_ORDER;
+    },
   },
   methods: {
     updateUISettings(uiSettings = {}) {
@@ -63,6 +79,10 @@ export default {
       });
     },
     isContactSidebarItemOpen(key) {
+      const { [key]: isOpen } = this.uiSettings;
+      return !!isOpen;
+    },
+    isOrderSidebarItemOpen(key) {
       const { [key]: isOpen } = this.uiSettings;
       return !!isOpen;
     },

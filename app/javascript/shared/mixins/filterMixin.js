@@ -38,7 +38,11 @@ export default {
         };
       });
       this.filterTypes = [...this.filterTypes, ...customAttributeTypes];
-      this.filterGroups = [...allFilterGroups, customAttributesFormatted];
+      if (allCustomAttributes.length > 0) {
+        this.filterGroups = [...allFilterGroups, customAttributesFormatted];
+      } else {
+        this.filterGroups = [...allFilterGroups];
+      }
     },
 
     initializeExistingFilterToModal() {

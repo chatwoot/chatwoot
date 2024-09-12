@@ -3,6 +3,7 @@ import uiSettingsMixin, {
   DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
   DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
   isEditorHotKeyEnabled,
+  DEFAULT_INTEGRATION_ORDER_SIDEBAR_ITEMS_ORDER,
 } from '../uiSettings';
 import Vuex from 'vuex';
 const localVue = createLocalVue();
@@ -22,6 +23,8 @@ describe('uiSettingsMixin', () => {
         conversation_sidebar_items_order:
           DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
         contact_sidebar_items_order: DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
+        integration_order_sidebar_items_order:
+          DEFAULT_INTEGRATION_ORDER_SIDEBAR_ITEMS_ORDER,
       }),
     };
     store = new Vuex.Store({ actions, getters });

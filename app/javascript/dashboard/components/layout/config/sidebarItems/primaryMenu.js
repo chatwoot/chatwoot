@@ -51,6 +51,14 @@ const primaryMenuItems = accountId => [
     toStateName: 'default_portal_articles',
   },
   {
+    icon: 'order',
+    key: 'integrations_view',
+    label: 'INTEGRATIONS_VIEW',
+    featureFlag: FEATURE_FLAGS.INTEGRATIONS_VIEW,
+    toState: frontendURL(`accounts/${accountId}/integrations-view`),
+    toStateName: 'integrations_view',
+  },
+  {
     icon: 'settings',
     key: 'settings',
     label: 'SETTINGS',

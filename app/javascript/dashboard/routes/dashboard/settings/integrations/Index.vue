@@ -33,6 +33,20 @@
               integration-action="/dashboard-apps"
             />
           </div>
+          <div
+            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
+          >
+            <integration
+              integration-id="custom-api"
+              integration-logo="custom-api.svg"
+              :integration-name="$t('INTEGRATION_SETTINGS.CUSTOM_API.TITLE')"
+              :integration-description="
+                $t('INTEGRATION_SETTINGS.CUSTOM_API.DESCRIPTION')
+              "
+              integration-enabled
+              integration-action="/custom-api"
+            />
+          </div>
         </div>
       </div>
     </div>

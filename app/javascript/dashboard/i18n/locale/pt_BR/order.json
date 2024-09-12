@@ -1,0 +1,101 @@
+{
+  "ORDER_PANEL": {
+    "CREATED_AT_LABEL": "Criado em",
+
+    "LABELS": {
+      "GERAL": {
+        "TITLE": "Informações Gerais",
+        "STATUS": "Status",
+        "CREATED": "Criado em",
+        "MODIFIED": "Modificado em"
+      },
+      "CUSTOMER": {
+        "TITLE": "Cliente"
+      },
+      "ITEMS": {
+        "TITLE": "Itens",
+        "NAME": "Nome",
+        "QUANTITY": "Quantidade",
+        "PRICE": "Preço",
+        "SUBTOTAL": "Subtotal",
+        "SKU": "SKU",
+        "VARIANT": "ID da Variante"
+      },
+      "SHIPPING": {
+        "TITLE": "Informações de Envio",
+        "ADDRESS": "Endereço",
+        "TOTAL": "Valor Total",
+        "TAX": "Taxa de Envio"
+      },
+      "VALUES": {
+        "TITLE": "Valores",
+        "TOTAL": "Total",
+        "TOTAL_TAX": "Taxa Total",
+        "DISCOUNT_COUPON": "Cupom de Desconto",
+        "TOTAL_DISCOUNT": "Desconto Total",
+        "DISCOUNT_TAX": "Taxa de Desconto",
+        "CART_TAX": "Taxa do Carrinho"
+      },
+      "PAYMENT": {
+        "TITLE": "Informações de Pagamento",
+        "METHOD": "Método",
+        "STATUS": "Status",
+        "DATE_PAID": "Pago em",
+        "TRANSACTION_ID": "ID da Transação"
+      }
+    }
+  },
+
+  "ORDERS_PAGE": {
+    "HEADER": "Pedidos de Integração",
+    "FIELDS": "Campos dos pedidos",
+    "SEARCH_BUTTON": "Buscar",
+    "UPDATE_BUTTON": "Atualizar",
+    "SEARCH_INPUT_PLACEHOLDER": "Buscar pedido",
+    "FILTER_ORDERS": "Filtrar",
+    "FILTER_ORDERS_SAVE": "Salvar filtro",
+    "FILTER_ORDERS_DELETE": "Excluir filtro",
+    "FILTER_ORDERS_EDIT": "Editar segmento",
+    "TITLE": "Informações do Pedido",
+    "LIST": {
+      "LOADING_MESSAGE": "Carregando pedidos...",
+      "404": "Nenhum pedido corresponde à sua busca 🔍",
+      "NO_ORDERS": "Não há pedidos disponíveis",
+      "NO_ITEMS": "Não há itens disponíveis",
+      "TABLE_HEADER": {
+        "ORDER_NUMBER": "Pedido Nº",
+        "CUSTOMER": "Cliente",
+        "STATUS": "Status",
+        "ITEMS": "Qtd de Itens",
+        "CREATED_AT": "Criado em",
+        "TOTAL": "Total",
+        "PAYMENT_STATUS": "Status do Pagamento",
+        "SHIPPING": "Envio",
+        "PLATFORM": "Plataforma",
+        "LAST_ACTIVITY": "Última Atividade"
+      },
+      "VIEW_DETAILS": "Ver detalhes"
+    }
+  },
+
+  "ORDER_DETAILS": {
+    "TITLE": "Pedido Nº",
+    "BACK_BUTTON": "Pedidos",
+    "LOADING": "Carregando detalhes do pedido..."
+  },
+
+  "CORRUPTED_CONTACTS": {
+    "TITLE": "Contatos Corrompidos",
+    "LIST": {
+      "404": "Não há contatos corrompidos.",
+      "NAME": "Contatos Corrompidos",
+      "DESCRIPTION": "Contato com o mesmo {corruptedType} que o contato com ID ",
+      "IDENTIFIER": "Contato com o mesmo identificador que o contato com ID ",
+      "PHONE": "Contato com o mesmo número de telefone que o contato com ID ",
+      "BOTH": "Contato com o mesmo número de telefone e identificador que o contato com ID ",
+      "CONFLICT": "Contato com o mesmo número de telefone e identificador que os contatos com IDs ",
+      "SIDEBAR_TXT": "<p><b>Contatos Corrompidos</b> <p>Contatos corrompidos são importados através de uma integração e possuem um número de telefone ou identificador que coincide com um contato existente. Isso cria um conflito, pois não é possível registrar dois contatos com o mesmo número de telefone ou identificador. </br> </br> Esses duplicados impedem que o sistema armazene ambos os contatos corretamente, causando problemas de integridade de dados. Tais contatos requerem um tratamento especial para evitar erros de registro e garantir a unicidade das informações no sistema.</p>",
+      "TABLE_HEADER": ["Nome", "Descrição", "Ações"]
+    }
+  }
+}

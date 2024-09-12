@@ -13,7 +13,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes, :deactivate_contact]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
@@ -23,6 +23,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def all_contacts
     @contacts = resolved_contacts
+  end
+
+  def corrupted
+    corrupted_contacts = resolved_contacts.where("custom_attributes->>'contact_corrupted' IS NOT NULL")
+    @contacts_count = corrupted_contacts.count
+    @contacts = fetch_contacts(corrupted_contacts)
   end
 
   def search
@@ -58,7 +64,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   # returns online contacts
   def active
     contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
-                  .get_available_contact_ids(Current.account.id))
+                  .get_available_contact_ids(Current.account.id), active: true)
     @contacts_count = contacts.count
     @contacts = contacts.page(@current_page)
   end
@@ -85,6 +91,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def destroy_custom_attributes
     @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
     @contact.save!
+  end
+
+  def deactivate_contact
+    @contact.update(active: false)
   end
 
   def create
@@ -125,7 +135,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
-    @resolved_contacts = Current.account.contacts.resolved_contacts
+    @resolved_contacts = Current.account.contacts.resolved_contacts.where(active: true)
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
@@ -138,6 +148,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def fetch_contacts(contacts)
     contacts_with_avatar = filtrate(contacts)
                            .includes([{ avatar_attachment: [:blob] }])
+                           .where(active: true)
                            .page(@current_page).per(RESULTS_PER_PAGE)
 
     return contacts_with_avatar.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
@@ -180,7 +191,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).where(active: true).find(params[:id])
   end
 
   def process_avatar_from_url

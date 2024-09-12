@@ -7,6 +7,7 @@
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
     "COMPANY": "Empresa",
     "LOCATION": "Localização",
+    "INTEGRATION": "Integração",
     "BROWSER_LANGUAGE": "Idioma do navegador",
     "CONVERSATION_TITLE": "Detalhes da conversa",
     "VIEW_PROFILE": "Visualizar Perfil",
@@ -49,13 +50,15 @@
       "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
       "CONTACT_LABELS": "Etiquetas de contato",
       "PREVIOUS_CONVERSATIONS": "Conversas anteriores",
-      "NO_RECORDS_FOUND": "Nenhum atributo encontrado"
+      "NO_RECORDS_FOUND": "Nenhum atributo encontrado",
+      "ORDERS": "Pedidos"
     }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Alterar Contato",
     "TITLE": "Alterar contato",
-    "DESC": "Alterar detalhes do contato"
+    "DESC": "Alterar detalhes do contato",
+    "DISABLED_BY_INTEGRATION": "A edição de contatos não está habilitada para contatos provenientes de integrações"
   },
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "Novo contato",

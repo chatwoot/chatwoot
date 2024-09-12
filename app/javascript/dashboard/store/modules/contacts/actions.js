@@ -82,10 +82,12 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, {
         isFetchingItem: false,
       });
+      return response.data.payload;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, {
         isFetchingItem: false,
       });
+      return {};
     }
   },
 
@@ -174,6 +176,15 @@ export const actions = {
         id,
         customAttributes
       );
+      commit(types.EDIT_CONTACT, response.data.payload);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  deactivateContact: async ({ commit }, { id }) => {
+    try {
+      const response = await ContactAPI.deactivateContact(id);
       commit(types.EDIT_CONTACT, response.data.payload);
     } catch (error) {
       throw new Error(error);
@@ -278,6 +289,21 @@ export const actions = {
       return payload;
     } catch (error) {
       commit(types.SET_WHATSAPP_CONTACTS, []);
+    }
+    return [];
+  },
+
+  fetchCorruptedContacts: async ({ commit }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
+    try {
+      const {
+        data: { payload },
+      } = await ContactAPI.getCorruptedContacts();
+      commit(types.CLEAR_CONTACTS);
+      commit(types.SET_CONTACTS, payload);
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
     return [];
   },

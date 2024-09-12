@@ -73,6 +73,19 @@
               />
             </accordion-item>
           </div>
+          <div v-if="element.name === 'orders' && orders.length > 0">
+            <accordion-item
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.ORDERS')"
+              :is-open="isContactSidebarItemOpen('is_ct_prev_orders_open')"
+              @click="
+                value => toggleSidebarUIState('is_ct_prev_orders_open', value)
+              "
+            >
+              <div v-for="order in orders">
+                <contact-orders :order="order" />
+              </div>
+            </accordion-item>
+          </div>
         </div>
       </transition-group>
     </draggable>
@@ -87,6 +100,7 @@ import ContactLabel from 'dashboard/routes/dashboard/contacts/components/Contact
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import ContactOrders from '../../integrationsView/ContactOrders.vue';
 
 export default {
   components: {
@@ -96,6 +110,7 @@ export default {
     ContactLabel,
     CustomAttributes,
     draggable,
+    ContactOrders,
   },
   mixins: [uiSettingsMixin],
   props: {
@@ -128,9 +143,15 @@ export default {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
     },
+    orders() {
+      return this.$store.getters['integrationsView/getContactOrders'];
+    },
   },
   mounted() {
     this.contactSidebarItems = this.contactSidebarItemsOrder;
+    this.$store.dispatch('integrationsView/contactOrders', {
+      contactId: this.contact.id,
+    });
   },
   methods: {
     onDragEnd() {

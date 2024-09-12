@@ -51,9 +51,16 @@ export default {
     }),
   },
 
+  mounted() {
+    this.onContactSearch(this.primaryContact.name);
+  },
+
   methods: {
     onClose() {
       this.$emit('close');
+    },
+    onSucess(id) {
+      this.$emit('sucess', id);
     },
     async onContactSearch(query) {
       this.isSearching = true;
@@ -81,6 +88,7 @@ export default {
         });
         useAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
         this.onClose();
+        this.onSucess(parentContactId);
       } catch (error) {
         useAlert(this.$t('MERGE_CONTACTS.FORM.ERROR_MESSAGE'));
       }

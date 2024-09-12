@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_02_143141) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_10_075940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -427,6 +427,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_02_143141) do
     t.string "location", default: ""
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
+    t.boolean "active", default: true, null: false
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id", "last_activity_at"], name: "index_contacts_on_account_id_and_last_activity_at", order: { last_activity_at: "DESC NULLS LAST" }
@@ -510,6 +511,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_02_143141) do
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+  end
+
+  create_table "custom_apis", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "base_url", null: false
+    t.string "api_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "account_id"
+    t.integer "user_id"
+    t.datetime "orders_last_update"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
@@ -763,6 +775,62 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_02_143141) do
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.string "name"
+    t.integer "order_id"
+    t.integer "product_id"
+    t.integer "variation_id"
+    t.integer "quantity"
+    t.string "tax_class"
+    t.string "subtotal"
+    t.string "subtotal_tax"
+    t.string "total"
+    t.string "total_tax"
+    t.string "sku"
+    t.string "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "order_number"
+    t.string "order_key"
+    t.string "created_via"
+    t.string "platform"
+    t.string "status"
+    t.string "currency"
+    t.datetime "date_created"
+    t.datetime "date_created_gmt"
+    t.datetime "date_modified"
+    t.datetime "date_modified_gmt"
+    t.string "discount_total"
+    t.string "discount_tax"
+    t.string "shipping_total"
+    t.string "shipping_tax"
+    t.string "cart_tax"
+    t.string "total"
+    t.string "total_tax"
+    t.boolean "prices_include_tax", default: false, null: false
+    t.integer "contact_id"
+    t.string "customer_ip_address"
+    t.string "customer_user_agent"
+    t.string "customer_note"
+    t.string "payment_method"
+    t.string "payment_method_title"
+    t.string "payment_status"
+    t.string "transaction_id"
+    t.datetime "date_paid"
+    t.datetime "date_paid_gmt"
+    t.datetime "date_completed"
+    t.datetime "date_completed_gmt"
+    t.string "cart_hash"
+    t.boolean "set_paid", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "account_id"
+    t.string "discount_coupon"
   end
 
   create_table "platform_app_permissibles", force: :cascade do |t|

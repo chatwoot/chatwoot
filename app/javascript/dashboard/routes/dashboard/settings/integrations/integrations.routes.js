@@ -6,6 +6,7 @@ const DashboardApps = () => import('./DashboardApps/Index.vue');
 const ShowIntegration = () => import('./ShowIntegration.vue');
 const Slack = () => import('./Slack.vue');
 const Index = () => import('./Index.vue');
+const CustomApi = () => import('./CustomApi/index.vue');
 
 export default {
   routes: [
@@ -58,6 +59,14 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'custom-api',
+          component: CustomApi,
+          name: 'settings_integrations_custom_api',
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: ':integration_id',

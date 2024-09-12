@@ -7,6 +7,7 @@
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "Location",
+    "INTEGRATION": "Integration",
     "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Conversation Details",
     "VIEW_PROFILE": "View Profile",
@@ -49,13 +50,15 @@
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
       "PREVIOUS_CONVERSATIONS": "Previous Conversations",
-      "NO_RECORDS_FOUND": "No attributes found"
+      "NO_RECORDS_FOUND": "No attributes found",
+      "ORDERS": "Orders"
     }
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
     "TITLE": "Edit contact",
-    "DESC": "Edit contact details"
+    "DESC": "Edit contact details",
+    "DISABLED_BY_INTEGRATION": "Contact editing is not enabled for contacts coming from integrations"
   },
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "New Contact",

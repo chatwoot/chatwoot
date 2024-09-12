@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+#ignore stream arquive
+t.tmp
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal

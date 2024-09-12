@@ -80,6 +80,13 @@
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
           <contact-info-row
+            v-if="additionalAttributes.integration"
+            :value="additionalAttributes.integration"
+            icon="integration"
+            emoji="☁️"
+            :title="$t('CONTACT_PANEL.INTEGRATION')"
+          />
+          <contact-info-row
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
@@ -92,6 +99,7 @@
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
+
           <social-icons :social-profiles="socialProfiles" />
         </div>
       </div>
@@ -262,14 +270,22 @@ export default {
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
     },
+    isFromIntegration() {
+      return this.additionalAttributes.integration;
+    },
   },
   methods: {
     dynamicTime,
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },
-    toggleEditModal() {
-      this.showEditModal = !this.showEditModal;
+    toggleEditModal(e) {
+      if (!!this.isFromIntegration) {
+        e.preventDefault();
+        useAlert(this.$t('EDIT_CONTACT.DISABLED_BY_INTEGRATION'));
+      } else {
+        this.showEditModal = !this.showEditModal;
+      }
     },
     onPanelToggle() {
       this.$emit('toggle-panel');
@@ -301,6 +317,7 @@ export default {
         return '';
       }
     },
+
     async deleteContact({ id }) {
       try {
         await this.$store.dispatch('contacts/delete', id);

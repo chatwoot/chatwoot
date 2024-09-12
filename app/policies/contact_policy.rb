@@ -7,6 +7,14 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def corrupted?
+    true
+  end
+
+  def deactivate_contact?
+    true
+  end
+
   def active?
     true
   end

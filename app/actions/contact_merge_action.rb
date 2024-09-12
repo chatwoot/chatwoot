@@ -13,6 +13,7 @@ class ContactMergeAction
       merge_messages
       merge_contact_inboxes
       merge_contact_notes
+      merge_orders
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -46,15 +47,22 @@ class ContactMergeAction
     ContactInbox.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
+  def merge_orders
+    Order.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
+  end
+
   def merge_and_remove_mergee_contact
     mergable_attribute_keys = %w[identifier name email phone_number additional_attributes custom_attributes]
     base_contact_attributes = base_contact.attributes.slice(*mergable_attribute_keys).compact_blank
     mergee_contact_attributes = mergee_contact.attributes.slice(*mergable_attribute_keys).compact_blank
 
-    # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
 
-    @mergee_contact.destroy!
+    if mergee_contact.custom_attributes && mergee_contact.custom_attributes['corrupted_type']
+      mergee_contact.update!(active: false, email: '', identifier: '', phone_number: '')
+    else
+      @mergee_contact.destroy!
+    end
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact,
                                                                            tokens: [@base_contact.contact_inboxes.filter_map(&:pubsub_token)])
     @base_contact.update!(merged_attributes)

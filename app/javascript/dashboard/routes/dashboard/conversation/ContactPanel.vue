@@ -112,6 +112,19 @@
               />
             </accordion-item>
           </div>
+          <div v-if="element.name === 'orders' && orders.length > 0">
+            <accordion-item
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.ORDERS')"
+              :is-open="isContactSidebarItemOpen('is_ct_prev_orders_open')"
+              @click="
+                value => toggleSidebarUIState('is_ct_prev_orders_open', value)
+              "
+            >
+              <div v-for="order in orders">
+                <contact-orders :order="order" />
+              </div>
+            </accordion-item>
+          </div>
           <woot-feature-toggle
             v-else-if="element.name === 'macros'"
             feature-key="macros"
@@ -144,6 +157,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
+import ContactOrders from '../integrationsView/ContactOrders.vue';
 export default {
   components: {
     AccordionItem,
@@ -155,6 +169,7 @@ export default {
     ConversationParticipant,
     draggable,
     MacrosList,
+    ContactOrders,
   },
   mixins: [uiSettingsMixin],
   props: {
@@ -208,6 +223,9 @@ export default {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
     },
+    orders() {
+      return this.$store.getters['integrationsView/getContactOrders'];
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -223,6 +241,9 @@ export default {
     this.conversationSidebarItems = this.conversationSidebarItemsOrder;
     this.getContactDetails();
     this.$store.dispatch('attributes/get', 0);
+    this.$store.dispatch('integrationsView/contactOrders', {
+      contactId: this.contactId,
+    });
   },
   methods: {
     onPanelToggle() {

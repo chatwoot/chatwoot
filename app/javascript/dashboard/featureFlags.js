@@ -9,6 +9,7 @@ export const FEATURE_FLAGS = {
   CUSTOM_ATTRIBUTES: 'custom_attributes',
   INBOX_MANAGEMENT: 'inbox_management',
   INTEGRATIONS: 'integrations',
+  INTEGRATIONS_VIEW: 'integrations_view',
   LABELS: 'labels',
   MACROS: 'macros',
   HELP_CENTER: 'help_center',
