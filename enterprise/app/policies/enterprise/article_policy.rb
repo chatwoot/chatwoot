@@ -1,29 +1,29 @@
 module Enterprise::ArticlePolicy
   def index?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 
   def update?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 
   def show?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 
   def edit?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 
   def create?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 
   def destroy?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 
   def reorder?
-    super || @account_user.custom_role&.permissions&.include?('knowledge_base_manage')
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
 end

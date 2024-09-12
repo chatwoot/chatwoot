@@ -34,8 +34,7 @@ class PortalPolicy < ApplicationPolicy
   private
 
   def portal_member?
-    false
-    # @record.first.members.include?(@user)
+    @record.first.members.include?(@user)
   end
 end
 

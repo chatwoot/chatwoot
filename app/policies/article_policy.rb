@@ -30,9 +30,7 @@ class ArticlePolicy < ApplicationPolicy
   private
 
   def portal_member?
-    # TODO: implement this if needed
-    false
-    # @record.first.portal.members.include?(@user)
+    @record.first.portal.members.include?(@user)
   end
 end
 
