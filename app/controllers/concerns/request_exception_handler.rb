@@ -18,6 +18,9 @@ module RequestExceptionHandler
   rescue ActionController::ParameterMissing => e
     log_handled_error(e)
     render_could_not_create_error(e.message)
+  rescue Pundit::NotDefinedError => e
+    log_handled_error(e)
+    logger.error(params.inspect)
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.reset
@@ -57,6 +60,6 @@ module RequestExceptionHandler
   end
 
   def log_handled_error(exception)
-    logger.info("Handled error: #{exception.inspect}")
+    logger.error("Handled error: #{exception.inspect}")
   end
 end
