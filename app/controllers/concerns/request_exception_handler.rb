@@ -20,7 +20,6 @@ module RequestExceptionHandler
     render_could_not_create_error(e.message)
   rescue StandardError => e
     log_handled_error(e)
-    logger.error(params.inspect)
     raise e
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
@@ -61,6 +60,6 @@ module RequestExceptionHandler
   end
 
   def log_handled_error(exception)
-    logger.error("Handled error: #{exception.inspect}")
+    logger.error("Handled error: #{exception.inspect} backtrace: #{exception.backtrace.first} params: #{params.inspect}")
   end
 end
