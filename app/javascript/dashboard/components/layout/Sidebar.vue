@@ -193,6 +193,15 @@ export default {
     openNotificationPanel() {
       this.$emit('openNotificationPanel');
     },
+    hasSecondaryMenu() {
+      return (
+        this.activeSecondaryMenu.menuItems &&
+        this.activeSecondaryMenu.menuItems.length
+      );
+    },
+    showSecondary() {
+      return this.showSecondarySidebar && this.hasSecondaryMenu;
+    },
   },
 };
 </script>
