@@ -1,3 +1,5 @@
+<script>
+import { defineComponent, h } from 'vue';
 import Facebook from './channels/Facebook.vue';
 import Website from './channels/Website.vue';
 import Twitter from './channels/Twitter.vue';
@@ -20,19 +22,17 @@ const channelViewList = {
   telegram: Telegram,
 };
 
-export default {
-  create() {
-    return {
-      props: {
-        channel_name: {
-          type: String,
-          required: true,
-        },
-      },
-      name: 'new-channel-view',
-      render(h) {
-        return h(channelViewList[this.channel_name] || null);
-      },
-    };
+export default defineComponent({
+  name: 'NewChannelView',
+  props: {
+    channelName: {
+      type: String,
+      required: true,
+    },
   },
-};
+  render() {
+    const ChannelComponent = channelViewList[this.channelName];
+    return ChannelComponent ? h(ChannelComponent) : null;
+  },
+});
+</script>
