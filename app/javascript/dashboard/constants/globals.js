@@ -45,7 +45,7 @@ export default {
     UNTIL_NEXT_MONTH: 'until_next_month',
     UNTIL_CUSTOM_TIME: 'until_custom_time',
   },
-  EXAMPLE_URL: 'https://example.com',
+  EXAMPLE_URL: 'example.com',
   EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
   INBOX_SORT_BY: {
     NEWEST: 'desc',
