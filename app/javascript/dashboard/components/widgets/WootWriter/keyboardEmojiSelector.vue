@@ -26,7 +26,9 @@ function loadEmojis() {
   allEmojis.value = emojis.flatMap(group =>
     group.emojis.map(emoji => ({
       ...emoji,
-      searchString: `${emoji.slug} ${emoji.name}`.toLowerCase(),
+      searchString: `${emoji.name}${emoji.slug}`
+        .toLowerCase() // Convert to lowercase
+        .replace(/\s+/g, ''), // Remove all whitespace
     }))
   );
 }
@@ -60,7 +62,7 @@ onMounted(() => {
             'font-normal': !selected,
           }"
         >
-          :{{ item.slug }}
+          :{{ item.name }}
         </p>
       </span>
     </template>
