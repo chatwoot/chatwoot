@@ -1,6 +1,6 @@
 <script setup>
 import { shallowRef, computed, onMounted } from 'vue';
-import emojis from 'shared/components/emoji/emojisGroup.json';
+import emojiGroups from 'shared/components/emoji/emojisGroup.json';
 import MentionBox from '../mentions/MentionBox.vue';
 
 const props = defineProps({
@@ -23,12 +23,12 @@ const items = computed(() => {
 });
 
 function loadEmojis() {
-  allEmojis.value = emojis.flatMap(group =>
-    group.emojis.map(emoji => ({
-      ...emoji,
-      searchString: `${emoji.name}${emoji.slug}`
-        .toLowerCase() // Convert to lowercase
-        .replace(/\s+/g, ''), // Remove all whitespace
+  allEmojis.value = emojiGroups.flatMap(({ emojis }) =>
+    emojis.map(({ name, slug, ...rest }) => ({
+      ...rest,
+      name,
+      slug,
+      searchString: `${name.replace(/\s+/g, '')} ${slug}`.toLowerCase(), // Remove all whitespace and convert to lowercase
     }))
   );
 }
