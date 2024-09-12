@@ -5,6 +5,7 @@ import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEdito
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
+  name: 'ArticleEditor',
   components: {
     WootArticleEditor,
     ResizableTextArea,
