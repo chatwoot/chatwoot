@@ -41,6 +41,7 @@
         "UPLOADING": "A carregar...",
         "SUCCESS": "Imagem carregada com sucesso",
         "ERROR": "Erro ao carregar imagem",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "O tamanho da imagem deve ser inferior a {size}MB",
         "ERROR_FILE_FORMAT": "O formato da imagem deve ser jpg, jpeg ou png",
         "ERROR_FILE_DIMENSIONS": "As dimensões da imagem devem ser menores que 2000 x 2000"
