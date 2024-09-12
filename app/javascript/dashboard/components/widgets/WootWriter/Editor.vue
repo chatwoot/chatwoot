@@ -76,7 +76,7 @@ export default {
   components: { TagAgents, CannedResponse, VariableList },
   mixins: [keyboardEventListenerMixins],
   props: {
-    value: { type: String, default: '' },
+    modelValue: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
@@ -262,7 +262,7 @@ export default {
     showVariables(updatedValue) {
       this.$emit('toggleVariablesMenu', !this.isPrivate && updatedValue);
     },
-    value(newVal = '') {
+    modelValue(newVal = '') {
       if (newVal !== this.contentFromEditor) {
         this.reloadState(newVal);
       }
@@ -270,10 +270,10 @@ export default {
     editorId() {
       this.showCannedMenu = false;
       this.cannedSearchTerm = '';
-      this.reloadState(this.value);
+      this.reloadState(this.modelValue);
     },
     isPrivate() {
-      this.reloadState(this.value);
+      this.reloadState(this.modelValue);
     },
     updateSelectionWith(newValue, oldValue) {
       if (!this.editorView) {
@@ -303,7 +303,7 @@ export default {
   },
   created() {
     this.state = createState(
-      this.value,
+      this.modelValue,
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
@@ -332,7 +332,7 @@ export default {
     );
   },
   methods: {
-    reloadState(content = this.value) {
+    reloadState(content = this.modelValue) {
       this.state = createState(
         content,
         this.placeholder,
@@ -367,7 +367,7 @@ export default {
       }
     },
     addSignature() {
-      let content = this.value;
+      let content = this.modelValue;
       // see if the content is empty, if it is before appending the signature
       // we need to add a paragraph node and move the cursor at the start of the editor
       const contentWasEmpty = this.isBodyEmpty(content);
@@ -381,7 +381,7 @@ export default {
     },
     removeSignature() {
       if (!this.signature) return;
-      let content = this.value;
+      let content = this.modelValue;
       content = removeSignature(content, this.signature);
       // reload the state, ensuring that the editorView is updated
       this.reloadState(content);
@@ -625,6 +625,7 @@ export default {
 
     emitOnChange() {
       this.$emit('input', this.contentFromEditor);
+      this.$emit('update:modelValue', this.contentFromEditor);
     },
 
     hideMentions() {
