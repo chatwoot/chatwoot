@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   include DateRangeHelper
@@ -30,60 +29,24 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def show; end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
   def create
-    previous_messages = fetch_previous_messages if params[:populate_historical_messages] == 'true'
+    Rails.logger.info('Starting conversation creation process')
+    previous_conversation = find_previous_conversation if params[:populate_historical_messages] == 'true'
 
     ActiveRecord::Base.transaction do
-      @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
-      Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
-
-      next unless params[:populate_historical_messages] == 'true'
-
-      previous_messages.each do |message_attributes|
-        new_message = @conversation.messages.create!(message_attributes.except('id'))
-
-        # duplicate the attachments if present
-        previous_message_attachments = Attachment.where(message_id: message_attributes['id'])
-
-        previous_message_attachments.each do |attachment|
-          # getting the active storage attachment
-          attachment_active_storage = ActiveStorage::Attachment.where(record_id: attachment.id)
-
-          if attachment_active_storage.exists?
-            attachment_active_storage.each do |active_storage_attachment|
-              # finding the blob for that active storage attachment
-              original_blob = ActiveStorage::Blob.find_by(id: active_storage_attachment.blob_id)
-
-              next unless original_blob
-
-              new_attachment = new_message.attachments.create!(attachment.attributes.except('id', 'message_id'))
-
-              ActiveStorage::Attachment.create!(
-                name: active_storage_attachment.name,
-                record_type: active_storage_attachment.record_type,
-                record_id: new_attachment.id,
-                blob_id: original_blob.id,
-                created_at: Time.zone.now
-              )
-            end
-          else
-            new_message.attachments.create!(attachment.attributes.except('id', 'message_id'))
-          end
-        end
-      end
+      create_conversation_and_initial_message
     end
 
+    if previous_conversation.present? && @conversation.present? && params[:populate_historical_messages] == 'true'
+      ConversationImport.perform_later(@conversation.id,
+                                       previous_conversation.id)
+    end
+
+    Rails.logger.info('Completed conversation creation process:')
+    @conversation = find_previous_conversation
     @conversation
   end
 
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/PerceivedComplexity
   def update
     @conversation.update!(permitted_update_params)
   end
@@ -166,21 +129,22 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   private
 
-  def fetch_previous_messages
-    previous_conversation = Conversation.where({ account_id: Current.account.id,
-                                                 inbox_id: params[:inbox_id],
-                                                 contact_id: params[:contact_id] }).order(created_at: :desc).first
+  def create_conversation_and_initial_message
+    @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
+    Rails.logger.info("Created new conversation: #{@conversation.id}")
 
-    return [] if previous_conversation.blank?
+    return if params[:message].blank?
 
-    previous_conversation.messages
-                         .order(created_at: :asc)
-                         .reject { |msg| msg.private && msg.content.include?('Conversation with') }
-                         .map do |message|
-      message.attributes.except('conversation_id').merge(
-        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true, disable_notifications: true)
-      )
-    end
+    Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform
+    Rails.logger.info("Added initial message to conversation: #{@conversation.id}")
+  end
+
+  def find_previous_conversation
+    Conversation.where(
+      account_id: Current.account.id,
+      inbox_id: params[:inbox_id],
+      contact_id: params[:contact_id]
+    ).order(created_at: :desc).first
   end
 
   def permitted_update_params
@@ -256,4 +220,3 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 end
 
 Api::V1::Accounts::ConversationsController.prepend_mod_with('Api::V1::Accounts::ConversationsController')
-# rubocop:enable Metrics/ClassLength

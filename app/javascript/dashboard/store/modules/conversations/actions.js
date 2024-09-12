@@ -183,7 +183,7 @@ const actions = {
       try {
         await dispatch('fetchPreviousMessages', {
           after,
-          before: data.messages[0].id,
+          before_timestamp: data.messages[0].created_at,
           conversationId: data.id,
         });
         Vue.set(data, 'dataFetched', true);

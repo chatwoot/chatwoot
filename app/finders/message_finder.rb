@@ -27,6 +27,8 @@ class MessageFinder
       messages_before(@params[:before].to_i)
     elsif @params[:after].present?
       messages_after(@params[:after].to_i)
+    elsif @params[:before_timestamp].present?
+      messages_before_timestamp(@params[:before_timestamp].to_i)
     else
       messages_latest
     end
@@ -42,6 +44,11 @@ class MessageFinder
 
   def messages_between(after_id, before_id)
     messages.reorder('created_at asc').where('id >= ? AND id < ?', after_id, before_id).limit(1000)
+  end
+
+  def messages_before_timestamp(before_timestamp)
+    timestamp = Time.at(before_timestamp.to_i).utc
+    messages.reorder('created_at desc').where('created_at < ?', timestamp).limit(20).reverse
   end
 
   def messages_latest

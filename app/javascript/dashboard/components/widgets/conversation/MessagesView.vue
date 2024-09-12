@@ -292,6 +292,9 @@ export default {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
+      if (this.isAFacebookInbox) {
+        return '7 days message window restriction';
+      }
       if (!this.isAPIInbox) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
       }
@@ -492,7 +495,7 @@ export default {
         try {
           await this.$store.dispatch('fetchPreviousMessages', {
             conversationId: this.currentChat.id,
-            before: this.currentChat.messages[0].id,
+            before_timestamp: this.currentChat.messages[0].created_at,
           });
           const heightDifference =
             this.conversationPanel.scrollHeight - this.heightBeforeLoad;

@@ -13,10 +13,13 @@ class Messages::MessageBuilder
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     @ignore_automation_rules = params[:ignore_automation_rules]
     @disable_notifications = params[:disable_notifications]
+    @parent_wa_report_id = params[:parent_wa_report_id]
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
     @items = content_attributes&.dig(:items)
+
+    check_parent_wa_report_id
   end
 
   def perform
@@ -128,12 +131,22 @@ class Messages::MessageBuilder
     @message_type
   end
 
+  def check_parent_wa_report_id
+    return if @parent_wa_report_id.blank?
+
+    @in_reply_to = Message.find_by(conversation_id: @conversation.id, additional_attributes: { wa_report_id: @parent_wa_report_id })&.id
+  end
+
   def sender
     message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
   end
 
   def external_created_at
     @params[:external_created_at].present? ? { external_created_at: @params[:external_created_at] } : {}
+  end
+
+  def wa_report_id
+    @params[:wa_report_id].present? ? { additional_attributes: { wa_report_id: @params[:wa_report_id] } } : {}
   end
 
   def automation_rule_id
@@ -176,7 +189,7 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(wa_report_id)
   end
   # rubocop:enable Layout/LineLength
 end

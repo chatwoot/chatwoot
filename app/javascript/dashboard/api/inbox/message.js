@@ -92,10 +92,13 @@ class MessageApi extends ApiClient {
     );
   }
 
-  getPreviousMessages({ conversationId, after, before }) {
-    const params = { before };
+  getPreviousMessages({ conversationId, after, before, before_timestamp }) {
+    let params = { before };
     if (after && Number(after) !== Number(before)) {
       params.after = after;
+    }
+    if (before_timestamp) {
+      params = { before_timestamp };
     }
     return axios.get(`${this.url}/${conversationId}/messages`, { params });
   }
