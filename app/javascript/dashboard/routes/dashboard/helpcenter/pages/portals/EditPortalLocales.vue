@@ -7,9 +7,9 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { defineComponent, ref, onBeforeMount, computed } from 'vue';
+import { defineOptions, ref, onBeforeMount, computed } from 'vue';
 
-defineComponent({
+defineOptions({
   name: 'EditPortalLocales',
 });
 

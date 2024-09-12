@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 
-import { defineComponent, reactive, computed, onMounted } from 'vue';
+import { defineOptions, reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
@@ -31,7 +31,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['submit', 'deleteLogo']);
 
-defineComponent({
+defineOptions({
   name: 'PortalSettingsBasicForm',
 });
 

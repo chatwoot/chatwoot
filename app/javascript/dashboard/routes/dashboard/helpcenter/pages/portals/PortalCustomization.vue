@@ -6,9 +6,9 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { defineComponent, onMounted, computed } from 'vue';
+import { defineOptions, onMounted, computed } from 'vue';
 
-defineComponent({
+defineOptions({
   name: 'PortalCustomization',
 });
 

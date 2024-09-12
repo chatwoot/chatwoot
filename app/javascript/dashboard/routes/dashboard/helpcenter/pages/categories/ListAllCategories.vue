@@ -5,13 +5,13 @@ import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
-import { defineComponent, ref, computed } from 'vue';
+import { defineOptions, ref, computed } from 'vue';
 
 import CategoryListItem from './CategoryListItem.vue';
 import AddCategory from './AddCategory.vue';
 import EditCategory from './EditCategory.vue';
 
-defineComponent({
+defineOptions({
   name: 'ListAllCategories',
 });
 

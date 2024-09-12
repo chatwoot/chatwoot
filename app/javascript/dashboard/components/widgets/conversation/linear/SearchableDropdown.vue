@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineComponent } from 'vue';
+import { ref, computed, defineOptions } from 'vue';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['change']);
 
-defineComponent({
+defineOptions({
   name: 'SearchableDropdown',
 });
 

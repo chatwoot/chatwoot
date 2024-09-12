@@ -5,9 +5,9 @@ import { useAlert } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { defineComponent, computed } from 'vue';
+import { defineOptions, computed } from 'vue';
 
-defineComponent({
+defineOptions({
   name: 'EditPortalCustomization',
 });
 
