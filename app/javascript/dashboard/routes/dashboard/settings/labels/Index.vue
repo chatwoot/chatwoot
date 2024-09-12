@@ -139,7 +139,7 @@ onBeforeMount(() => {
               </div>
             </td>
             <td class="py-4 min-w-xs">
-              <div class="flex gap-1">
+              <div class="flex gap-1 justify-end">
                 <woot-button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
                   variant="smooth"
