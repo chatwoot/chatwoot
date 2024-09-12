@@ -15,13 +15,13 @@ export const CONVERSATION_PERMISSIONS = [
   'conversation_participating_manage',
 ];
 
+export const MANAGE_ALL_CONVERSATION_PERMISSIONS = ['conversation_manage'];
+
 export const CONVERSATION_UNASSIGNED_PERMISSIONS = [
-  'conversation_manage',
   'conversation_unassigned_manage',
 ];
 
 export const CONVERSATION_PARTICIPATING_PERMISSIONS = [
-  'conversation_manage',
   'conversation_participating_manage',
 ];
 
@@ -38,10 +38,18 @@ export const ASSIGNEE_TYPE_TAB_PERMISSIONS = {
   },
   unassigned: {
     count: 'unAssignedCount',
-    permissions: [...ROLES, ...CONVERSATION_UNASSIGNED_PERMISSIONS],
+    permissions: [
+      ...ROLES,
+      ...MANAGE_ALL_CONVERSATION_PERMISSIONS,
+      ...CONVERSATION_UNASSIGNED_PERMISSIONS,
+    ],
   },
   all: {
     count: 'allCount',
-    permissions: [...ROLES, ...CONVERSATION_PARTICIPATING_PERMISSIONS],
+    permissions: [
+      ...ROLES,
+      ...MANAGE_ALL_CONVERSATION_PERMISSIONS,
+      ...CONVERSATION_PARTICIPATING_PERMISSIONS,
+    ],
   },
 };

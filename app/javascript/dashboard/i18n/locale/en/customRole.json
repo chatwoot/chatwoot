@@ -25,7 +25,7 @@
       "TABLE_HEADER": ["Name", "Description", "Permissions", "Actions"]
     },
     "PERMISSIONS": {
-      "CONVERSATION_MANAGE": "Manage Conversations",
+      "CONVERSATION_MANAGE": "Manage All Conversations",
       "CONVERSATION_UNASSIGNED_MANAGE": "Manage Unassigned Conversations",
       "CONVERSATION_PARTICIPATING_MANAGE": "Manage Participating Conversations",
       "CONTACT_MANAGE": "Manage Contacts",

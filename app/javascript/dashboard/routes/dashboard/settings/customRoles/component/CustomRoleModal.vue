@@ -30,6 +30,9 @@ const { t } = useI18n();
 const name = ref('');
 const description = ref('');
 const selectedPermissions = ref([]);
+
+const nameInput = ref(null);
+
 const addCustomRole = reactive({
   showLoading: false,
   message: '',
@@ -60,6 +63,8 @@ onMounted(() => {
   if (props.mode === 'edit') {
     populateEditForm();
   }
+  // Focus the name input when mounted
+  nameInput.value?.focus();
 });
 
 const getTranslationKey = base => {
@@ -122,6 +127,7 @@ const isSubmitDisabled = computed(
         <label :class="{ 'text-red-500': v$.name.$error }">
           {{ $t('CUSTOM_ROLE.FORM.NAME.LABEL') }}
           <input
+            ref="nameInput"
             v-model.trim="name"
             type="text"
             :class="{ '!border-red-500': v$.name.$error }"
@@ -138,9 +144,10 @@ const isSubmitDisabled = computed(
         <div class="editor-wrap">
           <WootMessageEditor
             v-model="description"
-            class="message-editor [&>div]:px-1"
+            class="message-editor [&>div]:px-1 h-28"
             :class="{ editor_warning: v$.description.$error }"
             enable-variables
+            :focus-on-mount="false"
             :enable-canned-responses="false"
             :placeholder="$t('CUSTOM_ROLE.FORM.DESCRIPTION.PLACEHOLDER')"
             @blur="v$.description.$touch"
@@ -167,11 +174,7 @@ const isSubmitDisabled = computed(
               class="ltr:mr-2 rtl:ml-2"
             />
             <label :for="permission" class="text-sm">
-              {{
-                `${$t(
-                  `CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`
-                )} (${permission})`
-              }}
+              {{ $t(`CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`) }}
             </label>
           </div>
         </div>
@@ -198,7 +201,7 @@ const isSubmitDisabled = computed(
   }
 
   .ProseMirror-woot-style {
-    @apply min-h-[12.5rem];
+    @apply max-h-[110px];
 
     p {
       @apply text-base;
