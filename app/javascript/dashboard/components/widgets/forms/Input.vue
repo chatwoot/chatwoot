@@ -1,4 +1,8 @@
 <script>
+/**
+ * @deprecated This component is deprecated and will be removed in the next major version.
+ * Please use v3/components/Form/Input.vue instead
+ */
 export default {
   props: {
     label: {
@@ -33,6 +37,12 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  created() {
+    // eslint-disable-next-line
+    console.warn(
+      '[DEPRECATED] <WootInput> has be deprecated and will be removed soon. Please use v3/components/Form/Input.vue instead'
+    );
   },
   methods: {
     onChange(e) {
