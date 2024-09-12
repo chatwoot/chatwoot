@@ -39,6 +39,11 @@ export default {
       `;
     },
   },
+  methods: {
+    onClick() {
+      this.$emit('click');
+    },
+  },
 };
 </script>
 
@@ -49,6 +54,7 @@ export default {
     :disabled="disabled"
     :class="computedClass"
     class="flex items-center w-full justify-center rounded-md bg-woot-500 py-3 px-3 text-base font-medium text-white shadow-sm hover:bg-woot-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woot-500 cursor-pointer"
+    @click="onClick"
   >
     <span>{{ buttonText }}</span>
     <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
