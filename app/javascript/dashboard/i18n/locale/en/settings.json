@@ -145,7 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STASUS": {
+        "STATUS": {
           "ONLINE": "Online",
           "BUSY": "Busy",
           "OFFLINE": "Offline"
