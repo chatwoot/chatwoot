@@ -216,7 +216,7 @@ export default {
           class="flex items-center justify-between flex-1 mt-2 whatsapp-settings--content"
         >
           <woot-input
-            v-model.trim="whatsAppInboxAPIKey"
+            v-model="whatsAppInboxAPIKey"
             type="text"
             class="flex-1 mr-2"
             :placeholder="

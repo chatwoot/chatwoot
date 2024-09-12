@@ -138,7 +138,7 @@ export default {
           <label :class="{ error: v$.agentName.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
             <input
-              v-model.trim="agentName"
+              v-model="agentName"
               type="text"
               :placeholder="$t('AGENT_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
               @input="v$.agentName.$touch"

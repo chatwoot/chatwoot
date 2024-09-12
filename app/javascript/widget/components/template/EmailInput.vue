@@ -92,7 +92,7 @@ export default {
       @submit.prevent="onSubmit"
     >
       <input
-        v-model.trim="email"
+        v-model="email"
         class="form-input"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="inputHasError"

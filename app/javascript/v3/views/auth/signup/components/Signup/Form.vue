@@ -138,7 +138,7 @@ export default {
     <form class="space-y-3" @submit.prevent="submit">
       <div class="flex">
         <FormInput
-          v-model.trim="credentials.fullName"
+          v-model="credentials.fullName"
           name="full_name"
           class="flex-1"
           :class="{ error: v$.credentials.fullName.$error }"
@@ -149,7 +149,7 @@ export default {
           @blur="v$.credentials.fullName.$touch"
         />
         <FormInput
-          v-model.trim="credentials.accountName"
+          v-model="credentials.accountName"
           name="account_name"
           class="flex-1 ml-2"
           :class="{ error: v$.credentials.accountName.$error }"
@@ -161,7 +161,7 @@ export default {
         />
       </div>
       <FormInput
-        v-model.trim="credentials.email"
+        v-model="credentials.email"
         type="email"
         name="email_address"
         :class="{ error: v$.credentials.email.$error }"
@@ -172,7 +172,7 @@ export default {
         @blur="v$.credentials.email.$touch"
       />
       <FormInput
-        v-model.trim="credentials.password"
+        v-model="credentials.password"
         type="password"
         name="password"
         :class="{ error: v$.credentials.password.$error }"

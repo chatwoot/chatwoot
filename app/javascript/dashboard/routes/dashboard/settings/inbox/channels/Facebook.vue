@@ -259,7 +259,7 @@ export default {
             <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               <multiselect
-                v-model.trim="selectedPage"
+                v-model="selectedPage"
                 close-on-select
                 allow-empty
                 :options="getSelectablePages"
@@ -280,7 +280,7 @@ export default {
             <label :class="{ error: v$.pageName.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
               <input
-                v-model.trim="pageName"
+                v-model="pageName"
                 type="text"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
                 @input="v$.pageName.$touch"

@@ -155,7 +155,7 @@ export default {
           @iconChange="onClickInsertEmoji"
         />
         <woot-input
-          v-model.trim="slug"
+          v-model="slug"
           :class="{ error: v$.slug.$error }"
           class="w-full"
           :error="slugError"

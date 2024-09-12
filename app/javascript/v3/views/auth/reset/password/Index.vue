@@ -91,7 +91,7 @@ export default {
       </p>
       <div class="space-y-5">
         <FormInput
-          v-model.trim="credentials.email"
+          v-model="credentials.email"
           name="email_address"
           :has-error="v$.credentials.email.$error"
           :error-message="$t('RESET_PASSWORD.EMAIL.ERROR')"

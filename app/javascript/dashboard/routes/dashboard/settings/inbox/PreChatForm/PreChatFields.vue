@@ -75,7 +75,7 @@ export default {
           :class="{ 'disabled-text': !item['enabled'] }"
         >
           <input
-            v-model.trim="item.label"
+            v-model="item.label"
             type="text"
             :disabled="isFieldEditable(item)"
           />
@@ -85,7 +85,7 @@ export default {
           :class="{ 'disabled-text': !item['enabled'] }"
         >
           <input
-            v-model.trim="item.placeholder"
+            v-model="item.placeholder"
             type="text"
             :disabled="isFieldEditable(item)"
           />

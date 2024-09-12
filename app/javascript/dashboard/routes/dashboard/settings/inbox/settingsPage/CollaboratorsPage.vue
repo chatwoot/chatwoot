@@ -173,7 +173,7 @@ export default {
         class="max-assignment-container"
       >
         <woot-input
-          v-model.trim="maxAssignmentLimit"
+          v-model="maxAssignmentLimit"
           type="number"
           :class="{ error: v$.maxAssignmentLimit.$error }"
           :error="maxAssignmentLimitErrors"

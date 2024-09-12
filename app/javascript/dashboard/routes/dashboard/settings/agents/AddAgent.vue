@@ -103,7 +103,7 @@ export default {
           <label :class="{ error: v$.agentName.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.NAME.LABEL') }}
             <input
-              v-model.trim="agentName"
+              v-model="agentName"
               type="text"
               :placeholder="$t('AGENT_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
               @input="v$.agentName.$touch"
@@ -127,7 +127,7 @@ export default {
           <label :class="{ error: v$.agentEmail.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.EMAIL.LABEL') }}
             <input
-              v-model.trim="agentEmail"
+              v-model="agentEmail"
               type="text"
               :placeholder="$t('AGENT_MGMT.ADD.FORM.EMAIL.PLACEHOLDER')"
               @input="v$.agentEmail.$touch"

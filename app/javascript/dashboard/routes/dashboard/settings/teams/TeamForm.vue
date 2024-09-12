@@ -65,7 +65,7 @@ export default {
     <div class="flex-shrink-0 flex-grow-0 w-full md:w-[65%]">
       <form class="mx-0 flex flex-wrap" @submit.prevent="handleSubmit">
         <woot-input
-          v-model.trim="title"
+          v-model="title"
           :class="{ error: v$.title.$error }"
           class="w-full"
           :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
@@ -74,7 +74,7 @@ export default {
         />
 
         <woot-input
-          v-model.trim="description"
+          v-model="description"
           :class="{ error: v$.description.$error }"
           class="w-full"
           :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"

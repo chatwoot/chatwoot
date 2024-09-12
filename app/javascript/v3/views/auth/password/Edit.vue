@@ -101,7 +101,7 @@ export default {
 
       <div class="space-y-5">
         <FormInput
-          v-model.trim="credentials.password"
+          v-model="credentials.password"
           class="mt-3"
           name="password"
           type="password"
@@ -111,7 +111,7 @@ export default {
           @blur="v$.credentials.password.$touch"
         />
         <FormInput
-          v-model.trim="credentials.confirmPassword"
+          v-model="credentials.confirmPassword"
           class="mt-3"
           name="confirm_password"
           type="password"

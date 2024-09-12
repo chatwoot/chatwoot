@@ -70,7 +70,7 @@ export default {
     />
     <form class="w-full" @submit.prevent="addCustomAttribute">
       <woot-input
-        v-model.trim="attributeName"
+        v-model="attributeName"
         :class="{ error: v$.attributeName.$error }"
         class="w-full"
         :error="attributeNameError"
@@ -79,7 +79,7 @@ export default {
         @input="v$.attributeName.$touch"
       />
       <woot-input
-        v-model.trim="attributeValue"
+        v-model="attributeValue"
         class="w-full"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.VALUE.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.VALUE.PLACEHOLDER')"

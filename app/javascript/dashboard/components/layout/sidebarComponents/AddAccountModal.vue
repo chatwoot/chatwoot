@@ -78,7 +78,7 @@ export default {
           <label :class="{ error: v$.accountName.$error }">
             {{ $t('CREATE_ACCOUNT.FORM.NAME.LABEL') }}
             <input
-              v-model.trim="accountName"
+              v-model="accountName"
               type="text"
               :placeholder="$t('CREATE_ACCOUNT.FORM.NAME.PLACEHOLDER')"
               @input="v$.accountName.$touch"
