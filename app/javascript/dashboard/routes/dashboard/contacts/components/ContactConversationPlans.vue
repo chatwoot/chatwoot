@@ -14,7 +14,7 @@
           v-for="conversationPlan in conversationPlans"
           :key="conversationPlan.id"
           class="px-0 py-3 border-b flex-1 border-slate-50 dark:border-slate-800/75 w-auto max-w-full hover:bg-slate-25 dark:hover:bg-slate-800 group"
-          @click="onCardClick(e)"
+          @click="onCardClick"
         >
           <div class="flex justify-between">
             <div
@@ -46,12 +46,19 @@
               icon="arrow-right"
               variant="link"
               size="small"
-              @click="completeConversationPlan"
+              @click="confirmCompleting(conversationPlan.id)"
             >
-              {{ $t('CONTACT_PANEL.ACTIONS.COMPLETE_ACTION') }}
+              {{ $t('COMPLETE_CONVERSATION_PLAN.BUTTON_LABEL') }}
             </woot-button>
           </div>
         </div>
+        <woot-confirm-modal
+          ref="confirmCompletingDialog"
+          :title="$t('COMPLETE_CONVERSATION_PLAN.CONFIRM.TITLE')"
+          :description="$t('COMPLETE_CONVERSATION_PLAN.CONFIRM.MESSAGE')"
+          :confirm-label="$t('COMPLETE_CONVERSATION_PLAN.CONFIRM.YES')"
+          :cancel-label="$t('COMPLETE_CONVERSATION_PLAN.CONFIRM.NO')"
+        />
       </div>
     </div>
     <spinner v-else />
@@ -62,11 +69,13 @@
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { format } from 'date-fns';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     Spinner,
   },
+  mixins: [alertMixin],
   props: {
     contactId: {
       type: [String, Number],
@@ -109,11 +118,32 @@ export default {
     showCompleteActionButton(conversationPlan) {
       return conversationPlan.status !== 'resolved';
     },
+    async confirmCompleting(id) {
+      const ok = await this.$refs.confirmCompletingDialog.showConfirmation();
+
+      if (ok) {
+        await this.completeConversationPlan(id);
+      }
+    },
+    async completeConversationPlan(id) {
+      try {
+        await this.$store.dispatch('contacts/completeConversationPlan', {
+          contactId: this.contactId,
+          conversationPlanId: id,
+        });
+        this.showAlert(
+          this.$t('COMPLETE_CONVERSATION_PLAN.API.SUCCESS_MESSAGE')
+        );
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('COMPLETE_CONVERSATION_PLAN.API.ERROR_MESSAGE')
+        );
+      }
+    },
     onCardClick() {
       // TODO
-    },
-    completeConversationPlan() {
-      // TODO: Complete action
     },
   },
 };

@@ -339,4 +339,23 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isFetchingConversationPlans: false });
     }
   },
+
+  completeConversationPlan: async (
+    { commit },
+    { contactId, conversationPlanId }
+  ) => {
+    try {
+      const { data: conversationPlan } =
+        await ContactAPI.completeConversationPlan(
+          contactId,
+          conversationPlanId
+        );
+      commit(types.UPDATE_CONTACT_CONVERSATION_PLAN, {
+        id: conversationPlan.contact_id,
+        data: conversationPlan,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };

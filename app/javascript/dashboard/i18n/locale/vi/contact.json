@@ -46,7 +46,6 @@
       "CANCEL_ADD_NOTE": "Hủy",
       "NO_NOTE": "Chưa có ghi chú nào",
       "ADD_ACTION": "Lên lịch liên hệ tiếp theo",
-      "COMPLETE_ACTION": "Hoàn thành",
       "NO_ACTION": "Chưa có lịch liên hệ nào",
       "CHANGE_AGENT": "Người phụ trách khách hàng đã thay đổi",
       "CHANGE_TEAM": "Nhóm phụ trách khách hàng đã thay đổi"
@@ -434,6 +433,19 @@
       },
       "SUCCESS_MESSAGE": "Khách hàng được hợp nhất thành công",
       "ERROR_MESSAGE": "Không thể hợp nhất khách hàng, thử lại!"
+    }
+  },
+  "COMPLETE_CONVERSATION_PLAN": {
+    "BUTTON_LABEL": "Hoàn thành",
+    "CONFIRM": {
+      "TITLE": "Hoàn thành lịch liên hệ",
+      "MESSAGE": "Bạn có muốn chuyển trạng thái lịch liên hệ này sang \"Đã hoàn thành\"?",
+      "YES": "Có, hoàn thành",
+      "NO": "Hủy"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Hoàn thành lịch liên hệ thành công",
+      "ERROR_MESSAGE": "Không thể hoàn thành lịch liên hệ. Vui lòng thử lại sau."
     }
   }
 }

@@ -115,6 +115,12 @@ class ContactAPI extends ApiClient {
     return axios.delete(`${this.url}/${contactId}/avatar`);
   }
 
+  completeConversationPlan(contactId, conversationPlanId) {
+    return axios.post(
+      `${this.url}/${contactId}/conversation_plans/${conversationPlanId}/complete`
+    );
+  }
+
   exportContacts() {
     return axios.get(`${this.url}/export`);
   }
