@@ -2,7 +2,7 @@ class Api::V1::Accounts::Contacts::ConversationPlansController < Api::V1::Accoun
   before_action :conversation_plan, except: [:index]
 
   def index
-    @conversation_plans = @contact.conversation_plans.includes(:conversation)
+    @conversation_plans = @contact.conversation_plans.includes(:conversation).latest
   end
 
   def complete

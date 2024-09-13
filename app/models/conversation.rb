@@ -112,6 +112,7 @@ class Conversation < ApplicationRecord
   has_many :conversation_plans, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
+  before_save :sync_conversation_plan_status
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
@@ -248,6 +249,12 @@ class Conversation < ApplicationRecord
 
     contact.update(assignee_id: assignee_id)
     contact.update(team_id: team_id)
+  end
+
+  def sync_conversation_plan_status
+    return unless status_changed?
+
+    conversation_plans.update(completed_at: Time.now.utc) if resolved?
   end
 
   def notify_conversation_updation

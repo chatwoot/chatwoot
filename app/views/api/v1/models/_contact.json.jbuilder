@@ -30,7 +30,7 @@ if defined?(with_contact_inboxes) && with_contact_inboxes.present?
 end
 if resource.conversation_plans.any?
   json.conversation_plans do
-    json.array! resource.conversation_plans do |conversation_plan|
+    json.array! resource.conversation_plans.latest do |conversation_plan|
       json.partial! 'api/v1/conversations/partials/conversation_plan', formats: [:json], resource: conversation_plan
     end
   end
