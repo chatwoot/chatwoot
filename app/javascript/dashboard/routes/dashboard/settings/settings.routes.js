@@ -1,4 +1,9 @@
 import { frontendURL } from '../../../helper/URLHelper';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
 import agentBot from './agentBots/agentBot.routes';
@@ -25,7 +30,7 @@ export default {
       path: frontendURL('accounts/:accountId/settings'),
       name: 'settings_home',
       meta: {
-        permissions: ['administrator', 'agent'],
+        permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       },
       redirect: () => {
         if (store.getters.getCurrentRole === 'administrator') {
