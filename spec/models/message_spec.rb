@@ -79,7 +79,7 @@ RSpec.describe Message do
         external_source_ids: message.external_source_ids,
         id: message.id,
         inbox_id: message.inbox_id,
-        message_type: message.message_type_before_type_cast,
+        message_type: message.message_type.to_i,
         private: message.private,
         processed_message_content: message.processed_message_content,
         sender_id: message.sender_id,

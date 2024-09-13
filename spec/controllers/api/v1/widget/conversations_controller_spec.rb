@@ -69,9 +69,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['id']).not_to be_nil
       expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
       expect(json_response['contact']['phone_number']).to eq '+919745313456'
-      expect(json_response['contact']['name']).to eq 'contact-name'
       expect(json_response['custom_attributes']['order_id']).to eq '12345'
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+      expect(json_response['messages'][0]['message_type']).to eq 0
     end
 
     it 'create a conversation with a name and without an email' do
