@@ -25,9 +25,9 @@ export const defaultRedirectPage = (to, permissions) => {
       permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       path: 'dashboard',
     },
-    { permissions: CONTACT_PERMISSIONS, path: 'contacts' },
-    { permissions: REPORTS_PERMISSIONS, path: 'reports/overview' },
-    { permissions: PORTAL_PERMISSIONS, path: 'portals' },
+    { permissions: [CONTACT_PERMISSIONS], path: 'contacts' },
+    { permissions: [REPORTS_PERMISSIONS], path: 'reports/overview' },
+    { permissions: [PORTAL_PERMISSIONS], path: 'portals' },
   ];
 
   const route = permissionRoutes.find(({ permissions: routePermissions }) =>

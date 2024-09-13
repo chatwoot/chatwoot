@@ -81,7 +81,7 @@ export default {
     totalSearchResultsCount() {
       const permissionCounts = {
         contacts: {
-          permissions: this.contactPermissions,
+          permissions: [...this.rolePermissions, this.contactPermissions],
           count: () => this.contacts.length,
         },
         conversations: {
@@ -109,8 +109,8 @@ export default {
           name: this.$t('SEARCH.TABS.ALL'),
           count: this.totalSearchResultsCount,
           permissions: [
+            this.contactPermissions,
             ...this.rolePermissions,
-            ...this.contactPermissions,
             ...this.conversationPermissions,
           ],
         },
@@ -118,7 +118,7 @@ export default {
           key: 'contacts',
           name: this.$t('SEARCH.TABS.CONTACTS'),
           count: this.contacts.length,
-          permissions: [...this.rolePermissions, ...this.contactPermissions],
+          permissions: [...this.rolePermissions, this.contactPermissions],
         },
         conversations: {
           key: 'conversations',
@@ -223,7 +223,7 @@ export default {
       </header>
       <div class="search-results">
         <div v-if="showResultsSection">
-          <Policy :permissions="[...rolePermissions, ...contactPermissions]">
+          <Policy :permissions="[...rolePermissions, contactPermissions]">
             <SearchResultContactsList
               v-if="filterContacts"
               :is-fetching="uiFlags.contact.isFetching"

@@ -13,11 +13,7 @@ export const routes = [
     path: frontendURL('accounts/:accountId/search'),
     name: 'search',
     meta: {
-      permissions: [
-        ...ROLES,
-        ...CONVERSATION_PERMISSIONS,
-        ...CONTACT_PERMISSIONS,
-      ],
+      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS, CONTACT_PERMISSIONS],
     },
     component: SearchView,
   },
