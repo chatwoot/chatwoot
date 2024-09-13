@@ -25,12 +25,12 @@
       "TABLE_HEADER": ["Name", "Description", "Permissions", "Actions"]
     },
     "PERMISSIONS": {
-      "CONVERSATION_MANAGE": "Manage all conversations.",
-      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them.",
-      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them.",
-      "CONTACT_MANAGE": "Manage contacts.",
-      "REPORT_MANAGE": "Manage reports.",
-      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base."
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
+      "CONTACT_MANAGE": "Manage contacts",
+      "REPORT_MANAGE": "Manage reports",
+      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
     },
     "FORM": {
       "NAME": {
