@@ -1,11 +1,16 @@
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
-import { AVAILABLE_CUSTOM_ROLE_PERMISSIONS } from 'dashboard/constants/permissions.js';
+import {
+  AVAILABLE_CUSTOM_ROLE_PERMISSIONS,
+  MANAGE_ALL_CONVERSATION_PERMISSIONS,
+  CONVERSATION_UNASSIGNED_PERMISSIONS,
+  CONVERSATION_PARTICIPATING_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -58,6 +63,38 @@ const populateEditForm = () => {
   description.value = props.selectedRole.description || '';
   selectedPermissions.value = props.selectedRole.permissions || [];
 };
+
+watch(
+  selectedPermissions,
+  (newValue, oldValue) => {
+    // Check if manage all conversation permission is added or removed
+    const hasAddedManageAllConversation =
+      newValue.includes(MANAGE_ALL_CONVERSATION_PERMISSIONS) &&
+      !oldValue.includes(MANAGE_ALL_CONVERSATION_PERMISSIONS);
+    const hasRemovedManageAllConversation =
+      oldValue.includes(MANAGE_ALL_CONVERSATION_PERMISSIONS) &&
+      !newValue.includes(MANAGE_ALL_CONVERSATION_PERMISSIONS);
+
+    if (hasAddedManageAllConversation) {
+      // If manage all conversation permission is added,
+      // then add unassigned and participating permissions automatically
+      selectedPermissions.value = [
+        ...new Set([
+          ...selectedPermissions.value,
+          CONVERSATION_UNASSIGNED_PERMISSIONS,
+          CONVERSATION_PARTICIPATING_PERMISSIONS,
+        ]),
+      ];
+    } else if (hasRemovedManageAllConversation) {
+      // If manage all conversation permission is removed,
+      // then only remove manage all conversation permission
+      selectedPermissions.value = selectedPermissions.value.filter(
+        p => p !== MANAGE_ALL_CONVERSATION_PERMISSIONS
+      );
+    }
+  },
+  { deep: true }
+);
 
 onMounted(() => {
   if (props.mode === 'edit') {
