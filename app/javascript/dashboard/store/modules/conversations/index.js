@@ -74,7 +74,17 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      if (chat.messages.length < 10) {
+        const newMessages = data.filter(
+          newMessage =>
+            !chat.messages.some(
+              existingMessage => existingMessage.id === newMessage.id
+            )
+        );
+        chat.messages.unshift(...newMessages);
+      } else {
+        chat.messages.unshift(...data);
+      }
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
