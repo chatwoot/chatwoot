@@ -14,7 +14,7 @@
           v-for="conversationPlan in conversationPlans"
           :key="conversationPlan.id"
           class="px-0 py-3 border-b flex-1 border-slate-50 dark:border-slate-800/75 w-auto max-w-full hover:bg-slate-25 dark:hover:bg-slate-800 group"
-          @click="onCardClick"
+          @click="onCardClick(conversationPlan)"
         >
           <div class="flex justify-between">
             <div
@@ -70,6 +70,8 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { format } from 'date-fns';
 import alertMixin from 'shared/mixins/alertMixin';
+import { conversationUrl, frontendURL } from '../../../../helper/URLHelper';
+import router from '../../../index';
 
 export default {
   components: {
@@ -85,6 +87,7 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
+      accountId: 'getCurrentAccountId',
     }),
     conversationPlans() {
       return this.$store.getters['contacts/getConversationPlans'](
@@ -142,8 +145,17 @@ export default {
         );
       }
     },
-    onCardClick() {
-      // TODO
+    onCardClick(conversationPlan) {
+      const chat_id = conversationPlan.conversation_id;
+      const path = frontendURL(
+        conversationUrl({
+          accountId: this.accountId,
+          id: chat_id,
+        })
+      );
+      if (this.$route.path !== path) {
+        router.push({ path });
+      }
     },
   },
 };

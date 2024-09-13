@@ -252,7 +252,18 @@ export default {
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
           this.isLoading = false;
-          if (status === 'resolved') this.showStageModal = true;
+          if (status === 'resolved') {
+            this.showStageModal = true;
+            const {
+              contact_inbox: { contact_id },
+            } = this.currentChat;
+            if (contact_id) {
+              this.$store.dispatch(
+                'contacts/fetchConversationPlans',
+                contact_id
+              );
+            }
+          }
         });
     },
     openSnoozeModal() {
