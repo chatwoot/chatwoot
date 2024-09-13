@@ -26,6 +26,7 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(response).to have_http_status(:success)
       data = response.parsed_body
       expect(data['content']).to eq('hello')
+      expect(data['message_type']).to eq(0)
     end
 
     it 'does not create the message' do
