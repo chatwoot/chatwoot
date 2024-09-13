@@ -247,7 +247,7 @@ export default {
           },
         }),
         suggestionsPlugin({
-          matcher: triggerCharacters(':', 1), // Trigger after ':' and at least 1 characters
+          matcher: triggerCharacters(':', 2), // Trigger after ':' and at least 2 characters
           suggestionClass: '',
           onEnter: args => {
             this.showEmojiMenu = true;
