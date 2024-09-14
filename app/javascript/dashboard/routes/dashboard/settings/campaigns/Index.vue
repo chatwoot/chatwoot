@@ -15,10 +15,21 @@
       >
         {{ $t('CAMPAIGN.HEADER_BTN_TXT.CREATE_CAMPAIGN') }}
       </woot-button>
+      <woot-button
+        v-if="isOneOffType || isFlexibleType"
+        icon="add-circle"
+        @click="openAddZnsCampaign"
+      >
+        {{ $t('CAMPAIGN.HEADER_BTN_TXT.CREATE_ZNS_CAMPAIGN') }}
+      </woot-button>
     </div>
     <campaign />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign :planned-default="planned" @on-close="hideAddPopup" />
+      <add-campaign
+        :planned-default="planned"
+        :is-zns-default="isZns"
+        @on-close="hideAddPopup"
+      />
     </woot-modal>
   </div>
 </template>
@@ -38,6 +49,7 @@ export default {
     return {
       showAddPopup: false,
       planned: true,
+      isZns: false,
     };
   },
   mounted() {
@@ -46,10 +58,17 @@ export default {
   methods: {
     openAddPlan() {
       this.planned = true;
+      this.isZns = false;
       this.showAddPopup = true;
     },
     openAddCampaign() {
       this.planned = false;
+      this.isZns = false;
+      this.showAddPopup = true;
+    },
+    openAddZnsCampaign() {
+      this.planned = false;
+      this.isZns = true;
       this.showAddPopup = true;
     },
     hideAddPopup() {

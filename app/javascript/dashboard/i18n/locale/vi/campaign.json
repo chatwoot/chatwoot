@@ -3,7 +3,8 @@
     "HEADER": "Tương tác",
     "HEADER_BTN_TXT": {
       "CREATE_CAMPAIGN": "Nhắn tin tự động",
-      "CREATE_PLAN": "Lên lịch tự động"
+      "CREATE_PLAN": "Lên lịch tự động",
+      "CREATE_ZNS_CAMPAIGN": "Nhắn tin ZNS"
     },
     "ADD": {
       "TITLE": "Tạo một chiến dịch",
@@ -31,6 +32,12 @@
           "LABEL": "Chọn kênh",
           "PLACEHOLDER": "Có thể chọn nhiều kênh theo thứ tự ưu tiên",
           "ERROR": "Cần phải có kênh"
+        },
+        "ZNS": {
+          "TEMPLATE_ID": "ID mẫu tin nhắn ZNS",
+          "TEMPLATE_DATA": "Chọn dữ liệu đưa vào mẫu tin",
+          "PLACEHOLDER": "Phải chọn đủ các trường dữ liệu và tên trường phải khớp với khai báo trong mẫu tin",
+          "ERROR": "Trường dữ liệu bắt buộc có"
         },
         "MESSAGE": {
           "LABEL": "Tin nhắn đến khách hàng",

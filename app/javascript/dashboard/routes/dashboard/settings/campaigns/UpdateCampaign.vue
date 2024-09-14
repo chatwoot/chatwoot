@@ -33,20 +33,38 @@
         </div>
 
         <div v-else>
-          <label v-if="!planned" :class="{ error: $v.message.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-            <textarea
-              v-model="message"
-              rows="5"
+          <div v-if="isZns">
+            <woot-input
+              v-model="znsTemplateId"
+              :label="$t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_ID')"
               type="text"
-              @blur="$v.message.$touch"
+              class="max-w-[50%]"
+              :class="{ error: $v.znsTemplateId.$error }"
+              :error="
+                $v.znsTemplateId.$error ? $t('CAMPAIGN.ADD.FORM.ZNS.ERROR') : ''
+              "
+              @blur="$v.znsTemplateId.$touch"
             />
-            <span v-if="$v.message.$error" class="message">
-              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
-            </span>
-          </label>
+            <label class="multiselect-wrap--small">
+              {{ $t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_DATA') }}
+              <multiselect
+                v-model="selectedDataAttributes"
+                :options="dataAttributes"
+                track-by="key"
+                label="name"
+                :multiple="true"
+                :close-on-select="false"
+                :clear-on-select="false"
+                :hide-selected="true"
+                :placeholder="$t('CAMPAIGN.ADD.FORM.ZNS.PLACEHOLDER')"
+                selected-label
+                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+              />
+            </label>
+          </div>
           <woot-input
-            v-else
+            v-else-if="planned"
             v-model="privateNote"
             :label="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.LABEL')"
             type="text"
@@ -58,6 +76,18 @@
             "
             @blur="$v.privateNote.$touch"
           />
+          <label v-else :class="{ error: $v.message.$error }">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+            <textarea
+              v-model="message"
+              rows="5"
+              type="text"
+              @blur="$v.message.$touch"
+            />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+            </span>
+          </label>
         </div>
 
         <label
@@ -66,7 +96,7 @@
         >
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select
-            v-if="isOngoingType"
+            v-if="isOngoingType || isZns"
             v-model="selectedInbox"
             @change="onChangeInbox($event)"
           >
@@ -281,6 +311,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    isZnsDefault: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -288,6 +322,8 @@ export default {
       message: '',
       privateNote: '',
       planned: true,
+      isZns: false,
+      znsTemplateId: '',
       selectedSender: 0,
       selectedInbox: null,
       endPoint: '',
@@ -301,6 +337,7 @@ export default {
       extraDays: null,
       selectedAudiences: [],
       selectedInboxes: [],
+      selectedDataAttributes: [],
       senderList: [],
       // eslint-disable-next-line vue/no-unused-components
       contactFilterItems,
@@ -330,6 +367,11 @@ export default {
       selectedInboxes: {
         required: requiredIf(() => {
           return this.selectedInbox === null;
+        }),
+      },
+      znsTemplateId: {
+        required: requiredIf(() => {
+          return this.isZns;
         }),
       },
       flexibleScheduledAt: {
@@ -433,6 +475,7 @@ export default {
     this.$store.dispatch('customViews/get', 'contact');
     this.$store.dispatch('labels/get');
     this.planned = this.plannedDefault;
+    this.isZns = this.isZnsDefault;
     if (this.selectedCampaign) {
       this.setFormValues();
     }
@@ -476,6 +519,7 @@ export default {
         message,
         private_note: privateNote,
         planned,
+        isZns,
         enabled,
         trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
@@ -495,6 +539,7 @@ export default {
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
       this.planned = planned;
+      this.isZns = isZns;
       this.setFlexibleSchedule();
       this.loadInboxMembers();
     },
@@ -559,6 +604,7 @@ export default {
           message: this.message,
           private_note: this.privateNote,
           planned: this.planned,
+          isZns: this.isZns,
           inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
           flexible_scheduled_at: {

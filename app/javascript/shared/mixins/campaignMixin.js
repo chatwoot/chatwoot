@@ -30,6 +30,35 @@ export default {
         },
       ];
     },
+    dataAttributes() {
+      const attributes = this.contactFilterItems.map(item => ({
+        key: item.attributeKey,
+        name: this.$t(`CONTACTS_FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
+        type: 'contact_attribute',
+      }));
+
+      const allCustomAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'contact_attribute'
+        );
+      const customAttributes = allCustomAttributes.map(attr => ({
+        key: attr.attribute_key,
+        name: attr.attribute_display_name,
+        type: 'contact_custom_attribute',
+      }));
+
+      const allProductAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'product_attribute'
+        );
+      const productAttributes = allProductAttributes.map(attr => ({
+        key: attr.attribute_key,
+        name: attr.attribute_display_name,
+        type: 'product_custom_attribute',
+      }));
+
+      return [...attributes, ...customAttributes, ...productAttributes];
+    },
     contactDateAttributes() {
       const attributes = this.contactFilterItems
         .filter(item => item.inputType === 'date')
