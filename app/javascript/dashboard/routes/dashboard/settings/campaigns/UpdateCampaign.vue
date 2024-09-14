@@ -356,7 +356,7 @@ export default {
       },
       message: {
         required: requiredIf(() => {
-          return this.planned === false;
+          return this.planned === false && this.isZns === false;
         }),
       },
       privateNote: {
@@ -528,7 +528,7 @@ export default {
         message,
         private_note: privateNote,
         planned,
-        isZns,
+        is_zns: isZns,
         zns_template_id: znsTemplateId,
         enabled,
         trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
@@ -571,7 +571,7 @@ export default {
       this.extraDays = extraDays;
     },
     getSelectedDataAttributes() {
-      return this.selectedCampaign.znsTemplateData?.map(attr => {
+      return this.selectedCampaign.zns_template_data?.map(attr => {
         return this.dataAttributes.find(i => i.key === attr.key);
       });
     },
@@ -616,7 +616,7 @@ export default {
             name: item.name,
           };
         });
-        const znsTemplateData = this.selectedDataAttributes.map(item => {
+        const znsTemplateData = this.selectedDataAttributes?.map(item => {
           return {
             key: item.key,
             type: item.type,

@@ -13,6 +13,9 @@ json.private_note resource.private_note
 json.campaign_status resource.campaign_status
 json.enabled resource.enabled
 json.planned resource.planned
+json.is_zns resource.is_zns
+json.zns_template_id resource.zns_template_id if resource.is_zns
+json.zns_template_data resource.zns_template_data if resource.is_zns
 json.campaign_type resource.campaign_type
 json.scheduled_at resource.scheduled_at if resource.campaign_type == 'one_off'
 json.flexible_scheduled_at resource.flexible_scheduled_at if resource.campaign_type == 'flexible'

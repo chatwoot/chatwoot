@@ -10,6 +10,7 @@
 #  enabled                            :boolean          default(TRUE)
 #  flexible_scheduled_at              :jsonb
 #  inboxes                            :jsonb
+#  is_zns                             :boolean          default(FALSE), not null
 #  message                            :text
 #  planned                            :boolean          default(FALSE), not null
 #  private_note                       :text
@@ -17,12 +18,14 @@
 #  title                              :string           not null
 #  trigger_only_during_business_hours :boolean          default(FALSE)
 #  trigger_rules                      :jsonb
+#  zns_template_data                  :jsonb
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
 #  account_id                         :bigint           not null
 #  display_id                         :integer          not null
 #  inbox_id                           :bigint
 #  sender_id                          :integer
+#  zns_template_id                    :text
 #
 # Indexes
 #
@@ -67,7 +70,9 @@ class Campaign < ApplicationRecord
   def validate_campaign_inbox
     return unless inbox
 
-    errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms'].include? inbox.inbox_type
+    errors.add :inbox, 'Unsupported Inbox type' if ongoing? && inbox.inbox_type != 'Website'
+
+    errors.add :inbox, 'Unsupported Inbox type' if is_zns && inbox.inbox_type != 'ZaloOa'
   end
 
   def validate_url
