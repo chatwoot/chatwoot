@@ -62,10 +62,22 @@ class Channel::ZaloOa < ApplicationRecord
     )
   end
 
+  def send_message_zns(phone, template_id, template_data, tracking_id)
+    HTTParty.post(
+      url_message_cs,
+      headers: { 'Content-Type' => 'application/json', 'access_token' => access_token },
+      body: zns_body(phone, template_id, template_data, tracking_id).to_json
+    )
+  end
+
   private
 
   def url_message_cs
     'https://openapi.zalo.me/v3.0/oa/message/cs'
+  end
+
+  def url_message_zns
+    'https://business.openapi.zalo.me/message/template'
   end
 
   def url_refresh_token
@@ -160,6 +172,16 @@ class Channel::ZaloOa < ApplicationRecord
     {
       recipient: { user_id: user_id },
       message: { text: message_content }
+    }
+  end
+
+  def zns_body(phone, template_id, template_data, tracking_id)
+    {
+      mode: 'development',
+      phone: phone,
+      template_id: template_id,
+      template_data: template_data,
+      tracking_id: tracking_id
     }
   end
 end
