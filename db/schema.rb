@@ -225,6 +225,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_14_071440) do
     t.boolean "is_zns", default: false, null: false
     t.text "zns_template_id"
     t.jsonb "zns_template_data"
+    t.integer "sent_count", default: 0, null: false
+    t.integer "received_count", default: 0, null: false
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"

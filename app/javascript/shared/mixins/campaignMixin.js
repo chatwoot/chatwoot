@@ -57,6 +57,7 @@ export default {
           '.' +
           this.$t(`CONTACTS_FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
         type: 'contact_attribute',
+        model: 'contact',
         inputType: item.inputType,
       }));
 
@@ -71,6 +72,7 @@ export default {
           '.' +
           attr.attribute_display_name,
         type: 'contact_custom_attribute',
+        model: 'contact',
         inputType: attr.attribute_display_type,
       }));
 
@@ -83,6 +85,7 @@ export default {
             `CAMPAIGN.DATA_ATTRIBUTE.PRODUCT_ATTRIBUTE.${item.attributeI18nKey}`
           ),
         type: 'product_attribute',
+        model: 'product',
         inputType: item.inputType,
       }));
 
@@ -97,15 +100,20 @@ export default {
           '.' +
           attr.attribute_display_name,
         type: 'product_custom_attribute',
+        model: 'product',
         inputType: attr.attribute_display_type,
       }));
 
-      return [
+      const allAttributes = [
         ...contactAts,
         ...contactCustomAts,
         ...productAts,
         ...productCustomAts,
       ];
+      return allAttributes.map(attr => ({
+        id: `${attr.model}_${attr.key}`,
+        ...attr,
+      }));
     },
     dataDateAttributes() {
       return this.dataAttributes.filter(item => item.inputType === 'date');

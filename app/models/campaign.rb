@@ -14,7 +14,9 @@
 #  message                            :text
 #  planned                            :boolean          default(FALSE), not null
 #  private_note                       :text
+#  received_count                     :integer          default(0), not null
 #  scheduled_at                       :datetime
+#  sent_count                         :integer          default(0), not null
 #  title                              :string           not null
 #  trigger_only_during_business_hours :boolean          default(FALSE)
 #  trigger_rules                      :jsonb

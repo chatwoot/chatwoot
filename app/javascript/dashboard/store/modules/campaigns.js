@@ -61,6 +61,14 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
   },
+  validateZnsTemplate: async (_, campaignObj) => {
+    try {
+      const response = await CampaignsAPI.validateZnsTemplate(campaignObj);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  },
   delete: async ({ commit }, id) => {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: true });
     try {

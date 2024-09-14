@@ -53,7 +53,7 @@
               <multiselect
                 v-model="selectedDataAttributes"
                 :options="dataAttributes"
-                track-by="key"
+                track-by="id"
                 label="name"
                 :multiple="true"
                 :close-on-select="false"
@@ -232,7 +232,7 @@
               v-model="scheduledCalculation"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_CALCULATION')"
               class="multiselect-wrap--small max-w-[35%]"
-              track-by="key"
+              track-by="id"
               label="name"
               selected-label=""
               select-label=""
@@ -566,13 +566,15 @@ export default {
         i => i.key === calculation
       );
       this.scheduledAttribute = this.dataDateAttributes.find(
-        i => i.key === attribute.key
+        i => i.key === attribute.key && i.model === attribute.model
       );
       this.extraDays = extraDays;
     },
     getSelectedDataAttributes() {
       return this.selectedCampaign.zns_template_data?.map(attr => {
-        return this.dataAttributes.find(i => i.key === attr.key);
+        return this.dataAttributes.find(
+          i => i.key === attr.key && i.model === attr.model
+        );
       });
     },
     getSelectedInboxes() {
@@ -619,6 +621,7 @@ export default {
         const znsTemplateData = this.selectedDataAttributes?.map(item => {
           return {
             key: item.key,
+            model: item.model,
             type: item.type,
           };
         });
@@ -636,6 +639,7 @@ export default {
             calculation: this.scheduledCalculation?.key,
             attribute: {
               key: this.scheduledAttribute?.key,
+              model: this.scheduledAttribute?.model,
               type: this.scheduledAttribute?.type,
             },
             extra_days: this.extraDays,
@@ -651,16 +655,26 @@ export default {
       };
     },
     async updateCampaign() {
-      if (this.selectedCampaign) this.editCampaign();
-      else this.addCampaign();
+      const campaignDetails = this.getCampaignDetails();
+      if (this.isZns) {
+        const result = await this.$store.dispatch(
+          'campaigns/validateZnsTemplate',
+          campaignDetails
+        );
+        if (result.success === false) {
+          this.showAlert(result.message);
+          return;
+        }
+      }
+      if (this.selectedCampaign) this.editCampaign(campaignDetails);
+      else this.addCampaign(campaignDetails);
     },
-    async addCampaign() {
+    async addCampaign(campaignDetails) {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       try {
-        const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
 
         // tracking this here instead of the store to track the type of campaign
@@ -676,13 +690,12 @@ export default {
         this.showAlert(errorMessage);
       }
     },
-    async editCampaign() {
+    async editCampaign(campaignDetails) {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       try {
-        const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/update', {
           id: this.selectedCampaign.id,
           ...campaignDetails,

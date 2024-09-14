@@ -65,9 +65,24 @@ class Channel::ZaloOa < ApplicationRecord
   def send_message_zns(phone, template_id, template_data, tracking_id)
     HTTParty.post(
       url_message_cs,
-      headers: { 'Content-Type' => 'application/json', 'access_token' => access_token },
+      headers: { 'Content-Type' => 'application/json', 'access_token' => oa_access_token },
       body: zns_body(phone, template_id, template_data, tracking_id).to_json
     )
+  end
+
+  def validate_zns_template(template_id, template_data)
+    response = get_zns_template_info(template_id)
+
+    return false, 'Không thể lấy thông tin tin nhắn mẫu' if response['error'] != 0
+
+    return false, 'Tin nhắn mẫu chưa sẵn sàng để gửi tin' unless response['data']['status'].casecmp('ENABLE').zero?
+
+    expected_params = template_data.to_set { |param| "#{param['model']}_#{param['key']}" }
+    actual_params = response['data']['listParams'].to_set { |param| param['name'] }
+
+    return false, 'Dữ liệu đưa vào mẫu tin chưa khớp' if expected_params != actual_params
+
+    true
   end
 
   private
@@ -90,6 +105,17 @@ class Channel::ZaloOa < ApplicationRecord
 
   def url_upload_image
     'https://openapi.zalo.me/v2.0/oa/upload/image'
+  end
+
+  def url_zns_template_info
+    'https://business.openapi.zalo.me/template/info/v2'
+  end
+
+  def get_zns_template_info(template_id)
+    HTTParty.get(
+      "#{url_zns_template_info}?template_id=#{template_id}",
+      headers: { 'Content-Type' => 'application/json', 'access_token' => oa_access_token }
+    )
   end
 
   def send_attachment(user_id, attachment, access_token)

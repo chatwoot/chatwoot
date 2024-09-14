@@ -7,15 +7,33 @@ class Campaign::MultiChannelCampaignService
     # marks one-off campaign completed so that other jobs won't pick it up
 
     campaign.completed! if campaign.one_off?
+    return unless check_zns_campaign?
 
     audiences = audience_from_filters
     audiences = audiences.merge(audience_from_labels) unless audience_from_labels.empty?
+    process_campaign(audiences)
+  end
+
+  def process_campaign(audiences)
     audiences.each do |contact|
-      process_channel(contact) if scheduled_at_is_today?(contact)
+      next unless scheduled_at_is_today?(contact)
+
+      if campaign.is_zns
+        process_zns_message(contact)
+      else
+        process_channel(contact)
+      end
     end
   end
 
   private
+
+  def check_zns_campaign?
+    return true unless campaign.is_zns
+
+    validation = campaign.inbox.channel.validate_zns_template(campaign.zns_template_id, campaign.zns_template_data)
+    validation.result
+  end
 
   def audience_from_labels
     audience_label_ids = campaign.audience.select { |audience| audience['type'] == 'label' }.pluck('id')
@@ -47,6 +65,38 @@ class Campaign::MultiChannelCampaignService
 
       process_message(contact, contactable_inbox)
       break
+    end
+  end
+
+  def process_zns_message(contact)
+    return if contact.phone_number.blank?
+
+    channel = campaign.inbox.channel
+    template_data = build_template_data(contact)
+    channel.send_message_zns(contact.phone_number, campaign.zns_template_id, template_data, campaign.id)
+    campaign.update!(sent_count: sent_count + 1)
+  end
+
+  def build_template_data(contact)
+    template_data = {}
+    campaign.zns_template_data.each do |attribute|
+      template_data["#{attribute.model}_#{attribute.key}"] = attribute_data(attribute, contact)
+    end
+    template_data
+  end
+
+  def attribute_data(attribute, contact) # rubocop:disable Metrics/CyclomaticComplexity
+    case attribute.type
+    when 'contact_attribute'
+      contact.send(attribute.key)
+    when 'contact_custom_attribute'
+      contact.custom_attributes[attribute.key]
+    when 'product_attribute'
+      contact.product&.send(attribute.key)
+    when 'product_custom_attribute'
+      contact.product&.custom_attributes&.[](attribute.key)
+    else
+      raise 'Invalid attribute type'
     end
   end
 
@@ -116,12 +166,14 @@ class Campaign::MultiChannelCampaignService
     date_calculation(base_date, calculation, extra_days)
   end
 
-  def base_date(contact, attribute_type, attribute_key)
+  def base_date(contact, attribute_type, attribute_key) # rubocop:disable Metrics/CyclomaticComplexity
     base_date = case attribute_type
                 when 'contact_attribute'
                   contact.send(attribute_key)
                 when 'contact_custom_attribute'
                   contact.custom_attributes[attribute_key]
+                when 'product_attribute'
+                  contact.product&.send(attribute_key)
                 when 'product_custom_attribute'
                   contact.product&.custom_attributes&.[](attribute_key)
                 else

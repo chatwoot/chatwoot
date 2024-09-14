@@ -7,6 +7,6 @@ class Zalo::ZnsDeliveryService
     campaign = Campaign.find(params[:message][:tracking_id])
     return unless campaign
 
-    campaign.update(received: received + 1)
+    campaign.update(received_count: received_count + 1)
   end
 end
