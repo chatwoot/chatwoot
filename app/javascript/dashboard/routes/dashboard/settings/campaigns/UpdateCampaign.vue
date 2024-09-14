@@ -38,8 +38,11 @@
               v-model="znsTemplateId"
               :label="$t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_ID')"
               type="text"
-              class="max-w-[50%]"
+              class="max-w-[75%]"
               :class="{ error: $v.znsTemplateId.$error }"
+              :placeholder="
+                $t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_ID_PLACE_HOLDER')
+              "
               :error="
                 $v.znsTemplateId.$error ? $t('CAMPAIGN.ADD.FORM.ZNS.ERROR') : ''
               "
@@ -56,7 +59,9 @@
                 :close-on-select="false"
                 :clear-on-select="false"
                 :hide-selected="true"
-                :placeholder="$t('CAMPAIGN.ADD.FORM.ZNS.PLACEHOLDER')"
+                :placeholder="
+                  $t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_DATA_PLACEHOLDER')
+                "
                 selected-label
                 :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
                 :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
@@ -215,18 +220,18 @@
             <multiselect
               v-model="scheduledAttribute"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_ATTRIBUTE')"
-              class="multiselect-wrap--small max-w-[35%]"
+              class="multiselect-wrap--small max-w-[45%]"
               track-by="key"
               label="name"
               selected-label=""
               select-label=""
               deselect-label=""
-              :options="contactDateAttributes"
+              :options="dataDateAttributes"
             />
             <multiselect
               v-model="scheduledCalculation"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_CALCULATION')"
-              class="multiselect-wrap--small max-w-[40%]"
+              class="multiselect-wrap--small max-w-[35%]"
               track-by="key"
               label="name"
               selected-label=""
@@ -239,7 +244,7 @@
               v-if="showExtraDays"
               v-model="extraDays"
               type="number"
-              class="max-w-[25%]"
+              class="max-w-[20%]"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.EXTRA_DAYS')"
             />
           </div>
@@ -449,6 +454,10 @@ export default {
         );
       }
 
+      if (this.isZns) {
+        return inboxes.filter(item => item.channel_type === 'Channel::ZaloOa');
+      }
+
       return inboxes.filter(
         item =>
           item.channel_type !== 'Channel::StringeePhoneCall' &&
@@ -520,6 +529,7 @@ export default {
         private_note: privateNote,
         planned,
         isZns,
+        zns_template_id: znsTemplateId,
         enabled,
         trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
@@ -535,11 +545,13 @@ export default {
       this.selectedInbox = this.selectedCampaign.inbox?.id;
       this.selectedInboxes = this.getSelectedInboxes();
       this.selectedAudiences = this.getSelectedAudiences();
+      this.selectedDataAttributes = this.getSelectedDataAttributes();
       this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
       this.planned = planned;
       this.isZns = isZns;
+      this.znsTemplateId = znsTemplateId;
       this.setFlexibleSchedule();
       this.loadInboxMembers();
     },
@@ -553,10 +565,15 @@ export default {
       this.scheduledCalculation = this.scheduledCalculations.find(
         i => i.key === calculation
       );
-      this.scheduledAttribute = this.contactDateAttributes.find(
+      this.scheduledAttribute = this.dataDateAttributes.find(
         i => i.key === attribute.key
       );
       this.extraDays = extraDays;
+    },
+    getSelectedDataAttributes() {
+      return this.selectedCampaign.znsTemplateData?.map(attr => {
+        return this.dataAttributes.find(i => i.key === attr.key);
+      });
     },
     getSelectedInboxes() {
       return this.selectedCampaign.inboxes?.map(inbox => {
@@ -599,12 +616,20 @@ export default {
             name: item.name,
           };
         });
+        const znsTemplateData = this.selectedDataAttributes.map(item => {
+          return {
+            key: item.key,
+            type: item.type,
+          };
+        });
         campaignDetails = {
           title: this.title,
           message: this.message,
           private_note: this.privateNote,
           planned: this.planned,
-          isZns: this.isZns,
+          is_zns: this.isZns,
+          zns_template_id: this.znsTemplateId,
+          zns_template_data: znsTemplateData,
           inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
           flexible_scheduled_at: {

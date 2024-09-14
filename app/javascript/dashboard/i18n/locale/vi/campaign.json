@@ -35,8 +35,9 @@
         },
         "ZNS": {
           "TEMPLATE_ID": "ID mẫu tin nhắn ZNS",
+          "TEMPLATE_ID_PLACE_HOLDER": "Nhập ID lấy từ danh sách mẫu ZNS đăng ký với Zalo",
           "TEMPLATE_DATA": "Chọn dữ liệu đưa vào mẫu tin",
-          "PLACEHOLDER": "Phải chọn đủ các trường dữ liệu và tên trường phải khớp với khai báo trong mẫu tin",
+          "TEMPLATE_DATA_PLACEHOLDER": "Phải chọn đủ các trường dữ liệu và tên trường trong mẫu tin phải khớp với khai báo ở đây",
           "ERROR": "Trường dữ liệu bắt buộc có"
         },
         "MESSAGE": {
@@ -139,7 +140,7 @@
       },
       "SCHEDULED_CALCULATION": "Chọn cách tính",
       "SCHEDULED_ATTRIBUTE": "Chọn thời điểm",
-      "EXTRA_DAYS": "Nhập số ngày"
+      "EXTRA_DAYS": "Số ngày"
     },
     "ONE_OFF": {
       "HEADER": "Chiến dịch theo thời gian cố định",
@@ -150,6 +151,15 @@
       "HEADER": "Chiến dịch website live chat",
       "404": "Chiến dịch website live chat là chiến dịch gửi tin nhắn chủ động thông qua hộp thoại live chat đến khách hàng viếng thăm website, hiện chưa có chiến dịch nào được tạo",
       "INBOXES_NOT_FOUND": "Vui lòng tạo kênh hội thoại cho trang web và bắt đầu thêm chiến dịch"
+    },
+    "DATA_ATTRIBUTE": {
+      "CONTACT": "Khách hàng",
+      "PRODUCT": "Sản phẩm",
+      "PRODUCT_ATTRIBUTE": {
+        "NAME": "Tên",
+        "SHORT_NAME": "Tên tắt",
+        "PRICE": "Giá bán"
+      }
     }
   }
 }

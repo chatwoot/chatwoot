@@ -30,69 +30,85 @@ export default {
         },
       ];
     },
-    dataAttributes() {
-      const attributes = this.contactFilterItems.map(item => ({
-        key: item.attributeKey,
-        name: this.$t(`CONTACTS_FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
-        type: 'contact_attribute',
-      }));
-
-      const allCustomAttributes =
-        this.$store.getters['attributes/getAttributesByModel'](
-          'contact_attribute'
-        );
-      const customAttributes = allCustomAttributes.map(attr => ({
-        key: attr.attribute_key,
-        name: attr.attribute_display_name,
-        type: 'contact_custom_attribute',
-      }));
-
-      const allProductAttributes =
-        this.$store.getters['attributes/getAttributesByModel'](
-          'product_attribute'
-        );
-      const productAttributes = allProductAttributes.map(attr => ({
-        key: attr.attribute_key,
-        name: attr.attribute_display_name,
-        type: 'product_custom_attribute',
-      }));
-
-      return [...attributes, ...customAttributes, ...productAttributes];
+    productAttributes() {
+      return [
+        {
+          attributeKey: 'name',
+          attributeI18nKey: 'NAME',
+          inputType: 'plain_text',
+        },
+        {
+          attributeKey: 'short_name',
+          attributeI18nKey: 'SHORT_NAME',
+          inputType: 'plain_text',
+        },
+        {
+          attributeKey: 'price',
+          attributeI18nKey: 'PRICE',
+          inputType: 'number',
+        },
+      ];
     },
-    contactDateAttributes() {
-      const attributes = this.contactFilterItems
-        .filter(item => item.inputType === 'date')
-        .map(item => ({
-          key: item.attributeKey,
-          name: this.$t(`CONTACTS_FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
-          type: 'contact_attribute',
-        }));
+    dataAttributes() {
+      const contactAts = this.contactFilterItems.map(item => ({
+        key: item.attributeKey,
+        name:
+          this.$t(`CAMPAIGN.DATA_ATTRIBUTE.CONTACT`) +
+          '.' +
+          this.$t(`CONTACTS_FILTER.ATTRIBUTES.${item.attributeI18nKey}`),
+        type: 'contact_attribute',
+        inputType: item.inputType,
+      }));
 
-      const allCustomAttributes =
+      const allContactCustomAts =
         this.$store.getters['attributes/getAttributesByModel'](
           'contact_attribute'
         );
-      const customAttributes = allCustomAttributes
-        .filter(attr => attr.attribute_display_type === 'date')
-        .map(attr => ({
-          key: attr.attribute_key,
-          name: attr.attribute_display_name,
-          type: 'contact_custom_attribute',
-        }));
+      const contactCustomAts = allContactCustomAts.map(attr => ({
+        key: attr.attribute_key,
+        name:
+          this.$t(`CAMPAIGN.DATA_ATTRIBUTE.CONTACT`) +
+          '.' +
+          attr.attribute_display_name,
+        type: 'contact_custom_attribute',
+        inputType: attr.attribute_display_type,
+      }));
 
-      const allProductAttributes =
+      const productAts = this.productAttributes.map(item => ({
+        key: item.attributeKey,
+        name:
+          this.$t(`CAMPAIGN.DATA_ATTRIBUTE.PRODUCT`) +
+          '.' +
+          this.$t(
+            `CAMPAIGN.DATA_ATTRIBUTE.PRODUCT_ATTRIBUTE.${item.attributeI18nKey}`
+          ),
+        type: 'product_attribute',
+        inputType: item.inputType,
+      }));
+
+      const allProductCustomAts =
         this.$store.getters['attributes/getAttributesByModel'](
           'product_attribute'
         );
-      const productAttributes = allProductAttributes
-        .filter(attr => attr.attribute_display_type === 'date')
-        .map(attr => ({
-          key: attr.attribute_key,
-          name: attr.attribute_display_name,
-          type: 'product_custom_attribute',
-        }));
+      const productCustomAts = allProductCustomAts.map(attr => ({
+        key: attr.attribute_key,
+        name:
+          this.$t(`CAMPAIGN.DATA_ATTRIBUTE.PRODUCT`) +
+          '.' +
+          attr.attribute_display_name,
+        type: 'product_custom_attribute',
+        inputType: attr.attribute_display_type,
+      }));
 
-      return [...attributes, ...customAttributes, ...productAttributes];
+      return [
+        ...contactAts,
+        ...contactCustomAts,
+        ...productAts,
+        ...productCustomAts,
+      ];
+    },
+    dataDateAttributes() {
+      return this.dataAttributes.filter(item => item.inputType === 'date');
     },
     audienceList() {
       const customViews =
