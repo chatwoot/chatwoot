@@ -265,8 +265,7 @@ export default {
         priority: this.priority ? this.priority.id : null,
         assignee_id: this.agent ? this.agent.id : null,
         team_id: this.team ? this.team.id : null,
-        additional_attributes: {
-          created_by: this.currentUser.id,
+        conversation_plan: {
           description: this.description,
         },
         message: {

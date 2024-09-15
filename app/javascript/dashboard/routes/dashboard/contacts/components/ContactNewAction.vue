@@ -45,6 +45,12 @@ export default {
         'contactConversations/createSnoozedConversation',
         params
       );
+      // Fetch conversation plans
+      await this.$store.dispatch(
+        'contacts/fetchConversationPlans',
+        this.contact.id
+      );
+
       return data;
     },
   },

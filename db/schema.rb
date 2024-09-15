@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_14_071440) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_14_183301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -513,6 +513,22 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_14_071440) do
     t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
     t.index ["user_id", "conversation_id"], name: "index_conversation_participants_on_user_id_and_conversation_id", unique: true
     t.index ["user_id"], name: "index_conversation_participants_on_user_id"
+  end
+
+  create_table "conversation_plans", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id"
+    t.bigint "conversation_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "description"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "snoozed_until"
+    t.index ["account_id"], name: "index_conversation_plans_on_account_id"
+    t.index ["contact_id"], name: "index_conversation_plans_on_contact_id"
+    t.index ["conversation_id"], name: "index_conversation_plans_on_conversation_id"
+    t.index ["created_by_id"], name: "index_conversation_plans_on_created_by_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|

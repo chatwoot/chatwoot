@@ -434,5 +434,18 @@
       "SUCCESS_MESSAGE": "Khách hàng được hợp nhất thành công",
       "ERROR_MESSAGE": "Không thể hợp nhất khách hàng, thử lại!"
     }
+  },
+  "COMPLETE_CONVERSATION_PLAN": {
+    "BUTTON_LABEL": "Hoàn thành",
+    "CONFIRM": {
+      "TITLE": "Hoàn thành lịch liên hệ",
+      "MESSAGE": "Bạn có muốn chuyển trạng thái lịch liên hệ này sang \"Đã hoàn thành\"?",
+      "YES": "Có, hoàn thành",
+      "NO": "Hủy"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Hoàn thành lịch liên hệ thành công",
+      "ERROR_MESSAGE": "Không thể hoàn thành lịch liên hệ. Vui lòng thử lại sau."
+    }
   }
 }

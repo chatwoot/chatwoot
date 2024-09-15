@@ -50,6 +50,10 @@ class ContactAPI extends ApiClient {
     return axios.get(`${this.url}/${contactId}/transactions`);
   }
 
+  getConversationPlans(contactId) {
+    return axios.get(`${this.url}/${contactId}/conversation_plans`);
+  }
+
   getContactableInboxes(contactId) {
     return axios.get(`${this.url}/${contactId}/contactable_inboxes`);
   }
@@ -109,6 +113,12 @@ class ContactAPI extends ApiClient {
 
   destroyAvatar(contactId) {
     return axios.delete(`${this.url}/${contactId}/avatar`);
+  }
+
+  completeConversationPlan(contactId, conversationPlanId) {
+    return axios.post(
+      `${this.url}/${contactId}/conversation_plans/${conversationPlanId}/complete`
+    );
   }
 
   exportContacts() {

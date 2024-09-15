@@ -218,6 +218,11 @@ contacts:
       - "not_equal_to"
       - "is_present"
       - "is_not_present"
+  conversation_plan:
+    attribute_type: "standard"
+    data_type: "conversation_plans"
+    filter_operators:
+      - "equal_to"
   created_at:
     attribute_type: "standard"
     data_type: "date"

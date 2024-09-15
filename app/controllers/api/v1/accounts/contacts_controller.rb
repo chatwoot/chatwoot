@@ -153,11 +153,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contacts(contacts)
     contacts_with_avatar = filtrate(contacts)
-                           .includes([{ avatar_attachment: [:blob] }])
-                           .includes(:notes)
-                           .includes(:stage)
-                           .includes(:team)
-                           .includes(:assignee)
+                           .includes(:notes, :stage, :team, :assignee, :conversation_plans, [{ avatar_attachment: [:blob] }])
 
     contacts_with_avatar = contacts_with_avatar.page(@current_page).per(RESULTS_PER_PAGE) if @current_page.to_i.positive?
 
@@ -202,7 +198,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox], conversation_plans: [:conversation]).find(params[:id])
   end
 
   def process_avatar_from_url

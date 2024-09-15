@@ -59,10 +59,7 @@
       </template>
     </contact-details-item>
     <div class="ml-1">
-      <p v-if="contact.current_action">
-        {{ currentActionText(contact.current_action) }}
-      </p>
-      <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_ACTION') }}</p>
+      <contact-conversation-plans v-if="contact.id" :contact-id="contact.id" />
     </div>
     <contact-new-action
       v-if="contact.id"
@@ -112,6 +109,7 @@ import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import AddNote from 'dashboard/modules/notes/components/AddNote.vue';
 import ContactNewAction from './ContactNewAction.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
+import ContactConversationPlans from 'dashboard/routes/dashboard/contacts/components/ContactConversationPlans.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import contactMixin from 'dashboard/mixins/contactMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
@@ -124,6 +122,7 @@ export default {
     AddNote,
     ContactNewAction,
     ContactLabel,
+    ContactConversationPlans,
   },
   mixins: [agentMixin, alertMixin, teamMixin, contactMixin, errorCaptureMixin],
   props: {
@@ -153,9 +152,10 @@ export default {
         : this.$t('CONTACT_PANEL.ACTIONS.ADD_NOTE');
     },
     showAddActionButton() {
+      const isResolved = val => val.status === 'resolved';
       return (
-        !this.contact.current_action ||
-        this.contact.current_action.status === 'resolved'
+        !this.contact.conversation_plans ||
+        this.contact.conversation_plans.every(isResolved)
       );
     },
     assignee: {
