@@ -7,6 +7,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 // import VirtualList from 'vue-virtual-scroll-list';
 // [VITE] Todo: There's a bug with the sizing of the elements, we need to fix that
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
 
@@ -1002,7 +1003,7 @@ export default {
       <DynamicScroller
         ref="conversationDynamicScroller"
         :items="conversationList"
-        :min-item-size="64"
+        :min-item-size="24"
         class="w-full h-full overflow-auto"
         key-field="id"
         page-mode
