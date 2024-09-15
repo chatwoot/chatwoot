@@ -18,4 +18,8 @@ class CampaignPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def validate_zns_template?
+    @account_user.administrator?
+  end
 end

@@ -5,7 +5,7 @@ class Webhooks::ZaloEventsJob < ApplicationJob
                         user_send_location user_send_file user_received_message user_seen_message user_submit_info
                         oa_send_text oa_send_image oa_send_gif oa_send_file oa_send_sticker].freeze
 
-  def perform(params = {}, signature: '', post_body: '')
+  def perform(params = {}, signature: '', post_body: '', from_zns: false)
     return unless SUPPORTED_EVENTS.include?(params[:event_name])
     return unless validate_signature(params, post_body, signature)
 
@@ -13,7 +13,7 @@ class Webhooks::ZaloEventsJob < ApplicationJob
     channel = Channel::ZaloOa.find_by(oa_id: oa_id)
     return unless channel
 
-    process_event_params(channel, params)
+    process_event_params(channel, params, from_zns)
   end
 
   private
@@ -28,8 +28,10 @@ class Webhooks::ZaloEventsJob < ApplicationJob
     signature == "mac=#{hash}"
   end
 
-  def process_event_params(channel, params)
-    if delivery_event?(params)
+  def process_event_params(channel, params, from_zns)
+    if from_zns
+      Zalo::ZnsDeliveryService.new(params: params.with_indifferent_access).perform
+    elsif delivery_event?(params)
       Zalo::DeliveryStatusService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform
     elsif oa_send_from_chat_tool?(params)
       Zalo::OutgoingMessageService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform

@@ -33,20 +33,43 @@
         </div>
 
         <div v-else>
-          <label v-if="!planned" :class="{ error: $v.message.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-            <textarea
-              v-model="message"
-              rows="5"
+          <div v-if="isZns">
+            <woot-input
+              v-model="znsTemplateId"
+              :label="$t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_ID')"
               type="text"
-              @blur="$v.message.$touch"
+              class="max-w-[75%]"
+              :class="{ error: $v.znsTemplateId.$error }"
+              :placeholder="
+                $t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_ID_PLACE_HOLDER')
+              "
+              :error="
+                $v.znsTemplateId.$error ? $t('CAMPAIGN.ADD.FORM.ZNS.ERROR') : ''
+              "
+              @blur="$v.znsTemplateId.$touch"
             />
-            <span v-if="$v.message.$error" class="message">
-              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
-            </span>
-          </label>
+            <label class="multiselect-wrap--small">
+              {{ $t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_DATA') }}
+              <multiselect
+                v-model="selectedDataAttributes"
+                :options="dataAttributes"
+                track-by="id"
+                label="name"
+                :multiple="true"
+                :close-on-select="false"
+                :clear-on-select="false"
+                :hide-selected="true"
+                :placeholder="
+                  $t('CAMPAIGN.ADD.FORM.ZNS.TEMPLATE_DATA_PLACEHOLDER')
+                "
+                selected-label
+                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+              />
+            </label>
+          </div>
           <woot-input
-            v-else
+            v-else-if="planned"
             v-model="privateNote"
             :label="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.LABEL')"
             type="text"
@@ -58,6 +81,18 @@
             "
             @blur="$v.privateNote.$touch"
           />
+          <label v-else :class="{ error: $v.message.$error }">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+            <textarea
+              v-model="message"
+              rows="5"
+              type="text"
+              @blur="$v.message.$touch"
+            />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+            </span>
+          </label>
         </div>
 
         <label
@@ -66,7 +101,7 @@
         >
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select
-            v-if="isOngoingType"
+            v-if="isOngoingType || isZns"
             v-model="selectedInbox"
             @change="onChangeInbox($event)"
           >
@@ -185,19 +220,19 @@
             <multiselect
               v-model="scheduledAttribute"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_ATTRIBUTE')"
-              class="multiselect-wrap--small max-w-[35%]"
+              class="multiselect-wrap--small max-w-[45%]"
               track-by="key"
               label="name"
               selected-label=""
               select-label=""
               deselect-label=""
-              :options="contactDateAttributes"
+              :options="dataDateAttributes"
             />
             <multiselect
               v-model="scheduledCalculation"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_CALCULATION')"
-              class="multiselect-wrap--small max-w-[40%]"
-              track-by="key"
+              class="multiselect-wrap--small max-w-[35%]"
+              track-by="id"
               label="name"
               selected-label=""
               select-label=""
@@ -209,7 +244,7 @@
               v-if="showExtraDays"
               v-model="extraDays"
               type="number"
-              class="max-w-[25%]"
+              class="max-w-[20%]"
               :placeholder="$t('CAMPAIGN.FLEXIBLE.EXTRA_DAYS')"
             />
           </div>
@@ -281,6 +316,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    isZnsDefault: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -288,6 +327,8 @@ export default {
       message: '',
       privateNote: '',
       planned: true,
+      isZns: false,
+      znsTemplateId: '',
       selectedSender: 0,
       selectedInbox: null,
       endPoint: '',
@@ -301,6 +342,7 @@ export default {
       extraDays: null,
       selectedAudiences: [],
       selectedInboxes: [],
+      selectedDataAttributes: [],
       senderList: [],
       // eslint-disable-next-line vue/no-unused-components
       contactFilterItems,
@@ -314,7 +356,7 @@ export default {
       },
       message: {
         required: requiredIf(() => {
-          return this.planned === false;
+          return this.planned === false && this.isZns === false;
         }),
       },
       privateNote: {
@@ -330,6 +372,11 @@ export default {
       selectedInboxes: {
         required: requiredIf(() => {
           return this.selectedInbox === null;
+        }),
+      },
+      znsTemplateId: {
+        required: requiredIf(() => {
+          return this.isZns;
         }),
       },
       flexibleScheduledAt: {
@@ -407,6 +454,10 @@ export default {
         );
       }
 
+      if (this.isZns) {
+        return inboxes.filter(item => item.channel_type === 'Channel::ZaloOa');
+      }
+
       return inboxes.filter(
         item =>
           item.channel_type !== 'Channel::StringeePhoneCall' &&
@@ -433,6 +484,7 @@ export default {
     this.$store.dispatch('customViews/get', 'contact');
     this.$store.dispatch('labels/get');
     this.planned = this.plannedDefault;
+    this.isZns = this.isZnsDefault;
     if (this.selectedCampaign) {
       this.setFormValues();
     }
@@ -476,6 +528,8 @@ export default {
         message,
         private_note: privateNote,
         planned,
+        is_zns: isZns,
+        zns_template_id: znsTemplateId,
         enabled,
         trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
@@ -491,10 +545,13 @@ export default {
       this.selectedInbox = this.selectedCampaign.inbox?.id;
       this.selectedInboxes = this.getSelectedInboxes();
       this.selectedAudiences = this.getSelectedAudiences();
+      this.selectedDataAttributes = this.getSelectedDataAttributes();
       this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
       this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
       this.planned = planned;
+      this.isZns = isZns;
+      this.znsTemplateId = znsTemplateId;
       this.setFlexibleSchedule();
       this.loadInboxMembers();
     },
@@ -508,10 +565,17 @@ export default {
       this.scheduledCalculation = this.scheduledCalculations.find(
         i => i.key === calculation
       );
-      this.scheduledAttribute = this.contactDateAttributes.find(
-        i => i.key === attribute.key
+      this.scheduledAttribute = this.dataDateAttributes.find(
+        i => i.key === attribute.key && i.model === attribute.model
       );
       this.extraDays = extraDays;
+    },
+    getSelectedDataAttributes() {
+      return this.selectedCampaign.zns_template_data?.map(attr => {
+        return this.dataAttributes.find(
+          i => i.key === attr.key && i.model === attr.model
+        );
+      });
     },
     getSelectedInboxes() {
       return this.selectedCampaign.inboxes?.map(inbox => {
@@ -554,17 +618,28 @@ export default {
             name: item.name,
           };
         });
+        const znsTemplateData = this.selectedDataAttributes?.map(item => {
+          return {
+            key: item.key,
+            model: item.model,
+            type: item.type,
+          };
+        });
         campaignDetails = {
           title: this.title,
           message: this.message,
           private_note: this.privateNote,
           planned: this.planned,
+          is_zns: this.isZns,
+          zns_template_id: this.znsTemplateId,
+          zns_template_data: znsTemplateData,
           inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
           flexible_scheduled_at: {
             calculation: this.scheduledCalculation?.key,
             attribute: {
               key: this.scheduledAttribute?.key,
+              model: this.scheduledAttribute?.model,
               type: this.scheduledAttribute?.type,
             },
             extra_days: this.extraDays,
@@ -580,16 +655,26 @@ export default {
       };
     },
     async updateCampaign() {
-      if (this.selectedCampaign) this.editCampaign();
-      else this.addCampaign();
+      const campaignDetails = this.getCampaignDetails();
+      if (this.isZns) {
+        const result = await this.$store.dispatch(
+          'campaigns/validateZnsTemplate',
+          campaignDetails
+        );
+        if (result.success === false) {
+          this.showAlert(result.message);
+          return;
+        }
+      }
+      if (this.selectedCampaign) this.editCampaign(campaignDetails);
+      else this.addCampaign(campaignDetails);
     },
-    async addCampaign() {
+    async addCampaign(campaignDetails) {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       try {
-        const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/create', campaignDetails);
 
         // tracking this here instead of the store to track the type of campaign
@@ -605,13 +690,12 @@ export default {
         this.showAlert(errorMessage);
       }
     },
-    async editCampaign() {
+    async editCampaign(campaignDetails) {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
       try {
-        const campaignDetails = this.getCampaignDetails();
         await this.$store.dispatch('campaigns/update', {
           id: this.selectedCampaign.id,
           ...campaignDetails,

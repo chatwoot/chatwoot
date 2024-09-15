@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_05_132752) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_14_071440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -222,6 +222,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_05_132752) do
     t.jsonb "flexible_scheduled_at"
     t.jsonb "inboxes"
     t.boolean "planned", default: false, null: false
+    t.boolean "is_zns", default: false, null: false
+    t.text "zns_template_id"
+    t.jsonb "zns_template_data"
+    t.integer "sent_count", default: 0, null: false
+    t.integer "received_count", default: 0, null: false
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"

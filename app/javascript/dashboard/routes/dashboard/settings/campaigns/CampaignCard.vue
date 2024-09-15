@@ -109,9 +109,13 @@ export default {
   },
   computed: {
     title() {
-      const campaignTitle = this.campaign.planned
-        ? this.$t('CAMPAIGN.LIST.PLANNED.YES')
-        : this.$t('CAMPAIGN.LIST.PLANNED.NO');
+      let campaignTitle = this.$t('CAMPAIGN.LIST.TYPE.OTHER');
+      if (this.campaign.planned) {
+        campaignTitle = this.$t('CAMPAIGN.LIST.TYPE.PLANNED');
+      }
+      if (this.campaign.is_zns) {
+        campaignTitle = this.$t('CAMPAIGN.LIST.TYPE.ZNS');
+      }
 
       return `${campaignTitle}: ${this.campaign.title}`;
     },
