@@ -98,8 +98,8 @@ export default {
           ...item,
           ...item.custom_attributes,
           stage_name: item.stage ? item.stage.name : null,
-          action_description: item.current_action
-            ? this.currentActionText(item.current_action)
+          action_description: item.conversation_plans.length
+            ? this.currentConversationPlanText(item.conversation_plans)
             : null,
           assignee_name: item.assignee ? item.assignee.name : null,
           product_name: item.product

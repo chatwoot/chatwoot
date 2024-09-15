@@ -9,11 +9,14 @@ namespace :conversation_plans do
         created_by = User.find_by_id(created_by_id)
         account = conversation.account
         contact = conversation.contact
+        # Old snoozed conversations have been completed
+        # ->  "snoozed_until" 's values have been cleared and would get 'nil'
         conversation_plan = conversation.conversation_plans.create!(
           description: description,
           created_by: created_by,
           account: account,
           contact: contact,
+          snoozed_until: conversation.snoozed_until,
           completed_at: (conversation.updated_at if conversation.resolved?),
           )
         puts conversation_plan

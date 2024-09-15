@@ -158,9 +158,7 @@ Rails.application.routes.draw do
               resources :conversations, only: [:index]
               resources :transactions, only: [:index]
               resources :conversation_plans, only: [:index] do
-                member do
-                  post :complete
-                end
+                post :complete, on: :member
               end
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]

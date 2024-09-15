@@ -85,6 +85,30 @@ export default {
       teams: 'teams/getTeams',
       labels: 'labels/getLabels',
     }),
+    conversation_plans() {
+      return [
+        {
+          id: 'today',
+          name: this.$t('PIPELINE_PAGE.CONVERSATION_PLANS_FILTER_TYPE.TODAY'),
+        },
+        {
+          id: 'this_week',
+          name: this.$t(
+            'PIPELINE_PAGE.CONVERSATION_PLANS_FILTER_TYPE.THIS_WEEK'
+          ),
+        },
+        {
+          id: 'unresolved',
+          name: this.$t(
+            'PIPELINE_PAGE.CONVERSATION_PLANS_FILTER_TYPE.UNRESOLVED'
+          ),
+        },
+        {
+          id: 'all',
+          name: this.$t('PIPELINE_PAGE.CONVERSATION_PLANS_FILTER_TYPE.ALL'),
+        },
+      ];
+    },
     customViews() {
       const customViews =
         this.$store.getters['customViews/getCustomViewsByFilterType'](
@@ -135,6 +159,12 @@ export default {
           name: this.$t('PIPELINE_PAGE.FILTER.TEAMS'),
           type: 'teams',
         },
+        {
+          id: 5,
+          key: 'conversation_plan',
+          name: this.$t('PIPELINE_PAGE.FILTER.CONVERSATION_PLANS'),
+          type: 'conversation_plans',
+        },
       ];
       return filters.map(item => {
         return {
@@ -157,7 +187,7 @@ export default {
       return allCustomAttributes
         .filter(attr => attr.attribute_display_type === 'list')
         .map((attr, i) => ({
-          id: i + 5,
+          id: i + 6,
           key: attr.attribute_key,
           name: attr.attribute_display_name,
           type: attr.attribute_key,

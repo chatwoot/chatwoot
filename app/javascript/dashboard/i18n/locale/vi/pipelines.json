@@ -11,6 +11,12 @@
             "ME": "Tôi đang phụ trách",
             "UNASSIGNED": "Chưa có phụ trách"
         },
+        "CONVERSATION_PLANS_FILTER_TYPE": {
+          "TODAY": "Lịch hẹn trong ngày",
+          "THIS_WEEK": "Lịch hẹn trong tuần",
+          "UNRESOLVED": "Lịch hẹn chưa giải quyết",
+          "ALL": "Tất cả lịch hẹn"
+        },
         "CUSTOM_VIEWS": {
             "PLACEHOLDER": "Chọn bộ lọc có sẵn",
             "CUSTOM_LABEL": "Lọc theo: "
@@ -33,6 +39,7 @@
             "AGENTS": "Người phụ trách",
             "LABELS": "Nhãn phân loại",
             "TEAMS": "Nhóm phụ trách",
+            "CONVERSATION_PLANS": "Lọc theo lịch hẹn",
             "CUSTOM_VIEWS": "Bộ lọc có sẵn"
         }
     },

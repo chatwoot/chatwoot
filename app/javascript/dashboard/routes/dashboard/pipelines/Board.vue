@@ -124,7 +124,9 @@ export default {
           product: contact.product?.name,
           productShortName: contact.product?.short_name,
           lastNote: contact.last_note,
-          currentActionText: this.currentActionText(contact.current_action),
+          currentActionText: this.currentConversationPlanText(
+            contact.conversation_plans
+          ),
           lastActivityAt: contact.last_activity_at,
           formattedStageChangedAt: contact.last_stage_changed_at
             ? this.dynamicTime(contact.last_stage_changed_at)

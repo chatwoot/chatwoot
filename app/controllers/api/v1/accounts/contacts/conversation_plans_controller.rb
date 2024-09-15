@@ -9,7 +9,7 @@ class Api::V1::Accounts::Contacts::ConversationPlansController < Api::V1::Accoun
     @conversation_plan.update!(completed_at: Time.current)
     # Restrict job that reopen snoozed conversations
     @conversation = @conversation_plan.conversation
-    @conversation.update!(snoozed_until: nil)
+    @conversation.update!(snoozed_until: nil, status: :resolved)
   end
 
   private

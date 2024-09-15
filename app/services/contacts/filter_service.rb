@@ -29,6 +29,39 @@ class Contacts::FilterService < FilterService
     contacts.where(stage_id: stage.id)
   end
 
+  def conversation_plan_filter_query(query_hash)
+    table_name = filter_config[:table_name]
+    query_operator = query_hash[:query_operator]
+    conversation_plan_model_relation_query =
+      "SELECT * FROM conversation_plans WHERE conversation_plans.contact_id = #{table_name}.id"
+
+    combined_query = build_conversation_plan_combined_query(query_hash)
+
+    conversation_plan_query =
+      "AND conversation_plans.id IN (SELECT conversation_plans.id FROM conversation_plans #{combined_query})"
+
+    "EXISTS (#{conversation_plan_model_relation_query} #{conversation_plan_query}) #{query_operator}"
+  end
+
+  def build_conversation_plan_combined_query(query_hash)
+    combined_query_array = []
+
+    case filter_values(query_hash) # NOTICE: when 'all' => DO NOTHING
+    when 'today'
+      combined_query_array << 'conversation_plans.snoozed_until::date = now()::date'
+    when 'this_week'
+      beginning_of_week = Time.zone.now.at_beginning_of_week.to_fs(:db)
+      end_of_week = Time.zone.now.at_end_of_week.to_fs(:db)
+      combined_query_array <<
+        "conversation_plans.snoozed_until >= timestamp '#{beginning_of_week}' " \
+        "AND conversation_plans.snoozed_until < timestamp '#{end_of_week}'"
+    when 'unresolved'
+      combined_query_array << 'conversation_plans.completed_at IS NULL'
+    end
+
+    combined_query_array.present? ? "WHERE #{combined_query_array.join(' AND ')}" : ''
+  end
+
   def filter_values(query_hash)
     current_val = query_hash['values'][0]
     if query_hash['attribute_key'] == 'phone_number'

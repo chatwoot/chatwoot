@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-conversation-plan--panel py-3">
+  <div class="contact-conversation-plan--panel pb-2">
     <div
       v-if="!uiFlags.isFetchingConversationPlans"
       class="contact-conversation-plan__wrap"
@@ -13,7 +13,7 @@
         <div
           v-for="conversationPlan in conversationPlans"
           :key="conversationPlan.id"
-          class="px-0 py-3 border-b flex-1 border-slate-50 dark:border-slate-800/75 w-auto max-w-full hover:bg-slate-25 dark:hover:bg-slate-800 group"
+          class="px-0 py-1 border-b flex-1 border-slate-50 dark:border-slate-800/75 w-auto max-w-full hover:bg-slate-25 dark:hover:bg-slate-800 group"
           @click="onCardClick(conversationPlan)"
         >
           <div class="flex justify-between">
@@ -35,18 +35,20 @@
               </span>
             </div>
           </div>
-          <h4
-            class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
-          >
-            {{ conversationPlan.description }}
-          </h4>
-          <div class="text-right mr-2">
+
+          <div class="flex justify-between items-end">
+            <h4
+              class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
+            >
+              {{ conversationPlan.description }}
+            </h4>
             <woot-button
               v-if="showCompleteActionButton(conversationPlan)"
               icon="arrow-right"
               variant="link"
               size="small"
-              @click="confirmCompleting(conversationPlan.id)"
+              class="mr-2"
+              @click.stop="confirmCompleting(conversationPlan.id)"
             >
               {{ $t('COMPLETE_CONVERSATION_PLAN.BUTTON_LABEL') }}
             </woot-button>
