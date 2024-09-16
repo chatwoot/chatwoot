@@ -268,8 +268,8 @@ export default {
 <template>
   <!-- actions false removes the submit button -->
   <FormKit
+    v-model="formValues"
     type="form"
-    :value="formValues"
     form-class="flex flex-col flex-1 w-full p-6 overflow-y-auto"
     :actions="false"
     @submit="onSubmit"
