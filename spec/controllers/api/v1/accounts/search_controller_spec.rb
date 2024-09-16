@@ -112,6 +112,7 @@ RSpec.describe 'Search', type: :request do
 
         expect(response_data[:payload].keys).to contain_exactly(:messages)
         expect(response_data[:payload][:messages].length).to eq 2
+        expect(response_data[:payload][:messages].first[:message_type]).to eq 0
       end
     end
   end
