@@ -12,7 +12,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
   describe '#perform' do
     it 'enqueues the job' do
       expect do
-        described_class.perform_later
+        described_class.perform_later(imap_email_channel, 1)
       end.to have_enqueued_job(described_class).on_queue('scheduled_jobs')
     end
 
