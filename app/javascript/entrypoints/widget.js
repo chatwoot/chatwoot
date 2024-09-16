@@ -20,7 +20,7 @@ import {
   startsWithPlus,
   isPhoneNumberValidWithDialCode,
 } from 'shared/helpers/Validators';
-const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
+// const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -38,12 +38,6 @@ app.directive('on-clickaway', onClickaway);
 app.use(
   plugin,
   defaultConfig({
-    inputs: {
-      phoneInput: {
-        type: 'input',
-        component: PhoneInput,
-      },
-    },
     rules: {
       startsWithPlus: ({ value }) =>
         startsWithPlus(value) || 'Must start with +',
@@ -52,26 +46,6 @@ app.use(
     },
   })
 );
-
-// Vue.use(VueFormulate, {
-//   library: {
-//     phoneInput: {
-//       classification: 'number',
-//       component: PhoneInput,
-//       slotProps: {
-//         component: ['placeholder', 'hasErrorInPhoneInput'],
-//       },
-//     },
-//   },
-//   rules: {
-//     startsWithPlus: ({ value }) => startsWithPlus(value),
-//     isValidPhoneNumber: ({ value }) => isPhoneNumberValidWithDialCode(value),
-//   },
-//   classes: {
-//     outer: 'mb-2 wrapper',
-//     error: 'text-red-400 mt-2 text-xs leading-3 font-medium',
-//   },
-// });
 
 // Event Bus
 // We can use the useEmitter directly

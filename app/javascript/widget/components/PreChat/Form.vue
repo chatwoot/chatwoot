@@ -9,7 +9,8 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
-import { FormKit } from '@formkit/vue';
+import { FormKit, createInput } from '@formkit/vue';
+import PhoneInput from 'widget/components/Form/PhoneInput.vue';
 
 export default {
   components: {
@@ -25,9 +26,13 @@ export default {
     },
   },
   setup() {
+    const phoneInput = createInput(PhoneInput, {
+      props: ['hasErrorInPhoneInput'],
+    });
     const { formatMessage } = useMessageFormatter();
     return {
       formatMessage,
+      phoneInput,
     };
   },
   data() {
@@ -101,7 +106,7 @@ export default {
           ...field,
           type:
             field.name === 'phoneNumber'
-              ? 'phoneInput'
+              ? this.phoneInput
               : this.findFieldType(field.type),
         }));
     },
@@ -306,7 +311,6 @@ export default {
       }"
       :has-error-in-phone-input="hasErrorInPhoneInput"
     />
-
     <FormKit
       v-if="!hasActiveCampaign"
       name="message"

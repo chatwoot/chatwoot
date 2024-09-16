@@ -1,22 +1,17 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-// import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [FormulateInputMixin, darkModeMixin],
+  mixins: [darkModeMixin],
   props: {
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    hasErrorInPhoneInput: {
-      type: Boolean,
-      default: false,
+    context: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -30,6 +25,12 @@ export default {
     };
   },
   computed: {
+    placeholder() {
+      return this.context?.attrs?.placeholder || '';
+    },
+    hasErrorInPhoneInput() {
+      return this.context.hasErrorInPhoneInput;
+    },
     countries() {
       return [
         {
