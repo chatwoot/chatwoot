@@ -1,6 +1,6 @@
 json.id message.id
 json.content message.content
-json.message_type message.message_type_before_type_cast
+json.message_type message.message_type.to_i
 json.content_type message.content_type
 json.source_id message.source_id
 json.inbox_id message.inbox_id
