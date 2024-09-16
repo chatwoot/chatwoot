@@ -39,10 +39,8 @@ app.use(
   plugin,
   defaultConfig({
     rules: {
-      startsWithPlus: ({ value }) =>
-        startsWithPlus(value) || 'Must start with +',
-      isValidPhoneNumber: ({ value }) =>
-        isPhoneNumberValidWithDialCode(value) || 'Invalid phone number',
+      startsWithPlus: ({ value }) => startsWithPlus(value),
+      isValidPhoneNumber: ({ value }) => isPhoneNumberValidWithDialCode(value),
     },
   })
 );
