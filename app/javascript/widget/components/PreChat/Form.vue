@@ -323,14 +323,19 @@ export default {
   </FormKit>
 </template>
 
-<style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
+<style lang="scss">
+[data-invalid] .formkit-message {
+  @apply text-red-500 block text-xs font-normal mb-1 w-full;
+}
+
+.formkit-messages {
+  @apply list-none m-0 p-0;
+}
 
 @media (prefers-color-scheme: dark) {
   .pre-chat-header-message {
     .link {
-      color: $color-woot;
-      text-decoration: underline;
+      @apply text-woot-500 underline;
     }
   }
 }
