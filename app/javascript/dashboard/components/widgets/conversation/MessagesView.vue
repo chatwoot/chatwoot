@@ -541,7 +541,7 @@ export default {
           {{ typingUserNames }}
           <img
             class="w-6 ltr:ml-2 rtl:mr-2"
-            src="~dashboard/assets/images/typing.gif"
+            src="assets/images/typing.gif"
             alt="Someone is typing"
           />
         </div>

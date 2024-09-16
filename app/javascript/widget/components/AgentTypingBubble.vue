@@ -18,10 +18,7 @@ export default {
           class="typing-bubble chat-bubble agent"
           :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
         >
-          <img
-            src="/assets/images/typing.gif"
-            alt="Agent is typing a message"
-          />
+          <img src="assets/images/typing.gif" alt="Agent is typing a message" />
         </div>
       </div>
     </div>
