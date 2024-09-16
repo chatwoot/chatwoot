@@ -24,7 +24,10 @@ export const mutations = {
     if (!messageInConversation) {
       messagesInbox[id] = message;
     } else {
-      messagesInbox[messageInConversation.id] = undefined;
+      // [VITE] instead of leaving undefined behind, we remove it completely
+      // remove the temporary message and replace it with the new message
+      // messagesInbox[messageInConversation.id] = undefined;
+      delete messagesInbox[messageInConversation.id];
       messagesInbox[id] = message;
     }
   },
@@ -86,7 +89,10 @@ export const mutations = {
   },
 
   deleteMessage($state, id) {
-    $state.conversations[id] = undefined;
+    delete $state.conversations[id];
+    // [VITE] In Vue 3 proxy objects, we can't delete properties by setting them to undefined
+    // Instead, we have to use the delete operator
+    // $state.conversations[id] = undefined;
   },
 
   toggleAgentTypingStatus($state, { status }) {
