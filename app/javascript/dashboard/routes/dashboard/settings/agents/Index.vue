@@ -45,14 +45,23 @@ onMounted(() => {
   store.dispatch('customRole/getCustomRole');
 });
 
+const findCustomRole = agent =>
+  customRoles.value.find(role => role.id === agent.custom_role_id);
+
 const getAgentRoleName = agent => {
   if (!agent.custom_role_id) {
     return t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`);
   }
-  const customRole = customRoles.value.find(
-    role => role.id === agent.custom_role_id
-  );
+  const customRole = findCustomRole(agent);
   return customRole ? customRole.name : '';
+};
+
+const getAgentRolePermissions = agent => {
+  if (!agent.custom_role_id) {
+    return [];
+  }
+  const customRole = findCustomRole(agent);
+  return customRole?.permissions || [];
 };
 
 const verifiedAdministrators = computed(() => {
@@ -173,9 +182,39 @@ const confirmDeletion = () => {
               </div>
             </td>
 
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span class="block font-medium capitalize">
+            <td class="relative py-4 ltr:pr-4 rtl:pl-4">
+              <span
+                class="block font-medium capitalize w-fit"
+                :class="{
+                  'hover:text-gray-900 group cursor-pointer':
+                    agent.custom_role_id,
+                }"
+              >
                 {{ getAgentRoleName(agent) }}
+
+                <div
+                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-slate-50 shadow-lg top-14 md:top-12 dark:bg-slate-800 dark:border-slate-700"
+                  :class="{ 'group-hover:block': agent.custom_role_id }"
+                >
+                  <div class="flex flex-col gap-1 p-4">
+                    <span class="font-semibold">
+                      {{ $t('AGENT_MGMT.LIST.AVAILABLE_CUSTOM_ROLE') }}
+                    </span>
+                    <ul class="pl-4 mb-0 list-disc">
+                      <li
+                        v-for="permission in getAgentRolePermissions(agent)"
+                        :key="permission"
+                        class="font-normal"
+                      >
+                        {{
+                          $t(
+                            `CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`
+                          )
+                        }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </span>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
