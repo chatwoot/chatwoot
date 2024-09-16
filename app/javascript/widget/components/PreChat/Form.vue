@@ -271,6 +271,9 @@ export default {
       class="mb-4 text-sm leading-5 pre-chat-header-message"
       :class="$dm('text-black-800', 'dark:text-slate-50')"
     />
+    <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
+    If we just pass the options as is even with null or undefined or false,
+    it assumes we are trying to make a multicheckbox. This is the best we have for now -->
     <FormKit
       v-for="item in enabledPreChatFields"
       :key="item.name"
@@ -279,7 +282,13 @@ export default {
       :label="getLabel(item)"
       :placeholder="getPlaceHolder(item)"
       :validation="getValidation(item)"
-      :options="getOptions(item)"
+      v-bind="
+        item.type === 'select'
+          ? {
+              options: getOptions(item),
+            }
+          : undefined
+      "
       :label-class="context => labelClass(context)"
       :input-class="context => inputClass(context)"
       :validation-messages="{
@@ -324,8 +333,16 @@ export default {
 </template>
 
 <style lang="scss">
+.formkit-outer {
+  @apply mt-2;
+}
+
 [data-invalid] .formkit-message {
   @apply text-red-500 block text-xs font-normal mb-1 w-full;
+}
+
+.formkit-outer[data-type='checkbox'] .formkit-wrapper {
+  @apply flex items-center gap-2;
 }
 
 .formkit-messages {
