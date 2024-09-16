@@ -176,8 +176,8 @@ export default {
       />
       <ChatSendButton
         v-if="showSendButton"
-        :on-click="handleButtonClick"
         :color="widgetColor"
+        @click="handleButtonClick"
       />
     </div>
   </div>
