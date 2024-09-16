@@ -11,6 +11,8 @@ const { context } = defineProps({
   },
 });
 
+const localValue = ref(context.value || '');
+
 const { getThemeClass: $dm } = useDarkMode();
 
 const selectedIndex = ref(-1);
@@ -101,9 +103,11 @@ watch(items, newItems => {
 });
 
 function setContextValue(code) {
+  const safeCode = unref(code);
   // This function is used to set the context value.
   // The context value is used to set the value of the phone number field in the pre-chat form.
-  context.model = `${code}${phoneNumber.value}`;
+  localValue.value = `${safeCode}${phoneNumber.value}`;
+  context.node.input(localValue.value);
 }
 
 function dynamicallySetCountryCode(value) {
