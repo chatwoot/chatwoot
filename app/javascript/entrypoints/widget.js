@@ -12,6 +12,7 @@ import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 
 // import { emitter } from 'shared/helpers/mitt';
 
+// https://github.com/wearebraid/vue-formulate/issues/198
 // [VITE] [TODO] Re-enable this later
 // import VueFormulate from '@braid/vue-formulate';
 // import {
