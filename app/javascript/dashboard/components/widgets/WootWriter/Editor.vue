@@ -17,7 +17,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
 import VariableList from '../conversation/VariableList.vue';
-import { useTrack } from 'dashboard/composables';
 import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 
 import {

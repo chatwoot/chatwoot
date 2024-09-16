@@ -3,6 +3,7 @@ import {
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
+import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 
 /**
