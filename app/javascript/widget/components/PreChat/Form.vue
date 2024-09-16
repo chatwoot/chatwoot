@@ -259,10 +259,12 @@ export default {
 </script>
 
 <template>
+  <!-- actions false removes the submit button -->
   <FormKit
     type="form"
     :value="formValues"
     form-class="flex flex-col flex-1 p-6 overflow-y-auto w-full"
+    :actions="false"
     @submit="onSubmit"
   >
     <div
@@ -342,7 +344,7 @@ export default {
 }
 
 .formkit-outer[data-type='checkbox'] .formkit-wrapper {
-  @apply flex items-center gap-2;
+  @apply flex items-center gap-2 px-0.5;
 }
 
 .formkit-messages {
