@@ -6,7 +6,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   layout 'portal'
 
   def index
-    @articles = @portal.articles
+    @articles = @portal.articles.published
     search_articles
     order_by_sort_param
     @articles.page(list_params[:page]) if list_params[:page].present?
