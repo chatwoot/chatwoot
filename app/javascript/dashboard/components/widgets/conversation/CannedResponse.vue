@@ -41,14 +41,11 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <MentionBox
     v-if="items.length"
     :items="items"
     @mentionSelect="handleMentionClick"
-  >
-    <template slot-scope="{ item }">
-      <strong>{{ item.label }}</strong> - {{ item.description }}
-    </template>
-  </MentionBox>
+  />
 </template>
