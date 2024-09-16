@@ -1,62 +1,66 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
+
 import VueDOMPurifyHTML from 'vue-dompurify-html';
-import VueFormulate from '@braid/vue-formulate';
 import store from '../widget/store';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
-import i18n from '../widget/i18n';
-import {
-  startsWithPlus,
-  isPhoneNumberValidWithDialCode,
-} from 'shared/helpers/Validators';
+import i18nMessages from '../widget/i18n';
 import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
-import { emitter } from 'shared/helpers/mitt';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
 
-Vue.use(VueI18n);
+// import { emitter } from 'shared/helpers/mitt';
 
-Vue.use(VueDOMPurifyHTML, domPurifyConfig);
-Vue.directive('on-clickaway', onClickaway);
+// [VITE] [TODO] Re-enable this later
+// import VueFormulate from '@braid/vue-formulate';
+// import {
+//   startsWithPlus,
+//   isPhoneNumberValidWithDialCode,
+// } from 'shared/helpers/Validators';
+// const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
 
-const i18nConfig = new VueI18n({
+const i18n = createI18n({
+  legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
-  messages: i18n,
+  messages: i18nMessages,
 });
-Vue.use(VueFormulate, {
-  library: {
-    phoneInput: {
-      classification: 'number',
-      component: PhoneInput,
-      slotProps: {
-        component: ['placeholder', 'hasErrorInPhoneInput'],
-      },
-    },
-  },
-  rules: {
-    startsWithPlus: ({ value }) => startsWithPlus(value),
-    isValidPhoneNumber: ({ value }) => isPhoneNumberValidWithDialCode(value),
-  },
-  classes: {
-    outer: 'mb-2 wrapper',
-    error: 'text-red-400 mt-2 text-xs leading-3 font-medium',
-  },
-});
-// Event Bus
-Vue.prototype.$emitter = emitter;
 
-Vue.config.productionTip = false;
+const app = createApp(App);
+app.use(i18n);
+app.use(store);
+app.use(router);
+app.use(VueDOMPurifyHTML, domPurifyConfig);
+app.directive('on-clickaway', onClickaway);
+
+// Vue.use(VueFormulate, {
+//   library: {
+//     phoneInput: {
+//       classification: 'number',
+//       component: PhoneInput,
+//       slotProps: {
+//         component: ['placeholder', 'hasErrorInPhoneInput'],
+//       },
+//     },
+//   },
+//   rules: {
+//     startsWithPlus: ({ value }) => startsWithPlus(value),
+//     isValidPhoneNumber: ({ value }) => isPhoneNumberValidWithDialCode(value),
+//   },
+//   classes: {
+//     outer: 'mb-2 wrapper',
+//     error: 'text-red-400 mt-2 text-xs leading-3 font-medium',
+//   },
+// });
+
+// Event Bus
+// We can use the useEmitter directly
+// Vue.prototype.$emitter = emitter;
+
+// Vue.config.productionTip = false;
 
 window.onload = () => {
-  window.WOOT_WIDGET = new Vue({
-    router,
-    store,
-    i18n: i18nConfig,
-    render: h => h(App),
-  }).$mount('#app');
-
+  window.WOOT_WIDGET = app.mount('#app');
   window.actionCable = new ActionCableConnector(
     window.WOOT_WIDGET,
     window.chatwootPubsubToken
