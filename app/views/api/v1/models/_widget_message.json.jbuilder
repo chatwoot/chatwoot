@@ -1,6 +1,6 @@
 json.id resource.id
 json.content resource.content
-json.message_type resource.message_type_before_type_cast
+json.message_type resource.message_type.to_i
 json.content_type resource.content_type
 json.content_attributes resource.content_attributes
 json.created_at resource.created_at.to_i
