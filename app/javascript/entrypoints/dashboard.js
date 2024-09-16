@@ -101,7 +101,7 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-// [VITE] Disabled this, need to renable later
+// [VITE] Disabled this we don't need it, we can use `useEmitter` directly
 // app.prototype.$emitter = emitter;
 
 initializeChatwootEvents();
