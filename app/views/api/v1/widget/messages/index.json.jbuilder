@@ -2,7 +2,7 @@ json.payload do
   json.array! @messages do |message|
     json.id message.id
     json.content message.content
-    json.message_type message.message_type.to_i
+    json.message_type message.message_type_before_type_cast
     json.content_type message.content_type
     json.content_attributes message.content_attributes
     json.created_at message.created_at.to_i
