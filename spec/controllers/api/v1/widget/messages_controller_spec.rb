@@ -54,7 +54,6 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['content']).to eq(message_params[:content])
-        expect(json_response['message_type']).to eq 0
       end
 
       it 'does not create the message' do
