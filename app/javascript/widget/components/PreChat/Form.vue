@@ -9,11 +9,13 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
+import { FormKit } from '@formkit/vue';
 
 export default {
   components: {
     CustomButton,
     Spinner,
+    FormKit,
   },
   mixins: [routerMixin, darkModeMixin, configMixin],
   props: {
@@ -154,8 +156,9 @@ export default {
         'dark:text-red-400'
       )}`;
     },
-    inputClass(context) {
-      const { hasErrors, classification, type } = context;
+    inputClass(input) {
+      const { state, family: classification, type } = input.context;
+      const hasErrors = state.invalid;
       if (classification === 'box' && type === 'checkbox') {
         return '';
       }
@@ -199,9 +202,7 @@ export default {
       };
       const validationKeys = Object.keys(validations);
       const isRequired = this.isContactFieldRequired(name);
-      const validation = isRequired
-        ? ['bail', 'required']
-        : ['bail', 'optional'];
+      const validation = isRequired ? ['required'] : ['optional'];
 
       if (
         validationKeys.includes(name) ||
@@ -210,10 +211,13 @@ export default {
       ) {
         const validationType =
           validations[type] || validations[name] || validations[field_type];
-        return validationType ? validation.concat(validationType) : validation;
+        const allValidations = validationType
+          ? validation.concat(validationType)
+          : validation;
+        return allValidations.join('|');
       }
 
-      return [];
+      return '';
     },
     findFieldType(type) {
       if (type === 'link') {
@@ -236,7 +240,7 @@ export default {
         });
         return values;
       }
-      return null;
+      return {};
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
@@ -255,9 +259,10 @@ export default {
 </script>
 
 <template>
-  <FormulateForm
-    v-model="formValues"
-    class="flex flex-col flex-1 p-6 overflow-y-auto"
+  <FormKit
+    type="form"
+    :value="formValues"
+    form-class="flex flex-col flex-1 p-6 overflow-y-auto w-full"
     @submit="onSubmit"
   >
     <div
@@ -266,7 +271,7 @@ export default {
       class="mb-4 text-sm leading-5 pre-chat-header-message"
       :class="$dm('text-black-800', 'dark:text-slate-50')"
     />
-    <FormulateInput
+    <FormKit
       v-for="item in enabledPreChatFields"
       :key="item.name"
       :name="item.name"
@@ -290,7 +295,8 @@ export default {
       }"
       :has-error-in-phone-input="hasErrorInPhoneInput"
     />
-    <FormulateInput
+
+    <FormKit
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
@@ -314,40 +320,13 @@ export default {
       <Spinner v-if="isCreating" class="p-0" />
       {{ $t('START_CONVERSATION') }}
     </CustomButton>
-  </FormulateForm>
+  </FormKit>
 </template>
 
 <style lang="scss" scoped>
 @import 'widget/assets/scss/variables.scss';
-::v-deep {
-  .wrapper[data-type='checkbox'] {
-    .formulate-input-wrapper {
-      display: flex;
-      align-items: center;
-      line-height: $space-normal;
 
-      label {
-        margin-left: 0.2rem;
-      }
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    .wrapper {
-      .formulate-input-element--date,
-      .formulate-input-element--checkbox {
-        input {
-          color-scheme: dark;
-        }
-      }
-    }
-  }
-  .wrapper[data-type='textarea'] {
-    .formulate-input-element--textarea {
-      textarea {
-        min-height: 8rem;
-      }
-    }
-  }
+@media (prefers-color-scheme: dark) {
   .pre-chat-header-message {
     .link {
       color: $color-woot;
