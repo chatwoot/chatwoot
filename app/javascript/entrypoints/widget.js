@@ -16,11 +16,11 @@ import { plugin, defaultConfig } from '@formkit/vue';
 // https://github.com/wearebraid/vue-formulate/issues/198
 // [VITE] [TODO] Re-enable this later
 // import VueFormulate from '@braid/vue-formulate';
-// import {
-//   startsWithPlus,
-//   isPhoneNumberValidWithDialCode,
-// } from 'shared/helpers/Validators';
-// const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
+import {
+  startsWithPlus,
+  isPhoneNumberValidWithDialCode,
+} from 'shared/helpers/Validators';
+const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -32,9 +32,26 @@ const app = createApp(App);
 app.use(i18n);
 app.use(store);
 app.use(router);
-app.use(plugin, defaultConfig);
 app.use(VueDOMPurifyHTML, domPurifyConfig);
 app.directive('on-clickaway', onClickaway);
+
+app.use(
+  plugin,
+  defaultConfig({
+    inputs: {
+      phoneInput: {
+        type: 'input',
+        component: PhoneInput,
+      },
+    },
+    rules: {
+      startsWithPlus: ({ value }) =>
+        startsWithPlus(value) || 'Must start with +',
+      isValidPhoneNumber: ({ value }) =>
+        isPhoneNumberValidWithDialCode(value) || 'Invalid phone number',
+    },
+  })
+);
 
 // Vue.use(VueFormulate, {
 //   library: {
