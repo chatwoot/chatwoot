@@ -1,7 +1,7 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
+// import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 export default {

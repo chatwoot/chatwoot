@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@braid/vue-formulate':
-        specifier: ^2.5.2
-        version: 2.5.3
       '@breezystack/lamejs':
         specifier: ^1.2.7
         version: 1.2.7
@@ -23,6 +20,12 @@ importers:
       '@chatwoot/utils':
         specifier: ^0.0.25
         version: 0.0.25
+      '@formkit/core':
+        specifier: ^1.6.6
+        version: 1.6.6
+      '@formkit/vue':
+        specifier: ^1.6.6
+        version: 1.6.6(tailwindcss@3.4.11)(vue@3.5.5(typescript@5.6.2))
       '@hcaptcha/vue3-hcaptcha':
         specifier: ^1.3.0
         version: 1.3.0(vue@3.5.5(typescript@5.6.2))
@@ -998,12 +1001,6 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@braid/vue-formulate-i18n@1.16.0':
-    resolution: {integrity: sha512-CuX1kN7bWg4ukynnTS3LGsmPKrUvS2Wh75zKatIe+nHQQy0gSvfmggQsCz4QZey7Ois+pGYmOIgrE1SvX+zQTw==}
-
-  '@braid/vue-formulate@2.5.3':
-    resolution: {integrity: sha512-HdyslHKkzJAtMiD2BP0PfQ8/BaRs1NPlWA8DhgL4ImR/1tuzQLrZButVIqWiucfRitfrgeWz5qrByZs8zp5vFw==}
-
   '@breezystack/lamejs@1.2.7':
     resolution: {integrity: sha512-6wc7ck65ctA75Hq7FYHTtTvGnYs6msgdxiSUICQ+A01nVOWg6rqouZB8IdyteRlfpYYiFovkf67dIeOgWIUzTA==}
 
@@ -1376,6 +1373,49 @@ packages:
 
   '@floating-ui/utils@0.2.7':
     resolution: {integrity: sha512-X8R8Oj771YRl/w+c1HqAC1szL8zWQRwFvgDwT129k9ACdBoud/+/rX9V0qiMl6LWUdP9voC2nDVZYPMQQsb6eA==}
+
+  '@formkit/core@1.6.6':
+    resolution: {integrity: sha512-UtvjxSHmU69FpOJPrE37buhpVSsIccwtnmEZz8HvXEFTeZa85WUATZnMWEV33Hzv9uUJrVikbEvXLfh30yjPsw==}
+
+  '@formkit/dev@1.6.6':
+    resolution: {integrity: sha512-9ErrZycKy/u6Hymp3mtzbf6XTLe0DmBXZekdvizXZWJ26no+do7tA9ftgEg1Qb7Ae3ROAmKGHYDdjVVOrBjDwA==}
+
+  '@formkit/i18n@1.6.6':
+    resolution: {integrity: sha512-rwx0HNk+jALsBtommoaC3pOpBaEm4WbvveIaIkeY4HKpCHj8xFyr1wBQNvc7ZRDIS2XGIT+LiCEgy/2PnOuB2w==}
+
+  '@formkit/inputs@1.6.6':
+    resolution: {integrity: sha512-jPfEU86q70vWWI4DRbOhUBuYhvhQvBe+j2RIebpsVcr6Flbdk/dvCyo60hDhnl3IBZv+69Q6803Q5KLg9LHbqg==}
+
+  '@formkit/observer@1.6.6':
+    resolution: {integrity: sha512-lxlIddmaCV51JJlr3GWU65bL/ImvS6TNlF2nH7ZT/OapWa1bIhkLm12u3K4/9AEndsfxfrLFrTNzCZu6sOeLQQ==}
+
+  '@formkit/rules@1.6.6':
+    resolution: {integrity: sha512-hMi31i6S0z8QwZuNxihWVMJbyE9K06wk0rO6niEriN0VmdCDXAbpfsh0xBwdGTBdFkv3L0EloUWrOuwd7aOSug==}
+
+  '@formkit/themes@1.6.6':
+    resolution: {integrity: sha512-/wIgVA6ndEo+HRYATw5hNdQbH4wCUgru8RMVnfU56KqC0Tb+bJPxpb2n2l/S6jAe71GSNm2hrlm4JzMTpC6sNA==}
+    peerDependencies:
+      tailwindcss: ^3.2.0
+      unocss: 0.x.x
+      windicss: ^3.0.0
+    peerDependenciesMeta:
+      tailwindcss:
+        optional: true
+      unocss:
+        optional: true
+      windicss:
+        optional: true
+
+  '@formkit/utils@1.6.6':
+    resolution: {integrity: sha512-kHLCQfR5s8HzHkBt0hbqjDWvCmKCXw7FpWxUJ4yK8S+sY5h8QkPfui05uecRY1cQQhcS5LtKhRMmMSlL6+E8Hg==}
+
+  '@formkit/validation@1.6.6':
+    resolution: {integrity: sha512-wA6EbhzgGYlaajnu7GNy8I6AT5RkIHSCkRLaskxvw0BQbhE4f9Emc1KWjBQiu37IV4uMM0DzgwL8DOg0B3DMLw==}
+
+  '@formkit/vue@1.6.6':
+    resolution: {integrity: sha512-6a7wo1V+SafQN/e10l7sE/N3vsj3ODl4H7acDHBhEe8HMop0hICz1Z0Aws/ayv6OlUR3j6Vi3p0pt3lKxSvOaw==}
+    peerDependencies:
+      vue: ^3.4.0
 
   '@hcaptcha/vue3-hcaptcha@1.3.0':
     resolution: {integrity: sha512-IEonS6JiYdU7uy6aeib8cYtMO4nj8utwStbA9bWHyYbOvOvhpkV+AW8vfSKh6SntYxqle/TRwhv+kU9p92CfsA==}
@@ -4304,10 +4344,6 @@ packages:
 
   is-plain-object@2.0.4:
     resolution: {integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==}
-    engines: {node: '>=0.10.0'}
-
-  is-plain-object@3.0.1:
-    resolution: {integrity: sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==}
     engines: {node: '>=0.10.0'}
 
   is-potential-custom-element-name@1.0.1:
@@ -7985,13 +8021,6 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@braid/vue-formulate-i18n@1.16.0': {}
-
-  '@braid/vue-formulate@2.5.3':
-    dependencies:
-      '@braid/vue-formulate-i18n': 1.16.0
-      is-plain-object: 3.0.1
-
   '@breezystack/lamejs@1.2.7': {}
 
   '@chatwoot/ninja-keys@1.2.3':
@@ -8309,6 +8338,68 @@ snapshots:
       '@floating-ui/core': 1.6.7
 
   '@floating-ui/utils@0.2.7': {}
+
+  '@formkit/core@1.6.6':
+    dependencies:
+      '@formkit/utils': 1.6.6
+
+  '@formkit/dev@1.6.6':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/utils': 1.6.6
+
+  '@formkit/i18n@1.6.6':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/utils': 1.6.6
+      '@formkit/validation': 1.6.6
+
+  '@formkit/inputs@1.6.6':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/utils': 1.6.6
+
+  '@formkit/observer@1.6.6':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/utils': 1.6.6
+
+  '@formkit/rules@1.6.6':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/utils': 1.6.6
+      '@formkit/validation': 1.6.6
+
+  '@formkit/themes@1.6.6(tailwindcss@3.4.11)':
+    dependencies:
+      '@formkit/core': 1.6.6
+    optionalDependencies:
+      tailwindcss: 3.4.11
+
+  '@formkit/utils@1.6.6': {}
+
+  '@formkit/validation@1.6.6':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/observer': 1.6.6
+      '@formkit/utils': 1.6.6
+
+  '@formkit/vue@1.6.6(tailwindcss@3.4.11)(vue@3.5.5(typescript@5.6.2))':
+    dependencies:
+      '@formkit/core': 1.6.6
+      '@formkit/dev': 1.6.6
+      '@formkit/i18n': 1.6.6
+      '@formkit/inputs': 1.6.6
+      '@formkit/observer': 1.6.6
+      '@formkit/rules': 1.6.6
+      '@formkit/themes': 1.6.6(tailwindcss@3.4.11)
+      '@formkit/utils': 1.6.6
+      '@formkit/validation': 1.6.6
+      vue: 3.5.5(typescript@5.6.2)
+    transitivePeerDependencies:
+      - tailwindcss
+      - unocss
+      - windicss
 
   '@hcaptcha/vue3-hcaptcha@1.3.0(vue@3.5.5(typescript@5.6.2))':
     dependencies:
@@ -11875,8 +11966,6 @@ snapshots:
   is-plain-object@2.0.4:
     dependencies:
       isobject: 3.0.1
-
-  is-plain-object@3.0.1: {}
 
   is-potential-custom-element-name@1.0.1: {}
 

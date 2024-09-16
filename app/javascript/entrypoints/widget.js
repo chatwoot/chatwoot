@@ -9,6 +9,7 @@ import i18nMessages from '../widget/i18n';
 import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import { plugin, defaultConfig } from '@formkit/vue';
 
 // import { emitter } from 'shared/helpers/mitt';
 
@@ -31,6 +32,7 @@ const app = createApp(App);
 app.use(i18n);
 app.use(store);
 app.use(router);
+app.use(plugin, defaultConfig);
 app.use(VueDOMPurifyHTML, domPurifyConfig);
 app.directive('on-clickaway', onClickaway);
 
