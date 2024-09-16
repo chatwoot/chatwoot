@@ -266,13 +266,16 @@ export default {
 </script>
 
 <template>
-  <!-- actions false removes the submit button -->
+  <!-- hide the default submit button for now -->
   <FormKit
     v-model="formValues"
     type="form"
     form-class="flex flex-col flex-1 w-full p-6 overflow-y-auto"
-    :actions="false"
-    @submit="onSubmit"
+    :submit-label="$t('START_CONVERSATION')"
+    :submit-attrs="{
+      inputClass: 'hidden',
+      wrapperClass: 'hidden',
+    }"
   >
     <div
       v-if="shouldShowHeaderMessage"
