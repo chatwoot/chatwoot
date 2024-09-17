@@ -117,11 +117,12 @@ export default {
     <FormKit
       v-model="values"
       type="form"
-      form-class="w-full"
+      form-class="w-full grid gap-4"
       :submit-attrs="{
         inputClass: 'hidden',
         wrapperClass: 'hidden',
       }"
+      :incomplete-message="false"
       @submit="submitForm"
     >
       <FormKit v-for="item in formItems" :key="item.name" v-bind="item" />
@@ -130,6 +131,7 @@ export default {
         :options="inboxes"
         type="select"
         name="inbox"
+        input-class="reset-base"
         :placeholder="$t('INTEGRATION_APPS.ADD.FORM.INBOX.LABEL')"
         :label="$t('INTEGRATION_APPS.ADD.FORM.INBOX.PLACEHOLDER')"
         validation="required"
@@ -146,3 +148,36 @@ export default {
     </FormKit>
   </div>
 </template>
+
+<style lang="css">
+.formkit-outer {
+  @apply mt-2;
+}
+
+.formkit-form > .formkit-wrapper > ul.formkit-messages {
+  @apply hidden;
+}
+
+/* equivalent of .reset-base */
+.formkit-input {
+  margin-bottom: 0px !important;
+}
+
+[data-invalid] .formkit-message {
+  @apply text-red-500 block text-xs font-normal my-1 w-full;
+}
+
+.formkit-outer[data-type='checkbox'] .formkit-wrapper {
+  @apply flex items-center gap-2 px-0.5;
+}
+
+.formkit-messages {
+  @apply list-none m-0 p-0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pre-chat-header-message .link {
+    @apply text-woot-500 underline;
+  }
+}
+</style>

@@ -271,7 +271,7 @@ export default {
     v-model="formValues"
     type="form"
     form-class="flex flex-col flex-1 w-full p-6 overflow-y-auto"
-    :submit-label="$t('START_CONVERSATION')"
+    :incomplete-message="false"
     :submit-attrs="{
       inputClass: 'hidden',
       wrapperClass: 'hidden',
