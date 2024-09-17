@@ -11,6 +11,10 @@ class ChatbotAPI extends ApiClient {
     return axios.post(`${this.baseUrl()}/chatbots/fetch_links?url=${url}`);
   }
 
+  async checkCrawlingStatus() {
+    return axios.get(`${this.baseUrl()}/chatbots/check_crawling_status`);
+  }
+
   async createChatbot(data) {
     const formData = new FormData();
     formData.append('accountId', data.accountId);

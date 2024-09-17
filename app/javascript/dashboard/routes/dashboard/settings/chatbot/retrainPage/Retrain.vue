@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-row w-3/4 max-w-3/4 p-6">
+    <div class="flex flex-row w-3/4 max-w-3/4 pt-6 pb-6">
       <upload-files @uploadTypeSelected="handleUploadTypeSelected" />
       <upload-area
         v-model="fetching"
@@ -33,6 +33,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import UploadFiles from './UploadFiles.vue';
 import UploadArea from './UploadArea.vue';
 import DetectedCharacters from '../DetectedCharacters.vue';
+import ChatbotAPI from '../../../../../api/chatbots';
 
 export default {
   components: {
@@ -50,7 +51,7 @@ export default {
   data() {
     return {
       enabledFeatures: {},
-      currentUploadType: 'file',
+      currentUploadType: 'website',
       fetching: false,
       progress: 0,
       progressInterval: null,
@@ -108,6 +109,7 @@ export default {
       this.progressInterval = setInterval(() => {
         if (this.progress < 100) {
           this.progress += 1;
+          this.checkCrawlingStatus();
         } else {
           this.fetching = false;
           clearInterval(this.progressInterval);
@@ -116,6 +118,20 @@ export default {
     },
     endProgress() {
       this.progress = 100;
+    },
+    checkCrawlingStatus() {
+      ChatbotAPI.checkCrawlingStatus().then(response => {
+        if (response.data.links_with_char_count) {
+          this.endProgress();
+          const linksWithCharCount = response.data.links_with_char_count;
+          const filteredLinks = linksWithCharCount.filter(link => {
+            return !this.links.some(
+              existingLink => existingLink.link === link.link
+            );
+          });
+          this.$store.dispatch('chatbots/addLink', filteredLinks);
+        }
+      });
     },
     handleRemoveFile(filename) {
       if (this.savedFiles.length > 0) {
