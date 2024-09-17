@@ -81,28 +81,34 @@ export const InitializationHelpers = {
   initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
+      // eslint-disable-next-line vue/one-component-per-file
       const app = createApp({
         components: { PublicArticleSearch },
         directives: {
           'on-clickaway': onClickaway,
         },
         template: '<PublicArticleSearch />',
-      }).mount('#search-wrap');
+      });
 
       app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.mount('#search-wrap');
     }
   },
 
   initializeTableOfContents: () => {
     const isOnArticlePage = document.querySelector('#cw-hc-toc');
     if (isOnArticlePage) {
+      // eslint-disable-next-line vue/one-component-per-file
       const app = createApp({
         components: { TableOfContents },
-        data: { rows: getHeadingsfromTheArticle() },
+        data() {
+          return { rows: getHeadingsfromTheArticle() };
+        },
         template: '<table-of-contents :rows="rows" />',
-      }).mount('#cw-hc-toc');
+      });
 
       app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.mount('#cw-hc-toc');
     }
   },
 
