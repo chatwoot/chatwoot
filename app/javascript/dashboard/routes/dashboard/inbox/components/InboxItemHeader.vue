@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { getUnixTime } from 'date-fns';
-import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';
 import wootConstants from 'dashboard/constants/globals';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';

@@ -14,12 +14,18 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
+import Policy from 'dashboard/components/policy.vue';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
     MessageSignature,
     FormSection,
     UserProfilePicture,
+    Policy,
     UserBasicDetails,
     HotKeyCard,
     ChangePassword,
@@ -71,6 +77,8 @@ export default {
             '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
+      notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      audioNotificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
     };
   },
   computed: {
@@ -235,17 +243,21 @@ export default {
     >
       <ChangePassword />
     </FormSection>
-    <FormSection
-      :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
-      :description="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
-      "
-    >
-      <AudioNotifications />
-    </FormSection>
-    <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
-      <NotificationPreferences />
-    </FormSection>
+    <Policy :permissions="audioNotificationPermissions">
+      <FormSection
+        :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+        "
+      >
+        <AudioNotifications />
+      </FormSection>
+    </Policy>
+    <Policy :permissions="notificationPermissions">
+      <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+        <NotificationPreferences />
+      </FormSection>
+    </Policy>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="

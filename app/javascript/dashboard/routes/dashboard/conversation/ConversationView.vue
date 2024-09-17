@@ -15,6 +15,14 @@ export default {
     PopOverSearch,
     CmdBarConversationSnooze,
   },
+  beforeRouteLeave(to, from, next) {
+    // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
+    // and resolves timing issues during navigation with conversation view and other screens
+    if (this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+    next(); // Continue with navigation
+  },
   props: {
     inboxId: {
       type: [String, Number],
@@ -87,6 +95,17 @@ export default {
       this.fetchConversationIfUnavailable();
     },
   },
+
+  created() {
+    // Clear selected state early if no conversation is selected
+    // This prevents child components from accessing stale data
+    // and resolves timing issues during navigation
+    // with conversation view and other screens
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+  },
+
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();

@@ -6,7 +6,7 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
@@ -19,7 +19,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -30,7 +30,10 @@ export default {
       default: () => {},
     },
   },
-
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
+  },
   data() {
     return {
       userInput: '',
@@ -51,13 +54,16 @@ export default {
       return this.userInput.length > 0;
     },
     inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
+        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     emojiIconColor() {
       return this.showEmojiPicker
-        ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
-        : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
+        ? `text-woot-500 ${this.getThemeClass(
+            'text-black-900',
+            'dark:text-slate-100'
+          )}`
+        : `${this.getThemeClass('text-black-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
@@ -128,7 +134,7 @@ export default {
 <template>
   <div
     class="chat-message--input is-focused"
-    :class="$dm('bg-white ', 'dark:bg-slate-600')"
+    :class="getThemeClass('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
     <ResizableTextArea
@@ -148,7 +154,7 @@ export default {
     <div class="button-wrap">
       <ChatAttachmentButton
         v-if="showAttachment"
-        :class="$dm('text-black-900', 'dark:text-slate-100')"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-100')"
         :on-attach="onSendAttachment"
       />
       <button

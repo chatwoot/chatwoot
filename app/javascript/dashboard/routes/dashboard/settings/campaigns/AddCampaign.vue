@@ -4,7 +4,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import campaignMixin from 'shared/mixins/campaignMixin';
+import { useCampaign } from 'shared/composables/useCampaign';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import { URLPattern } from 'urlpattern-polyfill';
 import { CAMPAIGNS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
@@ -14,9 +14,9 @@ export default {
     WootDateTimePicker,
     WootMessageEditor,
   },
-  mixins: [campaignMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { campaignType, isOngoingType, isOneOffType } = useCampaign();
+    return { v$: useVuelidate(), campaignType, isOngoingType, isOneOffType };
   },
   data() {
     return {

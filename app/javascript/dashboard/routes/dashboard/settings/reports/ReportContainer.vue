@@ -1,18 +1,22 @@
 <script>
+import { mapGetters } from 'vuex';
+import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
-import reportMixin from 'dashboard/mixins/reportMixin';
 import ChartStats from './components/ChartElements/ChartStats.vue';
 
 export default {
   components: { ChartStats },
-  mixins: [reportMixin],
   props: {
     groupBy: {
       type: Object,
       default: () => ({}),
+    },
+    accountSummaryKey: {
+      type: String,
+      default: 'getAccountSummary',
     },
     reportKeys: {
       type: Object,
@@ -27,7 +31,16 @@ export default {
       }),
     },
   },
+  setup(props) {
+    const { calculateTrend, isAverageMetricType } = useReportMetrics(
+      props.accountSummaryKey
+    );
+    return { calculateTrend, isAverageMetricType };
+  },
   computed: {
+    ...mapGetters({
+      accountReport: 'getAccountReports',
+    }),
     metrics() {
       const reportKeys = Object.keys(this.reportKeys);
       const infoText = {
@@ -121,12 +134,12 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-white dark:bg-slate-800 p-2 border border-slate-100 dark:border-slate-700 rounded-md"
+    class="grid grid-cols-1 p-2 bg-white border rounded-md md:grid-cols-2 lg:grid-cols-3 dark:bg-slate-800 border-slate-100 dark:border-slate-700"
   >
     <div
       v-for="metric in metrics"
       :key="metric.KEY"
-      class="p-4 rounded-md mb-3"
+      class="p-4 mb-3 rounded-md"
     >
       <ChartStats :metric="metric" :account-summary-key="accountSummaryKey" />
       <div class="mt-4 h-72">
@@ -135,12 +148,12 @@ export default {
           class="text-xs"
           :message="$t('REPORT.LOADING_CHART')"
         />
-        <div v-else class="h-72 flex items-center justify-center">
+        <div v-else class="flex items-center justify-center h-72">
           <woot-bar
             v-if="accountReport.data[metric.KEY].length"
             :collection="getCollection(metric)"
             :chart-options="getChartOptions(metric)"
-            class="h-72 w-full"
+            class="w-full h-72"
           />
           <span v-else class="text-sm text-slate-600">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}

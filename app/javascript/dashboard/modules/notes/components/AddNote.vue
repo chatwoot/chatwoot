@@ -5,7 +5,6 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 
 const emit = defineEmits(['add']);
 
-const addNoteRef = ref(null);
 const noteContent = ref('');
 
 const buttonDisabled = computed(() => noteContent.value === '');
@@ -23,12 +22,11 @@ const keyboardEvents = {
     allowOnFocusedInput: true,
   },
 };
-useKeyboardEvents(keyboardEvents, addNoteRef);
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
   <div
-    ref="addNoteRef"
     class="flex flex-col flex-grow p-4 mb-2 overflow-hidden bg-white border border-solid rounded-md shadow-sm border-slate-75 dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-100"
   >
     <WootMessageEditor
