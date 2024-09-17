@@ -20,4 +20,15 @@ class Chatbots::CallbacksController < ApplicationController
     end
     MessageTemplates::Template::ChatbotReply.new(conversation: conversation).perform(bot_message)
   end
+
+  def links_crawled
+    key = generate_key(params[:user_id])
+    ::Redis::Alfred.setex(key, params[:result].to_json, 5.minutes)
+  end
+
+  private
+
+  def generate_key(user_id)
+    "crawl_links_cache_#{user_id}"
+  end
 end
