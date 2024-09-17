@@ -7,6 +7,7 @@ import hljsVuePlugin from '@highlightjs/vue-plugin';
 
 import Multiselect from 'vue-multiselect';
 // import VueFormulate from '@braid/vue-formulate';
+import { plugin, defaultConfig } from '@formkit/vue';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
 import { sync } from 'vuex-router-sync';
@@ -15,10 +16,8 @@ import WootUiKit from 'dashboard/components';
 import App from 'dashboard/App.vue';
 import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
-// import { emitter } from '../shared/helpers/mitt';
 
-// import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
-import commonHelpers from 'dashboard/helper/commons';
+import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
@@ -79,11 +78,14 @@ if (window.errorLoggingConfig) {
 
 app.use(VueDOMPurifyHTML, domPurifyConfig);
 app.use(WootUiKit);
-// app.use(VueFormulate, {
-//   rules: {
-//     JSON: ({ value }) => isJSONValid(value),
-//   },
-// });
+app.use(
+  plugin,
+  defaultConfig({
+    rules: {
+      JSON: ({ value }) => isJSONValid(value),
+    },
+  })
+);
 app.use(FloatingVue);
 app.use(hljsVuePlugin);
 
