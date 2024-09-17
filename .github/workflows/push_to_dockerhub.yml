@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - homolog
 
 jobs:
   build-and-push:
@@ -12,11 +13,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set Docker tag based on branch
+        id: docker_tag
+        run: |
+          if [ "${{ github.ref_name }}" == "develop" ]; then
+            echo "TAG=latest" >> $GITHUB_ENV
+          elif [ "${{ github.ref_name }}" == "homolog" ]; then
+            echo "TAG=homolog" >> $GITHUB_ENV
+          fi
+
       - name: Login to DockerHub
         run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_PASSWORD }}"
 
       - name: Build Docker Image
-        run: docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest .
+        run: docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:${{ env.TAG }} .
 
       - name: Push Docker Image
-        run:  docker push "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest
+        run: docker push "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:${{ env.TAG }}
