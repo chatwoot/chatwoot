@@ -33,7 +33,10 @@ export default {
         permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       },
       redirect: () => {
-        if (store.getters.getCurrentRole === 'administrator') {
+        if (
+          store.getters.getCurrentRole === 'administrator' &&
+          store.getters.getCurrentCustomRoleId === null
+        ) {
           return frontendURL('accounts/:accountId/settings/general');
         }
         return frontendURL('accounts/:accountId/settings/canned-response');
