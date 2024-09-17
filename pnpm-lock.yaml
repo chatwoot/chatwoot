@@ -191,9 +191,6 @@ importers:
       vue-upload-component:
         specifier: ^3.1.17
         version: 3.1.17
-      vue-virtual-scroll-list:
-        specifier: ^2.3.5
-        version: 2.3.5
       vue-virtual-scroller:
         specifier: ^2.0.0-beta.8
         version: 2.0.0-beta.8(vue@3.5.5(typescript@5.6.2))
@@ -6884,9 +6881,6 @@ packages:
 
   vue-upload-component@3.1.17:
     resolution: {integrity: sha512-1orTC5apoFzBz4ku2HAydpviaAOck+ABc83rGypIK/Bgl+TqhtoWsQOhXqbb7vDv7pKlvRVWwml9PM224HyhkA==}
-
-  vue-virtual-scroll-list@2.3.5:
-    resolution: {integrity: sha512-YFK6u5yltqtAOfTBcij/KGAS2SoZvzbNIAf9qTULauPObEp53xj22tDuohrrM2vNkgoD5kejXICIUBt2Q4ZDqQ==}
 
   vue-virtual-scroller@2.0.0-beta.8:
     resolution: {integrity: sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==}
@@ -14901,8 +14895,6 @@ snapshots:
       vue: 3.5.5(typescript@5.6.2)
 
   vue-upload-component@3.1.17: {}
-
-  vue-virtual-scroll-list@2.3.5: {}
 
   vue-virtual-scroller@2.0.0-beta.8(vue@3.5.5(typescript@5.6.2)):
     dependencies:
