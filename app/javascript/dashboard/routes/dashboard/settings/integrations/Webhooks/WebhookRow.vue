@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { getEventNamei18n } from './webhookHelper';
+import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import { useI18n } from 'dashboard/composables/useI18n';
 
@@ -17,7 +17,16 @@ const props = defineProps({
 const { t } = useI18n();
 const subscribedEvents = computed(() => {
   const { subscriptions } = props.webhook;
-  return subscriptions.map(event => t(getEventNamei18n(event))).join(', ');
+  return subscriptions
+    .map(event =>
+      t(
+        getI18nKey(
+          'INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.EVENTS',
+          event
+        )
+      )
+    )
+    .join(', ');
 });
 </script>
 
@@ -27,7 +36,7 @@ const subscribedEvents = computed(() => {
       <div class="font-medium break-words text-slate-700 dark:text-slate-100">
         {{ webhook.url }}
       </div>
-      <div class="text-sm text-slate-500 dark:text-slate-400 block mt-1">
+      <div class="block mt-1 text-sm text-slate-500 dark:text-slate-400">
         <span class="font-medium">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SUBSCRIBED_EVENTS') }}:
         </span>
@@ -35,7 +44,7 @@ const subscribedEvents = computed(() => {
       </div>
     </td>
     <td class="py-4 min-w-xs">
-      <div class="flex gap-1 justify-end">
+      <div class="flex justify-end gap-1">
         <woot-button
           v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')"
           variant="smooth"
