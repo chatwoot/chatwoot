@@ -42,10 +42,14 @@ const emit = defineEmits(['onSearch', 'select']);
 
 const searchTerm = ref('');
 
-const onSearch = debounce(value => {
-  searchTerm.value = value;
+const debouncedEmit = debounce(value => {
   emit('onSearch', value);
 }, 300);
+
+const onSearch = value => {
+  searchTerm.value = value;
+  debouncedEmit();
+};
 
 const filteredListItems = computed(() => {
   if (!searchTerm.value) return props.listItems;
