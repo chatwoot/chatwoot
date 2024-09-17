@@ -16,7 +16,6 @@ useIntersectionObserver(
   observedElement,
   ([{ isIntersecting }]) => {
     if (isIntersecting) {
-      console.log('Element is intersecting');
       emit('observed');
     }
   },
