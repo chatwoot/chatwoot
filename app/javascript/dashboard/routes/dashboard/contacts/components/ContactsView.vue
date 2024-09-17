@@ -153,7 +153,7 @@ export default {
     },
   },
   mounted() {
-    if (this.uiSettings.contacts_sort_config) {
+    if (this.uiSettings?.contacts_sort_config) {
       this.sortConfig = this.uiSettings.contacts_sort_config;
     }
     this.fetchContacts(this.pageParameter);
