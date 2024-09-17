@@ -70,7 +70,15 @@ body {
   @apply text-woot-500 font-medium hover:text-woot-600;
 }
 
-.tooltip {
-  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-300 dark:text-slate-900;
+.v-popper--theme-tooltip .v-popper__inner {
+  background: black !important;
+  font-size: 0.75rem;
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-container {
+  display: none;
 }
 </style>

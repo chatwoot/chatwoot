@@ -143,6 +143,18 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/app';
+
+.v-popper--theme-tooltip .v-popper__inner {
+  background: black !important;
+  font-size: 0.75rem;
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-container {
+  display: none;
+}
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

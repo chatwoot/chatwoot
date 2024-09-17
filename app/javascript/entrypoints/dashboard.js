@@ -86,7 +86,11 @@ app.use(
     },
   })
 );
-app.use(FloatingVue);
+app.use(FloatingVue, {
+  instantMove: true,
+  arrowOverflow: false,
+  disposeTimeout: 5000000,
+});
 app.use(hljsVuePlugin);
 
 app.component('multiselect', Multiselect);
