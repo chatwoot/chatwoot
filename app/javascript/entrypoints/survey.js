@@ -1,26 +1,18 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-import App from '../survey/App.vue';
-import i18n from '../survey/i18n';
+import { createApp } from 'vue';
+import { createI18n } from 'vue-i18n';
 import store from '../survey/store';
-import { emitter } from 'shared/helpers/mitt';
+import i18nMessages from '../survey/i18n';
+import App from '../survey/App.vue';
 
-Vue.use(VueI18n);
-
-const i18nConfig = new VueI18n({
+const app = createApp(App);
+const i18n = createI18n({
   locale: 'en',
-  messages: i18n,
+  messages: i18nMessages,
 });
 
-// Event Bus
-Vue.prototype.$emitter = emitter;
-
-Vue.config.productionTip = false;
+app.use(i18n);
+app.use(store);
 
 window.onload = () => {
-  window.WOOT_SURVEY = new Vue({
-    i18n: i18nConfig,
-    store,
-    render: h => h(App),
-  }).$mount('#app');
+  window.WOOT_SURVEY = app.mount('#app');
 };
