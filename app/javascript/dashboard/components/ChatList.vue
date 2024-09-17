@@ -36,7 +36,6 @@ export default {
     ChatListHeader,
     AddCustomViews,
     ChatTypeTabs,
-    // eslint-disable-next-line vue/no-unused-components
     ConversationItem,
     ConversationAdvancedFilter,
     DeleteCustomViews,
