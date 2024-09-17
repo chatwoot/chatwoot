@@ -103,7 +103,7 @@ const shouldShowEmptyState = computed(() => {
         :button-text="item.name"
         :icon="item.icon"
         :icon-color="item.iconColor"
-        @click="$emit('click', item)"
+        @click="$emit('select', item)"
       />
     </slot>
   </div>

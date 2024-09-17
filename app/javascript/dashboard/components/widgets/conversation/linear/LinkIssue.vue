@@ -121,7 +121,7 @@ const linkIssue = async () => {
           enable-search
           class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
           @onSearch="onSearch"
-          @click="onSelectIssue"
+          @select="onSelectIssue"
         />
       </template>
     </FilterButton>
