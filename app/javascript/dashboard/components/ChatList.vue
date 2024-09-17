@@ -28,6 +28,7 @@ import IntersectionObserver from './IntersectionObserver.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useChatListKeyboardEvents } from 'dashboard/composables/chatlist/useChatListKeyboardEvents';
+import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -73,12 +74,6 @@ const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
-const advancedFilterTypes = ref(
-  advancedFilterOptions.map(filter => ({
-    ...filter,
-    attributeName: t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
-  }))
-);
 // chatsOnView is to store the chats that are currently visible on the screen,
 // which mirrors the conversationList.
 const chatsOnView = ref([]);
@@ -88,16 +83,12 @@ const showDeleteFoldersModal = ref(false);
 const selectedInboxes = ref([]);
 const isContextMenuOpen = ref(false);
 const appliedFilter = ref([]);
-
-useChatListKeyboardEvents(conversationListRef);
-
-const {
-  initializeStatusAndAssigneeFilterToModal,
-  initializeInboxTeamAndLabelFilterToModal,
-} = useFilter({
-  filteri18nKey: 'FILTER',
-  attributeModel: 'conversation_attribute',
-});
+const advancedFilterTypes = ref(
+  advancedFilterOptions.map(filter => ({
+    ...filter,
+    attributeName: t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+  }))
+);
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getAllConversations');
@@ -114,9 +105,28 @@ const teamsList = useMapGetter('teams/getTeams');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const campaigns = useMapGetter('campaigns/getAllCampaigns');
 const labels = useMapGetter('labels/getLabels');
-const selectedConversations = useMapGetter(
-  'bulkActions/getSelectedConversationIds'
-);
+
+useChatListKeyboardEvents(conversationListRef);
+const {
+  selectedConversations,
+  selectConversation,
+  deSelectConversation,
+  selectAllConversations,
+  resetBulkActions,
+  isConversationSelected,
+  onAssignAgent,
+  onAssignLabels,
+  onAssignTeamsForBulk,
+  onUpdateConversations,
+} = useBulkActions();
+
+const {
+  initializeStatusAndAssigneeFilterToModal,
+  initializeInboxTeamAndLabelFilterToModal,
+} = useFilter({
+  filteri18nKey: 'FILTER',
+  attributeModel: 'conversation_attribute',
+});
 
 // computed
 const intersectionObserverOptions = computed(() => {
@@ -324,11 +334,6 @@ function setFiltersFromUISettings() {
     Object.keys(wootConstants.SORT_BY_TYPE).find(
       sortField => sortField === orderBy
     ) || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
-}
-
-function resetBulkActions() {
-  store.dispatch('bulkActions/clearSelectedConversationIds');
-  selectedInboxes.value = [];
 }
 
 function emitConversationLoaded() {
@@ -584,58 +589,6 @@ function openLastItemAfterDeleteInFolder() {
   }
 }
 
-function isConversationSelected(id) {
-  return selectedConversations.value.includes(id);
-}
-
-function selectConversation(conversationId, inboxId) {
-  store.dispatch('bulkActions/setSelectedConversationIds', conversationId);
-  selectedInboxes.value = [...selectedInboxes.value, inboxId];
-}
-
-function deSelectConversation(conversationId, inboxId) {
-  store.dispatch('bulkActions/removeSelectedConversationIds', conversationId);
-  selectedInboxes.value = selectedInboxes.value.filter(
-    item => item !== inboxId
-  );
-}
-
-function selectAllConversations(check) {
-  if (check) {
-    store.dispatch(
-      'bulkActions/setSelectedConversationIds',
-      conversationList.value.map(item => item.id)
-    );
-    selectedInboxes.value = conversationList.value.map(item => item.inbox_id);
-  } else {
-    resetBulkActions();
-  }
-}
-// Same method used in context menu, conversationId being passed from there.
-async function onAssignAgent(agent, conversationId = null) {
-  try {
-    await store.dispatch('bulkActions/process', {
-      type: 'Conversation',
-      ids: conversationId || selectedConversations.value,
-      fields: {
-        assignee_id: agent.id,
-      },
-    });
-    store.dispatch('bulkActions/clearSelectedConversationIds');
-    if (conversationId) {
-      useAlert(
-        t('CONVERSATION.CARD_CONTEXT_MENU.API.AGENT_ASSIGNMENT.SUCCESFUL', {
-          agentName: agent.name,
-          conversationId,
-        })
-      );
-    } else {
-      useAlert(t('BULK_ACTION.ASSIGN_SUCCESFUL'));
-    }
-  } catch (err) {
-    useAlert(t('BULK_ACTION.ASSIGN_FAILED'));
-  }
-}
 async function assignPriority(priority, conversationId = null) {
   store.dispatch('setCurrentChatPriority', {
     priority,
@@ -654,6 +607,7 @@ async function assignPriority(priority, conversationId = null) {
     );
   });
 }
+
 async function markAsUnread(conversationId) {
   try {
     await store.dispatch('markMessagesUnread', {
@@ -699,62 +653,6 @@ async function onAssignTeam(team, conversationId = null) {
     useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED'));
   }
 }
-// Same method used in context menu, conversationId being passed from there.
-async function onAssignLabels(newLabels, conversationId = null) {
-  try {
-    await store.dispatch('bulkActions/process', {
-      type: 'Conversation',
-      ids: conversationId || selectedConversations.value,
-      labels: {
-        add: newLabels,
-      },
-    });
-    store.dispatch('bulkActions/clearSelectedConversationIds');
-    if (conversationId) {
-      useAlert(
-        t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_ASSIGNMENT.SUCCESFUL', {
-          labelName: newLabels[0],
-          conversationId,
-        })
-      );
-    } else {
-      useAlert(t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
-    }
-  } catch (err) {
-    useAlert(t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
-  }
-}
-async function onAssignTeamsForBulk(team) {
-  try {
-    await store.dispatch('bulkActions/process', {
-      type: 'Conversation',
-      ids: selectedConversations.value,
-      fields: {
-        team_id: team.id,
-      },
-    });
-    store.dispatch('bulkActions/clearSelectedConversationIds');
-    useAlert(t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
-  } catch (err) {
-    useAlert(t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
-  }
-}
-async function onUpdateConversations(status, snoozedUntil) {
-  try {
-    await store.dispatch('bulkActions/process', {
-      type: 'Conversation',
-      ids: selectedConversations.value,
-      fields: {
-        status,
-      },
-      snoozed_until: snoozedUntil,
-    });
-    store.dispatch('bulkActions/clearSelectedConversationIds');
-    useAlert(t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
-  } catch (err) {
-    useAlert(t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
-  }
-}
 
 function toggleConversationStatus(conversationId, status, snoozedUntil) {
   store
@@ -777,6 +675,10 @@ function allSelectedConversationsStatus(status) {
 
 function onContextMenuToggle(state) {
   isContextMenuOpen.value = state;
+}
+
+function toggleSelectAll(check) {
+  selectAllConversations(check, conversationList);
 }
 
 useEmitter('fetch_conversation_stats', () => {
@@ -888,7 +790,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :show-open-action="allSelectedConversationsStatus('open')"
       :show-resolved-action="allSelectedConversationsStatus('resolved')"
       :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
-      @selectAllConversations="selectAllConversations"
+      @selectAllConversations="toggleSelectAll"
       @assignAgent="onAssignAgent"
       @updateConversations="onUpdateConversations"
       @assignLabels="onAssignLabels"
