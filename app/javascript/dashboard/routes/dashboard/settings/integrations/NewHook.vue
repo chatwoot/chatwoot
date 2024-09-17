@@ -3,8 +3,11 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
-
+import { FormKit } from '@formkit/vue';
 export default {
+  components: {
+    FormKit,
+  },
   props: {
     integrationId: {
       type: String,
@@ -111,18 +114,18 @@ export default {
       :header-title="integration.name"
       :header-content="integration.description"
     />
-    <formulate-form
-      v-slot="{ hasErrors }"
+    <FormKit
       v-model="values"
-      class="w-full"
+      type="form"
+      form-class="w-full"
+      :submit-attrs="{
+        inputClass: 'hidden',
+        wrapperClass: 'hidden',
+      }"
       @submit="submitForm"
     >
-      <formulate-input
-        v-for="item in formItems"
-        :key="item.name"
-        v-bind="item"
-      />
-      <formulate-input
+      <FormKit v-for="item in formItems" :key="item.name" v-bind="item" />
+      <FormKit
         v-if="isHookTypeInbox"
         :options="inboxes"
         type="select"
@@ -133,13 +136,13 @@ export default {
         validation-name="Inbox"
       />
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button :disabled="hasErrors" :loading="uiFlags.isCreatingHook">
+        <woot-button type="submit" :loading="uiFlags.isCreatingHook">
           {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
         </woot-button>
-        <woot-button class="button clear" @click.prevent="onClose">
+        <woot-button type="reset" class="button clear" @click.prevent="onClose">
           {{ $t('INTEGRATION_APPS.ADD.FORM.CANCEL') }}
         </woot-button>
       </div>
-    </formulate-form>
+    </FormKit>
   </div>
 </template>
