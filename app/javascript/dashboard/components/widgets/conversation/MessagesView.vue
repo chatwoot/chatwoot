@@ -495,7 +495,7 @@ export default {
         try {
           await this.$store.dispatch('fetchPreviousMessages', {
             conversationId: this.currentChat.id,
-            before_timestamp: this.currentChat.messages[0].created_at,
+            before_timestamp: this.currentChat.messages[0].cwct_created_at,
           });
           const heightDifference =
             this.conversationPanel.scrollHeight - this.heightBeforeLoad;

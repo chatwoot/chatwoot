@@ -60,6 +60,9 @@ export default {
         .filter(chat => chat.created_at * 1000 <= agentLastSeenAt * 1000)
         .map(chat => {
           let temp = chat;
+          if (!temp.cwct_created_at) {
+            temp.cwct_created_at = chat.created_at;
+          }
           if (chat.content_attributes.external_created_at)
             temp.created_at = parseInt(
               chat.content_attributes.external_created_at
@@ -75,6 +78,9 @@ export default {
         .filter(chat => chat.created_at * 1000 > agentLastSeenAt * 1000)
         .map(chat => {
           let temp = chat;
+          if (!temp.cwct_created_at) {
+            temp.cwct_created_at = chat.created_at;
+          }
           if (chat.content_attributes.external_created_at)
             temp.created_at = parseInt(
               chat.content_attributes.external_created_at
