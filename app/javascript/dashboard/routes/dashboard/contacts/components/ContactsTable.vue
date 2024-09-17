@@ -147,7 +147,7 @@ export default {
         {
           field: 'company',
           key: 'company',
-          sortBy: this.activeSortConfig.company_name || '',
+          sortBy: this.activeSortConfig.company || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
           align: this.isRTL ? 'right' : 'left',
         },
