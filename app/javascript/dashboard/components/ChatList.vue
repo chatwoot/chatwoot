@@ -1,24 +1,26 @@
 <script>
 import { ref } from 'vue';
 import { mapGetters } from 'vuex';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useAlert } from 'dashboard/composables';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
-import { useFilter } from 'shared/composables/useFilter';
-import { useTrack } from 'dashboard/composables';
 
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
-import wootConstants from 'dashboard/constants/globals';
-import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
-import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
+import IntersectionObserver from './IntersectionObserver.vue';
+
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAlert } from 'dashboard/composables';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useFilter } from 'shared/composables/useFilter';
+import { useTrack } from 'dashboard/composables';
+
+import wootConstants from 'dashboard/constants/globals';
+import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
+import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -28,8 +30,9 @@ import {
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
-import IntersectionObserver from './IntersectionObserver.vue';
 import { emitter } from 'shared/helpers/mitt';
+
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 export default {
   components: {
