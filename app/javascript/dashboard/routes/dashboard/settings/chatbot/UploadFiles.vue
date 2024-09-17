@@ -3,14 +3,6 @@
     class="overflow-hidden p-4 w-1/4 max-w-1/4 flex flex-row flex-nowrap h-full"
   >
     <div class="sidebar">
-      <woot-button class="icon" variant="clear" @click="showUploader('file')">
-        <fluent-icon icon="document" />
-        <span>{{ $t('CHATBOTS.UPLOAD.FILE') }}</span>
-      </woot-button>
-      <woot-button class="icon" variant="clear" @click="showUploader('text')">
-        <fluent-icon icon="text-align-left" />
-        <span>{{ $t('CHATBOTS.UPLOAD.TEXT') }}</span>
-      </woot-button>
       <woot-button
         class="icon"
         variant="clear"
@@ -18,6 +10,14 @@
       >
         <fluent-icon icon="globe" />
         <span>{{ $t('CHATBOTS.UPLOAD.WEBSITE') }}</span>
+      </woot-button>
+      <woot-button class="icon" variant="clear" @click="showUploader('file')">
+        <fluent-icon icon="document" />
+        <span>{{ $t('CHATBOTS.UPLOAD.FILE') }}</span>
+      </woot-button>
+      <woot-button class="icon" variant="clear" @click="showUploader('text')">
+        <fluent-icon icon="text-align-left" />
+        <span>{{ $t('CHATBOTS.UPLOAD.TEXT') }}</span>
       </woot-button>
     </div>
     <router-view />
