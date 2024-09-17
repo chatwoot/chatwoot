@@ -1,5 +1,9 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 const SettingsContent = () => import('../Wrapper.vue');
 const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const Macros = () => import('./Index.vue');
@@ -16,7 +20,7 @@ export default {
           name: 'macros_wrapper',
           component: Macros,
           meta: {
-            permissions: ['administrator', 'agent'],
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
       ],
@@ -37,7 +41,7 @@ export default {
           name: 'macros_edit',
           component: MacroEditor,
           meta: {
-            permissions: ['administrator', 'agent'],
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
         {
@@ -45,7 +49,7 @@ export default {
           name: 'macros_new',
           component: MacroEditor,
           meta: {
-            permissions: ['administrator', 'agent'],
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
       ],

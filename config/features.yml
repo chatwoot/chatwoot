@@ -89,3 +89,6 @@
   enabled: false
 - name: captain_integration
   enabled: false
+- name: custom_roles
+  enabled: false
+  premium: true

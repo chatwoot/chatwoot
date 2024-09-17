@@ -26,7 +26,7 @@ const initializeAudioAlerts = user => {
   } = uiSettings || {};
 
   DashboardAudioNotificationHelper.setInstanceValues({
-    currentUserId: user.id,
+    currentUser: user,
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',
     alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
