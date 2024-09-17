@@ -40,6 +40,8 @@ module AssignmentConcern
   end
 
   def change_assignee?
+    return false unless contact_update_params[:assignee_id].present? || contact_update_params[:team_id].present?
+
     @contact.assignee_id != contact_update_params[:assignee_id] || @contact.team_id != contact_update_params[:team_id]
   end
 
