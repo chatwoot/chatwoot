@@ -241,25 +241,29 @@
   "ONBOARDING": {
     "TITLE": "Sveicināti 👋, Laipni lūdzam %{installationName}!",
     "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no %{installationName}. Šeit ir dažas lietas, ko varat darīt %{installationName} lai Jūsu pieredze būtu patīkamāka.",
+    "GREETING_MORNING": "👋 Labrīt, %{name}. Laipni lūdzam %{installationName}.",
+    "GREETING_AFTERNOON": "👋 Labdien, %{name}. Laipni lūdzam %{installationName}.",
+    "GREETING_EVENING": "👋 Labvakar, %{name}. Laipni lūdzam %{installationName}.",
     "READ_LATEST_UPDATES": "Izlasīt mūsu aktuālākos jaunumus",
     "ALL_CONVERSATION": {
       "TITLE": "Visas Jūsu sarunas vienuviet",
-      "DESCRIPTION": "Skatīt visas sarunas ar klientiem vienā informācijas panelī. Jūs varat filtrēt sarunas pēc ienākošā kanāla, etiķetes un statusa."
+      "DESCRIPTION": "Skatīt visas sarunas ar klientiem vienā informācijas panelī. Jūs varat filtrēt sarunas pēc ienākošā kanāla, etiķetes un statusa.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu iesūtni"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Uzaicināt savas komandas biedrus",
       "DESCRIPTION": "Tā kā Jūs gatavojaties runāt ar savu klientu, piesaistiet savus komandas biedrus, lai viņi Jums palīdzētu. Jūs varat uzaicināt savus komandas biedrus, pievienojot viņu e-pasta adreses aģentu sarakstam.",
       "NEW_LINK": "Noklikšķiniet šeit, lai uzaicinātu komandas biedru"
     },
-    "INBOXES": {
-      "TITLE": "Pievienot Iesūtnes",
-      "DESCRIPTION": "Pievienot dažādus kanālus, caur kuriem Jūsu klienti ar Jums runās. Tie var būt tīmekļa vietņu tiešraides tērzētavas, Jūsu Facebook vai Twitter lapa, vai pat jūsu WhatsApp numurs.",
-      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu iesūtni"
-    },
     "LABELS": {
       "TITLE": "Organizēt sarunas ar etiķetēm",
       "DESCRIPTION": "Etiķetes nodrošina vienkāršāku veidu, kā klasificēt sarunu. Izveidojiet dažas etiķetes, piemēram, #atbalsta-pieprasījums, #norēķinu-jautājums utt., lai vēlāk varētu tās izmantot sarunas laikā.",
       "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu atzīmes"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Izveidot sagatavotas atbildes",
+      "DESCRIPTION": "Iepriekš sagatavotas atbildes veidnes palīdz ātri reaģēt uz sarunu. Aģenti var izmantot '/' rakstzīmi, kurai seko kods, lai ievietotu atbildi.",
+      "NEW_LINK": "Noklikšķiniet šeit, lai izveidotu sagatavotu atbildi"
     }
   },
   "CONVERSATION_SIDEBAR": {

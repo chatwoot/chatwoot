@@ -1,8 +1,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, url, minLength } from '@vuelidate/validators';
-import webhookMixin from './webhookMixin';
 import wootConstants from 'dashboard/constants/globals';
+import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -18,7 +18,6 @@ const SUPPORTED_WEBHOOK_EVENTS = [
 ];
 
 export default {
-  mixins: [webhookMixin],
   props: {
     value: {
       type: Object,
@@ -70,6 +69,7 @@ export default {
         subscriptions: this.subscriptions,
       });
     },
+    getI18nKey,
   },
 };
 </script>
@@ -105,16 +105,23 @@ export default {
             type="checkbox"
             :value="event"
             name="subscriptions"
-            class="checkbox"
+            class="mr-2"
           />
           <label :for="event" class="text-sm">
-            {{ `${getEventLabel(event)} (${event})` }}
+            {{
+              `${$t(
+                getI18nKey(
+                  'INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.EVENTS',
+                  event
+                )
+              )} (${event})`
+            }}
           </label>
         </div>
       </div>
     </div>
 
-    <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+    <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
       <div class="w-full">
         <woot-button
           :disabled="v$.$invalid || isSubmitting"
@@ -129,9 +136,3 @@ export default {
     </div>
   </form>
 </template>
-
-<style lang="scss" scoped>
-.checkbox {
-  @apply mr-2;
-}
-</style>

@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -7,11 +7,11 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from '../constants/widgetBusEvents';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     message: {
       type: String,
@@ -29,6 +29,18 @@ export default {
       type: Number,
       default: null,
     },
+  },
+  setup() {
+    const { formatMessage, getPlainText, truncateMessage, highlightContent } =
+      useMessageFormatter();
+    const { getThemeClass } = useDarkMode();
+    return {
+      formatMessage,
+      getPlainText,
+      truncateMessage,
+      highlightContent,
+      getThemeClass,
+    };
   },
   computed: {
     companyName() {
@@ -85,7 +97,7 @@ export default {
   <div class="chat-bubble-wrap">
     <button
       class="chat-bubble agent"
-      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      :class="getThemeClass('bg-white', 'dark:bg-slate-50')"
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">

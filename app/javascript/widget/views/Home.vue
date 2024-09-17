@@ -4,7 +4,7 @@ import ArticleHero from 'widget/components/ArticleHero.vue';
 import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
 
 import { mapGetters } from 'vuex';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 
@@ -15,7 +15,11 @@ export default {
     TeamAvailability,
     ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin, routerMixin, darkModeMixin],
+  mixins: [configMixin, routerMixin],
+  setup() {
+    const { prefersDarkMode } = useDarkMode();
+    return { prefersDarkMode };
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',

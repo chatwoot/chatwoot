@@ -1,5 +1,4 @@
 <script>
-import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -8,7 +7,10 @@ import { useRoute, useRouter } from 'dashboard/composables/route';
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
 import { routesWithPermissions } from '../../routes';
-import { hasPermissions } from '../../helper/permissionsHelper';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from '../../helper/permissionsHelper';
 
 export default {
   components: {
@@ -26,7 +28,6 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const sidebarRef = ref(null);
     const route = useRoute();
     const router = useRouter();
 
@@ -64,11 +65,10 @@ export default {
         action: () => navigateToRoute('agent_list'),
       },
     };
-    useKeyboardEvents(keyboardEvents, sidebarRef);
+    useKeyboardEvents(keyboardEvents);
 
     return {
       toggleKeyShortcutModal,
-      sidebarRef,
     };
   },
   data() {
@@ -113,7 +113,10 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
-      const userPermissions = this.currentUser.permissions;
+      const userPermissions = getUserPermissions(
+        this.currentUser,
+        this.accountId
+      );
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = hasPermissions(
@@ -195,7 +198,7 @@ export default {
 </script>
 
 <template>
-  <aside ref="sidebarRef" class="flex h-full">
+  <aside class="flex h-full">
     <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"

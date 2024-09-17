@@ -3,7 +3,6 @@ import { useAlert } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
-import reportMixin from '../../../../../mixins/reportMixin';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
@@ -22,7 +21,6 @@ export default {
     ReportFilters,
     ReportContainer,
   },
-  mixins: [reportMixin],
   props: {
     type: {
       type: String,
