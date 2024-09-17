@@ -1,10 +1,9 @@
 <script>
 import { ref, computed, nextTick } from 'vue';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 export default {
-  mixins: [messageFormatterMixin],
   props: {
     items: {
       type: Array,
@@ -30,7 +29,7 @@ export default {
   setup(props) {
     const selectedIndex = ref(-1);
     const portalSearchSuggestionsRef = ref(null);
-
+    const { highlightContent } = useMessageFormatter();
     const adjustScroll = () => {
       nextTick(() => {
         portalSearchSuggestionsRef.value.scrollTop = 102 * selectedIndex.value;
@@ -44,7 +43,6 @@ export default {
     };
 
     useKeyboardNavigableList({
-      elementRef: portalSearchSuggestionsRef,
       items: computed(() => props.items),
       adjustScroll,
       selectedIndex,
@@ -54,6 +52,7 @@ export default {
       selectedIndex,
       portalSearchSuggestionsRef,
       isSearchItemActive,
+      highlightContent,
     };
   },
 

@@ -2,13 +2,13 @@
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [FormulateInputMixin, darkModeMixin],
+  mixins: [FormulateInputMixin],
   props: {
     placeholder: {
       type: String,
@@ -18,6 +18,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   data() {
     return {
@@ -45,28 +49,31 @@ export default {
       return this.activeCountryCode ? 'Clear selection' : 'Select Country';
     },
     dropdownClass() {
-      return `${this.$dm('bg-slate-100', 'dark:bg-slate-700')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
+      return `${this.getThemeClass(
+        'bg-slate-100',
+        'dark:bg-slate-700'
+      )} ${this.getThemeClass('text-slate-700', 'dark:text-slate-50')}`;
     },
     dropdownBackgroundClass() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-700')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
+      return `${this.getThemeClass(
+        'bg-white',
+        'dark:bg-slate-700'
+      )} ${this.getThemeClass('text-slate-700', 'dark:text-slate-50')}`;
     },
     dropdownItemClass() {
-      return `${this.$dm('text-slate-700', 'dark:text-slate-50')} ${this.$dm(
-        'hover:bg-slate-50',
-        'dark:hover:bg-slate-600'
-      )}`;
+      return `${this.getThemeClass(
+        'text-slate-700',
+        'dark:text-slate-50'
+      )} ${this.getThemeClass('hover:bg-slate-50', 'dark:hover:bg-slate-600')}`;
     },
     activeDropdownItemClass() {
-      return `active ${this.$dm('bg-slate-100', 'dark:bg-slate-800')}`;
+      return `active ${this.getThemeClass(
+        'bg-slate-100',
+        'dark:bg-slate-800'
+      )}`;
     },
     focusedDropdownItemClass() {
-      return `focus ${this.$dm('bg-slate-50', 'dark:bg-slate-600')}`;
+      return `focus ${this.getThemeClass('bg-slate-50', 'dark:bg-slate-600')}`;
     },
     inputHasError() {
       return this.hasErrorInPhoneInput
@@ -74,13 +81,16 @@ export default {
         : `hover:border-black-300 focus:border-black-300 ${this.inputLightAndDarkModeColor} ${this.inputBorderColor}`;
     },
     inputBorderColor() {
-      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
+      return `${this.getThemeClass(
+        'border-black-200',
+        'dark:border-black-500'
+      )}`;
     },
     inputLightAndDarkModeColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
+      return `${this.getThemeClass(
+        'bg-white',
+        'dark:bg-slate-600'
+      )} ${this.getThemeClass('text-slate-700', 'dark:text-slate-50')}`;
     },
     items() {
       return this.countries.filter(country => {
@@ -241,7 +251,7 @@ export default {
       <span
         v-if="activeDialCode"
         class="py-2 pl-2 pr-0 text-base"
-        :class="$dm('text-slate-700', 'dark:text-slate-50')"
+        :class="getThemeClass('text-slate-700', 'dark:text-slate-50')"
       >
         {{ activeDialCode }}
       </span>
@@ -273,7 +283,10 @@ export default {
           type="text"
           :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_SEARCH')"
           class="w-full h-8 px-3 py-2 mt-1 mb-1 text-sm border border-solid rounded outline-none dropdown-search"
-          :class="[$dm('bg-slate-50', 'dark:bg-slate-600'), inputBorderColor]"
+          :class="[
+            getThemeClass('bg-slate-50', 'dark:bg-slate-600'),
+            inputBorderColor,
+          ]"
         />
       </div>
       <div
@@ -298,7 +311,7 @@ export default {
       <div v-if="items.length === 0">
         <span
           class="flex justify-center mt-4 text-sm text-center"
-          :class="$dm('text-slate-700', 'dark:text-slate-50')"
+          :class="getThemeClass('text-slate-700', 'dark:text-slate-50')"
         >
           {{ $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
         </span>

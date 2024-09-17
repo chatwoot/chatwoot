@@ -168,6 +168,11 @@
   display_title: 'Dashboard Scripts'
   description: 'Scripts are loaded as the last item in the <body> tag'
   type: code
+- name: BLOCKED_EMAIL_DOMAINS
+  value:
+  display_title: 'Blocked Email Domains'
+  description: 'Add a domain per line to block them from signing up, accepts Regex'
+  type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
@@ -220,11 +225,11 @@
 
 ## ----- Captain Configs ----- ##
 - name: CAPTAIN_API_URL
-  value: 
+  value:
   display_title: 'Captain API URL'
   description: 'The API URL for Captain'
 - name: CAPTAIN_APP_URL
-  value: 
+  value:
   display_title: 'Captain App URL'
   description: 'The App URL for Captain'
 ## ----- End of Captain Configs ----- ##
