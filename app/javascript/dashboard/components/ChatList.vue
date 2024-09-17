@@ -29,7 +29,7 @@ import {
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
-// import IntersectionObserver from './IntersectionObserver.vue';
+import IntersectionObserver from './IntersectionObserver.vue';
 import { emitter } from 'shared/helpers/mitt';
 
 export default {
@@ -44,7 +44,7 @@ export default {
     ConversationBulkActions,
     DynamicScroller,
     DynamicScrollerItem,
-    // IntersectionObserver,
+    IntersectionObserver,
     // VirtualList,
   },
   provide() {
@@ -1031,6 +1031,11 @@ export default {
               @deSelectConversation="deSelectConversation"
             />
           </DynamicScrollerItem>
+          <IntersectionObserver
+            v-if="!showEndOfListMessage && !chatListLoading"
+            :options="infiniteLoaderOptions"
+            @observed="loadMoreConversations"
+          />
         </template>
         <template #after>
           <div v-if="chatListLoading" class="text-center">
