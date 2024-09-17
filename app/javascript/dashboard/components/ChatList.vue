@@ -1020,20 +1020,20 @@ export default {
           </DynamicScrollerItem>
         </template>
         <template #after>
-          <IntersectionObserver
-            v-if="!showEndOfListMessage && !chatListLoading"
-            :options="intersectionObserverOptions"
-            @observed="loadMoreConversations"
-          />
           <div v-if="chatListLoading" class="text-center">
             <span class="mt-4 mb-4 spinner" />
           </div>
           <p
-            v-if="showEndOfListMessage"
+            v-else-if="showEndOfListMessage"
             class="p-4 text-center text-slate-400 dark:text-slate-300"
           >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
+          <IntersectionObserver
+            v-else
+            :options="intersectionObserverOptions"
+            @observed="loadMoreConversations"
+          />
         </template>
       </DynamicScroller>
     </div>
