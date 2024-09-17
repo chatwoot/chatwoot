@@ -1,12 +1,9 @@
 import 'chart.js';
-import Vue from 'vue';
+import { createApp } from 'vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
-Vue.use(VueDOMPurifyHTML);
 
-const PlaygroundIndex = () =>
-  import('../superadmin_pages/views/playground/Index.vue');
-const DashboardIndex = () =>
-  import('../superadmin_pages/views/dashboard/Index.vue');
+import PlaygroundIndex from '../superadmin_pages/views/playground/Index.vue';
+import DashboardIndex from '../superadmin_pages/views/dashboard/Index.vue';
 
 const ComponentMapping = {
   PlaygroundIndex: PlaygroundIndex,
@@ -14,11 +11,16 @@ const ComponentMapping = {
 };
 
 const renderComponent = (componentName, props) => {
-  Vue.component(componentName, ComponentMapping[componentName]);
-  new Vue({
-    data: { props: props },
+  const app = createApp({
+    data() {
+      return { props: props };
+    },
     template: `<${componentName} :component-data="props"/>`,
-  }).$mount('#app');
+  });
+
+  app.component(componentName, ComponentMapping[componentName]);
+  app.use(VueDOMPurifyHTML);
+  app.mount('#app');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
