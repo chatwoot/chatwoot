@@ -34,4 +34,4 @@ class ArticlePolicy < ApplicationPolicy
   end
 end
 
-ArticlePolicy.prepend_mod_with(Enterprise::ArticlePolicy)
+ArticlePolicy.prepend_mod_with('Enterprise::ArticlePolicy')
