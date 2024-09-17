@@ -204,7 +204,7 @@ export default {
 
       this.previousText = newText;
     },
-    fetchLinks() {
+    async fetchLinks() {
       const pattern = new RegExp(
         '^https:\\/\\/' + // protocol
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -218,21 +218,7 @@ export default {
       if (websiteUrl !== '' && pattern.test(websiteUrl)) {
         if (!this.links.some(obj => obj.link === websiteUrl)) {
           this.$emit('start-progress');
-          ChatbotAPI.fetchLinks(websiteUrl)
-            .then(response => {
-              const linksWithCharCount = response.data.links_with_char_count;
-              const filteredLinks = linksWithCharCount.filter(link => {
-                return !this.links.some(
-                  existingLink => existingLink.link === link.link
-                );
-              });
-              this.$store.dispatch('chatbots/addLink', filteredLinks);
-              this.$emit('end-progress');
-            })
-            .catch(error => {
-              this.showAlert(error.response.data.message);
-              this.$emit('end-progress');
-            });
+          await ChatbotAPI.fetchLinks(websiteUrl);
         }
       } else {
         this.showAlert(this.$t('Please enter a valid https Url'));
@@ -316,7 +302,7 @@ export default {
 }
 .website-links {
   margin-top: 20px;
-  height: 600px;
+  height: 500px;
   overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

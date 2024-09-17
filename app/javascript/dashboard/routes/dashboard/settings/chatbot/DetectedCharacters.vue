@@ -9,8 +9,8 @@
       <span class="text-sm">
         {{
           $t('CHATBOTS.LIMIT', {
-            detectedChar: detectedChar,
-            accountLimit: accountCharLimit,
+            detectedChar: formattedDetectedChar,
+            accountLimit: formattedAccountCharLimit,
           })
         }}
       </span>
@@ -42,6 +42,14 @@ export default {
     accountCharLimit: {
       default: 1000000,
       type: Number,
+    },
+  },
+  computed: {
+    formattedDetectedChar() {
+      return this.detectedChar.toLocaleString();
+    },
+    formattedAccountCharLimit() {
+      return this.accountCharLimit.toLocaleString();
     },
   },
   method: {

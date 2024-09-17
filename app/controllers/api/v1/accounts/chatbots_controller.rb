@@ -90,6 +90,21 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
       end
     end
 
+    saved_attachment = get_attachments(params[:chatbotId])
+    if saved_attachment.present?
+      saved_files = saved_attachment.map do |attachment|
+        file_data = URI.open(attachment[:file_url])
+        tempfile = Tempfile.new([attachment[:filename], File.extname(attachment[:filename])])
+        tempfile.binmode
+        tempfile.write(file_data.read)
+        tempfile.rewind
+
+        HTTP::FormData::File.new(tempfile, filename: attachment[:filename])
+      end
+
+      files.concat(saved_files)
+    end
+
     payload = { id: params[:chatbotId], urls: links, files: files, text: params[:text] }
     begin
       response = HTTP.post(retrain_uri, form: payload)
@@ -101,11 +116,24 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
 
   def fetch_links
     url = params[:url]
-    visited_links = Set.new
-    # Crawl the links recursively
-    links_map = crawl_links(url)
-    links_with_char_count = links_map.map { |link, count| { link: link, char_count: count } }
-    render json: { links_with_char_count: links_with_char_count }, status: :ok
+    begin
+      scrape_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/scrape'
+      @user = User.find_by!(pubsub_token: current_user.pubsub_token)
+      payload = { url: url, user_id: @user.id }
+      response = HTTP.post(scrape_uri, form: payload)
+    rescue HTTP::Error => e
+      { error: e.message }
+    end
+    render json: { message: 'Crawling started' }, status: :ok
+  end
+
+  def check_crawling_status
+    links_with_char_count = retrieve_data_from_redis
+    if links_with_char_count
+      render json: { links_with_char_count: links_with_char_count }, status: :ok
+    else
+      render json: { error: 'Data not found' }, status: :ok
+    end
   end
 
   def saved_data
@@ -198,41 +226,6 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     authorize(@chatbot) if @chatbot.present?
   end
 
-  def crawl_links(url, visited_links = Set.new, links_map = {})
-    return links_map if visited_links.include?(url)
-
-    visited_links.add(url)
-
-    begin
-      html_content = URI.open(url).read
-    rescue OpenURI::HTTPError => e
-      puts "Failed to fetch #{url}: #{e.message}"
-      return links_map
-    rescue StandardError => e
-      puts "An error occurred while processing #{url}: #{e.message}"
-      return links_map
-    end
-
-    # Parse the HTML content
-    doc = Nokogiri::HTML(html_content)
-
-    # Extract visible text and calculate character count
-    visible_text = doc.text.strip
-    content_char_count = visible_text.length
-    links_map[url] = content_char_count
-
-    links = doc.css('a').map { |link| link['href'] }.compact
-    links.map! { |link| URI.join(url, link).to_s }
-    links.reject! { |link| URI.parse(link).fragment }
-    links.select! { |link| link.start_with?(url) }
-
-    links.each do |link|
-      links_map.merge!(crawl_links(link, visited_links, links_map))
-    end
-
-    links_map
-  end
-
   def attach_files(files)
     files.each do |_, file_data|
       next unless file_data['file'] && file_data['char_count']
@@ -246,5 +239,24 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
         metadata: { char_count: char_count.to_i }
       )
     end
+  end
+
+  def get_attachments(chatbot_id)
+    chatbot = Chatbot.find(chatbot_id)
+    chatbot.file_base_data
+  end
+
+  def retrieve_data_from_redis
+    key = generate_key(@user.id)
+    data = Redis::Alfred.get(key)
+    return unless data
+
+    parsed_data = JSON.parse(data)
+    Redis::Alfred.delete(key)
+    parsed_data
+  end
+
+  def generate_key(user_id)
+    "crawl_links_cache_#{user_id}"
   end
 end
