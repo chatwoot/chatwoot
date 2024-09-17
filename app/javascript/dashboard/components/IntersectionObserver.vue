@@ -25,5 +25,5 @@ useIntersectionObserver(
 </script>
 
 <template>
-  <div ref="observedElement" class="h-6 w-full bg-green-400" />
+  <div ref="observedElement" class="h-6 w-full" />
 </template>

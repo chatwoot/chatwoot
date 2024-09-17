@@ -4,7 +4,6 @@ import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-// [VITE] Todo: There's a bug with the sizing of the elements, we need to fix that
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { useFilter } from 'shared/composables/useFilter';
@@ -45,7 +44,6 @@ export default {
     DynamicScroller,
     DynamicScrollerItem,
     IntersectionObserver,
-    // VirtualList,
   },
   provide() {
     return {
@@ -193,21 +191,10 @@ export default {
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
-      infiniteLoaderOptions: {
+      intersectionObserverOptions: {
         root: this.$refs.conversationListRef,
         rootMargin: '100px 0px 100px 0px',
       },
-
-      // itemComponent: ConversationItem,
-      // virtualListExtraProps is to pass the props to the conversationItem component.
-      // virtualListExtraProps: {
-      //   label: this.label,
-      //   teamId: this.teamId,
-      //   foldersId: this.foldersId,
-      //   conversationType: this.conversationType,
-      //   showAssignee: false,
-      //   isConversationSelected: this.isConversationSelected,
-      // },
     };
   },
   computed: {
@@ -609,7 +596,7 @@ export default {
       }
 
       // Increment the current page
-      this.$store.commit('conversationPage/setCurrentPage', {
+      this.$store.dispatch('conversationPage/setCurrentPage', {
         filter: this.currentPageFilterKey,
         page: this.currentFiltersPage + 1,
       });
@@ -1031,13 +1018,13 @@ export default {
               @deSelectConversation="deSelectConversation"
             />
           </DynamicScrollerItem>
-          <IntersectionObserver
-            v-if="!showEndOfListMessage && !chatListLoading"
-            :options="infiniteLoaderOptions"
-            @observed="loadMoreConversations"
-          />
         </template>
         <template #after>
+          <IntersectionObserver
+            v-if="!showEndOfListMessage && !chatListLoading"
+            :options="intersectionObserverOptions"
+            @observed="loadMoreConversations"
+          />
           <div v-if="chatListLoading" class="text-center">
             <span class="mt-4 mb-4 spinner" />
           </div>
