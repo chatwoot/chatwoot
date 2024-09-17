@@ -32,18 +32,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    sortParam: {
-      type: String,
-      default: 'last_activity_at',
-    },
-    sortOrder: {
-      type: String,
-      default: 'desc',
+    activeSortConfig: {
+      type: Object,
+      default: () => ({ last_activity_at: 'desc' }),
     },
   },
   data() {
     return {
-      sortConfig: {},
       sortOption: {
         sortAlways: true,
         sortChange: params => this.$emit('onSortChange', params),
@@ -88,7 +83,7 @@ export default {
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
           align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.name || '',
+          sortBy: this.activeSortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
             <woot-button
@@ -124,7 +119,7 @@ export default {
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
           align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.email || '',
+          sortBy: this.activeSortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
             if (row.email)
@@ -145,21 +140,21 @@ export default {
         {
           field: 'phone_number',
           key: 'phone_number',
-          sortBy: this.sortConfig.phone_number || '',
+          sortBy: this.activeSortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
           align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'company',
           key: 'company',
-          sortBy: this.sortConfig.company_name || '',
+          sortBy: this.activeSortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
           align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'city',
           key: 'city',
-          sortBy: this.sortConfig.city || '',
+          sortBy: this.activeSortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
           align: this.isRTL ? 'right' : 'left',
         },
@@ -168,7 +163,7 @@ export default {
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
           align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.country || '',
+          sortBy: this.activeSortConfig.country || '',
           renderBodyCell: ({ row }) => {
             if (row.country) {
               return (
@@ -213,34 +208,18 @@ export default {
         {
           field: 'last_activity_at',
           key: 'last_activity_at',
-          sortBy: this.sortConfig.last_activity_at || '',
+          sortBy: this.activeSortConfig.last_activity_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
           align: this.isRTL ? 'right' : 'left',
         },
         {
           field: 'created_at',
           key: 'created_at',
-          sortBy: this.sortConfig.created_at || '',
+          sortBy: this.activeSortConfig.created_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
           align: this.isRTL ? 'right' : 'left',
         },
       ];
-    },
-  },
-  watch: {
-    sortOrder() {
-      this.setSortConfig();
-    },
-    sortParam() {
-      this.setSortConfig();
-    },
-  },
-  mounted() {
-    this.setSortConfig();
-  },
-  methods: {
-    setSortConfig() {
-      this.sortConfig = { [this.sortParam]: this.sortOrder };
     },
   },
 };

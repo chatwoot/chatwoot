@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import ContactsHeader from './Header.vue';
 import ContactsTable from './ContactsTable.vue';
@@ -38,6 +39,10 @@ export default {
       type: [String, Number],
       default: 0,
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+    return { uiSettings, updateUISettings };
   },
   data() {
     return {
@@ -148,6 +153,9 @@ export default {
     },
   },
   mounted() {
+    if (this.uiSettings.contacts_sort_config) {
+      this.sortConfig = this.uiSettings.contacts_sort_config;
+    }
     this.fetchContacts(this.pageParameter);
   },
   methods: {
@@ -155,19 +163,21 @@ export default {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
     },
     getSortAttribute() {
-      let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
-        const sortOrder = this.sortConfig[sortKey];
-        if (sortOrder) {
-          const sortOrderSign = sortOrder === 'asc' ? '' : '-';
-          return `${sortOrderSign}${sortKey}`;
-        }
-        return acc;
-      }, '');
-      if (!sortAttr) {
-        this.sortConfig = { last_activity_at: 'desc' };
-        sortAttr = '-last_activity_at';
+      // Use UI settings if available, otherwise use the current sortConfig
+      const sortConfig =
+        this.uiSettings.contacts_sort_config || this.sortConfig;
+
+      const [sortKey, sortOrder] =
+        Object.entries(sortConfig).find(([, order]) => order) || [];
+
+      if (sortKey && sortOrder) {
+        const sortOrderSign = sortOrder === 'asc' ? '' : '-';
+        return `${sortOrderSign}${sortKey}`;
       }
-      return sortAttr;
+
+      // If no sort attribute is found, use the default
+      this.sortConfig = { last_activity_at: 'desc' };
+      return '-last_activity_at';
     },
     fetchContacts(page) {
       if (this.isContactAndLabelDashboard) {
@@ -267,6 +277,9 @@ export default {
     },
     onSortChange(params) {
       this.sortConfig = params;
+      this.updateUISettings({
+        contacts_sort_config: params,
+      });
       this.fetchContacts(this.meta.currentPage);
 
       const sortBy =
@@ -412,6 +425,7 @@ export default {
         :is-loading="uiFlags.isFetching"
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
+        :active-sort-config="sortConfig"
         @onSortChange="onSortChange"
       />
       <TableFooter
