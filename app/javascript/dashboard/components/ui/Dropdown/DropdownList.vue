@@ -38,7 +38,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['onSearch']);
+const emit = defineEmits(['onSearch', 'select']);
 
 const searchTerm = ref('');
 
@@ -84,7 +84,7 @@ const shouldShowEmptyState = computed(() => {
         :input-placeholder="inputPlaceholder"
         :show-clear-filter="showClearFilter"
         @input="onSearch"
-        @click="$emit('removeFilter')"
+        @remove="$emit('removeFilter')"
       />
     </slot>
     <slot name="listItem">
@@ -103,7 +103,7 @@ const shouldShowEmptyState = computed(() => {
         :button-text="item.name"
         :icon="item.icon"
         :icon-color="item.iconColor"
-        @click="$emit('select', item)"
+        @click="emit('select', item)"
       />
     </slot>
   </div>

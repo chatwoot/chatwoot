@@ -40,7 +40,7 @@ defineProps({
       variant="clear"
       color-scheme="primary"
       class="!px-1 !py-1.5"
-      @click="$emit('click')"
+      @click="$emit('remove')"
     >
       {{ $t('REPORT.FILTER_ACTIONS.CLEAR_FILTER') }}
     </woot-button>
