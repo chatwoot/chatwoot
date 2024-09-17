@@ -15,8 +15,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@chatwoot/prosemirror-schema':
-        specifier: 1.1.0-next
-        version: 1.1.0-next
+        specifier: 1.1.1-next
+        version: 1.1.1-next
       '@chatwoot/utils':
         specifier: ^0.0.25
         version: 0.0.25
@@ -1007,8 +1007,8 @@ packages:
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
 
-  '@chatwoot/prosemirror-schema@1.1.0-next':
-    resolution: {integrity: sha512-IzNrdLX0A+VwI5oLcHtSVNmt8LJZmNVZcBvp5t3OjBYyAaSfsQRcde9FWuFCDwu07jaU1fm9Qqv+yx5rwtyPHA==}
+  '@chatwoot/prosemirror-schema@1.1.1-next':
+    resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
   '@chatwoot/utils@0.0.25':
     resolution: {integrity: sha512-2bGfRewHu0Bra47vHwJa3SdZ0VqXK/2q2ampcc6TT3z8ojSfZqpfMdb+1RKJ/Q1tQEYn/0rJTdWtLDRjePF92A==}
@@ -5767,9 +5767,6 @@ packages:
   prosemirror-transform@1.10.0:
     resolution: {integrity: sha512-9UOgFSgN6Gj2ekQH5CTDJ8Rp/fnKR2IkYfGdzzp5zQMFsS4zDllLVx/+jGcX86YlACpG7UR5fwAXiWzxqWtBTg==}
 
-  prosemirror-transform@1.7.0:
-    resolution: {integrity: sha512-O4T697Cqilw06Zvc3Wm+e237R6eZtJL/xGMliCi+Uo8VL6qHk6afz1qq0zNjT3eZMuYwnP8ZS0+YxX/tfcE9TQ==}
-
   prosemirror-utils@1.2.2:
     resolution: {integrity: sha512-7a2MPf99oCW8/587rQYI1/snX71Ban40+apr1hLkY8TmU9YXd7JeR6QsmktcTisJURO3WRjxIia4lTMsYgZVOw==}
     peerDependencies:
@@ -8029,7 +8026,7 @@ snapshots:
       hotkeys-js: 3.8.7
       lit: 2.2.6
 
-  '@chatwoot/prosemirror-schema@1.1.0-next':
+  '@chatwoot/prosemirror-schema@1.1.1-next':
     dependencies:
       markdown-it-sup: 2.0.0
       prosemirror-commands: 1.6.0
@@ -13582,12 +13579,12 @@ snapshots:
     dependencies:
       prosemirror-model: 1.22.3
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
 
   prosemirror-dropcursor@1.8.1:
     dependencies:
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
       prosemirror-view: 1.34.1
 
   prosemirror-gapcursor@1.3.2:
@@ -13600,14 +13597,14 @@ snapshots:
   prosemirror-history@1.4.1:
     dependencies:
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
       prosemirror-view: 1.34.1
       rope-sequence: 1.3.2
 
   prosemirror-inputrules@1.4.0:
     dependencies:
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
 
   prosemirror-keymap@1.2.2:
     dependencies:
@@ -13639,7 +13636,7 @@ snapshots:
   prosemirror-state@1.4.3:
     dependencies:
       prosemirror-model: 1.22.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
       prosemirror-view: 1.34.1
 
   prosemirror-tables@1.5.0:
@@ -13647,14 +13644,10 @@ snapshots:
       prosemirror-keymap: 1.2.2
       prosemirror-model: 1.22.3
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
       prosemirror-view: 1.34.1
 
   prosemirror-transform@1.10.0:
-    dependencies:
-      prosemirror-model: 1.22.3
-
-  prosemirror-transform@1.7.0:
     dependencies:
       prosemirror-model: 1.22.3
 
@@ -13667,7 +13660,7 @@ snapshots:
     dependencies:
       prosemirror-model: 1.22.3
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.7.0
+      prosemirror-transform: 1.10.0
 
   proto-list@1.2.4: {}
 
