@@ -38,4 +38,4 @@ class PortalPolicy < ApplicationPolicy
   end
 end
 
-PortalPolicy.prepend(Enterprise::PortalPolicy)
+PortalPolicy.prepend_mod_with(Enterprise::PortalPolicy)

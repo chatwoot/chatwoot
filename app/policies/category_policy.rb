@@ -30,4 +30,4 @@ class CategoryPolicy < ApplicationPolicy
   end
 end
 
-CategoryPolicy.prepend(Enterprise::CategoryPolicy)
+CategoryPolicy.prepend_mod_with(Enterprise::CategoryPolicy)
