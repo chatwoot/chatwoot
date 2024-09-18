@@ -23,11 +23,14 @@ class Messages::MessageBuilder
   end
 
   def perform
+    return @message if duplicate_message
+
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_url_attachments
     process_emails
     @message.save!
+
     @message
   end
 
@@ -82,6 +85,13 @@ class Messages::MessageBuilder
                                file_type(uploaded_attachment&.content_type)
                              end
     end
+  end
+
+  def duplicate_message
+    return false if @params[:source_id].blank?
+
+    @message = Message.find_by(conversation_id: @conversation.id, source_id: @params[:source_id])
+    @message.present?
   end
 
   def process_url_attachments
