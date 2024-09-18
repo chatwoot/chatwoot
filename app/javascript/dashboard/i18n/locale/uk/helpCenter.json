@@ -41,6 +41,7 @@
         "UPLOADING": "Завантажується...",
         "SUCCESS": "Зображення успішно завантажено",
         "ERROR": "Помилка при завантаженні зображення",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Зображення має бути менше {size}Мб",
         "ERROR_FILE_FORMAT": "Формат зображення повинен бути jpg, jpeg або png",
         "ERROR_FILE_DIMENSIONS": "Розміри зображення повинні бути менші ніж 2000 х 2000"
