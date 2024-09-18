@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Вхідні",
-    "SIDEBAR_TXT": "<p><b>Джерела</b></p> <p> Коли ви підключаєте веб-сайт або сторінку у Facebook до Chatwoot, вони називаються <b>Джерелом</b>. Ви можете мати необмежену кількість джерел у своєму обліковому записі Chatwoot. </p><p> Натисніть <b>Додати папку \"Джерело\"</b>, щоб підключити веб-сайт або сторінку Facebook. </p><p> На інформаційній панелі ви можете переглядати всі бесіди з усіх своїх поштових скриньок в одному місці та відповідати на них на вкладці \"Розмови\". </p><p> Ви також можете переглянути розмови, специфічні для папки \"Джерела\", клацнувши назву папки \"Джерело\" на лівій панелі інформаційної панелі. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Натисніть на кнопку входу через Microsoft для початку. Ви будете перенаправлені на сторінку входу в систему. Як тільки ви приймете запитані дозволи, ви будете перенаправлені на сторінку створення вхідних повідомлень.",
         "EMAIL_PLACEHOLDER": "Некоректна адреса ел. пошти",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Щоб додати свій обліковий запис Microsoft у якості каналу, вам потрібно автентифікувати свій обліковий запис Microsoft, натиснувши \"Увійти через Microsoft\" ",
         "ERROR_MESSAGE": "Сталася помилка підключення до Microsoft, будь ласка, спробуйте ще раз"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Некоректна адреса ел. пошти",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Автентифікація через Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Щось пішло не так. Будь ласка, оновіть сторінку...",
       "ERROR_FB_UNAUTHORIZED": "Ви не авторизовані для цієї дії. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Переконайтеся, що ви маєте доступ до сторінки Facebook із повним доступом. Ви можете прочитати більше про ролі Facebook <a href=\" https://www.facebook.com/help/187316341316631\">тут</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Інші постачальники"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Вебсайт",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API канал"
     }
   }
 }
