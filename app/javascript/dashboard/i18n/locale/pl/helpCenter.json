@@ -41,6 +41,7 @@
         "UPLOADING": "Przesyłanie...",
         "SUCCESS": "Obraz został pomyślnie przesłany",
         "ERROR": "Błąd podczas przesyłania obrazu",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Rozmiar obrazu powinien być mniejszy niż {size}MB",
         "ERROR_FILE_FORMAT": "Format obrazu powinien być jpg, jpeg lub png",
         "ERROR_FILE_DIMENSIONS": "Wymiary obrazu powinny być mniejsze niż 2000 x 2000"
