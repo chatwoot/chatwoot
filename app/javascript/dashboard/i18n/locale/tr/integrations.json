@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "İptal Et",
         "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
