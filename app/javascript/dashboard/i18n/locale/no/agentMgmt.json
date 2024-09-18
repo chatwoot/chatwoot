@@ -18,7 +18,8 @@
       "STATUS": "Satus",
       "ACTIONS": "Handlinger",
       "VERIFIED": "Verifisert",
-      "VERIFICATION_PENDING": "Verifisering venter"
+      "VERIFICATION_PENDING": "Verifisering venter",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Legg til agent i teamet ditt",
