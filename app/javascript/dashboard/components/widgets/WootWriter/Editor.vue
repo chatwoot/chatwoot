@@ -454,7 +454,9 @@ export default {
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
           this.editorView.updateState(this.state);
-          this.emitOnChange();
+          if (tx.docChanged) {
+            this.emitOnChange();
+          }
         },
         handleDOMEvents: {
           keyup: () => {
