@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useRouter } from 'dashboard/composables/route';
+import { useRouter } from 'vue-router';
 import BasePaywallModal from 'dashboard/routes/dashboard/settings/components/BasePaywallModal.vue';
 import CustomRoleListItem from './CustomRoleTableBody.vue';
 
