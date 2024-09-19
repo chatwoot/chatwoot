@@ -29,17 +29,17 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Email recebido do domínio",
+        "LABEL": "E-mail recebido do domínio",
         "PLACEHOLDER": "O domínio onde irá receber os emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "E-mail de Suporte",
+        "LABEL": "E-mail de suporte",
         "PLACEHOLDER": "E-mail de suporte da sua empresa",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Número de dias sem nenhuma atividade, após os quais, o ticket se auto-resolve",
+        "LABEL": "Número de dias sem nenhuma atividade, após os quais o ticket se auto-resolve",
         "PLACEHOLDER": "30",
         "ERROR": "Por favor, informe um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
       },
@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Ausente"
+      "OFFLINE": "Ausente",
+      "RECONNECTING": "A reconectar...",
+      "RECONNECT_SUCCESS": "Reconectado"
     },
     "BUTTON": {
       "REFRESH": "Atualizar"
@@ -107,7 +109,7 @@
       "GENERAL": "Geral",
       "REPORTS": "relatórios",
       "CONVERSATION": "Conversa",
-      "BULK_ACTIONS": "Bulk Actions",
+      "BULK_ACTIONS": "Ações em massa",
       "CHANGE_ASSIGNEE": "Alterar Responsável",
       "CHANGE_PRIORITY": "Alterar Prioridade",
       "CHANGE_TEAM": "Alterar Equipa",
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "Até amanhã",
       "UNTIL_NEXT_MONTH": "Até ao mês seguinte",
       "AN_HOUR_FROM_NOW": "Até daqui a uma hora",
-      "CUSTOM": "Personalizar...",
+      "UNTIL_CUSTOM_TIME": "Personalizar...",
       "CHANGE_APPEARANCE": "Alterar Aspeto",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",

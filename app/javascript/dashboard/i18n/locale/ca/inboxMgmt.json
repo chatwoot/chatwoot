@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Safates d'entrada",
     "SIDEBAR_TXT": "<p><b>Safata d’entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de Facebook a Chatwoot, s’anomena<b>Safata d’entrada</b>. Podeu tenir bústies d’entrada il·limitades al vostre compte de Chatwoot. </p><p> Fer clic a <b>Add Safata d’entrada</b> per connectar un lloc web o una pàgina de Facebook.</p><p> Al tauler, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-hi a la pestanya `Converses`.</p><p> També pots veure converses específiques d’una safata d’entrada fent clic al nom de la safata d’entrada a l'esquerre del tauler. </p>",
+    "RECONNECTION_REQUIRED": "La teva safata d'entrada està desconnectada. No rebràs missatges nous fins que no els tornis a autoritzar.",
+    "CLICK_TO_RECONNECT": "Fes clic aquí per tornar a connectar-te.",
     "LIST": {
       "404": "No hi ha cap safata d'entrada connectat a aquest compte."
     },
@@ -30,12 +32,12 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nom de la safata d'entrada",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "Introdueix el nom de la safata d'entrada (p. ex.: Acme Inc)",
+        "ERROR": "Introdueix un nom de safata d'entrada vàlid"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nom del lloc web",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "PLACEHOLDER": "Introdueix el nom del vostre lloc web (per exemple: Acme Inc)"
       },
       "FB": {
         "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats.",
@@ -43,14 +45,14 @@
         "CHOOSE_PLACEHOLDER": "Selecciona una pàgina de la llista",
         "INBOX_NAME": "Nom de la safata d'entrada",
         "ADD_NAME": "Afegeix un nom per a la safata d'entrada",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Tria un nom per a la teva safata d'entrada",
         "PICK_A_VALUE": "Tria un valor"
       },
       "TWITTER": {
         "HELP": "Per afegir el teu perfil de Twitter com a canal, has d'autentificar el vostre perfil de Twitter fent clic a 'Inicieu la sessió amb Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "ERROR_MESSAGE": "S'ha produït un error en connectar amb Twitter, torna-ho a provar",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Crea converses a partir dels tuits esmentats"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -62,7 +64,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Introdueix l'URL del teu webhook",
           "ERROR": "Introduïu una URL vàlid"
         },
         "CHANNEL_DOMAIN": {
@@ -100,33 +102,33 @@
         },
         "SUBMIT_BUTTON": "Crea la safata entrada",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "No hem pogut crear un canal de lloc web, torna-ho a provar"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Canal Twilio SMS/WhatsApp",
+        "DESC": "Integra Twilio i comença a donar suport als teus clients mitjançant SMS o WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Compte SID",
           "PLACEHOLDER": "Introduïu el vostre compte Twilio SID",
           "ERROR": "Aquest camp és obligatori"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "Utilitzeu l'autenticació API Key",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "PLACEHOLDER": "Introdueix la teva API Key SID",
           "ERROR": "Aquest camp és obligatori"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "PLACEHOLDER": "Introdueix la teva API Key Secret",
           "ERROR": "Aquest camp és obligatori"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "SID del servei de missatgeria",
+          "PLACEHOLDER": "Introdueix el teu SID del servei de missatgeria Twilio",
           "ERROR": "Aquest camp és obligatori",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Utilitza un servei de missatgeria Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipus de canal",
@@ -139,13 +141,13 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Nom de la safata d'entrada",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Introdueix un nom de safata d'entrada",
           "ERROR": "Aquest camp és obligatori"
         },
         "PHONE_NUMBER": {
           "LABEL": "Número de telèfon",
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Proporciona un número de telèfon vàlid que comenci amb un signe \"+\" i que no contingui espais."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -157,106 +159,106 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "Canal SMS",
+        "DESC": "Comença a donar suport als teus clients mitjançant SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Proveïdor d'API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "No hem pogut desar el canal SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID del compte",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Introdueix l'identificador del teu compte de Bandwidth",
             "ERROR": "Aquest camp és obligatori"
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Introdueix la teva API Key de Bandwidth",
             "ERROR": "Aquest camp és obligatori"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Introdueix la teva API Secret de Bandwidth",
             "ERROR": "Aquest camp és obligatori"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "ID d'aplicació",
+            "PLACEHOLDER": "Introdueix el teu ID de l'aplicació Bandwidth",
             "ERROR": "Aquest camp és obligatori"
           },
           "INBOX_NAME": {
             "LABEL": "Nom de la safata d'entrada",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Introdueix un nom de safata d'entrada",
             "ERROR": "Aquest camp és obligatori"
           },
           "PHONE_NUMBER": {
             "LABEL": "Número de telèfon",
             "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "Proporciona un número de telèfon vàlid que comenci amb un signe \"+\" i que no contingui espais."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Crea un canal de Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "No hem pogut autenticar les credencials de Bandwidth, prova de nou"
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Has de configurar l'URL de devolució del missatge a Bandwidth amb l'URL esmentada aquí."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "Canal WhatsApp",
+        "DESC": "Comença a donar suport als teus clients mitjançant WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Proveïdor d'API",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Nom de la safata d'entrada",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "Introdueix un nom de safata d'entrada",
           "ERROR": "Aquest camp és obligatori"
         },
         "PHONE_NUMBER": {
           "LABEL": "Número de telèfon",
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "Proporciona un número de telèfon vàlid que comenci amb un signe \"+\" i que no contingui espais."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "ID del número de telèfon",
+          "PLACEHOLDER": "Introdueix l'ID del número de telèfon obtingut al tauler de control de desenvolupadors de Facebook.",
+          "ERROR": "Introdueix un valor vàlid."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "ID del compte comercial",
+          "PLACEHOLDER": "Introdueix l'ID del compte comercial obtingut al tauler de control de desenvolupadors de Facebook.",
+          "ERROR": "Introdueix un valor vàlid."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Token de verificació del webhook",
+          "PLACEHOLDER": "Introdueix un token de verificació que vulguis configurar per als webhooks de Facebook.",
+          "ERROR": "Introdueix un valor vàlid."
         },
         "API_KEY": {
           "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
+          "SUBTITLE": "Configura l'API key de WhatsApp.",
           "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "ERROR": "Introdueix un valor vàlid."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Has de configurar l'URL del webhook i el testimoni de verificació al portal de desenvolupadors de Facebook amb els valors que es mostren a continuació.",
           "WEBHOOK_URL": "URL del webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Token de verificació del webhook"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Crea un canal de WhatsApp",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "No hem pogut desar el canal WhatsApp"
         }
       },
       "API_CHANNEL": {
@@ -269,7 +271,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Configura l'URL on vulguis rebre les devolucions de trucada dels esdeveniments.",
           "PLACEHOLDER": "URL del webhook"
         },
         "SUBMIT_BUTTON": "Crea un canal API",
@@ -279,7 +281,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Correu electrònic del Canal",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integra la teva safata d’entrada de correu electrònic.",
         "CHANNEL_NAME": {
           "LABEL": "Nom del canal",
           "PLACEHOLDER": "Introduïu el nom del canal",
@@ -297,55 +299,55 @@
         "FINISH_MESSAGE": "Comença a reenviar els teus correus electrònics a la següent adreça electrònica."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "Canal LINE",
+        "DESC": "Integra't amb el canal LINE i comença a donar suport als teus clients.",
         "CHANNEL_NAME": {
           "LABEL": "Nom del canal",
           "PLACEHOLDER": "Introduïu el nom del canal",
           "ERROR": "Aquest camp és obligatori"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "ID del canal LINE",
+          "PLACEHOLDER": "ID del canal LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Secret del canal LINE",
+          "PLACEHOLDER": "Secret del canal LINE"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Token del canal LINE",
+          "PLACEHOLDER": "Token del canal LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Crea un canal LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "No hem pogut desar el canal de LINE"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Has de configurar l'URL del webhook a l'aplicació LINE amb l'URL esmentat aquí."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Canal de Telegram",
+        "DESC": "Integra't amb el canal de Telegram i comença a donar suport als teus clients.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Token del Bot",
+          "SUBTITLE": "Configura el token del bot que has obtingut de Telegram BotFather.",
+          "PLACEHOLDER": "Token del Bot"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Crea el canal de Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "No hem pogut desar el canal de Telegram"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Escull un canal",
         "DESC": "Chatwoot admet widgets de xat en directe, Facebook Messenger, WhatsApp, correus electrònics, etc., com a canals. Si voleu crear un canal personalitzat, podeu crear-lo mitjançant el canal API. Per començar, tria un dels canals següents."
       },
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Aquí podeu afegir agents per gestionar la vostra safata d'entrada de nova creació. Només aquests agents seleccionats tindran accés a la vostra safata d'entrada. Els agents que no formen part d'aquesta safata d'entrada no podran veure ni respondre als missatges d'aquesta safata d'entrada quan s’inicien. <br><b>PD:</b> Com a administrador, si necessiteu accés a totes les bústies d’entrada, heu d’afegir-vos com a agent a totes les bústies de sortida que creeu.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "Afegeix almenys un agent a la teva safata d'entrada",
         "PICK_AGENTS": "Tria agents per la safata d'entrada"
       },
       "DETAILS": {
@@ -357,22 +359,23 @@
         "DESC": "Heu acabat d'integrar la vostra pàgina de Facebook amb Chatwoot. La propera vegada que un client escrigui un missatge a la vostra pàgina, la conversa apareixerà automàticament a la safata d'entrada. <br>També us proporcionem un script del widget que podeu afegir fàcilment al vostre web. Una vegada que estigui operatiu al vostre web, els clients us podran enviar missatges des del web sense l’ajuda de cap eina externa i la conversa apareixerà aquí mateix, a Chatwoot. <br>Genial, eh? Bé, segur que intentem ser-ho :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "Selecciona el teu proveïdor de correu electrònic",
+        "DESCRIPTION": "Selecciona un proveïdor de correu electrònic de la següent llista. Si no veus el teu proveïdor de correu electrònic a la llista, pots seleccionar l'opció de l'altre proveïdor i proporcionar les credencials IMAP i SMTP."
       },
       "MICROSOFT": {
-        "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "TITLE": "Correu Microsoft",
+        "DESCRIPTION": "Fes clic al botó Inicia sessió amb Microsoft per començar. Se't redirigirà a la pàgina d'inici de sessió del correu electrònic. Un cop acceptis els permisos sol·licitats, se't redirigirà al pas de creació de la safata d'entrada.",
+        "EMAIL_PLACEHOLDER": "Introdueix una adreça de correu electrònic",
+        "SIGN_IN": "Inicia la sessió amb Microsoft",
+        "HELP": "Per afegir el teu compte de Microsoft com a canal, has d'autenticar el teu compte de Microsoft fent clic a \"Inicia la sessió amb Microsoft\" ",
+        "ERROR_MESSAGE": "S'ha produït un error en connectar amb Microsoft, torna-ho a provar"
       }
     },
     "DETAILS": {
       "LOADING_FB": "S'està autenticant amb Facebook...",
       "ERROR_FB_AUTH": "Alguna cosa ha anat malament, actualitza la pàgina...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "No estàs autoritzat per dur a terme aquesta acció. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Assegura't que tens accés a la pàgina de Facebook amb control total. Pots obtenir més informació sobre les funcions de Facebook <a href=\" https://www.facebook.com/help/187316341316631\">aquí</a>.",
       "CREATING_CHANNEL": "S'està creant la safata d'entrada...",
       "TITLE": "Configura els detalls de la safata d'entrada",
       "DESC": ""
@@ -385,7 +388,7 @@
       "TITLE": "La vostra safata d'entrada està a punt!",
       "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
       "BUTTON_TEXT": "Porta'm allà",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Més configuracions",
       "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."
     },
     "REAUTH": "Reautoritza",
@@ -394,7 +397,7 @@
       "API": {
         "SUCCESS_MESSAGE": "El color del widget s'ha actualitzat correctament",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assignació automàtica actualitzada correctament",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "No hem pogut actualitzar la configuració de la safata d'entrada. Intenta-ho més tard."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Habilita",
@@ -405,21 +408,21 @@
         "DISABLED": "Inhabilita"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "TITLE": "Nom del remitent",
+        "SUB_TEXT": "Selecciona el nom que es mostra al vostre client quan reben correus electrònics dels teus agents.",
+        "FOR_EG": "Per exemple:",
         "FRIENDLY": {
-          "TITLE": "Friendly",
-          "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "TITLE": "Amable",
+          "FROM": "des de",
+          "SUBTITLE": "Afegeix el nom de l'agent que ha enviat la resposta al nom del remitent perquè sigui amigable."
         },
         "PROFESSIONAL": {
           "TITLE": "Professional",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "Utilitza només el nom de l'empresa configurat com a nom del remitent a la capçalera del correu electrònic."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "BUTTON_TEXT": "+ Configura el nom del teu negoci",
+          "PLACEHOLDER": "Introdueix el nom de la teva empresa",
           "SAVE_BUTTON_TEXT": "Desar"
         }
       },
@@ -436,98 +439,98 @@
         "DISABLED": "Inhabilita"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Habilita"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Suprimeix",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Suprimeix Avatar",
       "CONFIRM": {
         "TITLE": "Confirma esborrat",
         "MESSAGE": "N'estas segur? ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Escriu {inboxName} per confirmar",
         "YES": "Si, esborra ",
         "NO": "No, segueix "
       },
       "API": {
         "SUCCESS_MESSAGE": "S'ha suprimit la safata d'entrada correctament",
         "ERROR_MESSAGE": "No s'ha pogut eliminar la safata d'entrada. Torneu-ho a provar més endavant.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "L'avatar de la safata d'entrada s'ha suprimit correctament",
+        "AVATAR_ERROR_MESSAGE": "No s'ha pogut esborrar l'avatar de la safata d'entrada. Torneu-ho a provar."
       }
     },
     "TABS": {
       "SETTINGS": "Configuracions",
       "COLLABORATORS": "Col·laboradors",
       "CONFIGURATION": "Configuració",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "CAMPAIGN": "Campanyes",
+      "PRE_CHAT_FORM": "Formulari de xat previ",
+      "BUSINESS_HOURS": "Horari comercial",
+      "WIDGET_BUILDER": "Creador del widget",
+      "BOT_CONFIGURATION": "Configuracions del bot"
     },
     "SETTINGS": "Configuracions",
     "FEATURES": {
       "LABEL": "Característiques",
       "DISPLAY_FILE_PICKER": "Mostra el selector de fitxers al widget",
       "DISPLAY_EMOJI_PICKER": "Mostra el selector d'emoji al widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "ALLOW_END_CONVERSATION": "Permet als usuaris finalitzar la conversa des del widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Utilitza el nom i l'avatar de la safata d'entrada per al bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script del missatger",
       "MESSENGER_SUB_HEAD": "Col·loca aquest botó dins de l'etiqueta body",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Conversació Assignada",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Actualitza la configuració de l'assignació de conversa",
       "UPDATE": "Actualitza",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Activa la bústia de recollida de correu electrònic",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activa o desactiva la casella de recollida de correu electrònic en una conversa nova",
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
-      "ENABLE_CSAT": "Enable CSAT",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "ENABLE_CSAT": "Habilita CSAT",
+      "SENDER_NAME_SECTION": "Activa el nom de l'agent al correu electrònic",
+      "ENABLE_CSAT_SUB_TEXT": "Activa/desactiva l'enquesta CSAT (satisfacció del client) després de resoldre una conversa",
+      "SENDER_NAME_SECTION_TEXT": "Activa/Desactiva la mostra del nom de l'agent al correu electrònic, si està desactivat, mostrarà el nom de l'empresa",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Activa la continuïtat de la conversa per correu electrònic",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les converses continuaran per correu electrònic si l'adreça electrònica de contacte està disponible.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Bloqueja a una sola conversa",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Activa o desactiva diverses converses per al mateix contacte en aquesta safata d'entrada",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses",
       "HMAC_VERIFICATION": "Validació de la Identitat del Usuari",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "You can read more here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_LINK_TO_DOCS": "Pots llegir més aquí.",
+      "HMAC_MANDATORY_VERIFICATION": "Fer complir la validació de la identitat de l'usuari",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "INBOX_IDENTIFIER": "Identificador de la safata d'entrada",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Utilitza el token \"inbox_identifier\" que es mostra aquí per autenticar els vostres clients de l'API.",
+      "FORWARD_EMAIL_TITLE": "Reenvia al correu electrònic",
       "FORWARD_EMAIL_SUB_TEXT": "Comença a reenviar els teus correus electrònics a la següent adreça electrònica.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permet missatges després de resoldre la conversa",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permet als usuaris finals enviar missatges fins i tot després de resoldre la conversa.",
+      "WHATSAPP_SECTION_SUBHEADER": "Aquesta API key s'utilitza per a la integració amb les APIs de WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Introdueix la nova clau de l'API que s'utilitzarà per a la integració amb les APIs de WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "API Key",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Actualitza l'API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introdueix la nova clau de l'API aquí",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualitza",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_WEBHOOK_TITLE": "Token de verificació del webhook",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Aquest testimoni s'utilitza per verificar l'autenticitat del punt final del webhook.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualitza la configuració del formulari de xat prèvia"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Centre d'ajuda",
+      "PLACEHOLDER": "Selecciona Centre d'ajuda",
+      "SELECT_PLACEHOLDER": "Selecciona Centre d'ajuda",
+      "REMOVE": "Suprimeix Centre d'ajuda",
+      "SUB_TEXT": "Adjunta un Centre d'ajuda amb la safata d'entrada"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Límit d'assignació automàtica",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Introdueix un valor superior a 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limita el nombre màxim de converses d'aquesta safata d'entrada que es poden assignar automàticament a un agent"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautoritza",
@@ -536,63 +539,63 @@
       "MESSAGE_ERROR": "S'ha produït un error; tornau-ho a provar"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "Els formularis previs al xat et permeten capturar informació de l'usuari abans que comencin a conversar amb vosaltres.",
+      "SET_FIELDS": "Camps del formulari previ al xat",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "Camps",
+        "LABEL": "Etiqueta",
+        "PLACE_HOLDER": "Espai reservat",
+        "KEY": "Clau",
+        "TYPE": "Tipus",
+        "REQUIRED": "Necessari"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Activa el formulari de xat previ",
         "OPTIONS": {
           "ENABLED": "Si",
           "DISABLED": "No"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Missatge previ al xat",
+        "PLACEHOLDER": "Aquest missatge seria visible per als usuaris juntament amb el formulari"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Els visitants han de proporcionar el seu nom i adreça de correu electrònic abans d'iniciar el xat"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TITLE": "Estableix la vostra disponibilitat",
+      "SUBTITLE": "Estableix la teva disponibilitat al widget del xat en directe",
+      "WEEKLY_TITLE": "Estableix el teu horari setmanal",
+      "TIMEZONE_LABEL": "Selecciona la zona horària",
+      "UPDATE": "Actualitza la configuració de l'horari comercial",
+      "TOGGLE_AVAILABILITY": "Habilita la disponibilitat comercial per a aquesta safata d'entrada",
+      "UNAVAILABLE_MESSAGE_LABEL": "Missatge no disponible per als visitants",
+      "TOGGLE_HELP": "Si activeu la disponibilitat comercial, es mostraran les hores disponibles al giny del xat en directe, encara que tots els agents estiguin fora de línia. Fora de l'horari disponible, els visitants poden ser avisats amb un missatge i un formulari de xat previ.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
+        "ENABLE": "Activa la disponibilitat per a aquest dia",
+        "UNAVAILABLE": "No disponible",
         "HOURS": "hores",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "VALIDATION_ERROR": "L'hora d'inici ha de ser abans de l'hora de tancament.",
         "CHOOSE": "Tria"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Tot el dia"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "Configura els detalls de l'IMAP",
+      "NOTE_TEXT": "Per habilitar SMTP, configura IMAP.",
+      "UPDATE": "Actualitza la configuració IMAP",
+      "TOGGLE_AVAILABILITY": "Activa la configuració IMAP per a aquesta safata d'entrada",
+      "TOGGLE_HELP": "Habilitar IMAP ajudarà l'usuari a rebre correu electrònic",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "La configuració IMAP s'ha actualitzat correctament",
+        "ERROR_MESSAGE": "No es pot actualitzar la configuració IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Adreça",
+        "PLACE_HOLDER": "Adreça (p. ex.: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -606,25 +609,25 @@
         "LABEL": "Contrasenya",
         "PLACE_HOLDER": "Contrasenya"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Habilita SSL"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Reauthorize your MICROSOFT account"
+      "SUBTITLE": "Torna a autoritzar el teu compte de MICROSOFT"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Configura els detalls del SMTP",
+      "UPDATE": "Actualitza la configuració SMTP",
+      "TOGGLE_AVAILABILITY": "Activa la configuració SNMP per a aquesta safata d'entrada",
+      "TOGGLE_HELP": "Habilitar SMTP ajudarà l'usuari a enviar correu electrònic",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "La configuració SMTP s'ha actualitzat correctament",
+        "ERROR_MESSAGE": "No es pot actualitzar la configuració SMTP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "Adreça",
+        "PLACE_HOLDER": "Adreça (p. ex.: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -639,77 +642,77 @@
         "PLACE_HOLDER": "Contrasenya"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Domini",
+        "PLACE_HOLDER": "Domini"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Xifratge",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Obre el mode de verificació SSL",
+      "AUTH_MECHANISM": "Autenticació"
     },
-    "NOTE": "Note: ",
+    "NOTE": "Nota: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Avatar del lloc web",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "Avatar esborrat correctament",
               "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
             }
           }
         },
         "WEBSITE_NAME": {
           "LABEL": "Nom del lloc web",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "PLACE_HOLDER": "Introdueix el nom del vostre lloc web (per exemple: Acme Inc)",
+          "ERROR": "Introdueix un nom de lloc web vàlid"
         },
         "WELCOME_HEADING": {
           "LABEL": "Encapçalament de benvinguda",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "Hola!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Lema de benvinguda",
           "PLACE_HOLDER": "Facilitem la connexió amb nosaltres. Pregunteu-nos qualsevol cosa o compartiu els vostres comentaris."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "Temps de resposta",
           "IN_A_FEW_MINUTES": "En pocs minuts",
           "IN_A_FEW_HOURS": "En poques hores",
           "IN_A_DAY": "En un dia"
         },
         "WIDGET_COLOR_LABEL": "Color del Widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Posició de la bombolla del widget",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Tipus de bombolla de widget",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Xateja amb nosaltres",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "Títol del llançador de bombolles de widget",
           "PLACE_HOLDER": "Xateja amb nosaltres"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Actualitza la configuració del widget",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "La configuració del widget s'ha actualitzat correctament",
+            "ERROR_MESSAGE": "No es pot actualitzar la configuració del widget"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "Vista prèvia",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Esquerra",
+          "RIGHT": "Dreta"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Estàndard",
+          "EXPANDED_BUBBLE": "Bombolla expandida"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "Per defecte",
+        "CHAT": "Xat"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
@@ -722,18 +725,18 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Estem en línia",
           "OFFLINE": "Estem fora en aquest moment"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Hola",
+        "AGENT_MESSAGE": "Hola"
       },
       "BRANDING_TEXT": "Desenvolupat per Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
-      "OTHER_PROVIDERS": "Other Providers"
+      "OTHER_PROVIDERS": "Altres proveïdors"
     }
   }
 }

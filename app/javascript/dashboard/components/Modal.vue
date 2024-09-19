@@ -1,36 +1,3 @@
-<template>
-  <transition name="modal-fade">
-    <div
-      v-if="show"
-      :class="modalClassName"
-      transition="modal"
-      @mousedown="handleMouseDown"
-    >
-      <div
-        :class="{
-          'modal-container rtl:text-right shadow-md max-h-full overflow-auto relative bg-white dark:bg-slate-800 skip-context-menu': true,
-          'rounded-xl w-[37.5rem]': !fullWidth,
-          'items-center rounded-none flex h-full justify-center w-full':
-            fullWidth,
-          [size]: true,
-        }"
-        @mouse.stop
-        @mousedown="event => event.stopPropagation()"
-      >
-        <woot-button
-          v-if="showCloseButton"
-          color-scheme="secondary"
-          icon="dismiss"
-          variant="clear"
-          class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
-          @click="close"
-        />
-        <slot />
-      </div>
-    </div>
-  </transition>
-</template>
-
 <script>
 export default {
   props: {
@@ -99,12 +66,47 @@ export default {
     onMouseUp() {
       if (this.mousedDownOnBackdrop) {
         this.mousedDownOnBackdrop = false;
-        this.onClose();
+        if (this.closeOnBackdropClick) {
+          this.onClose();
+        }
       }
     },
   },
 };
 </script>
+
+<template>
+  <transition name="modal-fade">
+    <div
+      v-if="show"
+      :class="modalClassName"
+      transition="modal"
+      @mousedown="handleMouseDown"
+    >
+      <div
+        class="relative max-h-full overflow-auto bg-white shadow-md modal-container rtl:text-right dark:bg-slate-800 skip-context-menu"
+        :class="{
+          'rounded-xl w-[37.5rem]': !fullWidth,
+          'items-center rounded-none flex h-full justify-center w-full':
+            fullWidth,
+          [size]: true,
+        }"
+        @mouse.stop
+        @mousedown="event => event.stopPropagation()"
+      >
+        <woot-button
+          v-if="showCloseButton"
+          color-scheme="secondary"
+          icon="dismiss"
+          variant="clear"
+          class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
+          @click="close"
+        />
+        <slot />
+      </div>
+    </div>
+  </transition>
+</template>
 
 <style lang="scss">
 .modal-mask {

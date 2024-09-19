@@ -4,7 +4,7 @@
     "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edit Folder",
     "CUSTOM_VIEWS_SUBTITLE": "Tambahkan atau hapus filter dan perbarui folder Anda.",
-    "ADD_NEW_FILTER": "Add filter",
+    "ADD_NEW_FILTER": "Tambah filter",
     "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Terapkan filter",
     "UPDATE_BUTTON_LABEL": "Perbarui folder",
@@ -18,6 +18,7 @@
       "AND": "DAN",
       "OR": "ATAU"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Sama dengan",
       "not_equal_to": "Tidak sama dengan",
@@ -42,9 +43,9 @@
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Label",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "Bahasa peramban",
       "PRIORITY": "Prioritas",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "Nama negara",
       "REFERER_LINK": "Tautan Referer",
       "CUSTOM_ATTRIBUTE_LIST": "Daftar",
       "CUSTOM_ATTRIBUTE_TEXT": "Teks",
@@ -57,7 +58,7 @@
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "CUSTOM_ATTRIBUTES": "Atribut kostum"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
@@ -85,7 +86,7 @@
           "CONFIRM": {
             "TITLE": "Konfirmasi penghapusan",
             "MESSAGE": "Apakah Anda yakin ingin menghapus filter ",
-            "YES": "Yes, delete",
+            "YES": "Ya, hapus",
             "NO": "Tidak, simpan"
           }
         },

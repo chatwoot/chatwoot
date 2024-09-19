@@ -239,6 +239,7 @@
     "REPORTS": "รายงาน",
     "SETTINGS": "ตั้งค่า",
     "CONTACTS": "ผู้ติดต่อ",
+    "CAPTAIN": "Captain",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
     "AGENT_BOTS": "บอท",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "ภาพรวม",
-    "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",

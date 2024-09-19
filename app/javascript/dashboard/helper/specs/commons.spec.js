@@ -36,16 +36,14 @@ describe('#createPendingMessage', () => {
     message: 'hi',
   };
   it('returns the pending message with expected new keys', () => {
-    expect(createPendingMessage(message)).toHaveProperty(
-      'content',
-      'id',
-      'status',
-      'echo_id',
-      'status',
-      'created_at',
-      'message_type',
-      'conversation_id'
-    );
+    expect(createPendingMessage(message)).toMatchObject({
+      content: expect.anything(),
+      id: expect.anything(),
+      status: expect.anything(),
+      echo_id: expect.anything(),
+      created_at: expect.anything(),
+      message_type: expect.anything(),
+    });
   });
 
   it('returns the pending message with status progress', () => {
@@ -61,23 +59,20 @@ describe('#createPendingMessage', () => {
     });
   });
 
-  it('returns the pending message with attachmnet key if file is passed', () => {
+  it('returns the pending message with attachment key if file is passed', () => {
     const messageWithFile = {
       message: 'hi',
       file: {},
     };
-    expect(createPendingMessage(messageWithFile)).toHaveProperty(
-      'content',
-      'id',
-      'status',
-      'echo_id',
-      'status',
-      'created_at',
-      'message_type',
-      'conversation_id',
-      'attachments',
-      'private'
-    );
+    expect(createPendingMessage(messageWithFile)).toMatchObject({
+      content: expect.anything(),
+      id: expect.anything(),
+      status: expect.anything(),
+      echo_id: expect.anything(),
+      created_at: expect.anything(),
+      message_type: expect.anything(),
+      attachments: [{ id: expect.anything() }],
+    });
   });
 
   it('returns the pending message to have one attachment', () => {

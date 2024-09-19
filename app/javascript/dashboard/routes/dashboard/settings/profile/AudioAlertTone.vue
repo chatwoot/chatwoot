@@ -1,23 +1,3 @@
-<template>
-  <form-select
-    v-model="selectedValue"
-    name="alertTone"
-    spacing="compact"
-    :value="selectedValue"
-    :options="alertTones"
-    :label="label"
-    class="max-w-xl"
-  >
-    <option
-      v-for="tone in alertTones"
-      :key="tone.label"
-      :value="tone.value"
-      :selected="tone.value === selectedValue"
-    >
-      {{ tone.label }}
-    </option>
-  </form-select>
-</template>
 <script setup>
 import { computed } from 'vue';
 import FormSelect from 'v3/components/Form/Select.vue';
@@ -34,6 +14,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['change']);
+
 const alertTones = computed(() => [
   {
     value: 'ding',
@@ -45,8 +27,6 @@ const alertTones = computed(() => [
   },
 ]);
 
-const emit = defineEmits(['change']);
-
 const selectedValue = computed({
   get: () => props.value,
   set: value => {
@@ -54,3 +34,24 @@ const selectedValue = computed({
   },
 });
 </script>
+
+<template>
+  <FormSelect
+    v-model="selectedValue"
+    name="alertTone"
+    spacing="compact"
+    :value="selectedValue"
+    :options="alertTones"
+    :label="label"
+    class="max-w-xl"
+  >
+    <option
+      v-for="tone in alertTones"
+      :key="tone.label"
+      :value="tone.value"
+      :selected="tone.value === selectedValue"
+    >
+      {{ tone.label }}
+    </option>
+  </FormSelect>
+</template>

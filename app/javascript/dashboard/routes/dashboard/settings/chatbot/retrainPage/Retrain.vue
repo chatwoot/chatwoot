@@ -1,35 +1,5 @@
-<template>
-  <div>
-    <div class="flex flex-row w-3/4 max-w-3/4 pt-6 pb-6">
-      <upload-files @uploadTypeSelected="handleUploadTypeSelected" />
-      <upload-area
-        v-model="fetching"
-        :progress="progress"
-        :upload-type="currentUploadType"
-        :saved-files="savedFiles"
-        @start-progress="startProgress"
-        @end-progress="endProgress"
-        @retrain-chatbot="retrainChatbot"
-        @remove-file="handleRemoveFile"
-      />
-      <detected-characters
-        :detected-char="totalDetectedChar"
-        :account-char-limit="accountCharLimit"
-      />
-    </div>
-    <woot-submit-button
-      type="submit"
-      :button-text="$t('CHATBOTS.RETRAIN.UPDATE')"
-      :loading="uiFlags.isUpdating"
-      @click="retrainChatbot"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import configMixin from 'shared/mixins/configMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 import UploadFiles from './UploadFiles.vue';
 import UploadArea from './UploadArea.vue';
 import DetectedCharacters from '../DetectedCharacters.vue';
@@ -41,7 +11,6 @@ export default {
     UploadArea,
     DetectedCharacters,
   },
-  mixins: [alertMixin, configMixin],
   props: {
     chatbot: {
       type: Object,
@@ -90,13 +59,15 @@ export default {
     this.$store
       .dispatch('chatbots/getSavedData', this.currentChatbotId)
       .then(response => {
-        this.savedFiles =
-          response.length > 0
-            ? response.map(file => {
-                this.savedFilesCharCount += file.metadata.char_count;
-                return file;
-              })
-            : [];
+        if (response) {
+          this.savedFiles =
+            response.length > 0
+              ? response.map(file => {
+                  this.savedFilesCharCount += file.metadata.char_count;
+                  return file;
+                })
+              : [];
+        }
       });
   },
   methods: {
@@ -133,7 +104,7 @@ export default {
         }
       });
     },
-    handleRemoveFile(filename) {
+    removeFile(filename) {
       if (this.savedFiles.length > 0) {
         this.savedFiles = this.savedFiles.filter(
           file => file.filename !== filename
@@ -149,8 +120,35 @@ export default {
         urls: this.links,
       };
       await this.$store.dispatch('chatbots/retrain', payload);
-      this.$router.push({ name: 'chatbots_index' });
+      this.$router.push({ name: 'chatbots_wrapper' });
     },
   },
 };
 </script>
+
+<template>
+  <div>
+    <div class="flex flex-row w-3/4 max-w-3/4 pt-6 pb-6">
+      <UploadFiles @uploadTypeSelected="handleUploadTypeSelected" />
+      <UploadArea
+        v-model="fetching"
+        :progress="progress"
+        :upload-type="currentUploadType"
+        :saved-files="savedFiles"
+        @startProgress="startProgress"
+        @retrainChatbot="retrainChatbot"
+        @removeFile="removeFile"
+      />
+      <DetectedCharacters
+        :detected-char="totalDetectedChar"
+        :account-char-limit="accountCharLimit"
+      />
+    </div>
+    <woot-submit-button
+      type="submit"
+      :button-text="$t('CHATBOTS.RETRAIN.UPDATE')"
+      :loading="uiFlags.isUpdating"
+      @click="retrainChatbot"
+    />
+  </div>
+</template>

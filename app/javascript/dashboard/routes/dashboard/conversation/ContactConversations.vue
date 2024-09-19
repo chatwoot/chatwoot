@@ -1,26 +1,3 @@
-<template>
-  <div class="contact-conversation--panel">
-    <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
-      <div v-if="!previousConversations.length" class="no-label-message">
-        <span>
-          {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
-        </span>
-      </div>
-      <div v-else class="contact-conversation--list">
-        <conversation-card
-          v-for="conversation in previousConversations"
-          :key="conversation.id"
-          :chat="conversation"
-          :hide-inbox-name="false"
-          :hide-thumbnail="true"
-          class="compact"
-        />
-      </div>
-    </div>
-    <spinner v-else />
-  </div>
-</template>
-
 <script>
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
@@ -68,6 +45,29 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="contact-conversation--panel">
+    <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
+      <div v-if="!previousConversations.length" class="no-label-message">
+        <span>
+          {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
+        </span>
+      </div>
+      <div v-else class="contact-conversation--list">
+        <ConversationCard
+          v-for="conversation in previousConversations"
+          :key="conversation.id"
+          :chat="conversation"
+          :hide-inbox-name="false"
+          hide-thumbnail
+          class="compact"
+        />
+      </div>
+    </div>
+    <Spinner v-else />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .no-label-message {

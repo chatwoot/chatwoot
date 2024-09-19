@@ -1,486 +1,487 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
+      "FILTER": "Filtrat per",
+      "SORT": "Ordenat per",
+      "LOCALE": "Localització",
       "SETTINGS_BUTTON": "Configuracions",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Nou article",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publicat",
+        "DRAFT": "Esborrany",
+        "ARCHIVED": "Arxivat"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Tots els articles",
+        "MINE": "Tots els meus articles",
+        "DRAFT": "Esborrany d'articles",
+        "ARCHIVED": "Articles arxivats"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Selecciona localització",
+        "PLACEHOLDER": "Selecciona localització",
+        "NO_RESULT": "No s'ha trobat localització",
+        "SEARCH_PLACEHOLDER": "Cerca localització"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Tots els articles",
+      "PUBLISH_BUTTON": "Publica",
+      "MOVE_TO_ARCHIVE_BUTTON": "Mou a arxivat",
+      "PREVIEW": "Vista prèvia",
+      "ADD_TRANSLATION": "Afegeix traducció",
+      "OPEN_SIDEBAR": "Obre la barra lateral",
+      "CLOSE_SIDEBAR": "Tanca la barra lateral",
+      "SAVING": "S'està desant...",
+      "SAVED": "Desat"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "Puja imatge",
         "UPLOADING": "S'està carregant...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "La imatge s'ha carregat correctament",
+        "ERROR": "S'ha produït un error en carregar la imatge",
+        "ERROR_FILE_SIZE": "La mida de la imatge ha de ser inferior a {size}MB",
+        "ERROR_FILE_FORMAT": "El format de la imatge ha de ser JPG, JPEG o PNG",
+        "ERROR_FILE_DIMENSIONS": "Les dimensions de la imatge han de ser inferiors a 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Configuració de l'article",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Categoria",
+          "TITLE": "Selecciona categoria",
+          "PLACEHOLDER": "Selecciona categoria",
+          "NO_RESULT": "No s'ha trobat la categoria",
+          "SEARCH_PLACEHOLDER": "Cerca la categoria"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autor",
+          "TITLE": "Selecciona l'autor",
+          "PLACEHOLDER": "Selecciona l'autor",
+          "NO_RESULT": "No s'han trobat autors",
+          "SEARCH_PLACEHOLDER": "Cerca autor"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta títol",
+          "PLACEHOLDER": "Afegeix un meta títol"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta descripció",
+          "PLACEHOLDER": "Afegeix la teva meta descripció per obtenir millors resultats de SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta etiquetes",
+          "PLACEHOLDER": "Afegeix meta etiquetes separades per comes..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arxiva article",
+        "DELETE": "Suprimeix article"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Sense categoria",
+      "SEARCH_RESULTS": "Resultats de la cerca per a %{query}",
+      "EMPTY_TEXT": "Cerca articles per inserir a les respostes.",
+      "SEARCH_LOADER": "S'està cercant...",
+      "INSERT_ARTICLE": "Insereix",
+      "NO_RESULT": "No s'han trobat articles",
+      "COPY_LINK": "Copia l'enllaç de l'article al porta-retalls",
+      "OPEN_LINK": "Obre l'article en una pestanya nova",
+      "PREVIEW_LINK": "Vista prèvia de l'article"
     },
     "PORTAL": {
       "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
+      "DEFAULT": "Per defecte",
+      "NEW_BUTTON": "Nou portal",
+      "ACTIVE_BADGE": "actiu",
+      "CHOOSE_LOCALE_LABEL": "Escull una localització",
+      "LOADING_MESSAGE": "Carregant portals...",
       "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "NO_PORTALS_MESSAGE": "No hi ha portals disponibles",
+      "ADD_NEW_LOCALE": "Afegeix una nova localització",
       "POPOVER": {
         "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "PORTAL_SETTINGS": "Configuració del portal",
+        "SUBTITLE": "Tens diversos portals i pots tenir diferents localitzacions per a cada portal.",
         "CANCEL_BUTTON_LABEL": "Cancel·la",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Escull localització"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
             "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "ADD": "Afegeix localització",
+            "VISIT": "Visita el lloc",
             "SETTINGS": "Configuracions",
             "DELETE": "Esborrar"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Configuracions del portal",
             "ITEMS": {
               "NAME": "Nom",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Domini personalitzat",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Títol del portal",
+              "THEME": "Color del tema",
+              "SUB_TEXT": "Subtext del portal"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Localitzacions disponibles",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Nom de la localització",
+              "CODE": "Codi de la localització",
+              "ARTICLE_COUNT": "Nre. d'articles",
+              "CATEGORIES": "Nre. de categories",
+              "SWAP": "Intercanvi",
               "DELETE": "Esborrar",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Per defecte"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Suprimir portal",
+          "MESSAGE": "Estàs segur que vols suprimir aquest portal",
+          "YES": "Sí, esborra el portal",
+          "NO": "No, manté el portal",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Portal esborrat correctament",
+            "DELETE_ERROR": "S'ha produït un error en suprimir el portal"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Edita el portal",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Informació bàsica"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "Personalització del portal"
           },
           "CATEGORY_SETTINGS": {
             "TITLE": "Categories"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Localitzacions"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Categories a",
+          "NEW_CATEGORY": "Nova categoria",
           "TABLE": {
             "NAME": "Nom",
             "DESCRIPTION": "Descripció",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "LOCALE": "Localització",
+            "ARTICLE_COUNT": "Nre. d'articles",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Edita la categoria",
+              "DELETE": "Suprimeix la categoria"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "No s'han trobat categories"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Actualitzar la configuració bàsica"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Informació del centre d'ajuda",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Informació bàsica sobre el portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea la configuració bàsica del portal"
           },
           {
-            "title": "Help center customization",
+            "title": "Personalització del centre d'ajuda",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Personalitza el portal",
+            "UPDATE_PORTAL_BUTTON": "Actualitza la configuració del portal"
           },
           {
-            "title": "Voila! 🎉",
+            "title": "Llest! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
-            "FINISH": "Finish"
+            "body": "Estàs a punt!",
+            "FINISH": "Finalitza"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Enrere",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Crea un portal",
+            "TITLE": "Informació del centre d'ajuda",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea la configuració bàsica del portal"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Personalització del portal",
+            "TITLE": "Personalització del centre d'ajuda",
+            "UPDATE_PORTAL_BUTTON": "Actualitza la configuració del portal"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Lles!🎉 Estàs a punt!",
+            "MESSAGE": "Ara pots veure aquest portal creat en la teva pàgina de tots els portals.",
+            "FINISH": "Ves a la pàgina de tots els portals"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "Actualitza el logo",
+          "HELP_TEXT": "Aquest logotip es mostrarà a la capçalera del portal.",
+          "IMAGE_UPLOAD_SUCCESS": "El logotip s'ha penjat correctament",
+          "IMAGE_UPLOAD_ERROR": "El logotip s'ha suprimit correctament",
+          "IMAGE_DELETE_ERROR": "S'ha produït un error en suprimir el logotip"
         },
         "NAME": {
           "LABEL": "Nom",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Nom del portal",
+          "HELP_TEXT": "El nom s'utilitzarà internament al portal públic.",
+          "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug del portal per a URLs",
+          "ERROR": "El slug és obligatori"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
+          "LABEL": "Domini personalitzat",
+          "PLACEHOLDER": "Domini personalitzat del portal",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Introdueix una URL de domini vàlid"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
+          "LABEL": "Enllaça a la pàgina d'inici",
+          "PLACEHOLDER": "Enllaç a la pàgina d'inici del portal",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "ERROR": "Introdueix una URL de pàgina d'inici vàlid"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Color del tema del portal",
+          "HELP_TEXT": "Aquest color es mostrarà com a color del tema per al portal."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Títol de la pàgina",
+          "PLACEHOLDER": "Títol de la pàgina del portal",
+          "HELP_TEXT": "El títol de la pàgina s'utilitzarà al portal públic.",
+          "ERROR": "El títol de la pàgina és necessari"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Text de la capçalera",
+          "PLACEHOLDER": "Text de la capçalera del portal",
+          "HELP_TEXT": "El text de la capçalera del portal s'utilitzarà al portal públic.",
+          "ERROR": "El text de la capçalera del portal és obligatori"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal creat correctament.",
+          "ERROR_MESSAGE_FOR_BASIC": "No s'ha pogut crear el portal. Torna-ho a provar.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal actualitzat correctament.",
+          "ERROR_MESSAGE_FOR_UPDATE": "No s'ha pogut actualitzar el portal. Torna-ho a provar."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "TITLE": "Afegeix una nova localització",
+        "SUB_TITLE": "Això afegeix una configuració regional nova a la teva llista de traduccions disponible.",
         "PORTAL": "Portal",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "Localització",
+          "PLACEHOLDER": "Escull una localització",
+          "ERROR": "La localització és necessari"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "Crea una localització",
           "CANCEL": "Cancel·la"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "La localització s'ha afegit correctament",
+          "ERROR_MESSAGE": "No es pot afegir la localització. Torna-ho a provar."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "La localització predeterminada s'ha actualitzat correctament",
+          "ERROR_MESSAGE": "No es pot actualitzar la localització. Torna-ho a provar."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "La localització s'ha eliminat del portal correctament",
+          "ERROR_MESSAGE": "No es pot eliminar la localització del portal. Torna-ho a provar."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Carregant articles...",
+      "404": "No hi ha cap article que coincideixi amb la teva cerca 🔍",
+      "NO_ARTICLES": "No hi ha articles disponibles",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
+        "TITLE": "Títol",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Vistes",
         "STATUS": "Estat",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Última edició"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "per",
+        "AUTHOR_NOT_AVAILABLE": "L'autor no està disponible"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Carregant articles...",
+      "TITLE_PLACEHOLDER": "El títol de l'article va aquí",
+      "CONTENT_PLACEHOLDER": "Escriu el teu article aquí",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "S'ha produït un error en desar l'article"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "S'ha produït un error en publicar l'article",
+        "SUCCESS": "Article publicat amb èxit"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "S'ha produït un error en arxivar l'article",
+        "SUCCESS": "Article arxivat correctament"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Confirma l'esborrat",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "Esteu segur que suprimiu l'article?",
           "YES": "Si, esborra",
           "NO": "No, manten-la"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Article esborrat correctament",
+        "ERROR_MESSAGE": "S'ha produït un error en suprimir l'article"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Afegiu l'encapçalament i el contingut de l'article i llavors pots actualitzar la configuració"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Cerca articles"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "TITLE": "Crea una categoria",
+        "SUB_TITLE": "La categoria s'utilitzarà al portal públic per categoritzar els articles.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Localització",
         "NAME": {
           "LABEL": "Nom",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Nom de la categoria",
+          "HELP_TEXT": "El nom i la icona de la categoria s'utilitzaran al portal públic per categoritzar els articles.",
+          "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug de categoria per a URLs",
           "HELP_TEXT": "chat.onehash.ai/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "El slug és obligatori"
         },
         "DESCRIPTION": {
           "LABEL": "Descripció",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Fes una breu descripció de la categoria.",
+          "ERROR": "La descripció és necessària"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Crea la categoria",
           "CANCEL": "Cancel·la"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Categoria creada correctament",
+          "ERROR_MESSAGE": "No es pot crear la categoria"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "Edita una categoria",
+        "SUB_TITLE": "L'edició d'una categoria actualitzarà la categoria al portal públic.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Localització",
         "NAME": {
           "LABEL": "Nom",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Nom de la categoria",
+          "HELP_TEXT": "El nom i la icona de la categoria s'utilitzaran al portal públic per categoritzar els articles.",
+          "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug de categoria per a URLs",
           "HELP_TEXT": "chat.onehash.ai/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "El slug és obligatori"
         },
         "DESCRIPTION": {
           "LABEL": "Descripció",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Fes una breu descripció de la categoria.",
+          "ERROR": "La descripció és necessària"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Actualitza la categoria",
           "CANCEL": "Cancel·la"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Categoria actualitzada correctament",
+          "ERROR_MESSAGE": "No es pot actualitzar la categoria"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Categoria suprimida correctament",
+          "ERROR_MESSAGE": "No es pot suprimir la categoria"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
+      "TITLE": "Cerca articles",
+      "PLACEHOLDER": "Cerca articles",
+      "NO_RESULT": "No s'han trobat articles",
+      "SEARCHING": "S'està cercant...",
       "SEARCH_BUTTON": "Cercar",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "INSERT_ARTICLE": "insereix enllaç",
+      "IFRAME_ERROR": "L'URL és buit o no és vàlid. No es pot mostrar el contingut.",
+      "OPEN_ARTICLE_SEARCH": "Insereix un article del Centre d'ajuda",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserit correctament",
+      "PREVIEW_LINK": "Vista prèvia de l'article",
       "CANCEL": "Tanca",
       "BACK": "Enrere",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Torna als resultats"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "Centre d'ajuda",
+      "DESCRIPTION": "Crea portals d'autoservei fàcils d'utilitzar. Ajuda els teus usuaris a accedir als articles i obtenir assistència les 24 hores del dia. Actualitza la teva subscripció per activar aquesta funció.",
+      "SELF_HOSTED_DESCRIPTION": "Crea portals d'autoservei fàcils d'utilitzar. Ajuda els teus usuaris a accedir als articles i obtenir assistència les 24 hores del dia. Posa't en contacte amb el teu administrador per activar aquesta funció.",
       "BUTTON": {
         "LEARN_MORE": "Aprèn més",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Actualitza"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Múltiples portals",
+          "DESCRIPTION": "Crea diversos portals del centre d'ajuda per a diferents productes amb el mateix compte."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Suport total per a localitzacions",
+          "DESCRIPTION": "Localitza el portal en el teu idioma. Admetem totes les localitzacions i permetem traduccions per a cada article."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "Disseny SEO-friendly",
+          "DESCRIPTION": "Personalitza les teves meta etiquetes per millorar la teva visibilitat als motors de cerca amb les nostres pàgines SEO-friendly."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Suport complet de l'API",
+          "DESCRIPTION": "Utilitza el portal com a CMS sense cap amb marcs de front-end de tercers mitjançant les nostres API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

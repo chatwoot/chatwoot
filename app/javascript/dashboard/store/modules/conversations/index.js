@@ -6,18 +6,22 @@ import { findPendingMessageIndex } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const state = {
   allConversations: [],
+  attachments: {},
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  contextMenuChatId: null,
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
+  conversationFilters: {},
 };
 
 // mutations
@@ -30,6 +34,22 @@ export const mutations = {
       );
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
+      } else if (conversation.id !== _state.selectedChatId) {
+        // If the conversation is already in the list, replace it
+        // Added this to fix the issue of the conversation not being updated
+        // When reconnecting to the websocket. If the selectedChatId is not the same as
+        // the conversation.id in the store, replace the existing conversation with the new one
+        newAllConversations[indexInCurrentList] = conversation;
+      } else {
+        // If the conversation is already in the list and selectedChatId is the same,
+        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
+        const existingConversation = newAllConversations[indexInCurrentList];
+        newAllConversations[indexInCurrentList] = {
+          ...conversation,
+          allMessagesLoaded: existingConversation.allMessagesLoaded,
+          messages: existingConversation.messages,
+          dataFetched: existingConversation.dataFetched,
+        };
       }
     });
     _state.allConversations = newAllConversations;
@@ -58,10 +78,10 @@ export const mutations = {
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
-    const [chat] = _state.allConversations.filter(c => c.id === id);
-    if (!chat) return;
-    Vue.set(chat, 'attachments', []);
-    chat.attachments.push(...data);
+    const attachments = _state.attachments[id] || [];
+
+    attachments.push(...data);
+    _state.attachments[id] = [...attachments];
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
@@ -124,42 +144,40 @@ export const mutations = {
     Vue.set(chat, 'muted', false);
   },
 
-  [types.ADD_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
-    const { conversation_id: conversationId } = message;
-    const [chat] = getSelectedChatConversation({
-      allConversations,
-      selectedChatId: conversationId,
+  [types.ADD_CONVERSATION_ATTACHMENTS](_state, message) {
+    // early return if the message has not been sent, or has no attachments
+    if (
+      message.status !== MESSAGE_STATUS.SENT ||
+      !message.attachments?.length
+    ) {
+      return;
+    }
+
+    const id = message.conversation_id;
+    const existingAttachments = _state.attachments[id] || [];
+
+    const attachmentsToAdd = message.attachments.filter(attachment => {
+      // if the attachment is not already in the store, add it
+      // this is to prevent duplicates
+      return !existingAttachments.some(
+        existingAttachment => existingAttachment.id === attachment.id
+      );
     });
 
-    if (!chat) return;
-
-    const isMessageSent =
-      message.status === MESSAGE_STATUS.SENT && message.attachments;
-    if (isMessageSent) {
-      message.attachments.forEach(attachment => {
-        if (!chat.attachments.some(a => a.id === attachment.id)) {
-          chat.attachments.push(attachment);
-        }
-      });
-    }
+    // replace the attachments in the store
+    _state.attachments[id] = [...existingAttachments, ...attachmentsToAdd];
   },
 
-  [types.DELETE_CONVERSATION_ATTACHMENTS]({ allConversations }, message) {
-    const { conversation_id: conversationId } = message;
-    const [chat] = getSelectedChatConversation({
-      allConversations,
-      selectedChatId: conversationId,
+  [types.DELETE_CONVERSATION_ATTACHMENTS](_state, message) {
+    if (message.status !== MESSAGE_STATUS.SENT) return;
+
+    const { conversation_id: id } = message;
+    const existingAttachments = _state.attachments[id] || [];
+    if (!existingAttachments.length) return;
+
+    _state.attachments[id] = existingAttachments.filter(attachment => {
+      return attachment.message_id !== message.id;
     });
-
-    if (!chat) return;
-
-    const isMessageSent = message.status === MESSAGE_STATUS.SENT;
-    if (isMessageSent) {
-      const attachmentIndex = chat.attachments.findIndex(
-        a => a.message_id === message.id
-      );
-      if (attachmentIndex !== -1) chat.attachments.splice(attachmentIndex, 1);
-    }
   },
 
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
@@ -179,8 +197,8 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
-        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
   },
@@ -202,8 +220,8 @@ export const mutations = {
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChatId === conversation.id) {
-        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
       _state.allConversations.push(conversation);
@@ -290,6 +308,17 @@ export const mutations = {
   [types.ENABLE_CHATBOT](_state) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'chatbot_status', 'Enabled');
+  },
+
+  [types.SET_CONTEXT_MENU_CHAT_ID](_state, chatId) {
+    _state.contextMenuChatId = chatId;
+  },
+
+  [types.SET_CHAT_LIST_FILTERS](_state, data) {
+    _state.conversationFilters = data;
+  },
+  [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
+    _state.conversationFilters = { ..._state.conversationFilters, ...data };
   },
 };
 

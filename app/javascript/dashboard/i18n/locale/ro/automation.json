@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduceți mesajul aici",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activați regula de automatizare",
@@ -113,6 +115,15 @@
       "LABEL_UPLOADING": "Încărcare...",
       "LABEL_UPLOADED": "Încărcare reușită",
       "LABEL_UPLOAD_FAILED": "Încărcare eșuată"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Este necesară o valoare validă",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

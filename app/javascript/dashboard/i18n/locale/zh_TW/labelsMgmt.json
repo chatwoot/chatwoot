@@ -3,8 +3,9 @@
     "HEADER": "標籤",
     "HEADER_BTN_TXT": "新增標籤",
     "LOADING": "正在獲取標籤",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "没有任何項目符合此查詢",
-    "SIDEBAR_TXT": "<p><b>標籤</b> <p>可以幫助您對對話進行分類和排序。 您可以從側面板給對話指定標籤。 <br /><br />標籤被綁定到帳戶，可以用於建立您組織中的自定義工作流。 您可以將自定義顏色分配給標籤，使它更容易識別標籤。 您將能夠在側邊欄上顯示標籤，方便地過濾對話。</p>",
     "LIST": {
       "404": "此帳戶中没有可用的標籤。",
       "TITLE": "管理標籤",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "新增標籤",

@@ -1,12 +1,3 @@
-<template>
-  <note-list
-    :is-fetching="uiFlags.isFetching"
-    :notes="notes"
-    @add="onAdd"
-    @delete="onDelete"
-  />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import NoteList from './components/NoteList.vue';
@@ -48,3 +39,12 @@ export default {
   },
 };
 </script>
+
+<template>
+  <NoteList
+    :is-fetching="uiFlags.isFetching"
+    :notes="notes"
+    @add="onAdd"
+    @delete="onDelete"
+  />
+</template>

@@ -13,18 +13,25 @@
         <div class="field-unit__label">
           <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
         </div>
-        <div class="field-unit__field -mt-2 ">
+        <div class="-mt-2 field-unit__field ">
           <% if @installation_configs[key]&.dig('type') == 'boolean' %>
             <%= form.select "app_config[#{key}]", 
               [["True", true], ["False", false]], 
               { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
               class: "mt-2 border border-slate-100 p-1 rounded-md" 
             %>
+          <% elsif @installation_configs[key]&.dig('type') == 'code' %>
+            <%= form.text_area "app_config[#{key}]", 
+                value: @app_config[key], 
+                rows: 12,
+                wrap: 'off',
+                class: "mt-2 border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll"
+            %>
           <% else %>
             <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
           <% end %>
           <%if @installation_configs[key]&.dig('description').present? %>
-            <p class="text-slate-400 text-xs italic pt-2">
+            <p class="pt-2 text-xs italic text-slate-400">
               <%= @installation_configs[key]&.dig('description') %>
             </p>
           <% end %>

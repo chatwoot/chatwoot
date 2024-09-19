@@ -1,12 +1,12 @@
-import AccountSelector from '../AccountSelector';
+import AccountSelector from '../AccountSelector.vue';
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
 import i18n from 'dashboard/i18n';
-import WootModal from 'dashboard/components/Modal';
-import WootModalHeader from 'dashboard/components/ModalHeader';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import WootModal from 'dashboard/components/Modal.vue';
+import WootModalHeader from 'dashboard/components/ModalHeader.vue';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const localVue = createLocalVue();
 localVue.component('woot-modal', WootModal);

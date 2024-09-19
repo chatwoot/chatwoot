@@ -3,6 +3,7 @@ class DashboardController < ActionController::Base
 
   before_action :set_application_pack
   before_action :set_global_config
+  before_action :set_dashboard_scripts
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
   before_action :render_hc_if_custom_domain, only: [:index]
@@ -35,6 +36,10 @@ class DashboardController < ActionController::Base
     ).merge(app_config)
   end
 
+  def set_dashboard_scripts
+    @dashboard_scripts = sensitive_path? ? nil : GlobalConfig.get_value('DASHBOARD_SCRIPTS')
+  end
+
   def ensure_installation_onboarding
     redirect_to '/installation/onboarding' if ::Redis::Alfred.get(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)
   end
@@ -58,7 +63,7 @@ class DashboardController < ActionController::Base
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v17.0'),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
-      AZURE_APP_ID: ENV.fetch('AZURE_APP_ID', ''),
+      AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH
     }
   end
@@ -69,5 +74,15 @@ class DashboardController < ActionController::Base
                         else
                           'application'
                         end
+  end
+
+  def sensitive_path?
+    # dont load dashboard scripts on sensitive paths like password reset
+    sensitive_paths = [edit_user_password_path].freeze
+
+    # remove app prefix
+    current_path = request.path.gsub(%r{^/app}, '')
+
+    sensitive_paths.include?(current_path)
   end
 end

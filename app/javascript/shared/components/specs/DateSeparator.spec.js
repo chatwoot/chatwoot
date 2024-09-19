@@ -1,4 +1,4 @@
-import DateSeparator from '../DateSeparator';
+import DateSeparator from '../DateSeparator.vue';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';

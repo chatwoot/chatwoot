@@ -1,3 +1,5 @@
+import { sortComparator } from './helpers';
+
 export const getters = {
   getNotifications($state) {
     return Object.values($state.records).sort((n1, n2) => n2.id - n1.id);
@@ -21,5 +23,8 @@ export const getters = {
   },
   getMeta: $state => {
     return $state.meta;
+  },
+  getNotificationFilters($state) {
+    return $state.notificationFilters;
   },
 };

@@ -1,35 +1,3 @@
-<template>
-  <div
-    v-if="showShowCurrentAccountContext"
-    class="text-slate-700 dark:text-slate-200 rounded-md text-xs py-2 px-2 mt-2 relative border border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
-    @mouseover="setShowSwitch"
-    @mouseleave="resetShowSwitch"
-  >
-    {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
-    <p
-      class="text-ellipsis overflow-hidden whitespace-nowrap font-medium mb-0 text-slate-800 dark:text-slate-100"
-    >
-      {{ account.name }}
-    </p>
-    <transition name="fade">
-      <div
-        v-if="showSwitchButton"
-        class="ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark flex items-center h-full rounded-md justify-end absolute top-0 right-0 w-full"
-      >
-        <div class="my-0 mx-2">
-          <woot-button
-            variant="clear"
-            size="tiny"
-            icon="arrow-swap"
-            @click="$emit('toggle-accounts')"
-          >
-            {{ $t('SIDEBAR.SWITCH') }}
-          </woot-button>
-        </div>
-      </div>
-    </transition>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 
@@ -56,6 +24,40 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="showShowCurrentAccountContext"
+    class="relative px-2 py-2 mt-2 text-xs border rounded-md cursor-pointer text-slate-700 dark:text-slate-200 border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800"
+    @mouseover="setShowSwitch"
+    @mouseleave="resetShowSwitch"
+  >
+    {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
+    <p
+      class="mb-0 overflow-hidden font-medium text-ellipsis whitespace-nowrap text-slate-800 dark:text-slate-100"
+    >
+      {{ account.name }}
+    </p>
+    <transition name="fade">
+      <div
+        v-if="showSwitchButton"
+        class="absolute top-0 right-0 flex items-center justify-end w-full h-full rounded-md ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark"
+      >
+        <div class="mx-2 my-0">
+          <woot-button
+            variant="clear"
+            size="tiny"
+            icon="arrow-swap"
+            @click="$emit('toggleAccounts')"
+          >
+            {{ $t('SIDEBAR.SWITCH') }}
+          </woot-button>
+        </div>
+      </div>
+    </transition>
+  </div>
+</template>
+
 <style scoped>
 @tailwind components;
 @layer components {

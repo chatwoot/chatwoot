@@ -1,39 +1,3 @@
-<template>
-  <transition-group
-    name="wizard-items"
-    tag="div"
-    class="wizard-box"
-    :class="classObject"
-  >
-    <div
-      v-for="item in items"
-      :key="item.route"
-      class="item"
-      :class="{ active: isActive(item), over: isOver(item) }"
-    >
-      <div class="flex items-center">
-        <h3
-          class="text-slate-800 dark:text-slate-100 text-base font-medium pl-6 overflow-hidden whitespace-nowrap mb-1.5 text-ellipsis leading-tight"
-        >
-          {{ item.title }}
-        </h3>
-        <span
-          v-if="isOver(item)"
-          class="text-green-500 dark:text-green-500 ml-1"
-        >
-          <fluent-icon icon="checkmark" />
-        </span>
-      </div>
-      <span class="step">
-        {{ items.indexOf(item) + 1 }}
-      </span>
-      <p class="text-slate-600 dark:text-slate-300 text-sm m-0 pl-6">
-        {{ item.body }}
-      </p>
-    </div>
-  </transition-group>
-</template>
-
 <script>
 /* eslint no-console: 0 */
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -41,7 +5,6 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 export default {
   mixins: [globalConfigMixin],
   props: {
-    isFullwidth: Boolean,
     items: {
       type: Array,
       default: () => [],
@@ -65,6 +28,43 @@ export default {
   },
 };
 </script>
+
+<template>
+  <transition-group
+    name="wizard-items"
+    tag="div"
+    class="wizard-box"
+    :class="classObject"
+  >
+    <div
+      v-for="item in items"
+      :key="item.route"
+      class="item"
+      :class="{ active: isActive(item), over: isOver(item) }"
+    >
+      <div class="flex items-center">
+        <h3
+          class="text-slate-800 dark:text-slate-100 text-base font-medium pl-6 overflow-hidden whitespace-nowrap mb-1.5 text-ellipsis leading-tight"
+        >
+          {{ item.title }}
+        </h3>
+        <span
+          v-if="isOver(item)"
+          class="ml-1 text-green-500 dark:text-green-500"
+        >
+          <fluent-icon icon="checkmark" />
+        </span>
+      </div>
+      <span class="step">
+        {{ items.indexOf(item) + 1 }}
+      </span>
+      <p class="pl-6 m-0 text-sm text-slate-600 dark:text-slate-300">
+        {{ item.body }}
+      </p>
+    </div>
+  </transition-group>
+</template>
+
 <style lang="scss" scoped>
 .wizard-box {
   .item {
