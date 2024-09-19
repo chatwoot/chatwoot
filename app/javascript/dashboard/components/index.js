@@ -1,3 +1,4 @@
+// [NOTE][DEPRECATED] This method is to be deprecated, please do not add new components to this file.
 /* eslint no-plusplus: 0 */
 import AvatarUploader from './widgets/forms/AvatarUploader.vue';
 import Button from './ui/WootButton.vue';
@@ -13,8 +14,8 @@ import Input from './widgets/forms/Input.vue';
 import PhoneInput from './widgets/forms/PhoneInput.vue';
 import Label from './ui/Label.vue';
 import LoadingState from './widgets/LoadingState.vue';
-import Modal from './Modal.vue';
 import ModalHeader from './ModalHeader.vue';
+import Modal from './Modal.vue';
 import SidemenuIcon from './SidemenuIcon.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import SubmitButton from './buttons/FormSubmitButton.vue';
