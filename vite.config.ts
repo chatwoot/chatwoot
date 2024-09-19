@@ -5,7 +5,16 @@ import path from 'path';
 import Vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
-  plugins: [RubyPlugin(), Vue()],
+  plugins: [
+    RubyPlugin(),
+    Vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => ['ninja-keyss'].includes(tag),
+        },
+      },
+    }),
+  ],
   resolve: {
     alias: {
       components: path.resolve('./app/javascript/dashboard/components'),
