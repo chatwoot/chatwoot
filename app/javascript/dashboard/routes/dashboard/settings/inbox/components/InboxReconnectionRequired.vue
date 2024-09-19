@@ -9,6 +9,6 @@ import Banner from 'dashboard/components/ui/Banner.vue';
     :banner-message="$t('INBOX_MGMT.RECONNECTION_REQUIRED')"
     :action-button-label="$t('INBOX_MGMT.CLICK_TO_RECONNECT')"
     has-action-button
-    @click="$emit('reauthorize')"
+    @primaryAction="$emit('reauthorize')"
   />
 </template>

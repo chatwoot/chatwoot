@@ -1081,7 +1081,7 @@ export default {
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       has-action-button
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-      @click="onClickSelfAssign"
+      @primaryAction="onClickSelfAssign"
     />
     <ReplyTopPanel
       :mode="replyType"

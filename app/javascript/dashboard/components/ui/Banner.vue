@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     onClick(e) {
-      this.$emit('click', e);
+      this.$emit('primaryAction', e);
     },
     onClickClose(e) {
       this.$emit('close', e);
