@@ -52,7 +52,8 @@
         </div>
       </div>
       <contact-po-form
-        v-if="newStage && newStage.code == 'Won'"
+        v-show="newStage && newStage.code == 'Won'"
+        ref="contactPoForm"
         :current-contact="currentContact"
         @contact-data-changed="onContactChanged"
       />
@@ -115,6 +116,12 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
+      }
+      if (this.newStage.code === 'Won') {
+        this.$refs.contactPoForm.$v.$touch();
+        if (this.$refs.contactPoForm.$v.$invalid) {
+          return;
+        }
       }
       if (this.currentContact.stage.id === this.newStage.id) {
         return;

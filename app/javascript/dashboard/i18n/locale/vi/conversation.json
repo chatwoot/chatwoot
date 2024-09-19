@@ -237,7 +237,7 @@
       "STAGE": "Tình trạng hiện tại",
       "NEW_STAGE": "Tình trạng mới",
       "STAGE_ERROR": "Cần chọn một tình trạng mới để cập nhật",
-      "CANCEL": "Giữ nguyên",
+      "CANCEL": "Giữ nguyên tình trạng",
       "SUBMIT": "Cập nhật",
       "CHANGE_STAGE": "Đã cập nhật tình trạng mới cho khách hàng"
     }

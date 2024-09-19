@@ -76,13 +76,18 @@
     "CONTACT_PO": {
         "HEADER": {
             "TITLE": "Cập nhật thông tin mua hàng - %{name}",
-            "CONTENT": "Chúc mừng bạn đã chốt deal thành công, hãy kiểm tra và cập nhật thông tin mua hàng/sử dụng dịch vụ của khách hàng tại đây."
+            "CONTENT": "Chúc mừng bạn đã chốt deal thành công, hãy kiểm tra và cập nhật thông tin mua hàng/sử dụng dịch vụ của khách hàng tại đây. Bạn cũng có thể cập nhật lại thông tin nhân viên để tính doanh số và thông tin phụ trách mới nếu cần."
         },
         "FORM": {
             "PRODUCT" : "Sản phẩm dịch vụ",
             "PO_VALUE": "Giá trị mua hàng",
             "PO_DATE": "Ngày mua hàng",
-            "PO_NOTE": "Ghi chú"
+            "PO_NOTE": "Ghi chú",
+            "PO_AGENT": "Nhân viên chốt deal",
+            "PO_TEAM": "Nhóm chốt deal",
+            "ASSIGNEE": "Người phụ trách",
+            "TEAM": "Nhóm phụ trách",
+            "ERROR": "Thông tin bắt buộc nhập"
         },
         "BUTTON": {
             "CANCEL": "Hủy",

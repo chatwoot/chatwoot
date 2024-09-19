@@ -10,6 +10,7 @@
       />
       <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
         <contact-po-form
+          ref="contactPoForm"
           :current-contact="currentContact"
           @contact-data-changed="onContactChanged"
         />
@@ -67,6 +68,10 @@ export default {
       this.contactItem = contactItem;
     },
     onFormSubmit() {
+      this.$refs.contactPoForm.$v.$touch();
+      if (this.$refs.contactPoForm.$v.$invalid) {
+        return;
+      }
       try {
         this.$store.dispatch('contacts/update', this.contactItem).then(() => {
           this.showAlert(this.$t('CONTACT_PO.MESSAGE.SUCCESS'));
