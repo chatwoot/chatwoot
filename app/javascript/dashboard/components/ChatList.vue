@@ -813,11 +813,21 @@ watch(conversationFilters, (newVal, oldVal) => {
         class="w-full h-full overflow-auto"
       >
         <template #default="{ item, index, active }">
+          <!--
+            If we encounter resizing issues, we can set the `watchData` prop to true
+            this will deeply watch the entire object instead of just size dependencies
+            But it can impact performance
+          -->
           <DynamicScrollerItem
             :item="item"
             :active="active"
             :data-index="index"
-            :size-dependencies="[item.messages, item.labels]"
+            :size-dependencies="[
+              item.messages,
+              item.labels,
+              item.uuid,
+              item.inbox_id,
+            ]"
           >
             <ConversationItem
               :source="item"
