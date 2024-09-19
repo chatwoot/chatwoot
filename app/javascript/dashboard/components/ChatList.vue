@@ -806,15 +806,13 @@ watch(conversationFilters, (newVal, oldVal) => {
         :items="conversationList"
         :min-item-size="24"
         class="w-full h-full overflow-auto"
-        key-field="id"
-        page-mode
       >
         <template #default="{ item, index, active }">
           <DynamicScrollerItem
             :item="item"
             :active="active"
             :data-index="index"
-            :size-dependencies="[item.content]"
+            :size-dependencies="[item.messages, item.labels]"
           >
             <ConversationItem
               :source="item"
