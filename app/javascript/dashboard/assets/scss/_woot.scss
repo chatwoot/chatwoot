@@ -3,6 +3,9 @@
 @import 'tailwindcss/utilities';
 
 @import 'shared/assets/fonts/plus-jakarta';
+@import 'shared/assets/fonts/InterDisplay/inter-display';
+@import 'shared/assets/fonts/inter';
+
 @import 'shared/assets/stylesheets/animations';
 @import 'shared/assets/stylesheets/colors';
 @import 'shared/assets/stylesheets/spacing';
@@ -42,6 +45,7 @@
 }
 
 @layer base {
+
   // scss-lint:disable PropertySortOrder
   :root {
     --color-amber-25: 254 253 251;
@@ -213,6 +217,7 @@
     --color-orange-800: 204 78 0;
     --color-orange-900: 88 45 29;
   }
+
   // scss-lint:disable QualifyingElement
   body.dark {
     --color-amber-25: 31 19 0;

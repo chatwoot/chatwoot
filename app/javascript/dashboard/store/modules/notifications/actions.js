@@ -59,4 +59,14 @@ export const actions = {
   deleteNotification({ commit }, data) {
     commit(types.DELETE_NOTIFICATION, data);
   },
+  clear({ commit }) {
+    commit(types.CLEAR_NOTIFICATIONS);
+  },
+
+  setNotificationFilters: ({ commit }, filters) => {
+    commit(types.SET_NOTIFICATION_FILTERS, filters);
+  },
+  updateNotificationFilters: ({ commit }, filters) => {
+    commit(types.UPDATE_NOTIFICATION_FILTERS, filters);
+  },
 };

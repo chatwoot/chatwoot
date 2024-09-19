@@ -84,7 +84,7 @@
     "CONFIRM": {
       "TITLE": "导出联系人",
       "MESSAGE": "您确定要导出所有联系人吗？",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "FILTERED_MESSAGE": "您确定要导出所有指定的联系人吗？",
       "YES": "是的，导出",
       "NO": "否，取消"
     }
@@ -298,8 +298,8 @@
     "BUTTON": "添加自定义属性",
     "NOT_AVAILABLE": "此联系人没有可用的自定义属性。",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "显示全部属性",
+    "SHOW_LESS": "显示较少属性",
     "ACTIONS": {
       "COPY": "复制属性",
       "DELETE": "删除属性",
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "已成功合并联系人",
       "ERROR_MESSAGE": "无法合并联系人，请重试！"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

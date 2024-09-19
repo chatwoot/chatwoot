@@ -1,3 +1,13 @@
+<script>
+export default {
+  methods: {
+    handleClick() {
+      this.$emit('toggleMenu');
+    },
+  },
+};
+</script>
+
 <template>
   <div class="mb-4">
     <button
@@ -9,12 +19,3 @@
     </button>
   </div>
 </template>
-<script>
-export default {
-  methods: {
-    handleClick() {
-      this.$emit('toggle-menu');
-    },
-  },
-};
-</script>

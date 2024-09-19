@@ -38,9 +38,10 @@ export class AnalyticsHelper {
    * @param {Object} user - User object
    */
   identify(user) {
-    if (!this.analytics) {
+    if (!this.analytics || !user) {
       return;
     }
+
     this.user = user;
     this.analytics.identify(this.user.email, {
       userId: this.user.id,

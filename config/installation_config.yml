@@ -124,6 +124,16 @@
   type: boolean
 # ------- End of Facebook Channel Related Config ------- #
 
+# MARK: Microsoft Email Channel Config
+- name: AZURE_APP_ID
+  display_title: 'Azure App ID'
+  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: https://chwt.app/dev/ms'
+  locked: false
+- name: AZURE_APP_SECRET
+  display_title: 'Azure App Secret'
+  locked: false
+# End of Microsoft Email Channel Config
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
@@ -154,6 +164,11 @@
   value:
   display_title: 'Clearbit API Key'
   description: 'This API key is used for onboarding the users, to pre-fill account data.'
+- name: DASHBOARD_SCRIPTS
+  value:
+  display_title: 'Dashboard Scripts'
+  description: 'Scripts are loaded as the last item in the <body> tag'
+  type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
@@ -187,28 +202,29 @@
 - name: DISABLE_USER_PROFILE_UPDATE
   value: false
   locked: false
-- name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
-  value: false
-  locked: false
-- name: CSML_BOT_HOST
+  description: 'Disable rendering profile update page for users'
+## ------ End of Configs added for enterprise clients ------ ##
+
+## ------ Configs added for FCM v1 notifications ------ ##
+- name: FIREBASE_PROJECT_ID
+  display_title: 'Firebase Project ID'
   value:
   locked: false
-- name: CSML_BOT_API_KEY
+  description: 'Firebase project ID'
+- name: FIREBASE_CREDENTIALS
+  display_title: 'Firebase Credentials'
   value:
   locked: false
-- name: CHATWOOT_CLOUD_PLANS
-  value:
-- name: DEPLOYMENT_ENV
-  value: self-hosted
-- name: CSML_EDITOR_HOST
-  value:
-- name: INSTALLATION_PRICING_PLAN
-  value: 'community'
-- name: INSTALLATION_PRICING_PLAN_QUANTITY
-  value: 0
-- name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
-  value:
-- name: CHATWOOT_SUPPORT_SCRIPT_URL
-  value:
-- name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
-  value:
+  description: 'Contents on your firebase credentials json file'
+## ------ End of Configs added for FCM v1 notifications ------ ##
+
+## ----- Captain Configs ----- ##
+- name: CAPTAIN_API_URL
+  value: 
+  display_title: 'Captain API URL'
+  description: 'The API URL for Captain'
+- name: CAPTAIN_APP_URL
+  value: 
+  display_title: 'Captain App URL'
+  description: 'The App URL for Captain'
+## ----- End of Captain Configs ----- ##

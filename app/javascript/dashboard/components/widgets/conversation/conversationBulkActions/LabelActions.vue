@@ -1,78 +1,3 @@
-<template>
-  <div v-on-clickaway="onClose" class="labels-container">
-    <div class="triangle">
-      <svg height="12" viewBox="0 0 24 12" width="24">
-        <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
-      </svg>
-    </div>
-    <div class="header flex items-center justify-between">
-      <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
-    </div>
-    <div class="labels-list">
-      <header class="labels-list__header">
-        <div
-          class="label-list-search h-8 flex justify-between items-center gap-2"
-        >
-          <fluent-icon icon="search" class="search-icon" size="16" />
-          <input
-            ref="search"
-            v-model="query"
-            type="search"
-            placeholder="Search"
-            class="label--search_input"
-          />
-        </div>
-      </header>
-      <ul class="labels-list__body">
-        <li
-          v-for="label in filteredLabels"
-          :key="label.id"
-          class="label__list-item"
-        >
-          <label
-            class="item"
-            :class="{ 'label-selected': isLabelSelected(label.title) }"
-          >
-            <input
-              v-model="selectedLabels"
-              type="checkbox"
-              :value="label.title"
-              class="label-checkbox"
-            />
-            <span
-              class="label-title overflow-hidden whitespace-nowrap text-ellipsis"
-            >
-              {{ label.title }}
-            </span>
-            <span
-              class="label-pill"
-              :style="{ backgroundColor: label.color }"
-            />
-          </label>
-        </li>
-      </ul>
-      <footer class="labels-list__footer">
-        <woot-button
-          size="small"
-          is-expanded
-          color-scheme="primary"
-          :disabled="!selectedLabels.length"
-          @click="$emit('assign', selectedLabels)"
-        >
-          <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS') }}</span>
-        </woot-button>
-      </footer>
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 
@@ -104,6 +29,80 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div v-on-clickaway="onClose" class="labels-container">
+    <div class="triangle">
+      <svg height="12" viewBox="0 0 24 12" width="24">
+        <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
+      </svg>
+    </div>
+    <div class="flex items-center justify-between header">
+      <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
+      <woot-button
+        size="tiny"
+        variant="clear"
+        color-scheme="secondary"
+        icon="dismiss"
+        @click="onClose"
+      />
+    </div>
+    <div class="labels-list">
+      <header class="labels-list__header">
+        <div
+          class="flex items-center justify-between h-8 gap-2 label-list-search"
+        >
+          <fluent-icon icon="search" class="search-icon" size="16" />
+          <input
+            v-model="query"
+            type="search"
+            :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
+            class="label--search_input"
+          />
+        </div>
+      </header>
+      <ul class="labels-list__body">
+        <li
+          v-for="label in filteredLabels"
+          :key="label.id"
+          class="label__list-item"
+        >
+          <label
+            class="item"
+            :class="{ 'label-selected': isLabelSelected(label.title) }"
+          >
+            <input
+              v-model="selectedLabels"
+              type="checkbox"
+              :value="label.title"
+              class="label-checkbox"
+            />
+            <span
+              class="overflow-hidden label-title whitespace-nowrap text-ellipsis"
+            >
+              {{ label.title }}
+            </span>
+            <span
+              class="label-pill"
+              :style="{ backgroundColor: label.color }"
+            />
+          </label>
+        </li>
+      </ul>
+      <footer class="labels-list__footer">
+        <woot-button
+          size="small"
+          is-expanded
+          color-scheme="primary"
+          :disabled="!selectedLabels.length"
+          @click="$emit('assign', selectedLabels)"
+        >
+          <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS') }}</span>
+        </woot-button>
+      </footer>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .labels-list {

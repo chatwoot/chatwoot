@@ -1,12 +1,12 @@
-import AgentDetails from '../AgentDetails';
+import AgentDetails from '../AgentDetails.vue';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
 
 import i18n from 'dashboard/i18n';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
-import WootButton from 'dashboard/components/ui/WootButton';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);

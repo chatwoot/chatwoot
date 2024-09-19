@@ -481,7 +481,8 @@
       "HEADER": "תנועת שיחות",
       "NO_CONVERSATIONS": "בלי שיחות",
       "CONVERSATION": "שיחה %{count}",
-      "CONVERSATIONS": "%{count} שיחות"
+      "CONVERSATIONS": "%{count} שיחות",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "שיחות של סוכנים",
@@ -517,7 +518,7 @@
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
+      "ADD_FIlTER": "הוסף מסנן",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "לא נמצאו תוצאות",
@@ -536,6 +537,7 @@
       "LABELS": "תווית",
       "TEAMS": "צוות"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

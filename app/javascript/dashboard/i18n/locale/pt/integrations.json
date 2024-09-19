@@ -1,6 +1,15 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "FORM": {
@@ -169,6 +178,7 @@
       "HEADER_BTN_TXT": "Adicionar nova dashboard app",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem uma aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do Chatwoot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar um novo aplicativo ao dashboard, clique no botão 'Adicionar nova dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps permite que as organizações incorporem um aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Não há dashboard apps configuradas nesta conta.",
         "LOADING": "A obter dashboard apps...",
@@ -208,6 +218,87 @@
         "MESSAGE": "Tem certeza que deseja excluir a app - %{appName}?",
         "API_SUCCESS": "App dashboard apagada",
         "API_ERROR": "Não foi possível apagar a app. Por favor, tente novamente mais tarde"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Criar/Vincular Problema Linear",
+      "LOADING": "A procurar problemas lineares...",
+      "LOADING_ERROR": "Houve um erro ao procurar problemas lineares, por favor, tente novamente",
+      "CREATE": "Criar",
+      "LINK": {
+        "SEARCH": "Pesquisar problemas",
+        "SELECT": "Selecionar problema",
+        "TITLE": "Endereço",
+        "EMPTY_LIST": "Nenhum problema linear encontrado",
+        "LOADING": "A carregar",
+        "ERROR": "Houve um erro ao procurar problemas lineares, por favor, tente novamente",
+        "LINK_SUCCESS": "Problema vinculado com sucesso",
+        "LINK_ERROR": "Houve um erro ao vincular o problema, por favor, tente novamente",
+        "LINK_TITLE": "Conversa (#%{conversationId}) com %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Criar/Vincular Problema Linear",
+        "DESCRIPTION": "Crie problemas lineares das conversas, ou vincule as existentes para um rastreamento sem interrupções.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Nome",
+            "PLACEHOLDER": "Digitar nome",
+            "REQUIRED_ERROR": "Nome é obrigatório"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descrição",
+            "PLACEHOLDER": "Digitar descrição"
+          },
+          "TEAM": {
+            "LABEL": "Equipa",
+            "PLACEHOLDER": "Escolher equipa",
+            "SEARCH": "Procurar equipa",
+            "REQUIRED_ERROR": "Equipa é obrigatória"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Atribuído",
+            "PLACEHOLDER": "Selecionar responsável",
+            "SEARCH": "Pesquisar responsável"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioridade",
+            "PLACEHOLDER": "Selecione a prioridade",
+            "SEARCH": "Procurar prioridade"
+          },
+          "LABEL": {
+            "LABEL": "Etiqueta",
+            "PLACEHOLDER": "Selecionar etiqueta",
+            "SEARCH": "Procurar etiqueta"
+          },
+          "STATUS": {
+            "LABEL": "Situação",
+            "PLACEHOLDER": "Selecionar estado",
+            "SEARCH": "Procurar estado"
+          },
+          "PROJECT": {
+            "LABEL": "Projeto",
+            "PLACEHOLDER": "Selecionar projeto",
+            "SEARCH": "Procurar projeto"
+          }
+        },
+        "CREATE": "Criar",
+        "CANCEL": "Cancelar",
+        "CREATE_SUCCESS": "Problema criado com sucesso",
+        "CREATE_ERROR": "Houve um erro ao criar o problema, por favor, tente novamente",
+        "LOADING_TEAM_ERROR": "Houve um erro ao obter as equipas, por favor, tente novamente",
+        "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao obter as entidades das equipas, por favor, tente novamente"
+      },
+      "ISSUE": {
+        "STATUS": "Situação",
+        "PRIORITY": "Prioridade",
+        "ASSIGNEE": "Atribuído",
+        "LABELS": "Etiquetas",
+        "CREATED_AT": "Criado a %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Desvincular",
+        "SUCCESS": "Problema desvinculado com sucesso",
+        "ERROR": "Houve um erro ao desvincular o problema, por favor, tente novamente"
       }
     }
   }

@@ -17,6 +17,17 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe 'permissions' do
+    it 'returns the right permissions' do
+      expect(account_user.permissions).to eq(['agent'])
+    end
+
+    it 'returns the right permissions for administrator' do
+      account_user.administrator!
+      expect(account_user.permissions).to eq(['administrator'])
+    end
+  end
+
   describe 'destroy call agent::destroy service' do
     it 'gets created with the right default settings' do
       create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox)

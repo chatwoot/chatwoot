@@ -1,33 +1,17 @@
-<template>
-  <form @submit.prevent="changePassword()">
-    <div
-      class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
-    >
-      <div class="w-1/4">
-        <h4 class="text-lg text-black-900 dark:text-slate-200">
-          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
-        </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
-      </div>
-      <div class="w-[45%] p-4">
-        <woot-button @click="redirectToHref">
-          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-        </woot-button>
-      </div>
-    </div>
-  </form>
-</template>
-
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
+import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import FormButton from 'v3/components/Form/Button.vue';
+// import FormButton from 'v3/components/Form/Button.vue';
+
 export default {
-  components: {
-    FormButton,
+  // components: {
+  //   FormButton,
+  // },
+  setup() {
+    return { v$: useVuelidate() };
   },
-  mixins: [alertMixin],
   data() {
     return {
       currentPassword: '',
@@ -65,15 +49,15 @@ export default {
       return (
         !this.currentPassword ||
         !this.passwordConfirmation ||
-        !this.$v.passwordConfirmation.isEqPassword
+        !this.v$.passwordConfirmation.isEqPassword
       );
     },
   },
   methods: {
     async changePassword() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
       let alertMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
@@ -88,7 +72,7 @@ export default {
           parseAPIErrorResponse(error) ||
           this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(alertMessage);
+        useAlert(alertMessage);
       }
     },
     redirectToHref() {
@@ -100,3 +84,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <form @submit.prevent="changePassword()">
+    <div class="flex flex-col w-full gap-4">
+      <div class="w-1/4">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
+          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
+        </h4>
+        <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
+      </div>
+      <div class="w-[45%]">
+        <woot-button @click="redirectToHref">
+          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
+        </woot-button>
+      </div>
+    </div>
+  </form>
+</template>

@@ -3,8 +3,9 @@
     "HEADER": "Tunnisteet",
     "HEADER_BTN_TXT": "Lisää tunniste",
     "LOADING": "Haetaan tunnisteita",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
-    "SIDEBAR_TXT": "<p><b>Tunnisteet</b> <p>Tunnisteet auttavat sinua luokittelemaan keskustelut ja priorisoimaan ne. Voit määrittää tunnisteen keskusteluun sivupaneelista.<br /><br />Tunnisteet ovat sidottuja tiliin ja niitä voidaan käyttää luomaan mukautettuja työnkulkuja organisaatiollesi. Voit määrittää oman värin tunnisteeseen, mikä helpottaa tunnisteen tunnistamista. Voit näyttää otsikon sivupalkissa, jotta voit suodattaa keskustelut helposti.</p>",
     "LIST": {
       "404": "Tällä tilillä ei ole tunnisteita.",
       "TITLE": "Hallitse tunnisteita",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Lisää tunniste",

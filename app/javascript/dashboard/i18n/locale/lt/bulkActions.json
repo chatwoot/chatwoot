@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Grįžti",
     "ASSIGN_LABEL": "Priskirti",
     "YES": "Taip",
+    "SEARCH_INPUT_PLACEHOLDER": "Ieškoti",
     "ASSIGN_AGENT_TOOLTIP": "Priskirti Agentą",
     "ASSIGN_TEAM_TOOLTIP": "Priskirti komandą",
     "ASSIGN_SUCCESFUL": "Pokalbis priskirtas sėkmingai.",
@@ -33,7 +34,7 @@
       "NONE": "Nėra",
       "NO_TEAMS_AVAILABLE": "Šioje paskyroje nėra pridėtų komandų.",
       "ASSIGN_SELECTED_TEAMS": "Priskirti pažymėtą komandą.",
-      "ASSIGN_SUCCESFUL": "Komandos sėkmingai priskirtos.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Nepavyko priskirti komandą. Prašau, pabandykite dar kartą."
     }
   }

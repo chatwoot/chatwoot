@@ -84,7 +84,7 @@
     "CONFIRM": {
       "TITLE": "Экспорт контактов",
       "MESSAGE": "Вы уверены, что хотите экспортировать все контакты?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "FILTERED_MESSAGE": "Вы действительно хотите экспортировать все отфильтрованные контакты?",
       "YES": "Да, экспортировать",
       "NO": "Нет, отменить"
     }
@@ -298,8 +298,8 @@
     "BUTTON": "Добавить пользовательский атрибут",
     "NOT_AVAILABLE": "Для этого контакта нет пользовательских атрибутов.",
     "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Показать все атрибуты",
+    "SHOW_LESS": "Скрыть лишние атрибуты",
     "ACTIONS": {
       "COPY": "Копировать атрибут",
       "DELETE": "Удалить атрибут",
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Контакт успешно объединён",
       "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

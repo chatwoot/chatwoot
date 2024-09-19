@@ -1,8 +1,3 @@
-<template>
-  <div
-    :class="`status-badge status-badge__${status} rounded-full w-2.5 h-2.5 mr-0.5 rtl:mr-0 rtl:ml-0.5 inline-flex`"
-  />
-</template>
 <script>
 export default {
   props: {
@@ -10,6 +5,13 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    :class="`status-badge status-badge__${status} rounded-full w-2.5 h-2.5 mr-0.5 rtl:mr-0 rtl:ml-0.5 inline-flex`"
+  />
+</template>
+
 <style lang="scss" scoped>
 .status-badge {
   &__online {

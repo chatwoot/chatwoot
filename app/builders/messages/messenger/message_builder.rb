@@ -27,7 +27,7 @@ class Messages::Messenger::MessageBuilder
     file_type = attachment['type'].to_sym
     params = { file_type: file_type, account_id: @message.account_id }
 
-    if [:image, :file, :audio, :video, :share, :story_mention].include? file_type
+    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel].include? file_type
       params.merge!(file_type_params(attachment))
     elsif file_type == :location
       params.merge!(location_params(attachment))

@@ -1,82 +1,11 @@
-<template>
-  <div
-    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto bg-white settings dark:bg-slate-800"
-  >
-    <setting-intro-banner :header-title="selectedChatbotName">
-      <woot-tabs
-        class="settings--tabs"
-        :index="selectedTabIndex"
-        :border="false"
-        @change="onTabChange"
-      >
-        <woot-tabs-item
-          v-for="tab in tabs"
-          :key="tab.key"
-          :name="tab.name"
-          :show-badge="false"
-        />
-      </woot-tabs>
-    </setting-intro-banner>
-
-    <div v-if="selectedTabKey === 'chatbot_settings'" class="mx-8">
-      <settings-section
-        :title="$t('CHATBOTS.SETTINGS_POPUP.CHATBOT_UPDATE_TITLE')"
-        :sub-title="$t('CHATBOTS.SETTINGS_POPUP.CHATBOT_UPDATE_SUB_TEXT')"
-        :show-border="false"
-      >
-        <woot-input
-          v-model.trim="selectedChatbotName"
-          class="w-3/4 pb-4"
-          :label="$t('CHATBOTS.ADD.CHATBOT_NAME.LABEL')"
-          :placeholder="$t('CHATBOTS.ADD.CHATBOT_NAME.PLACEHOLDER')"
-        />
-        <woot-input
-          v-model.trim="selectedChatbotReplyOnNoRelevantResult"
-          class="w-3/4 pb-4"
-          :label="$t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.LABEL')"
-          :placeholder="
-            $t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.PLACEHOLDER')
-          "
-        />
-        <label class="w-3/4 pb-4">
-          {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.LABEL') }}
-          <select v-model="chatbotEnabled">
-            <option :value="true">
-              {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.ENABLED') }}
-            </option>
-            <option :value="false">
-              {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.DISABLED') }}
-            </option>
-          </select>
-          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
-            {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.HELP_TEXT') }}
-          </p>
-        </label>
-      </settings-section>
-      <settings-section :show-border="false">
-        <woot-submit-button
-          type="submit"
-          :disabled="$v.$invalid"
-          :button-text="$t('CHATBOTS.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdating"
-          @click="updateChatbot"
-        />
-      </settings-section>
-    </div>
-    <div v-if="selectedTabKey === 'retrain'" class="mx-8">
-      <retrain :chatbot="chatbot" />
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import configMixin from 'shared/mixins/configMixin';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import Retrain from './retrainPage/Retrain.vue';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -84,7 +13,9 @@ export default {
     SettingsSection,
     Retrain,
   },
-  mixins: [alertMixin, configMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       selectedTabIndex: 0,
@@ -95,7 +26,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       uiFlags: 'chatbots/getUIFlags',
     }),
     selectedTabKey() {
@@ -155,11 +85,9 @@ export default {
           chatbotStatus: this.chatbotEnabled,
         };
         await this.$store.dispatch('chatbots/update', payload);
-        this.showAlert(this.$t('CHATBOTS.EDIT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CHATBOTS.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(
-          error.message || this.$t('CHATBOTS.EDIT.API.ERROR_MESSAGE')
-        );
+        useAlert(error.message || this.$t('CHATBOTS.EDIT.API.ERROR_MESSAGE'));
       }
     },
     onTabChange(selectedTabIndex) {
@@ -168,6 +96,77 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto bg-white settings dark:bg-slate-800"
+  >
+    <SettingIntroBanner :header-title="selectedChatbotName">
+      <woot-tabs
+        class="settings--tabs"
+        :index="selectedTabIndex"
+        :border="false"
+        @change="onTabChange"
+      >
+        <woot-tabs-item
+          v-for="tab in tabs"
+          :key="tab.key"
+          :name="tab.name"
+          :show-badge="false"
+        />
+      </woot-tabs>
+    </SettingIntroBanner>
+
+    <div v-if="selectedTabKey === 'chatbot_settings'" class="mx-8">
+      <SettingsSection
+        :title="$t('CHATBOTS.SETTINGS_POPUP.CHATBOT_UPDATE_TITLE')"
+        :sub-title="$t('CHATBOTS.SETTINGS_POPUP.CHATBOT_UPDATE_SUB_TEXT')"
+        :show-border="false"
+      >
+        <woot-input
+          v-model.trim="selectedChatbotName"
+          class="w-3/4 pb-4"
+          :label="$t('CHATBOTS.ADD.CHATBOT_NAME.LABEL')"
+          :placeholder="$t('CHATBOTS.ADD.CHATBOT_NAME.PLACEHOLDER')"
+        />
+        <woot-input
+          v-model.trim="selectedChatbotReplyOnNoRelevantResult"
+          class="w-3/4 pb-4"
+          :label="$t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.LABEL')"
+          :placeholder="
+            $t('CHATBOTS.ADD.CHATBOT_REPLY_ON_NO_RESULT.PLACEHOLDER')
+          "
+        />
+        <label class="w-3/4 pb-4">
+          {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.LABEL') }}
+          <select v-model="chatbotEnabled">
+            <option :value="true">
+              {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.DISABLED') }}
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{ $t('CHATBOTS.ADD.INBOX_TOGGLE.HELP_TEXT') }}
+          </p>
+        </label>
+      </SettingsSection>
+      <SettingsSection :show-border="false">
+        <woot-submit-button
+          type="submit"
+          :disabled="v$.$invalid"
+          :button-text="$t('CHATBOTS.SETTINGS_POPUP.UPDATE')"
+          :loading="uiFlags.isUpdating"
+          @click="updateChatbot"
+        />
+      </SettingsSection>
+    </div>
+    <div v-if="selectedTabKey === 'retrain'" class="mx-8">
+      <Retrain :chatbot="chatbot" />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .settings--tabs {

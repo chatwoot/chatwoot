@@ -1,72 +1,3 @@
-<template>
-  <div class="day-wrap">
-    <div class="checkbox-wrap">
-      <input
-        v-model="isDayEnabled"
-        name="enable-day"
-        class="enable-checkbox"
-        type="checkbox"
-        :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
-      />
-    </div>
-    <div class="day">
-      <span>{{ dayName }}</span>
-    </div>
-    <div v-if="isDayEnabled" class="hours-select-wrap">
-      <div class="hours-range">
-        <div class="checkbox-wrap open-all-day">
-          <input
-            v-model="isOpenAllDay"
-            name="enable-open-all-day"
-            class="enable-checkbox"
-            type="checkbox"
-            :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
-          />
-          <span>{{ $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY') }}</span>
-        </div>
-        <multiselect
-          v-model="fromTime"
-          :options="fromTimeSlots"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-          :allow-empty="false"
-          :disabled="isOpenAllDay"
-        />
-        <div class="separator-icon">
-          <fluent-icon icon="subtract" type="solid" size="16" />
-        </div>
-        <multiselect
-          v-model="toTime"
-          :options="toTimeSlots"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-          :allow-empty="false"
-          :disabled="isOpenAllDay"
-        />
-      </div>
-      <div v-if="hasError" class="date-error">
-        <span class="error">{{
-          $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
-        }}</span>
-      </div>
-    </div>
-    <div v-else class="day-unavailable">
-      <span>
-        {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}
-      </span>
-    </div>
-    <div>
-      <span v-if="isDayEnabled && !hasError" class="label">
-        {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
-      </span>
-    </div>
-  </div>
-</template>
-
 <script>
 import parse from 'date-fns/parse';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
@@ -79,7 +10,6 @@ export default {
   props: {
     dayName: {
       type: String,
-      default: '',
       required: true,
     },
     timeSlot: {
@@ -201,6 +131,76 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="day-wrap">
+    <div class="checkbox-wrap">
+      <input
+        v-model="isDayEnabled"
+        name="enable-day"
+        class="enable-checkbox"
+        type="checkbox"
+        :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
+      />
+    </div>
+    <div class="day">
+      <span>{{ dayName }}</span>
+    </div>
+    <div v-if="isDayEnabled" class="hours-select-wrap">
+      <div class="hours-range">
+        <div class="checkbox-wrap open-all-day">
+          <input
+            v-model="isOpenAllDay"
+            name="enable-open-all-day"
+            class="enable-checkbox"
+            type="checkbox"
+            :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
+          />
+          <span>{{ $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY') }}</span>
+        </div>
+        <multiselect
+          v-model="fromTime"
+          :options="fromTimeSlots"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :allow-empty="false"
+          :disabled="isOpenAllDay"
+        />
+        <div class="separator-icon">
+          <fluent-icon icon="subtract" type="solid" size="16" />
+        </div>
+        <multiselect
+          v-model="toTime"
+          :options="toTimeSlots"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :allow-empty="false"
+          :disabled="isOpenAllDay"
+        />
+      </div>
+      <div v-if="hasError" class="date-error">
+        <span class="error">{{
+          $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
+        }}</span>
+      </div>
+    </div>
+    <div v-else class="day-unavailable">
+      <span>
+        {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}
+      </span>
+    </div>
+    <div>
+      <span v-if="isDayEnabled && !hasError" class="label">
+        {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
+      </span>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .day-wrap::v-deep .multiselect {
   @apply m-0 w-[7.5rem];

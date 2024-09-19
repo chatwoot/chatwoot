@@ -25,6 +25,13 @@ class AccountAPI extends ApiClient {
   stripe_subscription() {
     return axios.post(`${this.url}stripe_subscription`);
   }
+
+  async getCacheKeys() {
+    const response = await axios.get(
+      `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
+    );
+    return response.data.cache_keys;
+  }
 }
 
 export default new AccountAPI();

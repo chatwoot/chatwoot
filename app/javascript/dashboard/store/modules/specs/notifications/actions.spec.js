@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { actions } from '../../notifications/actions';
 import types from '../../../mutation-types';
-
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
@@ -104,6 +103,108 @@ describe('#actions', () => {
       await actions.deleteNotification({ commit }, { data: 1 });
       expect(commit.mock.calls).toEqual([
         [types.DELETE_NOTIFICATION, { data: 1 }],
+      ]);
+    });
+  });
+
+  describe('clear', () => {
+    it('sends correct actions', async () => {
+      await actions.clear({ commit });
+      expect(commit.mock.calls).toEqual([[types.CLEAR_NOTIFICATIONS]]);
+    });
+  });
+
+  describe('deleteAllRead', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({});
+      await actions.deleteAllRead({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_READ_NOTIFICATIONS],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.deleteAllRead({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_READ_NOTIFICATIONS],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
+
+  describe('deleteAll', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({});
+      await actions.deleteAll({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_ALL_NOTIFICATIONS],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.deleteAll({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_ALL_NOTIFICATIONS],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
+
+  describe('snooze', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({
+        data: { snoozed_until: '20 Jan, 5.04pm' },
+      });
+      await actions.snooze({ commit }, { id: 1, snoozedUntil: 1703057715 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
+        [types.SNOOZE_NOTIFICATION, { id: 1, snoozed_until: '20 Jan, 5.04pm' }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.snooze({ commit }, { id: 1, snoozedUntil: 1703057715 });
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
+        [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
+  describe('setNotificationFilters', () => {
+    it('set notification filters', async () => {
+      const filters = {
+        page: 1,
+        status: 'read',
+        type: 'all',
+        sortOrder: 'desc',
+      };
+      await actions.setNotificationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATION_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('updateNotificationFilters', () => {
+    it('update notification filters', async () => {
+      const filters = {
+        page: 1,
+        status: 'unread',
+        type: 'all',
+        sortOrder: 'desc',
+      };
+      await actions.updateNotificationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.UPDATE_NOTIFICATION_FILTERS, filters],
       ]);
     });
   });

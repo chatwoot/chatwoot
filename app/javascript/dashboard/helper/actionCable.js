@@ -1,6 +1,8 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -31,34 +33,14 @@ class ActionCableConnector extends BaseActionCableConnector {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {
-    this.syncActiveConversationMessages();
+    emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
   };
 
+  // eslint-disable-next-line class-methods-use-this
   onDisconnected = () => {
-    this.setActiveConversationLastMessageId();
-  };
-
-  setActiveConversationLastMessageId = () => {
-    const {
-      params: { conversation_id },
-    } = this.app.$route;
-    if (conversation_id) {
-      this.app.$store.dispatch('setConversationLastMessageId', {
-        conversationId: Number(conversation_id),
-      });
-    }
-  };
-
-  syncActiveConversationMessages = () => {
-    const {
-      params: { conversation_id },
-    } = this.app.$route;
-    if (conversation_id) {
-      this.app.$store.dispatch('syncActiveConversationMessages', {
-        conversationId: Number(conversation_id),
-      });
-    }
+    emitter.emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   };
 
   isAValidEvent = data => {
@@ -176,8 +158,8 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   fetchConversationStats = () => {
-    bus.$emit('fetch_conversation_stats');
-    bus.$emit('fetch_overview_reports');
+    emitter.emit('fetch_conversation_stats');
+    emitter.emit('fetch_overview_reports');
   };
 
   onContactDelete = data => {
@@ -202,7 +184,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onFirstReplyCreated = () => {
-    bus.$emit('fetch_overview_reports');
+    emitter.emit('fetch_overview_reports');
   };
 
   onCacheInvalidate = data => {

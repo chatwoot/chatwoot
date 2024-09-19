@@ -1,137 +1,7 @@
-<template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-4 w-full max-w-full"
-  >
-    <!-- File Upload Area -->
-    <div v-if="uploadType === 'file'">
-      <label for="file" class="file-upload-label">
-        <div class="file-upload-design">
-          <fluent-icon icon="cloud-backup" size="36" />
-          <p>
-            {{ $t('CHATBOTS.SUPPORTED_FILE_TYPES') }}
-          </p>
-          <span class="browse-button">{{ $t('CHATBOTS.BROWSE_FILES') }}</span>
-        </div>
-        <input
-          id="file"
-          type="file"
-          accept=".pdf,.docx,.txt"
-          multiple
-          @change="uploadFile"
-        />
-      </label>
-      <span class="text-slate-700 text-sm">{{
-        $t('CHATBOTS.FORM.UPLOAD_FILES_DESC')
-      }}</span>
-      <div class="file-container">
-        <ul v-if="savedFiles.length > 0">
-          <li
-            v-for="(file, index) in savedFiles"
-            :key="index"
-            class="file-item"
-          >
-            <input type="text" :value="file.filename" readonly />
-            <woot-button
-              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-              size="small"
-              class="mt-1 ml-2"
-              variant="smooth"
-              color-scheme="alert"
-              icon="delete"
-              @click="openDeletePopup(file, index)"
-            />
-          </li>
-        </ul>
-        <ul v-if="files.length > 0">
-          <li v-for="(file, index) in files" :key="index" class="file-item">
-            <input type="text" :value="file['file']['name']" readonly />
-            <woot-button
-              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-              size="small"
-              class="mt-1 ml-2"
-              variant="smooth"
-              color-scheme="alert"
-              icon="delete"
-              @click="deleteFile(file, index)"
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- Text Upload Area -->
-    <div v-else-if="uploadType === 'text'">
-      <div class="text-input">
-        <textarea
-          v-model="textInput"
-          placeholder="Enter your text here"
-          @input="setText"
-        />
-      </div>
-    </div>
-    <!-- Website Upload Area -->
-    <div v-else-if="uploadType === 'website'">
-      <div class="website-input">
-        <input
-          v-model="websiteInput"
-          type="text"
-          placeholder="https://www.example.com"
-        />
-        <woot-button :disabled="value" @click="fetchLinks">
-          {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
-        </woot-button>
-      </div>
-      <span class="text-slate-700 text-sm">{{
-        $t('CHATBOTS.FORM.FETCH_LINKS_DESC')
-      }}</span>
-      <div class="mt-4">
-        <loader :progress="progress" />
-      </div>
-      <div v-if="links.length > 0" class="flex justify-end mt-4">
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="alert"
-          @click="deleteLinks()"
-        >
-          {{ $t('CHATBOTS.DELETE_ALL') }}
-        </woot-button>
-      </div>
-      <div class="website-links">
-        <ul>
-          <li v-for="(url, index) in links" :key="index" class="links">
-            <input type="text" :value="url['link']" readonly />
-            <woot-button
-              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-              size="small"
-              class="mt-1 ml-2"
-              variant="smooth"
-              color-scheme="alert"
-              icon="delete"
-              @click="deleteLink(url, index)"
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.YES')"
-      :reject-text="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.NO')"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters, mapState } from 'vuex';
-import adminMixin from '../../../../../mixins/isAdmin';
-import alertMixin from 'shared/mixins/alertMixin';
-import accountMixin from '../../../../../mixins/account';
 import ChatbotAPI from '../../../../../api/chatbots';
+import { useAlert } from 'dashboard/composables';
 import Loader from '../helpers/Loader.vue';
 import {
   processTextFile,
@@ -142,7 +12,6 @@ export default {
   components: {
     Loader,
   },
-  mixins: [adminMixin, alertMixin, accountMixin],
   props: {
     value: { type: Boolean, default: false },
     uploadType: {
@@ -170,13 +39,11 @@ export default {
   },
   computed: {
     ...mapState({
-      botText: state => state.chatbots.botText,
+      text: state => state.chatbots.text,
     }),
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       accountId: 'getCurrentAccountId',
-      uiFlags: 'chatbots/getUIFlags',
       text: 'chatbots/getText',
       files: 'chatbots/getFiles',
       links: 'chatbots/getLinks',
@@ -273,11 +140,11 @@ export default {
       const websiteUrl = this.websiteInput.trim();
       if (websiteUrl !== '' && pattern.test(websiteUrl)) {
         if (!this.links.some(obj => obj.link === websiteUrl)) {
-          this.$emit('start-progress');
+          this.$emit('startProgress');
           await ChatbotAPI.fetchLinks(websiteUrl);
         }
       } else {
-        this.showAlert(this.$t('Please enter a valid https Url'));
+        useAlert(this.$t('Please enter a valid https Url'));
       }
     },
     deleteLink(url, index) {
@@ -289,7 +156,7 @@ export default {
       this.$store.dispatch('chatbots/deleteLinks');
     },
     retrain() {
-      this.$emit('retrain-chatbot');
+      this.$emit('retrainChatbot');
     },
     extractCharCounts(files) {
       files.forEach(file => {
@@ -315,21 +182,149 @@ export default {
           .dispatch('chatbots/destroyAttachment', response)
           .then(res => {
             const filename = res.data.filename;
-            this.$emit('remove-file', filename);
+            this.$emit('removeFile', filename);
           });
         await this.$store.dispatch(
           'chatbots/decChar',
           response.metadata.char_count
         );
-        this.showAlert(this.$t('CHATBOTS.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CHATBOTS.RETRAIN.FILE.DELETE.API.SUCCESS_MESSAGE'));
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
-        this.showAlert(this.$t('CHATBOTS.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('CHATBOTS.RETRAIN.FILE.DELETE.API.ERROR_MESSAGE'));
       }
     },
   },
 };
 </script>
+
+<template>
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-4 w-full max-w-full"
+  >
+    <!-- File Upload Area -->
+    <div v-if="uploadType === 'file'">
+      <label for="file" class="file-upload-label">
+        <div class="file-upload-design">
+          <fluent-icon icon="cloud-backup" size="36" />
+          <p>
+            {{ $t('CHATBOTS.SUPPORTED_FILE_TYPES') }}
+          </p>
+          <span class="browse-button">{{ $t('CHATBOTS.BROWSE_FILES') }}</span>
+        </div>
+        <input
+          id="file"
+          type="file"
+          accept=".pdf,.docx,.txt"
+          multiple
+          @change="uploadFile"
+        />
+      </label>
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.UPLOAD_FILES_DESC')
+      }}</span>
+      <div class="file-container">
+        <ul v-if="savedFiles.length > 0">
+          <li
+            v-for="(file, index) in savedFiles"
+            :key="index"
+            class="file-item"
+          >
+            <input type="text" :value="file.filename" readonly />
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+              size="small"
+              class="mt-1 ml-2"
+              variant="smooth"
+              color-scheme="alert"
+              icon="delete"
+              @click="openDeletePopup(file, index)"
+            />
+          </li>
+        </ul>
+        <ul v-if="files.length > 0">
+          <li v-for="(file, index) in files" :key="index" class="file-item">
+            <input type="text" :value="file['file']['name']" readonly />
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+              size="small"
+              class="mt-1 ml-2"
+              variant="smooth"
+              color-scheme="alert"
+              icon="delete"
+              @click="deleteFile(file, index)"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Text Upload Area -->
+    <div v-else-if="uploadType === 'text'">
+      <div class="text-input">
+        <textarea
+          v-model="textInput"
+          placeholder="Enter your text here"
+          @input="setText"
+        />
+      </div>
+    </div>
+    <!-- Website Upload Area -->
+    <div v-else-if="uploadType === 'website'">
+      <div class="website-input">
+        <input
+          v-model="websiteInput"
+          type="text"
+          :placeholder="$t('CHATBOTS.PLACEHOLDER')"
+        />
+        <woot-button :disabled="value" @click="fetchLinks">
+          {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
+        </woot-button>
+      </div>
+      <span class="text-slate-700 text-sm">{{
+        $t('CHATBOTS.FORM.FETCH_LINKS_DESC')
+      }}</span>
+      <div class="mt-4">
+        <Loader :progress="progress" />
+      </div>
+      <div v-if="links.length > 0" class="flex justify-end mt-4">
+        <woot-button
+          size="small"
+          variant="smooth"
+          color-scheme="alert"
+          @click="deleteLinks()"
+        >
+          {{ $t('CHATBOTS.DELETE_ALL') }}
+        </woot-button>
+      </div>
+      <div class="website-links">
+        <ul>
+          <li v-for="(url, index) in links" :key="index" class="links">
+            <input type="text" :value="url['link']" readonly />
+            <woot-button
+              v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+              size="small"
+              class="mt-1 ml-2"
+              variant="smooth"
+              color-scheme="alert"
+              icon="delete"
+              @click="deleteLink(url, index)"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.YES')"
+      :reject-text="$t('CHATBOTS.RETRAIN.FILE.DELETE.CONFIRM.NO')"
+    />
+  </div>
+</template>
 
 <style scoped>
 .file-upload-label input {

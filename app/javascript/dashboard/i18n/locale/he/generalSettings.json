@@ -3,7 +3,7 @@
     "TITLE": "הגדרות חשבון",
     "SUBMIT": "עדכן הגדרות",
     "BACK": "חזור",
-    "DISMISS": "Dismiss",
+    "DISMISS": "סגור",
     "UPDATE": {
       "ERROR": "לא ניתן היה לעדכן את ההגדרות, נסה שוב!",
       "SUCCESS": "הגדרות החשבון עודכנו בהצלחה"
@@ -50,7 +50,7 @@
     },
     "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
     "LEARN_MORE": "למד עוד",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },
@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "לא מחובר"
+      "OFFLINE": "לא מחובר",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "רענן"
@@ -116,8 +118,8 @@
       "REMOVE_LABEL": "הסר תווית מהשיחה",
       "SETTINGS": "הגדרות",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "APPEARANCE": "מראה",
+      "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
@@ -140,7 +142,7 @@
       "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
       "ASSIGN_AN_AGENT": "הקצה סוכן",
       "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "הקצה עדיפות",
       "ASSIGN_A_TEAM": "הקצה צוות",
       "MUTE_CONVERSATION": "שיחה אילמת",
       "UNMUTE_CONVERSATION": "בטל השתקת שיחה",
@@ -152,14 +154,14 @@
       "UNTIL_NEXT_REPLY": "עד לתשובה הבאה",
       "UNTIL_NEXT_WEEK": "עד שבוע הבא",
       "UNTIL_TOMORROW": "עד מחר",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_NEXT_MONTH": "עד החודש הבא",
+      "AN_HOUR_FROM_NOW": "עד שעה מעכשיו",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
       "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
     }
   },
   "DASHBOARD_APPS": {
