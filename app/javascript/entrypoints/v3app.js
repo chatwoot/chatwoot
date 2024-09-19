@@ -3,7 +3,6 @@ import { createI18n } from 'vue-i18n';
 
 import i18nMessages from 'dashboard/i18n';
 import * as Sentry from '@sentry/vue';
-import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -51,7 +50,7 @@ if (window.errorLoggingConfig) {
       /safari-web-extension:/i,
       /safari-extension:/i,
     ],
-    integrations: [new Integrations.BrowserTracing()],
+    integrations: [Sentry.browserTracingIntegration({ router })],
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
     ],
