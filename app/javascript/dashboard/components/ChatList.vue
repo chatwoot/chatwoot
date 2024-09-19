@@ -1,4 +1,6 @@
 <script setup>
+// [TODO] This componet is too big and bulky to be in the same file, we can consider splitting this into multiple
+// composables and components, useVirtualChatList, useChatlistFilters
 import {
   ref,
   unref,
@@ -15,6 +17,9 @@ import {
   useFunctionGetter,
 } from 'dashboard/composables/store.js';
 
+// [VITE] [TODO] We are using vue-virtual-scroll for now, since that seemed the simplest way to migrate
+// from the current one. But we should consider using tanstack virtual in the future
+// https://tanstack.com/virtual/latest/docs/framework/vue/examples/variable
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
