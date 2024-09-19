@@ -180,18 +180,10 @@ export default {
           this.emitOnChange();
         },
         handleDOMEvents: {
-          keyup: () => {
-            this.onKeyup();
-          },
-          keydown: (view, event) => {
-            this.onKeydown(event);
-          },
-          focus: () => {
-            this.onFocus();
-          },
-          blur: () => {
-            this.onBlur();
-          },
+          keyup: this.onKeyup,
+          focus: this.onFocus,
+          blur: this.onBlur,
+          keydown: this.onKeydown,
           paste: (view, event) => {
             const data = event.clipboardData.files;
             if (data.length > 0) {
@@ -207,7 +199,6 @@ export default {
         },
       });
     },
-
     handleKeyEvents() {},
     focusEditorInputField() {
       const { tr } = this.editorView.state;
@@ -216,13 +207,11 @@ export default {
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
     },
-
     emitOnChange() {
       this.editorView.updateState(this.state);
       this.$emit('update:modelValue', this.contentFromEditor);
       this.$emit('input', this.contentFromEditor);
     },
-
     onKeyup() {
       this.$emit('keyup');
     },
