@@ -18,7 +18,8 @@
       "STATUS": "സ്റ്റാറ്റസ്",
       "ACTIONS": "പ്രവർത്തനങ്ങൾ",
       "VERIFIED": "പരിശോധിച്ചു",
-      "VERIFICATION_PENDING": "പരിശോധന തീർപ്പുകൽപ്പിച്ചിട്ടില്ല"
+      "VERIFICATION_PENDING": "പരിശോധന തീർപ്പുകൽപ്പിച്ചിട്ടില്ല",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "നിങ്ങളുടെ ടീമിലേക്ക് ഏജന്റിനെ ചേർക്കുക",

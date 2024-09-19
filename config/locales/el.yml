@@ -29,6 +29,7 @@ el:
       invalid: Μη έγκυρα συμβάντα
     signup:
       disposable_email: Δεν επιτρέπονται προσωρινά emails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

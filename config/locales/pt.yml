@@ -29,6 +29,7 @@ pt:
       invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Digitou um email inválido
       email_already_exists: "Já existe uma conta com o %{email}"
       invalid_params: 'Inválido, por favor, verifique os parâmetros de subscrição e tente novamente'
@@ -188,7 +189,7 @@ pt:
       delete: "%{contact_name} está Online, por favor, tente novamente mais tarde"
   integration_apps:
     dashboard_apps:
-      name: "Dashboard Apps"
+      name: "Apps de dashboard"
       description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"

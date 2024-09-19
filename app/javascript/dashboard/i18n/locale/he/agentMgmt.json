@@ -18,7 +18,8 @@
       "STATUS": "מצב",
       "ACTIONS": "פעולות",
       "VERIFIED": "אומת",
-      "VERIFICATION_PENDING": "מחכה לאימות"
+      "VERIFICATION_PENDING": "מחכה לאימות",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "הוסף סוכן לצוות שלך",

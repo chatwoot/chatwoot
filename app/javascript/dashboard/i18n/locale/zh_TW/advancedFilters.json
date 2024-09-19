@@ -55,6 +55,9 @@
       "CREATED_AT": "建立於",
       "LAST_ACTIVITY": "最後活動"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "此欄位為必填項目"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "一般查詢條件",
       "ADDITIONAL_FILTERS": "田家查詢條件",

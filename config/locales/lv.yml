@@ -29,6 +29,7 @@ lv:
       invalid: Nederīgi notikumi
     signup:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
+      blocked_domain: Šis domēns nav atļauts. Ja uzskatāt, ka tā ir kļūda, lūdzu, sazinieties ar atbalsta dienestu.
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
       email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
       invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'

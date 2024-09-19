@@ -29,6 +29,7 @@ cs:
       invalid: Invalid events
     signup:
       disposable_email: Nepovolujeme jednorázové e-maily
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Zadali jste neplatný e-mail
       email_already_exists: "Již jste se zaregistrovali k účtu s %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

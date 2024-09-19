@@ -55,6 +55,9 @@
       "CREATED_AT": "Utworzono",
       "LAST_ACTIVITY": "Ostatnia aktywność"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wartość jest wymagana"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardowe filtry",
       "ADDITIONAL_FILTERS": "Dodatkowe filtry",
