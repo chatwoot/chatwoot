@@ -118,7 +118,7 @@ const hasValue = computed(() => {
           :has-thumbnail="hasThumbnail"
           :input-placeholder="inputPlaceholder"
           :no-search-result="noSearchResult"
-          @click="onClickSelectItem"
+          @select="onClickSelectItem"
         />
       </div>
     </div>
