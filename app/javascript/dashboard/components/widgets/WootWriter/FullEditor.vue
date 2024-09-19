@@ -177,7 +177,10 @@ export default {
         state: this.state,
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
-          this.emitOnChange();
+          this.editorView.updateState(this.state);
+          if (tx.docChanged) {
+            this.emitOnChange();
+          }
         },
         handleDOMEvents: {
           keyup: this.onKeyup,
@@ -208,7 +211,6 @@ export default {
       this.editorView.focus();
     },
     emitOnChange() {
-      this.editorView.updateState(this.state);
       this.$emit('update:modelValue', this.contentFromEditor);
       this.$emit('input', this.contentFromEditor);
     },
