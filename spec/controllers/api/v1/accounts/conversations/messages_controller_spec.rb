@@ -216,6 +216,21 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.deleted).to be true
         expect(message.reload.content_attributes['bcc_emails']).to be_nil
       end
+
+      it 'deletes interactive messages' do
+        interactive_message = create(
+          :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
+                    content_attributes: { 'items' => [{ 'title' => 'test', 'value' => 'test' }] },
+                    conversation: conversation
+        )
+
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{interactive_message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(interactive_message.reload.deleted).to be true
+      end
     end
 
     context 'when the message id is invalid' do
