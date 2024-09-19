@@ -202,7 +202,7 @@ export default {
             label: $t('CONVERSATION.CONTEXT_MENU.REPLY_TO'),
           }"
           variant="icon"
-          @click="handleReplyTo"
+          @click.stop="handleReplyTo"
         />
         <MenuItem
           v-if="enabledOptions['copy']"
@@ -211,7 +211,7 @@ export default {
             label: $t('CONVERSATION.CONTEXT_MENU.COPY'),
           }"
           variant="icon"
-          @click="handleCopy"
+          @click.stop="handleCopy"
         />
         <MenuItem
           v-if="enabledOptions['copy']"
@@ -220,7 +220,7 @@ export default {
             label: $t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
           }"
           variant="icon"
-          @click="handleTranslate"
+          @click.stop="handleTranslate"
         />
         <hr />
         <MenuItem
@@ -229,7 +229,7 @@ export default {
             label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
           }"
           variant="icon"
-          @click="copyLinkToMessage"
+          @click.stop="copyLinkToMessage"
         />
         <MenuItem
           v-if="enabledOptions['cannedResponse']"
@@ -238,7 +238,7 @@ export default {
             label: $t('CONVERSATION.CONTEXT_MENU.CREATE_A_CANNED_RESPONSE'),
           }"
           variant="icon"
-          @click="showCannedResponseModal"
+          @click.stop="showCannedResponseModal"
         />
         <hr v-if="enabledOptions['delete']" />
         <MenuItem
@@ -248,7 +248,7 @@ export default {
             label: $t('CONVERSATION.CONTEXT_MENU.DELETE'),
           }"
           variant="icon"
-          @click="openDeleteModal"
+          @click.stop="openDeleteModal"
         />
       </div>
     </ContextMenu>

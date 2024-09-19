@@ -42,7 +42,7 @@ export default {
         v-for="item in menuItems"
         :key="item.key"
         :label="item.label"
-        @click="onMenuItemClick(item.key)"
+        @click.stop="onMenuItemClick(item.key)"
       />
     </div>
   </ContextMenu>
