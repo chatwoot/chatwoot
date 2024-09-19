@@ -104,7 +104,8 @@ export default {
   watch: {
     customAttributeType: {
       handler(value) {
-        console.log(value, this.value);
+        if (!value) return;
+        console.log(value, 'customAttributeType');
         if (
           value === 'conversation_attribute' ||
           value === 'contact_attribute'
