@@ -1,13 +1,13 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
-import RubyPlugin from 'vite-plugin-ruby';
+import ruby from 'vite-plugin-ruby';
 import path from 'path';
-import Vue from '@vitejs/plugin-vue';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [
-    RubyPlugin(),
-    Vue({
+    ruby(),
+    vue({
       template: {
         compilerOptions: {
           isCustomElement: tag => ['ninja-keyss'].includes(tag),
