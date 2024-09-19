@@ -36,12 +36,6 @@ export default {
     );
   },
   methods: {
-    onFocus() {
-      this.$emit('focus');
-    },
-    onBlur() {
-      this.$emit('blur');
-    },
     onTitleInput() {
       this.saveArticle({ title: this.articleTitle });
     },
@@ -60,8 +54,6 @@ export default {
       :rows="1"
       class="article-heading"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
-      @focus="onFocus"
-      @blur="onBlur"
       @input="onTitleInput"
     />
     <WootArticleEditor
@@ -69,8 +61,6 @@ export default {
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
       :enabled-menu-options="customEditorMenuOptions"
-      @focus="onFocus"
-      @blur="onBlur"
       @input="onContentInput"
     />
   </div>
