@@ -1089,7 +1089,7 @@ export default {
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
       @setReplyMode="setReplyMode"
-      @click="$emit('click')"
+      @togglePopout="$emit('togglePopout')"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"

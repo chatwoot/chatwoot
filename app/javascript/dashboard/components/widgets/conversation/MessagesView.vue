@@ -549,7 +549,7 @@ export default {
       <ReplyBox
         :conversation-id="currentChat.id"
         :popout-reply-box.sync="isPopOutReplyBox"
-        @click="showPopOutReplyBox"
+        @togglePopout="showPopOutReplyBox"
       />
     </div>
   </div>
