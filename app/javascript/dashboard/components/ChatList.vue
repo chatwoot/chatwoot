@@ -454,7 +454,7 @@ function initializeExistingFilterToModal() {
     activeAssigneeTab.value
   );
   if (statusFilter) {
-    appliedFilter.value = [...appliedFilter, statusFilter];
+    appliedFilter.value = [...appliedFilter.value, statusFilter];
   }
 
   const otherFilters = initializeInboxTeamAndLabelFilterToModal(
@@ -465,7 +465,7 @@ function initializeExistingFilterToModal() {
     props.label
   );
 
-  appliedFilter.value = [...appliedFilter, ...otherFilters];
+  appliedFilter.value = [...appliedFilter.value, ...otherFilters];
 }
 
 function initializeFolderToFilterModal(newActiveFolder) {
