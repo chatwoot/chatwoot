@@ -10,7 +10,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => ['ninja-keyss'].includes(tag),
+          isCustomElement: tag => ['ninja-keys'].includes(tag),
         },
       },
     }),
