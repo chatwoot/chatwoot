@@ -95,9 +95,6 @@ export default {
   },
   methods: {
     dynamicTime,
-    toggleMergeModal() {
-      this.showMergeModal = !this.showMergeModal;
-    },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -158,8 +155,11 @@ export default {
         );
       }
     },
+    closeMergeModal() {
+      this.showMergeModal = false;
+    },
     openMergeModal() {
-      this.toggleMergeModal();
+      this.showMergeModal = true;
     },
   },
 };
@@ -316,7 +316,7 @@ export default {
         v-if="showMergeModal"
         :primary-contact="contact"
         :show="showMergeModal"
-        @close="toggleMergeModal"
+        @close="closeMergeModal"
       />
     </div>
     <woot-delete-modal
