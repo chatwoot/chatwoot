@@ -1,8 +1,11 @@
 <script>
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import MenuItem from './MenuItem.vue';
+
 export default {
   components: {
     MenuItem,
+    ContextMenu,
   },
   props: {
     contextMenuPosition: {
@@ -27,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <woot-context-menu
+  <ContextMenu
     :x="contextMenuPosition.x"
     :y="contextMenuPosition.y"
     @close="handleClose"
@@ -42,5 +45,5 @@ export default {
         @click="onMenuItemClick(item.key)"
       />
     </div>
-  </woot-context-menu>
+  </ContextMenu>
 </template>

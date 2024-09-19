@@ -5,7 +5,6 @@ import Code from './Code.vue';
 import ColorPicker from './widgets/ColorPicker.vue';
 import ConfirmDeleteModal from './widgets/modal/ConfirmDeleteModal.vue';
 import ConfirmModal from './widgets/modal/ConfirmationModal.vue';
-import ContextMenu from './ui/ContextMenu.vue';
 import DeleteModal from './widgets/modal/DeleteModal.vue';
 import DropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -31,7 +30,6 @@ const WootUIKit = {
   ColorPicker,
   ConfirmDeleteModal,
   ConfirmModal,
-  ContextMenu,
   DeleteModal,
   DropdownItem,
   DropdownMenu,

@@ -12,6 +12,7 @@ import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
 export default {
   components: {
@@ -23,6 +24,7 @@ export default {
     MessagePreview,
     PriorityMark,
     SLACardLabel,
+    ContextMenu,
   },
   mixins: [inboxMixin],
   props: {
@@ -326,7 +328,7 @@ export default {
         </template>
       </CardLabels>
     </div>
-    <woot-context-menu
+    <ContextMenu
       v-if="showContextMenu"
       :x="contextMenu.x"
       :y="contextMenu.y"
@@ -345,7 +347,7 @@ export default {
         @markAsUnread="markAsUnread"
         @assignPriority="assignPriority"
       />
-    </woot-context-menu>
+    </ContextMenu>
   </div>
 </template>
 

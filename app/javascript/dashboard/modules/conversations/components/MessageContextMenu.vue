@@ -2,6 +2,7 @@
 import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
@@ -18,6 +19,7 @@ export default {
     AddCannedModal,
     TranslateModal,
     MenuItem,
+    ContextMenu,
   },
   props: {
     message: {
@@ -186,7 +188,7 @@ export default {
       size="small"
       @click="handleOpen"
     />
-    <woot-context-menu
+    <ContextMenu
       v-if="isOpen && !isCannedResponseModalOpen"
       :x="contextMenuPosition.x"
       :y="contextMenuPosition.y"
@@ -249,7 +251,7 @@ export default {
           @click="openDeleteModal"
         />
       </div>
-    </woot-context-menu>
+    </ContextMenu>
   </div>
 </template>
 
