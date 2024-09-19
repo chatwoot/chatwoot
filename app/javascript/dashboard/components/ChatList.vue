@@ -222,6 +222,11 @@ const hasCurrentPageEndReached = useFunctionGetter(
   currentPageFilterKey
 );
 
+const conversationCustomAttributes = useFunctionGetter(
+  'attributes/getAttributesByModel',
+  'conversation_attribute'
+);
+
 const activeAssigneeTabCount = computed(() => {
   const count = assigneeTabItems.value.find(
     item => item.key === activeAssigneeTab.value
@@ -435,7 +440,7 @@ function setParamsForEditFolderModal() {
 
   // For custom attributes we get only attribute key.
   // So we are mapping it to find the input type of the attribute to show in the edit folder modal.
-  const params = {
+  return {
     agents: agentList.value,
     teams: teamsList.value,
     inboxes: inboxesList.value,
@@ -444,13 +449,8 @@ function setParamsForEditFolderModal() {
     languages: languages,
     countries: countries,
     filterTypes: advancedFilterTypes,
-    allCustomAttributes: useFunctionGetter(
-      'attributes/getAttributesByModel',
-      'conversation_attribute'
-    ).value,
+    allCustomAttributes: conversationCustomAttributes.value,
   };
-
-  return params;
 }
 
 function initializeExistingFilterToModal() {
