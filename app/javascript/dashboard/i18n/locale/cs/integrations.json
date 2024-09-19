@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Zrušit",
         "DESC": "Události webhooku vám poskytují reálné informace o tom, co se děje ve vašem Chatwoot účtu. Zadejte prosím platnou URL pro nastavení hovoru.",

@@ -41,6 +41,7 @@
         "UPLOADING": "Frissítés...",
         "SUCCESS": "Képfeltöltés sikeres",
         "ERROR": "Hiba a kép feltöltésekor",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "A kép mérete kevesebb, mint {size} MB",
         "ERROR_FILE_FORMAT": "A kép formátuma legyen jpg, jpeg vagy png",
         "ERROR_FILE_DIMENSIONS": "A kép felbontása kevesebb legyen, mint 2000 x 2000"

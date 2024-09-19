@@ -55,6 +55,9 @@
       "CREATED_AT": "Dibuat pada",
       "LAST_ACTIVITY": "Aktivitas terakhir"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai dibutuhkan"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "Additional filters",

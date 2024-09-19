@@ -29,6 +29,7 @@ tr:
       invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'

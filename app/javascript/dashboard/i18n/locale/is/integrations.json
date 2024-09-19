@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Hætta við",
         "DESC": "Vefkróks (e. Webhook) viðburðir veita þér rauntíma upplýsingar um hvað er að gerast á Chatwoot reikningnum þínum. Vinsamlega sláðu inn gilda vefslóð til að stilla svarhringingu (e. callback).",

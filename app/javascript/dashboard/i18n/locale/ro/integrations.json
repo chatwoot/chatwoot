@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Evenimente subscrise",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Renunță",
         "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",

@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Otkaži",
         "DESC": "Događaji veb zakački vam omogućavaju informacije u realnom vremenu o onome šta se događa na vašem Chatwoot nalogu. Molim vas unesite ispravnu adresu da bi ste podesili povratni poziv.",
