@@ -35,9 +35,7 @@ export default {
   computed: {
     dragEnabled() {
       // dragging allowed only on category page
-      return (
-        this.articles.length > 1 && !this.isFetching && this.onCategoryPage
-      );
+      return this.articles.length > 1 && this.onCategoryPage;
     },
     onCategoryPage() {
       return this.$route.name === 'show_category';
