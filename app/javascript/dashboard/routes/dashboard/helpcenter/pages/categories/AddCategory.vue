@@ -4,10 +4,10 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
-import CategoryNameIconInput from './NameEmojiInput.vue';
+import NameEmojiInput from './NameEmojiInput.vue';
 
 export default {
-  components: { CategoryNameIconInput },
+  components: { NameEmojiInput },
   props: {
     show: {
       type: Boolean,
@@ -134,7 +134,7 @@ export default {
             </label>
           </div>
         </div>
-        <CategoryNameIconInput
+        <NameEmojiInput
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
