@@ -1,4 +1,5 @@
 <script setup>
+// [TODO] Use Teleport to move the modal to the end of the body
 import { ref, computed, defineEmits, onMounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
@@ -58,7 +59,7 @@ onMounted(() => {
   if (onClose && typeof onClose === 'function') {
     // eslint-disable-next-line no-console
     console.warn(
-      "The 'onClose' prop is deprecated. Please use the 'close' event instead."
+      "[DEPRECATED] The 'onClose' prop is deprecated. Please use the 'close' event instead."
     );
   }
 });
