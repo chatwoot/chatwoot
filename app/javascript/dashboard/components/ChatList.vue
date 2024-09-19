@@ -53,6 +53,11 @@ import {
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { emitter } from 'shared/helpers/mitt';
+import {
+  getUserPermissions,
+  filterItemsByPermission,
+} from 'dashboard/helper/permissionsHelper.js';
+import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
@@ -110,6 +115,7 @@ const teamsList = useMapGetter('teams/getTeams');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const campaigns = useMapGetter('campaigns/getAllCampaigns');
 const labels = useMapGetter('labels/getLabels');
+const currentAccountId = useMapGetter('getCurrentAccountId');
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -173,22 +179,22 @@ const currentUserDetails = computed(() => {
   return { id, name };
 });
 
-const assigneeTabItems = computed(() => {
-  const ASSIGNEE_TYPE_TAB_KEYS = {
-    me: 'mineCount',
-    unassigned: 'unAssignedCount',
-    all: 'allCount',
-  };
-
-  return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
-    const count = conversationStats.value[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
-    return {
-      key,
-      name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-      count,
-    };
-  });
+const userPermissions = computed(() => {
+  return getUserPermissions(currentUser.value, currentAccountId.value);
 });
+
+const assigneeTabItems = computed(() => {
+  return filterItemsByPermission(
+    ASSIGNEE_TYPE_TAB_PERMISSIONS,
+    userPermissions.value,
+    item => item.permissions
+  ).map(({ key, count: countKey }) => ({
+    key,
+    name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+    count: conversationStats.value[countKey] || 0,
+  }));
+});
+
 const showAssigneeInConversationCard = computed(() => {
   return (
     hasAppliedFiltersOrActiveFolders.value ||
@@ -803,7 +809,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     />
     <div
       ref="conversationListRef"
-      class="flex-1 conversations-list overflow-hidden hover:overflow-y-auto"
+      class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <DynamicScroller

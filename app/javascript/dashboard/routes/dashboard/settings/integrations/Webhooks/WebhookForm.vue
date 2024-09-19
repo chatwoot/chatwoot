@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
-import { getEventNamei18n } from './webhookHelper';
+import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -69,7 +69,7 @@ export default {
         subscriptions: this.subscriptions,
       });
     },
-    getEventNamei18n,
+    getI18nKey,
   },
 };
 </script>
@@ -108,7 +108,14 @@ export default {
             class="mr-2"
           />
           <label :for="event" class="text-sm">
-            {{ `${$t(getEventNamei18n(event))} (${event})` }}
+            {{
+              `${$t(
+                getI18nKey(
+                  'INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.EVENTS',
+                  event
+                )
+              )} (${event})`
+            }}
           </label>
         </div>
       </div>
