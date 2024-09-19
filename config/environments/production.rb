@@ -100,6 +100,7 @@ Rails.application.configure do
   # :mandrill for Mandrill
   # :postmark for Postmark
   # :sendgrid for Sendgrid
+  # :postal for Postal
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
