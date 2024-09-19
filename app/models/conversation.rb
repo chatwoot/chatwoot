@@ -10,7 +10,6 @@
 #  assignee_unread_count  :integer          default(0), not null
 #  cached_label_list      :text
 #  contact_last_seen_at   :datetime
-#  conversation_type      :integer          default("default_type"), not null
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
 #  identifier             :string
@@ -67,13 +66,12 @@ class Conversation < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
-  before_validation :validate_additional_attributes, :set_default_conversation_type
+  before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
-  enum conversation_type: { default_type: 0, planned: 1 }
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
@@ -213,7 +211,6 @@ class Conversation < ApplicationRecord
   end
 
   def ensure_snooze_until_reset
-    self.conversation_type = :planned if snoozed?
     self.snoozed_until = nil unless snoozed?
   end
 
@@ -223,10 +220,6 @@ class Conversation < ApplicationRecord
 
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
-  end
-
-  def set_default_conversation_type
-    self.conversation_type ||= :default_type
   end
 
   def determine_conversation_status
@@ -245,7 +238,9 @@ class Conversation < ApplicationRecord
   end
 
   def sync_contact_assignee
-    return unless contact.conversations.where(conversation_type: :default_type).count == 1 && (assignee_id.present? || team_id.present?)
+    # If the current conversation is that contact's first conversation,
+    # the assignee of that contact would be the assignee of this conversation.
+    return unless id == contact.initial_conversation&.id
 
     contact.update(assignee_id: assignee_id)
     contact.update(team_id: team_id)

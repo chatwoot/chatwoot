@@ -17,14 +17,12 @@ class ConversationBuilder
                         end
     return if last_conversation.blank?
 
-    conversation_type = { conversation_type: params[:conversation_type].presence || last_conversation.conversation_type }
-    last_conversation.update!(conversation_params.merge(conversation_type))
+    last_conversation.update!(conversation_params)
     last_conversation
   end
 
   def create_new_conversation
-    conversation_type = { conversation_type: params[:conversation_type] || 'default_type' }
-    ::Conversation.create!(conversation_params.merge(conversation_type))
+    ::Conversation.create!(conversation_params)
   end
 
   def conversation_params

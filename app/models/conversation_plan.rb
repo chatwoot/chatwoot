@@ -2,22 +2,23 @@
 #
 # Table name: conversation_plans
 #
-#  id                  :bigint            not null, primary key
-#  description         :text              not null
-#  created_at          :datetime          not null
-#  updated_at          :datetime          not null
-#  completed_at        :datetime          not null
-#  account_id          :bigint            not null
-#  contact_id          :bigint
-#  conversation_id     :bigint            not null
-#  created_by_id       :bigint            not null
+#  id              :bigint           not null, primary key
+#  completed_at    :datetime
+#  description     :string
+#  snoozed_until   :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  account_id      :bigint           not null
+#  contact_id      :bigint
+#  conversation_id :bigint           not null
+#  created_by_id   :bigint           not null
 #
 # Indexes
 #
-#  index_conversation_plans_on_account_id           (account_id)
-#  index_conversation_plans_on_contact_id           (contact_id)
-#  index_conversation_plans_on_conversation_id      (conversation_id)
-#  index_conversation_plans_on_created_by_id        (created_by_id)
+#  index_conversation_plans_on_account_id       (account_id)
+#  index_conversation_plans_on_contact_id       (contact_id)
+#  index_conversation_plans_on_conversation_id  (conversation_id)
+#  index_conversation_plans_on_created_by_id    (created_by_id)
 #
 
 class ConversationPlan < ApplicationRecord

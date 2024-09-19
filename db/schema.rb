@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_14_183301) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_19_075806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -557,7 +557,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_14_183301) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
-    t.integer "conversation_type", default: 0, null: false
     t.integer "assignee_unread_count", default: 0, null: false
     t.integer "agent_unread_count", default: 0, null: false
     t.integer "requesting_assignee_id"
