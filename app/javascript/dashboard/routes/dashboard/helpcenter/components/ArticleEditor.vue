@@ -1,13 +1,13 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 export default {
   name: 'ArticleEditor',
   components: {
-    WootArticleEditor,
+    FullEditor,
     ResizableTextArea,
   },
   props: {
@@ -56,7 +56,7 @@ export default {
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
       @input="onTitleInput"
     />
-    <WootArticleEditor
+    <FullEditor
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
