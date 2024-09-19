@@ -190,7 +190,7 @@ const assigneeTabItems = computed(() => {
     item => item.permissions
   ).map(({ key, count: countKey }) => ({
     key,
-    name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
     count: conversationStats.value[countKey] || 0,
   }));
 });
