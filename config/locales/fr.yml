@@ -29,6 +29,7 @@ fr:
       invalid: Événements non valides
     signup:
       disposable_email: Nous n'autorisons pas les courriels jetables
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

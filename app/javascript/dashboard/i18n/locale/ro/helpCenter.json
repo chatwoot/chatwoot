@@ -41,6 +41,7 @@
         "UPLOADING": "Încărcare...",
         "SUCCESS": "Imagine încărcată cu succes",
         "ERROR": "Eroare la încărcarea imaginii",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Dimensiunea imaginii trebuie să fie mai mică de {size}MB",
         "ERROR_FILE_FORMAT": "Formatul imaginii ar trebui să fie jpg, jpeg sau png",
         "ERROR_FILE_DIMENSIONS": "Dimensiunile imaginii ar trebui să fie mai mici de 2000 x 2000"

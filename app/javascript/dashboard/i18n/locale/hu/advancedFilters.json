@@ -55,6 +55,9 @@
       "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Kötelező megadni"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard szűrők",
       "ADDITIONAL_FILTERS": "További szűrők",

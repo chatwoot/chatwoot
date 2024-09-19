@@ -29,6 +29,7 @@ fi:
       invalid: Invalid events
     signup:
       disposable_email: Emme salli kertakäyttöisiä sähköposteja
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Olet syöttänyt virheellisen sähköpostin
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       invalid_params: 'Invalid, please check the signup paramters and try again'

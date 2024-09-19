@@ -55,6 +55,9 @@
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Zadnja aktivnost"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Vrijednost je obavezna"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardni filteri",
       "ADDITIONAL_FILTERS": "Dodatni filteri",

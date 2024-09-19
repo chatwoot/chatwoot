@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefono Numeris yra reikalingas",
         "DIAL_CODE_VALID_ERROR": "Prašome pasirinkti šalies kodą",
         "VALID_ERROR": "Prašau įveskite teisingą telefono numerį",
-        "DROPDOWN_EMPTY": "Nieko nerasta"
+        "DROPDOWN_EMPTY": "Nieko nerasta",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Žinutė",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Ieškoti emodžių",
-    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži"
+    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Įvertinkite savo pokalbį",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "pasidalino URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Atsakant į:"
   }
 }
