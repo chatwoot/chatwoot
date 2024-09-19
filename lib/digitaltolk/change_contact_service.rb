@@ -29,21 +29,10 @@ class Digitaltolk::ChangeContactService
   end
 
   def find_or_create_contact
-    @contact = @account.contacts.find_by(email: @email)
+    @contact = @account.contacts.from_email(@email)
 
     if @contact.blank?
-      @contact_inbox = ::ContactInboxWithContactBuilder.new(
-        source_id: @email,
-        inbox: @inbox,
-        contact_attributes: {
-          name: identify_contact_name,
-          email: @email,
-          additional_attributes: {
-            source_id: "email:#{source_id}"
-          }
-        }
-      ).perform
-
+      @contact_inbox = create_with_contact_inbox
       @contact = @contact_inbox.contact
     else
       @contact_inbox = @inbox.contact_inboxes.find_by(contact: @contact)
@@ -51,11 +40,23 @@ class Digitaltolk::ChangeContactService
       if @contact_inbox.blank?
         @contact_inbox = ContactInboxBuilder.new(
           contact: @contact,
-          inbox: @inbox,
-          source_id: @email
+          inbox: @inbox
         ).perform
       end
     end
+  end
+
+  def create_with_contact_inbox
+    ::ContactInboxWithContactBuilder.new(
+      inbox: @inbox,
+      contact_attributes: {
+        name: identify_contact_name,
+        email: @email,
+        additional_attributes: {
+          source_id: "email:#{source_id}"
+        }
+      }
+    ).perform
   end
 
   def identify_contact_name
