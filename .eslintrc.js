@@ -199,13 +199,6 @@ module.exports = {
     'import/extensions': ['off'],
     'no-console': 'error',
   },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: 'config/webpack/resolve.js',
-      },
-    },
-  },
   env: {
     browser: true,
     node: true,
