@@ -126,7 +126,7 @@ class Campaign::MultiChannelCampaignService
                             end
 
     {
-      conversation_type: campaign.planned ? :planned : :default_type,
+      # TODO: KongNC
       status: campaign.planned ? :snoozed : :open,
       snoozed_until: campaign.planned ? Time.zone.today + 1 : nil,
       campaign_id: campaign.id,

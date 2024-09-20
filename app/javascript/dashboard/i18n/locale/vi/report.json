@@ -518,11 +518,11 @@
       "OFFLINE": "Ngoại Tuyến"
     },
     "AGENT_PLAN": {
-      "HEADER": "Hội thoại theo lịch liên hệ",
-      "PLANNED": "Lên lịch",
-      "OPEN": "Đến hẹn",
-      "RESOLVED": "Đã giải quyết",
-      "RATIO": "Tỷ lệ %"
+      "HEADER": "Lịch liên hệ khách hàng",
+      "PLANNED": "Chưa đến hẹn",
+      "OPEN": "Đã đến hẹn",
+      "RESOLVED": "Hoàn thành",
+      "RATIO": "% hoàn thành"
     }
   },
   "TRAFFIC_REPORTS": {

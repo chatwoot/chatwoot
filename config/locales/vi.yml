@@ -191,7 +191,7 @@ vi:
       response: "Bạn hãy vui lòng đánh giá hội thoại, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
+      delete: "%{contact_name} đang trực tuyến, vui lòng thử lại sau"
   integration_apps:
     dyte:
       name: "Dyte"
