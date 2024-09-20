@@ -3,14 +3,14 @@
     "LINK": "Configuració del Perfil",
     "TITLE": "Configuració del Perfil",
     "BTN_TEXT": "Actualització del Perfil",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "DELETE_AVATAR": "Suprimeix Avatar",
+    "AVATAR_DELETE_SUCCESS": "L'avatar s'ha suprimit correctament",
+    "AVATAR_DELETE_FAILED": "S'ha produït un error en suprimir l'avatar, torneu-ho a provar",
+    "UPDATE_SUCCESS": "El teu perfil s'ha actualitzat correctament",
     "PASSWORD_UPDATE_SUCCESS": "La teva contrasenya ha estat canviada correctament",
     "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Imatge de perfil",
       "AVATAR": "Imatge del Perfil",
       "ERROR": "Corregiu els errors del formulari",
       "REMOVE_IMAGE": "Suprimeix",
@@ -21,39 +21,39 @@
         "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Tecla d'accés ràpid per enviar missatges",
+        "NOTE": "Pots seleccionar una tecla d'accés ràpid (Enter o Cmd/Ctrl+Enter) segons les teves preferències d'escriptura.",
+        "UPDATE_SUCCESS": "La teva configuració s'ha actualitzat correctament",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "Retorn (↵)",
+            "CONTENT": "Envia missatges prement la tecla Intro en comptes de fer clic al botó d'enviament."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Envia missatges prement Cmd/Ctrl + tecla Intro en lloc de fer clic al botó d'enviament."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "Signatura personal del missatge",
+        "NOTE": "Crea una signatura de missatge única per aparèixer al final de cada missatge que envieu des de qualsevol safata d'entrada. També pots incloure una imatge en línia, que és compatible amb el xat en directe, el correu electrònic i les bústies d'entrada de l'API.",
+        "BTN_TEXT": "Desa la signatura del missatge",
+        "API_ERROR": "No s'ha pogut desar la signatura! Torna-ho a provar",
+        "API_SUCCESS": "La signatura s'ha desat correctament",
+        "IMAGE_UPLOAD_ERROR": "No s'ha pogut carregar la imatge! Torna-ho a provar",
+        "IMAGE_UPLOAD_SUCCESS": "La imatge s'ha afegit correctament. Fes clic a desa per desar la signatura",
+        "IMAGE_UPLOAD_SIZE_ERROR": "La mida de la imatge ha de ser inferior a {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Signatura del missatge",
+        "ERROR": "La signatura del missatge no pot estar buida",
+        "PLACEHOLDER": "Introdueix aquí la teva signatura de missatge personal."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contrasenya",
         "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Canvia la contrasenya"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token d'accés",
@@ -61,26 +61,26 @@
         "COPY": "Copia"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "Notificacions d'àudio",
+        "NOTE": "Activa les notificacions d'àudio al tauler per a missatges i converses nous.",
         "ALERT_TYPES": {
           "NONE": "Ningú",
-          "MINE": "Assigned",
+          "MINE": "Assignat",
           "ALL": "Totes"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Esdeveniments d'alerta per a converses:",
           "NONE": "Ningú",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "Converses assignades",
+          "ALL_CONVERSATIONS": "Totes les converses"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "To d'alerta:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Condicions d'alerta:",
+          "CONDITION_ONE": "Envia alertes d'àudio només si la finestra del navegador no està activa",
+          "CONDITION_TWO": "Envia alertes cada 30 segons fins que es llegeixin totes les converses assignades"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -90,27 +90,27 @@
         "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
         "CONVERSATION_MENTION": "Enviar notificacions per mail quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es creï un missatge nou en una conversa assignada",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es crea un missatge nou en una conversa participant",
         "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions per correu electrònic quan una conversa no compleixi un SLA de primera resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Envia notificacions per correu electrònic quan una conversa es perdi la següent resposta SLA",
         "SLA_MISSED_RESOLUTION": "Envia notificacions per correu electrònic quan una conversa no resol un SLA"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Preferències de notificació",
+        "TYPE_TITLE": "Tipus de notificació",
         "EMAIL": "Correu electrònic",
-        "PUSH": "Push notification",
+        "PUSH": "Notificació Push",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "S'ha creat una nova conversa",
+          "CONVERSATION_ASSIGNED": "Se t'assigna una conversa",
+          "CONVERSATION_MENTION": "Se't menciona en una conversa",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa assignada",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa participant",
+          "SLA_MISSED_FIRST_RESPONSE": "Una conversa no té un SLA de primera resposta",
+          "SLA_MISSED_NEXT_RESPONSE": "SLA de la següent resposta no és una conversa",
+          "SLA_MISSED_RESOLUTION": "Una conversa no resol un SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Activa les notificacions push en el teu navegador perquè puguis rebre-les"
       },
       "API": {
         "UPDATE_SUCCESS": "Les teves preferències de notificació s’han actualitzat correctament",
@@ -123,7 +123,7 @@
         "CONVERSATION_CREATION": "Envia notificacions automàtiques quan es creï una conversa nova",
         "CONVERSATION_MENTION": "Enviar notificacions push quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions automàtiques quan es creï un missatge nou en una conversa assignada",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions push quan es crea un missatge nou en una conversa participant",
         "HAS_ENABLED_PUSH": "Heu activat les notificacions per a aquest navegador.",
         "REQUEST_PUSH": "Activa les notificacions",
         "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions automàtiques quan una conversa no tingui un SLA de primera resposta",
@@ -150,8 +150,8 @@
           "Ocupat",
           "Fora de línia"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "La disponibilitat s'ha establert correctament",
+        "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar"
       },
       "EMAIL": {
         "LABEL": "La teva adreça de correu electrònic",
@@ -159,62 +159,62 @@
         "PLACEHOLDER": "Introduïu la vostra adreça de correu electrònic, que es mostrarà a les converses"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Contrasenya actual",
+        "ERROR": "Introdueix la contrasenya actual",
+        "PLACEHOLDER": "Introdueix la contrasenya actual"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nova contrasenya",
         "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
         "PLACEHOLDER": "Introduïu una nova contrasenya"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmació de la nova contrasenya",
         "ERROR": "Confirmeu que les contrasenyes coincideixin",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Torna a introduir la nova contrasenya"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Canvia",
     "CHANGE_ACCOUNTS": "Canvia de compte",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contacte de suport",
     "SELECTOR_SUBTITLE": "Selecciona un compte de la llista següent",
     "PROFILE_SETTINGS": "Configuració del Perfil",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "KEYBOARD_SHORTCUTS": "Dreceres de teclat",
+    "APPEARANCE": "Canvia l'aparença",
+    "SUPER_ADMIN_CONSOLE": "Consola de super administració",
     "LOGOUT": "Sortir"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dies de prova restants.",
     "TRAIL_BUTTON": "Compra ara",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "Usuari suprimit",
+    "EMAIL_VERIFICATION_PENDING": "Sembla que encara no has verificat la teva adreça de correu electrònic. Comprova la teva safata d'entrada per trobar el correu electrònic de verificació.",
+    "RESEND_VERIFICATION_MAIL": "Reenviar correu electrònic de verificació",
+    "EMAIL_VERIFICATION_SENT": "S'ha enviat un correu electrònic de verificació. Comprova la teva safata d'entrada.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Compte suspès",
+      "MESSAGE": "El teu compte està suspès. Posa't en contacte amb l'equip d'assistència per obtenir més informació."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copia",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Obre en CodePen",
       "COPY_SUCCESSFUL": "El codi s'ha copiat al porta-retalls amb èxit"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Mostra més",
+      "SHOW_LESS": "Mostra menys"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
       "UPLOADING": "S'està carregant...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Aquesta història ja no està disponible."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Veure al mapa"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envia"
@@ -227,94 +227,95 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualització actual:",
+    "SWITCH": "Canvia",
+    "INBOX_VIEW": "Vista de la safata d'entrada",
     "CONVERSATIONS": "Converses",
-    "INBOX": "Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "INBOX": "Safata d'entrada",
+    "ALL_CONVERSATIONS": "Totes les converses",
     "MENTIONED_CONVERSATIONS": "Mencions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "PARTICIPATING_CONVERSATIONS": "Participant",
+    "UNATTENDED_CONVERSATIONS": "Sense assistència",
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
     "CONTACTS": "Contactes",
+    "CAPTAIN": "Captain",
     "HOME": "Inici",
     "AGENTS": "Agents",
     "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "Registres d'auditoria",
     "INBOXES": "Safates d'entrada",
     "NOTIFICATIONS": "Notificacions",
     "CANNED_RESPONSES": "Respostes predeterminades",
     "INTEGRATIONS": "Integracions",
     "PROFILE_SETTINGS": "Configuració del Perfil",
     "ACCOUNT_SETTINGS": "Configuració del compte",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Aplicacions",
     "LABELS": "Etiquetes",
     "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatització",
     "MACROS": "Macros",
     "TEAMS": "Equips",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "BILLING": "Facturació",
+    "CUSTOM_VIEWS_FOLDER": "Carpetes",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
+    "ALL_CONTACTS": "Tots els contactes",
+    "TAGGED_WITH": "Etiquetat amb",
     "NEW_LABEL": "Nova etiqueta",
     "NEW_TEAM": "Nou equip",
-    "NEW_INBOX": "New inbox",
+    "NEW_INBOX": "Safata d'entrada nova",
     "REPORTS_CONVERSATION": "Converses",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "Campanyes",
+    "ONGOING": "En marxa",
+    "ONE_OFF": "Un fora",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Etiquetes",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "REPORTS_INBOX": "Safata d'entrada",
+    "REPORTS_TEAM": "Equip",
+    "SET_AVAILABILITY_TITLE": "Posa't com",
     "SLA": "SLA",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "La teva connexió a Facebook ha caducat, torna a connectar la vostra pàgina de Facebook per continuar els serveis",
+    "REPORTS_OVERVIEW": "Resum",
+    "REAUTHORIZE": "La vostra connexió a la safata d'entrada ha caducat, torna a connectar\n per continuar rebent i enviant missatges",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
+      "TITLE": "Centre d'ajuda",
+      "ALL_ARTICLES": "Tots els articles",
+      "MY_ARTICLES": "Els articles",
+      "DRAFT": "Esborrany",
+      "ARCHIVED": "Arxivat",
+      "CATEGORY": "Categoria",
       "SETTINGS": "Configuracions",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "No s'han trobat categories"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Marca fora de línia automàticament",
+      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Llegir documents"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Facturació",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Pla actual",
+      "PLAN_NOTE": "Actualment estàs subscrit al pla OneHash Chat **%{plan}** amb **%{quantity}** llicències."
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Gestiona la teva subscripció",
+      "DESCRIPTION": "Consulta les teves factures anteriors, edita els teus detalls de facturació o cancel·la la teva subscripció.",
+      "BUTTON_TXT": "Ves al portal de facturació"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Necessita ajuda?",
+      "DESCRIPTION": "Trobes algun problema en la facturació? Estem aquí per ajudar.",
       "BUTTON_TXT": "Xateja amb nosaltres"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "El teu compte de facturació s'està configurant. Actualitza la pàgina i torna-ho a provar."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! No hem trobat cap compte de Chatwoot. Crea un compte nou per continuar.",
     "NEW_ACCOUNT": "Compte nou",
     "SELECTOR_SUBTITLE": "Crear un compte nou",
     "API": {
@@ -331,22 +332,22 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Veure totes les dreceres",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Obrir conversa",
+      "RESOLVE_AND_NEXT": "Resol i passa al següent",
+      "NAVIGATE_DROPDOWN": "Navega pels elements desplegables",
+      "RESOLVE_CONVERSATION": "Resol la conversa",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ves al Tauler de converses",
+      "ADD_ATTACHMENT": "Afegeix fitxer adjunt",
+      "GO_TO_CONTACTS_DASHBOARD": "Ves al tauler de contactes",
+      "TOGGLE_SIDEBAR": "Commuta la barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Anar a la barra lateral Informes",
+      "MOVE_TO_NEXT_TAB": "Anar a la pestanya següent de la llista de converses",
+      "GO_TO_SETTINGS": "Ves a la configuració",
+      "SWITCH_TO_PRIVATE_NOTE": "Canvia a la nota privada",
+      "SWITCH_TO_REPLY": "Canvia a Respon",
+      "TOGGLE_SNOOZE_DROPDOWN": "Commuta el menú desplegable de posposar"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

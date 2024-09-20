@@ -1,72 +1,13 @@
-<template>
-  <FormulateForm
-    v-model="formValues"
-    class="flex flex-col flex-1 p-6 overflow-y-auto"
-    @submit="onSubmit"
-  >
-    <div
-      v-if="shouldShowHeaderMessage"
-      v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-sm leading-5 pre-chat-header-message"
-      :class="$dm('text-black-800', 'dark:text-slate-50')"
-    />
-    <FormulateInput
-      v-for="item in enabledPreChatFields"
-      :key="item.name"
-      :name="item.name"
-      :type="item.type"
-      :label="getLabel(item)"
-      :placeholder="getPlaceHolder(item)"
-      :validation="getValidation(item)"
-      :options="getOptions(item)"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :validation-messages="{
-        startsWithPlus: $t(
-          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
-        ),
-        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
-        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: $t('PRE_CHAT_FORM.REQUIRED'),
-      }"
-      :has-error-in-phone-input="hasErrorInPhoneInput"
-    />
-    <FormulateInput
-      v-if="!hasActiveCampaign"
-      name="message"
-      type="textarea"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      validation="required"
-      :validation-messages="{
-        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
-      }"
-    />
-
-    <custom-button
-      class="mt-2 mb-5 font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      :disabled="isCreating"
-    >
-      <spinner v-if="isCreating" class="p-0" />
-      {{ $t('START_CONVERSATION') }}
-    </custom-button>
-  </FormulateForm>
-</template>
-
 <script>
 import CustomButton from 'shared/components/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import { getRegexp } from 'shared/helpers/Validators';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import configMixin from 'widget/mixins/configMixin';
 
 export default {
@@ -74,12 +15,17 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [routerMixin, configMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    const { getThemeClass } = useDarkMode();
+    return { formatMessage, getThemeClass };
   },
   data() {
     return {
@@ -184,25 +130,28 @@ export default {
       return `mt-1 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
     },
     isInputDarkOrLightMode() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
+      return `${this.getThemeClass(
+        'bg-white',
+        'dark:bg-slate-600'
+      )} ${this.getThemeClass('text-slate-700', 'dark:text-slate-50')}`;
     },
     inputBorderColor() {
-      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
+      return `${this.getThemeClass(
+        'border-black-200',
+        'dark:border-black-500'
+      )}`;
     },
   },
   methods: {
     labelClass(context) {
       const { hasErrors } = context;
       if (!hasErrors) {
-        return `text-xs font-medium ${this.$dm(
+        return `text-xs font-medium ${this.getThemeClass(
           'text-black-800',
           'dark:text-slate-50'
         )}`;
       }
-      return `text-xs font-medium ${this.$dm(
+      return `text-xs font-medium ${this.getThemeClass(
         'text-red-400',
         'dark:text-red-400'
       )}`;
@@ -236,30 +185,37 @@ export default {
       }
       return this.formValues[name] || null;
     },
-    getValidation({ type, name }) {
+    getValidation({ type, name, field_type, regex_pattern }) {
+      let regex = regex_pattern ? getRegexp(regex_pattern) : null;
       const validations = {
         emailAddress: 'email',
-        phoneNumber: 'startsWithPlus|isValidPhoneNumber',
+        phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
         url: 'url',
         date: 'date',
         text: null,
         select: null,
         number: null,
         checkbox: false,
+        contact_attribute: regex ? [['matches', regex]] : null,
+        conversation_attribute: regex ? [['matches', regex]] : null,
       };
       const validationKeys = Object.keys(validations);
       const isRequired = this.isContactFieldRequired(name);
-      const validation = isRequired ? 'bail|required' : 'bail|optional';
+      const validation = isRequired
+        ? ['bail', 'required']
+        : ['bail', 'optional'];
 
-      if (validationKeys.includes(name) || validationKeys.includes(type)) {
-        const validationType = validations[type] || validations[name];
-        const validationString = validationType
-          ? `${validation}|${validationType}`
-          : validation;
-        return validationString;
+      if (
+        validationKeys.includes(name) ||
+        validationKeys.includes(type) ||
+        validationKeys.includes(field_type)
+      ) {
+        const validationType =
+          validations[type] || validations[name] || validations[field_type];
+        return validationType ? validation.concat(validationType) : validation;
       }
 
-      return '';
+      return [];
     },
     findFieldType(type) {
       if (type === 'link') {
@@ -299,6 +255,70 @@ export default {
   },
 };
 </script>
+
+<template>
+  <FormulateForm
+    v-model="formValues"
+    class="flex flex-col flex-1 p-6 overflow-y-auto"
+    @submit="onSubmit"
+  >
+    <div
+      v-if="shouldShowHeaderMessage"
+      v-dompurify-html="formatMessage(headerMessage, false)"
+      class="mb-4 text-sm leading-5 pre-chat-header-message"
+      :class="getThemeClass('text-black-800', 'dark:text-slate-50')"
+    />
+    <FormulateInput
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item)"
+      :validation="getValidation(item)"
+      :options="getOptions(item)"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :validation-messages="{
+        startsWithPlus: $t(
+          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
+        ),
+        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+        required: $t('PRE_CHAT_FORM.REQUIRED'),
+        matches: item.regex_cue
+          ? item.regex_cue
+          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
+      }"
+      :has-error-in-phone-input="hasErrorInPhoneInput"
+    />
+    <FormulateInput
+      v-if="!hasActiveCampaign"
+      name="message"
+      type="textarea"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
+      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
+      validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
+    />
+
+    <CustomButton
+      class="mt-2 mb-5 font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      :disabled="isCreating"
+    >
+      <Spinner v-if="isCreating" class="p-0" />
+      {{ $t('START_CONVERSATION') }}
+    </CustomButton>
+  </FormulateForm>
+</template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 ::v-deep {

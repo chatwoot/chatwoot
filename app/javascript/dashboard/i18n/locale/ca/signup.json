@@ -1,15 +1,15 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "Crear un compte",
     "TITLE": "Registre",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.onehash.ai/legal/terms-of-services\">T & C</a> and <a href=\"https://www.onehash.ai/legal/privacy-policy\">Privacy Policy</a>",
+    "TESTIMONIAL_HEADER": "Només cal un pas per avançar",
+    "TESTIMONIAL_CONTENT": "Ets a un pas de connectar amb els teus clients, fidelitzar-los i trobar-ne de nous.",
+    "TERMS_ACCEPT": "En registrar-te, acceptes els nostres <a href=\"https://www.onehash.ai/legal/terms-of-services\">Termes i Condicions</a> i la nostra <a href=\"https://www.onehash.ai/legal/privacy-policy\">Política de Privacitat</a>",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Registra't amb Google"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
+      "LABEL": "Nom de la companyia",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
       "ERROR": "El nom de l'empresa és massa curt."
     },
@@ -38,7 +38,7 @@
       "SUCCESS_MESSAGE": "Registrat correctament",
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
-    "SUBMIT": "Create account",
+    "SUBMIT": "Crear un compte",
     "HAVE_AN_ACCOUNT": "Ja tens un compte?"
   }
 }

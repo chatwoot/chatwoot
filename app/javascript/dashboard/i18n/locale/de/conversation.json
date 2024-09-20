@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
-    "CSAT_REPLY_MESSAGE": "Bitte bewerten Sie diese Konversation",
+    "CSAT_REPLY_MESSAGE": "Bitte bewerten Sie diese Unterhaltung",
     "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
     "SWITCH_VIEW_LAYOUT": "Layout wechseln",
     "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
     "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "zum Öffnen des Kommandomenüs",
+      "KEYBOARD_SHORTCUTS": "um Tastenkürzel anzuzeigen"
     },
     "SEARCH": {
       "TITLE": "Nachrichten durchsuchen",
@@ -41,9 +41,9 @@
     "SAVE_CONTACT": "Speichern",
     "UPLOADING_ATTACHMENTS": "Anhänge werden hochgeladen...",
     "REPLIED_TO_STORY": "Auf deine Geschichte geantwortet",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Die Nachricht wird nicht unterstützt.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook-Messenger-App sehen.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Instagram-App sehen.",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
@@ -69,8 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "verpasst",
+        "DUE": "fällig"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
-      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren"
+      "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
+      "WHATSAPP_TEMPLATES": "WhatsApp-Vorlagen"
     },
     "REPLYBOX": {
       "REPLY": "Antworten",

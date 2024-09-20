@@ -1,7 +1,25 @@
 import { createWrapper } from '@vue/test-utils';
 import nextAvailabilityTimeMixin from '../nextAvailabilityTime';
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 
+Vue.use(VueI18n);
+const i18n = new VueI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      DAY_NAMES: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ],
+    },
+  },
+});
 describe('nextAvailabilityTimeMixin', () => {
   const chatwootWebChannel = {
     workingHoursEnabled: true,
@@ -58,22 +76,23 @@ describe('nextAvailabilityTimeMixin', () => {
     ],
   };
 
-  beforeAll(() => {
+  beforeEach(() => {
     window.chatwootWebChannel = chatwootWebChannel;
   });
 
-  afterAll(() => {
+  afterEach(() => {
     delete window.chatwootWebChannel;
   });
 
   beforeEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should return day names', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -102,6 +121,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -113,6 +133,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -124,6 +145,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const currentDay = new Date().getDay();
     const expectedWorkingHours = chatwootWebChannel.workingHours.find(
@@ -148,6 +170,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const currentDay = new Date().getDay();
     const nextDay = currentDay === 6 ? 0 : currentDay + 1;
@@ -173,6 +196,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -184,6 +208,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -204,6 +229,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -229,6 +255,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -258,6 +285,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -284,6 +312,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -312,6 +341,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -334,6 +364,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -372,6 +403,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
@@ -383,10 +415,11 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -417,10 +450,11 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -448,10 +482,11 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -479,10 +514,11 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -511,10 +547,11 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n,
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);

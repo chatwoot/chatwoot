@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Description: Install and manage a Chatwoot installation.
-# OS: Ubuntu 20.04 LTS
-# Script Version: 2.7.0
+# OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
+# Script Version: 2.8.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.7.0"
+CWCTL_VERSION="2.8.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -231,7 +231,7 @@ function install_webserver() {
 ##############################################################################
 function create_cw_user() {
   if ! id -u "chatwoot"; then
-    adduser --disabled-login --gecos "" chatwoot
+    adduser --disabled-password --gecos "" chatwoot
   fi
 }
 
@@ -336,8 +336,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.2.2"
-  rvm use 3.2.2 --default
+  rvm install "ruby-3.3.3"
+  rvm use 3.3.3 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
@@ -505,7 +505,7 @@ EOF
   fi
 
   echo -en "\n"
-  read -rp 'Would you like to install Postgres and Redis? (Answer no if you plan to use external services): ' install_pg_redis
+  read -rp 'Would you like to install Postgres and Redis? (Answer no if you plan to use external services)(yes or no): ' install_pg_redis
 
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
@@ -943,7 +943,7 @@ EOF
 #   None
 ##############################################################################
 function version() {
-  echo "cwctl v$CWCTL_VERSION beta build"
+  echo "cwctl v$CWCTL_VERSION"
 }
 
 ##############################################################################

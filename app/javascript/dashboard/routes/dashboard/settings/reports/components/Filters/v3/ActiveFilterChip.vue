@@ -1,6 +1,6 @@
 <script setup>
-import FilterButton from './FilterButton.vue';
-import FilterListDropdown from './FilterListDropdown.vue';
+import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
+import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
 const props = defineProps({
   name: {
@@ -50,14 +50,14 @@ const closeDropdown = () => emit('closeDropdown');
 </script>
 
 <template>
-  <filter-button
+  <FilterButton
     right-icon="chevron-down"
     :button-text="name"
     class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
     @click="toggleDropdown"
   >
     <template v-if="showMenu && activeFilterType === type" #dropdown>
-      <filter-list-dropdown
+      <FilterListDropdown
         v-if="options"
         v-on-clickaway="closeDropdown"
         show-clear-filter
@@ -70,5 +70,5 @@ const closeDropdown = () => emit('closeDropdown');
         @removeFilter="removeFilter"
       />
     </template>
-  </filter-button>
+  </FilterButton>
 </template>

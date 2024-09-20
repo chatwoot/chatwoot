@@ -1,12 +1,12 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsContent = () => import('../Wrapper.vue');
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const AgentHome = () => import('./Index.vue');
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/agents'),
-      component: SettingsContent,
+      component: SettingsWrapper,
       props: {
         headerTitle: 'AGENT_MGMT.HEADER',
         icon: 'people',
@@ -15,14 +15,15 @@ export default {
       children: [
         {
           path: '',
-          name: 'agents_wrapper',
           redirect: 'list',
         },
         {
           path: 'list',
           name: 'agent_list',
           component: AgentHome,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

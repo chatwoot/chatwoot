@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Zarządzanie skrzynkami",
     "SIDEBAR_TXT": "<p><b>Skrzynka odbiorcza</b></p> <p>Gdy podłączysz stronę internetową lub stronę na Facebooku do Chatwoot, nazywana jest <b>skrzynką odbiorczą</b>. Możesz mieć nieograniczoną liczbę skrzynek odbiorczych na swoim koncie Chatwoot.</p><p>Kliknij <b>Dodaj skrzynkę odbiorczą</b>, aby połączyć swoją stronę internetową lub stronę na Facebooku.</p><p>W panelu możesz zobaczyć wszystkie rozmowy ze wszystkich swoich skrzynek odbiorczych w jednym miejscu i odpowiadać na nie w zakładce „Konwersacje”.</p><p>Możesz również zobaczyć rozmowy specyficzne dla danej skrzynki odbiorczej, klikając na nazwę skrzynki odbiorczej w lewym panelu nawigacyjnym.</p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Nie ma żadnych skrzynek odbiorczych przypisanych do tego konta."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft",
         "DESCRIPTION": "Kliknij przycisk Zaloguj się za pomocą Microsoft, aby rozpocząć. Nastąpi przekierowanie do strony logowania przez e-mail. Po zaakceptowaniu wymaganych uprawnień zostaniesz przekierowany z powrotem do etapu tworzenia skrzynki odbiorczej.",
         "EMAIL_PLACEHOLDER": "Wprowadź adres e-mail",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Aby dodać swoje konto Microsoft jako kanał, musisz uwierzytelnić swoje konto Microsoft, klikając \"Zaloguj się za pomocą Microsoft\" ",
         "ERROR_MESSAGE": "Wystąpił błąd połączenia z Microsoft, spróbuj ponownie"
       }

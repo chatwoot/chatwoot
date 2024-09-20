@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Kontakte zusammenführen",
     "CONTACT_ACTIONS": "Kontakt-Aktionen",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "Kontakt blockieren",
+    "UNMUTE_CONTACT": "Kontakt entsperren",
+    "MUTED_SUCCESS": "Dieser Kontakt wurde erfolgreich blockiert. Sie werden über keine zukünftigen Konversationen benachrichtigt.",
+    "UNMUTED_SUCCESS": "Dieser Kontakt wurde erfolgreich entsperrt.",
     "SEND_TRANSCRIPT": "Transkript senden",
     "EDIT_LABEL": "Bearbeiten",
     "SIDEBAR_SECTIONS": {
@@ -72,7 +72,7 @@
       "SUBMIT": "Importieren",
       "CANCEL": "Abbrechen"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Sie werden per E-Mail benachrichtigt, wenn der Import abgeschlossen ist.",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
   },
   "EXPORT_CONTACTS": {
@@ -83,10 +83,10 @@
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
     "CONFIRM": {
       "TITLE": "Kontakte exportieren",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
+      "MESSAGE": "Sind Sie sicher, dass Sie alle Kontakte exportieren möchten?",
+      "FILTERED_MESSAGE": "Sind Sie sicher, dass Sie alle gefilterten Kontakte exportieren möchten?",
+      "YES": "Ja, exportieren",
+      "NO": "Nein, abbrechen"
     }
   },
   "DELETE_NOTE": {
@@ -213,8 +213,8 @@
         "ERROR": "Nachricht darf nicht leer sein"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Dateien auswählen",
+        "HELP_TEXT": "Ziehe Dateien hierher oder wähle Dateien zum Anhängen aus"
       },
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
@@ -298,8 +298,8 @@
     "BUTTON": "Eigenes Attribut hinzufügen",
     "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
     "COPY_SUCCESSFUL": "Erfolgreich in die Zwischenablage kopiert",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Alle Attribute anzeigen",
+    "SHOW_LESS": "Weniger Attribute anzeigen",
     "ACTIONS": {
       "COPY": "Attribut kopieren",
       "DELETE": "Attribut löschen",
@@ -350,7 +350,7 @@
     "VALIDATIONS": {
       "REQUIRED": "Gültiger Wert ist erforderlich",
       "INVALID_URL": "Ungültige URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "Ungültige Eingabe"
     }
   },
   "MERGE_CONTACTS": {
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt erfolgreich zusammengeführt",
       "ERROR_MESSAGE": "Kontakte konnten nicht zusammengeführt werden, bitte erneut versuchen!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

@@ -11,7 +11,7 @@ const settings = accountId => ({
     'auditlogs_list',
     'billing_settings_index',
     'canned_list',
-    'chatbots_index',
+    'chatbots_wrapper',
     'chatbots_new',
     'chatbots_setting',
     'chatbots_connect_inbox',
@@ -28,7 +28,6 @@ const settings = accountId => ({
     'settings_inbox_list',
     'settings_inbox_new',
     'settings_inbox_show',
-    'settings_inbox',
     'settings_inboxes_add_agents',
     'settings_inboxes_page_channel',
     'settings_integrations_dashboard_apps',
@@ -50,6 +49,9 @@ const settings = accountId => ({
       icon: 'briefcase',
       label: 'ACCOUNT_SETTINGS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/general`),
       toStateName: 'general_settings_index',
     },
@@ -57,6 +59,9 @@ const settings = accountId => ({
       icon: 'people',
       label: 'AGENTS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
       toStateName: 'agent_list',
       featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
@@ -65,6 +70,9 @@ const settings = accountId => ({
       icon: 'people-team',
       label: 'TEAMS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
       toStateName: 'settings_teams_list',
       featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
@@ -73,6 +81,9 @@ const settings = accountId => ({
       icon: 'mail-inbox-all',
       label: 'INBOXES',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
       toStateName: 'settings_inbox_list',
       featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
@@ -81,6 +92,9 @@ const settings = accountId => ({
       icon: 'tag',
       label: 'LABELS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
       toStateName: 'labels_list',
       featureFlag: FEATURE_FLAGS.LABELS,
@@ -89,6 +103,9 @@ const settings = accountId => ({
       icon: 'code',
       label: 'CUSTOM_ATTRIBUTES',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(
         `accounts/${accountId}/settings/custom-attributes/list`
       ),
@@ -99,6 +116,9 @@ const settings = accountId => ({
       icon: 'automation',
       label: 'AUTOMATION',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
       featureFlag: FEATURE_FLAGS.AUTOMATIONS,
@@ -107,6 +127,9 @@ const settings = accountId => ({
       icon: 'bot',
       label: 'AGENT_BOTS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
@@ -116,6 +139,9 @@ const settings = accountId => ({
       icon: 'flash-settings',
       label: 'MACROS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator', 'agent'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/macros`),
       toStateName: 'macros_wrapper',
       featureFlag: FEATURE_FLAGS.MACROS,
@@ -124,6 +150,9 @@ const settings = accountId => ({
       icon: 'chat-multiple',
       label: 'CANNED_RESPONSES',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator', 'agent'],
+      },
       toState: frontendURL(
         `accounts/${accountId}/settings/canned-response/list`
       ),
@@ -134,15 +163,10 @@ const settings = accountId => ({
       icon: 'flash-on',
       label: 'INTEGRATIONS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/integrations`),
-      toStateName: 'settings_integrations',
-      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-    },
-    {
-      icon: 'star-emphasis',
-      label: 'APPLICATIONS',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
@@ -150,17 +174,22 @@ const settings = accountId => ({
       icon: 'key',
       label: 'AUDIT_LOGS',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
+      meta: {
+        permissions: ['administrator'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/audit-logs/list`),
       toStateName: 'auditlogs_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
-      beta: true,
     },
     // Added for OneHash Billing
     {
       icon: 'credit-card-person',
       label: 'BILLING',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
     },
@@ -168,6 +197,9 @@ const settings = accountId => ({
       icon: 'document-list-clock',
       label: 'SLA',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
       toStateName: 'sla_list',
       isEnterpriseOnly: true,
@@ -179,14 +211,20 @@ const settings = accountId => ({
       icon: 'chatbot-icon',
       label: 'CHATBOTS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/chatbots`),
-      toStateName: 'chatbots_index',
+      toStateName: 'chatbots_wrapper',
       beta: true,
     },
     {
       icon: 'credit-card-person',
       label: 'BILLING',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
       showOnlyOnCloud: true,

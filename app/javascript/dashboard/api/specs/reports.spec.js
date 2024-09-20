@@ -20,10 +20,10 @@ describe('#Reports API', () => {
   describe('API calls', () => {
     const originalAxios = window.axios;
     const axiosMock = {
-      post: jest.fn(() => Promise.resolve()),
-      get: jest.fn(() => Promise.resolve()),
-      patch: jest.fn(() => Promise.resolve()),
-      delete: jest.fn(() => Promise.resolve()),
+      post: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve()),
+      patch: vi.fn(() => Promise.resolve()),
+      delete: vi.fn(() => Promise.resolve()),
     };
 
     beforeEach(() => {

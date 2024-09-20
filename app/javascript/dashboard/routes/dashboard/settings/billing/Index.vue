@@ -1,3 +1,107 @@
+<script>
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useAlert } from 'dashboard/composables';
+import AccountAPI from '../../../../api/account';
+import { mapGetters } from 'vuex';
+import { useAccount } from 'dashboard/composables/useAccount';
+import BillingItem from './components/BillingItem.vue';
+
+export default {
+  components: { BillingItem },
+  mixins: [messageFormatterMixin],
+  setup() {
+    const { accountId } = useAccount();
+
+    return {
+      accountId,
+    };
+  },
+  data() {
+    return {
+      isValidCouponCode: false,
+      inputValue: '',
+      ltdPlanName: null,
+      ltdQuantity: null,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      uiFlags: 'accounts/getUIFlags',
+    }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
+    customAttributes() {
+      return this.currentAccount.custom_attributes || {};
+    },
+    ltdAttributes() {
+      return this.currentAccount.ltd_attributes || {};
+    },
+    hasABillingPlan() {
+      return !!this.planName;
+    },
+    planName() {
+      return this.customAttributes.plan_name || '';
+    },
+  },
+  mounted() {
+    this.fetchAccountDetails();
+    this.fetchLtdDetails();
+  },
+  methods: {
+    async fetchAccountDetails() {
+      if (!this.hasABillingPlan) {
+        this.$store.dispatch('accounts/stripe_subscription');
+      }
+    },
+    async fetchLtdDetails() {
+      AccountAPI.getLtdDetails()
+        .then(response => {
+          this.ltdPlanName = response.data.data.plan_name;
+          this.ltdQuantity = response.data.data.quantity;
+        })
+        .catch(error => {
+          useAlert(error.response.data.message);
+        });
+    },
+    onClickBillingPortal() {
+      this.$store.dispatch('accounts/stripe_checkout');
+    },
+    onToggleChatWindow() {
+      if (window.$chatwoot) {
+        window.$chatwoot.toggle();
+      }
+    },
+    checkInput() {
+      const couponInput = document.getElementById('couponInput');
+      const inputValue = couponInput.value;
+      this.isValidCouponCode =
+        /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-|RH-|DF-|OH-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
+          inputValue
+        );
+      return this.isValidCouponCode;
+    },
+    async applyCouponCode() {
+      const couponCode = this.inputValue;
+      if (!this.checkInput(couponCode)) {
+        useAlert(this.$t('LTD_SETTINGS.COUPON_ERROR.MESSAGE'));
+        return;
+      }
+      const payload = { coupon_code: couponCode };
+      AccountAPI.getLTD(payload)
+        .then(response => {
+          useAlert(response.data.message);
+          window.location.reload();
+        })
+        .catch(error => {
+          useAlert(error.response.data.message);
+        });
+    },
+  },
+};
+</script>
+
 <template>
   <div class="overflow-auto flex-1 p-6 dark:bg-slate-900">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
@@ -46,7 +150,7 @@
             v-model="inputValue"
             type="text"
             name="coupon_code"
-            placeholder="Enter a single coupon code"
+            :placeholder="$t('LTD_SETTINGS.PLACEHOLDER')"
           />
           <woot-submit-button
             :button-text="$t('LTD_SETTINGS.APPLY')"
@@ -56,7 +160,7 @@
           />
         </div>
       </div>
-      <billing-item
+      <BillingItem
         :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
         :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
@@ -72,104 +176,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
-import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
-import accountMixin from '../../../../mixins/account';
-import AccountAPI from '../../../../api/account';
-import BillingItem from './components/BillingItem.vue';
-
-export default {
-  components: { BillingItem },
-  mixins: [accountMixin, alertMixin, messageFormatterMixin],
-  data() {
-    return {
-      isValidCouponCode: false,
-      inputValue: '',
-      ltdPlanName: null,
-      ltdQuantity: null,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getAccount: 'accounts/getAccount',
-      uiFlags: 'accounts/getUIFlags',
-    }),
-    currentAccount() {
-      return this.getAccount(this.accountId) || {};
-    },
-    customAttributes() {
-      return this.currentAccount.custom_attributes || {};
-    },
-    ltdAttributes() {
-      return this.currentAccount.ltd_attributes || {};
-    },
-    hasABillingPlan() {
-      return !!this.planName;
-    },
-    planName() {
-      return this.customAttributes.plan_name || '';
-    },
-  },
-  mounted() {
-    this.fetchAccountDetails();
-    this.fetchLtdDetails();
-  },
-  methods: {
-    async fetchAccountDetails() {
-      if (!this.hasABillingPlan) {
-        this.$store.dispatch('accounts/stripe_subscription');
-      }
-    },
-    async fetchLtdDetails() {
-      AccountAPI.getLtdDetails()
-        .then(response => {
-          this.ltdPlanName = response.data.data.plan_name;
-          this.ltdQuantity = response.data.data.quantity;
-        })
-        .catch(error => {
-          this.showAlert(error.response.data.message);
-        });
-    },
-    onClickBillingPortal() {
-      this.$store.dispatch('accounts/stripe_checkout');
-    },
-    onToggleChatWindow() {
-      if (window.$chatwoot) {
-        window.$chatwoot.toggle();
-      }
-    },
-    checkInput() {
-      const couponInput = document.getElementById('couponInput');
-      const inputValue = couponInput.value;
-      this.isValidCouponCode =
-        /^(AS|DM)[0-9a-zA-Z]{8}$|^(PG-|RH-|DF-|OH-)([0-9a-zA-Z]{4}-){3}[0-9a-zA-Z]{2}$/.test(
-          inputValue
-        );
-      return this.isValidCouponCode;
-    },
-    async applyCouponCode() {
-      const couponCode = this.inputValue;
-      if (!this.checkInput(couponCode)) {
-        this.showAlert(this.$t('LTD_SETTINGS.COUPON_ERROR.MESSAGE'));
-        return;
-      }
-      const payload = { coupon_code: couponCode };
-      AccountAPI.getLTD(payload)
-        .then(response => {
-          this.showAlert(response.data.message);
-          window.location.reload();
-        })
-        .catch(error => {
-          this.showAlert(error.response.data.message);
-        });
-    },
-  },
-};
-</script>
 
 <style lang="scss">
 .manage-subscription {

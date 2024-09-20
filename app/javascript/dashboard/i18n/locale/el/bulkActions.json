@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Πίσω",
     "ASSIGN_LABEL": "Αντιστοίχιση",
     "YES": "Ναι",
+    "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση",
     "ASSIGN_AGENT_TOOLTIP": "Ανάθεση σε πράκτορα",
     "ASSIGN_TEAM_TOOLTIP": "Ανάθεση ομάδας",
     "ASSIGN_SUCCESFUL": "Οι σινομιλίες αντιστοιχήθηκαν επιτυχώς.",
@@ -33,7 +34,7 @@
       "NONE": "Κανένα",
       "NO_TEAMS_AVAILABLE": "Δεν έχουν προστεθεί ομάδες σε αυτόν τον λογαριασμό ακόμα.",
       "ASSIGN_SELECTED_TEAMS": "Ανάθεση επιλεγμένης ομάδας.",
-      "ASSIGN_SUCCESFUL": "Επιτυχής ανάθεση σε ομάδα.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }

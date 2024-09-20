@@ -481,6 +481,7 @@
           "DESCRIPTION": "Use o portal como um CMS com frameworks de front-end externos usando as nossas APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

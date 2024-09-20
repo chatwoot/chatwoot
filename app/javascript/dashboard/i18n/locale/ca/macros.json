@@ -1,78 +1,87 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER_BTN_TXT": "Afegeix una nova macro",
+    "HEADER_BTN_TXT_SAVE": "Desa la macro",
+    "LOADING": "Obtenció de macros",
+    "SIDEBAR_TXT": "<p><b>Macros</b><p>Una macro és un conjunt d'accions desades que ajuden els agents d'atenció al client a completar tasques fàcilment. Els agents poden definir un conjunt d'accions com etiquetar una conversa amb una etiqueta, enviar una transcripció de correu electrònic, actualitzar un atribut personalitzat, etc., i poden executar aquestes accions amb un sol clic. Quan els agents executen la macro, les accions es realitzaran seqüencialment en l'ordre en què es defineixen. Les macros milloren la productivitat i augmenten la coherència en les accions. </p><p>Una macro pot ser útil de dues maneres. </p><p><b>Com a ajuda d'un agent:</b> si un agent realitza un conjunt d'accions diverses vegades, pot desar-lo com a macro i executar totes les accions junts amb un sol clic.</ p><p><b>Com a opció per incorporar un membre de l'equip:</b> Cada agent ha de realitzar moltes comprovacions/accions diferents durant cada conversa. La incorporació d'un nou membre de l'equip d'assistència serà fàcil si hi ha macros predefinides disponibles al compte. En lloc de descriure cada pas en detall, el responsable o el responsable de l'equip pot indicar les macros utilitzades en diferents escenaris.</p>",
+    "ERROR": "Alguna cosa ha anat malament, torna-ho a provar",
+    "ORDER_INFO": "Les macros s'executaran en l'ordre en què afegeixis les teves accions. Pots reorganitzar-los arrossegant-los per l'identificador al costat de cada node.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Nom de la macro",
+          "PLACEHOLDER": "Introdueix un nom per la teva macro",
+          "ERROR": "El nom és necessari per crear una macro"
         },
         "ACTIONS": {
           "LABEL": "Accions"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "La macro s'ha afegit correctament",
+        "ERROR_MESSAGE": "No es pot crear la macro. Intenta-ho més tard"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "Nom",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "Creat per",
+        "Última actualització per",
+        "Visibilitat"
       ],
-      "404": "No macros found"
+      "404": "No s'han trobat macros"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Suprimeix la macro",
       "CONFIRM": {
         "MESSAGE": "N'estas segur? ",
         "YES": "Si, esborra",
         "NO": "No"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "La macro s'ha suprimit correctament",
+        "ERROR_MESSAGE": "S'ha produït un error suprimint la macro. Torna-ho a provar"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Edita la macro",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "La macro s'ha actualitzat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar la macro. Torna-ho a provar més tard"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Inicia el flux",
+      "END_FLOW": "Finalitza el flux",
+      "LOADING": "S'està obtenint la macro",
+      "ADD_BTN_TOOLTIP": "Afegeix nova acció",
+      "DELETE_BTN_TOOLTIP": "Suprimeix l'acció",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Visibilitat de la macro",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Públic",
+          "DESCRIPTION": "Aquesta macro està disponible públicament per a tots els agents d'aquest compte."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Privat",
+          "DESCRIPTION": "Aquesta macro serà privada per a tu i no estarà disponible per als altres."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Executa",
+      "PREVIEW": "Vista prèvia de la macro",
+      "EXECUTED_SUCCESSFULLY": "La macro s'ha executat correctament"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "El valor és necessari",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

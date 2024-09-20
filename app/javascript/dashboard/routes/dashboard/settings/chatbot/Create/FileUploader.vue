@@ -1,39 +1,6 @@
-<template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-5 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
-    <woot-button
-      class-names="button--fixed-top"
-      color-scheme="primary"
-      :disabled="fetching || limitExceeded"
-      @click="connectToInbox"
-    >
-      {{ $t('CHATBOTS.FORM.CONNECT_INBOX') }}
-    </woot-button>
-    <page-header
-      :header-title="$t('CHATBOTS.CREATE_FLOW.CREATE.TITLE')"
-      :header-content="$t('CHATBOTS.CREATE_FLOW.CREATE.DESC')"
-    />
-    <div class="flex flex-row w-full max-w-full">
-      <upload-files @uploadTypeSelected="handleUploadTypeSelected" />
-      <upload-area
-        v-model="fetching"
-        :progress="progress"
-        :upload-type="currentUploadType"
-        @start-progress="startProgress"
-      />
-      <detected-characters
-        :detected-char="detectedChar"
-        :account-char-limit="accountCharLimit"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import UploadFiles from '../UploadFiles.vue';
 import UploadArea from '../UploadArea.vue';
 import DetectedCharacters from '../DetectedCharacters.vue';
@@ -47,7 +14,6 @@ export default {
     UploadArea,
     DetectedCharacters,
   },
-  mixins: [alertMixin],
   data() {
     return {
       enabledFeatures: {},
@@ -61,7 +27,6 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       accountId: 'getCurrentAccountId',
-      files: 'chatbots/getFiles',
       links: 'chatbots/getLinks',
       detectedChar: 'chatbots/getChar',
     }),
@@ -115,3 +80,35 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-5 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <woot-button
+      class-names="button--fixed-top"
+      color-scheme="primary"
+      :disabled="fetching || limitExceeded"
+      @click="connectToInbox"
+    >
+      {{ $t('CHATBOTS.FORM.CONNECT_INBOX') }}
+    </woot-button>
+    <PageHeader
+      :header-title="$t('CHATBOTS.CREATE_FLOW.CREATE.TITLE')"
+      :header-content="$t('CHATBOTS.CREATE_FLOW.CREATE.DESC')"
+    />
+    <div class="flex flex-row w-full max-w-full">
+      <UploadFiles @uploadTypeSelected="handleUploadTypeSelected" />
+      <UploadArea
+        v-model="fetching"
+        :progress="progress"
+        :upload-type="currentUploadType"
+        @startProgress="startProgress"
+      />
+      <DetectedCharacters
+        :detected-char="detectedChar"
+        :account-char-limit="accountCharLimit"
+      />
+    </div>
+  </div>
+</template>

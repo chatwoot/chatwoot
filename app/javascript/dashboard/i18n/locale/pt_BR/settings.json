@@ -239,6 +239,7 @@
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
+    "CAPTAIN": "Captain",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -278,7 +279,7 @@
     "SLA": "",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
-    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
+    "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
     "HELP_CENTER": {
       "TITLE": "Central de Ajuda",
       "ALL_ARTICLES": "Todos os artigos",

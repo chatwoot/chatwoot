@@ -54,6 +54,8 @@ module Reauthorizable
       update!(active: false)
       mailer.automation_rule_disabled(self).deliver_later
     end
+
+    invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
 
   def process_integration_hook_reauthorization_emails(mailer)
@@ -68,9 +70,15 @@ module Reauthorizable
   def reauthorized!
     ::Redis::Alfred.delete(authorization_error_count_key)
     ::Redis::Alfred.delete(reauthorization_required_key)
+
+    invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
 
   private
+
+  def invalidate_inbox_cache
+    inbox.update_account_cache if inbox.present?
+  end
 
   def authorization_error_count_key
     format(::Redis::Alfred::AUTHORIZATION_ERROR_COUNT, obj_type: self.class.table_name.singularize, obj_id: id)

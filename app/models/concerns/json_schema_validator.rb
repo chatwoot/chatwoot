@@ -48,7 +48,6 @@ class JsonSchemaValidator < ActiveModel::Validator
 
     # Add validation errors to the record with a formatted statement
     validation_errors.each do |error|
-      # byebug
       format_and_append_error(error, record)
     end
   end

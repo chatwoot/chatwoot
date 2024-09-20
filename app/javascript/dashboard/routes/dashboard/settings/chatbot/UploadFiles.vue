@@ -1,3 +1,18 @@
+<script>
+export default {
+  data() {
+    return {
+      enabledFeatures: {},
+    };
+  },
+  methods: {
+    showUploader(type) {
+      this.$emit('uploadTypeSelected', type);
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="overflow-hidden p-4 w-1/4 max-w-1/4 flex flex-row flex-nowrap h-full"
@@ -24,24 +39,6 @@
   </div>
 </template>
 
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
-import accountMixin from '../../../../mixins/account';
-
-export default {
-  mixins: [alertMixin, accountMixin],
-  data() {
-    return {
-      enabledFeatures: {},
-    };
-  },
-  methods: {
-    showUploader(type) {
-      this.$emit('uploadTypeSelected', type);
-    },
-  },
-};
-</script>
 <style>
 .sidebar {
   display: flex;
