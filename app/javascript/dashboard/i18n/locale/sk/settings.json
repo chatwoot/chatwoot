@@ -239,6 +239,7 @@
     "REPORTS": "Reports",
     "SETTINGS": "Nastavenia",
     "CONTACTS": "Kontakty",
+    "CAPTAIN": "Captain",
     "HOME": "Home",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Prehľad",
-    "FACEBOOK_REAUTHORIZE": "Vaše pripojenie k Facebooku vypršalo, pre pokračovanie v službách prosím znovu pripojte svoju stránku na Facebooku",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "All Articles",

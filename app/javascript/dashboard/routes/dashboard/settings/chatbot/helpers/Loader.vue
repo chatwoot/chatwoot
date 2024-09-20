@@ -1,11 +1,3 @@
-<template>
-  <div class="loader">
-    <div class="shell">
-      <div class="bar" :style="{ width: progress + '%' }" />
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -16,6 +8,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="loader">
+    <div class="shell">
+      <div class="bar" :style="{ width: progress + '%' }" />
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .loader {
   height: 6px;

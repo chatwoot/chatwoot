@@ -1,12 +1,12 @@
-import Facebook from './channels/Facebook';
-import Website from './channels/Website';
-import Twitter from './channels/Twitter';
-import Api from './channels/Api';
-import Email from './channels/Email';
-import Sms from './channels/Sms';
-import Whatsapp from './channels/Whatsapp';
-import Line from './channels/Line';
-import Telegram from './channels/Telegram';
+import Facebook from './channels/Facebook.vue';
+import Website from './channels/Website.vue';
+import Twitter from './channels/Twitter.vue';
+import Api from './channels/Api.vue';
+import Email from './channels/Email.vue';
+import Sms from './channels/Sms.vue';
+import Whatsapp from './channels/Whatsapp.vue';
+import Line from './channels/Line.vue';
+import Telegram from './channels/Telegram.vue';
 
 const channelViewList = {
   facebook: Facebook,

@@ -142,7 +142,8 @@
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
       "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signature du message n'est pas configurée, veuillez le configurer dans les paramètres du profil.",
-      "CLICK_HERE": "Cliquez ici pour mettre à jour"
+      "CLICK_HERE": "Cliquez ici pour mettre à jour",
+      "WHATSAPP_TEMPLATES": "Modèles WhatsApp"
     },
     "REPLYBOX": {
       "REPLY": "Répondre",

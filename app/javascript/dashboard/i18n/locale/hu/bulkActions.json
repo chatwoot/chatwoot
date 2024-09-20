@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Visszaugrás",
     "ASSIGN_LABEL": "Hozzárendelés",
     "YES": "Igen",
+    "SEARCH_INPUT_PLACEHOLDER": "Keresés",
     "ASSIGN_AGENT_TOOLTIP": "Ügynök hozzárendelése",
     "ASSIGN_TEAM_TOOLTIP": "Csapat hozzárendelése",
     "ASSIGN_SUCCESFUL": "Beszélgetés sikeresen hozzá lett rendelve.",
@@ -33,7 +34,7 @@
       "NONE": "Nincs",
       "NO_TEAMS_AVAILABLE": "Ebben a fiókban még nincs csapat létrehozva.",
       "ASSIGN_SELECTED_TEAMS": "Válogatott csapatok hozzárendelése.",
-      "ASSIGN_SUCCESFUL": "Csapatok hozzárendelése sikeres.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Nem sikerült csapatot kijelölni. Kérjük, próbálja újra."
     }
   }

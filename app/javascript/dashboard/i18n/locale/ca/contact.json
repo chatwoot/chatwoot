@@ -34,15 +34,15 @@
         "TITLE": "Afegir etiquetes",
         "PLACEHOLDER": "Cerca etiquetes",
         "NO_RESULT": "No s'han trobat etiquetes",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Crea una etiqueta nova"
       }
     },
     "MERGE_CONTACT": "Reagrupa contacte",
     "CONTACT_ACTIONS": "Accions de contacte",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "Bloqueja el contacte",
+    "UNMUTE_CONTACT": "Desbloqueja el contacte",
+    "MUTED_SUCCESS": "Aquest contacte s'ha bloquejat correctament. No se us notificarà cap conversa futura.",
+    "UNMUTED_SUCCESS": "Aquest contacte s'ha desbloquejat correctament.",
     "SEND_TRANSCRIPT": "Envia la transcripció",
     "EDIT_LABEL": "Edita",
     "SIDEBAR_SECTIONS": {
@@ -72,7 +72,7 @@
       "SUBMIT": "Importa",
       "CANCEL": "Cancel·la"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Es notificarà per correu electrònic quan s'hagi completat la importació.",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "EXPORT_CONTACTS": {
@@ -137,9 +137,9 @@
         "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
         "LABEL": "Número de telèfon",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "ERROR": "El número de telèfon ha d'estar buit o en format E.164",
+        "DIAL_CODE_ERROR": "Selecciona un codi de marcatge de la llista",
+        "DUPLICATE": "Aquest número de telèfon està en ús per a un altre contacte."
       },
       "LOCATION": {
         "PLACEHOLDER": "Introdueix la ubicació del contacte",
@@ -150,7 +150,7 @@
         "LABEL": "Nom de la companyia"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Introdueix el nom del país",
         "LABEL": "Nom del país",
         "SELECT_PLACEHOLDER": "Selecciona",
         "REMOVE": "Suprimeix",
@@ -192,7 +192,7 @@
     "BUTTON_LABEL": "Inicia la conversa",
     "TITLE": "Nova conversació",
     "DESC": "Inicia una conversa nova enviant un missatge nou.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "NO_INBOX": "No s'ha pogut trobar una safata d'entrada per iniciar una conversa nova amb aquest contacte.",
     "FORM": {
       "TO": {
         "LABEL": "Per"
@@ -200,32 +200,32 @@
       "INBOX": {
         "LABEL": "Inbox",
         "PLACEHOLDER": "Trieu la safata d'entrada d'origen",
-        "ERROR": "Select an inbox"
+        "ERROR": "Selecciona una Safata d'entrada"
       },
       "SUBJECT": {
         "LABEL": "Assumpte",
         "PLACEHOLDER": "Assumpte",
-        "ERROR": "Subject can't be empty"
+        "ERROR": "L'assumpte no pot estar buit"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
-        "PLACEHOLDER": "Write your message here",
+        "PLACEHOLDER": "Escriu el teu missatge aquí",
         "ERROR": "El missatge no pot estar buit"
       },
       "ATTACHMENTS": {
         "SELECT": "Trieu fitxers",
         "HELP_TEXT": "Arrossegueu i deixeu anar fitxers aquí o trieu fitxers per adjuntar"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Envia missatge",
       "CANCEL": "Cancel·la",
-      "SUCCESS_MESSAGE": "Message sent!",
+      "SUCCESS_MESSAGE": "Missatges enviat!",
       "GO_TO_CONVERSATION": "Veure",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "ERROR_MESSAGE": "No s'ha pogut enviar! torna-ho a provar"
     }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactes",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Camps de contacte",
     "SEARCH_BUTTON": "Cercar",
     "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
     "FILTER_CONTACTS": "Filtre",
@@ -235,25 +235,25 @@
     "LIST": {
       "LOADING_MESSAGE": "Carregant contactes...",
       "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "No hi ha contactes disponibles",
       "TABLE_HEADER": {
         "NAME": "Nom",
         "PHONE_NUMBER": "Número de telèfon",
         "CONVERSATIONS": "Converses",
-        "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
+        "LAST_ACTIVITY": "Darrera activitat",
+        "CREATED_AT": "Creat per",
         "COUNTRY": "País",
         "CITY": "Ciutat",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "Perfils socials",
         "COMPANY": "Companyia",
         "EMAIL_ADDRESS": "Adreça de correu electrònic"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Veure detalls"
     }
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Contactes",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "S'està carregant el perfil de contacte..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -267,7 +267,7 @@
   },
   "NOTES": {
     "FETCHING_NOTES": "S'estan obtenint notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "NOT_AVAILABLE": "No s'han creat notes per a aquest contacte",
     "HEADER": {
       "TITLE": "Notes"
     },
@@ -318,8 +318,8 @@
         "ERROR": "El nom de l'atribut personalitzat no és vàlid"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Valor de l'atribut",
+        "PLACEHOLDER": "Ex: 11901 "
       },
       "ADD": {
         "TITLE": "Crear nou atribut ",
@@ -348,27 +348,27 @@
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "REQUIRED": "Un valor vàlid és necessari",
+      "INVALID_URL": "URL no vàlid",
+      "INVALID_INPUT": "Entrada incorrecta"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Fusiona contactes",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Contacte principal",
+      "HELP_LABEL": "Per esborrar"
     },
     "PARENT": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Contacte per fusionar",
+      "PLACEHOLDER": "Cerca un contacte",
+      "HELP_LABEL": "S'ha de mantenir"
     },
     "SUMMARY": {
       "TITLE": "Resum",
-      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "El contacte de <strong>%{primaryContactName}</strong> es suprimirà.",
+      "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>%{primaryContactName}</strong> es copiaran a <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contacte fusionat correctament",
       "ERROR_MESSAGE": "No s'ha pogut fusionar els contactes, torna-ho a provar!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

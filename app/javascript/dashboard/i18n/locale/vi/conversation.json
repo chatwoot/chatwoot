@@ -89,7 +89,7 @@
       "CANCEL": "Huỷ"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Mức độ ưu tiên",
       "OPTIONS": {
         "NONE": "Không có",
         "URGENT": "Urgent",
@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
       "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Chứ ký cuối tin nhắn chưa được cài đặt, xin hãy cài đặt một chữ ký trong phần cài đặt hồ sơ.",
-      "CLICK_HERE": "Bấm vào đây để cập nhật"
+      "CLICK_HERE": "Bấm vào đây để cập nhật",
+      "WHATSAPP_TEMPLATES": "Mẫu Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Trả lời",

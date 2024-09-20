@@ -481,7 +481,8 @@
       "HEADER": "ترافیک گفتگو",
       "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
       "CONVERSATION": "%{count} گفتگو",
-      "CONVERSATIONS": "%{count} گفتگو"
+      "CONVERSATIONS": "%{count} گفتگو",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "گفتگوهای اپراتور ها",
@@ -536,6 +537,7 @@
       "LABELS": "برچسب",
       "TEAMS": "تیم‌"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "نرخ برخورد",

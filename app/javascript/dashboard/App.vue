@@ -1,41 +1,14 @@
-<template>
-  <div
-    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
-    id="app"
-    class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
-    :class="{ 'app-rtl--wrapper': isRTLView }"
-    :dir="isRTLView ? 'rtl' : 'ltr'"
-  >
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="currentAccountId">
-      <!-- <pending-email-verification-banner v-if="hideOnOnboardingView" />
-      <payment-pending-banner v-if="hideOnOnboardingView" />
-      <upgrade-banner /> -->
-    </template>
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
-    <add-account-modal
-      :show="showAddAccountModal"
-      :has-accounts="hasAccounts"
-    />
-    <woot-snackbar-box />
-    <network-notification />
-  </div>
-  <loading-state v-else />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import router from '../dashboard/routes';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
-import UpdateBanner from './components/app/UpdateBanner.vue';
+// import UpdateBanner from './components/app/UpdateBanner.vue';
 // import UpgradeBanner from './components/app/UpgradeBanner.vue';
 // import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
 // import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
@@ -44,6 +17,7 @@ import {
 } from './helper/pushHelper';
 import { checkKeycloakSession } from '../../javascript/v3/api/auth';
 import Auth from './api/auth';
+import ReconnectService from 'dashboard/helper/ReconnectService';
 
 export default {
   name: 'App',
@@ -52,26 +26,24 @@ export default {
     AddAccountModal,
     LoadingState,
     NetworkNotification,
-    UpdateBanner,
+    // UpdateBanner,
     // PaymentPendingBanner,
     WootSnackbarBox,
     // UpgradeBanner,
   },
-
-  mixins: [rtlMixin],
-
   data() {
     return {
       showAddAccountModal: false,
       latestChatwootVersion: null,
+      reconnectService: null,
     };
   },
 
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',
@@ -114,6 +86,11 @@ export default {
       });
     }, 2000);
   },
+  beforeDestroy() {
+    if (this.reconnectService) {
+      this.reconnectService.disconnect();
+    }
+  },
   methods: {
     initializeColorTheme() {
       setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -134,9 +111,9 @@ export default {
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
-      this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
+      this.reconnectService = new ReconnectService(this.$store, router);
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
@@ -149,6 +126,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
+    id="app"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
+    :class="{ 'app-rtl--wrapper': isRTL }"
+    :dir="isRTL ? 'rtl' : 'ltr'"
+  >
+    <!-- <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" /> -->
+    <!-- <template v-if="currentAccountId">
+      <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
+      <PaymentPendingBanner v-if="hideOnOnboardingView" />
+      <UpgradeBanner />
+    </template> -->
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
+    <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
+    <WootSnackbarBox />
+    <NetworkNotification />
+  </div>
+  <LoadingState v-else />
+</template>
 
 <style lang="scss">
 @import './assets/scss/app';

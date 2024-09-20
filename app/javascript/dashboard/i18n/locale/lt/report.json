@@ -481,7 +481,8 @@
       "HEADER": "Pokalbių srautas",
       "NO_CONVERSATIONS": "Pokalbių nėra",
       "CONVERSATION": "%{count} pokalbis",
-      "CONVERSATIONS": "%{count} pokalbiai"
+      "CONVERSATIONS": "%{count} pokalbiai",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Agentų pokalbiai",
@@ -536,6 +537,7 @@
       "LABELS": "Etiketė",
       "TEAMS": "Komanda"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

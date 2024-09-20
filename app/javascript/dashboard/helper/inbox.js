@@ -87,7 +87,8 @@ export const getInboxClassByType = (type, phoneNumber) => {
 };
 
 export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
-  if (type === INBOX_TYPES.FB && reauthorizationRequired) {
+  const allowedInboxTypes = [INBOX_TYPES.FB, INBOX_TYPES.EMAIL];
+  if (allowedInboxTypes.includes(type) && reauthorizationRequired) {
     return 'warning';
   }
   return '';

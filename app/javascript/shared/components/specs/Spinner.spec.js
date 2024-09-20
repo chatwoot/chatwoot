@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import Spinner from '../Spinner';
+import Spinner from '../Spinner.vue';
 
 describe('Spinner', () => {
   test('matches snapshot', () => {

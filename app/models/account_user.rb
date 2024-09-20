@@ -48,6 +48,10 @@ class AccountUser < ApplicationRecord
     ::Agents::DestroyJob.perform_later(account, user)
   end
 
+  def permissions
+    administrator? ? ['administrator'] : ['agent']
+  end
+
   def push_event_data
     {
       id: id,

@@ -125,6 +125,10 @@ class Conversation < ApplicationRecord
     last_message_in_messaging_window?(messaging_window)
   end
 
+  def last_activity_at
+    self[:last_activity_at] || created_at
+  end
+
   def last_incoming_message
     messages&.incoming&.last
   end

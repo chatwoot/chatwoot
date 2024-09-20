@@ -239,6 +239,7 @@
     "REPORTS": "Jelentések",
     "SETTINGS": "Beállítások",
     "CONTACTS": "Kontaktok",
+    "CAPTAIN": "Captain",
     "HOME": "Nyitólap",
     "AGENTS": "Ügynökök",
     "AGENT_BOTS": "Botok",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Béta",
     "REPORTS_OVERVIEW": "Áttekintés",
-    "FACEBOOK_REAUTHORIZE": "A Facebook kapcsolatod lejárt, kérjük kapcsold össze oldalad újra a szolgáltatás folytatásához",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Súgóközpont",
       "ALL_ARTICLES": "Minden bejegyzés",

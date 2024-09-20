@@ -1,3 +1,136 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import ChatbotAPI from '../../../../api/chatbots';
+import Loader from './helpers/Loader.vue';
+import {
+  processTextFile,
+  processDocxFile,
+} from '../../../../helper/chatbotHelper';
+
+export default {
+  components: {
+    Loader,
+  },
+  props: {
+    value: { type: Boolean, default: false },
+    uploadType: {
+      type: String,
+      default: 'file',
+    },
+    progress: {
+      type: Number,
+      default: 0,
+    },
+  },
+  data() {
+    return {
+      textInput: '',
+      previousText: '',
+      websiteInput: '',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      files: 'chatbots/getFiles',
+      links: 'chatbots/getLinks',
+      detectedChar: 'chatbots/getChar',
+    }),
+  },
+  methods: {
+    async uploadFile(event) {
+      const files = Array.from(event.target.files);
+      const filesData = await Promise.all(
+        files.map(async file => {
+          try {
+            const charCount = await this.processFile(file);
+            return {
+              file,
+              char_count: charCount,
+            };
+          } catch (error) {
+            return {
+              file,
+              char_count: 0,
+            };
+          }
+        })
+      );
+      this.$store.dispatch('chatbots/addFiles', filesData);
+    },
+    async processFile(file) {
+      const fileType = file.type;
+
+      if (fileType === 'text/plain') {
+        return processTextFile(file);
+      }
+      if (fileType === 'application/pdf') {
+        return ChatbotAPI.processPdfFile(file).then(res => {
+          return res.data.char_count;
+        });
+      }
+      if (
+        fileType ===
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ) {
+        return processDocxFile(file);
+      }
+      return Promise.resolve(0);
+    },
+    deleteFile(file, index) {
+      this.$store.dispatch('chatbots/decChar', file.char_count);
+      this.$store.dispatch('chatbots/deleteFile', index);
+    },
+    setText() {
+      const newText = this.textInput;
+      const previousText = this.previousText;
+      const newTextLength = newText.length;
+      const previousTextLength = previousText.length;
+
+      this.$store.dispatch('chatbots/setText', newText);
+
+      if (newTextLength > previousTextLength) {
+        const addedChars = newTextLength - previousTextLength;
+        this.$store.dispatch('chatbots/incChar', addedChars);
+      } else if (newTextLength < previousTextLength) {
+        const removedChars = previousTextLength - newTextLength;
+        this.$store.dispatch('chatbots/decChar', removedChars);
+      }
+
+      this.previousText = newText;
+    },
+    async fetchLinks() {
+      const pattern = new RegExp(
+        '^https:\\/\\/' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$', // fragment locator
+        'i'
+      );
+      const websiteUrl = this.websiteInput.trim();
+      if (websiteUrl !== '' && pattern.test(websiteUrl)) {
+        if (!this.links.some(obj => obj.link === websiteUrl)) {
+          this.$emit('startProgress');
+          await ChatbotAPI.fetchLinks(websiteUrl);
+        }
+      } else {
+        useAlert(this.$t('Please enter a valid https Url'));
+      }
+    },
+    deleteLink(url, index) {
+      this.$store.dispatch('chatbots/decChar', url.char_count);
+      this.$store.dispatch('chatbots/deleteLink', index);
+    },
+    deleteLinks() {
+      this.$store.dispatch('chatbots/decChar', this.detectedChar);
+      this.$store.dispatch('chatbots/deleteLinks');
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full"
@@ -56,7 +189,7 @@
         <input
           v-model="websiteInput"
           type="text"
-          placeholder="https://www.example.com"
+          :placeholder="$t('CHATBOTS.PLACEHOLDER')"
         />
         <woot-button :disabled="value" @click="fetchLinks">
           {{ $t('CHATBOTS.FORM.FETCH_LINKS') }}
@@ -66,7 +199,7 @@
         $t('CHATBOTS.FORM.FETCH_LINKS_DESC')
       }}</span>
       <div class="mt-4">
-        <loader :progress="progress" />
+        <Loader :progress="progress" />
       </div>
       <div v-if="links.length > 0" class="flex justify-end mt-4">
         <woot-button
@@ -97,144 +230,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters, mapState } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
-import accountMixin from '../../../../mixins/account';
-import ChatbotAPI from '../../../../api/chatbots';
-import Loader from './helpers/Loader.vue';
-import {
-  processTextFile,
-  processDocxFile,
-} from '../../../../helper/chatbotHelper';
-
-export default {
-  components: {
-    Loader,
-  },
-  mixins: [alertMixin, accountMixin],
-  props: {
-    value: { type: Boolean, default: false },
-    uploadType: {
-      type: String,
-      default: 'file',
-    },
-    progress: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      textInput: '',
-      previousText: '',
-      websiteInput: '',
-    };
-  },
-  computed: {
-    ...mapState({
-      botText: state => state.chatbots.botText,
-    }),
-    ...mapGetters({
-      files: 'chatbots/getFiles',
-      links: 'chatbots/getLinks',
-      detectedChar: 'chatbots/getChar',
-    }),
-  },
-  methods: {
-    async uploadFile(event) {
-      const files = Array.from(event.target.files);
-      const filesData = await Promise.all(
-        files.map(async file => {
-          try {
-            const charCount = await this.processFile(file);
-            return {
-              file,
-              char_count: charCount,
-            };
-          } catch (error) {
-            return {
-              file,
-              char_count: 0,
-            };
-          }
-        })
-      );
-      this.$store.dispatch('chatbots/addFiles', filesData);
-    },
-    async processFile(file) {
-      const fileType = file.type;
-
-      if (fileType === 'text/plain') {
-        return processTextFile(file);
-      }
-      if (fileType === 'application/pdf') {
-        return ChatbotAPI.processPdfFile(file).then(res => {
-          return res.data.char_count;
-        });
-      }
-      if (
-        fileType ===
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ) {
-        return processDocxFile(file);
-      }
-      return Promise.resolve(0); // Unsupported file type
-    },
-    deleteFile(file, index) {
-      this.$store.dispatch('chatbots/decChar', file.char_count);
-      this.$store.dispatch('chatbots/deleteFile', index);
-    },
-    setText() {
-      const newText = this.textInput;
-      const previousText = this.previousText;
-      const newTextLength = newText.length;
-      const previousTextLength = previousText.length;
-
-      this.$store.dispatch('chatbots/setText', newText);
-
-      if (newTextLength > previousTextLength) {
-        const addedChars = newTextLength - previousTextLength;
-        this.$store.dispatch('chatbots/incChar', addedChars);
-      } else if (newTextLength < previousTextLength) {
-        const removedChars = previousTextLength - newTextLength;
-        this.$store.dispatch('chatbots/decChar', removedChars);
-      }
-
-      this.previousText = newText;
-    },
-    async fetchLinks() {
-      const pattern = new RegExp(
-        '^https:\\/\\/' + // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
-          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-          '(\\#[-a-z\\d_]*)?$', // fragment locator
-        'i'
-      );
-      const websiteUrl = this.websiteInput.trim();
-      if (websiteUrl !== '' && pattern.test(websiteUrl)) {
-        if (!this.links.some(obj => obj.link === websiteUrl)) {
-          this.$emit('start-progress');
-          await ChatbotAPI.fetchLinks(websiteUrl);
-        }
-      } else {
-        this.showAlert(this.$t('Please enter a valid https Url'));
-      }
-    },
-    deleteLink(url, index) {
-      this.$store.dispatch('chatbots/decChar', url.char_count);
-      this.$store.dispatch('chatbots/deleteLink', index);
-    },
-    deleteLinks() {
-      this.$store.dispatch('chatbots/decChar', this.detectedChar);
-      this.$store.dispatch('chatbots/deleteLinks');
-    },
-  },
-};
-</script>
 
 <style scoped>
 .file-upload-label input {

@@ -239,6 +239,7 @@
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
+    "CAPTAIN": "Captain",
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
     "AGENT_BOTS": "Bots",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pārskats",
-    "FACEBOOK_REAUTHORIZE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",
+    "REAUTHORIZE": "Jūsu iesūtnes savienojuma termiņš ir beidzies. Lūdzu, pievienojiet vēlreiz\n lai turpinātu saņemt un sūtīt ziņas",
     "HELP_CENTER": {
       "TITLE": "Palīdzības centrs",
       "ALL_ARTICLES": "Visi Raksti",

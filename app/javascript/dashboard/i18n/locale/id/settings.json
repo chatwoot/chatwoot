@@ -239,6 +239,7 @@
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
+    "CAPTAIN": "Captain",
     "HOME": "Beranda",
     "AGENTS": "Agen",
     "AGENT_BOTS": "Bot Agen",
@@ -278,7 +279,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Gambaran",
-    "FACEBOOK_REAUTHORIZE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Pusat Bantuan",
       "ALL_ARTICLES": "Semua Artikel",

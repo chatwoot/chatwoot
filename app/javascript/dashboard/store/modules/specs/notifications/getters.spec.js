@@ -81,4 +81,18 @@ describe('#getters', () => {
     };
     expect(getters.getMeta(state)).toEqual({ unreadCount: 1 });
   });
+
+  it('getNotificationFilters', () => {
+    const state = {
+      notificationFilters: {
+        page: 1,
+        status: 'unread',
+        type: 'all',
+        sortOrder: 'desc',
+      },
+    };
+    expect(getters.getNotificationFilters(state)).toEqual(
+      state.notificationFilters
+    );
+  });
 });

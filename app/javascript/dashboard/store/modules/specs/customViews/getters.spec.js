@@ -76,4 +76,11 @@ describe('#getters', () => {
       isDeleting: false,
     });
   });
+
+  it('getActiveConversationFolder', () => {
+    const state = { activeConversationFolder: customViewList[0] };
+    expect(getters.getActiveConversationFolder(state)).toEqual(
+      customViewList[0]
+    );
+  });
 });

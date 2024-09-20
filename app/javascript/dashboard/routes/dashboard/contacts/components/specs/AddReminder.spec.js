@@ -15,7 +15,7 @@ describe('AddReminder', () => {
   });
 
   it('tests resetValue', () => {
-    const resetValue = jest.spyOn(wrapper.vm, 'resetValue');
+    const resetValue = vi.spyOn(wrapper.vm, 'resetValue');
     wrapper.vm.content = 'test';
     wrapper.vm.date = '08/11/2022';
     wrapper.vm.resetValue();
@@ -25,7 +25,7 @@ describe('AddReminder', () => {
   });
 
   it('tests optionSelected', () => {
-    const optionSelected = jest.spyOn(wrapper.vm, 'optionSelected');
+    const optionSelected = vi.spyOn(wrapper.vm, 'optionSelected');
     wrapper.vm.label = '';
     wrapper.vm.optionSelected({ target: { value: 'test' } });
     expect(wrapper.vm.label).toEqual('test');
@@ -33,7 +33,7 @@ describe('AddReminder', () => {
   });
 
   it('tests onAdd', () => {
-    const onAdd = jest.spyOn(wrapper.vm, 'onAdd');
+    const onAdd = vi.spyOn(wrapper.vm, 'onAdd');
     wrapper.vm.label = 'label';
     wrapper.vm.content = 'content';
     wrapper.vm.date = '08/11/2022';

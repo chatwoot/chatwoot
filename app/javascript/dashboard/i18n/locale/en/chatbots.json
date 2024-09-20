@@ -1,7 +1,10 @@
 {
   "CHATBOTS": {
+    "NEW_CHATBOT": "Create new chatbot",
     "HEADER": "Chatbots",
-    "NEW_BOT": "New Chatbot",
+    "LOADING": "Fetching chatbots",
+    "DESCRIPTION": "Introducing your very own personal data-trained ai chatbot. With its specialized training, this bot is designed to respond exclusively based on the data it's been trained on - your own personal data. Connect it to your website widget, and watch as it provides personalized and accurate responses to your visitors' queries.",
+    "LEARN_MORE": "Learn more about chatbots",
     "CONNECT_INBOX": "Connect Inbox",
     "LAST_TRAINED_AT": "Last Trained At: ",
     "CHATBOT_ID": "Chatbot ID: ",
@@ -9,6 +12,7 @@
     "UPDATE": "Update",
     "CHATBOT_INBOX_CONNECT": "Connect Chatbot With Inbox",
     "SUPPORTED_FILE_TYPES": "Supported File Types: .pdf, .docx, .txt",
+    "PLACEHOLDER": "https://example.com",
     "ERROR": "Something went wrong. Please try again",
     "ENABLE_BOT": "Enable Chatbot",
     "DISABLE_BOT": "Disable Chatbot",
@@ -23,6 +27,7 @@
       "WEBSITE": "Website"
     },
     "EDIT": {
+      "TOOLTIP": "Edit chatbot",
       "API": {
         "SUCCESS_MESSAGE": "Chatbot settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update chatbot settings. Please try again later."
@@ -44,7 +49,6 @@
       },
       "SUBMIT_CREATE": "Create Chatbot"
     },
-    "SIDEBAR_TXT": "<p><b>AI Chatbots</b></p> <p>Introducing your very own personal data-trained ai chatbot!</p> <p>With its specialized training, this bot is designed to respond exclusively based on the data it's been trained on—your own personal data. Connect it to your website widget, and watch as it provides personalized and accurate responses to your visitors' queries.</p>",
     "LIST": {
       "TABLE_HEADER": ["Name", "Status", "Last trained at"],
       "404": "No chatbots found"
@@ -60,15 +64,15 @@
       "UPDATE": "Update"
     },
     "DELETE": {
-      "TOOLTIP": "Delete",
+      "TOOLTIP": "Delete chatbot",
       "CONFIRM": {
-        "MESSAGE": "Deleting the Chatbot will permanently delete this bot and the data on which it is trained.",
+        "MESSAGE": "Are you sure to delete ",
         "YES": "Yes, Delete",
         "NO": "No"
       },
       "API": {
         "SUCCESS_MESSAGE": "Chatbot deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the Chatbot. Please try again later"
+        "ERROR_MESSAGE": "There was an error deleting the chatbot. Please try again later"
       }
     },
     "CREATE_FLOW": {

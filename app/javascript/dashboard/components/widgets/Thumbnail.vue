@@ -1,40 +1,3 @@
-<template>
-  <div
-    :class="thumbnailBoxClass"
-    :style="{ height: size, width: size }"
-    :title="title"
-  >
-    <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
-    <slot>
-      <img
-        v-show="shouldShowImage"
-        :src="src"
-        draggable="false"
-        :class="thumbnailClass"
-        @load="onImgLoad"
-        @error="onImgError"
-      />
-      <Avatar
-        v-show="!shouldShowImage"
-        :username="userNameWithoutEmoji"
-        :class="thumbnailClass"
-        :size="avatarSize"
-      />
-    </slot>
-    <img
-      v-if="badgeSrc"
-      class="source-badge"
-      :style="badgeStyle"
-      :src="`/integrations/channels/badges/${badgeSrc}.png`"
-      alt="Badge"
-    />
-    <div
-      v-if="showStatusIndicator"
-      :class="`source-badge user-online-status user-online-status--${status}`"
-      :style="statusStyle"
-    />
-  </div>
-</template>
 <script>
 /**
  * Thumbnail Component
@@ -167,6 +130,44 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    :class="thumbnailBoxClass"
+    :style="{ height: size, width: size }"
+    :title="title"
+  >
+    <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
+    <slot>
+      <img
+        v-show="shouldShowImage"
+        :src="src"
+        draggable="false"
+        :class="thumbnailClass"
+        @load="onImgLoad"
+        @error="onImgError"
+      />
+      <Avatar
+        v-show="!shouldShowImage"
+        :username="userNameWithoutEmoji"
+        :class="thumbnailClass"
+        :size="avatarSize"
+      />
+    </slot>
+    <img
+      v-if="badgeSrc"
+      class="source-badge"
+      :style="badgeStyle"
+      :src="`/integrations/channels/badges/${badgeSrc}.png`"
+      alt="Badge"
+    />
+    <div
+      v-if="showStatusIndicator"
+      :class="`source-badge user-online-status user-online-status--${status}`"
+      :style="statusStyle"
+    />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .user-thumbnail-box {
