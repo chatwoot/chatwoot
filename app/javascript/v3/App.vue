@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full antialiased" :class="theme">
+  <div class="h-full min-h-screen w-full antialiased" :class="theme">
     <router-view />
     <SnackbarContainer />
   </div>
