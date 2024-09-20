@@ -38,6 +38,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        // [NOTE] when not in library mode, no new keys will be addedd or overwritten
+        // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
         ...(isLibraryMode
           ? {
               dir: 'public/packs',
