@@ -11,7 +11,7 @@ module AssignmentHandler
   private
 
   def ensure_assignee_is_from_contact_assignee
-    return unless new_record? && default_type? && inbox.channel_id == contact.initial_channel_id
+    return unless new_record? && !snoozed? && inbox.channel_id == contact.initial_channel_id
 
     set_agent
     set_team
@@ -30,7 +30,7 @@ module AssignmentHandler
   end
 
   def ensure_assignee_is_from_team
-    return unless team_id_changed?
+    return unless team_id_changed? && !snoozed?
 
     validate_current_assignee_team
     self.assignee ||= find_assignee_from_team
