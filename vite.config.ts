@@ -38,16 +38,18 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        ...(isLibraryMode ? { dir: 'public/packs' } : {}),
-        inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
-        entryFileNames: isLibraryMode
-          ? chunkInfo => {
-              if (chunkInfo.name === 'sdk') {
-                return 'js/sdk.js';
-              }
-              return '[name]-[hash].js';
+        ...(isLibraryMode
+          ? {
+              dir: 'public/packs',
+              entryFileNames: chunkInfo => {
+                if (chunkInfo.name === 'sdk') {
+                  return 'js/sdk.js';
+                }
+                return '[name].js';
+              },
             }
-          : undefined,
+          : {}),
+        inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
       },
     },
     lib: isLibraryMode
