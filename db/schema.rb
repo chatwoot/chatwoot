@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_19_075806) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_20_092503) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -459,6 +459,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_19_075806) do
     t.jsonb "custom_attributes", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "agent_id"
+    t.integer "team_id"
     t.index ["account_id"], name: "index_contact_transactions_on_account_id"
     t.index ["contact_id"], name: "index_contact_transactions_on_contact_id"
     t.index ["product_id"], name: "index_contact_transactions_on_product_id"
@@ -492,6 +494,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_19_075806) do
     t.datetime "po_date"
     t.float "po_value"
     t.string "po_note"
+    t.integer "po_agent_id"
+    t.integer "po_team_id"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -560,6 +564,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_19_075806) do
     t.integer "assignee_unread_count", default: 0, null: false
     t.integer "agent_unread_count", default: 0, null: false
     t.integer "requesting_assignee_id"
+    t.integer "conversation_type"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"

@@ -10,8 +10,10 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
+#  agent_id          :integer
 #  contact_id        :bigint           not null
 #  product_id        :bigint           not null
+#  team_id           :integer
 #
 # Indexes
 #
@@ -23,4 +25,6 @@ class ContactTransaction < ApplicationRecord
   belongs_to :account
   belongs_to :contact
   belongs_to :product
+  belongs_to :team, optional: true
+  belongs_to :agent, class_name: 'User', optional: true
 end

@@ -6,7 +6,10 @@
         <label>
           {{ $t('CONTACT_PO.FORM.PRODUCT') }}
         </label>
-        <div class="multiselect-wrap--small">
+        <div
+          class="multiselect-wrap--small"
+          :class="{ 'has-multi-select-error': $v.product.$error }"
+        >
           <multiselect
             v-model="product"
             track-by="id"
@@ -24,6 +27,12 @@
             </template>
           </multiselect>
         </div>
+
+        <label :class="{ error: $v.product.$error }">
+          <span v-if="$v.product.$error" class="message">
+            {{ $t('CONTACT_PO.FORM.ERROR') }}
+          </span>
+        </label>
       </div>
       <div class="w-[50%]">
         <label>
@@ -45,6 +54,12 @@
             @input="inputChanged"
           />
         </div>
+
+        <label :class="{ error: $v.poDate.$error }">
+          <span v-if="$v.poDate.$error" class="message">
+            {{ $t('CONTACT_PO.FORM.ERROR') }}
+          </span>
+        </label>
       </div>
       <div class="w-[50%]">
         <label>
@@ -53,40 +68,90 @@
         </label>
       </div>
     </div>
-    <div
-      v-if="branchAttribute || expectedTimeAttribute"
-      class="gap-2 flex flex-row"
-    >
-      <div v-if="branchAttribute" class="w-[50%]">
+
+    <div class="gap-2 flex flex-row">
+      <div class="w-[50%]">
         <label>
-          {{ branchAttribute.attribute_display_name }}
+          {{ $t('CONTACT_PO.FORM.PO_AGENT') }}
+        </label>
+        <div
+          class="multiselect-wrap--small"
+          :class="{ 'has-multi-select-error': $v.poAgent.$error }"
+        >
+          <multiselect
+            v-model="poAgent"
+            placeholder=""
+            label="name"
+            track-by="id"
+            :options="agents"
+            :max-height="160"
+            :close-on-select="true"
+            :show-labels="false"
+            @input="inputChanged"
+          />
+        </div>
+
+        <label :class="{ error: $v.poAgent.$error }">
+          <span v-if="$v.poAgent.$error" class="message">
+            {{ $t('CONTACT_PO.FORM.ERROR') }}
+          </span>
+        </label>
+      </div>
+
+      <div class="w-[50%]">
+        <label>
+          {{ $t('CONTACT_PO.FORM.PO_TEAM') }}
         </label>
         <div class="multiselect-wrap--small">
           <multiselect
-            v-model="branch"
-            track-by="id"
-            label="name"
+            v-model="poTeam"
             placeholder=""
+            label="name"
+            track-by="id"
+            :options="teams"
             :max-height="160"
             :close-on-select="true"
-            :options="branches"
+            :show-labels="false"
             @input="inputChanged"
           />
         </div>
       </div>
-      <div v-if="expectedTimeAttribute" class="w-[50%]">
+    </div>
+
+    <div class="gap-2 flex flex-row">
+      <div class="w-[50%]">
         <label>
-          {{ expectedTimeAttribute.attribute_display_name }}
+          {{ $t('CONTACT_PO.FORM.ASSIGNEE') }}
         </label>
         <div class="multiselect-wrap--small">
           <multiselect
-            v-model="expectedTime"
-            track-by="id"
-            label="name"
+            v-model="assignee"
             placeholder=""
+            label="name"
+            track-by="id"
+            :options="agents"
             :max-height="160"
             :close-on-select="true"
-            :options="expectedTimes"
+            :show-labels="false"
+            @input="inputChanged"
+          />
+        </div>
+      </div>
+
+      <div class="w-[50%]">
+        <label>
+          {{ $t('CONTACT_PO.FORM.TEAM') }}
+        </label>
+        <div class="multiselect-wrap--small">
+          <multiselect
+            v-model="team"
+            placeholder=""
+            label="name"
+            track-by="id"
+            :options="teams"
+            :max-height="160"
+            :close-on-select="true"
+            :show-labels="false"
             @input="inputChanged"
           />
         </div>
@@ -98,12 +163,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import DatePicker from 'vue2-datepicker';
-import { parseISO } from 'date-fns';
+import alertMixin from 'shared/mixins/alertMixin';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   components: {
     DatePicker,
   },
+  mixins: [alertMixin],
   props: {
     currentContact: {
       type: Object,
@@ -116,57 +183,43 @@ export default {
       poValue: null,
       poDate: null,
       poNote: '',
-      branch: null,
-      expectedTime: null,
+      poAgent: null,
+      poTeam: null,
+      assignee: null,
+      team: null,
     };
+  },
+  validations: {
+    product: {
+      required,
+    },
+    poDate: {
+      required,
+    },
+    poAgent: {
+      required,
+    },
   },
   computed: {
     ...mapGetters({
       products: 'products/getProducts',
+      agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
     }),
-    branchAttribute() {
-      return this.$store.getters['attributes/getAttributeByKey']('branch');
-    },
-    branches() {
-      if (!this.branchAttribute) return null;
-      return this.branchAttribute.attribute_values.map((value, index) => ({
-        id: index + 1,
-        name: value,
-      }));
-    },
-    expectedTimeAttribute() {
-      return this.$store.getters['attributes/getAttributeByKey'](
-        'expected_time'
-      );
-    },
-    expectedTimes() {
-      if (!this.expectedTimeAttribute) return null;
-      return this.expectedTimeAttribute.attribute_values.map(
-        (value, index) => ({
-          id: index + 1,
-          name: value,
-        })
-      );
-    },
   },
   mounted() {
     this.$store.dispatch('products/get');
+    this.$store.dispatch('agents/get');
+    this.$store.dispatch('teams/get');
     this.setDataObject();
   },
   methods: {
     setDataObject() {
-      this.product = this.currentContact.product;
-      this.poDate = this.currentContact.po_date
-        ? parseISO(this.currentContact.po_date)
-        : '';
-      this.poValue = this.currentContact.po_value;
-      this.poNote = this.currentContact.po_note;
-      this.branch = this.branches.find(
-        x => x.name === this.currentContact.custom_attributes?.branch
-      );
-      this.expectedTime = this.expectedTimes.find(
-        x => x.name === this.currentContact.custom_attributes?.expected_time
-      );
+      this.poDate = new Date();
+      this.poAgent = this.currentContact.assignee;
+      this.poTeam = this.currentContact.team;
+      this.assignee = this.currentContact.assignee;
+      this.team = this.currentContact.team;
     },
     getDataObject() {
       const contact = {
@@ -175,22 +228,11 @@ export default {
         po_value: this.poValue || null,
         po_date: this.poDate || null,
         po_note: this.poNote || null,
+        po_agent_id: this.poAgent?.id || null,
+        po_team_id: this.poTeam?.id || null,
+        assignee_id: this.assignee?.id || null,
+        team_id: this.team?.id || null,
       };
-
-      let customAttributes = this.currentContact.custom_attributes;
-      if (this.branch) {
-        customAttributes = {
-          ...customAttributes,
-          branch: this.branch.name,
-        };
-      }
-      if (this.expectedTime) {
-        customAttributes = {
-          ...customAttributes,
-          expected_time: this.expectedTime.name,
-        };
-      }
-      contact.custom_attributes = customAttributes;
 
       return contact;
     },

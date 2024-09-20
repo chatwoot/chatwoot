@@ -75,21 +75,26 @@
     },
     "CONTACT_PO": {
         "HEADER": {
-            "TITLE": "Cập nhật thông tin mua hàng - %{name}",
-            "CONTENT": "Chúc mừng bạn đã chốt deal thành công, hãy kiểm tra và cập nhật thông tin mua hàng/sử dụng dịch vụ của khách hàng tại đây."
+            "TITLE": "Cập nhật thông tin bán hàng - %{name}",
+            "CONTENT": "Chúc mừng bạn đã chốt deal thành công, hãy kiểm tra và cập nhật thông tin bán hàng/sử dụng dịch vụ của khách hàng tại đây. Bạn cũng có thể xem lại thông tin nhân viên kinh doanh và cập nhật thông tin phụ trách mới nếu cần."
         },
         "FORM": {
             "PRODUCT" : "Sản phẩm dịch vụ",
             "PO_VALUE": "Giá trị mua hàng",
             "PO_DATE": "Ngày mua hàng",
-            "PO_NOTE": "Ghi chú"
+            "PO_NOTE": "Ghi chú",
+            "PO_AGENT": "Nhân viên kinh doanh",
+            "PO_TEAM": "Nhóm kinh doanh",
+            "ASSIGNEE": "Người phụ trách",
+            "TEAM": "Nhóm phụ trách",
+            "ERROR": "Thông tin bắt buộc nhập"
         },
         "BUTTON": {
             "CANCEL": "Hủy",
             "SUBMIT": "Lưu"
         },
         "MESSAGE": {
-            "SUCCESS": "Đã cập nhật thông tin thành công",
+            "SUCCESS": "Đã cập nhật thông tin bán hàng thành công",
             "ERROR": "Cập nhật thông tin thất bại, vui lòng thử lại sau"
         }
     }

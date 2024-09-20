@@ -10,6 +10,7 @@
       />
       <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
         <contact-po-form
+          ref="contactPoForm"
           :current-contact="currentContact"
           @contact-data-changed="onContactChanged"
         />
@@ -29,7 +30,6 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import ContactPoForm from './ContactPoForm.vue';
-import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 
 export default {
   components: {
@@ -67,18 +67,23 @@ export default {
       this.contactItem = contactItem;
     },
     onFormSubmit() {
-      try {
-        this.$store.dispatch('contacts/update', this.contactItem).then(() => {
+      this.$refs.contactPoForm.$v.$touch();
+      if (this.$refs.contactPoForm.$v.$invalid) {
+        return;
+      }
+      this.$store
+        .dispatch('contacts/update', this.contactItem)
+        .then(() => {
           this.showAlert(this.$t('CONTACT_PO.MESSAGE.SUCCESS'));
           this.onSuccess();
+        })
+        .catch(error => {
+          if (error.message) {
+            this.showAlert(error.message);
+          } else {
+            this.showAlert(this.$t('CONTACT_PO.MESSAGE.ERROR'));
+          }
         });
-      } catch (error) {
-        if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
-        } else {
-          this.showAlert(this.$t('CONTACT_PO.MESSAGE.ERROR'));
-        }
-      }
     },
   },
 };

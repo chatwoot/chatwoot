@@ -46,8 +46,20 @@ module AssignmentConcern
   end
 
   def change_assignee_permission?
-    return true if Current.account.no_restriction? || Current.user.administrator?
+    Current.account.no_restriction? || Current.user.administrator? || add_product?
+  end
 
-    false
+  def add_product?
+    contact_update_params[:product_id].present? && contact_update_params[:product_id] != @contact.product_id
+  end
+
+  def change_product_agent?
+    return false unless contact_update_params[:po_agent_id].present? || contact_update_params[:po_team_id].present?
+
+    @contact.assignee_id != contact_update_params[:po_agent_id] || @contact.team_id != contact_update_params[:po_team_id]
+  end
+
+  def change_product_agent_permission?
+    Current.account.no_restriction? || Current.user.administrator?
   end
 end

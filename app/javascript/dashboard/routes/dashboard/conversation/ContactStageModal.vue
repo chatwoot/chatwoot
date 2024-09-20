@@ -52,7 +52,8 @@
         </div>
       </div>
       <contact-po-form
-        v-if="newStage && newStage.code == 'Won'"
+        v-show="newStage && newStage.code == 'Won'"
+        ref="contactPoForm"
         :current-contact="currentContact"
         @contact-data-changed="onContactChanged"
       />
@@ -119,20 +120,40 @@ export default {
       if (this.currentContact.stage.id === this.newStage.id) {
         return;
       }
+      const changed_to_won = this.newStage.code === 'Won';
+      if (changed_to_won) {
+        this.$refs.contactPoForm.$v.$touch();
+        if (this.$refs.contactPoForm.$v.$invalid) {
+          return;
+        }
+      }
       let contactItem = {
         id: this.currentContact.id,
         stage_id: this.newStage.id,
       };
-      if (this.newStage.code === 'Won') {
+      if (changed_to_won) {
         contactItem = {
           ...contactItem,
           ...this.contactItem,
         };
       }
-      this.$store.dispatch('contacts/update', contactItem).then(() => {
-        this.showAlert(this.$t('CONVERSATION.CONTACT_STAGE.CHANGE_STAGE'));
-        this.onClose();
-      });
+      this.$store
+        .dispatch('contacts/update', contactItem)
+        .then(() => {
+          if (changed_to_won) {
+            this.showAlert(this.$t('CONTACT_PO.MESSAGE.SUCCESS'));
+          } else {
+            this.showAlert(this.$t('CONVERSATION.CONTACT_STAGE.CHANGE_STAGE'));
+          }
+          this.onClose();
+        })
+        .catch(error => {
+          if (error.message) {
+            this.showAlert(error.message);
+          } else {
+            this.showAlert(this.$t('CONTACT_PO.MESSAGE.ERROR'));
+          }
+        });
     },
     onClose() {
       this.$emit('close');

@@ -105,6 +105,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def update
     return render_error({ message: I18n.t('errors.assignment.permission') }, :forbidden) if change_assignee? && !change_assignee_permission?
 
+    if change_product_agent? && !change_product_agent_permission?
+      return render_error({ message: I18n.t('errors.assignment.product_permission') },
+                          :forbidden)
+    end
+
     @contact.assign_attributes(contact_update_params)
     @contact.save!
     process_avatar_from_url
@@ -174,8 +179,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id, :product_id,
-                  :po_date, :po_note, :po_value, :team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id, :team_id, :product_id, :po_date,
+                  :po_note, :po_value, :po_agent_id, :po_team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
