@@ -87,6 +87,7 @@
             :max-height="160"
             :close-on-select="true"
             :show-labels="false"
+            @input="inputChanged"
           />
         </div>
 
@@ -111,6 +112,7 @@
             :max-height="160"
             :close-on-select="true"
             :show-labels="false"
+            @input="inputChanged"
           />
         </div>
       </div>
@@ -131,6 +133,7 @@
             :max-height="160"
             :close-on-select="true"
             :show-labels="false"
+            @input="inputChanged"
           />
         </div>
       </div>
@@ -149,6 +152,7 @@
             :max-height="160"
             :close-on-select="true"
             :show-labels="false"
+            @input="inputChanged"
           />
         </div>
       </div>

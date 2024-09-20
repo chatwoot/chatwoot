@@ -30,7 +30,6 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import ContactPoForm from './ContactPoForm.vue';
-import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 
 export default {
   components: {
@@ -72,18 +71,19 @@ export default {
       if (this.$refs.contactPoForm.$v.$invalid) {
         return;
       }
-      try {
-        this.$store.dispatch('contacts/update', this.contactItem).then(() => {
+      this.$store
+        .dispatch('contacts/update', this.contactItem)
+        .then(() => {
           this.showAlert(this.$t('CONTACT_PO.MESSAGE.SUCCESS'));
           this.onSuccess();
+        })
+        .catch(error => {
+          if (error.message) {
+            this.showAlert(error.message);
+          } else {
+            this.showAlert(this.$t('CONTACT_PO.MESSAGE.ERROR'));
+          }
         });
-      } catch (error) {
-        if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
-        } else {
-          this.showAlert(this.$t('CONTACT_PO.MESSAGE.ERROR'));
-        }
-      }
     },
   },
 };

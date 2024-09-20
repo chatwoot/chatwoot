@@ -68,6 +68,7 @@ vi:
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
     assignment:
       permission: Bạn không có quyền thay đổi thông tin phụ trách
+      product_permission: Bạn không có quyền thay đổi thông tin nhân viên kinh doanh
       change_requested: Yêu cầu thay đổi người phụ trách đã được gửi đi. Bạn sẽ nhận được thông báo từ hội thoại khi yêu cầu được chấp nhận.
       change_request_note: Bạn vừa nhận được một yêu cầu thay đổi người phụ trách
   reports:

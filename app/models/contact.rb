@@ -29,6 +29,8 @@
 #  account_id             :integer          not null
 #  assignee_id            :integer
 #  initial_channel_id     :integer
+#  po_agent_id            :integer
+#  po_team_id             :integer
 #  product_id             :integer
 #  stage_id               :integer
 #  team_id                :integer
@@ -66,6 +68,8 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :product, optional: true
   belongs_to :team, optional: true
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_contacts
+  belongs_to :po_team, class_name: 'Team', optional: true
+  belongs_to :po_agent, class_name: 'User', optional: true
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -80,7 +84,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
   after_save :stage_changed_action, if: :saved_change_to_stage_id?
-  after_save :po_changed_action, if: :saved_change_to_po_info?
+  after_save :po_changed_action, if: :saved_change_to_product_id?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -336,30 +340,17 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
     update_column(:last_stage_changed_at, DateTime.now.utc) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def saved_change_to_po_info?
-    saved_change_to_product_id? ||
-      saved_change_to_po_date? ||
-      saved_change_to_po_value? ||
-      saved_change_to_po_note? ||
-      saved_change_to_custom_attributes
-  end
-
   def po_changed_action
-    return if product_id.blank? || po_date.blank?
+    return if product_id.blank?
 
-    transaction = contact_transactions.find_or_create_by(account_id: account_id, product_id: product_id, po_date: po_date)
-
-    transaction.update(
+    contact_transactions.create(
+      account_id: account_id,
+      product_id: product_id,
+      po_date: po_date,
       po_value: po_value,
       po_note: po_note,
-      custom_attributes: transaction_custom_attributes
+      agent_id: po_agent_id,
+      team_id: po_team_id
     )
-  end
-
-  def transaction_custom_attributes
-    transaction_ca = {}
-    transaction_ca[:branch] = custom_attributes['branch'] if custom_attributes['branch'].present?
-    transaction_ca[:expected_time] = custom_attributes['expected_time'] if custom_attributes['expected_time'].present?
-    transaction_ca
   end
 end
