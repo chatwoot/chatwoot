@@ -65,7 +65,6 @@ gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
 gem 'vite_rails'
-gem 'webpacker'
 # metrics on heroku
 gem 'barnes'
 

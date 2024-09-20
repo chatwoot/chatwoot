@@ -15,6 +15,16 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: false,
+      },
+      input: {
+        sdk: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
+      },
+    },
+  },
   resolve: {
     alias: {
       components: path.resolve('./app/javascript/dashboard/components'),
