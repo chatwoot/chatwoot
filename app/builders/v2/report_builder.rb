@@ -98,16 +98,17 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def agent_planned
-    conversations = @account.conversations.joins(:conversation_plans).distinct
-                            .where(assignee_id: params[:user_id])
-    planned = conversations.count
-    open = conversations.open.count
-    resolved = conversations.resolved.count
+    base_relation = @account.conversation_plans
+    planned = base_relation.incomplete.joins(:conversation).where(conversations: { status: :snoozed, assignee_id: params[:user_id] }).count
+    open = base_relation.incomplete.joins(:conversation).where(conversations: { status: :open, assignee_id: params[:user_id] }).count
+    resolved = base_relation.completed.joins(:conversation).where(conversations: { assignee_id: params[:user_id] }).count
+    open_resolved_sum = open + resolved
+
     {
       planned: planned,
       open: open,
       resolved: resolved,
-      ratio: open.zero? ? 0 : (resolved.to_f / open * 100).round(0)
+      ratio: open_resolved_sum.zero? ? 0 : (resolved / open_resolved_sum * 100).round(0)
     }
   end
 

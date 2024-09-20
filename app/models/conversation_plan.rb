@@ -34,8 +34,9 @@ class ConversationPlan < ApplicationRecord
   belongs_to :conversation
   belongs_to :created_by, class_name: 'User'
 
-  scope :active, -> { where.not(completed_at: nil).order(created_at: :desc) }
+  scope :completed, -> { where.not(completed_at: nil) }
   scope :latest, -> { order(created_at: :desc) }
+  scope :incomplete, -> { where(completed_at: nil) }
 
   private
 
