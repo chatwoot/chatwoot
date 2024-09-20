@@ -38,7 +38,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        dir: isLibraryMode ? 'public/packs' : 'public/vite',
+        dir: 'public/packs',
         inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
         entryFileNames: isLibraryMode
           ? chunkInfo => {
