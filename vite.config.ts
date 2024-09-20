@@ -38,7 +38,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        dir: 'public/packs',
+        dir: isLibraryMode ? 'public/packs' : undefined,
         inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
         entryFileNames: isLibraryMode
           ? chunkInfo => {
