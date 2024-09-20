@@ -17,10 +17,10 @@
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
     },
     "SEARCH": {
-      "TITLE": "Search messages",
+      "TITLE": "Prehľadávať správy",
       "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
+      "PLACEHOLDER": "Napíšte niečo pre vyhľadanie správ",
       "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Unread Messages",
