@@ -3,6 +3,19 @@ import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import { useDarkMode } from 'widget/composables/useDarkMode';
+import { getPhoneCodeByTimezone } from 'timezone-phone-codes';
+import ct from 'countries-and-timezones';
+
+const getActiveDialCode = () => {
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return getPhoneCodeByTimezone(browserTimezone) || '';
+};
+
+const getActiveCountryCode = () => {
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const country = ct.getCountryForTimezone(browserTimezone) || {};
+  return country.id || '';
+};
 
 export default {
   components: {
@@ -28,8 +41,8 @@ export default {
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
-      activeCountryCode: '',
-      activeDialCode: '',
+      activeCountryCode: getActiveCountryCode(),
+      activeDialCode: getActiveDialCode(),
       phoneNumber: '',
     };
   },
@@ -322,6 +335,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
+
 .phone-input--wrap {
   .phone-input {
     height: 2.8rem;
