@@ -233,8 +233,8 @@ export default {
     this.$store.dispatch('agents/get');
     this.$store.dispatch('contacts/show', { id: this.contact.id }).then(() => {
       this.setContactObject();
+      this.setDialCode();
     });
-    this.setDialCode();
   },
   methods: {
     onCancel() {
