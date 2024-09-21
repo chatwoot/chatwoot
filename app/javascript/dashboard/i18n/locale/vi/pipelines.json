@@ -80,13 +80,13 @@
         },
         "FORM": {
             "PRODUCT" : "Sản phẩm dịch vụ",
-            "PO_VALUE": "Giá trị mua hàng",
-            "PO_DATE": "Ngày mua hàng",
+            "PO_VALUE": "Giá tiền",
+            "PO_DATE": "Ngày bán",
             "PO_NOTE": "Ghi chú",
             "PO_AGENT": "Nhân viên kinh doanh",
             "PO_TEAM": "Nhóm kinh doanh",
-            "ASSIGNEE": "Người phụ trách",
-            "TEAM": "Nhóm phụ trách",
+            "ASSIGNEE": "Người phụ trách tiếp theo",
+            "TEAM": "Nhóm phụ trách tiếp theo",
             "ERROR": "Thông tin bắt buộc nhập"
         },
         "BUTTON": {

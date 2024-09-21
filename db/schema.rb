@@ -564,7 +564,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_20_092503) do
     t.integer "assignee_unread_count", default: 0, null: false
     t.integer "agent_unread_count", default: 0, null: false
     t.integer "requesting_assignee_id"
-    t.integer "conversation_type"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"

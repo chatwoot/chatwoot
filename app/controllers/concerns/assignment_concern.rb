@@ -60,6 +60,6 @@ module AssignmentConcern
   end
 
   def change_product_agent_permission?
-    Current.account.no_restriction? || Current.user.administrator?
+    Current.account.no_restriction? || Current.user.administrator? || @contact.assignee_id.blank?
   end
 end

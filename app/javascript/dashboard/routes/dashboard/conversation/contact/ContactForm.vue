@@ -231,7 +231,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch('agents/get');
-    this.setContactObject();
+    this.$store.dispatch('contacts/show', { id: this.contact.id }).then(() => {
+      this.setContactObject();
+    });
     this.setDialCode();
   },
   methods: {
