@@ -19,7 +19,7 @@ class Conversations::ConversationPlanBuilder
     {
       conversation_id: @conversation.id,
       account_id: @conversation.account_id,
-      created_by_id: @user.id,
+      created_by_id: @user&.id,
       contact_id: @conversation.contact_id,
       description: @params[:description],
       snoozed_until: @conversation.snoozed_until

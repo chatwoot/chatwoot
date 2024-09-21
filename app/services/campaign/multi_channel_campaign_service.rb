@@ -10,7 +10,11 @@ class Campaign::MultiChannelCampaignService
     return unless check_zns_campaign?
 
     audiences = audience_from_filters
-    audiences = audiences.merge(audience_from_labels) unless audience_from_labels.empty?
+    if audiences.empty?
+      audiences = audience_from_labels
+    else
+      audiences = audiences.merge(audience_from_labels) unless audience_from_labels.empty?
+    end
     process_campaign(audiences)
   end
 
@@ -58,6 +62,7 @@ class Campaign::MultiChannelCampaignService
 
   def process_channel(contact)
     contactable_inboxes = Contacts::ContactableInboxesService.new(contact: contact).get
+    return if contactable_inboxes.empty?
 
     campaign.inboxes.pluck('id').each do |inbox_id|
       contactable_inbox = contactable_inboxes.detect { |item| item[:inbox].id == inbox_id }
@@ -111,28 +116,23 @@ class Campaign::MultiChannelCampaignService
         params: conversation_params(contact),
         contact_inbox: contact_inbox
       ).perform
+      if campaign.planned
+        Conversations::ConversationPlanBuilder.new(nil, conversation,
+                                                   { description: campaign.private_note }).perform
+      end
       Messages::MessageBuilder.new(campaign.sender, conversation, message_params).perform
+
+      campaign.update_column(:sent_count, campaign.sent_count + 1) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 
   def conversation_params(contact)
-    additional_attributes = if campaign.planned
-                              {
-                                created_by: campaign.id,
-                                description: campaign.private_note
-                              }
-                            else
-                              {}
-                            end
-
     {
-      # TODO: KongNC
       status: campaign.planned ? :snoozed : :open,
       snoozed_until: campaign.planned ? Time.zone.today + 1 : nil,
       campaign_id: campaign.id,
       assignee_id: contact[:assignee_id],
-      team_id: contact[:team_id],
-      additional_attributes: ActionController::Parameters.new(additional_attributes).permit!
+      team_id: contact[:team_id]
     }
   end
 

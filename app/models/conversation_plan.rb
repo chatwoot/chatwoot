@@ -11,7 +11,7 @@
 #  account_id      :bigint           not null
 #  contact_id      :bigint
 #  conversation_id :bigint           not null
-#  created_by_id   :bigint           not null
+#  created_by_id   :bigint
 #
 # Indexes
 #
@@ -26,13 +26,12 @@ class ConversationPlan < ApplicationRecord
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :conversation_id, presence: true
-  validates :created_by_id, presence: true
   validates :description, presence: true
 
   belongs_to :account
   belongs_to :contact
   belongs_to :conversation
-  belongs_to :created_by, class_name: 'User'
+  belongs_to :created_by, class_name: 'User', optional: true
 
   scope :completed, -> { where.not(completed_at: nil) }
   scope :latest, -> { order(created_at: :desc) }
