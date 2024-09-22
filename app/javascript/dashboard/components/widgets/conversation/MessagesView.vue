@@ -175,6 +175,7 @@ export default {
       isPopoutReplyBox: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
+      oldestFetchedMessageId: null,
     };
   },
 
@@ -414,11 +415,17 @@ export default {
         this.showAlert(this.alertMessage);
         return;
       }
-      this.currentChat.dataFetched = undefined;
-      await this.$store.dispatch('setActiveChat', {
-        data: this.currentChat,
-        after: messageId,
-      });
+      if (
+        !this.oldestFetchedMessageId ||
+        this.oldestFetchedMessageId > messageId
+      ) {
+        this.currentChat.dataFetched = undefined;
+        await this.$store.dispatch('setActiveChat', {
+          data: this.currentChat,
+          after: messageId,
+        });
+        this.oldestFetchedMessageId = messageId;
+      }
       // once the messages are fetched, we need to scroll to that message
       // but we need to wait for the DOM to be updated
       // so we use the nextTick method
