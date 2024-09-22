@@ -175,7 +175,6 @@ export default {
       isPopoutReplyBox: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
-      oldestFetchedMessageId: null,
     };
   },
 
@@ -409,35 +408,6 @@ export default {
     removeBusListeners() {
       bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
-    async fetchThenScrollToMessage({ messageId = '' } = {}) {
-      this.alertMessage = this.$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND');
-      if (!messageId) {
-        this.showAlert(this.alertMessage);
-        return;
-      }
-      if (
-        !this.oldestFetchedMessageId ||
-        this.oldestFetchedMessageId > messageId
-      ) {
-        this.currentChat.dataFetched = undefined;
-        await this.$store.dispatch('setActiveChat', {
-          data: this.currentChat,
-          after: messageId,
-        });
-        this.oldestFetchedMessageId = messageId;
-      }
-      // once the messages are fetched, we need to scroll to that message
-      // but we need to wait for the DOM to be updated
-      // so we use the nextTick method
-      this.$nextTick(() => {
-        const messageElement = document.getElementById(`message${messageId}`);
-        if (messageElement) {
-          messageElement.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          this.showAlert(this.alertMessage);
-        }
-      });
-    },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
@@ -573,6 +543,32 @@ export default {
           return true;
         }
         return false;
+      });
+    },
+
+    async fetchThenScrollToMessage({ messageId = '' } = {}) {
+      this.alertMessage = this.$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND');
+      if (!messageId) {
+        this.showAlert(this.alertMessage);
+        return;
+      }
+      if (this.getMessages[0].id > messageId) {
+        this.currentChat.dataFetched = undefined;
+        await this.$store.dispatch('setActiveChat', {
+          data: this.currentChat,
+          after: messageId,
+        });
+      }
+      // once the messages are fetched, we need to scroll to that message
+      // but we need to wait for the DOM to be updated
+      // so we use the nextTick method
+      this.$nextTick(() => {
+        const messageElement = document.getElementById(`message${messageId}`);
+        if (messageElement) {
+          messageElement.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          this.showAlert(this.alertMessage);
+        }
       });
     },
   },
