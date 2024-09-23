@@ -132,7 +132,7 @@ export default {
       <woot-switch
         size="small"
         class="mx-1 mt-px mb-0"
-        :value="currentUserAutoOffline"
+        :model-value="currentUserAutoOffline"
         @input="updateAutoOffline"
       />
     </WootDropdownItem>

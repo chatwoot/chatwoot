@@ -33,7 +33,7 @@ const toggle = () => {
     <td class="py-4 ltr:pr-4 rtl:pl-4 min-w-[200px]">{{ automation.name }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">{{ automation.description }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
-      <woot-switch :value="automation.active" @input="toggle" />
+      <woot-switch :model-value="automation.active" @input="toggle" />
     </td>
     <td
       class="py-4 ltr:pr-4 rtl:pl-4 min-w-[12px]"

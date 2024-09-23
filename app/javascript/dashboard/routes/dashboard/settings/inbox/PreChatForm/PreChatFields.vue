@@ -45,7 +45,7 @@ export default {
         <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
         <td class="pre-chat-field">
           <woot-switch
-            :value="item['enabled']"
+            :model-value="item['enabled']"
             @input="handlePreChatFieldOptions($event, 'enabled', item)"
           />
         </td>
