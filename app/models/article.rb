@@ -143,6 +143,16 @@ class Article < ApplicationRecord
     update_article_position_in_category
   end
 
+  def add_locale_to_article
+    return if article.locale.present?
+
+    self.locale = if category.present?
+                    category.locale
+                  else
+                    portal.default_locale
+                  end
+  end
+
   def add_position_to_article
     # on creation if a position is already present, ignore it
     return if position.present?
