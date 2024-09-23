@@ -1,12 +1,10 @@
 <template>
   <div
-    class="px-2 py-1.5 rounded-sm min-w-[10rem] mb-2"
+    class="block px-2 py-1.5 rounded-sm min-w-[10rem] mb-2 bg-woot-50 text-woot-300 text-xs hover:cursor-pointer"
     :class="{
-      'bg-slate-50 dark:bg-slate-600 dark:text-slate-50':
-        messageType === MESSAGE_TYPE.INCOMING,
-      'bg-woot-600 text-woot-50': messageType === MESSAGE_TYPE.OUTGOING,
       '-mx-2': !parentHasAttachments,
     }"
+    @click="$emit('scroll-to')"
   >
     <message-preview
       :message="message"

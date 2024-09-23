@@ -31,6 +31,9 @@
           :message="inReplyTo"
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
+          @scroll-to="
+            $emit('scroll-to-message', { messageId: inReplyToMessageId })
+          "
         />
         <div v-if="isUnsupported">
           <template v-if="isAFacebookInbox && isInstagram">

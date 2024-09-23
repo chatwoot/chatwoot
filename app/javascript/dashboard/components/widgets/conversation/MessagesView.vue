@@ -42,6 +42,7 @@
         :is-instagram="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
+        @scroll-to-message="fetchThenScrollToMessage"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -67,6 +68,7 @@
         :is-instagram-dm="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
+        @scroll-to-message="fetchThenScrollToMessage"
       />
       <conversation-label-suggestion
         v-if="shouldShowLabelSuggestions"
@@ -121,6 +123,7 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
@@ -149,6 +152,7 @@ export default {
     configMixin,
     aiMixin,
     errorCaptureMixin,
+    alertMixin,
   ],
   props: {
     isContactPanelOpen: {
@@ -539,6 +543,32 @@ export default {
           return true;
         }
         return false;
+      });
+    },
+
+    async fetchThenScrollToMessage({ messageId = '' } = {}) {
+      this.alertMessage = this.$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND');
+      if (!messageId) {
+        this.showAlert(this.alertMessage);
+        return;
+      }
+      if (this.getMessages[0].id > messageId) {
+        this.currentChat.dataFetched = undefined;
+        await this.$store.dispatch('setActiveChat', {
+          data: this.currentChat,
+          after: messageId,
+        });
+      }
+      // once the messages are fetched, we need to scroll to that message
+      // but we need to wait for the DOM to be updated
+      // so we use the nextTick method
+      this.$nextTick(() => {
+        const messageElement = document.getElementById(`message${messageId}`);
+        if (messageElement) {
+          messageElement.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          this.showAlert(this.alertMessage);
+        }
       });
     },
   },
