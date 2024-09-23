@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['upgrade']);
 const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
 </script>
 
@@ -24,7 +24,7 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
       :i18n-key="i18nKey"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
       :is-super-admin="isSuperAdmin"
-      @click="emit('click')"
+      @upgrade="emit('upgrade')"
     />
   </BaseEmptyState>
 </template>

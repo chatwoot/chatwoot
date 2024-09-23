@@ -127,7 +127,7 @@ export default {
         v-if="isBehindAPaywall"
         :is-super-admin="isSuperAdmin"
         :is-on-chatwoot-cloud="isOnChatwootCloud"
-        @click="onClickCTA"
+        @upgrade="onClickCTA"
       />
       <SLAEmptyState
         v-else-if="!records.length"

@@ -55,7 +55,7 @@ const emit = defineEmits(['click']);
         class="w-full mt-2 text-center rounded-xl"
         size="expanded"
         is-expanded
-        @click="emit('click')"
+        @click="emit('upgrade')"
       >
         {{ $t(`${featurePrefix}.PAYWALL.UPGRADE_NOW`) }}
       </woot-button>

@@ -89,7 +89,7 @@ const goToBillingSettings = () => {
         :i18n-key="i18nKey"
         :is-on-chatwoot-cloud="isOnChatwootCloud"
         :is-super-admin="isSuperAdmin"
-        @click="goToBillingSettings"
+        @upgrade="goToBillingSettings"
       />
     </div>
   </div>
