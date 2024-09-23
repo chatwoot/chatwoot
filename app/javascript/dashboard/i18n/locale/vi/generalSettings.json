@@ -1,12 +1,12 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Cài đặt tài khoản",
+    "TITLE": "Các cài đặt ở mức tổ chức",
     "SUBMIT": "Cập nhật cài đặt",
     "BACK": "Trờ về",
     "DISMISS": "Bỏ qua",
     "UPDATE": {
       "ERROR": "Không thể cập nhật cài đặt, hãy thử lại!",
-      "SUCCESS": "Đã cập nhật thành công cài đặt tài khoản"
+      "SUCCESS": "Đã cập nhật thành công cài đặt tổ chức"
     },
     "FORM": {
       "ERROR": "Vui lòng sửa lỗi biểu mẫu",
@@ -19,13 +19,13 @@
         "NOTE": "ID này là bắt buộc nếu bạn đang xây dựng tích hợp dựa trên API"
       },
       "NAME": {
-        "LABEL": "Tên tài khoản",
-        "PLACEHOLDER": "Tên tài khoản của bạn",
-        "ERROR": "Vui lòng nhập tên tài khoản hợp lệ"
+        "LABEL": "Tên tổ chức",
+        "PLACEHOLDER": "Tên tổ chức của bạn",
+        "ERROR": "Vui lòng nhập tên tổ chức hợp lệ"
       },
       "LANGUAGE": {
         "LABEL": "Ngôn ngữ",
-        "PLACEHOLDER": "Tên tài khoản của bạn",
+        "PLACEHOLDER": "Tên tổ chức của bạn",
         "ERROR": ""
       },
       "DOMAIN": {
@@ -50,7 +50,7 @@
         "CHANGE_FROM_REQUEST": "Được yêu cầu thay đổi: Trưởng nhóm hoặc quản trị viên được thay đổi, người dùng khác có thể yêu cầu để được đồng ý thay đổi người phụ trách"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Tiếp tục cuộc hội thoại trên web qua email được kích hoạt cho tài khoản của bạn.",
+        "INBOUND_EMAIL_ENABLED": "Tiếp tục cuộc hội thoại trên web qua email được kích hoạt cho tổ chức của bạn.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong tên miền tùy chỉnh của mình ngay bây giờ."
       }
     },

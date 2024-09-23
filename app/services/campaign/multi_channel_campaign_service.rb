@@ -79,7 +79,8 @@ class Campaign::MultiChannelCampaignService
     channel = campaign.inbox.channel
     template_data = build_template_data(contact)
     channel.send_message_zns(contact.phone_number, campaign.zns_template_id, template_data, campaign.id)
-    campaign.update!(sent_count: sent_count + 1)
+
+    cammpaign.update_column(:sent_count, campaign.sent_count + 1) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def build_template_data(contact)
