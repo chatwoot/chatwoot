@@ -71,7 +71,7 @@
         "DIAL_CODE_VALID_ERROR": "Vyberte prosím kód země",
         "VALID_ERROR": "Zadejte prosím platné telefonní číslo",
         "DROPDOWN_EMPTY": "Žádné výsledky",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Vyhledat zemi"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "Hledat emoji",
     "NOT_FOUND": "Žádné emoji neodpovídají vašemu hledání",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Výběr emoji"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
@@ -137,6 +137,6 @@
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "Odpověď na:"
   }
 }
