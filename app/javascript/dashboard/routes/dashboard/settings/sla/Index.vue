@@ -117,7 +117,7 @@ export default {
     :loading-message="$t('SLA.LOADING')"
   >
     <template #header>
-      <SLAHeader :show-actions="records.length > 0" @click="openAddPopup" />
+      <SLAHeader :show-actions="records.length > 0" @add="openAddPopup" />
     </template>
     <template #loading>
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
