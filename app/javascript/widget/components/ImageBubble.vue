@@ -9,9 +9,6 @@ export default {
     onImgError() {
       this.$emit('error');
     },
-    onClick() {
-      this.$emit('click');
-    },
   },
 };
 </script>
@@ -24,12 +21,7 @@ export default {
     class="image"
   >
     <div class="wrap">
-      <img
-        :src="thumb"
-        alt="Picture message"
-        @click="onClick"
-        @error="onImgError"
-      />
+      <img :src="thumb" alt="Picture message" @error="onImgError" />
       <span class="time">{{ readableTime }}</span>
     </div>
   </a>
