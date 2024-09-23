@@ -17,7 +17,7 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit('click', this.title);
+      this.$emit('selectLabel', this.title);
     },
   },
 };
