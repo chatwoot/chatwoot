@@ -125,7 +125,7 @@ export default {
     <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
-        @click="openAIAssist"
+        @open="openAIAssist"
       />
       <woot-button
         v-else
