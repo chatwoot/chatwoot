@@ -3,19 +3,10 @@ import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import { useDarkMode } from 'widget/composables/useDarkMode';
-import { getPhoneCodeByTimezone } from 'timezone-phone-codes';
-import ct from 'countries-and-timezones';
-
-const getActiveDialCode = () => {
-  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return getPhoneCodeByTimezone(browserTimezone) || '';
-};
-
-const getActiveCountryCode = () => {
-  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const country = ct.getCountryForTimezone(browserTimezone) || {};
-  return country.id || '';
-};
+import {
+  getActiveCountryCode,
+  getActiveDialCode,
+} from 'shared/components/PhoneInput/helper';
 
 export default {
   components: {
