@@ -29,7 +29,7 @@ const v$ = useVuelidate(rules, {
 });
 
 const uiFlags = useMapGetter('agents/getUIFlags');
-const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+// const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 
 const roles = computed(() => {
   const defaultRoles = [
@@ -45,13 +45,13 @@ const roles = computed(() => {
     },
   ];
 
-  const customRoles = getCustomRoles.value.map(role => ({
-    id: role.id,
-    name: `custom_${role.id}`,
-    label: role.name,
-  }));
+  // const customRoles = getCustomRoles.value.map(role => ({
+  //   id: role.id,
+  //   name: `custom_${role.id}`,
+  //   label: role.name,
+  // }));
 
-  return [...defaultRoles, ...customRoles];
+  return [...defaultRoles];
 });
 
 const selectedRole = computed(() =>
