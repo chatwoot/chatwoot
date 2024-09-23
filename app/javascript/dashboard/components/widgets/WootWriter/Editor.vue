@@ -14,6 +14,8 @@ import {
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
+import { useTrack } from 'dashboard/composables';
+
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
 import VariableList from '../conversation/VariableList.vue';
@@ -587,7 +589,7 @@ export default {
         emoji: CONVERSATION_EVENTS.INSERTED_AN_EMOJI,
       };
 
-      this.$track(event_map[type]);
+      useTrack(event_map[type]);
     },
     openFileBrowser() {
       this.$refs.imageUpload.click();
@@ -708,7 +710,7 @@ export default {
     <TagAgents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
-      @click="content => insertSpecialContent('mention', content)"
+      @select-agent="content => insertSpecialContent('mention', content)"
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"
