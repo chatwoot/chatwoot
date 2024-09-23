@@ -19117,10 +19117,10 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-timezone-phone-codes@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/timezone-phone-codes/-/timezone-phone-codes-0.0.1.tgz#40524c84923621b4a7d1879e118805d2117ef066"
-  integrity sha512-o8IZNBxJ0V9p+SwDVFbJNpTf13SGhswVWL18S+9UqkHoTtuaJBU5FJWGXLeqKFnfFL0LiJNNrlcNdGO/uIkYmA==
+timezone-phone-codes@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/timezone-phone-codes/-/timezone-phone-codes-0.0.2.tgz#f56ad22453d891db4ce91676b4fc263ed3dd8d6f"
+  integrity sha512-KRPfuCfb7nSxBJqFrUAgRzWlEG0/4bu5D/3Hvw1hvl7BLhWIxQ5F8G/qKeT04DQSIenq/jQ1cZu0xOsHjAC3Jg==
 
 timsort@^0.3.0:
   version "0.3.0"
