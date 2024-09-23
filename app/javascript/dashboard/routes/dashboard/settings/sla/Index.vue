@@ -144,7 +144,7 @@ export default {
           :resolution-time="displayTime(sla.resolution_time_threshold)"
           :has-business-hours="sla.only_during_business_hours"
           :is-loading="loading[sla.id]"
-          @click="openDeletePopup(sla)"
+          @delete="openDeletePopup(sla)"
         />
       </div>
 
