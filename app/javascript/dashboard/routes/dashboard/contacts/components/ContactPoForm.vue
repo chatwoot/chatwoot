@@ -13,6 +13,7 @@
           <multiselect
             v-model="product"
             track-by="id"
+            :internal-search="false"
             placeholder=""
             selected-label=""
             select-label=""
@@ -21,6 +22,7 @@
             :options="products"
             @select="onProductSelected"
             @input="inputChanged"
+            @search-change="searchChange"
           >
             <template slot="option" slot-scope="{ option }">
               <span>{{ option.short_name }} - {{ option.name }}</span>
@@ -187,6 +189,7 @@ export default {
       poTeam: null,
       assignee: null,
       team: null,
+      searchTimeout: null,
     };
   },
   validations: {
@@ -214,6 +217,28 @@ export default {
     this.setDataObject();
   },
   methods: {
+    searchChange(query) {
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(() => {
+        this.searchProducts(query);
+      }, 500);
+    },
+    searchProducts(searchQuery) {
+      let value = '';
+      if (searchQuery.charAt(0) === '+') {
+        value = searchQuery.substring(1);
+      } else {
+        value = searchQuery;
+      }
+      if (!value) {
+        this.$store.dispatch('products/get');
+      } else {
+        this.$store.dispatch('products/search', {
+          search: encodeURIComponent(value),
+        });
+      }
+    },
     setDataObject() {
       this.poDate = new Date();
       this.poAgent = this.currentContact.assignee;
