@@ -212,7 +212,7 @@ export default {
       :context-menu-position="contextMenuPosition"
       :menu-items="menuItems"
       @close="closeContextMenu"
-      @click="handleAction"
+      @select-action="handleAction"
     />
   </div>
 </template>

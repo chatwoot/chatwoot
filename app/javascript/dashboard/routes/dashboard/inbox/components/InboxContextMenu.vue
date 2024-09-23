@@ -22,7 +22,7 @@ export default {
       this.$emit('close');
     },
     onMenuItemClick(key) {
-      this.$emit('click', key);
+      this.$emit('selectAction', key);
       this.handleClose();
     },
   },
