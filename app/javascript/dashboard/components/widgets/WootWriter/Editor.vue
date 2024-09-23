@@ -720,7 +720,7 @@ export default {
     <VariableList
       v-if="shouldShowVariables"
       :search-key="variableSearchTerm"
-      @click="content => insertSpecialContent('variable', content)"
+      @select-variable="content => insertSpecialContent('variable', content)"
     />
     <KeyboardEmojiSelector
       v-if="showEmojiMenu"
