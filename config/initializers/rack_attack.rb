@@ -135,25 +135,23 @@ class Rack::Attack
   ###-----------------------------------------------###
   ###----------Application API Throttling-----------###
   ###-----------------------------------------------###
-
-  ## Prevent Abuse of Converstion Transcript APIs ###
-  throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 30, period: 1.hour) do |req|
-    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)
-    match_data[:account_id] if match_data.present?
-  end
-
-  ## Prevent Abuse of attachment upload APIs ##
-  throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
-    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)
-    match_data[:account_id] if match_data.present?
-  end
-
-  ## Prevent abuse of contact search api
-  throttle('/api/v1/accounts/:account_id/contacts/search', limit: 5, period: 1.minute) do |req|
-    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/contacts/search}.match(req.path)
-    match_data[:account_id] if match_data.present?
-  end
-
+  #   ## Prevent Abuse of Converstion Transcript APIs ###
+  #   throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 30, period: 1.hour) do |req|
+  #     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)
+  #     match_data[:account_id] if match_data.present?
+  #   end
+  #
+  #   ## Prevent Abuse of attachment upload APIs ##
+  #   throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
+  #     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)
+  #     match_data[:account_id] if match_data.present?
+  #   end
+  #
+  #   ## Prevent abuse of contact search api
+  #   throttle('/api/v1/accounts/:account_id/contacts/search', limit: 5, period: 1.minute) do |req|
+  #     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/contacts/search}.match(req.path)
+  #     match_data[:account_id] if match_data.present?
+  #   end
   ## ----------------------------------------------- ##
 end
 
