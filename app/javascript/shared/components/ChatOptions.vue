@@ -35,7 +35,7 @@ export default {
       return this.selected === option.id;
     },
     onClick(selectedOption) {
-      this.$emit('click', selectedOption);
+      this.$emit('optionSelect', selectedOption);
     },
   },
 };
@@ -60,7 +60,7 @@ export default {
           :key="option.id"
           :action="option"
           :is-selected="isSelected(option)"
-          @click="onClick"
+          @option-select="onClick"
         />
       </ul>
     </div>

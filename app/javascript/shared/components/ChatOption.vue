@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('click', this.action);
+      this.$emit('optionSelect', this.action);
     },
   },
 };

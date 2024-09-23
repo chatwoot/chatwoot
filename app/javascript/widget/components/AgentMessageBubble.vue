@@ -122,7 +122,7 @@ export default {
         :title="message"
         :options="messageContentAttributes.items"
         :hide-fields="!!messageContentAttributes.submitted_values"
-        @click="onOptionSelect"
+        @option-select="onOptionSelect"
       />
     </div>
     <ChatForm
