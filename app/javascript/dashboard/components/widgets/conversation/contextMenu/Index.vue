@@ -193,7 +193,7 @@ export default {
       v-if="!hasUnreadMessages"
       :option="unreadOption"
       variant="icon"
-      @click="$emit('markAsUnread')"
+      @click.stop="$emit('markAsUnread')"
     />
     <template v-for="option in statusMenuConfig">
       <MenuItem
