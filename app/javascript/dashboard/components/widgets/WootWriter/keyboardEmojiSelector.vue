@@ -34,7 +34,7 @@ function loadEmojis() {
 }
 
 function handleMentionClick(item = {}) {
-  emit('click', item.emoji);
+  emit('selectEmoji', item.emoji);
 }
 
 onMounted(() => {

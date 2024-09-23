@@ -725,7 +725,7 @@ export default {
     <KeyboardEmojiSelector
       v-if="showEmojiMenu"
       :search-key="emojiSearchTerm"
-      @click="emoji => insertSpecialContent('emoji', emoji)"
+      @select-emoji="emoji => insertSpecialContent('emoji', emoji)"
     />
     <input
       ref="imageUpload"
