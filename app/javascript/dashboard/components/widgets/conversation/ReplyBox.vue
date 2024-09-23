@@ -1108,7 +1108,7 @@ export default {
         v-on-clickaway="hideMentions"
         class="normal-editor__canned-box"
         :search-key="mentionSearchKey"
-        @click="replaceText"
+        @replace="replaceText"
       />
       <EmojiInput
         v-if="showEmojiPicker"

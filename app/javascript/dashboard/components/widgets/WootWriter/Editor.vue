@@ -713,7 +713,7 @@ export default {
     <CannedResponse
       v-if="shouldShowCannedResponses"
       :search-key="cannedSearchTerm"
-      @click="content => insertSpecialContent('cannedResponse', content)"
+      @replace="content => insertSpecialContent('cannedResponse', content)"
     />
     <VariableList
       v-if="shouldShowVariables"

@@ -430,7 +430,7 @@ export default {
             <CannedResponse
               v-if="showCannedResponseMenu && hasSlashCommand"
               :search-key="cannedResponseSearchKey"
-              @click="replaceTextWithCannedResponse"
+              @replace="replaceTextWithCannedResponse"
             />
           </div>
           <div v-if="isEmailOrWebWidgetInbox">
