@@ -721,9 +721,19 @@ provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 
 watch(activeTeam, () => resetAndFetchData());
-watch(props.conversationInbox, () => resetAndFetchData());
-watch(props.label, () => resetAndFetchData());
-watch(props.conversationType, () => resetAndFetchData());
+
+watch(
+  computed(() => props.conversationInbox),
+  () => resetAndFetchData()
+);
+watch(
+  computed(() => props.label),
+  () => resetAndFetchData()
+);
+watch(
+  computed(() => props.conversationType),
+  () => resetAndFetchData()
+);
 
 watch(activeFolder, (newVal, oldVal) => {
   if (newVal !== oldVal) {
