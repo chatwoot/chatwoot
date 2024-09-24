@@ -194,6 +194,20 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload'].count).to be 2
       end
 
+      it 'get all articles with uncategorized articles' do
+        article2 = create(:article, account_id: account.id, portal: portal, category: nil, locale: 'en', author_id: agent.id)
+        expect(article2.id).not_to be_nil
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+            headers: agent.create_new_auth_token,
+            params: {}
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['payload'].count).to be 2
+        expect(json_response['payload'][0]['id']).to eq article2.id
+        expect(json_response['payload'][0]['category']['id']).to be_nil
+      end
+
       it 'get all articles with searched params' do
         article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
         expect(article2.id).not_to be_nil
