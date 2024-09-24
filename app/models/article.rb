@@ -144,7 +144,7 @@ class Article < ApplicationRecord
   end
 
   def add_locale_to_article
-    return if article.locale.present?
+    return if locale.present?
 
     self.locale = if category.present?
                     category.locale
