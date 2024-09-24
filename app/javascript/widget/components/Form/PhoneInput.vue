@@ -3,6 +3,10 @@ import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import { useDarkMode } from 'widget/composables/useDarkMode';
+import {
+  getActiveCountryCode,
+  getActiveDialCode,
+} from 'shared/components/PhoneInput/helper';
 
 export default {
   components: {
@@ -28,8 +32,8 @@ export default {
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
-      activeCountryCode: '',
-      activeDialCode: '',
+      activeCountryCode: getActiveCountryCode(),
+      activeDialCode: getActiveDialCode(),
       phoneNumber: '',
     };
   },
@@ -322,6 +326,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
+
 .phone-input--wrap {
   .phone-input {
     height: 2.8rem;

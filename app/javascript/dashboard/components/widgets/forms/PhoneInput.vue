@@ -1,6 +1,10 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
+import {
+  getActiveCountryCode,
+  getActiveDialCode,
+} from 'shared/components/PhoneInput/helper';
 
 export default {
   props: {
@@ -30,8 +34,8 @@ export default {
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
-      activeCountryCode: '',
-      activeDialCode: '',
+      activeCountryCode: getActiveCountryCode(),
+      activeDialCode: getActiveDialCode(),
       phoneNumber: this.value,
     };
   },
