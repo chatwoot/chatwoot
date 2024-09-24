@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :article, class: 'Article' do
     account_id { 1 }
     category_id { 1 }
+    locale { 'en' }
     author_id { 1 }
     title { "#{Faker::Movie.title} #{SecureRandom.hex}" }
     content { 'MyText' }
