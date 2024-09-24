@@ -252,7 +252,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('products/get');
+    this.$store.dispatch('products/get', { page: 0 });
     this.$store.dispatch('agents/get');
   },
   methods: {

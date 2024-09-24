@@ -208,7 +208,7 @@ export default {
     this.$store.dispatch('stages/get');
     this.$store.dispatch('agents/get');
     this.$store.dispatch('teams/get');
-    this.$store.dispatch('products/get');
+    this.$store.dispatch('products/get', { page: 0 });
     this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
