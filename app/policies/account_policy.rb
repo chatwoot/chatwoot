@@ -19,6 +19,10 @@ class AccountPolicy < ApplicationPolicy
     true
   end
 
+  def delete_messages_with_source_id?
+    true
+  end
+
   def subscription?
     @account_user.administrator?
   end

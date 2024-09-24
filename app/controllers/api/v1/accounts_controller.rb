@@ -56,6 +56,21 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
+  def delete_messages_with_source_id
+    messages = Message.where(account_id: params[:id], source_id: params[:source_id])
+    if messages.empty?
+      render json: { error: 'Message not found' }, status: :not_found
+    else
+      ActiveRecord::Base.transaction do
+        messages.each do |message|
+          message.attachments.destroy_all
+          message.destroy
+        end
+      end
+      render json: { success: true }, status: :ok
+    end
+  end
+
   private
 
   def ensure_account_name

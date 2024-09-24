@@ -43,19 +43,6 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
   end
 
-  def destroy_with_source_id
-    @message = message_via_source_id
-    if @message
-      ActiveRecord::Base.transaction do
-        @message.attachments.destroy_all
-        @message.destroy!
-      end
-      render json: { message: 'Message deleted' }, status: :ok
-    else
-      render json: { error: 'Message not found' }, status: :not_found
-    end
-  end
-
   def retry
     return if message.blank?
 
