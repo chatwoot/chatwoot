@@ -1,6 +1,5 @@
 class Campaigns::TriggerFlexibleCampaignsJob < ApplicationJob
   queue_as :scheduled_jobs
-  retry_on StandardError, attempts: 0
 
   def perform
     Campaign.where(campaign_type: :flexible, enabled: true,

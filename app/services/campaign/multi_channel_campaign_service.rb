@@ -152,7 +152,7 @@ class Campaign::MultiChannelCampaignService
     # process for flexible scheduled at based on contact data
     scheduled_at = calculate_scheduled_at(contact)
     today = Time.current.beginning_of_day
-    scheduled_at.to_date == today.to_date
+    scheduled_at&.to_date == today.to_date
   end
 
   def calculate_scheduled_at(contact)
@@ -180,6 +180,8 @@ class Campaign::MultiChannelCampaignService
                 else
                   raise 'Invalid attribute type'
                 end
+    return unless base_date
+
     # temporarily set timezone at UTC+7 #TODO: need to change to configuration
     timezone = ActiveSupport::TimeZone[7]
     base_date = DateTime.parse(base_date).in_time_zone(timezone) if base_date.is_a?(String)
@@ -187,6 +189,8 @@ class Campaign::MultiChannelCampaignService
   end
 
   def date_calculation(base_date, calculation, extra_days)
+    return unless base_date
+
     case calculation
     when 'equal'
       base_date
