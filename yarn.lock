@@ -8957,6 +8957,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+countries-and-timezones@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/countries-and-timezones/-/countries-and-timezones-3.6.0.tgz#80716f05ebef270842fd72010f9b33e2848e24c7"
+  integrity sha512-8/nHBCs1eKeQ1jnsZVGdqrLYxS8nPcfJn8PnmxdJXWRLZdXsGFR8gnVhRjatGDBjqmPm7H+FtYpBYTPWd0Eiqg==
+
 cp-file@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/cp-file/-/cp-file-7.0.0.tgz#b9454cfd07fe3b974ab9ea0e5f29655791a9b8cd"
@@ -19111,6 +19116,11 @@ timers-browserify@^2.0.4:
   integrity sha512-9phl76Cqm6FhSX9Xe1ZUAMLtm1BLkKj2Qd5ApyWkXzsMRaA7dgr81kf4wJmQf/hAvg8EEyJxDo3du/0KlhPiKQ==
   dependencies:
     setimmediate "^1.0.4"
+
+timezone-phone-codes@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/timezone-phone-codes/-/timezone-phone-codes-0.0.2.tgz#f56ad22453d891db4ce91676b4fc263ed3dd8d6f"
+  integrity sha512-KRPfuCfb7nSxBJqFrUAgRzWlEG0/4bu5D/3Hvw1hvl7BLhWIxQ5F8G/qKeT04DQSIenq/jQ1cZu0xOsHjAC3Jg==
 
 timsort@^0.3.0:
   version "0.3.0"
