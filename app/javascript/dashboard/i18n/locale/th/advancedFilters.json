@@ -55,6 +55,9 @@
       "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "Last activity"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "โปรดระบุค่า"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "Additional filters",

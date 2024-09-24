@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "События с подпиской",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Отменить",
         "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",

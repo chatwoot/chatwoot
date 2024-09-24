@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefonnummer er påkrevd",
         "DIAL_CODE_VALID_ERROR": "Vennligst velg landskode",
         "VALID_ERROR": "Tast inn ditt telefonnummer",
-        "DROPDOWN_EMPTY": "Ingen resultater funnet"
+        "DROPDOWN_EMPTY": "Ingen resultater funnet",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Melding",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Søk emojier",
-    "NOT_FOUND": "Ingen emojier samsvarer søket ditt"
+    "NOT_FOUND": "Ingen emojier samsvarer søket ditt",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Vurder samtalen din",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "har delt en URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

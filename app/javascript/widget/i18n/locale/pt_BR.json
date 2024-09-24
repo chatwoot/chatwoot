@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "O número de telefone é obrigatório",
         "DIAL_CODE_VALID_ERROR": "Por favor, selecione um código de país",
         "VALID_ERROR": "Por favor, insira um número de telefone válido",
-        "DROPDOWN_EMPTY": "Nenhum resultado encontrado"
+        "DROPDOWN_EMPTY": "Nenhum resultado encontrado",
+        "DROPDOWN_SEARCH": "Selecione o país"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Pesquisar emojis",
-    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa"
+    "NOT_FOUND": "Nenhum emoji corresponde à sua pesquisa",
+    "ARIA_LABEL": "Seletor de emoji"
   },
   "CSAT": {
     "TITLE": "Avalie sua conversa",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "compartilhou uma URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Respondendo a:"
   }
 }

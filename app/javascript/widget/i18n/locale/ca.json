@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "El número de telèfon és obligatori",
         "DIAL_CODE_VALID_ERROR": "Selecciona un codi de país",
         "VALID_ERROR": "Introdueix un número de telèfon vàlid",
-        "DROPDOWN_EMPTY": "No s'ha trobat agents"
+        "DROPDOWN_EMPTY": "No s'ha trobat agents",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Cerca emojis",
-    "NOT_FOUND": "Cap emoji coincideix amb la teva cerca"
+    "NOT_FOUND": "Cap emoji coincideix amb la teva cerca",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Valora la teva conversa",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "ha compartit una URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Responent a:"
   }
 }

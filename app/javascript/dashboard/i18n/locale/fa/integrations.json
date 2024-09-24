@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "رویدادهای مشترک شده",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "انصراف",
         "DESC": "رویدادهای وب هوک اطلاعات لحظه‌ای حساب چت ووت شما را منتقل می‌کنند. لطفا آدرس URL صحیحی وارد کنید.",

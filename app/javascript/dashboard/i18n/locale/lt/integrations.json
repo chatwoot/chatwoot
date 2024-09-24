@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Prenumeruoti įvykiai",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Atšaukti",
         "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų Chatwoot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",

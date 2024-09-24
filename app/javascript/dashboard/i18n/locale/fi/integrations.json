@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Peruuta",
         "DESC": "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwot-tililläsi tapahtuu. Syötä kelvollinen URL-osoite, jotta voit määrittää callbackin.",

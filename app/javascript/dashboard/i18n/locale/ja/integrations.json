@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "キャンセル",
         "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",

@@ -41,6 +41,7 @@
         "UPLOADING": "Įkeliama...",
         "SUCCESS": "Paveiksliukas sėkmingai įkeltas",
         "ERROR": "Klaida įkeliant paveiksliuką",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Paveiksliuko dydis turi būti mažesnis nei {size} MB",
         "ERROR_FILE_FORMAT": "Paveiksliuko formatas turi būti jpg, jpeg arba png",
         "ERROR_FILE_DIMENSIONS": "Paveiksliuko matmenys turi būti mažesni nei 2000 x 2000"
