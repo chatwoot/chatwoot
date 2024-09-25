@@ -148,7 +148,7 @@ const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
 
 const contentFromEditor = computed(() => {
-  return MessageMarkdownSerializer.serialize(editorView.value.state.doc);
+  return MessageMarkdownSerializer.serialize(editorView.value().state.doc);
 });
 
 const shouldShowVariables = computed(() => {
@@ -181,12 +181,12 @@ function createSuggestionPlugin({
       if (!isAllowed()) return false;
       showMenu.value = true;
       range.value = args.range;
-      editorView.value = args.view;
+      editorView.value = () => args.view;
       if (searchTerm) searchTerm.value = args.text || '';
       return false;
     },
     onChange: args => {
-      editorView.value = args.view;
+      editorView.value = () => args.view;
       range.value = args.range;
       if (searchTerm) searchTerm.value = args.text;
       return false;
@@ -255,13 +255,13 @@ watch(showVariables, updatedValue => {
 });
 
 function focusEditorInputField(pos = 'end') {
-  const { tr } = editorView.value.state;
+  const { tr } = editorView.value().state;
 
   const selection =
     pos === 'end' ? Selection.atEnd(tr.doc) : Selection.atStart(tr.doc);
 
-  editorView.value.dispatch(tr.setSelection(selection));
-  editorView.value.focus();
+  editorView.value().dispatch(tr.setSelection(selection));
+  editorView.value().focus();
 }
 
 function isBodyEmpty(content) {
@@ -279,13 +279,13 @@ function isBodyEmpty(content) {
 }
 
 function handleEmptyBodyWithSignature() {
-  const { schema, tr } = state.value;
+  const { schema, tr } = state.value();
 
   // create a paragraph node and
   // start a transaction to append it at the end
   const paragraph = schema.nodes.paragraph.create();
   const paragraphTransaction = tr.insert(0, paragraph);
-  editorView.value.dispatch(paragraphTransaction);
+  editorView.value().dispatch(paragraphTransaction);
 
   // Set the focus at the start of the input field
   focusEditorInputField('start');
@@ -311,7 +311,7 @@ function openFileBrowser() {
 
 function reloadState(content = props.modelValue) {
   const unrefContent = unref(content);
-  state.value = createState(
+  const localState = createState(
     unrefContent,
     props.placeholder,
     plugins.value,
@@ -319,7 +319,8 @@ function reloadState(content = props.modelValue) {
     editorMenuOptions.value
   );
 
-  editorView.value.updateState(state.value);
+  state.value = () => localState;
+  editorView.value().updateState(state.value());
   focusEditor(unrefContent);
 }
 
@@ -370,7 +371,7 @@ function setURLWithQueryAndImageSize(size) {
   if (!props.showImageResizeToolbar) {
     return;
   }
-  setURLWithQueryAndSize(selectedImageNode.value, size, editorView.value);
+  setURLWithQueryAndSize(selectedImageNode.value, size, editorView.value());
   isImageNodeSelected.value = false;
 }
 
@@ -430,14 +431,14 @@ useKeyboardEvents({
 });
 
 function onImageInsertInEditor(fileUrl) {
-  const { tr } = editorView.value.state;
+  const { tr } = editorView.value().state;
 
-  const insertData = findNodeToInsertImage(editorView.value.state, fileUrl);
+  const insertData = findNodeToInsertImage(editorView.value().state, fileUrl);
 
   if (insertData) {
-    editorView.value.dispatch(
-      tr.insert(insertData.pos, insertData.node).scrollIntoView()
-    );
+    editorView
+      .value()
+      .dispatch(tr.insert(insertData.pos, insertData.node).scrollIntoView());
     focusEditorInputField();
   }
 }
@@ -487,14 +488,15 @@ function handleLineBreakWhenEnterToSendEnabled(event) {
 }
 
 async function insertNodeIntoEditor(node, from = 0, to = 0) {
-  state.value = insertAtCursor(editorView.value, node, from, to);
+  const newState = insertAtCursor(editorView.value(), node, from, to);
+  state.value = () => newState;
   emitOnChange();
   await nextTick();
-  scrollCursorIntoView(editorView.value);
+  scrollCursorIntoView(editorView.value());
 }
 
 function insertContentIntoEditor(content, defaultFrom = 0) {
-  const from = defaultFrom || editorView.value.state.selection.from || 0;
+  const from = defaultFrom || editorView.value().state.selection.from || 0;
   let node = new MessageMarkdownTransformer(messageSchema).parse(content);
 
   insertNodeIntoEditor(node, from, undefined);
@@ -506,12 +508,12 @@ function insertContentIntoEditor(content, defaultFrom = 0) {
  * @param {Object|string} content - The content to insert, depending on the type.
  */
 function insertSpecialContent(type, content) {
-  if (!editorView.value) {
+  if (!editorView.value()) {
     return;
   }
 
   let { node, from, to } = getContentNode(
-    editorView.value,
+    editorView.value(),
     type,
     content,
     range.value,
@@ -552,11 +554,12 @@ function onKeydown(event) {
 }
 
 function createEditorView() {
-  editorView.value = new EditorView(editor.value, {
-    state: state.value,
+  const localEditorView = new EditorView(editor.value, {
+    state: state.value(),
     dispatchTransaction: tx => {
-      state.value = state.value.apply(tx);
-      editorView.value.updateState(state.value);
+      const newState = state.value().apply(tx);
+      state.value = () => newState;
+      editorView.value().updateState(state.value());
       if (tx.docChanged) {
         emitOnChange();
       }
@@ -581,6 +584,8 @@ function createEditorView() {
       },
     },
   });
+
+  return () => localEditorView;
 }
 
 watch(
@@ -617,14 +622,15 @@ watch(
 
     if (newValue !== oldValue) {
       if (props.updateSelectionWith !== '') {
-        const node = editorView.value.state.schema.text(
-          props.updateSelectionWith
-        );
+        const node = editorView
+          .value()
+          .state.schema.text(props.updateSelectionWith);
 
-        const tr = editorView.value.state.tr.replaceSelectionWith(node);
-        editorView.value.focus();
-        state.value = editorView.value.state.apply(tr);
-        editorView.value.updateState(state.value);
+        const tr = editorView.value().state.tr.replaceSelectionWith(node);
+        editorView.value().focus();
+        const localState = editorView.value().state.apply(tr);
+        state.value = () => localState;
+        editorView.value().updateState(state.value());
         emitOnChange();
         emit('clearSelection');
       }
@@ -641,7 +647,7 @@ watch(sendWithSignature, newValue => {
 
 onMounted(() => {
   // [VITE] state assignment was done in created before
-  state.value = createState(
+  const localState = createState(
     props.modelValue,
     props.placeholder,
     plugins.value,
@@ -649,8 +655,10 @@ onMounted(() => {
     editorMenuOptions.value
   );
 
-  createEditorView();
-  editorView.value.updateState(state.value);
+  state.value = () => localState;
+
+  editorView.value = createEditorView();
+  editorView.value().updateState(state.value());
   if (props.focusOnMount) {
     focusEditorInputField();
   }
