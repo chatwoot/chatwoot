@@ -37,7 +37,7 @@ export default {
             <span class="label-text" :title="title">{{ title }}</span>
           </div>
           <div>
-            <i v-if="selected" class="icon ion-checkmark-round" />
+            <i v-if="selected" class="i-lucide-circle-check" />
           </div>
         </div>
       </woot-button>

@@ -87,9 +87,9 @@ const hasValue = computed(() => {
             </h4>
             <i
               v-if="showSearchDropdown"
-              class="icon ion-chevron-up text-slate-600 mr-1"
+              class="icon i-lucide-chevron-up text-slate-600 mr-1"
             />
-            <i v-else class="icon ion-chevron-down text-slate-600 mr-1" />
+            <i v-else class="icon i-lucide-chevron-down text-slate-600 mr-1" />
           </div>
         </div>
       </woot-button>
