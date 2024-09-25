@@ -482,7 +482,7 @@
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "%{count} conversation",
       "CONVERSATIONS": "%{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "تنزيل التقرير"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
@@ -537,7 +537,7 @@
       "LABELS": "الوسم",
       "TEAMS": "الفريق"
     },
-    "WITH": "with",
+    "WITH": "مع",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
