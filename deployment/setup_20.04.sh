@@ -793,7 +793,7 @@ function upgrade_node() {
 }
 
 ##############################################################################
-# Upgrade an existing installation to latest stable version(-u/--upgrade)
+# Install pnpm - this replaces yarn starting from Chatwoot 4.0
 # Globals:
 #   None
 # Arguments:
