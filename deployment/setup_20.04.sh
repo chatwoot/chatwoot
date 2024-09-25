@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.8.0"
+CWCTL_VERSION="3.0.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -801,6 +801,20 @@ function upgrade_node() {
 # Outputs:
 #   None
 ##############################################################################
+function get_pnpm() {
+  rm -rf node_modules
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+}
+
+##############################################################################
+# Upgrade an existing installation to latest stable version(-u/--upgrade)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function upgrade() {
   cwctl_upgrade_check
   get_cw_version
@@ -809,6 +823,7 @@ function upgrade() {
   upgrade_prereq
   upgrade_redis
   upgrade_node
+  get_pnpm
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
