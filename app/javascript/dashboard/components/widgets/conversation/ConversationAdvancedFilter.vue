@@ -142,8 +142,27 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type?.filterOperators;
     },
+    statusFilterItems() {
+      return {
+        open: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+        },
+        resolved: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+        },
+        pending: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+        },
+        snoozed: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+        },
+        all: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
+        },
+      };
+    },
     getDropdownValues(type) {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      const statusFilters = this.statusFilterItems();
       const allCustomAttributes = this.$store.getters[
         'attributes/getAttributesByModel'
       ](this.attributeModel);

@@ -1,5 +1,6 @@
 <script>
 export default {
+  name: 'FilterInput',
   props: {
     modelValue: {
       type: Object,
