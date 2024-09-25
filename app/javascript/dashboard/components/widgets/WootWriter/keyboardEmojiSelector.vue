@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['selectEmoji']);
 
 const allEmojis = shallowRef([]);
 
