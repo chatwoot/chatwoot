@@ -8,7 +8,6 @@ import {
   EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
-import { toRaw } from 'vue';
 import {
   suggestionsPlugin,
   triggerCharacters,
@@ -149,7 +148,7 @@ export default {
       return this.$refs.editorRoot;
     },
     contentFromEditor() {
-      return MessageMarkdownSerializer.serialize(this.editorView().state.doc);
+      return MessageMarkdownSerializer.serialize(this.editorView.state.doc);
     },
     shouldShowVariables() {
       return this.enableVariables && this.showVariables && !this.isPrivate;
@@ -175,11 +174,11 @@ export default {
           onEnter: args => {
             this.showUserMentions = true;
             this.range = args.range;
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             return false;
           },
           onChange: args => {
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             this.range = args.range;
 
             this.mentionSearchKey = args.text;
@@ -204,11 +203,11 @@ export default {
             }
             this.showCannedMenu = true;
             this.range = args.range;
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             return false;
           },
           onChange: args => {
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             this.range = args.range;
 
             this.cannedSearchTerm = args.text;
@@ -232,11 +231,11 @@ export default {
             }
             this.showVariables = true;
             this.range = args.range;
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             return false;
           },
           onChange: args => {
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             this.range = args.range;
 
             this.variableSearchTerm = args.text;
@@ -258,11 +257,11 @@ export default {
             this.showEmojiMenu = true;
             this.emojiSearchTerm = args.text || '';
             this.range = args.range;
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             return false;
           },
           onChange: args => {
-            this.editorView = () => toRaw(args.view);
+            this.editorView = args.view;
             this.range = args.range;
             this.emojiSearchTerm = args.text;
             return false;
@@ -314,18 +313,18 @@ export default {
       this.reloadState(this.modelValue);
     },
     updateSelectionWith(newValue, oldValue) {
-      if (!this.editorView()) {
+      if (!this.editorView) {
         return null;
       }
       if (newValue !== oldValue) {
         if (this.updateSelectionWith !== '') {
-          const node = this.editorView().state.schema.text(
+          const node = this.editorView.state.schema.text(
             this.updateSelectionWith
           );
-          const tr = this.editorView().state.tr.replaceSelectionWith(node);
-          this.editorView().focus();
-          this.state = this.editorView().state.apply(tr);
-          this.editorView().updateState(this.state);
+          const tr = this.editorView.state.tr.replaceSelectionWith(node);
+          this.editorView.focus();
+          this.state = this.editorView.state.apply(tr);
+          this.editorView.updateState(this.state);
           this.emitOnChange();
           this.$emit('clearSelection');
         }
@@ -349,17 +348,8 @@ export default {
     );
   },
   mounted() {
-    // [VITE] this.createEditorView() returns a function that returns a view
-    // The function is memoized so that the view is only created once
-    // Vue Reactivity does some funny business, when we say this.view = new EditorView(...),
-    // it actually sets this.view to a Proxy rather than the EditorView itself.
-    // Later, when we access this.view (or even if we say window.view = this.view
-    // and access window.view directly), it so happens that between two references
-    // to view in view.dispatch(view.state.tr), they are… mismatched, somehow, because something has changed.
-    // Wrapping it in a closure seems to fix this issue.
-    // The only problem is that we need to use this.editorView() instead of this.editorView
-    this.editorView = this.createEditorView();
-    this.editorView().updateState(this.state);
+    this.createEditorView();
+    this.editorView.updateState(this.state);
     if (this.focusOnMount) {
       this.focusEditorInputField();
     }
@@ -389,7 +379,7 @@ export default {
         { onImageUpload: this.openFileBrowser },
         this.editorMenuOptions
       );
-      this.editorView().updateState(this.state);
+      this.editorView.updateState(this.state);
 
       this.focusEditor(content);
     },
@@ -455,17 +445,17 @@ export default {
       // start a transaction to append it at the end
       const paragraph = schema.nodes.paragraph.create();
       const paragraphTransaction = tr.insert(0, paragraph);
-      this.editorView().dispatch(paragraphTransaction);
+      this.editorView.dispatch(paragraphTransaction);
 
       // Set the focus at the start of the input field
       this.focusEditorInputField('start');
     },
     createEditorView() {
-      const editorView = new EditorView(this.$refs.editor, {
+      this.editorView = new EditorView(this.$refs.editor, {
         state: this.state,
         dispatchTransaction: tx => {
           this.state = this.state.apply(tx);
-          this.editorView().updateState(this.state);
+          this.editorView.updateState(this.state);
           if (tx.docChanged) {
             this.emitOnChange();
           }
@@ -494,8 +484,6 @@ export default {
           },
         },
       });
-
-      return () => editorView;
     },
     isEditorMouseFocusedOnAnImage() {
       if (!this.showImageResizeToolbar) {
@@ -524,7 +512,7 @@ export default {
       if (!this.showImageResizeToolbar) {
         return;
       }
-      setURLWithQueryAndSize(this.selectedImageNode, size, this.editorView());
+      setURLWithQueryAndSize(this.selectedImageNode, size, this.editorView);
       this.isImageNodeSelected = false;
     },
     updateImgToolbarOnDelete() {
@@ -564,13 +552,13 @@ export default {
       };
     },
     focusEditorInputField(pos = 'end') {
-      const { tr } = this.editorView().state;
+      const { tr } = this.editorView.state;
 
       const selection =
         pos === 'end' ? Selection.atEnd(tr.doc) : Selection.atStart(tr.doc);
 
-      this.editorView().dispatch(tr.setSelection(selection));
-      this.editorView().focus();
+      this.editorView.dispatch(tr.setSelection(selection));
+      this.editorView.focus();
     },
     /**
      * Inserts special content (mention, canned response, variable, emoji) into the editor.
@@ -578,12 +566,12 @@ export default {
      * @param {Object|string} content - The content to insert, depending on the type.
      */
     insertSpecialContent(type, content) {
-      if (!this.editorView()) {
+      if (!this.editorView) {
         return;
       }
 
       let { node, from, to } = getContentNode(
-        this.editorView(),
+        this.editorView,
         type,
         content,
         this.range,
@@ -643,15 +631,12 @@ export default {
       }
     },
     onImageInsertInEditor(fileUrl) {
-      const { tr } = this.editorView().state;
+      const { tr } = this.editorView.state;
 
-      const insertData = findNodeToInsertImage(
-        this.editorView().state,
-        fileUrl
-      );
+      const insertData = findNodeToInsertImage(this.editorView.state, fileUrl);
 
       if (insertData) {
-        this.editorView().dispatch(
+        this.editorView.dispatch(
           tr.insert(insertData.pos, insertData.node).scrollIntoView()
         );
         this.focusEditorInputField();
@@ -704,16 +689,16 @@ export default {
       this.$emit('focus');
     },
     insertContentIntoEditor(content, defaultFrom = 0) {
-      const from = defaultFrom || this.editorView().state.selection.from || 0;
+      const from = defaultFrom || this.editorView.state.selection.from || 0;
       let node = new MessageMarkdownTransformer(messageSchema).parse(content);
 
       this.insertNodeIntoEditor(node, from, undefined);
     },
     insertNodeIntoEditor(node, from = 0, to = 0) {
-      this.state = insertAtCursor(this.editorView(), node, from, to);
+      this.state = insertAtCursor(this.editorView, node, from, to);
       this.emitOnChange();
       this.$nextTick(() => {
-        scrollCursorIntoView(this.editorView());
+        scrollCursorIntoView(this.editorView);
       });
     },
   },
