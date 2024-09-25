@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import router from '../dashboard/routes';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
@@ -9,6 +8,8 @@ import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
+import { useRouter } from 'vue-router';
+import { useStore } from 'dashboard/composables/store';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
@@ -31,6 +32,12 @@ export default {
     UpgradeBanner,
     PendingEmailVerificationBanner,
   },
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+
+    return { router, store };
+  },
   data() {
     return {
       showAddAccountModal: false,
@@ -38,7 +45,6 @@ export default {
       reconnectService: null,
     };
   },
-
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
@@ -101,7 +107,8 @@ export default {
       this.setLocale(locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(pubsubToken);
-      this.reconnectService = new ReconnectService(this.$store, router);
+      this.reconnectService = new ReconnectService(this.store, this.router);
+      window.reconnectService = this.reconnectService;
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
