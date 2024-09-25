@@ -59,6 +59,15 @@ onMounted(() => {
   fetchCustomRoles();
 });
 
+const tableHeaders = computed(() => {
+  return [
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.NAME'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.PERMISSIONS'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.ACTIONS'),
+  ];
+});
+
 const showAlertMessage = message => {
   loading.value[activeResponse.value.id] = false;
   activeResponse.value = {};
@@ -145,7 +154,7 @@ const confirmDeletion = () => {
       >
         <thead>
           <th
-            v-for="thHeader in $t('CUSTOM_ROLE.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
           >
