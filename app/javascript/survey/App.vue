@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <div id="app" class="woot-survey-wrap">
+  <div id="app" class="woot-survey-wrap min-h-screen">
     <Response />
   </div>
 </template>
