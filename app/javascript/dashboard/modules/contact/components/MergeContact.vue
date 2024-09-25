@@ -97,7 +97,7 @@ export default {
             open-direction="top"
             @search-change="searchChange"
           >
-            <template slot="singleLabel" slot-scope="props">
+            <template #singleLabel="props">
               <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
@@ -106,7 +106,7 @@ export default {
                 :phone-number="props.option.phone_number"
               />
             </template>
-            <template slot="option" slot-scope="props">
+            <template #option="props">
               <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
@@ -152,7 +152,7 @@ export default {
             label="name"
             track-by="id"
           >
-            <template slot="singleLabel" slot-scope="props">
+            <template #singleLabel="props">
               <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :name="props.option.name"

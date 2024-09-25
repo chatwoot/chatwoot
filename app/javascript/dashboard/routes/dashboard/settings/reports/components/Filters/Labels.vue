@@ -37,7 +37,7 @@ export default {
       :show-labels="false"
       @input="handleInput"
     >
-      <template slot="singleLabel" slot-scope="props">
+      <template #singleLabel="props">
         <div class="flex items-center gap-2">
           <div
             :style="{ backgroundColor: props.option.color }"
@@ -50,7 +50,7 @@ export default {
           </span>
         </div>
       </template>
-      <template slot="option" slot-scope="props">
+      <template #option="props">
         <div class="flex items-center gap-2">
           <div
             :style="{ backgroundColor: props.option.color }"

@@ -362,7 +362,7 @@ export default {
               close-on-select
               :options="[...inboxes]"
             >
-              <template slot="singleLabel" slot-scope="{ option }">
+              <template #singleLabel="{ option }">
                 <InboxDropdownItem
                   v-if="option.name"
                   :name="option.name"
@@ -373,7 +373,7 @@ export default {
                   {{ $t('NEW_CONVERSATION.FORM.INBOX.PLACEHOLDER') }}
                 </span>
               </template>
-              <template slot="option" slot-scope="{ option }">
+              <template #option="{ option }">
                 <InboxDropdownItem
                   :name="option.name"
                   :inbox-identifier="computedInboxSource(option)"
