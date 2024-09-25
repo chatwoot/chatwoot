@@ -6,8 +6,8 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('update:modelValue', !this.value);
-      this.$emit('input', !this.value);
+      this.$emit('update:modelValue', !this.modelValue);
+      this.$emit('input', !this.modelValue);
     },
   },
 };
