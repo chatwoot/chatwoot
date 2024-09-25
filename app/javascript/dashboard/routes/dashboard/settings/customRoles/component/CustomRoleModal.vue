@@ -179,11 +179,10 @@ const isSubmitDisabled = computed(
           {{ $t('CUSTOM_ROLE.FORM.DESCRIPTION.LABEL') }}
         </label>
         <div class="editor-wrap">
-          <WootMessageEditor
+          <textarea
             v-model="description"
-            class="message-editor [&>div]:px-1 h-28"
+            class="message-editor [&>div]:px-1 h-28 p-2"
             :class="{ editor_warning: v$.description.$error }"
-            enable-variables
             :focus-on-mount="false"
             :enable-canned-responses="false"
             :placeholder="$t('CUSTOM_ROLE.FORM.DESCRIPTION.PLACEHOLDER')"
