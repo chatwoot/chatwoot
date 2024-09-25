@@ -169,118 +169,69 @@ const editorMenuOptions = computed(() => {
     : MESSAGE_EDITOR_MENU_OPTIONS;
 });
 
+function createSuggestionPlugin({
+  trigger,
+  minChars = 1,
+  showMenu,
+  searchTerm,
+  isAllowed = () => true,
+}) {
+  return suggestionsPlugin({
+    matcher: triggerCharacters(trigger, minChars),
+    suggestionClass: '',
+    onEnter: args => {
+      if (!isAllowed()) return false;
+      showMenu.value = true;
+      range.value = args.range;
+      editorView.value = args.view;
+      if (searchTerm) searchTerm.value = args.text || '';
+      return false;
+    },
+    onChange: args => {
+      editorView.value = args.view;
+      range.value = args.range;
+      if (searchTerm) searchTerm.value = args.text;
+      return false;
+    },
+    onExit: () => {
+      if (searchTerm) searchTerm.value = '';
+      showMenu.value = false;
+      return false;
+    },
+    onKeyDown: ({ event }) => {
+      return event.keyCode === 13 && showMenu.value;
+    },
+  });
+}
+
 const plugins = computed(() => {
   if (!props.enableSuggestions) {
     return [];
   }
 
   return [
-    suggestionsPlugin({
-      matcher: triggerCharacters('@'),
-      onEnter: args => {
-        showUserMentions.value = true;
-        range.value = args.range;
-        editorView.value = args.view;
-        return false;
-      },
-      onChange: args => {
-        editorView.value = args.view;
-        range.value = args.range;
-
-        mentionSearchKey.value = args.text;
-
-        return false;
-      },
-      onExit: () => {
-        mentionSearchKey.value = '';
-        showUserMentions.value = false;
-        return false;
-      },
-      onKeyDown: ({ event }) => {
-        return event.keyCode === 13 && showUserMentions.value;
-      },
+    createSuggestionPlugin({
+      trigger: '@',
+      showMenu: showUserMentions,
+      searchTerm: mentionSearchKey,
     }),
-    suggestionsPlugin({
-      matcher: triggerCharacters('/'),
-      suggestionClass: '',
-      onEnter: args => {
-        if (props.isPrivate) {
-          return false;
-        }
-        showCannedMenu.value = true;
-        range.value = args.range;
-        editorView.value = args.view;
-        return false;
-      },
-      onChange: args => {
-        editorView.value = args.view;
-        range.value = args.range;
-
-        cannedSearchTerm.value = args.text;
-        return false;
-      },
-      onExit: () => {
-        cannedSearchTerm.value = '';
-        showCannedMenu.value = false;
-        return false;
-      },
-      onKeyDown: ({ event }) => {
-        return event.keyCode === 13 && showCannedMenu.value;
-      },
+    createSuggestionPlugin({
+      trigger: '/',
+      showMenu: showCannedMenu,
+      searchTerm: cannedSearchTerm,
+      isAllowed: () => !props.isPrivate,
     }),
-    suggestionsPlugin({
-      matcher: triggerCharacters('{{'),
-      suggestionClass: '',
-      onEnter: args => {
-        if (props.isPrivate) {
-          return false;
-        }
-
-        showVariables.value = true;
-        range.value = args.range;
-        editorView.value = args.view;
-        return false;
-      },
-      onChange: args => {
-        editorView.value = args.view;
-        range.value = args.range;
-
-        variableSearchTerm.value = args.text;
-        return false;
-      },
-      onExit: () => {
-        variableSearchTerm.value = '';
-        showVariables.value = false;
-        return false;
-      },
-      onKeyDown: ({ event }) => {
-        return event.keyCode === 13 && showVariables.value;
-      },
+    createSuggestionPlugin({
+      trigger: '{{',
+      showMenu: showVariables,
+      searchTerm: variableSearchTerm,
+      isAllowed: () => !props.isPrivate,
     }),
-    suggestionsPlugin({
-      matcher: triggerCharacters(':', 2), // Trigger after ':' and at least 2 characters
-      suggestionClass: '',
-      onEnter: args => {
-        showEmojiMenu.value = true;
-        emojiSearchTerm.value = args.text || '';
-        range.value = args.range;
-        editorView.value = args.view;
-        return false;
-      },
-      onChange: args => {
-        editorView.value = args.view;
-        range.value = args.range;
-        emojiSearchTerm.value = args.text;
-        return false;
-      },
-      onExit: () => {
-        emojiSearchTerm.value = '';
-        showEmojiMenu.value = false;
-        return false;
-      },
-      onKeyDown: ({ event }) => {
-        return event.keyCode === 13 && showEmojiMenu.value;
-      },
+    createSuggestionPlugin({
+      trigger: ':',
+      minChars: 2,
+      showMenu: showEmojiMenu,
+      searchTerm: emojiSearchTerm,
     }),
   ];
 });
@@ -304,8 +255,6 @@ watch(showCannedMenu, updatedValue => {
 watch(showVariables, updatedValue => {
   emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
 });
-
-// METHODS START HERE
 
 function focusEditorInputField(pos = 'end') {
   const { tr } = editorView.value.state;
