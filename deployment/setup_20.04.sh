@@ -173,8 +173,7 @@ EOF
 function install_dependencies() {
   apt update && apt upgrade -y
   apt install -y curl
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
@@ -189,7 +188,7 @@ function install_dependencies() {
       libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
       postgresql-client redis-tools \
-      nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
+      nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
       libvips python3-pip
 }
@@ -343,7 +342,7 @@ function setup_chatwoot() {
   cd chatwoot
   git checkout "$BRANCH"
   bundle
-  yarn
+  pnpm i
 
   cp .env.example .env
   sed -i -e "/SECRET_KEY_BASE/ s/=.*/=$secret/" .env
@@ -826,7 +825,7 @@ function upgrade() {
 
   # Update dependencies
   bundle
-  yarn
+  pnpm -i
 
   # Recompile the assets
   rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
