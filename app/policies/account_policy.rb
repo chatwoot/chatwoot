@@ -19,10 +19,6 @@ class AccountPolicy < ApplicationPolicy
     true
   end
 
-  def clear_billing_cache?
-    true
-  end
-
   def delete_messages_with_source_id?
     true
   end

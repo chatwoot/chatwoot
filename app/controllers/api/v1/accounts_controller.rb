@@ -1,7 +1,6 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
   include CacheKeysHelper
-  include BspdAccessHelper
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
@@ -57,11 +56,6 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
-  def clear_billing_cache
-    clear_cache(params[:id])
-    head :ok
-  end
-  
   def delete_messages_with_source_id
     messages = Message.where(account_id: params[:id], source_id: params[:source_id])
     if messages.empty?

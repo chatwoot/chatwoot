@@ -38,7 +38,6 @@ Rails.application.routes.draw do
         member do
           post :update_active_at
           get :cache_keys
-          post :clear_billing_cache
           post :delete_messages_with_source_id
         end
 

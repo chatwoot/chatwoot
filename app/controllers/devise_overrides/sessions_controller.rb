@@ -1,6 +1,4 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
-  include BspdAccessHelper
-
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -15,12 +13,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     if params[:sso_auth_token].present? && @resource.present?
       authenticate_resource_with_sso_token
       yield @resource if block_given?
-      check_billing_status
+      render_create_success
     else
-      super do |resource|
-        @resource = resource
-        return check_billing_status
-      end
+      super
     end
   end
 
@@ -28,20 +23,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
-  def render_create_error_billing_required
-    render json: { error: 'billing-required' }, status: :unauthorized
-  end
-
   private
-
-  def check_billing_status
-    active_account_id = @resource.active_account_user&.account_id
-    Rails.logger.info "User #{@resource.id} signed in. Active Account ID: #{active_account_id}"
-
-    render_create_error_billing_required and return unless billing_status(active_account_id)
-
-    render_create_success
-  end
 
   def login_page_url(error: nil)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
