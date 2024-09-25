@@ -26,10 +26,10 @@ RUN apk update && apk add --no-cache \
   postgresql-dev \
   postgresql-client \
   nodejs=20.15.1-r0 \
-  yarn \
   git \
   && mkdir -p /var/app \
   && gem install bundler
+  && wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
 
 WORKDIR /app
 
@@ -49,7 +49,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN pnpm i
 
 COPY . /app
 
