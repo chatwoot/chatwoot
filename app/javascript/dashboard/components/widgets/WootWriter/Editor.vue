@@ -8,9 +8,26 @@ import {
   useTemplateRef,
   nextTick,
 } from 'vue';
+
+import CannedResponse from '../conversation/CannedResponse.vue';
+import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
+import TagAgents from '../conversation/TagAgents.vue';
+import VariableList from '../conversation/VariableList.vue';
+
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useTrack } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAlert } from 'dashboard/composables';
+
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  MESSAGE_EDITOR_MENU_OPTIONS,
+  MESSAGE_EDITOR_IMAGE_RESIZES,
+} from 'dashboard/constants/editor';
+
 import {
   messageSchema,
   buildEditor,
@@ -24,40 +41,23 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-
-import { useTrack } from 'dashboard/composables';
-
-import TagAgents from '../conversation/TagAgents.vue';
-import CannedResponse from '../conversation/CannedResponse.vue';
-import VariableList from '../conversation/VariableList.vue';
-import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 
 import {
   appendSignature,
-  removeSignature as removeSignatureHelper,
-  insertAtCursor,
-  scrollCursorIntoView,
   findNodeToInsertImage,
-  setURLWithQueryAndSize,
   getContentNode,
+  insertAtCursor,
+  removeSignature as removeSignatureHelper,
+  scrollCursorIntoView,
+  setURLWithQueryAndSize,
 } from 'dashboard/helper/editorHelper';
-
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
 } from 'shared/helpers/KeyboardHelpers';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-
 import { createTypingIndicator } from '@chatwoot/utils';
-import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
-import { useAlert } from 'dashboard/composables';
-import {
-  MESSAGE_EDITOR_MENU_OPTIONS,
-  MESSAGE_EDITOR_IMAGE_RESIZES,
-} from 'dashboard/constants/editor';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
