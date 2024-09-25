@@ -15,7 +15,7 @@ defineProps({
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout>
+  <CardLayout class="ltr:pr-2 rtl:pl-2">
     <template #header>
       <div class="flex justify-between gap-2">
         <div class="flex items-center justify-start gap-2">
