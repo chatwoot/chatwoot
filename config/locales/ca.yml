@@ -29,6 +29,7 @@ ca:
       invalid: Esdeveniments no vàlids
     signup:
       disposable_email: Els correus d'un sol ús no s'accepten
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
       invalid_params: 'No és vàlid, comprova els paràmetres de registre i torna-ho a provar'

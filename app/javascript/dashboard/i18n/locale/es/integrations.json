@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",

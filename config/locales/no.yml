@@ -29,6 +29,7 @@
       invalid: Invalid events
     signup:
       disposable_email: Vi tillater ikke engangs e-poster
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Du har angitt en ugyldig e-post
       email_already_exists: "Du har allerede registrert en konto med %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

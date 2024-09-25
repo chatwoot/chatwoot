@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Akcie",
       "VERIFIED": "Overené",
-      "VERIFICATION_PENDING": "Čaká sa na overenie"
+      "VERIFICATION_PENDING": "Čaká sa na overenie",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Pridať agenta do tímu",
