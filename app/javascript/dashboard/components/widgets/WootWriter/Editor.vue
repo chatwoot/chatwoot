@@ -126,6 +126,13 @@ const typingIndicator = createTypingIndicator(
   TYPING_INDICATOR_IDLE_TIME
 );
 
+// we don't need them to be reactive
+// It cases weird issues where the objects are proxied
+// and then the editor doesn't work as expected
+// We have to wrap them in closures or use toRaw to get the actual values
+let editorView = null;
+let state = null;
+
 const showUserMentions = ref(false);
 const showCannedMenu = ref(false);
 const showVariables = ref(false);
@@ -134,9 +141,7 @@ const mentionSearchKey = ref('');
 const cannedSearchTerm = ref('');
 const variableSearchTerm = ref('');
 const emojiSearchTerm = ref('');
-const editorView = ref(null);
 const range = ref(null);
-const state = ref(undefined);
 const isImageNodeSelected = ref(false);
 const toolbarPosition = ref({ top: 0, left: 0 });
 const selectedImageNode = ref(null);
@@ -147,9 +152,9 @@ const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
 
-const contentFromEditor = computed(() => {
-  return MessageMarkdownSerializer.serialize(editorView.value.state.doc);
-});
+const contentFromEditor = () => {
+  return MessageMarkdownSerializer.serialize(editorView.state.doc);
+};
 
 const shouldShowVariables = computed(() => {
   return props.enableVariables && showVariables.value && !props.isPrivate;
@@ -181,12 +186,12 @@ function createSuggestionPlugin({
       if (!isAllowed()) return false;
       showMenu.value = true;
       range.value = args.range;
-      editorView.value = args.view;
+      editorView = args.view;
       if (searchTerm) searchTerm.value = args.text || '';
       return false;
     },
     onChange: args => {
-      editorView.value = args.view;
+      editorView = args.view;
       range.value = args.range;
       if (searchTerm) searchTerm.value = args.text;
       return false;
@@ -255,13 +260,13 @@ watch(showVariables, updatedValue => {
 });
 
 function focusEditorInputField(pos = 'end') {
-  const { tr } = editorView.value.state;
+  const { tr } = editorView.state;
 
   const selection =
     pos === 'end' ? Selection.atEnd(tr.doc) : Selection.atStart(tr.doc);
 
-  editorView.value.dispatch(tr.setSelection(selection));
-  editorView.value.focus();
+  editorView.dispatch(tr.setSelection(selection));
+  editorView.focus();
 }
 
 function isBodyEmpty(content) {
@@ -279,13 +284,13 @@ function isBodyEmpty(content) {
 }
 
 function handleEmptyBodyWithSignature() {
-  const { schema, tr } = state.value;
+  const { schema, tr } = state;
 
   // create a paragraph node and
   // start a transaction to append it at the end
   const paragraph = schema.nodes.paragraph.create();
   const paragraphTransaction = tr.insert(0, paragraph);
-  editorView.value.dispatch(paragraphTransaction);
+  editorView.dispatch(paragraphTransaction);
 
   // Set the focus at the start of the input field
   focusEditorInputField('start');
@@ -311,7 +316,7 @@ function openFileBrowser() {
 
 function reloadState(content = props.modelValue) {
   const unrefContent = unref(content);
-  state.value = createState(
+  state = createState(
     unrefContent,
     props.placeholder,
     plugins.value,
@@ -319,7 +324,7 @@ function reloadState(content = props.modelValue) {
     editorMenuOptions.value
   );
 
-  editorView.value.updateState(state.value);
+  editorView.updateState(state);
   focusEditor(unrefContent);
 }
 
@@ -370,7 +375,7 @@ function setURLWithQueryAndImageSize(size) {
   if (!props.showImageResizeToolbar) {
     return;
   }
-  setURLWithQueryAndSize(selectedImageNode.value, size, editorView.value);
+  setURLWithQueryAndSize(selectedImageNode.value, size, editorView);
   isImageNodeSelected.value = false;
 }
 
@@ -391,8 +396,8 @@ function isEditorMouseFocusedOnAnImage() {
 }
 
 function emitOnChange() {
-  emit('input', contentFromEditor.value);
-  emit('update:modelValue', contentFromEditor.value);
+  emit('input', contentFromEditor());
+  emit('update:modelValue', contentFromEditor());
 }
 
 function updateImgToolbarOnDelete() {
@@ -430,12 +435,12 @@ useKeyboardEvents({
 });
 
 function onImageInsertInEditor(fileUrl) {
-  const { tr } = editorView.value.state;
+  const { tr } = editorView.state;
 
-  const insertData = findNodeToInsertImage(editorView.value.state, fileUrl);
+  const insertData = findNodeToInsertImage(editorView.state, fileUrl);
 
   if (insertData) {
-    editorView.value.dispatch(
+    editorView.dispatch(
       tr.insert(insertData.pos, insertData.node).scrollIntoView()
     );
     focusEditorInputField();
@@ -487,14 +492,14 @@ function handleLineBreakWhenEnterToSendEnabled(event) {
 }
 
 async function insertNodeIntoEditor(node, from = 0, to = 0) {
-  state.value = insertAtCursor(editorView.value, node, from, to);
+  state = insertAtCursor(editorView, node, from, to);
   emitOnChange();
   await nextTick();
-  scrollCursorIntoView(editorView.value);
+  scrollCursorIntoView(editorView);
 }
 
 function insertContentIntoEditor(content, defaultFrom = 0) {
-  const from = defaultFrom || editorView.value.state.selection.from || 0;
+  const from = defaultFrom || editorView.state.selection.from || 0;
   let node = new MessageMarkdownTransformer(messageSchema).parse(content);
 
   insertNodeIntoEditor(node, from, undefined);
@@ -506,12 +511,12 @@ function insertContentIntoEditor(content, defaultFrom = 0) {
  * @param {Object|string} content - The content to insert, depending on the type.
  */
 function insertSpecialContent(type, content) {
-  if (!editorView.value) {
+  if (!editorView) {
     return;
   }
 
   let { node, from, to } = getContentNode(
-    editorView.value,
+    editorView,
     type,
     content,
     range.value,
@@ -552,11 +557,11 @@ function onKeydown(event) {
 }
 
 function createEditorView() {
-  editorView.value = new EditorView(editor.value, {
-    state: state.value,
+  editorView = new EditorView(editor.value, {
+    state: state,
     dispatchTransaction: tx => {
-      state.value = state.value.apply(tx);
-      editorView.value.updateState(state.value);
+      state = state.apply(tx);
+      editorView.updateState(state);
       if (tx.docChanged) {
         emitOnChange();
       }
@@ -586,7 +591,7 @@ function createEditorView() {
 watch(
   computed(() => props.modelValue),
   (newVal = '') => {
-    if (newVal !== contentFromEditor.value) {
+    if (newVal !== contentFromEditor()) {
       reloadState(newVal);
     }
   }
@@ -613,18 +618,16 @@ watch(
 watch(
   computed(() => props.updateSelectionWith),
   (newValue, oldValue) => {
-    if (!editorView.value) return;
+    if (!editorView) return;
 
     if (newValue !== oldValue) {
       if (props.updateSelectionWith !== '') {
-        const node = editorView.value.state.schema.text(
-          props.updateSelectionWith
-        );
+        const node = editorView.state.schema.text(props.updateSelectionWith);
 
-        const tr = editorView.value.state.tr.replaceSelectionWith(node);
-        editorView.value.focus();
-        state.value = editorView.value.state.apply(tr);
-        editorView.value.updateState(state.value);
+        const tr = editorView.state.tr.replaceSelectionWith(node);
+        editorView.focus();
+        state = editorView.state.apply(tr);
+        editorView.updateState(state);
         emitOnChange();
         emit('clearSelection');
       }
@@ -641,7 +644,7 @@ watch(sendWithSignature, newValue => {
 
 onMounted(() => {
   // [VITE] state assignment was done in created before
-  state.value = createState(
+  state = createState(
     props.modelValue,
     props.placeholder,
     plugins.value,
@@ -650,7 +653,7 @@ onMounted(() => {
   );
 
   createEditorView();
-  editorView.value.updateState(state.value);
+  editorView.updateState(state);
   if (props.focusOnMount) {
     focusEditorInputField();
   }
