@@ -44,7 +44,11 @@ module ReportHelper
   end
 
   def conversations
-    scope.conversations.where(account_id: account.id, created_at: range)
+    if params[:assignee_id].present?
+      scope.conversations.where(account_id: account.id, created_at: range, assignee_id: params[:assignee_id])
+    else
+      scope.conversations.where(account_id: account.id, created_at: range)
+    end
   end
 
   def incoming_messages
@@ -56,8 +60,15 @@ module ReportHelper
   end
 
   def resolutions
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
-                                                                               conversations: { status: :resolved }, created_at: range).distinct
+    if params[:assignee_id].present?
+      # rubocop:disable Layout/LineLength
+      scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved, user_id: params[:assignee_id],
+                                                                                 conversations: { status: :resolved }, created_at: range).distinct
+      # rubocop:enable Layout/LineLength
+    else
+      scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
+                                                                                 conversations: { status: :resolved }, created_at: range).distinct
+    end
   end
 
   def bot_resolutions
@@ -92,8 +103,13 @@ module ReportHelper
   end
 
   def avg_resolution_time_summary
-    reporting_events = scope.reporting_events
-                            .where(name: 'conversation_resolved', account_id: account.id, created_at: range)
+    if params[:assignee_id].present?
+      reporting_events = scope.reporting_events
+                              .where(name: 'conversation_resolved', account_id: account.id, created_at: range, user_id: params[:assignee_id])
+    else
+      reporting_events = scope.reporting_events
+                              .where(name: 'conversation_resolved', account_id: account.id, created_at: range)
+    end
     avg_rt = if params[:business_hours].present?
                reporting_events.average(:value_in_business_hours)
              else
@@ -116,8 +132,13 @@ module ReportHelper
   end
 
   def avg_first_response_time_summary
-    reporting_events = scope.reporting_events
-                            .where(name: 'first_response', account_id: account.id, created_at: range)
+    if params[:assignee_id].present?
+      reporting_events = scope.reporting_events
+                              .where(name: 'first_response', account_id: account.id, created_at: range, user_id: params[:assignee_id])
+    else
+      reporting_events = scope.reporting_events
+                              .where(name: 'first_response', account_id: account.id, created_at: range)
+    end
     avg_frt = if params[:business_hours].present?
                 reporting_events.average(:value_in_business_hours)
               else

@@ -37,3 +37,13 @@ daily_conversation_report_job:
   cron: '30 3 * * *'
   class: 'DailyConversationReportJob'
   queue: scheduled_jobs
+
+label_report_job:
+  cron: '30 3 * * *'
+  class: 'LabelReportJob'
+  queue: scheduled_jobs
+
+agent_report_job:
+  cron: '30 3 * * *'
+  class: 'AgentReportJob'
+  queue: scheduled_jobs

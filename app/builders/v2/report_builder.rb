@@ -48,11 +48,40 @@ class V2::ReportBuilder
     }
   end
 
+  def custom_summary
+    {
+      conversations_count: conversations.count,
+      incoming_messages_count: incoming_messages.count,
+      outgoing_messages_count: outgoing_messages.count,
+      avg_first_response_time: avg_first_response_time_summary,
+      avg_resolution_time: avg_resolution_time_summary,
+      open_conversations_count: live_conversations[:open],
+      unattended_conversations_count: live_conversations[:unattended],
+      resolutions_count: resolutions.count,
+      reply_time: reply_time_summary,
+      online_time: online_time_summary,
+      busy_time: busy_time_summary
+    }
+  end
+
   def short_summary
     {
       conversations_count: conversations.count,
       avg_first_response_time: avg_first_response_time_summary,
-      avg_resolution_time: avg_resolution_time_summary
+      avg_resolution_time: avg_resolution_time_summary,
+      open_conversations_count: live_conversations[:open],
+      resolutions_count: resolutions.count
+    }
+  end
+
+  def custom_short_summary
+    {
+      conversations_count: conversations.count,
+      avg_first_response_time: avg_first_response_time_summary,
+      avg_resolution_time: avg_resolution_time_summary,
+      open_conversations_count: live_conversations[:open],
+      unattended_conversations_count: live_conversations[:unattended],
+      resolved_conversations_count: resolutions.count
     }
   end
 
@@ -127,8 +156,14 @@ class V2::ReportBuilder
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def live_conversations
-    @open_conversations = scope.conversations.where(account_id: @account.id).open
+    @open_conversations = if params[:assignee_id].present?
+                            scope.conversations.where(account_id: @account.id, assignee_id: params[:assignee_id]).open
+                          else
+                            scope.conversations.where(account_id: @account.id).open
+                          end
+
     metric = {
       open: @open_conversations.count,
       unattended: @open_conversations.unattended.count
@@ -137,4 +172,5 @@ class V2::ReportBuilder
     metric[:pending] = @open_conversations.pending.count if params[:type].equal?(:account)
     metric
   end
+  # rubocop:enable Metrics/AbcSize
 end

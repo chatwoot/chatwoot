@@ -7,6 +7,8 @@ class DailyConversationReportJob < ApplicationJob
   JOB_DATA_URL = 'https://bitespeed-app.s3.amazonaws.com/InternalAccess/cw-auto-conversation-report.json'.freeze
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def perform
     set_statement_timeout
 
@@ -14,16 +16,21 @@ class DailyConversationReportJob < ApplicationJob
     response = HTTParty.get(JOB_DATA_URL)
     job_data = JSON.parse(response.body, symbolize_names: true)
 
+    job_data = job_data[:daily_conversation_report]
+
     job_data.each do |job|
       current_date = Date.current
       current_day = current_date.wday
 
+      # should trigger only on 1st day of the month
+      next if job[:frequency] == 'monthly' && current_date.day != 1
+
       # should trigger only on Mondays
       next if job[:frequency] == 'weekly' && current_day != 1
 
-      current_date = Date.current
-
-      range = if job[:frequency] == 'weekly'
+      range = if job[:frequency] == 'monthly'
+                { since: 1.month.ago.beginning_of_day, until: 1.day.ago.end_of_day }
+              elsif job[:frequency] == 'weekly'
                 { since: 1.week.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               else
                 { since: 1.day.ago.beginning_of_day, until: 1.day.ago.end_of_day }
@@ -33,6 +40,8 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def generate_custom_report(account_id, range, bitespeed_bot)
     set_statement_timeout

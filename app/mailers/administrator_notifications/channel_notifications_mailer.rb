@@ -77,6 +77,30 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
+  def daily_agent_report(csv_url, current_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Daily Agent Report for #{current_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def weekly_agent_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Agent Report from #{since_date} to #{until_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def monthly_agent_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Monthly Agent Report from #{since_date} to #{until_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
   def custom_agent_report(csv_url, since_date, until_date, bitespeed_bot)
     return unless smtp_config_set_or_development?
 
@@ -85,6 +109,30 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     recipients = admin_emails
     recipients += ['jaideep+chatwootdebugreports@bitespeed.co', 'aryanm@bitespeed.co', 'vinayaktrivedi@bitespeed.co'] if bitespeed_bot
     send_mail_with_liquid(to: recipients, subject: subject) and return
+  end
+
+  def daily_label_report(csv_url, current_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Daily Label Report for #{current_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def weekly_label_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Label Report from #{since_date} to #{until_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def monthly_label_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Monthly Label Report from #{since_date} to #{until_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
   end
 
   def contact_import_failed
