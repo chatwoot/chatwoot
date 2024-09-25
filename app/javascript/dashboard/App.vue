@@ -106,7 +106,7 @@ export default {
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
       this.latestChatwootVersion = latestChatwootVersion;
-      vueActionCable.init(pubsubToken);
+      vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
       window.reconnectService = this.reconnectService;
 
