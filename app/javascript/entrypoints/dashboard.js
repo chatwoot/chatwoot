@@ -31,7 +31,7 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
-import resizeDirective from 'dashboard/helper/directives/resize.js';
+import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
 
 import 'floating-vue/dist/style.css';
@@ -98,7 +98,7 @@ app.component('woot-switch', WootSwitch);
 app.component('woot-wizard', WootWizard);
 app.component('fluent-icon', FluentIcon);
 
-app.directive('resize', resizeDirective);
+app.directive('resize', vResizeObserver);
 app.directive('on-clickaway', onClickaway);
 
 sync(store, router);
