@@ -3,6 +3,10 @@ import { ref, computed, watch, useTemplateRef, nextTick, unref } from 'vue';
 import countriesList from 'shared/constants/countries.js';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import {
+  getActiveCountryCode,
+  getActiveDialCode,
+} from 'shared/components/PhoneInput/helper';
 
 const { context } = defineProps({
   context: {
@@ -18,8 +22,8 @@ const { getThemeClass: $dm } = useDarkMode();
 const selectedIndex = ref(-1);
 const showDropdown = ref(false);
 const searchCountry = ref('');
-const activeCountryCode = ref('');
-const activeDialCode = ref('');
+const activeCountryCode = ref(getActiveCountryCode());
+const activeDialCode = ref(getActiveDialCode());
 const phoneNumber = ref('');
 
 const dropdownRef = useTemplateRef('dropdown');
