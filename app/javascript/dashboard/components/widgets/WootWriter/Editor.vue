@@ -667,7 +667,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 </script>
 
 <template>
-  <div ref="editorRoot" class="relative editor-root">
+  <div ref="editorRoot" class="relative w-full">
     <TagAgents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -757,10 +757,6 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       @apply list-item list-decimal;
     }
   }
-}
-
-.editor-root {
-  @apply w-full relative;
 }
 
 .ProseMirror-woot-style {
