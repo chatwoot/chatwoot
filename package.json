@@ -91,7 +91,7 @@
     "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "6.0.0-rc.1",
-    "wavesurfer.js": "^6.6.4",
+    "wavesurfer.js": "^6.0.4",
     "video.js": "7.0.5",
     "videojs-wavesurfer": "^3.10.0"
   },
