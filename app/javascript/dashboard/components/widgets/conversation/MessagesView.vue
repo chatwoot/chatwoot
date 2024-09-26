@@ -117,6 +117,7 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin, {
   filterDuplicateSourceMessages,
+  filterDuplicateIdMessages,
 } from '../../../mixins/conversations';
 
 // utils
@@ -223,7 +224,7 @@ export default {
       if (this.isAWhatsAppChannel) {
         return filterDuplicateSourceMessages(messages);
       }
-      return messages;
+      return filterDuplicateIdMessages(messages);
     },
     getReadMessages() {
       return this.readMessages(
