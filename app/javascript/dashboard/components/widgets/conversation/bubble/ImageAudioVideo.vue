@@ -18,7 +18,7 @@
       @click="onClick"
     />
     <audio v-else-if="isAudio" controls class="skip-context-menu mb-0.5">
-      <source :src="`${dataUrl}?t=${Date.now()}`" />
+      <source :src="dataUrl" />
     </audio>
     <gallery-view
       v-if="show"
@@ -84,6 +84,12 @@ export default {
       return attachments;
     },
     dataUrl() {
+      if (this.isAudio) {
+        if (this.attachment.data_url.includes('lookaside.fbsbx.com')) {
+          return this.attachment.data_url;
+        }
+        return `${this.attachment.data_url}?t=${Date.now()}`;
+      }
       return this.attachment.data_url;
     },
     imageWidth() {
