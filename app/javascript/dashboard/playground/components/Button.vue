@@ -47,14 +47,14 @@ const buttonVariants = {
     outline:
       'border border-input bg-white hover:bg-white hover:text-slate-500 hover:opacity-95 dark:hover:opacity-95',
     secondary:
-      'bg-slate-500 text-slate-900 hover:bg-secondary/80 hover:opacity-95 dark:hover:opacity-95',
+      'bg-slate-50 text-slate-900 dark:bg-slate-700/50 dark:text-slate-100 hover:opacity-95 dark:hover:opacity-95',
     ghost:
       'hover:text-slate-500 text-slate-900 dark:text-slate-200 hover:opacity-95 dark:hover:opacity-95',
     link: 'text-woot-500 underline-offset-4 hover:underline hover:opacity-95 dark:hover:opacity-95',
   },
   size: {
     default: 'h-10 px-4 py-2',
-    sm: 'h-9 rounded-md px-3',
+    sm: 'h-8 rounded-md px-3',
     lg: 'h-11 rounded-md px-8',
     icon: 'h-auto w-auto px-2',
   },
