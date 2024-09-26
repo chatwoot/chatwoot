@@ -29,7 +29,8 @@ RUN apk update && apk add --no-cache \
   git \
   && mkdir -p /var/app \
   && gem install bundler
-  && wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh -
+  && wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
+  && source /root/.shrc
 
 WORKDIR /app
 
@@ -48,7 +49,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   else bundle install -j 4 -r 3; \
   fi
 
-COPY package.json yarn.lock ./
+COPY package.json pnpm.lock ./
 RUN pnpm i
 
 COPY . /app
