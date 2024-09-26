@@ -50,7 +50,7 @@ const articles = [
     >
       <ArticleCard
         :title="article.title"
-        :status="article.status || 'published'"
+        :status="article.status"
         :author="article.author"
         :category="article.category"
         :views="article.views"
