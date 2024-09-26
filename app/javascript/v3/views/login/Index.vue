@@ -81,6 +81,16 @@
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
+          <p v-if="isBillingRequiredError" class="mt-2 text-sm text-red-600">
+            Dashboard is locked due to unpaid invoices. Please complete the
+            payment
+            <a
+              target="_blank"
+              href="https://marketing.bitespeed.co/login"
+              class="underline font-semibold"
+              >here</a
+            >.
+          </p>
         </form>
       </div>
       <div v-else class="flex items-center justify-center">
@@ -103,6 +113,8 @@ import Spinner from 'shared/components/Spinner.vue';
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
+  'billing-required':
+    'Dashboard is locked due to unpaid invoices. Please complete the payment.',
 };
 import alertMixin from 'shared/mixins/alertMixin';
 
@@ -136,6 +148,7 @@ export default {
         hasErrored: false,
       },
       error: '',
+      billingError: false,
     };
   },
   validations: {
@@ -157,12 +170,18 @@ export default {
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
+    isBillingRequiredError() {
+      return this.billingError;
+    },
   },
   created() {
     if (this.ssoAuthToken) {
       this.submitLogin();
     }
     if (this.authError) {
+      if (this.authError === 'billing-required') {
+        this.billingError = true;
+      }
       const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
       this.showAlert(this.$t(message));
       // wait for idle state
@@ -222,9 +241,16 @@ export default {
             window.location = '/app/login';
           }
           this.loginApi.hasErrored = true;
-          this.showAlertMessage(
-            response?.message || this.$t('LOGIN.API.UNAUTH')
-          );
+
+          let message = response?.message || this.$t('LOGIN.API.UNAUTH');
+
+          if (response?.message === 'billing-required') {
+            this.billingError = true;
+            message = ERROR_MESSAGES['billing-required'];
+          } else {
+            this.billingError = false;
+          }
+          this.showAlertMessage(message);
         });
     },
   },
