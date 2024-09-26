@@ -66,9 +66,10 @@ class Integrations::Hook < ApplicationRecord
 
   def ensure_captain_config_present
     return if app_id != 'captain'
+    # already configured, skip
+    return if settings['access_token'].present?
 
     ensure_captain_is_enabled
-    return if settings['access_token'].present?
 
     captain_response = ChatwootHub.get_captain_settings(account)
     raise "Failed to get captain settings: #{captain_response.body}" unless captain_response.success?

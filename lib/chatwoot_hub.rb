@@ -46,14 +46,18 @@ class ChatwootHub
 
   def self.instance_metrics
     {
-      accounts_count: Account.last.id,
-      users_count: User.last.id,
-      inboxes_count: Inbox.last.id,
-      conversations_count: Conversation.last.id,
-      incoming_messages_count: Message.incoming.last.id,
-      outgoing_messages_count: Message.outgoing.last.id,
+      accounts_count: fetch_count(Account),
+      users_count: fetch_count(User),
+      inboxes_count: fetch_count(Inbox),
+      conversations_count: fetch_count(Conversation),
+      incoming_messages_count: fetch_count(Message.incoming),
+      outgoing_messages_count: fetch_count(Message.outgoing),
       additional_information: {}
     }
+  end
+
+  def self.fetch_count(model)
+    model.last&.id || 0
   end
 
   def self.sync_with_hub
