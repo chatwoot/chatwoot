@@ -1,10 +1,11 @@
 // scss-lint:disable SpaceAfterPropertyColon
 @import 'shared/assets/fonts/inter';
+
 // Inter,
 html,
 body {
   font-family:
-    'PlusJakarta',
+    'Inter',
     -apple-system,
     system-ui,
     BlinkMacSystemFont,
@@ -34,11 +35,11 @@ body {
   @apply h-screen;
 }
 
-.banner + .app-body-wrapper {
+.banner+.app-body-wrapper {
   @apply h-[calc(100%-48px)];
 }
 
-.banner + .app-wrapper {
+.banner+.app-wrapper {
   // Reduce the height of the dashboard to make room for the banner.
   // And causing the top right green-action button to be pushed down when scrolling.
   @apply h-[calc(100%-48px)];

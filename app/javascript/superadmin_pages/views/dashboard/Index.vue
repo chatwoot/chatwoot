@@ -1,5 +1,5 @@
 <script setup>
-import BarChart from 'shared/components/charts/BarChart';
+import BarChart from 'shared/components/charts/BarChart.vue';
 const props = defineProps({
   componentData: {
     type: Object,
@@ -17,12 +17,12 @@ const {
 
 const prepareData = data => {
   var labels = [];
-  var dataSet = [];
+  var datasets = [];
   data.forEach(item => {
     labels.push(item[0]);
-    dataSet.push(item[1]);
+    datasets.push(item[1]);
   });
-  return { labels, dataSet };
+  return { labels, datasets };
 };
 </script>
 
@@ -52,6 +52,10 @@ const prepareData = data => {
         </div>
       </div>
     </section>
-    <bar-chart class="p-8 w-full" :collection="prepareData(chartData)" />
+    <BarChart
+      class="p-8 w-full"
+      :collection="prepareData(chartData)"
+      style="max-height: 500px"
+    />
   </div>
 </template>

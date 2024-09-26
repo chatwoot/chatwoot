@@ -1,5 +1,5 @@
 import 'chart.js';
-import { createApp } from 'vue';
+import { createApp, h } from 'vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 import PlaygroundIndex from '../superadmin_pages/views/playground/Index.vue';
@@ -15,10 +15,11 @@ const renderComponent = (componentName, props) => {
     data() {
       return { props: props };
     },
-    template: `<${componentName} :component-data="props"/>`,
+    render() {
+      return h(ComponentMapping[componentName], { componentData: this.props });
+    },
   });
 
-  app.component(componentName, ComponentMapping[componentName]);
   app.use(VueDOMPurifyHTML);
   app.mount('#app');
 };

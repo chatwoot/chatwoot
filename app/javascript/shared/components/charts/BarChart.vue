@@ -46,18 +46,21 @@ const defaultChartOptions = {
   scales: {
     x: {
       ticks: {
-        fontFamily,
+        fontFamily: fontFamily,
       },
-      gridLines: {
+      grid: {
         drawOnChartArea: false,
       },
     },
     y: {
+      type: 'linear',
+      position: 'left',
       ticks: {
-        fontFamily,
+        fontFamily: fontFamily,
         beginAtZero: true,
+        stepSize: 1,
       },
-      gridLines: {
+      grid: {
         drawOnChartArea: false,
       },
     },
