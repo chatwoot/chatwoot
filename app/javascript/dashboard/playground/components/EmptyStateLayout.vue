@@ -1,6 +1,6 @@
 <template>
-  <div
-    class="flex flex-col items-center justify-center w-full h-full min-h-screen p-4 overflow-hidden font-interDisplay"
+  <section
+    class="relative flex flex-col items-center justify-center w-full h-full min-h-screen p-4 overflow-hidden font-interDisplay"
   >
     <div
       class="relative w-full max-w-[940px] mx-auto overflow-hidden h-full max-h-[448px]"
@@ -16,5 +16,5 @@
         <slot name="empty-state" />
       </div>
     </div>
-  </div>
+  </section>
 </template>
