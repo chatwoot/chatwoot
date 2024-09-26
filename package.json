@@ -98,6 +98,7 @@
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
+    "@histoire/plugin-vue": "^0.17.17",
     "@iconify-json/logos": "^1.2.0",
     "@iconify-json/lucide": "^1.2.5",
     "@size-limit/file": "^8.2.4",
