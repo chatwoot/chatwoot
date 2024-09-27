@@ -68,9 +68,9 @@ RSpec.describe Integrations::Hook do
         InstallationConfig.where(name: 'CAPTAIN_APP_URL').first_or_create(value: 'https://app.chatwoot.com')
         stub_request(:post, ChatwootHub::CAPTAIN_ACCOUNTS_URL).to_return(body: {
           account_email: 'test@example.com',
-          account_id: 'account_id',
+          captain_account_id: 1,
           access_token: 'access_token',
-          assistant_id: 'assistant_id'
+          assistant_id: 1
         }.to_json)
       end
 

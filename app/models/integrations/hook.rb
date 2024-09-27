@@ -66,23 +66,26 @@ class Integrations::Hook < ApplicationRecord
 
   def ensure_captain_config_present
     return if app_id != 'captain'
-    # already configured, skip
+    # Already configured, skip this
     return if settings['access_token'].present?
 
     ensure_captain_is_enabled
+    fetch_and_set_captain_settings
+  end
 
+  def ensure_captain_is_enabled
+    raise 'Captain is not enabled' unless Integrations::App.find(id: 'captain').active?(account)
+  end
+
+  def fetch_and_set_captain_settings
     captain_response = ChatwootHub.get_captain_settings(account)
     raise "Failed to get captain settings: #{captain_response.body}" unless captain_response.success?
 
     captain_settings = JSON.parse(captain_response.body)
     settings['account_email'] = captain_settings['account_email']
-    settings['account_id'] = captain_settings['account_id']
+    settings['account_id'] = captain_settings['captain_account_id'].to_s
     settings['access_token'] = captain_settings['access_token']
-    settings['assistant_id'] = captain_settings['assistant_id']
-  end
-
-  def ensure_captain_is_enabled
-    raise 'Captain is not enabled' unless Integrations::App.find(id: 'captain').active?(account)
+    settings['assistant_id'] = captain_settings['assistant_id'].to_s
   end
 
   def ensure_hook_type
