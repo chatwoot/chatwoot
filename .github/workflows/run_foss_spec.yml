@@ -53,10 +53,10 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: yarn
+        cache: pnpm
 
-    - name: yarn
-      run: yarn install
+    - name: pnpm
+      run: pnpm i
 
     - name: Strip enterprise code
       run: |
@@ -68,10 +68,7 @@ jobs:
 
     - name: Seed database
       run: bundle exec rake db:schema:load
-
-    - name: yarn check-files
-      run: yarn install --check-files
-
+      
     # Run rails tests
     - name: Run backend tests
       run: |
