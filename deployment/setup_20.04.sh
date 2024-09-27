@@ -353,7 +353,7 @@ function setup_chatwoot() {
   sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
   echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
-  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 EOF
 }
 
@@ -802,8 +802,15 @@ function upgrade_node() {
 #   None
 ##############################################################################
 function get_pnpm() {
+  # if pnpm is already installed, return
+  if command -v pnpm &> /dev/null; then
+    return
+  fi
+  npm install -g pnpm
+  sudo -i -u chatwoot << "EOF"
+  cd chatwoot
   rm -rf node_modules
-  curl -fsSL https://get.pnpm.io/install.sh | sh -
+EOF
 }
 
 ##############################################################################
@@ -843,7 +850,7 @@ function upgrade() {
   pnpm -i
 
   # Recompile the assets
-  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 
   # Migrate the database schema
   RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:migrate
