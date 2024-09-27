@@ -138,12 +138,14 @@ export default {
           <div
             v-for="(metric, name, index) in conversationMetrics"
             :key="index"
-            class="flex-1 min-w-0 metric-content"
+            class="flex-1 min-w-0 pb-2"
           >
-            <h3 class="heading">
+            <h3 class="text-base text-slate-700 dark:text-slate-100">
               {{ name }}
             </h3>
-            <p class="metric">{{ metric }}</p>
+            <p class="text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1">
+              {{ metric }}
+            </p>
           </div>
         </MetricCard>
       </div>
@@ -152,12 +154,14 @@ export default {
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
-            class="flex-1 min-w-0 metric-content"
+            class="flex-1 min-w-0 pb-2"
           >
-            <h3 class="heading">
+            <h3 class="text-base text-slate-700 dark:text-slate-100">
               {{ name }}
             </h3>
-            <p class="metric">{{ metric }}</p>
+            <p class="text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1">
+              {{ metric }}
+            </p>
           </div>
         </MetricCard>
       </div>

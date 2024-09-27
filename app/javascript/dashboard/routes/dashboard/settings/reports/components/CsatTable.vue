@@ -64,7 +64,10 @@ const columns = [
     width: 200,
     cell: cellProps => {
       const { contact } = cellProps.row.original;
-      return h(UserAvatarWithName, { user: contact });
+      if (contact) {
+        return h(UserAvatarWithName, { user: contact });
+      }
+      return '--';
     },
   }),
   columnHelper.accessor('assignedAgent', {
@@ -72,7 +75,10 @@ const columns = [
     width: 200,
     cell: cellProps => {
       const { assignedAgent } = cellProps.row.original;
-      return h(UserAvatarWithName, { user: assignedAgent });
+      if (assignedAgent) {
+        return h(UserAvatarWithName, { user: assignedAgent });
+      }
+      return '--';
     },
   }),
   columnHelper.accessor('rating', {

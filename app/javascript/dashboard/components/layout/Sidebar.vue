@@ -217,6 +217,7 @@ export default {
     }"
   >
     <PrimarySidebar
+      class="fixed"
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
       :is-a-custom-branded-instance="isACustomBrandedInstance"
@@ -229,6 +230,7 @@ export default {
     />
     <SecondarySidebar
       v-if="hasSecondarySidebar"
+      class="fixed left-16"
       :class="sidebarClassName"
       :account-id="accountId"
       :inboxes="inboxes"

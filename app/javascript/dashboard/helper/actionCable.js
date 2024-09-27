@@ -201,7 +201,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 }
 
 export default {
-  init(pubsubToken) {
-    return new ActionCableConnector({ $store: window.WOOT_STORE }, pubsubToken);
+  init(store, pubsubToken) {
+    return new ActionCableConnector({ $store: store }, pubsubToken);
   },
 };

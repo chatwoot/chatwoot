@@ -1,5 +1,6 @@
 <script setup>
-import BarChart from 'shared/components/charts/BarChart';
+import { computed } from 'vue';
+import BarChart from 'shared/components/charts/BarChart.vue';
 const props = defineProps({
   componentData: {
     type: Object,
@@ -7,23 +8,33 @@ const props = defineProps({
   },
 });
 
-const {
-  accountsCount,
-  usersCount,
-  inboxesCount,
-  conversationsCount,
-  chartData,
-} = props.componentData;
-
-const prepareData = data => {
+const prepareData = sourceData => {
   var labels = [];
-  var dataSet = [];
-  data.forEach(item => {
+  var data = [];
+  sourceData.forEach(item => {
     labels.push(item[0]);
-    dataSet.push(item[1]);
+    data.push(item[1]);
   });
-  return { labels, dataSet };
+  return {
+    labels,
+    datasets: [
+      {
+        type: 'bar',
+        backgroundColor: 'rgb(31, 147, 255)',
+        yAxisID: 'y',
+        label: 'Conversations',
+        data: data,
+      },
+    ],
+  };
 };
+
+const chartData = computed(() => {
+  return prepareData(props.componentData.chartData);
+});
+
+const { accountsCount, usersCount, inboxesCount, conversationsCount } =
+  props.componentData;
 </script>
 
 <template>
@@ -52,6 +63,10 @@ const prepareData = data => {
         </div>
       </div>
     </section>
-    <bar-chart class="p-8 w-full" :collection="prepareData(chartData)" />
+    <BarChart
+      class="p-8 w-full"
+      :collection="chartData"
+      style="max-height: 500px"
+    />
   </div>
 </template>

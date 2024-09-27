@@ -47,10 +47,6 @@ app.use(i18n);
 app.use(store);
 app.use(router);
 
-// This is used in dashboard/helper/actionCable.js
-// Since `app` is not available, we make a "fake" app with $store property
-window.WOOT_STORE = store;
-
 // [VITE] Disabled this, need to renable later
 if (window.errorLoggingConfig) {
   Sentry.init({
@@ -104,7 +100,7 @@ app.directive('on-clickaway', onClickaway);
 sync(store, router);
 // load common helpers into js
 commonHelpers();
-
+window.WOOT_STORE = store;
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 // [VITE] Disabled this we don't need it, we can use `useEmitter` directly

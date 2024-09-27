@@ -245,6 +245,17 @@ export default {
   }
 }
 
+/* .vjs-modal-dialog {
+  @apply hidden;
+} */
+
+/* [VITE] this is hack, for some reason videojs is reseting and removing controls */
+/* .vjs-controls-disabled .vjs-control-bar,
+.vjs-using-native-controls .vjs-control-bar,
+.vjs-error .vjs-control-bar {
+  display: flex !important;
+} */
+
 // Added to override the default text and bg style to support dark and light mode.
 .video-js .vjs-control-bar,
 .vjs-record.video-js .vjs-control.vjs-record-indicator:before {
