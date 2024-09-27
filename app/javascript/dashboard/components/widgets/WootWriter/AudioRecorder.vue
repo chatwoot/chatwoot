@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, defineEmits, defineExpose } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
 import { format, intervalToDuration } from 'date-fns';
-import { convertWebMToWav } from './utils/mp3ConversionUtils';
+import { convertAudio } from './utils/mp3ConversionUtils';
 
 const props = defineProps({
   audioRecordFormat: {
@@ -54,7 +54,7 @@ const initWaveSurfer = () => {
 
   record.value.on('record-end', async blob => {
     const audioUrl = URL.createObjectURL(blob);
-    const audioBlob = await convertWebMToWav(blob);
+    const audioBlob = await convertAudio(blob, props.audioRecordFormat);
     console.log(blob, audioBlob);
     wavesurfer.value.load(audioUrl);
     hasRecording.value = true;
