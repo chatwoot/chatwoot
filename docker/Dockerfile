@@ -31,7 +31,7 @@ RUN apk update && apk add --no-cache \
   && gem install bundler
 
 # Install pnpm and configure environment
-RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc"SHELL="$(which sh)" sh - \
+RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
     && source /root/.shrc \
     && pnpm --version
 
@@ -52,7 +52,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   else bundle install -j 4 -r 3; \
   fi
 
-COPY package.json pnpm.lock ./
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm i
 
 COPY . /app
@@ -112,7 +112,7 @@ RUN if [ "$RAILS_ENV" != "production" ]; then \
   # Install pnpm and configure environment
   wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
   && source /root/.shrc \
-  && pnpm --version \
+  && pnpm --version; \
   fi
 
 COPY --from=pre-builder /gems/ /gems/
