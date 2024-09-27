@@ -3,8 +3,7 @@ import { ref } from 'vue';
 import EmptyStateLayout from 'dashboard/playground/components/EmptyStateLayout.vue';
 import ArticleCard from 'dashboard/playground/HelpCenter/ArticleCard.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
-
-const dialogRef = ref(null);
+// import AddLocaleDialog from 'dashboard/playground/HelpCenter/AddLocaleDialog.vue';
 
 const articles = [
   {
@@ -41,7 +40,15 @@ const articles = [
   },
 ];
 
-const openDialog = () => {};
+const addLocaleDialogRef = ref(null);
+
+const openDialog = () => {
+  addLocaleDialogRef.value.dialogRef.open();
+};
+
+const handleDialogConfirm = () => {
+  // Add logic to create a new portal
+};
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
@@ -81,6 +88,10 @@ const openDialog = () => {};
           icon="add"
           @click="openDialog"
         />
+        <!-- <AddLocaleDialog
+          ref="addLocaleDialogRef"
+          @confirm="handleDialogConfirm"
+        /> -->
       </div>
     </template>
   </EmptyStateLayout>
