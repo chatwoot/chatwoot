@@ -13,7 +13,7 @@ defineProps({
     type: String,
     required: true,
   },
-  content: {
+  description: {
     type: String,
     default: '',
   },
@@ -76,10 +76,10 @@ onClickOutside(dialogContentRef, event => {
             {{ title }}
           </h3>
           <p
-            v-if="(type === 'alert' || type === 'confirm') && content"
-            class="text-sm text-gray-500 dark:text-gray-300"
+            v-if="description"
+            class="mb-0 text-sm text-slate-500 dark:text-slate-400"
           >
-            {{ content }}
+            {{ description }}
           </p>
         </div>
         <slot name="form">
