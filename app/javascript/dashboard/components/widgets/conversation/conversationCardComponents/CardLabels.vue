@@ -4,6 +4,10 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 export default {
   props: {
+    conversationId: {
+      type: [String, Number],
+      required: true,
+    },
     conversationLabels: {
       type: Array,
       required: true,
@@ -30,8 +34,13 @@ export default {
     };
   },
   watch: {
-    activeLabels() {
-      this.$nextTick(() => this.computeVisibleLabelPosition());
+    activeLabels: {
+      handler() {
+        this.$nextTick(() => {
+          this.computeVisibleLabelPosition();
+        });
+      },
+      deep: true,
     },
   },
   mounted() {
@@ -41,13 +50,26 @@ export default {
     // Happens especially when used in a virtual list.
     // We can make the first trigger, a standard part of the directive, in case
     // we face this issue again
-    this.computeVisibleLabelPosition();
+    this.$nextTick(() => this.computeVisibleLabelPosition());
   },
   methods: {
     onShowLabels(e) {
       e.stopPropagation();
       this.showAllLabels = !this.showAllLabels;
       this.$nextTick(() => this.computeVisibleLabelPosition());
+    },
+    getWidth(el) {
+      let width = el.offsetWidth;
+      if (width === 0) {
+        // Sometimes the last label width is not calculated correctly
+        // Despite trying to use multiple nextTicks, it still doesn't work
+        // So we calculate the width based on the text length assuming each character is 6px
+        // This is hacky, but it works
+        // [TODO] Fix this later
+        width = el.innerText.length * 6;
+      }
+
+      return width;
     },
     computeVisibleLabelPosition() {
       const beforeSlot = this.$slots.before ? 100 : 0;
@@ -58,7 +80,7 @@ export default {
       let labelOffset = 0;
       this.showExpandLabelButton = false;
       labels.forEach((label, index) => {
-        labelOffset += label.offsetWidth + 8;
+        labelOffset += this.getWidth(label) + 8;
         if (labelOffset < labelContainer.clientWidth - 16 - beforeSlot) {
           this.labelPosition = index;
         } else {
@@ -71,41 +93,43 @@ export default {
 </script>
 
 <template>
-  <div
-    v-if="activeLabels.length || $slots.before"
-    ref="labelContainer"
-    v-resize="computeVisibleLabelPosition"
-  >
-    <div
-      class="flex items-end flex-shrink min-w-0 gap-y-1"
-      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
-    >
-      <slot name="before" />
-      <woot-label
-        v-for="(label, index) in activeLabels"
-        :key="label ? label.id : index"
-        :title="label.title"
-        :description="label.description"
-        :color="label.color"
-        variant="smooth"
-        class="!mb-0 max-w-[calc(100%-0.5rem)]"
-        small
-        :class="{ hidden: !showAllLabels && index > labelPosition }"
-      />
-      <woot-button
-        v-if="showExpandLabelButton"
-        :title="
-          showAllLabels
-            ? $t('CONVERSATION.CARD.HIDE_LABELS')
-            : $t('CONVERSATION.CARD.SHOW_LABELS')
-        "
-        class="sticky right-0 flex-shrink-0 mr-6 show-more--button rtl:rotate-180"
-        color-scheme="secondary"
-        variant="hollow"
-        :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
-        size="tiny"
-        @click="onShowLabels"
-      />
+  <div>
+    <div v-if="activeLabels.length || $slots.before">
+      <div
+        ref="labelContainer"
+        v-resize="computeVisibleLabelPosition"
+        class="flex items-end flex-shrink min-w-0 gap-y-1"
+        :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
+      >
+        <slot name="before" />
+        <woot-label
+          v-for="(label, index) in activeLabels"
+          :key="label ? label.id : index"
+          :title="label.title"
+          :description="label.description"
+          :color="label.color"
+          variant="smooth"
+          :data-label-idx="index"
+          :data-label-max="labelPosition"
+          class="!mb-0 max-w-[calc(100%-0.5rem)]"
+          small
+          :class="{ hidden: !showAllLabels && index > labelPosition }"
+        />
+        <woot-button
+          v-if="showExpandLabelButton"
+          :title="
+            showAllLabels
+              ? $t('CONVERSATION.CARD.HIDE_LABELS')
+              : $t('CONVERSATION.CARD.SHOW_LABELS')
+          "
+          class="sticky right-0 flex-shrink-0 mr-6 show-more--button rtl:rotate-180"
+          color-scheme="secondary"
+          variant="hollow"
+          :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
+          size="tiny"
+          @click="onShowLabels"
+        />
+      </div>
     </div>
   </div>
 </template>
