@@ -64,7 +64,7 @@ const inputBorderClass = computed(() => {
     <label
       v-if="label"
       :for="id"
-      class="mb-0.5 text-sm font-medium text-gray-700"
+      class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50"
     >
       {{ label }}
     </label>
