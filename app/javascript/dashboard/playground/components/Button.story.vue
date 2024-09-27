@@ -5,7 +5,7 @@ import Button from './Button.vue';
 <template>
   <Story title="Components/Button" :layout="{ type: 'grid', width: '200px' }">
     <Variant title="Default">
-      <Button label="Default Button" variant="default" size="sm" />
+      <Button label="Default Button" variant="default" size="default" />
     </Variant>
 
     <Variant title="Destructive">
@@ -37,7 +37,7 @@ import Button from './Button.vue';
     </Variant>
 
     <Variant title="Icon Only">
-      <Button icon="ic_fluent_add_24_regular" size="icon" />
+      <Button icon="add" size="icon" variant="outline" />
     </Variant>
 
     <Variant title="Small Size">

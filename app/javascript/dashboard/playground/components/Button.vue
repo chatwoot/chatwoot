@@ -45,7 +45,7 @@ const buttonVariants = {
     destructive:
       'bg-ruby-700 dark:bg-ruby-600 text-white dark:text-white hover:opacity-95 dark:hover:opacity-95',
     outline:
-      'border border-input bg-white hover:bg-white hover:text-slate-500 hover:opacity-95 dark:hover:opacity-95',
+      'border border-slate-200 dark:border-slate-700 bg-white hover:bg-white hover:text-slate-500 hover:opacity-95 dark:hover:opacity-95',
     secondary:
       'bg-slate-50 text-slate-900 dark:bg-slate-700/50 dark:text-slate-100 hover:opacity-95 dark:hover:opacity-95',
     ghost:

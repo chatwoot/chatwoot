@@ -45,7 +45,7 @@ const passwordValue = ref('');
         label="Email"
         placeholder="Enter email"
         message="We'll never share your email with anyone else."
-        messageType="info"
+        message-type="info"
       />
     </Variant>
 

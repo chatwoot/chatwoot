@@ -33,11 +33,15 @@ defineProps({
         </div>
         <div class="flex items-center justify-end gap-1">
           <div class="flex items-center gap-4">
-            <span class="text-sm text-slate-500 dark:text-slate-400">
+            <span
+              class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
+            >
               29 articles
             </span>
             <div class="w-px h-3 bg-slate-200 dark:bg-slate-700" />
-            <span class="text-sm text-slate-500 dark:text-slate-400">
+            <span
+              class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
+            >
               5 categories
             </span>
           </div>

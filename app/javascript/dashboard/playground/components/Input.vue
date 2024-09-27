@@ -27,6 +27,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   messageType: {
     type: String,
     default: 'info',
@@ -74,6 +78,7 @@ const inputBorderClass = computed(() => {
       :class="[customInputClass, inputBorderClass]"
       :type="type"
       :placeholder="placeholder"
+      :disabled="disabled"
       class="flex w-full reset-base text-sm h-8 pl-3 pr-2 rtl:pr-3 rtl:pl-2 py-1.5 !mb-0 border rounded-lg focus:border-woot-500 dark:focus:border-woot-600 bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-500 ease-in-out"
     />
     <p
