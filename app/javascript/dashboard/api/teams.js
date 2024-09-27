@@ -38,6 +38,10 @@ export class TeamsAPI extends CacheEnabledApiClient {
     });
   }
 
+  getMyTeam() {
+    return axios.get(`${this.url}/my_team`);
+  }
+
   getLeader(teamId) {
     return axios.get(`${this.url}/${teamId}/leader`);
   }

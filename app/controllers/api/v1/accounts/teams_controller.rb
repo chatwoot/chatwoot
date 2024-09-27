@@ -1,5 +1,5 @@
 class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
-  before_action :fetch_team, except: [:index, :create]
+  before_action :fetch_team, except: [:index, :create, :my_team]
   before_action :check_authorization
 
   def index
@@ -20,6 +20,14 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
   def destroy
     @team.destroy!
     head :ok
+  end
+
+  def my_team
+    @team = Current.account.teams
+                   .joins(:members)
+                   .where(members: { id: Current.user.id })
+                   .order('teams.created_at ASC')
+                   .first
   end
 
   def update_leader

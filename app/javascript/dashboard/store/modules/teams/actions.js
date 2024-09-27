@@ -95,4 +95,8 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  getMyTeam: async () => {
+    return TeamsAPI.getMyTeam();
+  },
 };

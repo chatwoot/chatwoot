@@ -19,6 +19,10 @@ class TeamPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def my_team?
+    true
+  end
+
   def leader?
     @account_user.administrator?
   end

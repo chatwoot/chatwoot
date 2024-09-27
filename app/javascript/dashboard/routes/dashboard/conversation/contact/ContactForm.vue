@@ -195,6 +195,7 @@ export default {
     ...mapGetters({
       agents: 'agents/getAgents',
       teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
     }),
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
@@ -231,10 +232,19 @@ export default {
   },
   mounted() {
     this.$store.dispatch('agents/get');
-    this.$store.dispatch('contacts/show', { id: this.contact.id }).then(() => {
-      this.setContactObject();
-      this.setDialCode();
-    });
+    if (this.contact?.id) {
+      this.$store
+        .dispatch('contacts/show', { id: this.contact.id })
+        .then(() => {
+          this.setContactObject();
+          this.setDialCode();
+        });
+    } else {
+      this.agent = this.currentUser;
+      this.$store.dispatch('teams/getMyTeam').then(response => {
+        if (response.data) this.team = response.data;
+      });
+    }
   },
   methods: {
     onCancel() {
