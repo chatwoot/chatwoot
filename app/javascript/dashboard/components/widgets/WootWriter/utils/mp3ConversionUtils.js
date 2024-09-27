@@ -1,4 +1,51 @@
 import lamejs from '@breezystack/lamejs';
+export const convertWebMToWav = async webmBlob => {
+  // Create an AudioContext
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Read the WebM file
+  const arrayBuffer = await webmBlob.arrayBuffer();
+
+  // Decode the audio data
+  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+  // Create a new AudioBuffer for the WAV format
+  const wavBuffer = audioContext.createBuffer(
+    audioBuffer.numberOfChannels,
+    audioBuffer.length,
+    audioBuffer.sampleRate
+  );
+
+  // Copy the decoded audio data to the new buffer
+  for (let channel = 0; channel < audioBuffer.numberOfChannels; channel += 1) {
+    wavBuffer.copyToChannel(audioBuffer.getChannelData(channel), channel);
+  }
+
+  // Create a new AudioBufferSourceNode and set its buffer
+  const source = audioContext.createBufferSource();
+  source.buffer = wavBuffer;
+
+  // Connect the source to a MediaStreamDestination
+  const dest = audioContext.createMediaStreamDestination();
+  source.connect(dest);
+
+  // Start playing (this is necessary to generate the stream)
+  source.start(0);
+
+  // Use MediaRecorder to save the stream as a WAV file
+  const mediaRecorder = new MediaRecorder(dest.stream);
+  const chunks = [];
+
+  return new Promise(resolve => {
+    mediaRecorder.ondataavailable = e => chunks.push(e.data);
+    mediaRecorder.onstop = () =>
+      resolve(new Blob(chunks, { type: 'audio/wav' }));
+
+    mediaRecorder.start();
+    setTimeout(() => mediaRecorder.stop(), wavBuffer.duration * 1000 + 100);
+  });
+};
+
 /**
  * Encodes a mono channel audio stream to MP3 format.
  * @param {number} channels - Number of audio channels.

@@ -76,7 +76,9 @@
     "tinykeys": "^3.0.0",
     "turbolinks": "^5.2.0",
     "urlpattern-polyfill": "^10.0.0",
-    "videojs-record": "^4.5.0",
+    "video.js": "7.18.1",
+    "videojs-record": "4.5.0",
+    "videojs-wavesurfer": "3.8.0",
     "vue": "^3.5.8",
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
@@ -91,9 +93,7 @@
     "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "6.0.0-rc.1",
-    "wavesurfer.js": "^6.0.4",
-    "video.js": "7.0.5",
-    "videojs-wavesurfer": "^3.10.0"
+    "wavesurfer.js": "7.8.6"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
