@@ -61,7 +61,9 @@ const hasValue = computed(() => {
         variant="hollow"
         color-scheme="secondary"
         class="w-full border border-solid border-slate-100 dark:border-slate-700 px-2 hover:border-slate-75 dark:hover:border-slate-600"
-        @click="toggleDropdown"
+        @click="
+          () => toggleDropdown() // ensure that the event is not passed to the button
+        "
       >
         <div class="flex gap-1">
           <Thumbnail

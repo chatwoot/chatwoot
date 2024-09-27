@@ -103,7 +103,7 @@ export default {
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
-      doAutoSaveDraft: () => {},
+      doAutoSaveDraft: () => { },
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
@@ -689,10 +689,10 @@ export default {
       return isPrivate
         ? useTrack(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
         : useTrack(CONVERSATION_EVENTS.SENT_MESSAGE, {
-            channelType: this.channelType,
-            signatureEnabled: this.sendWithSignature,
-            hasReplyTo: !!this.inReplyTo?.id,
-          });
+          channelType: this.channelType,
+          signatureEnabled: this.sendWithSignature,
+          hasReplyTo: !!this.inReplyTo?.id,
+        });
     },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
@@ -827,10 +827,11 @@ export default {
       }
     },
     toggleAudioRecorderPlayPause() {
+      console.log(this.$refs.audioRecorderInput);
       if (this.isRecordingAudio) {
         if (!this.isRecorderAudioStopped) {
           this.isRecorderAudioStopped = true;
-          this.$refs.audioRecorderInput.stopAudioRecording();
+          this.$refs.audioRecorderInput.stopRecording();
         } else if (this.isRecorderAudioStopped) {
           this.$refs.audioRecorderInput.playPause();
         }
@@ -857,7 +858,8 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
-    onStateProgressRecorderChanged(duration) {
+    onRecordProgressChanged(duration) {
+      console.log(duration);
       this.recordingAudioDurationText = duration;
     },
     onStateRecorderChanged(state) {
@@ -1126,7 +1128,7 @@ export default {
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
-        @stateRecorderProgressChanged="onStateProgressRecorderChanged"
+        @recorderProgressChanged="onRecordProgressChanged"
         @stateRecorderChanged="onStateRecorderChanged"
         @finishRecord="onFinishRecorder"
       />
@@ -1256,7 +1258,7 @@ export default {
     .reply-box__top {
       @apply bg-yellow-100 dark:bg-yellow-800;
 
-      > input {
+      >input {
         @apply bg-yellow-100 dark:bg-yellow-800;
       }
     }
