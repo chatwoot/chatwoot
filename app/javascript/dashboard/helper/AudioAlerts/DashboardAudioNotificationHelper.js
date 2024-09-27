@@ -22,16 +22,6 @@ class DashboardAudioNotificationHelper {
     this.currentUser = null;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
-    // we're starting with null store, since using window.WOOT.$store directly
-    // is not possible now (neither is a good practice)
-    this.store = null;
-  }
-
-  ensureStore(store) {
-    // prevent unecessary store re-assignment
-    if (this.store) return;
-
-    this.store = store;
   }
 
   setInstanceValues({
@@ -69,12 +59,12 @@ class DashboardAudioNotificationHelper {
   }
 
   executeRecurringNotification() {
-    if (!this.store) {
+    if (!window.WOOT_STORE) {
       this.clearSetTimeout();
       return;
     }
 
-    const mineConversation = this.store.getters.getMineChats({
+    const mineConversation = window.WOOT_STORE.getters.getMineChats({
       assigneeType: 'me',
       status: 'open',
     });
@@ -119,8 +109,11 @@ class DashboardAudioNotificationHelper {
     return conversationAssigneeId === this.currentUserId;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   isMessageFromCurrentConversation(message) {
-    return this.store.getters.getSelectedChat?.id === message.conversation_id;
+    return (
+      window.WOOT_STORE.getters.getSelectedChat?.id === message.conversation_id
+    );
   }
 
   isMessageFromCurrentUser(message) {
@@ -128,7 +121,7 @@ class DashboardAudioNotificationHelper {
   }
 
   isUserHasConversationPermission() {
-    const currentAccountId = this.store.getters.getCurrentAccountId;
+    const currentAccountId = window.WOOT_STORE.getters.getCurrentAccountId;
     // Get the user permissions for the current account
     const userPermissions = getUserPermissions(
       this.currentUser,
@@ -184,4 +177,6 @@ class DashboardAudioNotificationHelper {
   }
 }
 
-export default new DashboardAudioNotificationHelper();
+const notifHelper = new DashboardAudioNotificationHelper();
+window.notifHelper = notifHelper;
+export default notifHelper;
