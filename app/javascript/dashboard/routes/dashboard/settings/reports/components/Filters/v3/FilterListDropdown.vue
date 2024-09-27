@@ -50,7 +50,7 @@ const isFilterActive = id => {
 </script>
 <template>
   <div
-    class="absolute z-20 w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50 max-h-[600px]"
+    class="absolute z-20 w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50 max-h-[800px]"
     @click.stop
   >
     <slot name="search">

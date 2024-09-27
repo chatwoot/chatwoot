@@ -48,12 +48,12 @@ class Contacts::FilterService < FilterService
 
     case filter_values(query_hash) # NOTICE: when 'all' => DO NOTHING
     when 'today'
-      combined_query_array << 'conversation_plans.snoozed_until::date = now()::date'
+      combined_query_array << 'conversation_plans.completed_at IS NULL AND conversation_plans.snoozed_until::date = now()::date'
     when 'this_week'
       beginning_of_week = Time.zone.now.at_beginning_of_week.to_fs(:db)
       end_of_week = Time.zone.now.at_end_of_week.to_fs(:db)
       combined_query_array <<
-        "conversation_plans.snoozed_until >= timestamp '#{beginning_of_week}' " \
+        "conversation_plans.completed_at IS NULL AND conversation_plans.snoozed_until >= timestamp '#{beginning_of_week}' " \
         "AND conversation_plans.snoozed_until < timestamp '#{end_of_week}'"
     when 'unresolved'
       combined_query_array << 'conversation_plans.completed_at IS NULL'

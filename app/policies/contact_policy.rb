@@ -50,4 +50,8 @@ class ContactPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def available_products?
+    true
+  end
 end

@@ -9,6 +9,7 @@
         :custom-views="customViews"
         :custom-view-value="customViewValue"
         :quick-filters="quickFilters"
+        :segments-query="segmentsQuery"
         @on-filter-change="onFilterChange"
         @on-toggle-filter="onToggleFilters"
         @on-input-search="onInputSearch"

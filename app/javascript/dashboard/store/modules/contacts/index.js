@@ -21,6 +21,7 @@ const state = {
   sortOrder: [],
   appliedFilters: [],
   stageMeta: {},
+  availableProducts: [],
 };
 
 export default {

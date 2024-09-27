@@ -255,6 +255,15 @@ export const actions = {
     }
   },
 
+  availableProducts: async ({ commit }, queryPayload) => {
+    try {
+      const { data } = await ContactAPI.availableProducts(queryPayload);
+      commit(types.SET_AVAILABLE_PRODUCTS, data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   filter: async (
     { commit },
     {

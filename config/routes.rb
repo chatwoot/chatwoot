@@ -148,6 +148,7 @@ Rails.application.routes.draw do
               post :filter
               post :import
               get :export
+              post :available_products
             end
             member do
               get :contactable_inboxes

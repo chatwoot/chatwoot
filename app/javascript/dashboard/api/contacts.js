@@ -85,6 +85,10 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  availableProducts(queryPayload) {
+    return axios.post(`${this.url}/available_products`, queryPayload);
+  }
+
   // eslint-disable-next-line default-param-last
   filter(page = 1, sortAttr = 'name', stageType, stageCode, queryPayload) {
     let requestURL = `${this.url}/filter?${buildContactParams(

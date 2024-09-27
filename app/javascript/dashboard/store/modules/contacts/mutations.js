@@ -28,6 +28,10 @@ export const mutations = {
     });
   },
 
+  [types.SET_AVAILABLE_PRODUCTS]: ($state, data) => {
+    Vue.set($state, 'availableProducts', data);
+  },
+
   [types.SET_CONTACTS]: ($state, data) => {
     const sortOrder = data.map(contact => {
       Vue.set($state.records, contact.id, {

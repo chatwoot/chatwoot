@@ -26,4 +26,7 @@ export const getters = {
   getAppliedContactFilters: _state => {
     return _state.appliedFilters;
   },
+  getAvailableProducts: $state => {
+    return $state.availableProducts || [];
+  },
 };

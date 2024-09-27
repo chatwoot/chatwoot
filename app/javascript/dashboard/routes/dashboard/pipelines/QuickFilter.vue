@@ -69,6 +69,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    segmentsQuery: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -81,10 +85,14 @@ export default {
   computed: {
     ...mapGetters({
       agents: 'agents/getAgents',
-      products: 'products/getProducts',
       teams: 'teams/getTeams',
       labels: 'labels/getLabels',
     }),
+    products() {
+      return this.hasActiveFilters && !this.hasProductFilterOnly
+        ? this.$store.getters['contacts/getAvailableProducts']
+        : this.$store.getters['products/getProducts'];
+    },
     conversation_plans() {
       return [
         {
@@ -131,21 +139,21 @@ export default {
       const filters = [
         {
           id: 0,
-          key: 'custom_view',
-          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
-          type: 'customViews',
+          key: 'conversation_plan',
+          name: this.$t('PIPELINE_PAGE.FILTER.CONVERSATION_PLANS'),
+          type: 'conversation_plans',
         },
         {
           id: 1,
-          key: 'label',
-          name: this.$t('PIPELINE_PAGE.FILTER.LABELS'),
-          type: 'labels',
-        },
-        {
-          id: 2,
           key: 'assignee_id',
           name: this.$t('PIPELINE_PAGE.FILTER.AGENTS'),
           type: 'agents',
+        },
+        {
+          id: 2,
+          key: 'team_id',
+          name: this.$t('PIPELINE_PAGE.FILTER.TEAMS'),
+          type: 'teams',
         },
         {
           id: 3,
@@ -155,15 +163,15 @@ export default {
         },
         {
           id: 4,
-          key: 'team_id',
-          name: this.$t('PIPELINE_PAGE.FILTER.TEAMS'),
-          type: 'teams',
+          key: 'label',
+          name: this.$t('PIPELINE_PAGE.FILTER.LABELS'),
+          type: 'labels',
         },
         {
           id: 5,
-          key: 'conversation_plan',
-          name: this.$t('PIPELINE_PAGE.FILTER.CONVERSATION_PLANS'),
-          type: 'conversation_plans',
+          key: 'custom_view',
+          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
+          type: 'customViews',
         },
       ];
       return filters.map(item => {
@@ -242,6 +250,14 @@ export default {
     hasActiveFilters() {
       return Object.values(this.appliedFilters).some(value => value !== null);
     },
+    hasProductFilter() {
+      return Object.keys(this.appliedFilters).some(key => key === 'product_id');
+    },
+    hasProductFilterOnly() {
+      return (
+        this.hasProductFilter && Object.keys(this.appliedFilters).length === 1
+      );
+    },
     isAllFilterSelected() {
       return !this.filterListMenuItems.length;
     },
@@ -249,6 +265,11 @@ export default {
   watch: {
     appliedFiltersProp() {
       this.appliedFilters = this.appliedFiltersProp;
+    },
+    segmentsQuery() {
+      if (this.hasActiveFilters && !this.hasProductFilter) {
+        this.$store.dispatch('contacts/availableProducts', this.segmentsQuery);
+      }
     },
   },
   mounted() {

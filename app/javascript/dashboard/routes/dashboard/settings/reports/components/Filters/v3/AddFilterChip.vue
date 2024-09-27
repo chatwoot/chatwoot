@@ -84,7 +84,7 @@ const closeDropdown = () => {
                 :list-items="item.options"
                 :input-placeholder="$t('GENERAL.LIST_SEARCH_PLACEHOLDER')"
                 :enable-search="enableSearch"
-                class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
+                class="flex flex-col w-80 overflow-y-auto top-0 left-36"
                 @click="addFilter"
               />
             </template>

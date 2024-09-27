@@ -41,6 +41,7 @@
       <div class="flex">
         <quick-filter
           :applied-filters-prop="quickFilters"
+          :segments-query="segmentsQuery"
           @filter-change="onFilterChange"
         />
         <div v-if="hasActiveSegments && canEditView">
@@ -137,6 +138,10 @@ export default {
     searchQuery: {
       type: String,
       default: '',
+    },
+    segmentsQuery: {
+      type: Object,
+      default: () => {},
     },
     displayOptions: {
       type: Object,
