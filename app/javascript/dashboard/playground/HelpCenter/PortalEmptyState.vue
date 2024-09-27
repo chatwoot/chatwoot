@@ -5,9 +5,7 @@ import ArticleCard from 'dashboard/playground/HelpCenter/ArticleCard.vue';
 import CategoryCard from 'dashboard/playground/HelpCenter/CategoryCard.vue';
 import LocaleCard from 'dashboard/playground/HelpCenter/LocaleCard.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
-import Dialog from 'dashboard/playground/components/Dialog.vue';
-import InputV4 from 'dashboard/playground/components/Input.vue';
-const dialogRef = ref(null);
+import CreatePortalDialog from 'dashboard/playground/HelpCenter/CreatePortalDialog.vue';
 
 const articles = [
   {
@@ -63,14 +61,13 @@ const locales = [
   { name: 'Malayalam', isDefault: false },
 ];
 
+const createPortalDialogRef = ref(null);
+
 const openDialog = () => {
-  dialogRef.value.open();
+  createPortalDialogRef.value.dialogRef.open();
 };
 
-const handleDialogClose = () => {};
-
 const handleDialogConfirm = () => {
-  handleDialogClose();
   // Add logic to create a new portal
 };
 </script>
@@ -131,31 +128,10 @@ const handleDialogConfirm = () => {
           icon="add"
           @click="openDialog"
         />
-        <Dialog
-          ref="dialogRef"
-          type="edit"
-          title="Create New Portal"
+        <CreatePortalDialog
+          ref="createPortalDialogRef"
           @confirm="handleDialogConfirm"
-        >
-          <template #form>
-            <div class="flex flex-col gap-6">
-              <InputV4
-                id="portal-name"
-                type="text"
-                placeholder="User Guide | Chatwoot"
-                label="Name"
-                message="This will be the name of your public facing portal"
-              />
-              <InputV4
-                id="portal-slug"
-                type="text"
-                placeholder="user-guide"
-                label="Slug"
-                message="app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
-              />
-            </div>
-          </template>
-        </Dialog>
+        />
       </div>
     </template>
   </EmptyStateLayout>
