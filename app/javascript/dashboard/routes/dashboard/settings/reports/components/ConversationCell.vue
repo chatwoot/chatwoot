@@ -14,8 +14,8 @@ const routerParams = {
 
 <template>
   <div class="text-right">
-    <router-link :to="routerParams">
-      {{ row.original.conversationId }}
+    <router-link :to="routerParams" class="hover:underline">
+      {{ `#${row.original.conversationId}` }}
     </router-link>
     <div
       v-tooltip="row.original.createdAt"

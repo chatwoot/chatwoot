@@ -31,7 +31,7 @@ export default {
         (<AgentBotType :bot-type="agentBot.bot_type" />)
       </div>
       <div class="agent-bot--description">
-        <ShowMore :text="agentBot.description" :limit="120" />
+        <ShowMore :text="agentBot.description || ''" :limit="120" />
       </div>
     </td>
     <td class="flex justify-end gap-1">
