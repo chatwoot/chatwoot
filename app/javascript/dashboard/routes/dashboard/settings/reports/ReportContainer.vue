@@ -6,7 +6,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
 import ChartStats from './components/ChartElements/ChartStats.vue';
-import BarChart from 'dashboard/components/widgets/chart/BarChart.vue';
+import BarChart from 'shared/components/charts/BarChart.vue';
 
 export default {
   components: { ChartStats, BarChart },

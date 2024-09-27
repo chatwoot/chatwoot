@@ -149,55 +149,14 @@ const addAgent = async () => {
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <div class="w-full">
-          <label :class="{ error: v$.agentName.$error }">
-            {{ $t('AGENT_MGMT.ADD.FORM.NAME.LABEL') }}
-            <input
-              v-model="agentName"
-              type="text"
-              :placeholder="$t('AGENT_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-              @input="v$.agentName.$touch"
-            />
-          </label>
-        </div>
-        <div class="w-full">
-          <label :class="{ error: v$.agentType.$error }">
-            {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.LABEL') }}
-            <select v-model="agentType">
-              <option v-for="role in roles" :key="role.name" :value="role.name">
-                {{ role.label }}
-              </option>
-            </select>
-            <span v-if="v$.agentType.$error" class="message">
-              {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.ERROR') }}
-            </span>
-          </label>
-        </div>
-        <div class="w-full">
-          <label :class="{ error: v$.agentEmail.$error }">
-            {{ $t('AGENT_MGMT.ADD.FORM.EMAIL.LABEL') }}
-            <input
-              v-model="agentEmail"
-              type="text"
-              :placeholder="$t('AGENT_MGMT.ADD.FORM.EMAIL.PLACEHOLDER')"
-              @input="v$.agentEmail.$touch"
-            />
-          </label>
-        </div>
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <div class="w-full">
-            <WootSubmitButton
-              :disabled="
-                v$.agentEmail.$invalid ||
-                v$.agentName.$invalid ||
-                uiFlags.isCreating
-              "
-              :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
-              :loading="uiFlags.isCreating"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
-          </div>
+          <WootSubmitButton
+            :disabled="v$.$invalid || uiFlags.isCreating"
+            :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
+            :loading="uiFlags.isCreating"
+          />
+          <button class="button clear" @click.prevent="emit('close')">
+            {{ $t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
+          </button>
         </div>
       </div>
     </form>

@@ -175,6 +175,10 @@ export default {
   @apply list-none m-0 p-0;
 }
 
+.formkit-actions {
+  @apply hidden;
+}
+
 @media (prefers-color-scheme: dark) {
   .pre-chat-header-message .link {
     @apply text-woot-500 underline;

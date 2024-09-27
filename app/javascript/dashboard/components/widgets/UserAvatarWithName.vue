@@ -1,25 +1,20 @@
-<script>
+<script setup>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
-export default {
-  components: {
-    Thumbnail,
+defineProps({
+  user: {
+    type: Object,
+    default: () => {},
   },
-  props: {
-    user: {
-      type: Object,
-      default: () => {},
-    },
-    size: {
-      type: String,
-      default: '20px',
-    },
-    textClass: {
-      type: String,
-      default: 'text-xs text-slate-600',
-    },
+  size: {
+    type: String,
+    default: '20px',
   },
-};
+  textClass: {
+    type: String,
+    default: 'text-xs text-slate-600',
+  },
+});
 </script>
 
 <template>

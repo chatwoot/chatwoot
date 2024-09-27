@@ -24,7 +24,7 @@ const props = defineProps({
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
 
 const fontFamily =
-  'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
 const defaultChartOptions = {
   responsive: true,
@@ -46,18 +46,21 @@ const defaultChartOptions = {
   scales: {
     x: {
       ticks: {
-        fontFamily,
+        fontFamily: fontFamily,
       },
-      gridLines: {
+      grid: {
         drawOnChartArea: false,
       },
     },
     y: {
+      type: 'linear',
+      position: 'left',
       ticks: {
-        fontFamily,
+        fontFamily: fontFamily,
         beginAtZero: true,
+        stepSize: 1,
       },
-      gridLines: {
+      grid: {
         drawOnChartArea: false,
       },
     },

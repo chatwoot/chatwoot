@@ -63,7 +63,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 md:px-0 w-full h-full max-w-full overflow-auto bg-white dark:bg-slate-900"
+    class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 md:px-0 w-full min-h-screen max-w-full overflow-auto bg-white dark:bg-slate-900"
   >
     <div class="flex flex-col justify-start sm:justify-center gap-6">
       <div class="flex flex-col gap-1.5 items-start sm:items-center">
