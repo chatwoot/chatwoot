@@ -69,22 +69,22 @@ onClickOutside(dialogContentRef, event => {
         class="flex flex-col w-full h-auto gap-6 p-6 overflow-hidden text-left align-middle transition-all duration-300 ease-in-out transform bg-white shadow-xl dark:bg-slate-800 rounded-xl"
         @click.stop
       >
-        <h3
-          class="text-base font-medium leading-6 text-gray-900 dark:text-white"
-        >
-          {{ title }}
-        </h3>
-        <div class="mt-2">
+        <div class="flex flex-col gap-2">
+          <h3
+            class="text-base font-medium leading-6 text-gray-900 dark:text-white"
+          >
+            {{ title }}
+          </h3>
           <p
             v-if="(type === 'alert' || type === 'confirm') && content"
             class="text-sm text-gray-500 dark:text-gray-300"
           >
             {{ content }}
           </p>
-          <slot v-else-if="type === 'edit'" name="form">
-            <!-- Form content will be injected here -->
-          </slot>
         </div>
+        <slot name="form">
+          <!-- Form content will be injected here -->
+        </slot>
         <div class="flex items-center justify-between w-full gap-3">
           <ButtonV4
             variant="secondary"
