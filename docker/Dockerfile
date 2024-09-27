@@ -29,8 +29,11 @@ RUN apk update && apk add --no-cache \
   git \
   && mkdir -p /var/app \
   && gem install bundler
-  && wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
-  && source /root/.shrc
+
+# Install pnpm and configure environment
+RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc"SHELL="$(which sh)" sh - \
+    && source /root/.shrc \
+    && pnpm --version
 
 WORKDIR /app
 
@@ -105,7 +108,11 @@ RUN apk update && apk add --no-cache \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add --no-cache nodejs-current yarn; \
+  apk add --no-cache nodejs-current; \
+  # Install pnpm and configure environment
+  wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
+  && source /root/.shrc \
+  && pnpm --version \
   fi
 
 COPY --from=pre-builder /gems/ /gems/
