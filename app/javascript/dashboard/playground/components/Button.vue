@@ -43,7 +43,7 @@ const buttonVariants = {
     default:
       'bg-woot-500 dark:bg-woot-500 hover:opacity-95 text-white dark:text-white dark:hover:opacity-95',
     destructive:
-      'bg-ruby-500 dark:bg-ruby-500 text-white dark:text-white hover:opacity-95 dark:hover:opacity-95',
+      'bg-ruby-700 dark:bg-ruby-600 text-white dark:text-white hover:opacity-95 dark:hover:opacity-95',
     outline:
       'border border-input bg-white hover:bg-white hover:text-slate-500 hover:opacity-95 dark:hover:opacity-95',
     secondary:

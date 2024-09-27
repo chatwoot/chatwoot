@@ -6,8 +6,8 @@ import ButtonV4 from 'dashboard/playground/components/Button.vue';
 defineProps({
   type: {
     type: String,
-    default: 'alert',
-    validator: value => ['alert', 'edit', 'confirm'].includes(value),
+    default: 'edit',
+    validator: value => ['alert', 'edit'].includes(value),
   },
   title: {
     type: String,
@@ -95,7 +95,7 @@ onClickOutside(dialogContentRef, event => {
           />
           <ButtonV4
             v-if="type !== 'alert'"
-            :variant="type === 'edit' ? 'default' : 'danger'"
+            :variant="type === 'edit' ? 'default' : 'destructive'"
             :label="confirmButtonLabel"
             class="w-full"
             size="sm"
