@@ -168,6 +168,12 @@ class Messages::MessageBuilder
     @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
   end
 
+  def template_params_stringified
+    # rubocop:disable Layout/LineLength
+    @params[:stringified_template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:stringified_template_params]) } } : {}
+    # rubocop:enable Layout/LineLength
+  end
+
   def ignore_automation_rules
     @ignore_automation_rules.present? && @ignore_automation_rules == 'true' ? { additional_attributes: { ignore_automation_rules: true } } : {}
   end
@@ -196,7 +202,7 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(template_params_stringified)
   end
   # rubocop:enable Layout/LineLength
 end

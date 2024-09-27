@@ -23,6 +23,12 @@ export const buildCreatePayload = ({
       payload.append('attachments[]', file);
     });
     payload.append('private', isPrivate);
+    if (templateParams) {
+      payload.append(
+        'stringified_template_params',
+        JSON.stringify(templateParams)
+      );
+    }
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
     payload.append('bcc_emails', bccEmails);

@@ -34,6 +34,14 @@
               </p>
               <p class="label-body">{{ getTemplatebody(template) }}</p>
             </div>
+            <div v-if="getTemplateHeader(template)">
+              <p class="strong">Template Header</p>
+              <p class="label-body">{{ getTemplateHeader(template) }}</p>
+            </div>
+            <div v-if="getTemplateFooter(template)">
+              <p class="strong">Template Footer</p>
+              <p class="label-body">{{ getTemplateFooter(template) }}</p>
+            </div>
             <div class="label-category">
               <p class="strong">
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.CATEGORY') }}
@@ -55,9 +63,6 @@
 </template>
 
 <script>
-// TODO: Remove this when we support all formats
-const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
-
 export default {
   props: {
     inboxId: {
@@ -72,14 +77,12 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      // TODO: Remove the last filter when we support all formats
       return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
         .filter(template => template.status.toLowerCase() === 'approved')
-        .filter(template => {
-          return template.components.every(component => {
-            return !formatsToRemove.includes(component.format);
-          });
-        });
+        .filter(
+          template =>
+            !template.components.some(component => component.type === 'BUTTONS')
+        );
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
@@ -91,6 +94,20 @@ export default {
     getTemplatebody(template) {
       return template.components.find(component => component.type === 'BODY')
         .text;
+    },
+    getTemplateHeader(template) {
+      const headerComponent = template.components.find(
+        component => component.type === 'HEADER'
+      );
+      return headerComponent
+        ? headerComponent.text || headerComponent.format
+        : null;
+    },
+    getTemplateFooter(template) {
+      const footerComponent = template.components.find(
+        component => component.type === 'FOOTER'
+      );
+      return footerComponent ? footerComponent.text : null;
     },
   },
 };

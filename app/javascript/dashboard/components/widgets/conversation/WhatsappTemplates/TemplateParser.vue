@@ -1,52 +1,89 @@
 <template>
   <div class="w-full">
-    <textarea
-      v-model="processedString"
-      rows="4"
-      readonly
-      class="template-input"
-    />
-    <div v-if="variables" class="template__variables-container">
-      <p class="variables-label">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
-      </p>
+    <div class="max-h-[22.75rem] overflow-y-auto">
       <div
-        v-for="(variable, key) in processedParams"
-        :key="key"
-        class="template__variable-item"
+        v-for="(componentVariables, componentType) in variables"
+        :key="componentType"
       >
-        <span class="variable-label">
-          {{ key }}
-        </span>
-        <woot-input
-          v-model="processedParams[key]"
-          type="text"
-          class="variable-input"
-          :styles="{ marginBottom: 0 }"
+        <h3>
+          {{ `${componentType.toUpperCase()}` }}
+        </h3>
+        <textarea
+          v-if="processedString[componentType]"
+          v-model="processedString[componentType]"
+          rows="4"
+          readonly
+          class="template-input"
         />
+        <div
+          v-if="
+            componentVariables.length ||
+            (componentType === 'header' && isHeaderMediaFormat)
+          "
+          class="template__variables-container"
+        >
+          <p class="variables-label">
+            {{ `${getHeaderMediaFormat}` }}
+          </p>
+          <!-- Add file upload option for header with specific formats -->
+          <template v-if="componentType === 'header' && isHeaderMediaFormat">
+            <file-upload
+              :accept="acceptedFileTypes"
+              :size="MAXIMUM_FILE_UPLOAD_SIZE * 1024 * 1024"
+              @input-file="handleFileUpload"
+            >
+              <woot-button variant="smooth">
+                {{ `Upload ${getHeaderMediaFormat}` }}
+              </woot-button>
+            </file-upload>
+            <p v-if="uploadedFile">
+              {{ uploadedFile.name }}
+            </p>
+          </template>
+          <div
+            v-for="variable in componentVariables"
+            :key="`${componentType}-${variable}`"
+            class="template__variable-item"
+          >
+            <span class="variable-label">
+              {{ processVariable(variable) }}
+            </span>
+            <woot-input
+              v-model="
+                processedParams[componentType][processVariable(variable)]
+              "
+              type="text"
+              class="variable-input"
+              :styles="{ marginBottom: 0 }"
+            />
+          </div>
+        </div>
       </div>
       <p v-if="$v.$dirty && $v.$invalid" class="error">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>
+      <footer>
+        <woot-button variant="smooth" @click="$emit('resetTemplate')">
+          {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
+        </woot-button>
+        <woot-button type="button" @click="sendMessage">
+          {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
+        </woot-button>
+      </footer>
     </div>
-    <footer>
-      <woot-button variant="smooth" @click="$emit('resetTemplate')">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
-      </woot-button>
-      <woot-button type="button" @click="sendMessage">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
-      </woot-button>
-    </footer>
   </div>
 </template>
-
 <script>
-const allKeysRequired = value => {
-  const keys = Object.keys(value);
-  return keys.every(key => value[key]);
-};
 import { requiredIf } from 'vuelidate/lib/validators';
+import FileUpload from 'vue-upload-component';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+
 export default {
+  components: {
+    FileUpload,
+  },
   props: {
     template: {
       type: Object,
@@ -55,41 +92,191 @@ export default {
   },
   validations: {
     processedParams: {
-      requiredIfKeysPresent: requiredIf('variables'),
-      allKeysRequired,
+      header: {
+        $each: {
+          $required: requiredIf(function (value, key) {
+            return (
+              this.variables.header &&
+              this.variables.header.includes(`{{${key}}}`)
+            );
+          }),
+        },
+      },
+      body: {
+        $each: {
+          $required: requiredIf(function (value, key) {
+            return (
+              this.variables.body && this.variables.body.includes(`{{${key}}}`)
+            );
+          }),
+        },
+      },
+      footer: {
+        $each: {
+          $required: requiredIf(function (value, key) {
+            return (
+              this.variables.footer &&
+              this.variables.footer.includes(`{{${key}}}`)
+            );
+          }),
+        },
+      },
     },
   },
   data() {
     return {
-      processedParams: {},
+      processedParams: {
+        header: {},
+        body: {},
+        footer: {},
+      },
+      uploadedFile: null,
     };
   },
   computed: {
     variables() {
-      const variables = this.templateString.match(/{{([^}]+)}}/g);
-      return variables;
-    },
-    templateString() {
-      return this.template.components.find(
-        component => component.type === 'BODY'
-      ).text;
+      const allVariables = {};
+      ['header', 'body', 'footer'].forEach(componentType => {
+        const component = this.template.components.find(
+          c => c.type === componentType.toUpperCase()
+        );
+        if (component) {
+          allVariables[componentType] = this.extractVariables(component);
+        }
+      });
+      return allVariables;
     },
     processedString() {
-      return this.templateString.replace(/{{([^}]+)}}/g, (match, variable) => {
-        const variableKey = this.processVariable(variable);
-        return this.processedParams[variableKey] || `{{${variable}}}`;
+      const processed = {};
+      ['header', 'body', 'footer'].forEach(componentType => {
+        const component = this.template.components.find(
+          c => c.type === componentType.toUpperCase()
+        );
+        if (component) {
+          processed[componentType] = this.replaceVariables(
+            component,
+            componentType
+          );
+        }
       });
+      return processed;
+    },
+    processedContentString() {
+      let content = this.processedString.body;
+      if (this.processedString.footer) {
+        content += `\n\n${this.processedString.footer}`;
+      }
+      if (
+        !['IMAGE', 'VIDEO', 'DOCUMENT'].includes(
+          this.template.components.find(c => c.type === 'HEADER').format
+        )
+      ) {
+        content = `${this.processedString.header}\n\n${content}`;
+      }
+      return content;
+    },
+    getHeaderMediaFormat() {
+      const headerComponent = this.template.components.find(
+        c => c.type === 'HEADER'
+      );
+      return (
+        headerComponent?.format
+          ?.toLowerCase()
+          .replace(/^./, c => c.toUpperCase()) || ''
+      );
+    },
+    isHeaderMediaFormat() {
+      const headerComponent = this.template.components.find(
+        c => c.type === 'HEADER'
+      );
+      return (
+        headerComponent &&
+        ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.format)
+      );
+    },
+    acceptedFileTypes() {
+      const headerComponent = this.template.components.find(
+        c => c.type === 'HEADER'
+      );
+      switch (headerComponent?.format) {
+        case 'IMAGE':
+          return 'image/*';
+        case 'VIDEO':
+          return 'video/*';
+        case 'DOCUMENT':
+          return '.pdf,.doc,.docx,.xls,.xlsx';
+        default:
+          return '';
+      }
     },
   },
   mounted() {
     this.generateVariables();
   },
   methods: {
+    extractVariables(component) {
+      if (!component || !component.text) return [];
+      return component.text.match(/{{([^}]+)}}/g) || [];
+    },
+    replaceVariables(component, componentType) {
+      if (!component || !component.text) return '';
+      return component.text.replace(/{{([^}]+)}}/g, (match, variable) => {
+        const variableKey = this.processVariable(variable);
+        return (
+          this.processedParams[componentType][variableKey] || `{{${variable}}}`
+        );
+      });
+    },
+    generateVariables() {
+      ['header', 'body', 'footer'].forEach(componentType => {
+        const component = this.template.components.find(
+          c => c.type === componentType.toUpperCase()
+        );
+        if (component) {
+          const variables = this.extractVariables(component);
+          this.processedParams[componentType] = variables.reduce(
+            (acc, variable) => {
+              const key = this.processVariable(variable);
+              acc[key] = '';
+              return acc;
+            },
+            {}
+          );
+        }
+      });
+    },
+    async handleFileUpload(file) {
+      if (!file) return;
+
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        try {
+          const { fileUrl, blobId } = await uploadFile(file.file);
+          this.uploadedFile = {
+            file: file.file,
+            name: file.name,
+            url: fileUrl,
+            blobId: blobId,
+          };
+
+          this.processedParams.header[this.processVariable('{{1}}')] = fileUrl;
+        } catch (error) {
+          // Handle error
+          // console.error('Error uploading file:', error);
+        }
+      } else {
+        // Show error message for file size limit
+        this.$emit('show-alert', {
+          message: this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          }),
+        });
+      }
+    },
     sendMessage() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
       const payload = {
-        message: this.processedString,
+        message: this.processedContentString,
         templateParams: {
           name: this.template.name,
           category: this.template.category,
@@ -97,21 +284,15 @@ export default {
           namespace: this.template.namespace,
           processed_params: this.processedParams,
         },
+        private: false,
       };
+      if (this.uploadedFile) {
+        payload.files = [this.uploadedFile.file];
+      }
       this.$emit('sendMessage', payload);
     },
     processVariable(str) {
       return str.replace(/{{|}}/g, '');
-    },
-    generateVariables() {
-      const matchedVariables = this.templateString.match(/{{([^}]+)}}/g);
-      if (!matchedVariables) return;
-
-      const variables = matchedVariables.map(i => this.processVariable(i));
-      this.processedParams = variables.reduce((acc, variable) => {
-        acc[variable] = '';
-        return acc;
-      }, {});
     },
   },
 };
@@ -133,7 +314,8 @@ export default {
     @apply text-xs;
   }
 
-  .variable-input {
+  .variable-input,
+  input[type='file'] {
     @apply flex-1 text-sm ml-2.5;
   }
 

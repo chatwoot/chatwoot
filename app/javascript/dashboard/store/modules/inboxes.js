@@ -64,12 +64,10 @@ export const getters = {
     const messagesTemplates =
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
-    // filtering out the whatsapp templates with media
+    // filtering out the whatsapp templates with buttons
     if (messagesTemplates instanceof Array) {
       return messagesTemplates.filter(template => {
-        return !template.components.some(
-          i => i.format === 'IMAGE' || i.format === 'VIDEO'
-        );
+        return !template.components.some(i => i.type === 'BUTTONS');
       });
     }
     return [];
