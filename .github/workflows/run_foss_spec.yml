@@ -42,6 +42,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -53,9 +54,9 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: pnpm
+        cache: 'pnpm'
 
-    - name: pnpm
+    - name: Install pnpm dependencies
       run: pnpm i
 
     - name: Strip enterprise code
@@ -68,7 +69,7 @@ jobs:
 
     - name: Seed database
       run: bundle exec rake db:schema:load
-      
+
     # Run rails tests
     - name: Run backend tests
       run: |
