@@ -173,7 +173,6 @@ EOF
 function install_dependencies() {
   apt update && apt upgrade -y
   apt install -y curl
-  curl -fsSL https://get.pnpm.io/install.sh | sh -
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
@@ -191,6 +190,7 @@ function install_dependencies() {
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
       libvips python3-pip
+  npm install -g pnpm
 }
 
 ##############################################################################
