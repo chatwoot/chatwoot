@@ -1,9 +1,13 @@
 <script setup>
+import { ref } from 'vue';
 import EmptyStateLayout from 'dashboard/playground/components/EmptyStateLayout.vue';
 import ArticleCard from 'dashboard/playground/HelpCenter/ArticleCard.vue';
 import CategoryCard from 'dashboard/playground/HelpCenter/CategoryCard.vue';
 import LocaleCard from 'dashboard/playground/HelpCenter/LocaleCard.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
+import Dialog from 'dashboard/playground/components/Dialog.vue';
+import InputV4 from 'dashboard/playground/components/Input.vue';
+const dialogRef = ref(null);
 
 const articles = [
   {
@@ -58,6 +62,17 @@ const locales = [
   { name: 'Spanish', isDefault: false },
   { name: 'Malayalam', isDefault: false },
 ];
+
+const openDialog = () => {
+  dialogRef.value.open();
+};
+
+const handleDialogClose = () => {};
+
+const handleDialogConfirm = () => {
+  handleDialogClose();
+  // Add logic to create a new portal
+};
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
@@ -110,7 +125,37 @@ const locales = [
             support.
           </p>
         </div>
-        <ButtonV4 variant="default" label="Create Portal" icon="add" />
+        <ButtonV4
+          variant="default"
+          label="Create Portal"
+          icon="add"
+          @click="openDialog"
+        />
+        <Dialog
+          ref="dialogRef"
+          type="edit"
+          title="Create New Portal"
+          @confirm="handleDialogConfirm"
+        >
+          <template #form>
+            <div class="flex flex-col gap-6">
+              <InputV4
+                id="portal-name"
+                type="text"
+                placeholder="User Guide | Chatwoot"
+                label="Name"
+                message="This will be the name of your public facing portal"
+              />
+              <InputV4
+                id="portal-slug"
+                type="text"
+                placeholder="user-guide"
+                label="Slug"
+                message="app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
+              />
+            </div>
+          </template>
+        </Dialog>
       </div>
     </template>
   </EmptyStateLayout>
