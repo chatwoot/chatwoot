@@ -8,14 +8,25 @@ const props = defineProps({
   },
 });
 
-const prepareData = data => {
+const prepareData = sourceData => {
   var labels = [];
-  var datasets = [];
-  data.forEach(item => {
+  var data = [];
+  sourceData.forEach(item => {
     labels.push(item[0]);
-    datasets.push(item[1]);
+    data.push(item[1]);
   });
-  return { labels, datasets };
+  return {
+    labels,
+    datasets: [
+      {
+        type: 'bar',
+        backgroundColor: 'rgb(31, 147, 255)',
+        yAxisID: 'y',
+        label: 'Conversations',
+        data: data,
+      },
+    ],
+  };
 };
 
 const chartData = computed(() => {
@@ -28,7 +39,6 @@ const { accountsCount, usersCount, inboxesCount, conversationsCount } =
 
 <template>
   <div class="w-full h-full">
-    {{ componentData }}
     <header class="main-content__header" role="banner">
       <h1 id="page-title" class="main-content__page-title">Admin Dashboard</h1>
     </header>
