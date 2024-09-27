@@ -22,6 +22,16 @@ class DashboardAudioNotificationHelper {
     this.currentUser = null;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
+    // we're starting with null store, since using window.WOOT.$store directly
+    // is not possible now (neither is a good practice)
+    this.store = null;
+  }
+
+  ensureStore(store) {
+    // prevent unecessary store re-assignment
+    if (this.store) return;
+
+    this.store = store;
   }
 
   setInstanceValues({
@@ -59,11 +69,12 @@ class DashboardAudioNotificationHelper {
   }
 
   executeRecurringNotification() {
-    if (!window.WOOT || !window.WOOT.$store) {
+    if (!this.store) {
       this.clearSetTimeout();
       return;
     }
-    const mineConversation = window.WOOT.$store.getters.getMineChats({
+
+    const mineConversation = this.store.getters.getMineChats({
       assigneeType: 'me',
       status: 'open',
     });
@@ -109,9 +120,7 @@ class DashboardAudioNotificationHelper {
   }
 
   isMessageFromCurrentConversation(message) {
-    return (
-      window.WOOT.$store.getters.getSelectedChat?.id === message.conversation_id
-    );
+    return this.store.getters.getSelectedChat?.id === message.conversation_id;
   }
 
   isMessageFromCurrentUser(message) {
@@ -119,7 +128,7 @@ class DashboardAudioNotificationHelper {
   }
 
   isUserHasConversationPermission() {
-    const currentAccountId = window.WOOT.$store.getters.getCurrentAccountId;
+    const currentAccountId = this.store.getters.getCurrentAccountId;
     // Get the user permissions for the current account
     const userPermissions = getUserPermissions(
       this.currentUser,
