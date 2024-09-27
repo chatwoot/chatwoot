@@ -6,6 +6,7 @@ const reports = accountId => ({
   routes: [
     'account_overview_reports',
     'contact_reports',
+    'conversion_reports',
     'traffic_reports',
     'conversation_reports',
     'csat_reports',
@@ -24,6 +25,13 @@ const reports = accountId => ({
       featureFlag: FEATURE_FLAGS.CRM,
       toState: frontendURL(`accounts/${accountId}/reports/contact`),
       toStateName: 'contact_reports',
+    },
+    {
+      icon: 'arrow-rotate-clockwise',
+      label: 'REPORTS_CONVERSION',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/conversion`),
+      toStateName: 'conversion_reports',
     },
     {
       icon: 'arrow-trending-lines',

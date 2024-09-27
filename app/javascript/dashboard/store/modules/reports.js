@@ -70,6 +70,18 @@ const state = {
     accountContactMetric: {},
     agentContactMetric: [],
   },
+  conversion: {
+    uiFlags: {
+      isFetchingTeamConversionMetric: false,
+      isFetchingDataSourceConversionMetric: false,
+      isFetchingAgentConversionMetric: false,
+      isFetchingInboxConversionMetric: false,
+    },
+    teamConversionMetric: [],
+    dataSourceConversionMetric: [],
+    agentConversionMetric: [],
+    inboxConversionMetric: [],
+  },
 };
 
 const getters = {
@@ -102,6 +114,21 @@ const getters = {
   },
   getContactUIFlags($state) {
     return $state.contact.uiFlags;
+  },
+  getTeamConversionMetric(_state) {
+    return _state.conversion.teamConversionMetric;
+  },
+  getDataSourceConversionMetric(_state) {
+    return _state.conversion.dataSourceConversionMetric;
+  },
+  getAgentConversionMetric(_state) {
+    return _state.conversion.agentConversionMetric;
+  },
+  getInboxConversionMetric(_state) {
+    return _state.conversion.inboxConversionMetric;
+  },
+  getConversionUIFlags($state) {
+    return $state.conversion.uiFlags;
   },
 };
 
@@ -223,6 +250,80 @@ export const actions = {
         commit(types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING, false);
       });
   },
+  fetchTeamConversionReport({ commit }, reportObj) {
+    commit(types.default.TOGGLE_TEAM_CONVERSION_METRIC_LOADING, true);
+
+    Report.getConversionMetric({
+      page: reportObj.page,
+      criteria_type: reportObj.criteria_type,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
+      .then(metric => {
+        commit(types.default.SET_TEAM_CONVERSION_METRIC, metric.data);
+        commit(types.default.TOGGLE_TEAM_CONVERSION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_TEAM_CONVERSION_METRIC_LOADING, false);
+      });
+  },
+  fetchDataSourceConversionReport({ commit }, reportObj) {
+    commit(types.default.TOGGLE_DATA_SOURCE_CONVERSION_METRIC_LOADING, true);
+
+    Report.getConversionMetric({
+      page: reportObj.page,
+      criteria_type: reportObj.criteria_type,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
+      .then(metric => {
+        commit(types.default.SET_DATA_SOURCE_CONVERSION_METRIC, metric.data);
+        commit(
+          types.default.TOGGLE_DATA_SOURCE_CONVERSION_METRIC_LOADING,
+          false
+        );
+      })
+      .catch(() => {
+        commit(
+          types.default.TOGGLE_DATA_SOURCE_CONVERSION_METRIC_LOADING,
+          false
+        );
+      });
+  },
+  fetchAgentConversionReport({ commit }, reportObj) {
+    commit(types.default.TOGGLE_AGENT_CONVERSION_METRIC_LOADING, true);
+
+    Report.getConversionMetric({
+      page: reportObj.page,
+      criteria_type: reportObj.criteria_type,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
+      .then(metric => {
+        commit(types.default.SET_AGENT_CONVERSION_METRIC, metric.data);
+        commit(types.default.TOGGLE_AGENT_CONVERSION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_AGENT_CONVERSION_METRIC_LOADING, false);
+      });
+  },
+  fetchInboxConversionReport({ commit }, reportObj) {
+    commit(types.default.TOGGLE_INBOX_CONVERSION_METRIC_LOADING, true);
+
+    Report.getConversionMetric({
+      page: reportObj.page,
+      criteria_type: reportObj.criteria_type,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
+      .then(metric => {
+        commit(types.default.SET_INBOX_CONVERSION_METRIC, metric.data);
+        commit(types.default.TOGGLE_INBOX_CONVERSION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_INBOX_CONVERSION_METRIC_LOADING, false);
+      });
+  },
   downloadAgentReports(_, reportObj) {
     return Report.getAgentReports(reportObj)
       .then(response => {
@@ -339,6 +440,30 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING](_state, flag) {
     _state.contact.uiFlags.isFetchingAgentContactMetric = flag;
+  },
+  [types.default.SET_TEAM_CONVERSION_METRIC](_state, metricData) {
+    _state.conversion.teamConversionMetric = metricData;
+  },
+  [types.default.TOGGLE_TEAM_CONVERSION_METRIC_LOADING](_state, flag) {
+    _state.conversion.uiFlags.isFetchingTeamConversionMetric = flag;
+  },
+  [types.default.SET_DATA_SOURCE_CONVERSION_METRIC](_state, metricData) {
+    _state.conversion.dataSourceConversionMetric = metricData;
+  },
+  [types.default.TOGGLE_DATA_SOURCE_CONVERSION_METRIC_LOADING](_state, flag) {
+    _state.conversion.uiFlags.isFetchingDataSourceConversionMetric = flag;
+  },
+  [types.default.SET_AGENT_CONVERSION_METRIC](_state, metricData) {
+    _state.conversion.agentConversionMetric = metricData;
+  },
+  [types.default.TOGGLE_AGENT_CONVERSION_METRIC_LOADING](_state, flag) {
+    _state.conversion.uiFlags.isFetchingAgentConversionMetric = flag;
+  },
+  [types.default.SET_INBOX_CONVERSION_METRIC](_state, metricData) {
+    _state.conversion.inboxConversionMetric = metricData;
+  },
+  [types.default.TOGGLE_INBOX_CONVERSION_METRIC_LOADING](_state, flag) {
+    _state.conversion.uiFlags.isFetchingInboxConversionMetric = flag;
   },
 };
 

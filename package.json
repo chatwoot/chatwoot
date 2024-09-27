@@ -124,6 +124,7 @@
     "babel-jest": "29",
     "babel-loader": "8.2.2",
     "babel-preset-vue": "^2.0.2",
+    "camelcase": "^8.0.0",
     "cypress": "^13.4.0",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-base": "15.0.0",

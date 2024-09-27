@@ -127,6 +127,22 @@ class ReportsAPI extends ApiClient {
   getAgentPlannedConversations() {
     return axios.get(`${this.url}/agent_planned_conversations`);
   }
+
+  getConversionMetric({
+    from: since,
+    to: until,
+    page = 1,
+    criteria_type = 'inbox',
+  }) {
+    return axios.get(`${this.url}/conversions`, {
+      params: {
+        since,
+        until,
+        page,
+        criteria_type,
+      },
+    });
+  }
 }
 
 export default new ReportsAPI();

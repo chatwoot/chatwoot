@@ -360,6 +360,7 @@ Rails.application.routes.draw do
               get :agent_contacts_metrics
               get :agent_conversations_metrics
               get :agent_planned_conversations
+              get :conversions
             end
           end
         end

@@ -486,6 +486,36 @@
       }
     }
   },
+  "CONVERSION_REPORTS": {
+    "HEADER": "Báo cáo thống kê chuyển đổi khách hàng",
+    "LIVE": "Live",
+    "TEAM_CONVERSIONS": {
+      "HEADER": "Theo nhóm",
+      "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo nhóm...",
+      "NO_RESULTS": "Không có nhóm nào để tính số liệu chuyển đổi"
+    },
+    "DATA_SOURCE_CONVERSIONS": {
+      "HEADER": "Theo nguồn",
+      "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo nguồn...",
+      "NO_RESULTS": "Không có nguồn nào để tính số liệu chuyển đổi"
+    },
+    "AGENT_CONVERSIONS": {
+      "HEADER": "Theo nhân viên",
+      "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo nhân viên...",
+      "NO_RESULTS": "Không có nhân viên nào để tính số liệu chuyển đổi"
+    },
+    "INBOX_CONVERSIONS": {
+      "HEADER": "Theo kênh",
+      "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo kênh...",
+      "NO_RESULTS": "Không có kênh nào để tính số liệu chuyển đổi"
+    },
+    "TABLE_HEADER": {
+      "RESOURCE": "Nguồn",
+      "QUALIFIED_COUNT": "Số lượng tư vấn",
+      "WON_COUNT": "Số lượng học viên mới",
+      "CONVERSION_RATIO": "%Tỷ lệ Học viên mới/Tư vấn"
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "Tổng quan hội thoại",
     "LIVE": "Live",
