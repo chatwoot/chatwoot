@@ -11,7 +11,10 @@ const categories = [
 </script>
 
 <template>
-  <Story title="CategoryCard" :layout="{ type: 'grid', width: '400px' }">
+  <Story
+    title="HelpCenter/CategoryCard"
+    :layout="{ type: 'grid', width: '400px' }"
+  >
     <Variant
       v-for="(category, index) in categories"
       :key="index"

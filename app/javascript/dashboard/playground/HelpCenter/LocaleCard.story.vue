@@ -8,7 +8,10 @@ const locales = [
 </script>
 
 <template>
-  <Story title="LocaleCard" :layout="{ type: 'grid', width: '400px' }">
+  <Story
+    title="HelpCenter/LocaleCard"
+    :layout="{ type: 'grid', width: '400px' }"
+  >
     <Variant
       v-for="(locale, index) in locales"
       :key="index"

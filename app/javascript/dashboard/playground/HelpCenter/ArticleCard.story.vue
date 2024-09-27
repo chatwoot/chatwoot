@@ -42,7 +42,10 @@ const articles = [
 </script>
 
 <template>
-  <Story title="ArticleCard" :layout="{ type: 'grid', width: '400px' }">
+  <Story
+    title="HelpCenter/ArticleCard"
+    :layout="{ type: 'grid', width: '400px' }"
+  >
     <Variant
       v-for="(article, index) in articles"
       :key="index"

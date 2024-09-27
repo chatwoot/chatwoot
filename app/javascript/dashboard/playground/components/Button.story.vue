@@ -3,7 +3,7 @@ import Button from './Button.vue';
 </script>
 
 <template>
-  <Story title="Button" :layout="{ type: 'grid', width: '200px' }">
+  <Story title="Components/Button" :layout="{ type: 'grid', width: '200px' }">
     <Variant title="Default">
       <Button label="Default Button" variant="default" size="sm" />
     </Variant>
