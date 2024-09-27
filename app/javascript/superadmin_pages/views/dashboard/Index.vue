@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import BarChart from 'shared/components/charts/BarChart.vue';
 const props = defineProps({
   componentData: {
@@ -6,14 +7,6 @@ const props = defineProps({
     default: () => ({}),
   },
 });
-
-const {
-  accountsCount,
-  usersCount,
-  inboxesCount,
-  conversationsCount,
-  chartData,
-} = props.componentData;
 
 const prepareData = data => {
   var labels = [];
@@ -24,10 +17,18 @@ const prepareData = data => {
   });
   return { labels, datasets };
 };
+
+const chartData = computed(() => {
+  return prepareData(props.componentData.chartData);
+});
+
+const { accountsCount, usersCount, inboxesCount, conversationsCount } =
+  props.componentData;
 </script>
 
 <template>
   <div class="w-full h-full">
+    {{ componentData }}
     <header class="main-content__header" role="banner">
       <h1 id="page-title" class="main-content__page-title">Admin Dashboard</h1>
     </header>
@@ -54,7 +55,7 @@ const prepareData = data => {
     </section>
     <BarChart
       class="p-8 w-full"
-      :collection="prepareData(chartData)"
+      :collection="chartData"
       style="max-height: 500px"
     />
   </div>
