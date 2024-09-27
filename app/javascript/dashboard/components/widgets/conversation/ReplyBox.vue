@@ -827,7 +827,6 @@ export default {
       }
     },
     toggleAudioRecorderPlayPause() {
-      console.log(this.$refs.audioRecorderInput);
       if (this.isRecordingAudio) {
         if (!this.isRecorderAudioStopped) {
           this.isRecorderAudioStopped = true;
@@ -859,7 +858,6 @@ export default {
       this.isFocused = true;
     },
     onRecordProgressChanged(duration) {
-      console.log(duration);
       this.recordingAudioDurationText = duration;
     },
     onStateRecorderChanged(state) {

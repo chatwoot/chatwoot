@@ -1,4 +1,5 @@
 <script setup>
+import getUuid from 'widget/helpers/uuid';
 import { ref, onMounted, onUnmounted, defineEmits, defineExpose } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
@@ -12,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['recorderProgressChanged']);
+const emit = defineEmits(['recorderProgressChanged', 'finishRecord']);
 
 const waveformContainer = ref(null);
 const wavesurfer = ref(null);
@@ -55,8 +56,17 @@ const initWaveSurfer = () => {
   record.value.on('record-end', async blob => {
     const audioUrl = URL.createObjectURL(blob);
     const audioBlob = await convertAudio(blob, props.audioRecordFormat);
-    console.log(blob, audioBlob);
+    const fileName = `${getUuid()}.mp3`;
+    const file = new File([audioBlob], fileName, {
+      type: props.audioRecordFormat,
+    });
     wavesurfer.value.load(audioUrl);
+    emit('finishRecord', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      file,
+    });
     hasRecording.value = true;
     isRecording.value = false;
   });
