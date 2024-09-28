@@ -32,15 +32,13 @@ class Contacts::FilterService < FilterService
   def conversation_plan_filter_query(query_hash)
     table_name = filter_config[:table_name]
     query_operator = query_hash[:query_operator]
-    conversation_plan_model_relation_query =
-      "SELECT * FROM conversation_plans WHERE conversation_plans.contact_id = #{table_name}.id"
 
     combined_query = build_conversation_plan_combined_query(query_hash)
 
     conversation_plan_query =
-      "AND conversation_plans.id IN (SELECT conversation_plans.id FROM conversation_plans #{combined_query})"
+      "#{table_name}.id IN (SELECT conversation_plans.contact_id FROM conversation_plans #{combined_query})"
 
-    "EXISTS (#{conversation_plan_model_relation_query} #{conversation_plan_query}) #{query_operator}"
+    "#{conversation_plan_query} #{query_operator}"
   end
 
   def build_conversation_plan_combined_query(query_hash)
