@@ -61,11 +61,32 @@
             show-copy
           />
           <contact-info-row
+            v-if="contact.custom_attributes.parents_phone"
+            :href="
+              contact.custom_attributes.parents_phone
+                ? `tel:${contact.custom_attributes.parents_phone}`
+                : ''
+            "
+            :value="contact.custom_attributes.parents_phone"
+            icon="person-account"
+            emoji="📞"
+            :title="$t('CONTACT_PANEL.PARENTS_PHONE_NUMBER')"
+            show-copy
+          />
+          <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
             icon="mail"
             emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+            show-copy
+          />
+          <contact-info-row
+            v-if="contact.product"
+            :value="`${contact.product.short_name} / ${contact.product.name}`"
+            icon="briefcase"
+            emoji="✉️"
+            :title="$t('CONTACT_PANEL.PRODUCT_NAME')"
             show-copy
           />
         </div>
