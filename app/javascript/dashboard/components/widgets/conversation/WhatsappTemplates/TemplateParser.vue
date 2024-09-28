@@ -167,6 +167,7 @@ export default {
         content += `\n\n${this.processedString.footer}`;
       }
       if (
+        this.processedString.header &&
         !['IMAGE', 'VIDEO', 'DOCUMENT'].includes(
           this.template.components.find(c => c.type === 'HEADER').format
         )
