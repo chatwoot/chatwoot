@@ -29,7 +29,7 @@ async function requestAuthorization() {
     } = response;
     window.location.href = url;
   } catch (error) {
-    useAlert(t('INBOX_MGMT.ADD.MICROSOFT.ERROR_MESSAGE'));
+    useAlert(t('INBOX_MGMT.ADD.GOOGLE.ERROR_MESSAGE'));
   } finally {
     isRequestingAuthorization.value = false;
   }
