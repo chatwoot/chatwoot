@@ -210,6 +210,7 @@ export default {
     this.$store.dispatch('teams/get');
     this.$store.dispatch('products/get', { page: 0 });
     this.setFilterAttributes();
+    this.addProductFilters();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
     } else if (!this.isSegmentsView) {
@@ -223,6 +224,35 @@ export default {
     }
   },
   methods: {
+    addProductFilters() {
+      const allCustomAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'product_attribute'
+        );
+      const customAttributesFormatted = {
+        name: this.$t(
+          `${this.filtersFori18n}.GROUPS.PRODUCT_CUSTOM_ATTRIBUTES`
+        ),
+        attributes: allCustomAttributes.map(attr => {
+          return {
+            key: `product_custom_attr.${attr.attribute_key}`,
+            name: attr.attribute_display_name,
+          };
+        }),
+      };
+
+      const customAttributeTypes = allCustomAttributes.map(attr => {
+        return {
+          attributeKey: `product_custom_attr.${attr.attribute_key}`,
+          attributeI18nKey: `CUSTOM_ATTRIBUTE_${attr.attribute_display_type.toUpperCase()}`,
+          inputType: this.customAttributeInputType(attr.attribute_display_type),
+          filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+          attributeModel: 'custom_attributes',
+        };
+      });
+      this.filterTypes = [...this.filterTypes, ...customAttributeTypes];
+      this.filterGroups = [...this.filterGroups, customAttributesFormatted];
+    },
     getOperatorTypes(key) {
       switch (key) {
         case 'list':
@@ -274,9 +304,11 @@ export default {
       return type?.filterOperators;
     },
     getDropdownValues(type) {
+      const isProductAttr = type.startsWith('product_custom_attr.');
+      type = type.replace('product_custom_attr.', '');
       const allCustomAttributes = this.$store.getters[
         'attributes/getAttributesByModel'
-      ](this.attributeModel);
+      ](isProductAttr ? 'product_attribute' : this.attributeModel);
       const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
         return (
           attr.attribute_key === type &&

@@ -29,6 +29,11 @@ class Contacts::FilterService < FilterService
     contacts.where(stage_id: stage.id)
   end
 
+  def product_filter_query(query_hash, current_index)
+    combined_query = custom_attribute_query(query_hash, 'product_attribute', current_index)
+    "contacts.product_id IN (SELECT products.id from products WHERE #{combined_query})"
+  end
+
   def conversation_plan_filter_query(query_hash)
     table_name = filter_config[:table_name]
     query_operator = query_hash[:query_operator]

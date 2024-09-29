@@ -152,10 +152,18 @@ class FilterService
     @attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
   end
 
+  def attribute_map
+    {
+      'conversation_attribute' => 'conversations',
+      'contact_attribute' => 'contacts',
+      'product_attribute' => 'products'
+    }
+  end
+
   def build_custom_attr_query(query_hash, current_index)
     filter_operator_value = filter_operation(query_hash, current_index)
     query_operator = query_hash[:query_operator]
-    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
+    table_name = attribute_map[attribute_model]
 
     query = if attribute_data_type == 'text'
               "LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "

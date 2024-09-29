@@ -60,9 +60,9 @@
       "MESSAGE_CONTENT": "Nội dung tin nhắn"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Thông tin hội thoại",
+      "ADDITIONAL_FILTERS": "Thông tin bổ sung",
+      "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh"
     },
     "CUSTOM_VIEWS": {
       "ADD": {

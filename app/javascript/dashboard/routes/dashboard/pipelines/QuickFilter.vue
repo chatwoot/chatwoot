@@ -167,12 +167,6 @@ export default {
           name: this.$t('PIPELINE_PAGE.FILTER.LABELS'),
           type: 'labels',
         },
-        {
-          id: 5,
-          key: 'custom_view',
-          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
-          type: 'customViews',
-        },
       ];
       return filters.map(item => {
         return {
@@ -188,14 +182,29 @@ export default {
       });
     },
     customFilters() {
-      const allCustomAttributes =
+      const contactCustomAttributes =
         this.$store.getters['attributes/getAttributesByModel'](
           'contact_attribute'
         );
-      return allCustomAttributes
+      const productCustomAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'product_attribute'
+        );
+
+      const allCustomAttributes = [
+        ...contactCustomAttributes,
+        ...productCustomAttributes.map(i => ({
+          attribute_key: `product_custom_attr.${i.attribute_key}`,
+          attribute_display_name: i.attribute_display_name,
+          attribute_values: i.attribute_values,
+          attribute_display_type: i.attribute_display_type,
+        })),
+      ];
+
+      const formattedAttributes = allCustomAttributes
         .filter(attr => attr.attribute_display_type === 'list')
         .map((attr, i) => ({
-          id: i + 6,
+          id: i + this.filterAttributes.length,
           key: attr.attribute_key,
           name: attr.attribute_display_name,
           type: attr.attribute_key,
@@ -207,6 +216,23 @@ export default {
             };
           }),
         }));
+
+      return [
+        ...formattedAttributes,
+        {
+          id: this.filterAttributes.length + formattedAttributes.length,
+          key: 'custom_view',
+          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
+          type: 'customViews',
+          options: this.customViews.map(option => {
+            return {
+              id: option.id,
+              name: option.name,
+              key: 'custom_view',
+            };
+          }),
+        },
+      ];
     },
     filterListMenuItems() {
       const filterTypes = [...this.filterAttributes, ...this.customFilters];

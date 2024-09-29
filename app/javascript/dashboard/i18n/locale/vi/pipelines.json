@@ -30,8 +30,8 @@
         "FILTER_CONTACTS": "Bộ lọc mới",
         "FILTER": {
             "ADD_FIlTER": "Tìm kiếm",
-            "CLEAR_ALL": "Xóa tìm kiếm",
-            "CLEAR_FILTER": "Xóa tìm kiếm này",
+            "CLEAR_ALL": "Hủy tìm kiếm",
+            "CLEAR_FILTER": "Hủy tìm kiếm này",
             "EMPTY_LIST": "Không tìm thấy kết quả",
             "NO_FILTER": "Không có tìm kiếm nào",
             "SEARCH": "Tìm bộc lọc",

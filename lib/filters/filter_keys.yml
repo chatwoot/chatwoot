@@ -223,6 +223,12 @@ contacts:
     data_type: "conversation_plans"
     filter_operators:
       - "equal_to"
+  product_custom_attr:
+    attribute_type: "standard"
+    data_type: "product_custom_attribute"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
   created_at:
     attribute_type: "standard"
     data_type: "date"

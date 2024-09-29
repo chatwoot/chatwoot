@@ -54,7 +54,8 @@
     "GROUPS": {
       "STANDARD_FILTERS": "Thông tin cố định",
       "ADDITIONAL_FILTERS": "Thông tin bổ sung",
-      "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh"
+      "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh",
+      "PRODUCT_CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh sản phẩm"
     }
   }
 }

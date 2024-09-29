@@ -1,6 +1,6 @@
 module FilterHelper
   def build_condition_query(model_filters, query_hash, current_index)
-    current_filter = model_filters[query_hash['attribute_key']]
+    current_filter = find_current_filter(model_filters, query_hash)
 
     # Throw InvalidOperator Error if the attribute is a standard attribute
     # and the operator is not allowed in the config
@@ -27,7 +27,21 @@ module FilterHelper
     condition_query
   end
 
+  def find_current_filter(model_filters, query_hash)
+    original_key = query_hash[:attribute_key]
+    pre_product_attr = 'product_custom_attr'
+    # use one common filter key for product custom attributes with the pattern product_custom_attr.[key]
+    if original_key.starts_with?("#{pre_product_attr}.")
+      query_hash[:attribute_key] = original_key.sub("#{pre_product_attr}.", '')
+      model_filters[pre_product_attr]
+    else
+      model_filters[original_key]
+    end
+  end
+
   def build_condition_query_string(current_filter, query_hash, current_index)
+    return product_filter_query(query_hash, current_index) if current_filter.present? && current_filter['data_type'] == 'product_custom_attribute'
+
     filter_operator_value = filter_operation(query_hash, current_index)
 
     return handle_nil_filter(query_hash, current_index) if current_filter.nil?
