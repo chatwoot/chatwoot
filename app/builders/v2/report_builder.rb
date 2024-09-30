@@ -4,7 +4,7 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   attr_reader :account, :params
 
   DEFAULT_GROUP_BY = 'day'.freeze
-  AGENT_RESULTS_PER_PAGE = 10
+  RESULTS_PER_PAGE = 10
 
   def initialize(account, params)
     @account = account
@@ -108,7 +108,7 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
       planned: planned,
       open: open,
       resolved: resolved,
-      ratio: open_resolved_sum.zero? ? 0 : (resolved / open_resolved_sum * 100).round(0)
+      ratio: open_resolved_sum.zero? ? 0 : (resolved.to_f / open_resolved_sum * 100).round(0)
     }
   end
 
@@ -166,7 +166,7 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def agent_metrics
-    account_users = @account.account_users.page(params[:page]).per(AGENT_RESULTS_PER_PAGE)
+    account_users = @account.account_users.page(params[:page]).per(RESULTS_PER_PAGE)
     account_users.each_with_object([]) do |account_user, arr|
       @user = account_user.user
       arr << {
@@ -181,13 +181,13 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def live_conversations
-    @open_conversations = scope.conversations.where(account_id: @account.id).open
+    @open_conversations = scope.conversations.where(account_id: @account.id, created_at: range).open
     metric = {
       open: @open_conversations.count,
       unattended: @open_conversations.unattended.count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
-    metric[:resolved] = scope.conversations.where(account_id: @account.id).resolved.count
+    metric[:resolved] = scope.conversations.where(account_id: @account.id, created_at: range).resolved.count
     metric
   end
 
@@ -196,13 +196,14 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
 
     result = {}
     stages.each do |stage|
-      result[stage.code] = @user ? stage.contacts.where(assignee_id: @user.id).count : stage.contacts.count
+      result[stage.code] =
+        @user ? stage.contacts.where(assignee_id: @user.id, last_stage_changed_at: range).count : stage.contacts.where(created_at: range).count
     end
     result
   end
 
   def agent_contacts
-    account_users = @account.account_users.page(params[:page]).per(AGENT_RESULTS_PER_PAGE)
+    account_users = @account.account_users.page(params[:page]).per(RESULTS_PER_PAGE)
     account_users.each_with_object([]) do |account_user, arr|
       @user = account_user.user
       arr << {

@@ -12,6 +12,7 @@ const LiveReports = () => import('./LiveReports.vue');
 const ContactReports = () => import('./ContactReports.vue');
 const TrafficReports = () => import('./TrafficReports.vue');
 const SLAReports = () => import('./SLAReports.vue');
+const ConversionReports = () => import('./ConversionReports.vue');
 
 export default {
   routes: [
@@ -50,6 +51,23 @@ export default {
           name: 'contact_reports',
           roles: ['administrator', 'leader'],
           component: ContactReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'CONVERSION_REPORTS.HEADER',
+        icon: 'arrow-rotate-clockwise',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'conversion',
+          name: 'conversion_reports',
+          roles: ['administrator'],
+          component: ConversionReports,
         },
       ],
     },

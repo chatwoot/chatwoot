@@ -85,6 +85,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: agent_planned_conversations
   end
 
+  def conversions
+    return head :unprocessable_entity if params[:criteria_type].blank?
+
+    render json: conversion_metrics
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -135,13 +141,24 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     {
       type: params[:type].to_sym,
       user_id: params[:user_id],
-      page: params[:page].presence || 1
+      page: params[:page].presence || 1,
+      since: params[:since],
+      until: params[:until]
     }
   end
 
   def user_params
     {
       user_id: Current.user.id
+    }
+  end
+
+  def conversion_params
+    {
+      criteria_type: params[:criteria_type].to_sym || :inbox,
+      page: params[:page].presence || 1,
+      since: params[:since],
+      until: params[:until]
     }
   end
 
@@ -170,5 +187,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def contact_metrics
     V2::ReportBuilder.new(Current.account, conversation_params).contact_metrics
+  end
+
+  def conversion_metrics
+    V2::Reports::ConversionMetricsBuilder.new(Current.account, conversion_params).metrics
   end
 end

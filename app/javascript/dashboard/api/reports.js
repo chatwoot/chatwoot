@@ -46,20 +46,29 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getConversationMetric(type = 'account', page = 1) {
+  getConversationMetric({
+    type = 'account',
+    page = 1,
+    from: since,
+    to: until,
+  }) {
     return axios.get(`${this.url}/conversations`, {
       params: {
         type,
         page,
+        since,
+        until,
       },
     });
   }
 
-  getContactMetric(type = 'account', page = 1) {
+  getContactMetric({ type = 'account', page = 1, from: since, to: until }) {
     return axios.get(`${this.url}/contacts`, {
       params: {
         type,
         page,
+        since,
+        until,
       },
     });
   }
@@ -126,6 +135,22 @@ class ReportsAPI extends ApiClient {
 
   getAgentPlannedConversations() {
     return axios.get(`${this.url}/agent_planned_conversations`);
+  }
+
+  getConversionMetric({
+    from: since,
+    to: until,
+    page = 1,
+    criteria_type = 'inbox',
+  }) {
+    return axios.get(`${this.url}/conversions`, {
+      params: {
+        since,
+        until,
+        page,
+        criteria_type,
+      },
+    });
   }
 }
 
