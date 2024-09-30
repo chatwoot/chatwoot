@@ -13,7 +13,6 @@ import {
 } from 'dashboard/constants/permissions.js';
 
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
   mode: {
@@ -177,25 +176,22 @@ const isSubmitDisabled = computed(
       <div class="w-full">
         <label :class="{ 'text-red-500': v$.description.$error }">
           {{ $t('CUSTOM_ROLE.FORM.DESCRIPTION.LABEL') }}
-        </label>
-        <div class="editor-wrap">
+
           <textarea
             v-model="description"
-            class="message-editor [&>div]:px-1 h-28 p-2"
-            :class="{ editor_warning: v$.description.$error }"
-            :focus-on-mount="false"
-            :enable-canned-responses="false"
+            :rows="3"
+            :class="{ error: v$.description.$error }"
             :placeholder="$t('CUSTOM_ROLE.FORM.DESCRIPTION.PLACEHOLDER')"
             @blur="v$.description.$touch"
           />
-        </div>
+        </label>
       </div>
 
       <div class="w-full">
         <label :class="{ 'text-red-500': v$.selectedPermissions.$error }">
           {{ $t('CUSTOM_ROLE.FORM.PERMISSIONS.LABEL') }}
         </label>
-        <div class="flex flex-col gap-2.5 mb-4">
+        <div class="flex flex-col gap-2.5 mb-4 mt-2">
           <div
             v-for="permission in AVAILABLE_CUSTOM_ROLE_PERMISSIONS"
             :key="permission"
@@ -209,7 +205,7 @@ const isSubmitDisabled = computed(
               name="permissions"
               class="ltr:mr-2 rtl:ml-2"
             />
-            <label :for="permission" class="text-sm">
+            <label :for="permission" class="text-sm font-normal">
               {{ $t(`CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`) }}
             </label>
           </div>
@@ -229,19 +225,3 @@ const isSubmitDisabled = computed(
     </form>
   </div>
 </template>
-
-<style scoped lang="scss">
-::v-deep {
-  .ProseMirror-menubar {
-    @apply hidden;
-  }
-
-  .ProseMirror-woot-style {
-    @apply max-h-[110px];
-
-    p {
-      @apply text-base;
-    }
-  }
-}
-</style>
