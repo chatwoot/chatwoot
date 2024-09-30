@@ -121,7 +121,7 @@ const tableHeaders = computed(() => {
             {{ attribute.attribute_key }}
           </td>
           <td class="py-4 min-w-xs">
-            <div class="flex gap-1">
+            <div class="flex gap-1 justify-end">
               <woot-button
                 v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
                 variant="smooth"
