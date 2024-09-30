@@ -18,7 +18,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['upgrade']);
 </script>
 
 <template>
@@ -49,7 +49,7 @@ const emit = defineEmits(['click']);
         {{ $t(`${featurePrefix}.ENTERPRISE_PAYWALL.ASK_ADMIN`) }}
       </span>
     </p>
-    <template v-if="isOnChatwootCloud || true">
+    <template v-if="isOnChatwootCloud">
       <woot-button
         color-scheme="primary"
         class="w-full mt-2 text-center rounded-xl"
