@@ -28,7 +28,7 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.onEscape);
   },
-  beforeDestroy() {
+  unmounted() {
     document.removeEventListener('keydown', this.onEscape);
   },
   methods: {

@@ -22,7 +22,7 @@ export default {
   mounted() {
     emitter.on('newToastMessage', this.onNewToastMessage);
   },
-  beforeDestroy() {
+  unmounted() {
     emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {

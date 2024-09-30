@@ -85,7 +85,7 @@ export default {
     window.addEventListener('resize', this.checkBanner);
     emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
-  beforeDestroy() {
+  unmounted() {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('resize', this.checkBanner);
     emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);

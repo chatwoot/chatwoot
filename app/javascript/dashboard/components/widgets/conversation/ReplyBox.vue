@@ -468,7 +468,7 @@ export default {
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
-  beforeDestroy() {
+  unmounted() {
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive

@@ -80,7 +80,7 @@ export default {
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
   },
-  beforeDestroy() {
+  unmounted() {
     if (this.reconnectService) {
       this.reconnectService.disconnect();
     }

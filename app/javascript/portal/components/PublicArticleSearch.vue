@@ -51,7 +51,7 @@ export default {
     },
   },
 
-  beforeDestroy() {
+  unmounted() {
     clearTimeout(this.typingTimer);
   },
 
