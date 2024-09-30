@@ -40,6 +40,7 @@ export default {
       showShortcutModal: false,
       isNotificationPanel: false,
       displayLayoutType: '',
+      hasBanner: '',
     };
   },
   computed: {
@@ -79,15 +80,22 @@ export default {
   },
   mounted() {
     this.handleResize();
+    this.$nextTick(this.checkBanner);
     window.addEventListener('resize', this.handleResize);
+    window.addEventListener('resize', this.checkBanner);
     emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('resize', this.checkBanner);
     emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
 
   methods: {
+    checkBanner() {
+      this.hasBanner =
+        document.getElementsByClassName('woot-banner').length > 0;
+    },
     handleResize() {
       const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
       let throttled = false;
@@ -149,6 +157,7 @@ export default {
   <div class="flex flex-wrap app-wrapper dark:text-slate-300">
     <Sidebar
       :route="currentRoute"
+      :has-banner="hasBanner"
       :show-secondary-sidebar="isSidebarOpen"
       @openNotificationPanel="openNotificationPanel"
       @toggleAccountModal="toggleAccountModal"
@@ -156,7 +165,12 @@ export default {
       @closeKeyShortcutModal="closeKeyShortcutModal"
       @showAddLabelPopup="showAddLabelPopup"
     />
-    <main class="app-body-wrapper basis-0 grow [min-inline-size:50%]">
+    <main
+      class="app-body-wrapper basis-0 grow [min-inline-size:50%]"
+      :class="{
+        'max-h-[calc(100vh-48px)]': hasBanner,
+      }"
+    >
       <router-view />
       <CommandBar />
       <AccountSelector

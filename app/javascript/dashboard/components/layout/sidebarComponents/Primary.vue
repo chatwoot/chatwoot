@@ -70,7 +70,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-between w-16 h-full min-h-screen bg-white border-r dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0"
+    class="flex flex-col justify-between w-16 h-full bg-white border-r dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0"
   >
     <div class="flex flex-col items-center">
       <Logo
