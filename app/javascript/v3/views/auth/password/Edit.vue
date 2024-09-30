@@ -87,7 +87,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <form
       class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
