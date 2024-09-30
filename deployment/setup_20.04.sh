@@ -191,7 +191,7 @@ function install_dependencies() {
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvips python3-pip
+      libvips python3-pip python3-packaging
 }
 
 ##############################################################################
@@ -971,7 +971,7 @@ function cwctl_upgrade_check() {
     # Check if packaging library is installed, and install it if not
     if ! python3 -c "import packaging.version" &> /dev/null; then
         echo "Installing packaging library..."
-        python3 -m pip install packaging
+        sudo apt install python3-packaging
     fi
 
     needs_update=$(python3 -c "from packaging import version; v1 = version.parse('$CWCTL_VERSION'); v2 = version.parse('$remote_version'); print(1 if v2 > v1 else 0)")
