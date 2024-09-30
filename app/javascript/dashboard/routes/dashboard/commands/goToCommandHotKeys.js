@@ -26,7 +26,7 @@ const GO_TO_COMMANDS = [
     section: 'COMMAND_BAR.SECTIONS.GENERAL',
     icon: ICON_CONVERSATION_DASHBOARD,
     path: accountId => `accounts/${accountId}/dashboard`,
-    role: ['administrator', 'agent'],
+    role: ['administrator', 'leader', 'agent'],
   },
   {
     id: 'goto_contacts_dashboard',
@@ -35,7 +35,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.CRM,
     icon: ICON_CONTACT_DASHBOARD,
     path: accountId => `accounts/${accountId}/contacts`,
-    role: ['administrator', 'agent'],
+    role: ['administrator', 'leader', 'agent'],
   },
   {
     id: 'open_reports_overview',
@@ -44,7 +44,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.REPORTS,
     icon: ICON_REPORTS_OVERVIEW,
     path: accountId => `accounts/${accountId}/reports/overview`,
-    role: ['administrator'],
+    role: ['administrator', 'leader'],
   },
   {
     id: 'open_conversation_reports',
@@ -53,7 +53,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.REPORTS,
     icon: ICON_CONVERSATION_REPORTS,
     path: accountId => `accounts/${accountId}/reports/conversation`,
-    role: ['administrator'],
+    role: ['administrator', 'leader'],
   },
   {
     id: 'open_agent_reports',
@@ -62,7 +62,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.REPORTS,
     icon: ICON_AGENT_REPORTS,
     path: accountId => `accounts/${accountId}/reports/agent`,
-    role: ['administrator'],
+    role: ['administrator', 'leader'],
   },
   {
     id: 'open_label_reports',
@@ -71,7 +71,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.REPORTS,
     icon: ICON_LABEL_REPORTS,
     path: accountId => `accounts/${accountId}/reports/label`,
-    role: ['administrator'],
+    role: ['administrator', 'leader'],
   },
   {
     id: 'open_inbox_reports',
@@ -80,7 +80,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.REPORTS,
     icon: ICON_INBOX_REPORTS,
     path: accountId => `accounts/${accountId}/reports/inboxes`,
-    role: ['administrator'],
+    role: ['administrator', 'leader'],
   },
   {
     id: 'open_team_reports',
@@ -89,7 +89,7 @@ const GO_TO_COMMANDS = [
     featureFlag: FEATURE_FLAGS.REPORTS,
     icon: ICON_TEAM_REPORTS,
     path: accountId => `accounts/${accountId}/reports/teams`,
-    role: ['administrator'],
+    role: ['administrator', 'leader'],
   },
   {
     id: 'open_agent_settings',
@@ -134,7 +134,7 @@ const GO_TO_COMMANDS = [
     section: 'COMMAND_BAR.SECTIONS.SETTINGS',
     icon: ICON_CANNED_RESPONSE,
     path: accountId => `accounts/${accountId}/settings/canned-response/list`,
-    role: ['administrator', 'agent'],
+    role: ['administrator', 'leader', 'agent'],
   },
   {
     id: 'open_applications_settings',
@@ -159,7 +159,7 @@ const GO_TO_COMMANDS = [
     section: 'COMMAND_BAR.SECTIONS.SETTINGS',
     icon: ICON_USER_PROFILE,
     path: accountId => `accounts/${accountId}/profile/settings`,
-    role: ['administrator', 'agent'],
+    role: ['administrator', 'leader', 'agent'],
   },
   {
     id: 'open_notifications',
@@ -167,7 +167,7 @@ const GO_TO_COMMANDS = [
     section: 'COMMAND_BAR.SECTIONS.SETTINGS',
     icon: ICON_NOTIFICATION,
     path: accountId => `accounts/${accountId}/notifications`,
-    role: ['administrator', 'agent'],
+    role: ['administrator', 'leader', 'agent'],
   },
 ];
 

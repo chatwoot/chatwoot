@@ -32,7 +32,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/suspended'),
       name: 'account_suspended',
-      roles: ['administrator', 'agent'],
+      roles: ['administrator', 'leader', 'agent'],
       component: Suspended,
     },
   ],

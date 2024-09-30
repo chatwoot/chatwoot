@@ -18,7 +18,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.INBOX_VIEW,
     toState: frontendURL(`accounts/${accountId}/inbox-view`),
     toStateName: 'inbox_view',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
   },
   {
     icon: 'chat',
@@ -26,7 +26,7 @@ const primaryMenuItems = accountId => [
     label: 'CONVERSATIONS',
     toState: frontendURL(`accounts/${accountId}/dashboard`),
     toStateName: 'home',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
   },
   {
     icon: 'contact-card-group',
@@ -35,7 +35,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/pipelines`),
     toStateName: 'pipelines_dashboard',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
   },
   {
     icon: 'book-contacts',
@@ -44,7 +44,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
     toStateName: 'contacts_dashboard',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
   },
   {
     icon: 'megaphone',
@@ -72,7 +72,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.REPORTS,
     toState: frontendURL(`accounts/${accountId}/reports`),
     toStateName: 'settings_account_reports',
-    roles: ['administrator'],
+    roles: ['administrator', 'leader'],
   },
   {
     icon: 'settings',
@@ -80,7 +80,7 @@ const primaryMenuItems = accountId => [
     label: 'SETTINGS',
     toState: frontendURL(`accounts/${accountId}/settings`),
     toStateName: 'settings_home',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
   },
 ];
 

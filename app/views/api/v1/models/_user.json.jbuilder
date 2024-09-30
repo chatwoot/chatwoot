@@ -13,7 +13,7 @@ json.name resource.name
 json.provider resource.provider
 json.pubsub_token resource.pubsub_token
 json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
-json.role resource.active_account_user&.role
+json.role resource.active_account_user&.extended_role
 json.ui_settings resource.ui_settings
 json.uid resource.uid
 json.type resource.type
@@ -23,7 +23,7 @@ json.accounts do
     json.name account_user.account.name
     json.status account_user.account.status
     json.active_at account_user.active_at
-    json.role account_user.role
+    json.role account_user.extended_role
     # the actual availability user has configured
     json.availability account_user.availability
     # availability derived from presence

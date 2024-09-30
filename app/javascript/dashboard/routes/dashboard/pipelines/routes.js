@@ -5,13 +5,13 @@ export const routes = [
   {
     path: frontendURL('accounts/:accountId/pipelines'),
     name: 'pipelines_dashboard',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
     component: Pipeline,
   },
   {
     path: frontendURL('accounts/:accountId/pipelines/custom_view/:id'),
     name: 'pipelines_segments_dashboard',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
     component: Pipeline,
     props: route => {
       return { segmentsId: route.params.id };

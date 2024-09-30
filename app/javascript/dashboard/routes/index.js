@@ -10,6 +10,7 @@ const routes = [...dashboard.routes];
 
 window.roleWiseRoutes = {
   agent: [],
+  leader: [],
   administrator: [],
 };
 

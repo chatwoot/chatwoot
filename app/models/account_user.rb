@@ -38,6 +38,16 @@ class AccountUser < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :account_id }
 
+  def extended_role
+    if administrator?
+      :administrator
+    elsif leader?
+      :leader
+    else
+      role.to_sym
+    end
+  end
+
   def create_notification_setting
     setting = user.notification_settings.new(account_id: account.id)
     setting.selected_email_flags = [:email_conversation_assignment]
@@ -59,6 +69,11 @@ class AccountUser < ApplicationRecord
   end
 
   private
+
+  def leader?
+    team_members = account.teams.includes(:team_members).flat_map(&:team_members)
+    team_members.any? { |tm| tm.user_id == user_id && tm.leader }
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)

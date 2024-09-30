@@ -7,7 +7,7 @@ export const routes = [
   {
     path: frontendURL('accounts/:accountId/search'),
     name: 'search',
-    roles: ['administrator', 'agent'],
+    roles: ['administrator', 'leader', 'agent'],
     component: SearchView,
   },
 ];

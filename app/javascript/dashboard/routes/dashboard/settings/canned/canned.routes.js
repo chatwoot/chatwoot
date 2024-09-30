@@ -22,7 +22,7 @@ export default {
         {
           path: 'list',
           name: 'canned_list',
-          roles: ['administrator', 'agent'],
+          roles: ['administrator', 'leader', 'agent'],
           component: CannedHome,
         },
       ],
