@@ -31,7 +31,7 @@ export default {
     },
     isDayEnabled: {
       get() {
-        return this.timeSlot.from && this.timeSlot.to;
+        return Boolean(this.timeSlot.from && this.timeSlot.to);
       },
       set(value) {
         const newSlot = value
