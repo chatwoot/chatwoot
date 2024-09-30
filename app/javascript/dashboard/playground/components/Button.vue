@@ -20,6 +20,12 @@ const props = defineProps({
         'link',
       ].includes(value),
   },
+  textVariant: {
+    type: String,
+    default: '',
+    validator: value =>
+      ['', 'default', 'success', 'warning', 'danger', 'info'].includes(value),
+  },
   size: {
     type: String,
     default: 'default',
@@ -49,7 +55,7 @@ const buttonVariants = {
     secondary:
       'bg-slate-50 text-slate-900 dark:bg-slate-700/50 dark:text-slate-100 hover:opacity-95 dark:hover:opacity-95',
     ghost:
-      'hover:text-slate-500 text-slate-900 dark:text-slate-200 hover:opacity-95 dark:hover:opacity-95',
+      'text-slate-900 dark:text-slate-200 hover:opacity-95 dark:hover:opacity-95',
     link: 'text-woot-500 underline-offset-4 hover:underline hover:opacity-95 dark:hover:opacity-95',
   },
   size: {
@@ -58,13 +64,29 @@ const buttonVariants = {
     lg: 'h-11 rounded-md px-8',
     icon: 'h-auto w-auto px-2',
   },
+  text: {
+    default: '',
+    success:
+      '!text-green-500 dark:!text-green-500 hover:!text-green-600 dark:hover:!text-green-600',
+    warning:
+      '!text-amber-500 dark:!text-amber-500 hover:!text-amber-600 dark:hover:!text-amber-600',
+    danger:
+      '!text-ruby-700 dark:!text-ruby-700 hover:!text-ruby-600 dark:hover:!text-ruby-600',
+    info: '!text-woot-500 dark:!text-woot-500 hover:!text-woot-600 dark:hover:!text-woot-600',
+  },
 };
 
 const buttonClasses = computed(() => {
-  return [
+  const classes = [
     buttonVariants.variant[props.variant],
     buttonVariants.size[props.size],
-  ].join(' ');
+  ];
+
+  if (props.textVariant && buttonVariants.text[props.textVariant]) {
+    classes.push(buttonVariants.text[props.textVariant]);
+  }
+
+  return classes.join(' ');
 });
 
 const iconSize = computed(() => {

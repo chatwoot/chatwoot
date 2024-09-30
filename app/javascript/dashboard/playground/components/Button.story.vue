@@ -55,5 +55,22 @@ import Button from './Button.vue';
     <Variant title="Click Event">
       <Button label="Click Me" @click="() => alert('Button clicked!')" />
     </Variant>
+
+    <!-- New variants for text variants -->
+    <Variant title="Text Variant - Success">
+      <Button label="Success" variant="ghost" text-variant="success" />
+    </Variant>
+
+    <Variant title="Text Variant - Warning">
+      <Button label="Warning" variant="ghost" text-variant="warning" />
+    </Variant>
+
+    <Variant title="Text Variant - Danger">
+      <Button label="Danger" variant="ghost" text-variant="danger" />
+    </Variant>
+
+    <Variant title="Text Variant - Info">
+      <Button label="Info" variant="ghost" text-variant="info" />
+    </Variant>
   </Story>
 </template>
