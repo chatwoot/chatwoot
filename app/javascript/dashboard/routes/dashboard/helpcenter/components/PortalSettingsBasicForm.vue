@@ -172,7 +172,7 @@ function onFileChange({ file }) {
           <woot-avatar-uploader
             :label="$t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL')"
             :src="state.logoUrl"
-            @change="onFileChange"
+            @onAvatarSelect="onFileChange"
           />
           <div v-if="showDeleteButton" class="avatar-delete-btn">
             <woot-button

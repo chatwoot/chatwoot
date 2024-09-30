@@ -280,7 +280,7 @@ export default {
           :username-avatar="name"
           :delete-avatar="!!avatarUrl"
           class="settings-item"
-          @change="handleImageUpload"
+          @onAvatarSelect="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
       </div>

@@ -23,7 +23,7 @@ export default {
     handleImageUpload(event) {
       const [file] = event.target.files;
 
-      this.$emit('change', {
+      this.$emit('onAvatarSelect', {
         file,
         url: file ? URL.createObjectURL(file) : null,
       });

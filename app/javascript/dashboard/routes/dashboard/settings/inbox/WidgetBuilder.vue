@@ -276,7 +276,7 @@ export default {
               "
               :src="avatarUrl"
               delete-avatar
-              @change="handleImageUpload"
+              @onAvatarSelect="handleImageUpload"
               @onAvatarDelete="handleAvatarDelete"
             />
             <woot-input

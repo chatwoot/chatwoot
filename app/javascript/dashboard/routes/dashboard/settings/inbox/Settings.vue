@@ -383,7 +383,7 @@ export default {
           :src="avatarUrl"
           class="pb-4"
           delete-avatar
-          @change="handleImageUpload"
+          @onAvatarSelect="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
         <woot-input
