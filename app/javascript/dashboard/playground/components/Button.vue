@@ -89,7 +89,7 @@ const handleClick = () => {
       :icon="icon"
       :size="iconSize"
     />
-    <span v-if="label">{{ label }}</span>
+    <span v-if="label" class="line-clamp-1">{{ label }}</span>
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
       :icon="icon"
