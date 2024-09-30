@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-2">
+  <div class="flex-1 overflow-auto">
     <div class="p-2">
       <report-filter-selector
         :show-agents-filter="false"
@@ -38,7 +38,7 @@
           "
         >
           <conversion-table
-            :resources="dataResources"
+            :resources="dataSourceConversionMetric"
             :conversion-metrics="dataSourceConversionMetric"
             criteria-key="data_source"
             :page-index="dataSourcePageIndex"
@@ -126,12 +126,6 @@ export default {
       inboxConversionMetric: 'getInboxConversionMetric',
       uiFlags: 'getConversionUIFlags',
     }),
-    dataResources() {
-      return (
-        this.$store.getters['attributes/getAttributeByKey']('nguon_thong_tin')
-          ?.attribute_values || []
-      );
-    },
   },
   mounted() {
     this.$store.dispatch('teams/get');
@@ -197,7 +191,6 @@ export default {
       this.to = to;
       this.fetchTablesData();
 
-      // TODO
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterValue: { from, to },
         reportType: 'conversion',

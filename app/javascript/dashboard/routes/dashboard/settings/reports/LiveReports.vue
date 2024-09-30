@@ -1,5 +1,11 @@
 <template>
   <div class="flex-1 overflow-auto">
+    <div class="p-2">
+      <report-filter-selector
+        :show-business-hours-switch="false"
+        @filter-change="onFilterChange"
+      />
+    </div>
     <div class="flex flex-col md:flex-row items-center">
       <div
         class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
@@ -56,16 +62,21 @@ import { mapGetters } from 'vuex';
 import AgentTable from './components/overview/AgentTable.vue';
 import MetricCard from './components/overview/MetricCard.vue';
 import { OVERVIEW_METRICS } from './constants';
+import ReportFilterSelector from './components/FilterSelector.vue';
+import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   name: 'LiveReports',
   components: {
+    ReportFilterSelector,
     AgentTable,
     MetricCard,
   },
   data() {
     return {
       pageIndex: 1,
+      from: 0,
+      to: 0,
     };
   },
   computed: {
@@ -113,17 +124,31 @@ export default {
     fetchAccountConversationMetric() {
       this.$store.dispatch('fetchAccountConversationMetric', {
         type: 'account',
+        from: this.from,
+        to: this.to,
       });
     },
     fetchAgentConversationMetric() {
       this.$store.dispatch('fetchAgentConversationMetric', {
         type: 'agent',
         page: this.pageIndex,
+        from: this.from,
+        to: this.to,
       });
     },
     onPageNumberChange(pageIndex) {
       this.pageIndex = pageIndex;
       this.fetchAgentConversationMetric();
+    },
+    onFilterChange({ from, to }) {
+      this.from = from;
+      this.to = to;
+      this.fetchAllData();
+
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        filterValue: { from, to },
+        reportType: 'conversion',
+      });
     },
   },
 };

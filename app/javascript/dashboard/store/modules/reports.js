@@ -199,7 +199,11 @@ export const actions = {
   },
   fetchAccountConversationMetric({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type)
+    Report.getConversationMetric({
+      type: reportObj.type,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
       .then(accountConversationMetric => {
         commit(
           types.default.SET_ACCOUNT_CONVERSATION_METRIC,
@@ -213,7 +217,12 @@ export const actions = {
   },
   fetchAgentConversationMetric({ commit }, reportObj) {
     commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
-    Report.getConversationMetric(reportObj.type, reportObj.page)
+    Report.getConversationMetric({
+      type: reportObj.type,
+      page: reportObj.page,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
       .then(agentConversationMetric => {
         commit(
           types.default.SET_AGENT_CONVERSATION_METRIC,
@@ -227,7 +236,11 @@ export const actions = {
   },
   fetchAccountContactMetric({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_CONTACT_METRIC_LOADING, true);
-    Report.getContactMetric(reportObj.type)
+    Report.getContactMetric({
+      type: reportObj.type,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
       .then(accountContactMetric => {
         commit(
           types.default.SET_ACCOUNT_CONTACT_METRIC,
@@ -241,7 +254,12 @@ export const actions = {
   },
   fetchAgentContactMetric({ commit }, reportObj) {
     commit(types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING, true);
-    Report.getContactMetric(reportObj.type, reportObj.page)
+    Report.getContactMetric({
+      type: reportObj.type,
+      page: reportObj.page,
+      from: reportObj.from,
+      to: reportObj.to,
+    })
       .then(agentContactMetric => {
         commit(types.default.SET_AGENT_CONTACT_METRIC, agentContactMetric.data);
         commit(types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING, false);

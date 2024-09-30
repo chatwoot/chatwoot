@@ -77,6 +77,8 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   has_many :contact_transactions, dependent: :destroy_async
+  has_one :first_contact_transaction, -> { ContactTransaction.order(:created_at) }, class_name: 'ContactTransaction',
+                                                                                    dependent: :nullify, inverse_of: :contact
   has_many :conversation_plans, through: :conversations
   before_validation :prepare_contact_attributes, :set_default_stage_id
   after_create_commit :dispatch_create_event, :ip_lookup

@@ -4,24 +4,9 @@
   >
     <div class="card-header">
       <slot name="header">
-        <div class="flex items-center gap-0.5 flex-row">
-          <h5
-            class="mb-0 text-slate-800 dark:text-slate-100 font-medium text-xl"
-          >
-            {{ header }}
-          </h5>
-          <span
-            v-if="isLive"
-            class="flex flex-row items-center pr-2 pl-2 m-1 rounded-sm text-green-400 dark:text-green-400 text-xs bg-green-100/30 dark:bg-green-100/20"
-          >
-            <span
-              class="bg-green-500 dark:bg-green-500 h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0"
-            />
-            <span>
-              {{ $t('CONVERSION_REPORTS.LIVE') }}
-            </span>
-          </span>
-        </div>
+        <h5 class="mb-0 text-slate-800 dark:text-slate-100 font-medium text-xl">
+          {{ header }}
+        </h5>
         <div class="card-header--control-area">
           <slot name="control" />
         </div>
@@ -64,10 +49,6 @@ export default {
     loadingMessage: {
       type: String,
       default: '',
-    },
-    isLive: {
-      type: Boolean,
-      default: true,
     },
   },
 };

@@ -81,7 +81,7 @@ export default {
           thumbnail,
           availability,
           inbox_type,
-          metric: { won, qualified, ratio },
+          metric: { won_count, total_count, ratio },
         } = metric;
         return {
           resource: name,
@@ -89,41 +89,51 @@ export default {
           thumbnail,
           status: availability,
           inboxType: inbox_type,
-          qualified,
-          won,
+          total_count,
+          won_count,
           ratio,
         };
       });
     },
     columns() {
+      const translationKey = this.criteriaKey.toUpperCase();
+
       return [
         {
           field: 'resource',
           key: 'resource',
-          title: this.$t('CONVERSION_REPORTS.TABLE_HEADER.RESOURCE'),
+          title: this.$t(
+            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.RESOURCE`
+          ),
           fixed: 'left',
           align: this.isRTLView ? 'right' : 'left',
           width: 25,
           ...this.additionalAttributes,
         },
         {
-          field: 'qualified',
-          key: 'qualified',
-          title: this.$t('CONVERSION_REPORTS.TABLE_HEADER.QUALIFIED_COUNT'),
+          field: 'total_count',
+          key: 'total_count',
+          title: this.$t(
+            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.NEW_COUNT`
+          ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
         {
-          field: 'won',
-          key: 'won',
-          title: this.$t('CONVERSION_REPORTS.TABLE_HEADER.WON_COUNT'),
+          field: 'won_count',
+          key: 'won_count',
+          title: this.$t(
+            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.WON_COUNT`
+          ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
         {
           field: 'ratio',
           key: 'ratio',
-          title: this.$t('CONVERSION_REPORTS.TABLE_HEADER.CONVERSION_RATIO'),
+          title: this.$t(
+            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.CONVERSION_RATIO`
+          ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
