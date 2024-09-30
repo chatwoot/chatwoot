@@ -22,10 +22,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    sidebarClassName: {
-      type: String,
-      default: '',
-    },
     hasBanner: {
       type: Boolean,
       default: false,
@@ -242,7 +238,6 @@ export default {
       :class="{
         'min-h-screen ': !hasBanner,
         'max-h-[calc(100vh-48px)]': hasBanner,
-        ...sidebarClassName,
       }"
       :account-id="accountId"
       :inboxes="inboxes"
