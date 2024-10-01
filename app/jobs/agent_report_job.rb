@@ -15,7 +15,7 @@ class AgentReportJob < ApplicationJob
     response = HTTParty.get(JOB_DATA_URL)
     job_data = JSON.parse(response.body, symbolize_names: true)
 
-    job_data = job_data['agent_report']
+    job_data = job_data[:agent_report]
 
     job_data.each do |job|
       current_date = Date.current
@@ -35,7 +35,9 @@ class AgentReportJob < ApplicationJob
                 { since: 1.day.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               end
 
-      process_account(Account.find(job[:account_id]), range, range, false, job[:frequency])
+      params = range.merge({ business_hours: true })
+
+      process_account(Account.find(job[:account_id]), range, params, false, job[:frequency])
     end
   end
   # rubocop:enable Metrics/CyclomaticComplexity
@@ -49,7 +51,7 @@ class AgentReportJob < ApplicationJob
   end
 
   def set_statement_timeout
-    ActiveRecord::Base.connection.execute("SET statement_timeout = '120s'")
+    ActiveRecord::Base.connection.execute("SET statement_timeout = '180s'")
   end
 
   def report_builder(account, report_params)

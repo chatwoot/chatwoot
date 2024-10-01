@@ -72,7 +72,9 @@ class LabelReportJob < ApplicationJob
   def generate_label_report_per_agent(account_id, range, agent)
     account = Account.find(account_id)
     account.labels.map do |label|
-      report = generate_report(account, { type: :label, id: label.id, since: range[:since], until: range[:until], assignee_id: agent.user_id })
+      report = generate_report(account,
+                               { type: :label, id: label.id, since: range[:since], until: range[:until], assignee_id: agent.user_id,
+                                 business_hours: true })
       [label.title] + generate_readable_report_metrics(report)
     end
   end
@@ -124,7 +126,7 @@ class LabelReportJob < ApplicationJob
     end_date = range[:until].strftime('%Y-%m-%d')
 
     # Determine the file name based on the frequency
-    file_name = "#{frequency}_conversation_report_#{account_id}_#{end_date}.csv"
+    file_name = "#{frequency}_label_report_#{account_id}_#{end_date}.csv"
 
     # For testing locally, uncomment below
     # Rails.logger.debug csv_content
