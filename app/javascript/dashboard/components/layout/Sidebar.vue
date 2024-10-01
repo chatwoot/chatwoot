@@ -209,19 +209,8 @@ export default {
 </script>
 
 <template>
-  <aside
-    class="flex h-full"
-    :class="{
-      'basis-16': !hasSecondarySidebar,
-      'basis-64': hasSecondarySidebar,
-    }"
-  >
+  <aside class="flex h-full">
     <PrimarySidebar
-      class="fixed z-50"
-      :class="{
-        'min-h-screen ': !hasBanner,
-        'max-h-[calc(100vh-48px)]': hasBanner,
-      }"
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
       :is-a-custom-branded-instance="isACustomBrandedInstance"
@@ -234,11 +223,6 @@ export default {
     />
     <SecondarySidebar
       v-if="hasSecondarySidebar"
-      class="fixed left-16 z-10"
-      :class="{
-        'min-h-screen ': !hasBanner,
-        'max-h-[calc(100vh-48px)]': hasBanner,
-      }"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"
