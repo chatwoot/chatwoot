@@ -35,17 +35,6 @@ export default {
   },
 
   watch: {
-    searchTerm() {
-      if (this.typingTimer) {
-        clearTimeout(this.typingTimer);
-      }
-
-      this.openSearch();
-      this.isLoading = true;
-      this.typingTimer = setTimeout(() => {
-        this.fetchArticlesByQuery();
-      }, 1000);
-    },
     currentPage() {
       this.clearSearchTerm();
     },
@@ -56,6 +45,18 @@ export default {
   },
 
   methods: {
+    onUpdateSearchTerm(value) {
+      this.searchTerm = value;
+      if (this.typingTimer) {
+        clearTimeout(this.typingTimer);
+      }
+
+      this.openSearch();
+      this.isLoading = true;
+      this.typingTimer = setTimeout(() => {
+        this.fetchArticlesByQuery();
+      }, 1000);
+    },
     onChange(e) {
       this.$emit('input', e.target.value);
     },
@@ -95,8 +96,9 @@ export default {
 <template>
   <div v-on-clickaway="closeSearch" class="relative w-full max-w-5xl my-4">
     <PublicSearchInput
-      v-model="searchTerm"
+      :search-term="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
+      @update:searchTerm="onUpdateSearchTerm"
       @focus="openSearch"
     />
     <div
