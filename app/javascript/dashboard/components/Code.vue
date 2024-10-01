@@ -73,7 +73,7 @@ export default {
           {{ $t('COMPONENTS.CODE.CODEPEN') }}
         </button>
       </form>
-      <button class="button secondary tiny" @click="onCopy">
+      <button type="button" class="button secondary tiny" @click="onCopy">
         {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
       </button>
     </div>

@@ -79,7 +79,7 @@ export default {
   mounted() {
     this.$el.addEventListener('scroll', this.updateScrollPosition);
   },
-  beforeDestroy() {
+  unmounted() {
     this.$el.removeEventListener('scroll', this.updateScrollPosition);
     cancelAnimationFrame(this.requestID);
   },

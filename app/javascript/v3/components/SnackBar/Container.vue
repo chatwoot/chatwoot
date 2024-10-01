@@ -21,7 +21,7 @@ export default {
   mounted() {
     emitter.on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
-  beforeDestroy() {
+  unmounted() {
     emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
   methods: {

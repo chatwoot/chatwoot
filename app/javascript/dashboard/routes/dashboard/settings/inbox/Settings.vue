@@ -383,7 +383,7 @@ export default {
           :src="avatarUrl"
           class="pb-4"
           delete-avatar
-          @change="handleImageUpload"
+          @onAvatarSelect="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
         <woot-input
@@ -678,7 +678,7 @@ export default {
             value="use_inbox_avatar_for_bot"
             @input="handleFeatureFlag"
           />
-          <label for="emoji_picker">
+          <label for="use_inbox_avatar_for_bot">
             {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
           </label>
         </div>

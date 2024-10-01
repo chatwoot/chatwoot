@@ -153,7 +153,7 @@ const tableHeaders = computed(() => {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300 last:text-right"
           >
             <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}

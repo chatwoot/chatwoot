@@ -73,7 +73,7 @@ export default {
       this.v$.thresholdTime.$touch();
       const isInvalid = this.v$.thresholdTime.$invalid;
       this.$emit('isInValid', isInvalid);
-      this.$emit('input', Number(this.thresholdTime));
+      this.$emit('updateThreshold', Number(this.thresholdTime));
     },
   },
 };

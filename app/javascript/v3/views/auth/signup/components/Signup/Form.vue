@@ -136,7 +136,7 @@ export default {
 <template>
   <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
-      <div class="flex">
+      <div class="grid grid-cols-2 gap-2">
         <FormInput
           v-model="credentials.fullName"
           name="full_name"
@@ -151,7 +151,7 @@ export default {
         <FormInput
           v-model="credentials.accountName"
           name="account_name"
-          class="flex-1 ml-2"
+          class="flex-1"
           :class="{ error: v$.credentials.accountName.$error }"
           :label="$t('REGISTER.COMPANY_NAME.LABEL')"
           :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"

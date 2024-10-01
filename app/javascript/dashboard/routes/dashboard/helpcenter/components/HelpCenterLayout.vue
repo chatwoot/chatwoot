@@ -225,7 +225,7 @@ export default {
 
     this.fetchPortalAndItsCategories();
   },
-  beforeDestroy() {
+  unmounted() {
     emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   updated() {

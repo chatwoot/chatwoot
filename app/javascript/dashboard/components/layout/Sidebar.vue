@@ -22,9 +22,9 @@ export default {
       type: Boolean,
       default: true,
     },
-    sidebarClassName: {
-      type: String,
-      default: '',
+    hasBanner: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
@@ -217,7 +217,11 @@ export default {
     }"
   >
     <PrimarySidebar
-      class="fixed"
+      class="fixed z-50"
+      :class="{
+        'min-h-screen ': !hasBanner,
+        'max-h-[calc(100vh-48px)]': hasBanner,
+      }"
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
       :is-a-custom-branded-instance="isACustomBrandedInstance"
@@ -230,8 +234,11 @@ export default {
     />
     <SecondarySidebar
       v-if="hasSecondarySidebar"
-      class="fixed left-16"
-      :class="sidebarClassName"
+      class="fixed left-16 z-10"
+      :class="{
+        'min-h-screen ': !hasBanner,
+        'max-h-[calc(100vh-48px)]': hasBanner,
+      }"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"

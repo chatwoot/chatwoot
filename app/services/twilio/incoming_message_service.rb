@@ -8,7 +8,7 @@ class Twilio::IncomingMessageService
 
     set_contact
     set_conversation
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: message_body,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -17,6 +17,7 @@ class Twilio::IncomingMessageService
       source_id: params[:SmsSid]
     )
     attach_files
+    @message.save!
   end
 
   private
@@ -111,18 +112,15 @@ class Twilio::IncomingMessageService
 
     return if attachment_file.blank?
 
-    attachment = @message.attachments.new(
+    @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(params[:MediaContentType0])
+      file_type: file_type(params[:MediaContentType0]),
+      file: {
+        io: attachment_file,
+        filename: attachment_file.original_filename,
+        content_type: attachment_file.content_type
+      }
     )
-
-    attachment.file.attach(
-      io: attachment_file,
-      filename: attachment_file.original_filename,
-      content_type: attachment_file.content_type
-    )
-
-    @message.save!
   end
 
   def download_attachment_file

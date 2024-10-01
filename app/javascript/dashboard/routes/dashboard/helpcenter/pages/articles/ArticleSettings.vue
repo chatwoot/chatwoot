@@ -205,6 +205,7 @@ export default {
             :placeholder="
               $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TAGS.PLACEHOLDER')
             "
+            class="min-w-[300px]"
             label="name"
             :options="metaOptions"
             track-by="name"

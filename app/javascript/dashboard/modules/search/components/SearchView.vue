@@ -171,7 +171,7 @@ export default {
       return this.selectedTab === 'all';
     },
   },
-  beforeDestroy() {
+  unmounted() {
     this.query = '';
     this.$store.dispatch('conversationSearch/clearSearchResults');
   },

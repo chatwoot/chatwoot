@@ -39,7 +39,10 @@ export const mutations = {
     const messageInConversation = messagesInbox[tempId];
 
     if (messageInConversation) {
-      messagesInbox[tempId] = undefined;
+      // [VITE] instead of leaving undefined behind, we remove it completely
+      // remove the temporary message and replace it with the new message
+      // messagesInbox[tempId] = undefined;
+      delete messagesInbox[tempId];
       messagesInbox[id] = { ...message };
     }
   },

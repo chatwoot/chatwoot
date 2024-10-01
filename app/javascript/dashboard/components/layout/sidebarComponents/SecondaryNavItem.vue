@@ -102,7 +102,7 @@ export default {
     },
     isInboxSettings() {
       return (
-        this.$store.state.route.name === 'settings_inbox_show' &&
+        this.$route.name === 'settings_inbox_show' &&
         this.menuItem.toStateName === 'settings_inbox_list'
       );
     },

@@ -103,7 +103,7 @@ export default {
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
-      doAutoSaveDraft: () => { },
+      doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
@@ -468,7 +468,7 @@ export default {
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
-  beforeDestroy() {
+  unmounted() {
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
@@ -689,10 +689,10 @@ export default {
       return isPrivate
         ? useTrack(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
         : useTrack(CONVERSATION_EVENTS.SENT_MESSAGE, {
-          channelType: this.channelType,
-          signatureEnabled: this.sendWithSignature,
-          hasReplyTo: !!this.inReplyTo?.id,
-        });
+            channelType: this.channelType,
+            signatureEnabled: this.sendWithSignature,
+            hasReplyTo: !!this.inReplyTo?.id,
+          });
     },
     async onSendReply() {
       const undefinedVariables = getUndefinedVariablesInMessage({
@@ -1118,9 +1118,9 @@ export default {
       />
       <ReplyEmailHead
         v-if="showReplyHead"
-        :cc-emails.sync="ccEmails"
-        :bcc-emails.sync="bccEmails"
-        :to-emails.sync="toEmails"
+        v-model:cc-emails="ccEmails"
+        v-model:bcc-emails="bccEmails"
+        v-model:to-emails="toEmails"
       />
       <WootAudioRecorder
         v-if="showAudioRecorderEditor"
@@ -1256,7 +1256,7 @@ export default {
     .reply-box__top {
       @apply bg-yellow-100 dark:bg-yellow-800;
 
-      >input {
+      > input {
         @apply bg-yellow-100 dark:bg-yellow-800;
       }
     }

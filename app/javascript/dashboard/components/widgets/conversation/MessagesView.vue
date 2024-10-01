@@ -268,7 +268,7 @@ export default {
     this.fetchSuggestions();
   },
 
-  beforeDestroy() {
+  unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
   },
