@@ -19,6 +19,16 @@ class Twilio::CallbackController < ApplicationController
       :FromCountry,
       :ToCity,
       :FromCity,
+      :MessageType,#location,attachment
+      :MessageDirection,#location,attachment
+      :Longitude,
+      :Latitude,
+      :LocationLabel,
+      :CityLabel,
+      :isPrivate,
+      :FullName,
+      :Subject,
+      :SubSubject,
       :To,
       :FromZip,
       :Body,

@@ -8,16 +8,17 @@ class Twilio::IncomingMessageService
 
     set_contact
     set_conversation
-    @message = @conversation.messages.build(
+    @message = @conversation.messages.create!(
       content: message_body,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      message_type: :incoming,
+      private: params[:isPrivate] != "0",
+      message_type: params[:MessageDirection] == "0" ? :incoming : :outgoing,
       sender: @contact,
       source_id: params[:SmsSid]
     )
     attach_files
-    @message.save!
+    attach_location if params[:MessageType] == 'location'
   end
 
   private
@@ -68,8 +69,22 @@ class Twilio::IncomingMessageService
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id,
+      custom_attributes: taeq_additional_attributes,
       additional_attributes: additional_attributes
     }
+  end
+
+  def attach_location
+    location_name = params[:LocationLabel]? "#{'ttt'}, #{'tttt'}" : ''
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :location,
+      coordinates_lat: params[:Latitude],
+      coordinates_long: params[:Longitude],
+      fallback_title: location_name,
+      external_url: "https://www.google.com/maps?q=#{params[:Latitude]},#{params[:Longitude]}"
+    )
+    @message.save!
   end
 
   def set_conversation
@@ -87,7 +102,7 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: formatted_phone_number,
+      name: params[:FullName]? params[:FullName]: formatted_phone_number,
       phone_number: phone_number,
       additional_attributes: additional_attributes
     }
@@ -98,11 +113,19 @@ class Twilio::IncomingMessageService
       {
         from_zip_code: params[:FromZip],
         from_country: params[:FromCountry],
-        from_state: params[:FromState]
+        from_state: params[:CityLabel]
       }
     else
       {}
     end
+  end
+
+  def taeq_additional_attributes
+      {
+        city_label: params[:CityLabel],
+        subject: params[:Subject],
+        sub_subject: params[:SubSubject]
+      }
   end
 
   def attach_files
@@ -112,15 +135,18 @@ class Twilio::IncomingMessageService
 
     return if attachment_file.blank?
 
-    @message.attachments.new(
+    attachment = @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(params[:MediaContentType0]),
-      file: {
-        io: attachment_file,
-        filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type
-      }
+      file_type: file_type(params[:MediaContentType0])
     )
+
+    attachment.file.attach(
+      io: attachment_file,
+      filename: attachment_file.original_filename,
+      content_type: attachment_file.content_type
+    )
+
+    @message.save!
   end
 
   def download_attachment_file

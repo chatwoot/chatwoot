@@ -29,7 +29,12 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   end
 
   def label
-    @label ||= account.labels.find(params[:id])
+    label_ids = params[:id].split(',')
+    if label_ids.size == 1
+      @labels ||= account.labels.find(label_ids.first) # Fetch single label with find
+    else
+      @labels ||= account.labels.where(id: label_ids) # Fetch multiple labels
+    end
   end
 
   def team
