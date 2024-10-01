@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -73,6 +74,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      stages: 'stages/getStages',
+    }),
     tableData() {
       return this.conversionMetrics.map(metric => {
         const {
@@ -113,27 +117,21 @@ export default {
         {
           field: 'total_count',
           key: 'total_count',
-          title: this.$t(
-            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.NEW_COUNT`
-          ),
+          title: this.$t('CONVERSION_REPORTS.TABLE_HEADER.TOTAL_COUNT'),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
         {
           field: 'won_count',
           key: 'won_count',
-          title: this.$t(
-            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.WON_COUNT`
-          ),
+          title: this.stages.find(i => i.code === 'Won')?.name,
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
         {
           field: 'ratio',
           key: 'ratio',
-          title: this.$t(
-            `CONVERSION_REPORTS.${translationKey}_CONVERSIONS.TABLE_HEADER.CONVERSION_RATIO`
-          ),
+          title: this.$t('CONVERSION_REPORTS.TABLE_HEADER.CONVERSION_RATIO'),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
@@ -182,6 +180,9 @@ export default {
           return {};
       }
     },
+  },
+  mounted() {
+    this.$store.dispatch('stages/get');
   },
   methods: {
     onPageNumberChange(pageIndex) {

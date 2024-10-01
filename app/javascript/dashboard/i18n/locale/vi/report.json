@@ -53,7 +53,7 @@
       "LAST_30_DAYS": "30 ngày vừa qua",
       "LAST_3_MONTHS": "3 tháng vừa qua",
       "LAST_6_MONTHS": "6 tháng vừa qua",
-      "LAST_YEAR": "1 năm vừa qua",
+      "LAST_YEAR": "12 tháng vừa qua",
       "CUSTOM_DATE_RANGE": "Phạm vi ngày tùy chỉnh"
     },
     "DATE_RANGE": [
@@ -75,7 +75,7 @@
       },
       {
         "id": 4,
-        "name": "1 năm vừa qua"
+        "name": "12 tháng vừa qua"
       },
       {
         "id": 5,
@@ -489,15 +489,16 @@
   "CONVERSION_REPORTS": {
     "HEADER": "Báo cáo thống kê chuyển đổi khách hàng",
     "LIVE": "Live",
+    "TABLE_HEADER": {
+      "TOTAL_COUNT": "Số lượng",
+      "CONVERSION_RATIO": "%Tỷ lệ"
+    },
     "TEAM_CONVERSIONS": {
       "HEADER": "Theo nhóm",
       "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo nhóm...",
       "NO_RESULTS": "Không có nhóm nào để tính số liệu chuyển đổi",
       "TABLE_HEADER": {
-        "RESOURCE": "Nhóm",
-        "NEW_COUNT": "Số lượng tư vấn",
-        "WON_COUNT": "Số lượng học viên mới",
-        "CONVERSION_RATIO": "%Tỷ lệ Học viên mới/Tư vấn"
+        "RESOURCE": "Nhóm"
       }
     },
     "DATA_SOURCE_CONVERSIONS": {
@@ -505,10 +506,7 @@
       "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo nguồn...",
       "NO_RESULTS": "Không có nguồn nào để tính số liệu chuyển đổi",
       "TABLE_HEADER": {
-        "RESOURCE": "Nguồn",
-        "NEW_COUNT": "Số lượng tư vấn",
-        "WON_COUNT": "Số lượng học viên mới",
-        "CONVERSION_RATIO": "%Tỷ lệ Học viên mới/Tư vấn"
+        "RESOURCE": "Nguồn"
       }
     },
     "AGENT_CONVERSIONS": {
@@ -516,10 +514,7 @@
       "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo nhân viên...",
       "NO_RESULTS": "Không có nhân viên nào để tính số liệu chuyển đổi",
       "TABLE_HEADER": {
-        "RESOURCE": "Nhân viên",
-        "NEW_COUNT": "Số lượng tư vấn",
-        "WON_COUNT": "Số lượng học viên mới",
-        "CONVERSION_RATIO": "%Tỷ lệ Học viên mới/Tư vấn"
+        "RESOURCE": "Nhân viên"
       }
     },
     "INBOX_CONVERSIONS": {
@@ -527,10 +522,7 @@
       "LOADING_MESSAGE": "Đang tải số liệu chuyển đổi theo kênh...",
       "NO_RESULTS": "Không có kênh nào để tính số liệu chuyển đổi",
       "TABLE_HEADER": {
-        "RESOURCE": "Kênh",
-        "NEW_COUNT": "Số lượng tư vấn",
-        "WON_COUNT": "Số lượng học viên mới",
-        "CONVERSION_RATIO": "%Tỷ lệ Học viên mới/Tư vấn"
+        "RESOURCE": "Kênh"
       }
     }
   },

@@ -43,12 +43,13 @@ class V2::Reports::ConversionMetricsBuilder
   def data_source_conversion_metrics
     return [] if @won_stage.blank?
 
-    data_sources = CustomAttributeDefinition.find_by(account_id: account.id, attribute_key: 'nguon_thong_tin').attribute_values +
-                   Contact.pluck(:initial_channel_type).compact.uniq
+    data_sources = CustomAttributeDefinition.find_by(account_id: account.id, attribute_model: :contact_attribute,
+                                                     attribute_key: 'data_source')&.attribute_values
+    data_sources = Contact.pluck(:initial_channel_type).compact.uniq if data_sources.blank?
 
     data_sources.each_with_object([]).with_index do |(data_source, arr), index|
       base_relation =
-        Contact.where("contacts.custom_attributes->>'nguon_thong_tin' = :value OR contacts.initial_channel_type = :value", value: data_source)
+        Contact.where("contacts.custom_attributes->>'data_source' = :value OR contacts.initial_channel_type = :value", value: data_source)
       arr << {
         id: index,
         name: data_source,
