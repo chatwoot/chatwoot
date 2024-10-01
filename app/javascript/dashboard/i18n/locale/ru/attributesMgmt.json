@@ -3,8 +3,8 @@
     "HEADER": "Пользовательские атрибуты",
     "HEADER_BTN_TXT": "Добавить пользовательский атрибут",
     "LOADING": "Получение пользовательских атрибутов",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "DESCRIPTION": "Пользовательский атрибут отслеживает дополнительную информацию о ваших контактах или разговорах, таких как план подписки или дата их первой покупки. Вы можете добавить различные типы пользовательских атрибутов, такие как текст, списки или цифры, чтобы захватить нужную вам информацию.",
+    "LEARN_MORE": "Узнайте больше о пользовательских атрибутах",
     "ADD": {
       "TITLE": "Добавить пользовательский атрибут",
       "SUBMIT": "Создать",
