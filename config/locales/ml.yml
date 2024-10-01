@@ -29,6 +29,7 @@ ml:
       invalid: Invalid events
     signup:
       disposable_email: ഡിസ്പോസിബിൾ ഇമെയിലുകൾ ഞങ്ങൾ അനുവദിക്കുന്നില്ല
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: നിങ്ങൾ ഒരു അസാധുവായ ഇമെയിൽ നൽകി
       email_already_exists: "നിങ്ങൾ ഇതിനകം ഈ %{email} ഉപയോഗിച്ചു ഒരു അക്കൗണ്ടിനായി സൈൻ അപ്പ് ചെയ്തു"
       invalid_params: 'Invalid, please check the signup paramters and try again'

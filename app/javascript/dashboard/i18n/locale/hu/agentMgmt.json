@@ -18,7 +18,8 @@
       "STATUS": "Státusz",
       "ACTIONS": "Műveletek",
       "VERIFIED": "Megerősített",
-      "VERIFICATION_PENDING": "Megerősítés függőben"
+      "VERIFICATION_PENDING": "Megerősítés függőben",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Ügynök hozzáadása a csapathoz",

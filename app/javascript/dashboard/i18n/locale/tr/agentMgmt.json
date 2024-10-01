@@ -18,7 +18,8 @@
       "STATUS": "Durum",
       "ACTIONS": "Hareketler",
       "VERIFIED": "Doğrulandı",
-      "VERIFICATION_PENDING": "Doğrulama Bekleniyor"
+      "VERIFICATION_PENDING": "Doğrulama Bekleniyor",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Ekibinize temsilci ekleyin",

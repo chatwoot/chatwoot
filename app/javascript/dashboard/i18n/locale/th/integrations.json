@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "เหตุการณ์ที่ติดตามอยู่",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "ยกเลิก",
         "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",

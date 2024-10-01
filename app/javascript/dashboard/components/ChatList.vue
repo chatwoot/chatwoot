@@ -27,6 +27,11 @@ import {
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import IntersectionObserver from './IntersectionObserver.vue';
+import {
+  getUserPermissions,
+  filterItemsByPermission,
+} from 'dashboard/helper/permissionsHelper.js';
+import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
@@ -204,6 +209,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
@@ -243,20 +249,19 @@ export default {
         name,
       };
     },
+    userPermissions() {
+      return getUserPermissions(this.currentUser, this.currentAccountId);
+    },
     assigneeTabItems() {
-      const ASSIGNEE_TYPE_TAB_KEYS = {
-        me: 'mineCount',
-        unassigned: 'unAssignedCount',
-        all: 'allCount',
-      };
-      return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
-        const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
-        return {
-          key,
-          name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-          count,
-        };
-      });
+      return filterItemsByPermission(
+        ASSIGNEE_TYPE_TAB_PERMISSIONS,
+        this.userPermissions,
+        item => item.permissions
+      ).map(({ key, count: countKey }) => ({
+        key,
+        name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+        count: this.conversationStats[countKey] || 0,
+      }));
     },
     showAssigneeInConversationCard() {
       return (

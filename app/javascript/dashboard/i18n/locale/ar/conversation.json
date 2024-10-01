@@ -143,7 +143,7 @@
       "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
       "CLICK_HERE": "انقر هنا للتحديث",
-      "WHATSAPP_TEMPLATES": "قوالب Whatsapp"
+      "WHATSAPP_TEMPLATES": "قوالب الواتساب"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
@@ -241,9 +241,9 @@
   "ONBOARDING": {
     "TITLE": "اهلاً 👋، مرحباً بك في %{installationName}!",
     "DESCRIPTION": "شكرا للتسجيل. نريدك أن تحصل على أقصى استفادة من %{installationName}. إليك بعض الأشياء التي يمكنك القيام بها في %{installationName} لجعل التجربة رائعة.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "GREETING_MORNING": "👋 صباح الخير، %{name}. مرحبا بك في %{installationName}.",
+    "GREETING_AFTERNOON": "👋 مساء الخير، %{name}. مرحبا بك في %{installationName}.",
+    "GREETING_EVENING": "👋 مساء الخير، %{name}. مرحبا بك في %{installationName}.",
     "READ_LATEST_UPDATES": "اطلع على آخر التحديثات",
     "ALL_CONVERSATION": {
       "TITLE": "جميع محادثاتك في مكان واحد",
@@ -261,14 +261,14 @@
       "NEW_LINK": "انقر هنا لإنشاء وسوم"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "إدارة الردود الجاهزة",
+      "DESCRIPTION": "الردود المسبقة هي قوالب رد مكتوبة مسبقاً تساعدك على الرد بسرعة على محادثة. يمكن للوكلاء كتابة حرف '/' يتبعه الرمز المختصر لإدراج رد مسبق أثناء محادثة.",
+      "NEW_LINK": "انقر هنا لإنشاء استجابة مسبقة"
     }
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "الوكيل المكلف",
-    "SELF_ASSIGN": "إسناد لي",
+    "SELF_ASSIGN": "إسناد إلي",
     "TEAM_LABEL": "الفريق المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"

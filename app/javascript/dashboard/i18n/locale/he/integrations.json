@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "ביטול",
         "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",

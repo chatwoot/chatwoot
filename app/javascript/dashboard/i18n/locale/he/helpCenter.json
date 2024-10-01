@@ -41,6 +41,7 @@
         "UPLOADING": "מעלה...",
         "SUCCESS": "התמונה הועלתה בהצלחה",
         "ERROR": "שגיאה בעת העלאת תמונה",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "גודל התמונה צריך להיות פחות מ-{size}MB",
         "ERROR_FILE_FORMAT": "פורמט התמונה צריך להיות jpg, jpeg או png",
         "ERROR_FILE_DIMENSIONS": "מידות התמונה צריכות להיות פחות מ-2000 x 2000"

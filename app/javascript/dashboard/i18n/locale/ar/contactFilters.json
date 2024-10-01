@@ -30,6 +30,9 @@
       "is_lesser_than": "هو أقل من",
       "days_before": "قبل x أيام"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "القيمة مطلوبة"
+    },
     "ATTRIBUTES": {
       "NAME": "الاسم",
       "EMAIL": "البريد الإلكتروني",

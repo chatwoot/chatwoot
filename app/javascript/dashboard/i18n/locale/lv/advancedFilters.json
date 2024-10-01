@@ -55,6 +55,9 @@
       "CREATED_AT": "Izveidots plkst",
       "LAST_ACTIVITY": "Pēdējā darbība"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nepieciešama vērtība"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standarta filtri",
       "ADDITIONAL_FILTERS": "Papildu filtri",

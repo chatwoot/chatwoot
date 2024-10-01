@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Feliratkozott események",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Mégse",
         "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",

@@ -29,6 +29,7 @@ ro:
       invalid: Evenimente nevalide
     signup:
       disposable_email: Nu permitem email-uri de unică folosință
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Ați introdus un e-mail invalid
       email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

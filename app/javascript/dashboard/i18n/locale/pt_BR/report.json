@@ -482,7 +482,7 @@
       "NO_CONVERSATIONS": "Não há conversas",
       "CONVERSATION": "%{count} conversa",
       "CONVERSATIONS": "%{count} conversas",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "Baixar relatório"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversas por agentes",

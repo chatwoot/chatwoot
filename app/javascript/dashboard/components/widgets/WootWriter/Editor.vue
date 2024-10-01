@@ -97,6 +97,7 @@ export default {
     allowSignature: { type: Boolean, default: false },
     channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
+    focusOnMount: { type: Boolean, default: true },
   },
   setup() {
     const {
@@ -247,7 +248,7 @@ export default {
           },
         }),
         suggestionsPlugin({
-          matcher: triggerCharacters(':', 1), // Trigger after ':' and at least 1 characters
+          matcher: triggerCharacters(':', 2), // Trigger after ':' and at least 2 characters
           suggestionClass: '',
           onEnter: args => {
             this.showEmojiMenu = true;
@@ -346,7 +347,9 @@ export default {
   mounted() {
     this.createEditorView();
     this.editorView.updateState(this.state);
-    this.focusEditorInputField();
+    if (this.focusOnMount) {
+      this.focusEditorInputField();
+    }
 
     // BUS Event to insert text or markdown into the editor at the
     // current cursor position.
@@ -383,7 +386,7 @@ export default {
         // these drafts can also have a signature, so we need to check if the body is empty
         // and handle things accordingly
         this.handleEmptyBodyWithSignature();
-      } else {
+      } else if (this.focusOnMount) {
         // this is in the else block, handleEmptyBodyWithSignature also has a call to the focus method
         // the position is set to start, because the signature is added at the end of the body
         this.focusEditorInputField('end');

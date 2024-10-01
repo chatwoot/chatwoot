@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gautų laiškų aplankai",
-    "SIDEBAR_TXT": "<p><b>Gautų laiškų aplankas</b></p> <p> Kai prijungiate svetainė arba Facebook puslapį prie Chatwood, tai vadinama <b>Gautų Laiškų Aplankas</b>. Savo Chatwoot paskyroje galite turėti neribotą gautųjų laiškų aplankų skaičių. </p><p> Spustelėkite <b>Pridėti gautųjų laiškų aplanką</b>, kad susietumėte svetainę arba Facebook puslapį. </p><p> Informacijos suvestinėje galite matyti visus pokalbius iš visų gautųjų laiškų aplankų vienoje vietoje ir atsakyti į juos skirtuke „Pokalbiai“. </p><p> Taip pat galite peržiūrėti pokalbius, susijusius su gautų laiškų aplankais, spustelėję pavadinimą kairėje prietaisų skydelio srityje. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Spustelėkite mygtuką Prisijungti naudojant Microsoft, kad pradėtumėte. Būsite nukreipti į prisijungimo el. pašto pagalba puslapį. Kai sutiksite su prašomais leidimais, būsite nukreipti atgal į gautų laiškų aplanko kūrimo veiksmą.",
         "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Norėdami pridėti „Microsoft“ paskyrą kaip kanalą, jūs turite autentifikuoti savo Microsoft paskyrą spustelėdami „Prisijungti naudojant Microsoft“ ",
         "ERROR_MESSAGE": "Prisijungiant prie Microsoft įvyko klaida, bandykite dar kartą"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentifikuojamas jus naudojant Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Kažkas nepavyko, atnaujinkite puslapį...",
       "ERROR_FB_UNAUTHORIZED": "Jūs nesate įgalioti atlikti šį veiksmą. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Įsitikinkite, kad turite prieigą prie „Facebook“ puslapio su visapusiška kontrole. Daugiau apie „Facebook“ vaidmenis galite perskaityti <a href=\" https://www.facebook.com/help/187316341316631\">čia</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Kiti Tiekėjai"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Internetinis puslapis",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "El. paštas",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API kanalas"
     }
   }
 }

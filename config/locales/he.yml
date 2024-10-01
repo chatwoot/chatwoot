@@ -29,6 +29,7 @@ he:
       invalid: Invalid events
     signup:
       disposable_email: אנחנו לא מאפשרים מיילים חד פעמיים
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: הכנסת מייל לא תקין
       email_already_exists: "כבר נרשמת לחשבון עם %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
