@@ -97,6 +97,10 @@ Vue.config.errorHandler = (err, instance, info) => {
       console.log('errorHandler', err, instance, info);
     }
   } else {
+    if (window.errorLoggingConfig) {
+      Sentry.setTag('from', 'errorHandler');
+      Sentry.captureException(err);
+    }
     // temporary fix to avoid app freeze
     window.location.reload();
   }
