@@ -33,6 +33,8 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   # empty values into nil values. It uses other APIs such as `resource_class`
   # and `dashboard`:
   #
+  include BspdAccessHelper
+
   def resource_params
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
@@ -54,6 +56,13 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     requested_resource.reset_cache_keys
     # rubocop:disable Rails/I18nLocaleTexts
     redirect_back(fallback_location: [namespace, requested_resource], notice: 'Cache keys cleared')
+    # rubocop:enable Rails/I18nLocaleTexts
+  end
+
+  def clear_billing_cache
+    clear_cache(requested_resource.id)
+    # rubocop:disable Rails/I18nLocaleTexts
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Billing cache cleared')
     # rubocop:enable Rails/I18nLocaleTexts
   end
 

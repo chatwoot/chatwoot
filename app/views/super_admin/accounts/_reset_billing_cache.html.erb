@@ -1,0 +1,9 @@
+<section class="main-content__body">
+ <hr/>
+  <%= form_for([:clear_billing_cache, namespace, page.resource], method: :post, html: { class: "form" }) do |f| %>
+    <div class="form-actions">
+      <p>This will clear the billing status cache. The next load will fetch the data from BSPD.</p>
+      <%= f.submit 'Reset Billing Status' %>
+    </div>
+  <% end %>
+</section>
