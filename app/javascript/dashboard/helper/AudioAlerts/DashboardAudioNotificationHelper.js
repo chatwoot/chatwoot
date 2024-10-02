@@ -38,12 +38,14 @@ class DashboardAudioNotificationHelper {
     this.currentUserId = currentUser.id;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
-      document.addEventListener(e, this.onAudioListenEvent, false);
+      document.addEventListener(e, this.onAudioListenEvent, {
+        once: true,
+      });
     });
     initFaviconSwitcher();
   }
 
-  async onAudioListenEvent() {
+  onAudioListenEvent = async () => {
     try {
       await getAlertAudio('', {
         type: 'dashboard',
@@ -56,7 +58,7 @@ class DashboardAudioNotificationHelper {
     } catch (error) {
       // Ignore audio fetch errors
     }
-  }
+  };
 
   executeRecurringNotification() {
     if (!window.WOOT_STORE) {
