@@ -1,4 +1,4 @@
-## 🚨 Note: This branch is unstable. For the stable branch's source code, please use version 3.x
+## 🚨 Note: This branch is unstable. For the stable branch's source code, please use the branch [3.x](https://github.com/chatwoot/chatwoot/tree/3.x)
 
 
 <img src="https://user-images.githubusercontent.com/2246121/282256557-1570674b-d142-4198-9740-69404cc6a339.png#gh-light-mode-only" width="100%" alt="Chat dashboard dark mode"/>
