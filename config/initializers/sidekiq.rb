@@ -9,6 +9,8 @@ end
 Sidekiq.configure_server do |config|
   config.logger.formatter = Sidekiq::Logger::Formatters::JSON.new
   config.redis = Redis::Config.app
+  # skip the default start stop logging
+  config[:skip_default_job_logging] = true
   config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
 end
 
