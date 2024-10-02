@@ -12,11 +12,7 @@ import {
   getCustomAttributeType,
   showActionInput,
 } from 'dashboard/helper/automationHelper';
-import {
-  AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
-  AUTOMATIONS,
-} from './constants';
+import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 
 const start_value = {
   name: null,
@@ -53,6 +49,7 @@ export default {
   setup() {
     const {
       automation,
+      automationTypes,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -66,6 +63,7 @@ export default {
     } = useAutomation(start_value);
     return {
       automation,
+      automationTypes,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -80,7 +78,6 @@ export default {
   },
   data() {
     return {
-      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
@@ -119,7 +116,7 @@ export default {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('campaigns/get');
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
-    this.manifestCustomAttributes(this.automationTypes);
+    this.manifestCustomAttributes();
   },
   methods: {
     getAttributes,
@@ -241,15 +238,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="
-                resetFilter(
-                  automation,
-                  automationTypes,
-                  i,
-                  automation.conditions[i]
-                )
-              "
-              @removeFilter="removeFilter(automation, i)"
+              @resetFilter="resetFilter(i, automation.conditions[i])"
+              @removeFilter="removeFilter(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -257,7 +247,7 @@ export default {
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewCondition(automation)"
+                @click="appendNewCondition"
               >
                 {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
               </woot-button>
@@ -292,8 +282,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
                   : ''
               "
-              @resetAction="resetAction(automation, i)"
-              @removeAction="removeAction(automation, i)"
+              @resetAction="resetAction(i)"
+              @removeAction="removeAction(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -301,7 +291,7 @@ export default {
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewAction(automation)"
+                @click="appendNewAction"
               >
                 {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
               </woot-button>

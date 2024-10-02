@@ -11,6 +11,12 @@ import {
 } from 'dashboard/helper/automationHelper';
 import useAutomationValues from './useAutomationValues';
 
+import {
+  // AUTOMATION_RULE_EVENTS,
+  // AUTOMATION_ACTION_TYPES,
+  AUTOMATIONS,
+} from 'dashboard/routes/dashboard/settings/automation/constants.js';
+
 /**
  * Composable for handling automation-related functionality.
  * @returns {Object} An object containing various automation-related functions and computed properties.
@@ -34,7 +40,8 @@ export function useAutomation(startValue = null) {
   } = useAutomationValues();
 
   const automation = ref(startValue);
-  const eventName = computed(() => automation.value?.eventName);
+  const automationTypes = structuredClone(AUTOMATIONS);
+  const eventName = computed(() => automation.value?.event_name);
 
   /**
    * Handles the event change for an automation.value.
@@ -97,7 +104,7 @@ export function useAutomation(startValue = null) {
    * @param {number} index - The index of the filter to reset.
    * @param {Object} currentCondition - The current condition object.
    */
-  const resetFilter = (automationTypes, index, currentCondition) => {
+  const resetFilter = (index, currentCondition) => {
     const newConditions = [...automation.value.conditions];
 
     newConditions[index] = {
@@ -129,9 +136,8 @@ export function useAutomation(startValue = null) {
    * This function formats the custom attributes for automation types.
    * It retrieves custom attributes for conversations and contacts,
    * generates custom attribute types, and adds them to the relevant automation types.
-   * @param {Object} automationTypes - The automation types object to update with custom attributes.
    */
-  const manifestCustomAttributes = automationTypes => {
+  const manifestCustomAttributes = () => {
     const conversationCustomAttributesRaw = getters[
       'attributes/getAttributesByModel'
     ].value('conversation_attribute');
@@ -169,6 +175,7 @@ export function useAutomation(startValue = null) {
 
   return {
     automation,
+    automationTypes,
     agents,
     campaigns,
     contacts,

@@ -39,6 +39,7 @@ export default {
   setup() {
     const {
       automation,
+      automationTypes,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -53,6 +54,7 @@ export default {
     const { formatAutomation } = useEditableAutomation();
     return {
       automation,
+      automationTypes,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -68,7 +70,6 @@ export default {
   },
   data() {
     return {
-      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
@@ -100,7 +101,7 @@ export default {
     },
   },
   mounted() {
-    this.manifestCustomAttributes(this.automationTypes);
+    this.manifestCustomAttributes();
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
 
     this.automation = this.formatAutomation(
@@ -224,14 +225,7 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="
-                resetFilter(
-                  automation,
-                  automationTypes,
-                  i,
-                  automation.conditions[i]
-                )
-              "
+              @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(automation, i)"
             />
             <div class="mt-4">
@@ -240,7 +234,7 @@ export default {
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewCondition(automation)"
+                @click="appendNewCondition"
               >
                 {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
               </woot-button>
@@ -271,8 +265,8 @@ export default {
                   : ''
               "
               :initial-file-name="getFileName(action, automation.files)"
-              @resetAction="resetAction(automation, i)"
-              @removeAction="removeAction(automation, i)"
+              @resetAction="resetAction(i)"
+              @removeAction="removeAction(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -280,7 +274,7 @@ export default {
                 color-scheme="success"
                 variant="smooth"
                 size="small"
-                @click="appendNewAction(automation)"
+                @click="appendNewAction"
               >
                 {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
               </woot-button>
