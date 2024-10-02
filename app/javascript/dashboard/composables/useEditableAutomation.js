@@ -1,4 +1,4 @@
-import useAutomationValues from './useutomationValues';
+import useAutomationValues from './useAutomationValues';
 
 import {
   getCustomAttributeInputType,
