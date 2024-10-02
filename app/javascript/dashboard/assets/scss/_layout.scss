@@ -31,15 +31,7 @@ body {
   }
 }
 
-.app-body-wrapper {
-  @apply h-screen;
-}
-
-.banner+.app-body-wrapper {
-  @apply h-[calc(100%-48px)];
-}
-
-.banner+.app-wrapper {
+.banner + .app-wrapper {
   // Reduce the height of the dashboard to make room for the banner.
   // And causing the top right green-action button to be pushed down when scrolling.
   @apply h-[calc(100%-48px)];

@@ -16,7 +16,9 @@ defineProps({
 
 <template>
   <table :class="{ 'table-fixed': fixed }">
-    <thead>
+    <thead
+      class="sticky top-0 z-10 border-b border-slate-50 dark:border-slate-800 bg-slate-25 dark:bg-slate-800"
+    >
       <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
         <th
           v-for="header in headerGroup.headers"
@@ -24,7 +26,7 @@ defineProps({
           :style="{
             width: `${header.getSize()}px`,
           }"
-          class="text-left py-3 px-5 bg-slate-25 border-y border-slate-50 text-slate-800 dark:text-slate-200 font-normal text-xs"
+          class="text-left py-3 px-5 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-normal text-xs"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
           <div
@@ -41,11 +43,11 @@ defineProps({
       </tr>
     </thead>
 
-    <tbody class="divide-y divide-slate-25">
+    <tbody class="divide-y divide-slate-25 dark:divide-slate-900">
       <tr
         v-for="row in table.getRowModel().rows"
         :key="row.id"
-        class="hover:bg-slate-25"
+        class="hover:bg-slate-25 dark:hover:bg-slate-800"
       >
         <td
           v-for="cell in row.getVisibleCells()"

@@ -169,9 +169,7 @@ const table = useVueTable({
 </script>
 
 <template>
-  <section
-    class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
-  >
+  <section class="flex-1 h-full overflow-auto bg-white dark:bg-slate-900">
     <section class="overflow-x-auto">
       <Table fixed :table="table" />
     </section>

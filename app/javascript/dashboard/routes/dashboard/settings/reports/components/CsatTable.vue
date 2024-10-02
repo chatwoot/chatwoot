@@ -148,7 +148,7 @@ const table = useVueTable({
   <div class="csat--table-container">
     <Table
       :table="table"
-      class="max-h-[calc(100vh-21.875rem)] border bg-white dark:bg-slate-900 border-t-0 border-slate-50"
+      class="max-h-[calc(100vh-21.875rem)] border bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800"
     />
     <div
       v-show="!tableData.length"
