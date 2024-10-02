@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import { SHORTCUT_KEYS } from './constants';
 import {

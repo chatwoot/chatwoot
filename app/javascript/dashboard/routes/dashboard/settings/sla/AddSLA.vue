@@ -33,7 +33,7 @@ export default {
     />
     <SlaForm
       :submit-label="$t('SLA.FORM.CREATE')"
-      @submit="addSLA"
+      @submit-sla="addSLA"
       @close="onClose"
     />
   </div>

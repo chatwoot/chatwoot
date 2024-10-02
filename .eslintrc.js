@@ -1,17 +1,6 @@
 module.exports = {
-  extends: [
-    'airbnb-base/legacy',
-    'prettier',
-    'plugin:vue/recommended',
-    'plugin:storybook/recommended',
-    'plugin:cypress/recommended',
-  ],
-  parserOptions: {
-    parser: '@babel/eslint-parser',
-    ecmaVersion: 2020,
-    sourceType: 'module',
-  },
-  plugins: ['html', 'prettier', 'babel'],
+  extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/recommended'],
+  plugins: ['html', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
     camelcase: 'off',
@@ -209,13 +198,6 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',
-  },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: 'config/webpack/resolve.js',
-      },
-    },
   },
   env: {
     browser: true,

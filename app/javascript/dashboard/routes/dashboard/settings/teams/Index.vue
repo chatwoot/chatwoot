@@ -5,7 +5,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, ref } from 'vue';
 
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const store = useStore();
 const { t } = useI18n();

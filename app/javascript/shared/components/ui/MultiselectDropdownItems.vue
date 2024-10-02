@@ -56,7 +56,7 @@ export default {
 
   methods: {
     onclick(option) {
-      this.$emit('click', option);
+      this.$emit('select', option);
     },
     focusInput() {
       this.$refs.searchbar.focus();

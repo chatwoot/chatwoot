@@ -1,5 +1,9 @@
 <script>
-const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
+import { defineAsyncComponent } from 'vue';
+
+const EmojiInput = defineAsyncComponent(
+  () => import('shared/components/emoji/EmojiInput.vue')
+);
 
 export default {
   components: { EmojiInput },
@@ -96,7 +100,7 @@ export default {
     <woot-input
       v-model="name"
       :class="{ error: hasError }"
-      class="!mt-0 !mb-4 !mx-0 [&>input]:!mb-0 ltr:[&>input]:ml-12 rtl:[&>input]:mr-12 relative w-[calc(100%-3rem)] [&>p]:w-max"
+      class="!mt-0 !mb-4 !mx-0 [&>input]:!mb-0 ltr:[&>input]:!ml-12 rtl:[&>input]:!mr-12 relative w-[calc(100%-3rem)] [&>p]:w-max"
       :error="nameErrorMessage"
       :label="label"
       :placeholder="placeholder"

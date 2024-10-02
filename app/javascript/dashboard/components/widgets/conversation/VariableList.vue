@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     handleVariableClick(item = {}) {
-      this.$emit('click', item.key);
+      this.$emit('selectVariable', item.key);
     },
   },
 };

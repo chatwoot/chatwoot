@@ -222,6 +222,7 @@
 
   .multiselect__input {
     @apply h-[2.875rem] min-h-[2.875rem];
+    margin-bottom: 0px !important;
   }
 
   .multiselect__single {

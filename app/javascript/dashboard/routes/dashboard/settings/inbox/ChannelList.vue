@@ -51,8 +51,8 @@ export default {
     },
     initChannelAuth(channel) {
       const params = {
-        page: 'new',
         sub_page: channel,
+        accountId: this.accountId,
       };
       router.push({ name: 'settings_inboxes_page_channel', params });
     },

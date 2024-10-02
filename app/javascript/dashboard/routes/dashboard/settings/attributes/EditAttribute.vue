@@ -169,7 +169,7 @@ export default {
     <form class="flex flex-col w-full" @submit.prevent="editAttributes">
       <div class="w-full">
         <woot-input
-          v-model.trim="displayName"
+          v-model="displayName"
           :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"
           type="text"
           :class="{ error: v$.displayName.$error }"
@@ -182,7 +182,7 @@ export default {
           @blur="v$.displayName.$touch"
         />
         <woot-input
-          v-model.trim="attributeKey"
+          v-model="attributeKey"
           :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
           type="text"
           :class="{ error: v$.attributeKey.$error }"
@@ -194,7 +194,7 @@ export default {
         <label :class="{ error: v$.description.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
           <textarea
-            v-model.trim="description"
+            v-model="description"
             rows="5"
             type="text"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.DESC.PLACEHOLDER')"
@@ -277,13 +277,16 @@ export default {
   padding: 0 var(--space-small) var(--space-small) 0;
   font-family: monospace;
 }
+
 .multiselect--wrap {
   margin-bottom: var(--space-normal);
+
   .error-message {
     color: var(--r-400);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
   }
+
   .invalid {
     ::v-deep {
       .multiselect__tags {
@@ -292,13 +295,16 @@ export default {
     }
   }
 }
+
 ::v-deep {
   .multiselect {
     margin-bottom: 0;
   }
+
   .multiselect__content-wrapper {
     display: none;
   }
+
   .multiselect--active .multiselect__tags {
     border-radius: var(--border-radius-normal);
   }

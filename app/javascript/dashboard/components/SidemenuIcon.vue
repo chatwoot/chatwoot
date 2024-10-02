@@ -1,5 +1,6 @@
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   props: {
@@ -10,7 +11,7 @@ export default {
   },
   methods: {
     onMenuItemClick() {
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_SIDEMENU);
+      emitter.emit(BUS_EVENTS.TOGGLE_SIDEMENU);
     },
   },
 };

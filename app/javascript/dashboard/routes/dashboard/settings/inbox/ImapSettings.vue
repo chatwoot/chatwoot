@@ -112,7 +112,7 @@ export default {
         <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
         <div v-if="isIMAPEnabled" class="mb-6">
           <woot-input
-            v-model.trim="address"
+            v-model="address"
             :class="{ error: v$.address.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"

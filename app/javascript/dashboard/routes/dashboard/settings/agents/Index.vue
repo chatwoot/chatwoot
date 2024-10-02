@@ -2,7 +2,7 @@
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import {
   useStoreGetters,
   useStore,

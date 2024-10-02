@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import ArticleSettings from './ArticleSettings.vue';
@@ -80,7 +80,7 @@ export default {
     confirmDeletion() {
       this.closeDeletePopup();
       this.deleteArticle();
-      this.$track(PORTALS_EVENTS.DELETE_ARTICLE, {
+      useTrack(PORTALS_EVENTS.DELETE_ARTICLE, {
         status: this.article?.status,
       });
     },
@@ -136,7 +136,7 @@ export default {
           status: ARTICLE_STATUS_TYPES.ARCHIVE,
         });
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
-        this.$track(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'sidebar' });
+        useTrack(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'sidebar' });
       } catch (error) {
         this.alertMessage =
           error?.message || this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
@@ -159,7 +159,7 @@ export default {
     },
     showArticleInPortal() {
       window.open(this.portalLink, '_blank');
-      this.$track(PORTALS_EVENTS.PREVIEW_ARTICLE, {
+      useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
         status: this.article?.status,
       });
     },

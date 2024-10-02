@@ -25,9 +25,11 @@ export default {
 
 <template>
   <div
-    class="metric-card flex flex-col m-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem]"
+    class="metric-card mb-2 p flex flex-col m-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem]"
   >
-    <div class="card-header">
+    <div
+      class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
+    >
       <slot name="header">
         <div class="flex items-center gap-0.5 flex-row">
           <h5
@@ -46,7 +48,9 @@ export default {
             </span>
           </span>
         </div>
-        <div class="card-header--control-area">
+        <div
+          class="transition-opacity duration-200 ease-in-out opacity-20 hover:opacity-100 flex flex-row items-center justify-end gap-2"
+        >
           <slot name="control" />
         </div>
       </slot>
@@ -68,42 +72,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.metric-card {
-  @apply flex flex-col mb-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];
-
-  .card-header--control-area {
-    transition: opacity 0.2s ease-in-out;
-    @apply opacity-20;
-  }
-
-  &:hover {
-    .card-header--control-area {
-      @apply opacity-100;
-    }
-  }
-}
-
-.card-header {
-  grid-template-columns: repeat(auto-fit, minmax(max-content, 50%));
-  gap: var(--space-small) 0px;
-  @apply grid flex-grow w-full mb-6;
-
-  .card-header--control-area {
-    @apply flex flex-row items-center justify-end gap-2;
-  }
-}
-
-.card-body {
-  .metric-content {
-    @apply pb-2;
-    .heading {
-      @apply text-base text-slate-700 dark:text-slate-100;
-    }
-    .metric {
-      @apply text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1;
-    }
-  }
-}
-</style>

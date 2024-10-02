@@ -1,54 +1,33 @@
-<script>
+<script setup>
+import { computed, defineEmits } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import WootArticleEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
-export default {
-  components: {
-    WootArticleEditor,
-    ResizableTextArea,
+const { article } = defineProps({
+  article: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    article: {
-      type: Object,
-      default: () => ({}),
-    },
+});
+const emit = defineEmits(['saveArticle']);
+
+const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
+
+const articleTitle = computed({
+  get: () => article.title,
+  set: title => {
+    saveArticle({ title });
   },
-  data() {
-    return {
-      articleTitle: '',
-      articleContent: '',
-      saveArticle: () => {},
-      customEditorMenuOptions: ARTICLE_EDITOR_MENU_OPTIONS,
-    };
+});
+
+const articleContent = computed({
+  get: () => article.content,
+  set: content => {
+    saveArticle({ content });
   },
-  mounted() {
-    this.articleTitle = this.article.title;
-    this.articleContent = this.article.content;
-    this.saveArticle = debounce(
-      values => {
-        this.$emit('saveArticle', values);
-      },
-      300,
-      false
-    );
-  },
-  methods: {
-    onFocus() {
-      this.$emit('focus');
-    },
-    onBlur() {
-      this.$emit('blur');
-    },
-    onTitleInput() {
-      this.saveArticle({ title: this.articleTitle });
-    },
-    onContentInput() {
-      this.saveArticle({ content: this.articleContent });
-    },
-  },
-};
+});
 </script>
 
 <template>
@@ -59,18 +38,12 @@ export default {
       :rows="1"
       class="article-heading"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
-      @focus="onFocus"
-      @blur="onBlur"
-      @input="onTitleInput"
     />
-    <WootArticleEditor
+    <FullEditor
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
-      :enabled-menu-options="customEditorMenuOptions"
-      @focus="onFocus"
-      @blur="onBlur"
-      @input="onContentInput"
+      :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
     />
   </div>
 </template>

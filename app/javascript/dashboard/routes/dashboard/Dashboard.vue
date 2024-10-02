@@ -1,4 +1,5 @@
 <script>
+import { defineAsyncComponent } from 'vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -8,7 +9,10 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
-const CommandBar = () => import('./commands/commandbar.vue');
+const CommandBar = defineAsyncComponent(
+  () => import('./commands/commandbar.vue')
+);
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -36,6 +40,7 @@ export default {
       showShortcutModal: false,
       isNotificationPanel: false,
       displayLayoutType: '',
+      hasBanner: '',
     };
   },
   computed: {
@@ -75,15 +80,22 @@ export default {
   },
   mounted() {
     this.handleResize();
+    this.$nextTick(this.checkBanner);
     window.addEventListener('resize', this.handleResize);
-    this.$emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    window.addEventListener('resize', this.checkBanner);
+    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
-  beforeDestroy() {
+  unmounted() {
     window.removeEventListener('resize', this.handleResize);
-    this.$emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    window.removeEventListener('resize', this.checkBanner);
+    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
 
   methods: {
+    checkBanner() {
+      this.hasBanner =
+        document.getElementsByClassName('woot-banner').length > 0;
+    },
     handleResize() {
       const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
       let throttled = false;
@@ -142,11 +154,10 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-wrap flex-grow-0 w-full h-full max-w-full min-h-0 ml-auto mr-auto app-wrapper dark:text-slate-300"
-  >
+  <div class="flex flex-wrap app-wrapper dark:text-slate-300">
     <Sidebar
       :route="currentRoute"
+      :has-banner="hasBanner"
       :show-secondary-sidebar="isSidebarOpen"
       @openNotificationPanel="openNotificationPanel"
       @toggleAccountModal="toggleAccountModal"
@@ -154,7 +165,7 @@ export default {
       @closeKeyShortcutModal="closeKeyShortcutModal"
       @showAddLabelPopup="showAddLabelPopup"
     />
-    <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
+    <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
       <router-view />
       <CommandBar />
       <AccountSelector
@@ -178,6 +189,6 @@ export default {
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <AddLabelModal @close="hideAddLabelPopup" />
       </woot-modal>
-    </section>
+    </main>
   </div>
 </template>
