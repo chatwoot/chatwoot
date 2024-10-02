@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -34,86 +34,97 @@ export function useAutomation(startValue = null) {
   } = useAutomationValues();
 
   const automation = ref(startValue);
+  const eventName = computed(() => automation.value?.eventName);
 
   /**
-   * Handles the event change for an automation.
-   * @param {Object} automation - The automation object to update.
+   * Handles the event change for an automation.value.
    */
-  const onEventChange = automation => {
-    automation.conditions = getDefaultConditions(automation.event_name);
-    automation.actions = getDefaultActions();
+  const onEventChange = () => {
+    automation.value.conditions = getDefaultConditions(eventName);
+    automation.value.actions = getDefaultActions();
   };
 
   /**
-   * Appends a new condition to the automation.
-   * @param {Object} automation - The automation object to update.
+   * Appends a new condition to the automation.value.
    */
-  const appendNewCondition = automation => {
-    automation.conditions.push(...getDefaultConditions(automation.event_name));
+  const appendNewCondition = () => {
+    const defaultCondition = getDefaultConditions(eventName);
+    automation.value.conditions = [
+      ...automation.value.conditions,
+      ...defaultCondition,
+    ];
   };
 
   /**
-   * Appends a new action to the automation.
-   * @param {Object} automation - The automation object to update.
+   * Appends a new action to the automation.value.
    */
-  const appendNewAction = automation => {
-    automation.actions.push(...getDefaultActions());
+  const appendNewAction = () => {
+    const defaultAction = getDefaultActions();
+    automation.value.actions = [...automation.value.actions, ...defaultAction];
   };
 
   /**
-   * Removes a filter from the automation.
-   * @param {Object} automation - The automation object to update.
+   * Removes a filter from the automation.value.
    * @param {number} index - The index of the filter to remove.
    */
-  const removeFilter = (automation, index) => {
-    if (automation.conditions.length <= 1) {
+  const removeFilter = index => {
+    if (automation.value.conditions.length <= 1) {
       useAlert(t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
     } else {
-      automation.conditions.splice(index, 1);
+      automation.value.conditions = automation.value.conditions.filter(
+        (_, i) => i !== index
+      );
     }
   };
 
   /**
-   * Removes an action from the automation.
-   * @param {Object} automation - The automation object to update.
+   * Removes an action from the automation.value.
    * @param {number} index - The index of the action to remove.
    */
-  const removeAction = (automation, index) => {
-    if (automation.actions.length <= 1) {
+  const removeAction = index => {
+    if (automation.value.actions.length <= 1) {
       useAlert(t('AUTOMATION.ACTION.DELETE_MESSAGE'));
     } else {
-      automation.actions.splice(index, 1);
+      automation.value.actions = automation.value.actions.filter(
+        (_, i) => i !== index
+      );
     }
   };
 
   /**
-   * Resets a filter in the automation.
-   * @param {Object} automation - The automation object to update.
+   * Resets a filter in the automation.value.
    * @param {Object} automationTypes - The automation types object.
    * @param {number} index - The index of the filter to reset.
    * @param {Object} currentCondition - The current condition object.
    */
-  const resetFilter = (
-    automation,
-    automationTypes,
-    index,
-    currentCondition
-  ) => {
-    automation.conditions[index].filter_operator = automationTypes[
-      automation.event_name
-    ].conditions.find(
-      condition => condition.key === currentCondition.attribute_key
-    ).filterOperators[0].value;
-    automation.conditions[index].values = '';
+  const resetFilter = (automationTypes, index, currentCondition) => {
+    const newConditions = [...automation.value.conditions];
+
+    newConditions[index] = {
+      ...newConditions[index],
+      filter_operator: automationTypes[
+        automation.value.event_name
+      ].conditions.find(
+        condition => condition.key === currentCondition.attribute_key
+      ).filterOperators[0].value,
+      values: '',
+    };
+
+    automation.value.conditions = newConditions;
   };
 
   /**
-   * Resets an action in the automation.
-   * @param {Object} automation - The automation object to update.
+   * Resets an action in the automation.value.
    * @param {number} index - The index of the action to reset.
    */
-  const resetAction = (automation, index) => {
-    automation.actions[index].action_params = [];
+  const resetAction = index => {
+    const newActions = [...automation.value.actions];
+    newActions[index] = {
+      ...newActions[index],
+      action_params: [],
+    };
+
+    automation.value.actions = newActions;
   };
 
   /**
@@ -145,18 +156,17 @@ export function useAutomation(startValue = null) {
       t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL')
     );
 
-    automationTypes.message_created.conditions.push(
-      ...manifestedCustomAttributes
-    );
-    automationTypes.conversation_created.conditions.push(
-      ...manifestedCustomAttributes
-    );
-    automationTypes.conversation_updated.conditions.push(
-      ...manifestedCustomAttributes
-    );
-    automationTypes.conversation_opened.conditions.push(
-      ...manifestedCustomAttributes
-    );
+    [
+      'message_created',
+      'conversation_created',
+      'conversation_updated',
+      'conversation_opened',
+    ].forEach(eventToUpdate => {
+      automationTypes[eventToUpdate].conditions = [
+        ...automationTypes[eventToUpdate].conditions,
+        ...manifestedCustomAttributes,
+      ];
+    });
   };
 
   return {
