@@ -1,4 +1,5 @@
 <script>
+import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
@@ -13,8 +14,11 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-const CommandBar = () =>
-  import('dashboard/routes/dashboard/commands/commandbar.vue');
+import { emitter } from 'shared/helpers/mitt';
+
+const CommandBar = defineAsyncComponent(
+  () => import('dashboard/routes/dashboard/commands/commandbar.vue')
+);
 
 export default {
   components: {
@@ -214,15 +218,15 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
 
     const slug = this.$route.params.portalSlug;
     if (slug) this.lastActivePortalSlug = slug;
 
     this.fetchPortalAndItsCategories();
   },
-  beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+  unmounted() {
+    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   updated() {
     const slug = this.$route.params.portalSlug;
@@ -305,7 +309,7 @@ export default {
     />
     <section
       v-if="isHelpCenterEnabled"
-      class="flex flex-1 h-full min-h-0 px-0 overflow-hidden bg-white dark:bg-slate-900"
+      class="flex flex-1 h-full px-0 overflow-hidden bg-white dark:bg-slate-900"
     >
       <router-view @reloadLocale="fetchPortalAndItsCategories" />
       <CommandBar />

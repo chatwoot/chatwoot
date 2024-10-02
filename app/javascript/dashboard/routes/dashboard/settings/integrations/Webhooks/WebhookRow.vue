@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   webhook: {

@@ -117,7 +117,7 @@ export default {
     :loading-message="$t('SLA.LOADING')"
   >
     <template #header>
-      <SLAHeader :show-actions="records.length > 0" @click="openAddPopup" />
+      <SLAHeader :show-actions="records.length > 0" @add="openAddPopup" />
     </template>
     <template #loading>
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
@@ -127,7 +127,7 @@ export default {
         v-if="isBehindAPaywall"
         :is-super-admin="isSuperAdmin"
         :is-on-chatwoot-cloud="isOnChatwootCloud"
-        @click="onClickCTA"
+        @upgrade="onClickCTA"
       />
       <SLAEmptyState
         v-else-if="!records.length"
@@ -144,7 +144,7 @@ export default {
           :resolution-time="displayTime(sla.resolution_time_threshold)"
           :has-business-hours="sla.only_during_business_hours"
           :is-loading="loading[sla.id]"
-          @click="openDeletePopup(sla)"
+          @delete="openDeletePopup(sla)"
         />
       </div>
 

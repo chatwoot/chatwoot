@@ -8,6 +8,7 @@ import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
+
 export default {
   components: {
     MenuItem,
@@ -192,7 +193,7 @@ export default {
       v-if="!hasUnreadMessages"
       :option="unreadOption"
       variant="icon"
-      @click="$emit('markAsUnread')"
+      @click.stop="$emit('markAsUnread')"
     />
     <template v-for="option in statusMenuConfig">
       <MenuItem
@@ -200,14 +201,14 @@ export default {
         :key="option.key"
         :option="option"
         variant="icon"
-        @click="toggleStatus(option.key, null)"
+        @click.stop="toggleStatus(option.key, null)"
       />
     </template>
     <MenuItem
       v-if="showSnooze"
       :option="snoozeOption"
       variant="icon"
-      @click="snoozeConversation()"
+      @click.stop="snoozeConversation()"
     />
 
     <MenuItemWithSubmenu :option="priorityConfig">
@@ -215,7 +216,7 @@ export default {
         v-for="(option, i) in priorityConfig.options"
         :key="i"
         :option="option"
-        @click="assignPriority(option.key)"
+        @click.stop="assignPriority(option.key)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -227,7 +228,7 @@ export default {
         :key="label.id"
         :option="generateMenuLabelConfig(label, 'label')"
         variant="label"
-        @click="$emit('assignLabel', label)"
+        @click.stop="$emit('assignLabel', label)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -241,7 +242,7 @@ export default {
           :key="agent.id"
           :option="generateMenuLabelConfig(agent, 'agent')"
           variant="agent"
-          @click="$emit('assignAgent', agent)"
+          @click.stop="$emit('assignAgent', agent)"
         />
       </template>
     </MenuItemWithSubmenu>
@@ -253,7 +254,7 @@ export default {
         v-for="team in teams"
         :key="team.id"
         :option="generateMenuLabelConfig(team, 'team')"
-        @click="$emit('assignTeam', team)"
+        @click.stop="$emit('assignTeam', team)"
       />
     </MenuItemWithSubmenu>
   </div>

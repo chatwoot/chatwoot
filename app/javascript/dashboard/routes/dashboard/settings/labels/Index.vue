@@ -1,7 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { computed, onBeforeMount, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 import AddLabel from './AddLabel.vue';
@@ -66,6 +66,14 @@ const confirmDeletion = () => {
   deleteLabel(selectedLabel.value.id);
 };
 
+const tableHeaders = computed(() => {
+  return [
+    t('LABEL_MGMT.LIST.TABLE_HEADER.NAME'),
+    t('LABEL_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('LABEL_MGMT.LIST.TABLE_HEADER.COLOR'),
+  ];
+});
+
 onBeforeMount(() => {
   store.dispatch('labels/get');
 });
@@ -87,7 +95,7 @@ onBeforeMount(() => {
       >
         <template #actions>
           <woot-button
-            class="button nice rounded-md"
+            class="rounded-md button nice"
             icon="add-circle"
             @click="openAddPopup"
           >
@@ -102,36 +110,36 @@ onBeforeMount(() => {
       >
         <thead>
           <th
-            v-for="thHeader in $t('LABEL_MGMT.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-slate-700 dark:text-slate-300"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody
-          class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
+          class="flex-1 divide-y divide-slate-25 dark:divide-slate-800 text-slate-700 dark:text-slate-100"
         >
           <tr v-for="(label, index) in records" :key="label.title">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span
-                class="font-medium break-words text-slate-700 dark:text-slate-100 mb-1"
+                class="mb-1 font-medium break-words text-slate-700 dark:text-slate-100"
               >
                 {{ label.title }}
               </span>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">{{ label.description }}</td>
-            <td class="leading-6 py-4 ltr:pr-4 rtl:pl-4">
+            <td class="py-4 leading-6 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center">
                 <span
-                  class="rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700"
+                  class="w-4 h-4 mr-1 border border-solid rounded rtl:mr-0 rtl:ml-1 border-slate-50 dark:border-slate-700"
                   :style="{ backgroundColor: label.color }"
                 />
                 {{ label.color }}
               </div>
             </td>
             <td class="py-4 min-w-xs">
-              <div class="flex gap-1">
+              <div class="flex gap-1 justify-end">
                 <woot-button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
                   variant="smooth"

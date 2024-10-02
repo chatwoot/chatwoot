@@ -2,7 +2,7 @@ import AvailabilityStatus from '../AvailabilityStatus.vue';
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
-import VTooltip from 'v-tooltip';
+import FloatingVue from 'floating-vue';
 
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
@@ -14,8 +14,8 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import i18n from 'dashboard/i18n';
 
 const localVue = createLocalVue();
-localVue.use(VTooltip, {
-  defaultHtml: false,
+localVue.use(FloatingVue, {
+  html: false,
 });
 localVue.use(Vuex);
 localVue.use(VueI18n);

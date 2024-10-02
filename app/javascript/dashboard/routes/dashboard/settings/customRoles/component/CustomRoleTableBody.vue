@@ -1,5 +1,5 @@
 <script setup>
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 
 defineProps({

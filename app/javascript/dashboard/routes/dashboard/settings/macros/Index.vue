@@ -4,7 +4,7 @@ import MacrosTableRow from './MacrosTableRow.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 const getters = useStoreGetters();
@@ -45,6 +45,15 @@ const confirmDeletion = () => {
   closeDeletePopup();
   deleteMacro(selectedMacro.value.id);
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('MACROS.LIST.TABLE_HEADER.NAME'),
+    t('MACROS.LIST.TABLE_HEADER.CREATED BY'),
+    t('MACROS.LIST.TABLE_HEADER.LAST_UPDATED_BY'),
+    t('MACROS.LIST.TABLE_HEADER.VISIBILITY'),
+  ];
+});
 </script>
 
 <template>
@@ -79,7 +88,7 @@ const confirmDeletion = () => {
       <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
         <thead>
           <th
-            v-for="thHeader in $t('MACROS.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
           >

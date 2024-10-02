@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import 'shared/assets/fonts/plus-jakarta';
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
 
@@ -34,10 +33,13 @@
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
 
 .tooltip {
-  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
+  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900 max-w-96;
+}
+
+#app {
+  @apply h-full w-full;
 }
 
 .hide {
@@ -45,7 +47,6 @@
 }
 
 @layer base {
-
   // scss-lint:disable PropertySortOrder
   :root {
     --color-amber-25: 254 253 251;

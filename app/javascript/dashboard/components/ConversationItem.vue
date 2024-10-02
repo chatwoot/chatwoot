@@ -14,6 +14,7 @@ export default {
     'toggleContextMenu',
     'markAsUnread',
     'assignPriority',
+    'isConversationSelected',
   ],
   props: {
     source: {
@@ -35,10 +36,6 @@ export default {
     foldersId: {
       type: [String, Number],
       default: 0,
-    },
-    isConversationSelected: {
-      type: Function,
-      default: () => {},
     },
     showAssignee: {
       type: Boolean,

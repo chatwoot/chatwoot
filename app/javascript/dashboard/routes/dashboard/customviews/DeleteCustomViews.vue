@@ -1,6 +1,8 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
+
 export default {
   props: {
     showDeletePopup: {
@@ -66,7 +68,7 @@ export default {
             ? this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_FOLDERS.SUCCESS_MESSAGE')
             : this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_SEGMENTS.SUCCESS_MESSAGE')
         );
-        this.$track(CONTACTS_EVENTS.DELETE_FILTER, {
+        useTrack(CONTACTS_EVENTS.DELETE_FILTER, {
           type: this.filterType === 0 ? 'folder' : 'segment',
         });
       } catch (error) {

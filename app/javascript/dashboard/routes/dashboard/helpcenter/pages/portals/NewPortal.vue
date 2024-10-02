@@ -12,17 +12,22 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      const allItems = this.$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW').map(
-        item => ({
-          ...item,
-          body: this.useInstallationName(
-            item.body,
-            this.globalConfig.installationName
-          ),
-        })
-      );
+      const routes = {
+        BASIC: 'new_portal_information',
+        CUSTOMIZATION: 'portal_customization',
+        FINISH: 'portal_finish',
+      };
 
-      return allItems;
+      const steps = ['BASIC', 'CUSTOMIZATION', 'FINISH'];
+
+      return steps.map(step => ({
+        title: this.$t(`HELP_CENTER.PORTAL.ADD.CREATE_FLOW.${step}.TITLE`),
+        route: routes[step],
+        body: this.useInstallationName(
+          this.$t(`HELP_CENTER.PORTAL.ADD.CREATE_FLOW.${step}.BODY`),
+          this.globalConfig.installationName
+        ),
+      }));
     },
     portalHeaderText() {
       if (this.$route.name === 'new_portal_information') {

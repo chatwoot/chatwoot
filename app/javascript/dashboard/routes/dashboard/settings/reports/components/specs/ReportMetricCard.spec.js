@@ -1,10 +1,10 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import ReportMetricCard from '../ReportMetricCard.vue';
 
-import VTooltip from 'v-tooltip';
+import FloatingVue from 'floating-vue';
 
 const localVue = createLocalVue();
-localVue.use(VTooltip);
+localVue.use(FloatingVue);
 
 describe('ReportMetricCard.vue', () => {
   it('renders props correctly', () => {

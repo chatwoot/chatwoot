@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['selectEmoji']);
 
 const allEmojis = shallowRef([]);
 
@@ -34,7 +34,7 @@ function loadEmojis() {
 }
 
 function handleMentionClick(item = {}) {
-  emit('click', item.emoji);
+  emit('selectEmoji', item.emoji);
 }
 
 onMounted(() => {

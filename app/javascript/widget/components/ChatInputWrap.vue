@@ -1,4 +1,5 @@
 <script>
+import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
@@ -8,7 +9,9 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
+const EmojiInput = defineAsyncComponent(
+  () => import('shared/components/emoji/EmojiInput.vue')
+);
 
 export default {
   name: 'ChatInputWrap',
@@ -173,16 +176,16 @@ export default {
       />
       <ChatSendButton
         v-if="showSendButton"
-        :on-click="handleButtonClick"
         :color="widgetColor"
+        @click="handleButtonClick"
       />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/mixins.scss';
 
 .chat-message--input {
   align-items: center;

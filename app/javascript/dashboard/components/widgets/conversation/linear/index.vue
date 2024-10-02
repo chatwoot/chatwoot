@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref, onMounted, watch, defineComponent, provide } from 'vue';
+import { computed, ref, onMounted, watch, defineOptions, provide } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 });
 
-defineComponent({
+defineOptions({
   name: 'Linear',
 });
 

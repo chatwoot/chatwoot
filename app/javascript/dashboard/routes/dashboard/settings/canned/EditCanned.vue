@@ -97,7 +97,7 @@ export default {
           <label :class="{ error: v$.shortCode.$error }">
             {{ $t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.LABEL') }}
             <input
-              v-model.trim="shortCode"
+              v-model="shortCode"
               type="text"
               :placeholder="$t('CANNED_MGMT.EDIT.FORM.SHORT_CODE.PLACEHOLDER')"
               @input="v$.shortCode.$touch"

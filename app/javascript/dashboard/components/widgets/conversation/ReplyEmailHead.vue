@@ -90,7 +90,7 @@ export default {
         </label>
         <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
           <woot-input
-            v-model.trim="v$.toEmailsVal.$model"
+            v-model="v$.toEmailsVal.$model"
             type="text"
             class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             :class="{ error: v$.toEmailsVal.$error }"
@@ -107,7 +107,7 @@ export default {
         </label>
         <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
           <woot-input
-            v-model.trim="v$.ccEmailsVal.$model"
+            v-model="v$.ccEmailsVal.$model"
             class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             type="text"
             :class="{ error: v$.ccEmailsVal.$error }"
@@ -135,7 +135,7 @@ export default {
         </label>
         <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
           <woot-input
-            v-model.trim="v$.bccEmailsVal.$model"
+            v-model="v$.bccEmailsVal.$model"
             type="text"
             class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             :class="{ error: v$.bccEmailsVal.$error }"

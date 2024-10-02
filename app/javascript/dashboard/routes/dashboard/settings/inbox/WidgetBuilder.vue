@@ -276,11 +276,11 @@ export default {
               "
               :src="avatarUrl"
               delete-avatar
-              @change="handleImageUpload"
+              @onAvatarSelect="handleImageUpload"
               @onAvatarDelete="handleAvatarDelete"
             />
             <woot-input
-              v-model.trim="websiteName"
+              v-model="websiteName"
               :class="{ error: v$.websiteName.$error }"
               :label="
                 $t(
@@ -296,7 +296,7 @@ export default {
               @blur="v$.websiteName.$touch"
             />
             <woot-input
-              v-model.trim="welcomeHeading"
+              v-model="welcomeHeading"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
@@ -309,7 +309,7 @@ export default {
               "
             />
             <woot-input
-              v-model.trim="welcomeTagline"
+              v-model="welcomeTagline"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
@@ -364,7 +364,7 @@ export default {
               :action="handleWidgetBubbleTypeChange"
             />
             <woot-input
-              v-model.trim="widgetBubbleLauncherTitle"
+              v-model="widgetBubbleLauncherTitle"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
@@ -419,7 +419,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
+@import 'dashboard/assets/scss/woot';
 
 .widget-builder-container {
   display: flex;

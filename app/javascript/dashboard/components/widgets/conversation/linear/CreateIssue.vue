@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, computed, onMounted, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import validations from './validations';

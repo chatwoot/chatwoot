@@ -1,45 +1,40 @@
+// [NOTE][DEPRECATED] This method is to be deprecated, please do not add new components to this file.
 /* eslint no-plusplus: 0 */
 import AvatarUploader from './widgets/forms/AvatarUploader.vue';
-import Bar from './widgets/chart/BarChart';
-import Button from './ui/WootButton';
-import Code from './Code';
-import ColorPicker from './widgets/ColorPicker';
+import Button from './ui/WootButton.vue';
+import Code from './Code.vue';
+import ColorPicker from './widgets/ColorPicker.vue';
 import ConfirmDeleteModal from './widgets/modal/ConfirmDeleteModal.vue';
 import ConfirmModal from './widgets/modal/ConfirmationModal.vue';
-import ContextMenu from './ui/ContextMenu.vue';
 import DeleteModal from './widgets/modal/DeleteModal.vue';
-import DropdownItem from 'shared/components/ui/dropdown/DropdownItem';
-import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
-import FeatureToggle from './widgets/FeatureToggle';
-import HorizontalBar from './widgets/chart/HorizontalBarChart';
+import DropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import FeatureToggle from './widgets/FeatureToggle.vue';
 import Input from './widgets/forms/Input.vue';
 import PhoneInput from './widgets/forms/PhoneInput.vue';
-import Label from './ui/Label';
-import LoadingState from './widgets/LoadingState';
-import Modal from './Modal';
-import ModalHeader from './ModalHeader';
-import SidemenuIcon from './SidemenuIcon';
-import Spinner from 'shared/components/Spinner';
-import SubmitButton from './buttons/FormSubmitButton';
-import Tabs from './ui/Tabs/Tabs';
-import TabsItem from './ui/Tabs/TabsItem';
+import Label from './ui/Label.vue';
+import LoadingState from './widgets/LoadingState.vue';
+import ModalHeader from './ModalHeader.vue';
+import Modal from './Modal.vue';
+import SidemenuIcon from './SidemenuIcon.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import SubmitButton from './buttons/FormSubmitButton.vue';
+import Tabs from './ui/Tabs/Tabs.vue';
+import TabsItem from './ui/Tabs/TabsItem.vue';
 import Thumbnail from './widgets/Thumbnail.vue';
 import DatePicker from './ui/DatePicker/DatePicker.vue';
 
 const WootUIKit = {
   AvatarUploader,
-  Bar,
   Button,
   Code,
   ColorPicker,
   ConfirmDeleteModal,
   ConfirmModal,
-  ContextMenu,
   DeleteModal,
   DropdownItem,
   DropdownMenu,
   FeatureToggle,
-  HorizontalBar,
   Input,
   PhoneInput,
   Label,

@@ -5,7 +5,7 @@ import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 const getters = useStoreGetters();
@@ -159,6 +159,15 @@ const toggleAutomation = async ({ id, name, status }) => {
     useAlert(t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
   }
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
+    t('AUTOMATION.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
+    t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
+  ];
+});
 </script>
 
 <template>
@@ -190,7 +199,7 @@ const toggleAutomation = async ({ id, name, status }) => {
       <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
         <thead>
           <th
-            v-for="thHeader in $t('AUTOMATION.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
           >
