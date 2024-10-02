@@ -102,6 +102,7 @@ export default {
             ? this.currentConversationPlanText(item.conversation_plans)
             : null,
           assignee_name: item.assignee ? item.assignee.name : null,
+          team_name: item.team ? item.team.name : null,
           product_name: item.product
             ? `${item.product.short_name} - ${item.product.name}`
             : null,

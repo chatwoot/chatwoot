@@ -5,12 +5,19 @@ module AssignmentConcern
     @conversation.id == contact.initial_conversation&.id
   end
 
-  def update_contact
+  def update_contact_agent
     return unless initial_conversation?
 
     contact = @conversation.contact
-    contact.assignee = @agent if params[:assignee_id].present?
-    contact.team = @team if params[:team_id].present?
+    contact.assignee = @agent
+    contact.save!
+  end
+
+  def update_contact_team
+    return unless initial_conversation?
+
+    contact = @conversation.contact
+    contact.team = @team
     contact.save!
   end
 

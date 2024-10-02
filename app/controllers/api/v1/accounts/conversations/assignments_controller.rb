@@ -10,10 +10,10 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       render json: { error: I18n.t('errors.assignment.change_requested') }, status: :forbidden
     elsif params.key?(:assignee_id)
       set_agent
-      update_contact
+      update_contact_agent
     elsif params.key?(:team_id)
       set_team
-      update_contact
+      update_contact_team
     else
       render json: nil
     end
@@ -24,7 +24,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     @conversation.assignee = @agent
     @conversation.requesting_assignee = nil
     @conversation.save!
-    update_contact
+    update_contact_agent
     render_agent
   end
 
