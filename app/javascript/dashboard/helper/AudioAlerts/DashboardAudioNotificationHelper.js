@@ -22,6 +22,21 @@ class DashboardAudioNotificationHelper {
     this.currentUser = null;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
+
+    this.onAudioListenEvent = async () => {
+      try {
+        await getAlertAudio('', {
+          type: 'dashboard',
+          alertTone: this.audioAlertTone,
+        });
+        initOnEvents.forEach(event => {
+          document.removeEventListener(event, this.onAudioListenEvent, false);
+        });
+        this.playAudioEvery30Seconds();
+      } catch (error) {
+        // Ignore audio fetch errors
+      }
+    };
   }
 
   setInstanceValues({
@@ -44,21 +59,6 @@ class DashboardAudioNotificationHelper {
     });
     initFaviconSwitcher();
   }
-
-  onAudioListenEvent = async () => {
-    try {
-      await getAlertAudio('', {
-        type: 'dashboard',
-        alertTone: this.audioAlertTone,
-      });
-      initOnEvents.forEach(event => {
-        document.removeEventListener(event, this.onAudioListenEvent, false);
-      });
-      this.playAudioEvery30Seconds();
-    } catch (error) {
-      // Ignore audio fetch errors
-    }
-  };
 
   executeRecurringNotification() {
     if (!window.WOOT_STORE) {
