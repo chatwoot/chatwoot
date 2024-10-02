@@ -139,7 +139,6 @@ export default {
       this.onDateRangeChange();
     },
     changeFilterSelection() {
-      console.log('changeFilterSelection', this.currentSelectedFilter);
       this.$emit('filterChange', this.currentSelectedFilter);
     },
     onChange(value) {
