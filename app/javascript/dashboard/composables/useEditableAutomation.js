@@ -7,7 +7,7 @@ import {
   isCustomAttribute,
 } from 'dashboard/helper/automationHelper';
 
-export default function useEditableAutomation() {
+export function useEditableAutomation() {
   const { getConditionDropdownValues, getActionDropdownValues } =
     useAutomationValues();
 

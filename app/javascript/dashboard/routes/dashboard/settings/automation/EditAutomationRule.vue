@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAutomation } from 'dashboard/composables/useAutomation';
+import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import {
@@ -47,9 +48,9 @@ export default {
       resetFilter,
       resetAction,
       getActionDropdownValues,
-      formatAutomation,
       manifestCustomAttributes,
     } = useAutomation();
+    const { formatAutomation } = useEditableAutomation();
     return {
       automation,
       onEventChange,
