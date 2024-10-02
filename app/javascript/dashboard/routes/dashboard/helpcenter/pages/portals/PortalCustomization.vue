@@ -4,11 +4,11 @@ import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { useRoute, useRouter } from 'dashboard/composables/route';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { defineComponent, onMounted, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { defineOptions, onMounted, computed } from 'vue';
 
-defineComponent({
+defineOptions({
   name: 'PortalCustomization',
 });
 
@@ -16,7 +16,6 @@ const getters = useStoreGetters();
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-const track = useTrack();
 const { t } = useI18n();
 
 const uiFlags = getters['portals/uiFlagsIn'];
@@ -42,7 +41,7 @@ async function updatePortalSettings(portalObj) {
     });
     alertMessage = t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE');
 
-    track(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
+    useTrack(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
       hasHomePageLink: Boolean(portalObj.homepage_link),
       hasPageTitle: Boolean(portalObj.page_title),
       hasHeaderText: Boolean(portalObj.headerText),

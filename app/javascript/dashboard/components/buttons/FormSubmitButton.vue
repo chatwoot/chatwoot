@@ -40,11 +40,6 @@ export default {
       return `button nice gap-2 ${this.buttonClass || ' '}`;
     },
   },
-  methods: {
-    onClick() {
-      this.$emit('click');
-    },
-  },
 };
 </script>
 
@@ -54,7 +49,6 @@ export default {
     data-testid="submit_button"
     :disabled="disabled"
     :class="computedClass"
-    @click="onClick"
   >
     <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>

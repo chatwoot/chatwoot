@@ -1,6 +1,6 @@
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
-
+import MarkdownIt from 'markdown-it';
 const setImageHeight = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
   if (!imgSrc) return;
@@ -30,7 +30,7 @@ const imgResizeManager = md => {
   });
 };
 
-const md = require('markdown-it')({
+const md = MarkdownIt({
   html: false,
   xhtmlOut: true,
   breaks: true,

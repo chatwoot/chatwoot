@@ -9,6 +9,7 @@ import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -51,7 +52,7 @@ export default {
     },
   },
   mounted() {
-    this.$emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
     ...mapActions('conversation', [
@@ -99,12 +100,12 @@ export default {
       if (this.hasEmail) {
         try {
           await sendEmailTranscript();
-          this.$emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
             type: 'success',
           });
         } catch (error) {
-          this.$emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
+          emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
           });
         }
@@ -157,7 +158,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .branding {
   align-items: center;

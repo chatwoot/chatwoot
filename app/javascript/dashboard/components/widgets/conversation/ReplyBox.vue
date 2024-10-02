@@ -1,7 +1,9 @@
 <script>
+import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
@@ -12,7 +14,7 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
-import MessageSignatureMissingAlert from './MessageSignatureMissingAlert';
+import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -40,8 +42,10 @@ import {
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
-
-const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
+import { emitter } from 'shared/helpers/mitt';
+const EmojiInput = defineAsyncComponent(
+  () => import('shared/components/emoji/EmojiInput.vue')
+);
 
 export default {
   components: {
@@ -449,15 +453,12 @@ export default {
     );
 
     this.fetchAndSetReplyTo();
-    this.$emitter.on(
-      BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE,
-      this.fetchAndSetReplyTo
-    );
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
     // TODO need to find a better solution
-    this.$emitter.on(
+    emitter.on(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
     );
@@ -465,13 +466,10 @@ export default {
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
-    this.$emitter.off(
-      BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE,
-      this.fetchAndSetReplyTo
-    );
+    emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
   },
-  beforeDestroy() {
-    this.$emitter.off(
+  unmounted() {
+    emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
     );
@@ -484,7 +482,7 @@ export default {
         const lines = title.split('\n');
         const nonEmptyLines = lines.filter(line => line.trim() !== '');
         const filteredMarkdown = nonEmptyLines.join(' ');
-        this.$emitter.emit(
+        emitter.emit(
           BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
           `[${filteredMarkdown}](${url})`
         );
@@ -494,7 +492,7 @@ export default {
         );
       }
 
-      this.$track(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
+      useTrack(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
     },
     toggleRichContentEditor() {
       this.updateUISettings({
@@ -689,8 +687,8 @@ export default {
     sendMessageAnalyticsData(isPrivate) {
       // Analytics data for message signature is enabled or not in channels
       return isPrivate
-        ? this.$track(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
-        : this.$track(CONVERSATION_EVENTS.SENT_MESSAGE, {
+        ? useTrack(CONVERSATION_EVENTS.SENT_PRIVATE_NOTE)
+        : useTrack(CONVERSATION_EVENTS.SENT_MESSAGE, {
             channelType: this.channelType,
             signatureEnabled: this.sendWithSignature,
             hasReplyTo: !!this.inReplyTo?.id,
@@ -726,8 +724,8 @@ export default {
           'createPendingMessageAndSend',
           messagePayload
         );
-        this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        this.$emitter.emit(BUS_EVENTS.MESSAGE_SENT);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
         this.sendMessageAnalyticsData(messagePayload.private);
       } catch (error) {
@@ -757,7 +755,7 @@ export default {
       });
 
       setTimeout(() => {
-        this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+        useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
       }, 100);
     },
@@ -832,7 +830,7 @@ export default {
       if (this.isRecordingAudio) {
         if (!this.isRecorderAudioStopped) {
           this.isRecorderAudioStopped = true;
-          this.$refs.audioRecorderInput.stopAudioRecording();
+          this.$refs.audioRecorderInput.stopRecording();
         } else if (this.isRecorderAudioStopped) {
           this.$refs.audioRecorderInput.playPause();
         }
@@ -859,7 +857,7 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
-    onStateProgressRecorderChanged(duration) {
+    onRecordProgressChanged(duration) {
       this.recordingAudioDurationText = duration;
     },
     onStateRecorderChanged(state) {
@@ -1053,7 +1051,7 @@ export default {
     resetReplyToMessage() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
       LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE);
     },
     onNewConversationModalActive(isActive) {
       // Issue is if the new conversation modal is open and we drag and drop the file
@@ -1083,7 +1081,7 @@ export default {
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       has-action-button
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-      @click="onClickSelfAssign"
+      @primaryAction="onClickSelfAssign"
     />
     <ReplyTopPanel
       :mode="replyType"
@@ -1091,7 +1089,7 @@ export default {
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
       @setReplyMode="setReplyMode"
-      @click="$emit('click')"
+      @togglePopout="$emit('togglePopout')"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1110,7 +1108,7 @@ export default {
         v-on-clickaway="hideMentions"
         class="normal-editor__canned-box"
         :search-key="mentionSearchKey"
-        @click="replaceText"
+        @replace="replaceText"
       />
       <EmojiInput
         v-if="showEmojiPicker"
@@ -1120,15 +1118,15 @@ export default {
       />
       <ReplyEmailHead
         v-if="showReplyHead"
-        :cc-emails.sync="ccEmails"
-        :bcc-emails.sync="bccEmails"
-        :to-emails.sync="toEmails"
+        v-model:cc-emails="ccEmails"
+        v-model:bcc-emails="bccEmails"
+        v-model:to-emails="toEmails"
       />
       <WootAudioRecorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
-        @stateRecorderProgressChanged="onStateProgressRecorderChanged"
+        @recorderProgressChanged="onRecordProgressChanged"
         @stateRecorderChanged="onStateRecorderChanged"
         @finishRecord="onFinishRecorder"
       />

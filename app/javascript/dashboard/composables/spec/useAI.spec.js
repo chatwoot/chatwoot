@@ -5,12 +5,12 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
-import { useI18n } from '../useI18n';
+import { useI18n } from 'vue-i18n';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables');
-vi.mock('../useI18n');
+vi.mock('vue-i18n');
 vi.mock('dashboard/api/integrations/openapi');
 vi.mock('dashboard/helper/AnalyticsHelper/events', () => ({
   OPEN_AI_EVENTS: {

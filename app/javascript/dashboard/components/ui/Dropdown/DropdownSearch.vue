@@ -1,4 +1,5 @@
 <script setup>
+import { defineEmits } from 'vue';
 defineProps({
   inputValue: {
     type: String,
@@ -13,6 +14,8 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(['input', 'remove']);
 </script>
 
 <template>
@@ -30,7 +33,7 @@ defineProps({
         class="w-full mb-0 text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-75 reset-base"
         :placeholder="inputPlaceholder"
         :value="inputValue"
-        @input="$emit('input', $event.target.value)"
+        @input="emit('input', $event.target.value)"
       />
     </div>
     <!-- Clear filter button -->
@@ -40,7 +43,7 @@ defineProps({
       variant="clear"
       color-scheme="primary"
       class="!px-1 !py-1.5"
-      @click="$emit('click')"
+      @click="emit('remove')"
     >
       {{ $t('REPORT.FILTER_ACTIONS.CLEAR_FILTER') }}
     </woot-button>

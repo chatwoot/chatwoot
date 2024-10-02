@@ -132,7 +132,7 @@ export default {
           <div v-if="sentToOtherEmailAddress" class="w-[50%] mt-1">
             <label :class="{ error: v$.email.$error }">
               <input
-                v-model.trim="email"
+                v-model="email"
                 type="text"
                 :placeholder="$t('EMAIL_TRANSCRIPT.FORM.EMAIL.PLACEHOLDER')"
                 @input="v$.email.$touch"

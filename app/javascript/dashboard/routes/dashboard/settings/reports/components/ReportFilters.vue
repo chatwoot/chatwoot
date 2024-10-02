@@ -35,14 +35,26 @@ export default {
   data() {
     return {
       currentSelectedFilter: null,
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
+      currentDateRangeSelection: {
+        id: 0,
+        name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
+      },
       customDateRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
       businessHoursSelected: false,
     };
   },
   computed: {
+    dateRange() {
+      return [
+        { id: 0, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS') },
+        { id: 1, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS') },
+        { id: 2, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_3_MONTHS') },
+        { id: 3, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS') },
+        { id: 4, name: this.$t('REPORT.DATE_RANGE_OPTIONS.LAST_YEAR') },
+        { id: 5, name: this.$t('REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE') },
+      ];
+    },
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
@@ -127,6 +139,7 @@ export default {
       this.onDateRangeChange();
     },
     changeFilterSelection() {
+      console.log('changeFilterSelection', this.currentSelectedFilter);
       this.$emit('filterChange', this.currentSelectedFilter);
     },
     onChange(value) {
@@ -158,9 +171,9 @@ export default {
           :options="filterItemsList"
           :option-height="24"
           :show-labels="false"
-          @input="changeFilterSelection"
+          @update:model-value="changeFilterSelection"
         >
-          <template slot="singleLabel" slot-scope="props">
+          <template #singleLabel="props">
             <div class="flex items-center gap-2">
               <Thumbnail
                 :src="props.option.thumbnail"
@@ -175,7 +188,7 @@ export default {
               </span>
             </div>
           </template>
-          <template slot="option" slot-scope="props">
+          <template #options="props">
             <div class="flex items-center gap-2">
               <Thumbnail
                 :src="props.option.thumbnail"
@@ -205,9 +218,9 @@ export default {
           :options="filterItemsList"
           :option-height="24"
           :show-labels="false"
-          @input="changeFilterSelection"
+          @update:model-value="changeFilterSelection"
         >
-          <template slot="singleLabel" slot-scope="props">
+          <template #singleLabel="props">
             <div class="flex items-center gap-2">
               <div
                 :style="{ backgroundColor: props.option.color }"
@@ -220,7 +233,7 @@ export default {
               </span>
             </div>
           </template>
-          <template slot="option" slot-scope="props">
+          <template #option="props">
             <div class="flex items-center gap-2">
               <div
                 :style="{ backgroundColor: props.option.color }"
@@ -259,7 +272,7 @@ export default {
           :options="filterItemsList"
           :searchable="false"
           :allow-empty="false"
-          @input="changeFilterSelection"
+          @update:model-value="changeFilterSelection"
         />
       </div>
       <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
@@ -307,7 +320,7 @@ export default {
           :options="groupByFilterItemsList"
           :allow-empty="false"
           :show-labels="false"
-          @input="changeGroupByFilterSelection"
+          @update:model-value="changeGroupByFilterSelection"
         />
       </div>
     </div>

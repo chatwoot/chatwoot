@@ -46,7 +46,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .file {
   display: flex;

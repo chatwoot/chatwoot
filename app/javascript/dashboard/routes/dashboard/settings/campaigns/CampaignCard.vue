@@ -1,55 +1,46 @@
-<script>
+<script setup>
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { messageStamp } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
-export default {
-  components: {
-    UserAvatarWithName,
-    InboxName,
+const props = defineProps({
+  campaign: {
+    type: Object,
+    required: true,
   },
-  props: {
-    campaign: {
-      type: Object,
-      required: true,
-    },
-    isOngoingType: {
-      type: Boolean,
-      default: true,
-    },
+  isOngoingType: {
+    type: Boolean,
+    default: true,
   },
-  setup() {
-    const { formatMessage } = useMessageFormatter();
-    return {
-      formatMessage,
-    };
-  },
-  computed: {
-    campaignStatus() {
-      if (this.isOngoingType) {
-        return this.campaign.enabled
-          ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-          : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
-      }
+});
 
-      return this.campaign.campaign_status === 'completed'
-        ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
-        : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
-    },
-    colorScheme() {
-      if (this.isOngoingType) {
-        return this.campaign.enabled ? 'success' : 'secondary';
-      }
-      return this.campaign.campaign_status === 'completed'
-        ? 'secondary'
-        : 'success';
-    },
-  },
-  methods: {
-    messageStamp,
-  },
-};
+const { t } = useI18n();
+
+const { formatMessage } = useMessageFormatter();
+
+const campaignStatus = computed(() => {
+  if (props.isOngoingType) {
+    return props.campaign.enabled
+      ? t('CAMPAIGN.LIST.STATUS.ENABLED')
+      : t('CAMPAIGN.LIST.STATUS.DISABLED');
+  }
+
+  return props.campaign.campaign_status === 'completed'
+    ? t('CAMPAIGN.LIST.STATUS.COMPLETED')
+    : t('CAMPAIGN.LIST.STATUS.ACTIVE');
+});
+
+const colorScheme = computed(() => {
+  if (props.isOngoingType) {
+    return props.campaign.enabled ? 'success' : 'secondary';
+  }
+  return props.campaign.campaign_status === 'completed'
+    ? 'secondary'
+    : 'success';
+});
 </script>
 
 <template>
@@ -106,13 +97,14 @@ export default {
       />
       <div
         v-if="campaign.trigger_rules.url"
-        class="w-1/4 mb-1 text-xs text-woot-600 text-truncate"
+        :title="campaign.trigger_rules.url"
+        class="w-1/4 mb-1 text-xs text-woot-600 truncate"
       >
         {{ campaign.trigger_rules.url }}
       </div>
       <div
         v-if="campaign.scheduled_at"
-        class="mb-1 text-xs text-slate-700 dark:text-slate-500"
+        class="w-1/4 mb-1 text-xs text-slate-700 dark:text-slate-500"
       >
         {{ messageStamp(new Date(campaign.scheduled_at), 'LLL d, h:mm a') }}
       </div>

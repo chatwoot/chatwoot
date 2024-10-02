@@ -4,6 +4,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import LocaleItemTable from './PortalListItemTable.vue';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -129,7 +130,7 @@ export default {
           'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
         ),
       });
-      this.$track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
+      useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
         newLocale: localeCode,
         from: this.$route.name,
       });
@@ -149,7 +150,7 @@ export default {
           'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
         ),
       });
-      this.$track(PORTALS_EVENTS.DELETE_LOCALE, {
+      useTrack(PORTALS_EVENTS.DELETE_LOCALE, {
         deletedLocale: localeCode,
         from: this.$route.name,
       });

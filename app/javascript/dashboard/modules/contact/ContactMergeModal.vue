@@ -1,5 +1,5 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
 import ContactAPI from 'dashboard/api/contacts';
@@ -53,7 +53,7 @@ export default {
       }
     },
     async onMergeContacts(parentContactId) {
-      this.$track(CONTACTS_EVENTS.MERGED_CONTACTS);
+      useTrack(CONTACTS_EVENTS.MERGED_CONTACTS);
       try {
         await this.$store.dispatch('contacts/merge', {
           childId: this.primaryContact.id,

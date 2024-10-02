@@ -7,6 +7,7 @@ import PopOverSearch from './search/PopOverSearch.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -170,7 +171,7 @@ export default {
             after: messageId,
           })
           .then(() => {
-            this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+            emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
       } else {
         this.$store.dispatch('clearSelectedState');

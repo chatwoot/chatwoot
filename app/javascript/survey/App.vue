@@ -10,11 +10,11 @@ export default {
 </script>
 
 <template>
-  <div id="app" class="woot-survey-wrap">
+  <div id="app" class="woot-survey-wrap min-h-screen">
     <Response />
   </div>
 </template>
 
 <style lang="scss">
-@import '~survey/assets/scss/woot.scss';
+@import './assets/scss/woot.scss';
 </style>

@@ -75,7 +75,7 @@ export default {
         <label :class="{ error: v$.botToken.$error }">
           {{ $t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.BOT_TOKEN.LABEL') }}
           <input
-            v-model.trim="botToken"
+            v-model="botToken"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.BOT_TOKEN.PLACEHOLDER')

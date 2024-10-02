@@ -3,11 +3,11 @@ import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/compo
 
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { useRoute, useRouter } from 'dashboard/composables/route';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { defineComponent, computed, ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { defineOptions, computed, ref, onMounted } from 'vue';
 
-defineComponent({ name: 'EditPortalBasic' });
+defineOptions({ name: 'EditPortalBasic' });
 
 const getters = useStoreGetters();
 const route = useRoute();

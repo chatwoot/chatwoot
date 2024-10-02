@@ -4,7 +4,7 @@ import ContactConversations from 'dashboard/routes/dashboard/conversation/Contac
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
@@ -14,7 +14,7 @@ export default {
     ContactInfo,
     ContactLabel,
     CustomAttributes,
-    Draggable: draggable,
+    Draggable,
   },
   props: {
     contact: {
@@ -78,7 +78,7 @@ export default {
 
 <template>
   <div
-    class="relative w-1/4 h-full overflow-y-auto text-sm bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50"
+    class="relative w-1/4 h-full min-h-screen overflow-y-auto text-sm bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50"
     :class="showAvatar ? 'border-l border-solid ' : 'border-r border-solid'"
   >
     <ContactInfo
@@ -89,69 +89,70 @@ export default {
       @panelClose="onClose"
       @togglePanel="onClose"
     />
-    <Draggable
-      :list="contactSidebarItems"
-      :disabled="!dragEnabled"
-      class="list-group"
-      ghost-class="ghost"
-      @start="dragging = true"
-      @end="onDragEnd"
-    >
-      <transition-group>
-        <div
-          v-for="element in contactSidebarItems"
-          :key="element.name"
-          class="list-group-item"
-        >
-          <div v-if="element.name === 'contact_attributes'">
-            <AccordionItem
-              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
-              :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
-              compact
-              @click="
-                value => toggleSidebarUIState('is_ct_custom_attr_open', value)
-              "
-            >
-              <CustomAttributes
-                :contact-id="contact.id"
-                attribute-type="contact_attribute"
-                attribute-from="contact_panel"
-                :custom-attributes="contact.custom_attributes"
-                :empty-state-message="
-                  $t('CONTACT_PANEL.SIDEBAR_SECTIONS.NO_RECORDS_FOUND')
+    <div class="list-group">
+      <Draggable
+        :list="contactSidebarItems"
+        :disabled="!dragEnabled"
+        ghost-class="ghost"
+        item-key="name"
+        @start="dragging = true"
+        @end="onDragEnd"
+      >
+        <template #item="{ element }">
+          <div :key="element.name" class="list-group-item">
+            <div v-if="element.name === 'contact_attributes'">
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
+                :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_ct_custom_attr_open', value)
                 "
-              />
-            </AccordionItem>
+              >
+                <CustomAttributes
+                  :contact-id="contact.id"
+                  attribute-type="contact_attribute"
+                  attribute-from="contact_panel"
+                  :custom-attributes="contact.custom_attributes"
+                  :empty-state-message="
+                    $t('CONTACT_PANEL.SIDEBAR_SECTIONS.NO_RECORDS_FOUND')
+                  "
+                />
+              </AccordionItem>
+            </div>
+            <div v-if="element.name === 'contact_labels'">
+              <AccordionItem
+                :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
+                :is-open="isContactSidebarItemOpen('is_ct_labels_open')"
+                @toggle="
+                  value => toggleSidebarUIState('is_ct_labels_open', value)
+                "
+              >
+                <ContactLabel :contact-id="contact.id" class="contact-labels" />
+              </AccordionItem>
+            </div>
+            <div v-if="element.name === 'previous_conversation'">
+              <AccordionItem
+                :title="
+                  $t('CONTACT_PANEL.SIDEBAR_SECTIONS.PREVIOUS_CONVERSATIONS')
+                "
+                :is-open="isContactSidebarItemOpen('is_ct_prev_conv_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_ct_prev_conv_open', value)
+                "
+              >
+                <ContactConversations
+                  v-if="contact.id"
+                  :contact-id="contact.id"
+                  conversation-id=""
+                />
+              </AccordionItem>
+            </div>
           </div>
-          <div v-if="element.name === 'contact_labels'">
-            <AccordionItem
-              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
-              :is-open="isContactSidebarItemOpen('is_ct_labels_open')"
-              @click="value => toggleSidebarUIState('is_ct_labels_open', value)"
-            >
-              <ContactLabel :contact-id="contact.id" class="contact-labels" />
-            </AccordionItem>
-          </div>
-          <div v-if="element.name === 'previous_conversation'">
-            <AccordionItem
-              :title="
-                $t('CONTACT_PANEL.SIDEBAR_SECTIONS.PREVIOUS_CONVERSATIONS')
-              "
-              :is-open="isContactSidebarItemOpen('is_ct_prev_conv_open')"
-              @click="
-                value => toggleSidebarUIState('is_ct_prev_conv_open', value)
-              "
-            >
-              <ContactConversations
-                v-if="contact.id"
-                :contact-id="contact.id"
-                conversation-id=""
-              />
-            </AccordionItem>
-          </div>
-        </div>
-      </transition-group>
-    </Draggable>
+        </template>
+      </Draggable>
+    </div>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
 

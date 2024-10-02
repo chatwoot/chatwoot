@@ -4,8 +4,8 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
@@ -280,7 +280,7 @@ export default {
           :username-avatar="name"
           :delete-avatar="!!avatarUrl"
           class="settings-item"
-          @change="handleImageUpload"
+          @onAvatarSelect="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
       </div>
@@ -290,7 +290,7 @@ export default {
         <label :class="{ error: v$.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
-            v-model.trim="name"
+            v-model="name"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.NAME.PLACEHOLDER')"
             @input="v$.name.$touch"
@@ -300,7 +300,7 @@ export default {
         <label :class="{ error: v$.email.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
           <input
-            v-model.trim="email"
+            v-model="email"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
             @input="v$.email.$touch"
@@ -315,7 +315,7 @@ export default {
       <label :class="{ error: v$.description.$error }">
         {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
         <textarea
-          v-model.trim="description"
+          v-model="description"
           type="text"
           :placeholder="$t('CONTACT_FORM.FORM.BIO.PLACEHOLDER')"
           @input="v$.description.$touch"
@@ -352,7 +352,7 @@ export default {
       </div>
     </div>
     <woot-input
-      v-model.trim="companyName"
+      v-model="companyName"
       class="w-full"
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"

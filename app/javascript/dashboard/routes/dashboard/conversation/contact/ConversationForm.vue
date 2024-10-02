@@ -1,24 +1,34 @@
 <script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
-import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
-import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
-import WhatsappTemplates from './WhatsappTemplates.vue';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
-import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
-import { getInboxSource } from 'dashboard/helper/inbox';
-import { useVuelidate } from '@vuelidate/core';
-import { required, requiredIf } from '@vuelidate/validators';
-import inboxMixin from 'shared/mixins/inboxMixin';
-import FileUpload from 'vue-upload-component';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+// constants & helpers
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import { getInboxSource } from 'dashboard/helper/inbox';
+
+// store
+import { mapGetters } from 'vuex';
+
+// composables
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAlert } from 'dashboard/composables';
+import { required, requiredIf } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+
+// mixins
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import inboxMixin from 'shared/mixins/inboxMixin';
+
+// components
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
+import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
+import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert.vue';
+import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import FileUpload from 'vue-upload-component';
+import WhatsappTemplates from './WhatsappTemplates.vue';
+
 import {
   appendSignature,
   removeSignature,
@@ -346,12 +356,13 @@ export default {
               :placeholder="$t('FORMS.MULTISELECT.SELECT')"
               selected-label=""
               select-label=""
+              class="reset-base"
               deselect-label=""
               :max-height="160"
               close-on-select
               :options="[...inboxes]"
             >
-              <template slot="singleLabel" slot-scope="{ option }">
+              <template #singleLabel="{ option }">
                 <InboxDropdownItem
                   v-if="option.name"
                   :name="option.name"
@@ -362,7 +373,7 @@ export default {
                   {{ $t('NEW_CONVERSATION.FORM.INBOX.PLACEHOLDER') }}
                 </span>
               </template>
-              <template slot="option" slot-scope="{ option }">
+              <template #option="{ option }">
                 <InboxDropdownItem
                   :name="option.name"
                   :inbox-identifier="computedInboxSource(option)"
@@ -420,7 +431,7 @@ export default {
             <CannedResponse
               v-if="showCannedResponseMenu && hasSlashCommand"
               :search-key="cannedResponseSearchKey"
-              @click="replaceTextWithCannedResponse"
+              @replace="replaceTextWithCannedResponse"
             />
           </div>
           <div v-if="isEmailOrWebWidgetInbox">
@@ -588,14 +599,6 @@ export default {
 ::v-deep {
   .mention--box {
     @apply left-0 m-auto right-0 top-auto h-fit;
-  }
-
-  .multiselect .multiselect__content .multiselect__option span {
-    @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
-  }
-
-  .multiselect .multiselect__content .multiselect__option {
-    @apply py-0.5 px-1;
   }
 }
 </style>

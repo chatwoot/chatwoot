@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import CsatMetrics from './components/CsatMetrics.vue';
 import CsatTable from './components/CsatTable.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      pageIndex: 1,
+      pageIndex: 0,
       from: 0,
       to: 0,
       userIds: [],
@@ -59,7 +59,7 @@ export default {
     },
     getResponses() {
       this.$store.dispatch('csat/get', {
-        page: this.pageIndex,
+        page: this.pageIndex + 1,
         ...this.requestPayload,
       });
     },
@@ -88,7 +88,7 @@ export default {
     }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
-        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        useTrack(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
           reportType: 'csat',
         });

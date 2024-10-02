@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('click', this.title);
+      this.$emit('remove', this.title);
     },
   },
 };

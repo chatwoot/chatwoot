@@ -24,13 +24,13 @@ class DashboardAudioNotificationHelper {
     this.audioAlertTone = 'ding';
   }
 
-  setInstanceValues = ({
+  setInstanceValues({
     currentUser,
     alwaysPlayAudioAlert,
     alertIfUnreadConversationExist,
     audioAlertType,
     audioAlertTone,
-  }) => {
+  }) {
     this.audioAlertType = audioAlertType;
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
     this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
@@ -41,9 +41,9 @@ class DashboardAudioNotificationHelper {
       document.addEventListener(e, this.onAudioListenEvent, false);
     });
     initFaviconSwitcher();
-  };
+  }
 
-  onAudioListenEvent = async () => {
+  async onAudioListenEvent() {
     try {
       await getAlertAudio('', {
         type: 'dashboard',
@@ -56,14 +56,15 @@ class DashboardAudioNotificationHelper {
     } catch (error) {
       // Ignore audio fetch errors
     }
-  };
+  }
 
-  executeRecurringNotification = () => {
-    if (!window.WOOT || !window.WOOT.$store) {
+  executeRecurringNotification() {
+    if (!window.WOOT_STORE) {
       this.clearSetTimeout();
       return;
     }
-    const mineConversation = window.WOOT.$store.getters.getMineChats({
+
+    const mineConversation = window.WOOT_STORE.getters.getMineChats({
       assigneeType: 'me',
       status: 'open',
     });
@@ -78,9 +79,9 @@ class DashboardAudioNotificationHelper {
       showBadgeOnFavicon();
     }
     this.clearSetTimeout();
-  };
+  }
 
-  clearSetTimeout = () => {
+  clearSetTimeout() {
     if (this.recurringNotificationTimer) {
       clearTimeout(this.recurringNotificationTimer);
     }
@@ -88,9 +89,9 @@ class DashboardAudioNotificationHelper {
       this.executeRecurringNotification,
       NOTIFICATION_TIME
     );
-  };
+  }
 
-  playAudioEvery30Seconds = () => {
+  playAudioEvery30Seconds() {
     //  Audio alert is disabled dismiss the timer
     if (this.audioAlertType === 'none') {
       return;
@@ -101,26 +102,26 @@ class DashboardAudioNotificationHelper {
     }
 
     this.clearSetTimeout();
-  };
+  }
 
-  isConversationAssignedToCurrentUser = message => {
+  isConversationAssignedToCurrentUser(message) {
     const conversationAssigneeId = message?.conversation?.assignee_id;
     return conversationAssigneeId === this.currentUserId;
-  };
+  }
 
   // eslint-disable-next-line class-methods-use-this
-  isMessageFromCurrentConversation = message => {
+  isMessageFromCurrentConversation(message) {
     return (
-      window.WOOT.$store.getters.getSelectedChat?.id === message.conversation_id
+      window.WOOT_STORE.getters.getSelectedChat?.id === message.conversation_id
     );
-  };
+  }
 
-  isMessageFromCurrentUser = message => {
+  isMessageFromCurrentUser(message) {
     return message?.sender_id === this.currentUserId;
-  };
+  }
 
-  isUserHasConversationPermission = () => {
-    const currentAccountId = window.WOOT.$store.getters.getCurrentAccountId;
+  isUserHasConversationPermission() {
+    const currentAccountId = window.WOOT_STORE.getters.getCurrentAccountId;
     // Get the user permissions for the current account
     const userPermissions = getUserPermissions(
       this.currentUser,
@@ -131,16 +132,16 @@ class DashboardAudioNotificationHelper {
       permission => userPermissions.includes(permission)
     );
     return hasRequiredPermission;
-  };
+  }
 
-  shouldNotifyOnMessage = message => {
+  shouldNotifyOnMessage(message) {
     if (this.audioAlertType === 'mine') {
       return this.isConversationAssignedToCurrentUser(message);
     }
     return this.audioAlertType === 'all';
-  };
+  }
 
-  onNewMessage = message => {
+  onNewMessage(message) {
     // If the user does not have the permission to view the conversation, then dismiss the alert
     if (!this.isUserHasConversationPermission()) {
       return;
@@ -173,7 +174,9 @@ class DashboardAudioNotificationHelper {
     window.playAudioAlert();
     showBadgeOnFavicon();
     this.playAudioEvery30Seconds();
-  };
+  }
 }
 
-export default new DashboardAudioNotificationHelper();
+const notifHelper = new DashboardAudioNotificationHelper();
+window.notifHelper = notifHelper;
+export default notifHelper;

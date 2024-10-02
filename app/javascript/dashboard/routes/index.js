@@ -1,4 +1,4 @@
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import { frontendURL } from '../helper/URLHelper';
 import dashboard from './dashboard/dashboard.routes';
@@ -9,11 +9,11 @@ import { buildPermissionsFromRouter } from '../helper/permissionsHelper';
 
 const routes = [...dashboard.routes];
 
-export const router = new VueRouter({ mode: 'history', routes });
+export const router = createRouter({ history: createWebHistory(), routes });
 export const routesWithPermissions = buildPermissionsFromRouter(routes);
 
-export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
-  const { isLoggedIn, getCurrentUser: user } = getters;
+export const validateAuthenticateRoutePermission = (to, next) => {
+  const { isLoggedIn, getCurrentUser: user } = store.getters;
 
   if (!isLoggedIn) {
     window.location = '/app/login';
@@ -24,14 +24,14 @@ export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
-  const nextRoute = validateLoggedInRoutes(to, getters.getCurrentUser);
+  const nextRoute = validateLoggedInRoutes(to, store.getters.getCurrentUser);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
 export const initalizeRouter = () => {
   const userAuthentication = store.dispatch('setUser');
 
-  router.beforeEach((to, from, next) => {
+  router.beforeEach((to, _from, next) => {
     AnalyticsHelper.page(to.name || '', {
       path: to.path,
       name: to.name,

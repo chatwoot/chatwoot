@@ -1,6 +1,6 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
 import ContactDropdownItem from './ContactDropdownItem.vue';
@@ -97,7 +97,7 @@ export default {
             open-direction="top"
             @search-change="searchChange"
           >
-            <template slot="singleLabel" slot-scope="props">
+            <template #singleLabel="props">
               <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
@@ -106,7 +106,7 @@ export default {
                 :phone-number="props.option.phone_number"
               />
             </template>
-            <template slot="option" slot-scope="props">
+            <template #option="props">
               <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
@@ -145,14 +145,14 @@ export default {
             />
           </label>
           <multiselect
-            :value="primaryContact"
+            :model-value="primaryContact"
             disabled
             :options="[]"
             :show-labels="false"
             label="name"
             track-by="id"
           >
-            <template slot="singleLabel" slot-scope="props">
+            <template #singleLabel="props">
               <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :name="props.option.name"
