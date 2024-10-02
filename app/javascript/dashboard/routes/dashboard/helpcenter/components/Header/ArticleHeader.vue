@@ -209,7 +209,7 @@ export default {
               $t('HELP_CENTER.HEADER.LOCALE_SELECT.SEARCH_PLACEHOLDER')
             "
             :no-search-result="$t('HELP_CENTER.HEADER.LOCALE_SELECT.NO_RESULT')"
-            @click="onClickSelectItem"
+            @select="onClickSelectItem"
           />
         </div>
       </div>

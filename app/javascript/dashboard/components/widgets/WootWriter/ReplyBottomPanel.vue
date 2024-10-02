@@ -26,7 +26,7 @@ export default {
     },
     onSend: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
     sendButtonText: {
       type: String,
@@ -53,19 +53,19 @@ export default {
     },
     onFileUpload: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
     toggleEmojiPicker: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
     toggleAudioRecorder: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
     toggleAudioRecorderPlayPause: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
     isRecordingAudio: {
       type: Boolean,
@@ -174,9 +174,8 @@ export default {
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.VOICE_RECORDER
-        ) &&
-        this.showAudioRecorder &&
-        !isSafari
+        ) && this.showAudioRecorder
+        // !isSafari
       );
     },
     showAudioPlayStopButton() {

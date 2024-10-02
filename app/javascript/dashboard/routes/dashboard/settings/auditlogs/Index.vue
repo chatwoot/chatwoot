@@ -9,8 +9,8 @@ import {
   generateLogActionKey,
 } from 'dashboard/helper/auditlogHelper';
 import { computed, onMounted, watch } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -58,6 +58,14 @@ watch(routerPage, (newPage, oldPage) => {
     fetchAuditLogs(newPage);
   }
 });
+
+const tableHeaders = computed(() => {
+  return [
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.ACTIVITY'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.TIME'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS'),
+  ];
+});
 </script>
 
 <template>
@@ -84,7 +92,7 @@ watch(routerPage, (newPage, oldPage) => {
         <table class="divide-y divide-slate-75 dark:divide-slate-700">
           <thead>
             <th
-              v-for="thHeader in $t('AUDIT_LOGS.LIST.TABLE_HEADER')"
+              v-for="thHeader in tableHeaders"
               :key="thHeader"
               class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
             >

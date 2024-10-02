@@ -86,6 +86,6 @@ export default {
     :banner-message="bannerMessage"
     :action-button-label="actionButtonMessage"
     has-action-button
-    @click="routeToBilling"
+    @primaryAction="routeToBilling"
   />
 </template>

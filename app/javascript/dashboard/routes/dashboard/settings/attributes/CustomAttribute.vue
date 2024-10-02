@@ -3,7 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import EditAttribute from './EditAttribute.vue';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { computed, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 const props = defineProps({
   attributeModel: {
     type: String,
@@ -75,6 +75,15 @@ const openDelete = value => {
   showDeletePopup.value = true;
   selectedAttribute.value = value;
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.NAME'),
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.TYPE'),
+    t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER.KEY'),
+  ];
+});
 </script>
 
 <template>
@@ -82,7 +91,7 @@ const openDelete = value => {
     <table class="min-w-full overflow-x-auto">
       <thead>
         <th
-          v-for="tableHeader in $t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER')"
+          v-for="tableHeader in tableHeaders"
           :key="tableHeader"
           class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
         >
@@ -112,7 +121,7 @@ const openDelete = value => {
             {{ attribute.attribute_key }}
           </td>
           <td class="py-4 min-w-xs">
-            <div class="flex gap-1">
+            <div class="flex gap-1 justify-end">
               <woot-button
                 v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
                 variant="smooth"

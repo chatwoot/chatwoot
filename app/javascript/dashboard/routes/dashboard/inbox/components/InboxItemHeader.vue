@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { getUnixTime } from 'date-fns';
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/helper/commandbar/events';
 import wootConstants from 'dashboard/constants/globals';
@@ -8,6 +8,7 @@ import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import PaginationButton from './PaginationButton.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -35,10 +36,10 @@ export default {
     ...mapGetters({ meta: 'notifications/getMeta' }),
   },
   mounted() {
-    this.$emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
+    emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   destroyed() {
-    this.$emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
+    emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   methods: {
     openSnoozeNotificationModal() {
@@ -76,7 +77,7 @@ export default {
       }
     },
     deleteNotification() {
-      this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
+      useTrack(INBOX_EVENTS.DELETE_NOTIFICATION);
       this.$store
         .dispatch('notifications/delete', {
           notification: this.activeNotification,

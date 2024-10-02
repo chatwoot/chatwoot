@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import InboxReconnectionRequired from '../../components/InboxReconnectionRequired';
+import InboxReconnectionRequired from '../../components/InboxReconnectionRequired.vue';
 import googleClient from 'dashboard/api/channel/googleClient';
 
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
 const props = defineProps({

@@ -6,7 +6,7 @@ import CustomRoleModal from './component/CustomRoleModal.vue';
 import CustomRoleTableBody from './component/CustomRoleTableBody.vue';
 import CustomRolePaywall from './component/CustomRolePaywall.vue';
 import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 
 const store = useStore();
@@ -57,6 +57,15 @@ const fetchCustomRoles = async () => {
 
 onMounted(() => {
   fetchCustomRoles();
+});
+
+const tableHeaders = computed(() => {
+  return [
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.NAME'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.DESCRIPTION'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.PERMISSIONS'),
+    t('CUSTOM_ROLE.LIST.TABLE_HEADER.ACTIONS'),
+  ];
 });
 
 const showAlertMessage = message => {
@@ -145,7 +154,7 @@ const confirmDeletion = () => {
       >
         <thead>
           <th
-            v-for="thHeader in $t('CUSTOM_ROLE.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
             class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
           >

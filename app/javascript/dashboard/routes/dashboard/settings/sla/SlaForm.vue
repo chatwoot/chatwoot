@@ -126,7 +126,7 @@ export default {
         resolution_time_threshold: this.convertToSeconds(2),
         only_during_business_hours: this.onlyDuringBusinessHours,
       };
-      this.$emit('submit', payload);
+      this.$emit('submitSla', payload);
     },
     convertToSeconds(index) {
       const { threshold, unit } = this.slaTimeInputs[index];
@@ -188,7 +188,7 @@ export default {
         :threshold-unit="input.unit"
         :label="$t(input.label)"
         :placeholder="$t(input.placeholder)"
-        @input="updateThreshold(index, $event)"
+        @updateThreshold="updateThreshold(index, $event)"
         @unit="updateUnit(index, $event)"
         @isInValid="handleIsInvalid(index, $event)"
       />

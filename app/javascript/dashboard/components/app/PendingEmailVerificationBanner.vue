@@ -36,6 +36,6 @@ export default {
     :action-button-label="actionButtonMessage"
     action-button-icon="mail"
     has-action-button
-    @click="resendVerificationEmail"
+    @primaryAction="resendVerificationEmail"
   />
 </template>

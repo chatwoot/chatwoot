@@ -1,7 +1,7 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import CategoryNameIconInput from './NameEmojiInput.vue';
@@ -105,7 +105,7 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.CATEGORY.EDIT.API.SUCCESS_MESSAGE'
         );
-        this.$track(PORTALS_EVENTS.EDIT_CATEGORY);
+        useTrack(PORTALS_EVENTS.EDIT_CATEGORY);
         this.onClose();
       } catch (error) {
         const errorMessage = error?.message;
@@ -155,7 +155,7 @@ export default {
           @iconChange="onClickInsertEmoji"
         />
         <woot-input
-          v-model.trim="slug"
+          v-model="slug"
           :class="{ error: v$.slug.$error }"
           class="w-full"
           :error="slugError"
@@ -194,6 +194,7 @@ export default {
 .article-info {
   width: 100%;
   margin: 0 0 var(--space-normal);
+
   .value {
     color: var(--s-600);
   }

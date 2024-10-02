@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('click', this.action);
+      this.$emit('optionSelect', this.action);
     },
   },
 };
@@ -39,7 +39,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .option {
   border-radius: $space-jumbo;

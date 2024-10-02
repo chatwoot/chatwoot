@@ -33,12 +33,12 @@ export default {
   >
     <div>
       <woot-input
-        :value="macroName"
+        :model-value="macroName"
         :label="$t('MACROS.ADD.FORM.NAME.LABEL')"
         :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
         :error="v$.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
         :class="{ error: v$.macro.name.$error }"
-        @input="onUpdateName($event)"
+        @update:modelValue="onUpdateName"
       />
     </div>
     <div class="mt-2">

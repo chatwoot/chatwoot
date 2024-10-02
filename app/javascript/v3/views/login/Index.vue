@@ -1,15 +1,21 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+// utils and composables
+import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
-import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+import { useAlert } from 'dashboard/composables';
+import { required, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+
+// mixins
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+// components
 import FormInput from '../../components/Form/Input.vue';
-import { login } from '../../api/auth';
+import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import SubmitButton from '../../components/Button/SubmitButton.vue';
+
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
@@ -49,16 +55,18 @@ export default {
       error: '',
     };
   },
-  validations: {
-    credentials: {
-      password: {
-        required,
+  validations() {
+    return {
+      credentials: {
+        password: {
+          required,
+        },
+        email: {
+          required,
+          email,
+        },
       },
-      email: {
-        required,
-        email,
-      },
-    },
+    };
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
@@ -189,7 +197,7 @@ export default {
         <GoogleOAuthButton v-if="showGoogleOAuth" />
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
-            v-model.trim="credentials.email"
+            v-model="credentials.email"
             name="email_address"
             type="text"
             data-testid="email_input"
@@ -201,7 +209,7 @@ export default {
             @input="v$.credentials.email.$touch"
           />
           <FormInput
-            v-model.trim="credentials.password"
+            v-model="credentials.password"
             type="password"
             name="password"
             data-testid="password_input"

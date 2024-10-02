@@ -21,7 +21,9 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
+import { useTrack } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -349,11 +351,11 @@ export default {
   },
   mounted() {
     this.hasMediaLoadError = false;
-    this.$emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
-  beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+  unmounted() {
+    emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     clearTimeout(this.higlightTimeout);
   },
   methods: {
@@ -365,9 +367,6 @@ export default {
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         return this.compareMessageFileType(this.data, type);
-      }
-      if (this.storyReply) {
-        return true;
       }
       return false;
     },
@@ -406,7 +405,7 @@ export default {
 
       e.preventDefault();
       if (e.type === 'contextmenu') {
-        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+        useTrack(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
       }
       this.contextMenuPosition = {
         x: e.pageX || e.clientX,
@@ -423,7 +422,7 @@ export default {
       const { conversation_id: conversationId, id: replyTo } = this.data;
 
       LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
     },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {

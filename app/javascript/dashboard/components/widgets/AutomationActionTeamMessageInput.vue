@@ -40,7 +40,7 @@ export default {
         :max-height="160"
         :options="teams"
         :allow-empty="false"
-        @input="updateValue"
+        @update:model-value="updateValue"
       />
       <textarea
         v-model="message"

@@ -9,6 +9,7 @@ import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -80,7 +81,7 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(CMD_AI_ASSIST, this.onAIAssist);
+    emitter.on(CMD_AI_ASSIST, this.onAIAssist);
     this.initializeMessage(this.draftMessage);
   },
 
@@ -124,7 +125,7 @@ export default {
     <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
-        @click="openAIAssist"
+        @open="openAIAssist"
       />
       <woot-button
         v-else

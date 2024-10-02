@@ -35,7 +35,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables';
+@import 'widget/assets/scss/variables';
 
 .date--separator {
   font-size: $font-size-default;

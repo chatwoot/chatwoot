@@ -16,6 +16,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import countries from 'shared/constants/countries.js';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import { useTrack } from 'dashboard/composables';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -31,6 +32,11 @@ export default {
     ContactsAdvancedFilters,
     AddCustomViews,
     DeleteCustomViews,
+  },
+  provide() {
+    return {
+      openContactInfoPanel: this.openContactInfoPanel,
+    };
   },
   props: {
     label: { type: String, default: '' },
@@ -272,7 +278,7 @@ export default {
       const sortBy =
         Object.entries(params).find(pair => Boolean(pair[1])) || [];
 
-      this.$track(CONTACTS_EVENTS.APPLY_SORT, {
+      useTrack(CONTACTS_EVENTS.APPLY_SORT, {
         appliedOn: sortBy[0],
         order: sortBy[1],
       });
@@ -410,7 +416,6 @@ export default {
         :contacts="records"
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
-        :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
         @onSortChange="onSortChange"
       />

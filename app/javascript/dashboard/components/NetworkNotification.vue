@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onBeforeUnmount } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { useRoute } from 'dashboard/composables/route';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {

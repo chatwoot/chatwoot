@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../../mutation-types';
 
 export const mutations = {
@@ -10,32 +9,32 @@ export const mutations = {
   },
 
   [types.CLEAR_CONTACTS]: $state => {
-    Vue.set($state, 'records', {});
-    Vue.set($state, 'sortOrder', []);
+    $state.records = {};
+    $state.sortOrder = [];
   },
 
   [types.SET_CONTACT_META]: ($state, data) => {
     const { count, current_page: currentPage } = data;
-    Vue.set($state.meta, 'count', count);
-    Vue.set($state.meta, 'currentPage', currentPage);
+    $state.meta.count = count;
+    $state.meta.currentPage = currentPage;
   },
 
   [types.SET_CONTACTS]: ($state, data) => {
     const sortOrder = data.map(contact => {
-      Vue.set($state.records, contact.id, {
+      $state.records[contact.id] = {
         ...($state.records[contact.id] || {}),
         ...contact,
-      });
+      };
       return contact.id;
     });
     $state.sortOrder = sortOrder;
   },
 
   [types.SET_CONTACT_ITEM]: ($state, data) => {
-    Vue.set($state.records, data.id, {
+    $state.records[data.id] = {
       ...($state.records[data.id] || {}),
       ...data,
-    });
+    };
 
     if (!$state.sortOrder.includes(data.id)) {
       $state.sortOrder.push(data.id);
@@ -43,26 +42,22 @@ export const mutations = {
   },
 
   [types.EDIT_CONTACT]: ($state, data) => {
-    Vue.set($state.records, data.id, data);
+    $state.records[data.id] = data;
   },
 
   [types.DELETE_CONTACT]: ($state, id) => {
     const index = $state.sortOrder.findIndex(item => item === id);
-    Vue.delete($state.sortOrder, index);
-    Vue.delete($state.records, id);
+    $state.sortOrder.splice(index, 1);
+    $state.records[id] = null;
   },
 
   [types.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
     Object.values($state.records).forEach(element => {
       const availabilityStatus = data[element.id];
       if (availabilityStatus) {
-        Vue.set(
-          $state.records[element.id],
-          'availability_status',
-          availabilityStatus
-        );
+        $state.records[element.id].availability_status = availabilityStatus;
       } else {
-        Vue.delete($state.records[element.id], 'availability_status');
+        $state.records[element.id].availability_status = null;
       }
     });
   },

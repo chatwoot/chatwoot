@@ -64,7 +64,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker'
+gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
 
@@ -204,8 +204,6 @@ group :development do
 end
 
 group :test do
-  # Cypress in rails.
-  gem 'cypress-on-rails'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls

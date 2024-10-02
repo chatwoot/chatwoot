@@ -36,10 +36,13 @@ const createState = (
   });
 };
 
+let editorView = null;
+let state;
+
 export default {
   mixins: [keyboardEventListenerMixins],
   props: {
-    value: { type: String, default: '' },
+    modelValue: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
@@ -54,21 +57,19 @@ export default {
   },
   data() {
     return {
-      editorView: null,
-      state: undefined,
       plugins: [imagePastePlugin(this.handleImageUpload)],
     };
   },
   computed: {
     contentFromEditor() {
-      if (this.editorView) {
-        return ArticleMarkdownSerializer.serialize(this.editorView.state.doc);
+      if (editorView) {
+        return ArticleMarkdownSerializer.serialize(editorView.state.doc);
       }
       return '';
     },
   },
   watch: {
-    value(newValue = '') {
+    modelValue(newValue = '') {
       if (newValue !== this.contentFromEditor) {
         this.reloadState();
       }
@@ -79,8 +80,8 @@ export default {
   },
 
   created() {
-    this.state = createState(
-      this.value,
+    state = createState(
+      this.modelValue,
       this.placeholder,
       this.plugins,
       { onImageUpload: this.openFileBrowser },
@@ -90,7 +91,7 @@ export default {
   mounted() {
     this.createEditorView();
 
-    this.editorView.updateState(this.state);
+    editorView.updateState(state);
     this.focusEditorInputField();
   },
   methods: {
@@ -145,53 +146,48 @@ export default {
       }
     },
     onImageUploadStart(fileUrl) {
-      const { selection } = this.editorView.state;
+      const { selection } = editorView.state;
       const from = selection.from;
-      const node = this.editorView.state.schema.nodes.image.create({
+      const node = editorView.state.schema.nodes.image.create({
         src: fileUrl,
       });
-      const paragraphNode = this.editorView.state.schema.node('paragraph');
+      const paragraphNode = editorView.state.schema.node('paragraph');
       if (node) {
         // Insert the image and the caption wrapped inside a paragraph
-        const tr = this.editorView.state.tr
+        const tr = editorView.state.tr
           .replaceSelectionWith(paragraphNode)
           .insert(from + 1, node);
 
-        this.editorView.dispatch(tr.scrollIntoView());
+        editorView.dispatch(tr.scrollIntoView());
         this.focusEditorInputField();
       }
     },
     reloadState() {
-      this.state = createState(
-        this.value,
+      state = createState(
+        this.modelValue,
         this.placeholder,
         this.plugins,
         { onImageUpload: this.openFileBrowser },
         this.enabledMenuOptions
       );
-      this.editorView.updateState(this.state);
+      editorView.updateState(state);
       this.focusEditorInputField();
     },
     createEditorView() {
-      this.editorView = new EditorView(this.$refs.editor, {
-        state: this.state,
+      editorView = new EditorView(this.$refs.editor, {
+        state: state,
         dispatchTransaction: tx => {
-          this.state = this.state.apply(tx);
-          this.emitOnChange();
+          state = state.apply(tx);
+          editorView.updateState(state);
+          if (tx.docChanged) {
+            this.emitOnChange();
+          }
         },
         handleDOMEvents: {
-          keyup: () => {
-            this.onKeyup();
-          },
-          keydown: (view, event) => {
-            this.onKeydown(event);
-          },
-          focus: () => {
-            this.onFocus();
-          },
-          blur: () => {
-            this.onBlur();
-          },
+          keyup: this.onKeyup,
+          focus: this.onFocus,
+          blur: this.onBlur,
+          keydown: this.onKeydown,
           paste: (view, event) => {
             const data = event.clipboardData.files;
             if (data.length > 0) {
@@ -207,22 +203,18 @@ export default {
         },
       });
     },
-
     handleKeyEvents() {},
     focusEditorInputField() {
-      const { tr } = this.editorView.state;
+      const { tr } = editorView.state;
       const selection = Selection.atEnd(tr.doc);
 
-      this.editorView.dispatch(tr.setSelection(selection));
-      this.editorView.focus();
+      editorView.dispatch(tr.setSelection(selection));
+      editorView.focus();
     },
-
     emitOnChange() {
-      this.editorView.updateState(this.state);
-
+      this.$emit('update:modelValue', this.contentFromEditor);
       this.$emit('input', this.contentFromEditor);
     },
-
     onKeyup() {
       this.$emit('keyup');
     },
@@ -255,7 +247,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '~@chatwoot/prosemirror-schema/src/styles/article.scss';
+@import '@chatwoot/prosemirror-schema/src/styles/article.scss';
 
 .ProseMirror-menubar-wrapper {
   display: flex;

@@ -1,12 +1,12 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 import Modal from '../../Modal.vue';
+
 export default {
   components: {
     Modal,
   },
-
   props: {
     show: {
       type: Boolean,

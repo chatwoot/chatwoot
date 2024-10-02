@@ -178,8 +178,6 @@ GEM
     csv (3.3.0)
     csv-safe (3.3.1)
       csv (~> 3.0)
-    cypress-on-rails (1.16.0)
-      rack
     database_cleaner (2.0.2)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.1.0)
@@ -222,6 +220,7 @@ GEM
       railties (>= 6.1)
     down (5.4.0)
       addressable (~> 2.8)
+    dry-cli (1.1.0)
     ecma-re-validator (0.4.0)
       regexp_parser (~> 2.2)
     elastic-apm (4.6.2)
@@ -496,14 +495,14 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
-    nokogiri (1.16.6)
+    nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.6-arm64-darwin)
+    nokogiri (1.16.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.6-x86_64-darwin)
+    nokogiri (1.16.7-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.6-x86_64-linux)
+    nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -557,7 +556,7 @@ GEM
     pundit (2.3.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
-    racc (1.8.0)
+    racc (1.8.1)
     rack (2.2.9)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
@@ -570,7 +569,7 @@ GEM
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
-    rack-proxy (0.7.6)
+    rack-proxy (0.7.7)
       rack
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -709,7 +708,6 @@ GEM
       activerecord (>= 4)
       activesupport (>= 4)
     selectize-rails (0.12.6)
-    semantic_range (3.0.0)
     sentry-rails (5.19.0)
       railties (>= 5.0)
       sentry-ruby (~> 5.19.0)
@@ -800,6 +798,13 @@ GEM
       activemodel (>= 3.2)
       mail (~> 2.5)
     version_gem (1.1.4)
+    vite_rails (3.0.17)
+      railties (>= 5.1, < 8)
+      vite_ruby (~> 3.0, >= 3.2.2)
+    vite_ruby (3.8.0)
+      dry-cli (>= 0.7, < 2)
+      rack-proxy (~> 0.6, >= 0.6.1)
+      zeitwerk (~> 2.2)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -814,11 +819,6 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webpacker (5.4.4)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     webrick (1.8.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -827,7 +827,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.16)
+    zeitwerk (2.6.17)
 
 PLATFORMS
   arm64-darwin-20
@@ -862,7 +862,6 @@ DEPENDENCIES
   climate_control
   commonmarker
   csv-safe
-  cypress-on-rails
   database_cleaner
   ddtrace
   debug (~> 1.8)
@@ -960,10 +959,10 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   valid_email2
+  vite_rails
   web-console (>= 4.2.1)
   web-push (>= 3.0.1)
   webmock
-  webpacker
   wisper (= 2.0.0)
   working_hours
 
