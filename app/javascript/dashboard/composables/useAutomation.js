@@ -40,7 +40,7 @@ export function useAutomation(startValue = null) {
    * Handles the event change for an automation.value.
    */
   const onEventChange = () => {
-    automation.value.conditions = getDefaultConditions(eventName);
+    automation.value.conditions = getDefaultConditions(eventName.value);
     automation.value.actions = getDefaultActions();
   };
 
@@ -48,7 +48,7 @@ export function useAutomation(startValue = null) {
    * Appends a new condition to the automation.value.
    */
   const appendNewCondition = () => {
-    const defaultCondition = getDefaultConditions(eventName);
+    const defaultCondition = getDefaultConditions(eventName.value);
     automation.value.conditions = [
       ...automation.value.conditions,
       ...defaultCondition,
@@ -102,9 +102,7 @@ export function useAutomation(startValue = null) {
 
     newConditions[index] = {
       ...newConditions[index],
-      filter_operator: automationTypes[
-        automation.value.event_name
-      ].conditions.find(
+      filter_operator: automationTypes[eventName.value].conditions.find(
         condition => condition.key === currentCondition.attribute_key
       ).filterOperators[0].value,
       values: '',
