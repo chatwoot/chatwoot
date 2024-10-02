@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -21,7 +21,7 @@ import {
  * Composable for handling automation-related functionality.
  * @returns {Object} An object containing various automation-related functions and computed properties.
  */
-export function useAutomation() {
+export function useAutomation(startValue = null) {
   const getters = useStoreGetters();
   const { t } = useI18n();
 
@@ -32,6 +32,7 @@ export function useAutomation() {
   const labels = useMapGetter('labels/getLabels');
   const teams = useMapGetter('teams/getTeams');
   const slaPolicies = useMapGetter('sla/getSLA');
+  const automation = ref(startValue);
 
   const booleanFilterOptions = computed(() => [
     { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
@@ -345,6 +346,7 @@ export function useAutomation() {
   };
 
   return {
+    automation,
     agents,
     campaigns,
     contacts,

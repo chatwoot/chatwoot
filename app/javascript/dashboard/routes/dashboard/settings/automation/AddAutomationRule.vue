@@ -17,6 +17,28 @@ import {
   AUTOMATION_ACTION_TYPES,
   AUTOMATIONS,
 } from './constants';
+
+const start_value = {
+  name: null,
+  description: null,
+  event_name: 'conversation_created',
+  conditions: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: '',
+      query_operator: 'and',
+      custom_attribute_type: '',
+    },
+  ],
+  actions: [
+    {
+      action_name: 'assign_agent',
+      action_params: [],
+    },
+  ],
+};
+
 export default {
   components: {
     FilterInputBox,
@@ -30,6 +52,7 @@ export default {
   },
   setup() {
     const {
+      automation,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -40,8 +63,9 @@ export default {
       resetAction,
       getActionDropdownValues,
       manifestCustomAttributes,
-    } = useAutomation();
+    } = useAutomation(start_value);
     return {
+      automation,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -61,26 +85,6 @@ export default {
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
-      automation: {
-        name: null,
-        description: null,
-        event_name: 'conversation_created',
-        conditions: [
-          {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-            custom_attribute_type: '',
-          },
-        ],
-        actions: [
-          {
-            action_name: 'assign_agent',
-            action_params: [],
-          },
-        ],
-      },
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'create',

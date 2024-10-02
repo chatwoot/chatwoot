@@ -37,6 +37,7 @@ export default {
   },
   setup() {
     const {
+      automation,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -50,6 +51,7 @@ export default {
       manifestCustomAttributes,
     } = useAutomation();
     return {
+      automation,
       onEventChange,
       getConditionDropdownValues,
       appendNewCondition,
@@ -70,7 +72,6 @@ export default {
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
-      automation: null,
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'edit',
