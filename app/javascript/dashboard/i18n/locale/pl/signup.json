@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "E-mail służbowy",
-      "PLACEHOLDER": "Podaj swój służbowy adres e-mail, np. bruce@wayne.enterprises",
+      "PLACEHOLDER": "Podaj swój służbowy adres e-mail, np. bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Wprowadź poprawny adres e-mail służbowy"
     },
     "PASSWORD": {
