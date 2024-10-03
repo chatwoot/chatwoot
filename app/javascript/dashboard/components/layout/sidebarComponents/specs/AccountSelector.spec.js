@@ -46,7 +46,7 @@ describe('AccountSelector', () => {
     });
   });
 
-  it.only('title and sub title exist', () => {
+  it('title and sub title exist', () => {
     const headerComponent = accountSelector.findComponent(WootModalHeader);
     const title = headerComponent.find('[data-test-id="modal-header-title"]');
     expect(title.text()).toBe('Switch Account');
