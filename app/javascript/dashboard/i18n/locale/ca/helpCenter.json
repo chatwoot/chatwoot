@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Informació del centre d'ajuda",
-            "route": "new_portal_information",
-            "body": "Informació bàsica sobre el portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Crea la configuració bàsica del portal"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informació del centre d'ajuda",
+            "BODY": "Informació bàsica sobre el portal"
           },
-          {
-            "title": "Personalització del centre d'ajuda",
-            "route": "portal_customization",
-            "body": "Personalitza el portal",
-            "UPDATE_PORTAL_BUTTON": "Actualitza la configuració del portal"
+          "CUSTOMIZATION": {
+            "TITLE": "Personalització del centre d'ajuda",
+            "BODY": "Personalitza el portal"
           },
-          {
-            "title": "Llest! 🎉",
-            "route": "portal_finish",
-            "body": "Estàs a punt!",
-            "FINISH": "Finalitza"
+          "FINISH": {
+            "TITLE": "Llest! 🎉",
+            "BODY": "Estàs a punt!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Enrere",
           "BASIC_SETTINGS_PAGE": {
