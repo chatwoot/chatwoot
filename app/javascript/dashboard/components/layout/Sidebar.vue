@@ -22,12 +22,14 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasBanner: {
-      type: Boolean,
-      default: false,
-    },
   },
-  emits: ['toggleAccountModal', 'showAddLabelPopup', 'openNotificationPanel'],
+  emits: [
+    'toggleAccountModal',
+    'showAddLabelPopup',
+    'openNotificationPanel',
+    'closeKeyShortcutModal',
+    'openKeyShortcutModal',
+  ],
   setup(props, { emit }) {
     const route = useRoute();
     const router = useRouter();

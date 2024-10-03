@@ -167,9 +167,9 @@ export default {
         return false;
       }
       // Disable audio recorder for safari browser as recording is not supported
-      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
-        navigator.userAgent
-      );
+      // const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+      //   navigator.userAgent
+      // );
 
       return (
         this.isFeatureEnabledonAccount(
