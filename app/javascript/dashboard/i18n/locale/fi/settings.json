@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Saatavuus",
-        "STATUSES_LIST": [
-          "Paikalla",
-          "Kiireinen",
-          "Poissa"
-        ],
+        "STATUS": {
+          "ONLINE": "Paikalla",
+          "BUSY": "Varattu",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
