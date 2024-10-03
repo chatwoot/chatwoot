@@ -92,12 +92,12 @@
       "CONTACT": "Kontak"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Tipe",
-        "Kunci"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "TYPE": "Tipe",
+        "KEY": "Kunci"
+      },
       "BUTTONS": {
         "EDIT": "Edit",
         "DELETE": "Hapus"
