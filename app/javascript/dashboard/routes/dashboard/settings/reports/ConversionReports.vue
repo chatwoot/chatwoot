@@ -38,7 +38,7 @@
           "
         >
           <conversion-table
-            :resources="dataSourceConversionMetric"
+            :resources="dataSources"
             :conversion-metrics="dataSourceConversionMetric"
             criteria-key="data_source"
             :page-index="dataSourcePageIndex"
@@ -120,6 +120,7 @@ export default {
       teams: 'teams/getTeams',
       inboxes: 'inboxes/getInboxes',
       agents: 'agents/getAgents',
+      dataSources: 'attributes/getAttributeValuesForDataSource',
       teamConversionMetric: 'getTeamConversionMetric',
       dataSourceConversionMetric: 'getDataSourceConversionMetric',
       agentConversionMetric: 'getAgentConversionMetric',
@@ -132,6 +133,7 @@ export default {
     this.$store.dispatch('attributes/get');
     this.$store.dispatch('agents/get');
     this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('attributes/getDataSourceValues');
     this.fetchTablesData();
   },
   methods: {

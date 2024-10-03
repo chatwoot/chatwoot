@@ -10,6 +10,7 @@ export const state = {
     isUpdating: false,
     isDeleting: false,
   },
+  dataSourceValues: [],
 };
 
 export const getters = {
@@ -26,6 +27,9 @@ export const getters = {
     return _state.records.filter(
       record => record.attribute_model === attributeModel
     );
+  },
+  getAttributeValuesForDataSource: _state => {
+    return _state.dataSourceValues;
   },
 };
 
@@ -76,6 +80,20 @@ export const actions = {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false });
     }
   },
+  // To retrieve the attribute values for the attribute record with the key 'data-source'
+  // and the model ':contact_attribute'.
+  // This was used for the Conversion Report
+  getDataSourceValues: async ({ commit }) => {
+    commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true });
+    try {
+      const response = await AttributeAPI.getDataSourceValues();
+      commit(types.SET_DATA_SOURCE_VALUES, response.data);
+    } catch (error) {
+      // Ignore error
+    } finally {
+      commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -90,6 +108,10 @@ export const mutations = {
   [types.SET_CUSTOM_ATTRIBUTE]: MutationHelpers.set,
   [types.EDIT_CUSTOM_ATTRIBUTE]: MutationHelpers.update,
   [types.DELETE_CUSTOM_ATTRIBUTE]: MutationHelpers.destroy,
+
+  [types.SET_DATA_SOURCE_VALUES](_state, data) {
+    _state.dataSourceValues = data;
+  },
 };
 
 export default {

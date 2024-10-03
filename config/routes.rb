@@ -185,7 +185,9 @@ Rails.application.routes.draw do
               get :download
             end
           end
-          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
+          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy] do
+            get :data_source_values, on: :collection
+          end
           resources :stages, only: [:index, :show, :update]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do

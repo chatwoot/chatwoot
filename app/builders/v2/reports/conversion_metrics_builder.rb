@@ -47,6 +47,8 @@ class V2::Reports::ConversionMetricsBuilder
                                                      attribute_key: 'data_source')&.attribute_values
     data_sources = Contact.pluck(:initial_channel_type).compact.uniq if data_sources.blank?
 
+    data_sources = Kaminari.paginate_array(data_sources).page(params[:page]).per(RESULTS_PER_PAGE)
+
     data_sources.each_with_object([]).with_index do |(data_source, arr), index|
       base_relation =
         Contact.where("contacts.custom_attributes->>'data_source' = :value OR contacts.initial_channel_type = :value", value: data_source)

@@ -22,6 +22,13 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
     head :no_content
   end
 
+  def data_source_values
+    data_sources_for_account = CustomAttributeDefinition.find_by(account_id: Current.account.id, attribute_model: :contact_attribute,
+                                                                 attribute_key: 'data_source')&.attribute_values
+    data_sources_for_account = Contact.pluck(:initial_channel_type).compact.uniq if data_sources_for_account.blank?
+    render json: data_sources_for_account, status: :ok
+  end
+
   private
 
   def fetch_custom_attributes_definitions
