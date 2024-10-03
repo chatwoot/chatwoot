@@ -22,12 +22,12 @@
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
       "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Permissions",
-        "Hành động"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "PERMISSIONS": "Permissions",
+        "ACTIONS": "Hành động"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Manage all conversations",

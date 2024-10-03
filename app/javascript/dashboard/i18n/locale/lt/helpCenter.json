@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Pagalbos centro informacija",
-            "route": "new_portal_information",
-            "body": "Pagrindinė informacija apie portalą",
-            "CREATE_BASIC_SETTING_BUTTON": "Sukurkite pagrindinius portalo nustatymus"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Pagalbos centro informacija",
+            "BODY": "Pagrindinė informacija apie portalą"
           },
-          {
-            "title": "Pagalbos centro pritaikymas",
-            "route": "portal_customization",
-            "body": "Portalo pritaikymas",
-            "UPDATE_PORTAL_BUTTON": "Atnaujinkite portalo nustatymus"
+          "CUSTOMIZATION": {
+            "TITLE": "Pagalbos centro pritaikymas",
+            "BODY": "Portalo pritaikymas"
           },
-          {
-            "title": "Baigta! 🎉",
-            "route": "portal_finish",
-            "body": "Viskas paruošta!",
-            "FINISH": "Pabaigti"
+          "FINISH": {
+            "TITLE": "Baigta! 🎉",
+            "BODY": "Viskas paruošta!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Atgal",
           "BASIC_SETTINGS_PAGE": {

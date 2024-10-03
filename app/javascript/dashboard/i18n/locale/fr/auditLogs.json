@@ -11,11 +11,11 @@
       "404": "Il n'y a aucun journal d'audit disponible dans ce compte.",
       "TITLE": "Gérer les journaux d’audit",
       "DESC": "Les journaux d'audit sont des traces pour les événements et les actions dans un système Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "Adresse IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "Adresse IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Les journaux d'audit ont bien été récupérés",

@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Bu hesap için yapılandırılmış web kancası yok.",
         "TITLE": "Web Kancalarını Yönet",
-        "TABLE_HEADER": [
-          "Web Kancası Uç Noktası",
-          "Hareketler"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Web Kancası Uç Noktası",
+          "ACTIONS": "Hareketler"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Düzenle",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",
         "LOADING": "Panel uygulamaları alınıyor...",
-        "TABLE_HEADER": [
-          "İsim",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "İsim",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Uygulamayı Düzenle",
         "DELETE_TOOLTIP": "Uygulamayı Sil"
       },

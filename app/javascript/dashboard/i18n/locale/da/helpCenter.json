@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Information om hjælpecenter",
-            "route": "new_portal_information",
-            "body": "Grundlæggende oplysninger om portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Opret grundlæggende portal indstillinger"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Information om hjælpecenter",
+            "BODY": "Grundlæggende oplysninger om portal"
           },
-          {
-            "title": "Tilpasning af hjælpecenter",
-            "route": "portal_tilpasning",
-            "body": "Tilpas portal",
-            "UPDATE_PORTAL_BUTTON": "Opdater portalindstillinger"
+          "CUSTOMIZATION": {
+            "TITLE": "Tilpasning af hjælpecenter",
+            "BODY": "Tilpas portal"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Du er klar!",
-            "FINISH": "Afslut"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Du er klar!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Tilbage",
           "BASIC_SETTINGS_PAGE": {

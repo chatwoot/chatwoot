@@ -11,11 +11,11 @@
       "404": "Nincsen elérthető Auditnapló ebben a fiókban.",
       "TITLE": "Audit logok menedzselése",
       "DESC": "Az Auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP cím"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "IP cím"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Auditnapló sikeresen lekérve",

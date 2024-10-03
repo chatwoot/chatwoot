@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名",
-        "描述資訊",
-        "Active",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名",
+        "DESCRIPTION": "描述資訊",
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {

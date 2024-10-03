@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "이름",
-        "내용",
-        "Active",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "이름",
+        "DESCRIPTION": "내용",
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {

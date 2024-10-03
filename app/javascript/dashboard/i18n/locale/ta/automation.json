@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "பெயர்",
-        "Description",
-        "Active",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "பெயர்",
+        "DESCRIPTION": "Description",
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {

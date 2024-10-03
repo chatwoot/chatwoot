@@ -92,12 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nafn",
-        "Description",
-        "Type",
-        "Key"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nafn",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "Breyta",
         "DELETE": "Eyða"

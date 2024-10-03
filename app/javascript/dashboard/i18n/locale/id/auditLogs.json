@@ -11,11 +11,11 @@
       "404": "Tidak ada Catatan Audit yang tersedia di akun ini.",
       "TITLE": "Kelola Catatan Audit",
       "DESC": "Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem Chatwoot.",
-      "TABLE_HEADER": [
-        "Pengguna",
-        "Tindakan",
-        "Alamat IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Pengguna",
+        "TIME": "Tindakan",
+        "IP_ADDRESS": "Alamat IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Catatan Audit berhasil diambil",

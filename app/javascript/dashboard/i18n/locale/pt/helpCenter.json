@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Informações do centro de ajuda",
-            "route": "new_portal_information",
-            "body": "Informações básicas sobre o portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Criar configurações básicas do portal"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informações do centro de ajuda",
+            "BODY": "Informações básicas sobre o portal"
           },
-          {
-            "title": "Personalização do centro de ajuda",
-            "route": "portal_customization",
-            "body": "Personalizar portal",
-            "UPDATE_PORTAL_BUTTON": "Atualizar definições do portal"
+          "CUSTOMIZATION": {
+            "TITLE": "Personalização do centro de ajuda",
+            "BODY": "Personalizar portal"
           },
-          {
-            "title": "Pronto! 🎉",
-            "route": "portal_finish",
-            "body": "Está tudo pronto!",
-            "FINISH": "Terminar"
+          "FINISH": {
+            "TITLE": "Pronto! 🎉",
+            "BODY": "Está tudo pronto!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Voltar",
           "BASIC_SETTINGS_PAGE": {

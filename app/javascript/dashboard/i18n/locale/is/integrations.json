@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Það eru engir webhooks stilltir á þessum reikningi.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Aðgerðir"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "Aðgerðir"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Breyta",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Engin mælaborðsforrit eru stillt á þessum reikningi ennþá",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Nafn",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nafn",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

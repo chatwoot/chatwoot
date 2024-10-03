@@ -10,11 +10,11 @@
       "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
       "TITLE": "Gestionați etichetele",
       "DESC": "Etichetele vă permit să grupați conversațiile împreună.",
-      "TABLE_HEADER": [
-        "Nume",
-        "Descriere",
-        "Culoare"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "DESCRIPTION": "Descriere",
+        "COLOR": "Culoare"
+      }
     },
     "FORM": {
       "NAME": {

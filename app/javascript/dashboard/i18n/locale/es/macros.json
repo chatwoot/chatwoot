@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nombre",
-        "Creado por",
-        "Última actualización por",
-        "Visibilidad"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "CREATED BY": "Creado por",
+        "LAST_UPDATED_BY": "Última actualización por",
+        "VISIBILITY": "Visibilidad"
+      },
       "404": "No se encontraron macros"
     },
     "DELETE": {

@@ -11,11 +11,11 @@
       "404": "Nu există jurnale de audit disponibile în acest cont.",
       "TITLE": "Gestionarea jurnalelor de audit",
       "DESC": "Jurnalele de audit sunt piste pentru evenimente și acțiuni într-un sistem Chatwoot.",
-      "TABLE_HEADER": [
-        "Activitate",
-        "Timp",
-        "Adresă IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Activitate",
+        "TIME": "Timp",
+        "IP_ADDRESS": "Adresă IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs preluat cu succes",

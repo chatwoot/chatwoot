@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "İsim",
-        "Tarafından oluşturuldu",
-        "Son güncelleyen",
-        "Görünürlük"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "CREATED BY": "Tarafından oluşturuldu",
+        "LAST_UPDATED_BY": "Son güncelleyen",
+        "VISIBILITY": "Görünürlük"
+      },
       "404": "Hiç makro bulunamadı"
     },
     "DELETE": {

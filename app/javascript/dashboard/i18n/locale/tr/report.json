@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Müşteri Bekleme Süresi",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Geçen yıl",
       "CUSTOM_DATE_RANGE": "Özel tarih aralığı"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Son 7 gün"
-      },
-      {
-        "id": 1,
-        "name": "Son 30 gün"
-      },
-      {
-        "id": 2,
-        "name": "Son 3 ay"
-      },
-      {
-        "id": 3,
-        "name": "Son 6 ay"
-      },
-      {
-        "id": 4,
-        "name": "Geçen yıl"
-      },
-      {
-        "id": 5,
-        "name": "Özel tarih aralığı"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Uygula",
       "PLACEHOLDER": "Tarih aralığı seç"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Kayıt bulunamadı"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Temsilciler tarafından yapılan konuşma yok",
       "TABLE_HEADER": {
         "AGENT": "Kullanıcı",
-        "OPEN": "AÇIK",
+        "OPEN": "Açık",
         "UNATTENDED": "İlgilenilmemiş",
         "STATUS": "Durum"
       }

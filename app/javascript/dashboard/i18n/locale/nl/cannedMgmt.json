@@ -10,11 +10,11 @@
       "404": "Er zijn geen standaard antwoorden beschikbaar in dit account.",
       "TITLE": "Beheer standaard antwoorden",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Korte code",
-        "Inhoud",
-        "Acties"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Korte code",
+        "CONTENT": "Inhoud",
+        "ACTIONS": "Acties"
+      }
     },
     "ADD": {
       "TITLE": "Standaard antwoord toevoegen",

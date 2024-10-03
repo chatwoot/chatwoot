@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Nincs Inbox kapcsolva ehhez a fiókhoz."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Csatorna kiválasztása",
-        "route": "settings_inbox_new",
-        "body": "Válasz egy szolgáltatót, melyet össze akarsz integrálni a Chatwoottal."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Csatorna kiválasztása",
+        "BODY": "Válasz egy szolgáltatót, melyet össze akarsz integrálni a Chatwoottal."
       },
-      {
-        "title": "Fiók létrehozása",
-        "route": "settings_inboxes_page_channel",
-        "body": "Hitelesítsd a fiókod és hozz létre egy inboxot."
+      "INBOX": {
+        "TITLE": "Fiók létrehozása",
+        "BODY": "Hitelesítsd a fiókod és hozz létre egy inboxot."
       },
-      {
-        "title": "Ügynök Hozzádása",
-        "route": "settings_inboxes_add_agents",
-        "body": "Adj hozzá ügynököket a létrehozott inboxhoz."
+      "AGENT": {
+        "TITLE": "Ügynök Hozzádása",
+        "BODY": "Adj hozzá ügynököket a létrehozott inboxhoz."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Mindennel készen állsz!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Mindennel készen állsz!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Fiók név",

@@ -1,7 +1,7 @@
 {
   "AUTOMATION": {
     "HEADER": "Автоматизация",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "DESCRIPTION": "Автоматизация может заменить и упростить существующие процессы, которые требуют ручной работы, такие как добавление меток и распределение разговоров на наиболее подходящего агента. Это позволяет команде сосредоточиться на своих сильных сторонах, сокращая время, затраченное на рутинные задачи.",
     "LEARN_MORE": "Узнайте больше об автоматизации",
     "HEADER_BTN_TXT": "Добавить правило автоматизации",
     "LOADING": "Получение правил автоматизации",
@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Имя",
-        "Описание",
-        "Активно",
-        "Создано"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Имя",
+        "DESCRIPTION": "Описание",
+        "ACTIVE": "Активно",
+        "CREATED_ON": "Создано"
+      },
       "404": "Правила автоматизации не найдены"
     },
     "DELETE": {
@@ -95,8 +95,8 @@
       "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Напишите здесь ваше сообщение",
       "TEAM_DROPDOWN_PLACEHOLDER": "Выберите команды",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "EMAIL_INPUT_PLACEHOLDER": "Введите адрес электронной почты",
+      "URL_INPUT_PLACEHOLDER": "Введите URL-адрес"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Включить правило автоматизации",
@@ -118,13 +118,13 @@
       "LABEL_UPLOAD_FAILED": "Загрузка не удалась"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",
+      "FILTER_OPERATOR_REQUIRED": "Требуется оператор фильтра",
       "VALUE_REQUIRED": "Необходимо указать значение",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Значение должно быть между 1 и 998",
+      "ACTION_PARAMETERS_REQUIRED": "Требуются параметры действий",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Требуется хотя бы одно условие",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Требуется хотя бы одно действие"
     }
   }
 }

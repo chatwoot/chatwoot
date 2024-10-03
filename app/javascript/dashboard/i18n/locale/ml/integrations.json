@@ -47,10 +47,10 @@
       "LIST": {
         "404": "ഈ അക്കൗണ്ടിനായി വെബ്‌ഹൂക്കുകളൊന്നും ക്രമീകരിച്ചിട്ടില്ല.",
         "TITLE": "വെബ്‌ഹൂക്കുകൾ നിയന്ത്രിക്കുക",
-        "TABLE_HEADER": [
-          "വെബ്‌ഹൂക്ക് എൻഡ്‌പോയിന്റ്",
-          "പ്രവർത്തനങ്ങൾ"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "വെബ്‌ഹൂക്ക് എൻഡ്‌പോയിന്റ്",
+          "ACTIONS": "പ്രവർത്തനങ്ങൾ"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "പേര്",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "പേര്",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

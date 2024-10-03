@@ -92,12 +92,12 @@
       "CONTACT": "جهات الاتصال"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "الاسم",
-        "الوصف",
-        "النوع",
-        "المفتاح"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "DESCRIPTION": "الوصف",
+        "TYPE": "النوع",
+        "KEY": "المفتاح"
+      },
       "BUTTONS": {
         "EDIT": "تعديل",
         "DELETE": "حذف"

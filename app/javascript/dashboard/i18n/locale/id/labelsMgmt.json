@@ -10,11 +10,11 @@
       "404": "Tidak ada label yang tersedia di akun ini.",
       "TITLE": "Kelola label",
       "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Warna"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "COLOR": "Warna"
+      }
     },
     "FORM": {
       "NAME": {

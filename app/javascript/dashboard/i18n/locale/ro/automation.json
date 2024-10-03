@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nume",
-        "Descriere",
-        "Activ",
-        "Creat in"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "DESCRIPTION": "Descriere",
+        "ACTIVE": "Activ",
+        "CREATED_ON": "Creat in"
+      },
       "404": "Nu s-au găsit reguli de automatizare"
     },
     "DELETE": {

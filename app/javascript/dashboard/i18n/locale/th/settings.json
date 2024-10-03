@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "สถานะ",
-        "STATUSES_LIST": [
-          "ออนไลน์",
-          "ไม่ว่าง",
-          "ออฟไลน์"
-        ],
+        "STATUS": {
+          "ONLINE": "ออนไลน์",
+          "BUSY": "ไม่ว่าง",
+          "OFFLINE": "ออฟไลน์"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },

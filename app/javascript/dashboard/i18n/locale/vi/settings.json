@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Khả dụng",
-        "STATUSES_LIST": [
-          "Trực Tuyến",
-          "Bận",
-          "Không Trực Tuyến"
-        ],
+        "STATUS": {
+          "ONLINE": "Trực Tuyến",
+          "BUSY": "Bận",
+          "OFFLINE": "Không Trực Tuyến"
+        },
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
         "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
       },

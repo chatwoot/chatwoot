@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų webhook.",
         "TITLE": "Tvarkykite webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Veiksmai"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "Veiksmai"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Redaguoti",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų informacinio skydelio programų",
         "LOADING": "Gaunamos informacinio skydelio programos...",
-        "TABLE_HEADER": [
-          "Vardas",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Vardas",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Redaguoti programą",
         "DELETE_TOOLTIP": "Ištrinti programą"
       },

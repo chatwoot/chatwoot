@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Il n'y a aucun Webhook configuré pour ce compte.",
         "TITLE": "Gérer les webhooks",
-        "TABLE_HEADER": [
-          "Point de terminaison du Webhook",
-          "Actions"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Point de terminaison du Webhook",
+          "ACTIONS": "Actions"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifier",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Il n'y a pas encore d'applications de tableau de bord configurées sur ce compte",
         "LOADING": "Récupération des applications du tableau de bord ...",
-        "TABLE_HEADER": [
-          "Nom",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nom",
+          "ENDPOINT": "Terminaison"
+        },
         "EDIT_TOOLTIP": "Editer l'application",
         "DELETE_TOOLTIP": "Supprimer l'application"
       },

@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Yardım Merkezi Bilgileri",
-            "route": "new_portal_information",
-            "body": "Portalin temel bilgileri",
-            "CREATE_BASIC_SETTING_BUTTON": "Portal temel ayarlarını oluştur"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Yardım Merkezi Bilgileri",
+            "BODY": "Portalin temel bilgileri"
           },
-          {
-            "title": "Yardım Merkezi Özelleştirme",
-            "route": "portal_customization",
-            "body": "Portali özelleştir",
-            "UPDATE_PORTAL_BUTTON": "Portal ayarlarını güncelle"
+          "CUSTOMIZATION": {
+            "TITLE": "Yardım Merkezi Özelleştirme",
+            "BODY": "Portali özelleştir"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Her şey hazır!",
-            "FINISH": "Son"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Her şey hazır!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Geri",
           "BASIC_SETTINGS_PAGE": {

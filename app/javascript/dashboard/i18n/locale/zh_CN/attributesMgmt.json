@@ -92,12 +92,12 @@
       "CONTACT": "联系人"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名：",
-        "描述信息",
-        "类型",
-        "关键字"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名：",
+        "DESCRIPTION": "描述信息",
+        "TYPE": "类型",
+        "KEY": "键"
+      },
       "BUTTONS": {
         "EDIT": "编辑",
         "DELETE": "删除"

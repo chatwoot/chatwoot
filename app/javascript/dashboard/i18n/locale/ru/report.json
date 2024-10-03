@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "За прошлый год",
       "CUSTOM_DATE_RANGE": "Настраиваемый диапазон даты"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Последние 7 дней"
-      },
-      {
-        "id": 1,
-        "name": "Последние 30 дней"
-      },
-      {
-        "id": 2,
-        "name": "Последние 3 месяца"
-      },
-      {
-        "id": 3,
-        "name": "Последние 6 месяцев"
-      },
-      {
-        "id": 4,
-        "name": "За прошлый год"
-      },
-      {
-        "id": 5,
-        "name": "Настраиваемый диапазон даты"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
@@ -142,6 +117,9 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Очистить фильтр",
       "EMPTY_LIST": "Результаты не найдены"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results"
     }
   },
   "AGENT_REPORTS": {
@@ -490,7 +468,7 @@
       "NO_AGENTS": "Нет диалогов связанных с операторами",
       "TABLE_HEADER": {
         "AGENT": "Оператор",
-        "OPEN": "ОТКРЫТЫХ",
+        "OPEN": "Открыть",
         "UNATTENDED": "Неотвеченные",
         "STATUS": "Статус"
       }

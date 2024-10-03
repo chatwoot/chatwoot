@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "זמינות",
-        "STATUSES_LIST": [
-          "מחובר",
-          "עסוק",
-          "לא מחובר"
-        ],
+        "STATUS": {
+          "ONLINE": "מחובר",
+          "BUSY": "עסוק",
+          "OFFLINE": "לא מחובר"
+        },
         "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
         "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית"
       },

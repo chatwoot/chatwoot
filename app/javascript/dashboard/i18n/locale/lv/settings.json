@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Pieejamība",
-        "STATUSES_LIST": [
-          "Tiešsaistē",
-          "Aizņemts",
-          "Bezsaistē"
-        ],
+        "STATUS": {
+          "ONLINE": "Tiešsaistē",
+          "BUSY": "Aizņemts",
+          "OFFLINE": "Bezsaistē"
+        },
         "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
         "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
       },

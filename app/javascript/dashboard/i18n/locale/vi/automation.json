@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Có hiệu lực",
-        "Được tạo trên"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "DESCRIPTION": "Mô tả",
+        "ACTIVE": "Có hiệu lực",
+        "CREATED_ON": "Được tạo trên"
+      },
       "404": "Không tìm thấy luật tự động hoá"
     },
     "DELETE": {

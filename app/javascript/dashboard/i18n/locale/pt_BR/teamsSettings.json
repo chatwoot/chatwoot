@@ -20,23 +20,18 @@
         "TITLE": "Adicionar agentes a equipe:  %{teamName}",
         "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa."
       },
-      "WIZARD": [
-        {
-          "title": "Criar",
-          "route": "Novo",
-          "body": "Criar uma nova equipe de agentes."
-        },
-        {
-          "title": "Adicionar Agentes",
-          "route": "ajustes_equipes_adicionar_agentes",
-          "body": "Adicionar agentes a equipe."
-        },
-        {
-          "title": "Finalizar",
-          "route": "ajustes_equipes_finalizar",
-          "body": "Está tudo pronto para começar!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Criar",
+        "BODY": "Criar uma nova equipe de agentes."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Adicionar Agentes",
+        "BODY": "Adicionar agentes a equipe."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "BODY": "Está tudo pronto para começar!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Adicionar agentes a equipe: %{teamName}",
         "DESC": "Adicionar agentes à sua equipe recém-criada. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a esta equipe."
       },
-      "WIZARD": [
-        {
-          "title": "Detalhes do departamento",
-          "route": "ajustes_equipes_editar",
-          "body": "Alterar nome, descrição e outros detalhes."
-        },
-        {
-          "title": "Editar agente",
-          "route": "ajustes_equipes_editar_membros",
-          "body": "Gerenciar agentes de seu departamento"
-        },
-        {
-          "title": "Finalizar",
-          "route": "ajustes_equipes_editar_finalizar",
-          "body": "Está tudo pronto para começar!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalhes do departamento",
+        "ROUTE": "ajustes_equipes_editar",
+        "BODY": "Alterar nome, descrição e outros detalhes."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Editar agente",
+        "ROUTE": "ajustes_equipes_editar_membros",
+        "BODY": "Gerenciar agentes de seu departamento"
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalizar",
+        "ROUTE": "ajustes_equipes_editar_finalizar",
+        "BODY": "Está tudo pronto para começar!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Não foi possível salvar os detalhes do departamento. Tente novamente."

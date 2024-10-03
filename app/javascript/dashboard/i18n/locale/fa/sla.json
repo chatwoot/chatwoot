@@ -53,11 +53,11 @@
       },
       "FIRST_RESPONSE_TIME": {
         "LABEL": "اولین زمان پاسخگویی",
-        "PLACEHOLDER": "۵"
+        "PLACEHOLDER": "0"
       },
       "NEXT_RESPONSE_TIME": {
         "LABEL": "زمان پاسخگویی بعدی",
-        "PLACEHOLDER": "۵"
+        "PLACEHOLDER": "0"
       },
       "RESOLUTION_TIME": {
         "LABEL": "زمان تا حل شدن مساله",

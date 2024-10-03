@@ -11,11 +11,11 @@
       "404": "Bu hesapta kullanılabilir denetim kaydı yok.",
       "TITLE": "Denetim Kayıtlarını Yönet",
       "DESC": "Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.",
-      "TABLE_HEADER": [
-        "Kullanıcı",
-        "Eylem",
-        "IP Adresi"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Kullanıcı",
+        "TIME": "Eylem",
+        "IP_ADDRESS": "IP Adresi"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Denetim Kayıtları başarıyla alındı",

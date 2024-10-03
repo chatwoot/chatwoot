@@ -47,10 +47,10 @@
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Akcie"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "Akcie"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Upraviť",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Meno",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Meno",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

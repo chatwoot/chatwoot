@@ -8,28 +8,24 @@
     "LIST": {
       "404": "У вас пока нет источников."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Выберите источник",
-        "route": "settings_inbox_new",
-        "body": "Выберите канал, который вы хотите подключить к Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Выберите источник",
+        "BODY": "Выберите канал, который вы хотите подключить к Chatwoot."
       },
-      {
-        "title": "Создать источник",
-        "route": "settings_inboxes_page_channel",
-        "body": "Авторизуйте свой аккаунт и создайте ящик."
+      "INBOX": {
+        "TITLE": "Создать источник",
+        "BODY": "Авторизуйте свой аккаунт и создайте ящик."
       },
-      {
-        "title": "Добавить операторов",
-        "route": "settings_inboxes_add_agents",
-        "body": "Добавить агента в созданный источник."
+      "AGENT": {
+        "TITLE": "Добавить операторов",
+        "BODY": "Добавить агента в созданный источник."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Все готово!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Все готово!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Имя источника",

@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Име",
-        "Описание",
-        "Активен",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Име",
+        "DESCRIPTION": "Описание",
+        "ACTIVE": "Активен",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {

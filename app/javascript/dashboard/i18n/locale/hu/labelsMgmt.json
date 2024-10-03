@@ -10,11 +10,11 @@
       "404": "Nincs megfelelő cimke ebben a fiókban.",
       "TITLE": "Cimkék kezelése",
       "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",
-      "TABLE_HEADER": [
-        "Név",
-        "Leírás",
-        "Szín"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "DESCRIPTION": "Leírás",
+        "COLOR": "Szín"
+      }
     },
     "FORM": {
       "NAME": {

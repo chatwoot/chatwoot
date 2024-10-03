@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Nema veb zakački podešenih za ovaj nalog.",
         "TITLE": "Upravljanje veb zakačkama",
-        "TABLE_HEADER": [
-          "Krajnje tačke veb zakački",
-          "Akcije"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Krajnje tačke veb zakački",
+          "ACTIONS": "Akcije"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Uredi",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Još uvek nema aplikacija radne table podešenih za ovaj nalog",
         "LOADING": "Prikupljanje aplikacija radne table...",
-        "TABLE_HEADER": [
-          "Ime",
-          "Krajnja tačka"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Ime",
+          "ENDPOINT": "Krajnja tačka"
+        },
         "EDIT_TOOLTIP": "Uredi aplikaciju",
         "DELETE_TOOLTIP": "Obriši aplikaciju"
       },

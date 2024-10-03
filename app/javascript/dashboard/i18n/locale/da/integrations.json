@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Der er ingen webhooks konfigureret til denne konto.",
         "TITLE": "Administrer webhooks",
-        "TABLE_HEADER": [
-          "Webhook endepunkt",
-          "Handlinger"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endepunkt",
+          "ACTIONS": "Handlinger"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Rediger",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Der er ingen dashboard apps konfigureret på denne konto endnu",
         "LOADING": "Henter dashboard apps...",
-        "TABLE_HEADER": [
-          "Navn",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Navn",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Rediger app",
         "DELETE_TOOLTIP": "Slet app"
       },

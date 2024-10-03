@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostupnost",
-        "STATUSES_LIST": [
-          "Dostupan",
-          "Zauzet",
-          "Nedostupan"
-        ],
+        "STATUS": {
+          "ONLINE": "Dostupan",
+          "BUSY": "Zauzet",
+          "OFFLINE": "Nedostupan"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },

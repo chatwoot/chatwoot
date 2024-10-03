@@ -10,11 +10,11 @@
       "404": "Tällä tilillä ei ole tallennettuja vastauksia.",
       "TITLE": "Hallitse tallennettuja vastauksia",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "Sisältö",
-        "Toiminnot"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Sisältö",
+        "ACTIONS": "Toiminnot"
+      }
     },
     "ADD": {
       "TITLE": "Add canned response",

@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Ketersediaan",
-        "STATUSES_LIST": [
-          "Online",
-          "Sibuk",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Sibuk",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Ketersediaan berhasil diatur",
         "SET_AVAILABILITY_ERROR": "Tidak dapat mengatur ketersediaan, silakan coba lagi"
       },

@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Thông tin trung tâm trợ giúp",
-            "route": "Thông tin cổng mới",
-            "body": "Thông tin cơ bản về cổng",
-            "CREATE_BASIC_SETTING_BUTTON": "Tạo cài đặt cơ bản cho cổng thông tin"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Thông tin trung tâm trợ giúp",
+            "BODY": "Thông tin cơ bản về cổng"
           },
-          {
-            "title": "Tùy chỉnh trung tâm trợ giúp",
-            "route": "Tuỳ chỉnh cổng",
-            "body": "Tuỳ chỉnh cổng",
-            "UPDATE_PORTAL_BUTTON": "Cập nhật thông tin cấu hình cổng"
+          "CUSTOMIZATION": {
+            "TITLE": "Tùy chỉnh trung tâm trợ giúp",
+            "BODY": "Tuỳ chỉnh cổng"
           },
-          {
-            "title": "Tới rồi! 🎉",
-            "route": "kết_thúc_cổng",
-            "body": "Bạn đã sẵn sàng!",
-            "FINISH": "Hoàn tất"
+          "FINISH": {
+            "TITLE": "Tới rồi! 🎉",
+            "BODY": "Bạn đã sẵn sàng!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Trờ về",
           "BASIC_SETTINGS_PAGE": {

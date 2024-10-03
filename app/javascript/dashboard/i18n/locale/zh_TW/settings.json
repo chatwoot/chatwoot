@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
-        "STATUSES_LIST": [
-          "線上的",
-          "忙碌中",
-          "離線的"
-        ],
+        "STATUS": {
+          "ONLINE": "線上的",
+          "BUSY": "忙碌中",
+          "OFFLINE": "離線的"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },

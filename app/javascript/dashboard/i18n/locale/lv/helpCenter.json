@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Palīdzības centra informācija",
-            "route": "new_portal_information",
-            "body": "Pamatinformācija par portālu",
-            "CREATE_BASIC_SETTING_BUTTON": "Izveidot portāla pamatiestatījumus"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Palīdzības centra informācija",
+            "BODY": "Pamatinformācija par portālu"
           },
-          {
-            "title": "Palīdzības centra pielāgošana",
-            "route": "portal_customization",
-            "body": "Pielāgot portālu",
-            "UPDATE_PORTAL_BUTTON": "Atjaunināt portāla iestatījumus"
+          "CUSTOMIZATION": {
+            "TITLE": "Palīdzības centra pielāgošana",
+            "BODY": "Pielāgot portālu"
           },
-          {
-            "title": "Gatavs",
-            "route": "portal_finish",
-            "body": "Viss ir gatavs!",
-            "FINISH": "Pabeigt"
+          "FINISH": {
+            "TITLE": "Gatavs",
+            "BODY": "Viss ir gatavs!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Atpakaļ",
           "BASIC_SETTINGS_PAGE": {

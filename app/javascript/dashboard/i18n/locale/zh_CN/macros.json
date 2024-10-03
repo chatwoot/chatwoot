@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名：",
-        "创建者",
-        "最后更新者",
-        "可视性"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名：",
+        "CREATED BY": "创建者",
+        "LAST_UPDATED_BY": "最后更新者",
+        "VISIBILITY": "可视性"
+      },
       "404": "未找到宏"
     },
     "DELETE": {

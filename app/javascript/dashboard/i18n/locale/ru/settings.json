@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Доступность",
-        "STATUSES_LIST": [
-          "В сети",
-          "Занят",
-          "Оффлайн"
-        ],
+        "STATUS": {
+          "ONLINE": "В сети",
+          "BUSY": "Занят",
+          "OFFLINE": "Оффлайн"
+        },
         "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
         "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
       },

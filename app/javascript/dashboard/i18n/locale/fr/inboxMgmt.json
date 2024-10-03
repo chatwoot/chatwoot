@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Il n'y a aucune boîte de réception associée à ce compte."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Choisir un canal",
-        "route": "settings_inbox_new",
-        "body": "Choisissez le fournisseur que vous souhaitez intégrer avec Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Choisir un canal",
+        "BODY": "Choisissez le fournisseur que vous souhaitez intégrer avec Chatwoot."
       },
-      {
-        "title": "Créer une boîte de réception",
-        "route": "settings_inboxes_page_channel",
-        "body": "Authentifiez votre compte et créez une boîte de réception."
+      "INBOX": {
+        "TITLE": "Créer une boîte de réception",
+        "BODY": "Authentifiez votre compte et créez une boîte de réception."
       },
-      {
-        "title": "Ajouter des agents",
-        "route": "settings_inboxes_add_agents",
-        "body": "Ajouter des agents à la boîte de réception créée."
+      "AGENT": {
+        "TITLE": "Ajouter des agents",
+        "BODY": "Ajouter des agents à la boîte de réception créée."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Vous êtes paré !"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Vous êtes paré !"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nom de la boîte de réception",

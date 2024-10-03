@@ -10,11 +10,11 @@
       "404": "Šajā kontā nav pieejama neviena sagatavota atbilde.",
       "TITLE": "Pārvaldīt sagatavotās atbildes",
       "DESC": "Sagatavotās atbildes ir iepriekš definētas atbilžu veidnes, kuras var izmantot lai ātri nosūtītu atbildes uz sarunām.",
-      "TABLE_HEADER": [
-        "Īsais kods",
-        "Saturs",
-        "Darbības"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Īsais kods",
+        "CONTENT": "Saturs",
+        "ACTIONS": "Darbības"
+      }
     },
     "ADD": {
       "TITLE": "Pievienot sagatavoto atbildi",

@@ -92,12 +92,12 @@
       "CONTACT": "Kontaktpersona"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Tips",
-        "Atslēga"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "TYPE": "Tips",
+        "KEY": "Atslēga"
+      },
       "BUTTONS": {
         "EDIT": "Rediģēt",
         "DELETE": "Dzēst"

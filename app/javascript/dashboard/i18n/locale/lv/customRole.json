@@ -22,12 +22,12 @@
       "404": "Šajā kontā nav pieejamas pielāgotas lomas.",
       "TITLE": "Pārvaldīt pielāgotas lomas",
       "DESC": "Pielāgotas lomas ir lomas, kuras izveido konta īpašnieks vai administrators. Šīs lomas var piešķirt aģentiem, lai definētu viņu piekļuvi un atļaujas kontā. Pielāgotas lomas var izveidot ar īpašām atļaujām un piekļuves līmeņiem, lai tie atbilstu organizācijas prasībām.",
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Atļaujas",
-        "Darbības"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "PERMISSIONS": "Atļaujas",
+        "ACTIONS": "Darbības"
+      }
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Pārvaldīt visas sarunas",
