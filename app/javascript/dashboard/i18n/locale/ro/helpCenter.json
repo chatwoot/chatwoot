@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Informații centru de asistență",
-            "route": "new_portal_information",
-            "body": "Informații de bază despre portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Creează setări de bază portal"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informații centru de asistență",
+            "BODY": "Informații de bază despre portal"
           },
-          {
-            "title": "Personalizare centru de asistență",
-            "route": "portal_customization",
-            "body": "Personalizați portalul",
-            "UPDATE_PORTAL_BUTTON": "Actualizați setările portalului"
+          "CUSTOMIZATION": {
+            "TITLE": "Personalizare centru de asistență",
+            "BODY": "Personalizați portalul"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Totul este pregătit!",
-            "FINISH": "Finalizează"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Totul este pregătit!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Înapoi",
           "BASIC_SETTINGS_PAGE": {
