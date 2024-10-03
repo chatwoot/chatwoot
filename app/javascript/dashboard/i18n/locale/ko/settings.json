@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "유용성",
-        "STATUSES_LIST": [
-          "온라인",
-          "바쁨",
-          "오프라인"
-        ],
+        "STATUS": {
+          "ONLINE": "온라인",
+          "BUSY": "바쁨",
+          "OFFLINE": "오프라인"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
