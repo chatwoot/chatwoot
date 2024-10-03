@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί webhooks για αυτόν το λογαριασμό.",
         "TITLE": "Διαχείριση webhooks",
-        "TABLE_HEADER": [
-          "ΣΥΝΔΕΣΜΟΣ Webhook",
-          "ΕΝΕΡΓΕΙΕΣ"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "ΣΥΝΔΕΣΜΟΣ Webhook",
+          "ACTIONS": "Ενέργειες"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Επεξεργασία",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί εφαρμογές Dashboard για αυτόν το λογαριασμό",
         "LOADING": "Λήψη εφαρμογών dashboard ...",
-        "TABLE_HEADER": [
-          "Όνομα",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Όνομα",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Επεξεργασία εφαρμογής",
         "DELETE_TOOLTIP": "Διαγραφή εφαρμογής"
       },
