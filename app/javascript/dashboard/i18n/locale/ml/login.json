@@ -3,7 +3,7 @@
     "TITLE": "ചാറ്റ് വൂട്ടിലേക്ക് ലോഗിൻ ചെയ്യുക",
     "EMAIL": {
       "LABEL": "ഇമെയിൽ",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
     },
     "PASSWORD": {
