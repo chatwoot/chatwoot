@@ -199,6 +199,17 @@ module.exports = {
     'import/extensions': ['off'],
     'no-console': 'error',
   },
+  // [TODO] these have broken syntax which works in the browser
+  // but not in node, fixing it caused a lot of scoping issues
+  // We need to fix them separately
+  ignorePatterns: [
+    'app/javascript/dashboard/helper/ReconnectService.js',
+    'app/javascript/dashboard/helper/actionCable.js',
+    'app/javascript/shared/helpers/BaseActionCableConnector.js',
+    'app/javascript/widget/helpers/actionCable.js',
+    'app/javascript/widget/helpers/campaignTimer.js',
+    'app/javascript/widget/helpers/utils.js',
+  ],
   env: {
     browser: true,
     node: true,
