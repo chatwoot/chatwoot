@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Tidak ada webhook yang dikonfigurasi untuk akun ini.",
         "TITLE": "Kelola webhook",
-        "TABLE_HEADER": [
-          "Endpoint webhook",
-          "Aksi"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Endpoint webhook",
+          "ACTIONS": "Aksi"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Edit",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Belum ada aplikasi dasbor yang dikonfigurasi untuk akun ini",
         "LOADING": "Mengambil aplikasi dasbor...",
-        "TABLE_HEADER": [
-          "Nama",
-          "Titik akhir"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nama",
+          "ENDPOINT": "Titik akhir"
+        },
         "EDIT_TOOLTIP": "Edit aplikasi",
         "DELETE_TOOLTIP": "Hapus aplikasi"
       },
