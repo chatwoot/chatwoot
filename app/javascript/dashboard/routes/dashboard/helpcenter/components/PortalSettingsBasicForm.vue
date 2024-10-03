@@ -201,7 +201,7 @@ function onFileChange({ file }) {
           :placeholder="$t('HELP_CENTER.PORTAL.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.PORTAL.ADD.NAME.HELP_TEXT')"
           @blur="v$.name.$touch"
-          @input="onNameChange"
+          @update:model-value="onNameChange"
         />
       </div>
       <div class="mb-4">
