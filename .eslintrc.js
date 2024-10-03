@@ -1,6 +1,10 @@
 module.exports = {
   extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/vue3-recommended'],
   plugins: ['html', 'prettier'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
   rules: {
     'prettier/prettier': ['error'],
     camelcase: 'off',
@@ -199,18 +203,6 @@ module.exports = {
     'import/extensions': ['off'],
     'no-console': 'error',
   },
-  // [TODO] these have broken syntax which works in the browser
-  // but not in node, fixing it caused a lot of scoping issues
-  // We need to fix them separately
-  ignorePatterns: [
-    'app/javascript/dashboard/helper/ReconnectService.js',
-    'app/javascript/dashboard/helper/actionCable.js',
-    'app/javascript/shared/helpers/BaseActionCableConnector.js',
-    'app/javascript/widget/helpers/actionCable.js',
-    'app/javascript/widget/helpers/campaignTimer.js',
-    'app/javascript/widget/helpers/utils.js',
-    'app/javascript/dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper.js',
-  ],
   env: {
     browser: true,
     node: true,
