@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Izaberite kanal",
-        "route": "settings_inbox_new",
-        "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Izaberite kanal",
+        "BODY": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
       },
-      {
-        "title": "Napravi prijemno sanduče",
-        "route": "settings_inboxes_page_channel",
-        "body": "Potvrdite vaš nalog i napravite prijemno sanduće."
+      "INBOX": {
+        "TITLE": "Napravi prijemno sanduče",
+        "BODY": "Potvrdite vaš nalog i napravite prijemno sanduće."
       },
-      {
-        "title": "Dodaj agente",
-        "route": "settings_inboxes_add_agents",
-        "body": "Dodajte agente napravljenom prijamnom sandučetu."
+      "AGENT": {
+        "TITLE": "Dodaj agente",
+        "BODY": "Dodajte agente napravljenom prijamnom sandučetu."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Sve je spremno za početak!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Sve je spremno za početak!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Naziv prijemnog sandučeta",
