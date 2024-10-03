@@ -11,11 +11,11 @@
       "404": "Não há logs de auditoria referentes a esta conta.",
       "TITLE": "Gerir logs de auditoria",
       "DESC": "Logs de auditoria são registos de eventos e ações do Sistema Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Horário",
-        "Endereço IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Horário",
+        "IP_ADDRESS": "Endereço IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Logs de auditoria recuperados com sucesso",
