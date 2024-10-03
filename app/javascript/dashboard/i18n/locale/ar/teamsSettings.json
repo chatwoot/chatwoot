@@ -20,23 +20,18 @@
         "TITLE": "إضافة وكلاء للفريق - %{teamName}",
         "DESC": "إضافة وكلاء إلى فريقك الجديد. هذا يتيح لكم العمل كفريق في المحادثات، والحصول على إشعار عن الأحداث الجديدة في نفس المحادثة."
       },
-      "WIZARD": [
-        {
-          "title": "إنشاء",
-          "route": "settings_teams_new",
-          "body": "إنشاء فريق جديد للوكلاء."
-        },
-        {
-          "title": "إضافة وكلاء",
-          "route": "settings_teams_add_agents",
-          "body": "إضافة وكيل إلى فريق."
-        },
-        {
-          "title": "إنهاء",
-          "route": "settings_teams_finish",
-          "body": "أصبح كل شيء جاهزاً الآن!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "إنشاء",
+        "BODY": "إنشاء فريق جديد للوكلاء."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "إضافة وكلاء",
+        "BODY": "إضافة وكيل إلى فريق."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "إنهاء",
+        "BODY": "أصبح كل شيء جاهزاً الآن!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "إضافة وكلاء للفريق - %{teamName}",
         "DESC": "إضافة وكلاء إلى فريقك الذي تم إنشاؤه حديثاً. سيتم إعلام جميع الوكلاء المضافين عند تعيين محادثة لهذا الفريق."
       },
-      "WIZARD": [
-        {
-          "title": "تفاصيل الفريق",
-          "route": "settings_teams_edit",
-          "body": "تغيير الاسم والوصف والتفاصيل الأخرى."
-        },
-        {
-          "title": "تعديل الوكلاء",
-          "route": "settings_teams_edit_members",
-          "body": "تعديل الوكلاء في فريقك."
-        },
-        {
-          "title": "إنهاء",
-          "route": "settings_teams_edit_finish",
-          "body": "أصبح كل شيء جاهزاً الآن!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "تفاصيل الفريق",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "تغيير الاسم والوصف والتفاصيل الأخرى."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "تعديل الوكلاء",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "تعديل الوكلاء في فريقك."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "إنهاء",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "أصبح كل شيء جاهزاً الآن!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "تعذر حفظ تفاصيل الفريق. حاول مرة أخرى."
