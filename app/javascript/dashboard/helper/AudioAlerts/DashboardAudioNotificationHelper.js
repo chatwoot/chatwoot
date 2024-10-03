@@ -22,6 +22,21 @@ class DashboardAudioNotificationHelper {
     this.currentUser = null;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
+
+    this.onAudioListenEvent = async () => {
+      try {
+        await getAlertAudio('', {
+          type: 'dashboard',
+          alertTone: this.audioAlertTone,
+        });
+        initOnEvents.forEach(event => {
+          document.removeEventListener(event, this.onAudioListenEvent, false);
+        });
+        this.playAudioEvery30Seconds();
+      } catch (error) {
+        // Ignore audio fetch errors
+      }
+    };
   }
 
   setInstanceValues({
@@ -38,24 +53,11 @@ class DashboardAudioNotificationHelper {
     this.currentUserId = currentUser.id;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
-      document.addEventListener(e, this.onAudioListenEvent, false);
+      document.addEventListener(e, this.onAudioListenEvent, {
+        once: true,
+      });
     });
     initFaviconSwitcher();
-  }
-
-  async onAudioListenEvent() {
-    try {
-      await getAlertAudio('', {
-        type: 'dashboard',
-        alertTone: this.audioAlertTone,
-      });
-      initOnEvents.forEach(event => {
-        document.removeEventListener(event, this.onAudioListenEvent, false);
-      });
-      this.playAudioEvery30Seconds();
-    } catch (error) {
-      // Ignore audio fetch errors
-    }
   }
 
   executeRecurringNotification() {
