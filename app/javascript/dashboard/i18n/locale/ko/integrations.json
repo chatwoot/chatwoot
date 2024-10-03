@@ -47,10 +47,10 @@
       "LIST": {
         "404": "이 계정에 구성된 웹훅이 없음.",
         "TITLE": "웹훅 관리",
-        "TABLE_HEADER": [
-          "웹훅 엔드포인트",
-          "액션"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "웹훅 엔드포인트",
+          "ACTIONS": "액션"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "수정",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "이름",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "이름",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
