@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import ConversationForm from './ConversationForm.vue';
 
 export default {
@@ -7,15 +6,25 @@ export default {
     ConversationForm,
   },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     contact: {
       type: Object,
       default: () => ({}),
     },
   },
-  emits: ['cancel'],
-  setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { show };
+  emits: ['cancel', 'update:show'],
+  computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
   },
   watch: {
     'contact.id'(id) {
@@ -45,7 +54,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onCancel">
+  <woot-modal v-model:show="localShow" :on-close="onCancel">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('NEW_CONVERSATION.TITLE')"
