@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Aktivno",
-        "Napravljeno"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktivno",
+        "CREATED_ON": "Napravljeno"
+      },
       "404": "Nisu pronađena pravila automatizacije"
     },
     "DELETE": {
