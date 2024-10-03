@@ -92,12 +92,12 @@
       "CONTACT": "Контакт"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ім'я",
-        "Опис",
-        "Тип",
-        "Ключ"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Ім'я",
+        "DESCRIPTION": "Опис",
+        "TYPE": "Тип",
+        "KEY": "Ключ"
+      },
       "BUTTONS": {
         "EDIT": "Редагувати",
         "DELETE": "Видалити"
