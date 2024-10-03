@@ -3,9 +3,8 @@
 import { ref, computed, defineEmits, onMounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
-const { show, modalType, closeOnBackdropClick, onClose } = defineProps({
+const { modalType, closeOnBackdropClick, onClose } = defineProps({
   closeOnBackdropClick: { type: Boolean, default: true },
-  show: Boolean,
   showCloseButton: { type: Boolean, default: true },
   onClose: { type: Function, required: true },
   fullWidth: { type: Boolean, default: false },
@@ -14,11 +13,7 @@ const { show, modalType, closeOnBackdropClick, onClose } = defineProps({
 });
 
 const emit = defineEmits(['close']);
-
-const localShow = computed({
-  get: () => show,
-  set: value => emit('update:show', value),
-});
+const show = defineModel('show', { type: Boolean, default: false });
 
 const modalClassName = computed(() => {
   const modalClassNameMap = {
@@ -37,7 +32,7 @@ const handleMouseDown = () => {
 };
 
 const close = () => {
-  localShow.value = false;
+  show.value = false;
   emit('close');
   onClose();
 };
@@ -52,7 +47,7 @@ const onMouseUp = () => {
 };
 
 const onKeydown = e => {
-  if (show && e.code === 'Escape') {
+  if (show.value && e.code === 'Escape') {
     close();
     e.stopPropagation();
   }
@@ -74,7 +69,7 @@ onMounted(() => {
 <template>
   <transition name="modal-fade">
     <div
-      v-if="localShow"
+      v-if="show"
       :class="modalClassName"
       transition="modal"
       @mousedown="handleMouseDown"
