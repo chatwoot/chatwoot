@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "التوفر",
-        "STATUSES_LIST": [
-          "متصل",
-          "مشغول",
-          "غير متصل"
-        ],
+        "STATUS": {
+          "ONLINE": "متصل",
+          "BUSY": "مشغول",
+          "OFFLINE": "غير متصل"
+        },
         "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
         "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
       },
