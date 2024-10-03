@@ -10,11 +10,11 @@
       "404": "Não há atalhos disponíveis nesta conta.",
       "TITLE": "Gerenciar Atalhos",
       "DESC": "Respostas Prontas são modelos de resposta predefinidas que podem ser usados para enviar respostas rapidamente durante conversas.",
-      "TABLE_HEADER": [
-        "Atalho",
-        "Conteúdo",
-        "Ações"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Atalho",
+        "CONTENT": "Conteúdo",
+        "ACTIONS": "Ações"
+      }
     },
     "ADD": {
       "TITLE": "Adicionar resposta pronta",
