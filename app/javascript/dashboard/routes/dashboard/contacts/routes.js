@@ -1,8 +1,12 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-
-const ContactsView = () => import('./components/ContactsView.vue');
-const ContactManageView = () => import('./pages/ContactManageView.vue');
+import { defineAsyncComponent } from 'vue';
+const ContactsView = defineAsyncComponent(
+  () => import('./components/ContactsView.vue')
+);
+const ContactManageView = defineAsyncComponent(
+  () => import('./pages/ContactManageView.vue')
+);
 
 export const routes = [
   {
