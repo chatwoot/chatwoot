@@ -35,7 +35,7 @@ export default {
   mounted() {
     document.addEventListener('paste', this.handleClipboardPaste);
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('paste', this.handleClipboardPaste);
   },
   methods: {

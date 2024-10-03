@@ -37,6 +37,7 @@ export default {
       default: '',
     },
   },
+  emits: ['iconChange', 'nameChange'],
   data() {
     return {
       name: '',

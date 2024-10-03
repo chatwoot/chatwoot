@@ -38,7 +38,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['onSearch', 'select']);
+const emit = defineEmits(['onSearch', 'select', 'removeFilter']);
 
 const searchTerm = ref('');
 

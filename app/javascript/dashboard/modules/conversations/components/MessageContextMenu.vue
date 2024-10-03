@@ -39,6 +39,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['open', 'close', 'replyTo'],
   setup() {
     const { getPlainText } = useMessageFormatter();
     return {

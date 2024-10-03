@@ -17,6 +17,7 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
+  emits: ['replaceText'],
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
 
@@ -142,7 +143,7 @@ export default {
       >
         <AIAssistanceModal
           :ai-option="aiOption"
-          @applyText="insertText"
+          @apply-text="insertText"
           @close="hideAIAssistanceModal"
         />
       </woot-modal>

@@ -23,6 +23,7 @@ export default {
       required: true,
     },
   },
+  emits: ['close', 'insert'],
   data() {
     return {
       searchQuery: '',

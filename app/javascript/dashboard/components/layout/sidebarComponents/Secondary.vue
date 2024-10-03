@@ -49,6 +49,7 @@ export default {
       default: false,
     },
   },
+  emits: ['addLabel', 'toggleAccounts'],
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
@@ -242,7 +243,7 @@ export default {
   <div
     class="flex flex-col w-48 h-full px-2 pb-8 overflow-auto text-sm bg-white border-r dark:bg-slate-900 dark:border-slate-800/50 rtl:border-r-0 rtl:border-l border-slate-50"
   >
-    <AccountContext @toggleAccounts="toggleAccountModal" />
+    <AccountContext @toggle-accounts="toggleAccountModal" />
     <transition-group
       name="menu-list"
       tag="ul"
@@ -257,7 +258,7 @@ export default {
         v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
         :key="menuItem.key"
         :menu-item="menuItem"
-        @addLabel="showAddLabelPopup"
+        @add-label="showAddLabelPopup"
       />
     </transition-group>
   </div>

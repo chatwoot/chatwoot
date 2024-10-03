@@ -20,6 +20,7 @@ export default {
       }),
     },
   },
+  emits: ['update'],
   computed: {
     fromTimeSlots() {
       return timeSlots;

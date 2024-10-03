@@ -19,6 +19,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['sendMessage', 'resetTemplate'],
   setup(props, { emit }) {
     const processVariable = str => {
       return str.replace(/{{|}}/g, '');
