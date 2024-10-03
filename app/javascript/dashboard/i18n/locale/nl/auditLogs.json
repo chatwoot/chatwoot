@@ -11,11 +11,11 @@
       "404": "Er zijn geen Audit Logs beschikbaar in dit account.",
       "TITLE": "Beheer Audit Logs",
       "DESC": "Audit Logs zijn sporen voor gebeurtenissen en acties in een Chatwoot Systeem.",
-      "TABLE_HEADER": [
-        "User",
-        "Tijd",
-        "IP-adres"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Tijd",
+        "IP_ADDRESS": "IP-adres"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs succesvol opgehaald",
