@@ -45,6 +45,7 @@ export default {
       default: 'chevron-right',
     },
   },
+  emits: ['togglePanel', 'panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
     return {
@@ -321,7 +322,7 @@ export default {
     </div>
     <woot-delete-modal
       v-if="showDeleteModal"
-      :show.sync="showDeleteModal"
+      v-model:show="showDeleteModal"
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"

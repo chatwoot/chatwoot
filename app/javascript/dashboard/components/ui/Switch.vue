@@ -4,6 +4,7 @@ export default {
     modelValue: { type: Boolean, default: false },
     size: { type: String, default: '' },
   },
+  emits: ['update:modelValue', 'input'],
   methods: {
     onClick() {
       this.$emit('update:modelValue', !this.modelValue);

@@ -41,6 +41,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup(props, { emit }) {
     const keyboardEvents = {
       'Alt+KeyO': {

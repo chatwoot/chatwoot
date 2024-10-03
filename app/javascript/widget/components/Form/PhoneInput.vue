@@ -26,8 +26,8 @@ const activeCountryCode = ref(getActiveCountryCode());
 const activeDialCode = ref(getActiveDialCode());
 const phoneNumber = ref('');
 
-const dropdownRef = useTemplateRef('dropdown');
-const searchbarRef = useTemplateRef('searchbar');
+const dropdownRef = useTemplateRef('dropdownRef');
+const searchbarRef = useTemplateRef('searchbarRef');
 
 const placeholder = computed(() => context?.attrs?.placeholder || '');
 const hasErrorInPhoneInput = computed(() => context.hasErrorInPhoneInput);
@@ -261,7 +261,7 @@ function onSelect() {
     </div>
     <div
       v-if="showDropdown"
-      ref="dropdown"
+      ref="dropdownRef"
       v-on-clickaway="closeDropdown"
       :class="dropdownBackgroundClass"
       class="absolute z-10 h-48 px-0 pt-0 pb-1 pl-1 pr-1 overflow-y-auto rounded shadow-lg country-dropdown top-12"
@@ -271,8 +271,8 @@ function onSelect() {
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
+          ref="searchbarRef"
           v-model="searchCountry"
-          ref="searchbar"
           type="text"
           :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_SEARCH')"
           class="w-full h-8 px-3 py-2 mt-1 mb-1 text-sm border border-solid rounded outline-none dropdown-search"

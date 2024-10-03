@@ -26,7 +26,7 @@ export default {
     },
     onSend: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
     sendButtonText: {
       type: String,
@@ -53,19 +53,19 @@ export default {
     },
     onFileUpload: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
     toggleEmojiPicker: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
     toggleAudioRecorder: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
     toggleAudioRecorderPlayPause: {
       type: Function,
-      default: () => { },
+      default: () => {},
     },
     isRecordingAudio: {
       type: Boolean,
@@ -112,6 +112,12 @@ export default {
       required: true,
     },
   },
+  emits: [
+    'replaceText',
+    'toggleInsertArticle',
+    'toggleEditor',
+    'selectWhatsappTemplate',
+  ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
@@ -166,9 +172,9 @@ export default {
         return false;
       }
       // Disable audio recorder for safari browser as recording is not supported
-      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
-        navigator.userAgent
-      );
+      // const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+      //   navigator.userAgent
+      // );
 
       return (
         this.isFeatureEnabledonAccount(
@@ -340,7 +346,7 @@ export default {
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
-        @replaceText="replaceText"
+        @replace-text="replaceText"
       />
       <transition name="modal-fade">
         <div

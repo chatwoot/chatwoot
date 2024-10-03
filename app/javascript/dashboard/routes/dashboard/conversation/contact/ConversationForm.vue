@@ -57,6 +57,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['cancel', 'success'],
   setup() {
     const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
       useUISettings();
@@ -440,8 +441,8 @@ export default {
             </label>
             <ReplyEmailHead
               v-if="isAnEmailInbox"
-              :cc-emails.sync="ccEmails"
-              :bcc-emails.sync="bccEmails"
+              v-model:cc-emails="ccEmails"
+              v-model:bcc-emails="bccEmails"
             />
             <div class="editor-wrap">
               <WootMessageEditor
@@ -482,7 +483,7 @@ export default {
             v-else-if="hasWhatsappTemplates"
             :inbox-id="selectedInbox.inbox.id"
             @on-select-template="toggleWaTemplate"
-            @onSend="onSendWhatsAppReply"
+            @on-send="onSendWhatsAppReply"
           />
           <label v-else :class="{ error: v$.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
@@ -535,7 +536,7 @@ export default {
               <AttachmentPreview
                 class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
                 :attachments="attachedFiles"
-                @removeAttachment="removeAttachment"
+                @remove-attachment="removeAttachment"
               />
             </div>
           </div>

@@ -48,7 +48,7 @@ onMounted(() => {
     v-if="items.length"
     type="emoji"
     :items="items"
-    @mentionSelect="handleMentionClick"
+    @mention-select="handleMentionClick"
   >
     <template #default="{ item, selected }">
       <span

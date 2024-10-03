@@ -13,6 +13,7 @@ export default {
       default: false,
     },
   },
+  emits: ['optionSelect'],
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',

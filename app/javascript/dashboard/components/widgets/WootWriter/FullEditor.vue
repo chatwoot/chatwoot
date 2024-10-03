@@ -47,6 +47,7 @@ export default {
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
   },
+  emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
 

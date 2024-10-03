@@ -101,7 +101,7 @@ const onClickTabChange = index => {
     </template>
     <woot-modal
       v-if="showAddPopup"
-      :show.sync="showAddPopup"
+      v-model:show="showAddPopup"
       :on-close="hideAddPopup"
     >
       <AddAttribute

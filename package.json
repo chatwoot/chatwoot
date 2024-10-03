@@ -18,7 +18,7 @@
   },
   "size-limit": [
     {
-      "path": "public/packs/js/widget-*.js",
+      "path": "public/vite/assets/widget-*.js",
       "limit": "300 KB"
     },
     {
@@ -106,6 +106,7 @@
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-interactive": "^11.1.0",
     "eslint-plugin-html": "7.1.0",
     "eslint-plugin-import": "2.30.0",
     "eslint-plugin-prettier": "5.2.1",

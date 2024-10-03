@@ -5,6 +5,7 @@ export default {
   components: {
     DatePicker,
   },
+  emits: ['close', 'chooseTime'],
 
   data() {
     return {

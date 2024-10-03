@@ -17,6 +17,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['continue'],
 };
 </script>
 
