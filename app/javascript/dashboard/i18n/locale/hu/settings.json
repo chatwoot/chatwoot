@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Elérhetőség",
-        "STATUSES_LIST": [
-          "Online",
-          "Foglalt",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Foglalt",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Elérhetőség beállítása sikeres",
         "SET_AVAILABILITY_ERROR": "Nem sikerült beállítani az elérhetőséget, kérlek, próbáld újra"
       },
