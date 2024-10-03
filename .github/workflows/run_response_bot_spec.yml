@@ -52,10 +52,10 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: yarn
+        cache: pnpm
 
-    - name: yarn
-      run: yarn install
+    - name: pnpm
+      run: pnpm install
 
     - name: Create database
       run: bundle exec rake db:create
