@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilidade",
-        "STATUSES_LIST": [
-          "Disponível",
-          "Ocupado",
-          "Desconectado"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Ocupado",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
         "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
       },
