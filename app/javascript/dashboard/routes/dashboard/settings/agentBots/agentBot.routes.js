@@ -1,9 +1,8 @@
-import { defineAsyncComponent } from 'vue';
-const Bot = defineAsyncComponent(() => import('./Index.vue'));
-const CsmlEditBot = defineAsyncComponent(() => import('./csml/Edit.vue'));
-const CsmlNewBot = defineAsyncComponent(() => import('./csml/New.vue'));
+const Bot = () => import('./Index.vue');
+const CsmlEditBot = () => import('./csml/Edit.vue');
+const CsmlNewBot = () => import('./csml/New.vue');
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
+const SettingsContent = () => import('../Wrapper.vue');
 
 export default {
   routes: [

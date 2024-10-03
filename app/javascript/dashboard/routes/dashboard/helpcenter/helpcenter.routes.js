@@ -1,62 +1,33 @@
 import HelpCenterLayout from './components/HelpCenterLayout.vue';
 import { getPortalRoute } from './helpers/routeHelper';
 
-import { defineAsyncComponent } from 'vue';
+const ListAllPortals = () => import('./pages/portals/ListAllPortals.vue');
+const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
-const ListAllPortals = defineAsyncComponent(
-  () => import('./pages/portals/ListAllPortals.vue')
-);
-const NewPortal = defineAsyncComponent(
-  () => import('./pages/portals/NewPortal.vue')
-);
-
-const EditPortal = defineAsyncComponent(
-  () => import('./pages/portals/EditPortal.vue')
-);
-const EditPortalBasic = defineAsyncComponent(
-  () => import('./pages/portals/EditPortalBasic.vue')
-);
+const EditPortal = () => import('./pages/portals/EditPortal.vue');
+const EditPortalBasic = () => import('./pages/portals/EditPortalBasic.vue');
 const EditPortalCustomization = () =>
   import('./pages/portals/EditPortalCustomization.vue');
-const EditPortalLocales = defineAsyncComponent(
-  () => import('./pages/portals/EditPortalLocales.vue')
-);
-const ShowPortal = defineAsyncComponent(
-  () => import('./pages/portals/ShowPortal.vue')
-);
-const PortalDetails = defineAsyncComponent(
-  () => import('./pages/portals/PortalDetails.vue')
-);
-const PortalCustomization = defineAsyncComponent(
-  () => import('./pages/portals/PortalCustomization.vue')
-);
+const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
+const ShowPortal = () => import('./pages/portals/ShowPortal.vue');
+const PortalDetails = () => import('./pages/portals/PortalDetails.vue');
+const PortalCustomization = () =>
+  import('./pages/portals/PortalCustomization.vue');
 const PortalSettingsFinish = () =>
   import('./pages/portals/PortalSettingsFinish.vue');
 
 const ListAllCategories = () =>
   import('./pages/categories/ListAllCategories.vue');
 
-const NewCategory = defineAsyncComponent(
-  () => import('./pages/categories/NewCategory.vue')
-);
-const EditCategory = defineAsyncComponent(
-  () => import('./pages/categories/EditCategory.vue')
-);
-const ListCategoryArticles = defineAsyncComponent(
-  () => import('./pages/articles/ListCategoryArticles.vue')
-);
-const ListAllArticles = defineAsyncComponent(
-  () => import('./pages/articles/ListAllArticles.vue')
-);
-const DefaultPortalArticles = defineAsyncComponent(
-  () => import('./pages/articles/DefaultPortalArticles.vue')
-);
-const NewArticle = defineAsyncComponent(
-  () => import('./pages/articles/NewArticle.vue')
-);
-const EditArticle = defineAsyncComponent(
-  () => import('./pages/articles/EditArticle.vue')
-);
+const NewCategory = () => import('./pages/categories/NewCategory.vue');
+const EditCategory = () => import('./pages/categories/EditCategory.vue');
+const ListCategoryArticles = () =>
+  import('./pages/articles/ListCategoryArticles.vue');
+const ListAllArticles = () => import('./pages/articles/ListAllArticles.vue');
+const DefaultPortalArticles = () =>
+  import('./pages/articles/DefaultPortalArticles.vue');
+const NewArticle = () => import('./pages/articles/NewArticle.vue');
+const EditArticle = () => import('./pages/articles/EditArticle.vue');
 
 const portalRoutes = [
   {

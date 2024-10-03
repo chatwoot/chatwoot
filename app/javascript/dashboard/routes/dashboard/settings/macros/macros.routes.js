@@ -1,16 +1,13 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
-import { defineAsyncComponent } from 'vue';
 
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
-const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
-const SettingsWrapper = defineAsyncComponent(
-  () => import('../SettingsWrapper.vue')
-);
-const Macros = defineAsyncComponent(() => import('./Index.vue'));
-const MacroEditor = defineAsyncComponent(() => import('./MacroEditor.vue'));
+const SettingsContent = () => import('../Wrapper.vue');
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
+const Macros = () => import('./Index.vue');
+const MacroEditor = () => import('./MacroEditor.vue');
 
 export default {
   routes: [

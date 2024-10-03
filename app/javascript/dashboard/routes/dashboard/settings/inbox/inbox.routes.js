@@ -1,17 +1,14 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import ChannelFactory from './ChannelFactory.vue';
-import { defineAsyncComponent } from 'vue';
 
-const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
-const SettingWrapper = defineAsyncComponent(
-  () => import('../SettingsWrapper.vue')
-);
-const InboxHome = defineAsyncComponent(() => import('./Index.vue'));
-const Settings = defineAsyncComponent(() => import('./Settings.vue'));
-const InboxChannel = defineAsyncComponent(() => import('./InboxChannels.vue'));
-const ChannelList = defineAsyncComponent(() => import('./ChannelList.vue'));
-const AddAgents = defineAsyncComponent(() => import('./AddAgents.vue'));
-const FinishSetup = defineAsyncComponent(() => import('./FinishSetup.vue'));
+const SettingsContent = () => import('../Wrapper.vue');
+const SettingWrapper = () => import('../SettingsWrapper.vue');
+const InboxHome = () => import('./Index.vue');
+const Settings = () => import('./Settings.vue');
+const InboxChannel = () => import('./InboxChannels.vue');
+const ChannelList = () => import('./ChannelList.vue');
+const AddAgents = () => import('./AddAgents.vue');
+const FinishSetup = () => import('./FinishSetup.vue');
 
 export default {
   routes: [

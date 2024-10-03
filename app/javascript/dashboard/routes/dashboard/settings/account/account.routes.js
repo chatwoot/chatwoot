@@ -1,7 +1,6 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { defineAsyncComponent } from 'vue';
-const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
-const Index = defineAsyncComponent(() => import('./Index.vue'));
+const SettingsContent = () => import('../Wrapper.vue');
+const Index = () => import('./Index.vue');
 
 export default {
   routes: [
