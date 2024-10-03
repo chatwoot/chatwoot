@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Não há webhooks configurados para esta conta.",
         "TITLE": "Gerir webhooks",
-        "TABLE_HEADER": [
-          "Endpoint do webhook",
-          "Ações"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Endpoint do webhook",
+          "ACTIONS": "Ações"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Editar",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Não há apps de dashboard configuradas nesta conta.",
         "LOADING": "A obter apps de dashboard...",
-        "TABLE_HEADER": [
-          "Nome",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Nome:",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Editar app",
         "DELETE_TOOLTIP": "Apagar app"
       },
