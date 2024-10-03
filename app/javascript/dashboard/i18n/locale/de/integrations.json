@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Für dieses Konto sind keine Webhooks konfiguriert.",
         "TITLE": "Webhooks verwalten",
-        "TABLE_HEADER": [
-          "Webhook-Endpunkt",
-          "Aktionen"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook-Endpunkt",
+          "ACTIONS": "Aktionen"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Bearbeiten",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Für dieses Konto sind noch keine Dashboard-Apps konfiguriert",
         "LOADING": "Dashboard-Apps werden abgerufen...",
-        "TABLE_HEADER": [
-          "Name",
-          "Endpunkt"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "ENDPOINT": "Endpunkt"
+        },
         "EDIT_TOOLTIP": "App bearbeiten",
         "DELETE_TOOLTIP": "Anwendung löschen"
       },
