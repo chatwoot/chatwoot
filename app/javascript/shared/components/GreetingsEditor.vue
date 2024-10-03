@@ -8,7 +8,7 @@ export default {
     ResizableTextArea,
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -25,20 +25,20 @@ export default {
       default: '',
     },
   },
-  emits: ['input'],
+  emits: ['update:modelValue'],
   data() {
     return {
-      greetingsMessage: this.value,
+      greetingsMessage: this.modelValue,
     };
   },
   watch: {
-    value(newValue) {
-      this.greetingsMessage = newValue;
+    value(modelValue) {
+      this.greetingsMessage = modelValue;
     },
   },
   methods: {
     handleInput() {
-      this.$emit('input', this.greetingsMessage);
+      this.$emit('update:modelValue', this.greetingsMessage);
     },
   },
 };
