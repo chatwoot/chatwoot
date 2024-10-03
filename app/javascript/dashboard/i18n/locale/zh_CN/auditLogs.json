@@ -11,11 +11,11 @@
       "404": "此账户中没有可用的审计日志。",
       "TITLE": "管理审计日志",
       "DESC": "审计日志是 Chatwoot 系统中事件和操作的痕迹。",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "IP 地址"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "IP 地址"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "审计日志获取成功",
