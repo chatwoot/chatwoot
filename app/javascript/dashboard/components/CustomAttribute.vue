@@ -138,7 +138,7 @@ export default {
     this.editedValue = this.formattedValue;
     emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
-  destroyed() {
+  unmounted() {
     emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {

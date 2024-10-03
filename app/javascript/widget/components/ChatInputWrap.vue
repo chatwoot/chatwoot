@@ -76,7 +76,7 @@ export default {
       }
     },
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {

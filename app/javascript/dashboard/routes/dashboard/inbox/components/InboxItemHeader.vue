@@ -38,7 +38,7 @@ export default {
   mounted() {
     emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
-  destroyed() {
+  unmounted() {
     emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   methods: {

@@ -72,7 +72,7 @@ export default {
       this.onCmdResolveConversation
     );
   },
-  destroyed() {
+  unmounted() {
     emitter.off(
       CMD_BULK_ACTION_SNOOZE_CONVERSATION,
       this.onCmdSnoozeConversation
