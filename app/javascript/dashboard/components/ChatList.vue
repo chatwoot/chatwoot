@@ -537,12 +537,6 @@ function loadMoreConversations() {
     return;
   }
 
-  // Increment the current page
-  store.dispatch('conversationPage/setCurrentPage', {
-    filter: currentPageFilterKey.value,
-    page: currentFiltersPage.value + 1,
-  });
-
   if (!hasAppliedFiltersOrActiveFolders.value) {
     fetchConversations();
   } else if (hasActiveFolders.value) {
