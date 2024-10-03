@@ -11,11 +11,11 @@
       "404": "Það eru engar aðgerðaskrár tiltækar á þessum reikning.",
       "TITLE": "Stjórna Aðgerðaskrám",
       "DESC": "Aðgerðaskrár heldur utan um alla atburði og aðgerðir í Chatwoot.",
-      "TABLE_HEADER": [
-        "Notandi",
-        "Aðgerð",
-        "IP tala"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Notandi",
+        "TIME": "Aðgerð",
+        "IP_ADDRESS": "IP tala"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Aðgerðaskrá sótt",
