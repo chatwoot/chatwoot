@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import { required, minLength } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -10,6 +9,10 @@ import CategoryNameIconInput from './NameEmojiInput.vue';
 export default {
   components: { CategoryNameIconInput },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     portalName: {
       type: String,
       default: '',
@@ -27,10 +30,9 @@ export default {
       default: '',
     },
   },
-  emits: ['update', 'cancel'],
+  emits: ['update', 'cancel', 'update:show'],
   setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { v$: useVuelidate(), show };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -51,6 +53,14 @@ export default {
     },
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     slugError() {
       if (this.v$.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
@@ -120,7 +130,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onClose">
+  <woot-modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.EDIT.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.EDIT.SUB_TITLE')"
