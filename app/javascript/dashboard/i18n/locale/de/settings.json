@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Verfügbarkeit",
-        "STATUSES_LIST": [
-          "Online",
-          "Beschäftigt",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Beschäftigt",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Verfügbarkeit wurde erfolgreich gesetzt",
         "SET_AVAILABILITY_ERROR": "Verfügbarkeit konnte nicht gesetzt werden, bitte versuchen Sie es erneut"
       },
