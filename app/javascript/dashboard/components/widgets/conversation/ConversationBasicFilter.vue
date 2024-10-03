@@ -27,6 +27,7 @@ export default {
   components: {
     FilterItem,
   },
+  emits: ['changeFilter'],
   setup() {
     const { updateUISettings } = useUISettings();
 

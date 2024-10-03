@@ -112,6 +112,7 @@ export default {
       required: true,
     },
   },
+  emits: ['replaceText', 'toggleInsertArticle'],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();

@@ -33,6 +33,7 @@ export default {
       default: false,
     },
   },
+  emits: ['pageChange'],
   data() {
     return {
       pageNo: 1,

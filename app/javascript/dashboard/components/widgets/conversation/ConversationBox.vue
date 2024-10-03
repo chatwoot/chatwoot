@@ -34,6 +34,7 @@ export default {
       default: true,
     },
   },
+  emits: ['contactPanelToggle'],
   data() {
     return { activeIndex: 0 };
   },

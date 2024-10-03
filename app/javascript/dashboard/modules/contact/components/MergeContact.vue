@@ -25,6 +25,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['search', 'submit', 'cancel'],
   setup() {
     return { v$: useVuelidate() };
   },

@@ -2,6 +2,8 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  emits: ['update', 'close'],
+
   data() {
     return {
       query: '',

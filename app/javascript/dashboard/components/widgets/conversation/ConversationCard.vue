@@ -69,6 +69,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'contextMenuToggle',
+    'assignAgent',
+    'assignLabel',
+    'assignTeam',
+    'markAsUnread',
+    'assignPriority',
+  ],
   data() {
     return {
       hovered: false,

@@ -37,6 +37,7 @@ export default {
       default: false,
     },
   },
+  emits: ['applyFilter', 'updateFolder'],
   setup() {
     const { setFilterAttributes } = useFilter({
       filteri18nKey: 'FILTER',

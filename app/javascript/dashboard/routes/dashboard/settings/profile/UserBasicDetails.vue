@@ -25,6 +25,7 @@ export default {
       default: false,
     },
   },
+  emits: ['updateUser'],
   setup() {
     return { v$: useVuelidate() };
   },

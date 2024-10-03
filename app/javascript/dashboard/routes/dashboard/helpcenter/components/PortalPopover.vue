@@ -18,6 +18,7 @@ export default {
       default: '',
     },
   },
+  emits: ['closePopover', 'fetchPortal'],
 
   methods: {
     closePortalPopover() {

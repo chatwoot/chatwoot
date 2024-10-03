@@ -25,6 +25,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['cancel', 'success'],
   setup() {
     return { v$: useVuelidate() };
   },

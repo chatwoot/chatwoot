@@ -20,6 +20,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['close'],
   setup() {
     return { v$: useVuelidate() };
   },

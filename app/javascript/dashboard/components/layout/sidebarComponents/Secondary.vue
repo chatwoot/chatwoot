@@ -49,6 +49,7 @@ export default {
       default: false,
     },
   },
+  emits: ['addLabel', 'toggleAccounts'],
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',

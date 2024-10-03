@@ -14,6 +14,7 @@ export default {
     EmptyState,
     Spinner,
   },
+  emits: ['reloadLocale'],
   data() {
     return {
       pageNumber: 1,

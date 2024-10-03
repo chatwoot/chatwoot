@@ -12,6 +12,7 @@ export default {
       default: undefined,
     },
   },
+  emits: ['pickTemplate', 'onSend', 'cancel'],
   data() {
     return {
       selectedWaTemplate: null,

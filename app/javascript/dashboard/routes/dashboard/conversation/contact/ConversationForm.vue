@@ -57,6 +57,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['cancel', 'success'],
   setup() {
     const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
       useUISettings();

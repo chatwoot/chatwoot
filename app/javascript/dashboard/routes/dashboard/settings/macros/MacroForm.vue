@@ -17,6 +17,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['submit'],
   setup() {
     const v$ = useVuelidate();
     provide('v$', v$);

@@ -8,6 +8,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['view'],
   methods: {
     onArticleClick(link) {
       this.$emit('view', link);

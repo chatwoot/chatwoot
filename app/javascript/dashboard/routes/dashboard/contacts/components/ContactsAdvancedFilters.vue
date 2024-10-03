@@ -36,6 +36,7 @@ export default {
       default: '',
     },
   },
+  emits: ['applyFilter', 'clearFilters'],
   setup() {
     const { setFilterAttributes } = useFilter({
       filteri18nKey: 'CONTACTS_FILTER',

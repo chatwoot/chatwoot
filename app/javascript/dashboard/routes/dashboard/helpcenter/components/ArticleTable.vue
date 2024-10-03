@@ -27,6 +27,7 @@ export default {
       default: 25,
     },
   },
+  emits: ['reorder', 'pageChange'],
   data() {
     return {
       localArticles: this.articles || [],

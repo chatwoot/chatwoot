@@ -48,6 +48,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'selectAllConversations',
+    'assignAgent',
+    'updateConversations',
+    'assignLabels',
+    'assignTeam',
+    'resolveConversations',
+  ],
   data() {
     return {
       showAgentsList: false,

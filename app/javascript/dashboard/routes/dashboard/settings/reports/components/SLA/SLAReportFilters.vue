@@ -8,6 +8,7 @@ export default {
   components: {
     SLAFilter,
   },
+  emits: ['filterChange'],
 
   data() {
     return {

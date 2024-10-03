@@ -41,12 +41,12 @@ export default {
     },
   },
   emits: [
-    'input',
-    'update:modelValue',
     'typingOn',
     'typingOff',
-    'focus',
+    'update:modelValue',
+    'input',
     'blur',
+    'focus',
   ],
   data() {
     return {

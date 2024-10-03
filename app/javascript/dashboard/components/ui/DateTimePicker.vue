@@ -17,6 +17,7 @@ export default {
       default: [],
     },
   },
+  emits: ['change'],
 
   methods: {
     handleChange(value) {

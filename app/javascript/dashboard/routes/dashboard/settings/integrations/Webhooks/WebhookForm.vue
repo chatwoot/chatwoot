@@ -32,6 +32,7 @@ export default {
       required: true,
     },
   },
+  emits: ['submit'],
   setup() {
     return { v$: useVuelidate() };
   },

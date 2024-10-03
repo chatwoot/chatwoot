@@ -22,6 +22,7 @@ export default {
       values: ['archived', 'draft', 'published'],
     },
   },
+  emits: ['addLocale', 'openSite'],
   setup() {
     const { updateUISettings } = useUISettings();
 

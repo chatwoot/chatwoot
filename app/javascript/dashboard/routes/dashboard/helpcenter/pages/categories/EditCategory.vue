@@ -27,6 +27,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update', 'cancel'],
   setup() {
     const show = defineModel('show', { type: Boolean, default: false });
     return { v$: useVuelidate(), show };

@@ -9,6 +9,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['update', 'createAttribute'],
 
   computed: {
     additionalAttributes() {

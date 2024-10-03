@@ -15,6 +15,7 @@ export default {
       default: false,
     },
   },
+  emits: ['redirect', 'filter'],
   data() {
     return {
       showInboxDisplayMenu: false,

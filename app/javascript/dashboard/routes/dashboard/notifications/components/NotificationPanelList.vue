@@ -27,6 +27,7 @@ export default {
       default: false,
     },
   },
+  emits: ['close'],
   computed: {
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;

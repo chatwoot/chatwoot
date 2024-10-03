@@ -29,6 +29,7 @@ export default {
       default: null,
     },
   },
+  emits: ['next', 'prev'],
   data() {
     return { showCustomSnoozeModal: false };
   },

@@ -28,6 +28,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['saveAutomation'],
   setup() {
     const {
       onEventChange,

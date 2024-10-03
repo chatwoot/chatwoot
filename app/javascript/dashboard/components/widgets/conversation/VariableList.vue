@@ -11,6 +11,7 @@ export default {
       default: '',
     },
   },
+  emits: ['selectVariable'],
   computed: {
     ...mapGetters({
       customAttributes: 'attributes/getAttributes',

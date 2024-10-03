@@ -10,6 +10,7 @@ export default {
       default: '',
     },
   },
+  emits: ['replace'],
   computed: {
     ...mapGetters({
       cannedMessages: 'getCannedResponses',

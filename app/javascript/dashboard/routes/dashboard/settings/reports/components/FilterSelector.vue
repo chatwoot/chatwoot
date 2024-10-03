@@ -52,6 +52,7 @@ export default {
       default: true,
     },
   },
+  emits: ['filterChange'],
   data() {
     return {
       // default value, need not be translated

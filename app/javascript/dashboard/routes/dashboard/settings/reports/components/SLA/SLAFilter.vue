@@ -15,6 +15,7 @@ export default {
     ActiveFilterChip,
     AddFilterChip,
   },
+  emits: ['filterChange'],
   data() {
     return {
       showDropdownMenu: false,

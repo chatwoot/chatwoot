@@ -43,6 +43,7 @@ export default {
       default: '',
     },
   },
+  emits: ['toggleAccounts', 'openNotificationPanel'],
   data() {
     return {
       helpDocsURL: wootConstants.DOCS_URL,

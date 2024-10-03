@@ -17,6 +17,7 @@ export default {
       default: false,
     },
   },
+  emits: ['close', 'openKeyShortcutModal'],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',

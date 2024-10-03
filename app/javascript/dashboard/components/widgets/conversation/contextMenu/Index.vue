@@ -37,6 +37,7 @@ export default {
       default: null,
     },
   },
+  emits: ['updateConversation', 'assignPriority'],
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,

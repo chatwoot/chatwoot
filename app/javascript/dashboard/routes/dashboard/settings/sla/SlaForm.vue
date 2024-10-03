@@ -19,6 +19,7 @@ export default {
       required: true,
     },
   },
+  emits: ['close', 'submitSla'],
   setup() {
     return { v$: useVuelidate() };
   },

@@ -31,6 +31,7 @@ export default {
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },
+  emits: ['update', 'delete', 'copy'],
   setup() {
     return { v$: useVuelidate() };
   },

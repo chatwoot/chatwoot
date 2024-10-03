@@ -27,6 +27,7 @@ export default {
       default: false,
     },
   },
+  emits: ['toggleAccountModal', 'showAddLabelPopup', 'openNotificationPanel'],
   setup(props, { emit }) {
     const route = useRoute();
     const router = useRouter();

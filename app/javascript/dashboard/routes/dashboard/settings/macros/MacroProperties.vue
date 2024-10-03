@@ -11,6 +11,7 @@ export default {
       default: 'global',
     },
   },
+  emits: ['update:name', 'update:visibility'],
   methods: {
     isActive(key) {
       return this.macroVisibility === key
