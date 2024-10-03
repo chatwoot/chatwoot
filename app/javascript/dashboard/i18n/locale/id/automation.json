@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Aktif",
-        "Dibuat pada"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "ACTIVE": "Aktif",
+        "CREATED_ON": "Dibuat pada"
+      },
       "404": "Tidak ada aturan otomatisasi ditemukan"
     },
     "DELETE": {
