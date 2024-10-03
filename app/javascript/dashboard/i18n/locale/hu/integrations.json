@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Nincs a fiókhoz rendelt Webhook.",
         "TITLE": "Webhook kezelés",
-        "TABLE_HEADER": [
-          "Webhook végpont",
-          "Műveletek"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook végpont",
+          "ACTIONS": "Műveletek"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Szerkesztés",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Ebben a fiókban még nincsenek konfigurálva kezdőlapi-alkalmazások",
         "LOADING": "Kezdőlapi alkalmazások lekérése...",
-        "TABLE_HEADER": [
-          "Név",
-          "Végpont"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Név",
+          "ENDPOINT": "Végpont"
+        },
         "EDIT_TOOLTIP": "App szerkesztése",
         "DELETE_TOOLTIP": "App törlése"
       },
