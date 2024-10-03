@@ -11,11 +11,11 @@
       "404": "No hay registros de auditoría disponibles en esta cuenta.",
       "TITLE": "Administrar registros de auditoría",
       "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Action",
-        "Dirección IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Action",
+        "IP_ADDRESS": "Dirección IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Registros de auditoria cargados satisfactoriamente",
