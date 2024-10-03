@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Sugó információk",
-            "route": "new_portal_information",
-            "body": "Általános információk a portálról",
-            "CREATE_BASIC_SETTING_BUTTON": "Portál általános beállításainak létrehozása"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Sugó információk",
+            "BODY": "Általános információk a portálról"
           },
-          {
-            "title": "Sugó testreszabása",
-            "route": "portal_customization",
-            "body": "Portál személyreszabása",
-            "UPDATE_PORTAL_BUTTON": "Portál beállítások frissítése"
+          "CUSTOMIZATION": {
+            "TITLE": "Sugó testreszabása",
+            "BODY": "Portál személyreszabása"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Kész is!",
-            "FINISH": "Befejezés"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Kész is!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Vissza",
           "BASIC_SETTINGS_PAGE": {
