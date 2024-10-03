@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Non ci sono caselle allegate a questo account."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Scegli il canale",
-        "route": "Nuovo",
-        "body": "Scegli il provider che vuoi integrare con Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Scegli il canale",
+        "BODY": "Scegli il provider che vuoi integrare con Chatwoot."
       },
-      {
-        "title": "Crea casella",
-        "route": "Canale",
-        "body": "Autentica il tuo account e creare una casella."
+      "INBOX": {
+        "TITLE": "Crea casella",
+        "BODY": "Autentica il tuo account e creare una casella."
       },
-      {
-        "title": "Aggiungi agenti",
-        "route": "Inboxes_add_agenti",
-        "body": "Aggiungi agenti alla casella creata."
+      "AGENT": {
+        "TITLE": "Aggiungi agenti",
+        "BODY": "Aggiungi agenti alla casella creata."
       },
-      {
-        "title": "Voilà!",
-        "route": "Finitura",
-        "body": "Sei pronto per iniziare!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Sei pronto per iniziare!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome casella",
