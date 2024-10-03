@@ -24,6 +24,7 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
+const isTestMode = process.env.TEST === 'true';
 
 const vueOptions = {
   template: {
@@ -33,8 +34,16 @@ const vueOptions = {
   },
 };
 
+let plugins = [ruby(), vue(vueOptions)];
+
+if (isLibraryMode) {
+  plugins = [];
+} else if (isTestMode) {
+  plugins = [vue(vueOptions)];
+}
+
 export default defineConfig({
-  plugins: isLibraryMode ? [] : [ruby(), vue(vueOptions)],
+  plugins: plugins,
   build: {
     rollupOptions: {
       output: {

@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import { useAlert, useTrack } from 'dashboard/composables';
 import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
@@ -11,17 +10,16 @@ import { CONTACTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 export default {
   components: { MergeContact },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     primaryContact: {
       type: Object,
       required: true,
     },
   },
-  emits: ['close'],
-  setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-
-    return { show };
-  },
+  emits: ['close', 'update:show'],
   data() {
     return {
       isSearching: false,
@@ -32,6 +30,14 @@ export default {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
     }),
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
   },
 
   methods: {
@@ -73,7 +79,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onClose">
+  <woot-modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('MERGE_CONTACTS.TITLE')"
       :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"
