@@ -209,6 +209,7 @@ module.exports = {
     'app/javascript/widget/helpers/actionCable.js',
     'app/javascript/widget/helpers/campaignTimer.js',
     'app/javascript/widget/helpers/utils.js',
+    'app/javascript/dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper.js',
   ],
   env: {
     browser: true,
