@@ -32,6 +32,7 @@ export default {
       required: true,
     },
   },
+  emits: ['submitWebhook', 'cancel'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$emit('submit', {
+      this.$emit('submitWebhook', {
         url: this.url,
         subscriptions: this.subscriptions,
       });
