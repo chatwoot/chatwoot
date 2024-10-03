@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Navn",
-        "Beskrivelse",
-        "Active",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "ACTIVE": "Active",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {
