@@ -26,6 +26,7 @@ const isFooterVisible = computed(
 );
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <footer
     v-if="isFooterVisible"

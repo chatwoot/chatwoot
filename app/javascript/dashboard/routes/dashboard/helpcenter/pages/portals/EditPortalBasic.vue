@@ -70,6 +70,7 @@ async function deleteLogo() {
 }
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <PortalSettingsBasicForm
     v-if="currentPortal"
