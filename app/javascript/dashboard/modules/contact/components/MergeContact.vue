@@ -115,9 +115,11 @@ export default {
                 :phone-number="props.option.phone_number"
               />
             </template>
-            <span slot="noResult">
-              {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
-            </span>
+            <template #noResult>
+              <span>
+                {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
+              </span>
+            </template>
           </multiselect>
           <span v-if="v$.parentContact.$error" class="message">
             {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
