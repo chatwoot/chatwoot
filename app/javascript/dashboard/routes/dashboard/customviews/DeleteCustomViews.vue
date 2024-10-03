@@ -94,7 +94,7 @@ export default {
   <div>
     <woot-delete-modal
       v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :on-close="closeDeletePopup"
       :on-confirm="deleteSavedCustomViews"
       :title="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.TITLE')"

@@ -44,7 +44,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel">
+  <woot-modal v-model:show="show" :on-close="onCancel">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('NEW_CONVERSATION.TITLE')"

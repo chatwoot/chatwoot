@@ -21,7 +21,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'update:show']);
+
+const localShow = computed({
+  get: () => props.show,
+  set: value => emit('update:show', value),
+});
 
 const getters = useStoreGetters();
 
@@ -212,7 +217,7 @@ onMounted(() => {
 <template>
   <woot-modal
     full-width
-    :show.sync="show"
+    v-model:show="localShow"
     :show-close-button="false"
     :on-close="onClose"
   >

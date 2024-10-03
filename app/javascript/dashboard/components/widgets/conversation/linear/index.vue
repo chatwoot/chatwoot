@@ -122,7 +122,7 @@ onMounted(() => {
       @unlinkIssue="unlinkIssue"
     />
     <woot-modal
-      :show.sync="shouldShowPopup"
+      v-model:show="shouldShowPopup"
       :on-close="closePopup"
       :close-on-backdrop-click="false"
       class="!items-start [&>div]:!top-12 [&>div]:sticky"

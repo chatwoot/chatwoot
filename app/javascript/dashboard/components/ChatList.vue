@@ -878,7 +878,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       </DynamicScroller>
     </div>
     <woot-modal
-      :show.sync="showAdvancedFilters"
+      v-model:show="showAdvancedFilters"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >

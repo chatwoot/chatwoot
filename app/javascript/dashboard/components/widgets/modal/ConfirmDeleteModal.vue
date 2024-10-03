@@ -67,7 +67,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="closeModal">
+  <Modal v-model:show="show" :on-close="closeModal">
     <woot-modal-header :header-title="title" :header-content="message" />
     <form @submit.prevent="onConfirm">
       <woot-input

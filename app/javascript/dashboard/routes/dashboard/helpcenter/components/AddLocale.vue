@@ -98,7 +98,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"

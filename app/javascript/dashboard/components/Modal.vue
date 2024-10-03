@@ -15,6 +15,11 @@ const { show, modalType, closeOnBackdropClick, onClose } = defineProps({
 
 const emit = defineEmits(['close']);
 
+const localShow = computed({
+  get: () => show,
+  set: value => emit('update:show', value),
+});
+
 const modalClassName = computed(() => {
   const modalClassNameMap = {
     centered: '',
@@ -32,6 +37,7 @@ const handleMouseDown = () => {
 };
 
 const close = () => {
+  localShow.value = false;
   emit('close');
   onClose();
 };
@@ -40,14 +46,14 @@ const onMouseUp = () => {
   if (mousedDownOnBackdrop.value) {
     mousedDownOnBackdrop.value = false;
     if (closeOnBackdropClick) {
-      onClose();
+      close();
     }
   }
 };
 
 const onKeydown = e => {
   if (show && e.code === 'Escape') {
-    onClose();
+    close();
     e.stopPropagation();
   }
 };
@@ -68,7 +74,7 @@ onMounted(() => {
 <template>
   <transition name="modal-fade">
     <div
-      v-if="show"
+      v-if="localShow"
       :class="modalClassName"
       transition="modal"
       @mousedown="handleMouseDown"

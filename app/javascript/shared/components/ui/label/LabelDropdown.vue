@@ -170,7 +170,7 @@ export default {
           </woot-button>
 
           <woot-modal
-            :show.sync="createModalVisible"
+            v-model:show="createModalVisible"
             :on-close="hideCreateModal"
           >
             <AddLabelModal

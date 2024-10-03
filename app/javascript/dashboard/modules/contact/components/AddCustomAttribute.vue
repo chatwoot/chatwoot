@@ -63,7 +63,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CUSTOM_ATTRIBUTES.ADD.TITLE')"
       :header-content="$t('CUSTOM_ATTRIBUTES.ADD.DESC')"

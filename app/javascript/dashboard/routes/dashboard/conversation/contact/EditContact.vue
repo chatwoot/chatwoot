@@ -43,7 +43,11 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
+  <woot-modal
+    v-model:show="show"
+    :on-close="onCancel"
+    modal-type="right-aligned"
+  >
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="`${$t('EDIT_CONTACT.TITLE')} - ${
