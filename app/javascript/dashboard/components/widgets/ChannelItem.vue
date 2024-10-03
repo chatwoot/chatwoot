@@ -12,6 +12,7 @@ export default {
       required: true,
     },
   },
+  emits: ['channelItemClick'],
   computed: {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;

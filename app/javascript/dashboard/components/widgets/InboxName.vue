@@ -5,7 +5,7 @@ export default {
   props: {
     inbox: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
   },
   computed: {

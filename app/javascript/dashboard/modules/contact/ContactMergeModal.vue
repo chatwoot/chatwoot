@@ -16,6 +16,7 @@ export default {
       required: true,
     },
   },
+  emits: ['close'],
   setup() {
     const show = defineModel('show', { type: Boolean, default: false });
 

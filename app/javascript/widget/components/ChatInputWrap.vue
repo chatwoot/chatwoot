@@ -76,7 +76,7 @@ export default {
       }
     },
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {
@@ -149,8 +149,8 @@ export default {
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
       :class="inputColor"
-      @typingOff="onTypingOff"
-      @typingOn="onTypingOn"
+      @typing-off="onTypingOff"
+      @typing-on="onTypingOn"
       @focus="onFocus"
       @blur="onBlur"
     />

@@ -84,7 +84,7 @@ export default {
     <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditCampaign
         :selected-campaign="selectedCampaign"
-        @onClose="hideEditPopup"
+        @on-close="hideEditPopup"
       />
     </woot-modal>
     <woot-delete-modal

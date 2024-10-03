@@ -35,6 +35,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['saveAutomation'],
   setup() {
     const {
       onEventChange,
@@ -222,7 +223,7 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="
+              @reset-filter="
                 resetFilter(
                   automation,
                   automationTypes,
@@ -230,7 +231,7 @@ export default {
                   automation.conditions[i]
                 )
               "
-              @removeFilter="removeFilter(automation, i)"
+              @remove-filter="removeFilter(automation, i)"
             />
             <div class="mt-4">
               <woot-button
@@ -269,8 +270,8 @@ export default {
                   : ''
               "
               :initial-file-name="getFileName(action, automation.files)"
-              @resetAction="resetAction(automation, i)"
-              @removeAction="removeAction(automation, i)"
+              @reset-action="resetAction(automation, i)"
+              @remove-action="removeAction(automation, i)"
             />
             <div class="mt-4">
               <woot-button

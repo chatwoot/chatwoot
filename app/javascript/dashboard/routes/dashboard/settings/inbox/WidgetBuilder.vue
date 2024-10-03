@@ -276,8 +276,8 @@ export default {
               "
               :src="avatarUrl"
               delete-avatar
-              @onAvatarSelect="handleImageUpload"
-              @onAvatarDelete="handleAvatarDelete"
+              @on-avatar-select="handleImageUpload"
+              @on-avatar-delete="handleAvatarDelete"
             />
             <woot-input
               v-model="websiteName"

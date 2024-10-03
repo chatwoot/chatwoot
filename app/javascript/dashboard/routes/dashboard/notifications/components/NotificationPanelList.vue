@@ -27,6 +27,7 @@ export default {
       default: false,
     },
   },
+  emits: ['close'],
   computed: {
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
@@ -52,7 +53,7 @@ export default {
       v-show="!isLoading"
       :key="notificationItem.id"
       :notification-item="notificationItem"
-      @openNotification="onClickNotification"
+      @open-notification="onClickNotification"
     />
     <EmptyState
       v-if="showEmptyResult"

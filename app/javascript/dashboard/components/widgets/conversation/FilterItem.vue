@@ -18,6 +18,7 @@ export default {
       required: true,
     },
   },
+  emits: ['onChangeFilter'],
   data() {
     return {
       activeValue: this.selectedValue,

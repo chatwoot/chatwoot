@@ -25,6 +25,7 @@ export default {
       default: '',
     },
   },
+  emits: ['fetchPortal', 'openPortalPage'],
   data() {
     return {
       selectedLocale: null,

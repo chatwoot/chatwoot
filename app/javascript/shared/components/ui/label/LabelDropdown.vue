@@ -26,6 +26,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update', 'add', 'remove'],
 
   data() {
     return {

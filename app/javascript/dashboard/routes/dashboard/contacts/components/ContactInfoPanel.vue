@@ -86,8 +86,8 @@ export default {
       :show-avatar="showAvatar"
       :contact="contact"
       close-icon-name="dismiss"
-      @panelClose="onClose"
-      @togglePanel="onClose"
+      @panel-close="onClose"
+      @toggle-panel="onClose"
     />
     <div class="list-group">
       <Draggable

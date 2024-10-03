@@ -8,6 +8,7 @@ export default {
   components: {
     NotificationPanelList,
   },
+  emits: ['close'],
   data() {
     return {
       pageSize: 15,

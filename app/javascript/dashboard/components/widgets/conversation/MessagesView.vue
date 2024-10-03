@@ -52,6 +52,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();

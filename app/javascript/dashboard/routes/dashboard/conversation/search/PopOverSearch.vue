@@ -19,6 +19,7 @@ export default {
       required: true,
     },
   },
+  emits: ['toggleConversationLayout'],
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
