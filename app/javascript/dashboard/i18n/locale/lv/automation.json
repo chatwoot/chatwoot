@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Aktīvs",
-        "Izveidots"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "ACTIVE": "Aktīvs",
+        "CREATED_ON": "Izveidots"
+      },
       "404": "Automatizācijas noteikumi nav atrasti"
     },
     "DELETE": {
