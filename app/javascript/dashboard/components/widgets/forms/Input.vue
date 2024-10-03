@@ -38,7 +38,8 @@ export default {
       default: () => {},
     },
   },
-  created() {
+  emits: ['update:modelValue', 'input', 'blur'],
+  mounted() {
     // eslint-disable-next-line
     console.warn(
       '[DEPRECATED] <WootInput> has be deprecated and will be removed soon. Please use v3/components/Form/Input.vue instead'

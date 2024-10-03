@@ -17,6 +17,7 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
+  emits: ['replaceText'],
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
 
@@ -137,19 +138,19 @@ export default {
         @click="openAIAssist"
       />
       <woot-modal
-        :show.sync="showAIAssistanceModal"
+        v-model:show="showAIAssistanceModal"
         :on-close="hideAIAssistanceModal"
       >
         <AIAssistanceModal
           :ai-option="aiOption"
-          @applyText="insertText"
+          @apply-text="insertText"
           @close="hideAIAssistanceModal"
         />
       </woot-modal>
     </div>
     <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
       <AIAssistanceCTAButton @click="openAICta" />
-      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
+      <woot-modal v-model:show="showAICtaModal" :on-close="hideAICtaModal">
         <AICTAModal @close="hideAICtaModal" />
       </woot-modal>
     </div>

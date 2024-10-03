@@ -16,6 +16,7 @@ export default {
       default: false,
     },
   },
+  emits: ['onClose'],
   setup() {
     return { v$: useVuelidate() };
   },

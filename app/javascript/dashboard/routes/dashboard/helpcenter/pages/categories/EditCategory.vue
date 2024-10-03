@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import { required, minLength } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -9,10 +10,6 @@ import CategoryNameIconInput from './NameEmojiInput.vue';
 export default {
   components: { CategoryNameIconInput },
   props: {
-    show: {
-      type: Boolean,
-      default: true,
-    },
     portalName: {
       type: String,
       default: '',
@@ -30,8 +27,10 @@ export default {
       default: '',
     },
   },
+  emits: ['update', 'cancel'],
   setup() {
-    return { v$: useVuelidate() };
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { v$: useVuelidate(), show };
   },
   data() {
     return {
@@ -120,9 +119,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.EDIT.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.EDIT.SUB_TITLE')"
@@ -151,8 +149,8 @@ export default {
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
           :existing-name="category.name"
           :saved-icon="category.icon"
-          @nameChange="changeName"
-          @iconChange="onClickInsertEmoji"
+          @name-change="changeName"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model="slug"

@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import ConversationForm from './ConversationForm.vue';
 
 export default {
@@ -6,14 +7,15 @@ export default {
     ConversationForm,
   },
   props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
     contact: {
       type: Object,
       default: () => ({}),
     },
+  },
+  emits: ['cancel'],
+  setup() {
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { show };
   },
   watch: {
     'contact.id'(id) {
@@ -42,9 +44,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel">
+  <woot-modal v-model:show="show" :on-close="onCancel">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('NEW_CONVERSATION.TITLE')"

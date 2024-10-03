@@ -220,7 +220,7 @@ export default {
           v-if="query"
           :tabs="tabs"
           :selected-tab="activeTabIndex"
-          @tabChange="tab => (selectedTab = tab)"
+          @tab-change="tab => (selectedTab = tab)"
         />
       </header>
       <div class="search-results">

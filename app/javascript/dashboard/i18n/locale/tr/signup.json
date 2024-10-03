@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "İş emaili",
-      "PLACEHOLDER": "İş email adresinizi girin. Örneğin, bruce@wayne.enterprises",
+      "PLACEHOLDER": "İş email adresinizi girin. Örneğin, bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Lütfen geçerli bir iş email adresi girin."
     },
     "PASSWORD": {

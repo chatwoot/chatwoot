@@ -22,11 +22,14 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasBanner: {
-      type: Boolean,
-      default: false,
-    },
   },
+  emits: [
+    'toggleAccountModal',
+    'showAddLabelPopup',
+    'openNotificationPanel',
+    'closeKeyShortcutModal',
+    'openKeyShortcutModal',
+  ],
   setup(props, { emit }) {
     const route = useRoute();
     const router = useRouter();
@@ -217,9 +220,9 @@ export default {
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       :active-menu-item="activePrimaryMenu.key"
-      @toggleAccounts="toggleAccountModal"
-      @openKeyShortcutModal="toggleKeyShortcutModal"
-      @openNotificationPanel="openNotificationPanel"
+      @toggle-accounts="toggleAccountModal"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
     />
     <SecondarySidebar
       v-if="hasSecondarySidebar"
@@ -231,8 +234,8 @@ export default {
       :menu-config="activeSecondaryMenu"
       :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @addLabel="showAddLabelPopup"
-      @toggleAccounts="toggleAccountModal"
+      @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
     />
   </aside>
 </template>

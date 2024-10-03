@@ -291,10 +291,10 @@ export default {
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
     <Sidebar
       :route="currentRoute"
-      @toggleAccountModal="toggleAccountModal"
-      @openNotificationPanel="openNotificationPanel"
-      @openKeyShortcutModal="toggleKeyShortcutModal"
-      @closeKeyShortcutModal="closeKeyShortcutModal"
+      @toggle-account-modal="toggleAccountModal"
+      @open-notification-panel="openNotificationPanel"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @close-key-shortcut-modal="closeKeyShortcutModal"
     />
     <HelpCenterSidebar
       v-if="showHelpCenterSidebar"
@@ -304,18 +304,18 @@ export default {
       :sub-title="localeName(selectedLocaleInPortal)"
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
-      @openPopover="openPortalPopover"
-      @openModal="onClickOpenAddCategoryModal"
+      @open-popover="openPortalPopover"
+      @open-modal="onClickOpenAddCategoryModal"
     />
     <section
       v-if="isHelpCenterEnabled"
       class="flex flex-1 h-full px-0 overflow-hidden bg-white dark:bg-slate-900"
     >
-      <router-view @reloadLocale="fetchPortalAndItsCategories" />
+      <router-view @reload-locale="fetchPortalAndItsCategories" />
       <CommandBar />
       <AccountSelector
         :show-account-modal="showAccountModal"
-        @closeAccountModal="toggleAccountModal"
+        @close-account-modal="toggleAccountModal"
       />
       <WootKeyShortcutModal
         v-if="showShortcutModal"
@@ -331,12 +331,12 @@ export default {
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
         :active-locale="selectedLocaleInPortal"
-        @fetchPortal="fetchPortalAndItsCategories"
-        @closePopover="closePortalPopover"
+        @fetch-portal="fetchPortalAndItsCategories"
+        @close-popover="closePortalPopover"
       />
       <AddCategory
         v-if="showAddCategoryModal"
-        :show.sync="showAddCategoryModal"
+        v-model:show="showAddCategoryModal"
         :portal-name="selectedPortalName"
         :locale="selectedLocaleInPortal"
         :portal-slug="selectedPortalSlug"

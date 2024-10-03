@@ -1,5 +1,6 @@
 <script>
 export default {
+  emits: ['input'],
   data() {
     return {
       searchValue: '',

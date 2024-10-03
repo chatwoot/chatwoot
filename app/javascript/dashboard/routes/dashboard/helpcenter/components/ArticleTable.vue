@@ -27,6 +27,7 @@ export default {
       default: 25,
     },
   },
+  emits: ['reorder', 'pageChange'],
   data() {
     return {
       localArticles: this.articles || [],
@@ -151,7 +152,7 @@ export default {
       :total-count="totalCount"
       :page-size="pageSize"
       class="bottom-0 border-t dark:bg-slate-900 border-slate-75 dark:border-slate-700/50"
-      @pageChange="onPageChange"
+      @page-change="onPageChange"
     />
   </div>
 </template>

@@ -21,6 +21,7 @@ export default {
       default: '',
     },
   },
+  emits: ['unit', 'isInValid', 'updateThreshold'],
   setup() {
     return { v$: useVuelidate() };
   },

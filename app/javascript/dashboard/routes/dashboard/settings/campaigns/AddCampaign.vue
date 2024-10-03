@@ -14,6 +14,7 @@ export default {
     WootDateTimePicker,
     WootMessageEditor,
   },
+  emits: ['onClose'],
   setup() {
     const { campaignType, isOngoingType, isOneOffType } = useCampaign();
     return { v$: useVuelidate(), campaignType, isOngoingType, isOneOffType };

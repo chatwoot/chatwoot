@@ -67,7 +67,7 @@ const closeDropdown = () => emit('closeDropdown');
         :enable-search="enableSearch"
         class="flex flex-col w-[240px] overflow-y-auto left-0 md:left-auto md:right-0 top-10"
         @select="addFilter"
-        @removeFilter="removeFilter"
+        @remove-filter="removeFilter"
       />
     </template>
   </FilterButton>

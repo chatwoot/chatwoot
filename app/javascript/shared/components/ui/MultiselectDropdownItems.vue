@@ -32,6 +32,7 @@ export default {
       default: 'No results found',
     },
   },
+  emits: ['select'],
 
   data() {
     return {

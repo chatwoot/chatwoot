@@ -3,9 +3,8 @@
 import { ref, computed, defineEmits, onMounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
 
-const { show, modalType, closeOnBackdropClick, onClose } = defineProps({
+const { modalType, closeOnBackdropClick, onClose } = defineProps({
   closeOnBackdropClick: { type: Boolean, default: true },
-  show: Boolean,
   showCloseButton: { type: Boolean, default: true },
   onClose: { type: Function, required: true },
   fullWidth: { type: Boolean, default: false },
@@ -14,6 +13,7 @@ const { show, modalType, closeOnBackdropClick, onClose } = defineProps({
 });
 
 const emit = defineEmits(['close']);
+const show = defineModel('show', { type: Boolean, default: false });
 
 const modalClassName = computed(() => {
   const modalClassNameMap = {
@@ -32,6 +32,7 @@ const handleMouseDown = () => {
 };
 
 const close = () => {
+  show.value = false;
   emit('close');
   onClose();
 };
@@ -40,14 +41,14 @@ const onMouseUp = () => {
   if (mousedDownOnBackdrop.value) {
     mousedDownOnBackdrop.value = false;
     if (closeOnBackdropClick) {
-      onClose();
+      close();
     }
   }
 };
 
 const onKeydown = e => {
-  if (show && e.code === 'Escape') {
-    onClose();
+  if (show.value && e.code === 'Escape') {
+    close();
     e.stopPropagation();
   }
 };
