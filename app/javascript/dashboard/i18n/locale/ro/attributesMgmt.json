@@ -92,12 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nume",
-        "Descriere",
-        "Tip",
-        "Cheie"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "DESCRIPTION": "Descriere",
+        "TYPE": "Tip",
+        "KEY": "Cheie"
+      },
       "BUTTONS": {
         "EDIT": "Editare",
         "DELETE": "Şterge"
