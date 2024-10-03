@@ -36,9 +36,9 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
-    - name: setup env
+      - name: setup env
         run: |
-        cp .env.example .env
+          cp .env.example .env
  
       - name: Run asset compile
         run: bundle exec rake assets:precompile
