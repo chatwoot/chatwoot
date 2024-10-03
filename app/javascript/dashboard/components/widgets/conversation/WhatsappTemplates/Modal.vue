@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import TemplatesPicker from './TemplatesPicker.vue';
 import TemplateParser from './TemplateParser.vue';
 export default {
@@ -11,10 +12,12 @@ export default {
       type: Number,
       default: undefined,
     },
-    show: {
-      type: Boolean,
-      default: true,
-    },
+  },
+  emits: ['onSend', 'cancel'],
+  setup() {
+    const show = defineModel('show', { type: Boolean, default: false });
+
+    return { show };
   },
   data() {
     return {
@@ -47,9 +50,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose" size="modal-big">
+  <woot-modal v-model:show="show" :on-close="onClose" size="modal-big">
     <woot-modal-header
       :header-title="$t('WHATSAPP_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"
@@ -58,13 +60,13 @@ export default {
       <TemplatesPicker
         v-if="!selectedWaTemplate"
         :inbox-id="inboxId"
-        @onSelect="pickTemplate"
+        @on-select="pickTemplate"
       />
       <TemplateParser
         v-else
         :template="selectedWaTemplate"
-        @resetTemplate="onResetTemplate"
-        @sendMessage="onSendMessage"
+        @reset-template="onResetTemplate"
+        @send-message="onSendMessage"
       />
     </div>
   </woot-modal>

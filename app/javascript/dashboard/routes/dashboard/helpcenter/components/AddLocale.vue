@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import Modal from 'dashboard/components/Modal.vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -12,17 +13,15 @@ export default {
     Modal,
   },
   props: {
-    show: {
-      type: Boolean,
-      default: true,
-    },
     portal: {
       type: Object,
       default: () => ({}),
     },
   },
+  emits: ['cancel'],
   setup() {
-    return { v$: useVuelidate() };
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { v$: useVuelidate(), show };
   },
   data() {
     return {
@@ -96,9 +95,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"

@@ -1,5 +1,6 @@
 <script>
-import { defineAsyncComponent } from 'vue';
+// [TODO] The popout events are needlessly complex and should be simplified
+import { defineAsyncComponent, defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -65,12 +66,7 @@ export default {
     ArticleSearchPopover,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
-  props: {
-    popoutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  emits: ['update:popoutReplyBox', 'togglePopout'],
   setup() {
     const {
       uiSettings,
@@ -79,8 +75,14 @@ export default {
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
+    const popoutReplyBox = defineModel('popoutReplyBox', {
+      type: Boolean,
+      default: false,
+    });
+
     return {
       uiSettings,
+      popoutReplyBox,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -1081,15 +1083,15 @@ export default {
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       has-action-button
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-      @primaryAction="onClickSelfAssign"
+      @primary-action="onClickSelfAssign"
     />
     <ReplyTopPanel
       :mode="replyType"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
-      @setReplyMode="setReplyMode"
-      @togglePopout="$emit('togglePopout')"
+      @set-reply-mode="setReplyMode"
+      @toggle-popout="$emit('togglePopout')"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"

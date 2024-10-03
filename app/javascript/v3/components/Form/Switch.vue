@@ -3,6 +3,7 @@ export default {
   props: {
     value: { type: Boolean, default: false },
   },
+  emits: ['input'],
   methods: {
     onClick() {
       this.$emit('input', !this.value);

@@ -37,6 +37,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['input', 'openPopover', 'openModal'],
   computed: {
     hasCategory() {
       return (

@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import ContactForm from './ContactForm.vue';
 
@@ -6,13 +7,12 @@ export default {
   components: {
     ContactForm,
   },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  emits: ['cancel'],
+  setup() {
+    const show = defineModel('show', { type: Boolean, default: false });
 
+    return { show };
+  },
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
@@ -33,9 +33,12 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
+  <woot-modal
+    v-model:show="show"
+    :on-close="onCancel"
+    modal-type="right-aligned"
+  >
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('CREATE_CONTACT.TITLE')"

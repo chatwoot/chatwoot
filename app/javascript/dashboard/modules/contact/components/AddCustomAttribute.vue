@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import Modal from 'dashboard/components/Modal.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -8,17 +9,15 @@ export default {
     Modal,
   },
   props: {
-    show: {
-      type: Boolean,
-      default: true,
-    },
     isCreating: {
       type: Boolean,
       default: false,
     },
   },
+  emits: ['create', 'cancel'],
   setup() {
-    return { v$: useVuelidate() };
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { v$: useVuelidate(), show };
   },
   data() {
     return {
@@ -61,9 +60,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CUSTOM_ATTRIBUTES.ADD.TITLE')"
       :header-content="$t('CUSTOM_ATTRIBUTES.ADD.DESC')"

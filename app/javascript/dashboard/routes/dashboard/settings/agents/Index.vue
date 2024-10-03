@@ -255,11 +255,11 @@ const confirmDeletion = () => {
       </table>
     </template>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <AddAgent @close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditAgent
         v-if="showEditPopup"
         :id="currentAgent.id"
@@ -273,7 +273,7 @@ const confirmDeletion = () => {
     </woot-modal>
 
     <woot-delete-modal
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('AGENT_MGMT.DELETE.CONFIRM.TITLE')"

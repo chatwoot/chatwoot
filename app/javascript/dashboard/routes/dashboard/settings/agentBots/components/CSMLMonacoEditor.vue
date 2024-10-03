@@ -10,6 +10,7 @@ export default {
       default: '',
     },
   },
+  emits: ['input'],
   data() {
     return {
       iframeLoading: true,

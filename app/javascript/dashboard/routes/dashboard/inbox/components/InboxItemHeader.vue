@@ -147,7 +147,7 @@ export default {
       </woot-button>
     </div>
     <woot-modal
-      :show.sync="showCustomSnoozeModal"
+      v-model:show="showCustomSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
       <CustomSnoozeModal

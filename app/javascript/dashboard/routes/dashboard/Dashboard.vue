@@ -178,7 +178,7 @@ export default {
         @closeAccountCreateModal="closeCreateAccountModal"
       />
       <WootKeyShortcutModal
-        :show.sync="showShortcutModal"
+        v-model:show="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
@@ -186,7 +186,10 @@ export default {
         v-if="isNotificationPanel"
         @close="closeNotificationPanel"
       />
-      <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
+      <woot-modal
+        v-model:show="showAddLabelModal"
+        :on-close="hideAddLabelPopup"
+      >
         <AddLabelModal @close="hideAddLabelPopup" />
       </woot-modal>
     </main>

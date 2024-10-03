@@ -440,8 +440,8 @@ export default {
             </label>
             <ReplyEmailHead
               v-if="isAnEmailInbox"
-              :cc-emails.sync="ccEmails"
-              :bcc-emails.sync="bccEmails"
+              v-model:cc-emails="ccEmails"
+              v-model:bcc-emails="bccEmails"
             />
             <div class="editor-wrap">
               <WootMessageEditor
