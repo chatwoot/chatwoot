@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/recommended'],
+  extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/vue3-recommended'],
   plugins: ['html', 'prettier'],
   rules: {
     'prettier/prettier': ['error'],
