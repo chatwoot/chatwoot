@@ -8,28 +8,24 @@
     "LIST": {
       "404": "Det er ingen innbokser tilknyttet denne kontoen."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Velg kanal",
-        "route": "settings_inbox_new",
-        "body": "Velg tilbyderen du vil integrere med Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Velg kanal",
+        "BODY": "Velg tilbyderen du vil integrere med Chatwoot."
       },
-      {
-        "title": "Opprett innboks",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autoriser din konto og opprett en innboks."
+      "INBOX": {
+        "TITLE": "Opprett innboks",
+        "BODY": "Autoriser din konto og opprett en innboks."
       },
-      {
-        "title": "Legg til agenter",
-        "route": "settings_inboxes_add_agents",
-        "body": "Legg agenter til i den opprettede innboksen."
+      "AGENT": {
+        "TITLE": "Legg til agenter",
+        "BODY": "Legg agenter til i den opprettede innboksen."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Klar - ferdig - gå!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Klar - ferdig - gå!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Navn på innboks",
