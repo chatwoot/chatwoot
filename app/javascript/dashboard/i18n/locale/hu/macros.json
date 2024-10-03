@@ -25,12 +25,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Név",
-        "Létrehozta",
-        "Utoljára szerkesztette:",
-        "Láthatóság"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "CREATED BY": "Létrehozta",
+        "LAST_UPDATED_BY": "Utoljára szerkesztette:",
+        "VISIBILITY": "Láthatóság"
+      },
       "404": "Nem találtunk makrót"
     },
     "DELETE": {
