@@ -11,11 +11,11 @@
       "404": "Šiai paskyrai nėra prieinamų Audito Žurnalų.",
       "TITLE": "Tvarkyti Audito Žurnalus",
       "DESC": "Audito žurnalai yra įvykių ir veiksmų „Chatwoot“ sistemoje pėdsakai.",
-      "TABLE_HEADER": [
-        "Vartotojas",
-        "Action",
-        "IP Adresas"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Vartotojas",
+        "TIME": "Action",
+        "IP_ADDRESS": "IP Adresas"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Audito Žurnalai parsiųsti sėkmingai",
