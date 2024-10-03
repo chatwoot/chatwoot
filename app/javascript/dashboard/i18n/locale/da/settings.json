@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Tilgængelighed",
-        "STATUSES_LIST": [
-          "Online",
-          "Optaget",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Optaget",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
