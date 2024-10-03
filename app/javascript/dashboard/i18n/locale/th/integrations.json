@@ -47,10 +47,10 @@
       "LIST": {
         "404": "ไม่มีการตั้งค่า Webhooks กับบัญชีนี้",
         "TITLE": "จัดการ Webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "การกระทำ"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "การกระทำ"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "เเก้ไข",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "ชื่อ",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "ชื่อ",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
