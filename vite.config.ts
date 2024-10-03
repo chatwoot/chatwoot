@@ -86,10 +86,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: [
-      'app/javascript/dashboard/routes/dashboard/settings/inbox/helpers/specs/businessHour.spec.js',
-      'app/**/*.{test,spec}.?(c|m)[jt]s?(x)',
-    ],
+    include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
     coverage: {
       reporter: ['lcov', 'text'],
       include: ['app/**/*.js', 'app/**/*.vue'],
