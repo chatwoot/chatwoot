@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nom",
-        "Description",
-        "Actif",
-        "Créé le"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "ACTIVE": "Actif",
+        "CREATED_ON": "Créé le"
+      },
       "404": "Aucune règle d'automatisation trouvée"
     },
     "DELETE": {
