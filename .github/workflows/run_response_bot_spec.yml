@@ -49,13 +49,9 @@ jobs:
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-    # ensure pnpm is installed and available 
-    - name: Install pnpm
-      run: |
-        if ! command -v pnpm &> /dev/null; then
-          echo "pnpm could not be found, installing..."
-          npm install -g pnpm
-        fi
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 6.32.9
 
     - uses: actions/setup-node@v4
       with:
