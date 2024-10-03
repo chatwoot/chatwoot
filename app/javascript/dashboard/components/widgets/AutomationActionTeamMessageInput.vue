@@ -3,6 +3,7 @@ export default {
   // The value types are dynamic, hence prop validation removed to work with our action schema
   // eslint-disable-next-line vue/require-prop-types
   props: ['teams', 'value'],
+  emits: ['input'],
   data() {
     return {
       selectedTeams: [],
@@ -40,7 +41,7 @@ export default {
         :max-height="160"
         :options="teams"
         :allow-empty="false"
-        @input="updateValue"
+        @update:model-value="updateValue"
       />
       <textarea
         v-model="message"

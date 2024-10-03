@@ -1,7 +1,7 @@
 import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
-import VTooltip from 'v-tooltip';
+import FloatingVue from 'floating-vue';
 import Button from 'dashboard/components/buttons/Button.vue';
 import i18n from 'dashboard/i18n';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
@@ -20,7 +20,7 @@ import { emitter } from 'shared/helpers/mitt';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
-localVue.use(VTooltip);
+localVue.use(FloatingVue);
 
 localVue.component('fluent-icon', FluentIcon);
 localVue.component('woot-button', Button);

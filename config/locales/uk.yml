@@ -29,6 +29,7 @@ uk:
       invalid: Недійсні події
     signup:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
       invalid_params: 'Неправильно, будь ласка, перевірте параметри реєстрації та повторіть спробу'

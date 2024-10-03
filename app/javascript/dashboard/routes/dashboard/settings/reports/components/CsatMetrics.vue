@@ -2,11 +2,10 @@
 import { mapGetters } from 'vuex';
 import CsatMetricCard from './ReportMetricCard.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
+import BarChart from 'shared/components/charts/BarChart.vue';
 
 export default {
-  components: {
-    CsatMetricCard,
-  },
+  components: { BarChart, CsatMetricCard },
   props: {
     filters: {
       type: Object,
@@ -43,6 +42,33 @@ export default {
       return this.metrics.totalResponseCount
         ? this.metrics.totalResponseCount.toLocaleString()
         : '--';
+    },
+    chartOptions() {
+      return {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: false,
+          },
+          tooltip: {
+            enabled: false,
+          },
+        },
+        scales: {
+          x: {
+            display: false,
+            stacked: true,
+          },
+          y: {
+            display: false,
+            stacked: true,
+          },
+        },
+      };
     },
   },
   methods: {
@@ -84,7 +110,7 @@ export default {
 
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
-      ref="csatHorizontalBarChart"
+      ref="csatBarChart"
       class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial] p-4"
     >
       <h3
@@ -101,8 +127,8 @@ export default {
           </div>
         </div>
       </h3>
-      <div class="mt-2">
-        <woot-horizontal-bar :collection="chartData" :height="24" />
+      <div class="mt-2 h-6">
+        <BarChart :collection="chartData" :chart-options="chartOptions" />
       </div>
     </div>
   </div>

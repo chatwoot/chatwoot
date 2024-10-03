@@ -1,11 +1,11 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Caixa de Entrada",
+      "TITLE": "Caixa de entrada",
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "A obter notificações",
       "404": "Não há notificações ativas neste grupo.",
-      "NO_NOTIFICATIONS": "Sem Notificações",
+      "NO_NOTIFICATIONS": "Sem notificações",
       "NOTE": "Notificações de todas as caixas subscritas",
       "NO_MESSAGES_AVAILABLE": "Oops! Não foi possível importar mensagens",
       "SNOOZED_UNTIL": "Suspender até",
@@ -21,20 +21,20 @@
       "CONVERSATION_MENTION": "Foi mencionado numa conversa",
       "CONVERSATION_CREATION": "Nova conversa criada",
       "CONVERSATION_ASSIGNMENT": "Foi-lhe atribuída uma conversa",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem nesta conversa atribuída",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa em que você está participando",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem numa conversa que lhe está atribuída",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem numa conversa em que participa",
       "SLA_MISSED_FIRST_RESPONSE": "SLA da primeira resposta não atingido na conversa",
       "SLA_MISSED_NEXT_RESPONSE": "SLA da próxima resposta não atingido na conversa",
       "SLA_MISSED_RESOLUTION": "SLA de resolução não atingido na conversa"
     },
     "MENU_ITEM": {
-      "MARK_AS_READ": "Marcar como lido",
+      "MARK_AS_READ": "Marcar como lida",
       "MARK_AS_UNREAD": "Marcar como não lida",
       "SNOOZE": "Adiar",
-      "DELETE": "excluir",
-      "MARK_ALL_READ": "Marcar todos como lidos",
+      "DELETE": "Excluir",
+      "MARK_ALL_READ": "Marcar todas como lidas",
       "DELETE_ALL": "Excluir tudo",
-      "DELETE_ALL_READ": "Excluir todas lidas"
+      "DELETE_ALL_READ": "Excluir todas as lidas"
     },
     "DISPLAY_MENU": {
       "SORT": "Ordenar",

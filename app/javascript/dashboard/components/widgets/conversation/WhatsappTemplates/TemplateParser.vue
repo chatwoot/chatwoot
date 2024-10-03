@@ -179,9 +179,11 @@ footer {
     @apply ml-2.5;
   }
 }
+
 .error {
   @apply bg-red-100 dark:bg-red-100 rounded-md text-red-800 dark:text-red-800 p-2.5 text-center;
 }
+
 .template-input {
   @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100;
 }

@@ -1,27 +1,27 @@
 <script>
+import { defineModel } from 'vue';
 import Modal from 'dashboard/components/Modal.vue';
+import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required } from '@vuelidate/validators';
 import allLocales from 'shared/constants/locales.js';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
     Modal,
   },
   props: {
-    show: {
-      type: Boolean,
-      default: true,
-    },
     portal: {
       type: Object,
       default: () => ({}),
     },
   },
+  emits: ['cancel'],
   setup() {
-    return { v$: useVuelidate() };
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { v$: useVuelidate(), show };
   },
   data() {
     return {
@@ -74,7 +74,7 @@ export default {
           'HELP_CENTER.PORTAL.ADD_LOCALE.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.$track(PORTALS_EVENTS.CREATE_LOCALE, {
+        useTrack(PORTALS_EVENTS.CREATE_LOCALE, {
           localeAdded: this.selectedLocale,
           totalLocales: updatedLocales.length,
           from: this.$route.name,
@@ -95,9 +95,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"
@@ -142,6 +141,7 @@ export default {
   input {
     margin-bottom: 0;
   }
+
   .message {
     margin-top: 0;
   }

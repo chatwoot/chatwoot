@@ -74,7 +74,7 @@ export default {
     this.updateSlaStatus();
     this.createTimer();
   },
-  beforeDestroy() {
+  unmounted() {
     if (this.timer) {
       clearTimeout(this.timer);
     }

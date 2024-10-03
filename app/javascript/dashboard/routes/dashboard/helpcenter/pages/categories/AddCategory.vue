@@ -1,18 +1,15 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
+import { defineModel } from 'vue';
 import { required, minLength } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
-import CategoryNameIconInput from './NameEmojiInput.vue';
+import NameEmojiInput from './NameEmojiInput.vue';
 
 export default {
-  components: { CategoryNameIconInput },
+  components: { NameEmojiInput },
   props: {
-    show: {
-      type: Boolean,
-      default: true,
-    },
     portalName: {
       type: String,
       default: '',
@@ -27,7 +24,8 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { v$: useVuelidate(), show };
   },
   data() {
     return {
@@ -96,7 +94,7 @@ export default {
           'HELP_CENTER.CATEGORY.ADD.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.$track(PORTALS_EVENTS.CREATE_CATEGORY, {
+        useTrack(PORTALS_EVENTS.CREATE_CATEGORY, {
           hasDescription: Boolean(description),
         });
       } catch (error) {
@@ -111,9 +109,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
@@ -134,7 +131,7 @@ export default {
             </label>
           </div>
         </div>
-        <CategoryNameIconInput
+        <NameEmojiInput
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
@@ -144,7 +141,7 @@ export default {
           @iconChange="onClickInsertEmoji"
         />
         <woot-input
-          v-model.trim="slug"
+          v-model="slug"
           :class="{ error: v$.slug.$error }"
           class="w-full"
           :error="slugError"

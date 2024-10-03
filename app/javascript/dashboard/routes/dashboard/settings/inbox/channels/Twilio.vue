@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 export default {
   props: {
@@ -101,7 +102,10 @@ export default {
           },
         });
       } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE'));
+        const errorMessage =
+          parseAPIErrorResponse(error) ||
+          this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE');
+        useAlert(errorMessage);
       }
     },
   },
@@ -114,7 +118,7 @@ export default {
       <label :class="{ error: v$.channelName.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
         <input
-          v-model.trim="channelName"
+          v-model="channelName"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.PLACEHOLDER')"
           @blur="v$.channelName.$touch"
@@ -132,7 +136,7 @@ export default {
       >
         {{ $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.LABEL') }}
         <input
-          v-model.trim="messagingServiceSID"
+          v-model="messagingServiceSID"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.PLACEHOLDER')
@@ -152,7 +156,7 @@ export default {
       <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
         <input
-          v-model.trim="phoneNumber"
+          v-model="phoneNumber"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.PLACEHOLDER')"
           @blur="v$.phoneNumber.$touch"
@@ -183,7 +187,7 @@ export default {
       <label :class="{ error: v$.accountSID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
         <input
-          v-model.trim="accountSID"
+          v-model="accountSID"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
           @blur="v$.accountSID.$touch"
@@ -208,7 +212,7 @@ export default {
       <label :class="{ error: v$.apiKeySID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
         <input
-          v-model.trim="apiKeySID"
+          v-model="apiKeySID"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.API_KEY.PLACEHOLDER')"
           @blur="v$.apiKeySID.$touch"
@@ -222,7 +226,7 @@ export default {
       <label :class="{ error: v$.authToken.$error }">
         {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
         <input
-          v-model.trim="authToken"
+          v-model="authToken"
           type="text"
           :placeholder="
             $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)

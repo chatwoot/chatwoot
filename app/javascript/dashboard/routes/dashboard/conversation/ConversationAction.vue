@@ -8,6 +8,7 @@ import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -128,7 +129,7 @@ export default {
         this.$store
           .dispatch('assignPriority', { conversationId, priority })
           .then(() => {
-            this.$track(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
+            useTrack(CONVERSATION_EVENTS.CHANGE_PRIORITY, {
               oldValue,
               newValue: priority,
               from: 'Conversation Sidebar',
@@ -233,7 +234,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
-        @click="onClickAssignAgent"
+        @select="onClickAssignAgent"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -252,7 +253,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
         "
-        @click="onClickAssignTeam"
+        @select="onClickAssignTeam"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -270,7 +271,7 @@ export default {
         :input-placeholder="
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
-        @click="onClickAssignPriority"
+        @select="onClickAssignPriority"
       />
     </div>
     <ContactDetailsItem

@@ -55,6 +55,9 @@
       "CREATED_AT": "Aangemaakt op",
       "LAST_ACTIVITY": "Laatste Activiteit"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Waarde is vereist"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standaard filters",
       "ADDITIONAL_FILTERS": "Aanvullende filters",

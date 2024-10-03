@@ -184,6 +184,7 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .box-shadow-blue {
     box-shadow:
@@ -200,7 +201,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/mixins';
 
 .emoji-dialog {
   &::before {
@@ -210,6 +211,7 @@ export default {
       $color-bg-dark: #26292b;
       @include arrow(bottom, $color-bg-dark, $space-slab);
     }
+
     @media (prefers-color-scheme: light) {
       $color-bg: #ebf0f5;
       @include arrow(bottom, $color-bg, $space-slab);
@@ -245,6 +247,7 @@ export default {
   .emoji-icon {
     @apply text-slate-200 dark:text-slate-200 mb-2;
   }
+
   .empty-message--text {
     @apply text-slate-200 dark:text-slate-200 text-sm font-medium;
   }
@@ -271,6 +274,7 @@ export default {
     li .active {
       @apply bg-white dark:bg-slate-900;
     }
+
     .emoji--item {
       @apply items-center flex text-sm;
 

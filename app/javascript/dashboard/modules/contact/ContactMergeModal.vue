@@ -1,5 +1,6 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { defineModel } from 'vue';
+import { useAlert, useTrack } from 'dashboard/composables';
 import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
 import ContactAPI from 'dashboard/api/contacts';
@@ -14,10 +15,11 @@ export default {
       type: Object,
       required: true,
     },
-    show: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  setup() {
+    const show = defineModel('show', { type: Boolean, default: false });
+
+    return { show };
   },
   data() {
     return {
@@ -53,7 +55,7 @@ export default {
       }
     },
     async onMergeContacts(parentContactId) {
-      this.$track(CONTACTS_EVENTS.MERGED_CONTACTS);
+      useTrack(CONTACTS_EVENTS.MERGED_CONTACTS);
       try {
         await this.$store.dispatch('contacts/merge', {
           childId: this.primaryContact.id,
@@ -69,9 +71,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('MERGE_CONTACTS.TITLE')"
       :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"

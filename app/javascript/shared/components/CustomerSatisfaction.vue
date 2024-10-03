@@ -156,8 +156,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/mixins.scss';
 
 .customer-satisfaction {
   @include light-shadow;
@@ -204,6 +204,7 @@ export default {
       }
     }
   }
+
   .feedback-form {
     display: flex;
 

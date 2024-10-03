@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useRoute, useRouter } from 'vue-router';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
@@ -22,9 +22,9 @@ export default {
       type: Boolean,
       default: true,
     },
-    sidebarClassName: {
-      type: String,
-      default: '',
+    hasBanner: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
@@ -159,6 +159,17 @@ export default {
         ) || {};
       return activePrimaryMenu;
     },
+    hasSecondaryMenu() {
+      return (
+        this.activeSecondaryMenu.menuItems &&
+        this.activeSecondaryMenu.menuItems.length
+      );
+    },
+    hasSecondarySidebar() {
+      // if it is explicitly stated to show and it has secondary menu items to show
+      // showSecondarySidebar corresponds to the UI settings, indicating if the user has toggled it
+      return this.showSecondarySidebar && this.hasSecondaryMenu;
+    },
   },
 
   watch: {
@@ -211,8 +222,7 @@ export default {
       @openNotificationPanel="openNotificationPanel"
     />
     <SecondarySidebar
-      v-if="showSecondarySidebar"
-      :class="sidebarClassName"
+      v-if="hasSecondarySidebar"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"

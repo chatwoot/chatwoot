@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
@@ -61,7 +61,7 @@ useEmitter(CMD_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
 
 <template>
   <woot-modal
-    :show.sync="showCustomSnoozeModal"
+    v-model:show="showCustomSnoozeModal"
     :on-close="hideCustomSnoozeModal"
   >
     <CustomSnoozeModal

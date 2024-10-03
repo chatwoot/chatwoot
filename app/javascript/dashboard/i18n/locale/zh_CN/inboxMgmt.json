@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "收件箱",
-    "SIDEBAR_TXT": "<p><b>收件箱</b></p> <p> 当您将网站或Facebook页面连接到Chatwoot 它被称为一个 <b>收件箱</b>。 您可以在Chatwoot 帐户中拥有无限的收件箱。 </p><p> 点击 <b>添加收件箱</b> 连接网站或 Facebook 页面。 </p><p> 在仪表盘中 您可以在一个地方看到所有收件箱中的所有对话，并在“对话”选项卡下回复。 </p><p> 您也可以通过点击仪表板左侧面板上的收件箱名称看到针对收件箱的对话。 </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "输入电子邮件地址",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "输入电子邮件地址",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "在 Facebook 上认证你... ..",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "出错了，请刷新页面...",
       "ERROR_FB_UNAUTHORIZED": "您无权执行此操作。 ",
       "ERROR_FB_UNAUTHORIZED_HELP": "请确保您拥有对 Facebook 页面的完全控制权。您可以在<a href=\" https://www.facebook.com/help/187316341316631\">这里</a>阅读更多关于 Facebook 角色的信息。",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "其他提供商"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "网站",
+      "TWITTER_PROFILE": "推特",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API 频道"
     }
   }
 }

@@ -41,6 +41,7 @@
         "UPLOADING": "Mengunggah...",
         "SUCCESS": "Gambar berhasil diunggah",
         "ERROR": "Terjadi kesalahan saat mengunggah gambar",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Ukuran gambar harus kurang dari {size}MB",
         "ERROR_FILE_FORMAT": "Format gambar harus jpg, jpeg, atau png",
         "ERROR_FILE_DIMENSIONS": "Dimensi gambar harus kurang dari 2000 x 2000"

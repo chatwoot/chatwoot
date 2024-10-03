@@ -1,264 +1,178 @@
-<script>
-import { mapGetters } from 'vuex';
-import { VeTable } from 'vue-easytable';
-import { getCountryFlag } from 'dashboard/helper/flag';
+<script setup>
+import { h, ref, computed, defineEmits } from 'vue';
+import {
+  useVueTable,
+  createColumnHelper,
+  getCoreRowModel,
+} from '@tanstack/vue-table';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
 
 import Spinner from 'shared/components/Spinner.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import { dynamicTime } from 'shared/helpers/timeHelper';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
-export default {
-  components: {
-    EmptyState,
-    Spinner,
-    VeTable,
+// Table components
+import Table from 'dashboard/components/table/Table.vue';
+import NameCell from './ContactsTable/NameCell.vue';
+import EmailCell from './ContactsTable/EmailCell.vue';
+import TelCell from './ContactsTable/TelCell.vue';
+import CountryCell from './ContactsTable/CountryCell.vue';
+import ProfilesCell from './ContactsTable/ProfilesCell.vue';
+
+const props = defineProps({
+  contacts: {
+    type: Array,
+    default: () => [],
   },
-  props: {
-    contacts: {
-      type: Array,
-      default: () => [],
-    },
-    showSearchEmptyState: {
-      type: Boolean,
-      default: false,
-    },
-    onClickContact: {
-      type: Function,
-      default: () => {},
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    sortParam: {
-      type: String,
-      default: 'last_activity_at',
-    },
-    sortOrder: {
-      type: String,
-      default: 'desc',
-    },
+  showSearchEmptyState: {
+    type: Boolean,
+    default: false,
   },
-  data() {
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(['onSortChange']);
+const { t } = useI18n();
+
+const tableData = computed(() => {
+  if (props.isLoading) {
+    return [];
+  }
+
+  return props.contacts.map(item => {
+    // Note: The attributes used here is in snake case
+    // as it simplier the sort attribute calculation
+    const additional = item.additional_attributes || {};
+    const { last_activity_at: lastActivityAt } = item;
+    const { created_at: createdAt } = item;
     return {
-      sortConfig: {},
-      sortOption: {
-        sortAlways: true,
-        sortChange: params => this.$emit('onSortChange', params),
-      },
+      ...item,
+      profiles: additional.social_profiles || {},
+      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : null,
+      created_at: createdAt ? dynamicTime(createdAt) : null,
     };
-  },
-  computed: {
-    ...mapGetters({
-      isRTL: 'accounts/isRTL',
-    }),
-    tableData() {
-      if (this.isLoading) {
-        return [];
-      }
-      return this.contacts.map(item => {
-        // Note: The attributes used here is in snake case
-        // as it simplier the sort attribute calculation
-        const additional = item.additional_attributes || {};
-        const { last_activity_at: lastActivityAt } = item;
-        const { created_at: createdAt } = item;
-        return {
-          ...item,
-          phone_number: item.phone_number || '---',
-          company: additional.company_name || '---',
-          profiles: additional.social_profiles || {},
-          city: additional.city || '---',
-          country: additional.country,
-          countryCode: additional.country_code,
-          conversationsCount: item.conversations_count || '---',
-          last_activity_at: lastActivityAt
-            ? dynamicTime(lastActivityAt)
-            : '---',
-          created_at: createdAt ? dynamicTime(createdAt) : '---',
-        };
-      });
-    },
-    columns() {
-      return [
-        {
-          field: 'name',
-          key: 'name',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
-          fixed: 'left',
-          align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.name || '',
-          width: 300,
-          renderBodyCell: ({ row }) => (
-            <woot-button
-              variant="clear"
-              onClick={() => this.onClickContact(row.id)}
-            >
-              <div class="row--user-block">
-                <Thumbnail
-                  src={row.thumbnail}
-                  size="32px"
-                  username={row.name}
-                  status={row.availability_status}
-                />
-                <div class="user-block">
-                  <h6 class="overflow-hidden text-base whitespace-nowrap text-ellipsis">
-                    <router-link
-                      to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
-                      class="user-name"
-                    >
-                      {row.name}
-                    </router-link>
-                  </h6>
-                  <button class="button clear small link view-details--button">
-                    {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-                  </button>
-                </div>
-              </div>
-            </woot-button>
-          ),
-        },
-        {
-          field: 'email',
-          key: 'email',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.email || '',
-          width: 240,
-          renderBodyCell: ({ row }) => {
-            if (row.email)
-              return (
-                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={`mailto:${row.email}`}
-                  >
-                    {row.email}
-                  </a>
-                </div>
-              );
-            return '---';
-          },
-        },
-        {
-          field: 'phone_number',
-          key: 'phone_number',
-          sortBy: this.sortConfig.phone_number || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'company',
-          key: 'company',
-          sortBy: this.sortConfig.company_name || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'city',
-          key: 'city',
-          sortBy: this.sortConfig.city || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'country',
-          key: 'country',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: this.isRTL ? 'right' : 'left',
-          sortBy: this.sortConfig.country || '',
-          renderBodyCell: ({ row }) => {
-            if (row.country) {
-              return (
-                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
-                  {`${getCountryFlag(row.countryCode)} ${row.country}`}
-                </div>
-              );
-            }
-            return '---';
-          },
-        },
-        {
-          field: 'profiles',
-          key: 'profiles',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: this.isRTL ? 'right' : 'left',
-          renderBodyCell: ({ row }) => {
-            const { profiles } = row;
+  });
+});
 
-            const items = Object.keys(profiles);
+const defaulSpanRender = cellProps =>
+  h(
+    'span',
+    {
+      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+    },
+    cellProps.getValue() ? cellProps.getValue() : '---'
+  );
 
-            if (!items.length) return '---';
+const columnHelper = createColumnHelper();
+const columns = [
+  columnHelper.accessor('name', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
+    cell: cellProps => h(NameCell, cellProps),
+    size: 250,
+  }),
+  columnHelper.accessor('email', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
+    cell: cellProps => h(EmailCell, { email: cellProps.getValue() }),
+    size: 250,
+  }),
+  columnHelper.accessor('phone_number', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
+    size: 200,
+    cell: cellProps =>
+      h(TelCell, {
+        phoneNumber: cellProps.getValue(),
+        defaultCountry: cellProps.row.original.country_code,
+      }),
+  }),
+  columnHelper.accessor('company_name', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
+    size: 200,
+    cell: defaulSpanRender,
+  }),
+  columnHelper.accessor('city', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
+    cell: defaulSpanRender,
+    size: 200,
+  }),
+  columnHelper.accessor('country', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
+    size: 200,
+    cell: cellProps =>
+      h(CountryCell, {
+        countryCode: cellProps.row.original.country_code,
+        country: cellProps.getValue(),
+      }),
+  }),
+  columnHelper.accessor('profiles', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
+    size: 200,
+    enableSorting: false,
+    cell: cellProps =>
+      h(ProfilesCell, {
+        profiles: cellProps.getValue(),
+      }),
+  }),
+  columnHelper.accessor('last_activity_at', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
+    size: 200,
+    cell: defaulSpanRender,
+  }),
+  columnHelper.accessor('created_at', {
+    header: t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
+    size: 200,
+    cell: defaulSpanRender,
+  }),
+];
 
-            return (
-              <div class="cell--social-profiles flex gap-0.5 items-center">
-                {items.map(
-                  profile =>
-                    profiles[profile] && (
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        href={`https://${profile}.com/${profiles[profile]}`}
-                      >
-                        <FluentIcon icon={`brand-${profile}`} />
-                      </a>
-                    )
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          field: 'last_activity_at',
-          key: 'last_activity_at',
-          sortBy: this.sortConfig.last_activity_at || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-        {
-          field: 'created_at',
-          key: 'created_at',
-          sortBy: this.sortConfig.created_at || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTL ? 'right' : 'left',
-        },
-      ];
+// type ColumnSort = {
+//   id: string
+//   desc: boolean
+// }
+// type SortingState = ColumnSort[]
+const sortingState = ref([{ last_activity_at: 'desc' }]);
+
+const table = useVueTable({
+  get data() {
+    return tableData.value;
+  },
+  columns,
+  enableMultiSort: false,
+  getCoreRowModel: getCoreRowModel(),
+  state: {
+    get sorting() {
+      return sortingState.value;
     },
   },
-  watch: {
-    sortOrder() {
-      this.setSortConfig();
-    },
-    sortParam() {
-      this.setSortConfig();
-    },
+  onSortingChange: updater => {
+    // onSortingChange returns a callback that allows us to trigger the sort when we need
+    // See more docs here: https://tanstack.com/table/latest/docs/api/features/sorting#onsortingchange
+    // IMO, I don't like this API, but it's what we have for now. Would be great if we could just listen the the changes
+    // to the sorting state and emit the event when it changes
+    // But we can easily wrap this later as a separate composable
+    const updatedSortState = updater(sortingState.value);
+    // we pick the first item from the array, as we are not using multi-sorting
+    const [sort] = updatedSortState;
+
+    if (sort) {
+      sortingState.value = updatedSortState;
+      emit('onSortChange', { [sort.id]: sort.desc ? 'desc' : 'asc' });
+    } else {
+      // If the sorting is empty, we reset to the default sorting
+      sortingState.value = [{ last_activity_at: 'desc' }];
+      emit('onSortChange', {});
+    }
   },
-  mounted() {
-    this.setSortConfig();
-  },
-  methods: {
-    setSortConfig() {
-      this.sortConfig = { [this.sortParam]: this.sortOrder };
-    },
-  },
-};
+});
 </script>
 
 <template>
-  <section
-    class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
-  >
-    <VeTable
-      fixed-header
-      max-height="calc(100vh - 7.125rem)"
-      scroll-width="187rem"
-      :columns="columns"
-      :table-data="tableData"
-      :border-around="false"
-      :sort-option="sortOption"
-    />
+  <section class="flex-1 h-full overflow-auto bg-white dark:bg-slate-900">
+    <section class="overflow-x-auto">
+      <Table fixed :table="table" />
+    </section>
 
     <EmptyState
       v-if="showSearchEmptyState"
@@ -274,51 +188,3 @@ export default {
     </div>
   </section>
 </template>
-
-<style lang="scss" scoped>
-.contacts-table-wrap::v-deep {
-  .ve-table {
-    @apply pb-8;
-  }
-  .row--user-block {
-    @apply items-center flex text-left;
-
-    .user-block {
-      @apply items-start flex flex-col my-0 mx-2;
-    }
-
-    .user-name {
-      @apply text-sm font-medium m-0 capitalize;
-    }
-
-    .view-details--button {
-      @apply text-slate-600 dark:text-slate-200;
-    }
-
-    .user-email {
-      @apply m-0;
-    }
-  }
-
-  .ve-table-header-th {
-    padding: var(--space-small) var(--space-two) !important;
-  }
-
-  .ve-table-body-td {
-    padding: var(--space-small) var(--space-two) !important;
-  }
-
-  .ve-table-header-th {
-    font-size: var(--font-size-mini) !important;
-  }
-  .ve-table-sort {
-    @apply -top-1;
-  }
-}
-
-.cell--social-profiles {
-  a {
-    @apply text-slate-300 dark:text-slate-400 text-lg min-w-[2rem] text-center;
-  }
-}
-</style>

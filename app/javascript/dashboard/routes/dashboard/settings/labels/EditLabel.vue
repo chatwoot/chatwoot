@@ -76,7 +76,7 @@ export default {
     <woot-modal-header :header-title="pageTitle" />
     <form class="flex flex-wrap mx-0" @submit.prevent="editLabel">
       <woot-input
-        v-model.trim="title"
+        v-model="title"
         :class="{ error: v$.title.$error }"
         class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
@@ -85,7 +85,7 @@ export default {
         @input="v$.title.$touch"
       />
       <woot-input
-        v-model.trim="description"
+        v-model="description"
         :class="{ error: v$.description.$error }"
         class="w-full"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"

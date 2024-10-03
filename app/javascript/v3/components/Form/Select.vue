@@ -42,6 +42,7 @@ export default {
       default: '',
     },
   },
+  emits: ['input'],
   methods: {
     onInput(e) {
       this.$emit('input', e.target.value);

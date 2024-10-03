@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { useI18n } from './useI18n';
+import { useI18n } from 'vue-i18n';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import {
@@ -38,8 +38,28 @@ export function useAutomation() {
     { id: false, name: t('FILTER.ATTRIBUTE_LABELS.FALSE') },
   ]);
 
+  const statusFilterItems = computed(() => {
+    return {
+      open: {
+        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+      },
+      resolved: {
+        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+      },
+      pending: {
+        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+      },
+      snoozed: {
+        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+      },
+      all: {
+        TEXT: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
+      },
+    };
+  });
+
   const statusFilterOptions = computed(() => {
-    const statusFilters = t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+    const statusFilters = statusFilterItems.value;
     return [
       ...Object.keys(statusFilters).map(status => ({
         id: status,

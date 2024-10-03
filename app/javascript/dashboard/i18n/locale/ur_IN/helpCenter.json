@@ -41,6 +41,7 @@
         "UPLOADING": "Uploading...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
         "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"

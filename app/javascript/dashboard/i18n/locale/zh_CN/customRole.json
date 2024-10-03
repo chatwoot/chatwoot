@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Custom Roles",
+    "LEARN_MORE": "Learn more about custom roles",
+    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "HEADER_BTN_TXT": "Add custom role",
+    "LOADING": "Fetching custom roles...",
+    "SEARCH_404": "没有任何项目符合此查询.",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create custom roles",
+      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "LIST": {
+      "404": "There are no custom roles available in this account.",
+      "TITLE": "Manage custom roles",
+      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "TABLE_HEADER": [
+        "姓名：",
+        "描述信息",
+        "Permissions",
+        "操作"
+      ]
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
+      "CONTACT_MANAGE": "Manage contacts",
+      "REPORT_MANAGE": "Manage reports",
+      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "姓名：",
+        "PLACEHOLDER": "Please enter a name.",
+        "ERROR": "名称是必填项."
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述信息",
+        "PLACEHOLDER": "Please enter a description.",
+        "ERROR": "描述是必需的."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissions",
+        "ERROR": "Permissions are required."
+      },
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+      }
+    },
+    "ADD": {
+      "TITLE": "Add custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "提交",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role added successfully."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "编辑",
+      "TITLE": "Edit custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "更新",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role updated successfully."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
+      },
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是的，删除",
+        "NO": "不，保留 "
+      }
+    }
+  }
+}

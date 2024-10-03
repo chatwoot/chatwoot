@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subskrybowane wydarzenia",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Anuluj",
         "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",

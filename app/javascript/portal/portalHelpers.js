@@ -1,10 +1,12 @@
-import slugifyWithCounter from '@sindresorhus/slugify';
-import Vue from 'vue';
+import { createApp } from 'vue';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import { directive as onClickaway } from 'vue3-click-away';
 
+import slugifyWithCounter from '@sindresorhus/slugify';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import { initializeTheme } from './portalThemeHelper.js';
-import { directive as onClickaway } from 'vue-clickaway';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -79,29 +81,37 @@ export const InitializationHelpers = {
   initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
-      new Vue({
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
         components: { PublicArticleSearch },
-        directives: {
-          'on-clickaway': onClickaway,
-        },
         template: '<PublicArticleSearch />',
-      }).$mount('#search-wrap');
+      });
+
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.directive('on-clickaway', onClickaway);
+      app.mount('#search-wrap');
     }
   },
 
   initializeTableOfContents: () => {
     const isOnArticlePage = document.querySelector('#cw-hc-toc');
     if (isOnArticlePage) {
-      new Vue({
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
         components: { TableOfContents },
-        data: { rows: getHeadingsfromTheArticle() },
+        data() {
+          return { rows: getHeadingsfromTheArticle() };
+        },
         template: '<table-of-contents :rows="rows" />',
-      }).$mount('#cw-hc-toc');
+      });
+
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.mount('#cw-hc-toc');
     }
   },
 
   appendPlainParamToURLs: () => {
-    document.getElementsByTagName('a').forEach(aTagElement => {
+    [...document.getElementsByTagName('a')].forEach(aTagElement => {
       if (aTagElement.href && aTagElement.href.includes('/hc/')) {
         const url = new URL(aTagElement.href);
         url.searchParams.set('show_plain_layout', 'true');

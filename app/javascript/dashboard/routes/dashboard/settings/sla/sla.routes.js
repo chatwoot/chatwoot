@@ -16,7 +16,9 @@ export default {
           meta: {
             permissions: ['administrator'],
           },
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'sla_list', params: to.params };
+          },
         },
         {
           path: 'list',

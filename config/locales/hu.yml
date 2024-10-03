@@ -29,6 +29,7 @@ hu:
       invalid: Invalid események
     signup:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Hibás e-mailcímet adtál meg
       email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

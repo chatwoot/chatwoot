@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "订阅事件",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "取消",
         "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",

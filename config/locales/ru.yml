@@ -24,11 +24,12 @@ ru:
     inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
   errors:
     validations:
-      presence: Не должен быть пустым
+      presence: не должен быть пустым
     webhook:
       invalid: Недопустимые события
     signup:
       disposable_email: Мы не разрешаем одноразовые почтовые ящики
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'

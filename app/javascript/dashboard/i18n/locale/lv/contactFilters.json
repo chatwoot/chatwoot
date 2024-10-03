@@ -30,6 +30,9 @@
       "is_lesser_than": "Ir mazāks par",
       "days_before": "Ir x dienas pirms"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nepieciešama vērtība"
+    },
     "ATTRIBUTES": {
       "NAME": "Nosaukums",
       "EMAIL": "E-pasts",

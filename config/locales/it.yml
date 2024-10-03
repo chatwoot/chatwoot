@@ -29,6 +29,7 @@ it:
       invalid: Eventi non validi
     signup:
       disposable_email: Non consentiamo email usa e getta
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

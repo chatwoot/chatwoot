@@ -62,7 +62,7 @@ defineProps({
         icon="delete"
         class-names="grey-btn"
         :is-loading="isLoading"
-        @click="$emit('click')"
+        @click="$emit('delete')"
       />
     </template>
   </BaseSettingsListItem>

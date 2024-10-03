@@ -1,5 +1,6 @@
 <script>
 import WootSnackbar from './Snackbar.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -19,10 +20,10 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on('newToastMessage', this.onNewToastMessage);
+    emitter.on('newToastMessage', this.onNewToastMessage);
   },
-  beforeDestroy() {
-    this.$emitter.off('newToastMessage', this.onNewToastMessage);
+  unmounted() {
+    emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
     onNewToastMessage({ message, action }) {

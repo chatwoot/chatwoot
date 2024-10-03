@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "ரத்துசெய்",
         "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",

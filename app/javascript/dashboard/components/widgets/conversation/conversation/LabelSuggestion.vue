@@ -5,6 +5,7 @@ import Avatar from '../../Avatar.vue';
 
 // composables
 import { useAI } from 'dashboard/composables/useAI';
+import { useTrack } from 'dashboard/composables';
 
 // store & api
 import { mapGetters } from 'vuex';
@@ -143,7 +144,7 @@ export default {
           : this.suggestedLabels,
       };
 
-      this.$track(event, payload);
+      useTrack(event, payload);
     },
   },
 };

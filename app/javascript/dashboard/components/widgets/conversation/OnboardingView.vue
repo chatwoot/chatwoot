@@ -1,7 +1,7 @@
 <script setup>
 import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
 import { computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
 
 const getters = useStoreGetters();
@@ -28,7 +28,7 @@ const greetingMessage = computed(() => {
 
 <template>
   <div
-    class="min-h-screen max-w-4xl mx-auto grid grid-cols-1 xl:grid-cols-2 grid-rows-[auto_1fr_1fr] gap-4 p-8 w-full font-inter overflow-auto"
+    class="min-h-screen lg:max-w-5xl max-w-4xl mx-auto grid grid-cols-2 grid-rows-[auto_1fr_1fr] auto-rows-min gap-4 p-8 w-full font-inter overflow-auto"
   >
     <div class="col-span-full self-start">
       <p
