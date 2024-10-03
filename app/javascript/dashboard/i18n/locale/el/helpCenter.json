@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Πληροφορίες κέντρου βοήθειας",
-            "route": "new_portal_information",
-            "body": "Βασικές πληροφορίες σχετικά με την πύλη",
-            "CREATE_BASIC_SETTING_BUTTON": "Δημιουργία βασικών ρυθμίσεων πύλης"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Πληροφορίες κέντρου βοήθειας",
+            "BODY": "Βασικές πληροφορίες σχετικά με την πύλη"
           },
-          {
-            "title": "Προσαρμογή του κέντρου βοήθειας",
-            "route": "portal_customization",
-            "body": "Προσαρμογή πύλης",
-            "UPDATE_PORTAL_BUTTON": "Ενημέρωση ρυθμίσεων πύλης"
+          "CUSTOMIZATION": {
+            "TITLE": "Προσαρμογή του κέντρου βοήθειας",
+            "BODY": "Προσαρμογή πύλης"
           },
-          {
-            "title": "Έξοχα! 🎉",
-            "route": "portal_finish",
-            "body": "Είναι όλα έτοιμα!",
-            "FINISH": "Τέλος"
+          "FINISH": {
+            "TITLE": "Έξοχα! 🎉",
+            "BODY": "Είναι όλα έτοιμα!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Πίσω",
           "BASIC_SETTINGS_PAGE": {
