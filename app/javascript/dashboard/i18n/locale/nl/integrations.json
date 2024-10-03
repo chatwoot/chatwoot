@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Er zijn geen webhooks geconfigureerd voor dit account.",
         "TITLE": "Webhooks beheren",
-        "TABLE_HEADER": [
-          "Webhook eindpunt",
-          "acties"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook eindpunt",
+          "ACTIONS": "Acties"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Bewerken",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "Naam",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Naam",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Bewerk app",
         "DELETE_TOOLTIP": "App verwijderen"
       },
