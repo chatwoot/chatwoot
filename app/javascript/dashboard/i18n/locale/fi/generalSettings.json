@@ -95,7 +95,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Poissa",
+      "OFFLINE": "Offline",
       "RECONNECTING": "Reconnecting...",
       "RECONNECT_SUCCESS": "Reconnected"
     },
