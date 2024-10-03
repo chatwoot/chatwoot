@@ -1,4 +1,7 @@
 <script setup>
+// eslint-disable no-unused-refs
+// We are using `useTemplateRef` introduced in Vue 3.5,
+// It's already fixed, but not released yet: https://github.com/vuejs/eslint-plugin-vue/issues/2547
 import { ref, computed, watch, useTemplateRef, nextTick, unref } from 'vue';
 import countriesList from 'shared/constants/countries.js';
 import { useDarkMode } from 'widget/composables/useDarkMode';
@@ -271,8 +274,8 @@ function onSelect() {
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
-          v-model="searchCountry"
           ref="searchbar"
+          v-model="searchCountry"
           type="text"
           :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_SEARCH')"
           class="w-full h-8 px-3 py-2 mt-1 mb-1 text-sm border border-solid rounded outline-none dropdown-search"
