@@ -1,4 +1,3 @@
-import { getCurrentInstance } from 'vue';
 import { emitter } from 'shared/helpers/mitt';
 import { useTrack, useAlert } from '../index';
 

@@ -206,5 +206,11 @@ module.exports = {
   globals: {
     bus: true,
     vi: true,
+    beforeEach: true,
+    afterEach: true,
+    test: true,
+    describe: true,
+    it: true,
+    expect: true,
   },
 };

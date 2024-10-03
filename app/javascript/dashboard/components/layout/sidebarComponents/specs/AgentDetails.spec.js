@@ -12,9 +12,9 @@ localVue.use(VueI18n);
 localVue.component('thumbnail', Thumbnail);
 localVue.component('woot-button', WootButton);
 localVue.component('woot-button', WootButton);
-localVue.use(VTooltip, {
-  defaultHtml: false,
-});
+// localVue.use(VTooltip, {
+//   defaultHtml: false,
+// });
 
 const i18nConfig = new VueI18n({
   locale: 'en',
