@@ -37,7 +37,6 @@ const fetchAuditLogs = page => {
 const generateLogText = auditLogItem => {
   const payload = generateTranslationPayload(auditLogItem, agentList.value);
   const translationKey = generateLogActionKey(auditLogItem);
-  // payload.attributes and payload.values can be an array, if it is so, join them
 
   const joinIfArray = value => {
     return Array.isArray(value) ? value.join(', ') : value;
