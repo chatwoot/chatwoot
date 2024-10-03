@@ -11,11 +11,11 @@
       "404": "No hi ha registres d'auditoria disponibles en aquest compte.",
       "TITLE": "Gestiona els registres d'auditoria",
       "DESC": "Els registres d'auditoria són pistes d'esdeveniments i accions en un sistema Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Temps",
-        "Adreça IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Temps",
+        "IP_ADDRESS": "Adreça IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Els registres d'auditoria s'han recuperat correctament",
