@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import ContactForm from './ContactForm.vue';
 
@@ -8,20 +7,28 @@ export default {
     ContactForm,
   },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     contact: {
       type: Object,
       default: () => ({}),
     },
   },
-  emits: ['cancel'],
-  setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { show };
-  },
+  emits: ['cancel', 'update:show'],
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
     }),
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
   },
 
   methods: {
@@ -44,7 +51,7 @@ export default {
 
 <template>
   <woot-modal
-    v-model:show="show"
+    v-model:show="localShow"
     :on-close="onCancel"
     modal-type="right-aligned"
   >
