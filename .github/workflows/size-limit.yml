@@ -19,13 +19,17 @@ jobs:
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.3.0
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - name: yarn
-        run: yarn install
+      - name: pnpm
+        run: pnpm install
 
       - name: Strip enterprise code
         run: |
@@ -38,4 +42,4 @@ jobs:
           NODE_OPTIONS: --openssl-legacy-provider
 
       - name: Size Check
-        run: yarn run size
+        run: pnpm run size
