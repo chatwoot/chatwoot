@@ -8,28 +8,24 @@
     "LIST": {
       "404": "No hi ha cap safata d'entrada connectat a aquest compte."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Triar canal",
-        "route": "settings_inbox_new",
-        "body": "Trieu el proveïdor que vulgueu integrar amb Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Triar canal",
+        "BODY": "Trieu el proveïdor que vulgueu integrar amb Chatwoot."
       },
-      {
-        "title": "Crear safata d'entrada",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autentiqueu el vostre compte i creeu una safata d'entrada."
+      "INBOX": {
+        "TITLE": "Crear safata d'entrada",
+        "BODY": "Autentiqueu el vostre compte i creeu una safata d'entrada."
       },
-      {
-        "title": "Afegir agents",
-        "route": "settings_inboxes_add_agents",
-        "body": "Afegir agents a la safata d'entrada creada."
+      "AGENT": {
+        "TITLE": "Afegir agents",
+        "BODY": "Afegir agents a la safata d'entrada creada."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Ja estàs preparat!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Ja estàs preparat!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nom de la safata d'entrada",
