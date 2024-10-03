@@ -47,10 +47,10 @@
       "LIST": {
         "404": "此帳戶没有配置 webhooks。",
         "TITLE": "管理 webhooks",
-        "TABLE_HEADER": [
-          "Webhook 端点",
-          "操作"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook 端点",
+          "ACTIONS": "操作"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "編輯",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "姓名",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "姓名",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "編輯應用程式",
         "DELETE_TOOLTIP": "刪除應用程式"
       },
