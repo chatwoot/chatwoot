@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名：",
-        "描述信息",
-        "状态",
-        "创建时间"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名：",
+        "DESCRIPTION": "描述信息",
+        "ACTIVE": "状态",
+        "CREATED_ON": "创建时间"
+      },
       "404": "未找到自动化规则"
     },
     "DELETE": {
