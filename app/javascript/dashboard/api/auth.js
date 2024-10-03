@@ -1,11 +1,10 @@
 /* global axios */
-
-import Cookies from 'js-cookie';
 import endPoints from './endPoints';
 import {
   clearCookiesOnLogout,
   deleteIndexedDBOnLogout,
 } from '../store/utils/api';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export default {
   validityCheck() {
@@ -29,12 +28,11 @@ export default {
     return fetchPromise;
   },
   hasAuthCookie() {
-    return !!Cookies.get('cw_d_session_info');
+    return !!LocalStorage.get('cw_d_session_info');
   },
   getAuthData() {
     if (this.hasAuthCookie()) {
-      const savedAuthInfo = Cookies.get('cw_d_session_info');
-      return JSON.parse(savedAuthInfo || '{}');
+      return LocalStorage.get('cw_d_session_info');
     }
     return false;
   },

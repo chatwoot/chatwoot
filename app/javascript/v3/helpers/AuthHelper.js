@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 export const hasAuthCookie = () => {
-  return !!Cookies.get('cw_d_session_info');
+  return !!LocalStorage.get('cw_d_session_info');
 };
 
 const getSSOAccountPath = ({ ssoAccountId, user }) => {

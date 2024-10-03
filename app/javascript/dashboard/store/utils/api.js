@@ -1,5 +1,4 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
-import differenceInDays from 'date-fns/differenceInDays';
 import Cookies from 'js-cookie';
 import {
   ANALYTICS_IDENTITY,
@@ -28,14 +27,12 @@ export const getHeaderExpiry = response =>
 
 export const setAuthCredentials = response => {
   const expiryDate = getHeaderExpiry(response);
-  Cookies.set('cw_d_session_info', JSON.stringify(response.headers), {
-    expires: differenceInDays(expiryDate, new Date()),
-  });
+  LocalStorage.set('cw_d_session_info', response.headers);
   setUser(response.data.data, expiryDate);
 };
 
 export const clearBrowserSessionCookies = () => {
-  Cookies.remove('cw_d_session_info');
+  LocalStorage.remove('cw_d_session_info');
   Cookies.remove('auth_data');
   Cookies.remove('user');
 };
