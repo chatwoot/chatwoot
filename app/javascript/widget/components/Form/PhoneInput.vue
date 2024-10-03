@@ -271,8 +271,8 @@ function onSelect() {
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
-          v-model="searchCountry"
           ref="searchbar"
+          v-model="searchCountry"
           type="text"
           :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_SEARCH')"
           class="w-full h-8 px-3 py-2 mt-1 mb-1 text-sm border border-solid rounded outline-none dropdown-search"
