@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Uygunluk",
-        "STATUSES_LIST": [
-          "Çevrimiçi",
-          "Meşgul",
-          "Çevrimdışı"
-        ],
+        "STATUS": {
+          "ONLINE": "Çevrimiçi",
+          "BUSY": "Meşgul",
+          "OFFLINE": "Çevrimdışı"
+        },
         "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
         "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
       },
