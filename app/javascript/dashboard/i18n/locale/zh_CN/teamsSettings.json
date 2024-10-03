@@ -20,23 +20,18 @@
         "TITLE": "添加客服至您的团队 - %{teamName}",
         "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。"
       },
-      "WIZARD": [
-        {
-          "title": "创建",
-          "route": "settings_teams_new",
-          "body": "创建一个新的团队客服。"
-        },
-        {
-          "title": "添加客服代理",
-          "route": "settings_teams_add_agents",
-          "body": "添加客服至您的团队."
-        },
-        {
-          "title": "完成",
-          "route": "settings_teams_finish",
-          "body": "你已设定状态为离开"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "创建",
+        "BODY": "创建一个新的团队客服。"
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "添加客服代理",
+        "BODY": "添加客服至您的团队."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "完成",
+        "BODY": "你已设定状态为离开"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "添加客服至您的团队 - %{teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
-      "WIZARD": [
-        {
-          "title": "团队详细信息",
-          "route": "settings_teams_edit",
-          "body": "更改名称、描述和其他详细信息。"
-        },
-        {
-          "title": "编辑客服",
-          "route": "settings_teams_edit_members",
-          "body": "在您的团队中编辑客服。"
-        },
-        {
-          "title": "完成",
-          "route": "settings_teams_edit_finish",
-          "body": "你已设定状态为离开"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "团队详细信息",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "更改名称、描述和其他详细信息。"
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "编辑客服",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "在您的团队中编辑客服。"
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "完成",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "你已设定状态为离开"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "无法保存团队详细信息，请重试。"
