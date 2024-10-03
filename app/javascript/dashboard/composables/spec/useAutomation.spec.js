@@ -1,7 +1,7 @@
 import { useAutomation } from '../useAutomation';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { useI18n } from '../useI18n';
+import { useI18n } from 'vue-i18n';
 import * as automationHelper from 'dashboard/helper/automationHelper';
 import {
   customAttributes,
@@ -20,7 +20,7 @@ import { MESSAGE_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables');
-vi.mock('../useI18n');
+vi.mock('vue-i18n');
 vi.mock('dashboard/helper/automationHelper');
 
 describe('useAutomation', () => {
