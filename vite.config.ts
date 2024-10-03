@@ -103,7 +103,7 @@ export default defineConfig({
         inline: ['tinykeys', '@material/mwc-icon'],
       },
     },
-    setupFiles: ['fake-indexeddb/auto'],
+    setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
     mockReset: true,
     clearMocks: true,
   },
