@@ -1,4 +1,5 @@
 <script>
+import { defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import ContactForm from './ContactForm.vue';
 
@@ -7,16 +8,16 @@ export default {
     ContactForm,
   },
   props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
     contact: {
       type: Object,
       default: () => ({}),
     },
   },
-
+  emits: ['cancel'],
+  setup() {
+    const show = defineModel('show', { type: Boolean, default: false });
+    return { show };
+  },
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
@@ -41,7 +42,6 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal
     v-model:show="show"

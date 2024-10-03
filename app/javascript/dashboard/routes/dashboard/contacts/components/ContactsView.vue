@@ -437,7 +437,7 @@ export default {
     />
     <DeleteCustomViews
       v-if="showDeleteSegmentsModal"
-      :show-delete-popup.sync="showDeleteSegmentsModal"
+      v-model:show="showDeleteSegmentsModal"
       :active-custom-view="activeSegment"
       :custom-views-id="segmentsId"
       :active-filter-type="filterType"

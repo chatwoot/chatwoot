@@ -16,6 +16,7 @@ export default {
     confirmValue: { type: String, default: '' },
     confirmPlaceHolderText: { type: String, default: '' },
   },
+  emits: ['onClose', 'onConfirm'],
   setup() {
     const show = defineModel('show', { type: Boolean, default: false });
     return { v$: useVuelidate(), show };

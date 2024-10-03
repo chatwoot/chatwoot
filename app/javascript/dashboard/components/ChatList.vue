@@ -785,7 +785,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
     <DeleteCustomViews
       v-if="showDeleteFoldersModal"
-      :show-delete-popup.sync="showDeleteFoldersModal"
+      v-model:show="showDeleteFoldersModal"
       :active-custom-view="activeFolder"
       :custom-views-id="foldersId"
       :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
