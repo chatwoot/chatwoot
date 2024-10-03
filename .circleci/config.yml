@@ -6,12 +6,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/build
   docker:
-    # specify the version you desire here
     - image: cimg/ruby:3.3.3-browsers
-
-    # Specify service dependencies here if necessary
-    # CircleCI maintains a library of pre-built images
-    # documented at https://circleci.com/docs/2.0/circleci-images/
     - image: cimg/postgres:15.3
     - image: cimg/redis:6.2.6
   environment:
@@ -50,10 +45,6 @@ jobs:
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
-      # Run bundler
-      # Load installed gems from cache if possible, bundle install then save cache
-      # Multiple caches are used to increase the chance of a cache hit
-
       - restore_cache:
           keys:
             - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
@@ -64,21 +55,21 @@ jobs:
             - ~/.bundle
           key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
-      # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
-            - chatwoot-yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
-            - chatwoot-yarn-
+            - chatwoot-pnpm-{{ .Environment.CACHE_VERSION }}-{{ checksum "pnpm-lock.yaml" }}
+            - chatwoot-pnpm-
 
       - run:
-          name: yarn
-          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+          name: Install pnpm and Node dependencies
+          command: |
+            npm install -g pnpm
+            pnpm install --frozen-lockfile
 
-      # Store yarn / webpacker cache
       - save_cache:
-          key: chatwoot-yarn-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+          key: chatwoot-pnpm-{{ .Environment.CACHE_VERSION }}-{{ checksum "pnpm-lock.yaml" }}
           paths:
-            - ~/.cache/yarn
+            - ~/.pnpm-store
 
       - run:
           name: Download cc-test-reporter
@@ -91,7 +82,6 @@ jobs:
           paths:
             - cc-test-reporter
 
-      # verify swagger specification
       - run:
           name: Verify swagger API specification
           command: |
@@ -104,7 +94,6 @@ jobs:
             curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
-      # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
@@ -116,13 +105,9 @@ jobs:
           name: Rubocop
           command: bundle exec rubocop
 
-      # - run:
-      #     name: Brakeman
-      #     command: bundle exec brakeman
-
       - run:
           name: eslint
-          command: yarn run eslint
+          command: pnpm run lint
 
       # Run frontend tests
       - run:
@@ -130,13 +115,14 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            yarn test:coverage
+            pnpm run test:coverage
+
       - run:
           name: Code Climate Test Coverage
           command: |
             ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
 
-      # Run rails tests
+      # Run Rails tests
       - run:
           name: Run backend tests
           command: |
@@ -150,6 +136,7 @@ jobs:
                               --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
           no_output_timeout: 30m
+
       - run:
           name: Code Climate Test Coverage
           command: |
@@ -159,7 +146,7 @@ jobs:
           root: coverage
           paths:
             - codeclimate.*.json
-      # collect reports
+
       - store_test_results:
           path: ~/tmp/test-results
       - store_artifacts:
@@ -170,7 +157,6 @@ jobs:
   upload-coverage:
     working_directory: ~/build
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:3.0.2-node-browsers
     environment:
       - CC_TEST_REPORTER_ID: caf26a895e937974a90860cfadfded20891cfd1373a5aaafb3f67406ab9d433f
@@ -190,11 +176,10 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json |  ~/tmp/cc-test-reporter upload-coverage --debug --input -
+            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json | ~/tmp/cc-test-reporter upload-coverage --debug --input -
 
 workflows:
   version: 2
-
   commit:
     jobs:
       - build
