@@ -4,8 +4,11 @@ import {
   CONVERSATION_PERMISSIONS,
   CONTACT_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
+import { defineAsyncComponent } from 'vue';
 
-const SearchView = () => import('./components/SearchView.vue');
+const SearchView = defineAsyncComponent(
+  () => import('./components/SearchView.vue')
+);
 
 export const routes = [
   {

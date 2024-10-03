@@ -1,15 +1,20 @@
 import { frontendURL } from '../../../../helper/URLHelper';
+import { defineAsyncComponent } from 'vue';
 
-const TeamsIndex = () => import('./Index.vue');
-const CreateStepWrap = () => import('./Create/Index.vue');
-const EditStepWrap = () => import('./Edit/Index.vue');
-const CreateTeam = () => import('./Create/CreateTeam.vue');
-const EditTeam = () => import('./Edit/EditTeam.vue');
-const AddAgents = () => import('./Create/AddAgents.vue');
-const EditAgents = () => import('./Edit/EditAgents.vue');
-const FinishSetup = () => import('./FinishSetup.vue');
-const SettingsContent = () => import('../Wrapper.vue');
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
+const TeamsIndex = defineAsyncComponent(() => import('./Index.vue'));
+const CreateStepWrap = defineAsyncComponent(() => import('./Create/Index.vue'));
+const EditStepWrap = defineAsyncComponent(() => import('./Edit/Index.vue'));
+const CreateTeam = defineAsyncComponent(
+  () => import('./Create/CreateTeam.vue')
+);
+const EditTeam = defineAsyncComponent(() => import('./Edit/EditTeam.vue'));
+const AddAgents = defineAsyncComponent(() => import('./Create/AddAgents.vue'));
+const EditAgents = defineAsyncComponent(() => import('./Edit/EditAgents.vue'));
+const FinishSetup = defineAsyncComponent(() => import('./FinishSetup.vue'));
+const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
+const SettingsWrapper = defineAsyncComponent(
+  () => import('../SettingsWrapper.vue')
+);
 
 export default {
   routes: [

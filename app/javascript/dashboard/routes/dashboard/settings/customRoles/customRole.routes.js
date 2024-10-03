@@ -1,7 +1,10 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { defineAsyncComponent } from 'vue';
 
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const CustomRolesHome = () => import('./Index.vue');
+const SettingsWrapper = defineAsyncComponent(
+  () => import('../SettingsWrapper.vue')
+);
+const CustomRolesHome = defineAsyncComponent(() => import('./Index.vue'));
 
 export default {
   routes: [

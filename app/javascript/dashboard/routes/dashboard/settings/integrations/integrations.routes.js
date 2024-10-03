@@ -1,11 +1,19 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const IntegrationHooks = () => import('./IntegrationHooks.vue');
-const Index = () => import('./Index.vue');
-const Webhook = () => import('./Webhooks/Index.vue');
-const DashboardApps = () => import('./DashboardApps/Index.vue');
-const Slack = () => import('./Slack.vue');
-const SettingsContent = () => import('../Wrapper.vue');
+import { defineAsyncComponent } from 'vue';
+
+const SettingsWrapper = defineAsyncComponent(
+  () => import('../SettingsWrapper.vue')
+);
+const IntegrationHooks = defineAsyncComponent(
+  () => import('./IntegrationHooks.vue')
+);
+const Index = defineAsyncComponent(() => import('./Index.vue'));
+const Webhook = defineAsyncComponent(() => import('./Webhooks/Index.vue'));
+const DashboardApps = defineAsyncComponent(
+  () => import('./DashboardApps/Index.vue')
+);
+const Slack = defineAsyncComponent(() => import('./Slack.vue'));
+const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
 
 export default {
   routes: [

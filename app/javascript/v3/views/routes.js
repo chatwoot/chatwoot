@@ -1,10 +1,17 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { defineAsyncComponent } from 'vue';
 
-const Login = () => import('./login/Index.vue');
-const Signup = () => import('./auth/signup/Index.vue');
-const ResetPassword = () => import('./auth/reset/password/Index.vue');
-const Confirmation = () => import('./auth/confirmation/Index.vue');
-const PasswordEdit = () => import('./auth/password/Edit.vue');
+const Login = defineAsyncComponent(() => import('./login/Index.vue'));
+const Signup = defineAsyncComponent(() => import('./auth/signup/Index.vue'));
+const ResetPassword = defineAsyncComponent(
+  () => import('./auth/reset/password/Index.vue')
+);
+const Confirmation = defineAsyncComponent(
+  () => import('./auth/confirmation/Index.vue')
+);
+const PasswordEdit = defineAsyncComponent(
+  () => import('./auth/password/Edit.vue')
+);
 
 export default [
   {

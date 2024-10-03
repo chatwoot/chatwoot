@@ -20,7 +20,6 @@ import {
   startsWithPlus,
   isPhoneNumberValidWithDialCode,
 } from 'shared/helpers/Validators';
-// const PhoneInput = () => import('../widget/components/Form/PhoneInput.vue');
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902

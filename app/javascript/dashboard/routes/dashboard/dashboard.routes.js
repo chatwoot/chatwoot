@@ -6,10 +6,11 @@ import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
+import { defineAsyncComponent } from 'vue';
 
-const AppContainer = () => import('./Dashboard.vue');
-const Captain = () => import('./Captain.vue');
-const Suspended = () => import('./suspended/Index.vue');
+const AppContainer = defineAsyncComponent(() => import('./Dashboard.vue'));
+const Captain = defineAsyncComponent(() => import('./Captain.vue'));
+const Suspended = defineAsyncComponent(() => import('./suspended/Index.vue'));
 
 export default {
   routes: [
