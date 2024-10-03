@@ -35,13 +35,20 @@ const fetchAuditLogs = page => {
 };
 
 const generateLogText = auditLogItem => {
-  const translationPayload = generateTranslationPayload(
-    auditLogItem,
-    agentList.value
-  );
+  const payload = generateTranslationPayload(auditLogItem, agentList.value);
   const translationKey = generateLogActionKey(auditLogItem);
+  // payload.attributes and payload.values can be an array, if it is so, join them
 
-  return t(translationKey, translationPayload);
+  const joinIfArray = value => {
+    return Array.isArray(value) ? value.join(', ') : value;
+  };
+
+  const mergedPayload = {
+    ...payload,
+    attributes: joinIfArray(payload.attributes),
+    values: joinIfArray(payload.values),
+  };
+  return t(translationKey, mergedPayload);
 };
 
 const onPageChange = page => {
