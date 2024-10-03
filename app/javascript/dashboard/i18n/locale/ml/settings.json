@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "ലഭ്യത",
-        "STATUSES_LIST": [
-          "ഓൺ‌ലൈൻ",
-          "തിരക്ക്",
-          "ഓഫ്‌ലൈൻ"
-        ],
+        "STATUS": {
+          "ONLINE": "ഓൺ‌ലൈൻ",
+          "BUSY": "തിരക്ക്",
+          "OFFLINE": "ഓഫ്‌ലൈൻ"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
