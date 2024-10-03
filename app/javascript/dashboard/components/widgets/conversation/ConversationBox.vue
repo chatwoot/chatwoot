@@ -103,7 +103,7 @@ export default {
       :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout && !isInboxView"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
@@ -128,7 +128,7 @@ export default {
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
-        @contactPanelToggle="onToggleContactPanel"
+        @contact-panel-toggle="onToggleContactPanel"
       />
       <EmptyState
         v-if="!currentChat.id && !isInboxView"

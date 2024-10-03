@@ -20,7 +20,7 @@ export default {
   <CategoryCard
     :title="$t('PORTAL.POPULAR_ARTICLES')"
     :articles="articles.slice(0, 6)"
-    @viewAll="$emit('viewAll')"
+    @view-all="$emit('viewAll')"
     @view="onArticleClick"
   />
 </template>

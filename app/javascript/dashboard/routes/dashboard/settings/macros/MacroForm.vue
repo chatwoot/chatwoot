@@ -115,9 +115,9 @@ export default {
         v-model="macro.actions"
         :files="files"
         :errors="errors"
-        @addNewNode="appendNode"
-        @deleteNode="deleteNode"
-        @resetAction="resetNode"
+        @add-new-node="appendNode"
+        @delete-node="deleteNode"
+        @reset-action="resetNode"
       />
     </div>
     <div class="w-full md:w-1/3">

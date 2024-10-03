@@ -66,7 +66,7 @@ useEmitter(CMD_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
   >
     <CustomSnoozeModal
       @close="hideCustomSnoozeModal"
-      @chooseTime="chooseSnoozeTime"
+      @choose-time="chooseSnoozeTime"
     />
   </woot-modal>
 </template>

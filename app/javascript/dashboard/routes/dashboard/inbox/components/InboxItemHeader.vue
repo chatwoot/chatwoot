@@ -152,7 +152,7 @@ export default {
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @chooseTime="scheduleCustomSnooze"
+        @choose-time="scheduleCustomSnooze"
       />
     </woot-modal>
   </div>

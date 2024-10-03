@@ -182,8 +182,8 @@ const openDelete = inbox => {
       :reject-text="deleteRejectText"
       :confirm-value="selectedInbox.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @onConfirm="confirmDeletion"
-      @onClose="closeDelete"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </SettingsLayout>
 </template>

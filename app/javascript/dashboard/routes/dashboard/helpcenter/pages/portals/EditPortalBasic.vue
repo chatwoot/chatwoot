@@ -79,6 +79,6 @@ async function deleteLogo() {
       $t('HELP_CENTER.PORTAL.EDIT.EDIT_BASIC_INFO.BUTTON_TEXT')
     "
     @submit="updatePortalSettings"
-    @deleteLogo="deleteLogo"
+    @delete-logo="deleteLogo"
   />
 </template>

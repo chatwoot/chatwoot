@@ -41,13 +41,13 @@ export default {
     <TemplatesPicker
       v-if="!selectedWaTemplate"
       :inbox-id="inboxId"
-      @onSelect="pickTemplate"
+      @on-select="pickTemplate"
     />
     <TemplateParser
       v-else
       :template="selectedWaTemplate"
-      @resetTemplate="onResetTemplate"
-      @sendMessage="onSendMessage"
+      @reset-template="onResetTemplate"
+      @send-message="onSendMessage"
     />
   </div>
 </template>

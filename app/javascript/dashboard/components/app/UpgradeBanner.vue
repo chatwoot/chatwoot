@@ -88,6 +88,6 @@ export default {
     :banner-message="bannerMessage"
     :action-button-label="actionButtonMessage"
     has-action-button
-    @primaryAction="routeToBilling"
+    @primary-action="routeToBilling"
   />
 </template>

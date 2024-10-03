@@ -49,7 +49,7 @@ export default {
     </woot-button>
     <Campaign />
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-      <AddCampaign @onClose="hideAddPopup" />
+      <AddCampaign @on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>

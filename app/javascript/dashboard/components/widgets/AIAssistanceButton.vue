@@ -142,7 +142,7 @@ export default {
       >
         <AIAssistanceModal
           :ai-option="aiOption"
-          @applyText="insertText"
+          @apply-text="insertText"
           @close="hideAIAssistanceModal"
         />
       </woot-modal>

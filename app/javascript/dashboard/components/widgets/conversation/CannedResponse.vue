@@ -46,6 +46,6 @@ export default {
   <MentionBox
     v-if="items.length"
     :items="items"
-    @mentionSelect="handleMentionClick"
+    @mention-select="handleMentionClick"
   />
 </template>

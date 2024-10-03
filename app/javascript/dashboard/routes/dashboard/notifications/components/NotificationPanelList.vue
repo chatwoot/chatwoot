@@ -52,7 +52,7 @@ export default {
       v-show="!isLoading"
       :key="notificationItem.id"
       :notification-item="notificationItem"
-      @openNotification="onClickNotification"
+      @open-notification="onClickNotification"
     />
     <EmptyState
       v-if="showEmptyResult"

@@ -188,9 +188,9 @@ export default {
         :threshold-unit="input.unit"
         :label="$t(input.label)"
         :placeholder="$t(input.placeholder)"
-        @updateThreshold="updateThreshold(index, $event)"
+        @update-threshold="updateThreshold(index, $event)"
         @unit="updateUnit(index, $event)"
-        @isInValid="handleIsInvalid(index, $event)"
+        @is-in-valid="handleIsInvalid(index, $event)"
       />
 
       <div

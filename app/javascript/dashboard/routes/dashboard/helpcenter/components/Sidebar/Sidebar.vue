@@ -73,7 +73,7 @@ export default {
       :sub-title="subTitle"
       :portal-link="portalLink"
       class="px-4"
-      @openPopover="openPortalPopover"
+      @open-popover="openPortalPopover"
     />
     <transition-group name="menu-list" tag="ul" class="p-2 mb-0 ml-0 list-none">
       <SecondaryNavItem

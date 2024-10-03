@@ -42,7 +42,7 @@ const isFooterVisible = computed(
       :total-pages="totalPages"
       :total-count="totalCount"
       :page-size="pageSize"
-      @pageChange="$emit('pageChange', $event)"
+      @page-change="$emit('pageChange', $event)"
     />
   </footer>
 </template>

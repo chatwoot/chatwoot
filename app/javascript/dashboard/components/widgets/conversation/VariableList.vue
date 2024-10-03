@@ -62,7 +62,7 @@ export default {
     v-if="items.length"
     type="variable"
     :items="items"
-    @mentionSelect="handleVariableClick"
+    @mention-select="handleVariableClick"
   />
 </template>
 

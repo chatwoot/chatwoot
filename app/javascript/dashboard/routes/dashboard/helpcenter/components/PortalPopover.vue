@@ -77,8 +77,8 @@ export default {
         :active-portal-slug="activePortalSlug"
         :active-locale="activeLocale"
         :active="portal.slug === activePortalSlug"
-        @openPortalPage="closePortalPopover"
-        @fetchPortal="fetchPortalAndItsCategories"
+        @open-portal-page="closePortalPopover"
+        @fetch-portal="fetchPortalAndItsCategories"
       />
     </div>
   </div>

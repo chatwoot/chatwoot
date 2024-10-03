@@ -579,7 +579,7 @@ export default {
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
-        @replyTo="handleReplyTo"
+        @reply-to="handleReplyTo"
       />
     </div>
   </li>

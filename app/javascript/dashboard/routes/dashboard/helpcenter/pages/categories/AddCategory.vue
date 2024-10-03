@@ -137,8 +137,8 @@ export default {
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
           :has-error="v$.name.$error"
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
-          @nameChange="onNameChange"
-          @iconChange="onClickInsertEmoji"
+          @name-change="onNameChange"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model="slug"

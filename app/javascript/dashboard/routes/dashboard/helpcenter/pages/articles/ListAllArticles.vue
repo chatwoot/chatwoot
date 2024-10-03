@@ -165,8 +165,8 @@ export default {
       :all-locales="allowedLocales"
       selected-value="Published"
       class="border-b border-slate-50 dark:border-slate-700"
-      @newArticlePage="newArticlePage"
-      @changeLocale="onChangeLocale"
+      @new-article-page="newArticlePage"
+      @change-locale="onChangeLocale"
     />
     <div
       v-if="isFetching"
@@ -186,7 +186,7 @@ export default {
         :articles="articles"
         :current-page="Number(meta.currentPage)"
         :total-count="Number(meta.count)"
-        @pageChange="onPageChange"
+        @page-change="onPageChange"
         @reorder="onReorder"
       />
     </div>

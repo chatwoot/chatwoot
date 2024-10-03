@@ -45,7 +45,7 @@ export default {
       disable-alpha
       :model-value="modelValue"
       class="colorpicker--chrome"
-      @update:modelValue="updateColor"
+      @update:model-value="updateColor"
     />
   </div>
 </template>

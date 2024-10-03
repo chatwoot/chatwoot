@@ -126,7 +126,7 @@ export default {
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
         class="absolute top-9 ltr:right-0 ltr:md:right-[unset] rtl:left-0 rtl:md:left-[unset]"
-        @optionClick="onInboxOptionMenuClick"
+        @option-click="onInboxOptionMenuClick"
       />
     </div>
   </div>

@@ -107,7 +107,7 @@ export default {
           :selected-value="chatStatus"
           :items="chatStatusItems"
           path-prefix="CHAT_LIST.CHAT_STATUS_FILTER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+          @on-change-filter="onChangeFilter"
         />
       </div>
       <div class="flex items-center justify-between last:mt-4">
@@ -119,7 +119,7 @@ export default {
           :selected-value="sortFilter"
           :items="chatSortItems"
           path-prefix="CHAT_LIST.SORT_ORDER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+          @on-change-filter="onChangeFilter"
         />
       </div>
     </div>

@@ -363,8 +363,8 @@ export default {
               ? $t(`CONTACTS_FILTER.ERRORS.VALUE_REQUIRED`)
               : ''
           "
-          @resetFilter="resetFilter(i, appliedFilters[i])"
-          @removeFilter="removeFilter(i)"
+          @reset-filter="resetFilter(i, appliedFilters[i])"
+          @remove-filter="removeFilter(i)"
         />
         <div class="mt-4">
           <woot-button

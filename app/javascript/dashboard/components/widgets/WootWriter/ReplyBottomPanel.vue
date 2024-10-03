@@ -340,7 +340,7 @@ export default {
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
-        @replaceText="replaceText"
+        @replace-text="replaceText"
       />
       <transition name="modal-fade">
         <div

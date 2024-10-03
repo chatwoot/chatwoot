@@ -1128,9 +1128,9 @@ export default {
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
-        @recorderProgressChanged="onRecordProgressChanged"
-        @stateRecorderChanged="onStateRecorderChanged"
-        @finishRecord="onFinishRecorder"
+        @recorder-progress-changed="onRecordProgressChanged"
+        @state-recorder-changed="onStateRecorderChanged"
+        @finish-record="onFinishRecorder"
       />
       <ResizableTextArea
         v-else-if="!showRichContentEditor"
@@ -1142,8 +1142,8 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :send-with-signature="sendWithSignature"
-        @typingOff="onTypingOff"
-        @typingOn="onTypingOn"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -1161,21 +1161,21 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :channel-type="channelType"
-        @typingOff="onTypingOff"
-        @typingOn="onTypingOn"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
-        @toggleUserMention="toggleUserMention"
-        @toggleCannedMenu="toggleCannedMenu"
-        @toggleVariablesMenu="toggleVariablesMenu"
-        @clearSelection="clearEditorSelection"
+        @toggle-user-mention="toggleUserMention"
+        @toggle-canned-menu="toggleCannedMenu"
+        @toggle-variables-menu="toggleVariablesMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
-        @removeAttachment="removeAttachment"
+        @remove-attachment="removeAttachment"
       />
     </div>
     <MessageSignatureMissingAlert
@@ -1205,16 +1205,16 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
-      @selectWhatsappTemplate="openWhatsappTemplateModal"
-      @toggleEditor="toggleRichContentEditor"
-      @replaceText="replaceText"
-      @toggleInsertArticle="toggleInsertArticle"
+      @select-whatsapp-template="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
+      @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
       :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"
-      @onSend="onSendWhatsAppReply"
+      @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
 

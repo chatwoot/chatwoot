@@ -231,7 +231,7 @@ export default {
         <TeamActions
           v-if="showTeamsList"
           class="team-actions-box"
-          @assignTeam="assignTeam"
+          @assign-team="assignTeam"
           @close="showTeamsList = false"
         />
       </transition>
@@ -245,7 +245,7 @@ export default {
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @chooseTime="customSnoozeTime"
+        @choose-time="customSnoozeTime"
       />
     </woot-modal>
   </div>
