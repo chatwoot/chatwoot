@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostępność",
-        "STATUSES_LIST": [
-          "Online",
-          "Zajęty",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Dostępny",
+          "BUSY": "Zajęty",
+          "OFFLINE": "Niedostępny"
+        },
         "SET_AVAILABILITY_SUCCESS": "Dostępność została pomyślnie ustawiona",
         "SET_AVAILABILITY_ERROR": "Nie można ustawić dostępności, spróbuj ponownie"
       },
