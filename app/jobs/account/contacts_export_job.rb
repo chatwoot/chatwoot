@@ -4,6 +4,8 @@ class Account::ContactsExportJob < ApplicationJob
   def perform(account_id, column_names)
     account = Account.find(account_id)
     headers = valid_headers(column_names)
+    return if headers.empty?
+
     generate_csv(account, headers)
     file_url = account_contact_export_url(account)
 
@@ -38,6 +40,8 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def account_contact_export_url(account)
+    return unless account.contacts_export.attached?
+
     Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
   end
 
