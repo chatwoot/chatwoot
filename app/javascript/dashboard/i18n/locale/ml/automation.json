@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "പേര്",
-        "വിവരണം",
-        "സജീവമാണ്",
-        "Created on"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "പേര്",
+        "DESCRIPTION": "വിവരണം",
+        "ACTIVE": "സജീവമാണ്",
+        "CREATED_ON": "Created on"
+      },
       "404": "No automation rules found"
     },
     "DELETE": {
