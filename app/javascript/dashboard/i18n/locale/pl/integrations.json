@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Brak skonfigurowanych webhooków dla tego konta.",
         "TITLE": "Zarządzaj webhookami",
-        "TABLE_HEADER": [
-          "Adres URL webhooka",
-          "Akcje"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Adres URL webhooka",
+          "ACTIONS": "Akcje"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Edytuj",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Na tym koncie nie skonfigurowano jeszcze aplikacji na pulpicie",
         "LOADING": "Pobieranie aplikacji na pulpicie...",
-        "TABLE_HEADER": [
-          "Nazwa",
-          "Punkt końcowy"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Imię",
+          "ENDPOINT": "Punkt końcowy"
+        },
         "EDIT_TOOLTIP": "Edytuj aplikację",
         "DELETE_TOOLTIP": "Usuń aplikację"
       },
