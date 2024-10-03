@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "מידע על מרכז העזרה",
-            "route": "new_portal_information",
-            "body": "מידע בסיסי על הפורטל",
-            "CREATE_BASIC_SETTING_BUTTON": "צור הגדרות בסיסיות של פורטל"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "מידע על מרכז העזרה",
+            "BODY": "מידע בסיסי על הפורטל"
           },
-          {
-            "title": "התאמה אישית של מרכז העזרה",
-            "route": "portal_customization",
-            "body": "התאמה אישית של פורטל",
-            "UPDATE_PORTAL_BUTTON": "עדכון הגדרות פורטל"
+          "CUSTOMIZATION": {
+            "TITLE": "התאמה אישית של מרכז העזרה",
+            "BODY": "התאמה אישית של פורטל"
           },
-          {
-            "title": "וואילה! 🎉",
-            "route": "portal_finish",
-            "body": "אתה מוכן!",
-            "FINISH": "סיים"
+          "FINISH": {
+            "TITLE": "וואילה! 🎉",
+            "BODY": "אתה מוכן!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "חזור",
           "BASIC_SETTINGS_PAGE": {
