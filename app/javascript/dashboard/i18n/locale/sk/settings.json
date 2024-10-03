@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostupnosť",
-        "STATUSES_LIST": [
-          "Online",
-          "Zaneprázdnený",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Zaneprázdnený",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
       },
