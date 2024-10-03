@@ -1,11 +1,14 @@
 <script>
-import { defineModel } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
 
 export default {
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     activeCustomView: {
       type: Object,
       default: () => {},
@@ -23,12 +26,16 @@ export default {
       default: () => {},
     },
   },
-  emits: ['close'],
-  setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { show };
-  },
+  emits: ['close', 'update:show'],
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     activeCustomViews() {
       if (this.activeFilterType === 0) {
         return 'conversation';
@@ -93,8 +100,8 @@ export default {
 <template>
   <div>
     <woot-delete-modal
-      v-if="show"
-      v-model:show="show"
+      v-if="localShow"
+      v-model:show="localShow"
       :on-close="closeDeletePopup"
       :on-confirm="deleteSavedCustomViews"
       :title="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.TITLE')"

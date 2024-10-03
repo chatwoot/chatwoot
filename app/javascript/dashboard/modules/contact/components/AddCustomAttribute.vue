@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import Modal from 'dashboard/components/Modal.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -9,15 +8,18 @@ export default {
     Modal,
   },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     isCreating: {
       type: Boolean,
       default: false,
     },
   },
-  emits: ['create', 'cancel'],
+  emits: ['create', 'cancel', 'update:show'],
   setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { v$: useVuelidate(), show };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -32,6 +34,14 @@ export default {
     },
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     attributeNameError() {
       if (this.v$.attributeName.$error) {
         return this.$t('CUSTOM_ATTRIBUTES.FORM.NAME.ERROR');
@@ -61,7 +71,7 @@ export default {
 </script>
 
 <template>
-  <Modal v-model:show="show" :on-close="onClose">
+  <Modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CUSTOM_ATTRIBUTES.ADD.TITLE')"
       :header-content="$t('CUSTOM_ATTRIBUTES.ADD.DESC')"
