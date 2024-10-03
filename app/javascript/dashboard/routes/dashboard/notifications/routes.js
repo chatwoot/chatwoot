@@ -1,12 +1,8 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-import { defineAsyncComponent } from 'vue';
-const SettingsWrapper = defineAsyncComponent(
-  () => import('../settings/Wrapper.vue')
-);
-const NotificationsView = defineAsyncComponent(
-  () => import('./components/NotificationsView.vue')
-);
+
+const SettingsWrapper = () => import('../settings/Wrapper.vue');
+const NotificationsView = () => import('./components/NotificationsView.vue');
 
 export const routes = [
   {
