@@ -252,6 +252,9 @@ importers:
       eslint-plugin-prettier:
         specifier: 5.2.1
         version: 5.2.1(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.3)
+      eslint-plugin-vitest-globals:
+        specifier: ^1.5.0
+        version: 1.5.0
       eslint-plugin-vue:
         specifier: ^9.28.0
         version: 9.28.0(eslint@8.57.0)
@@ -2420,6 +2423,9 @@ packages:
         optional: true
       eslint-config-prettier:
         optional: true
+
+  eslint-plugin-vitest-globals@1.5.0:
+    resolution: {integrity: sha512-ZSsVOaOIig0oVLzRTyk8lUfBfqzWxr/J3/NFMfGGRIkGQPejJYmDH3gXmSJxAojts77uzAGB/UmVrwi2DC4LYA==}
 
   eslint-plugin-vue@9.28.0:
     resolution: {integrity: sha512-ShrihdjIhOTxs+MfWun6oJWuk+g/LAhN+CiuOl/jjkG3l0F2AuK5NMTaWqyvBgkFtpYmyks6P4603mLmhNJW8g==}
@@ -6910,6 +6916,8 @@ snapshots:
       synckit: 0.9.1
     optionalDependencies:
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
+
+  eslint-plugin-vitest-globals@1.5.0: {}
 
   eslint-plugin-vue@9.28.0(eslint@8.57.0):
     dependencies:

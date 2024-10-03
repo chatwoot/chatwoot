@@ -1,5 +1,18 @@
 module.exports = {
-  extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/vue3-recommended'],
+  extends: [
+    'airbnb-base/legacy',
+    'prettier',
+    'plugin:vue/vue3-recommended',
+    'plugin:vitest-globals/recommended',
+  ],
+  overrides: [
+    {
+      files: ['**/*.spec.{j,t}s?(x)'],
+      env: {
+        'vitest-globals/env': true,
+      },
+    },
+  ],
   plugins: ['html', 'prettier'],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -210,11 +223,11 @@ module.exports = {
   globals: {
     bus: true,
     vi: true,
-    beforeEach: true,
-    afterEach: true,
-    test: true,
-    describe: true,
-    it: true,
-    expect: true,
+    // beforeEach: true,
+    // afterEach: true,
+    // test: true,
+    // describe: true,
+    // it: true,
+    // expect: true,
   },
 };
