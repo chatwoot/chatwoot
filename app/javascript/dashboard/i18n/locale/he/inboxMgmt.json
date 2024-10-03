@@ -8,28 +8,24 @@
     "LIST": {
       "404": "אין תיבות דואר נכנס מצורפות לחשבון זה."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "בחר ערוץ",
-        "route": "settings_inbox_new",
-        "body": "בחר את הספק שברצונך לשלב עם Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "בחר ערוץ",
+        "BODY": "בחר את הספק שברצונך לשלב עם Chatwoot."
       },
-      {
-        "title": "צור תיבת דואר נכנס",
-        "route": "settings_inboxes_page_channel",
-        "body": "אמת את חשבונך וצור תיבת דואר נכנס."
+      "INBOX": {
+        "TITLE": "צור תיבת דואר נכנס",
+        "BODY": "אמת את חשבונך וצור תיבת דואר נכנס."
       },
-      {
-        "title": "הוסף נציג",
-        "route": "settings_inboxes_add_agents",
-        "body": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
+      "AGENT": {
+        "TITLE": "הוסף נציג",
+        "BODY": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "אתם מוכנים לצאת לדרך!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "אתם מוכנים לצאת לדרך!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "שם תיבת הדואר הנכנס",
