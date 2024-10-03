@@ -170,7 +170,7 @@ export default {
           :options="filterItemsList"
           :option-height="24"
           :show-labels="false"
-          @input="changeFilterSelection"
+          @update:model-value="changeFilterSelection"
         >
           <template #singleLabel="props">
             <div class="flex items-center gap-2">
@@ -217,7 +217,7 @@ export default {
           :options="filterItemsList"
           :option-height="24"
           :show-labels="false"
-          @input="changeFilterSelection"
+          @update:model-value="changeFilterSelection"
         >
           <template #singleLabel="props">
             <div class="flex items-center gap-2">
@@ -271,7 +271,7 @@ export default {
           :options="filterItemsList"
           :searchable="false"
           :allow-empty="false"
-          @input="changeFilterSelection"
+          @update:model-value="changeFilterSelection"
         />
       </div>
       <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
@@ -319,7 +319,7 @@ export default {
           :options="groupByFilterItemsList"
           :allow-empty="false"
           :show-labels="false"
-          @input="changeGroupByFilterSelection"
+          @update:model-value="changeGroupByFilterSelection"
         />
       </div>
     </div>

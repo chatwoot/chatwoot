@@ -165,12 +165,7 @@ export default {
       @closeKeyShortcutModal="closeKeyShortcutModal"
       @showAddLabelPopup="showAddLabelPopup"
     />
-    <main
-      class="app-body-wrapper basis-0 grow [min-inline-size:50%]"
-      :class="{
-        'max-h-[calc(100vh-48px)]': hasBanner,
-      }"
-    >
+    <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
       <router-view />
       <CommandBar />
       <AccountSelector

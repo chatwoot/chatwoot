@@ -35,7 +35,7 @@ export default {
       :options="options"
       :option-height="24"
       :show-labels="false"
-      @input="handleInput"
+      @update:model-value="handleInput"
     >
       <template #singleLabel="props">
         <div class="flex items-center gap-2">

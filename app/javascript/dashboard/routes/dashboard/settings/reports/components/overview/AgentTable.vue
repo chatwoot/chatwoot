@@ -146,7 +146,7 @@ const table = useVueTable({
   <div class="agent-table-container">
     <Table
       :table="table"
-      class="max-h-[calc(100vh-21.875rem)] border border-t-0 border-slate-50"
+      class="max-h-[calc(100vh-21.875rem)] border border-slate-50 dark:border-slate-800"
     />
     <Pagination class="mt-2" :table="table" />
     <div v-if="isLoading" class="agents-loader">

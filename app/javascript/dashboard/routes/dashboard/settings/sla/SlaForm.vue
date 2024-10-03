@@ -126,7 +126,7 @@ export default {
         resolution_time_threshold: this.convertToSeconds(2),
         only_during_business_hours: this.onlyDuringBusinessHours,
       };
-      this.$emit('submit', payload);
+      this.$emit('submitSla', payload);
     },
     convertToSeconds(index) {
       const { threshold, unit } = this.slaTimeInputs[index];

@@ -84,13 +84,11 @@ export const InitializationHelpers = {
       // eslint-disable-next-line vue/one-component-per-file
       const app = createApp({
         components: { PublicArticleSearch },
-        directives: {
-          'on-clickaway': onClickaway,
-        },
         template: '<PublicArticleSearch />',
       });
 
       app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.directive('on-clickaway', onClickaway);
       app.mount('#search-wrap');
     }
   },

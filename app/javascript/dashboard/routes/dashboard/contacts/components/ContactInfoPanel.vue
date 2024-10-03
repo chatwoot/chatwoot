@@ -137,6 +137,7 @@ export default {
                   $t('CONTACT_PANEL.SIDEBAR_SECTIONS.PREVIOUS_CONVERSATIONS')
                 "
                 :is-open="isContactSidebarItemOpen('is_ct_prev_conv_open')"
+                compact
                 @toggle="
                   value => toggleSidebarUIState('is_ct_prev_conv_open', value)
                 "

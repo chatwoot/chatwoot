@@ -33,7 +33,7 @@ export default {
       :show-labels="false"
       track-by="value"
       label="label"
-      @input="handleInput"
+      @update:model-value="handleInput"
     />
   </div>
 </template>
