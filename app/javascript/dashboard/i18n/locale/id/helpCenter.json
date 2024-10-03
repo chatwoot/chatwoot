@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Informasi pusat bantuan",
-            "route": "new_portal_information",
-            "body": "Informasi dasar tentang portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Buat pengaturan dasar portal"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Informasi Pusat Bantuan",
+            "BODY": "Informasi dasar tentang portal"
           },
-          {
-            "title": "Kustomisasi pusat bantuan",
-            "route": "portal_customization",
-            "body": "Kustomisasi portal",
-            "UPDATE_PORTAL_BUTTON": "Perbarui pengaturan portal"
+          "CUSTOMIZATION": {
+            "TITLE": "Kustomisasi Pusat Bantuan",
+            "BODY": "Kustomisasi portal"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Semuanya siap!",
-            "FINISH": "Selesai"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Semuanya siap!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Kembali",
           "BASIC_SETTINGS_PAGE": {
