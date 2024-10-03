@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Prieinamumas",
-        "STATUSES_LIST": [
-          "Prisijungęs",
-          "Užimta",
-          "Atsijungęs"
-        ],
+        "STATUS": {
+          "ONLINE": "Prisijungęs",
+          "BUSY": "Užimta",
+          "OFFLINE": "Atsijungęs"
+        },
         "SET_AVAILABILITY_SUCCESS": "Pasiekiamumas nustatytas sėkmingai",
         "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą"
       },
