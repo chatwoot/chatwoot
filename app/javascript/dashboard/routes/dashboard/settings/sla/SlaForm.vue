@@ -169,6 +169,7 @@ export default {
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="slaNameErrorMessage"
         @input="v$.name.$touch"
+        @blur="v$.name.$touch"
       />
       <woot-input
         v-model="description"

@@ -160,6 +160,7 @@ export default {
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           @input="v$.slug.$touch"
+          @blur="v$.slug.$touch"
         />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
