@@ -240,7 +240,7 @@ export default {
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
     <woot-modal
-      :show.sync="showCustomTimeSnoozeModal"
+      v-model:show="showCustomTimeSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
       <CustomSnoozeModal

@@ -437,7 +437,7 @@ export default {
     />
     <DeleteCustomViews
       v-if="showDeleteSegmentsModal"
-      :show-delete-popup.sync="showDeleteSegmentsModal"
+      v-model:show="showDeleteSegmentsModal"
       :active-custom-view="activeSegment"
       :custom-views-id="segmentsId"
       :active-filter-type="filterType"
@@ -451,11 +451,11 @@ export default {
       :on-close="closeContactInfoPanel"
     />
     <CreateContact :show="showCreateModal" @cancel="onToggleCreate" />
-    <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
+    <woot-modal v-model:show="showImportModal" :on-close="onToggleImport">
       <ImportContacts v-if="showImportModal" :on-close="onToggleImport" />
     </woot-modal>
     <woot-modal
-      :show.sync="showFiltersModal"
+      v-model:show="showFiltersModal"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >

@@ -9,6 +9,7 @@ export default {
     PublicSearchInput,
     SearchSuggestions,
   },
+  emits: ['input', 'blur'],
   data() {
     return {
       searchTerm: '',
