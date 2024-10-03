@@ -47,10 +47,10 @@
       "LIST": {
         "404": "Không có webhook nào được định cấu hình cho tài khoản này.",
         "TITLE": "Quản lý webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Hành động"
-        ]
+        "TABLE_HEADER": {
+          "WEBHOOK_ENDPOINT": "Webhook endpoint",
+          "ACTIONS": "Hành động"
+        }
       },
       "EDIT": {
         "BUTTON_TEXT": "Chỉnh sửa",
@@ -183,10 +183,10 @@
       "LIST": {
         "404": "Chưa có ứng dụng trang \u001dđiều khiển nào được định cấu hình trên tài khoản này",
         "LOADING": "Đang tìm nạp ứng dụng bảng điều khiển...",
-        "TABLE_HEADER": [
-          "Tên",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": {
+          "NAME": "Tên",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Sửa app",
         "DELETE_TOOLTIP": "Xoá app"
       },
