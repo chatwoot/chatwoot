@@ -216,8 +216,8 @@ onMounted(() => {
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal
-    full-width
     v-model:show="localShow"
+    full-width
     :show-close-button="false"
     :on-close="onClose"
   >

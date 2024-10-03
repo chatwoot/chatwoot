@@ -172,8 +172,8 @@ export default {
     <!-- Confirm Deletion -->
     <woot-delete-modal
       v-if="showDeleteModal"
-      class="context-menu--delete-modal"
       v-model:show="showDeleteModal"
+      class="context-menu--delete-modal"
       :on-close="closeDeleteModal"
       :on-confirm="confirmDeletion"
       :title="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.TITLE')"
