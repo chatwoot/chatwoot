@@ -279,6 +279,9 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
+      prosemirror-model:
+        specifier: ^1.22.3
+        version: 1.22.3
       size-limit:
         specifier: ^8.2.4
         version: 8.2.6
