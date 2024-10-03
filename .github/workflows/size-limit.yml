@@ -43,3 +43,5 @@ jobs:
 
       - name: Size Check
         run: pnpm run size
+        env:
+          SIZE_LIMIT_FILE_PATH: "public/vite"
