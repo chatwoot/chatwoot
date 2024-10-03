@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Help center information",
-            "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Help center information",
+            "BODY": "Basic information about portal"
           },
-          {
-            "title": "Help center customization",
-            "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          "CUSTOMIZATION": {
+            "TITLE": "Help center customization",
+            "BODY": "Customize portal"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "You're all set!",
-            "FINISH": "Finish"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "You're all set!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Back",
           "BASIC_SETTINGS_PAGE": {
