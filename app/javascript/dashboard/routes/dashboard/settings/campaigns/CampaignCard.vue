@@ -17,6 +17,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['edit', 'delete']);
+
 const { t } = useI18n();
 
 const { formatMessage } = useMessageFormatter();
@@ -66,7 +68,7 @@ const colorScheme = computed(() => {
           icon="edit"
           color-scheme="secondary"
           size="small"
-          @click="$emit('edit', campaign)"
+          @click="emit('edit', campaign)"
         >
           {{ $t('CAMPAIGN.LIST.BUTTONS.EDIT') }}
         </woot-button>
@@ -75,7 +77,7 @@ const colorScheme = computed(() => {
           icon="dismiss-circle"
           size="small"
           color-scheme="secondary"
-          @click="$emit('delete', campaign)"
+          @click="emit('delete', campaign)"
         >
           {{ $t('CAMPAIGN.LIST.BUTTONS.DELETE') }}
         </woot-button>

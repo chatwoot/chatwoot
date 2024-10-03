@@ -22,6 +22,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['update:modelValue', 'resetAction', 'deleteNode', 'addNewNode'],
   computed: {
     actionData: {
       get() {
@@ -75,8 +76,8 @@ export default {
               )
             "
             :single-node="actionData.length === 1"
-            @resetAction="$emit('resetAction', i)"
-            @deleteNode="$emit('deleteNode', i)"
+            @reset-action="$emit('resetAction', i)"
+            @delete-node="$emit('deleteNode', i)"
           />
         </div>
       </template>

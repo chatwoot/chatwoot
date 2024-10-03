@@ -47,6 +47,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue', 'removeFilter', 'resetFilter'],
   computed: {
     attributeKey: {
       get() {

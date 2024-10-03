@@ -45,6 +45,7 @@ export default {
       default: 'chevron-right',
     },
   },
+  emits: ['togglePanel', 'panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
     return {

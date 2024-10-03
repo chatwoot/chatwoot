@@ -125,7 +125,7 @@ const tableHeaders = computed(() => {
           :total-count="meta.totalEntries"
           :page-size="meta.perPage"
           class="border-slate-50 dark:border-slate-800 border-t !px-0 py-4"
-          @pageChange="onPageChange"
+          @page-change="onPageChange"
         />
       </div>
     </div>

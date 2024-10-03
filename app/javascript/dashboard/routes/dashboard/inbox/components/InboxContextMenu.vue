@@ -17,6 +17,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['close', 'selectAction'],
   methods: {
     handleClose() {
       this.$emit('close');

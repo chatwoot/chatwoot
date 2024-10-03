@@ -22,6 +22,7 @@ export default {
       values: ['archived', 'draft', 'published'],
     },
   },
+  emits: ['addLocale', 'openSite'],
   setup() {
     const { updateUISettings } = useUISettings();
 
@@ -358,7 +359,7 @@ export default {
           <LocaleItemTable
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
-            @changeDefaultLocale="changeDefaultLocale"
+            @change-default-locale="changeDefaultLocale"
             @delete="deletePortalLocale"
           />
         </div>

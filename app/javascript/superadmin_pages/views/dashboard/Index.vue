@@ -40,26 +40,28 @@ const { accountsCount, usersCount, inboxesCount, conversationsCount } =
 <template>
   <div class="w-full h-full">
     <header class="main-content__header" role="banner">
-      <h1 id="page-title" class="main-content__page-title">Admin Dashboard</h1>
+      <h1 id="page-title" class="main-content__page-title">
+        {{ 'Admin Dashboard' }}
+      </h1>
     </header>
 
     <section class="main-content__body main-content__body--flush">
       <div class="report--list">
         <div class="report-card">
           <div class="metric">{{ accountsCount }}</div>
-          <div>Accounts</div>
+          <div>{{ 'Accounts' }}</div>
         </div>
         <div class="report-card">
           <div class="metric">{{ usersCount }}</div>
-          <div>Users</div>
+          <div>{{ 'Users' }}</div>
         </div>
         <div class="report-card">
           <div class="metric">{{ inboxesCount }}</div>
-          <div>Inboxes</div>
+          <div>{{ 'Inboxes' }}</div>
         </div>
         <div class="report-card">
           <div class="metric">{{ conversationsCount }}</div>
-          <div>Conversations</div>
+          <div>{{ 'Conversations' }}</div>
         </div>
       </div>
     </section>

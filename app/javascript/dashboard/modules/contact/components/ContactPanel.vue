@@ -77,7 +77,7 @@ export default {
     <ContactFields
       :contact="contact"
       @update="updateField"
-      @createAttribute="toggleCustomAttributeModal"
+      @create-attribute="toggleCustomAttributeModal"
     />
     <EditContact
       v-if="showEditModal"

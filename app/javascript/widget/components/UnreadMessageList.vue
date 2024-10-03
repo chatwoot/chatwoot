@@ -20,6 +20,7 @@ export default {
       required: true,
     },
   },
+  emits: ['close'],
   computed: {
     ...mapGetters({
       unreadMessageCount: 'conversation/getUnreadMessageCount',

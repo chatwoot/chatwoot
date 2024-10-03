@@ -99,7 +99,7 @@ export default {
     <PublicSearchInput
       :search-term="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
-      @update:searchTerm="onUpdateSearchTerm"
+      @update:search-term="onUpdateSearchTerm"
       @focus="openSearch"
     />
     <div
