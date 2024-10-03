@@ -145,11 +145,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilitat",
-        "STATUSES_LIST": [
-          "En línia",
-          "Ocupat",
-          "Fora de línia"
-        ],
+        "STATUS": {
+          "ONLINE": "En línia",
+          "BUSY": "Ocupat",
+          "OFFLINE": "Fora de línia"
+        },
         "SET_AVAILABILITY_SUCCESS": "La disponibilitat s'ha establert correctament",
         "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar"
       },
