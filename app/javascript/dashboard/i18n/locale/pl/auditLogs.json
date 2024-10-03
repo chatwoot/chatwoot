@@ -11,11 +11,11 @@
       "404": "Brak dostępnych Dzienników Audytu na tym koncie.",
       "TITLE": "Zarządzaj Dziennikami Audytu",
       "DESC": "Dzienniki Audytu to ślady działań i zdarzeń w systemie Chatwoot.",
-      "TABLE_HEADER": [
-        "Aktywność",
-        "Akcja",
-        "Adres IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "Aktywność",
+        "TIME": "Akcja",
+        "IP_ADDRESS": "Adres IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Dzienniki Audytu pobrane pomyślnie",
