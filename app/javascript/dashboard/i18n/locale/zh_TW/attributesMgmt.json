@@ -92,12 +92,12 @@
       "CONTACT": "聯絡人"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名",
-        "描述資訊",
-        "類別",
-        "Key"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "姓名",
+        "DESCRIPTION": "描述資訊",
+        "TYPE": "類別",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "編輯",
         "DELETE": "刪除"
