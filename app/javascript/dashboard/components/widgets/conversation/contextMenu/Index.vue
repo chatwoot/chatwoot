@@ -37,7 +37,14 @@ export default {
       default: null,
     },
   },
-  emits: ['updateConversation', 'assignPriority'],
+  emits: [
+    'updateConversation',
+    'assignPriority',
+    'markAsUnread',
+    'assignAgent',
+    'assignTeam',
+    'assignLabel',
+  ],
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,

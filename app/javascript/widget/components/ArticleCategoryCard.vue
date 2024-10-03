@@ -15,7 +15,7 @@ export default {
       default: () => [],
     },
   },
-  emits: ['view'],
+  emits: ['view', 'viewAll'],
   computed: {
     ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
   },

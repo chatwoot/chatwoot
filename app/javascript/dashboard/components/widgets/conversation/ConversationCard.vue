@@ -76,6 +76,7 @@ export default {
     'assignTeam',
     'markAsUnread',
     'assignPriority',
+    'updateConversationStatus',
   ],
   data() {
     return {

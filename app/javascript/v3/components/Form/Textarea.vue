@@ -46,7 +46,7 @@ export default {
       default: '',
     },
   },
-  emits: ['input'],
+  emits: ['input', 'blur'],
   methods: {
     onInput(e) {
       this.$emit('input', e.target.value);

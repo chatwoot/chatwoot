@@ -22,7 +22,7 @@ export default {
       default: () => [],
     },
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'resetAction', 'deleteNode', 'addNewNode'],
   computed: {
     actionData: {
       get() {

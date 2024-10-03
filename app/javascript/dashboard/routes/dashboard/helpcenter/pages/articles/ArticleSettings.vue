@@ -13,7 +13,13 @@ export default {
       default: () => ({}),
     },
   },
-  emits: ['saveArticle', 'archiveArticle', 'deleteArticle', 'updateMeta'],
+  emits: [
+    'saveArticle',
+    'archiveArticle',
+    'deleteArticle',
+    'updateMeta',
+    'saveArticle',
+  ],
   data() {
     return {
       metaTitle: '',

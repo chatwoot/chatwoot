@@ -112,7 +112,12 @@ export default {
       required: true,
     },
   },
-  emits: ['replaceText', 'toggleInsertArticle'],
+  emits: [
+    'replaceText',
+    'toggleInsertArticle',
+    'toggleEditor',
+    'selectWhatsappTemplate',
+  ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();

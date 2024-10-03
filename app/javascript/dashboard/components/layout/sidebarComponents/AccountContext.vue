@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  emits: ['toggleAccounts'],
   data() {
     return { showSwitchButton: false };
   },
