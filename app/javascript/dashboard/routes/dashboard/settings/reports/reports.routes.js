@@ -1,16 +1,15 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { defineAsyncComponent } from 'vue';
 
-const SettingsContent = defineAsyncComponent(() => import('../Wrapper.vue'));
-const Index = defineAsyncComponent(() => import('./Index.vue'));
-const AgentReports = defineAsyncComponent(() => import('./AgentReports.vue'));
-const LabelReports = defineAsyncComponent(() => import('./LabelReports.vue'));
-const InboxReports = defineAsyncComponent(() => import('./InboxReports.vue'));
-const TeamReports = defineAsyncComponent(() => import('./TeamReports.vue'));
-const CsatResponses = defineAsyncComponent(() => import('./CsatResponses.vue'));
-const BotReports = defineAsyncComponent(() => import('./BotReports.vue'));
-const LiveReports = defineAsyncComponent(() => import('./LiveReports.vue'));
-const SLAReports = defineAsyncComponent(() => import('./SLAReports.vue'));
+const SettingsContent = () => import('../Wrapper.vue');
+const Index = () => import('./Index.vue');
+const AgentReports = () => import('./AgentReports.vue');
+const LabelReports = () => import('./LabelReports.vue');
+const InboxReports = () => import('./InboxReports.vue');
+const TeamReports = () => import('./TeamReports.vue');
+const CsatResponses = () => import('./CsatResponses.vue');
+const BotReports = () => import('./BotReports.vue');
+const LiveReports = () => import('./LiveReports.vue');
+const SLAReports = () => import('./SLAReports.vue');
 
 export default {
   routes: [

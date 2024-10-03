@@ -1,10 +1,7 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
-import { defineAsyncComponent } from 'vue';
-const InboxListView = defineAsyncComponent(() => import('./InboxList.vue'));
-const InboxDetailView = defineAsyncComponent(() => import('./InboxView.vue'));
-const InboxEmptyStateView = defineAsyncComponent(
-  () => import('./InboxEmptyState.vue')
-);
+const InboxListView = () => import('./InboxList.vue');
+const InboxDetailView = () => import('./InboxView.vue');
+const InboxEmptyStateView = () => import('./InboxEmptyState.vue');
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,

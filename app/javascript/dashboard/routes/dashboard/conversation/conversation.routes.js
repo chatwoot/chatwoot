@@ -1,9 +1,6 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-import { defineAsyncComponent } from 'vue';
-const ConversationView = defineAsyncComponent(
-  () => import('./ConversationView.vue')
-);
+const ConversationView = () => import('./ConversationView.vue');
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',

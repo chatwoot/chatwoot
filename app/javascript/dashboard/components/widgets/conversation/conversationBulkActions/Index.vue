@@ -14,9 +14,7 @@ import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
 import TeamActions from './TeamActions.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-
 export default {
-  name: 'ConversationBulkActions',
   components: {
     AgentSelector,
     UpdateActions,

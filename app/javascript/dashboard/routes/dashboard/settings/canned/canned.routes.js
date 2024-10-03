@@ -3,12 +3,8 @@ import {
   ROLES,
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
-import { defineAsyncComponent } from 'vue';
-
-const SettingsWrapper = defineAsyncComponent(
-  () => import('../SettingsWrapper.vue')
-);
-const CannedHome = defineAsyncComponent(() => import('./Index.vue'));
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
+const CannedHome = () => import('./Index.vue');
 
 export default {
   routes: [
