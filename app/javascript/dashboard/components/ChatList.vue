@@ -785,7 +785,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
     <DeleteCustomViews
       v-if="showDeleteFoldersModal"
-      :show-delete-popup.sync="showDeleteFoldersModal"
+      v-model:show="showDeleteFoldersModal"
       :active-custom-view="activeFolder"
       :custom-views-id="foldersId"
       :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
@@ -878,7 +878,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       </DynamicScroller>
     </div>
     <woot-modal
-      :show.sync="showAdvancedFilters"
+      v-model:show="showAdvancedFilters"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >

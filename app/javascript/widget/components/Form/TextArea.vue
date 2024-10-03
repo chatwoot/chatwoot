@@ -19,6 +19,7 @@ export default {
       default: '',
     },
   },
+  emits: ['input'],
   setup() {
     const { getThemeClass } = useDarkMode();
     return { getThemeClass };

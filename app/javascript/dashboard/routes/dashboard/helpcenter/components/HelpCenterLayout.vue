@@ -336,7 +336,7 @@ export default {
       />
       <AddCategory
         v-if="showAddCategoryModal"
-        :show.sync="showAddCategoryModal"
+        v-model:show="showAddCategoryModal"
         :portal-name="selectedPortalName"
         :locale="selectedLocaleInPortal"
         :portal-slug="selectedPortalSlug"

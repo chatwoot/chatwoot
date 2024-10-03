@@ -30,6 +30,7 @@ export default {
       default: '',
     },
   },
+  emits: ['input'],
 };
 </script>
 

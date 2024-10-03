@@ -25,6 +25,7 @@ export default {
       default: '',
     },
   },
+  emits: ['input'],
   data() {
     return {
       greetingsMessage: this.value,

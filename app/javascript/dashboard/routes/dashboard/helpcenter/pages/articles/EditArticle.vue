@@ -204,7 +204,7 @@ export default {
       @updateMeta="updateMeta"
     />
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"

@@ -154,7 +154,7 @@ export default {
     <!-- Add To Canned Responses -->
     <woot-modal
       v-if="isCannedResponseModalOpen && enabledOptions['cannedResponse']"
-      :show.sync="isCannedResponseModalOpen"
+      v-model:show="isCannedResponseModalOpen"
       :on-close="hideCannedResponseModal"
     >
       <AddCannedModal
@@ -172,8 +172,8 @@ export default {
     <!-- Confirm Deletion -->
     <woot-delete-modal
       v-if="showDeleteModal"
+      v-model:show="showDeleteModal"
       class="context-menu--delete-modal"
-      :show.sync="showDeleteModal"
       :on-close="closeDeleteModal"
       :on-confirm="confirmDeletion"
       :title="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.TITLE')"

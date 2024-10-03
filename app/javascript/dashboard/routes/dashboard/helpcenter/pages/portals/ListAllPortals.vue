@@ -92,7 +92,7 @@ export default {
       />
     </div>
     <woot-modal
-      :show.sync="isAddLocaleModalOpen"
+      v-model:show="isAddLocaleModalOpen"
       :on-close="closeAddLocaleModal"
     >
       <AddLocale

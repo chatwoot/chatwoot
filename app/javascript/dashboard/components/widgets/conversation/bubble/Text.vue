@@ -106,7 +106,7 @@ export default {
     </button>
     <GalleryView
       v-if="showGalleryViewer"
-      :show.sync="showGalleryViewer"
+      v-model:show="showGalleryViewer"
       :attachment="attachment"
       :all-attachments="availableAttachments"
       @error="onClose"
