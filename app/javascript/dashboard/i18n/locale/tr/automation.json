@@ -40,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "İsim",
-        "Açıklama",
-        "Aktif",
-        "Oluşturma"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "DESCRIPTION": "Açıklama",
+        "ACTIVE": "Aktif",
+        "CREATED_ON": "Oluşturma"
+      },
       "404": "Otomasyon kuralı bulunamadı"
     },
     "DELETE": {
