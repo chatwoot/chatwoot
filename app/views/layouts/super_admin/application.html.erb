@@ -23,7 +23,7 @@ By default, it renders:
   </title>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>
-  <%= vite_javascript_tag 'superadmin', crossorigin: nil %>
+  <%= vite_javascript_tag 'superadmin', crossorigin: "use-credentials" %>
   <%= csrf_meta_tags %>
 </head>
 <body class="antialiased w-full h-full">

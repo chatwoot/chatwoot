@@ -34,7 +34,7 @@
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
     <%= vite_client_tag %>
-    <%= vite_javascript_tag 'widget',  crossorigin: nil %>
+    <%= vite_javascript_tag 'widget',  crossorigin: "use-credentials" %>
   </head>
   <body>
     <div id="app" class="h-full"></div>
