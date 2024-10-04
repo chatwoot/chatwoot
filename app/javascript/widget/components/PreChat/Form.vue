@@ -277,6 +277,7 @@ export default {
       inputClass: 'hidden',
       wrapperClass: 'hidden',
     }"
+    @submit="onSubmit"
   >
     <div
       v-if="shouldShowHeaderMessage"
