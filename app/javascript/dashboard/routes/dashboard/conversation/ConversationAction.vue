@@ -94,7 +94,7 @@
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
     <conversation-labels :conversation-id="conversationId" />
-    <div class="multiselect-wrap--small mt-3" v-if="false">
+    <div class="multiselect-wrap--small mt-3">
       <contact-details-item
         compact
         :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_KIND')"
