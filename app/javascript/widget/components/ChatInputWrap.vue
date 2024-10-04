@@ -1,5 +1,4 @@
 <script>
-import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
@@ -8,10 +7,7 @@ import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
-
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
-);
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   name: 'ChatInputWrap',
@@ -107,8 +103,7 @@ export default {
       }
     },
     toggleEmojiPicker() {
-      console.log('EMOJI PICKER');
-      // this.showEmojiPicker = !this.showEmojiPicker;
+      this.showEmojiPicker = !this.showEmojiPicker;
     },
     hideEmojiPicker(e) {
       if (this.showEmojiPicker) {
