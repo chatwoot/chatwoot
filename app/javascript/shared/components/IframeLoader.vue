@@ -39,7 +39,6 @@ export default {
       :src="url"
       class="absolute w-full h-full top-0 left-0"
       @load="handleIframeLoad"
-      @error="handleIframeError"
     />
     <ArticleSkeletonLoader
       v-if="isLoading"
