@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
-
 import AvailabilityStatus from '../AvailabilityStatus.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
@@ -54,11 +53,14 @@ describe('AvailabilityStatus', () => {
       },
     });
 
+    // Ensure that the dropdown menu is opened
+    await wrapper.vm.openStatusMenu();
+
     // Simulate the user clicking the 3rd button (offline status)
-    await wrapper
-      .findAll('.status-change--dropdown-button')
-      .at(2)
-      .trigger('click');
+    const buttons = wrapper.findAll('.status-change--dropdown-button');
+    expect(buttons.length).toBeGreaterThan(0); // Ensure buttons exist
+
+    await buttons[2].trigger('click');
 
     expect(actions.updateAvailability).toHaveBeenCalledTimes(1);
     expect(actions.updateAvailability.mock.calls[0][1]).toEqual({
