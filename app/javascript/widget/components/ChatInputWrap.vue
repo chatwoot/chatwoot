@@ -107,7 +107,8 @@ export default {
       }
     },
     toggleEmojiPicker() {
-      this.showEmojiPicker = !this.showEmojiPicker;
+      console.log('EMOJI PICKER');
+      // this.showEmojiPicker = !this.showEmojiPicker;
     },
     hideEmojiPicker(e) {
       if (this.showEmojiPicker) {
