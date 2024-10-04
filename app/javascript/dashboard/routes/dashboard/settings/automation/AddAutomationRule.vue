@@ -239,8 +239,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @reset-ilter="resetFilter(i, automation.conditions[i])"
-              @remove-ilter="removeFilter(i)"
+              @reset-filter="resetFilter(i, automation.conditions[i])"
+              @remove-filter="removeFilter(i)"
             />
             <div class="mt-4">
               <woot-button
