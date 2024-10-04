@@ -96,6 +96,11 @@ export default defineConfig({
         '**/i18n/**/*',
       ],
     },
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
     globals: true,
     outputFile: 'coverage/sonar-report.xml',
     server: {
@@ -106,7 +111,5 @@ export default defineConfig({
     setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
     mockReset: true,
     clearMocks: true,
-    minThreads: 4,
-    maxThreads: 4,
   },
 });
