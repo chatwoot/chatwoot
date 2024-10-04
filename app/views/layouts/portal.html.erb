@@ -22,7 +22,7 @@ By default, it renders:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <%= vite_client_tag %>
-    <%= vite_javascript_tag 'portal', crossorigin: "use-credentials" %>
+    <%= vite_javascript_tag 'portal', crossorigin: nil %>
     <style>
       #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
       #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
@@ -132,4 +132,5 @@ By default, it renders:
   <% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled %>
   <%= @portal.channel_web_widget.web_widget_script.html_safe %>
   <% end %>
+  <%= vite_legacy_javascript_tag 'portal'%>
 </html>

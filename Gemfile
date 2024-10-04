@@ -65,6 +65,8 @@ gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
 gem 'vite_rails'
+# for legacy no cors support
+gem 'vite_plugin_legacy'
 # metrics on heroku
 gem 'barnes'
 

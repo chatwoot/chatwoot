@@ -798,6 +798,8 @@ GEM
       activemodel (>= 3.2)
       mail (~> 2.5)
     version_gem (1.1.4)
+    vite_plugin_legacy (3.0.2)
+      vite_ruby (~> 3.0, >= 3.0.4)
     vite_rails (3.0.17)
       railties (>= 5.1, < 8)
       vite_ruby (~> 3.0, >= 3.2.2)
@@ -959,6 +961,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   valid_email2
+  vite_plugin_legacy
   vite_rails
   web-console (>= 4.2.1)
   web-push (>= 3.0.1)

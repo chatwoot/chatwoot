@@ -64,7 +64,7 @@
     </script>
     <% end %>
     <%= vite_client_tag %>
-    <%= vite_javascript_tag @application_pack,  crossorigin: "use-credentials" %>
+    <%= vite_javascript_tag @application_pack,  crossorigin: nil %>
   </head>
   <body class="text-slate-600">
     <div id="app"></div>
@@ -73,5 +73,6 @@
     <% if @dashboard_scripts.present? %>
       <%= @dashboard_scripts.html_safe %>
     <% end %>
+    <%= vite_legacy_javascript_tag @application_pack,%>
   </body>
 </html>

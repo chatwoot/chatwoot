@@ -8,8 +8,7 @@ as defined by the routes in the `admin/` namespace
 %>
 
 <%= vite_client_tag %>
-<%= vite_javascript_tag 'superadmin_pages',  crossorigin: "use-credentials" %>
-
+<%= vite_javascript_tag 'superadmin_pages',  crossorigin: nil %>
 <%
   sidebar_icons = {
     accounts: 'icon-building-4-line',
@@ -59,4 +58,5 @@ as defined by the routes in the `admin/` namespace
       <%= render partial: "nav_item", locals: { icon: 'icon-logout-circle-r-line', url: super_admin_logout_url, label: 'Logout' } %>
     </ul>
   </div>
+  <%= vite_legacy_javascript_tag 'superadmin_pages'%>
 </div>
