@@ -19,7 +19,7 @@ import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
+import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -50,20 +50,20 @@ const EmojiInput = defineAsyncComponent(
 
 export default {
   components: {
-    EmojiInput,
-    CannedResponse,
-    ReplyToMessage,
-    ResizableTextArea,
-    AttachmentPreview,
-    ReplyTopPanel,
-    ReplyEmailHead,
-    ReplyBottomPanel,
-    WootMessageEditor,
-    WootAudioRecorder,
-    Banner,
-    WhatsappTemplates,
-    MessageSignatureMissingAlert,
     ArticleSearchPopover,
+    AttachmentPreview,
+    AudioRecorder,
+    Banner,
+    CannedResponse,
+    EmojiInput,
+    MessageSignatureMissingAlert,
+    ReplyBottomPanel,
+    ReplyEmailHead,
+    ReplyToMessage,
+    ReplyTopPanel,
+    ResizableTextArea,
+    WhatsappTemplates,
+    WootMessageEditor,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   emits: ['update:popoutReplyBox', 'togglePopout'],
@@ -280,10 +280,7 @@ export default {
       return this.attachedFiles.length;
     },
     hasRecordedAudio() {
-      return (
-        this.$refs.audioRecorderInput &&
-        this.$refs.audioRecorderInput.hasAudio()
-      );
+      return this.$refs.audioRecorderInput?.record;
     },
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
@@ -364,7 +361,7 @@ export default {
         return AUDIO_FORMATS.MP3;
       }
       if (this.isAPIInbox) {
-        return AUDIO_FORMATS.OGG;
+        return AUDIO_FORMATS.MP3;
       }
       return AUDIO_FORMATS.WAV;
     },
@@ -827,13 +824,14 @@ export default {
       }
     },
     toggleAudioRecorderPlayPause() {
-      if (this.isRecordingAudio) {
-        if (!this.isRecorderAudioStopped) {
-          this.isRecorderAudioStopped = true;
-          this.$refs.audioRecorderInput.stopRecording();
-        } else if (this.isRecorderAudioStopped) {
-          this.$refs.audioRecorderInput.playPause();
-        }
+      if (!this.isRecordingAudio) {
+        return;
+      }
+      if (!this.isRecorderAudioStopped) {
+        this.isRecorderAudioStopped = true;
+        this.$refs.audioRecorderInput.stopRecording();
+      } else if (this.isRecorderAudioStopped) {
+        this.$refs.audioRecorderInput.playPause();
       }
     },
     hideEmojiPicker() {
@@ -860,13 +858,8 @@ export default {
     onRecordProgressChanged(duration) {
       this.recordingAudioDurationText = duration;
     },
-    onStateRecorderChanged(state) {
-      this.recordingAudioState = state;
-      if (state && 'notallowederror'.includes(state)) {
-        this.toggleAudioRecorder();
-      }
-    },
     onFinishRecorder(file) {
+      this.recordingAudioState = 'stopped';
       // Added a new key isRecordedAudio to the file to find it's and recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
@@ -1122,13 +1115,14 @@ export default {
         v-model:bcc-emails="bccEmails"
         v-model:to-emails="toEmails"
       />
-      <WootAudioRecorder
+      <AudioRecorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
         @recorder-progress-changed="onRecordProgressChanged"
-        @state-recorder-changed="onStateRecorderChanged"
         @finish-record="onFinishRecorder"
+        @play="recordingAudioState = 'playing'"
+        @pause="recordingAudioState = 'paused'"
       />
       <ResizableTextArea
         v-else-if="!showRichContentEditor"
