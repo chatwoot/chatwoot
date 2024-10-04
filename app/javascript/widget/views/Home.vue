@@ -77,9 +77,10 @@ export default {
       if (isDark) {
         linkToOpen = `${linkToOpen}&theme=dark`;
       }
+      // console.log(linkToOpen);
       this.$router.push({
         name: 'article-viewer',
-        params: { link: linkToOpen },
+        query: { link: linkToOpen },
       });
     },
     viewAllArticles() {
