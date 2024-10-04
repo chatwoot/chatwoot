@@ -96,11 +96,6 @@ export default defineConfig({
         '**/i18n/**/*',
       ],
     },
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
     globals: true,
     outputFile: 'coverage/sonar-report.xml',
     server: {
