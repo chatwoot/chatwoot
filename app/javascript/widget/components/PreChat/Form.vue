@@ -25,6 +25,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['submit'],
   setup() {
     const phoneInput = createInput(PhoneInput, {
       props: ['hasErrorInPhoneInput'],

@@ -10,6 +10,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['tabChange'],
   data() {
     return {
       activeTab: 0,

@@ -46,6 +46,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['saveAutomation'],
   setup() {
     const {
       automation,
@@ -238,8 +239,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="resetFilter(i, automation.conditions[i])"
-              @removeFilter="removeFilter(i)"
+              @reset-ilter="resetFilter(i, automation.conditions[i])"
+              @remove-ilter="removeFilter(i)"
             />
             <div class="mt-4">
               <woot-button
@@ -282,8 +283,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
                   : ''
               "
-              @resetAction="resetAction(i)"
-              @removeAction="removeAction(i)"
+              @reset-action="resetAction(i)"
+              @remove-action="removeAction(i)"
             />
             <div class="mt-4">
               <woot-button

@@ -1,5 +1,6 @@
 <script>
-import { defineAsyncComponent } from 'vue';
+// [TODO] The popout events are needlessly complex and should be simplified
+import { defineAsyncComponent, defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -65,12 +66,7 @@ export default {
     ArticleSearchPopover,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
-  props: {
-    popoutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  emits: ['update:popoutReplyBox', 'togglePopout'],
   setup() {
     const {
       uiSettings,
@@ -79,8 +75,14 @@ export default {
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
+    const popoutReplyBox = defineModel('popoutReplyBox', {
+      type: Boolean,
+      default: false,
+    });
+
     return {
       uiSettings,
+      popoutReplyBox,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -463,12 +465,10 @@ export default {
       this.onNewConversationModalActive
     );
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
-  },
-  unmounted() {
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
@@ -1081,15 +1081,15 @@ export default {
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       has-action-button
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-      @primaryAction="onClickSelfAssign"
+      @primary-action="onClickSelfAssign"
     />
     <ReplyTopPanel
       :mode="replyType"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
-      @setReplyMode="setReplyMode"
-      @togglePopout="$emit('togglePopout')"
+      @set-reply-mode="setReplyMode"
+      @toggle-popout="$emit('togglePopout')"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1126,9 +1126,9 @@ export default {
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
-        @recorderProgressChanged="onRecordProgressChanged"
-        @stateRecorderChanged="onStateRecorderChanged"
-        @finishRecord="onFinishRecorder"
+        @recorder-progress-changed="onRecordProgressChanged"
+        @state-recorder-changed="onStateRecorderChanged"
+        @finish-record="onFinishRecorder"
       />
       <ResizableTextArea
         v-else-if="!showRichContentEditor"
@@ -1140,8 +1140,8 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :send-with-signature="sendWithSignature"
-        @typingOff="onTypingOff"
-        @typingOn="onTypingOn"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -1159,21 +1159,21 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :channel-type="channelType"
-        @typingOff="onTypingOff"
-        @typingOn="onTypingOn"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
-        @toggleUserMention="toggleUserMention"
-        @toggleCannedMenu="toggleCannedMenu"
-        @toggleVariablesMenu="toggleVariablesMenu"
-        @clearSelection="clearEditorSelection"
+        @toggle-user-mention="toggleUserMention"
+        @toggle-canned-menu="toggleCannedMenu"
+        @toggle-variables-menu="toggleVariablesMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
-        @removeAttachment="removeAttachment"
+        @remove-attachment="removeAttachment"
       />
     </div>
     <MessageSignatureMissingAlert
@@ -1203,16 +1203,16 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
-      @selectWhatsappTemplate="openWhatsappTemplateModal"
-      @toggleEditor="toggleRichContentEditor"
-      @replaceText="replaceText"
-      @toggleInsertArticle="toggleInsertArticle"
+      @select-whatsapp-template="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
+      @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
       :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"
-      @onSend="onSendWhatsAppReply"
+      @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
 

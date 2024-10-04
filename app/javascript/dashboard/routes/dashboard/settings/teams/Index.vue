@@ -144,15 +144,15 @@ const confirmPlaceHolderText = computed(() =>
     </div>
     <woot-confirm-delete-modal
       v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :title="confirmDeleteTitle"
       :message="$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
       :confirm-value="selectedTeam.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @onConfirm="confirmDeletion"
-      @onClose="closeDelete"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>

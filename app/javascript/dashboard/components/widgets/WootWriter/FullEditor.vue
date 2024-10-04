@@ -47,6 +47,7 @@ export default {
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
   },
+  emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
 
@@ -60,17 +61,9 @@ export default {
       plugins: [imagePastePlugin(this.handleImageUpload)],
     };
   },
-  computed: {
-    contentFromEditor() {
-      if (editorView) {
-        return ArticleMarkdownSerializer.serialize(editorView.state.doc);
-      }
-      return '';
-    },
-  },
   watch: {
     modelValue(newValue = '') {
-      if (newValue !== this.contentFromEditor) {
+      if (newValue !== this.contentFromEditor()) {
         this.reloadState();
       }
     },
@@ -95,6 +88,12 @@ export default {
     this.focusEditorInputField();
   },
   methods: {
+    contentFromEditor() {
+      if (editorView) {
+        return ArticleMarkdownSerializer.serialize(editorView.state.doc);
+      }
+      return '';
+    },
     openFileBrowser() {
       this.$refs.imageUploadInput.click();
     },
@@ -212,8 +211,8 @@ export default {
       editorView.focus();
     },
     emitOnChange() {
-      this.$emit('update:modelValue', this.contentFromEditor);
-      this.$emit('input', this.contentFromEditor);
+      this.$emit('update:modelValue', this.contentFromEditor());
+      this.$emit('input', this.contentFromEditor());
     },
     onKeyup() {
       this.$emit('keyup');

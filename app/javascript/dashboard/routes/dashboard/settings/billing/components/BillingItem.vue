@@ -19,6 +19,7 @@ export default {
       default: 'edit',
     },
   },
+  emits: ['open'],
 };
 </script>
 

@@ -29,6 +29,7 @@ export default {
       default: false,
     },
   },
+  emits: ['blur', 'input', 'setCode'],
   data() {
     return {
       selectedIndex: -1,

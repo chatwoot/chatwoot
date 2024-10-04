@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="$t('IMPORT_CONTACTS.TITLE')">
         <p>

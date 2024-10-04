@@ -12,6 +12,7 @@ export default {
       default: '',
     },
   },
+  emits: ['changeDefaultLocale', 'delete'],
 
   methods: {
     changeDefaultLocale(localeCode) {

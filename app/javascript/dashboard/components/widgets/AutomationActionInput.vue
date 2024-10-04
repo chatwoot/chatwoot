@@ -38,6 +38,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update:modelValue', 'input', 'removeAction', 'resetAction'],
   computed: {
     action_name: {
       get() {

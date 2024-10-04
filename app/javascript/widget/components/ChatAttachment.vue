@@ -35,13 +35,15 @@ export default {
   mounted() {
     document.addEventListener('paste', this.handleClipboardPaste);
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('paste', this.handleClipboardPaste);
   },
   methods: {
     handleClipboardPaste(e) {
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-      items.forEach(item => {
+      // items is a DataTransferItemList object which does not have forEach method
+      const itemsArray = Array.from(items);
+      itemsArray.forEach(item => {
         if (item.kind === 'file') {
           e.preventDefault();
           const file = item.getAsFile();

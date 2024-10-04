@@ -52,6 +52,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
@@ -547,9 +548,9 @@ export default {
         </div>
       </div>
       <ReplyBox
+        v-model:popout-reply-box="isPopOutReplyBox"
         :conversation-id="currentChat.id"
-        :popout-reply-box.sync="isPopOutReplyBox"
-        @togglePopout="showPopOutReplyBox"
+        @toggle-popout="showPopOutReplyBox"
       />
     </div>
   </div>

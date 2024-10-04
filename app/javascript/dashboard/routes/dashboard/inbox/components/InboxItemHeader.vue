@@ -29,6 +29,7 @@ export default {
       default: null,
     },
   },
+  emits: ['next', 'prev'],
   data() {
     return { showCustomSnoozeModal: false };
   },
@@ -38,7 +39,7 @@ export default {
   mounted() {
     emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
-  destroyed() {
+  unmounted() {
     emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   methods: {
@@ -147,12 +148,12 @@ export default {
       </woot-button>
     </div>
     <woot-modal
-      :show.sync="showCustomSnoozeModal"
+      v-model:show="showCustomSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @chooseTime="scheduleCustomSnooze"
+        @choose-time="scheduleCustomSnooze"
       />
     </woot-modal>
   </div>

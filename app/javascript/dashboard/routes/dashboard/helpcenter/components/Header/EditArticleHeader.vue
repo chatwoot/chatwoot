@@ -29,6 +29,7 @@ export default {
       default: false,
     },
   },
+  emits: ['back', 'show', 'add', 'updateMeta', 'open', 'close'],
   data() {
     return {
       showActionsDropdown: false,

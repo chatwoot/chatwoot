@@ -15,11 +15,7 @@ import {
 } from 'dashboard/helper/automationHelper';
 import { validateAutomation } from 'dashboard/helper/validations';
 
-import {
-  AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
-  AUTOMATIONS,
-} from './constants';
+import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 
 export default {
   components: {
@@ -36,6 +32,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['saveAutomation'],
   setup() {
     const {
       automation,
@@ -225,8 +222,8 @@ export default {
                   ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
                   : ''
               "
-              @resetFilter="resetFilter(i, automation.conditions[i])"
-              @removeFilter="removeFilter(automation, i)"
+              @reset-filter="resetFilter(i, automation.conditions[i])"
+              @remove-filter="removeFilter(automation, i)"
             />
             <div class="mt-4">
               <woot-button
@@ -265,8 +262,8 @@ export default {
                   : ''
               "
               :initial-file-name="getFileName(action, automation.files)"
-              @resetAction="resetAction(i)"
-              @removeAction="removeAction(i)"
+              @reset-action="resetAction(i)"
+              @remove-action="removeAction(i)"
             />
             <div class="mt-4">
               <woot-button

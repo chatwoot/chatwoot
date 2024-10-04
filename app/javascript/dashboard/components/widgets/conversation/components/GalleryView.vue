@@ -7,10 +7,6 @@ import { messageTimestamp } from 'shared/helpers/timeHelper';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 const props = defineProps({
-  show: {
-    type: Boolean,
-    required: true,
-  },
   attachment: {
     type: Object,
     required: true,
@@ -22,6 +18,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
+const show = defineModel('show', { type: Boolean, default: false });
 
 const getters = useStoreGetters();
 
@@ -208,11 +205,10 @@ onMounted(() => {
 });
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal
+    v-model:show="show"
     full-width
-    :show.sync="show"
     :show-close-button="false"
     :on-close="onClose"
   >

@@ -33,6 +33,7 @@ export default {
       default: false,
     },
   },
+  emits: ['pageChange'],
   data() {
     return {
       pageNo: 1,
@@ -105,7 +106,7 @@ export default {
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      @pageChange="onPageChange"
+      @page-change="onPageChange"
     />
   </div>
 </template>

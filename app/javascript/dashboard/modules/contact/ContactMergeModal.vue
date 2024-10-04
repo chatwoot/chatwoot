@@ -10,15 +10,16 @@ import { CONTACTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 export default {
   components: { MergeContact },
   props: {
-    primaryContact: {
-      type: Object,
-      required: true,
-    },
     show: {
       type: Boolean,
       default: false,
     },
+    primaryContact: {
+      type: Object,
+      required: true,
+    },
   },
+  emits: ['close', 'update:show'],
   data() {
     return {
       isSearching: false,
@@ -29,6 +30,14 @@ export default {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
     }),
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
   },
 
   methods: {
@@ -69,9 +78,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('MERGE_CONTACTS.TITLE')"
       :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"

@@ -14,6 +14,7 @@ export default {
       required: true,
     },
   },
+  emits: ['edit', 'delete'],
   computed: {
     isACSMLTypeBot() {
       const { bot_type: botType } = this.agentBot;
