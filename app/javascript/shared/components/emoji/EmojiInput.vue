@@ -1,5 +1,5 @@
 <script>
-import emojis from './emojisGroup.json';
+import emojis from './emojisGroup';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 const SEARCH_KEY = 'Search';
 
