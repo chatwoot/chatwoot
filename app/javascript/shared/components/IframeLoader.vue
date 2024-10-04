@@ -23,11 +23,11 @@ export default {
       // Once loaded, the loading state is hidden
       this.isLoading = false;
     },
-    handleIframeError() {
-      // Hide the loading state and show the empty state when an error occurs
-      this.isLoading = false;
-      this.showEmptyState = true;
-    },
+    // handleIframeError() {
+    //   // Hide the loading state and show the empty state when an error occurs
+    //   this.isLoading = false;
+    //   this.showEmptyState = true;
+    // },
   },
 };
 </script>
@@ -39,7 +39,6 @@ export default {
       :src="url"
       class="absolute w-full h-full top-0 left-0"
       @load="handleIframeLoad"
-      @error="handleIframeError"
     />
     <ArticleSkeletonLoader
       v-if="isLoading"
