@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import MoreActions from '../MoreActions.vue';
-import Button from 'dashboard/components/buttons/Button.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 vi.mock('shared/helpers/mitt', () => ({
