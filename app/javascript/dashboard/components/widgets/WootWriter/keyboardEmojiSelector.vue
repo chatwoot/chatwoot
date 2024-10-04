@@ -1,6 +1,6 @@
 <script setup>
 import { shallowRef, computed, onMounted } from 'vue';
-import emojiGroups from 'shared/components/emoji/emojisGroup.json';
+import emojiGroups from 'shared/components/emoji/emojisGroup';
 import MentionBox from '../mentions/MentionBox.vue';
 
 const props = defineProps({
