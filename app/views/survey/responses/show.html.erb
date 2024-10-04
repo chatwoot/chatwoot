@@ -8,7 +8,7 @@
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
     <%= vite_client_tag %>
-    <%= vite_javascript_tag 'survey',  crossorigin: "use-credentials" %>
+    <%= vite_javascript_tag 'survey',  crossorigin: nil %>
   </head>
   <body>
     <div id="app"></div>
