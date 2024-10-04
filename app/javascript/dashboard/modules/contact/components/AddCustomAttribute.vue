@@ -84,6 +84,7 @@ export default {
         :error="attributeNameError"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.NAME.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.NAME.PLACEHOLDER')"
+        @blur="v$.attributeName.$touch"
         @input="v$.attributeName.$touch"
       />
       <woot-input
