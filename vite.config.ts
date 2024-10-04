@@ -106,5 +106,7 @@ export default defineConfig({
     setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
     mockReset: true,
     clearMocks: true,
+    minThreads: 4,
+    maxThreads: 4,
   },
 });
