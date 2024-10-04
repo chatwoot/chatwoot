@@ -37,7 +37,7 @@ export default {
       default: () => [],
     },
   },
-  emits: ['input', 'openPopover', 'openModal'],
+  emits: ['openPopover', 'openModal'],
   computed: {
     hasCategory() {
       return (
@@ -50,9 +50,6 @@ export default {
     },
   },
   methods: {
-    onSearch(value) {
-      this.$emit('input', value);
-    },
     openPortalPopover() {
       this.$emit('openPopover');
     },
