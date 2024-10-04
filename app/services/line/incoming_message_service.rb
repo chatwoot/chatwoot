@@ -25,13 +25,14 @@ class Line::IncomingMessageService
       next unless message_created? event
 
       attach_files event['message']
+      @message.save!
     end
   end
 
   def message_created?(event)
     return unless event_type_message?(event)
 
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: message_content(event),
       account_id: @inbox.account_id,
       content_type: message_content_type(event),
@@ -90,7 +91,6 @@ class Line::IncomingMessageService
         content_type: response.content_type
       }
     )
-    @message.save!
   end
 
   def event_type_message?(event)

@@ -36,7 +36,6 @@ export default createRouter({
         {
           path: '/article',
           name: 'article-viewer',
-          props: true,
           component: () => import('./views/ArticleViewer.vue'),
         },
       ],
