@@ -13,7 +13,6 @@ import { getUserPermissions } from 'dashboard/helper/permissionsHelper.js';
 
 const NOTIFICATION_TIME = 30000;
 
-// [TODO] Rewrite this class to use better ES6 syntax
 class DashboardAudioNotificationHelper {
   constructor() {
     this.recurringNotificationTimer = null;
