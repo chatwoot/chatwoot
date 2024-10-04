@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import { useAlert } from 'dashboard/composables';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import { DirectUpload } from 'activestorage';
 import { reactive } from 'vue';
 
 vi.mock('shared/helpers/FileHelper', () => ({
