@@ -18,6 +18,7 @@ and build it separately using Vite itself, toggled by an ENV variable.
 
 We need to edit the `asset:precompile` rake task to include the SDK in the precompile list.
 */
+import legacy from '@vitejs/plugin-legacy';
 import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
@@ -34,7 +35,13 @@ const vueOptions = {
   },
 };
 
-let plugins = [ruby(), vue(vueOptions)];
+let plugins = [
+  legacy({
+    targets: ['defaults', 'not IE 11'],
+  }),
+  ruby(),
+  vue(vueOptions),
+];
 
 if (isLibraryMode) {
   plugins = [];
