@@ -201,9 +201,6 @@ export default {
       }
       return contactObject;
     },
-    onPhoneNumberInputChange(value, code) {
-      this.activeDialCode = code;
-    },
     setPhoneCode(code) {
       if (this.phoneNumber !== '' && this.parsePhoneNumber) {
         const dialCode = this.parsePhoneNumber.countryCallingCode;
@@ -336,7 +333,6 @@ export default {
             :value="phoneNumber"
             :error="isPhoneNumberNotValid"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @input="onPhoneNumberInputChange"
             @blur="v$.phoneNumber.$touch"
             @set-code="setPhoneCode"
           />
