@@ -5,7 +5,7 @@
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
-    "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage",
+    "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage --logHeapUsage",
     "test:watch": "TZ=UTC vitest --no-cache --no-coverage",
     "test:coverage": "TZ=UTC vitest --no-cache --no-watch --coverage",
     "start:dev": "foreman start -f ./Procfile.dev",
