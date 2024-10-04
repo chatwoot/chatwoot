@@ -186,7 +186,7 @@ export default {
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-            @input="onDisplayNameChange"
+            @update:model-value="onDisplayNameChange"
             @blur="v$.displayName.$touch"
           />
           <woot-input
