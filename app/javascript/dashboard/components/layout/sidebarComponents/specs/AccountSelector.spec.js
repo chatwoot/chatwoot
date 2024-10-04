@@ -40,7 +40,11 @@ describe('AccountSelector', () => {
           'woot-modal-header': WootModalHeader,
           'fluent-icon': FluentIcon,
         },
-        stubs: { WootButton: { template: '<button />' } },
+        stubs: {
+          WootButton: { template: '<button />' },
+          // override global stub
+          WootModalHeader: false,
+        },
       },
       props: { showAccountModal: true },
     });
