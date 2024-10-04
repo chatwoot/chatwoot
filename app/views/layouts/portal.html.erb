@@ -22,7 +22,7 @@ By default, it renders:
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <%= vite_client_tag %>
-    <%= vite_javascript_tag 'portal' %>
+    <%= vite_javascript_tag 'portal', crossorigin: nil %>
     <style>
       #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
       #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
