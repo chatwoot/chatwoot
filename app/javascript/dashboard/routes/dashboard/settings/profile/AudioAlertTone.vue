@@ -33,21 +33,17 @@ const selectedValue = computed({
     emit('change', value);
   },
 });
-
-const handleChange = value => {
-  selectedValue.value = value;
-};
 </script>
 
 <template>
   <FormSelect
+    v-model="selectedValue"
     name="alertTone"
     spacing="compact"
     :value="selectedValue"
     :options="alertTones"
     :label="label"
     class="max-w-xl"
-    @input="handleChange"
   >
     <option
       v-for="tone in alertTones"
