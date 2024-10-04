@@ -223,7 +223,7 @@ export default {
                   : ''
               "
               @reset-filter="resetFilter(i, automation.conditions[i])"
-              @remove-filter="removeFilter(automation, i)"
+              @remove-filter="removeFilter(i)"
             />
             <div class="mt-4">
               <woot-button
