@@ -17,7 +17,6 @@ export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
     try {
-      console.log('SETTIGN');
       const { data } = await createConversationAPI(params);
       const { messages } = data;
       const [message = {}] = messages;
