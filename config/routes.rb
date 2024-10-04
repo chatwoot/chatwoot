@@ -78,11 +78,12 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
-          resources :conversations, only: [:index, :create, :show, :update] do
+          resources :conversations, only: [:index, :new, :create, :show, :update] do
             collection do
               get :meta
               get :search
               post :filter
+              post :create_ticket
               post :ticket
               post :ticket_issue
               get :search_by_email

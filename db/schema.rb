@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_27_193753) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_30_010654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -483,8 +483,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_27_193753) do
     t.integer "priority"
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
-    t.boolean "closed", default: false
     t.text "cached_label_list"
+    t.boolean "closed", default: false
     t.integer "contact_kind", default: 0
     t.integer "handled_by", default: 0
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
@@ -556,7 +556,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_27_193753) do
     t.string "regex_pattern"
     t.string "regex_cue"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -974,11 +974,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_27_193753) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|

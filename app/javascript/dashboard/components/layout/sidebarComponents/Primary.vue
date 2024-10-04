@@ -19,6 +19,7 @@
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
+      <new-ticket-button v-if="newTicketEnabled" @open-new-ticket-panel="openNewTicketPanel"/>
       <primary-nav-item
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
@@ -44,9 +45,12 @@ import PrimaryNavItem from './PrimaryNavItem.vue';
 import OptionsMenu from './OptionsMenu.vue';
 import AgentDetails from './AgentDetails.vue';
 import NotificationBell from './NotificationBell.vue';
+import NewTicketButton from './NewTicketButton.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
@@ -55,6 +59,7 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
+    NewTicketButton,
   },
   props: {
     isACustomBrandedInstance: {
@@ -88,6 +93,17 @@ export default {
       showOptionsMenu: false,
     };
   },
+  computed: {
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
+    newTicketEnabled(){
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.TICKETS
+      );
+    }
+  },
   methods: {
     frontendURL,
     toggleOptions() {
@@ -102,6 +118,9 @@ export default {
     openNotificationPanel() {
       this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
       this.$emit('open-notification-panel');
+    },
+    openNewTicketPanel() {
+      this.$emit('open-new-ticket-panel');
     },
   },
 };

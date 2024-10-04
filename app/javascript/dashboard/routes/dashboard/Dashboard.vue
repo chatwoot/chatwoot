@@ -6,6 +6,7 @@
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
       @open-notification-panel="openNotificationPanel"
+      @open-new-ticket-panel="openNewTicketPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
@@ -32,6 +33,10 @@
         v-if="isNotificationPanel"
         @close="closeNotificationPanel"
       />
+      <conversation-new-panel
+        v-if="showNewTicketPanel"
+        @close="closeNewTicketPanel"/>
+
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <add-label-modal @close="hideAddLabelPopup" />
       </woot-modal>
@@ -48,6 +53,7 @@ import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAc
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import ConversationNewPanel from 'dashboard/routes/dashboard/conversation/ConversationNewPanel.vue'
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -60,6 +66,7 @@ export default {
     AccountSelector,
     AddLabelModal,
     NotificationPanel,
+    ConversationNewPanel,
   },
   mixins: [uiSettingsMixin],
   data() {
@@ -69,6 +76,7 @@ export default {
       showAddLabelModal: false,
       showShortcutModal: false,
       isNotificationPanel: false,
+      showNewTicketPanel: false,
       displayLayoutType: '',
     };
   },
@@ -170,6 +178,12 @@ export default {
     },
     closeNotificationPanel() {
       this.isNotificationPanel = false;
+    },
+    openNewTicketPanel() {
+      this.showNewTicketPanel = true;
+    },
+    closeNewTicketPanel() {
+      this.showNewTicketPanel = false;
     },
   },
 };

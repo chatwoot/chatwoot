@@ -22,6 +22,7 @@ const state = {
   showSmartActions: false,
   smartActions: [],
   smartActionsContext: {},
+  newTicket: {},
 };
 
 // mutations
@@ -306,6 +307,12 @@ export const mutations = {
 
   [types.SET_SMART_ACTIONS_CONTEXT](_state, value) {
     Vue.set(_state, 'smartActionsContext', value);
+  },
+  [types.SET_NEW_TICKET](_state, value) {
+    Vue.set(_state, 'newTicket', value);
+  },
+  [types.CLEAR_NEW_TICKET](_state) {
+    Vue.set(_state, 'newTicket', {});
   },
 };
 

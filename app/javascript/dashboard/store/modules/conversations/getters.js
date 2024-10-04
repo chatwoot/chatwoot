@@ -121,6 +121,9 @@ const getters = {
   getSmartActionsContext: _state => {
     return _state.smartActionsContext;
   },
+  getNewTicket: _state => {
+    return _state.newTicket;
+  },
 };
 
 export default getters;

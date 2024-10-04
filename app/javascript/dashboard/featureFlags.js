@@ -33,4 +33,5 @@ export const FEATURE_FLAGS = {
   IP_LOOKUP: 'ip_lookup',
   SMART_ACTIONS: 'smart_actions',
   REQUIRED_CONTACT_TYPE: 'required_contact_type',
+  TICKETS: 'tickets',
 };

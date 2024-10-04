@@ -499,6 +499,16 @@ const actions = {
   setCurrentChatContactKind({ commit }, { contactKind, conversationId }) {
     commit(types.ASSIGN_CONTACT_KIND, { contactKind, conversationId });
   },
+  saveTicket: async (_, ticket) => {
+    try {
+      return await ConversationApi.saveTicket(ticket);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  clearTicket({ commit }){
+    commit(types.CLEAR_NEW_TICKET)
+  },
 
   ...smartActions,
   ...messageReadActions,

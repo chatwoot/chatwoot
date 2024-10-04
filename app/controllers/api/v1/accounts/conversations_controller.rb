@@ -4,7 +4,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include HmacConcern
 
   before_action :require_date_range_for_parquet_request, only: [:index]
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :ticket, :ticket_issue, :search_by_email]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :ticket, :ticket_issue, :search_by_email, :create_ticket]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   def index
@@ -23,6 +23,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversations = result[:conversations]
       @conversations_count = result[:count]
     end
+  end
+
+  def new
+    @conversation = Conversation.new
   end
 
   def meta
@@ -47,6 +51,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
     end
+  end
+
+  def create_ticket
+    service = Digitaltolk::CreateTicketService.new(Current.account, params)
+    service.perform
+
+    @conversation = service.conversation
   end
 
   def update

@@ -89,3 +89,5 @@
   enabled: false
 - name: required_contact_type
   enabled: false
+- name: tickets
+  enabled: false

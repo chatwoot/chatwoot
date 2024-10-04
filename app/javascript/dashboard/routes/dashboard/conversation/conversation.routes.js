@@ -1,6 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 const ConversationView = () => import('./ConversationView');
+const ConversationNew = () => import('./ConversationNew');
 
 export default {
   routes: [
@@ -12,6 +13,16 @@ export default {
       props: () => {
         return { inboxId: 0 };
       },
+    },
+    {
+      path: frontendURL('accounts/:accountId/tickets'),
+      name: 'tickets',
+      roles: ['administrator', 'agent'],
+      component: ConversationNew,
+      props: {
+        inboxId: 0,
+        conversationId: null,
+      }
     },
     {
       path: frontendURL('accounts/:accountId/conversations/:conversation_id'),

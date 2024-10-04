@@ -8,10 +8,12 @@ module Digitaltolk
       5 => 'övrigt_contact'
     }
 
-    def initialize(account, conversation, contact_kind)
+    def initialize(account, conversation, contact_kind, contact_kind_string = '')
       @account = account
       @conversation = conversation
       @contact_kind = contact_kind
+      @contact_kind_string = contact_kind_string
+      convert_contact_kind_string_to_integer
     end
 
     def perform
@@ -23,8 +25,16 @@ module Digitaltolk
 
     private
 
+    def convert_contact_kind_string_to_integer
+      return unless @contact_kind_string.present?
+
+      key = [@contact_kind_string.downcase, 'contact'].join('_')
+      @contact_kind = KIND_LABELS.key(key)
+    end
+
     def toggle_contact_kind_labels
       return unless @account.feature_enabled?('required_contact_type')
+      return if @contact_kind.blank?
 
       updated_labels = (@conversation.cached_label_list_array - KIND_LABELS.values + [KIND_LABELS[@contact_kind]]).uniq
       @conversation.update_labels(updated_labels)

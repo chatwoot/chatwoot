@@ -88,6 +88,10 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/change_contact`, params);
   }
 
+  saveTicket(ticket) {
+    return axios.post(`${this.url}/create_ticket`, ticket);
+  }
+
   markMessageRead({ id }) {
     return axios.post(`${this.url}/${id}/update_last_seen`);
   }

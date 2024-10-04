@@ -348,5 +348,10 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TICKET": {
+    "NEW": {
+      "TITLE": "Create Ticket"
+    }
   }
 }

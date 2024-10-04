@@ -261,6 +261,7 @@ class Conversation < ApplicationRecord
     create_activity
     notify_conversation_updation
     send_csat_survey_email
+    contact_kind_changed_callback
     log_handled_by_tag_change
   end
 
@@ -278,6 +279,16 @@ class Conversation < ApplicationRecord
     return unless saved_change_to_handled_by?
 
     ConversationHandledByTag.create(conversation_id: id, handled_by: handled_by, user_id: Current.user&.id)
+  end
+
+  def contact_kind_changed_callback
+    return unless account.feature_enabled?('required_contact_type')
+    return unless saved_change_to_custom_attributes?
+
+    before_changes, after_changes = saved_change_to_custom_attributes
+    return if before_changes['contact_type'] == after_changes['contact_type']
+
+    Digitaltolk::ChangeContactKindService.new(account, self, nil, after_changes['contact_type']).perform
   end
 
   def ensure_snooze_until_reset
