@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils';
 import { defineComponent, h } from 'vue';
 import availabilityMixin from '../availability';
 import { vi } from 'vitest';
-import { utcToZonedTime } from 'date-fns-tz';
 
 global.chatwootWebChannel = {
   workingHoursEnabled: true,
