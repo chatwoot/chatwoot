@@ -18,6 +18,7 @@ const state = {
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
+  replyBoxCanFocus: true,
 };
 
 // mutations
@@ -285,6 +286,10 @@ export const mutations = {
     { conversationId, messageId }
   ) {
     _state.syncConversationsMessages[conversationId] = messageId;
+  },
+
+  [types.SET_REPLY_BOX_CAN_FOCUS](_state, canFocus) {
+    _state.replyBoxCanFocus = canFocus;
   },
 };
 

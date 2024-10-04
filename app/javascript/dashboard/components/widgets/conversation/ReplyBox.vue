@@ -307,6 +307,7 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      replyBoxCanFocus: 'getReplyBoxCanFocus',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -584,7 +585,7 @@ export default {
 
       if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
-        if (this.$refs.messageInput) {
+        if (this.replyBoxCanFocus && this.$refs.messageInput) {
           this.$refs.messageInput.focus();
         }
       } else {

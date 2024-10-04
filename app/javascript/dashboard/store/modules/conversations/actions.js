@@ -492,6 +492,10 @@ const actions = {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
   },
 
+  setReplyBoxCanFocus({ commit }, canFocus) {
+    commit(types.SET_REPLY_BOX_CAN_FOCUS, canFocus);
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };

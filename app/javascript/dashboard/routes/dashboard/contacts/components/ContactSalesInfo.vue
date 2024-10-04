@@ -36,9 +36,11 @@
       </template>
     </contact-details-item>
     <div class="ml-1">
-      <p v-if="contact.last_note">
-        {{ contact.last_note }}
-      </p>
+      <p
+        v-if="contact.last_note"
+        v-dompurify-html="formatMessage(contact.last_note || '')"
+        class="note__content"
+      />
       <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_NOTE') }}</p>
     </div>
     <add-note v-if="showAddNote" @add="onAddNote" />
@@ -114,6 +116,7 @@ import agentMixin from 'dashboard/mixins/agentMixin';
 import contactMixin from 'dashboard/mixins/contactMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
 import errorCaptureMixin from 'shared/mixins/errorCaptureMixin';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   components: {
@@ -124,7 +127,14 @@ export default {
     ContactLabel,
     ContactConversationPlans,
   },
-  mixins: [agentMixin, alertMixin, teamMixin, contactMixin, errorCaptureMixin],
+  mixins: [
+    agentMixin,
+    alertMixin,
+    teamMixin,
+    contactMixin,
+    errorCaptureMixin,
+    messageFormatterMixin,
+  ],
   props: {
     contact: {
       type: Object,
@@ -197,6 +207,11 @@ export default {
             this.showAlert(error.message);
           });
       },
+    },
+  },
+  watch: {
+    showAddNote() {
+      this.$store.dispatch('setReplyBoxCanFocus', !this.showAddNote);
     },
   },
   mounted() {

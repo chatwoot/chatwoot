@@ -100,6 +100,9 @@ const getters = {
   getConversationLastSeen: _state => {
     return _state.conversationLastSeen;
   },
+  getReplyBoxCanFocus: _state => {
+    return _state.replyBoxCanFocus;
+  },
 };
 
 export default getters;
