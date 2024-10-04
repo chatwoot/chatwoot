@@ -808,6 +808,7 @@ export default {
     },
     clearRecorder() {
       this.isRecordingAudio = false;
+      this.recordingAudioState = '';
       // Only clear the recorded audio when we click toggle button.
       this.attachedFiles = this.attachedFiles.filter(
         file => !file?.isRecordedAudio

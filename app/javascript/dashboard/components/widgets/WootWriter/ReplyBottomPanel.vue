@@ -34,7 +34,7 @@ export default {
     },
     recordingAudioDurationText: {
       type: String,
-      default: '',
+      default: '00:00',
     },
     // inbox prop is used in /mixins/inboxMixin,
     // remove this props when refactoring to composable if not needed
