@@ -84,10 +84,10 @@ const shouldShowEmptyState = computed(() => {
     <slot name="search">
       <DropdownSearch
         v-if="enableSearch"
-        :input-value="searchTerm"
+        v-model="searchTerm"
         :input-placeholder="inputPlaceholder"
         :show-clear-filter="showClearFilter"
-        @input="onSearch"
+        @update:model-value="onSearch"
         @remove="$emit('removeFilter')"
       />
     </slot>
