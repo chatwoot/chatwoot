@@ -34,7 +34,14 @@ jobs:
               nodejs \
               npm \
               openjdk-11-jdk \
-              jq
+              jq \
+              software-properties-common ca-certificates imagemagick libpq-dev \
+              libxml2-dev libxslt1-dev file g++ gcc autoconf \
+              libssl-dev gnupg2 \
+              patch ruby-dev zlib1g-dev liblzma-dev \
+              libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev \
+              libvips
+            npm install -g pnpm
 
       # Set up RVM and install Ruby 3.3.3
       - run:
@@ -81,8 +88,14 @@ jobs:
           name: Install pnpm and Node dependencies
           command: |
             which npm
-            npm -v
-            npm install -g pnpm
+
+      - run:
+          name: Install pnpm and Node dependencies 2
+          command: npm -v
+
+      - run:
+          name: Install pnpm and Node dependencies 3
+          command: npm install -g pnpm
 
       - run:
           name: Verify pnpm Installation
