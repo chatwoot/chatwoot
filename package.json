@@ -7,7 +7,7 @@
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
     "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage --logHeapUsage",
     "test:watch": "TZ=UTC vitest --no-cache --no-coverage",
-    "test:coverage": "TZ=UTC vitest --no-cache --no-watch --coverage",
+    "test:coverage": "TZ=UTC vitest --no-watch --no-cache --coverage",
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:test": "RAILS_ENV=test foreman start -f ./Procfile.test",
     "start:dev-overmind": "overmind start -f ./Procfile.dev",
@@ -100,7 +100,7 @@
     "@iconify-json/logos": "^1.2.0",
     "@iconify-json/lucide": "^1.2.5",
     "@size-limit/file": "^8.2.4",
-    "@vitest/coverage-v8": "^2.1.1",
+    "@vitest/coverage-v8": "2.0.1",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
@@ -124,7 +124,7 @@
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.8",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "^2.1.1"
+    "vitest": "2.0.1"
   },
   "engines": {
     "node": "20.x",

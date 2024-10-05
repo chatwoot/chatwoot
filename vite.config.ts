@@ -96,11 +96,6 @@ export default defineConfig({
         '**/i18n/**/*',
       ],
     },
-    poolOptions: {
-      vmThreads: {
-        memoryLimit: '8096MB',
-      },
-    },
     globals: true,
     outputFile: 'coverage/sonar-report.xml',
     server: {
