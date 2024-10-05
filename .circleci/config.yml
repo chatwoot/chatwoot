@@ -81,7 +81,14 @@ jobs:
           name: Install pnpm and Node dependencies
           command: |
             npm install -g pnpm
-            pnpm install
+
+      - run:
+          name: Verify pnpm Installation
+          command: pnpm -v
+
+      - run:
+          name: Install Node.js dependencies
+          command: pnpm install
 
       - run:
           name: Download cc-test-reporter
