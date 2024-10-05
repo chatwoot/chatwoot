@@ -105,11 +105,11 @@ jobs:
 
       - run:
           name: Verify pnpm Installation
-          command: pnpm -v
+          command: /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm -v
 
       - run:
           name: Install Node.js dependencies
-          command: pnpm install
+          command: /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm install
 
       - run:
           name: Download cc-test-reporter
@@ -182,7 +182,7 @@ jobs:
       # ESLint linting
       - run:
           name: eslint
-          command: pnpm run eslint
+          command: /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm run eslint
 
       # Run frontend tests
       - run:
@@ -190,7 +190,7 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
+            /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm run test:coverage
 
       - run:
           name: Code Climate Test Coverage
