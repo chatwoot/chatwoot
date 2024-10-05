@@ -80,6 +80,8 @@ jobs:
       - run:
           name: Install pnpm and Node dependencies
           command: |
+            which npm
+            npm -v
             npm install -g pnpm
 
       - run:
