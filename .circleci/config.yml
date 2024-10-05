@@ -2,7 +2,8 @@ version: 2
 defaults: &defaults
   working_directory: ~/build
   machine:
-    image: ubuntu-2204:2023.09.2  # Use a specific machine image provided by CircleCI
+    image: ubuntu-2204:2024.05.1
+  resource_class: large
   environment:
     RAILS_LOG_TO_STDOUT: false
     COVERAGE: true
