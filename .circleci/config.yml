@@ -12,6 +12,8 @@ defaults: &defaults
     COVERAGE: true
     LOG_LEVEL: warn
 
+parellelism: 4
+
 jobs:
   build:
     <<: *defaults
