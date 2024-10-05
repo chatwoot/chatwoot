@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@6.1.0
 defaults: &defaults
   working_directory: ~/build
   machine:
@@ -14,7 +16,15 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-
+      - node/install:
+          install-yarn: false
+          node-version: '20.12'
+      - run: sudo npm install -g npm@latest
+      - node/install-packages:
+          override-ci-command: pnpm i
+          pkg-manager: pnpm
+      - run: node --version
+      - run: pnpm --version
       # Install required dependencies manually since no Docker images are used
       - run:
           name: Install dependencies
@@ -41,11 +51,11 @@ jobs:
               patch ruby-dev zlib1g-dev liblzma-dev \
               libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev \
               libvips
-            npm install -g pnpm
-            export NPM_GLOBAL_PATH=$(npm root -g)
-            # export PATH=$PATH:$(npm bin -g)
-            echo "Global npm root: $NPM_GLOBAL_PATH"
-            echo "PATH: $PATH"
+            # npm install -g pnpm
+            # export NPM_GLOBAL_PATH=$(npm root -g)
+            # # export PATH=$PATH:$(npm bin -g)
+            # echo "Global npm root: $NPM_GLOBAL_PATH"
+            # echo "PATH: $PATH"
             pnpm -v
             which pnpm
 
@@ -105,11 +115,11 @@ jobs:
 
       - run:
           name: Verify pnpm Installation
-          command: /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm -v
+          command: pnpm -v
 
       - run:
           name: Install Node.js dependencies
-          command: /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm install
+          command: pnpm install
 
       - run:
           name: Download cc-test-reporter
@@ -182,7 +192,7 @@ jobs:
       # ESLint linting
       - run:
           name: eslint
-          command: /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm run eslint
+          command: pnpm run eslint
 
       # Run frontend tests
       - run:
@@ -190,7 +200,7 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            /opt/circleci/.nvm/versions/node/v20.12.2/bin/pnpm run test:coverage
+            pnpm run test:coverage
 
       - run:
           name: Code Climate Test Coverage
