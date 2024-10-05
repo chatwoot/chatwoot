@@ -27,7 +27,7 @@ checks:
       threshold: 50
 exclude_patterns:
   - 'spec/'
-  - '**/specs/'
+  - '**/specs/**/**'
   - 'db/*'
   - 'bin/**/*'
   - 'db/**/*'
