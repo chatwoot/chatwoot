@@ -76,8 +76,6 @@ jobs:
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
-      - run: bundle install --frozen --path ~/.bundle
-
       # Node.js package installation
       - run:
           name: Install pnpm and Node dependencies
