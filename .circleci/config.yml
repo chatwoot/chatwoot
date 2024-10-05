@@ -81,7 +81,7 @@ jobs:
           name: Install pnpm and Node dependencies
           command: |
             npm install -g pnpm
-            pnpm install --frozen-lockfile
+            pnpm install
 
       - run:
           name: Download cc-test-reporter
