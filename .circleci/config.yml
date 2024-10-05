@@ -43,10 +43,11 @@ jobs:
               libvips
             npm install -g pnpm
             export NPM_GLOBAL_PATH=$(npm root -g)
-            export PATH=$PATH:$(npm bin -g)
+            # export PATH=$PATH:$(npm bin -g)
             echo "Global npm root: $NPM_GLOBAL_PATH"
             echo "PATH: $PATH"
             pnpm -v
+            which pnpm
 
       # Set up RVM and install Ruby 3.3.3
       - run:
