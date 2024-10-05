@@ -17,7 +17,7 @@ defaults: &defaults
     - RAILS_LOG_TO_STDOUT: false
     - COVERAGE: true
     - LOG_LEVEL: warn
-  parallelism: 4
+  # parallelism: 4
   resource_class: large
 
 jobs:
