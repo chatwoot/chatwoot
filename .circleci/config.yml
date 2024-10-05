@@ -1,24 +1,12 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2
 defaults: &defaults
   working_directory: ~/build
-  docker:
-    - image: cimg/ruby:3.3.3-browsers
-
-    # Specify service dependencies here if necessary
-    # CircleCI maintains a library of pre-built images
-    # documented at https://circleci.com/docs/2.0/circleci-images/
-    - image: cimg/postgres:15.3
-    - image: cimg/redis:6.2.6
+  machine:
+    image: ubuntu-2204:2023.09.2  # Use a specific machine image provided by CircleCI
   environment:
-    - RAILS_LOG_TO_STDOUT: false
-    - COVERAGE: true
-    - LOG_LEVEL: warn
-  # parallelism: 4
-  resource_class: large
+    RAILS_LOG_TO_STDOUT: false
+    COVERAGE: true
+    LOG_LEVEL: warn
 
 jobs:
   build:
@@ -26,58 +14,65 @@ jobs:
     steps:
       - checkout
 
+      # Install required dependencies manually since no Docker images are used
       - run:
-          name: Configure Bundler
+          name: Install dependencies
           command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
+            sudo apt-get update
+            sudo apt-get install -y \
+              libpq-dev \
+              redis-server \
+              postgresql \
+              build-essential \
+              git \
+              curl \
+              libssl-dev \
+              zlib1g-dev \
+              libreadline-dev \
+              libyaml-dev \
+              nodejs \
+              npm \
+              openjdk-11-jdk \
+              jq
+
+      # Install RVM, Ruby, and Bundler
+      - run:
+          name: Install RVM and Ruby 3.3.3
+          command: |
+            sudo apt-get install -y software-properties-common
+            gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+            \curl -sSL https://get.rvm.io | bash -s stable
+            source ~/.rvm/scripts/rvm
+            rvm install 3.3.3
+            rvm use 3.3.3 --default
             gem install bundler
 
       - run:
-          name: Which bundler?
-          command: bundle -v
+          name: Which Ruby and Bundler?
+          command: |
+            ruby -v
+            bundler -v
 
+      # Install nvm and use Node.js v20
       - run:
           name: Swap node versions
           command: |
-            set +e
             wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install v20
+            nvm install 20
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
-      # Run bundler
-      # Load installed gems from cache if possible, bundle install then save cache
-      # Multiple caches are used to increase the chance of a cache hit
-
-      - restore_cache:
-          keys:
-            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
-
       - run: bundle install --frozen --path ~/.bundle
-      - save_cache:
-          paths:
-            - ~/.bundle
-          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
-      - restore_cache:
-          keys:
-            - chatwoot-pnpm-{{ .Environment.CACHE_VERSION }}-{{ checksum "pnpm-lock.yaml" }}
-            - chatwoot-pnpm-
-
+      # Node.js package installation
       - run:
           name: Install pnpm and Node dependencies
           command: |
             npm install -g pnpm
             pnpm install --frozen-lockfile
-
-      - save_cache:
-          key: chatwoot-pnpm-{{ .Environment.CACHE_VERSION }}-{{ checksum "pnpm-lock.yaml" }}
-          paths:
-            - ~/.pnpm-store
 
       - run:
           name: Download cc-test-reporter
@@ -85,12 +80,8 @@ jobs:
             mkdir -p ~/tmp
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
             chmod +x ~/tmp/cc-test-reporter
-      - persist_to_workspace:
-          root: ~/tmp
-          paths:
-            - cc-test-reporter
 
-      # verify swagger specification
+      # Swagger verification
       - run:
           name: Verify swagger API specification
           command: |
@@ -104,17 +95,20 @@ jobs:
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
       # Database setup
-      - run: bundle exec rake db:create
+      - run: sudo service postgresql start && bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
+      # Bundle audit
       - run:
           name: Bundle audit
           command: bundle exec bundle audit update && bundle exec bundle audit check -v
 
+      # Rubocop linting
       - run:
           name: Rubocop
           command: bundle exec rubocop
 
+      # ESLint linting
       - run:
           name: eslint
           command: pnpm run eslint
@@ -132,7 +126,7 @@ jobs:
           command: |
             ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
 
-      # Run rails tests
+      # Run backend tests
       - run:
           name: Run backend tests
           command: |
@@ -154,45 +148,3 @@ jobs:
 
       - persist_to_workspace:
           root: coverage
-          paths:
-            - codeclimate.*.json
-      # collect reports
-      - store_test_results:
-          path: ~/tmp/test-results
-      - store_artifacts:
-          path: ~/tmp/test-artifacts
-      - store_artifacts:
-          path: log
-
-  upload-coverage:
-    working_directory: ~/build
-    docker:
-      - image: circleci/ruby:3.0.2-node-browsers
-    environment:
-      - CC_TEST_REPORTER_ID: caf26a895e937974a90860cfadfded20891cfd1373a5aaafb3f67406ab9d433f
-    steps:
-      - attach_workspace:
-          at: ~/build
-      - run:
-          name: Download cc-test-reporter
-          command: |
-            mkdir -p ~/tmp
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
-            chmod +x ~/tmp/cc-test-reporter
-      - persist_to_workspace:
-          root: ~/tmp
-          paths:
-            - cc-test-reporter
-      - run:
-          name: Upload coverage results to Code Climate
-          command: |
-            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json | ~/tmp/cc-test-reporter upload-coverage --debug --input -
-
-workflows:
-  version: 2
-  commit:
-    jobs:
-      - build
-      - upload-coverage:
-          requires:
-            - build
