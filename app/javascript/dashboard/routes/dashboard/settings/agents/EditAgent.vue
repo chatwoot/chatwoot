@@ -16,6 +16,17 @@
         </div>
 
         <div class="w-full">
+          <label>
+            {{ $t('AGENT_MGMT.EDIT.FORM.DISPLAY_NAME.LABEL') }}
+            <input
+              v-model.trim="agentDisplayName"
+              type="text"
+              :placeholder="$t('AGENT_MGMT.EDIT.FORM.DISPLAY_NAME.PLACEHOLDER')"
+            />
+          </label>
+        </div>
+
+        <div class="w-full">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
             <select v-model="agentType">
@@ -100,6 +111,10 @@ export default {
       type: String,
       required: true,
     },
+    displayName: {
+      type: String,
+      default: '',
+    },
     email: {
       type: String,
       default: '',
@@ -130,6 +145,7 @@ export default {
         },
       ],
       agentName: this.name,
+      agentDisplayName: this.displayName,
       agentAvailability: this.availability,
       agentType: this.type,
       agentCredentials: {
@@ -177,6 +193,7 @@ export default {
         await this.$store.dispatch('agents/update', {
           id: this.id,
           name: this.agentName,
+          display_name: this.agentDisplayName,
           role: this.agentType,
           availability: this.agentAvailability,
         });

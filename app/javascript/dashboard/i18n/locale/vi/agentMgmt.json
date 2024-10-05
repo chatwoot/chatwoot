@@ -28,6 +28,10 @@
           "LABEL": "Tên người dùng",
           "PLACEHOLDER": "Vui lòng nhập tên người dùng"
         },
+        "DISPLAY_NAME": {
+          "LABEL": "Tên hiển thị",
+          "PLACEHOLDER": "Có thể nhập tên tắt hoặc mã..."
+        },
         "AGENT_TYPE": {
           "LABEL": "Loại người dùng",
           "PLACEHOLDER": "Vui lòng chọn loại",
@@ -64,6 +68,10 @@
         "NAME": {
           "LABEL": "Tên người dùng",
           "PLACEHOLDER": "Vui lòng nhập tên người dùng"
+        },
+        "DISPLAY_NAME": {
+          "LABEL": "Tên hiển thị",
+          "PLACEHOLDER": "Có thể nhập tên tắt hoặc mã..."
         },
         "AGENT_TYPE": {
           "LABEL": "Loại người dùng",

@@ -156,6 +156,7 @@ class User < ApplicationRecord
     {
       id: id,
       name: name,
+      display_name: display_name,
       email: email,
       type: 'user'
     }
