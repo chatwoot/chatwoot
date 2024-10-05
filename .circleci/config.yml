@@ -148,7 +148,7 @@ jobs:
               UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';
               \c template1
               VACUUM FREEZE;
-EOF
+            EOF
             cp .env.example .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
             sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
