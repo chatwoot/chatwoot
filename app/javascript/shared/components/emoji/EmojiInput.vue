@@ -1,5 +1,5 @@
 <script>
-import emojis from './emojisGroup.json';
+// import emojis from './emojisGroup.json';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 const SEARCH_KEY = 'Search';
@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       selectedKey: 'Search',
-      emojis,
+      emojis: [],
       search: '',
     };
   },
