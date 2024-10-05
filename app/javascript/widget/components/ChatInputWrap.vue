@@ -9,16 +9,14 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
-);
-
 export default {
   name: 'ChatInputWrap',
   components: {
     ChatAttachmentButton,
     ChatSendButton,
-    EmojiInput,
+    EmojiInput: defineAsyncComponent(
+      () => import('shared/components/emoji/EmojiInput.vue')
+    ),
     FluentIcon,
     ResizableTextArea,
   },
