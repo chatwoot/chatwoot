@@ -1,11 +1,11 @@
 <script>
 // import emojis from './emojisGroup.json';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
+// import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+// import WootButton from 'dashboard/components/ui/WootButton.vue';
 const SEARCH_KEY = 'Search';
 
 export default {
-  components: { FluentIcon, WootButton },
+  // components: { FluentIcon, WootButton },
   props: {
     onClick: {
       type: Function,
@@ -98,7 +98,7 @@ export default {
           class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
-        <WootButton
+        <button
           v-if="showRemoveButton"
           size="small"
           variant="smooth"
@@ -107,7 +107,7 @@ export default {
           @click="onClick('')"
         >
           {{ $t('EMOJI.REMOVE') }}
-        </WootButton>
+        </button>
       </div>
       <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
         <h5 class="emoji-category--title">
@@ -142,7 +142,7 @@ export default {
         </div>
         <div v-if="hasEmptySearchResult" class="empty-message">
           <div class="emoji-icon">
-            <FluentIcon icon="emoji" size="48" />
+            <span icon="emoji" size="48" />
           </div>
           <span class="empty-message--text">
             {{ $t('EMOJI.NOT_FOUND') }}
@@ -158,7 +158,7 @@ export default {
               :class="{ active: selectedKey === 'Search' }"
               @click="changeCategory('Search')"
             >
-              <FluentIcon
+              <span
                 icon="search"
                 size="16"
                 class="text-slate-700 dark:text-slate-100"
