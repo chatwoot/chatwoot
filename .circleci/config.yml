@@ -122,17 +122,13 @@ jobs:
             fi
 
       - run:
-          name: Database Setup
+          name: Database Setup and Configure Environment Variables
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
             sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" setup_chatwoot.sql
             chmod 644 ${PWD}/setup_chatwoot.sql
             mv ${PWD}/setup_chatwoot.sql /tmp/
             sudo -i -u postgres psql -f /tmp/setup_chatwoot.sql
-
-      - run:
-          name: Configure Environment Variables
-          command: |
             cp .env.example .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
             sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
