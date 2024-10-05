@@ -22,7 +22,7 @@ jobs:
         with:
           bundler-cache: true
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
           version: 9.3.0
 
