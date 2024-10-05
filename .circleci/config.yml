@@ -11,8 +11,7 @@ defaults: &defaults
     RAILS_LOG_TO_STDOUT: false
     COVERAGE: true
     LOG_LEVEL: warn
-
-parellelism: 4
+  parellelism: 4
 
 jobs:
   build:
