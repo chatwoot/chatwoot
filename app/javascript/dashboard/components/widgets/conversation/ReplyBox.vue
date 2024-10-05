@@ -19,7 +19,7 @@ import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
+import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -50,20 +50,20 @@ const EmojiInput = defineAsyncComponent(
 
 export default {
   components: {
-    EmojiInput,
-    CannedResponse,
-    ReplyToMessage,
-    ResizableTextArea,
-    AttachmentPreview,
-    ReplyTopPanel,
-    ReplyEmailHead,
-    ReplyBottomPanel,
-    WootMessageEditor,
-    WootAudioRecorder,
-    Banner,
-    WhatsappTemplates,
-    MessageSignatureMissingAlert,
     ArticleSearchPopover,
+    AttachmentPreview,
+    AudioRecorder,
+    Banner,
+    CannedResponse,
+    EmojiInput,
+    MessageSignatureMissingAlert,
+    ReplyBottomPanel,
+    ReplyEmailHead,
+    ReplyToMessage,
+    ReplyTopPanel,
+    ResizableTextArea,
+    WhatsappTemplates,
+    WootMessageEditor,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   emits: ['update:popoutReplyBox', 'togglePopout'],
@@ -115,6 +115,7 @@ export default {
       showVariablesMenu: false,
       newConversationModalActive: false,
       showArticleSearchPopover: false,
+      hasRecordedAudio: false,
     };
   },
   computed: {
@@ -279,12 +280,6 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
-    hasRecordedAudio() {
-      return (
-        this.$refs.audioRecorderInput &&
-        this.$refs.audioRecorderInput.hasAudio()
-      );
-    },
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
@@ -364,7 +359,7 @@ export default {
         return AUDIO_FORMATS.MP3;
       }
       if (this.isAPIInbox) {
-        return AUDIO_FORMATS.OGG;
+        return AUDIO_FORMATS.MP3;
       }
       return AUDIO_FORMATS.WAV;
     },
@@ -803,19 +798,14 @@ export default {
       this.attachedFiles = [];
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
+      this.resetAudioRecorderInput();
     },
     clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
       this.toEmails = '';
     },
-    clearRecorder() {
-      this.isRecordingAudio = false;
-      // Only clear the recorded audio when we click toggle button.
-      this.attachedFiles = this.attachedFiles.filter(
-        file => !file?.isRecordedAudio
-      );
-    },
+
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -823,17 +813,18 @@ export default {
       this.isRecordingAudio = !this.isRecordingAudio;
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
-        this.clearRecorder();
+        this.resetAudioRecorderInput();
       }
     },
     toggleAudioRecorderPlayPause() {
-      if (this.isRecordingAudio) {
-        if (!this.isRecorderAudioStopped) {
-          this.isRecorderAudioStopped = true;
-          this.$refs.audioRecorderInput.stopRecording();
-        } else if (this.isRecorderAudioStopped) {
-          this.$refs.audioRecorderInput.playPause();
-        }
+      if (!this.isRecordingAudio) {
+        return;
+      }
+      if (!this.isRecorderAudioStopped) {
+        this.isRecorderAudioStopped = true;
+        this.$refs.audioRecorderInput.stopRecording();
+      } else if (this.isRecorderAudioStopped) {
+        this.$refs.audioRecorderInput.playPause();
       }
     },
     hideEmojiPicker() {
@@ -860,13 +851,9 @@ export default {
     onRecordProgressChanged(duration) {
       this.recordingAudioDurationText = duration;
     },
-    onStateRecorderChanged(state) {
-      this.recordingAudioState = state;
-      if (state && 'notallowederror'.includes(state)) {
-        this.toggleAudioRecorder();
-      }
-    },
     onFinishRecorder(file) {
+      this.recordingAudioState = 'stopped';
+      this.hasRecordedAudio = true;
       // Added a new key isRecordedAudio to the file to find it's and recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
@@ -1067,6 +1054,16 @@ export default {
     toggleInsertArticle() {
       this.showArticleSearchPopover = !this.showArticleSearchPopover;
     },
+    resetAudioRecorderInput() {
+      this.recordingAudioDurationText = '00:00';
+      this.isRecordingAudio = false;
+      this.recordingAudioState = '';
+      this.hasRecordedAudio = false;
+      // Only clear the recorded audio when we click toggle button.
+      this.attachedFiles = this.attachedFiles.filter(
+        file => !file?.isRecordedAudio
+      );
+    },
   },
 };
 </script>
@@ -1122,13 +1119,14 @@ export default {
         v-model:bcc-emails="bccEmails"
         v-model:to-emails="toEmails"
       />
-      <WootAudioRecorder
+      <AudioRecorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
         @recorder-progress-changed="onRecordProgressChanged"
-        @state-recorder-changed="onStateRecorderChanged"
         @finish-record="onFinishRecorder"
+        @play="recordingAudioState = 'playing'"
+        @pause="recordingAudioState = 'paused'"
       />
       <ResizableTextArea
         v-else-if="!showRichContentEditor"
@@ -1169,7 +1167,11 @@ export default {
         @clear-selection="clearEditorSelection"
       />
     </div>
-    <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
+    <div
+      v-if="hasAttachments && !showAudioRecorderEditor"
+      class="attachment-preview-box"
+      @paste="onPaste"
+    >
       <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
