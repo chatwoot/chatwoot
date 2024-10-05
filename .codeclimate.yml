@@ -28,6 +28,7 @@ checks:
 exclude_patterns:
   - 'spec/'
   - '**/specs/**/**'
+  - '**/spec/**/**'
   - 'db/*'
   - 'bin/**/*'
   - 'db/**/*'
