@@ -35,23 +35,35 @@ jobs:
               npm \
               openjdk-11-jdk \
               jq
-      - run:
-          name: List Available Ruby Versions
-          command: rbenv install --list
 
+      # Set up RVM and install Ruby 3.3.3
       - run:
-          name: Install Ruby using rbenv
+          name: Install RVM and Ruby 3.3.3
           command: |
-            rbenv install 3.3.3
-            rbenv global 3.3.3
+            sudo apt-get install -y gpg
+            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+            \curl -sSL https://get.rvm.io | bash -s stable
+            source ~/.rvm/scripts/rvm
+            rvm install "3.3.3"
+            rvm use 3.3.3 --default
             gem install bundler
 
+      # Check installed Ruby and Bundler versions
       - run:
-          name: Which Ruby and Bundler?
+          name: Check Ruby and Bundler Versions
           command: |
+            source ~/.rvm/scripts/rvm
             ruby -v
             bundler -v
 
+      # Run other necessary steps like `bundle install`, setting up the application, etc.
+      - run:
+          name: Install dependencies using Bundler
+          command: |
+            source ~/.rvm/scripts/rvm
+            bundle install
+
+      # Add other build, test, or deploy steps as required
       # Install nvm and use Node.js v20
       - run:
           name: Swap node versions
