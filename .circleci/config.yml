@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 orbs:
   node: circleci/node@6.1.0
 
@@ -108,7 +108,7 @@ jobs:
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
             sudo service postgresql start
-            sudo -i -u postgres psql <<EOF
+            sudo -i -u postgres psql \<<EOF
               CREATE USER chatwoot CREATEDB;
               ALTER USER chatwoot PASSWORD :'pass';
               ALTER ROLE chatwoot SUPERUSER;
