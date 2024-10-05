@@ -35,7 +35,7 @@ export default {
     },
     recordingAudioDurationText: {
       type: String,
-      default: '',
+      default: '00:00',
     },
     // inbox prop is used in /mixins/inboxMixin,
     // remove this props when refactoring to composable if not needed
@@ -259,7 +259,6 @@ export default {
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="emoji"
-        emoji="😊"
         color-scheme="secondary"
         variant="smooth"
         size="small"
@@ -285,7 +284,6 @@ export default {
           class-names="button--upload"
           :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
           icon="attach"
-          emoji="📎"
           color-scheme="secondary"
           variant="smooth"
           size="small"
@@ -295,7 +293,6 @@ export default {
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
-        emoji="🎤"
         :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
         variant="smooth"
         size="small"
@@ -305,7 +302,6 @@ export default {
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         icon="quote"
-        emoji="🖊️"
         color-scheme="secondary"
         variant="smooth"
         size="small"
@@ -314,7 +310,6 @@ export default {
       <woot-button
         v-if="showAudioPlayStopButton"
         :icon="audioRecorderPlayStopIcon"
-        emoji="🎤"
         color-scheme="secondary"
         variant="smooth"
         size="small"

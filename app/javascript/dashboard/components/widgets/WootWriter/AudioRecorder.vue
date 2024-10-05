@@ -13,7 +13,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['recorderProgressChanged', 'finishRecord']);
+const emit = defineEmits([
+  'recorderProgressChanged',
+  'finishRecord',
+  'pause',
+  'play',
+]);
 
 const waveformContainer = ref(null);
 const wavesurfer = ref(null);
@@ -46,6 +51,9 @@ const initWaveSurfer = () => {
       }),
     ],
   });
+
+  wavesurfer.value.on('pause', () => emit('pause'));
+  wavesurfer.value.on('play', () => emit('play'));
 
   record.value = wavesurfer.value.plugins[0];
 
@@ -106,11 +114,9 @@ onUnmounted(() => {
   }
 });
 
-defineExpose({ playPause, stopRecording });
+defineExpose({ playPause, stopRecording, record });
 </script>
 
 <template>
-  <div class="w-full">
-    <div ref="waveformContainer" />
-  </div>
+  <div ref="waveformContainer" class="w-full p-1" />
 </template>
