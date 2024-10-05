@@ -106,8 +106,8 @@ jobs:
           name: Download Database Setup Script
           command: |
             # curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/0065cb743f3a5b6392aeb0a29dbb206728144b53/chatwoot_db_setup
-            curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/ffce50210bbef366c8819d2d2121787488bfdb8d/chatwoot_db_setup
-            dos2unix setup_db.sh
+            #curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/ffce50210bbef366c8819d2d2121787488bfdb8d/chatwoot_db_setup
+            #dos2unix setup_db.sh
             chmod +x setup_db.sh
 
       - run:
