@@ -19,7 +19,7 @@ jobs:
       - checkout
       - node/install:
           node-version: '20.12'
-      - node/install-npm
+      - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
