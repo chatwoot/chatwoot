@@ -110,12 +110,23 @@ jobs:
             #dos2unix setup_db.sh
             chmod +x setup_db.sh
 
+      # check if setup_chatwoot.sql exists
+      - run:
+          name: Check if setup_chatwoot.sql exists
+          command: |
+            if [ -f setup_chatwoot.sql ]; then
+              echo "setup_chatwoot.sql exists"
+            else
+              echo "setup_chatwoot.sql does not exist"
+              exit 1
+            fi
+
       - run:
           name: Database Setup
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
             sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" setup_chatwoot.sql
-            sudo -i -u postgres psql -f setup_chatwoot.sql
+            sudo -i -u postgres psql -f ./setup_chatwoot.sql
 
       - run:
           name: Configure Environment Variables
