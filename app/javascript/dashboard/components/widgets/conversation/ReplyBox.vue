@@ -517,7 +517,9 @@ export default {
         this.isAnEmailChannel ||
         this.isAWebWidgetInbox ||
         this.isAPIInbox ||
-        this.isAWhatsAppChannel
+        this.isAWhatsAppChannel ||
+        this.isAZaloOaChannel ||
+        this.isAFacebookInbox
       );
     },
     isSignatureEnabledForInbox() {

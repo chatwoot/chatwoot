@@ -34,15 +34,23 @@ class Channel::ZaloOa < ApplicationRecord
   end
 
   def send_message(user_id, message, access_token)
-    # check attachments to send first
+    responses = []
+    # Check attachments to send first.
     message.attachments.each do |attachment|
       response = send_attachment(user_id, attachment, access_token)
-      return response unless (response['error']).zero? && message.content
+      # If any error occurs, break and return this response along with the error message.
+      responses << response
+      return responses unless (response['error']).zero?
     end
+    # Send the text message.
+    # Please note that you cannot reply with a message that only has an attachment (isn't supported on ZaloOA)
+    return responses if message.content.blank?
 
     body = message_body(user_id, message.content)
     body[:message][:quote_message_id] = message.content_attributes[:in_reply_to_external_id] if message.content_attributes[:in_reply_to_external_id]
-    send_message_cs(body, access_token)
+    responses << send_message_cs(body, access_token)
+
+    responses
   end
 
   def refresh_access_token(channel)
@@ -140,6 +148,7 @@ class Channel::ZaloOa < ApplicationRecord
     request['access_token'] = access_token
     request.content_type = 'multipart/form-data'
     request.set_form([
+                       ['file', attachment.file.download, { filename: attachment.file.filename.to_s }],
                        ['file', attachment.file.download, { filename: attachment.file.filename.to_s }]
                      ], 'multipart/form-data')
 
