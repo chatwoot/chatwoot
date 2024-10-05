@@ -18,11 +18,9 @@ jobs:
     steps:
       - checkout
       - node/install:
-          install-yarn: false
           node-version: '20.12'
       - run: sudo npm install -g npm@latest
       - node/install-packages:
-          override-ci-command: pnpm i
           pkg-manager: pnpm
       - run: node --version
       - run: pnpm --version
@@ -184,3 +182,5 @@ jobs:
 
       - persist_to_workspace:
           root: coverage
+          paths:
+            - coverage
