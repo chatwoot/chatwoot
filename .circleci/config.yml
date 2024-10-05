@@ -19,7 +19,6 @@ jobs:
       - checkout
       - node/install:
           node-version: '20.12'
-      - run: sudo npm install -g npm@latest
       - node/install-packages:
           pkg-manager: pnpm
       - run: node --version
