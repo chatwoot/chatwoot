@@ -21,6 +21,7 @@ jobs:
           node-version: '20.12'
       - node/install-packages:
           pkg-manager: pnpm
+          override-ci-command: pnpm i
       - run: node --version
       - run: pnpm --version
 
@@ -78,7 +79,7 @@ jobs:
           command: |
             source ~/.rvm/scripts/rvm
             bundle install
-            pnpm install
+            # pnpm install
 
       - run:
           name: Download cc-test-reporter
