@@ -49,6 +49,14 @@ jobs:
             gem install bundler
 
       - run:
+    name: Install Ruby using rbenv
+    command: |
+      rbenv install 3.3.3
+      rbenv global 3.3.3
+      gem install bundler
+
+
+      - run:
           name: Which Ruby and Bundler?
           command: |
             ruby -v
