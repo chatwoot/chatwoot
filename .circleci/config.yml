@@ -125,7 +125,7 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
+            pnpm run test:coverage --maxWorkers 1
 
       - run:
           name: Code Climate Test Coverage
