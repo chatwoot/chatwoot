@@ -105,24 +105,28 @@ jobs:
       - run:
           name: Download Database Setup Script
           command: |
-            curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/0065cb743f3a5b6392aeb0a29dbb206728144b53/chatwoot_db_setup
+            # curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/0065cb743f3a5b6392aeb0a29dbb206728144b53/chatwoot_db_setup
+            curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/ffce50210bbef366c8819d2d2121787488bfdb8d/chatwoot_db_setup
+            dos2unix setup_db.sh
             chmod +x setup_db.sh
 
       - run:
           name: Database Setup
           command: |
             ./setup_db.sh
+
+      - run:
+          name: Configure Environment Variables
+          command: |
             cp .env.example .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
             sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
             sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
             sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
             echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
-            sudo service postgresql start && 
-
 
       # Database setup
-      - run: 
+      - run:
           name: Run DB migrations
           command: bundle exec rails db:chatwoot_prepare
 
