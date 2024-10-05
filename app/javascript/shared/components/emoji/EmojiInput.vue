@@ -1,11 +1,10 @@
 <script>
-// import emojis from './emojisGroup.json';
-// import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-// import WootButton from 'dashboard/components/ui/WootButton.vue';
+import emojis from './emojisGroup.json';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
 const SEARCH_KEY = 'Search';
 
 export default {
-  // components: { FluentIcon, WootButton },
+  components: { WootButton },
   props: {
     onClick: {
       type: Function,
@@ -19,7 +18,7 @@ export default {
   data() {
     return {
       selectedKey: 'Search',
-      emojis: [],
+      emojis,
       search: '',
     };
   },
@@ -98,7 +97,7 @@ export default {
           class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
-        <button
+        <WootButton
           v-if="showRemoveButton"
           size="small"
           variant="smooth"
@@ -107,7 +106,7 @@ export default {
           @click="onClick('')"
         >
           {{ $t('EMOJI.REMOVE') }}
-        </button>
+        </WootButton>
       </div>
       <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
         <h5 class="emoji-category--title">
@@ -142,7 +141,7 @@ export default {
         </div>
         <div v-if="hasEmptySearchResult" class="empty-message">
           <div class="emoji-icon">
-            <span icon="emoji" size="48" />
+            <span class="i-lucide-smile size-12" />
           </div>
           <span class="empty-message--text">
             {{ $t('EMOJI.NOT_FOUND') }}
@@ -159,9 +158,7 @@ export default {
               @click="changeCategory('Search')"
             >
               <span
-                icon="search"
-                size="16"
-                class="text-slate-700 dark:text-slate-100"
+                class="i-lucide-search size-4 text-slate-700 dark:text-slate-100"
               />
             </button>
           </li>
