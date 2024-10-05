@@ -107,8 +107,8 @@ jobs:
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
             sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" setup_chatwoot.sql
-            chmod 644 .circleci/setup_chatwoot.sql
-            mv .circleci/setup_chatwoot.sql /tmp/
+            chmod 644 ${PWD}/.circleci/setup_chatwoot.sql
+            mv ${PWD}/.circleci/setup_chatwoot.sql /tmp/
             sudo -i -u postgres psql -f /tmp/setup_chatwoot.sql
             cp .env.example .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
