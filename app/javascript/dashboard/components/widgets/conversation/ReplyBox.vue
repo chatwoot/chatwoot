@@ -115,6 +115,7 @@ export default {
       showVariablesMenu: false,
       newConversationModalActive: false,
       showArticleSearchPopover: false,
+      hasRecordedAudio: false,
     };
   },
   computed: {
@@ -278,9 +279,6 @@ export default {
     },
     hasAttachments() {
       return this.attachedFiles.length;
-    },
-    hasRecordedAudio() {
-      return this.$refs.audioRecorderInput?.record;
     },
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
@@ -800,20 +798,14 @@ export default {
       this.attachedFiles = [];
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
+      this.resetAudioRecorderInput();
     },
     clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
       this.toEmails = '';
     },
-    clearRecorder() {
-      this.isRecordingAudio = false;
-      this.recordingAudioState = '';
-      // Only clear the recorded audio when we click toggle button.
-      this.attachedFiles = this.attachedFiles.filter(
-        file => !file?.isRecordedAudio
-      );
-    },
+
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -821,7 +813,7 @@ export default {
       this.isRecordingAudio = !this.isRecordingAudio;
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
-        this.clearRecorder();
+        this.resetAudioRecorderInput();
       }
     },
     toggleAudioRecorderPlayPause() {
@@ -861,6 +853,7 @@ export default {
     },
     onFinishRecorder(file) {
       this.recordingAudioState = 'stopped';
+      this.hasRecordedAudio = true;
       // Added a new key isRecordedAudio to the file to find it's and recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
@@ -1061,6 +1054,16 @@ export default {
     toggleInsertArticle() {
       this.showArticleSearchPopover = !this.showArticleSearchPopover;
     },
+    resetAudioRecorderInput() {
+      this.recordingAudioDurationText = '00:00';
+      this.isRecordingAudio = false;
+      this.recordingAudioState = '';
+      this.hasRecordedAudio = false;
+      // Only clear the recorded audio when we click toggle button.
+      this.attachedFiles = this.attachedFiles.filter(
+        file => !file?.isRecordedAudio
+      );
+    },
   },
 };
 </script>
@@ -1164,7 +1167,11 @@ export default {
         @clear-selection="clearEditorSelection"
       />
     </div>
-    <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
+    <div
+      v-if="hasAttachments && !showAudioRecorderEditor"
+      class="attachment-preview-box"
+      @paste="onPaste"
+    >
       <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
