@@ -1,4 +1,5 @@
 <script>
+import { ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -122,6 +123,8 @@ export default {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
 
+    const uploadRef = ref(false);
+
     const keyboardEvents = {
       'Alt+KeyA': {
         action: () => {
@@ -143,6 +146,7 @@ export default {
     return {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
+      uploadRef,
     };
   },
   computed: {
@@ -262,6 +266,7 @@ export default {
         @click="toggleEmojiPicker"
       />
       <FileUpload
+        ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
         :size="4096 * 4096"
@@ -350,7 +355,7 @@ export default {
       />
       <transition name="modal-fade">
         <div
-          v-show="$refs.uploadRef && $refs.uploadRef.dropActive"
+          v-show="uploadRef && uploadRef.dropActive"
           class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
