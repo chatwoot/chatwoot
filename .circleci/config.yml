@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     - image: cimg/node:22.9.0
-    - image: cimg/ruby:3.3.5-browsers
+    - image: cimg/ruby:3.3.5
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
