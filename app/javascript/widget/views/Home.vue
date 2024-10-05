@@ -79,7 +79,7 @@ export default {
       }
       this.$router.push({
         name: 'article-viewer',
-        query: { link: linkToOpen },
+        params: { link: linkToOpen },
       });
     },
     viewAllArticles() {

@@ -1,16 +1,16 @@
-<script>
+<script setup>
 import IframeLoader from 'shared/components/IframeLoader.vue';
 
-export default {
-  name: 'ArticleViewer',
-  components: {
-    IframeLoader,
+defineProps({
+  link: {
+    type: String,
+    required: true,
   },
-};
+});
 </script>
 
 <template>
   <div class="bg-white h-full">
-    <IframeLoader :url="$route.query.link" />
+    <IframeLoader :url="link" />
   </div>
 </template>
