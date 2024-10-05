@@ -126,7 +126,7 @@ jobs:
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
             sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" setup_chatwoot.sql
-            sudo -i -u postgres psql -f ./setup_chatwoot.sql
+            sudo -i -u postgres psql -f ${PWD}/setup_chatwoot.sql
 
       - run:
           name: Configure Environment Variables
