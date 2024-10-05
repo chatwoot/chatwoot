@@ -6,12 +6,13 @@ version: 2
 defaults: &defaults
   working_directory: ~/build
   docker:
-    - image: cimg/ruby:3.3.3-browsers
+    - image: cimg/node:22.9.0
+    - image: cimg/3.3.5-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
     # documented at https://circleci.com/docs/2.0/circleci-images/
-    - image: cimg/postgres:15.3
+    - image: cimg/rpostgres:15.3
     - image: cimg/redis:6.2.6
   environment:
     - RAILS_LOG_TO_STDOUT: false
@@ -37,17 +38,17 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
-      - run:
-          name: Swap node versions
-          command: |
-            set +e
-            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install v20
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      # - run:
+      #     name: Swap node versions
+      #     command: |
+      #       set +e
+      #       wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+      #       export NVM_DIR="$HOME/.nvm"
+      #       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      #       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+      #       nvm install v20
+      #       echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+      #       echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 
       # Run bundler
       # Load installed gems from cache if possible, bundle install then save cache
