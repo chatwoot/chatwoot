@@ -1,6 +1,7 @@
-version: 2.1
+version: 2
 orbs:
   node: circleci/node@6.1.0
+
 defaults: &defaults
   working_directory: ~/build
   machine:
@@ -25,9 +26,9 @@ jobs:
           pkg-manager: pnpm
       - run: node --version
       - run: pnpm --version
-      # Install required dependencies manually since no Docker images are used
+
       - run:
-          name: Install dependencies
+          name: Install System Dependencies
           command: |
             sudo apt-get update
             DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
@@ -41,85 +42,46 @@ jobs:
               zlib1g-dev \
               libreadline-dev \
               libyaml-dev \
-              nodejs \
-              npm \
               openjdk-11-jdk \
               jq \
-              software-properties-common ca-certificates imagemagick libpq-dev \
-              libxml2-dev libxslt1-dev file g++ gcc autoconf \
-              libssl-dev gnupg2 \
-              patch ruby-dev zlib1g-dev liblzma-dev \
-              libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev \
+              software-properties-common \
+              ca-certificates \
+              imagemagick \
+              libxml2-dev \
+              libxslt1-dev \
+              file \
+              g++ \
+              gcc \
+              autoconf \
+              gnupg2 \
+              patch \
+              ruby-dev \
+              liblzma-dev \
+              libgmp-dev \
+              libncurses5-dev \
+              libffi-dev \
+              libgdbm6 \
+              libgdbm-dev \
               libvips
-            # npm install -g pnpm
-            # export NPM_GLOBAL_PATH=$(npm root -g)
-            # # export PATH=$PATH:$(npm bin -g)
-            # echo "Global npm root: $NPM_GLOBAL_PATH"
-            # echo "PATH: $PATH"
-            pnpm -v
-            which pnpm
 
-      # Set up RVM and install Ruby 3.3.3
       - run:
           name: Install RVM and Ruby 3.3.3
           command: |
             sudo apt-get install -y gpg
             gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
             \curl -sSL https://get.rvm.io | bash -s stable
+            echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
             source ~/.rvm/scripts/rvm
             rvm install "3.3.3"
             rvm use 3.3.3 --default
             gem install bundler
 
-      # Check installed Ruby and Bundler versions
       - run:
-          name: Check Ruby and Bundler Versions
-          command: |
-            source ~/.rvm/scripts/rvm
-            ruby -v
-            bundler -v
-
-      # Run other necessary steps like `bundle install`, setting up the application, etc.
-      - run:
-          name: Install dependencies using Bundler
+          name: Install Application Dependencies
           command: |
             source ~/.rvm/scripts/rvm
             bundle install
-
-      # Add other build, test, or deploy steps as required
-      # Install nvm and use Node.js v20
-      - run:
-          name: Swap node versions
-          command: |
-            wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install 20
-            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-
-      # Node.js package installation
-      # - run:
-      #     name: Install pnpm and Node dependencies
-      #     command: |
-      #       which npm
-
-      # - run:
-      #     name: Install pnpm and Node dependencies 2
-      #     command: npm -v
-
-      # - run:
-      #     name: Install pnpm and Node dependencies 3
-      #     command: npm install -g pnpm
-
-      - run:
-          name: Verify pnpm Installation
-          command: pnpm -v
-
-      - run:
-          name: Install Node.js dependencies
-          command: pnpm install
+            pnpm install
 
       - run:
           name: Download cc-test-reporter
@@ -142,19 +104,11 @@ jobs:
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
       - run:
-          name: db setup
+          name: Database Setup
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
-            mkdir -p /opt/chatwoot/config
-            file="/opt/chatwoot/config/.pg_pass"
-            if ! test -f "$file"; then
-              echo $pg_pass > /opt/chatwoot/config/.pg_pass
-            fi
-            if test -f "$file"; then
-              pg_pass=$(cat $file)
-            fi
-            sudo -i -u postgres psql \<< EOF
-              \set pass `echo $pg_pass`
+            sudo service postgresql start
+            sudo -i -u postgres psql <<EOF
               CREATE USER chatwoot CREATEDB;
               ALTER USER chatwoot PASSWORD :'pass';
               ALTER ROLE chatwoot SUPERUSER;
@@ -165,6 +119,7 @@ jobs:
               \c template1
               VACUUM FREEZE;
             EOF
+
             cp .env.example .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
             sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
