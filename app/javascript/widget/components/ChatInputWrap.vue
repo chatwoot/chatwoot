@@ -168,11 +168,7 @@ export default {
       >
         <FluentIcon icon="emoji" :class="emojiIconColor" />
       </button>
-      <EmojiInput
-        v-if="showEmojiPicker"
-        :on-click="emojiOnClick"
-        @keydown.esc="hideEmojiPicker"
-      />
+      <EmojiInput v-if="showEmojiPicker" @keydown.esc="hideEmojiPicker" />
       <ChatSendButton
         v-if="showSendButton"
         :color="widgetColor"
