@@ -1,7 +1,6 @@
 export default {
   methods: {
     async replaceRoute(name, params = {}) {
-      console.log('replaceRoute', name, params);
       if (this.$route.name !== name) {
         return this.$router.replace({ name, params });
       }
