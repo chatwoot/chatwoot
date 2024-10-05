@@ -98,7 +98,7 @@ export default defineConfig({
     },
     poolOptions: {
       vmThreads: {
-        memoryLimit: '2148MB',
+        memoryLimit: '8096MB',
       },
     },
     globals: true,
