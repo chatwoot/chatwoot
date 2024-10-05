@@ -103,31 +103,12 @@ jobs:
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
       - run:
-          name: Download Database Setup Script
-          command: |
-            # curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/0065cb743f3a5b6392aeb0a29dbb206728144b53/chatwoot_db_setup
-            #curl -o setup_db.sh https://gist.githubusercontent.com/vishnu-narayanan/b4a67028e2281816a3cc898946954f71/raw/ffce50210bbef366c8819d2d2121787488bfdb8d/chatwoot_db_setup
-            #dos2unix setup_db.sh
-            chmod +x setup_db.sh
-
-      # check if setup_chatwoot.sql exists
-      - run:
-          name: Check if setup_chatwoot.sql exists
-          command: |
-            if [ -f setup_chatwoot.sql ]; then
-              echo "setup_chatwoot.sql exists"
-            else
-              echo "setup_chatwoot.sql does not exist"
-              exit 1
-            fi
-
-      - run:
           name: Database Setup and Configure Environment Variables
           command: |
             pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
             sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" setup_chatwoot.sql
-            chmod 644 ${PWD}/setup_chatwoot.sql
-            mv ${PWD}/setup_chatwoot.sql /tmp/
+            chmod 644 .circleci/setup_chatwoot.sql
+            mv .circleci/setup_chatwoot.sql /tmp/
             sudo -i -u postgres psql -f /tmp/setup_chatwoot.sql
             cp .env.example .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
