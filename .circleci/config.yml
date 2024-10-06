@@ -138,40 +138,44 @@ jobs:
           name: eslint
           command: pnpm run eslint
 
-      # Run frontend tests
       - run:
-          name: Run frontend tests
-          command: |
-            mkdir -p ~/tmp/test-results/frontend_specs
-            ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
+                name: Run frontend tests
+                command: |
+                  mkdir -p ~/build/coverage/frontend
+                  ~/tmp/cc-test-reporter before-build
+                  pnpm run test:coverage
 
-      - run:
-          name: Code Climate Test Coverage
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
+            - run:
+                name: Code Climate Test Coverage (Frontend)
+                command: |
+                  ~/tmp/cc-test-reporter format-coverage -t lcov -o "~/build/coverage/frontend/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
 
-      # Run backend tests
-      - run:
-          name: Run backend tests
-          command: |
-            mkdir -p ~/tmp/test-results/rspec
-            mkdir -p ~/tmp/test-artifacts
-            mkdir -p coverage
-            ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --format progress \
-                              --format RspecJunitFormatter \
-                              --out ~/tmp/test-results/rspec.xml \
-                              -- ${TESTFILES}
-          no_output_timeout: 30m
+            # Run backend tests
+            - run:
+                name: Run backend tests
+                command: |
+                  mkdir -p ~/tmp/test-results/rspec
+                  mkdir -p ~/tmp/test-artifacts
+                  mkdir -p ~/build/coverage/backend
+                  ~/tmp/cc-test-reporter before-build
+                  TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                  bundle exec rspec --format progress \
+                                    --format RspecJunitFormatter \
+                                    --out ~/tmp/test-results/rspec.xml \
+                                    -- ${TESTFILES}
+                no_output_timeout: 30m
 
-      - run:
-          name: Code Climate Test Coverage
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+            - run:
+                name: Code Climate Test Coverage (Backend)
+                command: |
+                  ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/build/coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - coverage
+            - run:
+                name: List coverage directory contents
+                command: |
+                  ls -R ~/build/coverage
+
+            - persist_to_workspace:
+                root: ~/build
+                paths:
+                  - coverage
