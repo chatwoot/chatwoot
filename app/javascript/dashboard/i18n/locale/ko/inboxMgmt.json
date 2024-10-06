@@ -745,7 +745,7 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "홈페이지",
       "TWITTER_PROFILE": "트위터",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
