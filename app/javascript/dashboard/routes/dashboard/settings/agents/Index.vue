@@ -34,7 +34,10 @@
                 </td>
                 <!-- Agent Name + Email -->
                 <td>
-                  <span class="agent-name">
+                  <span v-if="agent.display_name" class="agent-name">
+                    {{ `${agent.name} / ${agent.display_name}` }}
+                  </span>
+                  <span v-else class="agent-name">
                     {{ agent.name }}
                   </span>
                   <span>{{ agent.email }}</span>
@@ -105,6 +108,7 @@
         v-if="showEditPopup"
         :id="currentAgent.id"
         :name="currentAgent.name"
+        :display-name="currentAgent.display_name"
         :type="currentAgent.role"
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"

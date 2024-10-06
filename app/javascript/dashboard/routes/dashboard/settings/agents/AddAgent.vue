@@ -22,6 +22,16 @@
           </label>
         </div>
         <div class="w-full">
+          <label>
+            {{ $t('AGENT_MGMT.ADD.FORM.DISPLAY_NAME.LABEL') }}
+            <input
+              v-model.trim="agentDisplayName"
+              type="text"
+              :placeholder="$t('AGENT_MGMT.ADD.FORM.DISPLAY_NAME.PLACEHOLDER')"
+            />
+          </label>
+        </div>
+        <div class="w-full">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.LABEL') }}
             <select v-model="agentType">
@@ -80,6 +90,7 @@ export default {
   data() {
     return {
       agentName: '',
+      agentDisplayName: '',
       agentEmail: '',
       agentType: 'agent',
       vertical: 'bottom',
@@ -124,6 +135,7 @@ export default {
       try {
         await this.$store.dispatch('agents/create', {
           name: this.agentName,
+          display_name: this.agentDisplayName,
           email: this.agentEmail,
           role: this.agentType,
         });
