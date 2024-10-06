@@ -24,4 +24,14 @@ class Product < ApplicationRecord
   def prepare_jsonb_attributes
     self.custom_attributes = {} if custom_attributes.blank?
   end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      short_name: short_name,
+      price: price,
+      custom_attributes: custom_attributes
+    }
+  end
 end

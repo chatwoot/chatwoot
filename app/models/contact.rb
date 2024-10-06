@@ -240,7 +240,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       assignee: assignee&.webhook_data,
       team_name: team&.name,
       stage_code: stage&.code,
-      product_short_name: product&.short_name,
+      product: product&.webhook_data,
       po_date: po_date,
       po_value: po_value,
       po_note: po_note
