@@ -103,6 +103,7 @@ jobs:
             curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
+      # we remove the FRONTED_URL from the .env before running the tests
       - run:
           name: Database Setup and Configure Environment Variables
           command: |
@@ -112,6 +113,7 @@ jobs:
             mv ${PWD}/.circleci/setup_chatwoot.sql /tmp/
             sudo -i -u postgres psql -f /tmp/setup_chatwoot.sql
             cp .env.example .env
+            sed -i '/^FRONTEND_URL/d' .env
             sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
             sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
             sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
