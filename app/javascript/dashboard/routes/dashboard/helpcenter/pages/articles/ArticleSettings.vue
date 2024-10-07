@@ -128,6 +128,7 @@ export default {
 
 <template>
   <transition name="popover-animation">
+    <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
     <div
       class="min-w-[15rem] max-w-[22.5rem] p-6 overflow-y-auto border-l rtl:border-r rtl:border-l-0 border-solid border-slate-50 dark:border-slate-700"
     >

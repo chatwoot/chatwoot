@@ -1,15 +1,14 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import ReportsFiltersLabels from '../../Filters/Labels.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-
 const mountParams = {
-  mocks: {
-    $t: msg => msg,
+  global: {
+    mocks: {
+      $t: msg => msg,
+    },
+    stubs: ['multiselect'],
   },
-  stubs: ['multiselect'],
 };
 
 describe('ReportsFiltersLabels.vue', () => {
@@ -30,7 +29,7 @@ describe('ReportsFiltersLabels.vue', () => {
       },
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         labels: labelsModule,
       },
@@ -39,24 +38,26 @@ describe('ReportsFiltersLabels.vue', () => {
 
   it('dispatches "labels/get" action when component is mounted', () => {
     shallowMount(ReportsFiltersLabels, {
-      store,
-      localVue,
-      ...mountParams,
+      global: {
+        plugins: [store],
+        ...mountParams.global,
+      },
     });
     expect(labelsModule.actions.get).toHaveBeenCalled();
   });
 
-  it('emits "labels-filter-selection" event when handleInput is called', () => {
+  it('emits "labels-filter-selection" event when handleInput is called', async () => {
     const wrapper = shallowMount(ReportsFiltersLabels, {
-      store,
-      localVue,
-      ...mountParams,
+      global: {
+        plugins: [store],
+        ...mountParams.global,
+      },
     });
 
     const selectedLabel = { id: 1, title: 'Label 1', color: 'red' };
-    wrapper.setData({ selectedOption: selectedLabel });
+    await wrapper.setData({ selectedOption: selectedLabel });
 
-    wrapper.vm.handleInput();
+    await wrapper.vm.handleInput();
 
     expect(wrapper.emitted('labelsFilterSelection')).toBeTruthy();
     expect(wrapper.emitted('labelsFilterSelection')[0]).toEqual([
