@@ -1,5 +1,6 @@
 <script>
-import { defineAsyncComponent } from 'vue';
+// [TODO] The popout events are needlessly complex and should be simplified
+import { defineAsyncComponent, defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -18,7 +19,7 @@ import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
+import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -49,28 +50,23 @@ const EmojiInput = defineAsyncComponent(
 
 export default {
   components: {
-    EmojiInput,
-    CannedResponse,
-    ReplyToMessage,
-    ResizableTextArea,
-    AttachmentPreview,
-    ReplyTopPanel,
-    ReplyEmailHead,
-    ReplyBottomPanel,
-    WootMessageEditor,
-    WootAudioRecorder,
-    Banner,
-    WhatsappTemplates,
-    MessageSignatureMissingAlert,
     ArticleSearchPopover,
+    AttachmentPreview,
+    AudioRecorder,
+    Banner,
+    CannedResponse,
+    EmojiInput,
+    MessageSignatureMissingAlert,
+    ReplyBottomPanel,
+    ReplyEmailHead,
+    ReplyToMessage,
+    ReplyTopPanel,
+    ResizableTextArea,
+    WhatsappTemplates,
+    WootMessageEditor,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
-  props: {
-    popoutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  emits: ['update:popoutReplyBox', 'togglePopout'],
   setup() {
     const {
       uiSettings,
@@ -79,8 +75,14 @@ export default {
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
+    const popoutReplyBox = defineModel('popoutReplyBox', {
+      type: Boolean,
+      default: false,
+    });
+
     return {
       uiSettings,
+      popoutReplyBox,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -113,6 +115,7 @@ export default {
       showVariablesMenu: false,
       newConversationModalActive: false,
       showArticleSearchPopover: false,
+      hasRecordedAudio: false,
     };
   },
   computed: {
@@ -277,12 +280,6 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
-    hasRecordedAudio() {
-      return (
-        this.$refs.audioRecorderInput &&
-        this.$refs.audioRecorderInput.hasAudio()
-      );
-    },
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
@@ -362,7 +359,7 @@ export default {
         return AUDIO_FORMATS.MP3;
       }
       if (this.isAPIInbox) {
-        return AUDIO_FORMATS.OGG;
+        return AUDIO_FORMATS.MP3;
       }
       return AUDIO_FORMATS.WAV;
     },
@@ -463,12 +460,10 @@ export default {
       this.onNewConversationModalActive
     );
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
-  },
-  unmounted() {
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
@@ -803,19 +798,14 @@ export default {
       this.attachedFiles = [];
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
+      this.resetAudioRecorderInput();
     },
     clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
       this.toEmails = '';
     },
-    clearRecorder() {
-      this.isRecordingAudio = false;
-      // Only clear the recorded audio when we click toggle button.
-      this.attachedFiles = this.attachedFiles.filter(
-        file => !file?.isRecordedAudio
-      );
-    },
+
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -823,17 +813,18 @@ export default {
       this.isRecordingAudio = !this.isRecordingAudio;
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
-        this.clearRecorder();
+        this.resetAudioRecorderInput();
       }
     },
     toggleAudioRecorderPlayPause() {
-      if (this.isRecordingAudio) {
-        if (!this.isRecorderAudioStopped) {
-          this.isRecorderAudioStopped = true;
-          this.$refs.audioRecorderInput.stopRecording();
-        } else if (this.isRecorderAudioStopped) {
-          this.$refs.audioRecorderInput.playPause();
-        }
+      if (!this.isRecordingAudio) {
+        return;
+      }
+      if (!this.isRecorderAudioStopped) {
+        this.isRecorderAudioStopped = true;
+        this.$refs.audioRecorderInput.stopRecording();
+      } else if (this.isRecorderAudioStopped) {
+        this.$refs.audioRecorderInput.playPause();
       }
     },
     hideEmojiPicker() {
@@ -860,13 +851,9 @@ export default {
     onRecordProgressChanged(duration) {
       this.recordingAudioDurationText = duration;
     },
-    onStateRecorderChanged(state) {
-      this.recordingAudioState = state;
-      if (state && 'notallowederror'.includes(state)) {
-        this.toggleAudioRecorder();
-      }
-    },
     onFinishRecorder(file) {
+      this.recordingAudioState = 'stopped';
+      this.hasRecordedAudio = true;
       // Added a new key isRecordedAudio to the file to find it's and recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
@@ -1067,6 +1054,16 @@ export default {
     toggleInsertArticle() {
       this.showArticleSearchPopover = !this.showArticleSearchPopover;
     },
+    resetAudioRecorderInput() {
+      this.recordingAudioDurationText = '00:00';
+      this.isRecordingAudio = false;
+      this.recordingAudioState = '';
+      this.hasRecordedAudio = false;
+      // Only clear the recorded audio when we click toggle button.
+      this.attachedFiles = this.attachedFiles.filter(
+        file => !file?.isRecordedAudio
+      );
+    },
   },
 };
 </script>
@@ -1081,15 +1078,15 @@ export default {
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
       has-action-button
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-      @primaryAction="onClickSelfAssign"
+      @primary-action="onClickSelfAssign"
     />
     <ReplyTopPanel
       :mode="replyType"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
-      @setReplyMode="setReplyMode"
-      @togglePopout="$emit('togglePopout')"
+      @set-reply-mode="setReplyMode"
+      @toggle-popout="$emit('togglePopout')"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1122,13 +1119,14 @@ export default {
         v-model:bcc-emails="bccEmails"
         v-model:to-emails="toEmails"
       />
-      <WootAudioRecorder
+      <AudioRecorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
-        @recorderProgressChanged="onRecordProgressChanged"
-        @stateRecorderChanged="onStateRecorderChanged"
-        @finishRecord="onFinishRecorder"
+        @recorder-progress-changed="onRecordProgressChanged"
+        @finish-record="onFinishRecorder"
+        @play="recordingAudioState = 'playing'"
+        @pause="recordingAudioState = 'paused'"
       />
       <ResizableTextArea
         v-else-if="!showRichContentEditor"
@@ -1140,8 +1138,8 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :send-with-signature="sendWithSignature"
-        @typingOff="onTypingOff"
-        @typingOn="onTypingOn"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -1159,21 +1157,25 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :channel-type="channelType"
-        @typingOff="onTypingOff"
-        @typingOn="onTypingOn"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
-        @toggleUserMention="toggleUserMention"
-        @toggleCannedMenu="toggleCannedMenu"
-        @toggleVariablesMenu="toggleVariablesMenu"
-        @clearSelection="clearEditorSelection"
+        @toggle-user-mention="toggleUserMention"
+        @toggle-canned-menu="toggleCannedMenu"
+        @toggle-variables-menu="toggleVariablesMenu"
+        @clear-selection="clearEditorSelection"
       />
     </div>
-    <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
+    <div
+      v-if="hasAttachments && !showAudioRecorderEditor"
+      class="attachment-preview-box"
+      @paste="onPaste"
+    >
       <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
-        @removeAttachment="removeAttachment"
+        @remove-attachment="removeAttachment"
       />
     </div>
     <MessageSignatureMissingAlert
@@ -1203,16 +1205,16 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
-      @selectWhatsappTemplate="openWhatsappTemplateModal"
-      @toggleEditor="toggleRichContentEditor"
-      @replaceText="replaceText"
-      @toggleInsertArticle="toggleInsertArticle"
+      @select-whatsapp-template="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
+      @replace-text="replaceText"
+      @toggle-insert-article="toggleInsertArticle"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
       :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"
-      @onSend="onSendWhatsAppReply"
+      @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
 

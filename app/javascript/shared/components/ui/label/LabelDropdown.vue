@@ -26,6 +26,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update', 'add', 'remove'],
 
   data() {
     return {
@@ -170,7 +171,7 @@ export default {
           </woot-button>
 
           <woot-modal
-            :show.sync="createModalVisible"
+            v-model:show="createModalVisible"
             :on-close="hideCreateModal"
           >
             <AddLabelModal

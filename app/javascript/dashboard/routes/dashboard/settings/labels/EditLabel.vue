@@ -11,6 +11,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['close'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -83,6 +84,7 @@ export default {
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="labelTitleErrorMessage"
         @input="v$.title.$touch"
+        @blur="v$.title.$touch"
       />
       <woot-input
         v-model="description"
@@ -91,6 +93,7 @@ export default {
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         @input="v$.description.$touch"
+        @blur="v$.description.$touch"
       />
 
       <div class="w-full">

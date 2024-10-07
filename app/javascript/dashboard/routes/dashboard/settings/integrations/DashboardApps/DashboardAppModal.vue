@@ -18,6 +18,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['close'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -124,6 +125,7 @@ export default {
           "
           data-testid="app-title"
           @input="v$.app.title.$touch"
+          @blur="v$.slug.$touch"
         />
         <woot-input
           v-model="app.content.url"
@@ -140,6 +142,7 @@ export default {
           "
           data-testid="app-url"
           @input="v$.app.content.url.$touch"
+          @blur="v$.app.content.url.$touch"
         />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button

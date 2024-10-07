@@ -537,12 +537,6 @@ function loadMoreConversations() {
     return;
   }
 
-  // Increment the current page
-  store.dispatch('conversationPage/setCurrentPage', {
-    filter: currentPageFilterKey.value,
-    page: currentFiltersPage.value + 1,
-  });
-
   if (!hasAppliedFiltersOrActiveFolders.value) {
     fetchConversations();
   } else if (hasActiveFolders.value) {
@@ -769,11 +763,11 @@ watch(conversationFilters, (newVal, oldVal) => {
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
-      @addFolders="onClickOpenAddFoldersModal"
-      @deleteFolders="onClickOpenDeleteFoldersModal"
-      @filtersModal="onToggleAdvanceFiltersModal"
-      @resetFilters="resetAndFetchData"
-      @basicFilterChange="onBasicFilterChange"
+      @add-folders="onClickOpenAddFoldersModal"
+      @delete-folders="onClickOpenDeleteFoldersModal"
+      @filters-modal="onToggleAdvanceFiltersModal"
+      @reset-filters="resetAndFetchData"
+      @basic-filter-change="onBasicFilterChange"
     />
 
     <AddCustomViews
@@ -785,7 +779,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
     <DeleteCustomViews
       v-if="showDeleteFoldersModal"
-      :show-delete-popup.sync="showDeleteFoldersModal"
+      v-model:show="showDeleteFoldersModal"
       :active-custom-view="activeFolder"
       :custom-views-id="foldersId"
       :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
@@ -796,7 +790,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
-      @chatTabChange="updateAssigneeTab"
+      @chat-tab-change="updateAssigneeTab"
     />
 
     <p
@@ -813,11 +807,11 @@ watch(conversationFilters, (newVal, oldVal) => {
       :show-open-action="allSelectedConversationsStatus('open')"
       :show-resolved-action="allSelectedConversationsStatus('resolved')"
       :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
-      @selectAllConversations="toggleSelectAll"
-      @assignAgent="onAssignAgent"
-      @updateConversations="onUpdateConversations"
-      @assignLabels="onAssignLabels"
-      @assignTeam="onAssignTeamsForBulk"
+      @select-all-conversations="toggleSelectAll"
+      @assign-agent="onAssignAgent"
+      @update-conversations="onUpdateConversations"
+      @assign-labels="onAssignLabels"
+      @assign-team="onAssignTeamsForBulk"
     />
     <div
       ref="conversationListRef"
@@ -854,8 +848,8 @@ watch(conversationFilters, (newVal, oldVal) => {
               :folders-id="foldersId"
               :conversation-type="conversationType"
               :show-assignee="showAssigneeInConversationCard"
-              @selectConversation="selectConversation"
-              @deSelectConversation="deSelectConversation"
+              @select-conversation="selectConversation"
+              @de-select-conversation="deSelectConversation"
             />
           </DynamicScrollerItem>
         </template>
@@ -878,7 +872,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       </DynamicScroller>
     </div>
     <woot-modal
-      :show.sync="showAdvancedFilters"
+      v-model:show="showAdvancedFilters"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
@@ -889,8 +883,8 @@ watch(conversationFilters, (newVal, oldVal) => {
         :active-folder-name="activeFolderName"
         :on-close="closeAdvanceFiltersModal"
         :is-folder-view="hasActiveFolders"
-        @applyFilter="onApplyFilter"
-        @updateFolder="onUpdateSavedFilter"
+        @apply-filter="onApplyFilter"
+        @update-folder="onUpdateSavedFilter"
       />
     </woot-modal>
   </div>

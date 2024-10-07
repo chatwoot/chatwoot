@@ -11,7 +11,7 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     portalName: {
       type: String,
@@ -30,6 +30,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update', 'cancel', 'update:show'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -52,6 +53,14 @@ export default {
     },
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     slugError() {
       if (this.v$.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
@@ -120,9 +129,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.EDIT.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.EDIT.SUB_TITLE')"
@@ -151,8 +159,8 @@ export default {
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
           :existing-name="category.name"
           :saved-icon="category.icon"
-          @nameChange="changeName"
-          @iconChange="onClickInsertEmoji"
+          @name-change="changeName"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model="slug"
@@ -163,6 +171,7 @@ export default {
           :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.SLUG.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.EDIT.SLUG.HELP_TEXT')"
           @input="v$.slug.$touch"
+          @blur="v$.slug.$touch"
         />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.EDIT.DESCRIPTION.LABEL') }}

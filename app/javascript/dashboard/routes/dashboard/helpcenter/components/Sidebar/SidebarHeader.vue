@@ -22,6 +22,7 @@ export default {
       default: '',
     },
   },
+  emits: ['openPopover'],
   methods: {
     popoutHelpCenter() {
       window.open(this.portalLink, '_blank');

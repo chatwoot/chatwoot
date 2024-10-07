@@ -18,6 +18,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['submit'],
   setup() {
     const { getThemeClass } = useDarkMode();
     return { getThemeClass };

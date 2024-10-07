@@ -224,19 +224,19 @@ const tableHeaders = computed(() => {
     </template>
 
     <woot-modal
-      :show.sync="showAddPopup"
+      v-model:show="showAddPopup"
       size="medium"
       :on-close="hideAddPopup"
     >
       <AddAutomationRule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @saveAutomation="submitAutomation"
+        @save-automation="submitAutomation"
       />
     </woot-modal>
 
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
@@ -247,7 +247,7 @@ const tableHeaders = computed(() => {
     />
 
     <woot-modal
-      :show.sync="showEditPopup"
+      v-model:show="showEditPopup"
       size="medium"
       :on-close="hideEditPopup"
     >
@@ -255,7 +255,7 @@ const tableHeaders = computed(() => {
         v-if="showEditPopup"
         :on-close="hideEditPopup"
         :selected-response="selectedAutomation"
-        @saveAutomation="submitAutomation"
+        @save-automation="submitAutomation"
       />
     </woot-modal>
     <woot-confirm-modal

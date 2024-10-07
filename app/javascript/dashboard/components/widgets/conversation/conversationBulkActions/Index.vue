@@ -48,6 +48,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'selectAllConversations',
+    'assignAgent',
+    'updateConversations',
+    'assignLabels',
+    'assignTeam',
+    'resolveConversations',
+  ],
   data() {
     return {
       showAgentsList: false,
@@ -72,7 +80,7 @@ export default {
       this.onCmdResolveConversation
     );
   },
-  destroyed() {
+  unmounted() {
     emitter.off(
       CMD_BULK_ACTION_SNOOZE_CONVERSATION,
       this.onCmdSnoozeConversation
@@ -231,7 +239,7 @@ export default {
         <TeamActions
           v-if="showTeamsList"
           class="team-actions-box"
-          @assignTeam="assignTeam"
+          @assign-team="assignTeam"
           @close="showTeamsList = false"
         />
       </transition>
@@ -240,12 +248,12 @@ export default {
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
     <woot-modal
-      :show.sync="showCustomTimeSnoozeModal"
+      v-model:show="showCustomTimeSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @chooseTime="customSnoozeTime"
+        @choose-time="customSnoozeTime"
       />
     </woot-modal>
   </div>

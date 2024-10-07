@@ -145,24 +145,24 @@ const tableHeaders = computed(() => {
         </tr>
       </tbody>
     </table>
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditAttribute
         :selected-attribute="selectedAttribute"
         :is-updating="uiFlags.isUpdating"
-        @onClose="hideEditPopup"
+        @on-close="hideEditPopup"
       />
     </woot-modal>
     <woot-confirm-delete-modal
       v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :title="confirmDeleteTitle"
       :message="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
       :confirm-value="selectedAttribute.attribute_display_name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @onConfirm="confirmDeletion"
-      @onClose="closeDelete"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>

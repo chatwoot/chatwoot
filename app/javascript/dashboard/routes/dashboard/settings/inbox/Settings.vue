@@ -395,8 +395,8 @@ export default {
           :src="avatarUrl"
           class="pb-4"
           delete-avatar
-          @onAvatarSelect="handleImageUpload"
-          @onAvatarDelete="handleAvatarDelete"
+          @on-avatar-select="handleImageUpload"
+          @on-avatar-delete="handleAvatarDelete"
         />
         <woot-input
           v-model="selectedInboxName"

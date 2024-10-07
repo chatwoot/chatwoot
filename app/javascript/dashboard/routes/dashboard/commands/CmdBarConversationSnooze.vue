@@ -61,12 +61,12 @@ useEmitter(CMD_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
 
 <template>
   <woot-modal
-    :show.sync="showCustomSnoozeModal"
+    v-model:show="showCustomSnoozeModal"
     :on-close="hideCustomSnoozeModal"
   >
     <CustomSnoozeModal
       @close="hideCustomSnoozeModal"
-      @chooseTime="chooseSnoozeTime"
+      @choose-time="chooseSnoozeTime"
     />
   </woot-modal>
 </template>

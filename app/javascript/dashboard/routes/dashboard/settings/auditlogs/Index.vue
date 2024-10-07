@@ -35,13 +35,19 @@ const fetchAuditLogs = page => {
 };
 
 const generateLogText = auditLogItem => {
-  const translationPayload = generateTranslationPayload(
-    auditLogItem,
-    agentList.value
-  );
+  const payload = generateTranslationPayload(auditLogItem, agentList.value);
   const translationKey = generateLogActionKey(auditLogItem);
 
-  return t(translationKey, translationPayload);
+  const joinIfArray = value => {
+    return Array.isArray(value) ? value.join(', ') : value;
+  };
+
+  const mergedPayload = {
+    ...payload,
+    attributes: joinIfArray(payload.attributes),
+    values: joinIfArray(payload.values),
+  };
+  return t(translationKey, mergedPayload);
 };
 
 const onPageChange = page => {
@@ -125,7 +131,7 @@ const tableHeaders = computed(() => {
           :total-count="meta.totalEntries"
           :page-size="meta.perPage"
           class="border-slate-50 dark:border-slate-800 border-t !px-0 py-4"
-          @pageChange="onPageChange"
+          @page-change="onPageChange"
         />
       </div>
     </div>

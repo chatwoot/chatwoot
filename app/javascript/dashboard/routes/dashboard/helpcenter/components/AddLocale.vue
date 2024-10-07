@@ -14,13 +14,14 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     portal: {
       type: Object,
       default: () => ({}),
     },
   },
+  emits: ['cancel', 'update:show'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -31,6 +32,14 @@ export default {
     };
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     addedLocales() {
       const { allowed_locales: allowedLocales } = this.portal.config;
       return allowedLocales.map(locale => locale.code);
@@ -96,9 +105,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
+  <Modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"

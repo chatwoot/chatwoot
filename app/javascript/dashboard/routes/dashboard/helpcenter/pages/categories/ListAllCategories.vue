@@ -141,7 +141,7 @@ function changeCurrentCategory(event) {
     </div>
     <EditCategory
       v-if="showEditCategoryModal"
-      :show.sync="showEditCategoryModal"
+      v-model:show="showEditCategoryModal"
       :portal-name="currentPortalName"
       :locale="selectedCategory.locale"
       :category="selectedCategory"
@@ -150,7 +150,7 @@ function changeCurrentCategory(event) {
     />
     <AddCategory
       v-if="showAddCategoryModal"
-      :show.sync="showAddCategoryModal"
+      v-model:show="showAddCategoryModal"
       :portal-name="currentPortalName"
       :locale="currentLocaleCode"
       @cancel="closeAddCategoryModal"

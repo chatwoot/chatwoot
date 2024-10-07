@@ -5,6 +5,7 @@ export default {
     thumb: { type: String, default: '' },
     readableTime: { type: String, default: '' },
   },
+  emits: ['error'],
   methods: {
     onImgError() {
       this.$emit('error');

@@ -199,7 +199,7 @@ zh_CN:
       name: "Slack"
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
-      name: ""
+      name: "Webhooks"
       description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
@@ -262,10 +262,14 @@ zh_CN:
     button: 重新打开会话
   time_units:
     days:
+      one: "%{count} day"
       other: "%{count} days"
     hours:
+      one: "%{count} hour"
       other: "%{count} hours"
     minutes:
+      one: "%{count} minute"
       other: "%{count} minutes"
     seconds:
+      one: "%{count} second"
       other: "%{count} seconds"

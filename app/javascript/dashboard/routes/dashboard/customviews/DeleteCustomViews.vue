@@ -5,7 +5,7 @@ import { useTrack } from 'dashboard/composables';
 
 export default {
   props: {
-    showDeletePopup: {
+    show: {
       type: Boolean,
       default: false,
     },
@@ -26,8 +26,16 @@ export default {
       default: () => {},
     },
   },
-
+  emits: ['close', 'update:show'],
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     activeCustomViews() {
       if (this.activeFilterType === 0) {
         return 'conversation';
@@ -89,12 +97,11 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <div>
     <woot-delete-modal
-      v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-if="localShow"
+      v-model:show="localShow"
       :on-close="closeDeletePopup"
       :on-confirm="deleteSavedCustomViews"
       :title="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.TITLE')"

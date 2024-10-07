@@ -1,5 +1,7 @@
 <script>
 export default {
+  emits: ['search'],
+
   data() {
     return {
       searchQuery: '',

@@ -119,10 +119,10 @@ onMounted(() => {
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
       class="absolute right-0 top-[40px] invisible group-hover:visible"
-      @unlinkIssue="unlinkIssue"
+      @unlink-issue="unlinkIssue"
     />
     <woot-modal
-      :show.sync="shouldShowPopup"
+      v-model:show="shouldShowPopup"
       :on-close="closePopup"
       :close-on-backdrop-click="false"
       class="!items-start [&>div]:!top-12 [&>div]:sticky"

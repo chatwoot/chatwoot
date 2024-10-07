@@ -25,6 +25,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['submitPreChat'],
   setup() {
     const phoneInput = createInput(PhoneInput, {
       props: ['hasErrorInPhoneInput'],
@@ -251,7 +252,7 @@ export default {
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
-      this.$emit('submit', {
+      this.$emit('submitPreChat', {
         fullName,
         phoneNumber,
         emailAddress,
@@ -276,6 +277,7 @@ export default {
       inputClass: 'hidden',
       wrapperClass: 'hidden',
     }"
+    @submit="onSubmit"
   >
     <div
       v-if="shouldShowHeaderMessage"

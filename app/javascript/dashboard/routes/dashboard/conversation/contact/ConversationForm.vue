@@ -1,4 +1,5 @@
 <script>
+import { ref } from 'vue';
 // constants & helpers
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -57,12 +58,19 @@ export default {
       default: () => {},
     },
   },
+  emits: ['cancel', 'success'],
   setup() {
     const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
       useUISettings();
     const v$ = useVuelidate();
+    const uploadAttachment = ref(false);
 
-    return { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox, v$ };
+    return {
+      fetchSignatureFlagFromUISettings,
+      setSignatureFlagForInbox,
+      v$,
+      uploadAttachment,
+    };
   },
   data() {
     return {
@@ -440,8 +448,8 @@ export default {
             </label>
             <ReplyEmailHead
               v-if="isAnEmailInbox"
-              :cc-emails.sync="ccEmails"
-              :bcc-emails.sync="bccEmails"
+              v-model:cc-emails="ccEmails"
+              v-model:bcc-emails="bccEmails"
             />
             <div class="editor-wrap">
               <WootMessageEditor
@@ -482,7 +490,7 @@ export default {
             v-else-if="hasWhatsappTemplates"
             :inbox-id="selectedInbox.inbox.id"
             @on-select-template="toggleWaTemplate"
-            @onSend="onSendWhatsAppReply"
+            @on-send="onSendWhatsAppReply"
           />
           <label v-else :class="{ error: v$.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
@@ -535,7 +543,7 @@ export default {
               <AttachmentPreview
                 class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
                 :attachments="attachedFiles"
-                @removeAttachment="removeAttachment"
+                @remove-attachment="removeAttachment"
               />
             </div>
           </div>
@@ -557,7 +565,7 @@ export default {
 
     <transition v-if="isEmailOrWebWidgetInbox" name="modal-fade">
       <div
-        v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
+        v-show="uploadAttachment && uploadAttachment.dropActive"
         class="absolute top-0 bottom-0 left-0 right-0 z-30 flex flex-col items-center justify-center w-full h-full gap-2 bg-white/80 dark:bg-slate-700/80"
       >
         <fluent-icon icon="cloud-backup" size="40" />

@@ -79,7 +79,7 @@ export default {
       }
       this.$router.push({
         name: 'article-viewer',
-        params: { link: linkToOpen },
+        query: { link: linkToOpen },
       });
     },
     viewAllArticles() {
@@ -103,7 +103,7 @@ export default {
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
         :unread-count="unreadMessageCount"
-        @startConversation="startConversation"
+        @start-conversation="startConversation"
       />
     </div>
     <div v-if="showArticles" class="w-full px-4 py-2">
@@ -116,7 +116,7 @@ export default {
           "
           :articles="popularArticles"
           @view="openArticleInArticleViewer"
-          @viewAll="viewAllArticles"
+          @view-all="viewAllArticles"
         />
       </div>
     </div>

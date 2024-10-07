@@ -172,7 +172,7 @@ function onFileChange({ file }) {
           <woot-avatar-uploader
             :label="$t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL')"
             :src="state.logoUrl"
-            @onAvatarSelect="onFileChange"
+            @on-avatar-select="onFileChange"
           />
           <div v-if="showDeleteButton" class="avatar-delete-btn">
             <woot-button
@@ -201,7 +201,7 @@ function onFileChange({ file }) {
           :placeholder="$t('HELP_CENTER.PORTAL.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.PORTAL.ADD.NAME.HELP_TEXT')"
           @blur="v$.name.$touch"
-          @input="onNameChange"
+          @update:model-value="onNameChange"
         />
       </div>
       <div class="mb-4">
