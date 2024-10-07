@@ -1,15 +1,14 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import ReportsFiltersTeams from '../../Filters/Teams.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-
 const mountParams = {
-  mocks: {
-    $t: msg => msg,
+  global: {
+    mocks: {
+      $t: msg => msg,
+    },
+    stubs: ['multiselect'],
   },
-  stubs: ['multiselect'],
 };
 
 describe('ReportsFiltersTeams.vue', () => {
@@ -30,7 +29,7 @@ describe('ReportsFiltersTeams.vue', () => {
       },
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         teams: teamsModule,
       },
@@ -39,21 +38,25 @@ describe('ReportsFiltersTeams.vue', () => {
 
   it('dispatches "teams/get" action when component is mounted', () => {
     shallowMount(ReportsFiltersTeams, {
-      store,
-      localVue,
-      ...mountParams,
+      global: {
+        plugins: [store],
+        ...mountParams,
+      },
     });
     expect(teamsModule.actions.get).toHaveBeenCalled();
   });
 
-  it('emits "team-filter-selection" event when handleInput is called', () => {
+  it('emits "team-filter-selection" event when handleInput is called', async () => {
     const wrapper = shallowMount(ReportsFiltersTeams, {
-      store,
-      localVue,
-      ...mountParams,
+      global: {
+        plugins: [store],
+        ...mountParams,
+      },
     });
-    wrapper.setData({ selectedOption: { id: 1, name: 'Team 1' } });
-    wrapper.vm.handleInput();
+
+    await wrapper.setData({ selectedOption: { id: 1, name: 'Team 1' } });
+    await wrapper.vm.handleInput();
+
     expect(wrapper.emitted('teamFilterSelection')).toBeTruthy();
     expect(wrapper.emitted('teamFilterSelection')[0]).toEqual([
       { id: 1, name: 'Team 1' },

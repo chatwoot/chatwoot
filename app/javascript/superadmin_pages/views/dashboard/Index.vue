@@ -65,6 +65,7 @@ const { accountsCount, usersCount, inboxesCount, conversationsCount } =
         </div>
       </div>
     </section>
+    <!-- eslint-disable vue/no-static-inline-styles -->
     <BarChart
       class="p-8 w-full"
       :collection="chartData"
