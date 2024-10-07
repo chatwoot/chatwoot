@@ -69,6 +69,15 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'contextMenuToggle',
+    'assignAgent',
+    'assignLabel',
+    'assignTeam',
+    'markAsUnread',
+    'assignPriority',
+    'updateConversationStatus',
+  ],
   data() {
     return {
       hovered: false,
@@ -336,12 +345,12 @@ export default {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
-        @updateConversation="onUpdateConversation"
-        @assignAgent="onAssignAgent"
-        @assignLabel="onAssignLabel"
-        @assignTeam="onAssignTeam"
-        @markAsUnread="markAsUnread"
-        @assignPriority="assignPriority"
+        @update-conversation="onUpdateConversation"
+        @assign-agent="onAssignAgent"
+        @assign-label="onAssignLabel"
+        @assign-team="onAssignTeam"
+        @mark-as-unread="markAsUnread"
+        @assign-priority="assignPriority"
       />
     </ContextMenu>
   </div>

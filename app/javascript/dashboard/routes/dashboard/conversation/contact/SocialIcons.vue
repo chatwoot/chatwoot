@@ -27,6 +27,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div v-if="availableProfiles.length" class="flex items-end mx-0 my-2 gap-3">
     <a

@@ -43,6 +43,7 @@ export default {
       default: '',
     },
   },
+  emits: ['toggleAccounts', 'openNotificationPanel', 'openKeyShortcutModal'],
   data() {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
@@ -96,13 +97,13 @@ export default {
         open-in-new-page
         :to="helpDocsURL"
       />
-      <NotificationBell @openNotificationPanel="openNotificationPanel" />
-      <AgentDetails @toggleMenu="toggleOptions" />
+      <NotificationBell @open-notification-panel="openNotificationPanel" />
+      <AgentDetails @toggle-menu="toggleOptions" />
       <OptionsMenu
         :show="showOptionsMenu"
-        @toggleAccounts="toggleAccountModal"
-        @showSupportChatWindow="toggleSupportChatWindow"
-        @openKeyShortcutModal="$emit('openKeyShortcutModal')"
+        @toggle-accounts="toggleAccountModal"
+        @show-support-chat-window="toggleSupportChatWindow"
+        @open-key-shortcut-modal="$emit('openKeyShortcutModal')"
         @close="toggleOptions"
       />
     </div>

@@ -1,46 +1,21 @@
-<script>
+<script setup>
+import { computed } from 'vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
-export default {
-  components: {
-    WootMessageEditor,
-    ResizableTextArea,
-  },
-  props: {
-    value: {
-      type: String,
-      default: '',
-    },
-    richtext: {
-      type: Boolean,
-      default: false,
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      greetingsMessage: this.value,
-    };
-  },
-  watch: {
-    value(newValue) {
-      this.greetingsMessage = newValue;
-    },
-  },
-  methods: {
-    handleInput() {
-      this.$emit('input', this.greetingsMessage);
-    },
-  },
-};
+const props = defineProps({
+  modelValue: { type: String, default: '' },
+  richtext: { type: Boolean, default: false },
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const greetingsMessage = computed({
+  get: () => props.modelValue,
+  set: value => emit('update:modelValue', value),
+});
 </script>
 
 <template>
@@ -56,7 +31,6 @@ export default {
         class="bg-white input dark:bg-slate-900"
         :placeholder="placeholder"
         :min-height="4"
-        @input="handleInput"
       />
     </div>
     <ResizableTextArea

@@ -10,6 +10,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['prev', 'next'],
   computed: {
     isUpDisabled() {
       return this.currentIndex === 1;

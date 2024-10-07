@@ -11,7 +11,7 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     portalName: {
       type: String,
@@ -26,6 +26,7 @@ export default {
       default: '',
     },
   },
+  emits: ['create', 'cancel', 'update:show'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -47,6 +48,14 @@ export default {
     },
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     selectedPortalSlug() {
       return this.$route.params.portalSlug
         ? this.$route.params.portalSlug
@@ -111,9 +120,8 @@ export default {
 };
 </script>
 
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
@@ -140,8 +148,8 @@ export default {
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
           :has-error="v$.name.$error"
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
-          @nameChange="onNameChange"
-          @iconChange="onClickInsertEmoji"
+          @name-change="onNameChange"
+          @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model="slug"
@@ -152,6 +160,7 @@ export default {
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           @input="v$.slug.$touch"
+          @blur="v$.slug.$touch"
         />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}

@@ -3,7 +3,7 @@
     "TITLE": "로그인",
     "EMAIL": {
       "LABEL": "이메일",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "올바른 전자 메일 주소를 입력하십시오."
     },
     "PASSWORD": {

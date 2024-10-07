@@ -138,11 +138,11 @@ export default {
         </tbody>
       </table>
     </template>
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditWebhook
         v-if="showEditPopup"
         :id="selectedWebHook.id"
@@ -151,7 +151,7 @@ export default {
       />
     </woot-modal>
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"

@@ -131,7 +131,7 @@ export default {
       />
       <SLAEmptyState
         v-else-if="!records.length"
-        @primaryAction="openAddPopup"
+        @primary-action="openAddPopup"
       />
       <div v-else class="flex flex-col w-full h-full gap-3">
         <SLAListItem
@@ -148,12 +148,12 @@ export default {
         />
       </div>
 
-      <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
         <AddSLA @close="hideAddPopup" />
       </woot-modal>
 
       <woot-delete-modal
-        :show.sync="showDeleteConfirmationPopup"
+        v-model:show="showDeleteConfirmationPopup"
         :on-close="closeDeletePopup"
         :on-confirm="confirmDeletion"
         :title="$t('SLA.DELETE.CONFIRM.TITLE')"

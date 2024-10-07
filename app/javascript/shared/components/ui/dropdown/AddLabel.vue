@@ -1,5 +1,7 @@
 <script>
 export default {
+  emits: ['add'],
+
   methods: {
     addLabel() {
       this.$emit('add');

@@ -1,10 +1,11 @@
 <script>
 import emojis from './emojisGroup.json';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
 const SEARCH_KEY = 'Search';
 
 export default {
-  components: { FluentIcon },
+  components: { FluentIcon, WootButton },
   props: {
     onClick: {
       type: Function,
@@ -97,7 +98,7 @@ export default {
           class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
-        <woot-button
+        <WootButton
           v-if="showRemoveButton"
           size="small"
           variant="smooth"
@@ -106,7 +107,7 @@ export default {
           @click="onClick('')"
         >
           {{ $t('EMOJI.REMOVE') }}
-        </woot-button>
+        </WootButton>
       </div>
       <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
         <h5 class="emoji-category--title">

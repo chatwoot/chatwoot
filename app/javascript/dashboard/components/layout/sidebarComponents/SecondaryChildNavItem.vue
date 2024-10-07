@@ -106,10 +106,11 @@ export default {
           <span
             v-if="showChildCount"
             class="bg-slate-50 dark:bg-slate-700 rounded-full min-w-[18px] justify-center items-center flex text-xxs mx-1 py-0 px-1"
-            :class="isCountZero
+            :class="
+              isCountZero
                 ? `text-slate-300 dark:text-slate-500`
                 : `text-slate-700 dark:text-slate-50`
-              "
+            "
           >
             {{ childItemCount }}
           </span>

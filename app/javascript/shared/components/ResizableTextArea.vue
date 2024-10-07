@@ -40,6 +40,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'typingOn',
+    'typingOff',
+    'update:modelValue',
+    'input',
+    'blur',
+    'focus',
+  ],
   data() {
     return {
       typingIndicator: createTypingIndicator(

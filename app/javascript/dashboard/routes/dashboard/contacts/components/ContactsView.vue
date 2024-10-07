@@ -402,29 +402,29 @@ export default {
         :header-title="pageTitle"
         :segments-id="segmentsId"
         this-selected-contact-id=""
-        @onInputSearch="onInputSearch"
-        @onToggleCreate="onToggleCreate"
-        @onToggleFilter="onToggleFilters"
-        @onSearchSubmit="onSearchSubmit"
-        @onToggleImport="onToggleImport"
-        @onExportSubmit="onExportSubmit"
-        @onToggleSaveFilter="onToggleSaveFilters"
-        @onToggleDeleteFilter="onToggleDeleteFilters"
-        @onToggleEditFilter="onToggleFilters"
+        @on-input-search="onInputSearch"
+        @on-toggle-create="onToggleCreate"
+        @on-toggle-filter="onToggleFilters"
+        @on-search-submit="onSearchSubmit"
+        @on-toggle-import="onToggleImport"
+        @on-export-submit="onExportSubmit"
+        @on-toggle-save-filter="onToggleSaveFilters"
+        @on-toggle-delete-filter="onToggleDeleteFilters"
+        @on-toggle-edit-filter="onToggleFilters"
       />
       <ContactsTable
         :contacts="records"
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
         :active-contact-id="selectedContactId"
-        @onSortChange="onSortChange"
+        @on-sort-change="onSortChange"
       />
       <TableFooter
         class="border-t border-slate-75 dark:border-slate-700/50"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
-        @pageChange="onPageChange"
+        @page-change="onPageChange"
       />
     </div>
 
@@ -437,7 +437,7 @@ export default {
     />
     <DeleteCustomViews
       v-if="showDeleteSegmentsModal"
-      :show-delete-popup.sync="showDeleteSegmentsModal"
+      v-model:show="showDeleteSegmentsModal"
       :active-custom-view="activeSegment"
       :custom-views-id="segmentsId"
       :active-filter-type="filterType"
@@ -451,11 +451,11 @@ export default {
       :on-close="closeContactInfoPanel"
     />
     <CreateContact :show="showCreateModal" @cancel="onToggleCreate" />
-    <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
+    <woot-modal v-model:show="showImportModal" :on-close="onToggleImport">
       <ImportContacts v-if="showImportModal" :on-close="onToggleImport" />
     </woot-modal>
     <woot-modal
-      :show.sync="showFiltersModal"
+      v-model:show="showFiltersModal"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
@@ -466,9 +466,9 @@ export default {
         :initial-applied-filters="appliedFilter"
         :active-segment-name="activeSegmentName"
         :is-segments-view="hasActiveSegments"
-        @applyFilter="onApplyFilter"
-        @updateSegment="onUpdateSegment"
-        @clearFilters="clearFilters"
+        @apply-filter="onApplyFilter"
+        @update-segment="onUpdateSegment"
+        @clear-filters="clearFilters"
       />
     </woot-modal>
   </div>

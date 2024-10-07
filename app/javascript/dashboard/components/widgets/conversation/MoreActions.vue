@@ -28,7 +28,7 @@ export default {
     emitter.on(CMD_UNMUTE_CONVERSATION, this.unmute);
     emitter.on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
   },
-  destroyed() {
+  unmounted() {
     emitter.off(CMD_MUTE_CONVERSATION, this.mute);
     emitter.off(CMD_UNMUTE_CONVERSATION, this.unmute);
     emitter.off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);

@@ -158,7 +158,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
@@ -186,7 +186,7 @@ export default {
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-            @input="onDisplayNameChange"
+            @update:model-value="onDisplayNameChange"
             @blur="v$.displayName.$touch"
           />
           <woot-input

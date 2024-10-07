@@ -72,7 +72,7 @@ export default {
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
-        @pageChange="onPageChange"
+        @page-change="onPageChange"
       />
     </div>
   </div>

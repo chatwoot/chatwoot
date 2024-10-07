@@ -1,16 +1,15 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
+import { createRouter, createWebHistory } from 'vue-router';
 import portalMixin from '../portalMixin';
-import Vuex from 'vuex';
-import VueRouter from 'vue-router';
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
 import ListAllArticles from '../../pages/portals/ListAllPortals.vue';
 
-const router = new VueRouter({
+// Create router instance
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
     {
-      path: ':portalSlug/:locale/articles',
+      path: '/:portalSlug/:locale/articles', // Add leading "/"
       name: 'list_all_locale_articles',
       component: ListAllArticles,
     },
@@ -30,18 +29,21 @@ describe('portalMixin', () => {
       render() {},
       title: 'TestComponent',
       mixins: [portalMixin],
-      router,
     };
-    store = new Vuex.Store({ getters });
-    wrapper = shallowMount(Component, { store, localVue });
+    store = createStore({ getters });
+    wrapper = shallowMount(Component, {
+      global: {
+        plugins: [store, router],
+      },
+    });
   });
 
-  it('return account id', () => {
+  it('returns account id', () => {
     expect(wrapper.vm.accountId).toBe(1);
   });
 
-  it('returns article url', () => {
-    router.push({
+  it('returns article url', async () => {
+    await router.push({
       name: 'list_all_locale_articles',
       params: { portalSlug: 'fur-rent', locale: 'en' },
     });
@@ -50,24 +52,24 @@ describe('portalMixin', () => {
     );
   });
 
-  it('returns portal locale', () => {
-    router.push({
+  it('returns portal locale', async () => {
+    await router.push({
       name: 'list_all_locale_articles',
       params: { portalSlug: 'fur-rent', locale: 'es' },
     });
     expect(wrapper.vm.portalSlug).toBe('fur-rent');
   });
 
-  it('returns portal slug', () => {
-    router.push({
+  it('returns portal slug', async () => {
+    await router.push({
       name: 'list_all_locale_articles',
       params: { portalSlug: 'campaign', locale: 'es' },
     });
     expect(wrapper.vm.portalSlug).toBe('campaign');
   });
 
-  it('returns locale name', () => {
-    router.push({
+  it('returns locale name', async () => {
+    await router.push({
       name: 'list_all_locale_articles',
       params: { portalSlug: 'fur-rent', locale: 'es' },
     });

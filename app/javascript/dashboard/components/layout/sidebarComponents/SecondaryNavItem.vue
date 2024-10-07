@@ -22,6 +22,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['addLabel', 'open'],
   setup() {
     const { isAdmin } = useAdmin();
     const { isEnterprise } = useConfig();
