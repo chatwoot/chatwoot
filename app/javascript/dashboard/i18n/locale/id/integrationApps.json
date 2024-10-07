@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Mengambil Integrasi",
-    "NO_HOOK_CONFIGURED": "Tidak ada integrasi %{integrationId} yang dikonfigurasi di akun ini.",
+    "NO_HOOK_CONFIGURED": "Tidak ada integrasi {integrationId} yang dikonfigurasi di akun ini.",
     "HEADER": "Aplikasi",
     "STATUS": {
       "ENABLED": "Diaktifkan",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Putuskan"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow adalah platform pemahaman bahasa alami yang memungkinkan Anda merancang dan mengintegrasikan antarmuka pengguna percakapan ke aplikasi seluler, aplikasi web, perangkat, bot, sistem respons suara interaktif, dan lain-lain. <br /> <br /> Integrasi Dialogflow dengan %{installationName} memungkinkan Anda mengkonfigurasi bot Dialogflow dengan kotak masuk Anda, sehingga bot menangani pertanyaan awal dan menyerahkannya ke agen jika diperlukan. Dialogflow dapat digunakan untuk memfilter prospek, mengurangi beban kerja agen dengan memberikan pertanyaan yang sering diajukan, dan sebagainya. <br /> <br /> Untuk menambahkan Dialogflow, Anda perlu membuat Akun Layanan di konsol proyek Google Anda dan berbagi kredensialnya. Silakan lihat dokumen Dialogflow untuk informasi lebih lanjut."
+      "DIALOGFLOW": "Dialogflow adalah platform pemahaman bahasa alami yang memungkinkan Anda merancang dan mengintegrasikan antarmuka pengguna percakapan ke aplikasi seluler, aplikasi web, perangkat, bot, sistem respons suara interaktif, dan lain-lain. <br /> <br /> Integrasi Dialogflow dengan {installationName} memungkinkan Anda mengkonfigurasi bot Dialogflow dengan kotak masuk Anda, sehingga bot menangani pertanyaan awal dan menyerahkannya ke agen jika diperlukan. Dialogflow dapat digunakan untuk memfilter prospek, mengurangi beban kerja agen dengan memberikan pertanyaan yang sering diajukan, dan sebagainya. <br /> <br /> Untuk menambahkan Dialogflow, Anda perlu membuat Akun Layanan di konsol proyek Google Anda dan berbagi kredensialnya. Silakan lihat dokumen Dialogflow untuk informasi lebih lanjut."
     }
   }
 }

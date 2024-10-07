@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Tidak ada",
         "INPUT_PLACEHOLDER": "Pilih prioritas",
         "NO_RESULTS": "Tidak ada hasil ditemukan",
-        "SUCCESSFUL": "Berhasil mengubah prioritas percakapan dengan ID %{conversationId} menjadi %{priority}",
+        "SUCCESSFUL": "Berhasil mengubah prioritas percakapan dengan ID {conversationId} menjadi {priority}",
         "FAILED": "Gagal mengubah prioritas. Silakan coba lagi."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Tugaskan tim",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Id percakapan %{conversationId} ditugaskan ke \"%{agentName}\"",
+          "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Label #%{labelName} ditugaskan ke id percakapan %{conversationId}",
+          "SUCCESFUL": "Label #{labelName} ditugaskan ke id percakapan {conversationId}",
           "FAILED": "Tidak dapat menugaskan label. Silakan coba lagi."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Tim \"%{team}\" ditugaskan ke id percakapan %{conversationId}",
+          "SUCCESFUL": "Tim \"{team}\" ditugaskan ke id percakapan {conversationId}",
           "FAILED": "Tidak dapat menugaskan tim. Silakan coba lagi."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hai 👋, Selamat datang di %{installationName}!",
-    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari %{installationName}. Berikut beberapa hal yang dapat Anda lakukan di %{installationName} untuk membuat pengalaman menyenangkan.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Hai 👋, Selamat datang di {installationName}!",
+    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari {installationName}. Berikut beberapa hal yang dapat Anda lakukan di {installationName} untuk membuat pengalaman menyenangkan.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Baca pembaruan terbaru kami",
     "ALL_CONVERSATION": {
       "TITLE": "Semua percakapan Anda di satu tempat",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Peserta Percakapan",
     "NO_RECORDS_FOUND": "Tidak ada hasil ditemukan",
     "ADD_PARTICIPANTS": "Pilih peserta",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} lainnya",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} lainnya",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} orang berpartisipasi.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} orang berpartisipasi.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} lainnya",
+    "REMANING_PARTICIPANT_TEXT": "+{count} lainnya",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} orang berpartisipasi.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} orang berpartisipasi.",
     "NO_PARTICIPANTS_TEXT": "Tidak ada yang berpartisipasi!.",
     "WATCH_CONVERSATION": "Gabung dalam percakapan",
     "YOU_ARE_WATCHING": "Anda berpartisipasi",

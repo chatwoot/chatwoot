@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sense categoria",
-      "SEARCH_RESULTS": "Resultats de la cerca per a %{query}",
+      "SEARCH_RESULTS": "Resultats de la cerca per a {query}",
       "EMPTY_TEXT": "Cerca articles per inserir a les respostes.",
       "SEARCH_LOADER": "S'està cercant...",
       "INSERT_ARTICLE": "Insereix",

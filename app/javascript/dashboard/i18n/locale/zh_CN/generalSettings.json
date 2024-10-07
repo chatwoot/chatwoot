@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
+    "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
     "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
     "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
@@ -75,12 +75,7 @@
     "LIST": {
       "LOADING_MESSAGE": "正在加载通知...",
       "404": "没有通知",
-      "TABLE_HEADER": [
-        "姓名：",
-        "电话号码",
-        "会话",
-        "上次联系"
-      ]
+      "TABLE_HEADER": ["姓名：", "电话号码", "会话", "上次联系"]
     },
     "TYPE_LABEL": {
       "conversation_creation": "新建对话",

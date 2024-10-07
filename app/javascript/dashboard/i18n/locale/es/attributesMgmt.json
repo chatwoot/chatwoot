@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "No se pudo borrar el equipo. Intente nuevamente."
       },
       "CONFIRM": {
-        "TITLE": "¿Está seguro que quiere borrar - %{attributeName}?",
+        "TITLE": "¿Está seguro que quiere borrar - {attributeName}?",
         "PLACE_HOLDER": "Por favor, escriba {attributeName} para confirmar",
         "MESSAGE": "Borrar, eliminará el atributo personalizado",
         "YES": "Eliminar ",

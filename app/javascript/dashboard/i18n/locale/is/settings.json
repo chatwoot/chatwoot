@@ -301,7 +301,7 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "Þú ert áskrifandi að **%{plan}** áætluninni með **%{quantity}** leyfi"
+      "PLAN_NOTE": "Þú ert áskrifandi að **{plan}** áætluninni með **{quantity}** leyfi"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",

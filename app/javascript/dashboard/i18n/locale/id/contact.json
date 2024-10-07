@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Ringkasan",
-      "DELETE_WARNING": "Kontak <strong>%{primaryContactName}</strong> akan dihapus.",
-      "ATTRIBUTE_WARNING": "Detail kontak dari <strong>%{primaryContactName}</strong> akan disalin ke <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontak <strong>{primaryContactName}</strong> akan dihapus.",
+      "ATTRIBUTE_WARNING": "Detail kontak dari <strong>{primaryContactName}</strong> akan disalin ke <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "PESAN_KESALAHAN"

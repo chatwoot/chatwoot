@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Ekibinize temsilciler ekleyin",
-        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+        "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
         "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Ekipteki temsilcileri güncelleyin",
-        "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+        "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
         "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bir görüşme bu ekibe atandığında tüm temsilcilere bildirim gider."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Ekibinize Temsiciler Ekleniyor...",
       "SELECT": "seçiniz",
       "SELECT_ALL": "tüm temsicileri seçin",
-      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi."
+      "SELECTED_COUNT": "{total} temsilciden {selected} temsilci seçildi."
     },
     "ADD": {
-      "TITLE": "Ekibe temsilciler ekleyin - %{teamName}",
+      "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
       "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar.",
       "SELECT": "seçiniz",
       "SELECT_ALL": "tüm temsicileri seçin",
-      "SELECTED_COUNT": "%{total} temsilciden %{selected} temsilci seçildi.",
+      "SELECTED_COUNT": "{total} temsilciden {selected} temsilci seçildi.",
       "BUTTON_TEXT": "Kullanıcı Ekle",
       "AGENT_VALIDATION_ERROR": "En az bir temsilci seçin."
     },

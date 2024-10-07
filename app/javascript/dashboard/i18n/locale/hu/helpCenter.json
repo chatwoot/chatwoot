@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorizálhatatlan",
-      "SEARCH_RESULTS": "Keresési eredmények %{query}",
+      "SEARCH_RESULTS": "Keresési eredmények {query}",
       "EMPTY_TEXT": "Cikkek keresése a válaszokba való beillesztéshez.",
       "SEARCH_LOADER": "Keresés...",
       "INSERT_ARTICLE": "Beszúrás",

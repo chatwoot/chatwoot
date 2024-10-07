@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar exclusão",
-          "MESSAGE": "Tem a certeza que pretende excluir o webhook? (%{webhookURL})",
+          "MESSAGE": "Tem a certeza que pretende excluir o webhook? ({webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, manter"
         }
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Como usar a integração da Slack?",
-        "BODY": "Com esta integração, todas as suas conversas recebidas serão sincronizadas com o canal ***%{selectedChannelName}*** na Slack. Pode gerir todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão as principais características da integração:\n\n**Responder a conversas a partir da Slack:** Para responder a uma conversa no canal ***%{selectedChannelName}*** Slack, digite simplemente a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot.\n\n**Criar notas privadas:** Se quiser criar notas privadas em vez de respostas, inicie a sua mensagem com ***'nota:'***. Isto garante que a sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu na Slack tem um perfil de agente no Chatwoot com o mesmo e-mail, as respostas serão associadas automaticamente a esse perfil de agente. Isto significa que pode facilmente controlar quem disse o quê e quando. Por outro lado, quando quem responde não tem um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
+        "BODY": "Com esta integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** na Slack. Pode gerir todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão as principais características da integração:\n\n**Responder a conversas a partir da Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, digite simplemente a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot.\n\n**Criar notas privadas:** Se quiser criar notas privadas em vez de respostas, inicie a sua mensagem com ***'nota:'***. Isto garante que a sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu na Slack tem um perfil de agente no Chatwoot com o mesmo e-mail, as respostas serão associadas automaticamente a esse perfil de agente. Isto significa que pode facilmente controlar quem disse o quê e quando. Por outro lado, quando quem responde não tem um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
         "SELECTED": "selecionado"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistente de IA",
-      "WITH_AI": " %{option} com IA ",
+      "WITH_AI": " {option} com IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",
         "SUMMARIZE": "Sumário",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Sim, excluir",
         "CONFIRM_NO": "Não, manter",
         "TITLE": "Confirmar exclusão",
-        "MESSAGE": "Tem a certeza que pretende excluir a app - %{appName}?",
+        "MESSAGE": "Tem a certeza que pretende excluir a app - {appName}?",
         "API_SUCCESS": "App de dashboard excluída com sucesso",
         "API_ERROR": "Não foi possível excluir a app. Por favor, tente novamente mais tarde"
       }
@@ -235,7 +235,7 @@
         "ERROR": "Houve um erro ao procurar problemas lineares, por favor, tente novamente",
         "LINK_SUCCESS": "Problema vinculado com sucesso",
         "LINK_ERROR": "Houve um erro ao vincular o problema, por favor, tente novamente",
-        "LINK_TITLE": "Conversa (#%{conversationId}) com %{name}"
+        "LINK_TITLE": "Conversa (#{conversationId}) com {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Criar/Vincular problema linear",
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Atribuído",
         "LABELS": "Etiquetas",
-        "CREATED_AT": "Criado a %{createdAt}"
+        "CREATED_AT": "Criado a {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desvincular",

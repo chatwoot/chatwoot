@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "دسته بندی نشده",
-      "SEARCH_RESULTS": "جستجو بر اساس %{query}",
+      "SEARCH_RESULTS": "جستجو بر اساس {query}",
       "EMPTY_TEXT": "جستجو در مقالات برای درج در پاسخ.",
       "SEARCH_LOADER": "در حال جستجو...",
       "INSERT_ARTICLE": "درج",
