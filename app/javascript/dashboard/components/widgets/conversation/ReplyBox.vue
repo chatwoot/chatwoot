@@ -5,7 +5,13 @@
       action-button-variant="clear"
       color-scheme="secondary"
       class="banner--self-assign"
-      :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
+      :banner-message="
+        $t(
+          `CONVERSATION.NOT_ASSIGNED_TO_YOU.${
+            assignedAgent ? 'ASSIGNED_TO_SOMEONE_ELSE' : 'NO_ASSIGNEE_YET'
+          }`
+        )
+      "
       :has-action-button="true"
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
       @click="onClickSelfAssign"

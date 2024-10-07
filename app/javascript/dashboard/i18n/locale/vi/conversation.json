@@ -30,7 +30,10 @@
     "LOADING_CONVERSATIONS": "Đang tải cuộc hội thoại",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
-    "NOT_ASSIGNED_TO_YOU": "Hội thoại này không được phân công cho bạn. Bạn có muốn phân công hội thoại này cho chính mình?",
+    "NOT_ASSIGNED_TO_YOU": {
+      "NO_ASSIGNEE_YET": "Hội thoại này chưa có người phụ trách. Bạn có muốn phân công hội thoại này cho chính mình?",
+      "ASSIGNED_TO_SOMEONE_ELSE": "Hội thoại này đã phân công cho người khác. Bạn có muốn phân công hội thoại này cho chính mình?"
+    },
     "ASSIGN_TO_ME": "Phân công cho tôi",
     "ASSIGNMENT_REQUEST": "{name} đang yêu cầu được phụ trách hội thoại này. Bạn có muốn phân công hội thoại này cho {name} không?",
     "AGREE_TO_REQUEST": "Đồng ý",
