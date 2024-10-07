@@ -136,24 +136,64 @@
     </div>
 
     <div class="w-full">
-      <label :class="{ error: $v.newTicket.note.$error }">
-        {{ $t('CANNED_MGMT.EDIT.FORM.CONTENT.LABEL') }}
+      <label class="mb-2">
+        Subject
+        <input type="text" v-model="newTicket.subject" @input="$v.newTicket.subject.$touch"/>
+        <span v-if="$v.newTicket.subject.$error" class="message text-red-400">
+          Subject is required
+        </span>
       </label>
-      <div>
-        <woot-message-editor
-          v-model="newTicket.note"
-          class="message-editor [&>div]:px-1"
-          :class="{ editor_warning: $v.newTicket.note.$error }"
-          :enable-variables="true"
-          :enable-canned-responses="false"
-          :placeholder="$t('CONVERSATION.REPLYBOX.CREATE')"
-          @blur="$v.newTicket.note.$touch"
-        />
-      </div>
+    </div>
 
-      <span v-if="$v.newTicket.note.$error" class="message text-red-400">
-        Note is required
-      </span>
+    <div class="newticket-box" :class="{ 'is-private': privateNote }">
+      <div class="newticket-box__top bg-white dark:bg-slate-800">
+        <div class="button-group">
+          <woot-button
+            color-scheme="secondary"
+            variant="clear"
+            class="button--reply"
+            :class="messageButtonClass"
+            @click="handleMessageClick"
+          >
+          Message
+          </woot-button>
+
+          <woot-button
+            class="button--note"
+            variant="clear"
+            color-scheme="warning"
+            :class="noteButtonClass"
+            @click="handleNoteClick"
+          >
+            {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+          </woot-button>
+        </div>
+      </div>
+      
+      <div class="w-full pb-2">
+        <reply-email-head
+          class="px-2"
+          v-if="!privateNote"
+          :cc-emails.sync="ccEmails"
+          :bcc-emails.sync="bccEmails"
+        />
+        <div class="p-2 mt-2">
+          <woot-message-editor
+            v-model="newTicket.note"
+            class="message-editor [&>div]:px-1"
+            :is-private="privateNote"
+            :enable-variables="true"  
+            :enable-canned-responses="false"
+            :placeholder="messagePlaceHolder"
+            @blur="$v.newTicket.note.$touch"
+            ref="messageEditor"
+          />
+        </div>
+
+        <span v-if="$v.newTicket.note.$error" class="text-red-400 message p-2">
+          {{ privateNote ? 'Note' : 'Message'}} is required
+        </span>
+      </div>
     </div>
 
     <div class="w-full flex items-center gap-2">
@@ -176,6 +216,7 @@
   import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
   import alertMixin from 'shared/mixins/alertMixin';
   import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+  import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 
   export default {
     mixins: [alertMixin],
@@ -184,6 +225,7 @@
       InboxDropdownItem,
       WootMessageEditor,
       MultiselectDropdown,
+      ReplyEmailHead,
     },
     props: {
       headerTitle: {
@@ -195,6 +237,9 @@
       return {
         assignedLabels: [],
         assignedTeam: null,
+        privateNote: true,
+        bccEmails: '',
+        ccEmails: '',
         contactKinds: [
         {
           id: 0,
@@ -229,8 +274,7 @@
         allLabels: 'labels/getLabels',
         inboxes: 'inboxes/getInboxes',
         teamsList: 'teams/getTeams',
-        currentAccountId: 'getCurrentAccountId',
-        'customAttributes': 'getCustomAttributes',
+        currentAccountId: 'getCurrentAccountId'
       }),
 
       emailInboxes() {
@@ -270,6 +314,25 @@
           contact_type: this.contactType,
         }
       },
+      noteButtonClass() {
+        return {
+          'is-active': this.privateNote,
+        };
+      },
+      messageButtonClass() {
+        return {
+          'is-active': !this.privateNote,
+        };
+      },
+
+      messagePlaceHolder() {
+        if (this.privateNote) {
+          return 'Add a note';
+        } else {
+          return 'Add a message';
+        }
+      },
+
       newTicketData(){
         return {
           'contact_kind': this.newTicket.contact_kind,
@@ -284,6 +347,10 @@
           'response_needed': this.newTicket.response_needed,
           'labels': this.newTicket.labels,
           'custom_attributes': this.customAttributes,
+          'subject': this.newTicket.subject,
+          'bcc_emails': this.bccEmails,
+          'cc_emails': this.ccEmails,
+          'private': this.privateNote,
         }
       }
     },
@@ -342,14 +409,18 @@
         this.$v.$touch();
 
         if (this.$v.$invalid) {
+          this.$emit('enable-submit')
           this.showAlert('There are validation errors')
         } else {
+          this.$emit('disable-submit')
           this.$store.dispatch('saveTicket', this.newTicketData).then((result) => {
             this.showAlert('Ticket created!')
             this.clearTicket()
             this.navigateToTicket(result.data.id)
+            this.$emit('enable-submit')
           }).catch(() => {
             this.showAlert('Failed to create ticket', 'error')
+            this.$emit('enable-submit')
           })
         }
       },
@@ -373,7 +444,17 @@
       },
       clearContactTypeLabels(){
         this.assignedLabels = this.assignedLabels.filter((label) => !label.title.includes('_contact'))
-      }
+      },
+
+      handleMessageClick() {
+        this.privateNote = false;
+        // this.$emit('reply-click');
+      },
+
+      handleNoteClick() {
+        this.privateNote = true;
+        // this.$emit('note-click');
+      },
     },
     validations: {
       newTicket:{
@@ -387,10 +468,19 @@
         name: {
           required
         },
+        subject: {
+          required
+        },
         note: {
           required
         },
         phoneNumber: {},
+      },
+      bcc_emails: {
+        email
+      },
+      cc_emails: {
+        email
       }
     },
     watch: {
@@ -409,14 +499,84 @@
           this.assignedLabels.push(label)
         }
       },
+      privateNote(){
+        this.$refs.messageEditor.reloadState(this.newTicket.note)
+      }
     }
   };
 </script>
-<style scoped>
+<style lang="scss" scoped>
   label input[type="email"], label input[type="text"] {
     margin-bottom: 0px !important;
   }
   .multiselect {
     margin-bottom: 0px !important;
   }
+
+  .button-group {
+    @apply flex border-0 p-0 m-0;
+
+    .button {
+      @apply text-sm font-medium py-2.5 px-4 m-0 relative z-10;
+      &.is-active {
+        @apply bg-white dark:bg-slate-900;
+      }
+    }
+    .button--reply {
+      @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
+      &:hover,
+      &:focus {
+        @apply border-r border-slate-50 dark:border-slate-700;
+      }
+    }
+    .button--note {
+      @apply border-l-0 rounded-none;
+      &.is-active {
+        @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-slate-50 dark:border-slate-700;
+      }
+      &:hover,
+      &:active {
+        @apply text-yellow-700 dark:text-yellow-700;
+      }
+    }
+  }
+  .button--note {
+    @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
+  }
+
+  .newticket-box {
+    transition:
+      box-shadow 0.35s cubic-bezier(0.37, 0, 0.63, 1),
+      height 2s cubic-bezier(0.37, 0, 0.63, 1);
+
+    @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
+    min-width: 550px;
+
+    &.is-focused {
+      box-shadow:
+        0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    &.is-private {
+      @apply bg-yellow-100 dark:bg-yellow-800;
+      .newticket-box__top {
+        > input {
+          @apply bg-yellow-100 dark:bg-yellow-800;
+        }
+      }
+      .message-editor{
+        @apply bg-yellow-100 dark:bg-yellow-800;
+      }
+    }
+  }
+
+  .newticket-box__top {
+    @apply relative py-0 px-0;
+
+    textarea {
+      @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
+    }
+  }
+
 </style>

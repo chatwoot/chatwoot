@@ -16,9 +16,9 @@
       </div>
       <div class="flex-col py-2 px-2.5 overflow-auto h-full flex">
         <div class="py-4 px-1 ml-0 mr-0">
-          <new-ticket-form ref="ticketForm" @close-panel="closePanel"/>
+          <new-ticket-form ref="ticketForm" @close-panel="closePanel" @enable-submit="onEnableSubmit" @disable-submit="onDisableSubmit"/>
         </div>
-        <button type="submit" class="button success mb-5" @click="submitForm">
+        <button type="submit" class="button success mb-5" @click="submitForm" :disabled="disableSubmit">
           <span class="button__content">
             Create
           </span>
@@ -37,7 +37,9 @@ export default {
     NewTicketForm
   },
   data() {
-    return {};
+    return {
+      disableSubmit: false
+    };
   },
   computed: {
     ...mapGetters({
@@ -60,6 +62,14 @@ export default {
 
     submitForm() {
       this.$refs.ticketForm.submitForm()
+    },
+
+    onEnableSubmit() {
+      this.disableSubmit = false
+    },
+
+    onDisableSubmit() {
+      this.disableSubmit = true
     }
   },
 };

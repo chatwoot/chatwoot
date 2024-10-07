@@ -19,7 +19,12 @@
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
-      <new-ticket-button v-if="newTicketEnabled" @open-new-ticket-panel="openNewTicketPanel"/>
+      <new-ticket-button 
+        v-if="newTicketEnabled"
+        v-tooltip.right="$t('SIDEBAR.NEW_TICKET')"
+        @open-new-ticket-panel="openNewTicketPanel"
+      />
+
       <primary-nav-item
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"

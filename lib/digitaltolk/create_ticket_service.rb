@@ -70,15 +70,20 @@ class Digitaltolk::CreateTicketService
   def conversation_params
     {
       team_id: service_params[:team_id],
-      additional_attributes: { ticket: true },
-      custom_attributes: service_params[:custom_attributes].permit!.to_h.symbolize_keys
+      custom_attributes: service_params[:custom_attributes].permit!.to_h.symbolize_keys,
+      additional_attributes: { 
+        ticket: true,
+        mail_subject: service_params[:subject]
+      }
     }
   end
 
   def message_params
     {
-      private: true,
-      content: service_params[:note]
+      private: service_params[:private],
+      content: service_params[:note],
+      cc_emails: service_params[:cc_emails],
+      bcc_emails: service_params[:bcc_emails]
     }
   end
   
