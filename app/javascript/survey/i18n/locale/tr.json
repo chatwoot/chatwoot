@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Değerli misafirimiz 👋, %{inboxName} ile yaptığınız görüşmeyi değerlendirmek için lütfen kısa bir süre ayırın.",
+    "DESCRIPTION": "Değerli misafirimiz 👋, {inboxName} ile yaptığınız görüşmeyi değerlendirmek için lütfen kısa bir süre ayırın.",
     "RATING": {
       "LABEL": "Konuşmanızı oylayın",
       "SUCCESS_MESSAGE": "Konuşmanızı oyladığınız için teşekkürler"

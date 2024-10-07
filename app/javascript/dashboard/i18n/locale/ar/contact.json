@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "ملخص",
-      "DELETE_WARNING": "سيتم حذف جهة الاتصال <strong>%{primaryContactName}</strong>.",
-      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال من <strong>%{primaryContactName}</strong> إلى <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "سيتم حذف جهة الاتصال <strong>{primaryContactName}</strong>.",
+      "ATTRIBUTE_WARNING": "سيتم نسخ تفاصيل الاتصال من <strong>{primaryContactName}</strong> إلى <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "رسالة_خطأ"

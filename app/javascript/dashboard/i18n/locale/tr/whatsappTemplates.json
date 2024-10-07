@@ -1,25 +1,25 @@
 {
-    "WHATSAPP_TEMPLATES": {
-        "MODAL": {
-            "TITLE": "WhatsApp Şablonları",
-            "SUBTITLE": "Göndermek istediğiniz WhatsApp şablonunu seçin",
-            "TEMPLATE_SELECTED_SUBTITLE": "%{templateName} işleniyor"
-        },
-        "PICKER": {
-            "SEARCH_PLACEHOLDER": "Şablon Ara",
-            "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
-            "LABELS": {
-                "LANGUAGE": "Dil",
-                "TEMPLATE_BODY": "Şablon İçeriği",
-                "CATEGORY": "Kategori"
-            }
-        },
-        "PARSER": {
-            "VARIABLES_LABEL": "Değişkenler",
-            "VARIABLE_PLACEHOLDER": "%{variable} değerini girin",
-            "GO_BACK_LABEL": "Geri Git",
-            "SEND_MESSAGE_LABEL": "Mesaj Gönder",
-            "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun"
-        }
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "WhatsApp Şablonları",
+      "SUBTITLE": "Göndermek istediğiniz WhatsApp şablonunu seçin",
+      "TEMPLATE_SELECTED_SUBTITLE": "{templateName} işleniyor"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Şablon Ara",
+      "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
+      "LABELS": {
+        "LANGUAGE": "Dil",
+        "TEMPLATE_BODY": "Şablon İçeriği",
+        "CATEGORY": "Kategori"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Değişkenler",
+      "VARIABLE_PLACEHOLDER": "{variable} değerini girin",
+      "GO_BACK_LABEL": "Geri Git",
+      "SEND_MESSAGE_LABEL": "Mesaj Gönder",
+      "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun"
     }
+  }
 }

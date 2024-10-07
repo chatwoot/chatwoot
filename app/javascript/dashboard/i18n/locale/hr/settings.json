@@ -301,7 +301,7 @@
     "TITLE": "Naplata",
     "CURRENT_PLAN": {
       "TITLE": "Trenutni plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Upravljanje pretplatom",

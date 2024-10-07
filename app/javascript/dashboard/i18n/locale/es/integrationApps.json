@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Obteniendo integraciones",
-    "NO_HOOK_CONFIGURED": "No hay integraciones de %{integrationId} configuradas en ésta cuenta.",
+    "NO_HOOK_CONFIGURED": "No hay integraciones de {integrationId} configuradas en ésta cuenta.",
     "HEADER": "Aplicaciones",
     "STATUS": {
       "ENABLED": "Activado",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Desconectar"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow es una plataforma de comprensión del lenguaje natural que facilita el diseño e integración de una interfaz de usuario conversacional en su aplicación móvil, aplicación web, dispositivo, bot, sistema interactivo de respuesta de voz, etc. <br /> <br /> La integración de Dialogflow con %{installationName} le permite configurar un bot de Dialogflow con sus bandejas de entrada que permite al bot manejar las consultas inicialmente y entregarlas a un agente cuando sea necesario. El dialogflow se puede utilizar para calificar a los clientes potenciales, reducir la carga de trabajo de los agentes proporcionando preguntas frecuentes, etc. <br /> <br /> Para añadir Dialogflow, necesita crear una cuenta de servicio en la consola del proyecto de Google y compartir las credenciales. Consulte la documentación de Dialogflow para obtener más información."
+      "DIALOGFLOW": "Dialogflow es una plataforma de comprensión del lenguaje natural que facilita el diseño e integración de una interfaz de usuario conversacional en su aplicación móvil, aplicación web, dispositivo, bot, sistema interactivo de respuesta de voz, etc. <br /> <br /> La integración de Dialogflow con {installationName} le permite configurar un bot de Dialogflow con sus bandejas de entrada que permite al bot manejar las consultas inicialmente y entregarlas a un agente cuando sea necesario. El dialogflow se puede utilizar para calificar a los clientes potenciales, reducir la carga de trabajo de los agentes proporcionando preguntas frecuentes, etc. <br /> <br /> Para añadir Dialogflow, necesita crear una cuenta de servicio en la consola del proyecto de Google y compartir las credenciales. Consulte la documentación de Dialogflow para obtener más información."
     }
   }
 }

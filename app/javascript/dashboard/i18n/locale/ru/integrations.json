@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Подтвердите удаление",
-          "MESSAGE": "Вы уверены, что хотите удалить вебхук? (%{webhookURL})",
+          "MESSAGE": "Вы уверены, что хотите удалить вебхук? ({webhookURL})",
           "YES": "Да, удалить ",
           "NO": "Нет, не удалять"
         }
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Помощь ИИ",
-      "WITH_AI": " %{option} с ИИ ",
+      "WITH_AI": " {option} с ИИ ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Предложить ответ",
         "SUMMARIZE": "Подведем итог",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Да, удалить",
         "CONFIRM_NO": "Нет, не удалять",
         "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Вы уверены, что хотите удалить приложение - %{appName}?",
+        "MESSAGE": "Вы уверены, что хотите удалить приложение - {appName}?",
         "API_SUCCESS": "Приложение успешно удалено",
         "API_ERROR": "Не удалось удалить приложение. Повторите попытку позже"
       }
@@ -294,7 +294,7 @@
         "PRIORITY": "Приоритет",
         "ASSIGNEE": "Назначено",
         "LABELS": "Категории",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

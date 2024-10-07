@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nėra",
         "INPUT_PLACEHOLDER": "Pasirinkti prioritetą",
         "NO_RESULTS": "Nieko nerasta",
-        "SUCCESSFUL": "Prioritetas pokalbiui id %{conversationId} pakeistas į %{priority}",
+        "SUCCESSFUL": "Prioritetas pokalbiui id {conversationId} pakeistas į {priority}",
         "FAILED": "Nepavyko pakeisti prioriteto. Prašau, pabandykite dar kartą."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Priskirti komandą",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Pokalbis id %{conversationId} priskirtas \"%{agentName}\"",
+          "SUCCESFUL": "Pokalbis id {conversationId} priskirtas \"{agentName}\"",
           "FAILED": "Nepavyko priskirti agento. Prašau, pabandykite dar kartą."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta etiketė #%{labelName} pokalbiui id %{conversationId}",
+          "SUCCESFUL": "Priskirta etiketė #{labelName} pokalbiui id {conversationId}",
           "FAILED": "Nepavyko priskirti etiketės. Prašau, pabandykite dar kartą."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta komanda #%{team} pokalbiui id %{conversationId}",
+          "SUCCESFUL": "Priskirta komanda #{team} pokalbiui id {conversationId}",
           "FAILED": "Nepavyko priskirti komandos. Prašau, pabandykite dar kartą."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Sveiki 👋, Sveiki atvykę į %{installationName}!",
-    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas %{installationName} galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami %{installationName}, kad patirtis būtų maloni.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Sveiki 👋, Sveiki atvykę į {installationName}!",
+    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas {installationName} galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami {installationName}, kad patirtis būtų maloni.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Skaitykite mūsų naujausius atnaujinimus",
     "ALL_CONVERSATION": {
       "TITLE": "Visi jūsų pokalbiai vienoje vietoje",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Pokalbio dalyviai",
     "NO_RECORDS_FOUND": "Nieko nerasta",
     "ADD_PARTICIPANTS": "Pasirinkti dalyvius",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} kiti",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} kitas",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} dalyvauja žmonių.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} dalyvauja asmenų.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} kiti",
+    "REMANING_PARTICIPANT_TEXT": "+{count} kitas",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} dalyvauja žmonių.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} dalyvauja asmenų.",
     "NO_PARTICIPANTS_TEXT": "Niekas nedalyvauja!.",
     "WATCH_CONVERSATION": "Prisijungti pire pokalbio",
     "YOU_ARE_WATCHING": "Jūs dalyvaujate",
