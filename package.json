@@ -5,9 +5,9 @@
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
-    "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage",
+    "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage --logHeapUsage",
     "test:watch": "TZ=UTC vitest --no-cache --no-coverage",
-    "test:coverage": "TZ=UTC vitest --no-cache --no-watch --coverage",
+    "test:coverage": "TZ=UTC vitest --no-watch --no-cache --coverage",
     "start:dev": "foreman start -f ./Procfile.dev",
     "start:test": "RAILS_ENV=test foreman start -f ./Procfile.test",
     "start:dev-overmind": "overmind start -f ./Procfile.dev",
@@ -100,7 +100,7 @@
     "@iconify-json/logos": "^1.2.0",
     "@iconify-json/lucide": "^1.2.5",
     "@size-limit/file": "^8.2.4",
-    "@vitest/coverage-v8": "^2.1.1",
+    "@vitest/coverage-v8": "2.0.1",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
@@ -110,6 +110,7 @@
     "eslint-plugin-html": "7.1.0",
     "eslint-plugin-import": "2.30.0",
     "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-vitest-globals": "^1.5.0",
     "eslint-plugin-vue": "^9.28.0",
     "fake-indexeddb": "^6.0.0",
     "husky": "^7.0.0",
@@ -118,11 +119,12 @@
     "postcss": "^8.4.47",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",
+    "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.8",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "^2.1.1"
+    "vitest": "2.0.1"
   },
   "engines": {
     "node": "20.x",
