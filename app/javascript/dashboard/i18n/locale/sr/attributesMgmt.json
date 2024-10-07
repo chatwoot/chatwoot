@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "NIje bilo moguće obrisati prilagođeni atribut. Pokušajte ponovo."
       },
       "CONFIRM": {
-        "TITLE": "Da li zaista želite da obrišete - %{attributeName}",
+        "TITLE": "Da li zaista želite da obrišete - {attributeName}",
         "PLACE_HOLDER": "Molim upišite {attributeName} za potvrdu",
         "MESSAGE": "Brisanjem ćete ukloniti prilagođeni atribut",
         "YES": "Obriši ",
@@ -92,12 +92,7 @@
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Tip",
-        "Ključ"
-      ],
+      "TABLE_HEADER": ["Ime", "Opis", "Tip", "Ključ"],
       "BUTTONS": {
         "EDIT": "Uredi",
         "DELETE": "Izbriši"

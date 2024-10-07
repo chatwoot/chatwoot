@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "없음",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "검색 결과가 없습니다",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "안녕하세요 👋, %{installationName}에 오신 것을 환영합니다!",
-    "DESCRIPTION": "가입해주셔서 감사합니다. 저희 %{installationName}의 모든 기능을 최대로 누리기 위해 아래 몇 가지를 해주시겠어요?",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "안녕하세요 👋, {installationName}에 오신 것을 환영합니다!",
+    "DESCRIPTION": "가입해주셔서 감사합니다. 저희 {installationName}의 모든 기능을 최대로 누리기 위해 아래 몇 가지를 해주시겠어요?",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "최근 업데이트 내용 보기",
     "ALL_CONVERSATION": {
       "TITLE": "모든 대화를 한 곳에서",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "검색 결과가 없습니다",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

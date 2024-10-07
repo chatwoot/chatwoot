@@ -12,8 +12,8 @@
       "MESSAGES": "الرسائل"
     },
     "SEARCHING_DATA": "جاري البحث",
-    "EMPTY_STATE": "لم يتم العثور على %{item} للطلب '%{query}'",
-    "EMPTY_STATE_FULL": "لم يتم العثور على نتائج للطلب '%{query}'",
+    "EMPTY_STATE": "لم يتم العثور على {item} للطلب '{query}'",
+    "EMPTY_STATE_FULL": "لم يتم العثور على نتائج للطلب '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ للتركيز",
     "INPUT_PLACEHOLDER": "أكتب 3 أحرف أو أكثر للبحث",
     "EMPTY_STATE_DEFAULT": "البحث عن طريق معرف المحادثة أو البريد الإلكتروني أو رقم الهاتف أو الرسائل للحصول على نتائج بحث أفضل. ",

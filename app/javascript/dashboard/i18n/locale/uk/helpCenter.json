@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категорії",
-      "SEARCH_RESULTS": "Результати пошуку для %{query}",
+      "SEARCH_RESULTS": "Результати пошуку для {query}",
       "EMPTY_TEXT": "Пошук статей для вставки у відповіді.",
       "SEARCH_LOADER": "Шукаємо...",
       "INSERT_ARTICLE": "Вставка",

@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категории",
-      "SEARCH_RESULTS": "Результаты поиска %{query}",
+      "SEARCH_RESULTS": "Результаты поиска {query}",
       "EMPTY_TEXT": "Поиск статей для вставки в ответы.",
       "SEARCH_LOADER": "Идёт поиск...",
       "INSERT_ARTICLE": "Вставить",

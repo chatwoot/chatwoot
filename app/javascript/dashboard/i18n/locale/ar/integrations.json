@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "تأكيد الحذف",
-          "MESSAGE": "هل أنت متأكد من حذف webhook؟ (%{webhookURL})",
+          "MESSAGE": "هل أنت متأكد من حذف webhook؟ ({webhookURL})",
           "YES": "نعم، احذف ",
           "NO": "لا، احتفظ به"
         }
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "نعم، احذف",
         "CONFIRM_NO": "لا، احتفظ به",
         "TITLE": "تأكيد الحذف",
-        "MESSAGE": "هل أنت متأكد من حذف التطبيق - %{appName}؟",
+        "MESSAGE": "هل أنت متأكد من حذف التطبيق - {appName}؟",
         "API_SUCCESS": "تم حذف تطبيق لوحة التحكم بنجاح",
         "API_ERROR": "لم نتمكن من حذف التطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
       }
@@ -235,7 +235,7 @@
         "ERROR": "حدث خطأ أثناء جلب المشكلات من Linear، الرجاء المحاولة مرة أخرى",
         "LINK_SUCCESS": "تم ربط المشكلة بنجاح",
         "LINK_ERROR": "حدث خطأ أثناء ربط المشكلة، الرجاء المحاولة مرة أخرى",
-        "LINK_TITLE": "محادثة (#%{conversationId}) مع %{name}"
+        "LINK_TITLE": "محادثة (#{conversationId}) مع {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "إنشاء/رابط مشكلة في Linear",
@@ -294,7 +294,7 @@
         "PRIORITY": "الأولوية",
         "ASSIGNEE": "المكلَّف",
         "LABELS": "الوسوم",
-        "CREATED_AT": "تم إنشاؤها في %{createdAt}"
+        "CREATED_AT": "تم إنشاؤها في {createdAt}"
       },
       "UNLINK": {
         "TITLE": "إلغاء الربط",

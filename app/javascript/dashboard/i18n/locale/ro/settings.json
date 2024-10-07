@@ -301,7 +301,7 @@
     "TITLE": "Facturare",
     "CURRENT_PLAN": {
       "TITLE": "Pentru acest plan nu sunt disponibile extraoptiuni",
-      "PLAN_NOTE": "În prezent sunteți abonat la planul **%{plan}** cu licențe **%{quantity}**"
+      "PLAN_NOTE": "În prezent sunteți abonat la planul **{plan}** cu licențe **{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gestionați-vă abonamentul",

@@ -1,5 +1,5 @@
 import { emitter } from 'shared/helpers/mitt';
-import analyticsHelper from '/dashboard/helper/AnalyticsHelper/index';
+import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
 
 /**
  * Custom hook to track events

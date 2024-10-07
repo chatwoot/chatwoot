@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "هیچکدام",
         "INPUT_PLACEHOLDER": "انتخاب اولویت",
         "NO_RESULTS": "نتیجه‌ای یافت نشد",
-        "SUCCESSFUL": "تغییر اولویت گفتگوی با شناسه %{conversationId} به %{priority}",
+        "SUCCESSFUL": "تغییر اولویت گفتگوی با شناسه {conversationId} به {priority}",
         "FAILED": "تغییر اولویت گفتگو با موفقیت انجام نشد. لطفا دوباره تلاش نمایید."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "تیم را تعیین کنید",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "شناسه مکالمه %{conversationId} به \"%{agentName}\" اختصاص داده شد",
+          "SUCCESFUL": "شناسه مکالمه {conversationId} به \"{agentName}\" اختصاص داده شد",
           "FAILED": "اپراتور تعیین نشد. لطفا دوباره تلاش کنید."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "برچسب #%{labelName} را به شناسه مکالمه %{conversationId} اختصاص داد",
+          "SUCCESFUL": "برچسب #{labelName} را به شناسه مکالمه {conversationId} اختصاص داد",
           "FAILED": "برچسب اختصاص داده نشد. لطفا دوباره تلاش کنید."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "تیم \"%{team}\" را به شناسه مکالمه %{conversationId} اختصاص داد",
+          "SUCCESFUL": "تیم \"{team}\" را به شناسه مکالمه {conversationId} اختصاص داد",
           "FAILED": "تیم تعیین نشد. لطفا دوباره تلاش کنید."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "سلام 👋، خوش آمدی به %{installationName}!",
-    "DESCRIPTION": "از این که ثبت نام کرده اید سپاسگذاریم. ما ماخواهیم بهترین تجربه را از %{installationName} داشته باشید. در اینجا چند کار وجود دارد که می توانید در %{installationName} انجام دهید تا تجربه بهتری داشته باشید.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "سلام 👋، خوش آمدی به {installationName}!",
+    "DESCRIPTION": "از این که ثبت نام کرده اید سپاسگذاریم. ما ماخواهیم بهترین تجربه را از {installationName} داشته باشید. در اینجا چند کار وجود دارد که می توانید در {installationName} انجام دهید تا تجربه بهتری داشته باشید.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "آخرین به روزرسانی های ما را بخوانید",
     "ALL_CONVERSATION": {
       "TITLE": "همه مکالمات شما در یک مکان",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "شرکت کنندگان در گفتگو",
     "NO_RECORDS_FOUND": "نتیجه‌ای یافت نشد",
     "ADD_PARTICIPANTS": "شرکت کنندگان را انتخاب کنید",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} نفر دیگر",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} دیگر",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} نفر شرکت می کنند.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} نفر شرکت می کند.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} نفر دیگر",
+    "REMANING_PARTICIPANT_TEXT": "+{count} دیگر",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} نفر شرکت می کنند.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} نفر شرکت می کند.",
     "NO_PARTICIPANTS_TEXT": "هیچ کس شرکت نمی کند!.",
     "WATCH_CONVERSATION": "به گفتگو بپیوندید",
     "YOU_ARE_WATCHING": "شما شرکت می کنید",

@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Samantekt",
-      "DELETE_WARNING": "Tengilið <strong>%{primaryContactName}</strong> verður eytt.",
-      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>%{primaryContactName}</strong> verða afritaðar á <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Tengilið <strong>{primaryContactName}</strong> verður eytt.",
+      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>{primaryContactName}</strong> verða afritaðar á <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

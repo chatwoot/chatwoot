@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
+        "TITLE": "Sei sicuro di voler eliminare - {attributeName}",
         "PLACE_HOLDER": "Digita {attributeName} per confermare",
         "MESSAGE": "L'eliminazione rimuoverà l'attributo personalizzato",
         "YES": "Elimina ",

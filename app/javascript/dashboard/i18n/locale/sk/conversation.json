@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Žiadne",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Žiadne výsledky neboli nájdené",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ahoj 👋, vitaj v %{installationName}!",
-    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z %{installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v %{installationName}, aby ste si spríjemnili zážitok.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Ahoj 👋, vitaj v {installationName}!",
+    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z {installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v {installationName}, aby ste si spríjemnili zážitok.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Prečítajte si naše novinky",
     "ALL_CONVERSATION": {
       "TITLE": "Všetky vaše konverzácie na jednom mieste",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Žiadne výsledky neboli nájdené",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
