@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Riepilogo",
-      "DELETE_WARNING": "Il contatto di <strong>%{primaryContactName}</strong> verrà eliminato.",
-      "ATTRIBUTE_WARNING": "I dettagli del contatto di <strong>%{primaryContactName}</strong> verranno copiati in <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Il contatto di <strong>{primaryContactName}</strong> verrà eliminato.",
+      "ATTRIBUTE_WARNING": "I dettagli del contatto di <strong>{primaryContactName}</strong> verranno copiati in <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Plantillas de Whatsapp",
             "SUBTITLE": "Seleccione la plantilla de Whatsapp que desea enviar",
-            "TEMPLATE_SELECTED_SUBTITLE": "Procesar %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Procesar {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Buscar plantillas",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Introduzca el valor de %{variable}",
+            "VARIABLE_PLACEHOLDER": "Introduzca el valor de {variable}",
             "GO_BACK_LABEL": "Volver",
             "SEND_MESSAGE_LABEL": "Enviar mensaje",
             "FORM_ERROR_MESSAGE": "Por favor, rellene todas las variables antes de enviar"

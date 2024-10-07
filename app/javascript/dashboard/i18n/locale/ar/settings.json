@@ -301,7 +301,7 @@
     "TITLE": "الفواتير",
     "CURRENT_PLAN": {
       "TITLE": "الباقة الحالية",
-      "PLAN_NOTE": "أنت مشترك حاليا في باقة**%{plan}** مع تراخيص **%{quantity}**"
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "إدارة الاشتراك الخاص بك",

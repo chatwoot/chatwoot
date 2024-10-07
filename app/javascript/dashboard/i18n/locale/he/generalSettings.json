@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "אתה יכול לקבל אימיילים בדומיין המותאם אישית שלך עכשיו."
       }
     },
-    "UPDATE_CHATWOOT": "עדכון %{latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
+    "UPDATE_CHATWOOT": "עדכון {latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
     "LEARN_MORE": "למד עוד",
     "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",

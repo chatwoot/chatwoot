@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Brak",
         "INPUT_PLACEHOLDER": "Wybierz priorytet",
         "NO_RESULTS": "Brak wyników",
-        "SUCCESSFUL": "Zmieniono priorytet konwersacji o identyfikatorze %{conversationId} na %{priority}",
+        "SUCCESSFUL": "Zmieniono priorytet konwersacji o identyfikatorze {conversationId} na {priority}",
         "FAILED": "Nie można zmienić priorytetu. Spróbuj ponownie."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Przypisz zespół",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Konwersacja o identyfikatorze %{conversationId} przypisana do \"%{agentName}\"",
+          "SUCCESFUL": "Konwersacja o identyfikatorze {conversationId} przypisana do \"{agentName}\"",
           "FAILED": "Nie można przypisać agenta. Spróbuj ponownie."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Przypisano etykietę #%{labelName} do konwersacji o identyfikatorze %{conversationId}",
+          "SUCCESFUL": "Przypisano etykietę #{labelName} do konwersacji o identyfikatorze {conversationId}",
           "FAILED": "Nie można przypisać etykiety. Spróbuj ponownie."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Przypisano zespół \"%{team}\" do konwersacji o identyfikatorze %{conversationId}",
+          "SUCCESFUL": "Przypisano zespół \"{team}\" do konwersacji o identyfikatorze {conversationId}",
           "FAILED": "Nie można przypisać zespołu. Spróbuj ponownie."
         }
       }
@@ -194,7 +194,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etykieta przypisana pomyślnie",
     "ASSIGN_LABEL_FAILED": "Nie udało się przypisać etykiety",
     "CHANGE_TEAM": "Zmieniono przypisany zespół konwersacji",
-    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika %{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nie można wysłać tej wiadomości, spróbuj ponownie później",
     "SENT_BY": "Wysłane przez:",
     "BOT": "Bot",
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Cześć 👋, Witamy w %{installationName}!",
-    "DESCRIPTION": "Dziękujemy za rejestrację. Chcemy, abyś jak najlepiej skorzystał z %{installationName}. Oto kilka rzeczy, które możesz spróbować, aby zapewnić sobie jak najlepsze doświadczenie z %{installationName}.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Cześć 👋, Witamy w {installationName}!",
+    "DESCRIPTION": "Dziękujemy za rejestrację. Chcemy, abyś jak najlepiej skorzystał z {installationName}. Oto kilka rzeczy, które możesz spróbować, aby zapewnić sobie jak najlepsze doświadczenie z {installationName}.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Przeczytaj najnowsze aktualizacje",
     "ALL_CONVERSATION": {
       "TITLE": "Wszystkie Twoje konwersacje w jednym miejscu",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Uczestnicy konwersacji",
     "NO_RECORDS_FOUND": "Nie znaleziono rekordów",
     "ADD_PARTICIPANTS": "Wybierz uczestników",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} innych",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} inna osoba",
-    "TOTAL_PARTICIPANTS_TEXT": "Bierze w nich udział %{count} osób.",
-    "TOTAL_PARTICIPANT_TEXT": "Bierze w nich udział %{count} osoba.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} innych",
+    "REMANING_PARTICIPANT_TEXT": "+{count} inna osoba",
+    "TOTAL_PARTICIPANTS_TEXT": "Bierze w nich udział {count} osób.",
+    "TOTAL_PARTICIPANT_TEXT": "Bierze w nich udział {count} osoba.",
     "NO_PARTICIPANTS_TEXT": "Nikt nie bierze udziału!",
     "WATCH_CONVERSATION": "Dołącz do konwersacji",
     "YOU_ARE_WATCHING": "Bierzesz udział",

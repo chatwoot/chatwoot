@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Añadir agentes al equipo",
-        "TITLE": "Añadir agentes al equipo - %{teamName}",
+        "TITLE": "Añadir agentes al equipo - {teamName}",
         "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Actualizar los agentes en el equipo",
-        "TITLE": "Añadir agentes al equipo - %{teamName}",
+        "TITLE": "Añadir agentes al equipo - {teamName}",
         "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Añadiendo agentes a su equipo...",
       "SELECT": "seleccionar",
       "SELECT_ALL": "seleccionar todos los agentes",
-      "SELECTED_COUNT": "%{selected} de %{total} agentes seleccionados."
+      "SELECTED_COUNT": "{selected} de {total} agentes seleccionados."
     },
     "ADD": {
-      "TITLE": "Añadir agentes al equipo - %{teamName}",
+      "TITLE": "Añadir agentes al equipo - {teamName}",
       "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación.",
       "SELECT": "seleccionar",
       "SELECT_ALL": "seleccionar todos los agentes",
-      "SELECTED_COUNT": "%{selected} de %{total} agentes seleccionados.",
+      "SELECTED_COUNT": "{selected} de {total} agentes seleccionados.",
       "BUTTON_TEXT": "Añadir agentes",
       "AGENT_VALIDATION_ERROR": "Seleccione al menos un agente."
     },

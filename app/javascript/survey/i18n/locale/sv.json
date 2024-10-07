@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Ge feedback om den konversation du hade med %{inboxName}.",
+    "DESCRIPTION": "Ge feedback om den konversation du hade med {inboxName}.",
     "RATING": {
       "LABEL": "Betygsätt din konversation",
       "SUCCESS_MESSAGE": "Tack för att du lämnat in omdömet"

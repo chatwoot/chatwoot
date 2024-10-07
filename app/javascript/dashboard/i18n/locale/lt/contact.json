@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Santrauka",
-      "DELETE_WARNING": "Kontaktas <strong>%{primaryContactName}</strong> bus ištrintas.",
-      "ATTRIBUTE_WARNING": "Kontakto informacija <strong>%{primaryContactName}</strong> bus nukopijuota į <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontaktas <strong>{primaryContactName}</strong> bus ištrintas.",
+      "ATTRIBUTE_WARNING": "Kontakto informacija <strong>{primaryContactName}</strong> bus nukopijuota į <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "KLAIDOS_PRANEŠIMAS"

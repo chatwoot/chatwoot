@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שנית."
       },
       "CONFIRM": {
-        "TITLE": "האם אתה בטוח רוצה למחוק - %{attributeName}",
+        "TITLE": "האם אתה בטוח רוצה למחוק - {attributeName}",
         "PLACE_HOLDER": "אנא הקלד {attributeName} כדי לאשר",
         "MESSAGE": "המחיקה תסיר את השדה המותאם",
         "YES": "מחק ",

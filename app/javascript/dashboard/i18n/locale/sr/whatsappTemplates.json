@@ -1,25 +1,25 @@
 {
-    "WHATSAPP_TEMPLATES": {
-        "MODAL": {
-            "TITLE": "Whatsapp šabloni",
-            "SUBTITLE": "Izaberite koji whatsapp šablon želite da pošaljete",
-            "TEMPLATE_SELECTED_SUBTITLE": "Obrada %{templateName}"
-        },
-        "PICKER": {
-            "SEARCH_PLACEHOLDER": "Pretraži šablone",
-            "NO_TEMPLATES_FOUND": "Nijedan šablon nije pronađen",
-            "LABELS": {
-                "LANGUAGE": "Jezik",
-                "TEMPLATE_BODY": "Telo šablona",
-                "CATEGORY": "Kategorija"
-            }
-        },
-        "PARSER": {
-            "VARIABLES_LABEL": "Promenljive",
-            "VARIABLE_PLACEHOLDER": "Unesite vrednost za %{variable}",
-            "GO_BACK_LABEL": "Povratak",
-            "SEND_MESSAGE_LABEL": "Pošalji poruku",
-            "FORM_ERROR_MESSAGE": "Molim vas popunite sve promenljive pre slanja"
-        }
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Whatsapp šabloni",
+      "SUBTITLE": "Izaberite koji whatsapp šablon želite da pošaljete",
+      "TEMPLATE_SELECTED_SUBTITLE": "Obrada {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Pretraži šablone",
+      "NO_TEMPLATES_FOUND": "Nijedan šablon nije pronađen",
+      "LABELS": {
+        "LANGUAGE": "Jezik",
+        "TEMPLATE_BODY": "Telo šablona",
+        "CATEGORY": "Kategorija"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Promenljive",
+      "VARIABLE_PLACEHOLDER": "Unesite vrednost za {variable}",
+      "GO_BACK_LABEL": "Povratak",
+      "SEND_MESSAGE_LABEL": "Pošalji poruku",
+      "FORM_ERROR_MESSAGE": "Molim vas popunite sve promenljive pre slanja"
     }
+  }
 }

@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Conferma eliminazione",
-          "MESSAGE": "Sei sicuro di voler eliminare il webhook? (%{webhookURL})",
+          "MESSAGE": "Sei sicuro di voler eliminare il webhook? ({webhookURL})",
           "YES": "Sì, elimina ",
           "NO": "No, conserva"
         }
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Sì, eliminalo",
         "CONFIRM_NO": "No, mantienilo",
         "TITLE": "Conferma eliminazione",
-        "MESSAGE": "Sei sicuro di voler eliminare l'app - %{appName}?",
+        "MESSAGE": "Sei sicuro di voler eliminare l'app - {appName}?",
         "API_SUCCESS": "App dashboard cancellata con successo",
         "API_ERROR": "Non è stato possibile eliminare l'app. Riprova più tardi"
       }
@@ -235,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -294,7 +294,7 @@
         "PRIORITY": "Priorità",
         "ASSIGNEE": "Assignee",
         "LABELS": "Etichette",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

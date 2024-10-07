@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Pelanggan yang terhormat 👋, harap luangkan waktu sejenak untuk memberikan umpan balik tentang percakapan yang Anda lakukan %{inboxName}.",
+    "DESCRIPTION": "Pelanggan yang terhormat 👋, harap luangkan waktu sejenak untuk memberikan umpan balik tentang percakapan yang Anda lakukan {inboxName}.",
     "RATING": {
       "LABEL": "Nilai percakapan Anda",
       "SUCCESS_MESSAGE": "Terima kasih telah mengirimkan penilaian"

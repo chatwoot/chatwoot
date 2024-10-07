@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Rezime",
-      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> će biti obrisan.",
-      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>%{primaryContactName}</strong> će biti iskopirani u <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> će biti obrisan.",
+      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>{primaryContactName}</strong> će biti iskopirani u <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

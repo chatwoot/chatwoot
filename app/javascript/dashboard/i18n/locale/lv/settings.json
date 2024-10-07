@@ -301,7 +301,7 @@
     "TITLE": "Norēķini",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
-      "PLAN_NOTE": "Šobrīd Jūs abonējat **%{plan}** plānu ar **%{quantity}** licencēm"
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",
