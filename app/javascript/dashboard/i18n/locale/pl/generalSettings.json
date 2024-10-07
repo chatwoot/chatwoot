@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz odbierać wiadomości e-mail na swojej własnej domenie."
       }
     },
-    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji %{latestChatwootVersion} Chatwoot. Proszę zaktualizować swoją instancję.",
+    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji {latestChatwootVersion} Chatwoot. Proszę zaktualizować swoją instancję.",
     "LEARN_MORE": "Dowiedz się więcej",
     "PAYMENT_PENDING": "Twoja płatność jest w toku. Zaktualizuj informacje o płatności, aby kontynuować korzystanie z Chatwoot.",
     "LIMITS_UPGRADE": "Twoje konto przekroczyło limit użytkowania. Zaktualizuj swój plan, aby kontynuować korzystanie z Chatwoot.",

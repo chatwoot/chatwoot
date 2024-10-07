@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Templat Whatsapp",
             "SUBTITLE": "Pilih templat Whatsapp yang ingin Anda kirim",
-            "TEMPLATE_SELECTED_SUBTITLE": "Proses %{templatName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Proses {templatName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Cari Templat",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Variabel",
-            "VARIABLE_PLACEHOLDER": "Masukkan nilai %{variable}",
+            "VARIABLE_PLACEHOLDER": "Masukkan nilai {variable}",
             "GO_BACK_LABEL": "Kembali",
             "SEND_MESSAGE_LABEL": "Kirim Pesan",
             "FORM_ERROR_MESSAGE": "Harap isi semua variabel sebelum mengirim"

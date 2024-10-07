@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Afegir agents a l'equip",
-        "TITLE": "Afegeix agents a l'equip - %{teamName}",
+        "TITLE": "Afegeix agents a l'equip - {teamName}",
         "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Actualitza els agents de l'equip",
-        "TITLE": "Afegeix agents a l'equip - %{teamName}",
+        "TITLE": "Afegeix agents a l'equip - {teamName}",
         "DESC": "Afegeix agents al teu equip acabat de crear. Tots els agents afegits rebran una notificació quan s'assigni una conversa a aquest equip."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "S'estan afegint agents al teu equip...",
       "SELECT": "selecciona",
       "SELECT_ALL": "selecciona tots els agents",
-      "SELECTED_COUNT": "%{selected} de %{total} agents seleccionats."
+      "SELECTED_COUNT": "{selected} de {total} agents seleccionats."
     },
     "ADD": {
-      "TITLE": "Afegeix agents a l'equip - %{teamName}",
+      "TITLE": "Afegeix agents a l'equip - {teamName}",
       "DESC": "Afegeix agents al teu equip acabat de crear. Això et permet col·laborar com a equip en converses, rebre notificacions sobre esdeveniments nous a la mateixa conversa.",
       "SELECT": "selecciona",
       "SELECT_ALL": "selecciona tots els agents",
-      "SELECTED_COUNT": "%{selected} de %{total} agents seleccionats.",
+      "SELECTED_COUNT": "{selected} de {total} agents seleccionats.",
       "BUTTON_TEXT": "Afegir agents",
       "AGENT_VALIDATION_ERROR": "Selecciona almenys un agent."
     },

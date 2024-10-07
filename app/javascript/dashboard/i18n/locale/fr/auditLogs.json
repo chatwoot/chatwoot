@@ -23,52 +23,52 @@
     },
     "DEFAULT_USER": "Système",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} a créé une nouvelle règle d'automatisation (#%{id})",
-      "EDIT": "%{agentName} a mis à jour une règle d’automatisation (#%{id})",
-      "DELETE": "%{agentName} a supprimé une règle d'automatisation (#%{id})"
+      "ADD": "{agentName} a créé une nouvelle règle d'automatisation (#{id})",
+      "EDIT": "{agentName} a mis à jour une règle d’automatisation (#{id})",
+      "DELETE": "{agentName} a supprimé une règle d'automatisation (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} a invité %{invitee} à rejoindre le compte en tant que %{role}",
+      "ADD": "{agentName} a invité {invitee} à rejoindre le compte en tant que {role}",
       "EDIT": {
-        "SELF": "%{agentName} a changé sa %{attributes} en %{values}",
-        "OTHER": "%{agentName} a changé %{attributes} de %{user} en %{values}",
-        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
+        "SELF": "{agentName} a changé sa {attributes} en {values}",
+        "OTHER": "{agentName} a changé {attributes} de {user} en {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} a créé une nouvelle boîte de réception (#%{id})",
-      "EDIT": "%{agentName} a mis à jour une boîte de réception (#%{id})",
-      "DELETE": "%{agentName} a supprimé une boîte de réception (#%{id})"
+      "ADD": "{agentName} a créé une nouvelle boîte de réception (#{id})",
+      "EDIT": "{agentName} a mis à jour une boîte de réception (#{id})",
+      "DELETE": "{agentName} a supprimé une boîte de réception (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} a créé un nouveau webhook (#%{id})",
-      "EDIT": "%{agentName} a mis à jour un webhook (#%{id})",
-      "DELETE": "%{agentName} a supprimé un webhook (#%{id})"
+      "ADD": "{agentName} a créé un nouveau webhook (#{id})",
+      "EDIT": "{agentName} a mis à jour un webhook (#{id})",
+      "DELETE": "{agentName} a supprimé un webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} s'est connecté",
-      "SIGN_OUT": "%{agentName} s'est déconnecté"
+      "SIGN_IN": "{agentName} s'est connecté",
+      "SIGN_OUT": "{agentName} s'est déconnecté"
     },
     "TEAM": {
-      "ADD": "%{agentName} a créé une nouvelle équipe (#%{id})",
-      "EDIT": "%{agentName} a mis à jour une équipe (#%{id})",
-      "DELETE": "%{agentName} a supprimé une équipe (#%{id})"
+      "ADD": "{agentName} a créé une nouvelle équipe (#{id})",
+      "EDIT": "{agentName} a mis à jour une équipe (#{id})",
+      "DELETE": "{agentName} a supprimé une équipe (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} a créé une nouvelle macro (#%{id})",
-      "EDIT": "%{agentName} a mis à jour une macro (#%{id})",
-      "DELETE": "%{agentName} a supprimé une macro (#%{id})"
+      "ADD": "{agentName} a créé une nouvelle macro (#{id})",
+      "EDIT": "{agentName} a mis à jour une macro (#{id})",
+      "DELETE": "{agentName} a supprimé une macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} a ajouté %{user} à la boîte de réception (#%{inbox_id})",
-      "REMOVE": "%{agentName} a retiré %{user} de la boîte de réception (#%{inbox_id})"
+      "ADD": "{agentName} a ajouté {user} à la boîte de réception (#{inbox_id})",
+      "REMOVE": "{agentName} a retiré {user} de la boîte de réception (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} a ajouté %{user} à la boîte de réception (#%{team_id})",
-      "REMOVE": "%{agentName} a retiré %{user} de la boîte de réception (#%{team_id})"
+      "ADD": "{agentName} a ajouté {user} à la boîte de réception (#{team_id})",
+      "REMOVE": "{agentName} a retiré {user} de la boîte de réception (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} a mis à jour la configuration du compte (#%{id})"
+      "EDIT": "{agentName} a mis à jour la configuration du compte (#{id})"
     }
   }
 }

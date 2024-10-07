@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} σινομιλίες επιλέχθηκαν",
+    "CONVERSATIONS_SELECTED": "{conversationCount} σινομιλίες επιλέχθηκαν",
     "AGENT_SELECT_LABEL": "Επιλογή πράκτορα",
-    "ASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αντιστοιχίσετε %{conversationCount} %{conversationLabel} στον",
-    "UNASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αφαιρέσετε την αντιστοίχιση %{conversationCount} %{conversationLabel} στον;",
+    "ASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αντιστοιχίσετε {conversationCount} {conversationLabel} στον",
+    "UNASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αφαιρέσετε την αντιστοίχιση {conversationCount} {conversationLabel} στον;",
     "GO_BACK_LABEL": "Πίσω",
     "ASSIGN_LABEL": "Αντιστοίχιση",
     "YES": "Ναι",

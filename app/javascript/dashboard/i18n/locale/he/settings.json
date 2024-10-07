@@ -301,7 +301,7 @@
     "TITLE": "חיוב",
     "CURRENT_PLAN": {
       "TITLE": "תוכנית נוכחית",
-      "PLAN_NOTE": "אתה רשום כעת לתוכנית **%{plan}** עם רישיונות **%{quantity}**"
+      "PLAN_NOTE": "אתה רשום כעת לתוכנית **{plan}** עם רישיונות **{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "נהל את המנוי שלך",

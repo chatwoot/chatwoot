@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Kunne ikke slette den brugerdefinerede attribut. Prøv igen."
       },
       "CONFIRM": {
-        "TITLE": "Er du sikker på du vil slette - %{attributeName}",
+        "TITLE": "Er du sikker på du vil slette - {attributeName}",
         "PLACE_HOLDER": "Skriv venligst {attributeName} for at bekræfte",
         "MESSAGE": "Sletning vil fjerne den brugerdefinerede attribut",
         "YES": "Slet ",

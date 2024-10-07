@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "將客服加入團隊",
-        "TITLE": "將客服加入團隊 - %{teamName}",
+        "TITLE": "將客服加入團隊 - {teamName}",
         "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。"
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "更新團隊客服",
-        "TITLE": "將客服加入團隊 - %{teamName}",
+        "TITLE": "將客服加入團隊 - {teamName}",
         "DESC": "為新建立的團隊新增客服，當對話被指派至團隊時，所有加入的客服都會被通知。"
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "正在將客服加入到你的團隊...",
       "SELECT": "選擇",
       "SELECT_ALL": "選取所有客服",
-      "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取"
+      "SELECTED_COUNT": "{total} 中的 {selected} 個客服被選取"
     },
     "ADD": {
-      "TITLE": "將客服加入團隊 - %{teamName}",
+      "TITLE": "將客服加入團隊 - {teamName}",
       "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。",
       "SELECT": "選擇",
       "SELECT_ALL": "選取所有克服",
-      "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取",
+      "SELECTED_COUNT": "{total} 中的 {selected} 個客服被選取",
       "BUTTON_TEXT": "新增客服",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },

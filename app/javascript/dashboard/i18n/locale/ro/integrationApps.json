@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Preluarea integrărilor",
-    "NO_HOOK_CONFIGURED": "Nu există integrări %{integrationId} configurate în acest cont.",
+    "NO_HOOK_CONFIGURED": "Nu există integrări {integrationId} configurate în acest cont.",
     "HEADER": "Aplicatii",
     "STATUS": {
       "ENABLED": "Activat",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Deconectare"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow este o platformă naturală de înțelegere a limbajului, care facilitează proiectarea și integrarea unei interfețe de utilizator conversaționale în aplicația mobilă, aplicația web, dispozitivul, botul, sistemul interactiv de răspuns vocal și așa mai departe. <br /> <br /> Integrarea fluxului de dialog vă %{installationName} permite să configurați un bot Dialogflow cu casetele dvs., ceea ce permite botului să gestioneze interogările inițial și să le predea unui agent atunci când este necesar. Dialogflow poate fi folosit pentru a califica clienții potențiali, pentru a reduce volumul de muncă al agenților prin furnizarea de întrebări frecvente etc. <br /> <br /> Pentru a adăuga Dialogflow, trebuie să creați un cont de serviciu în consola de proiect Google și să partajați acreditările. Vă rugăm să consultați documentele Dialogflow pentru mai multe informații."
+      "DIALOGFLOW": "Dialogflow este o platformă naturală de înțelegere a limbajului, care facilitează proiectarea și integrarea unei interfețe de utilizator conversaționale în aplicația mobilă, aplicația web, dispozitivul, botul, sistemul interactiv de răspuns vocal și așa mai departe. <br /> <br /> Integrarea fluxului de dialog vă {installationName} permite să configurați un bot Dialogflow cu casetele dvs., ceea ce permite botului să gestioneze interogările inițial și să le predea unui agent atunci când este necesar. Dialogflow poate fi folosit pentru a califica clienții potențiali, pentru a reduce volumul de muncă al agenților prin furnizarea de întrebări frecvente etc. <br /> <br /> Pentru a adăuga Dialogflow, trebuie să creați un cont de serviciu în consola de proiect Google și să partajați acreditările. Vă rugăm să consultați documentele Dialogflow pentru mai multe informații."
     }
   }
 }

@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Aktualizovať agentov v tíme",
-        "TITLE": "Pridať agentov do tímu - %{teamName}",
+        "TITLE": "Pridať agentov do tímu - {teamName}",
         "DESC": "Pridajte agentov do novovytvoreného tímu. Všetci pridaní agenti budú upozornení, keď sa do tohto tímu priradí konverzácia."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Pridávajú sa agenti do tímu...",
       "SELECT": "vybrať",
       "SELECT_ALL": "vybrať všetkých agentov",
-      "SELECTED_COUNT": "%{selected} z %{total} vybraných agentov."
+      "SELECTED_COUNT": "{selected} z {total} vybraných agentov."
     },
     "ADD": {
-      "TITLE": "Pridať agentov do tímu - %{teamName}",
+      "TITLE": "Pridať agentov do tímu - {teamName}",
       "DESC": "Pridajte agentov do novovytvoreného tímu. To vám umožní spolupracovať v tíme na konverzáciách a dostávať upozornenia na nové udalosti v tej istej konverzácii.",
       "SELECT": "vybrať",
       "SELECT_ALL": "vybrať všetkých agentov",
-      "SELECTED_COUNT": "%{selected} z %{total} vybraných agentov.",
+      "SELECTED_COUNT": "{selected} z {total} vybraných agentov.",
       "BUTTON_TEXT": "Pridať agentov",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },

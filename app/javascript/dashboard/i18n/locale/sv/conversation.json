@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Inget",
         "INPUT_PLACEHOLDER": "Välj prioritet",
         "NO_RESULTS": "Inga resultat hittades",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Kunde inte ändra prioritet. Försök igen."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Tilldela team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hej 👋, Välkommen till %{installationName}!",
-    "DESCRIPTION": "Tack för att du registrerar dig. Vi vill att du ska få ut det mesta av %{installationName}. Här är några saker du kan göra i %{installationName} för att göra upplevelsen härlig.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Hej 👋, Välkommen till {installationName}!",
+    "DESCRIPTION": "Tack för att du registrerar dig. Vi vill att du ska få ut det mesta av {installationName}. Här är några saker du kan göra i {installationName} för att göra upplevelsen härlig.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Läs våra senaste uppdateringar",
     "ALL_CONVERSATION": {
       "TITLE": "Alla dina konversationer på ett ställe",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Deltagare i konversation",
     "NO_RECORDS_FOUND": "Inga resultat hittades",
     "ADD_PARTICIPANTS": "Välj deltagare",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

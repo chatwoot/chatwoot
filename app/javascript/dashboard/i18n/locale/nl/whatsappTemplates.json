@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Whatsapp Templates",
             "SUBTITLE": "Selecteer de whatsapp template die u wilt verzenden",
-            "TEMPLATE_SELECTED_SUBTITLE": "Verwerk %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Verwerk {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Templates zoeken",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Variabelen",
-            "VARIABLE_PLACEHOLDER": "Voer %{variable} waarde in",
+            "VARIABLE_PLACEHOLDER": "Voer {variable} waarde in",
             "GO_BACK_LABEL": "Ga terug",
             "SEND_MESSAGE_LABEL": "Verstuur bericht",
             "FORM_ERROR_MESSAGE": "Vul alstublieft alle variabelen in voordat u deze verzendt"

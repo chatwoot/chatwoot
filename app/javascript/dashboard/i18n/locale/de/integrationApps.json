@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Integrationen werden abgerufen",
-    "NO_HOOK_CONFIGURED": "Es wurden keine %{integrationId} Integrationen in diesem Konto konfiguriert.",
+    "NO_HOOK_CONFIGURED": "Es wurden keine {integrationId} Integrationen in diesem Konto konfiguriert.",
     "HEADER": "Anwendungen",
     "STATUS": {
       "ENABLED": "Aktiviert",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Verbindung trennen"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow ist eine Sprachverständnis-Plattform, die es einfach macht, eine interaktive Benutzeroberfläche in Ihre mobile App, Web-Anwendung, Gerät, Bot, interaktives Voice-Antwort-System etc. zu integrieren. <br /> <br /> Die Dialogflow-Integration mit %{installationName} ermöglicht es Ihnen, einen Dialogfluss-Bot mit Ihren Posteingängen zu verknüpfen. Dieser Bot erlaubt es Ihnen, eingehende Anfragen zunächst zu bearbeiten und diese bei Bedarf an einen Agenten zu übergeben. Dialogflow kann zur Qualifizierung der Leads, zur Reduzierung der Arbeitsbelastung von Agenten durch häufig gestellte Fragen usw. genutzt werden. <br /> <br /> Um Dialogflow hinzuzufügen, müssen Sie ein Service-Konto in Ihrer Google-Projekt-Konsole erstellen und die Zugangsdaten freigeben. Weitere Informationen finden Sie in der Dialogflow-Dokumentation."
+      "DIALOGFLOW": "Dialogflow ist eine Sprachverständnis-Plattform, die es einfach macht, eine interaktive Benutzeroberfläche in Ihre mobile App, Web-Anwendung, Gerät, Bot, interaktives Voice-Antwort-System etc. zu integrieren. <br /> <br /> Die Dialogflow-Integration mit {installationName} ermöglicht es Ihnen, einen Dialogfluss-Bot mit Ihren Posteingängen zu verknüpfen. Dieser Bot erlaubt es Ihnen, eingehende Anfragen zunächst zu bearbeiten und diese bei Bedarf an einen Agenten zu übergeben. Dialogflow kann zur Qualifizierung der Leads, zur Reduzierung der Arbeitsbelastung von Agenten durch häufig gestellte Fragen usw. genutzt werden. <br /> <br /> Um Dialogflow hinzuzufügen, müssen Sie ein Service-Konto in Ihrer Google-Projekt-Konsole erstellen und die Zugangsdaten freigeben. Weitere Informationen finden Sie in der Dialogflow-Dokumentation."
     }
   }
 }

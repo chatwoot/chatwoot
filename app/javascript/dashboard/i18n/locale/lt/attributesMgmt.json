@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Nepavyko ištrinti personalizuoto požymio. Pabandykite dar kartą vėliau."
       },
       "CONFIRM": {
-        "TITLE": "Ar tikrai norite ištrinti – %{attributeName}",
+        "TITLE": "Ar tikrai norite ištrinti – {attributeName}",
         "PLACE_HOLDER": "Įveskite {attributeName}, kad patvirtintumėte",
         "MESSAGE": "Ištrynus bus pašalintas personalizuotas požymis",
         "YES": "Ištrinti ",
