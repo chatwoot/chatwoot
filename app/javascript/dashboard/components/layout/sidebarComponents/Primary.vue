@@ -50,6 +50,9 @@ export default {
       showOptionsMenu: false,
     };
   },
+  mounted() {
+    console.log('MENU ITEMS', this.menuItems);
+  },
   methods: {
     frontendURL,
     toggleOptions() {

@@ -26,20 +26,6 @@ export default {
       default: false,
     },
   },
-  created() {
-    console.log(
-      'CREATED: PRIMARY NAV ITEM',
-      this.name,
-      this.$t(`SIDEBAR.${this.name}`)
-    );
-  },
-  beforeMount() {
-    console.log(
-      'BEFORE MOUNT: PRIMARY NAV ITEM',
-      this.name,
-      this.$t(`SIDEBAR.${this.name}`)
-    );
-  },
   mounted() {
     console.log(
       'MOUNTED: PRIMARY NAV ITEM',

@@ -116,10 +116,17 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
+      console.group('Primary Menu Items');
+      console.log(this.currentUser);
+      console.log(this.accountId);
+      console.log(this.sideMenuConfig.primaryMenu);
       const userPermissions = getUserPermissions(
         this.currentUser,
         this.accountId
       );
+
+      console.log(userPermissions);
+      console.groupEnd();
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = hasPermissions(
