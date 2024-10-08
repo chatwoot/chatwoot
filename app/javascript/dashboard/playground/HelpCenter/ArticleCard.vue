@@ -1,6 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import CardLayout from './components/CardLayout.vue';
+import { OnClickOutside } from '@vueuse/components';
+import DropdownMenu from 'dashboard/playground/components/DropdownMenu.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
@@ -30,6 +32,30 @@ const props = defineProps({
   },
 });
 
+const isOpen = ref(false);
+
+const menuItems = computed(() => {
+  const baseItems = [{ label: 'Delete', action: 'delete', icon: 'delete' }];
+
+  const menuOptions = {
+    archived: [
+      { label: 'Publish', action: 'publish', icon: 'checkmark' },
+      { label: 'Draft', action: 'draft', icon: 'draft' },
+    ],
+    draft: [
+      { label: 'Publish', action: 'publish', icon: 'checkmark' },
+      { label: 'Archive', action: 'archive', icon: 'archive' },
+    ],
+    '': [
+      // Empty string represents published status
+      { label: 'Draft', action: 'draft', icon: 'draft' },
+      { label: 'Archive', action: 'archive', icon: 'archive' },
+    ],
+  };
+
+  return [...(menuOptions[props.status] || menuOptions['']), ...baseItems];
+});
+
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
@@ -51,6 +77,10 @@ const statusText = computed(() => {
       return 'Published';
   }
 });
+
+const handleAction = () => {
+  isOpen.value = false;
+};
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
@@ -62,10 +92,19 @@ const statusText = computed(() => {
           {{ title }}
         </span>
         <span
-          class="text-xs bg-slate-50 text-center h-6 inline-flex items-center justify-center dark:bg-slate-800 rounded-md border-px border-transparent px-2 py-0.5"
+          class="text-xs bg-slate-50 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-700/50 relative text-center h-6 inline-flex items-center justify-center dark:bg-slate-800 rounded-md border-px border-transparent px-2 py-0.5"
           :class="statusTextColor"
+          @click="isOpen = !isOpen"
         >
           {{ statusText }}
+          <OnClickOutside @trigger="isOpen = false">
+            <DropdownMenu
+              v-if="isOpen"
+              :menu-items="menuItems"
+              class="right-0 mt-2 xl:left-0 top-full"
+              @action="handleAction"
+            />
+          </OnClickOutside>
         </span>
       </div>
     </template>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import DropdownMenu from './DropdownMenu.vue';
-import Button from './Button.vue';
+import ButtonV4 from './Button.vue';
 
 const menuItems = [
   { label: 'Edit', action: 'edit', icon: 'edit' },
@@ -27,7 +27,7 @@ const handleAction = () => {
   <Story title="Components/DropdownMenu" :layout="{ type: 'grid', width: 200 }">
     <Variant title="Default">
       <div class="relative h-40">
-        <Button label="Open Menu" @click="toggleDropdown" />
+        <ButtonV4 label="Open Menu" @click="toggleDropdown" />
         <DropdownMenu
           v-if="isOpen"
           :menu-items="menuItems"
