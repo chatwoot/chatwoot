@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Ninguna",
         "INPUT_PLACEHOLDER": "Seleccionar prioridad",
         "NO_RESULTS": "No se encontraron resultados",
-        "SUCCESSFUL": "Se ha cambiado la prioridad del id de conversación %{conversationId} a %{priority}",
+        "SUCCESSFUL": "Se ha cambiado la prioridad del id de conversación {conversationId} a {priority}",
         "FAILED": "No se pudo cambiar la prioridad. Por favor, inténtelo de nuevo."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Asignar equipo",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "ID de conversación %{conversationId} asignado a \"%{agentName}\"",
+          "SUCCESFUL": "ID de conversación {conversationId} asignado a \"{agentName}\"",
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta asignada #%{labelName} al id de conversación %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipo asignado \"%{team}\" al ID de conversación %{conversationId}",
+          "SUCCESFUL": "Equipo asignado \"{team}\" al ID de conversación {conversationId}",
           "FAILED": "No se pudo asignar el equipo. Por favor, inténtelo de nuevo."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hola 👋, ¡Bienvenido a %{installationName}!",
-    "DESCRIPTION": "Gracias por registrarse. Queremos que saque el máximo provecho de %{installationName}. Aquí hay algunas cosas que puede hacer en %{installationName} para hacer que la experiencia sea agradable.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Hola 👋, ¡Bienvenido a {installationName}!",
+    "DESCRIPTION": "Gracias por registrarse. Queremos que saque el máximo provecho de {installationName}. Aquí hay algunas cosas que puede hacer en {installationName} para hacer que la experiencia sea agradable.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Leer nuestras últimas actualizaciones",
     "ALL_CONVERSATION": {
       "TITLE": "Todas sus conversaciones en un solo lugar",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Participantes de la conversación",
     "NO_RECORDS_FOUND": "No se encontraron resultados",
     "ADD_PARTICIPANTS": "Seleccionar participantes",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} más",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} más",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} personas están participando.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} personas están participando.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} más",
+    "REMANING_PARTICIPANT_TEXT": "+{count} más",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} personas están participando.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} personas están participando.",
     "NO_PARTICIPANTS_TEXT": "Nadie está participando!.",
     "WATCH_CONVERSATION": "Abrir conversación",
     "YOU_ARE_WATCHING": "Estás participando",
