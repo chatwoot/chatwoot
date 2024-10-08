@@ -101,6 +101,7 @@ sync(store, router);
 // load common helpers into js
 commonHelpers();
 window.WOOT_STORE = store;
+window.dashboardApp = app;
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 // [VITE] Disabled this we don't need it, we can use `useEmitter` directly

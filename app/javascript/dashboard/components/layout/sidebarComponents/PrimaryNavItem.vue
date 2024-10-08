@@ -27,13 +27,25 @@ export default {
     },
   },
   created() {
-    console.log('PRIMARY NAV ITEM', this.name, this.$t(`SIDEBAR.${this.name}`));
+    console.log(
+      'CREATED: PRIMARY NAV ITEM',
+      this.name,
+      this.$t(`SIDEBAR.${this.name}`)
+    );
   },
   beforeMount() {
-    console.log('PRIMARY NAV ITEM', this.name, this.$t(`SIDEBAR.${this.name}`));
+    console.log(
+      'BEFORE MOUNT: PRIMARY NAV ITEM',
+      this.name,
+      this.$t(`SIDEBAR.${this.name}`)
+    );
   },
   mounted() {
-    console.log('PRIMARY NAV ITEM', this.name, this.$t(`SIDEBAR.${this.name}`));
+    console.log(
+      'MOUNTED: PRIMARY NAV ITEM',
+      this.name,
+      this.$t(`SIDEBAR.${this.name}`)
+    );
   },
 };
 </script>
