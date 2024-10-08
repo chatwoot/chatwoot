@@ -17,6 +17,7 @@ import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
 
 import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
+import { sync } from 'vuex-router-sync';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
@@ -40,6 +41,8 @@ const i18n = createI18n({
   locale: 'en',
   messages: i18nMessages,
 });
+
+sync(store, router);
 
 const app = createApp(App);
 app.use(i18n);

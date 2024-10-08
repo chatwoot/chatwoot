@@ -41,10 +41,6 @@ export const initalizeRouter = () => {
       return validateAuthenticateRoutePermission(to, next, store);
     });
   });
-
-  router.afterEach(to => {
-    store.dispatch('updateRoute', to);
-  });
 };
 
 export default router;

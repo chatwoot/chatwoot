@@ -203,6 +203,9 @@ importers:
       vuex:
         specifier: ~4.1.0
         version: 4.1.0(vue@3.5.8(typescript@5.6.2))
+      vuex-router-sync:
+        specifier: 6.0.0-rc.1
+        version: 6.0.0-rc.1(vue-router@4.4.5(vue@3.5.8(typescript@5.6.2)))(vuex@4.1.0(vue@3.5.8(typescript@5.6.2)))
       wavesurfer.js:
         specifier: 7.8.6
         version: 7.8.6
@@ -4399,6 +4402,12 @@ packages:
     resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
     peerDependencies:
       vue: ^3.0.1
+
+  vuex-router-sync@6.0.0-rc.1:
+    resolution: {integrity: sha512-pzVrX/rmQsDjJiKPAjgKxpkxWdiBBQmxATFA6eFyS2Tmo6jauq8iDk9BWxkw41/OA+pbq4wkONRC0aeErDw8GQ==}
+    peerDependencies:
+      vue-router: ^4.0.0
+      vuex: ^4.0.0
 
   vuex@4.1.0:
     resolution: {integrity: sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ==}
@@ -9092,6 +9101,11 @@ snapshots:
     dependencies:
       sortablejs: 1.14.0
       vue: 3.5.8(typescript@5.6.2)
+
+  vuex-router-sync@6.0.0-rc.1(vue-router@4.4.5(vue@3.5.8(typescript@5.6.2)))(vuex@4.1.0(vue@3.5.8(typescript@5.6.2))):
+    dependencies:
+      vue-router: 4.4.5(vue@3.5.8(typescript@5.6.2))
+      vuex: 4.1.0(vue@3.5.8(typescript@5.6.2))
 
   vuex@4.1.0(vue@3.5.8(typescript@5.6.2)):
     dependencies:
