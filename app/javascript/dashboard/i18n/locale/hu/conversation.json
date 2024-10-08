@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nincs",
         "INPUT_PLACEHOLDER": "Prioritás megadása",
         "NO_RESULTS": "Nincs találat",
-        "SUCCESSFUL": "Beszélgetés prioritásának megváltoztatása",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Nem sikerült megváltoztatni a prioritást. Kérlek, próbáld újra."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Csapat hozzárendelése",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Beszélgetés azonosító",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Nem sikerült hozzárendelni ügynököt. Kérlek, próbáld újra."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Címke hozzárendelése",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nem sikerült hozzárendelni címkét. Kérlek, próbáld újra."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Hozzárendelés csoporthoz",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Nem sikerült hozzárendelni csoporthoz. Kérlek, próbáld újra."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hello 👋, köszöntünk a %{installationName}!",
-    "DESCRIPTION": "Köszönjük, hogy feliratkoztál. Segíteni akarunk, hogy a legtöbbet hozd ki a %{installationName}. Itt találsz egy pár dolgot, amit a %{installationName} lehetővé tesz.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Hello 👋, köszöntünk a {installationName}!",
+    "DESCRIPTION": "Köszönjük, hogy feliratkoztál. Segíteni akarunk, hogy a legtöbbet hozd ki a {installationName}. Itt találsz egy pár dolgot, amit a {installationName} lehetővé tesz.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Olvasd el legfrissebbeket",
     "ALL_CONVERSATION": {
       "TITLE": "Minden beszélgetésed egy helyen",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Résztvevők",
     "NO_RECORDS_FOUND": "Nincs találat",
     "ADD_PARTICIPANTS": "Résztvevők kiválasztása",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} fő",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} fő",
-    "TOTAL_PARTICIPANTS_TEXT": "+%{count} fő vesz részt.",
-    "TOTAL_PARTICIPANT_TEXT": "+%{count} fő vesz részt.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} fő",
+    "REMANING_PARTICIPANT_TEXT": "+{count} fő",
+    "TOTAL_PARTICIPANTS_TEXT": "+{count} fő vesz részt.",
+    "TOTAL_PARTICIPANT_TEXT": "+{count} fő vesz részt.",
     "NO_PARTICIPANTS_TEXT": "Nincs részvevő!.",
     "WATCH_CONVERSATION": "Csatlakozás a beszélgetéshez",
     "YOU_ARE_WATCHING": "Te részt veszel",
