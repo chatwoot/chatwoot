@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Søger...",
       "INSERT_ARTICLE": "Insert",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Tilpasset Domæne",
           "PLACEHOLDER": "Portal brugerdefineret domæne",
-          "HELP_TEXT": "Tilføj kun hvis du vil bruge et brugerdefineret domæne, til dine portaler. Eksempelvis https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Indtast et gyldigt domæne URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link Til Hjemmeside",
           "PLACEHOLDER": "Link til portalens hjemmeside",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Indtast en gyldig URL til startsiden"
         },
         "THEME_COLOR": {
