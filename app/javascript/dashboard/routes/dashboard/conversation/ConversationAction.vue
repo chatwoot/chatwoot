@@ -279,29 +279,31 @@ export default {
       },
       set(contactKind){
         const conversationId = this.currentChat.id;
-        const oldValue = this.currentChat?.contact_kind;
-        const selectedOption = this.contactKinds.find(opt => opt.id === contactKind) || this.contactKinds[0]
-    
         this.$store.dispatch('setCurrentChatContactKind', {
           contactKind,
           conversationId,
         });
-        this.$store
-          .dispatch('assignContactKind', { conversationId, contactKind })
-          .then(() => {
-            this.$track(CONVERSATION_EVENTS.CHANGE_CONTACT_KIND, {
-              oldValue,
-              newValue: contactKind,
-              from: 'Conversation Sidebar',
-            });
 
-            this.showAlert(
-              this.$t('CONVERSATION.CONTACT.CHANGE_TYPE.SUCCESSFUL', {
-                contactKind: selectedOption.name,
-                conversationId,
-              })
-            );
+        
+        const oldValue = this.currentChat?.contact_kind;
+        const selectedOption = this.contactKinds.find(opt => opt.id === contactKind) || this.contactKinds[0]
+      
+        this.$store
+        .dispatch('assignContactKind', { conversationId, contactKind })
+        .then(() => {
+          this.$track(CONVERSATION_EVENTS.CHANGE_CONTACT_KIND, {
+            oldValue,
+            newValue: contactKind,
+            from: 'Conversation Sidebar',
           });
+
+          this.showAlert(
+            this.$t('CONVERSATION.CONTACT.CHANGE_TYPE.SUCCESSFUL', {
+              contactKind: selectedOption.name,
+              conversationId,
+            })
+          );
+        });
       }
     },
     showSelfAssign() {
@@ -386,7 +388,7 @@ export default {
   },
   watch: {
     currentChat(value) {
-      this.changeContactEmail = value.meta.sender.email
+      this.changeContactEmail = value.meta.sender.email;
     },
   },
 };

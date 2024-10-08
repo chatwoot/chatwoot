@@ -19,6 +19,7 @@ module Digitaltolk
     def perform
       return false unless @contact_kind.present?
 
+      set_custom_atributes
       toggle_contact_kind
       toggle_contact_kind_labels
     end
@@ -42,6 +43,21 @@ module Digitaltolk
 
     def toggle_contact_kind
       @conversation.update!(contact_kind: @contact_kind)
+    end
+
+    def set_custom_atributes
+      if @contact_kind.present? && equivalent_label.present?
+        attrs = @conversation.custom_attributes || {}
+        attrs['contact_type'] = equivalent_label
+
+        @conversation.update_column(:custom_attributes, attrs)
+      end
+    end
+
+    def equivalent_label
+      return unless @contact_kind.present?
+
+      KIND_LABELS[@contact_kind].to_s.split('_').first&.capitalize
     end
   end
 end
