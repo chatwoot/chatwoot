@@ -23,13 +23,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -212,13 +212,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -279,13 +279,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -346,13 +346,13 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
-        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+        "TOOLTIP_TEXT": "Lausnartími er {metricValue} (byggt á {conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
