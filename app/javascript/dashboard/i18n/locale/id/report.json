@@ -23,13 +23,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -212,13 +212,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -279,13 +279,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -346,13 +346,13 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
-        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah %{metricValue} (berdasarkan %{conversationCount} percakapan)"
+        "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Lalu Lintas Percakapan",
       "NO_CONVERSATIONS": "Tidak ada percakapan",
-      "CONVERSATION": "%{count} percakapan",
-      "CONVERSATIONS": "%{count} percakapan",
+      "CONVERSATION": "{count} percakapan",
+      "CONVERSATIONS": "{count} percakapan",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
