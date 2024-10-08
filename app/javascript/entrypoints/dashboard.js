@@ -42,6 +42,7 @@ const i18n = createI18n({
   messages: i18nMessages,
 });
 
+sync(store, router);
 const app = createApp(App);
 app.use(i18n);
 app.use(store);
@@ -97,7 +98,6 @@ app.component('fluent-icon', FluentIcon);
 app.directive('resize', vResizeObserver);
 app.directive('on-clickaway', onClickaway);
 
-sync(store, router);
 // load common helpers into js
 commonHelpers();
 window.WOOT_STORE = store;
