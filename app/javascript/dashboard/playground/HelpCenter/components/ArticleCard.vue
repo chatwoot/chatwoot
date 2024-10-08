@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
-import CardLayout from './components/CardLayout.vue';
+import CardLayout from './CardLayout.vue';
 import { OnClickOutside } from '@vueuse/components';
 import DropdownMenu from 'dashboard/playground/components/DropdownMenu.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';

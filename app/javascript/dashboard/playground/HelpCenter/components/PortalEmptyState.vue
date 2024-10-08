@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import EmptyStateLayout from 'dashboard/playground/components/EmptyStateLayout.vue';
-import ArticleCard from 'dashboard/playground/HelpCenter/ArticleCard.vue';
-import CategoryCard from 'dashboard/playground/HelpCenter/CategoryCard.vue';
-import LocaleCard from 'dashboard/playground/HelpCenter/LocaleCard.vue';
+import ArticleCard from 'dashboard/playground/HelpCenter/components/ArticleCard.vue';
+import CategoryCard from 'dashboard/playground/HelpCenter/components/CategoryCard.vue';
+import LocaleCard from 'dashboard/playground/HelpCenter/components/LocaleCard.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
-import CreatePortalDialog from 'dashboard/playground/HelpCenter/CreatePortalDialog.vue';
+import CreatePortalDialog from 'dashboard/playground/HelpCenter/components/CreatePortalDialog.vue';
 
 const articles = [
   {

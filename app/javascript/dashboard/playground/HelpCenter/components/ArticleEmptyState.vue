@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import EmptyStateLayout from 'dashboard/playground/components/EmptyStateLayout.vue';
-import ArticleCard from 'dashboard/playground/HelpCenter/ArticleCard.vue';
+import ArticleCard from 'dashboard/playground/HelpCenter/components/ArticleCard.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
-import AddLocaleDialog from 'dashboard/playground/HelpCenter/AddLocaleDialog.vue';
+import AddLocaleDialog from 'dashboard/playground/HelpCenter/components/AddLocaleDialog.vue';
 
 const articles = [
   {

@@ -1,6 +1,7 @@
 <script setup>
-import CardLayout from './components/CardLayout.vue';
+import CardLayout from './CardLayout.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
+
 defineProps({
   locale: {
     type: String,
