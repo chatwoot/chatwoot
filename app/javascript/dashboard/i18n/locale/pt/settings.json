@@ -301,7 +301,7 @@
     "TITLE": "Cobrança",
     "CURRENT_PLAN": {
       "TITLE": "Plano atual",
-      "PLAN_NOTE": "Atualmente tem o **%{plan}* subscrito com **%{quantity}** licenças"
+      "PLAN_NOTE": "Atualmente tem o **{plan}* subscrito com **{quantity}** licenças"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Administrar o seu serviço",
