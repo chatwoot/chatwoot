@@ -70,10 +70,13 @@ export default {
         this.showAddAccountModal = true;
       }
     },
-    currentAccountId() {
-      if (this.currentAccountId) {
-        this.initializeAccount();
-      }
+    currentAccountId: {
+      immediate: true,
+      handler() {
+        if (this.currentAccountId) {
+          this.initializeAccount();
+        }
+      },
     },
   },
   mounted() {
