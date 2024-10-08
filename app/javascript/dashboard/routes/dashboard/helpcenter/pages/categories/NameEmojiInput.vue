@@ -1,5 +1,9 @@
 <script>
-import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
+import { defineAsyncComponent } from 'vue';
+
+const EmojiInput = defineAsyncComponent(
+  () => import('shared/components/emoji/EmojiInput.vue')
+);
 
 export default {
   components: { EmojiInput },

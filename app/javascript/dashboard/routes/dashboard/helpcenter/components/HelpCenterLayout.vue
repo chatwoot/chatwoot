@@ -1,4 +1,5 @@
 <script>
+import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
@@ -14,7 +15,10 @@ import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { emitter } from 'shared/helpers/mitt';
-import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
+
+const CommandBar = defineAsyncComponent(
+  () => import('dashboard/routes/dashboard/commands/commandbar.vue')
+);
 
 export default {
   components: {
