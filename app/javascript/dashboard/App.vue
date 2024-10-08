@@ -99,6 +99,7 @@ export default {
       mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
+      console.log('setting locale in dashboard', locale);
       this.$i18n.locale = locale;
     },
     async initializeAccount() {

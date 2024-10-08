@@ -121,6 +121,7 @@ export default {
       });
     },
     setLocale(localeWithVariation) {
+      console.log('SETTING LOACLE IN WIDGET');
       if (!localeWithVariation) return;
       const { enabledLanguages } = window.chatwootWebChannel;
       const localeWithoutVariation = localeWithVariation.split('_')[0];
