@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorize Edilmemiş",
-      "SEARCH_RESULTS": "%{query} için arama sonuçları",
+      "SEARCH_RESULTS": "{query} için arama sonuçları",
       "EMPTY_TEXT": "Cevaplarına eklemek için makale arayın.",
       "SEARCH_LOADER": "Aranıyor...",
       "INSERT_ARTICLE": "Ekle",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Özel Domain",
           "PLACEHOLDER": "Portal özel domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Geçerli bir domain URL girin"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Ana Sayfa Bağlantısı",
           "PLACEHOLDER": "Portal ana sayfa bağlantısı",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Geçerli bir ana sayfa URL girin"
         },
         "THEME_COLOR": {
