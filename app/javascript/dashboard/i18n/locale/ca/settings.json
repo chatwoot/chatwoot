@@ -301,7 +301,7 @@
     "TITLE": "Facturació",
     "CURRENT_PLAN": {
       "TITLE": "Pla actual",
-      "PLAN_NOTE": "Actualment estàs subscrit al pla **%{plan}** amb **%{quantity}** llicències"
+      "PLAN_NOTE": "Actualment estàs subscrit al pla **{plan}** amb **{quantity}** llicències"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gestiona la teva subscripció",
