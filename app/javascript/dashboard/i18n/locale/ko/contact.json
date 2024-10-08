@@ -213,7 +213,7 @@
         "ERROR": "메시지는 비어 있을 수 없습니다"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
+        "SELECT": "파일 선택",
         "HELP_TEXT": "Drag and drop files here or choose files to attach"
       },
       "SUBMIT": "메시지 보내기",
@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "에러_메시지"
