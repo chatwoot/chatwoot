@@ -40,6 +40,10 @@ const props = defineProps({
     default: 'left',
     validator: value => ['left', 'right'].includes(value),
   },
+  iconLib: {
+    type: String,
+    default: 'fluent',
+  },
 });
 
 const emit = defineEmits(['click']);
@@ -110,12 +114,14 @@ const handleClick = () => {
       v-if="icon && iconPosition === 'left'"
       :icon="icon"
       :size="iconSize"
+      :icon-lib="iconLib"
     />
     <span v-if="label" class="line-clamp-1">{{ label }}</span>
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
       :icon="icon"
       :size="iconSize"
+      :icon-lib="iconLib"
     />
   </button>
 </template>
