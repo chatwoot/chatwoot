@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "دسته بندی نشده",
-      "SEARCH_RESULTS": "جستجو بر اساس %{query}",
+      "SEARCH_RESULTS": "جستجو بر اساس {query}",
       "EMPTY_TEXT": "جستجو در مقالات برای درج در پاسخ.",
       "SEARCH_LOADER": "در حال جستجو...",
       "INSERT_ARTICLE": "درج",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "دامنه سفارشی",
           "PLACEHOLDER": "دامنه سفارشی پورتال",
-          "HELP_TEXT": "فقط اگر می‌خواهید از یک دامنه سفارشی برای پورتال‌های خود استفاده کنید، اضافه کنید. به عنوان مثال: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "یک نشانی دامنه معتبر وارد کنید"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "پیوند صفحه اصلی",
           "PLACEHOLDER": "پیوند صفحه اصلی پورتال",
-          "HELP_TEXT": "پیوند مورد استفاده برای بازگشت از پورتال به صفحه اصلی. به عنوان مثال: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "یک نشانی صفحه اصلی معتبر وارد کنید"
         },
         "THEME_COLOR": {
