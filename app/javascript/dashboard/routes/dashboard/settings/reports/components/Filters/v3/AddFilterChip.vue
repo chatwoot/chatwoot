@@ -5,6 +5,7 @@ import FilterListItemButton from './FilterListItemButton.vue';
 import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
 
 import { ref } from 'vue';
+import { createPopper } from '@popperjs/core';
 
 defineProps({
   name: {
@@ -37,6 +38,29 @@ const hoveredItemId = ref(null);
 
 const showSubMenu = id => {
   hoveredItemId.value = id;
+
+  const reference = document.querySelector(`#filter-item-${id}`);
+  const popper = document.querySelector(`#filter-submenu-${id}`);
+  const viewport = document.querySelector('#kanban-board');
+
+  createPopper(reference, popper, {
+    placement: 'right-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 2],
+        },
+      },
+      {
+        name: 'preventOverflow',
+        padding: 20,
+        options: {
+          boundary: viewport,
+        },
+      },
+    ],
+  });
 };
 
 const hideSubMenu = () => {
@@ -72,6 +96,7 @@ const closeDropdown = () => {
           />
           <filter-list-item-button
             v-for="item in menuOption"
+            :id="`filter-item-${item.id}`"
             :key="item.id"
             :button-text="item.name"
             @mouseenter="showSubMenu(item.id)"
@@ -79,12 +104,16 @@ const closeDropdown = () => {
             @focus="showSubMenu(item.id)"
           >
             <!-- Submenu with search and clear button  -->
-            <template v-if="item.options && isHovered(item.id)" #dropdown>
+            <template v-if="item.options" #dropdown>
               <filter-list-dropdown
+                :id="`filter-submenu-${item.id}`"
                 :list-items="item.options"
                 :input-placeholder="$t('GENERAL.LIST_SEARCH_PLACEHOLDER')"
                 :enable-search="enableSearch"
-                class="flex flex-col w-80 overflow-y-auto top-0 left-36"
+                :class="[
+                  'flex flex-col w-80 overflow-y-auto top-0 left-36 max-h-[calc(100vh-7rem)]',
+                  { hidden: !isHovered(item.id) },
+                ]"
                 @click="addFilter"
               />
             </template>
