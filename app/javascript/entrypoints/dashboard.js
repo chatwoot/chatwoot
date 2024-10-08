@@ -10,7 +10,6 @@ import Multiselect from 'vue-multiselect';
 import { plugin, defaultConfig } from '@formkit/vue';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
-import { sync } from 'vuex-router-sync';
 import FloatingVue from 'floating-vue';
 import WootUiKit from 'dashboard/components';
 import App from 'dashboard/App.vue';
@@ -18,6 +17,7 @@ import i18nMessages from 'dashboard/i18n';
 import createAxios from 'dashboard/helper/APIHelper';
 
 import commonHelpers, { isJSONValid } from 'dashboard/helper/commons';
+import { sync } from 'vuex-router-sync';
 import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
@@ -41,6 +41,8 @@ const i18n = createI18n({
   locale: 'en',
   messages: i18nMessages,
 });
+
+sync(store, router);
 
 const app = createApp(App);
 app.use(i18n);
@@ -97,7 +99,6 @@ app.component('fluent-icon', FluentIcon);
 app.directive('resize', vResizeObserver);
 app.directive('on-clickaway', onClickaway);
 
-sync(store, router);
 // load common helpers into js
 commonHelpers();
 window.WOOT_STORE = store;
