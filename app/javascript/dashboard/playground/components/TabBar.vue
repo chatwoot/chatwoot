@@ -8,12 +8,7 @@ const props = defineProps({
   },
   tabs: {
     type: Array,
-    default: () => [
-      { label: 'All articles', count: 24 },
-      { label: 'Mine', count: 13 },
-      { label: 'Draft', count: 5 },
-      { label: 'Archived', count: 11 },
-    ],
+    required: true,
     validator: value => {
       return value.every(
         tab => typeof tab.label === 'string' && typeof tab.count === 'number'
