@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Kategorizálhatatlan",
-      "SEARCH_RESULTS": "Keresési eredmények %{query}",
+      "SEARCH_RESULTS": "Keresési eredmények {query}",
       "EMPTY_TEXT": "Cikkek keresése a válaszokba való beillesztéshez.",
       "SEARCH_LOADER": "Keresés...",
       "INSERT_ARTICLE": "Beszúrás",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Egyedi domain",
           "PLACEHOLDER": "Portál egyedi domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Adj meg egy érvényes felhasználó URL-t"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Főoldal link",
           "PLACEHOLDER": "Portál főoldal link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Adj meg egy érvényes kezdőlap URL-jét"
         },
         "THEME_COLOR": {
