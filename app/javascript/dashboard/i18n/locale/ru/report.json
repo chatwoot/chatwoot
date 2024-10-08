@@ -23,13 +23,13 @@
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время первого ответа — %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время на решение %{metricValue} (основано на %{conversationCount} разговорах)"
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время первого ответа — %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время на решение %{metricValue} (основано на %{conversationCount} разговорах)"
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -212,13 +212,13 @@
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время первого ответа — %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время на решение %{metricValue} (основано на %{conversationCount} разговорах)"
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -279,13 +279,13 @@
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время первого ответа — %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время на решение %{metricValue} (основано на %{conversationCount} разговорах)"
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -346,13 +346,13 @@
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время первого ответа — %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
-        "TOOLTIP_TEXT": "Время на решение %{metricValue} (основано на %{conversationCount} разговорах)"
+        "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Трафик сообщений",
       "NO_CONVERSATIONS": "Нет сообщений",
-      "CONVERSATION": "%{count} разговор",
-      "CONVERSATIONS": "%{count} разговоров",
+      "CONVERSATION": "{count} разговор",
+      "CONVERSATIONS": "{count} разговоров",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
