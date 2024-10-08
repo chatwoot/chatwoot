@@ -43,12 +43,12 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
-        "OLDEST": "Created at:"
+        "LATEST": "만들어짐",
+        "OLDEST": "에 만들어짐:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "최근 활동:",
+        "ACTIVE": "최근 활동"
       }
     },
     "SORT_ORDER_ITEMS": {
@@ -103,15 +103,15 @@
       "ITEMS": {
         "LATEST": {
           "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "LABEL": "최근 활동"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "에 만들어짐",
+          "LABEL": "에 만들어짐"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "최근 메세지"
         }
       }
     },
