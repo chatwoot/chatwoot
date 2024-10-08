@@ -17,7 +17,7 @@ defineProps({
   },
   itemsPerPage: {
     type: Number,
-    default: 10,
+    default: 25,
   },
   showPaginationFooter: {
     type: Boolean,
