@@ -301,7 +301,7 @@
     "TITLE": "Plaćanje",
     "CURRENT_PLAN": {
       "TITLE": "Trenutni plan",
-      "PLAN_NOTE": "Trenutno ste pretplaćeni na **%{plan}** plan sa **%{quantity}** licenci"
+      "PLAN_NOTE": "Trenutno ste pretplaćeni na **{plan}** plan sa **{quantity}** licenci"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Upravljate vašom pretplatom",
