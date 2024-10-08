@@ -23,13 +23,13 @@
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "İlk Cevap Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "Çözüm Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Müşteri Bekleme Süresi",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "İlk Cevap Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "Çözüm Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -212,13 +212,13 @@
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "İlk Cevap Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "Çözüm Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -279,13 +279,13 @@
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "İlk Cevap Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "Çözüm Süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -346,13 +346,13 @@
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "İlk Cevap Süresi %{metricValue} ( %{conversationCount} görüşmeye dayalı )"
+        "TOOLTIP_TEXT": "İlk Cevap Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
         "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
-        "TOOLTIP_TEXT": "Çözüm Süresi %{metricValue} ( %{conversationCount} görüşmeye dayalı )"
+        "TOOLTIP_TEXT": "Çözüm Süresi {metricValue} ( {conversationCount} görüşmeye dayalı )"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Konuşma Trafik",
       "NO_CONVERSATIONS": "Hiç konuşma yok",
-      "CONVERSATION": "%{count} konuşma",
-      "CONVERSATIONS": "%{count} konuşmalar",
+      "CONVERSATION": "{count} konuşma",
+      "CONVERSATIONS": "{count} konuşmalar",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
