@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "No s'ha pogut suprimir l'atribut personalitzat. Torna-ho a provar."
       },
       "CONFIRM": {
-        "TITLE": "Estàs segur que vols suprimir - %{attributeName}",
+        "TITLE": "Estàs segur que vols suprimir - {attributeName}",
         "PLACE_HOLDER": "Escriu {attributeName} per confirmar",
         "MESSAGE": "En suprimir, s'eliminarà l'atribut personalitzat",
         "YES": "Suprimeix ",
