@@ -19,15 +19,15 @@ import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
-
   if (window.$chatwoot) {
     return;
   }
 
   if (window.Turbo) {
-    document.addEventListener('turbo:before-render', event => {
-      restoreWidgetInDOM(event.detail.newBody);
-    });
+    // if this is a Rails Turbo app
+    document.addEventListener('turbo:before-render', event =>
+      restoreWidgetInDOM(event.detail.newBody)
+    );
   }
 
   if (window.Turbolinks) {
@@ -36,12 +36,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     });
   }
 
-  document.addEventListener('astro:before-swap', event => {
-    restoreWidgetInDOM(event.newDocument.body);
-  });
+  // if this is an astro app
+  document.addEventListener('astro:before-swap', event =>
+    restoreWidgetInDOM(event.newDocument.body)
+  );
 
   const chatwootSettings = window.chatwootSettings || {};
-
   let locale = chatwootSettings.locale;
   let baseDomain = chatwootSettings.baseDomain;
 
@@ -98,12 +98,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     setUser(identifier, user) {
       if (typeof identifier !== 'string' && typeof identifier !== 'number') {
-        console.error('Invalid identifier type:', identifier);
         throw new Error('Identifier should be a string or a number');
       }
 
       if (!hasUserKeys(user)) {
-        console.error('User object is missing required keys:', user);
         throw new Error(
           'User object should have one of the keys [avatar_url, email, name]'
         );
@@ -112,10 +110,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       const userCookieName = getUserCookieName();
       const existingCookieValue = Cookies.get(userCookieName);
       const hashToBeStored = computeHashForUserData({ identifier, user });
-        userCookieName,
-        hashToBeStored,
-      });
-
       if (hashToBeStored === existingCookieValue) {
         return;
       }
@@ -131,8 +125,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     setCustomAttributes(customAttributes = {}) {
       if (!customAttributes || !Object.keys(customAttributes).length) {
-        console.error('Invalid custom attributes:', customAttributes);
-        throw new Error('Custom attributes should have at least one key');
+        throw new Error('Custom attributes should have atleast one key');
       } else {
         IFrameHelper.sendMessage('set-custom-attributes', { customAttributes });
       }
@@ -140,7 +133,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     deleteCustomAttribute(customAttribute = '') {
       if (!customAttribute) {
-        console.error('Custom attribute is missing.');
         throw new Error('Custom attribute is required');
       } else {
         IFrameHelper.sendMessage('delete-custom-attribute', {
@@ -151,11 +143,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     setConversationCustomAttributes(customAttributes = {}) {
       if (!customAttributes || !Object.keys(customAttributes).length) {
-        console.error(
-          'Invalid conversation custom attributes:',
-          customAttributes
-        );
-        throw new Error('Custom attributes should have at least one key');
+        throw new Error('Custom attributes should have atleast one key');
       } else {
         IFrameHelper.sendMessage('set-conversation-custom-attributes', {
           customAttributes,
@@ -165,7 +153,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     deleteConversationCustomAttribute(customAttribute = '') {
       if (!customAttribute) {
-        console.error('Conversation custom attribute is missing.');
         throw new Error('Custom attribute is required');
       } else {
         IFrameHelper.sendMessage('delete-conversation-custom-attribute', {
