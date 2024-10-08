@@ -3,8 +3,8 @@
     "HEADER": "에이전트",
     "HEADER_BTN_TXT": "에이전트 추가",
     "LOADING": "에이전트 목록을 가져오는 중",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "상담원은 사용자 메시지를 보고 응답할 수 있는 고객 지원팀의 구성원입니다. 아래 목록에는 계정의 모든 상담원이 나와 있습니다.",
+    "LEARN_MORE": "사용자 역할에 대해 알아보기",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "관리자",
       "AGENT": "에이전트"
@@ -19,7 +19,7 @@
       "ACTIONS": "액션",
       "VERIFIED": "인증됨",
       "VERIFICATION_PENDING": "인증 보류",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "사용 가능한 사용자 정의 역할 권한"
     },
     "ADD": {
       "TITLE": "팀에 에이전트 추가",
@@ -78,7 +78,7 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "유용성",
-          "PLACEHOLDER": "Please select an availability status",
+          "PLACEHOLDER": "",
           "ERROR": "Availability is required"
         },
         "SUBMIT": "에이전트 수정"
