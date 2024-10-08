@@ -301,7 +301,7 @@
     "TITLE": "Pembayaran",
     "CURRENT_PLAN": {
       "TITLE": "Paket Saat Ini",
-      "PLAN_NOTE": "Anda saat ini berlangganan paket **%{plan}** dengan **%{quantity}** lisensi"
+      "PLAN_NOTE": "Anda saat ini berlangganan paket **{plan}** dengan **{quantity}** lisensi"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Kelola langganan Anda",
