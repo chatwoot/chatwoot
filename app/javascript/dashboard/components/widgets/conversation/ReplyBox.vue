@@ -1,6 +1,6 @@
 <script>
 // [TODO] The popout events are needlessly complex and should be simplified
-import { defineAsyncComponent, defineModel } from 'vue';
+import { defineModel } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -44,9 +44,7 @@ import {
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
-);
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   components: {

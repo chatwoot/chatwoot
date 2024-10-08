@@ -1,5 +1,4 @@
 <script>
-import { defineAsyncComponent } from 'vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -9,9 +8,7 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
-const CommandBar = defineAsyncComponent(
-  () => import('./commands/commandbar.vue')
-);
+import CommandBar from './commands/commandbar.vue';
 import { emitter } from 'shared/helpers/mitt';
 
 export default {
