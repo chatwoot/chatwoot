@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL de Webhook",
-          "PLACEHOLDER": "Ejemplo: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Por favor, introduzca una URL válida"
         },
         "EDIT_SUBMIT": "Actualizar webhook",
@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar eliminación",
-          "MESSAGE": "¿Está seguro de eliminar el webhook? (%{webhookURL})",
+          "MESSAGE": "¿Está seguro de eliminar el webhook? ({webhookURL})",
           "YES": "Sí, eliminar ",
           "NO": "No, mantenerlo"
         }
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "¿Cómo utilizar la Integración Slack?",
-        "BODY": "<br/><p>Chatwoot ahora sincronizará todas las conversaciones entrantes en el canal <b><i>de conversaciones del cliente</i></b> dentro de tu lugar de trabajo slack.</p><p>Respondiendo a un tema de conversación en <b><i>conversaciones de clientes</i></b> canal de slack creará una respuesta al cliente a través de chatwoot.</p><p>Inicie las respuestas con <b><i>nota:</i></b> para crear notas privadas en lugar de respuestas.</p><p>Si el respondente de slack tiene un perfil de agente en el chatwoot bajo el mismo correo electrónico, las respuestas se asociarán en consecuencia.</p><p>Cuando el replicador no tiene un perfil de agente asociado, las respuestas se harán con el perfil del bot.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "seleccionado"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Asistencia AI",
-      "WITH_AI": " %{option} con IA ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Responder sugerencia",
         "SUMMARIZE": "Resumir",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Sí, eliminarlo",
         "CONFIRM_NO": "No, mantenerlo",
         "TITLE": "Confirme eliminación",
-        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
+        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - {appName}?",
         "API_SUCCESS": "Panel de control eliminado con éxito",
         "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde"
       }
@@ -235,7 +235,7 @@
         "ERROR": "Hubo un error al recuperar los problemas lineales, por favor inténtalo de nuevo",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioridad",
         "ASSIGNEE": "Cesionario",
         "LABELS": "Etiquetas",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desenlazar",
