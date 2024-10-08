@@ -301,7 +301,7 @@
     "TITLE": "Rechnungen",
     "CURRENT_PLAN": {
       "TITLE": "Derzeitiger Plan",
-      "PLAN_NOTE": "Sie haben derzeit den Tarif **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+      "PLAN_NOTE": "Sie haben derzeit den Tarif **{plan}** mit **{quantity}** Lizenzen abonniert"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Abonnement verwalten",
