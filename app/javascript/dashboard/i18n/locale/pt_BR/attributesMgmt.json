@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Não foi possível excluir o atributo personalizado. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Tem certeza que deseja excluir - %{attributeName}",
+        "TITLE": "Tem certeza que deseja excluir - {attributeName}",
         "PLACE_HOLDER": "Digite {attributeName} para confirmar",
         "MESSAGE": "Excluindo removerá o atributo personalizado",
         "YES": "Excluir ",
