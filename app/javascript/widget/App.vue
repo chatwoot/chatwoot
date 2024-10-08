@@ -65,8 +65,34 @@ export default {
   },
   mounted() {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
-    console.log('SET LOCALE', locale);
     this.setLocale(locale);
+    setTimeout(() => {
+      console.log('SET LOCALE AGAIN 100');
+      this.setLocale(locale);
+    }, 100);
+    setTimeout(() => {
+      console.log('SET LOCALE AGAIN 200');
+      this.setLocale(locale);
+    }, 200);
+
+    setTimeout(() => {
+      console.log('SET LOCALE AGAIN 300');
+      this.setLocale(locale);
+    }, 300);
+
+    setTimeout(() => {
+      console.log('SET LOCALE AGAIN 400');
+      this.setLocale(locale);
+    }, 400);
+
+    setTimeout(() => {
+      console.log('SET LOCALE AGAIN 500');
+      this.setLocale(locale);
+    }, 500);
+    setTimeout(() => {
+      console.log('SET LOCALE YET AGAIN');
+      this.setLocale(locale);
+    }, 5000);
     this.setWidgetColor(widgetColor);
     setHeader(window.authToken);
     if (this.isIFrame) {
@@ -121,24 +147,22 @@ export default {
       });
     },
     setLocale(localeWithVariation) {
-      console.log('IGNORE SETTING LOCALE HAHAHAHAHA!', localeWithVariation);
-      return;
-      // console.log('SETTING LOACLE IN WIDGET');
-      // if (!localeWithVariation) return;
-      // const { enabledLanguages } = window.chatwootWebChannel;
-      // const localeWithoutVariation = localeWithVariation.split('_')[0];
-      // const hasLocaleWithoutVariation = enabledLanguages.some(
-      //   lang => lang.iso_639_1_code === localeWithoutVariation
-      // );
-      // const hasLocaleWithVariation = enabledLanguages.some(
-      //   lang => lang.iso_639_1_code === localeWithVariation
-      // );
+      if (!localeWithVariation) return;
+      console.log('SETTING LOCALE HAHAHAHAHA!', localeWithVariation);
+      const { enabledLanguages } = window.chatwootWebChannel;
+      const localeWithoutVariation = localeWithVariation.split('_')[0];
+      const hasLocaleWithoutVariation = enabledLanguages.some(
+        lang => lang.iso_639_1_code === localeWithoutVariation
+      );
+      const hasLocaleWithVariation = enabledLanguages.some(
+        lang => lang.iso_639_1_code === localeWithVariation
+      );
 
-      // if (hasLocaleWithVariation) {
-      //   this.$i18n.locale = localeWithVariation;
-      // } else if (hasLocaleWithoutVariation) {
-      //   this.$i18n.locale = localeWithoutVariation;
-      // }
+      if (hasLocaleWithVariation) {
+        this.$i18n.locale = localeWithVariation;
+      } else if (hasLocaleWithoutVariation) {
+        this.$i18n.locale = localeWithoutVariation;
+      }
     },
     registerUnreadEvents() {
       emitter.on(ON_AGENT_MESSAGE_RECEIVED, () => {

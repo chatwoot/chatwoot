@@ -116,27 +116,17 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
-      console.group('Primary Menu Items');
-      console.log(this.currentUser);
-      console.log(this.accountId);
-      console.log(this.sideMenuConfig.primaryMenu);
       const userPermissions = getUserPermissions(
         this.currentUser,
         this.accountId
       );
 
-      console.log(userPermissions);
-      console.groupEnd();
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
-        console.log('----------------', menuItem.toStateName);
-        console.log(menuItem);
         const isAvailableForTheUser = hasPermissions(
           routesWithPermissions[menuItem.toStateName],
           userPermissions
         );
-
-        console.log(isAvailableForTheUser);
 
         if (!isAvailableForTheUser) {
           return false;
@@ -146,7 +136,6 @@ export default {
           menuItem.alwaysVisibleOnChatwootInstances &&
           !this.isACustomBrandedInstance
         ) {
-          console.log('NOT CUSTOM');
           return true;
         }
         if (menuItem.featureFlag) {
@@ -154,11 +143,9 @@ export default {
             this.accountId,
             menuItem.featureFlag
           );
-          console.log('CHECK ENDBALED', isEnabled);
 
           return isEnabled;
         }
-        console.log('RETURN TRUE');
         return true;
       });
     },

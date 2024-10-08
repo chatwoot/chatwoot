@@ -100,7 +100,8 @@ export default {
     },
     setLocale(locale) {
       console.log('setting locale in dashboard', locale);
-      this.$i18n.locale = locale;
+      return;
+      // this.$i18n.locale = locale;
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
