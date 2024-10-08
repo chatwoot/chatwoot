@@ -12,8 +12,8 @@
       "MESSAGES": "Nachrichten"
     },
     "SEARCHING_DATA": "Suchen",
-    "EMPTY_STATE": "Keine %{item} für Abfrage '%{query} ' gefunden",
-    "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '%{query} ' gefunden",
+    "EMPTY_STATE": "Keine {item} für Abfrage '{query} ' gefunden",
+    "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '{query} ' gefunden",
     "PLACEHOLDER_KEYBINDING": "/ fokussieren",
     "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
