@@ -23,13 +23,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Vevő várakozási idő",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -212,13 +212,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -279,13 +279,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -346,13 +346,13 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Első válaszidő"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_TEXT": "Felbontási idő"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Beszélgetés forgalom",
       "NO_CONVERSATIONS": "Nincsennek beszélgetések",
-      "CONVERSATION": "Beszélgetése százaléka",
-      "CONVERSATIONS": "Beszélgetések százalékai",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
