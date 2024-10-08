@@ -23,13 +23,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliento laukimo laikas",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -212,13 +212,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -279,13 +279,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -346,13 +346,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Pokalbių srautas",
       "NO_CONVERSATIONS": "Pokalbių nėra",
-      "CONVERSATION": "%{count} pokalbis",
-      "CONVERSATIONS": "%{count} pokalbiai",
+      "CONVERSATION": "{count} pokalbis",
+      "CONVERSATIONS": "{count} pokalbiai",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
