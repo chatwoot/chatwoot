@@ -33,15 +33,12 @@ import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 import addHours from 'date-fns/addHours';
 
-const updateAuthCookie = (cookieContent, baseDomain = '') => {
-  console.log('Updating auth cookie:', { cookieContent, baseDomain });
+const updateAuthCookie = (cookieContent, baseDomain = '') =>
   setCookieWithDomain('cw_conversation', cookieContent, {
     baseDomain,
   });
-};
 
 const updateCampaignReadStatus = baseDomain => {
-  console.log('Updating campaign read status:', { baseDomain });
   const expireBy = addHours(new Date(), 1);
   setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
@@ -51,15 +48,10 @@ const updateCampaignReadStatus = baseDomain => {
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
-    const url = `${baseUrl}/widget?website_token=${websiteToken}`;
-    console.log('Generated widget URL:', url);
-    return url;
+    return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
-    console.log('Creating iframe with:', { baseUrl, websiteToken });
-
     if (IFrameHelper.getAppFrame()) {
-      console.log('Iframe already exists.');
       return;
     }
 
@@ -69,9 +61,7 @@ export const IFrameHelper = {
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
-      console.log('Appending conversation cookie to widget URL:', widgetUrl);
     }
-
     iframe.src = widgetUrl;
     iframe.allow =
       'camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;';
@@ -86,8 +76,6 @@ export const IFrameHelper = {
       holderClassName += ` woot-widget-holder--flat`;
     }
 
-    console.log('Holder class name:', holderClassName);
-
     addClasses(widgetHolder, holderClassName);
     widgetHolder.id = 'cw-widget-holder';
     widgetHolder.appendChild(iframe);
@@ -96,16 +84,9 @@ export const IFrameHelper = {
     IFrameHelper.initWindowSizeListener();
     IFrameHelper.preventDefaultScroll();
   },
-  getAppFrame: () => {
-    const frame = document.getElementById('chatwoot_live_chat_widget');
-    return frame;
-  },
-  getBubbleHolder: () => {
-    const holder = document.getElementsByClassName('woot--bubble-holder');
-    return holder;
-  },
+  getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
+  getBubbleHolder: () => document.getElementsByClassName('woot--bubble-holder'),
   sendMessage: (key, value) => {
-    console.log('Sending message:', { key, value });
     const element = IFrameHelper.getAppFrame();
     element.contentWindow.postMessage(
       `chatwoot-widget:${JSON.stringify({ event: key, ...value })}`,
@@ -113,9 +94,7 @@ export const IFrameHelper = {
     );
   },
   initPostMessageCommunication: () => {
-    console.log('Initializing post message communication...');
     window.onmessage = e => {
-      console.log('Message received:', e.data);
       if (
         typeof e.data !== 'string' ||
         e.data.indexOf('chatwoot-widget:') !== 0
@@ -123,30 +102,20 @@ export const IFrameHelper = {
         return;
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
-      console.log('Parsed message:', message);
       if (typeof IFrameHelper.events[message.event] === 'function') {
         IFrameHelper.events[message.event](message);
       }
     };
   },
   initWindowSizeListener: () => {
-    console.log('Initializing window size listener...');
     window.addEventListener('resize', () => IFrameHelper.toggleCloseButton());
   },
   preventDefaultScroll: () => {
-    console.log('Adding scroll prevention on widget holder...');
     widgetHolder.addEventListener('wheel', event => {
       const deltaY = event.deltaY;
       const contentHeight = widgetHolder.scrollHeight;
       const visibleHeight = widgetHolder.offsetHeight;
       const scrollTop = widgetHolder.scrollTop;
-
-      console.log('Scroll event:', {
-        deltaY,
-        contentHeight,
-        visibleHeight,
-        scrollTop,
-      });
 
       if (
         (scrollTop === 0 && deltaY < 0) ||
@@ -158,7 +127,6 @@ export const IFrameHelper = {
   },
 
   setFrameHeightToFitContent: (extraHeight, isFixedHeight) => {
-    console.log('Setting iframe height:', { extraHeight, isFixedHeight });
     const iframe = IFrameHelper.getAppFrame();
     const updatedIframeHeight = isFixedHeight ? `${extraHeight}px` : '100%';
 
@@ -167,7 +135,6 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    console.log('Setting up audio listeners...');
     const { baseUrl = '' } = window.$chatwoot;
     getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
       initOnEvents.forEach(event => {
@@ -182,11 +149,9 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      console.log('Widget loaded event:', message);
       updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
-      console.log('Campaigns snoozed till:', campaignsSnoozedTill);
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
@@ -203,7 +168,6 @@ export const IFrameHelper = {
       IFrameHelper.toggleCloseButton();
 
       if (window.$chatwoot.user) {
-        console.log('Setting user on load:', window.$chatwoot.user);
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
 
@@ -214,37 +178,32 @@ export const IFrameHelper = {
       });
 
       if (!window.$chatwoot.resetTriggered) {
-        console.log('Dispatching CHATWOOT_READY event...');
         dispatchWindowEvent({ eventName: CHATWOOT_READY });
       }
     },
     error: ({ errorType, data }) => {
-      console.error('Widget error:', { errorType, data });
       dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data });
 
       if (errorType === SET_USER_ERROR) {
-        console.log('Removing user cookie due to error.');
         Cookies.remove(getUserCookieName());
       }
     },
     onEvent({ eventIdentifier: eventName, data }) {
-      console.log('Custom event triggered:', { eventName, data });
       dispatchWindowEvent({ eventName, data });
     },
     setBubbleLabel(message) {
-      console.log('Setting bubble label:', message);
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
+
     setAuthCookie({ data: { widgetAuthToken } }) {
-      console.log('Setting auth cookie with token:', widgetAuthToken);
       updateAuthCookie(widgetAuthToken, window.$chatwoot.baseDomain);
     },
+
     setCampaignReadOn() {
-      console.log('Setting campaign read status.');
       updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
+
     toggleBubble: state => {
-      console.log('Toggling bubble state:', state);
       let bubbleState = {};
       if (state === 'open') {
         bubbleState.toggleValue = true;
@@ -254,52 +213,43 @@ export const IFrameHelper = {
 
       onBubbleClick(bubbleState);
     },
+
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
-      console.log('Popping out chat window:', {
-        baseUrl,
-        websiteToken,
-        locale,
-      });
       const cwCookie = Cookies.get('cw_conversation');
       window.$chatwoot.toggle('close');
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
+
     closeWindow: () => {
-      console.log('Closing chat window.');
       onBubbleClick({ toggleValue: false });
       removeUnreadClass();
     },
+
     onBubbleToggle: isOpen => {
-      console.log('Bubble toggle event:', isOpen);
       IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (isOpen) {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
     onLocationChange: ({ referrerURL, referrerHost }) => {
-      console.log('Location change detected:', { referrerURL, referrerHost });
       IFrameHelper.sendMessage('change-url', {
         referrerURL,
         referrerHost,
       });
     },
     updateIframeHeight: message => {
-      console.log('Updating iframe height:', message);
       const { extraHeight = 0, isFixedHeight } = message;
 
       IFrameHelper.setFrameHeightToFitContent(extraHeight, isFixedHeight);
     },
+
     setUnreadMode: () => {
-      console.log('Setting unread mode.');
       addUnreadClass();
       onBubbleClick({ toggleValue: true });
     },
-    resetUnreadMode: () => {
-      console.log('Resetting unread mode.');
-      removeUnreadClass();
-    },
+
+    resetUnreadMode: () => removeUnreadClass(),
     handleNotificationDot: event => {
-      console.log('Handling notification dot:', event);
       if (window.$chatwoot.hideMessageBubble) {
         return;
       }
@@ -314,27 +264,25 @@ export const IFrameHelper = {
         removeClasses(bubbleElement, 'unread-notification');
       }
     },
+
     closeChat: () => {
-      console.log('Closing chat.');
       onBubbleClick({ toggleValue: false });
     },
+
     playAudio: () => {
-      console.log('Playing audio alert.');
       window.playAudioAlert();
     },
   },
   pushEvent: eventName => {
-    console.log('Pushing event:', eventName);
     IFrameHelper.sendMessage('push-event', { eventName });
   },
+
   onLoad: ({ widgetColor }) => {
-    console.log('On load with widget color:', widgetColor);
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
 
     if (IFrameHelper.getBubbleHolder().length) {
-      console.log('Bubble holder already exists.');
       return;
     }
     createBubbleHolder(window.$chatwoot.hideMessageBubble);
@@ -369,8 +317,10 @@ export const IFrameHelper = {
     onClickChatBubble();
   },
   toggleCloseButton: () => {
-    const isMobile = window.matchMedia('(max-width: 668px)').matches;
-    console.log('Toggling close button for mobile:', isMobile);
+    let isMobile = false;
+    if (window.matchMedia('(max-width: 668px)').matches) {
+      isMobile = true;
+    }
     IFrameHelper.sendMessage('toggle-close-button', { isMobile });
   },
 };
