@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sense categoria",
-      "SEARCH_RESULTS": "Resultats de la cerca per a %{query}",
+      "SEARCH_RESULTS": "Resultats de la cerca per a {query}",
       "EMPTY_TEXT": "Cerca articles per inserir a les respostes.",
       "SEARCH_LOADER": "S'està cercant...",
       "INSERT_ARTICLE": "Insereix",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Domini personalitzat",
           "PLACEHOLDER": "Domini personalitzat del portal",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Introdueix una URL de domini vàlid"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Enllaça a la pàgina d'inici",
           "PLACEHOLDER": "Enllaç a la pàgina d'inici del portal",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Introdueix una URL de pàgina d'inici vàlid"
         },
         "THEME_COLOR": {
