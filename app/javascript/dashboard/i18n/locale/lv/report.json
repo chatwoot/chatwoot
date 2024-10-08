@@ -23,13 +23,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Klienta gaidīšanas laiks",
-        "TOOLTIP_TEXT": "Gaidīšanas laiks ir %{metricValue} (pamatojoties uz %{conversationCount} atbildēm)",
+        "TOOLTIP_TEXT": "Gaidīšanas laiks ir {metricValue} (pamatojoties uz {conversationCount} atbildēm)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -212,13 +212,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -279,13 +279,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -346,13 +346,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Sarunu Satiksme",
       "NO_CONVERSATIONS": "Nav sarunu",
-      "CONVERSATION": "%{count} saruna",
-      "CONVERSATIONS": "%{count} sarunas",
+      "CONVERSATION": "{count} saruna",
+      "CONVERSATIONS": "{count} sarunas",
       "DOWNLOAD_REPORT": "Lejupielādēt atskaiti"
     },
     "AGENT_CONVERSATIONS": {
