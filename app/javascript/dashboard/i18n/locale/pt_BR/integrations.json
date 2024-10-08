@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL do Webhook",
-          "PLACEHOLDER": "Exemplo: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "EDIT_SUBMIT": "Atualizar webhook",
@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar exclusão",
-          "MESSAGE": "Tem certeza que deseja excluir o webhook? (%{webhookURL})",
+          "MESSAGE": "Tem certeza que deseja excluir o webhook? ({webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, mantenha"
         }
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Usando a integração com Slack",
-        "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as conversas recebidas no canal de <b><i>conversas com clientes</i></b> dentro de seu local de trabalho de slack.</p><p>A resposta para uma conversa em <b><i>conversas ao cliente</i></b> canal de slack irá criar uma resposta para o cliente através do chatwoot.</p><p>Inicie as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no chatwoot sob o mesmo e-mail, as respostas serão associadas de acordo.</p><p>Quando o respondente não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selecionar"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistente Open AI",
-      "WITH_AI": " %{option} com IA ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",
         "SUMMARIZE": "Resumir",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Sim, exclua-o",
         "CONFIRM_NO": "Não, mantenha-o",
         "TITLE": "Confirmar exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - %{appName}?",
+        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - {appName}?",
         "API_SUCCESS": "Aplicativo da dashboard excluído com sucesso",
         "API_ERROR": "Não conseguimos excluir o aplicativo. Por favor, tente novamente mais tarde"
       }
@@ -235,7 +235,7 @@
         "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Marcadores",
-        "CREATED_AT": "Criado em %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desvincular",
