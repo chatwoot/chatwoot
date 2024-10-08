@@ -1,4 +1,5 @@
 import types from '../mutation-types';
+import { useRoute } from 'vue-router';
 import authAPI from '../../api/auth';
 
 import { setUser, clearCookiesOnLogout } from '../utils/api';
@@ -51,6 +52,12 @@ export const getters = {
   },
 
   getCurrentAccountId(_, __, rootState) {
+    const route = useRoute();
+
+    if (route?.params && route.params.accountId) {
+      return Number(route.params.accountId);
+    }
+
     if (rootState.route.params && rootState.route.params.accountId) {
       return Number(rootState.route.params.accountId);
     }
