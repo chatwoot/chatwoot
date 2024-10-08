@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Neįtraukta į kategorijas",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Ieškoma...",
       "INSERT_ARTICLE": "Įterpti",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Personalizuotas domenas",
           "PLACEHOLDER": "Portalo personalizuotas domenas",
-          "HELP_TEXT": "Pridėti jei portaluose norite naudoti personalizuotą domeną. Pvz.: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Įveskite galiojantį domaino URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Nuoroda į pagrindinį puslapį",
           "PLACEHOLDER": "Portalo nuoroda į pagrindinį puslapį",
-          "HELP_TEXT": "Nuoroda, naudojama grįžimui iš portalo į pagrindinį puslapį. Pvz.: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Įveskite galiojantį pagrindinio puslapio URL"
         },
         "THEME_COLOR": {
