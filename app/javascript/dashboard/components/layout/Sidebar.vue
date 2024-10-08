@@ -129,26 +129,37 @@ export default {
       console.groupEnd();
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
+        console.group(menuItem.toStateName);
+        console.log(menuItem);
         const isAvailableForTheUser = hasPermissions(
           routesWithPermissions[menuItem.toStateName],
           userPermissions
         );
 
+        console.log(isAvailableForTheUser);
+
         if (!isAvailableForTheUser) {
           return false;
         }
+
         if (
           menuItem.alwaysVisibleOnChatwootInstances &&
           !this.isACustomBrandedInstance
         ) {
+          console.log('NOT CUSTOM');
           return true;
         }
         if (menuItem.featureFlag) {
-          return this.isFeatureEnabledonAccount(
+          const isEnabled = this.isFeatureEnabledonAccount(
             this.accountId,
             menuItem.featureFlag
           );
+          console.log('CHECK ENDBALED', isEnabled);
+
+          return isEnabled;
         }
+        console.log('RETURN TRUE');
+        console.groupEnd();
         return true;
       });
     },
