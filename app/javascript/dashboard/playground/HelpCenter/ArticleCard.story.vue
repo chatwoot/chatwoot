@@ -41,6 +41,8 @@ const articles = [
 ];
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
     title="HelpCenter/ArticleCard"

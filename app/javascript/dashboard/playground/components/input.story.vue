@@ -7,6 +7,8 @@ const numberValue = ref(0);
 const passwordValue = ref('');
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story title="Components/Input" :layout="{ type: 'grid', width: '300px' }">
     <Variant title="Default">

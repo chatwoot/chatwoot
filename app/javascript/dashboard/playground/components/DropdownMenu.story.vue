@@ -21,6 +21,8 @@ const handleAction = () => {
 };
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story title="Components/DropdownMenu" :layout="{ type: 'grid', width: 200 }">
     <Variant title="Default">

@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
 import PortalEmptyState from './PortalEmptyState.vue';
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
     title="HelpCenter/PortalEmptyState"
@@ -13,11 +14,3 @@ import PortalEmptyState from './PortalEmptyState.vue';
     </Variant>
   </Story>
 </template>
-
-<script>
-export default {
-  parameters: {
-    layout: 'fullscreen',
-  },
-};
-</script>

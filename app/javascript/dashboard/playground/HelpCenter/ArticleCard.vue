@@ -35,9 +35,9 @@ const statusTextColor = computed(() => {
     case 'archived':
       return 'text-slate-600 dark:text-slate-200';
     case 'draft':
-      return 'text-amber-500 dark:text-amber-400';
+      return 'text-amber-700 dark:text-amber-400';
     default:
-      return 'text-teal-500 dark:text-teal-400';
+      return 'text-teal-700 dark:text-teal-400';
   }
 });
 

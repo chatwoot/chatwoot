@@ -10,6 +10,8 @@ const categories = [
 ];
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
     title="HelpCenter/CategoryCard"
@@ -23,7 +25,7 @@ const categories = [
       <CategoryCard
         :title="category.title"
         :description="category.description"
-        :articlesCount="category.articlesCount"
+        :articles-count="category.articlesCount"
       />
     </Variant>
   </Story>

@@ -7,6 +7,8 @@ const locales = [
 ];
 </script>
 
+<!-- eslint-disable vue/no-bare-strings-in-template -->
+<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
     title="HelpCenter/LocaleCard"
@@ -17,7 +19,7 @@ const locales = [
       :key="index"
       :title="locale.variant"
     >
-      <LocaleCard :locale="locale.name" :isDefault="locale.isDefault" />
+      <LocaleCard :locale="locale.name" :is-default="locale.isDefault" />
     </Variant>
   </Story>
 </template>
