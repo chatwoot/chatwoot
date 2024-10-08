@@ -62,7 +62,7 @@ const statusText = computed(() => {
           {{ title }}
         </span>
         <span
-          class="text-xs bg-slate-100 text-center h-6 inline-flex items-center justify-center dark:bg-slate-800 rounded-md border-px border-transparent px-2 py-0.5"
+          class="text-xs bg-slate-50 text-center h-6 inline-flex items-center justify-center dark:bg-slate-800 rounded-md border-px border-transparent px-2 py-0.5"
           :class="statusTextColor"
         >
           {{ statusText }}
@@ -73,7 +73,7 @@ const statusText = computed(() => {
       <div class="flex items-center justify-between gap-4">
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
-            <div class="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700" />
+            <div class="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-700" />
             <span class="text-sm text-slate-500 dark:text-slate-400">
               {{ author }}
             </span>
