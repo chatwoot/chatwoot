@@ -53,7 +53,7 @@
       "CUSTOM_ATTRIBUTE_LINK": "링크",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
       "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity"
+      "LAST_ACTIVITY": "최근 활동"
     },
     "ERRORS": {
       "VALUE_REQUIRED": "값이 필요합니다."
