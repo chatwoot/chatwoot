@@ -95,8 +95,8 @@ export default {
       return this.id.toString();
     },
   },
-  mounted() {
-    this.initializeAccount();
+  async mounted() {
+    await this.initializeAccount();
   },
   methods: {
     async initializeAccount() {

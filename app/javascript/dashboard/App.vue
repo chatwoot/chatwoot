@@ -70,8 +70,11 @@ export default {
       }
     },
     currentAccountId() {
+      console.log('THIS CALL');
       if (this.currentAccountId) {
         this.initializeAccount();
+      } else {
+        console.log('NO ACCOUNT ID');
       }
     },
   },

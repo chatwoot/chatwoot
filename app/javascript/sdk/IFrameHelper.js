@@ -98,12 +98,10 @@ export const IFrameHelper = {
   },
   getAppFrame: () => {
     const frame = document.getElementById('chatwoot_live_chat_widget');
-    console.log('Retrieved app frame:', frame);
     return frame;
   },
   getBubbleHolder: () => {
     const holder = document.getElementsByClassName('woot--bubble-holder');
-    console.log('Retrieved bubble holder:', holder);
     return holder;
   },
   sendMessage: (key, value) => {
