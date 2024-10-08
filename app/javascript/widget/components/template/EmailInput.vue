@@ -75,7 +75,7 @@ export default {
           messageId: this.messageId,
         });
       } catch (error) {
-        // Ignore error
+        console.log(error);
       } finally {
         this.isUpdating = false;
       }

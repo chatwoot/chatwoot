@@ -22,7 +22,7 @@ export const actions = {
       commit(SET_CONVERSATION_ATTRIBUTES, data);
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
     } catch (error) {
-      // Ignore error
+      console.log(error);
     }
   },
   update({ commit }, data) {

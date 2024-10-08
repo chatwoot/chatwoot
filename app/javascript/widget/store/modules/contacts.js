@@ -31,7 +31,7 @@ export const actions = {
       const { data } = await ContactsAPI.get();
       commit(SET_CURRENT_USER, data);
     } catch (error) {
-      // Ignore error
+      console.log(error);
     }
   },
   update: async ({ dispatch }, { user }) => {
@@ -39,7 +39,7 @@ export const actions = {
       await ContactsAPI.update(user);
       dispatch('get');
     } catch (error) {
-      // Ignore error
+      console.log(error);
     }
   },
   setUser: async ({ dispatch }, { identifier, user: userObject }) => {
@@ -91,14 +91,14 @@ export const actions = {
     try {
       await ContactsAPI.setCustomAttributes(customAttributes);
     } catch (error) {
-      // Ignore error
+      console.log(error);
     }
   },
   deleteCustomAttribute: async (_, customAttribute) => {
     try {
       await ContactsAPI.deleteCustomAttribute(customAttribute);
     } catch (error) {
-      // Ignore error
+      console.log(error);
     }
   },
 };

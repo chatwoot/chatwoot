@@ -5,7 +5,7 @@ const actions = {
     try {
       await events.create(name);
     } catch (error) {
-      // Ignore error
+      console.log(error);
     }
   },
 };

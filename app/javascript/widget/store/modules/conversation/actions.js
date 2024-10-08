@@ -25,7 +25,7 @@ export const actions = {
       // Emit event to notify that conversation is created and show the chat screen
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
-      // Ignore error
+      console.log(error);
     } finally {
       commit('setConversationUIFlag', { isCreating: false });
     }

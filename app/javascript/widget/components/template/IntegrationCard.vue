@@ -41,7 +41,7 @@ export default {
           );
         this.dyteAuthToken = authToken;
       } catch (error) {
-        // Ignore Error for now
+        console.log(error);
       } finally {
         this.isLoading = false;
       }
