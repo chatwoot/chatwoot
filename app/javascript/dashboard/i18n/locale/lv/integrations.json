@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Piemēram: %{webhookExampleURL}",
+          "PLACEHOLDER": "Piemēram: {webhookExampleURL}",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "EDIT_SUBMIT": "Atjaunināt webhook",
@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Apstiprināt Dzēšanu",
-          "MESSAGE": "Vai tiešām vēlaties izdzēst webhook? (%{webhookURL})",
+          "MESSAGE": "Vai tiešām vēlaties izdzēst webhook? ({webhookURL})",
           "YES": "Jā, Dzēst ",
           "NO": "Nē, Paturēt"
         }
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kā izmantot Slack integrāciju?",
-        "BODY": "Izmantojot šo integrāciju, visas Jūsu ienākošās sarunas tiks sinhronizētas ar Jūsu Slack workspace kanālu ***%{selectedChannelName}***. Jūs varat pārvaldīt visas savas sarunas ar klientiem savā kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠeit ir galvenās integrācijas iezīmes:\n\n**Atbildēt uz sarunām no Slack:** Lai atbildētu uz sarunu Slack kanālā ***%{selectedChannelName}***, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Tas nosūtīs atbildi klientam, izmantojot Chatwoot. Tas ir tik vienkārši!\n\n  **Izveidot privātas piezīmes:** Ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Asociēt aģenta profilu:** Ja personai, kas atbildēja Slack kanālā, ir aģenta profils pakalpojumā Chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks automātiski asociētas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav asociēta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "izvēlēts"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Palīgs",
-      "WITH_AI": " %{option} ar AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Atbildes Ieteikums",
         "SUMMARIZE": "Apkopot",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Jā, dzēst",
         "CONFIRM_NO": "Nē, paturēt",
         "TITLE": "Apstipriniet dzēšanu",
-        "MESSAGE": "Vai tiešām vēlaties izdzēst lietotni - %{appName}?",
+        "MESSAGE": "Vai tiešām vēlaties izdzēst lietotni - {appName}?",
         "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi izdzēsta",
         "API_ERROR": "Mēs nevarējām izdzēst lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
@@ -235,7 +235,7 @@
         "ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
         "LINK_SUCCESS": "Problēma ir veiksmīgi sasaistīta",
         "LINK_ERROR": "Sasaistot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
-        "LINK_TITLE": "Saruna (#%{conversationId}) ar %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Izveidot/saistīt lineāru problēmu",
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioritāte",
         "ASSIGNEE": "Uzdevuma saņēmējs",
         "LABELS": "Etiķetes",
-        "CREATED_AT": "Izveidots %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Atsaistīt",
