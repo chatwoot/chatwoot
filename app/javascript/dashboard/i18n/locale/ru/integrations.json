@@ -31,7 +31,7 @@
         },
         "END_POINT": {
           "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Пример: https://example/api/webhook",
+          "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Пожалуйста, введите правильный URL"
         },
         "EDIT_SUBMIT": "Обновить webhook",
@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Подтвердите удаление",
-          "MESSAGE": "Вы уверены, что хотите удалить вебхук? (%{webhookURL})",
+          "MESSAGE": "Вы уверены, что хотите удалить вебхук? ({webhookURL})",
           "YES": "Да, удалить ",
           "NO": "Нет, не удалять"
         }
@@ -90,7 +90,7 @@
       },
       "HELP_TEXT": {
         "TITLE": "Использование интеграции Slack",
-        "BODY": "<br/><p>Chatwoot теперь будет синхронизировать все входящие разговоры с каналом <b><i>разговоров с клиентами</i></b> внутри вашего рабочего места.</p><p>Ответ на цепочку разговоров в канале slack для <b><i>разговоров с клиентом</i></b> создаст ответ клиенту через chatwoot.</p><p>Начните ответы с <b><i>примечания:</i></b> для создания приватных сообщений. примечания вместо ответов.</p><p>Если отвечающий в Slack имеет профиль агента в chatwoot под тем же адресом электронной почты, ответы будут связаны соответственно.</p><p>Если отвечающий не имеет связанного профиля агента, ответы будут отправляться из профиля бота.</p>",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "выбрано"
       },
       "SELECT_CHANNEL": {
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Помощь ИИ",
-      "WITH_AI": " %{option} с ИИ ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Предложить ответ",
         "SUMMARIZE": "Подведем итог",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Да, удалить",
         "CONFIRM_NO": "Нет, не удалять",
         "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Вы уверены, что хотите удалить приложение - %{appName}?",
+        "MESSAGE": "Вы уверены, что хотите удалить приложение - {appName}?",
         "API_SUCCESS": "Приложение успешно удалено",
         "API_ERROR": "Не удалось удалить приложение. Повторите попытку позже"
       }
@@ -235,7 +235,7 @@
         "ERROR": "Ошибка получения данных о связанных задачах, пожалуйста попробуйте еще раз",
         "LINK_SUCCESS": "Связывание задачи прошло успешно",
         "LINK_ERROR": "При привязке этой задачи произошла проблема",
-        "LINK_TITLE": "Диалог"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Создать/Привязать задачу из linear",
@@ -294,7 +294,7 @@
         "PRIORITY": "Приоритет",
         "ASSIGNEE": "Назначено",
         "LABELS": "Категории",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",
