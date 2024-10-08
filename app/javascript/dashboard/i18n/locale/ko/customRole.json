@@ -83,8 +83,8 @@
       "CONFIRM": {
         "TITLE": "Confirm deletion",
         "MESSAGE": "삭제하시겠습니까? ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지합니다 "
       }
     }
   }
