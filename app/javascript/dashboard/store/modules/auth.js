@@ -1,7 +1,5 @@
 import types from '../mutation-types';
-// import { useRoute } from 'vue-router';
 import authAPI from '../../api/auth';
-// import * as Sentry from '@sentry/vue';
 
 import { setUser, clearCookiesOnLogout } from '../utils/api';
 
