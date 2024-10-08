@@ -1,5 +1,5 @@
 <script>
-import Letter from 'vue-letter';
+import { Letter } from 'vue-letter';
 import GalleryView from '../components/GalleryView.vue';
 
 export default {
