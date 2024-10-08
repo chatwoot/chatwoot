@@ -129,7 +129,7 @@ export default {
       console.groupEnd();
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
-        console.group(menuItem.toStateName);
+        console.log('----------------', menuItem.toStateName);
         console.log(menuItem);
         const isAvailableForTheUser = hasPermissions(
           routesWithPermissions[menuItem.toStateName],
@@ -159,7 +159,6 @@ export default {
           return isEnabled;
         }
         console.log('RETURN TRUE');
-        console.groupEnd();
         return true;
       });
     },

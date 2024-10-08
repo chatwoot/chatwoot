@@ -121,22 +121,24 @@ export default {
       });
     },
     setLocale(localeWithVariation) {
-      console.log('SETTING LOACLE IN WIDGET');
-      if (!localeWithVariation) return;
-      const { enabledLanguages } = window.chatwootWebChannel;
-      const localeWithoutVariation = localeWithVariation.split('_')[0];
-      const hasLocaleWithoutVariation = enabledLanguages.some(
-        lang => lang.iso_639_1_code === localeWithoutVariation
-      );
-      const hasLocaleWithVariation = enabledLanguages.some(
-        lang => lang.iso_639_1_code === localeWithVariation
-      );
+      console.log('IGNORE SETTING LOCALE HAHAHAHAHA!', localeWithVariation);
+      return;
+      // console.log('SETTING LOACLE IN WIDGET');
+      // if (!localeWithVariation) return;
+      // const { enabledLanguages } = window.chatwootWebChannel;
+      // const localeWithoutVariation = localeWithVariation.split('_')[0];
+      // const hasLocaleWithoutVariation = enabledLanguages.some(
+      //   lang => lang.iso_639_1_code === localeWithoutVariation
+      // );
+      // const hasLocaleWithVariation = enabledLanguages.some(
+      //   lang => lang.iso_639_1_code === localeWithVariation
+      // );
 
-      if (hasLocaleWithVariation) {
-        this.$i18n.locale = localeWithVariation;
-      } else if (hasLocaleWithoutVariation) {
-        this.$i18n.locale = localeWithoutVariation;
-      }
+      // if (hasLocaleWithVariation) {
+      //   this.$i18n.locale = localeWithVariation;
+      // } else if (hasLocaleWithoutVariation) {
+      //   this.$i18n.locale = localeWithoutVariation;
+      // }
     },
     registerUnreadEvents() {
       emitter.on(ON_AGENT_MESSAGE_RECEIVED, () => {
