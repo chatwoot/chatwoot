@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} Konversationen ausgewählt",
+    "CONVERSATIONS_SELECTED": "{conversationCount} Konversationen ausgewählt",
     "AGENT_SELECT_LABEL": "Agent auswählen",
-    "ASSIGN_CONFIRMATION_LABEL": "Sind Sie sicher, %{conversationCount} %{conversationLabel} zuzuweisen",
-    "UNASSIGN_CONFIRMATION_LABEL": "Möchten Sie die Zuweisung von %{conversationCount} %{conversationLabel} wirklich aufheben?",
+    "ASSIGN_CONFIRMATION_LABEL": "Sind Sie sicher, {conversationCount} {conversationLabel} zuzuweisen",
+    "UNASSIGN_CONFIRMATION_LABEL": "Möchten Sie die Zuweisung von {conversationCount} {conversationLabel} wirklich aufheben?",
     "GO_BACK_LABEL": "Zurück",
     "ASSIGN_LABEL": "Zuordnen",
     "YES": "Ja",
