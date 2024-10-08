@@ -44,7 +44,7 @@ export const getters = {
   },
   isFeatureEnabledonAccount: $state => (id, featureName) => {
     console.log('----------------------------------------------------');
-    console.log('CHECK ENABLED for', featureName);
+    console.log('CHECK ENABLED for', featureName, id);
     console.log($state, findRecordById($state, id));
     const { features = {} } = findRecordById($state, id);
     console.log('FEATURES', features, features[featureName]);
