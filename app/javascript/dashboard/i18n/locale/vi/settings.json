@@ -301,7 +301,7 @@
     "TITLE": "Phí",
     "CURRENT_PLAN": {
       "TITLE": "Gói hiện tại",
-      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **%{plan}** với **%{quantity}** giấy phép"
+      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **{plan}** với **{quantity}** giấy phép"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Quản lý thuê bao của bạn",
