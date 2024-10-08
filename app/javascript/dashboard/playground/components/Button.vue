@@ -59,7 +59,7 @@ const buttonVariants = {
     secondary:
       'bg-slate-50 text-slate-900 dark:bg-slate-700/50 dark:text-slate-100 hover:opacity-95 dark:hover:opacity-95',
     ghost:
-      'text-slate-900 dark:text-slate-200 hover:opacity-95 dark:hover:opacity-95',
+      'text-slate-900 dark:text-slate-200 hover:opacity-95 dark:hover:opacity-95 hover:bg-slate-100 dark:hover:bg-slate-800',
     link: 'text-woot-500 underline-offset-4 hover:underline hover:opacity-95 dark:hover:opacity-95',
   },
   size: {

@@ -18,7 +18,7 @@ const handleAction = action => {
 
 <template>
   <div
-    class="bg-white dark:bg-slate-800 absolute rounded-xl z-50 py-3 px-1 min-w-[136px] shadow-lg"
+    class="bg-white dark:bg-slate-800 absolute rounded-xl z-50 py-3 px-1 gap-2 flex flex-col min-w-[136px] shadow-lg"
   >
     <ButtonV4
       v-for="item in menuItems"
@@ -27,7 +27,7 @@ const handleAction = action => {
       :icon="item.icon"
       variant="ghost"
       size="sm"
-      class="!justify-start w-full"
+      class="!justify-start w-full hover:bg-white dark:hover:bg-slate-800 z-60 font-normal"
       :text-variant="item.action === 'delete' ? 'danger' : ''"
       @click="handleAction(item.action)"
     />

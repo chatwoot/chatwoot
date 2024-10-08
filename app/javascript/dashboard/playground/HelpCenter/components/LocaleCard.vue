@@ -1,6 +1,9 @@
 <script setup>
+import { ref } from 'vue';
 import CardLayout from './CardLayout.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
+import { OnClickOutside } from '@vueuse/components';
+import DropdownMenu from 'dashboard/playground/components/DropdownMenu.vue';
 
 defineProps({
   locale: {
@@ -12,6 +15,26 @@ defineProps({
     required: true,
   },
 });
+
+const isOpen = ref(false);
+
+const menuItems = [
+  {
+    label: 'Make default',
+    action: 'default',
+    icon: 'archive',
+  },
+  {
+    label: 'Delete',
+    action: 'delete',
+    icon: 'archive',
+  },
+];
+
+// eslint-disable-next-line no-unused-vars
+const handleAction = action => {
+  // TODO: Implement action
+};
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
@@ -21,7 +44,7 @@ defineProps({
       <div class="flex justify-between gap-2">
         <div class="flex items-center justify-start gap-2">
           <span
-            class="text-base font-medium text-slate-900 dark:text-slate-50 line-clamp-1"
+            class="text-sm font-medium text-slate-900 dark:text-slate-50 line-clamp-1"
           >
             {{ locale }}
           </span>
@@ -39,14 +62,30 @@ defineProps({
             >
               29 articles
             </span>
-            <div class="w-px h-3 bg-slate-200 dark:bg-slate-700" />
+            <div class="w-px h-3 bg-slate-75 dark:bg-slate-800" />
             <span
               class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
             >
               5 categories
             </span>
           </div>
-          <ButtonV4 variant="ghost" size="icon" icon="more-vertical" />
+          <div class="relative group">
+            <ButtonV4
+              variant="ghost"
+              size="icon"
+              icon="more-vertical"
+              class="w-8 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+              @click="isOpen = !isOpen"
+            />
+            <OnClickOutside @trigger="isOpen = false">
+              <DropdownMenu
+                v-if="isOpen"
+                :menu-items="menuItems"
+                class="right-0 mt-1 xl:left-0 top-full z-60 min-w-[147px]"
+                @action="handleAction"
+              />
+            </OnClickOutside>
+          </div>
         </div>
       </div>
     </template>
