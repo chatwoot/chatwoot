@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import CardLayout from './CardLayout.vue';
 import { OnClickOutside } from '@vueuse/components';
 import DropdownMenu from 'dashboard/playground/components/DropdownMenu.vue';
+import ButtonV4 from 'dashboard/playground/components/Button.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
@@ -59,11 +60,11 @@ const menuItems = computed(() => {
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return 'text-slate-600 dark:text-slate-200';
+      return '!text-slate-600 dark:!text-slate-200';
     case 'draft':
-      return 'text-amber-700 dark:text-amber-400';
+      return '!text-amber-700 dark:!text-amber-400';
     default:
-      return 'text-teal-700 dark:text-teal-400';
+      return '!text-teal-700 dark:!text-teal-400';
   }
 });
 
@@ -91,12 +92,15 @@ const handleAction = () => {
         <span class="text-base text-slate-900 dark:text-slate-50 line-clamp-1">
           {{ title }}
         </span>
-        <span
-          class="text-xs bg-slate-50 cursor-pointer hover:bg-slate-100/50 dark:hover:bg-slate-700/50 relative text-center h-6 inline-flex items-center justify-center dark:bg-slate-800 rounded-md border-px border-transparent px-2 py-0.5"
-          :class="statusTextColor"
-          @click="isOpen = !isOpen"
-        >
-          {{ statusText }}
+        <div class="relative group">
+          <ButtonV4
+            variant="ghost"
+            size="sm"
+            class="text-xs bg-slate-50 !font-normal group-hover:bg-slate-100/50 dark:group-hover:bg-slate-700/50 !h-6 dark:bg-slate-800 rounded-md border-0 !px-2 !py-0.5"
+            :label="statusText"
+            :class="statusTextColor"
+            @click="isOpen = !isOpen"
+          />
           <OnClickOutside @trigger="isOpen = false">
             <DropdownMenu
               v-if="isOpen"
@@ -105,7 +109,7 @@ const handleAction = () => {
               @action="handleAction"
             />
           </OnClickOutside>
-        </span>
+        </div>
       </div>
     </template>
     <template #footer>
