@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sin categoría",
-      "SEARCH_RESULTS": "Buscar resultados para %{query}",
+      "SEARCH_RESULTS": "Buscar resultados para {query}",
       "EMPTY_TEXT": "Buscar artículos para insertar en las respuestas.",
       "SEARCH_LOADER": "Buscando...",
       "INSERT_ARTICLE": "Insertar",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Dominio personalizado",
           "PLACEHOLDER": "Dominio personalizado del portal",
-          "HELP_TEXT": "Añadir sólo si quieres usar un dominio personalizado para tus portales. Ejemplo: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Introduzca una URL de dominio válida"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Enlace de página principal",
           "PLACEHOLDER": "Enlace de página de inicio del portal",
-          "HELP_TEXT": "El enlace usado para regresar del portal a la página de inicio. Ej: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Introduzca una URL de página de inicio válida"
         },
         "THEME_COLOR": {
