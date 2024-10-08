@@ -36,8 +36,7 @@ export const initalizeRouter = () => {
       path: to.path,
       name: to.name,
     });
-    // eager update
-    store.dispatch('updateRoute', to);
+
     userAuthentication.then(() => {
       return validateAuthenticateRoutePermission(to, next, store);
     });
