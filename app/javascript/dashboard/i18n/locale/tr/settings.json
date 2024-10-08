@@ -301,7 +301,7 @@
     "TITLE": "Fatura",
     "CURRENT_PLAN": {
       "TITLE": "Mevcut Plan",
-      "PLAN_NOTE": "Şu anda **%{plan}** planına **%{quantity}** lisans abonesisiniz"
+      "PLAN_NOTE": "Şu anda **{plan}** planına **{quantity}** lisans abonesisiniz"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Aboneliğinizi yönetin",
