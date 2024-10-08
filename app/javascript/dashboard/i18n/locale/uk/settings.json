@@ -301,7 +301,7 @@
     "TITLE": "Біллінг",
     "CURRENT_PLAN": {
       "TITLE": "Поточний План",
-      "PLAN_NOTE": "Зараз ви підписані на **%{plan}** план з **%{quantity}** ліцензій"
+      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Керування підпискою",
