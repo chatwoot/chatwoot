@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категорії",
-      "SEARCH_RESULTS": "Результати пошуку для %{query}",
+      "SEARCH_RESULTS": "Результати пошуку для {query}",
       "EMPTY_TEXT": "Пошук статей для вставки у відповіді.",
       "SEARCH_LOADER": "Шукаємо...",
       "INSERT_ARTICLE": "Вставка",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Домен для користувача",
           "PLACEHOLDER": "Власний домен порталу",
-          "HELP_TEXT": "Додайте лише якщо ви хочете використовувати власний домен для своїх порталів. Наприклад: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Введіть дійсну URL-адресу домену"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Посилання на головну сторінку",
           "PLACEHOLDER": "Посилання на головну сторінку порталу",
-          "HELP_TEXT": "Посилання буде використане для повернення з порталу на домашню сторінку. Наприклад: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Введіть дійсний URL домашньої сторінки"
         },
         "THEME_COLOR": {
