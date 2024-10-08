@@ -70,7 +70,7 @@ export default {
       }
     },
     currentAccountId() {
-      console.log('THIS CALL');
+      console.log('THIS CALL', this.currentAccountId);
       if (this.currentAccountId) {
         this.initializeAccount();
       } else {
@@ -78,10 +78,12 @@ export default {
       }
     },
   },
+  created() {
+    this.setLocale(window.chatwootConfig.selectedLocale);
+  },
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
   },
   unmounted() {
     if (this.reconnectService) {
