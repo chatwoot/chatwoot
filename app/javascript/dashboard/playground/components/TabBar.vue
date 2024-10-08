@@ -40,7 +40,7 @@ const selectTab = index => {
       class="relative px-4 py-1.5 text-sm border-0 rounded-lg transition-colors duration-300 ease-in-out"
       :class="[
         activeTab === index
-          ? 'text-woot-500 bg-slate-50 dark:bg-slate-800'
+          ? 'text-woot-500 bg-woot-500/10 dark:bg-woot-500/10'
           : 'text-slate-500 dark:text-slate-400 hover:text-woot-500 dark:hover:text-woot-400',
       ]"
       @click="selectTab(index)"
