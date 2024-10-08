@@ -52,8 +52,11 @@ export default {
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
-      currentAccountId: 'getCurrentAccountId',
+      // currentAccountId: 'getCurrentAccountId',
     }),
+    currentAccountId() {
+      return this.$route.params.accountId;
+    },
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
       return accounts.length > 0;
@@ -81,10 +84,11 @@ export default {
   created() {
     this.setLocale(window.chatwootConfig.selectedLocale);
   },
-  mounted() {
+  async mounted() {
+    this.setLocale(window.chatwootConfig.selectedLocale);
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    this.initializeAccount();
+    await this.$store.dispatch('accounts/get');
   },
   unmounted() {
     if (this.reconnectService) {
@@ -100,9 +104,7 @@ export default {
       mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
-      console.log('setting locale in dashboard', locale);
-      return;
-      // this.$i18n.locale = locale;
+      this.$i18n.locale = locale;
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
