@@ -301,7 +301,7 @@
     "TITLE": "Számlázás",
     "CURRENT_PLAN": {
       "TITLE": "Aktuális előfizetés",
-      "PLAN_NOTE": "Jelenleg előfizetett a **%{plan}** csomagra **%{quantity}** licensszel"
+      "PLAN_NOTE": "Jelenleg előfizetett a **{plan}** csomagra **{quantity}** licensszel"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Előfizetés kezelése",
