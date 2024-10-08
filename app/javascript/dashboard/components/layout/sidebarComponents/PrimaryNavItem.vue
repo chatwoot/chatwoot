@@ -26,6 +26,9 @@ export default {
       default: false,
     },
   },
+  mounted() {
+    console.log('PRIMARY NAV ITEM', this.name, this.$t('SIDEAR.SWITCH'));
+  },
 };
 </script>
 
