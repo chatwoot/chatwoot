@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "നിങ്ങൾക്ക് ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ - %{attributeName}",
+        "TITLE": "നിങ്ങൾക്ക് ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ - {attributeName}",
         "PLACE_HOLDER": "സ്ഥിരീകരിക്കാൻ {attributeName} എന്ന് ടൈപ്പ് ചെയ്യുക",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "ഇല്ലാതാക്കുക ",
