@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категории",
-      "SEARCH_RESULTS": "Результаты поиска %{query}",
+      "SEARCH_RESULTS": "Результаты поиска {query}",
       "EMPTY_TEXT": "Поиск статей для вставки в ответы.",
       "SEARCH_LOADER": "Идёт поиск...",
       "INSERT_ARTICLE": "Вставить",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Пользовательский домен",
           "PLACEHOLDER": "Пользовательский домен портала",
-          "HELP_TEXT": "Добавьте только если вы хотите использовать пользовательский домен для ваших порталов. Например: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Введите корректный адрес домена"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Домашняя ссылка",
           "PLACEHOLDER": "Ссылка на главную страницу портала",
-          "HELP_TEXT": "Ссылка для возврата с портала на главную страницу. Например: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Введите корректный URL главной страницы"
         },
         "THEME_COLOR": {
