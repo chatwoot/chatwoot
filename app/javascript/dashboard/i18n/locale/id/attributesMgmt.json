@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Tidak dapat menghapus Atribut Kustom. Coba lagi."
       },
       "CONFIRM": {
-        "TITLE": "Anda yakin akan menghapus - %{attributeName}",
+        "TITLE": "Anda yakin akan menghapus - {attributeName}",
         "PLACE_HOLDER": "Silakan ketik %{attributeName} untuk konfirmasi",
         "MESSAGE": "Menghapus akan menghapus atribut kustom",
         "YES": "Hapus ",
