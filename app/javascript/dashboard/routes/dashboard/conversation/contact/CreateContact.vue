@@ -1,6 +1,11 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
+  <woot-modal
+    :show.sync="show"
+    :on-close="onCancel"
+    modal-type="right-aligned"
+    :close-on-backdrop-click="false"
+  >
     <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
         :header-title="$t('CREATE_CONTACT.TITLE')"

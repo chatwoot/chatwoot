@@ -19,7 +19,7 @@ class Zalo::SendOnZaloService < Base::SendOnChannelService
   end
 
   def send_message
-    response = channel.send_message(message.conversation.contact_inbox.source_id, message, channel.oa_access_token)
+    response = channel.send_message(message.conversation.contact_inbox.source_id, message, channel.oa_access_token).last
     if (response['error']).zero? && response['data']['message_id']
       message.update!(source_id: response['data']['message_id'])
     elsif response['error'] != -216

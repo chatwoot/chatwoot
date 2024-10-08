@@ -8,7 +8,14 @@ export const isPhoneNumberValid = (value, dialCode) => {
 export const isPhoneE164OrEmpty = value => isPhoneE164(value) || value === '';
 
 export const isPhoneNumberValidWithDialCode = value => {
-  const number = value.replace(/^\+/, ''); // Remove the '+' sign
+  let number = value.replace(/^\+/, ''); // Remove the '+' sign
+  const isPhoneVietnam = number.startsWith('84');
+  if (isPhoneVietnam) {
+    number = number.replace(/^84/, '');
+    number = number.replace(/^0+/, '');
+    return !!number.match(/^[1-9]\d{8,9}$/);
+  }
+
   return !!number.match(/^[1-9]\d{4,}$/); // Validate the phone number with minimum 5 digits
 };
 
