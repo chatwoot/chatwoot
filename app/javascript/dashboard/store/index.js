@@ -44,6 +44,7 @@ import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
+import route from './modules/route';
 import SLAReports from './modules/SLAReports';
 
 const plugins = [];
@@ -94,6 +95,7 @@ export default createStore({
     webhooks,
     draftMessages,
     sla,
+    route: route,
     slaReports: SLAReports,
   },
   plugins,

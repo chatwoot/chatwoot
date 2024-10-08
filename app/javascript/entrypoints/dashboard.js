@@ -10,7 +10,7 @@ import Multiselect from 'vue-multiselect';
 import { plugin, defaultConfig } from '@formkit/vue';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
-import { sync } from 'vuex-router-sync';
+// import { sync } from 'vuex-router-sync';
 import FloatingVue from 'floating-vue';
 import WootUiKit from 'dashboard/components';
 import App from 'dashboard/App.vue';
@@ -97,7 +97,7 @@ app.component('fluent-icon', FluentIcon);
 app.directive('resize', vResizeObserver);
 app.directive('on-clickaway', onClickaway);
 
-sync(store, router);
+// sync(store, router);
 // load common helpers into js
 commonHelpers();
 window.WOOT_STORE = store;
