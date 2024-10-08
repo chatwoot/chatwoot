@@ -23,13 +23,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -212,13 +212,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -279,13 +279,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -346,13 +346,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "תנועת שיחות",
       "NO_CONVERSATIONS": "בלי שיחות",
-      "CONVERSATION": "שיחה %{count}",
-      "CONVERSATIONS": "%{count} שיחות",
+      "CONVERSATION": "שיחה {count}",
+      "CONVERSATIONS": "{count} שיחות",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
