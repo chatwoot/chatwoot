@@ -5,6 +5,6 @@ export function useAccountId() {
   const route = useRoute();
 
   return computed(() => {
-    return route.params.account_id;
+    return Number(route.params.accountId);
   });
 }
