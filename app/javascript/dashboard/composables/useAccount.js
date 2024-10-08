@@ -1,4 +1,5 @@
-import { useAccountId } from './useAccountId';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 /**
  * Composable for account-related operations.
@@ -9,7 +10,11 @@ export function useAccount() {
    * Computed property for the current account ID.
    * @type {import('vue').ComputedRef<number>}
    */
-  const accountId = useAccountId();
+  const route = useRoute();
+
+  const accountId = computed(() => {
+    return Number(route.params.accountId);
+  });
 
   /**
    * Generates an account-scoped URL.
