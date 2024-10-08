@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Kan het aangepaste attribuut niet verwijderen. Probeer het opnieuw."
       },
       "CONFIRM": {
-        "TITLE": "Weet u zeker dat u wilt verwijderen - %{attributeName}",
+        "TITLE": "Weet u zeker dat u wilt verwijderen - {attributeName}",
         "PLACE_HOLDER": "Voer {attributeName} in om te bevestigen",
         "MESSAGE": "Verwijderen zal het aangepaste attribuut verwijderen",
         "YES": "Verwijderen ",
