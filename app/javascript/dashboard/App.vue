@@ -84,6 +84,7 @@ export default {
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
+    this.initializeAccount();
   },
   unmounted() {
     if (this.reconnectService) {
