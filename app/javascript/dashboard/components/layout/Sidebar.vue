@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useRoute, useRouter } from 'vue-router';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
@@ -33,6 +34,7 @@ export default {
   setup(props, { emit }) {
     const route = useRoute();
     const router = useRouter();
+    const { accountId } = useAccount();
 
     const toggleKeyShortcutModal = () => {
       emit('openKeyShortcutModal');
@@ -72,6 +74,7 @@ export default {
 
     return {
       toggleKeyShortcutModal,
+      accountId,
     };
   },
   data() {
@@ -82,7 +85,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
