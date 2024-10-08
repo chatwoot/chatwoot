@@ -23,13 +23,13 @@
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι {metricValue} (βάσει {conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι {metricValue} (βάσει {conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -212,13 +212,13 @@
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι {metricValue} (βάσει {conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -279,13 +279,13 @@
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι {metricValue} (βάσει {conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -346,13 +346,13 @@
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι {metricValue} (βάσει {conversationCount} συνομιλίων)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
