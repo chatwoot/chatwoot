@@ -22,12 +22,12 @@ const menuItems = [
   {
     label: 'Make default',
     action: 'default',
-    icon: 'archive',
+    icon: 'star-emphasis',
   },
   {
     label: 'Delete',
     action: 'delete',
-    icon: 'archive',
+    icon: 'delete',
   },
 ];
 
