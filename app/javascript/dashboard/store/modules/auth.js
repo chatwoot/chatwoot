@@ -1,6 +1,7 @@
 import types from '../mutation-types';
 import { useRoute } from 'vue-router';
 import authAPI from '../../api/auth';
+import * as Sentry from '@sentry/vue';
 
 import { setUser, clearCookiesOnLogout } from '../utils/api';
 
@@ -52,10 +53,14 @@ export const getters = {
   },
 
   getCurrentAccountId(_, __, rootState) {
-    const route = useRoute();
+    try {
+      const route = useRoute();
 
-    if (route?.params && route.params.accountId) {
-      return Number(route.params.accountId);
+      if (route?.params && route.params.accountId) {
+        return Number(route.params.accountId);
+      }
+    } catch (error) {
+      Sentry.captureException(error);
     }
 
     if (rootState.route.params && rootState.route.params.accountId) {
