@@ -133,7 +133,7 @@ export const actions = {
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMissingMessagesInConversation', updatedConversation);
     } catch (error) {
-      // IgnoreError
+      console.log(error);
     }
   },
 
@@ -158,7 +158,7 @@ export const actions = {
     try {
       await toggleTyping(data);
     } catch (error) {
-      // IgnoreError
+      console.log(error);
     }
   },
 
@@ -172,7 +172,7 @@ export const actions = {
       commit('setMetaUserLastSeenAt', lastSeen);
       await setUserLastSeenAt({ lastSeen });
     } catch (error) {
-      // IgnoreError
+      console.log(error);
     }
   },
 
@@ -184,7 +184,7 @@ export const actions = {
     try {
       await setCustomAttributes(customAttributes);
     } catch (error) {
-      // IgnoreError
+      console.log(error);
     }
   },
 
@@ -192,7 +192,7 @@ export const actions = {
     try {
       await deleteCustomAttribute(customAttribute);
     } catch (error) {
-      // IgnoreError
+      console.log(error);
     }
   },
 };
