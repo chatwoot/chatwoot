@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Tanpa Kategori",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Sedang mencari...",
       "INSERT_ARTICLE": "Sisipkan",
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Domain Kustom",
           "PLACEHOLDER": "Domain kustom portal",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Masukkan URL domain yang valid"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Tautan Halaman Utama",
           "PLACEHOLDER": "Tautan halaman utama portal",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Masukkan URL halaman utama yang valid"
         },
         "THEME_COLOR": {
