@@ -26,8 +26,14 @@ export default {
       default: false,
     },
   },
+  created() {
+    console.log('PRIMARY NAV ITEM', this.name, this.$t(`SIDEBAR.${this.name}`));
+  },
+  beforeMount() {
+    console.log('PRIMARY NAV ITEM', this.name, this.$t(`SIDEBAR.${this.name}`));
+  },
   mounted() {
-    console.log('PRIMARY NAV ITEM', this.name, this.$t('SIDEAR.SWITCH'));
+    console.log('PRIMARY NAV ITEM', this.name, this.$t(`SIDEBAR.${this.name}`));
   },
 };
 </script>
