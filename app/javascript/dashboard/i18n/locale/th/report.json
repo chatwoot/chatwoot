@@ -23,13 +23,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
     },
@@ -145,13 +145,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "การสนทนาที่เสร็จสิ้น",
@@ -212,13 +212,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -279,13 +279,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -346,13 +346,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการจบการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -458,8 +458,8 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
