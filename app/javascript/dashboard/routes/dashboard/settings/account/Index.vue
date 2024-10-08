@@ -112,7 +112,7 @@ export default {
           latest_chatwoot_version: latestChatwootVersion,
         } = this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = locale;
+        this.$i18n.locale = locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -140,7 +140,7 @@ export default {
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
         });
-        this.$root.$i18n.locale = this.locale;
+        this.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
         this.updateDirectionView(this.locale);
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
