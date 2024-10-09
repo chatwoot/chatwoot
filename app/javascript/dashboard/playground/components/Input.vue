@@ -1,8 +1,11 @@
 <script setup>
 import { computed } from 'vue';
-import { useVModel } from '@vueuse/core';
 
 const props = defineProps({
+  modelValue: {
+    type: [String, Number],
+    default: '',
+  },
   type: {
     type: String,
     default: 'text',
@@ -38,9 +41,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
-
-const inputValue = useVModel(props, 'modelValue', emit);
+defineEmits(['update:modelValue']);
 
 const messageClass = computed(() => {
   switch (props.messageType) {
@@ -64,7 +65,7 @@ const inputBorderClass = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="relative flex flex-col gap-1">
     <label
       v-if="label"
       :for="id"
@@ -72,14 +73,16 @@ const inputBorderClass = computed(() => {
     >
       {{ label }}
     </label>
+    <slot name="prefix" />
     <input
       :id="id"
-      v-model="inputValue"
+      :value="modelValue"
       :class="[customInputClass, inputBorderClass]"
       :type="type"
       :placeholder="placeholder"
       :disabled="disabled"
-      class="flex w-full reset-base text-sm h-8 pl-3 pr-2 rtl:pr-3 rtl:pl-2 py-1.5 !mb-0 border rounded-lg focus:border-woot-500 dark:focus:border-woot-600 bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-500 ease-in-out"
+      class="flex w-full reset-base text-sm h-8 pl-3 pr-2 rtl:pr-3 rtl:pl-2 py-1.5 !mb-0 border rounded-lg focus:border-woot-500 dark:focus:border-woot-600 bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
     <p
       v-if="message"
