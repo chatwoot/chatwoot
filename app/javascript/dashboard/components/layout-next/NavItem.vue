@@ -44,7 +44,8 @@ const [collapsed, toggleCollapse] = useToggle(false);
 </template>
 
 <style scoped>
-.fade-leave-active .fade-enter-active {
+.fade-leave-active,
+.fade-enter-active {
   transition: all 0.15s ease-in-out;
 }
 
