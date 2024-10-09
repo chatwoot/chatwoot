@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Adaugă agenți în echipă",
-        "TITLE": "Adăugați agenți în echipă - %{teamName}",
+        "TITLE": "Adăugați agenți în echipă - {teamName}",
         "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Actualizați agenții din echipă",
-        "TITLE": "Adăugați agenți în echipă - %{teamName}",
+        "TITLE": "Adăugați agenți în echipă - {teamName}",
         "DESC": "Adăugați agenți în echipa nou creată. Toți agenții adăugați vor fi anunțați atunci când o conversație este atribuită acestei echipe."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Adăugarea agenților în echipa ta...",
       "SELECT": "selectează",
       "SELECT_ALL": "selectați toți agenții",
-      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați."
+      "SELECTED_COUNT": "{selected} din {total} agenți selectați."
     },
     "ADD": {
-      "TITLE": "Adăugați agenți în echipă - %{teamName}",
+      "TITLE": "Adăugați agenți în echipă - {teamName}",
       "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație.",
       "SELECT": "selectează",
       "SELECT_ALL": "selectați toți agenții",
-      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați.",
+      "SELECTED_COUNT": "{selected} din {total} agenți selectați.",
       "BUTTON_TEXT": "Adaugă Agent",
       "AGENT_VALIDATION_ERROR": "Selectați cel puțin un agent."
     },

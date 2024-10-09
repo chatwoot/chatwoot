@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Πρότυπα Whatsapp",
             "SUBTITLE": "Επιλέξτε το πρότυπο Whatsapp που θέλετε να στείλετε",
-            "TEMPLATE_SELECTED_SUBTITLE": "Επεξεργασία %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Επεξεργασία {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Αναζήτηση Προτύπων",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Μεταβλητές",
-            "VARIABLE_PLACEHOLDER": "Εισάγετε τιμή για %{variable}",
+            "VARIABLE_PLACEHOLDER": "Εισάγετε τιμή για {variable}",
             "GO_BACK_LABEL": "Πίσω",
             "SEND_MESSAGE_LABEL": "Αποστολή μηνύματος",
             "FORM_ERROR_MESSAGE": "Παρακαλώ συμπληρώστε όλες τις μεταβλητές πριν την αποστολή"

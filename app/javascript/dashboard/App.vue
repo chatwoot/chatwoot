@@ -13,6 +13,7 @@ import { useStore } from 'dashboard/composables/store';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
+import { useAccount } from 'dashboard/composables/useAccount';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -35,8 +36,9 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
+    const { accountId } = useAccount();
 
-    return { router, store };
+    return { router, store, currentAccountId: accountId };
   },
   data() {
     return {
@@ -52,7 +54,6 @@ export default {
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
-      currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
@@ -69,10 +70,13 @@ export default {
         this.showAddAccountModal = true;
       }
     },
-    currentAccountId() {
-      if (this.currentAccountId) {
-        this.initializeAccount();
-      }
+    currentAccountId: {
+      immediate: true,
+      handler() {
+        if (this.currentAccountId) {
+          this.initializeAccount();
+        }
+      },
     },
   },
   mounted() {

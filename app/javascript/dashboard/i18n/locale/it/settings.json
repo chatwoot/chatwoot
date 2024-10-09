@@ -301,7 +301,7 @@
     "TITLE": "Fatturazione",
     "CURRENT_PLAN": {
       "TITLE": "Piano attuale",
-      "PLAN_NOTE": "Sei attualmente abbonato al piano **%{plan}** con **%{quantity}** licenze"
+      "PLAN_NOTE": "Sei attualmente abbonato al piano **{plan}** con **{quantity}** licenze"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gestisci il tuo abbonamento",

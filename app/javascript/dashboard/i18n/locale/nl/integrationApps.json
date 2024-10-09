@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "Integraties ophalen",
-    "NO_HOOK_CONFIGURED": "Er zijn geen %{integrationId} integraties geconfigureerd in dit account.",
+    "NO_HOOK_CONFIGURED": "Er zijn geen {integrationId} integraties geconfigureerd in dit account.",
     "HEADER": "Applicaties",
     "STATUS": {
       "ENABLED": "Ingeschakeld",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Verbinding verbreken"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is een natuurlijk talenbegrip platform dat het makkelijk maakt om een conversatie-interface te ontwerpen en te integreren in uw mobiele app, Webapplicatie, apparaat, bot, interactieve stem responssysteem, enzovoort. <br /> <br /> Dialogflow integratie met %{installationName} stelt u in staat een Dialogflow bot met uw inboxen te configureren, die de bot in staat stelt de zoekopdrachten in eerste instantie af te handelen en deze aan een agent over te leveren indien nodig. De dialoogstroom kan worden gebruikt om de lood te kwalificeren, de werklast van agenten te verminderen door veelgestelde vragen te stellen, enzovoort. <br /> <br /> Om Dialogflow toe te voegen, moet u een Serviceaccount aanmaken in uw Google-projectconsole en de referenties delen. Raadpleeg de Dialogflow documenten voor meer informatie."
+      "DIALOGFLOW": "Dialogflow is een natuurlijk talenbegrip platform dat het makkelijk maakt om een conversatie-interface te ontwerpen en te integreren in uw mobiele app, Webapplicatie, apparaat, bot, interactieve stem responssysteem, enzovoort. <br /> <br /> Dialogflow integratie met {installationName} stelt u in staat een Dialogflow bot met uw inboxen te configureren, die de bot in staat stelt de zoekopdrachten in eerste instantie af te handelen en deze aan een agent over te leveren indien nodig. De dialoogstroom kan worden gebruikt om de lood te kwalificeren, de werklast van agenten te verminderen door veelgestelde vragen te stellen, enzovoort. <br /> <br /> Om Dialogflow toe te voegen, moet u een Serviceaccount aanmaken in uw Google-projectconsole en de referenties delen. Raadpleeg de Dialogflow documenten voor meer informatie."
     }
   }
 }
