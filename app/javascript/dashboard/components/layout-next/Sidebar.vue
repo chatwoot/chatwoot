@@ -68,9 +68,9 @@ const menuItems = [
 
 <template>
   <aside
-    class="w-48 bg-solid-2 border-r border-radix-slate3 p-2 mt-2 h-screen flex gap-4 flex-col"
+    class="w-48 bg-solid-2 border-r border-radix-slate3 p-2 h-screen flex gap-4 flex-col"
   >
-    <section class="grid gap-2">
+    <section class="grid gap-2 mt-2">
       <button
         id="sidebar-account-switcher"
         :data-account-id="accountId"
