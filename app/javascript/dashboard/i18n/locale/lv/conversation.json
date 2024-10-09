@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nav",
         "INPUT_PLACEHOLDER": "Izvēlieties prioritāti",
         "NO_RESULTS": "Nav atrasts",
-        "SUCCESSFUL": "Sarunas Id {conversationId} prioritāte nomainīta uz {priority}",
+        "SUCCESSFUL": "Sarunas id {conversationId} prioritāte nomainīta uz {priority}",
         "FAILED": "Nevarēja nomainīt prioritāti. Lūdzu, mēģiniet vēlreiz."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Piešķirt komandu",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunas ID {conversationId} piešķirts \"{agentName}\"",
+          "SUCCESFUL": "Sarunas id {conversationId} piešķirts \"{agentName}\"",
           "FAILED": "Nevarēja piešķirt aģentu. Lūdzu, mēģiniet vēlreiz."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Sarunai ar id {conversationId} piešķirta etiķete #{labelName}",
           "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Sarunai ar ID {conversationId} tika piešķirta komanda \"{team}\"",
+          "SUCCESFUL": "Sarunai ar id {conversationId} tika piešķirta komanda \"{team}\"",
           "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz."
         }
       }
