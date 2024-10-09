@@ -46,8 +46,48 @@
   @apply hidden;
 }
 
+// scss-lint:disable PropertySortOrder
 @layer base {
-  // scss-lint:disable PropertySortOrder
+  :root {
+    --background-color: 248 248 248;
+    --solid-1: 255 255 255;
+    --solid-2: 252 252 252;
+    --solid-3: 255 255 255;
+    --solid-active: 250 251 251;
+    --white-alpha: 255 255 255 0.1;
+    --border-weak: 231 231 231;
+    --border-strong: 235 235 235;
+    --amber-solid: 252 232 193;
+    --blue-solid: 218 236 255;
+
+    /* alpha is added by default */
+    --alpha-1: 36, 38, 48, 0.06;
+    --alpha-2: 130, 134, 150, 0.12;
+    --alpha-3: 255, 255, 255, 0.9;
+    --black-alpha-1: 0, 0, 0, 0.12;
+    --black-alpha-2: 0, 0, 0, 0.04;
+  }
+
+  body.dark {
+    --background-color: 18 18 19;
+    --solid-1: 23 23 26;
+    --solid-2: 29 30 36;
+    --solid-3: 36 38 48;
+    --solid-active: 51 53 64;
+    --border-weak: 34 34 37;
+    --border-strong: 46 47 49;
+    --amber-solid: 42 37 30;
+    --blue-solid: 16 49 91;
+
+    /* alpha is added by default */
+    --alpha-1: 35, 37, 45, 0.8;
+    --alpha-2: 130, 134, 150, 0.15;
+    --alpha-3: 32, 33, 37, 0.9;
+    --black-alpha-1: 0, 0, 0, 0.3;
+    --black-alpha-2: 0, 0, 0, 0.2;
+    --white-alpha: 255, 255, 255, 0.1;
+  }
+
   :root {
     --color-amber-25: 254 253 251;
     --color-amber-50: 255 249 237;

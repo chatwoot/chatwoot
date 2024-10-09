@@ -282,4 +282,27 @@ export const colors = {
     800: 'rgb(var(--color-orange-800) / <alpha-value>)',
     900: 'rgb(var(--color-orange-900) / <alpha-value>)',
   },
+  // next design system color
+  radix: {
+    ...slate,
+  },
+  background: 'rgb(var(--background-color) / <alpha-value>)',
+  solid: {
+    1: 'rgb(var(--solid-1) / <alpha-value>)',
+    2: 'rgb(var(--solid-2) / <alpha-value>)',
+    3: 'rgb(var(--solid-3) / <alpha-value>)',
+    active: 'rgb(var(--solid-active) / <alpha-value>)',
+    amber: 'rgb(var(--solid-amber) / <alpha-value>)',
+    blue: 'rgb(var(--solid-blue) / <alpha-value>)',
+  },
+  alpha: {
+    1: 'rgba(var(--alpha-1))',
+    2: 'rgba(var(--alpha-2))',
+    3: 'rgba(var(--alpha-3))',
+    black1: 'rgba(var(--alpha-black1))',
+    black2: 'rgba(var(--alpha-black2))',
+    white: 'rgba(var(--alpha-white))',
+  },
+  weak: 'rgb(var(--border-weak) / <alpha-value>)',
+  strong: 'rgb(var(--border-strong) / <alpha-value>)',
 };
