@@ -90,12 +90,10 @@ const menuItems = [
       </div>
     </section>
     <nav class="grid gap-2">
-      <ul
-        v-for="item in menuItems"
-        :key="item.name"
-        class="grid gap-2 list-none m-0"
-      >
+      <ul class="grid gap-2 list-none m-0">
         <NavItem
+          v-for="item in menuItems"
+          :key="item.name"
           v-bind="item"
           class="text-radix-slate11 hover:bg-alpha-2 rounded-lg"
         />
