@@ -30,7 +30,7 @@ defineProps({
 
 const emit = defineEmits(['update:currentPage']);
 
-const showPortalSwitcher = ref(true);
+const showPortalSwitcher = ref(false);
 
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
