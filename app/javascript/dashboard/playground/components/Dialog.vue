@@ -66,7 +66,7 @@ onClickOutside(dialogContentRef, event => {
     >
       <div
         ref="dialogContentRef"
-        class="flex flex-col w-full h-auto gap-6 p-6 overflow-hidden overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-white shadow-xl dark:bg-slate-800 rounded-xl"
+        class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-white shadow-xl dark:bg-slate-800 rounded-xl"
         @click.stop
       >
         <div class="flex flex-col gap-2">

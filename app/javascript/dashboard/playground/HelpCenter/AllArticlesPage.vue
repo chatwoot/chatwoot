@@ -167,33 +167,39 @@ const handlePageChange = page => {
     :items-per-page="10"
     @update:current-page="handlePageChange"
   >
-    <template #content>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
+    <template #header-actions>
+      <div class="flex items-end justify-between">
+        <div class="flex flex-col items-start w-full gap-2 lg:flex-row">
           <TabBar
             :tabs="tabs"
             :initial-active-tab="1"
             @tab-changed="handleTabChange"
           />
-          <ButtonV4
-            label="English"
-            size="sm"
-            icon-position="right"
-            icon="chevron-lucide-down"
-            icon-lib="lucide"
-            variant="secondary"
-          />
-          <ButtonV4
-            label="All categories"
-            size="sm"
-            icon-position="right"
-            icon="chevron-lucide-down"
-            icon-lib="lucide"
-            variant="secondary"
-          />
+          <div class="flex items-start justify-between w-full gap-2">
+            <div class="flex items-center gap-2">
+              <ButtonV4
+                label="English"
+                size="sm"
+                icon-position="right"
+                icon="chevron-lucide-down"
+                icon-lib="lucide"
+                variant="secondary"
+              />
+              <ButtonV4
+                label="All categories"
+                size="sm"
+                icon-position="right"
+                icon="chevron-lucide-down"
+                icon-lib="lucide"
+                variant="secondary"
+              />
+            </div>
+            <ButtonV4 label="New article" icon="add" size="sm" />
+          </div>
         </div>
-        <ButtonV4 label="New article" icon="add" size="sm" />
       </div>
+    </template>
+    <template #content>
       <ArticleList :articles="articles" />
     </template>
   </HelpCenterLayout>

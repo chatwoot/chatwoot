@@ -32,7 +32,7 @@ const handlePageChange = page => {
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <HelpCenterLayout :show-pagination-footer="false">
-    <template #content>
+    <template #header-actions>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
           <ButtonV4
@@ -52,6 +52,8 @@ const handlePageChange = page => {
         </div>
         <ButtonV4 label="New locale" icon="add" size="sm" />
       </div>
+    </template>
+    <template #content>
       <LocaleList :locales="locales" />
     </template>
   </HelpCenterLayout>

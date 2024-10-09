@@ -107,7 +107,7 @@ const handleClick = () => {
 <template>
   <button
     :class="buttonClasses"
-    class="inline-flex items-center justify-center h-10 gap-2 text-sm font-medium transition-colors rounded-lg ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+    class="inline-flex items-center justify-center h-10 min-w-0 gap-2 text-sm font-medium transition-colors rounded-lg ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
     @click="handleClick"
   >
     <FluentIcon
@@ -115,13 +115,15 @@ const handleClick = () => {
       :icon="icon"
       :size="iconSize"
       :icon-lib="iconLib"
+      class="flex-shrink-0"
     />
-    <span v-if="label" class="line-clamp-1">{{ label }}</span>
+    <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
       :icon="icon"
       :size="iconSize"
       :icon-lib="iconLib"
+      class="flex-shrink-0"
     />
   </button>
 </template>

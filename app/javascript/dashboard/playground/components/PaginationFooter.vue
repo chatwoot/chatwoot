@@ -17,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:currentPage', 'update:itemsPerPage']);
+const emit = defineEmits(['update:currentPage']);
 
 const totalPages = computed(() =>
   Math.ceil(props.totalItems / props.itemsPerPage)
@@ -37,10 +37,6 @@ const changePage = newPage => {
     emit('update:currentPage', newPage);
   }
 };
-
-const changeItemsPerPage = newItemsPerPage => {
-  emit('update:itemsPerPage', newItemsPerPage);
-};
 </script>
 
 <!-- TODO: Use i18n -->
@@ -50,7 +46,7 @@ const changeItemsPerPage = newItemsPerPage => {
     class="flex justify-between h-12 w-full max-w-[957px] mx-auto bg-slate-25 dark:bg-slate-800/50 rounded-xl py-2 px-3 items-center"
   >
     <div class="flex items-center gap-3">
-      <ButtonV4
+      <!-- <ButtonV4
         icon="chevron-lucide-down"
         icon-lib="lucide"
         icon-position="right"
@@ -59,8 +55,10 @@ const changeItemsPerPage = newItemsPerPage => {
         class="font-normal rounded-md"
         :label="`${itemsPerPage} / page`"
         @click="changeItemsPerPage(itemsPerPage === 16 ? 32 : 16)"
-      />
-      <span class="text-base font-normal text-slate-500 dark:text-slate-400">
+      /> -->
+      <span
+        class="min-w-0 text-sm font-normal line-clamp-1 text-slate-600 dark:text-slate-300"
+      >
         Showing {{ startItem }} - {{ endItem }} of {{ totalItems }} items
       </span>
     </div>

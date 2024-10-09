@@ -40,7 +40,7 @@ const showDivider = index => {
   <div class="flex h-8 rounded-lg bg-slate-25 dark:bg-slate-800/50 w-fit">
     <template v-for="(tab, index) in tabs" :key="index">
       <button
-        class="relative px-4 py-1.5 text-sm border-0 rounded-lg transition-colors duration-300 ease-in-out"
+        class="relative px-4 truncate py-1.5 text-sm border-0 rounded-lg transition-colors duration-300 ease-in-out"
         :class="[
           activeTab === index
             ? 'text-woot-500 bg-woot-500/10 dark:bg-woot-500/10'
