@@ -68,7 +68,7 @@ const menuItems = [
 
 <template>
   <aside
-    class="w-48 bg-solid-2 border-r border-radix-slate3 p-2 h-screen flex gap-4 flex-col"
+    class="w-48 bg-solid-2 border-r border-radix-slate3 p-2 h-screen flex gap-4 flex-col text-sm"
   >
     <section class="grid gap-2 mt-2">
       <button
@@ -111,7 +111,9 @@ const menuItems = [
           <span class="flex-grow text-left">
             {{ 'Search...' }}
           </span>
-          <span class="tracking-wide select-none pointer-events-none">
+          <span
+            class="tracking-wide select-none pointer-events-none text-radix-slate10"
+          >
             {{ searchShortcut }}
           </span>
         </button>
