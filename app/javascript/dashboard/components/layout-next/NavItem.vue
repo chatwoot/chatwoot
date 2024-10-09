@@ -1,0 +1,56 @@
+<script setup>
+import { useToggle } from '@vueuse/core';
+
+defineProps({
+  name: { type: String, required: true },
+  icon: { type: String, default: null },
+  children: { type: Array, default: () => [] },
+});
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const [collapsed, toggleCollapse] = useToggle(false);
+</script>
+
+<template>
+  <li class="text-sm cursor-pointer select-none">
+    <div
+      class="flex items-center gap-2 px-2 py-1.5"
+      v-bind="$attrs"
+      @click="toggleCollapse()"
+    >
+      <span v-if="icon" :class="icon" class="size-4" />
+      <span class="text-sm font-medium leading-5">
+        {{ name }}
+      </span>
+    </div>
+    <transition name="fade">
+      <ul
+        v-show="children && children.length && !collapsed"
+        class="list-none m-0 ml-3 pl-3 grid gap-1 py-1 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-radix-slate3 before:rounded before:left-0"
+      >
+        <li
+          v-for="child in children"
+          :key="child.name"
+          class="flex items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-radix-slate3/70 to-radix-slate3/70 rounded-lg"
+        >
+          {{ child.name }}
+        </li>
+      </ul>
+    </transition>
+  </li>
+</template>
+
+<style scoped>
+.fade-leave-active .fade-enter-active {
+  transition: all 0.15s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+</style>
