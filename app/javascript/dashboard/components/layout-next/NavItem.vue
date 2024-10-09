@@ -2,9 +2,11 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 
+import Icon from './Icon.vue';
+
 const props = defineProps({
   name: { type: String, required: true },
-  icon: { type: String, default: null },
+  icon: { type: [String, Object, Function], default: null },
   children: { type: Array, default: () => [] },
 });
 
@@ -24,7 +26,7 @@ const hasChildren = computed(() => props.children && props.children.length);
       v-bind="$attrs"
       @click="toggleCollapse()"
     >
-      <span v-if="icon" :class="icon" class="size-4" />
+      <Icon v-if="icon" :icon="icon" class="size-4" />
       <span class="text-sm font-medium leading-5 flex-grow">
         {{ name }}
       </span>
@@ -43,6 +45,7 @@ const hasChildren = computed(() => props.children && props.children.length);
           :key="child.name"
           class="flex items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-radix-slate3/70 to-radix-slate3/70 rounded-lg"
         >
+          <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
           {{ child.name }}
         </li>
       </ul>
@@ -51,9 +54,12 @@ const hasChildren = computed(() => props.children && props.children.length);
 </template>
 
 <style scoped>
-.fade-leave-active,
 .fade-enter-active {
   transition: all 0.15s ease-in-out;
+}
+
+.fade-leave-active {
+  transition: all 0.15s ease-out;
 }
 
 .fade-enter-from,

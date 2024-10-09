@@ -1,4 +1,5 @@
 <script setup>
+import { h } from 'vue';
 import NavItem from './NavItem.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -7,11 +8,22 @@ const { accountId, currentAccount } = useAccount();
 
 const enableNewConversation = false;
 const searchShortcut = useKbd([`$mod`, 'k']);
+
+const channelIcon = icon =>
+  h(
+    'span',
+    {
+      class: 'size-4 grid place-content-center rounded-full bg-alpha-2',
+    },
+    [
+      h('div', {
+        class: `size-3 bg-radix-slate11 ${icon}`,
+      }),
+    ]
+  );
+
 const menuItems = [
-  {
-    name: 'Inbox',
-    icon: 'i-lucide-inbox',
-  },
+  { name: 'Inbox', icon: 'i-lucide-inbox' },
   {
     name: 'Conversation',
     icon: 'i-lucide-message-circle',
@@ -27,6 +39,30 @@ const menuItems = [
     icon: 'i-lucide-folder',
     children: [{ name: 'needs-follow-up' }, { name: 'priority-customers' }],
   },
+  {
+    name: 'Channels',
+    icon: 'i-lucide-mailbox',
+    children: [
+      {
+        name: 'Website',
+        icon: channelIcon('i-ri-global-fill'),
+      },
+      {
+        name: 'Facebook',
+        icon: channelIcon('i-ri-messenger-fill'),
+      },
+      {
+        name: 'WhatsApp',
+        icon: channelIcon('i-ri-whatsapp-fill'),
+      },
+    ],
+  },
+  { name: 'Captain', icon: 'i-lucide-bot' },
+  { name: 'Contacts', icon: 'i-lucide-contact' },
+  { name: 'Reports', icon: 'i-lucide-chart-spline' },
+  { name: 'Campaigns', icon: 'i-lucide-megaphone' },
+  { name: 'Portals', icon: 'i-lucide-library-big' },
+  { name: 'Settings', icon: 'i-lucide-bolt' },
 ];
 </script>
 
