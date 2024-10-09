@@ -1,5 +1,6 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useMapGetter } from './store';
 
 /**
  * Composable for account-related operations.
@@ -11,10 +12,12 @@ export function useAccount() {
    * @type {import('vue').ComputedRef<number>}
    */
   const route = useRoute();
-
+  const getAccountFn = useMapGetter('accounts/getAccount');
   const accountId = computed(() => {
     return Number(route.params.accountId);
   });
+
+  const currentAccount = computed(() => getAccountFn.value(accountId.value));
 
   /**
    * Generates an account-scoped URL.
@@ -27,6 +30,7 @@ export function useAccount() {
 
   return {
     accountId,
+    currentAccount,
     accountScopedUrl,
   };
 }
