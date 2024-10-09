@@ -883,8 +883,26 @@ export default {
         this.resetBulkActions();
       }
     },
+    setAgent(agent, conversationId) {
+      const agentId = agent ? agent.id : 0;
+      this.$store
+        .dispatch('assignAgent', {
+          conversationId,
+          agentId,
+        })
+        .then(() => {
+          this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+        })
+        .catch(error => {
+          this.showAlert(error.message);
+        });
+    },
     // Same method used in context menu, conversationId being passed from there.
     async onAssignAgent(agent, conversationId = null) {
+      if (conversationId) {
+        this.setAgent(agent, conversationId);
+        return;
+      }
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
