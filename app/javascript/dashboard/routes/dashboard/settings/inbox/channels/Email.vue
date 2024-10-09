@@ -47,7 +47,7 @@ const emailProviderList = computed(() => {
 
 function onClick(emailProvider) {
   if (emailProvider.isEnabled) {
-    this.provider = emailProvider.key;
+    provider.value = emailProvider.key;
   }
 }
 </script>
