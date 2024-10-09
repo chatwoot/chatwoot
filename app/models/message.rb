@@ -268,7 +268,19 @@ class Message < ApplicationRecord
     dispatch_create_events
     send_reply
     execute_message_template_hooks
+    update_contact_stage
     update_contact_activity
+  end
+
+  def need_contacting_stage?
+    conversation.contact.stage&.code == 'New' && outgoing? && !private
+  end
+
+  def update_contact_stage
+    return unless need_contacting_stage?
+
+    contacting = Current.account&.stages&.find_by(code: 'Contacting')
+    conversation.contact.update(stage_id: contacting.id) if contacting.present?
   end
 
   def update_agent_read_if_replied

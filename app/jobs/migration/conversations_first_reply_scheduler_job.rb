@@ -11,8 +11,6 @@ class Migration::ConversationsFirstReplySchedulerJob < ApplicationJob
       next if first_reply_created_at.blank?
 
       conversation.update_columns(first_reply_created_at: first_reply_created_at)
-      stage = Stage.find_by(account_id: conversation.account_id, code: 'Contacting')
-      conversation.contact.update_columns(stage_id: stage.id) if stage.present?
       # rubocop:enable Rails/SkipsModelValidations
     end
   end
