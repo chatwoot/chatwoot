@@ -109,7 +109,7 @@ class Conversation < ApplicationRecord
   has_many :attachments, through: :messages
   has_many :conversation_plans, dependent: :destroy_async
 
-  before_save :ensure_snooze_until_reset
+  before_save :ensure_snooze_until_reset, :ensure_having_assignee
   before_save :sync_conversation_plan_status
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
@@ -212,6 +212,22 @@ class Conversation < ApplicationRecord
 
   def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
+  end
+
+  def need_to_set_assignee?
+    return false unless messages&.last&.outgoing?
+
+    return false unless Current.account&.change_from_request? && assignee_id.nil?
+
+    true
+  end
+
+  def ensure_having_assignee
+    # automatically set assignee if current user sends message in an unassigned conversation
+    return unless need_to_set_assignee?
+
+    self.assignee_id = Current.user&.id
+    sync_contact_assignee
   end
 
   def ensure_waiting_since
