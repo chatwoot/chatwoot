@@ -71,7 +71,7 @@ export default defineConfig({
     lib: isLibraryMode
       ? {
           entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
-          formats: ['cjs'], // CJS format for single file
+          formats: ['iife'], // CJS format for single file
           name: 'sdk',
         }
       : undefined,
