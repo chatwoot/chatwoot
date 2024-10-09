@@ -69,7 +69,8 @@ const buttonVariants = {
     icon: 'h-auto w-auto px-2',
   },
   text: {
-    default: '',
+    default:
+      '!text-woot-500 dark:!text-woot-500 hover:!text-woot-600 dark:hover:!text-woot-600',
     success:
       '!text-green-500 dark:!text-green-500 hover:!text-green-600 dark:hover:!text-green-600',
     warning:
