@@ -7,7 +7,7 @@ import AllArticlesPage from './AllArticlesPage.vue';
 <template>
   <Story
     title="HelpCenter/AllArticlesPage"
-    :layout="{ type: 'grid', width: '100%' }"
+    :layout="{ type: 'single', width: '100%' }"
   >
     <Variant title="All Articles">
       <AllArticlesPage />

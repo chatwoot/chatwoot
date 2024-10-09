@@ -39,7 +39,7 @@ const handleClick = id => {
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout @click="handleClick(id)">
+  <CardLayout class="group" @click="handleClick(id)">
     <template #header>
       <div class="flex gap-2">
         <div class="flex justify-between">

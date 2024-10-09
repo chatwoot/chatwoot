@@ -7,7 +7,7 @@ import AllLocalesPage from './AllLocalesPage.vue';
 <template>
   <Story
     title="HelpCenter/AllLocalesPage"
-    :layout="{ type: 'grid', width: '100%' }"
+    :layout="{ type: 'single', width: '100%' }"
   >
     <Variant title="All Locales">
       <AllLocalesPage />
