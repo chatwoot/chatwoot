@@ -1,7 +1,9 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import CardLayout from './CardLayout.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
+import { OnClickOutside } from '@vueuse/components';
+import DropdownMenu from 'dashboard/playground/components/DropdownMenu.vue';
 
 const props = defineProps({
   id: {
@@ -24,6 +26,20 @@ const props = defineProps({
 
 const emit = defineEmits(['click']);
 
+const isOpen = ref(false);
+
+const menuItems = [
+  {
+    label: 'Edit',
+    action: 'edit',
+    icon: 'edit',
+  },
+  {
+    label: 'Delete',
+    action: 'delete',
+    icon: 'delete',
+  },
+];
 const description = computed(() => {
   return props.description ? props.description : 'No description added';
 });
@@ -35,17 +51,22 @@ const hasDescription = computed(() => {
 const handleClick = id => {
   emit('click', id);
 };
+
+// eslint-disable-next-line no-unused-vars
+const handleAction = action => {
+  // TODO: Implement action
+};
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout class="group" @click="handleClick(id)">
+  <CardLayout @click="handleClick(id)">
     <template #header>
       <div class="flex gap-2">
-        <div class="flex justify-between">
+        <div class="flex justify-between w-full">
           <div class="flex items-center justify-start gap-2">
             <span
-              class="text-base cursor-pointer group-hover:underline text-slate-900 dark:text-slate-50 line-clamp-1"
+              class="text-base cursor-pointer group-hover/cardLayout:underline text-slate-900 dark:text-slate-50 line-clamp-1"
             >
               {{ title }}
             </span>
@@ -55,12 +76,23 @@ const handleClick = id => {
               {{ articlesCount }} articles
             </span>
           </div>
-          <ButtonV4
-            variant="ghost"
-            size="icon"
-            icon="more-vertical"
-            class="absolute right-2 top-2"
-          />
+          <div class="relative group" @click.stop>
+            <ButtonV4
+              variant="ghost"
+              size="icon"
+              icon="more-vertical"
+              class="w-8 z-60 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+              @click="isOpen = !isOpen"
+            />
+            <OnClickOutside @trigger="isOpen = false">
+              <DropdownMenu
+                v-if="isOpen"
+                :menu-items="menuItems"
+                class="right-0 mt-1 xl:left-0 top-full z-60"
+                @action="handleAction"
+              />
+            </OnClickOutside>
+          </div>
         </div>
       </div>
     </template>
