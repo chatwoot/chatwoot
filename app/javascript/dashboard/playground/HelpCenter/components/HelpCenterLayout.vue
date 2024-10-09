@@ -1,6 +1,9 @@
 <script setup>
+import { ref } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
 import PaginationFooter from 'dashboard/playground/components/PaginationFooter.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
+import PortalSwitcher from './PortalSwitcher.vue';
 
 defineProps({
   header: {
@@ -27,8 +30,14 @@ defineProps({
 
 const emit = defineEmits(['update:currentPage']);
 
+const showPortalSwitcher = ref(true);
+
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
+};
+
+const togglePortalSwitcher = () => {
+  showPortalSwitcher.value = !showPortalSwitcher.value;
 };
 </script>
 
@@ -53,6 +62,12 @@ const updateCurrentPage = page => {
               class="group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
               @click="togglePortalSwitcher"
             />
+            <OnClickOutside @trigger="showPortalSwitcher = false">
+              <PortalSwitcher
+                v-if="showPortalSwitcher"
+                class="absolute left-0 top-9"
+              />
+            </OnClickOutside>
           </div>
         </div>
         <slot name="header-actions" />
