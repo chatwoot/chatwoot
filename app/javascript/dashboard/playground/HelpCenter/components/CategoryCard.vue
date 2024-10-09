@@ -1,8 +1,13 @@
 <script setup>
+import { computed } from 'vue';
 import CardLayout from './CardLayout.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
 
-defineProps({
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -16,17 +21,31 @@ defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(['click']);
+
+const description = computed(() => {
+  return props.description ? props.description : 'No description added';
+});
+
+const hasDescription = computed(() => {
+  return props.description.length > 0;
+});
+
+const handleClick = id => {
+  emit('click', id);
+};
 </script>
 
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout>
+  <CardLayout @click="handleClick(id)">
     <template #header>
       <div class="flex gap-2">
         <div class="flex justify-between">
           <div class="flex items-center justify-start gap-2">
             <span
-              class="text-base text-slate-900 dark:text-slate-50 line-clamp-1"
+              class="text-base cursor-pointer group-hover:underline text-slate-900 dark:text-slate-50 line-clamp-1"
             >
               {{ title }}
             </span>
@@ -46,7 +65,14 @@ defineProps({
       </div>
     </template>
     <template #footer>
-      <span class="text-sm text-slate-500 dark:text-slate-400 line-clamp-3">
+      <span
+        class="text-sm line-clamp-3"
+        :class="
+          hasDescription
+            ? 'text-slate-500 dark:text-slate-400'
+            : 'text-slate-400 dark:text-slate-700'
+        "
+      >
         {{ description }}
       </span>
     </template>
