@@ -22,6 +22,12 @@ const channelIcon = icon =>
     ]
   );
 
+const labelIcon = backgroundColor =>
+  h('span', {
+    class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+    style: { backgroundColor },
+  });
+
 const menuItems = [
   { name: 'Inbox', icon: 'i-lucide-inbox' },
   {
@@ -38,6 +44,22 @@ const menuItems = [
     name: 'Folders',
     icon: 'i-lucide-folder',
     children: [{ name: 'needs-follow-up' }, { name: 'priority-customers' }],
+  },
+  {
+    name: 'Labels',
+    icon: 'i-lucide-tag',
+    children: [
+      { name: 'billing', icon: labelIcon('#059669') },
+      { name: 'sales', icon: labelIcon('#bef264') },
+      { name: 'support', icon: labelIcon('#fcd34d') },
+      { name: 'marketing', icon: labelIcon('#dc2626') },
+      { name: 'apac', icon: labelIcon('#fbbf24') },
+      { name: 'americas', icon: labelIcon('#7dd3fc') },
+      { name: 'europe', icon: labelIcon('#6d28d9') },
+      { name: 'sea', icon: labelIcon('#65a30d') },
+      { name: 'software', icon: labelIcon('#fb923c') },
+      { name: 'refund', icon: labelIcon('#115e59') },
+    ],
   },
   {
     name: 'Channels',
