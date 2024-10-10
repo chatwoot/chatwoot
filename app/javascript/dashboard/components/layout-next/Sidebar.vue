@@ -3,6 +3,7 @@ import { h, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import NavItem from './NavItem.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
+import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 
 const { accountId, currentAccount } = useAccount();
@@ -101,9 +102,9 @@ const menuItems = [
 
 <template>
   <aside
-    class="w-48 bg-n-solid-2 border-r border-n-slate3 p-2 h-screen flex gap-4 flex-col text-sm"
+    class="w-48 bg-n-solid-2 border-r border-n-slate3 h-screen flex flex-col text-sm"
   >
-    <section class="grid gap-2 mt-2">
+    <section class="grid gap-2 mt-2 p-2 mb-4">
       <button
         id="sidebar-account-switcher"
         :data-account-id="accountId"
@@ -158,15 +159,18 @@ const menuItems = [
         </button>
       </div>
     </section>
-    <nav class="grid gap-2">
-      <ul class="grid gap-2 list-none m-0">
+    <nav class="grid gap-2 overflow-y-scroll no-scrollbar p-2 flex-grow">
+      <ul class="flex flex-col gap-2 list-none m-0">
         <NavItem
           v-for="item in menuItems"
           :key="item.name"
           v-bind="item"
-          class="text-n-slate11 hover:bg-n-alpha-2 rounded-lg"
+          class="text-n-slate11 hover:bg-n-alpha-2 rounded-lg h-auto"
         />
       </ul>
     </nav>
+    <section class="px-4 py-3 border-t border-n-weak">
+      <Avatar name="Shivam Mishra" />
+    </section>
   </aside>
 </template>
