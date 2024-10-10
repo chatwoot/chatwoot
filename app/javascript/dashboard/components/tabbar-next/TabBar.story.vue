@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import TabBar from './TabBar.vue';
 
 const defaultTabs = [
