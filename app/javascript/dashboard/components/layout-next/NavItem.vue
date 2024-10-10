@@ -45,7 +45,7 @@ const toggleCollapse = () => {
     </div>
     <ul
       v-show="hasChildren && (isExpanded || transitioning)"
-      class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 pl-3 grid gap-1 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-n-slate3 before:rounded before:left-0"
+      class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 grid"
       @transitionend="toggleTransition(false)"
     >
       <transition
@@ -53,14 +53,18 @@ const toggleCollapse = () => {
         :key="child.name"
         name="fade"
       >
-        <li
+        <div
           v-show="isExpanded"
           :style="{ '--item-index': index }"
-          class="flex h-8 items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70 rounded-lg"
+          class="py-0.5 pl-3 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-n-slate3 before:rounded before:left-0"
         >
-          <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
-          {{ child.name }}
-        </li>
+          <li
+            class="flex h-8 items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70 rounded-lg"
+          >
+            <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
+            {{ child.name }}
+          </li>
+        </div>
       </transition>
     </ul>
   </li>
