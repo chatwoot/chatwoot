@@ -240,7 +240,7 @@ export default {
     }),
     inboxes() {
       const inboxList =
-        this.contact.contactableInboxes.filter(
+        this.contact.contactableInboxes?.filter(
           item =>
             this.contact.phone_number ||
             item.inbox.channel_type !== 'Channel::StringeePhoneCall'
@@ -277,6 +277,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('contacts/fetchContactableInbox', this.contact.id);
     this.$store.dispatch('agents/get');
     this.agent = this.contact.assignee;
     this.team = this.contact.team;

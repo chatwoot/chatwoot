@@ -221,6 +221,8 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
+      initial_channel_type: initial_channel_type,
+      stage: stage,
       type: 'contact'
     }
   end

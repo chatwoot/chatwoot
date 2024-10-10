@@ -295,7 +295,7 @@ class Message < ApplicationRecord
   end
 
   def update_contact_activity
-    sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
+    sender.update_column(:last_activity_at, DateTime.now) if sender.is_a?(Contact) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def update_waiting_since
