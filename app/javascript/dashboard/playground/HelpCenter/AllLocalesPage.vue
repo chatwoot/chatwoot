@@ -35,17 +35,6 @@ const handlePageChange = page => {
     <template #header-actions>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
-          <ButtonV4
-            label="English"
-            size="sm"
-            icon-position="right"
-            icon="chevron-lucide-down"
-            icon-lib="lucide"
-            variant="secondary"
-          />
-          <div
-            class="w-px h-3.5 rounded my-auto bg-slate-75 dark:bg-slate-800"
-          />
           <span class="text-sm font-medium text-slate-800 dark:text-slate-100">
             {{ localeCount }} locales
           </span>
