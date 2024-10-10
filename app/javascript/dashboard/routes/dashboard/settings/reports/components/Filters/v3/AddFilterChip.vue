@@ -66,10 +66,11 @@ const closeDropdown = () => {
 };
 
 const createPopperInstances = () => {
+  const viewport = document.querySelector('#kanban-board');
+
   popperInstances.value = props.menuOption.reduce((acc, { id }) => {
     const reference = document.querySelector(`#filter-item-${id}`);
     const popper = document.querySelector(`#filter-submenu-${id}`);
-    const viewport = document.querySelector('#kanban-board');
     return {
       ...acc,
       [id]: createPopper(reference, popper, {
