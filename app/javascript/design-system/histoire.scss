@@ -19,11 +19,3 @@ html,
 body {
   font-family: 'Inter', sans-serif;
 }
-
-@supports (font-variation-settings: normal) {
-  html,
-  body {
-    font-family: 'InterVar', sans-serif;
-    font-optical-sizing: auto;
-  }
-}

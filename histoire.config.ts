@@ -14,9 +14,9 @@ export default defineConfig({
     darkClass: 'dark',
     title: '@chatwoot/design',
     logo: {
-      square: './design-system/images/brand-assets/logo-thumbnail.svg',
-      light: './design-system/images/brand-assets/logo.png',
-      dark: './design-system/images/brand-assets/logo-dark.png',
+      square: './design-system/images/logo-thumbnail.svg',
+      light: './design-system/images/logo.png',
+      dark: './design-system/images/logo-dark.png',
     },
   },
   defaultStoryProps: {
