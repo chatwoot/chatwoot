@@ -42,11 +42,6 @@ if (isLibraryMode) {
   plugins = [vue(vueOptions)];
 }
 
-const esbuildOptions = {
-  minifyIdentifiers: false,
-  keepNames: true,
-};
-
 export default defineConfig({
   plugins: plugins,
   build: {
@@ -112,5 +107,4 @@ export default defineConfig({
     mockReset: true,
     clearMocks: true,
   },
-  esbuild: isLibraryMode ? esbuildOptions : undefined,
 });
