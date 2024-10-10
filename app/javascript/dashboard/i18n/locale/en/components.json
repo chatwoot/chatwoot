@@ -1,0 +1,7 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Showing {{startItem}} - {{endItem}} of {{totalItems}} items",
+    "OF": "of",
+    "PAGES": "pages"
+  }
+}
