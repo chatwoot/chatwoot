@@ -1,5 +1,6 @@
 <script setup>
-import { h } from 'vue';
+import { h, ref } from 'vue';
+import { provideSidebarContext } from './provider';
 import NavItem from './NavItem.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -8,6 +9,16 @@ const { accountId, currentAccount } = useAccount();
 
 const enableNewConversation = false;
 const searchShortcut = useKbd([`$mod`, 'k']);
+
+const expandedItem = ref(null);
+const setExpandedItem = name => {
+  expandedItem.value = expandedItem.value === name ? null : name;
+};
+
+provideSidebarContext({
+  expandedItem,
+  setExpandedItem,
+});
 
 const channelIcon = icon =>
   h(
