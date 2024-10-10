@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import ButtonV4 from 'dashboard/components/buttons-next/Button.vue';
+import Button from 'dashboard/components/buttons-next/Button.vue';
 
 const props = defineProps({
   currentPage: {
@@ -59,7 +59,7 @@ const showingText = computed(() => {
       </span>
     </div>
     <div class="flex items-center gap-2">
-      <ButtonV4
+      <Button
         icon="chevrons-lucide-left"
         icon-lib="lucide"
         variant="ghost"
@@ -67,7 +67,7 @@ const showingText = computed(() => {
         :disabled="isFirstPage"
         @click="changePage(1)"
       />
-      <ButtonV4
+      <Button
         icon="chevron-lucide-left"
         icon-lib="lucide"
         variant="ghost"
@@ -85,7 +85,7 @@ const showingText = computed(() => {
         <span>{{ totalPages }}</span>
         <span>{{ t('PAGINATION_FOOTER.PAGES') }}</span>
       </div>
-      <ButtonV4
+      <Button
         icon="chevron-lucide-right"
         icon-lib="lucide"
         variant="ghost"
@@ -93,7 +93,7 @@ const showingText = computed(() => {
         :disabled="isLastPage"
         @click="changePage(currentPage + 1)"
       />
-      <ButtonV4
+      <Button
         icon="chevrons-lucide-right"
         icon-lib="lucide"
         variant="ghost"
