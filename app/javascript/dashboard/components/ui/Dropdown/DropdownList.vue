@@ -48,7 +48,7 @@ const debouncedEmit = debounce(value => {
 
 const onSearch = value => {
   searchTerm.value = value;
-  debouncedEmit();
+  debouncedEmit(value);
 };
 
 const filteredListItems = computed(() => {

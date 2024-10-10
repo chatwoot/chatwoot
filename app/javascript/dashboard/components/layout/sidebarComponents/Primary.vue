@@ -90,13 +90,17 @@ export default {
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
-      <PrimaryNavItem
+      <a
         v-if="!isACustomBrandedInstance"
-        icon="book-open-globe"
-        name="DOCS"
-        open-in-new-page
-        :to="helpDocsURL"
-      />
+        v-tooltip.right="$t(`SIDEBAR.DOCS`)"
+        :href="helpDocsURL"
+        class="text-slate-700 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600 relative"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        <fluent-icon icon="book-open-globe" />
+        <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
+      </a>
       <NotificationBell @open-notification-panel="openNotificationPanel" />
       <AgentDetails @toggle-menu="toggleOptions" />
       <OptionsMenu
