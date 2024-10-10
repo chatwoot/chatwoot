@@ -53,6 +53,7 @@ const toggleCollapse = () => {
         :key="child.name"
         name="fade"
       >
+        <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
         <div
           v-show="isExpanded"
           :style="{ '--item-index': index }"
