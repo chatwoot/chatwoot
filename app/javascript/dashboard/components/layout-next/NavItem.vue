@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useSidebarContext } from './provider';
+import { useToggle } from '@vueuse/core';
 
 import Icon from './Icon.vue';
 
@@ -18,8 +19,10 @@ const { expandedItem, setExpandedItem } = useSidebarContext();
 
 const isExpanded = computed(() => expandedItem.value === props.name);
 const hasChildren = computed(() => props.children && props.children.length);
+const [transitioning, toggleTransition] = useToggle();
 
 const toggleCollapse = () => {
+  toggleTransition(true);
   setExpandedItem(props.name);
 };
 </script>
@@ -41,8 +44,9 @@ const toggleCollapse = () => {
       />
     </div>
     <ul
-      v-show="hasChildren && isExpanded"
+      v-show="hasChildren && (isExpanded || transitioning)"
       class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 pl-3 grid gap-1 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-n-slate3 before:rounded before:left-0"
+      @transitionend="toggleTransition(false)"
     >
       <transition
         v-for="(child, index) in children"
