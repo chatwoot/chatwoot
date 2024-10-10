@@ -14,7 +14,10 @@
     "ruby:prettier": "bundle exec rubocop -a",
     "build:sdk": "BUILD_MODE=library vite build",
     "prepare": "husky install",
-    "size": "size-limit"
+    "size": "size-limit",
+    "story:dev": "histoire dev",
+    "story:build": "histoire build",
+    "story:preview": "histoire preview"
   },
   "size-limit": [
     {
@@ -97,6 +100,7 @@
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
+    "@histoire/plugin-vue": "0.17.15",
     "@iconify-json/logos": "^1.2.0",
     "@iconify-json/lucide": "^1.2.5",
     "@size-limit/file": "^8.2.4",
@@ -113,6 +117,7 @@
     "eslint-plugin-vitest-globals": "^1.5.0",
     "eslint-plugin-vue": "^9.28.0",
     "fake-indexeddb": "^6.0.0",
+    "histoire": "0.17.15",
     "husky": "^7.0.0",
     "jsdom": "^24.1.3",
     "lint-staged": "14.0.1",
