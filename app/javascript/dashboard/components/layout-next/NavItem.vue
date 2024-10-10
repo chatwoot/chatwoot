@@ -57,7 +57,7 @@ const toggleCollapse = () => {
         <li
           v-show="isExpanded"
           :style="{ '--item-index': index }"
-          class="py-0.5 pl-3 relative child-item before:bg-n-slate3 after:bg-transparent after:border-n-slate3"
+          class="py-0.5 first:pt-0 last:pb-0 pl-3 relative child-item before:bg-n-slate3 after:bg-transparent after:border-n-slate3"
         >
           <div
             class="flex h-8 items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70 rounded-lg"
