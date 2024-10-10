@@ -49,7 +49,7 @@ export const mutations = {
   [types.DELETE_CONTACT]: ($state, id) => {
     const index = $state.sortOrder.findIndex(item => item === id);
     $state.sortOrder.splice(index, 1);
-    $state.records[id] = null;
+    delete $state.records[id];
   },
 
   [types.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
