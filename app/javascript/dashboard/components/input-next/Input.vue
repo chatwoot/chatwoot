@@ -69,6 +69,7 @@ const inputBorderClass = computed(() => {
     >
       {{ label }}
     </label>
+    <!-- Added prefix slot to allow adding icons to the input -->
     <slot name="prefix" />
     <input
       :id="id"
