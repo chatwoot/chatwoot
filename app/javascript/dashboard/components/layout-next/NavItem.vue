@@ -54,18 +54,18 @@ const toggleCollapse = () => {
         name="fade"
       >
         <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
-        <div
+        <li
           v-show="isExpanded"
           :style="{ '--item-index': index }"
-          class="py-0.5 pl-3 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-n-slate3 before:rounded before:left-0"
+          class="py-0.5 pl-3 relative child-item before:bg-n-slate3 after:bg-transparent after:border-n-slate3"
         >
-          <li
+          <div
             class="flex h-8 items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70 rounded-lg"
           >
             <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
             {{ child.name }}
-          </li>
-        </div>
+          </div>
+        </li>
       </transition>
     </ul>
   </li>
@@ -85,5 +85,35 @@ const toggleCollapse = () => {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-10px);
+}
+
+.child-item::before {
+  content: '';
+  position: absolute;
+  width: 0.125rem; /* 0.5px */
+  height: 100%;
+  left: 0;
+}
+
+.child-item:first-child::before {
+  border-radius: 4px;
+}
+
+.child-item:last-child::before {
+  height: 20%;
+}
+
+.child-item:last-child::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  bottom: calc(50% - 2px);
+  left: 0;
+  border-bottom-width: 0.125rem;
+  border-left-width: 0.125rem;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0 0 0 4px;
 }
 </style>
