@@ -7,6 +7,10 @@ require 'rspec/rails'
 require 'pundit/rspec'
 require 'sidekiq/testing'
 
+# Load Rake tasks
+require 'rake'
+Rails.application.load_tasks
+
 # test-prof helpers for tests optimization
 require 'test_prof/recipes/rspec/before_all'
 require 'test_prof/recipes/rspec/let_it_be'
