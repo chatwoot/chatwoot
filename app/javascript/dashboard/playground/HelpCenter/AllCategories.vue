@@ -1,10 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
 import HelpCenterLayout from 'dashboard/playground/HelpCenter/components/HelpCenterLayout.vue';
 import ButtonV4 from 'dashboard/playground/components/Button.vue';
 import Breadcrumb from 'dashboard/playground/components/Breadcrumb.vue';
 import CategoryList from 'dashboard/playground/HelpCenter/components/CategoryList.vue';
 import ArticleList from 'dashboard/playground/HelpCenter/components/ArticleList.vue';
+import EditCategory from 'dashboard/playground/HelpCenter/components/EditCategory.vue';
 
 const categories = [
   {
@@ -204,6 +206,16 @@ const categories = [
 
 const selectedCategory = ref(null);
 
+const showEditCategory = ref(false);
+
+const openEditCategory = () => {
+  showEditCategory.value = true;
+};
+
+const closeEditCategory = () => {
+  showEditCategory.value = false;
+};
+
 const breadcrumbItems = computed(() => {
   const items = [{ label: 'Categories (en-US)', link: '#' }];
   if (selectedCategory.value) {
@@ -256,7 +268,17 @@ const displayedArticles = computed(() => {
           icon="add"
           size="sm"
         />
-        <ButtonV4 v-else label="Edit category" variant="secondary" size="sm" />
+        <div v-else class="relative">
+          <ButtonV4
+            label="Edit category"
+            variant="secondary"
+            size="sm"
+            @click="openEditCategory"
+          />
+          <OnClickOutside @trigger="closeEditCategory">
+            <EditCategory v-if="showEditCategory" @close="closeEditCategory" />
+          </OnClickOutside>
+        </div>
       </div>
     </template>
     <template #content>
