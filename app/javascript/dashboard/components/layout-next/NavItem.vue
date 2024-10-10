@@ -35,21 +35,20 @@ const hasChildren = computed(() => props.children && props.children.length);
         class="i-lucide-chevron-up size-3"
       />
     </div>
-    <transition name="fade">
-      <ul
-        v-show="hasChildren && !collapsed"
-        class="list-none m-0 ml-3 pl-3 grid gap-1 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-radix-slate3 before:rounded before:left-0"
-      >
+    <ul
+      v-show="hasChildren && !collapsed"
+      class="list-none m-0 ml-3 pl-3 grid gap-1 relative before:absolute before:content-[''] before:w-0.5 before:h-full before:bg-n-slate3 before:rounded before:left-0"
+    >
+      <transition v-for="child in children" :key="child.name" name="fade">
         <li
-          v-for="child in children"
-          :key="child.name"
-          class="flex items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-radix-slate3/70 to-radix-slate3/70 rounded-lg"
+          v-if="!collapsed"
+          class="flex items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70 rounded-lg"
         >
           <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
           {{ child.name }}
         </li>
-      </ul>
-    </transition>
+      </transition>
+    </ul>
   </li>
 </template>
 

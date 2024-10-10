@@ -13,11 +13,11 @@ const channelIcon = icon =>
   h(
     'span',
     {
-      class: 'size-4 grid place-content-center rounded-full bg-alpha-2',
+      class: 'size-4 grid place-content-center rounded-full bg-n-alpha-2',
     },
     [
       h('div', {
-        class: `size-3 bg-radix-slate11 ${icon}`,
+        class: `size-3 bg-n-slate11 ${icon}`,
       }),
     ]
   );
@@ -68,7 +68,7 @@ const menuItems = [
 
 <template>
   <aside
-    class="w-48 bg-solid-2 border-r border-radix-slate3 p-2 h-screen flex gap-4 flex-col text-sm"
+    class="w-48 bg-n-solid-2 border-r border-n-slate3 p-2 h-screen flex gap-4 flex-col text-sm"
   >
     <section class="grid gap-2 mt-2">
       <button
@@ -77,7 +77,7 @@ const menuItems = [
         aria-haspopup="listbox"
         aria-expanded="false"
         aria-controls="account-options"
-        class="flex items-center gap-2 justify-between w-full rounded-lg hover:bg-alpha-1"
+        class="flex items-center gap-2 justify-between w-full rounded-lg hover:bg-n-alpha-1"
       >
         <div class="flex items-center gap-2">
           <span class="size-4">
@@ -89,7 +89,7 @@ const menuItems = [
             />
           </span>
           <span
-            class="text-sm font-medium leading-5 text-radix-slate12"
+            class="text-sm font-medium leading-5 text-n-slate12"
             aria-live="polite"
           >
             {{ currentAccount.name }}
@@ -98,31 +98,29 @@ const menuItems = [
 
         <span
           aria-hidden="true"
-          class="i-lucide-chevron-down size-4 text-radix-slate10"
+          class="i-lucide-chevron-down size-4 text-n-slate10"
         />
       </button>
       <div class="gap-2 flex">
         <button
-          class="rounded-lg py-1 flex items-center gap-2 px-2 border-weak border bg-solid-3 w-full"
+          class="rounded-lg py-1 flex items-center gap-2 px-2 border-n-weak border bg-n-solid-3 w-full"
         >
-          <span
-            class="i-lucide-search size-4 text-radix-slate11 flex-shrink-0"
-          />
+          <span class="i-lucide-search size-4 text-n-slate11 flex-shrink-0" />
           <span class="flex-grow text-left">
             {{ 'Search...' }}
           </span>
           <span
-            class="tracking-wide select-none pointer-events-none text-radix-slate10"
+            class="tracking-wide select-none pointer-events-none text-n-slate10"
           >
             {{ searchShortcut }}
           </span>
         </button>
         <button
           v-if="enableNewConversation"
-          class="rounded-lg py-1 flex items-center gap-2 px-2 border-weak border bg-solid-3 w-full"
+          class="rounded-lg py-1 flex items-center gap-2 px-2 border-n-weak border bg-n-solid-3 w-full"
         >
           <span
-            class="i-lucide-square-pen size-4 text-radix-slate11 flex-shrink-0"
+            class="i-lucide-square-pen size-4 text-n-slate11 flex-shrink-0"
           />
         </button>
       </div>
@@ -133,7 +131,7 @@ const menuItems = [
           v-for="item in menuItems"
           :key="item.name"
           v-bind="item"
-          class="text-radix-slate11 hover:bg-alpha-2 rounded-lg"
+          class="text-n-slate11 hover:bg-n-alpha-2 rounded-lg"
         />
       </ul>
     </nav>
