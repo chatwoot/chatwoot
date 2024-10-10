@@ -1,4 +1,5 @@
 import types from '../../mutation-types';
+import * as Sentry from '@sentry/vue';
 
 export const mutations = {
   [types.SET_CONTACT_UI_FLAG]($state, data) {
@@ -53,7 +54,18 @@ export const mutations = {
 
   [types.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
     Object.values($state.records).forEach(element => {
-      const availabilityStatus = data[element.id];
+      let availabilityStatus;
+      try {
+        availabilityStatus = data[element.id];
+      } catch (error) {
+        Sentry.setContext('contact is undefined', {
+          records: $state.records,
+          data: data,
+        });
+        Sentry.captureException(error);
+
+        return;
+      }
       if (availabilityStatus) {
         $state.records[element.id].availability_status = availabilityStatus;
       } else {
