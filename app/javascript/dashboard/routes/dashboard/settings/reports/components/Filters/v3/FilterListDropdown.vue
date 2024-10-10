@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, defineEmits } from 'vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import FilterListItemButton from './FilterListItemButton.vue';
 import FilterDropdownSearch from './FilterDropdownSearch.vue';
@@ -28,6 +28,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['createPopperInstances']);
+
 const searchTerm = ref('');
 
 const onSearch = value => {
@@ -47,6 +49,8 @@ const isFilterActive = id => {
   if (!props.activeFilterId) return false;
   return id === props.activeFilterId;
 };
+
+onMounted(() => emit('createPopperInstances'));
 </script>
 <template>
   <div
