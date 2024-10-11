@@ -12,6 +12,19 @@ module.exports = {
         'vitest-globals/env': true,
       },
     },
+    {
+      files: ['**/*.story.vue'],
+      rules: {
+        'vue/no-undef-components': [
+          'error',
+          {
+            ignorePatterns: ['Variant', 'Story'],
+          },
+        ],
+        // Story files can have static strings, it doesn't need to handle i18n always.
+        'vue/no-bare-strings-in-template': 'off',
+      },
+    },
   ],
   plugins: ['html', 'prettier'],
   parserOptions: {
@@ -223,11 +236,5 @@ module.exports = {
   globals: {
     bus: true,
     vi: true,
-    // beforeEach: true,
-    // afterEach: true,
-    // test: true,
-    // describe: true,
-    // it: true,
-    // expect: true,
   },
 };
