@@ -20,7 +20,8 @@ module.exports = {
           {
             ignorePatterns: ['Variant', 'Story'],
           },
-        ], // Story files can have static strings, it doesn't need to handle i18n always.
+        ],
+        // Story files can have static strings, it doesn't need to handle i18n always.
         'vue/no-bare-strings-in-template': 'off',
       },
     },
