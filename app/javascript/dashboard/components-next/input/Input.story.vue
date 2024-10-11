@@ -2,8 +2,6 @@
 import Input from './Input.vue';
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
-<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story title="Components/Input" :layout="{ type: 'grid', width: '400' }">
     <Variant title="Default">
@@ -36,13 +34,13 @@ import Input from './Input.vue';
           type="password"
           placeholder="Enter your password"
           message="Password is incorrect"
-          messageType="error"
+          message-type="error"
         />
         <Input
           label="Verification Code"
           placeholder="Enter the code"
           message="Code verified successfully"
-          messageType="success"
+          message-type="success"
         />
       </div>
     </Variant>
