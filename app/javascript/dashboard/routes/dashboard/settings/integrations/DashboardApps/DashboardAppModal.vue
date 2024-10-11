@@ -125,7 +125,7 @@ export default {
           "
           data-testid="app-title"
           @input="v$.app.title.$touch"
-          @blur="v$.slug.$touch"
+          @blur="v$.app.title.$touch"
         />
         <woot-input
           v-model="app.content.url"
