@@ -5,7 +5,22 @@ import Button from 'dashboard/components-next/button/Button.vue';
 defineProps({
   portals: {
     type: Array,
-    required: true,
+    default: () => [
+      {
+        id: 1,
+        name: 'Chatwoot Help Center',
+        articles: 67,
+        domain: 'chatwoot.help',
+        slug: 'help-center',
+      },
+      {
+        id: 2,
+        name: 'Chatwoot Handbook',
+        articles: 42,
+        domain: 'chatwoot.help',
+        slug: 'handbook',
+      },
+    ],
   },
   header: {
     type: String,
