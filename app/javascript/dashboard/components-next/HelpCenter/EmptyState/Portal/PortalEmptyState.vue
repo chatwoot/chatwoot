@@ -69,6 +69,7 @@ const locales = [
 // };
 </script>
 
+<!-- TODO: Add i18n -->
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <EmptyStateLayout>
