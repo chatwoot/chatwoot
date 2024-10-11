@@ -42,11 +42,6 @@ if (isLibraryMode) {
   plugins = [vue(vueOptions)];
 }
 
-const esbuildOptions = {
-  minifyIdentifiers: false,
-  keepNames: true,
-};
-
 export default defineConfig({
   plugins: plugins,
   build: {
@@ -71,7 +66,7 @@ export default defineConfig({
     lib: isLibraryMode
       ? {
           entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
-          formats: ['cjs'], // CJS format for single file
+          formats: ['iife'], // IIFE format for single file
           name: 'sdk',
         }
       : undefined,
@@ -112,5 +107,4 @@ export default defineConfig({
     mockReset: true,
     clearMocks: true,
   },
-  esbuild: isLibraryMode ? esbuildOptions : undefined,
 });
