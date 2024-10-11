@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
+// import { useI18n } from 'vue-i18n';
 
-import Button from 'dashboard/components/buttons-next/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   currentPage: {
@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['update:currentPage']);
-const { t } = useI18n();
+// const { t } = useI18n();
 
 const totalPages = computed(() =>
   Math.ceil(props.totalItems / props.itemsPerPage)
@@ -38,15 +38,24 @@ const changePage = newPage => {
   }
 };
 
-const showingText = computed(() => {
-  return t('PAGINATION_FOOTER.SHOWING', {
-    startItem: startItem.value,
-    endItem: endItem.value,
-    totalItems: props.totalItems,
-  });
-});
+// const showingText = computed(() => {
+//   return t('PAGINATION_FOOTER.SHOWING', {
+//     startItem: startItem.value,
+//     endItem: endItem.value,
+//     totalItems: props.totalItems,
+//   });
+// });
+
+// const pageInfo = computed(() => {
+//   return t('PAGINATION_FOOTER.CURRENT_PAGE_INFO', {
+//     currentPage: '',
+//     totalPages: totalPages.value,
+//   });
+// });
 </script>
 
+<!-- TODO: Use i18n -->
+<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <div
     class="flex justify-between h-12 w-full max-w-[957px] mx-auto bg-slate-25 dark:bg-slate-800/50 rounded-xl py-2 px-3 items-center"
@@ -55,7 +64,7 @@ const showingText = computed(() => {
       <span
         class="min-w-0 text-sm font-normal line-clamp-1 text-slate-600 dark:text-slate-300"
       >
-        {{ showingText }}
+        Showing {{ startItem }} - {{ endItem }} of {{ totalItems }} items
       </span>
     </div>
     <div class="flex items-center gap-2">
@@ -78,12 +87,12 @@ const showingText = computed(() => {
       <div
         class="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"
       >
-        <span class="px-3 py-0.5 bg-white dark:bg-slate-900 rounded-md">{{
-          currentPage
-        }}</span>
-        <span>{{ t('PAGINATION_FOOTER.OF') }}</span>
-        <span>{{ totalPages }}</span>
-        <span>{{ t('PAGINATION_FOOTER.PAGES') }}</span>
+        <span
+          class="px-3 tabular-nums py-0.5 bg-white dark:bg-slate-900 rounded-md"
+        >
+          {{ currentPage }}
+        </span>
+        <span> of {{ totalPages }} pages</span>
       </div>
       <Button
         icon="chevron-lucide-right"
