@@ -6,8 +6,6 @@ const bio = ref('');
 const description = ref('');
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
-<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story title="Components/TextArea" :layout="{ type: 'grid', width: '400' }">
     <Variant title="Default">
