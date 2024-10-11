@@ -1,7 +1,7 @@
 <script setup>
 // import { ref } from 'vue';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import ArticleCard from 'dashboard/components-next/HelpCenter/ArticleCard/ArticleCard.vue';
 import CategoryCard from 'dashboard/components-next/HelpCenter/CategoryCard/CategoryCard.vue';
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
@@ -120,7 +120,7 @@ const locales = [
             support.
           </p>
         </div>
-        <ButtonV4
+        <Button
           variant="default"
           label="Create Portal"
           icon="add"
