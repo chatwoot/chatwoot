@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import { OnClickOutside } from '@vueuse/components';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
@@ -92,7 +92,7 @@ const handleAction = () => {
           {{ title }}
         </span>
         <div class="relative group">
-          <ButtonV4
+          <Button
             variant="ghost"
             size="sm"
             class="text-xs bg-slate-50 !font-normal group-hover:bg-slate-100/50 dark:group-hover:bg-slate-700/50 !h-6 dark:bg-slate-800 rounded-md border-0 !px-2 !py-0.5"
