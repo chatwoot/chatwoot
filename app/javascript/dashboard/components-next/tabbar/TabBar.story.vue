@@ -18,13 +18,10 @@ const customTabs = [
 ];
 
 const handleTabChanged = tab => {
-  // eslint-disable-next-line no-console
   console.log('Tab changed:', tab);
 };
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
-<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story title="Components/TabBar" :layout="{ type: 'grid', width: '920px' }">
     <Variant title="Default">
