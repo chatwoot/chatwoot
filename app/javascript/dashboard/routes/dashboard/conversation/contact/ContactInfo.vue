@@ -61,12 +61,11 @@
             show-copy
           />
           <contact-info-row
-            v-if="contact.custom_attributes.parents_phone"
-            :href="
+            v-if="
+              contact.custom_attributes &&
               contact.custom_attributes.parents_phone
-                ? `tel:${contact.custom_attributes.parents_phone}`
-                : ''
             "
+            :href="`tel:${contact.custom_attributes.parents_phone}`"
             :value="contact.custom_attributes.parents_phone"
             icon="person-account"
             emoji="📞"
@@ -273,6 +272,11 @@ export default {
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
+    },
+  },
+  watch: {
+    showEditModal() {
+      this.$store.dispatch('setReplyBoxCanFocus', !this.showEditModal);
     },
   },
   methods: {

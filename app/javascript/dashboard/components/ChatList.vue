@@ -551,39 +551,46 @@ export default {
     },
   },
   watch: {
-    teamId() {
+    teamId(newValue, oldValue) {
+      if (newValue === oldValue) return;
+      this.resetAndFetchData();
       this.updateVirtualListProps('teamId', this.teamId);
     },
-    activeTeam() {
+    conversationInbox(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.resetAndFetchData();
     },
-    conversationInbox() {
-      this.resetAndFetchData();
-    },
-    label() {
+    label(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.resetAndFetchData();
       this.updateVirtualListProps('label', this.label);
     },
-    conversationType() {
+    conversationType(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.resetAndFetchData();
       this.updateVirtualListProps('conversationType', this.conversationType);
     },
-    status() {
+    status(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.resetAndFetchData();
       this.updateVirtualListProps('status', this.status);
     },
-    activeFolder() {
+    activeFolder(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.resetAndFetchData();
       this.updateVirtualListProps('foldersId', this.foldersId);
     },
-    chatLists() {
+    chatLists(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.chatsOnView = this.conversationList;
     },
-    showAssigneeInConversationCard(newVal) {
-      this.updateVirtualListProps('showAssignee', newVal);
+    showAssigneeInConversationCard(newValue, oldValue) {
+      if (newValue === oldValue) return;
+      this.updateVirtualListProps('showAssignee', newValue);
     },
-    showResolvedStateInConversationCard(newVal) {
-      this.updateVirtualListProps('showResolvedState', newVal);
+    showResolvedStateInConversationCard(newValue, oldValue) {
+      if (newValue === oldValue) return;
+      this.updateVirtualListProps('showResolvedState', newValue);
     },
   },
   mounted() {

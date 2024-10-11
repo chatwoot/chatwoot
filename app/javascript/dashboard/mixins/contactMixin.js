@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 export default {
   methods: {
     currentConversationPlanText(conversation_plans) {
-      if (!conversation_plans.length) return '';
+      if (!conversation_plans?.length) return '';
 
       const latest_conversation_plan = conversation_plans[0];
       if (!latest_conversation_plan) return '';

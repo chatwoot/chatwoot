@@ -102,7 +102,7 @@ export default {
       let metric = {};
       Object.keys(this.accountContactMetric).forEach(key => {
         const stage = this.stages.find(item => item.code === key);
-        if (!stage.allow_disabled) {
+        if (!stage?.allow_disabled) {
           const metricName = stage.name;
           metric[metricName] = this.accountContactMetric[key];
         }
