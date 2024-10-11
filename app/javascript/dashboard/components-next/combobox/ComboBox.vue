@@ -83,7 +83,10 @@ onClickOutside(comboboxRef, () => {
   <div
     ref="comboboxRef"
     class="relative w-full"
-    :class="{ 'cursor-not-allowed': disabled }"
+    :class="{
+      'cursor-not-allowed': disabled,
+      'group/combobox': !disabled,
+    }"
   >
     <Button
       variant="outline"
@@ -91,7 +94,7 @@ onClickOutside(comboboxRef, () => {
       icon-position="right"
       size="sm"
       :disabled="disabled"
-      class="justify-between w-full text-slate-900 dark:text-slate-100"
+      class="justify-between w-full text-slate-900 dark:text-slate-100 group-hover/combobox:border-slate-300 dark:group-hover/combobox:border-slate-600"
       :icon="open ? 'chevron-up' : 'chevron-down'"
       @click="toggleDropdown"
     />
