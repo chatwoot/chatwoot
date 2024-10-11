@@ -1,5 +1,5 @@
 <script setup>
-import AllCategories from './AllCategories.vue';
+import CategoriesPage from './CategoriesPage.vue';
 
 const categories = [
   {
@@ -204,7 +204,7 @@ const categories = [
   <Story title="HelpCenter/Pages/CategoryPage" :layout="{ type: 'single' }">
     <Variant title="All Categories">
       <div class="w-full min-h-screen bg-white dark:bg-slate-900">
-        <AllCategories :categories="categories" />
+        <CategoriesPage :categories="categories" />
       </div>
     </Variant>
   </Story>
