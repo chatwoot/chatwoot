@@ -47,7 +47,7 @@ defineProps({
           icon="chevron-lucide-right"
           size="18"
           icon-lib="lucide"
-          class="flex-shrink-0 text-slate-300 dark:text-slate-500 ltr:mr-3 rtl:ml-3"
+          class="flex-shrink-0 text-slate-300 dark:text-slate-500 ltr:mr-3 rtl:mr-0 rtl:ml-3"
         />
       </li>
     </ol>
