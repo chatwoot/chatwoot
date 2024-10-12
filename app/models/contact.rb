@@ -76,7 +76,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-  has_many :contact_transactions, dependent: :destroy_async
+  has_many :contact_transactions, dependent: :destroy
   has_one :first_contact_transaction, -> { ContactTransaction.order(:created_at) }, class_name: 'ContactTransaction',
                                                                                     dependent: :nullify, inverse_of: :contact
   has_many :conversation_plans, through: :conversations
@@ -223,6 +223,12 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       thumbnail: avatar_url,
       initial_channel_type: initial_channel_type,
       stage: stage,
+      assignee: assignee,
+      team: team,
+      product: product,
+      po_date: po_date,
+      po_value: po_value,
+      po_note: po_note,
       type: 'contact'
     }
   end

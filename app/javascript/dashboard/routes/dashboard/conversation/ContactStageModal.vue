@@ -54,7 +54,7 @@
       <contact-po-form
         v-show="newStage && newStage.code == 'Won'"
         ref="contactPoForm"
-        :current-contact="currentContact"
+        :contact-id="contactId"
         @contact-data-changed="onContactChanged"
       />
       <div class="mt-6 flex gap-2 justify-end">
@@ -106,6 +106,9 @@ export default {
       return this.$store.getters['contacts/getContact'](
         this.currentChat.meta.sender.id
       );
+    },
+    contactId() {
+      return this.currentChat.meta.sender.id;
     },
   },
   mounted() {

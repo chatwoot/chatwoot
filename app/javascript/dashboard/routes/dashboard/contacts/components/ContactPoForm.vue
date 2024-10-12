@@ -174,9 +174,9 @@ export default {
   },
   mixins: [alertMixin],
   props: {
-    currentContact: {
-      type: Object,
-      default: () => ({}),
+    contactId: {
+      type: Number,
+      default: null,
     },
   },
   data() {
@@ -209,12 +209,17 @@ export default {
       agents: 'agents/getAgents',
       teams: 'teams/getTeams',
     }),
+    currentContact() {
+      return this.$store.getters['contacts/getContact'](this.contactId);
+    },
   },
   mounted() {
     this.$store.dispatch('products/get');
     this.$store.dispatch('agents/get');
     this.$store.dispatch('teams/get');
-    this.setDataObject();
+    this.$store.dispatch('contacts/show', { id: this.contactId }).then(() => {
+      this.setDataObject();
+    });
   },
   methods: {
     searchChange(query) {
@@ -263,6 +268,7 @@ export default {
     },
     onProductSelected() {
       this.poValue = this.product.price;
+      this.inputChanged();
     },
     productLabel(product) {
       return `${product.short_name} - ${product.name}`;

@@ -15,6 +15,7 @@
             {{ stageCount(stage) }}
           </span>
           <a
+            v-if="stage.code !== 'Won'"
             v-tooltip.top-end="$t('PIPELINE_PAGE.ADD_CONTACT_TOOLTIP')"
             href=""
             @click.prevent="() => addContact(stage.id)"
@@ -128,7 +129,7 @@ export default {
           currentActionText: this.currentConversationPlanText(
             contact.conversation_plans
           ),
-          lastActivityAt: contact.last_activity_at,
+          lastStageChangedAt: contact.last_stage_changed_at,
           formattedStageChangedAt: contact.last_stage_changed_at
             ? this.dynamicTime(contact.last_stage_changed_at)
             : null,
@@ -144,6 +145,9 @@ export default {
       this.blocks = this.blocks.filter(block =>
         this.contacts.some(contact => contact.id === block.id)
       );
+      this.blocks.sort((a, b) => {
+        return b.lastStageChangedAt - a.lastStageChangedAt;
+      });
     },
 
     onClickContact(contactId) {

@@ -11,7 +11,7 @@
       <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
         <contact-po-form
           ref="contactPoForm"
-          :current-contact="currentContact"
+          :contact-id="contactId"
           @contact-data-changed="onContactChanged"
         />
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
