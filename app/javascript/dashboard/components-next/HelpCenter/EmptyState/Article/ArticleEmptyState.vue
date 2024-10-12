@@ -51,8 +51,12 @@ const articles = [
 
 <!-- TODO: Add i18n -->
 <!-- eslint-disable vue/no-bare-strings-in-template -->
+
 <template>
-  <EmptyStateLayout>
+  <EmptyStateLayout
+    title="Write an article"
+    subtitle="Write a rich article, let's get started!"
+  >
     <template #empty-state-item>
       <div class="grid grid-cols-1 gap-4">
         <ArticleCard
@@ -67,31 +71,17 @@ const articles = [
         />
       </div>
     </template>
-    <template #empty-state>
-      <div class="flex flex-col items-center justify-center gap-6">
-        <div class="flex flex-col items-center justify-center gap-2">
-          <h2
-            class="text-3xl font-medium text-center text-slate-900 dark:text-white"
-          >
-            Write an article
-          </h2>
-          <p
-            class="max-w-lg text-base text-center text-slate-600 dark:text-slate-300"
-          >
-            Write a rich article, let’s get started!
-          </p>
-        </div>
-        <Button
-          variant="default"
-          label="New article"
-          icon="add"
-          @click="openDialog"
-        />
-        <!-- <AddLocaleDialog
+    <template #actions>
+      <Button
+        variant="default"
+        label="New article"
+        icon="add"
+        @click="openDialog"
+      />
+      <!-- <AddLocaleDialog
           ref="addLocaleDialogRef"
           @confirm="handleDialogConfirm"
         /> -->
-      </div>
     </template>
   </EmptyStateLayout>
 </template>
