@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "TOOLTIP_TEXT": "Время ожидания {metricValue} (на основе {conversationCount} ответов)",
         "DESC": ""
       }
     },
@@ -119,7 +119,7 @@
       "EMPTY_LIST": "Результаты не найдены"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Показаны {start} - {end} из {total} результатов"
     }
   },
   "AGENT_REPORTS": {
@@ -427,20 +427,20 @@
     "HEADER": "Bot Reports",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Количество диалогов",
+        "TOOLTIP": "Общее количество диалогов, обработанных ботом"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Всего ответов",
+        "TOOLTIP": "Общее количество ответов, отправленных ботом"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Скорость разрешения",
+        "TOOLTIP": "Общее количество разговоров, разрешенных ботом / Общее количество разговоров, обработанных ботом * 100"
       },
       "HANDOFF_RATE": {
         "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "TOOLTIP": "Общее количество разговоров, передаваемых агентам / Общее количество разговоров, обрабатываемых ботом * 100"
       }
     }
   },
@@ -460,7 +460,7 @@
       "NO_CONVERSATIONS": "Нет сообщений",
       "CONVERSATION": "{count} разговор",
       "CONVERSATIONS": "{count} разговоров",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "Скачать отчет"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Диалоги по операторам",
@@ -526,7 +526,7 @@
         "TOOLTIP": "Total SLA misses in a certain period"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
+        "LABEL": "Количество диалогов",
         "TOOLTIP": "Общее количество разговоров с SLA"
       }
     },
