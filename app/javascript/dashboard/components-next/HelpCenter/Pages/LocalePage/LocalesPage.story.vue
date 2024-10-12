@@ -44,7 +44,7 @@ const locales = [
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <!-- eslint-disable vue/no-undef-components -->
 <template>
-  <Story title="HelpCenter/Pages/LocalePage" :layout="{ type: 'single' }">
+  <Story title="Pages/HelpCenter/LocalePage" :layout="{ type: 'single' }">
     <Variant title="All Locales">
       <div class="w-full min-h-screen bg-white dark:bg-slate-900">
         <LocalesPage :locales="locales" />
