@@ -2,8 +2,8 @@
 import HelpCenterLayout from 'dashboard/playground/HelpCenter/components/HelpCenterLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import InlineInput from 'dashboard/playground/components/InlineInput.vue';
+import Avatar from 'dashboard/playground/components/Avatar.vue';
 
 const handleUploadAvatar = () => {};
 </script>
@@ -76,7 +76,7 @@ const handleUploadAvatar = () => {};
                   placeholder="Slug"
                   label="Slug:"
                   custom-label-class="min-w-[100px]"
-                  custom-input-class="w-[430px]"
+                  custom-input-class="!w-[430px]"
                 />
               </div>
               <div class="flex justify-between w-full gap-2 py-1">
@@ -84,7 +84,7 @@ const handleUploadAvatar = () => {};
                   placeholder="Custom domain"
                   label="Custom domain:"
                   custom-label-class="min-w-[100px]"
-                  custom-input-class="w-[430px]"
+                  custom-input-class="!w-[430px]"
                 />
               </div>
               <div class="flex justify-between w-full gap-2 py-1">
@@ -92,7 +92,7 @@ const handleUploadAvatar = () => {};
                   placeholder="Home page link"
                   label="Home page link:"
                   custom-label-class="min-w-[100px]"
-                  custom-input-class="w-[430px]"
+                  custom-input-class="!w-[430px]"
                 />
               </div>
             </div>
