@@ -6,7 +6,7 @@ import PortalEmptyState from './PortalEmptyState.vue';
 <!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
-    title="HelpCenter/EmptyState/PortalEmptyState"
+    title="Components/HelpCenter/EmptyState/PortalEmptyState"
     :layout="{ type: 'single', width: '1100px' }"
   >
     <Variant title="Portal Empty State">

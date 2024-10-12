@@ -72,7 +72,10 @@ const locales = [
 <!-- TODO: Add i18n -->
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <EmptyStateLayout>
+  <EmptyStateLayout
+    title="Help Center"
+    subtitle="Create self-service portals to access articles and information. Streamline queries, enhance agent efficiency, and elevate customer support."
+  >
     <template #empty-state-item>
       <div class="grid grid-cols-2 gap-4">
         <div class="space-y-4">
@@ -104,33 +107,17 @@ const locales = [
         </div>
       </div>
     </template>
-    <template #empty-state>
-      <div class="flex flex-col items-center justify-center gap-6">
-        <div class="flex flex-col items-center justify-center gap-2">
-          <h2
-            class="text-3xl font-medium text-center text-slate-900 dark:text-white"
-          >
-            Help Center
-          </h2>
-          <p
-            class="max-w-lg text-base text-center text-slate-600 dark:text-slate-300"
-          >
-            Create self-service portals to access articles and information.
-            Streamline queries, enhance agent efficiency, and elevate customer
-            support.
-          </p>
-        </div>
-        <Button
-          variant="default"
-          label="Create Portal"
-          icon="add"
-          @click="openDialog"
-        />
-        <!-- <CreatePortalDialog
+    <template #actions>
+      <Button
+        variant="default"
+        label="Create Portal"
+        icon="add"
+        @click="openDialog"
+      />
+      <!-- <CreatePortalDialog
           ref="createPortalDialogRef"
           @confirm="handleDialogConfirm"
         /> -->
-      </div>
     </template>
   </EmptyStateLayout>
 </template>
