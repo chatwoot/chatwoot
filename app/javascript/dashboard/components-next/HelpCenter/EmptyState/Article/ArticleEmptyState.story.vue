@@ -6,7 +6,7 @@ import ArticleEmptyState from './ArticleEmptyState.vue';
 <!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
-    title="HelpCenter/EmptyState/ArticleEmptyState"
+    title="Components/HelpCenter/EmptyState/ArticleEmptyState"
     :layout="{ type: 'single', width: '1100px' }"
   >
     <Variant title="Article Empty State">
