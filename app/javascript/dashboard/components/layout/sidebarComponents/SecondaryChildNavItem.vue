@@ -74,6 +74,8 @@
   </router-link>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     to: {
@@ -118,6 +120,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      currentRole: 'getCurrentRole',
+    }),
     showIcon() {
       return {
         'overflow-hidden whitespace-nowrap text-ellipsis': this.shouldTruncate,
@@ -130,7 +135,10 @@ export default {
       return this.shouldTruncate ? this.label : '';
     },
     unreadCount() {
-      return this.unreadMeta?.mine_count || 0;
+      if (this.currentRole === 'agent') {
+        return this.unreadMeta?.mine_count || 0;
+      }
+      return this.unreadMeta?.all_count || 0;
     },
   },
 };

@@ -179,8 +179,6 @@ class ConversationFinder
   def conversations
     @conversations = conversations_base_query
 
-    # @conversations = @conversations.order(agent_unread_count: :desc, assignee_unread_count: :desc)
-
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
     @conversations = @conversations.send(sort_by, sort_order)
 

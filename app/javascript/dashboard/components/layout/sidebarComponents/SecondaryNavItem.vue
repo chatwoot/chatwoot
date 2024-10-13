@@ -133,6 +133,7 @@ export default {
     ...mapGetters({
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
+      currentRole: 'getCurrentRole',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       globalConfig: 'globalConfig/get',
     }),
@@ -256,7 +257,10 @@ export default {
   },
   methods: {
     unreadCount(menuItem) {
-      return menuItem.unreadMeta?.mine_count || 0;
+      if (this.currentRole === 'agent') {
+        return menuItem.unreadMeta?.mine_count || 0;
+      }
+      return menuItem.unreadMeta?.all_count || 0;
     },
     computedInboxClass(child) {
       const { type, phoneNumber } = child;
