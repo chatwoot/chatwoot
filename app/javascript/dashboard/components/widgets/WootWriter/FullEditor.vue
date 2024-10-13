@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       plugins: [imagePastePlugin(this.handleImageUpload)],
+      isTextSelected: false,
     };
   },
   watch: {
@@ -181,6 +182,7 @@ export default {
           if (tx.docChanged) {
             this.emitOnChange();
           }
+          this.checkSelection(state);
         },
         handleDOMEvents: {
           keyup: this.onKeyup,
@@ -226,6 +228,41 @@ export default {
     onFocus() {
       this.$emit('focus');
     },
+    checkSelection(editorState) {
+      const { from, to } = editorState.selection;
+      const hasSelection = from !== to;
+
+      if (hasSelection !== this.isTextSelected) {
+        this.isTextSelected = hasSelection;
+        if (hasSelection) {
+          this.$refs.editor.classList.add('has-selection');
+          this.setMenubarPosition(editorState);
+        } else {
+          this.$refs.editor.classList.remove('has-selection');
+        }
+      }
+    },
+    setMenubarPosition(editorState) {
+      if (!editorState.selection) return;
+
+      const { from, to } = editorState.selection;
+      const start = editorView.coordsAtPos(from);
+      const end = editorView.coordsAtPos(to);
+      const editorRect = this.$refs.editor.getBoundingClientRect();
+      const editorWidth = this.$refs.editor.offsetWidth;
+
+      // Estimate menubar width - adjust this value based on your actual menubar width
+      const menubarWidth = 480;
+
+      const top = end.bottom - editorRect.top + 10;
+      let left = (start.left + end.right) / 2 - editorRect.left;
+
+      // Ensure the menubar stays completely within the editor's width
+      left = Math.max(0, Math.min(left, editorWidth - menubarWidth));
+
+      this.$refs.editor.style.setProperty('--selection-top', `${top}px`);
+      this.$refs.editor.style.setProperty('--selection-left', `${left}px`);
+    },
   },
 };
 </script>
@@ -259,6 +296,7 @@ export default {
 }
 
 .editor-root {
+  position: relative;
   width: 100%;
 }
 
