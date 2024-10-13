@@ -1,5 +1,5 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters } from './helpers';
+import { applyPageFilters, sortComparator } from './helpers';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -8,8 +8,8 @@ export const getSelectedChatConversation = ({
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
 const getters = {
-  getAllConversations: ({ allConversations }) => {
-    return allConversations;
+  getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
+    return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
