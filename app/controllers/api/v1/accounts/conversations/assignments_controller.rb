@@ -36,9 +36,16 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
 
   private
 
+  def update_assignee_last_seen
+    @conversation.assignee_last_seen_at = DateTime.now.utc
+    @conversation.assignee_unread_count = 0
+  end
+
   def set_agent
     @agent = Current.account.users.find_by(id: params[:assignee_id])
     @conversation.assignee = @agent
+    update_assignee_last_seen if @agent.present? && Current.user == @agent
+
     @conversation.save!
     render_agent
   end
