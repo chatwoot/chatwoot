@@ -11,9 +11,11 @@ const props = defineProps({
     required: true,
   },
   size: {
-    type: String,
+    type: [String, Number],
     default: 'medium',
-    validate: value => ['large', 'medium', 'small', 'tiny'].includes(value),
+    validate: value =>
+      ['large', 'medium', 'small', 'tiny'].includes(value) ||
+      (typeof value === 'number' && value >= 0),
   },
 });
 
@@ -54,6 +56,10 @@ watch(
       'w-8 h-8 text-sm': size === 'medium',
       'w-6 h-6 text-xs': size === 'small',
       'w-5 h-5 text-[0.625rem]': size === 'tiny',
+    }"
+    :style="{
+      width: typeof size === 'number' ? `${size}px` : undefined,
+      height: typeof size === 'number' ? `${size}px` : undefined,
     }"
   >
     <img
