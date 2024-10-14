@@ -1,5 +1,7 @@
 <script setup>
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+
 import { computed } from 'vue';
 import {
   getUserPermissions,
@@ -15,13 +17,24 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  featureFlag: {
+    type: String,
+    default: null,
+  },
 });
 
-const getters = useStoreGetters();
-const user = computed(() => getters.getCurrentUser.value);
-const accountId = computed(() => getters.getCurrentAccountId.value);
+const user = useMapGetter('getCurrentUser');
+const isFeatureEnabled = useMapGetter('accounts/isFeatureEnabledonAccount');
+const { accountId } = useAccount();
+
 const userPermissions = computed(() => {
   return getUserPermissions(user.value, accountId.value);
+});
+
+const isFeatureAllowed = computed(() => {
+  if (!props.featureFlag) return true;
+
+  return isFeatureEnabled.value(accountId.value, props.featureFlag);
 });
 
 const hasPermission = computed(() => {
@@ -35,7 +48,7 @@ const hasPermission = computed(() => {
 
 <!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <component :is="as" v-if="hasPermission">
+  <component :is="as" v-if="isFeatureAllowed && hasPermission">
     <slot />
   </component>
 </template>
