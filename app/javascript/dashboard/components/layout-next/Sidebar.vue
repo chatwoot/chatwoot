@@ -73,6 +73,7 @@ const labelIcon = backgroundColor =>
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
+const currentUser = useMapGetter('getCurrentUser');
 // const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
@@ -208,9 +209,20 @@ const menuItems = computed(() => [
       </ul>
     </nav>
     <section
-      class="px-4 py-3 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0"
+      class="px-4 py-3 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0 flex gap-3 items-center"
     >
-      <Avatar name="Shivam Mishra" />
+      <Avatar
+        :name="currentUser.available_name"
+        :src="currentUser.avatar_url"
+      />
+      <div class="grid">
+        <span class="text-n-slate-12 text-sm leading-5 font-medium">
+          {{ currentUser.available_name }}
+        </span>
+        <span class="text-n-slate-11 leading-4 text-xs">
+          {{ currentUser.email }}
+        </span>
+      </div>
     </section>
   </aside>
 </template>
