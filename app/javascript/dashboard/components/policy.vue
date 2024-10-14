@@ -7,6 +7,10 @@ import {
 } from '../helper/permissionsHelper';
 
 const props = defineProps({
+  as: {
+    type: String,
+    default: 'div',
+  },
   permissions: {
     type: Array,
     required: true,
@@ -19,14 +23,19 @@ const accountId = computed(() => getters.getCurrentAccountId.value);
 const userPermissions = computed(() => {
   return getUserPermissions(user.value, accountId.value);
 });
+
 const hasPermission = computed(() => {
+  if (!props.permissions || !props.permissions.length) {
+    return true;
+  }
+
   return hasPermissions(props.permissions, userPermissions.value);
 });
 </script>
 
 <!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <div v-if="hasPermission">
+  <component :is="as" v-if="hasPermission">
     <slot />
-  </div>
+  </component>
 </template>
