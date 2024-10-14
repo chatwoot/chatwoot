@@ -12,6 +12,7 @@ const {
   violet,
   violetDark,
 } = require('@radix-ui/colors');
+
 export const colors = {
   woot: {
     25: blue.blue2,
@@ -284,8 +285,21 @@ export const colors = {
   },
   // next design system color
   n: {
-    ...slate,
-    ...slateDark,
+    slate: {
+      1: 'rgb(var(--slate-1) / <alpha-value>)',
+      2: 'rgb(var(--slate-2) / <alpha-value>)',
+      3: 'rgb(var(--slate-3) / <alpha-value>)',
+      4: 'rgb(var(--slate-4) / <alpha-value>)',
+      5: 'rgb(var(--slate-5) / <alpha-value>)',
+      6: 'rgb(var(--slate-6) / <alpha-value>)',
+      7: 'rgb(var(--slate-7) / <alpha-value>)',
+      8: 'rgb(var(--slate-8) / <alpha-value>)',
+      9: 'rgb(var(--slate-9) / <alpha-value>)',
+      10: 'rgb(var(--slate-10) / <alpha-value>)',
+      11: 'rgb(var(--slate-11) / <alpha-value>)',
+      12: 'rgb(var(--slate-12) / <alpha-value>)',
+    },
+
     black: '#000000',
     brand: '#2781F6',
     blue: 'rgb(var(--blue) / <alpha-value>)',
