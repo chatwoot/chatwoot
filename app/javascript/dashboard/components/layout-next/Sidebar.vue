@@ -135,7 +135,7 @@ const menuItems = computed(() => [
       }))
       .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)),
   },
-  { name: 'Captain', icon: 'i-lucide-bot' },
+  { name: 'Captain', icon: 'i-lucide-bot', to: accountScopedRoute('captain') },
   { name: 'Contacts', icon: 'i-lucide-contact' },
   { name: 'Reports', icon: 'i-lucide-chart-spline' },
   { name: 'Campaigns', icon: 'i-lucide-megaphone' },
