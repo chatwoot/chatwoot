@@ -64,8 +64,8 @@ const activeChild = computed(() => {
       class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-auto"
       :class="{
         'text-n-blue bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
-        'text-n-slate12 font-medium': hasActiveChild,
-        'text-n-slate11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
+        'text-n-slate-12 font-medium': hasActiveChild,
+        'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
       }"
       @click="toggleCollapse()"
     >
@@ -92,13 +92,13 @@ const activeChild = computed(() => {
         <li
           v-show="isExpanded || activeChild?.name === child.name"
           :style="{ '--item-index': index }"
-          class="py-0.5 pl-3 relative child-item before:bg-n-slate3 after:bg-transparent after:border-n-slate3"
+          class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3"
         >
           <component
             :is="child.to ? 'router-link' : 'div'"
             :to="child.to"
             :title="child.name"
-            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70"
+            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70"
             :class="{
               'text-n-blue bg-n-alpha-2 font-medium':
                 activeChild?.name === child.name,
@@ -123,7 +123,7 @@ const activeChild = computed(() => {
     </ul>
     <ul v-else-if="isExpandable && isExpanded">
       <li
-        class="py-1 pl-3 text-n-slate10 border rounded-lg border-dashed text-center border-n-alpha-1 text-xs h-8 grid place-content-center"
+        class="py-1 pl-3 text-n-slate-10 border rounded-lg border-dashed text-center border-n-alpha-2 text-xs h-8 grid place-content-center"
       >
         {{ 'No items' }}
       </li>

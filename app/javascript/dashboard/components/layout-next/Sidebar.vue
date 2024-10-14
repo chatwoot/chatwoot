@@ -145,7 +145,7 @@ const menuItems = computed(() => [
 
 <template>
   <aside
-    class="w-48 bg-n-solid-2 border-r border-n-slate3 dark:border-n-solid-2 h-screen flex flex-col text-sm pt-2"
+    class="w-48 bg-n-solid-2 border-r border-n-weak h-screen flex flex-col text-sm pt-2"
   >
     <section class="grid gap-2 mt-2 px-2 mb-4">
       <button
@@ -166,7 +166,7 @@ const menuItems = computed(() => [
             />
           </span>
           <span
-            class="text-sm font-medium leading-5 text-n-slate12 dark:text-n-slateDark12"
+            class="text-sm font-medium leading-5 text-n-slate-12"
             aria-live="polite"
           >
             {{ currentAccount.name }}
@@ -175,19 +175,19 @@ const menuItems = computed(() => [
 
         <span
           aria-hidden="true"
-          class="i-lucide-chevron-down size-4 text-n-slate10"
+          class="i-lucide-chevron-down size-4 text-n-slate-10"
         />
       </button>
       <div class="gap-2 flex">
         <button
           class="rounded-lg py-1 flex items-center gap-2 px-2 border-n-weak border bg-n-solid-3 dark:bg-n-black/30 w-full"
         >
-          <span class="i-lucide-search size-4 text-n-slate11 flex-shrink-0" />
+          <span class="i-lucide-search size-4 text-n-slate-11 flex-shrink-0" />
           <span class="flex-grow text-left">
             {{ 'Search...' }}
           </span>
           <span
-            class="tracking-wide select-none pointer-events-none text-n-slate10"
+            class="tracking-wide select-none pointer-events-none text-n-slate-10"
           >
             {{ searchShortcut }}
           </span>
@@ -197,7 +197,7 @@ const menuItems = computed(() => [
           class="rounded-lg py-1 flex items-center gap-2 px-2 border-n-weak border bg-n-solid-3 w-full"
         >
           <span
-            class="i-lucide-square-pen size-4 text-n-slate11 flex-shrink-0"
+            class="i-lucide-square-pen size-4 text-n-slate-11 flex-shrink-0"
           />
         </button>
       </div>
