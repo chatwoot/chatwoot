@@ -30,7 +30,9 @@ const toggleCollapse = () => {
 
 const isExpanded = computed(() => expandedItem.value === props.name);
 const hasChildren = computed(() => props.children && props.children.length);
-const isActive = computed(() => route?.name === props.to?.name);
+const isActive = computed(
+  () => props.to && route.path === resolvePath(props.to)
+);
 
 const hasActiveChild = computed(() => {
   return props.children.some(child => {
