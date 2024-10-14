@@ -1,10 +1,11 @@
 <script setup>
 import { h, ref, computed } from 'vue';
 import { provideSidebarContext } from './provider';
-import NavItem from './NavItem.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
-import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
+import { useMapGetter } from 'dashboard/composables/store';
+import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
+import NavItem from './NavItem.vue';
 
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
 
@@ -21,24 +22,56 @@ provideSidebarContext({
   setExpandedItem,
 });
 
-const channelIcon = icon =>
-  h(
+const channelIcon = inbox => {
+  const type = inbox.channel_type;
+
+  const channelTypeIconMap = {
+    'Channel::Api': 'i-ri-cloudy-fill',
+    'Channel::Email': 'i-ri-mail-fill',
+    'Channel::FacebookPage': 'i-ri-messenger-fill',
+    'Channel::Line': 'i-ri-line-fill',
+    'Channel::Sms': 'i-ri-chat-1-fill',
+    'Channel::Telegram': 'i-ri-telegram-fill',
+    'Channel::TwilioSms': 'i-ri-chat-1-fill',
+    'Channel::TwitterProfile': 'i-ri-twitter-x-fill',
+    'Channel::WebWidget': 'i-ri-global-fill',
+    'Channel::Whatsapp': 'i-ri-whatsapp-fill',
+  };
+
+  const providerIconMap = {
+    microsoft: 'i-ri-microsoft-fill',
+    google: 'i-ri-google-fill',
+  };
+
+  let icon = channelTypeIconMap[type];
+
+  if (type === 'Channel::Email' && inbox.provider) {
+    if (Object.keys(providerIconMap).includes(inbox.provider)) {
+      icon = providerIconMap[inbox.provider];
+    }
+  }
+
+  return h(
     'span',
     {
       class: 'size-4 grid place-content-center rounded-full bg-n-alpha-2',
     },
     [
       h('div', {
-        class: `size-3 bg-n-slate11 ${icon}`,
+        class: `size-3 bg-n-slate11 ${icon ?? 'i-ri-global-fill'}`,
       }),
     ]
   );
+};
 
 const labelIcon = backgroundColor =>
   h('span', {
     class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
     style: { backgroundColor },
   });
+
+const inboxes = useMapGetter('inboxes/getInboxes');
+const labels = useMapGetter('labels/getLabelsOnSidebar');
 
 const menuItems = computed(() => [
   {
@@ -65,98 +98,23 @@ const menuItems = computed(() => [
   {
     name: 'Labels',
     icon: 'i-lucide-tag',
-    children: [
-      {
-        name: 'americas',
-        icon: labelIcon('#059669'),
-        to: accountScopedRoute('label_conversations', { label: 'americas' }),
-      },
-      {
-        name: 'apac',
-        icon: labelIcon('#115e59'),
-        to: accountScopedRoute('label_conversations', { label: 'apac' }),
-      },
-      {
-        name: 'billing',
-        icon: labelIcon('#1d4ed8'),
-        to: accountScopedRoute('label_conversations', { label: 'billing' }),
-      },
-      {
-        name: 'bug',
-        icon: labelIcon('#500724'),
-        to: accountScopedRoute('label_conversations', { label: 'bug' }),
-      },
-      {
-        name: 'europe',
-        icon: labelIcon('#65a30d'),
-        to: accountScopedRoute('label_conversations', { label: 'europe' }),
-      },
-      {
-        name: 'feature-request',
-        icon: labelIcon('#6d28d9'),
-        to: accountScopedRoute('label_conversations', {
-          label: 'feature-request',
-        }),
-      },
-      {
-        name: 'marketing',
-        icon: labelIcon('#7dd3fc'),
-        to: accountScopedRoute('label_conversations', { label: 'marketing' }),
-      },
-      {
-        name: 'other',
-        icon: labelIcon('#bef264'),
-        to: accountScopedRoute('label_conversations', { label: 'other' }),
-      },
-      {
-        name: 'refund',
-        icon: labelIcon('#dc2626'),
-        to: accountScopedRoute('label_conversations', { label: 'refund' }),
-      },
-      {
-        name: 'sales',
-        icon: labelIcon('#f87171'),
-        to: accountScopedRoute('label_conversations', { label: 'sales' }),
-      },
-      {
-        name: 'sea',
-        icon: labelIcon('#fb923c'),
-        to: accountScopedRoute('label_conversations', { label: 'sea' }),
-      },
-      {
-        name: 'software',
-        icon: labelIcon('#fbbf24'),
-        to: accountScopedRoute('label_conversations', { label: 'software' }),
-      },
-      {
-        name: 'spam',
-        icon: labelIcon('#fbbf24'),
-        to: accountScopedRoute('label_conversations', { label: 'spam' }),
-      },
-      {
-        name: 'support',
-        icon: labelIcon('#fcd34d'),
-        to: accountScopedRoute('label_conversations', { label: 'support' }),
-      },
-    ],
+    children: labels.value.map(label => ({
+      name: label.title,
+      icon: labelIcon(label.color),
+      to: accountScopedRoute('label_conversations', { label: label.title }),
+    })),
   },
   {
     name: 'Channels',
     icon: 'i-lucide-mailbox',
-    children: [
-      {
-        name: 'Website',
-        icon: channelIcon('i-ri-global-fill'),
-      },
-      {
-        name: 'Facebook',
-        icon: channelIcon('i-ri-messenger-fill'),
-      },
-      {
-        name: 'WhatsApp',
-        icon: channelIcon('i-ri-whatsapp-fill'),
-      },
-    ],
+    children: inboxes.value
+      .map(inbox => ({
+        name: inbox.name,
+        icon: channelIcon(inbox),
+        to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+        // reauthorizationRequired: inbox.reauthorization_required,
+      }))
+      .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)),
   },
   { name: 'Captain', icon: 'i-lucide-bot' },
   { name: 'Contacts', icon: 'i-lucide-contact' },
