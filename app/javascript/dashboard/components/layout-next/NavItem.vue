@@ -31,6 +31,12 @@ const resolvePermissions = to => {
   return router.resolve(to).meta?.permissions ?? [];
 };
 
+const resolveFeatureFlag = to => {
+  if (!to) return '';
+
+  return router.resolve(to).meta?.featureFlag ?? '';
+};
+
 const toggleCollapse = () => {
   toggleTransition(true);
   setExpandedItem(props.name);
@@ -67,6 +73,7 @@ const activeChild = computed(() => {
   <Policy
     as="li"
     :permissions="resolvePermissions(to)"
+    :feature-flag="resolveFeatureFlag(to)"
     class="text-sm cursor-pointer select-none gap-1 grid"
   >
     <component
@@ -104,6 +111,7 @@ const activeChild = computed(() => {
           v-show="isExpanded || activeChild?.name === child.name"
           as="li"
           :permissions="resolvePermissions(child.to)"
+          :feature-flag="resolveFeatureFlag(to)"
           :style="{ '--item-index': index }"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3"
         >
