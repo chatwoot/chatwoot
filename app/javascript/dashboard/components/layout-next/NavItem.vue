@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useSidebarContext } from './provider';
 import { useToggle } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
+import Policy from 'dashboard/components/policy.vue';
 
 import Icon from './Icon.vue';
 
@@ -23,6 +24,13 @@ const { expandedItem, setExpandedItem } = useSidebarContext();
 const [transitioning, toggleTransition] = useToggle(false);
 
 const resolvePath = to => router.resolve(to).path;
+
+const resolvePermissions = to => {
+  if (!to) return [];
+
+  return router.resolve(to).meta?.permissions ?? [];
+};
+
 const toggleCollapse = () => {
   toggleTransition(true);
   setExpandedItem(props.name);
@@ -56,7 +64,11 @@ const activeChild = computed(() => {
 </script>
 
 <template>
-  <li class="text-sm cursor-pointer select-none gap-1 grid">
+  <Policy
+    as="li"
+    :permissions="resolvePermissions(to)"
+    class="text-sm cursor-pointer select-none gap-1 grid"
+  >
     <component
       :is="to ? 'router-link' : 'div'"
       role="button"
@@ -88,12 +100,15 @@ const activeChild = computed(() => {
         :key="child.name"
         name="fade"
       >
-        <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
-        <li
+        <Policy
           v-show="isExpanded || activeChild?.name === child.name"
+          as="li"
+          :permissions="resolvePermissions(child.to)"
           :style="{ '--item-index': index }"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3"
         >
+          <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
+
           <component
             :is="child.to ? 'router-link' : 'div'"
             :to="child.to"
@@ -118,7 +133,7 @@ const activeChild = computed(() => {
             </div>
             <div class="flex-1 truncate min-w-0">{{ child.name }}</div>
           </component>
-        </li>
+        </Policy>
       </transition>
     </ul>
     <ul v-else-if="isExpandable && isExpanded">
@@ -128,7 +143,7 @@ const activeChild = computed(() => {
         {{ 'No items' }}
       </li>
     </ul>
-  </li>
+  </Policy>
 </template>
 
 <style scoped>
