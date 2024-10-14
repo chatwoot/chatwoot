@@ -10,7 +10,7 @@ const props = defineProps({
   name: { type: String, required: true },
   icon: { type: [String, Object, Function], default: null },
   to: { type: Object, default: null },
-  children: { type: Array, default: () => [] },
+  children: { type: Array, default: undefined },
 });
 
 defineOptions({
@@ -29,6 +29,7 @@ const toggleCollapse = () => {
 };
 
 const isExpanded = computed(() => expandedItem.value === props.name);
+const isExpandable = computed(() => props.children);
 const hasChildren = computed(
   () => Array.isArray(props.children) && props.children.length > 0
 );
@@ -37,15 +38,20 @@ const isActive = computed(
 );
 
 const hasActiveChild = computed(() => {
-  return props.children.some(child => {
-    return child.to?.name === route.name;
-  });
+  return (
+    hasChildren.value &&
+    props.children.some(child => {
+      return child.to?.name === route.name;
+    })
+  );
 });
 
 const activeChild = computed(() => {
-  return props.children.find(child => {
-    return child.to && resolvePath(child.to) === route.path;
-  });
+  return hasChildren.value
+    ? props.children.find(child => {
+        return child.to && resolvePath(child.to) === route.path;
+      })
+    : {};
 });
 </script>
 
@@ -72,7 +78,7 @@ const activeChild = computed(() => {
       />
     </component>
     <ul
-      v-show="hasChildren && (isExpanded || transitioning || hasActiveChild)"
+      v-if="hasChildren && (isExpanded || transitioning || hasActiveChild)"
       class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 grid"
       @transitionend="toggleTransition(false)"
     >
@@ -113,9 +119,9 @@ const activeChild = computed(() => {
         </li>
       </transition>
     </ul>
-    <ul v-show="isExpanded && !hasChildren">
+    <ul v-else-if="isExpandable && isExpanded">
       <li
-        class="py-1 pl-3 text-n-slate10 border rounded-lg border-dashed text-center border-n-alpha-1 block text-xs h-8 grid place-content-center"
+        class="py-1 pl-3 text-n-slate10 border rounded-lg border-dashed text-center border-n-alpha-1 text-xs h-8 grid place-content-center"
       >
         {{ 'No items' }}
       </li>
