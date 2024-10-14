@@ -51,7 +51,7 @@ const activeChild = computed(() => {
     ? props.children.find(child => {
         return child.to && resolvePath(child.to) === route.path;
       })
-    : {};
+    : null;
 });
 </script>
 
@@ -90,9 +90,7 @@ const activeChild = computed(() => {
       >
         <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
         <li
-          v-show="
-            isExpanded || (hasActiveChild && activeChild.name === child.name)
-          "
+          v-show="isExpanded || activeChild?.name === child.name"
           :style="{ '--item-index': index }"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate3 after:bg-transparent after:border-n-slate3"
         >
@@ -103,7 +101,7 @@ const activeChild = computed(() => {
             class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70"
             :class="{
               'text-n-blue bg-n-alpha-2 font-medium':
-                hasActiveChild && activeChild.name === child.name,
+                activeChild?.name === child.name,
             }"
           >
             <div>
@@ -112,7 +110,7 @@ const activeChild = computed(() => {
                 :icon="child.icon"
                 class="size-4 inline-block"
                 :class="
-                  activeChild.name === child.name
+                  activeChild?.name === child.name
                     ? 'bg-n-blue/20'
                     : 'bg-n-alpha-2'
                 "
