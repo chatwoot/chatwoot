@@ -33,7 +33,7 @@ export const mutations = {
       // On reconnect, if there is existing notification with same primary_actor_id,
       // it will be deleted and the new one will be added. So it will solve with duplicate notification
       if (existingNotification) {
-        $state.records[existingNotification.id] = undefined;
+        delete $state.records[existingNotification.id];
       }
 
       $state.records[notification.id] = {
@@ -72,7 +72,7 @@ export const mutations = {
   },
   [types.DELETE_NOTIFICATION]($state, data) {
     const { notification, unread_count: unreadCount, count } = data;
-    $state.records[notification.id] = undefined;
+    delete $state.records[notification.id];
     $state.meta.unreadCount = unreadCount;
     $state.meta.count = count;
   },
@@ -83,7 +83,7 @@ export const mutations = {
   [types.DELETE_READ_NOTIFICATIONS]: $state => {
     Object.values($state.records).forEach(item => {
       if (item.read_at) {
-        $state.records[item.id] = undefined;
+        delete $state.records[item.id];
       }
     });
   },
