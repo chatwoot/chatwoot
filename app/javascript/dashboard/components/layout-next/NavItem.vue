@@ -20,7 +20,7 @@ defineOptions({
 const route = useRoute();
 const router = useRouter();
 const { expandedItem, setExpandedItem } = useSidebarContext();
-const [transitioning, toggleTransition] = useToggle();
+const [transitioning, toggleTransition] = useToggle(false);
 
 const resolvePath = to => router.resolve(to).path;
 const toggleCollapse = () => {
@@ -29,7 +29,9 @@ const toggleCollapse = () => {
 };
 
 const isExpanded = computed(() => expandedItem.value === props.name);
-const hasChildren = computed(() => props.children && props.children.length);
+const hasChildren = computed(
+  () => Array.isArray(props.children) && props.children.length > 0
+);
 const isActive = computed(
   () => props.to && route.path === resolvePath(props.to)
 );
@@ -110,6 +112,13 @@ const activeChild = computed(() => {
           </component>
         </li>
       </transition>
+    </ul>
+    <ul v-show="isExpanded && !hasChildren">
+      <li
+        class="py-1 pl-3 text-n-slate10 border rounded-lg border-dashed text-center border-n-alpha-1 block text-xs h-8 grid place-content-center"
+      >
+        {{ 'No items' }}
+      </li>
     </ul>
   </li>
 </template>
