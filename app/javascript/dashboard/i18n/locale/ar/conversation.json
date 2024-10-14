@@ -126,7 +126,7 @@
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {
@@ -308,16 +308,16 @@
   "EMAIL_HEADER": {
     "FROM": "من",
     "TO": "إلى",
-    "BCC": "Bcc",
-    "CC": "Cc",
+    "BCC": "نسخة خفية من البريد",
+    "CC": "نسخة من البريد",
     "SUBJECT": "الموضوع"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "شارك",
+    "SIDEBAR_MENU_TITLE": "المشاركة",
     "SIDEBAR_TITLE": "المشاركون في المحادثة",
     "NO_RECORDS_FOUND": "لم يتم العثور على النتائج",
     "ADD_PARTICIPANTS": "اختر المشاركين",
-    "REMANING_PARTICIPANTS_TEXT": "+{count} أخرى",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} آخرون",
     "REMANING_PARTICIPANT_TEXT": "+{count} أخرى",
     "TOTAL_PARTICIPANTS_TEXT": "{count} شخص مشارك.",
     "TOTAL_PARTICIPANT_TEXT": "{count} شخص مشارك.",
