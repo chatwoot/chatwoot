@@ -285,6 +285,8 @@ export const colors = {
   // next design system color
   n: {
     ...slate,
+    brand: '#2781F6',
+    blue: 'rgb(var(--blue) / <alpha-value>)',
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',

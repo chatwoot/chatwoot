@@ -48,6 +48,7 @@
 
 // scss-lint:disable PropertySortOrder
 @layer base {
+  /* NEXT COLORS START */
   :root {
     --background-color: 248 248 248;
     --solid-1: 255 255 255;
@@ -59,6 +60,7 @@
     --border-strong: 235 235 235;
     --amber-solid: 252 232 193;
     --blue-solid: 218 236 255;
+    --blue: 39 129 246;
 
     /* alpha is added by default */
     --alpha-1: 36, 38, 48, 0.06;
@@ -78,6 +80,7 @@
     --border-strong: 46 47 49;
     --amber-solid: 42 37 30;
     --blue-solid: 16 49 91;
+    --blue: 126 182 255;
 
     /* alpha is added by default */
     --alpha-1: 35, 37, 45, 0.8;
@@ -87,6 +90,7 @@
     --black-alpha-2: 0, 0, 0, 0.2;
     --white-alpha: 255, 255, 255, 0.1;
   }
+  /* NEXT COLORS END */
 
   :root {
     --color-amber-25: 254 253 251;
