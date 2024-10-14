@@ -68,7 +68,7 @@ const articleContent = computed({
         <TextArea
           v-model="articleTitle"
           class="h-12"
-          custom-text-area-class="border-0 text-[32px] !bg-transparent !py-0 !px-0 h-auto leading-[48px] font-medium tracking-[0.2px]"
+          custom-text-area-class="border-0 !text-[32px] !bg-transparent !py-0 !px-0 !h-auto !leading-[48px] !font-medium !tracking-[0.2px]"
           placeholder="Title"
         />
         <div class="flex items-center gap-4">
@@ -97,7 +97,7 @@ const articleContent = computed({
       </div>
       <FullEditor
         v-model="articleContent"
-        class="py-0 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
+        class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
         placeholder="Write something"
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
       />
