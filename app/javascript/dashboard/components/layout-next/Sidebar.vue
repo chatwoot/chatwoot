@@ -180,7 +180,8 @@ const menuItems = computed(() => [
         />
       </button>
       <div class="gap-2 flex">
-        <button
+        <RouterLink
+          :to="{ name: 'search' }"
           class="rounded-lg py-1 flex items-center gap-2 px-2 border-n-weak border bg-n-solid-3 dark:bg-n-black/30 w-full"
         >
           <span class="i-lucide-search size-4 text-n-slate-11 flex-shrink-0" />
@@ -192,7 +193,7 @@ const menuItems = computed(() => [
           >
             {{ searchShortcut }}
           </span>
-        </button>
+        </RouterLink>
         <button
           v-if="enableNewConversation"
           class="rounded-lg py-1 flex items-center gap-2 px-2 border-n-weak border bg-n-solid-3 w-full"
