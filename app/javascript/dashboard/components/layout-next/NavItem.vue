@@ -149,7 +149,7 @@ const activeChild = computed(() => {
 .child-item:last-child::after {
   content: '';
   position: absolute;
-  width: 12px;
+  width: 10px;
   height: 12px;
   bottom: calc(50% - 2px);
   left: 0;
