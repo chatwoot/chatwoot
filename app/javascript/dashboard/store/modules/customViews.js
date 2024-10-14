@@ -22,6 +22,14 @@ export const getters = {
   getCustomViewsByFilterType: _state => filterType => {
     return _state.records.filter(record => record.filter_type === filterType);
   },
+  getConversationCustomViews(_state) {
+    return _state.records.filter(
+      record => record.filter_type === 'conversation'
+    );
+  },
+  getContactCustomViews(_state) {
+    return _state.records.filter(record => record.filter_type === 'contact');
+  },
   getActiveConversationFolder(_state) {
     return _state.activeConversationFolder;
   },

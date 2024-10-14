@@ -1,16 +1,17 @@
 <script setup>
-import { h, ref, computed } from 'vue';
+import { h, ref, computed, onMounted } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useStore } from 'vuex';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import NavItem from './NavItem.vue';
 
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
-
-const enableNewConversation = false;
+const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
+const enableNewConversation = false;
 
 const expandedItem = ref(null);
 const setExpandedItem = name => {
@@ -72,6 +73,20 @@ const labelIcon = backgroundColor =>
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
+// const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
+const conversationCustomViews = useMapGetter(
+  'customViews/getConversationCustomViews'
+);
+
+onMounted(() => {
+  store.dispatch('labels/get');
+  store.dispatch('inboxes/get');
+  store.dispatch('notifications/unReadCount');
+  store.dispatch('teams/get');
+  store.dispatch('attributes/get');
+  store.dispatch('customViews/get', 'conversation');
+  store.dispatch('customViews/get', 'contact');
+});
 
 const menuItems = computed(() => [
   {
@@ -93,7 +108,10 @@ const menuItems = computed(() => [
   {
     name: 'Folders',
     icon: 'i-lucide-folder',
-    children: [{ name: 'needs-follow-up' }, { name: 'priority-customers' }],
+    children: conversationCustomViews.value.map(view => ({
+      name: view.name,
+      to: accountScopedRoute('folder_conversations', { id: view.id }),
+    })),
   },
   {
     name: 'Labels',
