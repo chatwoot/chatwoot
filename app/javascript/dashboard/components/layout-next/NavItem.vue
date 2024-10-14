@@ -59,6 +59,7 @@ const activeChild = computed(() => {
   <li class="text-sm cursor-pointer select-none gap-1 grid">
     <component
       :is="to ? 'router-link' : 'div'"
+      role="button"
       :to="to"
       class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-auto"
       :class="{
@@ -99,12 +100,10 @@ const activeChild = computed(() => {
             :is="child.to ? 'router-link' : 'div'"
             :to="child.to"
             :title="child.name"
-            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px]"
+            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70"
             :class="{
               'text-n-blue bg-n-alpha-2 font-medium':
                 hasActiveChild && activeChild.name === child.name,
-              'hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70':
-                hasActiveChild && activeChild.name !== child.name,
             }"
           >
             <div>
