@@ -66,20 +66,78 @@ const menuItems = [
     name: 'Labels',
     icon: 'i-lucide-tag',
     children: [
-      { name: 'americas', icon: labelIcon('#059669') },
-      { name: 'apac', icon: labelIcon('#115e59') },
-      { name: 'billing', icon: labelIcon('#1d4ed8') },
-      { name: 'bug', icon: labelIcon('#500724') },
-      { name: 'europe', icon: labelIcon('#65a30d') },
-      { name: 'feature-request', icon: labelIcon('#6d28d9') },
-      { name: 'marketing', icon: labelIcon('#7dd3fc') },
-      { name: 'other', icon: labelIcon('#bef264') },
-      { name: 'refund', icon: labelIcon('#dc2626') },
-      { name: 'sales', icon: labelIcon('#f87171') },
-      { name: 'sea', icon: labelIcon('#fb923c') },
-      { name: 'software', icon: labelIcon('#fbbf24') },
-      { name: 'spam', icon: labelIcon('#fbbf24') },
-      { name: 'support', icon: labelIcon('#fcd34d') },
+      {
+        name: 'americas',
+        icon: labelIcon('#059669'),
+        to: accountScopedRoute('label_conversations', { label: 'americas' }),
+      },
+      {
+        name: 'apac',
+        icon: labelIcon('#115e59'),
+        to: accountScopedRoute('label_conversations', { label: 'apac' }),
+      },
+      {
+        name: 'billing',
+        icon: labelIcon('#1d4ed8'),
+        to: accountScopedRoute('label_conversations', { label: 'billing' }),
+      },
+      {
+        name: 'bug',
+        icon: labelIcon('#500724'),
+        to: accountScopedRoute('label_conversations', { label: 'bug' }),
+      },
+      {
+        name: 'europe',
+        icon: labelIcon('#65a30d'),
+        to: accountScopedRoute('label_conversations', { label: 'europe' }),
+      },
+      {
+        name: 'feature-request',
+        icon: labelIcon('#6d28d9'),
+        to: accountScopedRoute('label_conversations', {
+          label: 'feature-request',
+        }),
+      },
+      {
+        name: 'marketing',
+        icon: labelIcon('#7dd3fc'),
+        to: accountScopedRoute('label_conversations', { label: 'marketing' }),
+      },
+      {
+        name: 'other',
+        icon: labelIcon('#bef264'),
+        to: accountScopedRoute('label_conversations', { label: 'other' }),
+      },
+      {
+        name: 'refund',
+        icon: labelIcon('#dc2626'),
+        to: accountScopedRoute('label_conversations', { label: 'refund' }),
+      },
+      {
+        name: 'sales',
+        icon: labelIcon('#f87171'),
+        to: accountScopedRoute('label_conversations', { label: 'sales' }),
+      },
+      {
+        name: 'sea',
+        icon: labelIcon('#fb923c'),
+        to: accountScopedRoute('label_conversations', { label: 'sea' }),
+      },
+      {
+        name: 'software',
+        icon: labelIcon('#fbbf24'),
+        to: accountScopedRoute('label_conversations', { label: 'software' }),
+      },
+      {
+        name: 'spam',
+        icon: labelIcon('#fbbf24'),
+        to: accountScopedRoute('label_conversations', { label: 'spam' }),
+      },
+      {
+        name: 'support',
+        icon: labelIcon('#fcd34d'),
+        to: accountScopedRoute('label_conversations', { label: 'support' }),
+      },
     ],
   },
   {
@@ -170,12 +228,7 @@ const menuItems = [
     </section>
     <nav class="grid gap-2 overflow-y-scroll no-scrollbar px-2 flex-grow">
       <ul class="flex flex-col gap-2 list-none m-0">
-        <NavItem
-          v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-          class="text-n-slate11 hover:bg-n-alpha-2 rounded-lg h-auto"
-        />
+        <NavItem v-for="item in menuItems" :key="item.name" v-bind="item" />
       </ul>
     </nav>
     <section

@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useSidebarContext } from './provider';
 import { useToggle } from '@vueuse/core';
+import { useRoute, useRouter } from 'vue-router';
 
 import Icon from './Icon.vue';
 
@@ -16,16 +17,32 @@ defineOptions({
   inheritAttrs: false,
 });
 
+const route = useRoute();
+const router = useRouter();
 const { expandedItem, setExpandedItem } = useSidebarContext();
-
-const isExpanded = computed(() => expandedItem.value === props.name);
-const hasChildren = computed(() => props.children && props.children.length);
 const [transitioning, toggleTransition] = useToggle();
 
+const resolvePath = to => router.resolve(to).path;
 const toggleCollapse = () => {
   toggleTransition(true);
   setExpandedItem(props.name);
 };
+
+const isExpanded = computed(() => expandedItem.value === props.name);
+const hasChildren = computed(() => props.children && props.children.length);
+const isActive = computed(() => route?.name === props.to?.name);
+
+const hasActiveChild = computed(() => {
+  return props.children.some(child => {
+    return child.to?.name === route.name;
+  });
+});
+
+const activeChild = computed(() => {
+  return props.children.find(child => {
+    return child.to && resolvePath(child.to) === route.path;
+  });
+});
 </script>
 
 <template>
@@ -33,8 +50,12 @@ const toggleCollapse = () => {
     <component
       :is="to ? 'router-link' : 'div'"
       :to="to"
-      class="flex items-center gap-2 px-2 py-1.5"
-      v-bind="$attrs"
+      class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-auto"
+      :class="{
+        'text-n-blue bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
+        'text-n-slate12 font-medium': hasActiveChild,
+        'text-n-slate11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
+      }"
       @click="toggleCollapse()"
     >
       <Icon v-if="icon" :icon="icon" class="size-4" />
@@ -47,7 +68,7 @@ const toggleCollapse = () => {
       />
     </component>
     <ul
-      v-show="hasChildren && (isExpanded || transitioning)"
+      v-show="hasChildren && (isExpanded || transitioning || hasActiveChild)"
       class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 grid"
       @transitionend="toggleTransition(false)"
     >
@@ -58,16 +79,26 @@ const toggleCollapse = () => {
       >
         <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
         <li
-          v-show="isExpanded"
+          v-show="
+            isExpanded || (hasActiveChild && activeChild.name === child.name)
+          "
           :style="{ '--item-index': index }"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate3 after:bg-transparent after:border-n-slate3"
         >
-          <div
-            class="flex h-8 items-center gap-2 px-2 py-1 hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70 rounded-lg"
+          <component
+            :is="child.to ? 'router-link' : 'div'"
+            :to="child.to"
+            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg"
+            :class="{
+              'text-n-blue bg-n-alpha-2 font-medium':
+                hasActiveChild && activeChild.name === child.name,
+              'hover:bg-gradient-to-r from-transparent via-n-slate3/70 to-n-slate3/70':
+                hasActiveChild && activeChild.name !== child.name,
+            }"
           >
             <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
             {{ child.name }}
-          </div>
+          </component>
         </li>
       </transition>
     </ul>
