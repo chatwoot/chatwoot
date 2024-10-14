@@ -55,11 +55,11 @@ const channelIcon = inbox => {
   return h(
     'span',
     {
-      class: 'size-4 grid place-content-center rounded-full bg-n-alpha-2',
+      class: 'size-4 grid place-content-center rounded-full',
     },
     [
       h('div', {
-        class: `size-3 bg-n-slate11 ${icon ?? 'i-ri-global-fill'}`,
+        class: `size-3 bg-current ${icon ?? 'i-ri-global-fill'}`,
       }),
     ]
   );

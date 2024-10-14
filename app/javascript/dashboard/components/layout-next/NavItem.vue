@@ -111,6 +111,11 @@ const activeChild = computed(() => {
                 v-if="child.icon"
                 :icon="child.icon"
                 class="size-4 inline-block"
+                :class="
+                  activeChild.name === child.name
+                    ? 'bg-n-blue/20'
+                    : 'bg-n-alpha-2'
+                "
               />
             </div>
             <div class="flex-1 truncate min-w-0">{{ child.name }}</div>
