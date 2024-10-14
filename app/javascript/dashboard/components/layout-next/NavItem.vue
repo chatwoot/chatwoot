@@ -90,7 +90,8 @@ const activeChild = computed(() => {
           <component
             :is="child.to ? 'router-link' : 'div'"
             :to="child.to"
-            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg"
+            :title="child.name"
+            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px]"
             :class="{
               'text-n-blue bg-n-alpha-2 font-medium':
                 hasActiveChild && activeChild.name === child.name,
@@ -98,8 +99,14 @@ const activeChild = computed(() => {
                 hasActiveChild && activeChild.name !== child.name,
             }"
           >
-            <Icon v-if="child.icon" :icon="child.icon" class="size-4" />
-            {{ child.name }}
+            <div>
+              <Icon
+                v-if="child.icon"
+                :icon="child.icon"
+                class="size-4 inline-block"
+              />
+            </div>
+            <div class="flex-1 truncate min-w-0">{{ child.name }}</div>
           </component>
         </li>
       </transition>
