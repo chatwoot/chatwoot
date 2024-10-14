@@ -110,7 +110,7 @@ class Conversation < ApplicationRecord
   has_many :conversation_plans, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset, :ensure_having_assignee
-  before_save :sync_conversation_plan_status
+  before_save :sync_conversation_plan_status, :clear_unread_if_resolved
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
@@ -220,6 +220,13 @@ class Conversation < ApplicationRecord
     return false unless Current.account&.change_from_request? && assignee_id.nil?
 
     true
+  end
+
+  def clear_unread_if_resolved
+    return unless status_changed? && resolved?
+
+    self.assignee_unread_count = 0
+    self.agent_unread_count = 0
   end
 
   def ensure_having_assignee

@@ -288,6 +288,8 @@ class Message < ApplicationRecord
   end
 
   def update_unread_count
+    return if conversation.resolved?
+
     if incoming? || activity? || private
       conversation.update(agent_unread_count: conversation.agent_unread_count + 1)
       conversation.update(assignee_unread_count: conversation.assignee_unread_count + 1)
