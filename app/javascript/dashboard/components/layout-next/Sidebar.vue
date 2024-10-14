@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref } from 'vue';
+import { h, ref, computed } from 'vue';
 import { provideSidebarContext } from './provider';
 import NavItem from './NavItem.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -40,7 +40,7 @@ const labelIcon = backgroundColor =>
     style: { backgroundColor },
   });
 
-const menuItems = [
+const menuItems = computed(() => [
   {
     name: 'Inbox',
     icon: 'i-lucide-inbox',
@@ -164,7 +164,7 @@ const menuItems = [
   { name: 'Campaigns', icon: 'i-lucide-megaphone' },
   { name: 'Portals', icon: 'i-lucide-library-big' },
   { name: 'Settings', icon: 'i-lucide-bolt' },
-];
+]);
 </script>
 
 <template>
