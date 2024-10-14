@@ -78,7 +78,7 @@ const toggleCollapse = () => {
 }
 
 .fade-leave-active {
-  transition: all 0.15s ease-out;
+  transition: all 0.02s ease-out;
 }
 
 .fade-enter-from,
