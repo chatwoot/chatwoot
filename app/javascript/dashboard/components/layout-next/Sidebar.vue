@@ -6,7 +6,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 
-const { accountId, currentAccount } = useAccount();
+const { accountId, currentAccount, accountScopedRoute } = useAccount();
 
 const enableNewConversation = false;
 const searchShortcut = useKbd([`$mod`, 'k']);
@@ -41,15 +41,20 @@ const labelIcon = backgroundColor =>
   });
 
 const menuItems = [
-  { name: 'Inbox', icon: 'i-lucide-inbox' },
+  {
+    name: 'Inbox',
+    icon: 'i-lucide-inbox',
+    to: accountScopedRoute('inbox_view'),
+  },
   {
     name: 'Conversation',
     icon: 'i-lucide-message-circle',
+    to: accountScopedRoute('home'),
     children: [
-      { name: 'All' },
-      { name: 'Mine' },
-      { name: 'Unassigned' },
-      { name: 'Mentions' },
+      { name: 'All', to: accountScopedRoute('home') },
+      { name: 'Mine', to: accountScopedRoute('home') },
+      { name: 'Unassigned', to: accountScopedRoute('home') },
+      { name: 'Mentions', to: accountScopedRoute('home') },
     ],
   },
   {

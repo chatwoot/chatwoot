@@ -8,6 +8,7 @@ import Icon from './Icon.vue';
 const props = defineProps({
   name: { type: String, required: true },
   icon: { type: [String, Object, Function], default: null },
+  to: { type: Object, default: null },
   children: { type: Array, default: () => [] },
 });
 
@@ -29,7 +30,9 @@ const toggleCollapse = () => {
 
 <template>
   <li class="text-sm cursor-pointer select-none gap-1 grid">
-    <div
+    <component
+      :is="to ? 'router-link' : 'div'"
+      :to="to"
       class="flex items-center gap-2 px-2 py-1.5"
       v-bind="$attrs"
       @click="toggleCollapse()"
@@ -42,7 +45,7 @@ const toggleCollapse = () => {
         v-show="hasChildren && isExpanded"
         class="i-lucide-chevron-up size-3"
       />
-    </div>
+    </component>
     <ul
       v-show="hasChildren && (isExpanded || transitioning)"
       class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 grid"
