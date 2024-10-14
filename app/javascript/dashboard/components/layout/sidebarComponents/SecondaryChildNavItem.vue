@@ -136,7 +136,10 @@ export default {
     },
     unreadCount() {
       if (this.currentRole === 'agent') {
-        return this.unreadMeta?.mine_count || 0;
+        return (
+          (this.unreadMeta?.mine_count || 0) +
+          (this.unreadMeta?.unassigned_count || 0)
+        );
       }
       return this.unreadMeta?.all_count || 0;
     },

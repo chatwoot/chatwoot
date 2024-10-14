@@ -258,7 +258,10 @@ export default {
   methods: {
     unreadCount(menuItem) {
       if (this.currentRole === 'agent') {
-        return menuItem.unreadMeta?.mine_count || 0;
+        return (
+          (menuItem.unreadMeta?.mine_count || 0) +
+          (menuItem.unreadMeta?.unassigned_count || 0)
+        );
       }
       return menuItem.unreadMeta?.all_count || 0;
     },

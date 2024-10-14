@@ -232,7 +232,6 @@ export default {
       activeInbox: 'getSelectedInbox',
       currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
-      currentRole: 'getCurrentRole',
     }),
     bulkActionCheck() {
       return !this.hideThumbnail && !this.hovered && !this.selected;
@@ -256,10 +255,7 @@ export default {
     },
 
     unreadCount() {
-      if (this.currentRole === 'agent') {
-        return this.chat.unread_count;
-      }
-      return this.chat.assignee_unread_count;
+      return this.chat.unread_count;
     },
 
     hasUnread() {

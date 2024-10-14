@@ -171,7 +171,7 @@ class Conversation < ApplicationRecord
   end
 
   def unread_count
-    assignee_id.present? && Current.user&.id == assignee_id ? assignee_unread_count : agent_unread_count
+    assignee_unread_count.positive? ? assignee_unread_count : agent_unread_count
   end
 
   def cached_label_list_array
