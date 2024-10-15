@@ -2,10 +2,10 @@
 import { computed } from 'vue';
 import { useSidebarContext } from './provider';
 import { useToggle } from '@vueuse/core';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
-
-import Icon from './Icon.vue';
+import NavGroupHeader from './NavGroupHeader.vue';
+import NavGroupLeaf from './NavGroupLeaf.vue';
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -18,24 +18,15 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const route = useRoute();
-const router = useRouter();
-const { expandedItem, setExpandedItem } = useSidebarContext();
+const {
+  expandedItem,
+  setExpandedItem,
+  resolvePath,
+  resolvePermissions,
+  resolveFeatureFlag,
+} = useSidebarContext();
 const [transitioning, toggleTransition] = useToggle(false);
-
-const resolvePath = to => router.resolve(to).path;
-
-const resolvePermissions = to => {
-  if (!to) return [];
-
-  return router.resolve(to).meta?.permissions ?? [];
-};
-
-const resolveFeatureFlag = to => {
-  if (!to) return '';
-
-  return router.resolve(to).meta?.featureFlag ?? '';
-};
+const route = useRoute();
 
 const toggleCollapse = () => {
   toggleTransition(true);
@@ -76,27 +67,16 @@ const activeChild = computed(() => {
     :feature-flag="resolveFeatureFlag(to)"
     class="text-sm cursor-pointer select-none gap-1 grid"
   >
-    <component
-      :is="to ? 'router-link' : 'div'"
-      role="button"
+    <NavGroupHeader
+      :icon="icon"
+      :name="name"
       :to="to"
-      class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-auto"
-      :class="{
-        'text-n-blue bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
-        'text-n-slate-12 font-medium': hasActiveChild,
-        'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
-      }"
+      :is-active="isActive"
+      :has-active-child="hasActiveChild"
+      :expandable="hasChildren"
+      :is-expanded="isExpanded"
       @click="toggleCollapse()"
-    >
-      <Icon v-if="icon" :icon="icon" class="size-4" />
-      <span class="text-sm font-medium leading-5 flex-grow">
-        {{ name }}
-      </span>
-      <span
-        v-show="hasChildren && isExpanded"
-        class="i-lucide-chevron-up size-3"
-      />
-    </component>
+    />
     <ul
       v-if="hasChildren && (isExpanded || transitioning || hasActiveChild)"
       class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 grid"
@@ -115,32 +95,10 @@ const activeChild = computed(() => {
           :style="{ '--item-index': index }"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3"
         >
-          <!-- the py-0.5 is added to this becuase we want the before contents to be applied to uniformly event to elements outside the scroll area -->
-
-          <component
-            :is="child.to ? 'router-link' : 'div'"
-            :to="child.to"
-            :title="child.name"
-            class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70"
-            :class="{
-              'text-n-blue bg-n-alpha-2 font-medium':
-                activeChild?.name === child.name,
-            }"
-          >
-            <div>
-              <Icon
-                v-if="child.icon"
-                :icon="child.icon"
-                class="size-4 inline-block"
-                :class="
-                  activeChild?.name === child.name
-                    ? 'bg-n-blue/20'
-                    : 'bg-n-alpha-2'
-                "
-              />
-            </div>
-            <div class="flex-1 truncate min-w-0">{{ child.name }}</div>
-          </component>
+          <NavGroupLeaf
+            v-bind="child"
+            :active="activeChild?.name === child.name"
+          />
         </Policy>
       </transition>
     </ul>
