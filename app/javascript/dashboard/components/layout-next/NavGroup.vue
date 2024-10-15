@@ -14,10 +14,6 @@ const props = defineProps({
   children: { type: Array, default: undefined },
 });
 
-defineOptions({
-  inheritAttrs: false,
-});
-
 const {
   expandedItem,
   setExpandedItem,
@@ -25,13 +21,9 @@ const {
   resolvePermissions,
   resolveFeatureFlag,
 } = useSidebarContext();
+
 const [transitioning, toggleTransition] = useToggle(false);
 const route = useRoute();
-
-const toggleCollapse = () => {
-  toggleTransition(true);
-  setExpandedItem(props.name);
-};
 
 const isExpanded = computed(() => expandedItem.value === props.name);
 const isExpandable = computed(() => props.children);
@@ -58,6 +50,11 @@ const activeChild = computed(() => {
       })
     : null;
 });
+
+const toggleCollapse = () => {
+  toggleTransition(true);
+  setExpandedItem(props.name);
+};
 </script>
 
 <template>
