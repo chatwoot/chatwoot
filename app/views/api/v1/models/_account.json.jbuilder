@@ -7,6 +7,7 @@ if resource.custom_attributes.present?
     json.subscription_status resource.custom_attributes['subscription_status']
     json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?
+    json.contact_masking resource.custom_attributes['contact_masking'] if resource.custom_attributes['contact_masking'].present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?

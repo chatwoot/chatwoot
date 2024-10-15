@@ -92,7 +92,7 @@
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
 
-       <!-- <woot-button
+        <!-- <woot-button
           v-if="isAdmin"
           color-scheme="info"
           icon="upload"
@@ -103,7 +103,7 @@
         </woot-button> -->
 
         <woot-button
-          v-if="isAdmin"
+          v-if="shouldShowExportButton"
           color-scheme="info"
           icon="download"
           class="clear"
@@ -155,7 +155,20 @@ export default {
     },
     ...mapGetters({
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+      accountId: 'getCurrentAccountId',
+      getAccount: 'accounts/getAccount',
     }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
+    shouldShowExportButton() {
+      if (
+        this.isAdmin &&
+        !this.currentAccount?.custom_attributes?.contact_masking?.admin
+      )
+        return true;
+      return false;
+    },
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },

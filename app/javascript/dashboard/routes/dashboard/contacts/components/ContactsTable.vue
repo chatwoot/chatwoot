@@ -37,6 +37,7 @@ import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -85,6 +86,15 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+      getAccount: 'accounts/getAccount',
+    }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
     tableData() {
       if (this.isLoading) {
         return [];
@@ -111,8 +121,17 @@ export default {
         };
       });
     },
+    shouldShowContactDetails() {
+      const contactMasking =
+        this.currentAccount?.custom_attributes?.contact_masking;
+      if (this.currentUser.role === 'administrator' && contactMasking?.admin)
+        return false;
+      if (this.currentUser.role === 'agent' && contactMasking?.agent)
+        return false;
+      return true;
+    },
     columns() {
-      return [
+      const columnItems = [
         {
           field: 'name',
           key: 'name',
@@ -256,6 +275,18 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
         },
       ];
+      if (!this.shouldShowContactDetails) {
+        const filteredItems = columnItems.filter(
+          column => column.key !== 'email' && column.key !== 'phone_number'
+        );
+        return filteredItems;
+      }
+      return columnItems;
+    },
+    columnFiltered() {
+      return this.columns.filter(
+        column => column.key === 'email' || column.key === 'phone_number'
+      );
     },
   },
   watch: {

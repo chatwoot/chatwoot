@@ -29,7 +29,7 @@
           v-for="(filter, i) in appliedFilters"
           :key="i"
           v-model="appliedFilters[i]"
-          :filter-groups="filterGroups"
+          :filter-groups="filterGroupsFilter"
           :grouped-filters="true"
           :input-type="
             getInputType(
@@ -157,7 +157,42 @@ export default {
   computed: {
     ...mapGetters({
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+      accountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+      getAccount: 'accounts/getAccount',
     }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
+    shouldShowContactDetails() {
+      const contactMasking =
+        this.currentAccount?.custom_attributes?.contact_masking;
+      if (this.currentUser.role === 'administrator' && contactMasking?.admin)
+        return false;
+      if (this.currentUser.role === 'agent' && contactMasking?.agent)
+        return false;
+      return true;
+    },
+    filterGroupsFilter() {
+      if (this.shouldShowContactDetails) {
+        return this.filterGroups;
+      }
+      return this.filterGroups.map(group => {
+        if (
+          group.name === 'Standard Filters' &&
+          !this.shouldShowContactDetails
+        ) {
+          return {
+            ...group,
+            attributes: group.attributes.filter(
+              attr => attr.key !== 'email' && attr.key !== 'phone_number'
+            ),
+          };
+        }
+        return group;
+      });
+    },
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },

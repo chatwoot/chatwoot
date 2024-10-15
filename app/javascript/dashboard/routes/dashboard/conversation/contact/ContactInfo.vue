@@ -55,7 +55,10 @@
         <p v-if="additionalAttributes.description" class="break-words mb-0.5">
           {{ additionalAttributes.description }}
         </p>
-        <div class="flex flex-col gap-2 items-start w-full">
+        <div
+          v-if="shouldShowContactDetails"
+          class="flex flex-col gap-2 items-start w-full"
+        >
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
@@ -248,13 +251,21 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      currentChat: 'getSelectedChat',
+      currentUser: 'getCurrentUser',
+      getAccount: 'accounts/getAccount',
     }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
+
     location() {
       const {
         country = '',
@@ -279,6 +290,15 @@ export default {
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
+    },
+    shouldShowContactDetails() {
+      const contactMasking =
+        this.currentAccount?.custom_attributes?.contact_masking;
+      if (this.currentUser.role === 'administrator' && contactMasking?.admin)
+        return false;
+      if (this.currentUser.role === 'agent' && contactMasking?.agent)
+        return false;
+      return true;
     },
   },
   methods: {
