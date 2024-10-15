@@ -17,8 +17,6 @@ const customItemsState = createPaginationState(2, 100, 10);
 const singlePageState = createPaginationState(1, 10, 16);
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
-<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story
     title="Components/PaginationFooter"

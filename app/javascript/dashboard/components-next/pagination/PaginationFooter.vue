@@ -54,8 +54,6 @@ const pageInfo = computed(() => {
 });
 </script>
 
-<!-- TODO: Use i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <div
     class="flex justify-between h-12 w-full max-w-[957px] mx-auto bg-slate-25 dark:bg-slate-800/50 rounded-xl py-2 px-3 items-center"
