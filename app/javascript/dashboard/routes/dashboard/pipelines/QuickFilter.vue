@@ -139,30 +139,36 @@ export default {
       const filters = [
         {
           id: 0,
+          key: 'custom_view',
+          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
+          type: 'customViews',
+        },
+        {
+          id: 1,
           key: 'conversation_plan',
           name: this.$t('PIPELINE_PAGE.FILTER.CONVERSATION_PLANS'),
           type: 'conversation_plans',
         },
         {
-          id: 1,
+          id: 2,
           key: 'assignee_id',
           name: this.$t('PIPELINE_PAGE.FILTER.AGENTS'),
           type: 'agents',
         },
         {
-          id: 2,
+          id: 3,
           key: 'team_id',
           name: this.$t('PIPELINE_PAGE.FILTER.TEAMS'),
           type: 'teams',
         },
         {
-          id: 3,
+          id: 4,
           key: 'product_id',
           name: this.$t('PIPELINE_PAGE.FILTER.PRODUCTS'),
           type: 'products',
         },
         {
-          id: 4,
+          id: 5,
           key: 'label',
           name: this.$t('PIPELINE_PAGE.FILTER.LABELS'),
           type: 'labels',
@@ -201,7 +207,7 @@ export default {
         })),
       ];
 
-      const formattedAttributes = allCustomAttributes
+      return allCustomAttributes
         .filter(attr => attr.attribute_display_type === 'list')
         .map((attr, i) => ({
           id: i + this.filterAttributes.length,
@@ -216,23 +222,6 @@ export default {
             };
           }),
         }));
-
-      return [
-        ...formattedAttributes,
-        {
-          id: this.filterAttributes.length + formattedAttributes.length,
-          key: 'custom_view',
-          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
-          type: 'customViews',
-          options: this.customViews.map(option => {
-            return {
-              id: option.id,
-              name: option.name,
-              key: 'custom_view',
-            };
-          }),
-        },
-      ];
     },
     filterListMenuItems() {
       const filterTypes = [...this.filterAttributes, ...this.customFilters];
