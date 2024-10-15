@@ -79,7 +79,7 @@ const createPopperInstances = () => {
           {
             name: 'offset',
             options: {
-              offset: [0, 2],
+              offset: [0, 4],
             },
           },
           {
@@ -115,9 +115,10 @@ const createPopperInstances = () => {
             :id="`filter-item-${item.id}`"
             :key="item.id"
             :button-text="item.name"
-            @mouseenter="showSubMenu(item.id)"
-            @mouseleave="hideSubMenu"
-            @focus="showSubMenu(item.id)"
+            :class="{
+              'bg-slate-25': isHovered(item.id),
+            }"
+            @click="showSubMenu(item.id)"
           >
             <!-- Submenu with search and clear button  -->
             <template v-if="item.options" #dropdown>
