@@ -3,6 +3,7 @@ import FilterButton from './FilterButton.vue';
 import FilterListDropdown from './FilterListDropdown.vue';
 import FilterListItemButton from './FilterListItemButton.vue';
 import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
+import FilterParentMenu from './FilterParentMenu.vue';
 
 import { ref } from 'vue';
 import { createPopper } from '@popperjs/core';
@@ -55,7 +56,10 @@ const hideSubMenu = () => {
 const isHovered = id => hoveredItemId.value === id;
 
 const emit = defineEmits(['toggleDropdown', 'addFilter', 'closeDropdown']);
-const toggleDropdown = () => emit('toggleDropdown');
+const toggleDropdown = () => {
+  hideSubMenu();
+  emit('toggleDropdown');
+};
 const addFilter = item => {
   emit('addFilter', item);
   hideSubMenu();
@@ -100,41 +104,47 @@ const createPopperInstances = () => {
   <filter-button :button-text="name" left-icon="filter" @click="toggleDropdown">
     <!-- Dropdown with search and sub-dropdown -->
     <template v-if="showMenu" #dropdown>
-      <filter-list-dropdown
+      <filter-parent-menu
         v-on-clickaway="closeDropdown"
-        class="left-0 md:right-0 top-10"
+        class="min-w-[30rem]"
         @createPopperInstances="createPopperInstances"
       >
         <template #listItem>
-          <filter-dropdown-empty-state
-            v-if="!menuOption.length"
-            :message="emptyStateMessage"
-          />
-          <filter-list-item-button
-            v-for="item in menuOption"
-            :id="`filter-item-${item.id}`"
-            :key="item.id"
-            :button-text="item.name"
-            :class="{
-              'dark:bg-slate-600 bg-slate-25': isHovered(item.id),
-            }"
-            @click="showSubMenu(item.id)"
+          <div
+            class="w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50"
           >
-            <!-- Submenu with search and clear button  -->
-            <template v-if="item.options" #dropdown>
-              <filter-list-dropdown
-                v-show="isHovered(item.id)"
-                :id="`filter-submenu-${item.id}`"
-                :list-items="item.options"
-                :input-placeholder="$t('GENERAL.LIST_SEARCH_PLACEHOLDER')"
-                :enable-search="enableSearch"
-                class="flex flex-col w-80 overflow-y-auto top-0 left-36 max-h-[calc(100vh-7rem)]"
-                @click="addFilter"
-              />
-            </template>
-          </filter-list-item-button>
+            <filter-dropdown-empty-state
+              v-if="!menuOption.length"
+              :message="emptyStateMessage"
+            />
+            <filter-list-item-button
+              v-for="item in menuOption"
+              :id="`filter-item-${item.id}`"
+              :key="item.id"
+              :button-text="item.name"
+              :class="[
+                {
+                  'bg-slate-25': isHovered(item.id),
+                },
+              ]"
+              @click="showSubMenu(item.id)"
+            >
+              <!-- Submenu with search and clear button  -->
+              <template v-if="item.options" #dropdown>
+                <filter-list-dropdown
+                  v-show="isHovered(item.id)"
+                  :id="`filter-submenu-${item.id}`"
+                  :list-items="item.options"
+                  :input-placeholder="$t('GENERAL.LIST_SEARCH_PLACEHOLDER')"
+                  :enable-search="enableSearch"
+                  class="flex flex-col w-80 overflow-y-auto top-0 left-36 max-h-[calc(100vh-7rem)]"
+                  @click="addFilter"
+                />
+              </template>
+            </filter-list-item-button>
+          </div>
         </template>
-      </filter-list-dropdown>
+      </filter-parent-menu>
     </template>
   </filter-button>
 </template>
