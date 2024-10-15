@@ -116,7 +116,7 @@ const createPopperInstances = () => {
             :key="item.id"
             :button-text="item.name"
             :class="{
-              'bg-slate-25': isHovered(item.id),
+              'dark:bg-slate-600 bg-slate-25': isHovered(item.id),
             }"
             @click="showSubMenu(item.id)"
           >
