@@ -5,12 +5,14 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import NavGroup from './NavGroup.vue';
 
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
+const { t } = useI18n();
 const enableNewConversation = false;
 
 const expandedItem = ref(null);
@@ -55,11 +57,12 @@ const channelIcon = inbox => {
   return h(
     'span',
     {
-      class: 'size-4 grid place-content-center rounded-full',
+      class:
+        'size-4 grid place-content-center rounded-full group-[.active]:bg-n-blue/20 bg-n-alpha-2',
     },
     [
       h('div', {
-        class: `size-3 bg-current ${icon ?? 'i-ri-global-fill'}`,
+        class: `size-3 ${icon ?? 'i-ri-global-fill'}`,
       }),
     ]
   );
@@ -164,10 +167,111 @@ const menuItems = computed(() => [
       },
     ],
   },
-  { name: 'Reports', icon: 'i-lucide-chart-spline' },
-  { name: 'Campaigns', icon: 'i-lucide-megaphone' },
+  {
+    name: 'Reports',
+    icon: 'i-lucide-chart-spline',
+    children: [
+      { name: 'Overview', to: accountScopedRoute('account_overview_reports') },
+      { name: 'Conversation', to: accountScopedRoute('conversation_reports') },
+      { name: 'CSAT', to: accountScopedRoute('csat_reports') },
+      { name: 'Bot', to: accountScopedRoute('bot_reports') },
+      { name: 'Agent', to: accountScopedRoute('agent_reports') },
+      { name: 'Label', to: accountScopedRoute('label_reports') },
+      { name: 'Inbox', to: accountScopedRoute('inbox_reports') },
+      { name: 'Team', to: accountScopedRoute('team_reports') },
+      { name: 'SLA', to: accountScopedRoute('sla_reports') },
+    ],
+  },
+  {
+    name: 'Campaigns',
+    icon: 'i-lucide-megaphone',
+    children: [
+      { name: 'Ongoing', to: accountScopedRoute('ongoing_campaigns') },
+      { name: 'One-off', to: accountScopedRoute('one_off') },
+    ],
+  },
   { name: 'Portals', icon: 'i-lucide-library-big' },
-  { name: 'Settings', icon: 'i-lucide-bolt' },
+  {
+    name: 'Settings',
+    icon: 'i-lucide-bolt',
+    children: [
+      {
+        name: t('SIDEBAR.ACCOUNT_SETTINGS'),
+        icon: 'i-lucide-briefcase',
+        to: accountScopedRoute('general_settings_index'),
+      },
+      {
+        name: t('SIDEBAR.AGENTS'),
+        icon: 'i-lucide-square-user',
+        to: accountScopedRoute('agent_list'),
+      },
+      {
+        name: t('SIDEBAR.TEAMS'),
+        icon: 'i-lucide-users',
+        to: accountScopedRoute('settings_teams_list'),
+      },
+      {
+        name: t('SIDEBAR.INBOXES'),
+        icon: 'i-lucide-inbox',
+        to: accountScopedRoute('settings_inbox_list'),
+      },
+      {
+        name: t('SIDEBAR.LABELS'),
+        icon: 'i-lucide-tags',
+        to: accountScopedRoute('labels_list'),
+      },
+      {
+        name: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+        icon: 'i-lucide-code',
+        to: accountScopedRoute('attributes_list'),
+      },
+      {
+        name: t('SIDEBAR.AUTOMATION'),
+        icon: 'i-lucide-workflow',
+        to: accountScopedRoute('automation_list'),
+      },
+      {
+        name: t('SIDEBAR.AGENT_BOTS'),
+        icon: 'i-lucide-bot',
+        to: accountScopedRoute('agent_bots'),
+      },
+      {
+        name: t('SIDEBAR.MACROS'),
+        icon: 'i-lucide-toy-brick',
+        to: accountScopedRoute('macros_wrapper'),
+      },
+      {
+        name: t('SIDEBAR.CANNED_RESPONSES'),
+        icon: 'i-lucide-message-square-quote',
+        to: accountScopedRoute('canned_list'),
+      },
+      {
+        name: t('SIDEBAR.INTEGRATIONS'),
+        icon: 'i-lucide-blocks',
+        to: accountScopedRoute('settings_applications'),
+      },
+      {
+        name: t('SIDEBAR.AUDIT_LOGS'),
+        icon: 'i-lucide-briefcase',
+        to: accountScopedRoute('auditlogs_list'),
+      },
+      {
+        name: t('SIDEBAR.CUSTOM_ROLES'),
+        icon: 'i-lucide-shield-plus',
+        to: accountScopedRoute('custom_roles_list'),
+      },
+      {
+        name: t('SIDEBAR.SLA'),
+        icon: 'i-lucide-clock-alert',
+        to: accountScopedRoute('sla_list'),
+      },
+      {
+        name: t('SIDEBAR.BILLING'),
+        icon: 'i-lucide-credit-card',
+        to: accountScopedRoute('billing_settings_index'),
+      },
+    ],
+  },
 ]);
 </script>
 
