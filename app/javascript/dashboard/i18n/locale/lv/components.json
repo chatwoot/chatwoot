@@ -1,0 +1,6 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Tiek rādīts {startItem} - {endItem} no {totalItems} vienumiem",
+    "CURRENT_PAGE_INFO": "{currentPage} no {totalPages} lapām"
+  }
+}
