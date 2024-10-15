@@ -100,9 +100,8 @@ const menuItems = computed(() => [
     icon: 'i-lucide-message-circle',
     children: [
       { name: 'All', to: accountScopedRoute('home') },
-      { name: 'Mine', to: accountScopedRoute('home') },
-      { name: 'Unassigned', to: accountScopedRoute('home') },
-      { name: 'Mentions', to: accountScopedRoute('home') },
+      { name: 'Mentions', to: accountScopedRoute('conversation_mentions') },
+      { name: 'Unattended', to: accountScopedRoute('conversation_unattended') },
       {
         name: 'Folders',
         icon: 'i-lucide-folder',
