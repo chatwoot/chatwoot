@@ -6,7 +6,7 @@ RAILS_ENV ?= development
 setup:
 	gem install bundler
 	bundle install
-	yarn install
+	pnpm install
 
 db_create:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:create
