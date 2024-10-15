@@ -74,7 +74,7 @@ const labelIcon = backgroundColor =>
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const currentUser = useMapGetter('getCurrentUser');
-// const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
+const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
@@ -136,7 +136,34 @@ const menuItems = computed(() => [
     ],
   },
   { name: 'Captain', icon: 'i-lucide-bot', to: accountScopedRoute('captain') },
-  { name: 'Contacts', icon: 'i-lucide-contact' },
+  {
+    name: 'Contacts',
+    icon: 'i-lucide-contact',
+    children: [
+      { name: 'All Contacts', to: accountScopedRoute('contacts_dashboard') },
+      {
+        name: 'Segments',
+        icon: 'i-lucide-group',
+        children: contactCustomViews.value.map(view => ({
+          name: view.name,
+          to: accountScopedRoute('contacts_segments_dashboard', {
+            id: view.id,
+          }),
+        })),
+      },
+      {
+        name: 'Labels',
+        icon: 'i-lucide-tag',
+        children: labels.value.map(label => ({
+          name: label.title,
+          icon: labelIcon(label.color),
+          to: accountScopedRoute('contacts_labels_dashboard', {
+            label: label.title,
+          }),
+        })),
+      },
+    ],
+  },
   { name: 'Reports', icon: 'i-lucide-chart-spline' },
   { name: 'Campaigns', icon: 'i-lucide-megaphone' },
   { name: 'Portals', icon: 'i-lucide-library-big' },
