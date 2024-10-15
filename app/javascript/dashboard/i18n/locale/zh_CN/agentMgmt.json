@@ -3,8 +3,8 @@
     "HEADER": "客服",
     "HEADER_BTN_TXT": "添加客服",
     "LOADING": "正在获取客服列表",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "客服代表是您的客户支持团队的成员，他们可以查看和回复用户信息。 下面的列表显示您帐户中的所有客服代表。",
+    "LEARN_MORE": "角色说明",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理员",
       "AGENT": "客服"
@@ -19,7 +19,7 @@
       "ACTIONS": "操作",
       "VERIFIED": "已认证",
       "VERIFICATION_PENDING": "待验证",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "可自定义角色权限"
     },
     "ADD": {
       "TITLE": "添加客服至您的团队",
