@@ -8,5 +8,8 @@
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm"
     }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
   }
 }
