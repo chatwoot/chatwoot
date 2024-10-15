@@ -190,7 +190,37 @@ const menuItems = computed(() => [
       { name: 'One-off', to: accountScopedRoute('one_off') },
     ],
   },
-  { name: 'Portals', icon: 'i-lucide-library-big' },
+  // {
+  //   name: 'Portals',
+  //   icon: 'i-lucide-library-big',
+  //   children: [
+  //     {
+  //       icon: 'i-lucide-book',
+  //       name: t('SIDEBAR.HELP_CENTER.ALL_ARTICLES'),
+  //       to: accountScopedRoute('list_all_locale_articles'),
+  //     },
+  //     {
+  //       icon: 'i-lucide-pen',
+  //       name: t('SIDEBAR.HELP_CENTER.MY_ARTICLES'),
+  //       to: accountScopedRoute('list_mine_articles'),
+  //     },
+  //     {
+  //       icon: 'i-lucide-draft',
+  //       name: t('SIDEBAR.HELP_CENTER.DRAFT'),
+  //       to: accountScopedRoute('list_draft_articles'),
+  //     },
+  //     {
+  //       icon: 'i-lucide-archive',
+  //       name: t('SIDEBAR.HELP_CENTER.ARCHIVED'),
+  //       to: accountScopedRoute('list_archived_articles'),
+  //     },
+  //     {
+  //       icon: 'i-lucide-settings',
+  //       name: t('SIDEBAR.HELP_CENTER.SETTINGS'),
+  //       to: accountScopedRoute('edit_portal_information'),
+  //     },
+  //   ],
+  // },
   {
     name: 'Settings',
     icon: 'i-lucide-bolt',
