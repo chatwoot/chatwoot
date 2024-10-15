@@ -2,6 +2,7 @@
 import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
+import NextSidebar from 'dashboard/components/layout-next/Sidebar.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -22,6 +23,7 @@ const CommandBar = defineAsyncComponent(
 
 export default {
   components: {
+    NextSidebar,
     AccountSelector,
     AddCategory,
     CommandBar,
@@ -289,6 +291,7 @@ export default {
 
 <template>
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
+    <NextSidebar />
     <Sidebar
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
