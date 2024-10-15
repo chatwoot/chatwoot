@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { nextTick, ref, computed, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -13,7 +14,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Select an option...',
+    default: '',
   },
   modelValue: {
     type: [String, Number],
@@ -25,19 +26,22 @@ const props = defineProps({
   },
   searchPlaceholder: {
     type: String,
-    default: 'Search...',
+    default: '',
   },
   emptyState: {
     type: String,
-    default: 'No results found.',
+    default: '',
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
+const { t } = useI18n();
+
 const selectedValue = ref(props.modelValue);
 const open = ref(false);
 const search = ref('');
+const searchInput = ref(null);
 const comboboxRef = ref(null);
 
 const filteredOptions = computed(() => {
@@ -46,11 +50,14 @@ const filteredOptions = computed(() => {
     option.label.toLowerCase().includes(searchTerm)
   );
 });
+const selectPlaceholder = computed(() => {
+  return props.placeholder || t('COMBOBOX.PLACEHOLDER');
+});
 const selectedLabel = computed(() => {
   const selected = props.options.find(
     option => option.value === selectedValue.value
   );
-  return selected?.label ?? props.placeholder;
+  return selected?.label ?? selectPlaceholder.value;
 });
 
 const selectOption = option => {
@@ -63,7 +70,7 @@ const toggleDropdown = () => {
   open.value = !open.value;
   if (open.value) {
     search.value = '';
-    setTimeout(() => document.querySelector('input')?.focus(), 0);
+    nextTick(() => searchInput.value.focus());
   }
 };
 
@@ -110,9 +117,10 @@ onClickOutside(comboboxRef, () => {
           aria-hidden="true"
         />
         <input
+          ref="searchInput"
           v-model="search"
           type="search"
-          :placeholder="searchPlaceholder"
+          :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
           class="w-full py-2 pl-10 pr-2 text-sm bg-white border-none rounded-t-md dark:bg-slate-900 text-slate-900 dark:text-slate-50"
         />
       </div>
@@ -147,7 +155,7 @@ onClickOutside(comboboxRef, () => {
           v-if="filteredOptions.length === 0"
           class="px-3 py-2 text-sm text-slate-600 dark:text-slate-300"
         >
-          {{ emptyState }}
+          {{ emptyState || t('COMBOBOX.EMPTY_STATE') }}
         </li>
       </ul>
     </div>
