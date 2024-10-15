@@ -22,8 +22,6 @@ const openConfirmDialog = () => {
 const onConfirm = dialog => {};
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
-<!-- eslint-disable vue/no-undef-components -->
 <template>
   <Story title="Components/Dialog" :layout="{ type: 'grid', width: '100%' }">
     <Variant title="Alert Dialog">

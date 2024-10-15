@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
+
 defineProps({
   type: {
     type: String,
@@ -18,15 +20,17 @@ defineProps({
   },
   cancelButtonLabel: {
     type: String,
-    default: 'Cancel',
+    default: '',
   },
   confirmButtonLabel: {
     type: String,
-    default: 'Confirm',
+    default: '',
   },
 });
 
 const emit = defineEmits(['confirm']);
+
+const { t } = useI18n();
 
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
@@ -85,7 +89,7 @@ onClickOutside(dialogContentRef, event => {
         <div class="flex items-center justify-between w-full gap-3">
           <Button
             variant="secondary"
-            :label="cancelButtonLabel"
+            :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
             class="w-full"
             size="sm"
             @click="close"
@@ -93,7 +97,7 @@ onClickOutside(dialogContentRef, event => {
           <Button
             v-if="type !== 'alert'"
             :variant="type === 'edit' ? 'default' : 'destructive'"
-            :label="confirmButtonLabel"
+            :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
             class="w-full"
             size="sm"
             @click="confirm"
