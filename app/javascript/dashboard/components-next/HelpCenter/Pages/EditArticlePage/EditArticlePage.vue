@@ -115,20 +115,8 @@ const articleContent = computed({
     .ProseMirror-woot-style {
       @apply min-h-[15rem] max-h-full;
     }
-    // .ProseMirror-menubar {
-    //   @apply mb-0;
-    //   .ProseMirror-menuitem {
-    //     height: 38px !important;
-    //     .ProseMirror-icon {
-    //       @apply pl-1 pr-1 !mr-0;
-    //       svg {
-    //         width: 16px !important;
-    //         height: 20px !important;
-    //       }
-    //     }
-    //   }
-    // }
   }
+
   .ProseMirror-menubar {
     display: none; // Hide by default
   }
