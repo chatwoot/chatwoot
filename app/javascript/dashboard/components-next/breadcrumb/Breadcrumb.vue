@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
+import { useI18n } from 'vue-i18n';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 defineProps({
@@ -15,13 +16,17 @@ defineProps({
       );
     },
   },
+  countLabel: {
+    type: String,
+    default: '',
+  },
 });
+
+const { t } = useI18n();
 </script>
 
-<!-- TODO: Add i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <nav aria-label="Breadcrumb" class="flex items-center h-8">
+  <nav :aria-label="t('BREADCRUMB.ARIA_LABEL')" class="flex items-center h-8">
     <ol class="flex items-center mb-0">
       <li
         v-for="(item, index) in items"
@@ -31,7 +36,7 @@ defineProps({
         <template v-if="index === items.length - 1">
           <span class="text-sm text-slate-900 dark:text-slate-50">
             {{
-              `${item.label}${item.count ? ` (${item.count} articles)` : ''}`
+              `${item.label}${item.count ? ` (${item.count} ${countLabel})` : ''}`
             }}
           </span>
         </template>

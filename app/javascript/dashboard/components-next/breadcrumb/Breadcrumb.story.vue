@@ -42,20 +42,20 @@ const longBreadcrumb = ref([
 
     <Variant title="Three Items with Count">
       <div class="w-full p-4 bg-white dark:bg-slate-900">
-        <Breadcrumb :items="threeItems" />
+        <Breadcrumb :items="threeItems" count-label="articles" />
       </div>
     </Variant>
 
     <Variant title="Long Breadcrumb">
       <div class="w-full p-4 bg-white dark:bg-slate-900">
-        <Breadcrumb :items="longBreadcrumb" />
+        <Breadcrumb :items="longBreadcrumb" count-label="articles" />
       </div>
     </Variant>
 
     <Variant title="RTL Support">
       <div dir="rtl">
         <div class="w-full p-4 bg-white dark:bg-slate-900">
-          <Breadcrumb :items="threeItems" />
+          <Breadcrumb :items="threeItems" count-label="articles" />
         </div>
       </div>
     </Variant>
