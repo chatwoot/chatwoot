@@ -30,7 +30,7 @@ server:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails server -b 0.0.0.0 -p 3000
 
 burn:
-	bundle && yarn
+	bundle && pnpm install
 
 run:
 	@if [ -f ./.overmind.sock ]; then \
