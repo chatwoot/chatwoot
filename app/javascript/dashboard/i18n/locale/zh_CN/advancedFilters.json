@@ -18,7 +18,7 @@
       "AND": "和",
       "OR": "或"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "填写内容",
     "OPERATOR_LABELS": {
       "equal_to": "等于",
       "not_equal_to": "不等于",
