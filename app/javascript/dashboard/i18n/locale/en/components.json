@@ -7,5 +7,14 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_STATE": "No results found.",
     "SEARCH_PLACEHOLDER": "Search..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
   }
 }
