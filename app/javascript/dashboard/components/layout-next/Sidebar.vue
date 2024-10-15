@@ -98,42 +98,43 @@ const menuItems = computed(() => [
   {
     name: 'Conversation',
     icon: 'i-lucide-message-circle',
-    to: accountScopedRoute('home'),
     children: [
       { name: 'All', to: accountScopedRoute('home') },
       { name: 'Mine', to: accountScopedRoute('home') },
       { name: 'Unassigned', to: accountScopedRoute('home') },
       { name: 'Mentions', to: accountScopedRoute('home') },
+      {
+        name: 'Folders',
+        icon: 'i-lucide-folder',
+        children: conversationCustomViews.value.map(view => ({
+          name: view.name,
+          to: accountScopedRoute('folder_conversations', { id: view.id }),
+        })),
+      },
+      {
+        name: 'Channels',
+        icon: 'i-lucide-mailbox',
+        children: inboxes.value
+          .map(inbox => ({
+            name: inbox.name,
+            icon: channelIcon(inbox),
+            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+            // reauthorizationRequired: inbox.reauthorization_required,
+          }))
+          .sort((a, b) =>
+            a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
+          ),
+      },
+      {
+        name: 'Labels',
+        icon: 'i-lucide-tag',
+        children: labels.value.map(label => ({
+          name: label.title,
+          icon: labelIcon(label.color),
+          to: accountScopedRoute('label_conversations', { label: label.title }),
+        })),
+      },
     ],
-  },
-  {
-    name: 'Folders',
-    icon: 'i-lucide-folder',
-    children: conversationCustomViews.value.map(view => ({
-      name: view.name,
-      to: accountScopedRoute('folder_conversations', { id: view.id }),
-    })),
-  },
-  {
-    name: 'Labels',
-    icon: 'i-lucide-tag',
-    children: labels.value.map(label => ({
-      name: label.title,
-      icon: labelIcon(label.color),
-      to: accountScopedRoute('label_conversations', { label: label.title }),
-    })),
-  },
-  {
-    name: 'Channels',
-    icon: 'i-lucide-mailbox',
-    children: inboxes.value
-      .map(inbox => ({
-        name: inbox.name,
-        icon: channelIcon(inbox),
-        to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-        // reauthorizationRequired: inbox.reauthorization_required,
-      }))
-      .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)),
   },
   { name: 'Captain', icon: 'i-lucide-bot', to: accountScopedRoute('captain') },
   { name: 'Contacts', icon: 'i-lucide-contact' },

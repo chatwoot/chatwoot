@@ -6,6 +6,8 @@ import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
 import NavGroupHeader from './NavGroupHeader.vue';
 import NavGroupLeaf from './NavGroupLeaf.vue';
+import NavGroupSeparator from './NavGroupSeparator.vue';
+import NavGroupEmptyLeaf from './NavGroupEmptyLeaf.vue';
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -22,6 +24,27 @@ const {
   resolveFeatureFlag,
 } = useSidebarContext();
 
+const flattenedChildren = computed(() => {
+  const flattend = [];
+
+  // loop over the children, if there are children of children, add a separator entry with no "to" and no "children"
+  // just type="separator" and take it's children and appended it to flattend
+  props.children.forEach(child => {
+    if (child.children) {
+      flattend.push({ type: 'separator', name: child.name, icon: child.icon });
+      if (child.children.length > 0) {
+        flattend.push(...child.children);
+      } else {
+        flattend.push({ type: 'empty' });
+      }
+    } else {
+      flattend.push(child);
+    }
+  });
+
+  return flattend;
+});
+
 const [transitioning, toggleTransition] = useToggle(false);
 const route = useRoute();
 
@@ -37,7 +60,7 @@ const isActive = computed(
 const hasActiveChild = computed(() => {
   return (
     hasChildren.value &&
-    props.children.some(child => {
+    flattenedChildren.value.some(child => {
       return child.to?.name === route.name;
     })
   );
@@ -45,7 +68,7 @@ const hasActiveChild = computed(() => {
 
 const activeChild = computed(() => {
   return hasChildren.value
-    ? props.children.find(child => {
+    ? flattenedChildren.value.find(child => {
         return child.to && resolvePath(child.to) === route.path;
       })
     : null;
@@ -76,21 +99,33 @@ const toggleCollapse = () => {
     />
     <ul
       v-if="hasChildren && (isExpanded || transitioning || hasActiveChild)"
-      class="list-none max-h-[calc(32px*8+4px*7)] overflow-scroll m-0 ml-3 grid"
+      class="list-none overflow-scroll m-0 grid"
       @transitionend="toggleTransition(false)"
     >
       <transition
-        v-for="(child, index) in children"
+        v-for="(child, index) in flattenedChildren"
         :key="child.name"
         name="fade"
       >
+        <NavGroupSeparator
+          v-if="child.type === 'separator' && isExpanded"
+          v-bind="child"
+          :style="{ '--item-index': index }"
+          class="my-1"
+        />
+        <NavGroupEmptyLeaf
+          v-else-if="child.type === 'empty' && isExpanded"
+          :style="{ '--item-index': index }"
+          class="my-1"
+        />
         <Policy
+          v-else
           v-show="isExpanded || activeChild?.name === child.name"
           as="li"
           :permissions="resolvePermissions(child.to)"
-          :feature-flag="resolveFeatureFlag(to)"
+          :feature-flag="resolveFeatureFlag(child.to)"
           :style="{ '--item-index': index }"
-          class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3"
+          class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
         >
           <NavGroupLeaf
             v-bind="child"
@@ -100,11 +135,7 @@ const toggleCollapse = () => {
       </transition>
     </ul>
     <ul v-else-if="isExpandable && isExpanded">
-      <li
-        class="py-1 pl-3 text-n-slate-10 border rounded-lg border-dashed text-center border-n-alpha-2 text-xs h-8 grid place-content-center"
-      >
-        {{ 'No items' }}
-      </li>
+      <NavGroupEmptyLeaf />
     </ul>
   </Policy>
 </template>
@@ -112,7 +143,7 @@ const toggleCollapse = () => {
 <style scoped>
 .fade-enter-active {
   transition: all 0.15s ease-in-out;
-  transition-delay: calc(var(--item-index) * 0.025s);
+  transition-delay: calc(var(--item-index) * 0.02s);
 }
 
 .fade-leave-active {
