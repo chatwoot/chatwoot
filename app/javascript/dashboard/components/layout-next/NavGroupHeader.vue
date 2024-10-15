@@ -36,9 +36,10 @@ defineProps({
 <template>
   <component
     :is="to ? 'router-link' : 'div'"
+    class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8"
     role="button"
     :to="to"
-    class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8"
+    :title="name"
     :class="{
       'text-n-blue bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
       'text-n-slate-12 font-medium': hasActiveChild,
