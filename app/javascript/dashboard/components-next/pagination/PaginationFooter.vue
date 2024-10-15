@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-// import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['update:currentPage']);
-// const { t } = useI18n();
+const { t } = useI18n();
 
 const totalPages = computed(() =>
   Math.ceil(props.totalItems / props.itemsPerPage)
@@ -38,20 +38,20 @@ const changePage = newPage => {
   }
 };
 
-// const showingText = computed(() => {
-//   return t('PAGINATION_FOOTER.SHOWING', {
-//     startItem: startItem.value,
-//     endItem: endItem.value,
-//     totalItems: props.totalItems,
-//   });
-// });
+const currentPageInformation = computed(() => {
+  return t('PAGINATION_FOOTER.SHOWING', {
+    startItem: startItem.value,
+    endItem: endItem.value,
+    totalItems: props.totalItems,
+  });
+});
 
-// const pageInfo = computed(() => {
-//   return t('PAGINATION_FOOTER.CURRENT_PAGE_INFO', {
-//     currentPage: '',
-//     totalPages: totalPages.value,
-//   });
-// });
+const pageInfo = computed(() => {
+  return t('PAGINATION_FOOTER.CURRENT_PAGE_INFO', {
+    currentPage: '',
+    totalPages: totalPages.value,
+  });
+});
 </script>
 
 <!-- TODO: Use i18n -->
@@ -64,7 +64,7 @@ const changePage = newPage => {
       <span
         class="min-w-0 text-sm font-normal line-clamp-1 text-slate-600 dark:text-slate-300"
       >
-        Showing {{ startItem }} - {{ endItem }} of {{ totalItems }} items
+        {{ currentPageInformation }}
       </span>
     </div>
     <div class="flex items-center gap-2">
@@ -92,7 +92,7 @@ const changePage = newPage => {
         >
           {{ currentPage }}
         </span>
-        <span> of {{ totalPages }} pages</span>
+        <span>{{ pageInfo }}</span>
       </div>
       <Button
         icon="chevron-lucide-right"
