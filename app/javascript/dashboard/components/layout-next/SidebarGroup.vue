@@ -23,31 +23,15 @@ const {
   resolveFeatureFlag,
 } = useSidebarContext();
 
-const flattenedChildren = computed(() => {
-  const flattend = [];
-
-  // loop over the children, if there are children of children, add a separator entry with no "to" and no "children"
-  // just type="separator" and take it's children and appended it to flattend
-  props.children.forEach(child => {
-    if (child.children) {
-      flattend.push({ type: 'separator', name: child.name, icon: child.icon });
-      if (child.children.length > 0) {
-        flattend.push(...child.children);
-      } else {
-        flattend.push({ type: 'empty' });
-      }
-    } else {
-      flattend.push(child);
-    }
-  });
-
-  return flattend;
-});
-
 const navigableChildren = computed(() => {
-  return flattenedChildren.value.filter(
-    child => child.type !== 'separator' && child.type !== 'empty'
-  );
+  return props.children.reduce((flattened, child) => {
+    if (child.to && child.children.length > 0) {
+      flattened.push(...child.children);
+    } else {
+      flattened.push(child);
+    }
+    return flattened;
+  }, []);
 });
 
 const route = useRoute();
