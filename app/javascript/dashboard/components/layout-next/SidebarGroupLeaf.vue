@@ -30,6 +30,7 @@ const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
+    class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
   >
     <component
       :is="to ? 'router-link' : 'div'"
@@ -46,3 +47,35 @@ const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
     </component>
   </Policy>
 </template>
+
+<style scoped>
+.child-item::before {
+  content: '';
+  position: absolute;
+  width: 0.125rem; /* 0.5px */
+  height: 100%;
+  left: 0;
+}
+
+.child-item:first-child::before {
+  border-radius: 4px 4px 0 0;
+}
+
+.last-child-item::before {
+  height: 20%;
+}
+
+.last-child-item::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 12px;
+  bottom: calc(50% - 2px);
+  left: 0;
+  border-bottom-width: 0.125rem;
+  border-left-width: 0.125rem;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0 0 0 4px;
+}
+</style>
