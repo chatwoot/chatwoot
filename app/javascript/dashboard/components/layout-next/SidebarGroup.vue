@@ -108,15 +108,18 @@ const activeChild = computed(() => {
             v-bind="child"
             class="my-1"
           />
-          <ul class="m-0">
-            <SidebarGroupLeaf
-              v-for="l2child in child.children"
-              v-show="isExpanded || activeChild?.name === l2child.name"
-              v-bind="l2child"
-              :key="l2child.name"
-              :active="activeChild?.name === l2child.name"
-              class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
-            />
+          <ul class="m-0 list-none">
+            <template v-if="child.children.length">
+              <SidebarGroupLeaf
+                v-for="l2child in child.children"
+                v-show="isExpanded || activeChild?.name === l2child.name"
+                v-bind="l2child"
+                :key="l2child.name"
+                :active="activeChild?.name === l2child.name"
+                class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
+              />
+            </template>
+            <SidebarGroupEmptyLeaf v-else v-show="isExpanded" />
           </ul>
         </template>
         <SidebarGroupLeaf

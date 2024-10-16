@@ -29,6 +29,7 @@ const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
   <Policy
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
+    as="li"
   >
     <component
       :is="to ? 'router-link' : 'div'"
