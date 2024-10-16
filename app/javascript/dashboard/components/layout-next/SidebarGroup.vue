@@ -78,10 +78,6 @@ const activeChild = computed(() => {
       })
     : null;
 });
-
-const toggleCollapse = () => {
-  setExpandedItem(props.name);
-};
 </script>
 
 <template>
@@ -99,7 +95,7 @@ const toggleCollapse = () => {
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
       :is-expanded="isExpanded"
-      @click="toggleCollapse()"
+      @click="setExpandedItem(name)"
     />
     <ul
       v-if="hasChildren && (isExpanded || hasActiveChild)"
@@ -112,12 +108,14 @@ const toggleCollapse = () => {
             v-bind="child"
             class="my-1"
           />
-          <ul v-for="l2child in child.children" :key="l2child.name" class="m-0">
+          <ul class="m-0">
             <SidebarGroupLeaf
+              v-for="l2child in child.children"
               v-show="isExpanded || activeChild?.name === l2child.name"
               v-bind="l2child"
-              class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
+              :key="l2child.name"
               :active="activeChild?.name === l2child.name"
+              class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
             />
           </ul>
         </template>
