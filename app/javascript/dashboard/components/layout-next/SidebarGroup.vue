@@ -51,7 +51,6 @@ const navigableChildren = computed(() => {
   );
 });
 
-const [transitioning, toggleTransition] = useToggle(false);
 const route = useRoute();
 
 const isExpanded = computed(() => expandedItem.value === props.name);
@@ -81,7 +80,6 @@ const activeChild = computed(() => {
 });
 
 const toggleCollapse = () => {
-  toggleTransition(true);
   setExpandedItem(props.name);
 };
 </script>
@@ -104,33 +102,24 @@ const toggleCollapse = () => {
       @click="toggleCollapse()"
     />
     <ul
-      v-if="hasChildren && (isExpanded || transitioning || hasActiveChild)"
+      v-if="hasChildren && (isExpanded || hasActiveChild)"
       class="list-none overflow-scroll m-0 grid sidebar-group-children"
-      @transitionend="toggleTransition(false)"
     >
       <template v-for="child in children" :key="child.name">
         <template v-if="child.children">
           <SidebarGroupSeparator
             v-if="isExpanded"
             v-bind="child"
-            :style="{ '--item-index': index }"
             class="my-1"
           />
-          <transition
-            v-for="(l2child, index) in child.children"
-            :key="l2child.name"
-            as="ul"
-            class="m-0"
-            name="fade"
-          >
+          <ul v-for="l2child in child.children" :key="l2child.name" class="m-0">
             <SidebarGroupLeaf
               v-show="isExpanded || activeChild?.name === l2child.name"
               v-bind="l2child"
-              :style="{ '--item-index': index }"
               class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
               :active="activeChild?.name === l2child.name"
             />
-          </transition>
+          </ul>
         </template>
         <SidebarGroupLeaf
           v-else
@@ -148,21 +137,6 @@ const toggleCollapse = () => {
 </template>
 
 <style scoped>
-.fade-enter-active {
-  transition: all 0.15s ease-in-out;
-  transition-delay: calc(var(--item-index) * 0.02s);
-}
-
-.fade-leave-active {
-  transition: all 0.02s ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
 .sidebar-group-children .child-item::before {
   content: '';
   position: absolute;
