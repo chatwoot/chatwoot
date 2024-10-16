@@ -7,7 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
-import NavGroup from './NavGroup.vue';
+import SidebarGroup from './SidebarGroup.vue';
 
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const store = useStore();
@@ -367,7 +367,11 @@ const menuItems = computed(() => [
     </section>
     <nav class="grid gap-2 overflow-y-scroll no-scrollbar px-2 flex-grow">
       <ul class="flex flex-col gap-2 list-none m-0">
-        <NavGroup v-for="item in menuItems" :key="item.name" v-bind="item" />
+        <SidebarGroup
+          v-for="item in menuItems"
+          :key="item.name"
+          v-bind="item"
+        />
       </ul>
     </nav>
     <section

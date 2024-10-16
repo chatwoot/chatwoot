@@ -4,10 +4,10 @@ import { useSidebarContext } from './provider';
 import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
-import NavGroupHeader from './NavGroupHeader.vue';
-import NavGroupLeaf from './NavGroupLeaf.vue';
-import NavGroupSeparator from './NavGroupSeparator.vue';
-import NavGroupEmptyLeaf from './NavGroupEmptyLeaf.vue';
+import SidebarGroupHeader from './SidebarGroupHeader.vue';
+import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
+import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
+import SidebarGroupEmptyLeaf from './SidebarGroupEmptyLeaf.vue';
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -87,7 +87,7 @@ const toggleCollapse = () => {
     :feature-flag="resolveFeatureFlag(to)"
     class="text-sm cursor-pointer select-none gap-1 grid"
   >
-    <NavGroupHeader
+    <SidebarGroupHeader
       :icon="icon"
       :name="name"
       :to="to"
@@ -107,13 +107,13 @@ const toggleCollapse = () => {
         :key="child.name"
         name="fade"
       >
-        <NavGroupSeparator
+        <SidebarGroupSeparator
           v-if="child.type === 'separator' && isExpanded"
           v-bind="child"
           :style="{ '--item-index': index }"
           class="my-1"
         />
-        <NavGroupEmptyLeaf
+        <SidebarGroupEmptyLeaf
           v-else-if="child.type === 'empty' && isExpanded"
           :style="{ '--item-index': index }"
           class="my-1"
@@ -127,7 +127,7 @@ const toggleCollapse = () => {
           :style="{ '--item-index': index }"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
         >
-          <NavGroupLeaf
+          <SidebarGroupLeaf
             v-bind="child"
             :active="activeChild?.name === child.name"
           />
@@ -135,7 +135,7 @@ const toggleCollapse = () => {
       </transition>
     </ul>
     <ul v-else-if="isExpandable && isExpanded">
-      <NavGroupEmptyLeaf />
+      <SidebarGroupEmptyLeaf />
     </ul>
   </Policy>
 </template>

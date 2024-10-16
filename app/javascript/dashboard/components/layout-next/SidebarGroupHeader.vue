@@ -11,7 +11,7 @@ defineProps({
     default: '',
   },
   icon: {
-    type: String,
+    type: [String, Object],
     default: '',
   },
   expandable: {

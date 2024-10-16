@@ -11,7 +11,7 @@ defineProps({
     required: true,
   },
   icon: {
-    type: String,
+    type: [String, Object],
     default: null,
   },
   active: {
