@@ -36,7 +36,7 @@ const openArticle = id => {
       params: { articleSlug: id },
     });
   } else {
-    router.push({ name: 'edit_article', params: { articleSlug: id } });
+    router.push({ name: 'edit_articles', params: { articleSlug: id } });
   }
 };
 

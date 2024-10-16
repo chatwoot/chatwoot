@@ -85,7 +85,7 @@ const handlePageChange = page => {
 };
 
 const newArticlePage = () => {
-  router.push({ name: 'new_article' });
+  router.push({ name: 'new_articles' });
 };
 </script>
 

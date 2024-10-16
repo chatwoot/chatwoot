@@ -143,6 +143,22 @@ const articleRoutes = [
     component: ListArticlesPage,
   },
   {
+    path: getPortalRoute(':portalSlug/:locale/new-articles/:articleSlug'),
+    name: 'edit_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: EditArticle,
+  },
+  {
+    path: getPortalRoute(':portalSlug/:locale/new-articles/new'),
+    name: 'new_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: NewArticle,
+  },
+  {
     path: getPortalRoute(':portalSlug/:locale/articles'),
     name: 'list_all_locale_articles',
     meta: {
