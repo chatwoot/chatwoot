@@ -2,5 +2,19 @@
   "PAGINATION_FOOTER": {
     "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
     "CURRENT_PAGE_INFO": "{currentPage} de {totalPages} páginas"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_STATE": "Nenhum resultado encontrado.",
+    "SEARCH_PLACEHOLDER": "Search..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Cancelar",
+      "CONFIRM": "Confirmar"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
   }
 }
