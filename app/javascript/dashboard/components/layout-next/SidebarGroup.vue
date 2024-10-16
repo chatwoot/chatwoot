@@ -45,6 +45,12 @@ const flattenedChildren = computed(() => {
   return flattend;
 });
 
+const navigableChildren = computed(() => {
+  return flattenedChildren.value.filter(
+    child => child.type !== 'separator' && child.type !== 'empty'
+  );
+});
+
 const [transitioning, toggleTransition] = useToggle(false);
 const route = useRoute();
 
@@ -60,7 +66,7 @@ const isActive = computed(
 const hasActiveChild = computed(() => {
   return (
     hasChildren.value &&
-    flattenedChildren.value.some(child => {
+    navigableChildren.value.some(child => {
       return child.to?.name === route.name;
     })
   );
@@ -68,7 +74,7 @@ const hasActiveChild = computed(() => {
 
 const activeChild = computed(() => {
   return hasChildren.value
-    ? flattenedChildren.value.find(child => {
+    ? navigableChildren.value.find(child => {
         return child.to && resolvePath(child.to) === route.path;
       })
     : null;
@@ -99,40 +105,41 @@ const toggleCollapse = () => {
     />
     <ul
       v-if="hasChildren && (isExpanded || transitioning || hasActiveChild)"
-      class="list-none overflow-scroll m-0 grid"
+      class="list-none overflow-scroll m-0 grid sidebar-group-children"
       @transitionend="toggleTransition(false)"
     >
-      <transition
-        v-for="(child, index) in flattenedChildren"
-        :key="child.name"
-        name="fade"
-      >
-        <SidebarGroupSeparator
-          v-if="child.type === 'separator' && isExpanded"
-          v-bind="child"
-          :style="{ '--item-index': index }"
-          class="my-1"
-        />
-        <SidebarGroupEmptyLeaf
-          v-else-if="child.type === 'empty' && isExpanded"
-          :style="{ '--item-index': index }"
-          class="my-1"
-        />
-        <Policy
+      <template v-for="child in children" :key="child.name">
+        <template v-if="child.children">
+          <SidebarGroupSeparator
+            v-if="isExpanded"
+            v-bind="child"
+            :style="{ '--item-index': index }"
+            class="my-1"
+          />
+          <transition
+            v-for="(l2child, index) in child.children"
+            :key="l2child.name"
+            as="ul"
+            class="m-0"
+            name="fade"
+          >
+            <SidebarGroupLeaf
+              v-show="isExpanded || activeChild?.name === l2child.name"
+              v-bind="l2child"
+              :style="{ '--item-index': index }"
+              class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
+              :active="activeChild?.name === l2child.name"
+            />
+          </transition>
+        </template>
+        <SidebarGroupLeaf
           v-else
           v-show="isExpanded || activeChild?.name === child.name"
-          as="li"
-          :permissions="resolvePermissions(child.to)"
-          :feature-flag="resolveFeatureFlag(child.to)"
-          :style="{ '--item-index': index }"
+          v-bind="child"
           class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
-        >
-          <SidebarGroupLeaf
-            v-bind="child"
-            :active="activeChild?.name === child.name"
-          />
-        </Policy>
-      </transition>
+          :active="activeChild?.name === child.name"
+        />
+      </template>
     </ul>
     <ul v-else-if="isExpandable && isExpanded">
       <SidebarGroupEmptyLeaf />
@@ -156,7 +163,7 @@ const toggleCollapse = () => {
   transform: translateY(-10px);
 }
 
-.child-item::before {
+.sidebar-group-children .child-item::before {
   content: '';
   position: absolute;
   width: 0.125rem; /* 0.5px */
@@ -164,15 +171,15 @@ const toggleCollapse = () => {
   left: 0;
 }
 
-.child-item:first-child::before {
+.sidebar-group-children .child-item:first-child::before {
   border-radius: 4px 4px 0 0;
 }
 
-.child-item:last-child::before {
+.sidebar-group-children .child-item:last-of-type::before {
   height: 20%;
 }
 
-.child-item:last-child::after {
+.sidebar-group-children .child-item:last-of-type::after {
   content: '';
   position: absolute;
   width: 10px;
