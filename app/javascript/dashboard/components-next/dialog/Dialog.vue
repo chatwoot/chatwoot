@@ -45,7 +45,7 @@ const confirm = () => {
   emit('confirm');
 };
 
-defineExpose({ open });
+defineExpose({ open, close });
 
 onClickOutside(dialogContentRef, event => {
   if (

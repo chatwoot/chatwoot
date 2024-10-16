@@ -88,5 +88,7 @@ const togglePortalSwitcher = () => {
         @update:current-page="updateCurrentPage"
       />
     </footer>
+    <!-- Do not remove this slot. It can be used to add dialogs. -->
+    <slot />
   </section>
 </template>

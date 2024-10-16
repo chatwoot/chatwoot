@@ -484,10 +484,6 @@
       }
     },
     "LOADING": "Loading...",
-    "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale"
-    },
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
@@ -579,6 +575,30 @@
           "CREATE": "Create",
           "EDIT": "Update",
           "CANCEL": "Cancel"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Default",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Delete"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Add a new locale",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Select locale..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
         }
       }
     }

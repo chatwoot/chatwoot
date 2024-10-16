@@ -94,3 +94,18 @@ export const ARTICLE_TABS_OPTIONS = [
     value: 'archived',
   },
 ];
+
+export const LOCALE_MENU_ITEMS = [
+  {
+    label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.MAKE_DEFAULT',
+    action: 'change-default',
+    value: 'default',
+    icon: 'star-emphasis',
+  },
+  {
+    label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.DELETE',
+    action: 'delete',
+    value: 'delete',
+    icon: 'delete',
+  },
+];

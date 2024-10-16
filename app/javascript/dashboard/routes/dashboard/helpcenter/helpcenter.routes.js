@@ -5,6 +5,7 @@ const ListAllPortals = () => import('./pages/portals/ListAllPortals.vue');
 const ListArticlesPage = () => import('./pages/articles/ListArticlesPage.vue');
 const ListCategoriesPage = () =>
   import('./pages/categories/ListCategoriesPage.vue');
+const ListLocalesPage = () => import('./pages/locales/ListLocalesPage.vue');
 
 const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
@@ -266,12 +267,28 @@ const categoryRoutes = [
   },
 ];
 
+const localeRoutes = [
+  {
+    path: getPortalRoute(':portalSlug/locales'),
+    name: 'list_locales',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListLocalesPage,
+  },
+];
+
 export default {
   routes: [
     {
       path: getPortalRoute(),
       component: HelpCenterLayout,
-      children: [...portalRoutes, ...articleRoutes, ...categoryRoutes],
+      children: [
+        ...portalRoutes,
+        ...articleRoutes,
+        ...categoryRoutes,
+        ...localeRoutes,
+      ],
     },
   ],
 };

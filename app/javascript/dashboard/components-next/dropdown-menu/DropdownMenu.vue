@@ -28,6 +28,7 @@ const handleAction = (action, value) => {
       :key="item.action"
       :label="item.label"
       :icon="item.icon"
+      :disabled="item.disabled"
       variant="ghost"
       size="sm"
       class="!justify-start w-full hover:bg-white dark:hover:bg-slate-800 z-60 font-normal"
