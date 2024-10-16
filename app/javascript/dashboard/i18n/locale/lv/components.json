@@ -2,5 +2,19 @@
   "PAGINATION_FOOTER": {
     "SHOWING": "Tiek rādīts {startItem} - {endItem} no {totalItems} vienumiem",
     "CURRENT_PAGE_INFO": "{currentPage} no {totalPages} lapām"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_STATE": "Nav atrasts.",
+    "SEARCH_PLACEHOLDER": "Search..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Atcelt",
+      "CONFIRM": "Apstiprināt"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
   }
 }
