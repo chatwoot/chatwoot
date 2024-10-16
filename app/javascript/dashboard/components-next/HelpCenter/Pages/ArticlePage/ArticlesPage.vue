@@ -126,12 +126,7 @@ const newArticlePage = () => {
         v-else-if="shouldShowEmptyState"
         :title="t('HELP_CENTER.TABLE.NO_ARTICLES')"
       />
-      <ArticleList
-        v-else
-        :articles="articles"
-        :categories="categories"
-        :is-category-articles="isCategoryArticles"
-      />
+      <ArticleList v-else :articles="articles" />
     </template>
   </HelpCenterLayout>
 </template>

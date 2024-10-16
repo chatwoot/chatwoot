@@ -78,7 +78,15 @@ export default {
         return false;
       }
 
-      if (['edit_articles', 'list_articles'].includes(this.$route.name)) {
+      if (
+        [
+          'new_articles',
+          'list_categories',
+          'list_category_articles',
+          'edit_articles',
+          'list_articles',
+        ].includes(this.$route.name)
+      ) {
         return false;
       }
 
