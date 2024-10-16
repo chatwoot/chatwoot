@@ -24,18 +24,20 @@ const handlePageChange = page => {
 };
 </script>
 
-<!-- TODO: Add i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <HelpCenterLayout :show-pagination-footer="false">
     <template #header-actions>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-4">
           <span class="text-sm font-medium text-slate-800 dark:text-slate-100">
-            {{ localeCount }} locales
+            {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALES_COUNT', localeCount) }}
           </span>
         </div>
-        <Button label="New locale" icon="add" size="sm" />
+        <Button
+          :label="$t('HELP_CENTER.LOCALES_PAGE.NEW_LOCALE_BUTTON_TEXT')"
+          icon="add"
+          size="sm"
+        />
       </div>
     </template>
     <template #content>
