@@ -601,6 +601,13 @@
           "ERROR_MESSAGE": "Unable to add locale. Try again."
         }
       }
+    },
+    "PORTAL_SWITCHER": {
+      "PORTALS": "Portals",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "articles",
+      "DOMAIN": "domain",
+      "PORTAL_NAME": "Portal name"
     }
   }
 }

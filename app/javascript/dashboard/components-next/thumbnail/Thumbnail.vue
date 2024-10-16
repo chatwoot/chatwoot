@@ -38,11 +38,15 @@ const authorInitial = computed(() => {
     .join('')
     .toUpperCase();
 });
+
+const fontSize = computed(() => {
+  return props.size / 2;
+});
 </script>
 
 <template>
   <div
-    class="rounded-full bg-slate-100 dark:bg-slate-700/50"
+    class="flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700/50"
     :style="{ width: `${size}px`, height: `${size}px` }"
   >
     <div v-if="author">
@@ -54,7 +58,8 @@ const authorInitial = computed(() => {
       />
       <span
         v-else-if="name"
-        class="flex items-center justify-center font-medium text-xxs text-slate-500 dark:text-slate-400"
+        class="flex items-center justify-center font-medium text-slate-500 dark:text-slate-400"
+        :style="{ fontSize: `${fontSize}px` }"
       >
         {{ authorInitial }}
       </span>
