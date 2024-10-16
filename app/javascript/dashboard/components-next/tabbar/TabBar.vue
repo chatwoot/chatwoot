@@ -49,10 +49,11 @@ const showDivider = index => {
       </button>
       <div
         class="w-px h-3.5 rounded my-auto transition-colors duration-300 ease-in-out"
-        :class="showDivider(index)
+        :class="
+          showDivider(index)
             ? 'bg-slate-75 dark:bg-slate-800'
             : 'bg-transparent dark:bg-transparent'
-          "
+        "
       />
     </template>
   </div>

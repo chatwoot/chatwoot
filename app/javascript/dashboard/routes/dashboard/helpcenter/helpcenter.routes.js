@@ -134,34 +134,6 @@ const portalRoutes = [
 
 const articleRoutes = [
   {
-    path: getPortalRoute(
-      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?'
-    ),
-    name: 'list_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListArticlesPage,
-  },
-  {
-    path: getPortalRoute(
-      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?/:articleSlug'
-    ),
-    name: 'edit_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: EditArticlePage,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/new-articles/new'),
-    name: 'new_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: NewArticle,
-  },
-  {
     path: getPortalRoute(':portalSlug/:locale/articles'),
     name: 'list_all_locale_articles',
     meta: {
@@ -214,34 +186,6 @@ const articleRoutes = [
 ];
 
 const categoryRoutes = [
-  {
-    path: getPortalRoute(':portalSlug/:locale/new-categories'),
-    name: 'list_categories',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListCategoriesPage,
-  },
-  {
-    path: getPortalRoute(
-      ':portalSlug/:locale/new-categories/:categorySlug/articles'
-    ),
-    name: 'list_category_articles',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListArticlesPage,
-  },
-  {
-    path: getPortalRoute(
-      ':portalSlug/:locale/new-categories/:categorySlug/articles/:articleSlug'
-    ),
-    name: 'edit_category_article',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: EditArticlePage,
-  },
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
     name: 'all_locale_categories',
@@ -297,12 +241,73 @@ const localeRoutes = [
   },
 ];
 
+export const newPortalRoutes = [
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?'
+    ),
+    name: 'list_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListArticlesPage,
+  },
+  {
+    path: getPortalRoute(':portalSlug/:locale/new-articles/new'),
+    name: 'new_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: NewArticle,
+  },
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?/edit/:articleSlug'
+    ),
+    name: 'edit_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: EditArticlePage,
+  },
+
+  {
+    path: getPortalRoute(':portalSlug/:locale/new-categories'),
+    name: 'list_categories',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListCategoriesPage,
+  },
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/new-categories/:categorySlug/articles'
+    ),
+    name: 'list_category_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListArticlesPage,
+  },
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/new-categories/:categorySlug/articles/:articleSlug'
+    ),
+    name: 'edit_category_article',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: EditArticlePage,
+  },
+];
+
 export default {
   routes: [
     {
       path: getPortalRoute(),
       component: HelpCenterLayout,
       children: [
+        ...newPortalRoutes,
         ...portalRoutes,
         ...articleRoutes,
         ...categoryRoutes,

@@ -46,12 +46,8 @@ const togglePortalSwitcher = () => {
 </script>
 
 <template>
-  <section
-    class="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-slate-900"
-  >
-    <header
-      class="sticky top-0 z-10 px-6 pb-3 bg-white lg:px-0 dark:bg-slate-900"
-    >
+  <section class="flex flex-col w-full h-full overflow-hidden bg-n-background">
+    <header class="sticky top-0 z-10 px-6 pb-3 lg:px-0">
       <div class="w-full max-w-[900px] mx-auto">
         <div
           v-if="showHeaderTitle"
@@ -87,7 +83,7 @@ const togglePortalSwitcher = () => {
     </main>
     <footer
       v-if="showPaginationFooter"
-      class="sticky bottom-0 z-10 px-4 pt-3 pb-4 bg-white dark:bg-slate-900"
+      class="sticky bottom-0 z-10 px-4 pt-3 pb-4"
     >
       <PaginationFooter
         :current-page="currentPage"

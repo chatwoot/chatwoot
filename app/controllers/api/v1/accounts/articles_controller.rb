@@ -6,12 +6,10 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def index
     @portal_articles = @portal.articles
-    @articles = @portal_articles.search(list_params)
 
-    @articles_count = @articles.count
-    @mine_count = @articles.search_by_author(Current.user.id).count
-    @published_count = @articles.published.count
-    @draft_count = @articles.draft.count
+    set_article_count
+
+    @articles = @articles.search(list_params)
 
     @articles = if list_params[:category_slug].present?
                   @articles.order_by_position.page(@current_page)
@@ -46,6 +44,19 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def set_article_count
+    # Search the params without status and author_id, use this to
+    # compute mine count published draft etc
+    base_search_params = list_params.except(:status, :author_id)
+    @articles = @portal_articles.search(base_search_params)
+
+    @articles_count = @articles.count
+    @mine_articles_count = @articles.search_by_author(Current.user.id).count
+    @published_articles_count = @articles.published.count
+    @draft_articles_count = @articles.draft.count
+    @archived_articles_count = @articles.archived.count
+  end
 
   def fetch_article
     @article = @portal.articles.find(params[:id])
