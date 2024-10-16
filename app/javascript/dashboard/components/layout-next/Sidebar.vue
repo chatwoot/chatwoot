@@ -367,11 +367,9 @@ const menuItems = computed(() => [
     </section>
     <nav class="grid gap-2 overflow-y-scroll no-scrollbar px-2 flex-grow">
       <ul class="flex flex-col gap-2 list-none m-0">
-        <SidebarGroup
-          v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-        />
+        <li v-for="item in menuItems" :key="item.name">
+          <SidebarGroup v-bind="item" />
+        </li>
       </ul>
     </nav>
     <section

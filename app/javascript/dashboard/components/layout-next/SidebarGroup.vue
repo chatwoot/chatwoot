@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
+import { useParentElement } from '@vueuse/core';
 import { useSidebarContext } from './provider';
 import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -22,6 +23,16 @@ const {
   resolvePermissions,
   resolveFeatureFlag,
 } = useSidebarContext();
+
+const parentEl = useParentElement();
+
+const locateLasChild = () => {
+  parentEl.value.querySelectorAll('.child-item').forEach((child, index) => {
+    if (index === parentEl.value.querySelectorAll('.child-item').length - 1) {
+      child.classList.add('last-child-item');
+    }
+  });
+};
 
 const navigableChildren = computed(() => {
   if (!props.children) {
@@ -60,11 +71,14 @@ const activeChild = computed(() => {
     return child.to && resolvePath(child.to) === route.path;
   });
 });
+
+watch([isExpanded, props.children, hasActiveChild], locateLasChild, {
+  immediate: true,
+});
 </script>
 
 <template>
   <Policy
-    as="li"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     class="text-sm cursor-pointer select-none gap-1 grid"
@@ -121,7 +135,7 @@ const activeChild = computed(() => {
 </template>
 
 <style scoped>
-.sidebar-group-children .child-item::before {
+.child-item::before {
   content: '';
   position: absolute;
   width: 0.125rem; /* 0.5px */
@@ -129,15 +143,15 @@ const activeChild = computed(() => {
   left: 0;
 }
 
-.sidebar-group-children .child-item:first-child::before {
+.child-item:first-child::before {
   border-radius: 4px 4px 0 0;
 }
 
-.sidebar-group-children .child-item:last-of-type::before {
+.last-child-item::before {
   height: 20%;
 }
 
-.sidebar-group-children .child-item:last-of-type::after {
+.last-child-item::after {
   content: '';
   position: absolute;
   width: 10px;
