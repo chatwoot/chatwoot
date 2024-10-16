@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { removeEmoji } from 'shared/helpers/emoji';
 
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
@@ -22,6 +22,8 @@ const props = defineProps({
     default: 16,
   },
 });
+const hasImageLoaded = ref(false);
+const imgError = ref(false);
 
 const authorInitial = computed(() => {
   if (!props.name) return '';
@@ -42,6 +44,24 @@ const authorInitial = computed(() => {
 const fontSize = computed(() => {
   return props.size / 2;
 });
+
+const shouldShowImage = computed(() => {
+  if (!props.src) {
+    return false;
+  }
+  if (hasImageLoaded.value) {
+    return !imgError.value;
+  }
+  return false;
+});
+
+const onImgError = () => {
+  imgError.value = true;
+};
+
+const onImgLoad = () => {
+  hasImageLoaded.value = true;
+};
 </script>
 
 <template>
@@ -51,13 +71,15 @@ const fontSize = computed(() => {
   >
     <div v-if="author">
       <img
-        v-if="src"
+        v-show="shouldShowImage"
         :src="src"
         :alt="name"
         class="w-full h-full rounded-full"
+        @load="onImgLoad"
+        @error="onImgError"
       />
       <span
-        v-else-if="name"
+        v-show="!shouldShowImage"
         class="flex items-center justify-center font-medium text-slate-500 dark:text-slate-400"
         :style="{ fontSize: `${fontSize}px` }"
       >
