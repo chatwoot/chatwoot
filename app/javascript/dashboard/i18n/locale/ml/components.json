@@ -2,5 +2,19 @@
   "PAGINATION_FOOTER": {
     "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
     "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_STATE": "ഒരു ഫലവും കണ്ടെത്താനായില്ല.",
+    "SEARCH_PLACEHOLDER": "Search..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "റദ്ദാക്കുക",
+      "CONFIRM": "സ്ഥിരീകരിക്കുക"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
   }
 }
