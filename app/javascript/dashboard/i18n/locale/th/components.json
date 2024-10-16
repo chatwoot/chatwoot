@@ -2,5 +2,19 @@
   "PAGINATION_FOOTER": {
     "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
     "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_STATE": "ไม่พบผลการค้นหา",
+    "SEARCH_PLACEHOLDER": "Search..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "ยกเลิก",
+      "CONFIRM": "ยืนยัน"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
   }
 }
