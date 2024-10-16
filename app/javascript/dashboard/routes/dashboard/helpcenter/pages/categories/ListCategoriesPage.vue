@@ -37,6 +37,18 @@ const fetchCategoriesByPortalSlugAndLocale = async localeCode => {
   });
 };
 
+const updateMeta = async localeCode => {
+  return store.dispatch('portals/show', {
+    portalSlug: selectedPortalSlug.value,
+    locale: localeCode,
+  });
+};
+
+const fetchCategories = async localeCode => {
+  await fetchCategoriesByPortalSlugAndLocale(localeCode);
+  await updateMeta(localeCode);
+};
+
 onMounted(() => {
   fetchCategoriesByPortalSlugAndLocale(route.params.locale);
 });
@@ -46,6 +58,6 @@ onMounted(() => {
   <CategoriesPage
     :categories="categories"
     :allowed-locales="allowedLocales"
-    @fetch-categories="fetchCategoriesByPortalSlugAndLocale"
+    @fetch-categories="fetchCategories"
   />
 </template>

@@ -8,10 +8,10 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
-  id: {
-    type: Number,
-    required: true,
-  },
+  // id: {
+  //   type: Number,
+  //   required: true,
+  // },
   title: {
     type: String,
     required: true,

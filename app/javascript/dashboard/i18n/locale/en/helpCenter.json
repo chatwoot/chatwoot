@@ -537,6 +537,49 @@
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Category created successfully",
+            "ERROR_MESSAGE": "Unable to create category"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Category updated successfully",
+            "ERROR_MESSAGE": "Unable to update category"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Create category",
+          "EDIT": "Edit category",
+          "PORTAL": "Portal",
+          "LOCALE": "Locale"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Name",
+            "PLACEHOLDER": "Category name",
+            "ERROR": "Name is required"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Category slug for urls",
+            "ERROR": "Slug is required",
+            "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Description",
+            "PLACEHOLDER": "Give a short description about the category.",
+            "ERROR": "Description is required"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Create",
+          "EDIT": "Update",
+          "CANCEL": "Cancel"
+        }
       }
     }
   }

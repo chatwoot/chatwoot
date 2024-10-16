@@ -3,10 +3,12 @@ import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
+import { useStoreGetters } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import CategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryDialog.vue';
 
 const props = defineProps({
   categories: {
@@ -23,13 +25,31 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['localeChange', 'newCategory', 'editCategory']);
+const emit = defineEmits(['localeChange']);
 
 const route = useRoute();
 const router = useRouter();
+const getters = useStoreGetters();
 const { t } = useI18n();
 
 const isLocaleMenuOpen = ref(false);
+const isCreateCategoryDialogOpen = ref(false);
+const isEditCategoryDialogOpen = ref(false);
+
+const currentPortalSlug = computed(() => {
+  return route.params.portalSlug;
+});
+
+const currentPortal = computed(() => {
+  const slug = currentPortalSlug.value;
+  if (slug) return getters['portals/portalBySlug'].value(slug);
+
+  return getters['portals/allPortals'].value[0];
+});
+
+const currentPortalName = computed(() => {
+  return currentPortal.value?.name;
+});
 
 const activeLocale = computed(() => {
   return props.allowedLocales.find(
@@ -141,20 +161,41 @@ const handleBreadcrumbClick = () => {
       :items="breadcrumbItems"
       @click="handleBreadcrumbClick"
     />
-    <Button
-      v-if="!hasSelectedCategory"
-      :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
-      icon="add"
-      size="sm"
-      @click="$emit('newCategory')"
-    />
+    <div v-if="!hasSelectedCategory" class="relative">
+      <Button
+        :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
+        icon="add"
+        size="sm"
+        @click="isCreateCategoryDialogOpen = !isCreateCategoryDialogOpen"
+      />
+      <OnClickOutside @trigger="isCreateCategoryDialogOpen = false">
+        <CategoryDialog
+          v-if="isCreateCategoryDialogOpen"
+          mode="create"
+          :portal-name="currentPortalName"
+          :active-locale-name="activeLocaleName"
+          :active-locale-code="activeLocaleCode"
+          @close="isCreateCategoryDialogOpen = false"
+        />
+      </OnClickOutside>
+    </div>
     <div v-else class="relative">
       <Button
         :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
         variant="secondary"
         size="sm"
-        @click="$emit('editCategory')"
+        @click="isEditCategoryDialogOpen = !isEditCategoryDialogOpen"
       />
+      <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
+        <CategoryDialog
+          v-if="isEditCategoryDialogOpen"
+          :selected-category="selectedCategory"
+          :portal-name="currentPortalName"
+          :active-locale-name="activeLocaleName"
+          :active-locale-code="activeLocaleCode"
+          @close="isEditCategoryDialogOpen = false"
+        />
+      </OnClickOutside>
     </div>
   </div>
 </template>
