@@ -86,6 +86,7 @@ const categoryMenuItems = computed(() => {
     label: category.name,
     value: category.slug,
     action: 'filter',
+    emoji: category.icon,
   }));
 
   const hasCategorySlug = !!route.params.categorySlug;

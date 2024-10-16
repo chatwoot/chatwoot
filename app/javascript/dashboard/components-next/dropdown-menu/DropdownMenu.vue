@@ -28,6 +28,7 @@ const handleAction = (action, value) => {
       :key="item.action"
       :label="item.label"
       :icon="item.icon"
+      :emoji="item.emoji"
       :disabled="item.disabled"
       variant="ghost"
       size="sm"

@@ -35,6 +35,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  emoji: {
+    type: String,
+    default: '',
+  },
   iconPosition: {
     type: String,
     default: 'left',
@@ -118,6 +122,7 @@ const handleClick = () => {
       :icon-lib="iconLib"
       class="flex-shrink-0"
     />
+    <span v-if="emoji">{{ emoji }}</span>
     <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
