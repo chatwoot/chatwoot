@@ -24,8 +24,12 @@ const {
 } = useSidebarContext();
 
 const navigableChildren = computed(() => {
+  if (!props.children) {
+    return [];
+  }
+
   return props.children.reduce((flattened, child) => {
-    if (child.to && child.children.length > 0) {
+    if (child.to && child.children?.length > 0) {
       flattened.push(...child.children);
     } else {
       flattened.push(child);
@@ -46,20 +50,15 @@ const isActive = computed(
 );
 
 const hasActiveChild = computed(() => {
-  return (
-    hasChildren.value &&
-    navigableChildren.value.some(child => {
-      return child.to?.name === route.name;
-    })
-  );
+  return navigableChildren.value.some(child => {
+    return child.to?.name === route.name;
+  });
 });
 
 const activeChild = computed(() => {
-  return hasChildren.value
-    ? navigableChildren.value.find(child => {
-        return child.to && resolvePath(child.to) === route.path;
-      })
-    : null;
+  return navigableChildren.value.find(child => {
+    return child.to && resolvePath(child.to) === route.path;
+  });
 });
 </script>
 
