@@ -23,6 +23,10 @@ defineProps({
     type: Number,
     default: 25,
   },
+  showHeaderTitle: {
+    type: Boolean,
+    default: true,
+  },
   showPaginationFooter: {
     type: Boolean,
     default: true,
@@ -49,7 +53,10 @@ const togglePortalSwitcher = () => {
       class="sticky top-0 z-10 px-6 pb-3 bg-white lg:px-0 dark:bg-slate-900"
     >
       <div class="w-full max-w-[900px] mx-auto">
-        <div class="flex items-center justify-start h-20 gap-2">
+        <div
+          v-if="showHeaderTitle"
+          class="flex items-center justify-start h-20 gap-2"
+        >
           <span class="text-xl font-medium text-slate-900 dark:text-white">
             {{ header }}
           </span>
