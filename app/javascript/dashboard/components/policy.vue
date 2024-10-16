@@ -1,12 +1,6 @@
 <script setup>
-import { useMapGetter } from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
-
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { computed } from 'vue';
-import {
-  getUserPermissions,
-  hasPermissions,
-} from '../helper/permissionsHelper';
 
 const props = defineProps({
   as: {
@@ -23,27 +17,10 @@ const props = defineProps({
   },
 });
 
-const user = useMapGetter('getCurrentUser');
-const isFeatureEnabled = useMapGetter('accounts/isFeatureEnabledonAccount');
-const { accountId } = useAccount();
+const { checkFeatureAllowed, checkPermissions } = usePolicy();
 
-const userPermissions = computed(() => {
-  return getUserPermissions(user.value, accountId.value);
-});
-
-const isFeatureAllowed = computed(() => {
-  if (!props.featureFlag) return true;
-
-  return isFeatureEnabled.value(accountId.value, props.featureFlag);
-});
-
-const hasPermission = computed(() => {
-  if (!props.permissions || !props.permissions.length) {
-    return true;
-  }
-
-  return hasPermissions(props.permissions, userPermissions.value);
-});
+const isFeatureAllowed = computed(() => checkFeatureAllowed(props.featureFlag));
+const hasPermission = computed(() => checkPermissions(props.permissions));
 </script>
 
 <!-- eslint-disable vue/no-root-v-if -->
