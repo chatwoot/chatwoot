@@ -72,11 +72,11 @@ const articleMenuItems = computed(() => {
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return '!text-slate-600 dark:!text-slate-200';
+      return '!text-slate-12';
     case 'draft':
-      return '!text-amber-700 dark:!text-amber-400';
+      return '!text-n-amber-11';
     default:
-      return '!text-teal-700 dark:!text-teal-400';
+      return '!text-n-teal-11';
   }
 });
 
@@ -127,7 +127,7 @@ const handleClick = id => {
     <template #header>
       <div class="flex justify-between gap-1">
         <span
-          class="text-base group-hover/cardLayout:underline text-slate-900 dark:text-slate-50 line-clamp-1"
+          class="text-base group-hover/cardLayout:underline text-n-slate-12 line-clamp-1"
         >
           {{ title }}
         </span>
@@ -135,7 +135,7 @@ const handleClick = id => {
           <Button
             variant="ghost"
             size="sm"
-            class="text-xs bg-slate-50 !font-normal group-hover:bg-slate-100/50 dark:group-hover:bg-slate-700/50 !h-6 dark:bg-slate-800 rounded-md border-0 !px-2 !py-0.5"
+            class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
             :label="statusText"
             :class="statusTextColor"
             @click="isOpen = !isOpen"
@@ -161,17 +161,15 @@ const handleClick = id => {
               :name="authorName"
               :src="authorThumbnailSrc"
             />
-            <span class="text-sm text-slate-500 dark:text-slate-400">
+            <span class="text-sm text-n-slate-11">
               {{ authorName }}
             </span>
           </div>
-          <span
-            class="block text-sm whitespace-nowrap text-slate-500 dark:text-slate-400"
-          >
+          <span class="block text-sm whitespace-nowrap text-n-slate-11">
             {{ categoryName }}
           </span>
           <div
-            class="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 whitespace-nowrap"
+            class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
           >
             <FluentIcon icon="eye-show" size="18" />
             <span class="text-sm">
@@ -183,7 +181,7 @@ const handleClick = id => {
             </span>
           </div>
         </div>
-        <span class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">
+        <span class="text-sm text-n-slate-11 line-clamp-1">
           {{ lastUpdatedAt }}
         </span>
       </div>
