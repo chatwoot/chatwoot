@@ -58,7 +58,7 @@ const selectedLocaleInPortal = computed(() => {
 const isCategoryArticles = computed(() => {
   return (
     route.name === 'list_category_articles' ||
-    route.name === 'edit_article_in_category' ||
+    route.name === 'edit_category_article' ||
     route.name === 'list_categories'
   );
 });

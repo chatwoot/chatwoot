@@ -1,59 +1,101 @@
 <script setup>
 import { computed } from 'vue';
 import { debounce } from '@chatwoot/utils';
+import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 
-const { article } = defineProps({
+const props = defineProps({
   article: {
     type: Object,
     default: () => ({}),
   },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
+  isSaved: {
+    type: Boolean,
+    default: false,
+  },
 });
-const emit = defineEmits(['saveArticle']);
+
+const emit = defineEmits(['saveArticle', 'goBack']);
+
+const { t } = useI18n();
+
+const statusText = computed(() => {
+  return props.isUpdating
+    ? t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.STATUS.SAVING')
+    : t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.STATUS.SAVED');
+});
 
 const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
 
 const articleTitle = computed({
-  get: () => article.title,
+  get: () => props.article.title,
   set: title => {
     saveArticle({ title });
   },
 });
 
 const articleContent = computed({
-  get: () => article.content,
+  get: () => props.article.content,
   set: content => {
     saveArticle({ content });
   },
 });
+
+const author = computed(() => {
+  return props.article?.author;
+});
+
+const authorName = computed(() => {
+  return author.value?.name || author.value?.available_name || '-';
+});
+
+const authorThumbnailSrc = computed(() => {
+  return author.value?.thumbnail;
+});
+
+const onClickGoBack = () => {
+  emit('goBack');
+};
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <HelpCenterLayout :show-header-title="false" :show-pagination-footer="false">
     <template #header-actions>
       <div class="flex items-center justify-between h-20">
         <Button
-          label="Back to articles"
+          :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.BACK_TO_ARTICLES')"
           icon="chevron-lucide-left"
           icon-lib="lucide"
           variant="link"
           text-variant="info"
           size="sm"
+          @click="onClickGoBack"
         />
         <div class="flex items-center gap-4">
-          <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Saved
+          <span
+            v-if="isUpdating || isSaved"
+            class="text-xs font-medium transition-all duration-300 text-slate-500 dark:text-slate-400"
+          >
+            {{ statusText }}
           </span>
           <div class="flex items-center gap-2">
-            <Button label="Preview" variant="secondary" size="sm" />
             <Button
-              label="Publish"
+              :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
+              variant="secondary"
+              size="sm"
+            />
+            <Button
+              :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PUBLISH')"
               icon="chevron-lucide-down"
               icon-position="right"
               icon-lib="lucide"
@@ -73,14 +115,22 @@ const articleContent = computed({
         />
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-2">
-            <div class="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-700" />
+            <Thumbnail
+              v-if="author"
+              :author="author"
+              :name="authorName"
+              :size="20"
+              :src="authorThumbnailSrc"
+            />
             <span class="text-sm text-slate-500 dark:text-slate-400">
-              John Doe
+              {{ authorName }}
             </span>
           </div>
           <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
           <Button
-            label="Uncategorized"
+            :label="
+              t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
+            "
             icon="play-shape"
             variant="ghost"
             class="!px-2 font-normal"
@@ -88,7 +138,9 @@ const articleContent = computed({
           />
           <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
           <Button
-            label="More properties"
+            :label="
+              t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.MORE_PROPERTIES')
+            "
             icon="add"
             variant="ghost"
             class="!px-2 font-normal"
@@ -98,7 +150,9 @@ const articleContent = computed({
       <FullEditor
         v-model="articleContent"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
-        placeholder="Write something"
+        :placeholder="
+          t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
+        "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
       />
     </template>

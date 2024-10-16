@@ -602,6 +602,24 @@
         }
       }
     },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": { "SAVING": "Saving...", "SAVED": "Saved" },
+        "PREVIEW": "Preview",
+        "PUBLISH": "Publish",
+        "DRAFT": "Draft",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Uncategorized",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "API": {
+        "ERROR": "Error while saving article"
+      }
+    },
     "PORTAL_SWITCHER": {
       "PORTALS": "Portals",
       "CREATE_PORTAL": "Create and manage multiple portals",

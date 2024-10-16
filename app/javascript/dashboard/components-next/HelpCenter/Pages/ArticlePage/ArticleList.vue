@@ -30,13 +30,22 @@ const { t } = useI18n();
 const getCategoryById = useMapGetter('categories/categoryById');
 
 const openArticle = id => {
+  const { tab, categorySlug, locale } = route.params;
   if (props.isCategoryArticles) {
     router.push({
       name: 'edit_category_article',
       params: { articleSlug: id },
     });
   } else {
-    router.push({ name: 'edit_articles', params: { articleSlug: id } });
+    router.push({
+      name: 'edit_articles',
+      params: {
+        articleSlug: id,
+        tab,
+        categorySlug,
+        locale,
+      },
+    });
   }
 };
 

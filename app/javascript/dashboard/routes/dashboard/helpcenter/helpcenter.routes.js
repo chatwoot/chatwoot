@@ -6,6 +6,7 @@ const ListArticlesPage = () => import('./pages/articles/ListArticlesPage.vue');
 const ListCategoriesPage = () =>
   import('./pages/categories/ListCategoriesPage.vue');
 const ListLocalesPage = () => import('./pages/locales/ListLocalesPage.vue');
+const EditArticlePage = () => import('./pages/articles/EditArticlePage.vue');
 
 const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
@@ -143,12 +144,14 @@ const articleRoutes = [
     component: ListArticlesPage,
   },
   {
-    path: getPortalRoute(':portalSlug/:locale/new-articles/:articleSlug'),
+    path: getPortalRoute(
+      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?/:articleSlug'
+    ),
     name: 'edit_articles',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: EditArticle,
+    component: EditArticlePage,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/new-articles/new'),
@@ -237,7 +240,7 @@ const categoryRoutes = [
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: EditArticle,
+    component: EditArticlePage,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
