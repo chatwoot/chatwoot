@@ -477,6 +477,10 @@
         }
       }
     },
-    "LOADING": "Notiek ielāde..."
+    "LOADING": "Notiek ielāde...",
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale"
+    }
   }
 }
