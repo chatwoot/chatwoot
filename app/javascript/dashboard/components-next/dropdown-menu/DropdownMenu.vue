@@ -6,13 +6,16 @@ defineProps({
   menuItems: {
     type: Array,
     required: true,
+    validator: value => {
+      return value.every(item => item.action && item.value && item.label);
+    },
   },
 });
 
 const emit = defineEmits(['action']);
 
-const handleAction = action => {
-  emit('action', action);
+const handleAction = (action, value) => {
+  emit('action', { action, value });
 };
 </script>
 
@@ -29,7 +32,7 @@ const handleAction = action => {
       size="sm"
       class="!justify-start w-full hover:bg-white dark:hover:bg-slate-800 z-60 font-normal"
       :text-variant="item.action === 'delete' ? 'danger' : ''"
-      @click="handleAction(item.action)"
+      @click="handleAction(item.action, item.value)"
     />
   </div>
 </template>

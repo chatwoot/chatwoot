@@ -343,6 +343,12 @@
         "SUCCESS": "Article archived successfully"
       }
     },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
@@ -481,6 +487,43 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale"
+    },
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Publish",
+            "DRAFT": "Draft",
+            "ARCHIVE": "Archive",
+            "DELETE": "Delete"
+          },
+          "STATUS": {
+            "DRAFT": "Draft",
+            "PUBLISHED": "Published",
+            "ARCHIVED": "Archived"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Mine",
+          "DRAFT": "Draft",
+          "PUBLISHED": "Published",
+          "ARCHIVED": "Archived"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      }
     }
   }
 }

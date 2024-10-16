@@ -2,6 +2,8 @@ import HelpCenterLayout from './components/HelpCenterLayout.vue';
 import { getPortalRoute } from './helpers/routeHelper';
 
 const ListAllPortals = () => import('./pages/portals/ListAllPortals.vue');
+const ListArticlesPage = () => import('./pages/articles/ListArticlesPage.vue');
+
 const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
 const EditPortal = () => import('./pages/portals/EditPortal.vue');
@@ -127,6 +129,16 @@ const portalRoutes = [
 ];
 
 const articleRoutes = [
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?'
+    ),
+    name: 'list_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListArticlesPage,
+  },
   {
     path: getPortalRoute(':portalSlug/:locale/articles'),
     name: 'list_all_locale_articles',

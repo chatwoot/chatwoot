@@ -1,13 +1,25 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
+import { useI18n } from 'vue-i18n';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import {
+  ARTICLE_MENU_ITEMS,
+  ARTICLE_MENU_OPTIONS,
+  ARTICLE_STATUSES,
+} from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -17,11 +29,11 @@ const props = defineProps({
     required: true,
   },
   author: {
-    type: String,
+    type: Object,
     required: true,
   },
   category: {
-    type: String,
+    type: Object,
     required: true,
   },
   views: {
@@ -29,31 +41,32 @@ const props = defineProps({
     required: true,
   },
   updatedAt: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
 
+const emit = defineEmits(['openArticle', 'articleAction']);
+
+const { t } = useI18n();
+
 const isOpen = ref(false);
 
-const menuItems = computed(() => {
-  const baseItems = [{ label: 'Delete', action: 'delete', icon: 'delete' }];
-  const menuOptions = {
-    archived: [
-      { label: 'Publish', action: 'publish', icon: 'checkmark' },
-      { label: 'Draft', action: 'draft', icon: 'draft' },
-    ],
-    draft: [
-      { label: 'Publish', action: 'publish', icon: 'checkmark' },
-      { label: 'Archive', action: 'archive', icon: 'archive' },
-    ],
-    '': [
-      // Empty string represents published status
-      { label: 'Draft', action: 'draft', icon: 'draft' },
-      { label: 'Archive', action: 'archive', icon: 'archive' },
-    ],
-  };
-  return [...(menuOptions[props.status] || menuOptions['']), ...baseItems];
+const articleMenuItems = computed(() => {
+  const commonItems = Object.entries(ARTICLE_MENU_ITEMS).reduce(
+    (acc, [key, item]) => {
+      acc[key] = { ...item, label: t(item.label) };
+      return acc;
+    },
+    {}
+  );
+
+  const statusItems = (
+    ARTICLE_MENU_OPTIONS[props.status] ||
+    ARTICLE_MENU_OPTIONS[ARTICLE_STATUSES.PUBLISHED]
+  ).map(key => commonItems[key]);
+
+  return [...statusItems, commonItems.delete];
 });
 
 const statusTextColor = computed(() => {
@@ -70,29 +83,55 @@ const statusTextColor = computed(() => {
 const statusText = computed(() => {
   switch (props.status) {
     case 'archived':
-      return 'Archived';
+      return t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.STATUS.ARCHIVED');
     case 'draft':
-      return 'Draft';
+      return t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.STATUS.DRAFT');
     default:
-      return 'Published';
+      return t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.STATUS.PUBLISHED');
   }
 });
 
-const handleAction = () => {
+const categoryName = computed(() => {
+  if (props.category?.slug) {
+    return `${props.category.icon} ${props.category.name}`;
+  }
+  return t(
+    'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.CATEGORY.UNCATEGORISED'
+  );
+});
+
+const authorName = computed(() => {
+  return props.author?.name || props.author?.available_name || '-';
+});
+
+const authorThumbnailSrc = computed(() => {
+  return props.author?.thumbnail;
+});
+
+const lastUpdatedAt = computed(() => {
+  return dynamicTime(props.updatedAt);
+});
+
+const handleArticleAction = ({ action, value }) => {
   isOpen.value = false;
+  emit('articleAction', { action, value, id: props.id });
+};
+
+const handleClick = id => {
+  emit('openArticle', id);
 };
 </script>
 
-<!-- TODO: Add i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout>
+  <CardLayout @click="handleClick(id)">
     <template #header>
       <div class="flex justify-between gap-1">
-        <span class="text-base text-slate-900 dark:text-slate-50 line-clamp-1">
+        <span
+          class="text-base group-hover/cardLayout:underline text-slate-900 dark:text-slate-50 line-clamp-1"
+        >
           {{ title }}
         </span>
-        <div class="relative group">
+        <div class="relative group" @click.stop>
           <Button
             variant="ghost"
             size="sm"
@@ -104,9 +143,9 @@ const handleAction = () => {
           <OnClickOutside @trigger="isOpen = false">
             <DropdownMenu
               v-if="isOpen"
-              :menu-items="menuItems"
+              :menu-items="articleMenuItems"
               class="right-0 mt-2 xl:left-0 top-full"
-              @action="handleAction"
+              @action="handleArticleAction($event)"
             />
           </OnClickOutside>
         </div>
@@ -116,25 +155,36 @@ const handleAction = () => {
       <div class="flex items-center justify-between gap-4">
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
-            <div class="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-700" />
+            <Thumbnail
+              v-if="author"
+              :author="author"
+              :name="authorName"
+              :src="authorThumbnailSrc"
+            />
             <span class="text-sm text-slate-500 dark:text-slate-400">
-              {{ author }}
+              {{ authorName }}
             </span>
           </div>
           <span
             class="block text-sm whitespace-nowrap text-slate-500 dark:text-slate-400"
           >
-            {{ category }}
+            {{ categoryName }}
           </span>
           <div
             class="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 whitespace-nowrap"
           >
             <FluentIcon icon="eye-show" size="18" />
-            <span class="text-sm"> {{ views }} views </span>
+            <span class="text-sm">
+              {{
+                t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {
+                  count: views,
+                })
+              }}
+            </span>
           </div>
         </div>
         <span class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">
-          {{ updatedAt }}
+          {{ lastUpdatedAt }}
         </span>
       </div>
     </template>

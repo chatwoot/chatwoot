@@ -78,6 +78,10 @@ export default {
         return false;
       }
 
+      if (this.$route.name === 'list_articles') {
+        return false;
+      }
+
       return this.portals.length === 0 ? false : this.isSidebarOpen;
     },
     selectedPortal() {
