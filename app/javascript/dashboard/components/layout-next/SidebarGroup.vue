@@ -80,7 +80,8 @@ const activeChild = computed(() => {
       @click="setExpandedItem(name)"
     />
     <ul
-      v-if="hasChildren && (isExpanded || hasActiveChild)"
+      v-if="hasChildren"
+      v-show="isExpanded || hasActiveChild"
       class="list-none overflow-scroll m-0 grid sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
