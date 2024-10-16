@@ -131,16 +131,17 @@ const handleTabChange = value => {
     <div class="flex items-start justify-between w-full gap-2">
       <div class="flex items-center gap-2">
         <div class="relative group">
-          <Button
-            :label="activeLocaleName"
-            size="sm"
-            icon-position="right"
-            icon="chevron-lucide-down"
-            icon-lib="lucide"
-            variant="secondary"
-            @click="isLocaleMenuOpen = !isLocaleMenuOpen"
-          />
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
+            <Button
+              :label="activeLocaleName"
+              size="sm"
+              icon-position="right"
+              icon="chevron-lucide-down"
+              icon-lib="lucide"
+              variant="secondary"
+              @click="isLocaleMenuOpen = !isLocaleMenuOpen"
+            />
+
             <DropdownMenu
               v-if="isLocaleMenuOpen"
               :menu-items="localeMenuItems"
@@ -150,16 +151,17 @@ const handleTabChange = value => {
           </OnClickOutside>
         </div>
         <div class="relative group">
-          <Button
-            :label="activeCategoryName"
-            size="sm"
-            icon-position="right"
-            icon="chevron-lucide-down"
-            icon-lib="lucide"
-            variant="secondary"
-            @click="isCategoryMenuOpen = !isCategoryMenuOpen"
-          />
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
+            <Button
+              :label="activeCategoryName"
+              size="sm"
+              icon-position="right"
+              icon="chevron-lucide-down"
+              icon-lib="lucide"
+              variant="secondary"
+              @click="isCategoryMenuOpen = !isCategoryMenuOpen"
+            />
+
             <DropdownMenu
               v-if="isCategoryMenuOpen"
               :menu-items="categoryMenuItems"
