@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 2.8.0
+# Script Version: 3.0.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
