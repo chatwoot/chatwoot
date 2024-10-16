@@ -555,4 +555,20 @@ Rails.application.routes.draw do
   post 'chatbots/callback/update_status', to: 'chatbots/callbacks#update_status'
   post 'chatbots/callback/query_reply', to: 'chatbots/callbacks#query_reply'
   post 'chatbots/callback/links_crawled', to: 'chatbots/callbacks#links_crawled'
+
+  # Routes for OneHash Cross App Integration
+  namespace :onehash do
+    namespace :api do
+      resources :accounts, only: [:index]
+      resources :contacts, only: [:create, :index]
+      resources :users, only: [:index, :update, :destroy]
+    end
+  end
+
+  get '/integrations/accounts', to: 'onehash/api/accounts#index'
+  get '/integrations/contacts', to: 'onehash/api/contacts#index'
+  post '/integrations/contacts', to: 'onehash/api/contacts#create'
+  patch '/integrations/users', to: 'onehash/api/users#update'
+  get '/integrations/users', to: 'onehash/api/users#index'
+  delete '/integrations/users', to: 'onehash/api/users#destroy'
 end
