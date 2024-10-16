@@ -73,7 +73,7 @@ const togglePortalSwitcher = () => {
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-[900px] h-full mx-auto py-3">
+      <div class="w-full max-w-[900px] mx-auto py-3">
         <slot name="content" />
       </div>
     </main>
