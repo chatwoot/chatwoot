@@ -23,11 +23,11 @@ defineProps({
     type: Array,
     required: true,
   },
-  meta: {
-    type: Object,
+  portalName: {
+    type: String,
     required: true,
   },
-  portalMeta: {
+  meta: {
     type: Object,
     required: true,
   },
@@ -94,6 +94,7 @@ const newArticlePage = () => {
     :current-page="Number(meta.currentPage)"
     :total-items="Number(meta.articlesCount)"
     :items-per-page="25"
+    :header="portalName"
     :show-pagination-footer="!isFetching && !shouldShowEmptyState"
     @update:current-page="handlePageChange"
   >

@@ -100,16 +100,20 @@ watch(route, () => {
 </script>
 
 <template>
-  <ArticlesPage
-    :articles="articles"
-    :categories="categories"
-    :allowed-locales="allowedLocales"
-    :meta="meta"
-    :portal-meta="portalMeta"
-    :is-fetching="isFetching"
-    :should-show-empty-state="shouldShowEmptyState"
-    :is-category-articles="isCategoryArticles"
-    @page-change="onPageChange"
-    @fetch-portal="fetchPortalAndItsCategories"
-  />
+  <div class="h-full w-full">
+    <ArticlesPage
+      v-if="portal"
+      :articles="articles"
+      :portal-name="portal.name"
+      :categories="categories"
+      :allowed-locales="allowedLocales"
+      :meta="meta"
+      :portal-meta="portalMeta"
+      :is-fetching="isFetching"
+      :should-show-empty-state="shouldShowEmptyState"
+      :is-category-articles="isCategoryArticles"
+      @page-change="onPageChange"
+      @fetch-portal="fetchPortalAndItsCategories"
+    />
+  </div>
 </template>
