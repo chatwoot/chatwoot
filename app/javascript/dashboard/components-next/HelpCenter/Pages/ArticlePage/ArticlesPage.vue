@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
@@ -7,10 +6,11 @@ import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import ArticleList from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticleList.vue';
 import ArticleHeaderControls from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticleHeaderControls.vue';
+import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 
-const props = defineProps({
+defineProps({
   articles: {
     type: Array,
     required: true,
@@ -36,6 +36,10 @@ const props = defineProps({
     default: false,
   },
   shouldShowEmptyState: {
+    type: Boolean,
+    default: false,
+  },
+  isCategoryArticles: {
     type: Boolean,
     default: false,
   },
@@ -96,6 +100,7 @@ const newArticlePage = () => {
     <template #header-actions>
       <div class="flex items-end justify-between">
         <ArticleHeaderControls
+          v-if="!isCategoryArticles"
           :categories="categories"
           :allowed-locales="allowedLocales"
           :portal-meta="portalMeta"
@@ -104,20 +109,28 @@ const newArticlePage = () => {
           @category-change="handleCategoryAction"
           @new-article="newArticlePage"
         />
+        <CategoryHeaderControls
+          v-else
+          :categories="categories"
+          :allowed-locales="allowedLocales"
+          :has-selected-category="isCategoryArticles"
+        />
       </div>
     </template>
     <template #content>
-      <div
-        v-if="isFetching"
-        class="flex items-center justify-center h-full min-h-full"
-      >
+      <div v-if="isFetching" class="flex items-center justify-center py-10">
         <Spinner />
       </div>
       <EmptyState
         v-else-if="shouldShowEmptyState"
         :title="t('HELP_CENTER.TABLE.NO_ARTICLES')"
       />
-      <ArticleList v-else :articles="articles" :categories="categories" />
+      <ArticleList
+        v-else
+        :articles="articles"
+        :categories="categories"
+        :is-category-articles="isCategoryArticles"
+      />
     </template>
   </HelpCenterLayout>
 </template>

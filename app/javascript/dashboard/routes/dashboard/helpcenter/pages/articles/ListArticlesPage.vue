@@ -55,6 +55,14 @@ const selectedLocaleInPortal = computed(() => {
   return route.params.locale || defaultPortalLocale.value;
 });
 
+const isCategoryArticles = computed(() => {
+  return (
+    route.name === 'list_category_articles' ||
+    route.name === 'edit_article_in_category' ||
+    route.name === 'list_categories'
+  );
+});
+
 const fetchArticles = ({ pageNumber: pageNumberParam } = {}) => {
   store.dispatch('articles/index', {
     pageNumber: pageNumberParam || pageNumber.value,
@@ -100,6 +108,7 @@ watch(route, () => {
     :portal-meta="portalMeta"
     :is-fetching="isFetching"
     :should-show-empty-state="shouldShowEmptyState"
+    :is-category-articles="isCategoryArticles"
     @page-change="onPageChange"
     @fetch-portal="fetchPortalAndItsCategories"
   />

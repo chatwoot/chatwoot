@@ -524,6 +524,20 @@
         },
         "NEW_ARTICLE": "New article"
       }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "New category",
+        "EDIT_CATEGORY": "Edit category",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      }
     }
   }
 }

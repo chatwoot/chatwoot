@@ -3,6 +3,8 @@ import { getPortalRoute } from './helpers/routeHelper';
 
 const ListAllPortals = () => import('./pages/portals/ListAllPortals.vue');
 const ListArticlesPage = () => import('./pages/articles/ListArticlesPage.vue');
+const ListCategoriesPage = () =>
+  import('./pages/categories/ListCategoriesPage.vue');
 
 const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
@@ -192,6 +194,34 @@ const articleRoutes = [
 ];
 
 const categoryRoutes = [
+  {
+    path: getPortalRoute(':portalSlug/:locale/new-categories'),
+    name: 'list_categories',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListCategoriesPage,
+  },
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/new-categories/:categorySlug/articles'
+    ),
+    name: 'list_category_articles',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListArticlesPage,
+  },
+  {
+    path: getPortalRoute(
+      ':portalSlug/:locale/new-categories/:categorySlug/articles/:articleSlug'
+    ),
+    name: 'edit_category_article',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: EditArticle,
+  },
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
     name: 'all_locale_categories',

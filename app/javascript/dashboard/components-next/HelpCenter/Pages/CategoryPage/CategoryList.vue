@@ -10,8 +10,8 @@ defineProps({
 
 const emit = defineEmits(['click']);
 
-const handleClick = id => {
-  emit('click', id);
+const handleClick = slug => {
+  emit('click', slug);
 };
 </script>
 
@@ -20,11 +20,13 @@ const handleClick = id => {
     <CategoryCard
       v-for="category in categories"
       :id="category.id"
-      :key="category.title"
-      :title="category.title"
+      :key="category.id"
+      :title="category.name"
+      :icon="category.icon"
       :description="category.description"
-      :articles-count="category.articlesCount"
-      @click="handleClick(category.id)"
+      :articles-count="category.meta.articles_count || 0"
+      :slug="category.slug"
+      @click="handleClick(category.slug)"
     />
   </ul>
 </template>

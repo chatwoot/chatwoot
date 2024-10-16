@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
+import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -8,14 +9,14 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 
 const props = defineProps({
   id: {
-    type: String,
+    type: Number,
     required: true,
   },
   title: {
     type: String,
     required: true,
   },
-  articlesCount: {
+  icon: {
     type: String,
     required: true,
   },
@@ -23,9 +24,19 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  articlesCount: {
+    type: Number,
+    required: true,
+  },
+  slug: {
+    type: String,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['click']);
+
+const { t } = useI18n();
 
 const isOpen = ref(false);
 
@@ -42,6 +53,10 @@ const menuItems = [
   },
 ];
 
+const categoryTitleWithIcon = computed(() => {
+  return `${props.icon} ${props.title}`;
+});
+
 const description = computed(() => {
   return props.description ? props.description : 'No description added';
 });
@@ -50,8 +65,8 @@ const hasDescription = computed(() => {
   return props.description.length > 0;
 });
 
-const handleClick = id => {
-  emit('click', id);
+const handleClick = slug => {
+  emit('click', slug);
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -63,7 +78,7 @@ const handleAction = action => {
 <!-- TODO: Add i18n -->
 <!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout @click="handleClick(id)">
+  <CardLayout @click="handleClick(slug)">
     <template #header>
       <div class="flex gap-2">
         <div class="flex justify-between w-full">
@@ -71,12 +86,16 @@ const handleAction = action => {
             <span
               class="text-base cursor-pointer group-hover/cardLayout:underline text-slate-900 dark:text-slate-50 line-clamp-1"
             >
-              {{ title }}
+              {{ categoryTitleWithIcon }}
             </span>
             <span
               class="inline-flex items-center justify-center h-6 px-2 py-1 text-xs text-center border rounded-lg text-slate-500 w-fit border-slate-200 dark:border-slate-800 dark:text-slate-400"
             >
-              {{ articlesCount }} articles
+              {{
+                t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_CARD.ARTICLES_COUNT', {
+                  count: articlesCount,
+                })
+              }}
             </span>
           </div>
           <div class="relative group" @click.stop>

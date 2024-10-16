@@ -9,10 +9,14 @@ import wootConstants from 'dashboard/constants/globals';
 
 import ArticleCard from 'dashboard/components-next/HelpCenter/ArticleCard/ArticleCard.vue';
 
-defineProps({
+const props = defineProps({
   articles: {
     type: Array,
     required: true,
+  },
+  isCategoryArticles: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -26,7 +30,14 @@ const { t } = useI18n();
 const getCategoryById = useMapGetter('categories/categoryById');
 
 const openArticle = id => {
-  router.push({ name: 'edit_article', params: { articleSlug: id } });
+  if (props.isCategoryArticles) {
+    router.push({
+      name: 'edit_category_article',
+      params: { articleSlug: id },
+    });
+  } else {
+    router.push({ name: 'edit_article', params: { articleSlug: id } });
+  }
 };
 
 const getCategory = categoryId => {
