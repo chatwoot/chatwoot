@@ -29,7 +29,7 @@ const navigableChildren = computed(() => {
   }
 
   return props.children.reduce((flattened, child) => {
-    if (child.to && child.children?.length > 0) {
+    if (child.children && child.children.length > 0) {
       flattened.push(...child.children);
     } else {
       flattened.push(child);
