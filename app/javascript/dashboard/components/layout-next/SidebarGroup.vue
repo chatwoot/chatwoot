@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useSidebarContext } from './provider';
-import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
 import SidebarGroupHeader from './SidebarGroupHeader.vue';
