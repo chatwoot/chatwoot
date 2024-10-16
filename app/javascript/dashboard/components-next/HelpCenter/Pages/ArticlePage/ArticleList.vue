@@ -125,7 +125,7 @@ const updateArticle = ({ action, value, id }) => {
       :author="article.author"
       :category="getCategory(article.category.id)"
       :views="article.views || 0"
-      :updated-at="article.updated_at"
+      :updated-at="article.updatedAt"
       @open-article="openArticle"
       @article-action="updateArticle"
     />

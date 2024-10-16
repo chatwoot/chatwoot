@@ -92,7 +92,7 @@ const newArticlePage = () => {
 <template>
   <HelpCenterLayout
     :current-page="Number(meta.currentPage)"
-    :total-items="Number(meta.count)"
+    :total-items="Number(meta.articlesCount)"
     :items-per-page="25"
     :show-pagination-footer="!isFetching && !shouldShowEmptyState"
     @update:current-page="handlePageChange"
@@ -103,7 +103,7 @@ const newArticlePage = () => {
           v-if="!isCategoryArticles"
           :categories="categories"
           :allowed-locales="allowedLocales"
-          :portal-meta="portalMeta"
+          :meta="meta"
           @tab-change="handleTabChange"
           @locale-change="handleLocaleAction"
           @category-change="handleCategoryAction"

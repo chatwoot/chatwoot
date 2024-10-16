@@ -1,6 +1,7 @@
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
+import camelcaseKeys from 'camelcase-keys';
 
 import types from '../../mutation-types';
 export const actions = {
@@ -10,9 +11,7 @@ export const actions = {
   ) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const {
-        data: { payload, meta },
-      } = await articlesAPI.getArticles({
+      const { data } = await articlesAPI.getArticles({
         pageNumber,
         portalSlug,
         locale,
@@ -20,6 +19,8 @@ export const actions = {
         authorId,
         categorySlug,
       });
+      const payload = camelcaseKeys(data.payload);
+      const meta = camelcaseKeys(data.meta);
       const articleIds = payload.map(article => article.id);
       commit(types.CLEAR_ARTICLES);
       commit(types.ADD_MANY_ARTICLES, payload);

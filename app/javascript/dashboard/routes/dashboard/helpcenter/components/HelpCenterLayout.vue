@@ -78,7 +78,7 @@ export default {
         return false;
       }
 
-      if (this.$route.name === 'list_articles') {
+      if (['edit_articles', 'list_articles'].includes(this.$route.name)) {
         return false;
       }
 

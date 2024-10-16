@@ -101,7 +101,7 @@ const categoryName = computed(() => {
 });
 
 const authorName = computed(() => {
-  return props.author?.name || props.author?.available_name || '-';
+  return props.author?.name || props.author?.availableName || '-';
 });
 
 const authorThumbnailSrc = computed(() => {

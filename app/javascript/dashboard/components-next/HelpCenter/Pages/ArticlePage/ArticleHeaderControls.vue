@@ -22,7 +22,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  portalMeta: {
+  meta: {
     type: Object,
     required: true,
   },
@@ -41,11 +41,18 @@ const { t } = useI18n();
 const isCategoryMenuOpen = ref(false);
 const isLocaleMenuOpen = ref(false);
 
+const countKey = tab => {
+  if (tab.value === 'All') {
+    return 'articlesCount';
+  }
+  return `${tab.value}ArticlesCount`;
+};
+
 const tabs = computed(() => {
   return ARTICLE_TABS_OPTIONS.map(tab => ({
     label: t(`HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.TABS.${tab.key}`),
     value: tab.value,
-    count: props.portalMeta[`${tab.value}ArticlesCount`],
+    count: props.meta[countKey(tab)],
   }));
 });
 
