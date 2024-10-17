@@ -121,9 +121,10 @@ const handleClick = e => {
       :icon-lib="iconLib"
       class="flex-shrink-0"
     />
-    <slot name="thumbnail" />
+    <slot name="leftPrefix" />
     <span v-if="emoji">{{ emoji }}</span>
     <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
+    <slot name="rightPrefix" />
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
       :icon="icon"

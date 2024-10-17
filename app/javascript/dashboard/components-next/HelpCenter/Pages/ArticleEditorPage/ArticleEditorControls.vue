@@ -123,7 +123,7 @@ const handleArticleAction = ({ action, value }) => {
           text-variant="info"
           @click="openAgentsList = !openAgentsList"
         >
-          <template #thumbnail>
+          <template #leftPrefix>
             <Thumbnail
               v-if="author"
               :author="author"
@@ -136,7 +136,7 @@ const handleArticleAction = ({ action, value }) => {
         <DropdownMenu
           v-if="openAgentsList"
           :menu-items="agentList"
-          class="right-0 w-48 mt-2 overflow-y-auto xl:left-0 top-full max-h-52"
+          class="right-0 z-[100] w-48 mt-2 !py-1 overflow-y-auto xl:left-0 top-full max-h-52"
           @action="handleArticleAction"
         />
       </OnClickOutside>
@@ -159,7 +159,7 @@ const handleArticleAction = ({ action, value }) => {
         <DropdownMenu
           v-if="openCategoryList"
           :menu-items="categoryList"
-          class="right-0 w-48 mt-2 overflow-y-auto xl:left-0 top-full max-h-52"
+          class="right-0 w-48 mt-2 z-[100] !py-1 overflow-y-auto xl:left-0 top-full max-h-52"
           @action="handleArticleAction"
         />
       </OnClickOutside>

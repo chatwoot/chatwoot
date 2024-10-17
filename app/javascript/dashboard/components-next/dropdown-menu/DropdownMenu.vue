@@ -43,7 +43,7 @@ const handleAction = (action, value) => {
       :text-variant="item.action === 'delete' ? 'danger' : ''"
       @click="handleAction(item.action, item.value)"
     >
-      <template #thumbnail>
+      <template #leftPrefix>
         <Thumbnail
           v-if="item.thumbnail"
           :author="item.thumbnail"
