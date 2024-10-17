@@ -84,6 +84,7 @@ export default {
           'list_category_articles',
           'edit_articles',
           'list_articles',
+          'edit_category_article',
         ].includes(this.$route.name)
       ) {
         return false;
