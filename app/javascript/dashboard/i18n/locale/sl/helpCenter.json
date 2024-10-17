@@ -38,7 +38,7 @@
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "Upload image",
-        "UPLOADING": "Uploading...",
+        "UPLOADING": "Nalaganje...",
         "SUCCESS": "Image uploaded successfully",
         "ERROR": "Error while uploading image",
         "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
