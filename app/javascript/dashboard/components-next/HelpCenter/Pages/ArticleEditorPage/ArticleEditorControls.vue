@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import ArticleEditorProperties from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorProperties.vue';
 
 const props = defineProps({
   article: {
@@ -21,6 +22,7 @@ const { t } = useI18n();
 
 const openAgentsList = ref(false);
 const openCategoryList = ref(false);
+const openProperties = ref(false);
 const selectedAuthorId = ref(null);
 const selectedCategoryId = ref(null);
 
@@ -110,6 +112,10 @@ const handleArticleAction = ({ action, value }) => {
 
   actions[action]?.();
 };
+
+const updateMeta = meta => {
+  emit('saveArticle', { meta });
+};
 </script>
 
 <template>
@@ -166,11 +172,25 @@ const handleArticleAction = ({ action, value }) => {
     </div>
 
     <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
-    <Button
-      :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.MORE_PROPERTIES')"
-      icon="add"
-      variant="ghost"
-      class="!px-2 font-normal"
-    />
+    <div class="relative">
+      <OnClickOutside @trigger="openProperties = false">
+        <Button
+          :label="
+            t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.MORE_PROPERTIES')
+          "
+          icon="add"
+          variant="ghost"
+          class="!px-2 font-normal"
+          @click="openProperties = !openProperties"
+        />
+        <ArticleEditorProperties
+          v-if="openProperties"
+          :article="article"
+          class="right-0 z-[100] mt-2 xl:left-0 top-full"
+          @save-article="updateMeta"
+          @close="openProperties = false"
+        />
+      </OnClickOutside>
+    </div>
   </div>
 </template>

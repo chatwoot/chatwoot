@@ -623,6 +623,15 @@
         "UNCATEGORIZED": "Uncategorized",
         "EDITOR_PLACEHOLDER": "Write something..."
       },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Meta description",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Meta title",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta tags",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
       "API": {
         "ERROR": "Error while saving article"
       }
