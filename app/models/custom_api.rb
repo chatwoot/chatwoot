@@ -20,11 +20,15 @@ class CustomApi < ApplicationRecord
   validates :base_url, presence: true
   validates :api_key, presence: true
 
-  after_create :import_orders, :enable_orders_view
+  after_create :import_service_later, :enable_orders_view
   after_destroy :delete_associated_orders
 
   def import_service
     Integrations::CustomApi::ImportOrderService.new(custom_api: self)
+  end
+
+  def import_service_later
+    Integrations::CustomApi::ImportOrdersJob.perform_later(id)
   end
 
   def enable_orders_view
