@@ -850,7 +850,7 @@ function upgrade() {
 
   # Update dependencies
   bundle
-  pnpm -i
+  pnpm i
 
   # Recompile the assets
   rake assets:precompile RAILS_ENV=production NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
