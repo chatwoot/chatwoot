@@ -53,8 +53,8 @@ describe('#mutations', () => {
         current_page: 1,
       });
       expect(state.meta).toEqual({
-        count: 3,
-        currentPage: 1,
+        articles_count: 3,
+        current_page: 1,
       });
     });
   });
