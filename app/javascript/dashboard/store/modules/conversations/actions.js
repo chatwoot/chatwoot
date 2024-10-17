@@ -315,6 +315,7 @@ const actions = {
         canReply: true,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
+      bus.$emit('fetch_conversation_unread_stats');
     }
   },
 

@@ -233,7 +233,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
     }
   end
 
-  def webhook_data
+  def webhook_data # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
@@ -251,7 +251,9 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       product: product&.webhook_data,
       po_date: po_date,
       po_value: po_value,
-      po_note: po_note
+      po_note: po_note,
+      po_agent: po_agent&.webhook_data,
+      po_team_name: po_team&.name
     }
   end
 

@@ -284,7 +284,11 @@ class Message < ApplicationRecord
   end
 
   def update_agent_read_if_replied
-    conversation.update(assignee_unread_count: 0, assignee_last_seen_at: DateTime.now.utc) if outgoing? && !private
+    return unless human_response? && !private
+
+    # this is to make sure clear all unread state even if the sender is not the assignee
+    conversation.update(agent_unread_count: 0, agent_last_seen_at: DateTime.now.utc)
+    conversation.update(assignee_unread_count: 0, assignee_last_seen_at: DateTime.now.utc)
   end
 
   def update_unread_count
