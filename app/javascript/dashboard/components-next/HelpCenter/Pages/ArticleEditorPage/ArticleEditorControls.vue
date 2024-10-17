@@ -180,6 +180,8 @@ const updateMeta = meta => {
           "
           icon="add"
           variant="ghost"
+          :disabled="isNewArticle"
+          text-variant="info"
           class="!px-2 font-normal"
           @click="openProperties = !openProperties"
         />

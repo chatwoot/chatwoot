@@ -5,9 +5,9 @@ import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import ArticleEditorHeader from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorHeader.vue';
 import ArticleEditorControls from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorControls.vue';
 
 const props = defineProps({
@@ -34,12 +34,6 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
-
-const statusText = computed(() => {
-  return props.isUpdating
-    ? t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.STATUS.SAVING')
-    : t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.STATUS.SAVED');
-});
 
 const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
 
@@ -92,40 +86,14 @@ const previewArticle = () => {
 <template>
   <HelpCenterLayout :show-header-title="false" :show-pagination-footer="false">
     <template #header-actions>
-      <div class="flex items-center justify-between h-20">
-        <Button
-          :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.BACK_TO_ARTICLES')"
-          icon="chevron-lucide-left"
-          icon-lib="lucide"
-          variant="link"
-          text-variant="info"
-          size="sm"
-          @click="onClickGoBack"
-        />
-        <div class="flex items-center gap-4">
-          <span
-            v-if="isUpdating || isSaved"
-            class="text-xs font-medium transition-all duration-300 text-slate-500 dark:text-slate-400"
-          >
-            {{ statusText }}
-          </span>
-          <div class="flex items-center gap-2">
-            <Button
-              :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
-              variant="secondary"
-              size="sm"
-              @click="previewArticle"
-            />
-            <Button
-              :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PUBLISH')"
-              icon="chevron-lucide-down"
-              icon-position="right"
-              icon-lib="lucide"
-              size="sm"
-            />
-          </div>
-        </div>
-      </div>
+      <ArticleEditorHeader
+        :is-updating="isUpdating"
+        :is-saved="isSaved"
+        :status="article.status"
+        :article-id="article.id"
+        @go-back="onClickGoBack"
+        @preview-article="previewArticle"
+      />
     </template>
     <template #content>
       <div class="flex flex-col gap-3 pl-4 mb-3 rtl:pr-3 rtl:pl-0">

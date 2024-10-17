@@ -109,3 +109,9 @@ export const LOCALE_MENU_ITEMS = [
     icon: 'delete',
   },
 ];
+
+export const ARTICLE_EDITOR_STATUS_OPTIONS = {
+  published: ['archive', 'draft'],
+  archived: ['draft'],
+  draft: ['archive'],
+};
