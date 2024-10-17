@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Safates d'entrada",
-    "SIDEBAR_TXT": "<p><b>Safata d’entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de Facebook a Chatwoot, s’anomena<b>Safata d’entrada</b>. Podeu tenir bústies d’entrada il·limitades al vostre compte de Chatwoot. </p><p> Fer clic a <b>Add Safata d’entrada</b> per connectar un lloc web o una pàgina de Facebook.</p><p> Al tauler, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-hi a la pestanya `Converses`.</p><p> També pots veure converses específiques d’una safata d’entrada fent clic al nom de la safata d’entrada a l'esquerre del tauler. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "La teva safata d'entrada està desconnectada. No rebràs missatges nous fins que no els tornis a autoritzar.",
     "CLICK_TO_RECONNECT": "Fes clic aquí per tornar a connectar-te.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Fes clic al botó Inicia sessió amb Microsoft per començar. Se't redirigirà a la pàgina d'inici de sessió del correu electrònic. Un cop acceptis els permisos sol·licitats, se't redirigirà al pas de creació de la safata d'entrada.",
         "EMAIL_PLACEHOLDER": "Introdueix una adreça de correu electrònic",
         "SIGN_IN": "Inicia la sessió amb Microsoft",
-        "HELP": "Per afegir el teu compte de Microsoft com a canal, has d'autenticar el teu compte de Microsoft fent clic a \"Inicia la sessió amb Microsoft\" ",
         "ERROR_MESSAGE": "S'ha produït un error en connectar amb Microsoft, torna-ho a provar"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Introdueix una adreça de correu electrònic",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "S'està autenticant amb Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Alguna cosa ha anat malament, actualitza la pàgina...",
       "ERROR_FB_UNAUTHORIZED": "No estàs autoritzat per dur a terme aquesta acció. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Assegura't que tens accés a la pàgina de Facebook amb control total. Pots obtenir més informació sobre les funcions de Facebook <a href=\" https://www.facebook.com/help/187316341316631\">aquí</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Altres proveïdors"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Lloc web",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Correu electrònic",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canal de l'API"
     }
   }
 }

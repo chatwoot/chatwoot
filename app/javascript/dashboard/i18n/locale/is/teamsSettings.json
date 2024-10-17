@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Bæta þjónustufulltrúum við teymið",
-        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
         "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
         "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
+      "SELECTED_COUNT": "{selected} af {total} þjónustufulltrúum valdir."
     },
     "ADD": {
-      "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+      "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
       "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
+      "SELECTED_COUNT": "{selected} af {total} þjónustufulltrúum valdir.",
       "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },

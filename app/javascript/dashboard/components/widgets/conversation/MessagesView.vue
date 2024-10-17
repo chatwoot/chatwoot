@@ -18,6 +18,7 @@ import { mapGetters } from 'vuex';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 
 // utils
+import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -51,6 +52,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
@@ -251,12 +253,12 @@ export default {
   },
 
   created() {
-    this.$emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
-    this.$emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
+    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
-    this.$emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
+    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
   },
@@ -267,7 +269,7 @@ export default {
     this.fetchSuggestions();
   },
 
-  beforeDestroy() {
+  unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
   },
@@ -323,7 +325,7 @@ export default {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
-      this.$emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -428,7 +430,7 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
-      this.$emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
@@ -476,6 +478,7 @@ export default {
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
@@ -540,15 +543,15 @@ export default {
           {{ typingUserNames }}
           <img
             class="w-6 ltr:ml-2 rtl:mr-2"
-            src="~dashboard/assets/images/typing.gif"
+            src="assets/images/typing.gif"
             alt="Someone is typing"
           />
         </div>
       </div>
       <ReplyBox
+        v-model:popout-reply-box="isPopOutReplyBox"
         :conversation-id="currentChat.id"
-        :popout-reply-box.sync="isPopOutReplyBox"
-        @click="showPopOutReplyBox"
+        @toggle-popout="showPopOutReplyBox"
       />
     </div>
   </div>

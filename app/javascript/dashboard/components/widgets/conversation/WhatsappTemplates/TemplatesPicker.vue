@@ -9,6 +9,7 @@ export default {
       default: undefined,
     },
   },
+  emits: ['onSelect'],
   data() {
     return {
       query: '',

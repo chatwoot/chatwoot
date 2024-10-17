@@ -19,7 +19,9 @@ export default {
       children: [
         {
           path: '',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'settings_teams_list', params: to.params };
+          },
         },
         {
           path: 'list',

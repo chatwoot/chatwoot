@@ -55,6 +55,9 @@
       "CREATED_AT": "Sukurta",
       "LAST_ACTIVITY": "Paskutiniai veiksmai"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Reikalinga vertė"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standartinis Filtras",
       "ADDITIONAL_FILTERS": "Papildomas Filtras",

@@ -18,7 +18,8 @@
       "STATUS": "Estado",
       "ACTIONS": "Acciones",
       "VERIFIED": "Verificado",
-      "VERIFICATION_PENDING": "Verificación pendiente"
+      "VERIFICATION_PENDING": "Verificación pendiente",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Añadir agente a tu equipo",

@@ -29,6 +29,7 @@ de:
       invalid: Ungültige Events
     signup:
       disposable_email: Wir erlauben keine Einweg-E-Mails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       invalid_params: 'Ungültig, bitte überprüfen Sie die Anmeldeparameter und versuchen Sie es erneut'

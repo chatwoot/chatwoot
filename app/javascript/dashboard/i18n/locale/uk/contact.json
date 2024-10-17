@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Коротка інформація",
-      "DELETE_WARNING": "Контакт <strong>%{primaryContactName}</strong> буде видалено.",
-      "ATTRIBUTE_WARNING": "Контактні дані <strong>%{primaryContactName}</strong> буде скопійовано до <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Контакт <strong>{primaryContactName}</strong> буде видалено.",
+      "ATTRIBUTE_WARNING": "Контактні дані <strong>{primaryContactName}</strong> буде скопійовано до <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

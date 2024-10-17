@@ -66,6 +66,28 @@ RSpec.describe Integrations::App do
       end
     end
 
+    context 'when the app is captain' do
+      let(:app_name) { 'captain' }
+
+      it 'returns false is the captain feature is not enabled' do
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns false if the captain app url is not present' do
+        account.enable_features('captain_integration')
+        account.save!
+        expect(InstallationConfig.find_by(name: 'CAPTAIN_APP_URL')).to be_nil
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns true if the captain feature is enabled and the captain app url is present' do
+        account.enable_features('captain_integration')
+        account.save!
+        InstallationConfig.where(name: 'CAPTAIN_APP_URL').first_or_create(value: 'https://app.chatwoot.com')
+        expect(app.active?(account)).to be true
+      end
+    end
+
     context 'when other apps are queried' do
       let(:app_name) { 'webhook' }
 

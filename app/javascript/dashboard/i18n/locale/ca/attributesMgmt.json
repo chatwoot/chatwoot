@@ -3,7 +3,8 @@
     "HEADER": "Atributs personalitzats",
     "HEADER_BTN_TXT": "Afegir atribut personalitzat",
     "LOADING": "S'estan recollint atributs personalitzats",
-    "SIDEBAR_TXT": "<p><b>Atributs personalitzats</b> <p>Un atribut personalitzat fa un seguiment dels fets sobre els vostres contactes/converses, com ara el pla de subscripció, o quan van demanar el primer element, etc. <br /><br />Per crear un atribut personalitzat, només cal que feu clic a <b>Afegeix un atribut personalitzat.</b> També podeu editar o suprimir un atribut personalitzat existent fent clic al botó Edita o Suprimeix.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Afegir atribut personalitzat",
       "SUBMIT": "Crear",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "No s'ha pogut suprimir l'atribut personalitzat. Torna-ho a provar."
       },
       "CONFIRM": {
-        "TITLE": "Estàs segur que vols suprimir - %{attributeName}",
+        "TITLE": "Estàs segur que vols suprimir - {attributeName}",
         "PLACE_HOLDER": "Escriu {attributeName} per confirmar",
         "MESSAGE": "En suprimir, s'eliminarà l'atribut personalitzat",
         "YES": "Suprimeix ",

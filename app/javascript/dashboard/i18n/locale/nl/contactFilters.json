@@ -30,6 +30,9 @@
       "is_lesser_than": "Is minder dan",
       "days_before": "Is x dagen vóór"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Waarde is vereist"
+    },
     "ATTRIBUTES": {
       "NAME": "Naam",
       "EMAIL": "E-mailadres",

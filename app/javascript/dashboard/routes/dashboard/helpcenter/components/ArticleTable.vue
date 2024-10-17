@@ -1,13 +1,13 @@
 <script>
 import ArticleItem from './ArticleItem.vue';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 
 export default {
   components: {
     ArticleItem,
     TableFooter,
-    Draggable: draggable,
+    Draggable,
   },
   props: {
     articles: {
@@ -27,6 +27,7 @@ export default {
       default: 25,
     },
   },
+  emits: ['reorder', 'pageChange'],
   data() {
     return {
       localArticles: this.articles || [],
@@ -35,9 +36,7 @@ export default {
   computed: {
     dragEnabled() {
       // dragging allowed only on category page
-      return (
-        this.articles.length > 1 && !this.isFetching && this.onCategoryPage
-      );
+      return this.articles.length > 1 && this.onCategoryPage;
     },
     onCategoryPage() {
       return this.$route.name === 'show_category';
@@ -127,22 +126,24 @@ export default {
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
+      item-key="id"
       @start="dragging = true"
       @end="onDragEnd"
     >
-      <ArticleItem
-        v-for="article in localArticles"
-        :id="article.id"
-        :key="article.id"
-        :class="{ draggable: onCategoryPage }"
-        :title="article.title"
-        :author="article.author"
-        :show-drag-icon="dragEnabled"
-        :category="article.category"
-        :views="article.views"
-        :status="article.status"
-        :updated-at="article.updated_at"
-      />
+      <template #item="{ element }">
+        <ArticleItem
+          :id="element.id"
+          :key="element.id"
+          :class="{ draggable: onCategoryPage }"
+          :title="element.title"
+          :author="element.author"
+          :show-drag-icon="dragEnabled"
+          :category="element.category"
+          :views="element.views"
+          :status="element.status"
+          :updated-at="element.updated_at"
+        />
+      </template>
     </Draggable>
 
     <TableFooter
@@ -151,7 +152,7 @@ export default {
       :total-count="totalCount"
       :page-size="pageSize"
       class="bottom-0 border-t dark:bg-slate-900 border-slate-75 dark:border-slate-700/50"
-      @pageChange="onPageChange"
+      @page-change="onPageChange"
     />
   </div>
 </template>

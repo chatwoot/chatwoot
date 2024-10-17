@@ -37,6 +37,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['openModal', 'open', 'close', 'newArticlePage', 'changeLocale'],
   data() {
     return {
       showSortByDropdown: false,
@@ -209,7 +210,7 @@ export default {
               $t('HELP_CENTER.HEADER.LOCALE_SELECT.SEARCH_PLACEHOLDER')
             "
             :no-search-result="$t('HELP_CENTER.HEADER.LOCALE_SELECT.NO_RESULT')"
-            @click="onClickSelectItem"
+            @select="onClickSelectItem"
           />
         </div>
       </div>

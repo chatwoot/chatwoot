@@ -3,7 +3,8 @@
     "HEADER": "מאפיינים בהתאמה אישית",
     "HEADER_BTN_TXT": "הוסף מאפיין מותאם אישית",
     "LOADING": "שולף מאפיינים מותאמים אישית",
-    "SIDEBAR_TXT": "<p><b>שדות מותאמים</b> <p> שדות מותאמים הינן פרמטרים נוספים שאתה יכול לשמור אודות איש הקשר או השיחה שלך — לדוגמא החבילה שבה נמצא הלקוח, או מתי הם עשו רכישה לאחרונה. <br /><br /> כדי ליצור שדה מותאם חדש, יש ללחוץ על <b>הוסף שדה. </b> ניתן גם לערוך או לחוק שדות על ידי לחיצה על כפתור העריכה או המחיקה בהתאמה </p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "הוסף מאפיין מותאם אישית",
       "SUBMIT": "צור",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שנית."
       },
       "CONFIRM": {
-        "TITLE": "האם אתה בטוח רוצה למחוק - %{attributeName}",
+        "TITLE": "האם אתה בטוח רוצה למחוק - {attributeName}",
         "PLACE_HOLDER": "אנא הקלד {attributeName} כדי לאשר",
         "MESSAGE": "המחיקה תסיר את השדה המותאם",
         "YES": "מחק ",

@@ -3,7 +3,8 @@
     "HEADER": "ویژگی‌های سفارشی",
     "HEADER_BTN_TXT": "اضافه کردن ویژگی سفارشی",
     "LOADING": "واکشی ویژگی‌های سفارشی",
-    "SIDEBAR_TXT": "<p><b>ویژگی‌های سفارشی</b> <p>یک ویژگی سفارشی اطلاعات مربوط به مخاطبین یا گفتگو شما را ردیابی می‌کند — مانند طرح‌های اشتراکی یا زمانی که اولین مورد را سفارش داده‌اند و غیره. <br /><br />برای ایجاد ویژگی‌های سفارشی، فقط روی <b>افزودن ویژگی سفارشی.</b> کلیک کنید. همچنین می‌توانید با کلیک روی دکمه ویرایش یا حذف، یک ویژگی سفارشی موجود را ویرایش یا حذف کنید.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "اضافه کردن ویژگی سفارشی",
       "SUBMIT": "ايجاد كردن",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "ویژگی سفارشی حذف نشد. دوباره امتحان کنید."
       },
       "CONFIRM": {
-        "TITLE": "آیا مطمئن هستید که می خواهید حذف کنید - %{attributeName}",
+        "TITLE": "آیا مطمئن هستید که می خواهید حذف کنید - {attributeName}",
         "PLACE_HOLDER": "برای تایید لطفا {attributeName} را تایپ کنید",
         "MESSAGE": "با حذف ویژگی، ویژگی سفارشی به طور کامل حذف می‌شود",
         "YES": "حذف ",
