@@ -230,17 +230,6 @@ const categoryRoutes = [
   },
 ];
 
-const localeRoutes = [
-  {
-    path: getPortalRoute(':portalSlug/locales'),
-    name: 'list_locales',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
-    component: ListLocalesPage,
-  },
-];
-
 export const newPortalRoutes = [
   {
     path: getPortalRoute(
@@ -299,6 +288,14 @@ export const newPortalRoutes = [
     },
     component: EditArticlePage,
   },
+  {
+    path: getPortalRoute(':portalSlug/locales'),
+    name: 'list_locales',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: ListLocalesPage,
+  },
 ];
 
 export default {
@@ -311,7 +308,6 @@ export default {
         ...portalRoutes,
         ...articleRoutes,
         ...categoryRoutes,
-        ...localeRoutes,
       ],
     },
   ],

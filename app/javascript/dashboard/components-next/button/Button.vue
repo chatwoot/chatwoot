@@ -62,8 +62,7 @@ const buttonVariants = {
       'border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600',
     secondary:
       'bg-slate-50 text-slate-900 dark:bg-slate-700/50 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-600',
-    ghost:
-      'text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800',
+    ghost: '',
     link: 'text-woot-500 underline-offset-4 hover:underline dark:hover:underline',
   },
   size: {
@@ -104,8 +103,8 @@ const iconSize = computed(() => {
   return 18;
 });
 
-const handleClick = () => {
-  emit('click');
+const handleClick = e => {
+  emit('click', e);
 };
 </script>
 

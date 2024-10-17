@@ -124,7 +124,7 @@ const handleTabChange = value => {
 <template>
   <div class="flex flex-col items-start w-full gap-2 lg:flex-row">
     <TabBar
-      class="bg-white"
+      class="bg-n-solid-1"
       :tabs="tabs"
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"
@@ -139,7 +139,8 @@ const handleTabChange = value => {
               icon-position="right"
               icon="chevron-lucide-down"
               icon-lib="lucide"
-              variant="secondary"
+              variant="ghost"
+              class="bg-n-solid-3 text-n-slate-12"
               @click="isLocaleMenuOpen = !isLocaleMenuOpen"
             />
 
@@ -159,7 +160,8 @@ const handleTabChange = value => {
               icon-position="right"
               icon="chevron-lucide-down"
               icon-lib="lucide"
-              variant="secondary"
+              variant="ghost"
+              class="bg-n-solid-3 text-n-slate-12"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
             />
 

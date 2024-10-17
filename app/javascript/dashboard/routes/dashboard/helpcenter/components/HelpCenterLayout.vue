@@ -85,6 +85,8 @@ export default {
           'edit_articles',
           'list_articles',
           'edit_category_article',
+          'default_portal_articles',
+          'list_locales',
         ].includes(this.$route.name)
       ) {
         return false;
