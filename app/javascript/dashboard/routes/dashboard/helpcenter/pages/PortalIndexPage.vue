@@ -1,0 +1,65 @@
+<script setup>
+import { computed, nextTick, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+
+const store = useStore();
+const router = useRouter();
+const { uiSettings } = useUISettings();
+const route = useRoute();
+
+const portals = computed(() => store.getters['portals/allPortals']);
+
+const isPortalPresent = portalSlug => {
+  return !!portals.value.find(portal => portal.slug === portalSlug);
+};
+
+const routeToView = (name, params) => {
+  router.replace({ name, params, replace: true });
+};
+
+const generateRouterParams = () => {
+  const {
+    last_active_portal_slug: lastActivePortalSlug,
+    last_active_locale_code: lastActiveLocaleCode,
+  } = uiSettings.value || {};
+  if (isPortalPresent(lastActivePortalSlug)) {
+    return {
+      portalSlug: lastActivePortalSlug,
+      locale: lastActiveLocaleCode,
+    };
+  }
+
+  if (portals.value.length > 0) {
+    const { slug: portalSlug, meta: { default_locale: locale } = {} } =
+      portals.value[0];
+    return { portalSlug, locale };
+  }
+
+  return null;
+};
+
+const routeToLastActivePortal = () => {
+  const params = generateRouterParams();
+  if (params) {
+    return routeToView(route.params.navigationPath, params);
+  }
+  return routeToView('portal_create', {});
+};
+
+const performRouting = async () => {
+  await store.dispatch('portals/index');
+  nextTick(() => routeToLastActivePortal());
+};
+
+onMounted(() => performRouting());
+</script>
+
+<template>
+  <div
+    class="flex items-center justify-center w-full text-slate-600 dark:text-slate-200"
+  >
+    {{ $t('HELP_CENTER.LOADING') }}
+  </div>
+</template>

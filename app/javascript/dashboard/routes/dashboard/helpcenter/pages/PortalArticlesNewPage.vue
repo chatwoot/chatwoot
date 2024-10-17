@@ -74,7 +74,10 @@ const createNewArticle = async ({ title, content }) => {
 
 const goBackToArticles = () => {
   const { tab, categorySlug, locale } = route.params;
-  router.push({ name: 'list_articles', params: { tab, categorySlug, locale } });
+  router.push({
+    name: 'portal_articles_index',
+    params: { tab, categorySlug, locale },
+  });
 };
 </script>
 

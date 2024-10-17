@@ -1,99 +1,103 @@
 import HelpCenterLayout from './components/HelpCenterLayout.vue';
 import { getPortalRoute } from './helpers/routeHelper';
 
-const ListArticlesPage = () => import('./pages/articles/ListArticlesPage.vue');
-const ListCategoriesPage = () =>
-  import('./pages/categories/ListCategoriesPage.vue');
-const ListLocalesPage = () => import('./pages/locales/ListLocalesPage.vue');
-const EditArticlePage = () => import('./pages/articles/EditArticlePage.vue');
-const NewArticlePage = () => import('./pages/articles/NewArticlePage.vue');
-const PortalSettingsPage = () =>
-  import('./pages/portals/PortalSettingsPage.vue');
-const DefaultPortalArticles = () =>
-  import('./pages/articles/DefaultPortalArticles.vue');
+const PortalIndex = () => import('./pages/PortalIndexPage.vue');
+
+const PortalArticlesIndexPage = () =>
+  import('./pages/PortalArticlesIndexPage.vue');
+const PortalArticlesNewPage = () => import('./pages/PortalArticlesNewPage.vue');
+const PortalArticlesEditPage = () =>
+  import('./pages/PortalArticlesEditPage.vue');
+
+const PortalCategoriesIndexPage = () =>
+  import('./pages/PortalCategoriesIndexPage.vue');
+
+const PortalLocalesIndexPage = () =>
+  import('./pages/PortalLocalesIndexPage.vue');
+
+const PortalSettingsIndexPage = () =>
+  import('./pages/PortalSettingsIndexPage.vue');
 
 const portalRoutes = [
   {
-    path: getPortalRoute(''),
-    name: 'default_portal_articles',
+    path: getPortalRoute(':navigationPath'),
+    name: 'portal_index',
     meta: {
       permissions: ['administrator', 'knowledge_base_manage'],
     },
-    component: DefaultPortalArticles,
+    component: PortalIndex,
   },
 
   {
-    path: getPortalRoute(
-      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?'
-    ),
-    name: 'list_articles',
+    path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/:tab?'),
+    name: 'portal_articles_index',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: ListArticlesPage,
+    component: PortalArticlesIndexPage,
   },
   {
-    path: getPortalRoute(':portalSlug/:locale/new-articles/new'),
-    name: 'new_articles',
+    path: getPortalRoute(':portalSlug/:locale/articles/new'),
+    name: 'portal_articles_new',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: NewArticlePage,
+    component: PortalArticlesNewPage,
   },
   {
     path: getPortalRoute(
-      ':portalSlug/:locale/:categorySlug?/new-articles/:tab?/edit/:articleSlug'
+      ':portalSlug/:locale/:categorySlug?/articles/:tab?/edit/:articleSlug'
     ),
-    name: 'edit_articles',
+    name: 'portal_articles_edit',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: EditArticlePage,
+    component: PortalArticlesEditPage,
   },
 
   {
-    path: getPortalRoute(':portalSlug/:locale/new-categories'),
-    name: 'list_categories',
+    path: getPortalRoute(':portalSlug/:locale/categories'),
+    name: 'portal_categories_index',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: ListCategoriesPage,
+    component: PortalCategoriesIndexPage,
   },
   {
     path: getPortalRoute(
-      ':portalSlug/:locale/new-categories/:categorySlug/articles'
+      ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
-    name: 'list_category_articles',
+    name: 'portal_categories_articles_index',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: ListArticlesPage,
+    component: PortalArticlesIndexPage,
   },
   {
     path: getPortalRoute(
-      ':portalSlug/:locale/new-categories/:categorySlug/articles/:articleSlug'
+      ':portalSlug/:locale/categories/:categorySlug/articles/:articleSlug'
     ),
-    name: 'edit_category_article',
+    name: 'portal_categories_articles_edit',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: EditArticlePage,
+    component: PortalArticlesEditPage,
   },
   {
     path: getPortalRoute(':portalSlug/locales'),
-    name: 'list_locales',
+    name: 'portal_locales_index',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: ListLocalesPage,
+    component: PortalLocalesIndexPage,
   },
   {
     path: getPortalRoute(':portalSlug/settings'),
-    name: 'portal_settings',
+    name: 'portal_settings_index',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: PortalSettingsPage,
+    component: PortalSettingsIndexPage,
   },
 ];
 

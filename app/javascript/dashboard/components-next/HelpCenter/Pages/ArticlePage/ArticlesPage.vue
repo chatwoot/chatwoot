@@ -57,7 +57,7 @@ const updateRoute = newParams => {
   const baseParams = { accountId, portalSlug };
 
   router.push({
-    name: 'list_articles',
+    name: 'portal_articles_index',
     params: {
       ...baseParams,
       ...newParams,

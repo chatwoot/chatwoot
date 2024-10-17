@@ -67,12 +67,12 @@ const goBackToArticles = () => {
   const { tab, categorySlug, locale } = route.params;
   if (isCategoryArticles.value) {
     router.push({
-      name: 'list_category_articles',
+      name: 'portal_categories_articles_index',
       params: { categorySlug, locale },
     });
   } else {
     router.push({
-      name: 'list_articles',
+      name: 'portal_articles_index',
       params: { tab, categorySlug, locale },
     });
   }
