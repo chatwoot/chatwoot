@@ -10,6 +10,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['tabChange'],
   data() {
     return {
       activeTab: 0,
@@ -35,8 +36,9 @@ export default {
   <div class="tab-container">
     <woot-tabs :index="activeTab" :border="false" @change="onTabChange">
       <woot-tabs-item
-        v-for="item in tabs"
+        v-for="(item, index) in tabs"
         :key="item.key"
+        :index="index"
         :name="item.name"
         :count="item.count"
       />

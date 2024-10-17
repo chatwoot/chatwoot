@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefoon nummer is vereist",
         "DIAL_CODE_VALID_ERROR": "Selecteer a.u.b. een landcode",
         "VALID_ERROR": "Voer een geldig telefoonnummer in",
-        "DROPDOWN_EMPTY": "Geen resultaten gevonden"
+        "DROPDOWN_EMPTY": "Geen resultaten gevonden",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Bericht",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Zoek emojis",
-    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden"
+    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Beoordeel uw gesprek",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "heeft een url gedeeld"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Antwoord op:"
   }
 }

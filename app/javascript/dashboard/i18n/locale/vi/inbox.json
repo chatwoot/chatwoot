@@ -2,23 +2,23 @@
   "INBOX": {
     "LIST": {
       "TITLE": "Hộp thư đến",
-      "DISPLAY_DROPDOWN": "Display",
-      "LOADING": "Fetching notifications",
-      "404": "There are no active notifications in this group.",
-      "NO_NOTIFICATIONS": "No notifications",
-      "NOTE": "Notifications from all subscribed inboxes",
-      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "DISPLAY_DROPDOWN": "Hiển thị",
+      "LOADING": "Tải thông báo",
+      "404": "Không có thông báo nào đang hoạt động trong nhóm này.",
+      "NO_NOTIFICATIONS": "Không có thông báo",
+      "NOTE": "Thông báo từ tất cả các hộp thư đến đã đăng ký",
+      "NO_MESSAGES_AVAILABLE": "Ối! Không thể tải tin nhắn",
+      "SNOOZED_UNTIL": "Đã tạm ẩn cho đến khi",
       "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification",
+      "SNOOZE": "Tạm dừng đến ngày mai",
+      "DELETE": "Tạm dừng đến tuần sau",
       "BACK": "Trờ về"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
+      "CONVERSATION_MENTION": "Bạn đã được nhắc đến trong một cuộc trò chuyện",
       "CONVERSATION_CREATION": "New conversation created",
       "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",

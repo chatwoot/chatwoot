@@ -183,7 +183,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(error);
+      throw error;
     }
   },
   createFBChannel: async ({ commit }, params) => {

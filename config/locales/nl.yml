@@ -29,6 +29,7 @@ nl:
       invalid: Ongeldige gebeurtenissen
     signup:
       disposable_email: Wij staan geen verwijderbare e-mails toe
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd
       email_already_exists: "Je hebt je al aangemeld voor een account bij %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

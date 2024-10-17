@@ -3,7 +3,8 @@
     "HEADER": "Thuộc tính tùy chỉnh",
     "HEADER_BTN_TXT": "Thêm thuộc tính Tùy chỉnh",
     "LOADING": "Đang lấy thuộc tính tuỳ chỉnh",
-    "SIDEBAR_TXT": "<p><b>Thuộc tính tùy chỉnh</b> <p>Thuộc tính tùy chỉnh theo dõi thông tin thực tế về các địa chỉ liên hệ/cuộc hội thoại của bạn - như gói \bthuê bao hoặc khi họ đặt hàng mặt hàng đầu tiên, v. v. <br /><br />Để tạo một Thuộc tính Tùy chỉnh, chỉ cần nhấp vào <b>Thêm Thuộc tính Tùy chỉnh.</b> Bạn cũng có thể chỉnh sửa hoặc xóa Thuộc tính Tùy chỉnh hiện có bằng cách nhấp vào nút Chỉnh sửa hoặc Xóa.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Thêm thuộc tính Tùy chỉnh",
       "SUBMIT": "Tạo",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Không thể xoá thuộc tính tuỳ chỉnh. Thử lại."
       },
       "CONFIRM": {
-        "TITLE": "Bạn có chắc muốn xoá - %{attributeName}",
+        "TITLE": "Bạn có chắc muốn xoá - {attributeName}",
         "PLACE_HOLDER": "Vui lòng điền {attributeName} để xác nhận",
         "MESSAGE": "Xoá sẽ loại bỏ thuộc tính tuỳ chỉnh",
         "YES": "Xoá ",
@@ -91,12 +92,7 @@
       "CONTACT": "Liên lạc"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Kiểu",
-        "Khoá"
-      ],
+      "TABLE_HEADER": ["Tên", "Mô tả", "Kiểu", "Khoá"],
       "BUTTONS": {
         "EDIT": "Chỉnh sửa",
         "DELETE": "Xoá"

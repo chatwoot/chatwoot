@@ -29,6 +29,7 @@ sr-Latn:
       invalid: Neispravni događaji
     signup:
       disposable_email: Ne dozvoljavamo potrošne e-pošte
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Uneli ste neispravnu e-poštu
       email_already_exists: "Već ste registrovali nalog sa %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

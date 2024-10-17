@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "כלום",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "לא נמצאו תוצאות",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "שייך צוות",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "מזהה שיחה %{conversationId} קושר ל %{agentName}",
+          "SUCCESFUL": "מזהה שיחה {conversationId} קושר ל {agentName}",
           "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "התוית %{labelName} קושרה למזהה שיחה %{conversationId}",
+          "SUCCESFUL": "התוית {labelName} קושרה למזהה שיחה {conversationId}",
           "FAILED": "לא ניתן לקשר שורה. אנא נסו שנית"
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "הצוות %{team} קושר לשיחה מספר %{conversationId}",
+          "SUCCESFUL": "הצוות {team} קושר לשיחה מספר {conversationId}",
           "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "היי 👋, ברוך הבא ל%{installationName}!",
-    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ %{installationName}. הינה כמה דברים שאתה יכול לעשות עם %{installationName} לחוויה טובה.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "היי 👋, ברוך הבא ל{installationName}!",
+    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ {installationName}. הינה כמה דברים שאתה יכול לעשות עם {installationName} לחוויה טובה.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "תקרא את העדכונים אחרונים",
     "ALL_CONVERSATION": {
       "TITLE": "כל השיחות שלך במקום אחד",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "משתתפים בשיחה",
     "NO_RECORDS_FOUND": "לא נמצאו תוצאות",
     "ADD_PARTICIPANTS": "בחר משתתפים",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!.",
     "WATCH_CONVERSATION": "הצטרף לשיחה",
     "YOU_ARE_WATCHING": "אתה משתתף",

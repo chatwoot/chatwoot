@@ -277,6 +277,7 @@
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Pielāgotas lomas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pārskats",
     "REAUTHORIZE": "Jūsu iesūtnes savienojuma termiņš ir beidzies. Lūdzu, pievienojiet vēlreiz\n lai turpinātu saņemt un sūtīt ziņas",
@@ -300,7 +301,7 @@
     "TITLE": "Norēķini",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
-      "PLAN_NOTE": "Šobrīd Jūs abonējat **%{plan}** plānu ar **%{quantity}** licencēm"
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",

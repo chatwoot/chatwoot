@@ -3,7 +3,8 @@
     "HEADER": "Atrybuty Niestandardowe",
     "HEADER_BTN_TXT": "Dodaj Atrybut Niestandardowy",
     "LOADING": "Pobieranie atrybutów niestandardowych",
-    "SIDEBAR_TXT": "<p><b>Atrybuty Niestandardowe</b></p><p>Atrybut niestandardowy śledzi fakty dotyczące twoich kontaktów/rozmów — takie jak plan subskrypcji, czy data pierwszego zamówienia itp. <br /><br />Aby utworzyć Atrybut Niestandardowy, wystarczy kliknąć na <b>Dodaj Atrybut Niestandardowy</b>. Możesz również edytować lub usunąć istniejący Atrybut Niestandardowy, klikając przycisk Edytuj lub Usuń.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Dodaj Atrybut Niestandardowy",
       "SUBMIT": "Utwórz",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Nie udało się usunąć atrybutu niestandardowego. Spróbuj ponownie."
       },
       "CONFIRM": {
-        "TITLE": "Czy na pewno chcesz usunąć - %{attributeName}",
+        "TITLE": "Czy na pewno chcesz usunąć - {attributeName}",
         "PLACE_HOLDER": "Proszę wpisać {attributeName}, aby potwierdzić",
         "MESSAGE": "Usunięcie spowoduje usunięcie atrybutu niestandardowego",
         "YES": "Usuń ",

@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nenhuma",
         "INPUT_PLACEHOLDER": "Selecione a prioridade",
         "NO_RESULTS": "Nenhum resultado encontrado",
-        "SUCCESSFUL": "Alterar a prioridade da conversa com o id %{conversationId} para %{priority}",
+        "SUCCESSFUL": "Alterar a prioridade da conversa com o id {conversationId} para {priority}",
         "FAILED": "Não foi possível alterar a prioridade, por favor, tente novamente."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Atribuir equipa",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversa com ID %{conversationId} atribuída a \"%{agentName}\"",
+          "SUCCESFUL": "Conversa com ID {conversationId} atribuída a \"{agentName}\"",
           "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta #%{labelName} atribuída a conversa de ID %{conversationId}",
+          "SUCCESFUL": "Etiqueta #{labelName} atribuída a conversa de ID {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipa \"%{team}\" atribuída  a conversa de ID %{conversationId}",
+          "SUCCESFUL": "Equipa \"{team}\" atribuída  a conversa de ID {conversationId}",
           "FAILED": "Não foi possível atribuir equipa. Por favor, tente novamente."
         }
       }
@@ -139,7 +139,7 @@
       "MESSAGE_SIGN_TOOLTIP": "Assinatura da mensagem",
       "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
-      "MSG_INPUT": "Shift + Enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
+      "MSG_INPUT": "Shift + Enter para nova linha. Comece com '/' para selecionar uma resposta pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para nova linha. Esta mensagem apenas será visível para agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
       "CLICK_HERE": "Clique aqui para atualizar",
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Olá 👋. Bem-vindo ao %{installationName}!",
-    "DESCRIPTION": "Obrigado por se registar. Queremos que aproveite ao máximo o sistema %{installationName}. Aqui estão algumas coisas que pode fazer no %{installationName} para tornar a sua experiência ainda mais agradável.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Olá 👋. Bem-vindo ao {installationName}!",
+    "DESCRIPTION": "Obrigado por se registar. Queremos que aproveite ao máximo o sistema {installationName}. Aqui estão algumas coisas que pode fazer no {installationName} para tornar a sua experiência ainda mais agradável.",
+    "GREETING_MORNING": "👋 Bom dia, {name}. Bem-vindo ao {installationName}.",
+    "GREETING_AFTERNOON": "👋 Boa tarde, {name}. Bem-vindo ao {installationName}.",
+    "GREETING_EVENING": "👋 Boa noite, {name}. Bem-vindo ao {installationName}.",
     "READ_LATEST_UPDATES": "Ler as últimas atualizações",
     "ALL_CONVERSATION": {
       "TITLE": "Todas as suas conversas num único lugar",
@@ -261,15 +261,15 @@
       "NEW_LINK": "Clique aqui para criar etiquetas"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "Criar respostas prontas",
+      "DESCRIPTION": "Os modelos de resposta rápida pré-escritos ajudam-no a responder rapidamente a uma conversa. Os agentes podem inserir o caractere '/' seguido do código curto para inserir uma resposta.",
+      "NEW_LINK": "Clique aqui para criar uma resposta pronta"
     }
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agente atribuído",
     "SELF_ASSIGN": "Atribuir a mim",
-    "TEAM_LABEL": "Equipe atribuída",
+    "TEAM_LABEL": "Equipa atribuída",
     "SELECT": {
       "PLACEHOLDER": "Nenhuma"
     },
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Participantes da conversa",
     "NO_RECORDS_FOUND": "Nenhum resultado encontrado",
     "ADD_PARTICIPANTS": "Selecionar participantes",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} outros",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} outro",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} pessoas estão a participar.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} pessoa está a participar.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} outros",
+    "REMANING_PARTICIPANT_TEXT": "+{count} outro",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} pessoas estão a participar.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} pessoa está a participar.",
     "NO_PARTICIPANTS_TEXT": "Ninguém está a participar!",
     "WATCH_CONVERSATION": "Junte-se à conversa",
     "YOU_ARE_WATCHING": "Está a participar",

@@ -7,7 +7,7 @@ export default {
       default: true,
     },
   },
-
+  emits: ['closeAccountModal', 'showCreateAccountModal'],
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',

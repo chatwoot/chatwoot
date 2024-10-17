@@ -225,7 +225,7 @@ export default {
         :options="agentsList"
         :selected-items="selectedWatchers"
         has-thumbnail
-        @click="onClickItem"
+        @select="onClickItem"
       />
     </div>
   </div>

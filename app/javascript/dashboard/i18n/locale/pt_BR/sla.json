@@ -1,6 +1,6 @@
 {
   "SLA": {
-    "HEADER": "SLA",
+    "HEADER": "Termos do Serviço",
     "ADD_ACTION": "Adicionar SLA",
     "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
     "DESCRIPTION": "Contratos de Nível de Serviço são contratos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",

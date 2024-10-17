@@ -26,6 +26,7 @@ export default {
       default: '',
     },
   },
+  emits: ['insert', 'preview'],
   methods: {
     handleInsert(e) {
       e.stopPropagation();

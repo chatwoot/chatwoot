@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Custom Roles",
+    "LEARN_MORE": "Learn more about custom roles",
+    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "HEADER_BTN_TXT": "Add custom role",
+    "LOADING": "Fetching custom roles...",
+    "SEARCH_404": "Não há itens correspondentes a esta consulta.",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create custom roles",
+      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para obter acesso a recursos avançados, como gestão de equipas, automações, atributos personalizados e muito mais.",
+      "UPGRADE_NOW": "Fazer upgrade agora",
+      "CANCEL_ANYTIME": "Pode alterar ou cancelar o plano a qualquer momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Faça upgrade para um plano pago para obter recursos avançados, como logs de auditoria, capacidade de agentes e muito mais.",
+      "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
+    },
+    "LIST": {
+      "404": "There are no custom roles available in this account.",
+      "TITLE": "Manage custom roles",
+      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "TABLE_HEADER": [
+        "Nome:",
+        "Descrição",
+        "Permissions",
+        "Ações"
+      ]
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
+      "CONTACT_MANAGE": "Manage contacts",
+      "REPORT_MANAGE": "Manage reports",
+      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome:",
+        "PLACEHOLDER": "Please enter a name.",
+        "ERROR": "Nome é obrigatório."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "Please enter a description.",
+        "ERROR": "Descrição obrigatória."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissions",
+        "ERROR": "Permissions are required."
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      }
+    },
+    "ADD": {
+      "TITLE": "Add custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "Submeter",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role added successfully."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Editar",
+      "TITLE": "Edit custom role",
+      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "SUBMIT": "Atualização",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role updated successfully."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir agente ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, manter "
+      }
+    }
+  }
+}

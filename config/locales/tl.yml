@@ -29,6 +29,7 @@ tl:
       invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'

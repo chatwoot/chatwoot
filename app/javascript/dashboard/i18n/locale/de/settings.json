@@ -277,6 +277,7 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Übersicht",
     "REAUTHORIZE": "Ihre Posteingangsverbindung ist abgelaufen. Bitte erneut verbinden,\n um weiterhin Nachrichten empfangen und senden zu können",
@@ -300,7 +301,7 @@
     "TITLE": "Rechnungen",
     "CURRENT_PLAN": {
       "TITLE": "Derzeitiger Plan",
-      "PLAN_NOTE": "Sie haben derzeit den Tarif **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+      "PLAN_NOTE": "Sie haben derzeit den Tarif **{plan}** mit **{quantity}** Lizenzen abonniert"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Abonnement verwalten",

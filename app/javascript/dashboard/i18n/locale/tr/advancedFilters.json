@@ -55,6 +55,9 @@
       "CREATED_AT": "Oluşturulma Zamanı",
       "LAST_ACTIVITY": "Son Aktivite"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Değer gereklidir"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",
       "ADDITIONAL_FILTERS": "Ek Filtreler",

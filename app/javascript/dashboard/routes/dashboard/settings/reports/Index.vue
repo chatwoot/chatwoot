@@ -1,5 +1,5 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector.vue';
@@ -88,7 +88,7 @@ export default {
       this.businessHours = businessHours;
       this.fetchAllData();
 
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterValue: { from, to, groupBy, businessHours },
         reportType: 'conversations',
       });
@@ -110,7 +110,7 @@ export default {
     <ReportFilterSelector
       :show-agents-filter="false"
       show-group-by-filter
-      @filterChange="onFilterChange"
+      @filter-change="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />
   </div>

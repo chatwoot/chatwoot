@@ -3,11 +3,11 @@ import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcent
 
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { useRoute } from 'dashboard/composables/route';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { defineComponent, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { defineOptions, computed } from 'vue';
 
-defineComponent({
+defineOptions({
   name: 'EditPortalCustomization',
 });
 
@@ -43,6 +43,7 @@ async function updatePortalSettings(portalObj) {
 }
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <PortalSettingsCustomizationForm
     v-if="currentPortal"

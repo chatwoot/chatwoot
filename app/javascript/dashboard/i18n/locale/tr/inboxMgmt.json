@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
-    "SIDEBAR_TXT": "<p><b>Gelen Kutusu</b></p> <p> Chatwoot'a bir web sitesi veya Facebook Sayfası bağladığınızda, buna <b> Gelen Kutusu </b> denir. Chatwoot hesabınızda sınırsız gelen kutunuz olabilir. </p> <p> Bir web sitesine veya Facebook Sayfasına bağlanmak için <b> Gelen Kutusu Ekle </b> 'yi tıklayın. </p> <p> Gösterge Panosunda, tüm gelen kutularınızdaki tüm konuşmaları tek bir yerde görebilir ve bunlara 'Görüşmeler' sekmesi altında yanıt verebilirsiniz. </p> <p> Ayrıca, kontrol panelinin sol bölmesindeki gelen kutusu adını tıklayarak bir gelen kutusuna özel görüşmeleri de görebilirsiniz. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Başlamak için Microsoft ile giriş yapın düğmesine tıklayın. E-posta giriş sayfasına yönlendirileceksiniz. İstenen izinleri kabul ettiğinizde, giriş sayfasına geri yönlendirileceksiniz.",
         "EMAIL_PLACEHOLDER": "E-posta adresini girin",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Microsoft hesabınızı bir kanal olarak eklemek için, Microsoft hesabınızı 'Microsoft ile Giriş Yap' seçeneğine tıklayarak kimlik doğrulamanız gerekiyor.",
         "ERROR_MESSAGE": "Microsoft ile bağlantı kurulurken bir hata oluştu, lütfen tekrar deneyin"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "E-posta adresini girin",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Facebook kimliğinizi doğruluyoruz...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Bir şeyler ters gitti, lütfen sayfayı yenileyin...",
       "ERROR_FB_UNAUTHORIZED": "Bu işlemi gerçekleştirmek için yetkiniz yok.",
       "ERROR_FB_UNAUTHORIZED_HELP": "Lütfen Facebook sayfanıza tam kontrolle erişiminiz olduğundan emin olun. Facebook rolleri hakkında daha fazla bilgiyi <a href=\" https://www.facebook.com/help/187316341316631\">buradan</a> okuyabilirsiniz.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Diğer Sağlayıcılar"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-Posta",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanalı"
     }
   }
 }

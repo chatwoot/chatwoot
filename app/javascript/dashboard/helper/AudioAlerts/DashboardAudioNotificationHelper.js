@@ -22,6 +22,21 @@ class DashboardAudioNotificationHelper {
     this.currentUser = null;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
+
+    this.onAudioListenEvent = async () => {
+      try {
+        await getAlertAudio('', {
+          type: 'dashboard',
+          alertTone: this.audioAlertTone,
+        });
+        initOnEvents.forEach(event => {
+          document.removeEventListener(event, this.onAudioListenEvent, false);
+        });
+        this.playAudioEvery30Seconds();
+      } catch (error) {
+        // Ignore audio fetch errors
+      }
+    };
   }
 
   setInstanceValues = ({
@@ -38,32 +53,20 @@ class DashboardAudioNotificationHelper {
     this.currentUserId = currentUser.id;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
-      document.addEventListener(e, this.onAudioListenEvent, false);
+      document.addEventListener(e, this.onAudioListenEvent, {
+        once: true,
+      });
     });
     initFaviconSwitcher();
   };
 
-  onAudioListenEvent = async () => {
-    try {
-      await getAlertAudio('', {
-        type: 'dashboard',
-        alertTone: this.audioAlertTone,
-      });
-      initOnEvents.forEach(event => {
-        document.removeEventListener(event, this.onAudioListenEvent, false);
-      });
-      this.playAudioEvery30Seconds();
-    } catch (error) {
-      // Ignore audio fetch errors
-    }
-  };
-
   executeRecurringNotification = () => {
-    if (!window.WOOT || !window.WOOT.$store) {
+    if (!window.WOOT_STORE) {
       this.clearSetTimeout();
       return;
     }
-    const mineConversation = window.WOOT.$store.getters.getMineChats({
+
+    const mineConversation = window.WOOT_STORE.getters.getMineChats({
       assigneeType: 'me',
       status: 'open',
     });
@@ -111,7 +114,7 @@ class DashboardAudioNotificationHelper {
   // eslint-disable-next-line class-methods-use-this
   isMessageFromCurrentConversation = message => {
     return (
-      window.WOOT.$store.getters.getSelectedChat?.id === message.conversation_id
+      window.WOOT_STORE.getters.getSelectedChat?.id === message.conversation_id
     );
   };
 
@@ -120,7 +123,7 @@ class DashboardAudioNotificationHelper {
   };
 
   isUserHasConversationPermission = () => {
-    const currentAccountId = window.WOOT.$store.getters.getCurrentAccountId;
+    const currentAccountId = window.WOOT_STORE.getters.getCurrentAccountId;
     // Get the user permissions for the current account
     const userPermissions = getUserPermissions(
       this.currentUser,
@@ -176,4 +179,6 @@ class DashboardAudioNotificationHelper {
   };
 }
 
-export default new DashboardAudioNotificationHelper();
+const notifHelper = new DashboardAudioNotificationHelper();
+window.notifHelper = notifHelper;
+export default notifHelper;

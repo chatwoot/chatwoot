@@ -6,6 +6,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['edit', 'delete'],
 
   methods: {
     editCategory(category) {
@@ -55,7 +56,7 @@ export default {
           <td>
             <span>{{ category.meta.articles_count }}</span>
           </td>
-          <td>
+          <td class="inline-flex gap-1">
             <woot-button
               v-tooltip.top-end="
                 $t(

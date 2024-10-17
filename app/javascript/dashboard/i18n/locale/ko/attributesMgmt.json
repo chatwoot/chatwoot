@@ -3,7 +3,8 @@
     "HEADER": "사용자 지정 특성",
     "HEADER_BTN_TXT": "사용자 지정 속성 추가하기",
     "LOADING": "사용자 지정 속성들 가져오기",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "사용자 지정 속성 추가하기",
       "SUBMIT": "만들기",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "%{attributeName}팀을 삭제하시겠습니까?",
+        "TITLE": "{attributeName}팀을 삭제하시겠습니까?",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "삭제 ",

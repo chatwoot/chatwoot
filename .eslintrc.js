@@ -2,16 +2,36 @@ module.exports = {
   extends: [
     'airbnb-base/legacy',
     'prettier',
-    'plugin:vue/recommended',
-    'plugin:storybook/recommended',
-    'plugin:cypress/recommended',
+    'plugin:vue/vue3-recommended',
+    'plugin:vitest-globals/recommended',
   ],
+  overrides: [
+    {
+      files: ['**/*.spec.{j,t}s?(x)'],
+      env: {
+        'vitest-globals/env': true,
+      },
+    },
+    {
+      files: ['**/*.story.vue'],
+      rules: {
+        'vue/no-undef-components': [
+          'error',
+          {
+            ignorePatterns: ['Variant', 'Story'],
+          },
+        ],
+        // Story files can have static strings, it doesn't need to handle i18n always.
+        'vue/no-bare-strings-in-template': 'off',
+        'no-console': 'off',
+      },
+    },
+  ],
+  plugins: ['html', 'prettier'],
   parserOptions: {
-    parser: '@babel/eslint-parser',
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['html', 'prettier', 'babel'],
   rules: {
     'prettier/prettier': ['error'],
     camelcase: 'off',
@@ -209,13 +229,6 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',
-  },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: 'config/webpack/resolve.js',
-      },
-    },
   },
   env: {
     browser: true,

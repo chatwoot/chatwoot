@@ -10,7 +10,7 @@ import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import { emitter } from 'shared/helpers/mitt';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -97,7 +97,7 @@ export default {
       this.hasVideoError = true;
     },
     toggleReply() {
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };

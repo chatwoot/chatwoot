@@ -69,7 +69,7 @@ useKeyboardEvents(keyboardEvents);
       show-close
       :color="label.color"
       variant="smooth"
-      @click="removeItem"
+      @remove="removeItem"
     />
     <div class="absolute w-full top-7">
       <div

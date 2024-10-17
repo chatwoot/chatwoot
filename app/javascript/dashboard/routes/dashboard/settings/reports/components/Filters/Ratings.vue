@@ -3,6 +3,7 @@ import { CSAT_RATINGS } from 'shared/constants/messages';
 
 export default {
   name: 'ReportFiltersRatings',
+  emits: ['ratingFilterSelection'],
   data() {
     const translatedOptions = CSAT_RATINGS.reverse().map(option => ({
       ...option,
@@ -33,7 +34,7 @@ export default {
       :show-labels="false"
       track-by="value"
       label="label"
-      @input="handleInput"
+      @update:model-value="handleInput"
     />
   </div>
 </template>

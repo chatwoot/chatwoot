@@ -1,6 +1,11 @@
 const { slateDark } = require('@radix-ui/colors');
 import { colors } from './theme/colors';
 const defaultTheme = require('tailwindcss/defaultTheme');
+const {
+  iconsPlugin,
+  getIconCollections,
+} = require('@egoist/tailwindcss-icons');
+
 module.exports = {
   darkMode: 'class',
   content: [
@@ -84,5 +89,8 @@ module.exports = {
   plugins: [
     // eslint-disable-next-line
     require('@tailwindcss/typography'),
+    iconsPlugin({
+      collections: getIconCollections(['lucide', 'logos']),
+    }),
   ],
 };
