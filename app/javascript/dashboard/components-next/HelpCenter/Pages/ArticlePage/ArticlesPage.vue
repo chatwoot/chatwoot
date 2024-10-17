@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
@@ -7,10 +8,10 @@ import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLay
 import ArticleList from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticleList.vue';
 import ArticleHeaderControls from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticleHeaderControls.vue';
 import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
-import Spinner from 'shared/components/Spinner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 
-defineProps({
+const props = defineProps({
   articles: {
     type: Array,
     required: true,
@@ -67,6 +68,18 @@ const updateRoute = newParams => {
   });
 };
 
+const articlesCount = computed(() => {
+  const { tab } = route.params;
+  const { meta } = props;
+  const countMap = {
+    '': meta.articlesCount,
+    mine: meta.mineArticlesCount,
+    draft: meta.draftArticlesCount,
+    archived: meta.archivedArticlesCount,
+  };
+  return Number(countMap[tab || '']);
+});
+
 const handleTabChange = tab => {
   updateRoute({ tab: tab.value === ARTICLE_TABS.ALL ? '' : tab.value });
 };
@@ -92,7 +105,7 @@ const newArticlePage = () => {
 <template>
   <HelpCenterLayout
     :current-page="Number(meta.currentPage)"
-    :total-items="Number(meta.articlesCount)"
+    :total-items="articlesCount"
     :items-per-page="25"
     :header="portalName"
     :show-pagination-footer="!isFetching && !shouldShowEmptyState"
@@ -119,7 +132,10 @@ const newArticlePage = () => {
       </div>
     </template>
     <template #content>
-      <div v-if="isFetching" class="flex items-center justify-center py-10">
+      <div
+        v-if="isFetching"
+        class="flex items-center justify-center py-10 text-n-slate-11"
+      >
         <Spinner />
       </div>
       <EmptyState

@@ -93,14 +93,15 @@ const handleAction = ({ action, value }) => {
             </span>
           </div>
           <div class="relative group">
-            <Button
-              variant="ghost"
-              size="icon"
-              icon="more-vertical"
-              class="w-8 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
-              @click="showDropdownMenu = !showDropdownMenu"
-            />
             <OnClickOutside @trigger="showDropdownMenu = false">
+              <Button
+                variant="ghost"
+                size="icon"
+                icon="more-vertical"
+                class="w-8 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+                @click="showDropdownMenu = !showDropdownMenu"
+              />
+
               <DropdownMenu
                 v-if="showDropdownMenu"
                 :menu-items="localeMenuItems"
