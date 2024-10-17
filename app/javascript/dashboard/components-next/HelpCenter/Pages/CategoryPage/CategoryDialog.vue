@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import CategoryForm from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryForm.vue';
@@ -36,7 +36,6 @@ const emit = defineEmits(['close']);
 const store = useStore();
 const { t } = useI18n();
 const route = useRoute();
-const router = useRouter();
 
 const handleCategory = async formData => {
   const { id, name, slug, icon, description, locale } = formData;
@@ -100,39 +99,15 @@ const handleCategory = async formData => {
         )
       }}
     </h3>
-    <div class="flex flex-col gap-4">
-      <div
-        class="flex items-center justify-start gap-8 px-4 py-2 border rounded-lg border-slate-50 dark:border-slate-700/50"
-      >
-        <div class="flex flex-col items-start w-full gap-2 py-2">
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-            {{ t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.PORTAL') }}
-          </span>
-          <span class="text-sm text-slate-800 dark:text-slate-100">
-            {{ portalName }}
-          </span>
-        </div>
-        <div class="justify-start w-px h-10 bg-slate-50 dark:bg-slate-700/50" />
-        <div class="flex flex-col w-full gap-2 py-2">
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-            {{ t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.LOCALE') }}
-          </span>
-          <span
-            :title="`${activeLocaleName} (${activeLocaleCode})`"
-            class="text-sm line-clamp-1 text-slate-800 dark:text-slate-100"
-          >
-            {{ `${activeLocaleName} (${activeLocaleCode})` }}
-          </span>
-        </div>
-      </div>
-      <CategoryForm
-        :mode="mode"
-        :selected-category="selectedCategory"
-        :active-locale-code="activeLocaleCode"
-        @submit="handleCategory"
-        @cancel="emit('close')"
-      />
-    </div>
+    <CategoryForm
+      :mode="mode"
+      :selected-category="selectedCategory"
+      :active-locale-code="activeLocaleCode"
+      :portal-name="portalName"
+      :active-locale-name="activeLocaleName"
+      @submit="handleCategory"
+      @cancel="emit('close')"
+    />
   </div>
 </template>
 

@@ -36,6 +36,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  portalName: {
+    type: String,
+    default: '',
+  },
+  activeLocaleName: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['submit', 'cancel']);
@@ -135,81 +143,109 @@ defineExpose({ state });
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="relative">
-      <Input
-        v-model="state.name"
-        :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.NAME.LABEL')"
-        :placeholder="
-          t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.NAME.PLACEHOLDER')
-        "
-        :message="nameError"
-        :message-type="nameError ? 'error' : 'info'"
-        custom-input-class="!h-10 ltr:pl-12 rtl:pr-12 !bg-slate-25 dark:!bg-slate-900"
-      >
-        <template #prefix>
-          <OnClickOutside @trigger="isEmojiPickerOpen = false">
-            <Button
-              :label="state.icon"
-              variant="secondary"
-              size="icon"
-              :icon="!state.icon ? 'emoji-add' : ''"
-              class="!h-[38px] !w-[38px] absolute top-[31px] !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
-              @click="isEmojiPickerOpen = !isEmojiPickerOpen"
-            />
-            <EmojiInput
-              v-if="isEmojiPickerOpen"
-              class="left-0 top-16"
-              show-remove-button
-              :on-click="onClickInsertEmoji"
-            />
-          </OnClickOutside>
-        </template>
-      </Input>
-    </div>
-    <Input
-      v-model="state.slug"
-      :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.SLUG.LABEL')"
-      :placeholder="
-        t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.SLUG.PLACEHOLDER')
-      "
-      :disabled="isEditMode"
-      :message="slugError ? slugError : slugHelpText"
-      :message-type="slugError ? 'error' : 'info'"
-      custom-input-class="!h-10 !bg-slate-25 dark:!bg-slate-900 "
-    />
-    <TextArea
-      v-model="state.description"
-      :label="
-        t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.DESCRIPTION.LABEL')
-      "
-      :placeholder="
-        t(
-          'HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.DESCRIPTION.PLACEHOLDER'
-        )
-      "
-      show-character-count
-      custom-text-area-class="!bg-slate-25 dark:!bg-slate-900 !border-slate-100 dark:!border-slate-700/50"
-    />
     <div
-      v-if="showActionButtons"
-      class="flex items-center justify-between w-full gap-3"
+      class="flex items-center justify-start gap-8 px-4 py-2 border rounded-lg border-slate-50 dark:border-slate-700/50"
     >
-      <Button
-        variant="secondary"
-        :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"
-        text-variant="default"
-        class="w-full"
-        @click="handleCancel"
+      <div class="flex flex-col items-start w-full gap-2 py-2">
+        <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
+          {{ t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.PORTAL') }}
+        </span>
+        <span class="text-sm text-slate-800 dark:text-slate-100">
+          {{ portalName }}
+        </span>
+      </div>
+      <div class="justify-start w-px h-10 bg-slate-50 dark:bg-slate-700/50" />
+      <div class="flex flex-col w-full gap-2 py-2">
+        <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
+          {{ t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.LOCALE') }}
+        </span>
+        <span
+          :title="`${activeLocaleName} (${activeLocaleCode})`"
+          class="text-sm line-clamp-1 text-slate-800 dark:text-slate-100"
+        >
+          {{ `${activeLocaleName} (${activeLocaleCode})` }}
+        </span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      <div class="relative">
+        <Input
+          v-model="state.name"
+          :label="
+            t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.NAME.LABEL')
+          "
+          :placeholder="
+            t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.NAME.PLACEHOLDER')
+          "
+          :message="nameError"
+          :message-type="nameError ? 'error' : 'info'"
+          custom-input-class="!h-10 ltr:pl-12 rtl:pr-12 !bg-slate-25 dark:!bg-slate-900"
+        >
+          <template #prefix>
+            <OnClickOutside @trigger="isEmojiPickerOpen = false">
+              <Button
+                :label="state.icon"
+                variant="secondary"
+                size="icon"
+                :icon="!state.icon ? 'emoji-add' : ''"
+                class="!h-[38px] !w-[38px] absolute top-[31px] !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
+                @click="isEmojiPickerOpen = !isEmojiPickerOpen"
+              />
+              <EmojiInput
+                v-if="isEmojiPickerOpen"
+                class="left-0 top-16"
+                show-remove-button
+                :on-click="onClickInsertEmoji"
+              />
+            </OnClickOutside>
+          </template>
+        </Input>
+      </div>
+      <Input
+        v-model="state.slug"
+        :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.SLUG.LABEL')"
+        :placeholder="
+          t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.SLUG.PLACEHOLDER')
+        "
+        :disabled="isEditMode"
+        :message="slugError ? slugError : slugHelpText"
+        :message-type="slugError ? 'error' : 'info'"
+        custom-input-class="!h-10 !bg-slate-25 dark:!bg-slate-900 "
       />
-      <Button
+      <TextArea
+        v-model="state.description"
         :label="
+          t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.DESCRIPTION.LABEL')
+        "
+        :placeholder="
           t(
-            `HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.${mode.toUpperCase()}`
+            'HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.DESCRIPTION.PLACEHOLDER'
           )
         "
-        class="w-full"
-        @click="handleSubmit"
+        show-character-count
+        custom-text-area-class="!bg-slate-25 dark:!bg-slate-900 !border-slate-100 dark:!border-slate-700/50"
       />
+      <div
+        v-if="showActionButtons"
+        class="flex items-center justify-between w-full gap-3"
+      >
+        <Button
+          variant="secondary"
+          :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"
+          text-variant="default"
+          class="w-full"
+          @click="handleCancel"
+        />
+        <Button
+          :label="
+            t(
+              `HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.${mode.toUpperCase()}`
+            )
+          "
+          class="w-full"
+          @click="handleSubmit"
+        />
+      </div>
     </div>
   </div>
 </template>

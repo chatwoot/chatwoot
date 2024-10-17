@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -8,10 +8,14 @@ import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import CategoryForm from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryForm.vue';
 
-defineProps({
+const props = defineProps({
   selectedCategory: {
     type: Object,
     default: () => ({}),
+  },
+  allowedLocales: {
+    type: Array,
+    default: () => [],
   },
 });
 
@@ -21,6 +25,15 @@ const route = useRoute();
 
 const dialogRef = ref(null);
 const categoryFormRef = ref(null);
+
+const activeLocale = computed(() => {
+  return props.allowedLocales.find(
+    locale => locale.code === route.params.locale
+  );
+});
+
+const activeLocaleName = computed(() => activeLocale.value?.name ?? '');
+const activeLocaleCode = computed(() => activeLocale.value?.code ?? '');
 
 const onUpdateCategory = async () => {
   if (!categoryFormRef.value) return;
@@ -69,14 +82,15 @@ defineExpose({ dialogRef });
     @confirm="onUpdateCategory"
   >
     <template #form>
-      <div class="flex flex-col gap-4">
-        <CategoryForm
-          ref="categoryFormRef"
-          mode="edit"
-          :selected-category="selectedCategory"
-          :show-action-buttons="false"
-        />
-      </div>
+      <CategoryForm
+        ref="categoryFormRef"
+        mode="edit"
+        :selected-category="selectedCategory"
+        :active-locale-code="activeLocaleCode"
+        :portal-name="route.params.portalSlug"
+        :active-locale-name="activeLocaleName"
+        :show-action-buttons="false"
+      />
     </template>
   </Dialog>
 </template>

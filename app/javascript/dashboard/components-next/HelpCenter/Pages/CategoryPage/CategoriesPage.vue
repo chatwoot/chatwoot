@@ -109,6 +109,7 @@ const handleAction = ({ action, id, category: categoryData }) => {
     </template>
     <EditCategoryDialog
       ref="editCategoryDialog"
+      :allowed-locales="allowedLocales"
       :selected-category="selectedCategory"
     />
   </HelpCenterLayout>
