@@ -40,15 +40,17 @@ const { t } = useI18n();
 
 const isOpen = ref(false);
 
-const menuItems = [
+const categoryMenuItems = [
   {
     label: 'Edit',
     action: 'edit',
+    value: 'edit',
     icon: 'edit',
   },
   {
     label: 'Delete',
     action: 'delete',
+    value: 'delete',
     icon: 'delete',
   },
 ];
@@ -99,17 +101,17 @@ const handleAction = action => {
             </span>
           </div>
           <div class="relative group" @click.stop>
-            <Button
-              variant="ghost"
-              size="icon"
-              icon="more-vertical"
-              class="w-8 z-60 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
-              @click="isOpen = !isOpen"
-            />
             <OnClickOutside @trigger="isOpen = false">
+              <Button
+                variant="ghost"
+                size="icon"
+                icon="more-vertical"
+                class="w-8 z-60 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+                @click="isOpen = !isOpen"
+              />
               <DropdownMenu
                 v-if="isOpen"
-                :menu-items="menuItems"
+                :menu-items="categoryMenuItems"
                 class="right-0 mt-1 xl:left-0 top-full z-60"
                 @action="handleAction"
               />

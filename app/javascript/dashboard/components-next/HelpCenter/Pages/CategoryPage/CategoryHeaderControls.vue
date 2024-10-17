@@ -129,16 +129,16 @@ const handleBreadcrumbClick = () => {
   <div class="flex items-center justify-between w-full">
     <div v-if="!hasSelectedCategory" class="flex items-center gap-4">
       <div class="relative group">
-        <Button
-          :label="activeLocaleName"
-          size="sm"
-          icon-position="right"
-          icon="chevron-lucide-down"
-          icon-lib="lucide"
-          variant="secondary"
-          @click="isLocaleMenuOpen = !isLocaleMenuOpen"
-        />
         <OnClickOutside @trigger="isLocaleMenuOpen = false">
+          <Button
+            :label="activeLocaleName"
+            size="sm"
+            icon-position="right"
+            icon="chevron-lucide-down"
+            icon-lib="lucide"
+            variant="secondary"
+            @click="isLocaleMenuOpen = !isLocaleMenuOpen"
+          />
           <DropdownMenu
             v-if="isLocaleMenuOpen"
             :menu-items="localeMenuItems"
@@ -162,13 +162,13 @@ const handleBreadcrumbClick = () => {
       @click="handleBreadcrumbClick"
     />
     <div v-if="!hasSelectedCategory" class="relative">
-      <Button
-        :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
-        icon="add"
-        size="sm"
-        @click="isCreateCategoryDialogOpen = !isCreateCategoryDialogOpen"
-      />
       <OnClickOutside @trigger="isCreateCategoryDialogOpen = false">
+        <Button
+          :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
+          icon="add"
+          size="sm"
+          @click="isCreateCategoryDialogOpen = !isCreateCategoryDialogOpen"
+        />
         <CategoryDialog
           v-if="isCreateCategoryDialogOpen"
           mode="create"
@@ -180,13 +180,13 @@ const handleBreadcrumbClick = () => {
       </OnClickOutside>
     </div>
     <div v-else class="relative">
-      <Button
-        :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
-        variant="secondary"
-        size="sm"
-        @click="isEditCategoryDialogOpen = !isEditCategoryDialogOpen"
-      />
       <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
+        <Button
+          :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
+          variant="secondary"
+          size="sm"
+          @click="isEditCategoryDialogOpen = !isEditCategoryDialogOpen"
+        />
         <CategoryDialog
           v-if="isEditCategoryDialogOpen"
           :selected-category="selectedCategory"

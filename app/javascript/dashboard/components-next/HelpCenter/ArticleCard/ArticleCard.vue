@@ -132,15 +132,15 @@ const handleClick = id => {
           {{ title }}
         </span>
         <div class="relative group" @click.stop>
-          <Button
-            variant="ghost"
-            size="sm"
-            class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
-            :label="statusText"
-            :class="statusTextColor"
-            @click="isOpen = !isOpen"
-          />
           <OnClickOutside @trigger="isOpen = false">
+            <Button
+              variant="ghost"
+              size="sm"
+              class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
+              :label="statusText"
+              :class="statusTextColor"
+              @click="isOpen = !isOpen"
+            />
             <DropdownMenu
               v-if="isOpen"
               :menu-items="articleMenuItems"

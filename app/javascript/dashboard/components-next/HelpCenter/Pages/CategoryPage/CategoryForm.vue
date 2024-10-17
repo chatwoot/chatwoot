@@ -109,24 +109,24 @@ state.locale = props.activeLocaleCode;
         custom-input-class="!h-10 ltr:pl-12 rtl:pr-12 !bg-slate-25 dark:!bg-slate-900"
       >
         <template #prefix>
-          <Button
-            :label="state.icon"
-            variant="secondary"
-            size="icon"
-            :icon="!state.icon ? 'emoji-add' : ''"
-            class="!h-[38px] !w-[38px] absolute top-[27px] !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
-            @click="isEmojiPickerOpen = !isEmojiPickerOpen"
-          />
+          <OnClickOutside @trigger="isEmojiPickerOpen = false">
+            <Button
+              :label="state.icon"
+              variant="secondary"
+              size="icon"
+              :icon="!state.icon ? 'emoji-add' : ''"
+              class="!h-[38px] !w-[38px] absolute top-[31px] !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
+              @click="isEmojiPickerOpen = !isEmojiPickerOpen"
+            />
+            <EmojiInput
+              v-if="isEmojiPickerOpen"
+              class="left-0 top-16"
+              show-remove-button
+              :on-click="onClickInsertEmoji"
+            />
+          </OnClickOutside>
         </template>
       </Input>
-      <OnClickOutside @trigger="isEmojiPickerOpen = false">
-        <EmojiInput
-          v-if="isEmojiPickerOpen"
-          class="left-0 top-16"
-          show-remove-button
-          :on-click="onClickInsertEmoji"
-        />
-      </OnClickOutside>
     </div>
     <Input
       v-model="state.slug"
