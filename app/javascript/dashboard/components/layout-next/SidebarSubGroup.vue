@@ -48,7 +48,6 @@ const hasAccessibleItems = computed(() => {
         v-bind="child"
         :key="child.name"
         :active="activeChild?.name === child.name"
-        class="py-0.5 pl-3 relative child-item before:bg-n-slate-3 after:bg-transparent after:border-n-slate-3 ml-3"
       />
     </template>
     <SidebarGroupEmptyLeaf v-else v-show="isExpanded" />
