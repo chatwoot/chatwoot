@@ -417,7 +417,7 @@
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
-          "FROM": "from",
+          "FROM": "Od",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
@@ -690,9 +690,9 @@
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
+          "DEFAULT": "Klepetajte z nami",
           "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "PLACE_HOLDER": "Klepetajte z nami"
         },
         "UPDATE": {
           "BUTTON_TEXT": "Update Widget Settings",
@@ -719,23 +719,23 @@
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "Običajno odgovorimo v nekaj minutah",
+        "IN_A_FEW_HOURS": "Običajno odgovorimo v nekaj urah",
+        "IN_A_DAY": "Običajno odgovorimo v enem dnevu"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "Začni pogovor",
+        "CHAT_INPUT_PLACEHOLDER": "Vnesite svoje sporočilo"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "OFFLINE": "Trenutno nismo na voljo"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Poganja Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
