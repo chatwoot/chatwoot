@@ -58,6 +58,10 @@ module.exports = {
         '90%': { transform: 'translateX(-0.375rem)' },
         '100%': { transform: 'translateX(0)' },
       },
+      'fade-in-up': {
+        '0%': { opacity: 0, transform: 'translateY(0.5rem)' },
+        '100%': { opacity: 1, transform: 'translateY(0)' },
+      },
       'loader-pulse': {
         '0%': { opacity: 0.4 },
         '50%': { opacity: 1 },
@@ -81,6 +85,7 @@ module.exports = {
     animation: {
       ...defaultTheme.animation,
       wiggle: 'wiggle 0.5s ease-in-out',
+      'fade-in-up': 'fade-in-up 0.3s ease-out',
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',

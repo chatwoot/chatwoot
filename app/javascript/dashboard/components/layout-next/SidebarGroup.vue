@@ -72,7 +72,7 @@ const activeChild = computed(() => {
   });
 });
 
-watch([isExpanded, props.children, hasActiveChild, isActive], locateLasChild, {
+watch([isExpanded, hasActiveChild, isActive], locateLasChild, {
   immediate: true,
 });
 </script>
