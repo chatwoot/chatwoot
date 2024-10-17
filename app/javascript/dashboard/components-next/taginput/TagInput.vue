@@ -58,7 +58,7 @@ watch(
 <template>
   <OnClickOutside @trigger="handleClickOutside">
     <div
-      class="flex flex-wrap w-full gap-2 border border-transparent rounded-lg"
+      class="flex flex-wrap w-full gap-2 border border-transparent focus:outline-none"
       tabindex="0"
       @focus="handleFocus"
       @click="handleFocus"
