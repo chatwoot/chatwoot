@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { debounce } from '@chatwoot/utils';
 
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
-import Textarea from 'dashboard/components-next/textarea/Textarea.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -81,7 +81,7 @@ onMounted(() => {
               )
             }}
           </label>
-          <Textarea
+          <TextArea
             v-model="state.description"
             :placeholder="
               t(
