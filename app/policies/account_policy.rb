@@ -27,6 +27,10 @@ class AccountPolicy < ApplicationPolicy
     true
   end
 
+  def unassigned_conversations_assignment?
+    true
+  end
+
   def subscription?
     @account_user.administrator?
   end

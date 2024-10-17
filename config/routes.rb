@@ -40,6 +40,7 @@ Rails.application.routes.draw do
           get :cache_keys
           post :clear_billing_cache
           post :delete_messages_with_source_id
+          post :unassigned_conversations_assignment
         end
 
         scope module: :accounts do

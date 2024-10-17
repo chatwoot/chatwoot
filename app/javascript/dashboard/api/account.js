@@ -16,6 +16,13 @@ class AccountAPI extends ApiClient {
     );
     return response.data.cache_keys;
   }
+
+  async assignUnassignedConversations(inboxIds) {
+    return axios.post(
+      `/api/v1/accounts/${this.accountIdFromRoute}/unassigned_conversations_assignment`,
+      { inbox_ids: inboxIds }
+    );
+  }
 }
 
 export default new AccountAPI();

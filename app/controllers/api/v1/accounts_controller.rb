@@ -61,7 +61,20 @@ class Api::V1::AccountsController < Api::BaseController
     clear_cache(params[:id])
     head :ok
   end
-  
+
+  def unassigned_conversations_assignment
+    inbox_ids = params[:inbox_ids]
+    begin
+      inbox_ids.each do |inbox_id|
+        UnassignedConversationsAssignmentJob.perform_later(inbox_id)
+      end
+      render json: { success: true }, status: :ok
+    rescue StandardError => e
+      Rails.logger.error("Error in unassigned_conversations_assignment: #{e.message}")
+      render json: { error: 'An error occurred while processing the request' }, status: :internal_server_error
+    end
+  end
+
   def delete_messages_with_source_id
     messages = Message.where(account_id: params[:id], source_id: params[:source_id])
     if messages.empty?
