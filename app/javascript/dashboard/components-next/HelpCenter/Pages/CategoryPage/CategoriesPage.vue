@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import CategoryList from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryList.vue';
@@ -22,6 +26,8 @@ const emit = defineEmits(['fetchCategories']);
 
 const route = useRoute();
 const router = useRouter();
+const store = useStore();
+const { t } = useI18n();
 
 const editCategoryDialog = ref(null);
 const selectedCategory = ref(null);
@@ -49,12 +55,37 @@ const handleLocaleChange = value => {
   emit('fetchCategories', value);
 };
 
-const handleAction = ({ action, id }) => {
+async function deleteCategory(category) {
+  try {
+    await store.dispatch('categories/delete', {
+      portalSlug: route.params.portalSlug,
+      categoryId: category.id,
+    });
+
+    useTrack(PORTALS_EVENTS.DELETE_CATEGORY, {
+      hasArticles: category?.meta?.articles_count > 0,
+    });
+
+    useAlert(
+      t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.DELETE.API.SUCCESS_MESSAGE')
+    );
+  } catch (error) {
+    useAlert(
+      error.message ||
+        t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.DELETE.API.ERROR_MESSAGE')
+    );
+  }
+}
+
+const handleAction = ({ action, id, category: categoryData }) => {
   if (action === 'edit') {
     selectedCategory.value = props.categories.find(
       category => category.id === id
     );
     editCategoryDialog.value.dialogRef.open();
+  }
+  if (action === 'delete') {
+    deleteCategory(categoryData);
   }
 };
 </script>

@@ -547,6 +547,12 @@
             "ERROR_MESSAGE": "Unable to update category"
           }
         },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Category deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete category"
+          }
+        },
         "HEADER": {
           "CREATE": "Create category",
           "EDIT": "Edit category",

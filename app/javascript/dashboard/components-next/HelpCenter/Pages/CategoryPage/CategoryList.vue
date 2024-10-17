@@ -14,8 +14,8 @@ const handleClick = slug => {
   emit('click', slug);
 };
 
-const handleAction = ({ action, value, id }) => {
-  emit('action', { action, value, id });
+const handleAction = ({ action, value, id }, category) => {
+  emit('action', { action, value, id, category });
 };
 </script>
 
@@ -31,7 +31,7 @@ const handleAction = ({ action, value, id }) => {
       :articles-count="category.meta.articles_count || 0"
       :slug="category.slug"
       @click="handleClick(category.slug)"
-      @action="handleAction"
+      @action="handleAction($event, category)"
     />
   </ul>
 </template>
