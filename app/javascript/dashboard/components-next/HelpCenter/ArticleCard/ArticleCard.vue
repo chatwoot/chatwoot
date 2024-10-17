@@ -123,11 +123,12 @@ const handleClick = id => {
 </script>
 
 <template>
-  <CardLayout @click="handleClick(id)">
+  <CardLayout>
     <template #header>
       <div class="flex justify-between gap-1">
         <span
-          class="text-base group-hover/cardLayout:underline text-n-slate-12 line-clamp-1"
+          class="text-base cursor-pointer group-hover/cardLayout:underline text-n-slate-12 line-clamp-1"
+          @click="handleClick(id)"
         >
           {{ title }}
         </span>
