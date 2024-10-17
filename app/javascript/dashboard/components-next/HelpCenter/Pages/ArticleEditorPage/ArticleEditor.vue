@@ -8,7 +8,7 @@ import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLay
 import Button from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import ArticleEditorControls from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorControls.vue';
 
 const props = defineProps({
   article: {
@@ -25,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['saveArticle', 'goBack']);
+const emit = defineEmits(['saveArticle', 'goBack', 'setAuthor', 'setCategory']);
 
 const { t } = useI18n();
 
@@ -51,20 +51,16 @@ const articleContent = computed({
   },
 });
 
-const author = computed(() => {
-  return props.article?.author;
-});
-
-const authorName = computed(() => {
-  return author.value?.name || author.value?.available_name || '-';
-});
-
-const authorThumbnailSrc = computed(() => {
-  return author.value?.thumbnail;
-});
-
 const onClickGoBack = () => {
   emit('goBack');
+};
+
+const setAuthorId = authorId => {
+  emit('setAuthor', authorId);
+};
+
+const setCategoryId = categoryId => {
+  emit('setCategory', categoryId);
 };
 </script>
 
@@ -113,39 +109,12 @@ const onClickGoBack = () => {
           custom-text-area-class="border-0 !text-[32px] !bg-transparent !py-0 !px-0 !h-auto !leading-[48px] !font-medium !tracking-[0.2px]"
           placeholder="Title"
         />
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
-            <Thumbnail
-              v-if="author"
-              :author="author"
-              :name="authorName"
-              :size="20"
-              :src="authorThumbnailSrc"
-            />
-            <span class="text-sm text-slate-500 dark:text-slate-400">
-              {{ authorName }}
-            </span>
-          </div>
-          <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
-          <Button
-            :label="
-              t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
-            "
-            icon="play-shape"
-            variant="ghost"
-            class="!px-2 font-normal"
-            text-variant="info"
-          />
-          <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
-          <Button
-            :label="
-              t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.MORE_PROPERTIES')
-            "
-            icon="add"
-            variant="ghost"
-            class="!px-2 font-normal"
-          />
-        </div>
+        <ArticleEditorControls
+          :article="article"
+          @save-article="saveArticle"
+          @set-author="setAuthorId"
+          @set-category="setCategoryId"
+        />
       </div>
       <FullEditor
         v-model="articleContent"

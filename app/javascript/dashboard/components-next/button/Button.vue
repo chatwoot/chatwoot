@@ -121,6 +121,7 @@ const handleClick = e => {
       :icon-lib="iconLib"
       class="flex-shrink-0"
     />
+    <slot name="thumbnail" />
     <span v-if="emoji">{{ emoji }}</span>
     <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     <FluentIcon

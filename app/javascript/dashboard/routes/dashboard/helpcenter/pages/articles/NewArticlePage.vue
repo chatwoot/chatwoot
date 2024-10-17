@@ -15,6 +15,9 @@ const { t } = useI18n();
 
 const { portalSlug } = route.params;
 
+const selectedAuthorId = ref(null);
+const selectedCategoryId = ref(null);
+
 const currentUserId = useMapGetter('getCurrentUserID');
 const categories = useMapGetter('categories/allCategories');
 
@@ -24,6 +27,14 @@ const articleTitle = ref('');
 const articleContent = ref('');
 const isUpdating = ref(false);
 const isSaved = ref(false);
+
+const setAuthorId = authorId => {
+  selectedAuthorId.value = authorId;
+};
+
+const setCategoryId = newCategoryId => {
+  selectedCategoryId.value = newCategoryId;
+};
 
 const createNewArticle = async ({ title, content }) => {
   if (title) articleTitle.value = title;
@@ -38,8 +49,8 @@ const createNewArticle = async ({ title, content }) => {
       portalSlug,
       content: articleContent.value,
       title: articleTitle.value,
-      author_id: currentUserId.value,
-      category_id: categoryId.value,
+      author_id: selectedAuthorId.value || currentUserId.value,
+      category_id: selectedCategoryId.value || categoryId.value,
     });
 
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
@@ -73,5 +84,7 @@ const goBackToArticles = () => {
     :is-saved="isSaved"
     @save-article="createNewArticle"
     @go-back="goBackToArticles"
+    @set-author="setAuthorId"
+    @set-category="setCategoryId"
   />
 </template>
