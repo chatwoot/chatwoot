@@ -55,6 +55,9 @@
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Giá trị bắt buộc có"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
       "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",

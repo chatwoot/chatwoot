@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
         "DIAL_CODE_VALID_ERROR": "Vui lòng chọn quốc gia",
         "VALID_ERROR": "Vui lòng nhập số điện thoại đúng",
-        "DROPDOWN_EMPTY": "Không tìm thấy kết quả"
+        "DROPDOWN_EMPTY": "Không tìm thấy kết quả",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Tìm kiếm biểu tượng cảm xúc",
-    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn"
+    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Đánh giá hội thoại",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "có một đường dẫn chia sẻ"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

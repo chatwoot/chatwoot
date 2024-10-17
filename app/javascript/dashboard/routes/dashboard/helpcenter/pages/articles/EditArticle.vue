@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import ArticleSettings from './ArticleSettings.vue';
@@ -80,7 +80,7 @@ export default {
     confirmDeletion() {
       this.closeDeletePopup();
       this.deleteArticle();
-      this.$track(PORTALS_EVENTS.DELETE_ARTICLE, {
+      useTrack(PORTALS_EVENTS.DELETE_ARTICLE, {
         status: this.article?.status,
       });
     },
@@ -136,7 +136,7 @@ export default {
           status: ARTICLE_STATUS_TYPES.ARCHIVE,
         });
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
-        this.$track(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'sidebar' });
+        useTrack(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'sidebar' });
       } catch (error) {
         this.alertMessage =
           error?.message || this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
@@ -159,7 +159,7 @@ export default {
     },
     showArticleInPortal() {
       window.open(this.portalLink, '_blank');
-      this.$track(PORTALS_EVENTS.PREVIEW_ARTICLE, {
+      useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
         status: this.article?.status,
       });
     },
@@ -182,7 +182,7 @@ export default {
         @open="openArticleSettings"
         @close="closeArticleSettings"
         @show="showArticleInPortal"
-        @updateMeta="updateMeta"
+        @update-meta="updateMeta"
       />
       <div v-if="isFetching" class="h-full p-4 text-base text-center">
         <Spinner size="" />
@@ -192,19 +192,19 @@ export default {
         v-else
         :is-settings-sidebar-open="showArticleSettings"
         :article="article"
-        @saveArticle="saveArticle"
+        @save-article="saveArticle"
       />
     </div>
     <ArticleSettings
       v-if="showArticleSettings"
       :article="article"
-      @saveArticle="saveArticle"
-      @deleteArticle="openDeletePopup"
-      @archiveArticle="archiveArticle"
-      @updateMeta="updateMeta"
+      @save-article="saveArticle"
+      @delete-article="openDeletePopup"
+      @archive-article="archiveArticle"
+      @update-meta="updateMeta"
     />
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"

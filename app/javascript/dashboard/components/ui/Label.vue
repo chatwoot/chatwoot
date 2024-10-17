@@ -44,6 +44,7 @@ export default {
       default: '',
     },
   },
+  emits: ['remove'],
   computed: {
     textColor() {
       if (this.variant === 'smooth') return '';
@@ -74,7 +75,7 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('click', this.title);
+      this.$emit('remove', this.title);
     },
   },
 };

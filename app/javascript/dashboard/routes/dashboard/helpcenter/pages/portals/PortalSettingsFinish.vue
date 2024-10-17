@@ -1,7 +1,7 @@
 <script setup>
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import { defineComponent } from 'vue';
-defineComponent({
+import { defineOptions } from 'vue';
+defineOptions({
   name: 'PortalSettingsFinish',
 });
 </script>

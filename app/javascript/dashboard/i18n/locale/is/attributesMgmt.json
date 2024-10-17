@@ -3,7 +3,8 @@
     "HEADER": "Custom Attributes",
     "HEADER_BTN_TXT": "Add Custom Attribute",
     "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Sérsniðin eiginleiki</b> <p>Sérsniðin eiginleiki fylgist með staðreyndum um tengiliðina/samtalið þitt - eins og áskriftaráætlunina, eða þegar þeir pöntuðu fyrsta hlutinn osfrv. <br /><br />Til að búa til sérsniðna eigind, smelltu bara á <b>Bæta við sérsniðinni eigind.</b> Þú getur líka breytt eða eytt núverandi sérsniðinni eigind með því að smella á Breyta eða Eyða hnappinn.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Create",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Ekki tókst að eyða sérsniðnu eigindinni. Reyndu aftur."
       },
       "CONFIRM": {
-        "TITLE": "Ertu viss um að þú viljir eyða - %{attributeName}",
+        "TITLE": "Ertu viss um að þú viljir eyða - {attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Delete ",

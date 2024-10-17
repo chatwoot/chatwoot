@@ -18,7 +18,8 @@
       "STATUS": "Κατάσταση",
       "ACTIONS": "Ενέργειες",
       "VERIFIED": "Επιβεβαιώθηκε",
-      "VERIFICATION_PENDING": "Σε αναμονή επιβεβαίωσης"
+      "VERIFICATION_PENDING": "Σε αναμονή επιβεβαίωσης",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Προσθέστε έναν Πράκτορα στην ομάδα σας",

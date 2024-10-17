@@ -3,7 +3,8 @@
     "HEADER": "Aangepaste attributen",
     "HEADER_BTN_TXT": "Aangepast attribuut toevoegen",
     "LOADING": "Aangepaste attributen ophalen",
-    "SIDEBAR_TXT": "<p><b>Aangepaste Attributen</b> <p>Een aangepast attribuut volgt feiten over uw contacten/conversaties - zoals het abonnement of wanneer ze voor het eerst een item bestelden etc. <br /><br />Voor het maken van een aangepast attribuut, klik op <b>Voeg Aangepast Attribuut toe.</b> U kunt ook een bestaand Aangepast Attribuut bewerken of verwijderen door op de knop Bewerken of Verwijderen te klikken.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Aangepast attribuut toevoegen",
       "SUBMIT": "Aanmaken",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Kan het aangepaste attribuut niet verwijderen. Probeer het opnieuw."
       },
       "CONFIRM": {
-        "TITLE": "Weet u zeker dat u wilt verwijderen - %{attributeName}",
+        "TITLE": "Weet u zeker dat u wilt verwijderen - {attributeName}",
         "PLACE_HOLDER": "Voer {attributeName} in om te bevestigen",
         "MESSAGE": "Verwijderen zal het aangepaste attribuut verwijderen",
         "YES": "Verwijderen ",

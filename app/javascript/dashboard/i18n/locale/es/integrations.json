@@ -12,6 +12,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
@@ -75,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar eliminación",
-          "MESSAGE": "¿Está seguro de eliminar el webhook? (%{webhookURL})",
+          "MESSAGE": "¿Está seguro de eliminar el webhook? ({webhookURL})",
           "YES": "Sí, eliminar ",
           "NO": "No, mantenerlo"
         }
@@ -113,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Asistencia AI",
-      "WITH_AI": " %{option} con IA ",
+      "WITH_AI": " {option} con IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Responder sugerencia",
         "SUMMARIZE": "Resumir",
@@ -215,7 +216,7 @@
         "CONFIRM_YES": "Sí, eliminarlo",
         "CONFIRM_NO": "No, mantenerlo",
         "TITLE": "Confirme eliminación",
-        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
+        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - {appName}?",
         "API_SUCCESS": "Panel de control eliminado con éxito",
         "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde"
       }
@@ -234,7 +235,7 @@
         "ERROR": "Hubo un error al recuperar los problemas lineales, por favor inténtalo de nuevo",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -293,7 +294,7 @@
         "PRIORITY": "Prioridad",
         "ASSIGNEE": "Cesionario",
         "LABELS": "Etiquetas",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desenlazar",

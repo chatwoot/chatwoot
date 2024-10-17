@@ -6,6 +6,7 @@ export default {
       default: false,
     },
   },
+  emits: ['expand'],
 };
 </script>
 

@@ -3,7 +3,8 @@
     "HEADER": "Benutzerdefinierte Attribute",
     "HEADER_BTN_TXT": "Benutzerdefiniertes Attribut hinzufügen",
     "LOADING": "Benutzerdefinierte Attribute abrufen",
-    "SIDEBAR_TXT": "<p><b>Benutzerdefinierte Attribute</b> <p>Ein benutzerdefiniertes Attribut verfolgt Fakten über Ihre Kontakte/Konversationen – wie den Abonnementplan oder wann sie den ersten Artikel bestellt haben usw. <br/><br/> Um ein benutzerdefiniertes Attribut zu erstellen, klicken Sie einfach auf <b>Benutzerdefiniertes Attribut hinzufügen.</b> Sie können auch ein vorhandenes benutzerdefiniertes Attribut bearbeiten oder löschen, indem Sie auf die Schaltfläche „Bearbeiten“ oder „Löschen“ klicken.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Benutzerdefiniertes Attribut hinzufügen",
       "SUBMIT": "Erstellen",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuchen Sie es noch einmal."
       },
       "CONFIRM": {
-        "TITLE": "Sind Sie sicher, dass Sie %{attributeName} löschen möchten",
+        "TITLE": "Sind Sie sicher, dass Sie {attributeName} löschen möchten",
         "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
         "MESSAGE": "Beim Löschen wird das benutzerdefinierte Attribut entfernt",
         "YES": "Löschen ",

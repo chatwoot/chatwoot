@@ -55,6 +55,9 @@
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "値は必須です"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "Additional filters",

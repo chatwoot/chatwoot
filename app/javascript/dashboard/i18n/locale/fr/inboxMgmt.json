@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Boîtes de réception",
-    "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Chatwoot, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Chatwoot. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le tableau de bord, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Cliquez sur le bouton Connexion avec Microsoft pour commencer. Vous allez rediriger vers la page de connexion par courriel. Une fois que vous avez accepté les autorisations demandées, vous serez redirigé vers l'étape de création de la boîte de réception.",
         "EMAIL_PLACEHOLDER": "Entrez votre adresse e-mail",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Pour ajouter votre compte Microsoft en tant que canal, vous devez authentifier votre compte Microsoft en cliquant sur 'Connexion avec Microsoft' ",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Microsoft, veuillez réessayer"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Entrez votre adresse e-mail",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Authentification avec Facebook ...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Une erreur s'est produite, veuillez rafraîchir la page ...",
       "ERROR_FB_UNAUTHORIZED": "Vous n'êtes pas autorisé à effectuer cette action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Veuillez vous assurer que vous avez un contrôle total sur la page Facebook. Vous pouvez en savoir plus sur les rôles Facebook <a href=\" https://www.facebook.com/help/187316341316631\">ici</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Autres fournisseurs"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Site internet",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Courriel",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canal API"
     }
   }
 }

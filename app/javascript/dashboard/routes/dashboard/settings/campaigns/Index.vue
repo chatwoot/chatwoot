@@ -48,8 +48,8 @@ export default {
       {{ buttonText }}
     </woot-button>
     <Campaign />
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <AddCampaign @onClose="hideAddPopup" />
+    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
+      <AddCampaign @on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>

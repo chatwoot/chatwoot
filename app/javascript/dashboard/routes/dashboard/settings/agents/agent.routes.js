@@ -7,15 +7,12 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/agents'),
       component: SettingsWrapper,
-      props: {
-        headerTitle: 'AGENT_MGMT.HEADER',
-        icon: 'people',
-        showNewButton: false,
-      },
       children: [
         {
           path: '',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'agent_list', params: to.params };
+          },
         },
         {
           path: 'list',

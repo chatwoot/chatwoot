@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import Auth from '../../../../api/auth';
@@ -97,14 +97,20 @@ const selectedRole = computed(() =>
   )
 );
 
+const statusList = computed(() => {
+  return [
+    t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.ONLINE'),
+    t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.BUSY'),
+    t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.OFFLINE'),
+  ];
+});
+
 const availabilityStatuses = computed(() =>
-  t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-    (statusLabel, index) => ({
-      label: statusLabel,
-      value: AVAILABILITY_STATUS_KEYS[index],
-      disabled: props.availability === AVAILABILITY_STATUS_KEYS[index],
-    })
-  )
+  statusList.value.map((statusLabel, index) => ({
+    label: statusLabel,
+    value: AVAILABILITY_STATUS_KEYS[index],
+    disabled: props.availability === AVAILABILITY_STATUS_KEYS[index],
+  }))
 );
 
 const editAgent = async () => {
@@ -151,7 +157,7 @@ const resetPassword = async () => {
         <label :class="{ error: v$.agentName.$error }">
           {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
           <input
-            v-model.trim="agentName"
+            v-model="agentName"
             type="text"
             :placeholder="$t('AGENT_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
             @input="v$.agentName.$touch"

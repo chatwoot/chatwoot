@@ -18,7 +18,8 @@
       "STATUS": "상태",
       "ACTIONS": "액션",
       "VERIFIED": "인증됨",
-      "VERIFICATION_PENDING": "인증 보류"
+      "VERIFICATION_PENDING": "인증 보류",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "팀에 에이전트 추가",
