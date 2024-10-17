@@ -190,6 +190,7 @@ const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
   VIDEO: 'video',
   AUDIO: 'audio',
+  IG_REEL: 'ig_reel',
 };
 
 const MAX_ZOOM_LEVEL = 2;
@@ -242,7 +243,10 @@ export default {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
     },
     isVideo() {
-      return this.activeFileType === ALLOWED_FILE_TYPES.VIDEO;
+      return (
+        this.activeFileType === ALLOWED_FILE_TYPES.VIDEO ||
+        this.activeFileType === ALLOWED_FILE_TYPES.IG_REEL
+      );
     },
     isAudio() {
       return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;
