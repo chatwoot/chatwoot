@@ -86,4 +86,4 @@
 - name: linear_integration
   enabled: false
 - name: integrations_view
-  enabled: true
+  enabled: false

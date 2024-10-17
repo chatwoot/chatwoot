@@ -173,7 +173,7 @@ export default {
         return false;
       const type = this.automationActionTypes.find(
         i => i.key === action
-      ).inputType;
+      )?.inputType;
       return !!type;
     },
     resetAction(index) {

@@ -21,9 +21,10 @@ class CustomApi < ApplicationRecord
   validates :api_key, presence: true
 
   after_create :import_orders, :enable_orders_view
+  after_destroy :delete_associated_orders
 
   def import_service
-    Integrations::ImportOrderCustomApiService.new(custom_api: self)
+    Integrations::CustomApi::ImportOrderService.new(custom_api: self)
   end
 
   def enable_orders_view
@@ -32,4 +33,10 @@ class CustomApi < ApplicationRecord
   end
 
   delegate :import_orders, to: :import_service
+
+  private
+
+  def delete_associated_orders
+    Order.where(platform: name).destroy_all
+  end
 end

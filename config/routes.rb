@@ -460,6 +460,15 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
+  # Routes for custom api integration webhooks
+  post 'webhooks/custom_api/order/created/:api_id', to: 'webhooks/integrations/custom_api#process_order_created'
+  post 'webhooks/custom_api/order/status_update/:api_id', to: 'webhooks/integrations/custom_api#process_order_status'
+  post 'webhooks/custom_api/order/updated/:api_id', to: 'webhooks/integrations/custom_api#process_order_update'
+  post 'webhooks/custom_api/order/deleted/:api_id', to: 'webhooks/integrations/custom_api#process_order_deleted'
+  post 'webhooks/custom_api/order_item/updated/:api_id', to: 'webhooks/integrations/custom_api#process_order_item_update'
+  post 'webhooks/custom_api/contact/updated/:api_id', to: 'webhooks/integrations/custom_api#process_contact_updated'
+  post 'webhooks/custom_api/cart_recovery/:api_id', to: 'webhooks/integrations/custom_api#process_cart_recovery'
+
   namespace :twitter do
     resource :callback, only: [:show]
   end

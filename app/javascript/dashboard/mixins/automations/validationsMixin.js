@@ -17,9 +17,11 @@ export default {
         $each: {
           values: {
             required: requiredIf(prop => {
-              return !(
-                prop.filter_operator === 'is_present' ||
-                prop.filter_operator === 'is_not_present'
+              return (
+                !(
+                  prop.filter_operator === 'is_present' ||
+                  prop.filter_operator === 'is_not_present'
+                ) && prop.attribute_key !== 'none'
               );
             }),
           },

@@ -37,7 +37,8 @@
       "PAYMENT_STATUS": "Payment status",
       "CREATED_VIA": "Created via",
       "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "LAST_ACTIVITY": "Last Activity",
+      "NONE": "None"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters"

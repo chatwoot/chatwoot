@@ -54,4 +54,9 @@ module Events::Types
   # agent events
   AGENT_ADDED = 'agent.added'
   AGENT_REMOVED = 'agent.removed'
+
+  # integrations events
+  ORDER_CREATED = 'order.created'
+  ORDER_STATUS_UPDATED = 'order.status_updated'
+  CART_RECOVERY = 'cart.recovery'
 end

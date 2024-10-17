@@ -8,7 +8,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     # assign rule, conversation and account to instance variables
     @rule = rule
     @conversation = conversation
-    @account = conversation.account
+    @account = conversation&.account
 
     # setup filters from json file
     file = File.read('./lib/filters/filter_keys.yml')
@@ -17,9 +17,10 @@ class AutomationRules::ConditionsFilterService < FilterService
     @conversation_filters = @filters['conversations']
     @contact_filters = @filters['contacts']
     @message_filters = @filters['messages']
-
+    @order_filters = @filters['orders']
     @options = options
     @changed_attributes = options[:changed_attributes]
+    @base_relation = @conversation.nil? ? base_orders_relation : base_relation
   end
 
   def perform
@@ -33,7 +34,8 @@ class AutomationRules::ConditionsFilterService < FilterService
       apply_filter(query_hash, current_index)
     end
 
-    records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
+    records = @base_relation.where(@query_string, @filter_values.with_indifferent_access)
+
     records = perform_attribute_changed_filter(records) if @attribute_changed_query_filter.any?
 
     records.any?
@@ -64,13 +66,17 @@ class AutomationRules::ConditionsFilterService < FilterService
     conversation_filter = @conversation_filters[query_hash['attribute_key']]
     contact_filter = @contact_filters[query_hash['attribute_key']]
     message_filter = @message_filters[query_hash['attribute_key']]
+    order_filter = @order_filters[query_hash['attribute_key']]
 
-    if conversation_filter
+    if conversation_filter && @conversation.present?
       @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
     elsif contact_filter
       @query_string += contact_query_string(contact_filter, query_hash.with_indifferent_access, current_index)
     elsif message_filter
       @query_string += message_query_string(message_filter, query_hash.with_indifferent_access, current_index)
+    elsif order_filter
+
+      @query_string += order_query_string(order_filter, query_hash.with_indifferent_access, current_index)
     elsif custom_attribute(query_hash['attribute_key'], @account, query_hash['custom_attribute_type'])
       # send table name according to attribute key right now we are supporting contact based custom attribute filter
       @query_string += custom_attribute_query(query_hash.with_indifferent_access, query_hash['custom_attribute_type'], current_index)
@@ -80,14 +86,15 @@ class AutomationRules::ConditionsFilterService < FilterService
   # If attribute_changed type filter is present perform this against array
   def perform_attribute_changed_filter(records)
     @attribute_changed_records = []
-    current_attribute_changed_record = base_relation
-    filter_based_on_attribute_change(records, current_attribute_changed_record)
+    current_attribute_changed_record = @base_relation
 
+    filter_based_on_attribute_change(records, current_attribute_changed_record)
     @attribute_changed_records.uniq
   end
 
   # Loop through attribute_changed_query_filter
   def filter_based_on_attribute_change(records, current_attribute_changed_record)
+    debgger
     @attribute_changed_query_filter.each do |filter|
       @changed_attributes = @changed_attributes.with_indifferent_access
       changed_attribute = @changed_attributes[filter['attribute_key']].presence
@@ -141,6 +148,15 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
   end
 
+  def order_query_string(_table_name, query_hash, current_index)
+    attribute_key = query_hash['attribute_key']
+    query_operator = query_hash['query_operator']
+
+    filter_operator_value = filter_operation(query_hash, current_index)
+
+    " orders.#{attribute_key} #{filter_operator_value} #{query_operator} "
+  end
+
   def conversation_query_string(table_name, current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
@@ -168,5 +184,11 @@ class AutomationRules::ConditionsFilterService < FilterService
     )
     records = records.where(messages: { id: @options[:message].id }) if @options[:message].present?
     records
+  end
+
+  def base_orders_relation
+    Order.where(id: @changed_attributes.id).joins(
+      'LEFT OUTER JOIN contacts on orders.contact_id = contacts.id'
+    )
   end
 end

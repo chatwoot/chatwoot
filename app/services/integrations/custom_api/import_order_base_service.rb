@@ -1,5 +1,5 @@
 # app/services/integrations/base_service.rb
-class Integrations::ImportOrderBaseService
+class Integrations::CustomApi::ImportOrderBaseService
   pattr_initialize [:custom_api!]
   require 'net/http'
   require 'json'
@@ -25,21 +25,6 @@ class Integrations::ImportOrderBaseService
     end
     data = File.read('t.tmp', encoding: 'UTF-8')
     handle_response(response, data)
-  end
-
-  def format_phone_number_to_e164(phone_number)
-    digits = phone_number.gsub(/\D/, '')
-
-    "+55#{digits}"
-  end
-
-  def add_attributes(contact, hash_attribue)
-    (contact&.custom_attributes || {}).deep_merge(hash_attribue.stringify_keys)
-  end
-
-  def additional_attributes(contact, account_id)
-    new_additional_attributes = { :integration => custom_api['name'], :id_from_integration => account_id }
-    (contact&.additional_attributes || {}).deep_merge(new_additional_attributes.stringify_keys)
   end
 
   private

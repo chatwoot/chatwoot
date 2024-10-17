@@ -6,6 +6,7 @@
 #  actions       :jsonb            not null
 #  active        :boolean          default(TRUE), not null
 #  conditions    :jsonb            not null
+#  delay         :integer
 #  description   :text
 #  event_name    :string           not null
 #  name          :string           not null
@@ -35,8 +36,8 @@ class AutomationRule < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def conditions_attributes
-    %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
-       mail_subject phone_number priority conversation_language]
+    %w[content email country_code status platform payment_status order_number message_type browser_language assignee_id team_id referer city company inbox_id
+       mail_subject phone_number priority conversation_language none]
   end
 
   def actions_attributes

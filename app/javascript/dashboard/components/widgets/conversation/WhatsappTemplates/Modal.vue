@@ -38,6 +38,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    variableOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {

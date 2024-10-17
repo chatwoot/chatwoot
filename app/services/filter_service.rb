@@ -47,7 +47,9 @@ class FilterService
     when 'status'
       return Conversation.statuses.values if query_hash['values'].include?('all')
 
-      query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
+      filter_value = query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
+
+      filter_value.any?(&:nil?) ? case_insensitive_values(query_hash) : filter_value
     when 'message_type'
       query_hash['values'].map { |x| Message.message_types[x.to_sym] }
     when 'content'

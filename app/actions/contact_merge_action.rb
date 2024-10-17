@@ -59,7 +59,7 @@ class ContactMergeAction
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
 
     if mergee_contact.custom_attributes && mergee_contact.custom_attributes['corrupted_type']
-      mergee_contact.update!(active: false, email: '', identifier: '', phone_number: '')
+      mergee_contact.update!(active: false, email: '', identifier: SecureRandom.uuid, phone_number: '')
     else
       @mergee_contact.destroy!
     end
