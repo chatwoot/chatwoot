@@ -32,7 +32,7 @@ const handleAction = (action, value) => {
       :disabled="item.disabled"
       variant="ghost"
       size="sm"
-      class="!justify-start w-full hover:bg-white dark:hover:bg-slate-800 z-60 font-normal"
+      class="!justify-start w-full hover:bg-white dark:hover:bg-slate-800 z-60 text-slate-800 dark:text-slate-100 font-normal"
       :text-variant="item.action === 'delete' ? 'danger' : ''"
       @click="handleAction(item.action, item.value)"
     />
