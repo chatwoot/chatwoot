@@ -20,13 +20,8 @@ const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
 const { checkFeatureAllowed, checkPermissions } = usePolicy();
 const scrollableContainer = ref(null);
 
-const hasAccessibleItems = computed(() => {
-  if (props.children.length === 0) {
-    // cases like segment, folder and labels where users can create new items
-    return true;
-  }
-
-  return props.children.some(child => {
+const accessibleItems = computed(() => {
+  return props.children.filter(child => {
     const permissions = resolvePermissions(child.to);
     const featureFlag = resolveFeatureFlag(child.to);
 
@@ -34,9 +29,19 @@ const hasAccessibleItems = computed(() => {
   });
 });
 
-const isScrollable = computed(() => {
-  return props.children.length > 7;
+const hasAccessibleItems = computed(() => {
+  if (props.children.length === 0) {
+    // cases like segment, folder and labels where users can create new items
+    return true;
+  }
+
+  return accessibleItems.value.length > 0;
 });
+
+const isScrollable = computed(() => {
+  return accessibleItems.value.length > 7;
+});
+
 const scrollEnd = ref(false);
 
 // set scrollEnd to true when the scroll reaches the end
