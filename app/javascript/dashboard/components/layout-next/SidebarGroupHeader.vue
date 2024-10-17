@@ -2,35 +2,16 @@
 import Icon from './Icon.vue';
 
 defineProps({
-  to: {
-    type: [Object, String],
-    default: '',
-  },
-  name: {
-    type: String,
-    default: '',
-  },
-  icon: {
-    type: [String, Object],
-    default: '',
-  },
-  expandable: {
-    type: Boolean,
-    default: false,
-  },
-  isExpanded: {
-    type: Boolean,
-    default: false,
-  },
-  isActive: {
-    type: Boolean,
-    default: false,
-  },
-  hasActiveChild: {
-    type: Boolean,
-    default: false,
-  },
+  to: { type: [Object, String], default: '' },
+  name: { type: String, default: '' },
+  icon: { type: [String, Object], default: '' },
+  expandable: { type: Boolean, default: false },
+  isExpanded: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: false },
+  hasActiveChild: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(['toggle']);
 </script>
 
 <template>
@@ -45,6 +26,7 @@ defineProps({
       'text-n-slate-12 font-medium': hasActiveChild,
       'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
     }"
+    @click.stop="emit('toggle')"
   >
     <Icon v-if="icon" :icon="icon" class="size-4" />
     <span class="text-sm font-medium leading-5 flex-grow">
@@ -54,6 +36,7 @@ defineProps({
       v-if="expandable"
       v-show="isExpanded"
       class="i-lucide-chevron-up size-3"
+      @click.stop="emit('toggle')"
     />
   </component>
 </template>

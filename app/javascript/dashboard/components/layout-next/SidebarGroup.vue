@@ -91,7 +91,7 @@ watch([isExpanded, hasActiveChild, isActive], locateLasChild, {
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
       :is-expanded="isExpanded"
-      @click="setExpandedItem(name)"
+      @toggle="setExpandedItem(name)"
     />
     <ul
       v-if="hasChildren"
