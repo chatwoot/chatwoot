@@ -2,17 +2,13 @@
 import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
-import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import PortalPopover from '../components/PortalPopover.vue';
-import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import portalMixin from '../mixins/portalMixin';
-import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -23,11 +19,8 @@ const CommandBar = defineAsyncComponent(
 export default {
   components: {
     AccountSelector,
-    AddCategory,
     CommandBar,
-    HelpCenterSidebar,
     NotificationPanel,
-    PortalPopover,
     Sidebar,
     UpgradePage,
     WootKeyShortcutModal,
@@ -56,8 +49,6 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       portals: 'portals/allPortals',
-      categories: 'categories/allCategories',
-      meta: 'portals/getMeta',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
 
@@ -115,100 +106,8 @@ export default {
         ? this.selectedPortal?.meta?.default_locale
         : '';
     },
-    accessibleMenuItems() {
-      if (!this.selectedPortal) return [];
-
-      const {
-        allArticlesCount,
-        mineArticlesCount,
-        draftArticlesCount,
-        archivedArticlesCount,
-      } = this.meta;
-
-      return [
-        {
-          icon: 'book',
-          label: 'HELP_CENTER.ALL_ARTICLES',
-          key: 'list_all_locale_articles',
-          count: allArticlesCount,
-          toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles`
-          ),
-          toolTip: 'All Articles',
-          toStateName: 'list_all_locale_articles',
-        },
-        {
-          icon: 'pen',
-          label: 'HELP_CENTER.MY_ARTICLES',
-          key: 'list_mine_articles',
-          count: mineArticlesCount,
-          toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/mine`
-          ),
-          toolTip: 'My articles',
-          toStateName: 'list_mine_articles',
-        },
-        {
-          icon: 'draft',
-          label: 'HELP_CENTER.DRAFT',
-          key: 'list_draft_articles',
-          count: draftArticlesCount,
-          toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/draft`
-          ),
-          toolTip: 'Draft',
-          toStateName: 'list_draft_articles',
-        },
-        {
-          icon: 'archive',
-          label: 'HELP_CENTER.ARCHIVED',
-          key: 'list_archived_articles',
-          count: archivedArticlesCount,
-          toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/archived`
-          ),
-          toolTip: 'Archived',
-          toStateName: 'list_archived_articles',
-        },
-        {
-          icon: 'settings',
-          label: 'HELP_CENTER.SETTINGS',
-          key: 'edit_portal_information',
-          toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/edit`
-          ),
-          toStateName: 'edit_portal_information',
-        },
-      ];
-    },
-    additionalSecondaryMenuItems() {
-      if (!this.selectedPortal) return [];
-      return [
-        {
-          icon: 'folder',
-          label: 'HELP_CENTER.CATEGORY',
-          hasSubMenu: true,
-          showNewButton: true,
-          key: 'category',
-          children: this.categories.map(category => ({
-            id: category.id,
-            label: category.icon
-              ? `${category.icon} ${category.name}`
-              : category.name,
-            count: category.meta.articles_count,
-            truncateLabel: true,
-            toState: frontendURL(
-              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${category.locale}/categories/${category.slug}`
-            ),
-          })),
-        },
-      ];
-    },
     currentRoute() {
       return '  ';
-    },
-    headerTitle() {
-      return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
 
@@ -309,22 +208,11 @@ export default {
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <HelpCenterSidebar
-      v-if="showHelpCenterSidebar"
-      :header-title="headerTitle"
-      :portal-slug="selectedPortalSlug"
-      :locale-slug="selectedLocaleInPortal"
-      :sub-title="localeName(selectedLocaleInPortal)"
-      :accessible-menu-items="accessibleMenuItems"
-      :additional-secondary-menu-items="additionalSecondaryMenuItems"
-      @open-popover="openPortalPopover"
-      @open-modal="onClickOpenAddCategoryModal"
-    />
     <section
       v-if="isHelpCenterEnabled"
       class="flex flex-1 h-full px-0 overflow-hidden bg-white dark:bg-slate-900"
     >
-      <router-view @reload-locale="fetchPortalAndItsCategories" />
+      <router-view />
       <CommandBar />
       <AccountSelector
         :show-account-modal="showAccountModal"
@@ -338,22 +226,6 @@ export default {
       <NotificationPanel
         v-if="showNotificationPanel"
         @close="closeNotificationPanel"
-      />
-      <PortalPopover
-        v-if="showPortalPopover"
-        :portals="portals"
-        :active-portal-slug="selectedPortalSlug"
-        :active-locale="selectedLocaleInPortal"
-        @fetch-portal="fetchPortalAndItsCategories"
-        @close-popover="closePortalPopover"
-      />
-      <AddCategory
-        v-if="showAddCategoryModal"
-        v-model:show="showAddCategoryModal"
-        :portal-name="selectedPortalName"
-        :locale="selectedLocaleInPortal"
-        :portal-slug="selectedPortalSlug"
-        @cancel="onClickCloseAddCategoryModal"
       />
     </section>
     <UpgradePage v-else />
