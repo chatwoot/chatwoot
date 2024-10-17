@@ -25,7 +25,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['saveArticle', 'goBack', 'setAuthor', 'setCategory']);
+const emit = defineEmits([
+  'saveArticle',
+  'goBack',
+  'setAuthor',
+  'setCategory',
+  'previewArticle',
+]);
 
 const { t } = useI18n();
 
@@ -77,6 +83,10 @@ const setAuthorId = authorId => {
 const setCategoryId = categoryId => {
   emit('setCategory', categoryId);
 };
+
+const previewArticle = () => {
+  emit('previewArticle');
+};
 </script>
 
 <template>
@@ -104,6 +114,7 @@ const setCategoryId = categoryId => {
               :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
               variant="secondary"
               size="sm"
+              @click="previewArticle"
             />
             <Button
               :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PUBLISH')"

@@ -2,7 +2,9 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 
 import ArticleEditor from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditor.vue';
@@ -20,6 +22,17 @@ const article = computed(() => articleById.value(articleSlug));
 
 const isUpdating = ref(false);
 const isSaved = ref(false);
+
+const portalLink = computed(() => {
+  const { slug: categorySlug, locale: categoryLocale } = article.value.category;
+  const { slug: articleSlugValue } = article.value;
+  return buildPortalArticleURL(
+    portalSlug,
+    categorySlug,
+    categoryLocale,
+    articleSlugValue
+  );
+});
 
 const saveArticle = async ({ ...values }) => {
   isUpdating.value = true;
@@ -72,6 +85,13 @@ const fetchArticleDetails = () => {
   });
 };
 
+const previewArticle = () => {
+  window.open(portalLink.value, '_blank');
+  useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
+    status: article.value?.status,
+  });
+};
+
 onMounted(() => {
   fetchArticleDetails();
 });
@@ -83,6 +103,7 @@ onMounted(() => {
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @save-article="saveArticle"
+    @preview-article="previewArticle"
     @go-back="goBackToArticles"
   />
 </template>
