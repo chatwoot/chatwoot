@@ -5,6 +5,7 @@ import { OnClickOutside } from '@vueuse/components';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import PortalSwitcher from 'dashboard/components-next/HelpCenter/PortalSwitcher/PortalSwitcher.vue';
+import CreatePortalDialog from 'dashboard/components-next/HelpCenter/PortalSwitcher/CreatePortalDialog.vue';
 
 defineProps({
   header: {
@@ -34,6 +35,8 @@ defineProps({
 });
 
 const emit = defineEmits(['update:currentPage']);
+
+const createPortalDialogRef = ref(null);
 
 const showPortalSwitcher = ref(false);
 
@@ -70,8 +73,10 @@ const togglePortalSwitcher = () => {
                 v-if="showPortalSwitcher"
                 class="absolute left-0 top-9"
                 @close="showPortalSwitcher = false"
+                @create-portal="createPortalDialogRef.dialogRef.open()"
               />
             </OnClickOutside>
+            <CreatePortalDialog ref="createPortalDialogRef" />
           </div>
         </div>
         <slot name="header-actions" />

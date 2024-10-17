@@ -7,7 +7,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'createPortal']);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -58,6 +58,11 @@ const handlePortalChange = portal => {
   fetchPortalAndItsCategories(slug, defaultLocale);
   emit('close');
 };
+
+const openCreatePortalDialog = () => {
+  emit('createPortal');
+  emit('close');
+};
 </script>
 
 <template>
@@ -73,7 +78,13 @@ const handlePortalChange = portal => {
           {{ t('HELP_CENTER.PORTAL_SWITCHER.CREATE_PORTAL') }}
         </p>
       </div>
-      <Button label="New portal" variant="secondary" icon="add" size="sm" />
+      <Button
+        :label="t('HELP_CENTER.PORTAL_SWITCHER.NEW_PORTAL')"
+        variant="secondary"
+        icon="add"
+        size="sm"
+        @click="openCreatePortalDialog"
+      />
     </div>
     <div v-if="portals.length > 0" class="flex flex-col gap-3">
       <template v-for="(portal, index) in portals" :key="portal.id">

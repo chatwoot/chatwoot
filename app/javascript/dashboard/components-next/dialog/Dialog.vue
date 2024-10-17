@@ -28,6 +28,10 @@ defineProps({
     type: String,
     default: '',
   },
+  disableConfirmButton: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['confirm']);
@@ -103,6 +107,7 @@ onClickOutside(dialogContentRef, event => {
             :variant="type === 'edit' ? 'default' : 'destructive'"
             :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
             class="w-full"
+            :disabled="disableConfirmButton"
             @click="confirm"
           />
         </div>

@@ -637,11 +637,28 @@
       }
     },
     "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
       "PORTALS": "Portals",
       "CREATE_PORTAL": "Create and manage multiple portals",
       "ARTICLES": "articles",
       "DOMAIN": "domain",
       "PORTAL_NAME": "Portal name"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create New Portal",
+      "CONFIRM_BUTTON_LABEL": "Create",
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "This will be the name of your public facing portal",
+        "ERROR": "Name is required"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "MESSAGE": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+        "ERROR": "Slug is required"
+      }
     }
   }
 }
