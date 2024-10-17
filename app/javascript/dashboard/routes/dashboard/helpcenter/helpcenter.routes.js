@@ -8,6 +8,8 @@ const ListCategoriesPage = () =>
 const ListLocalesPage = () => import('./pages/locales/ListLocalesPage.vue');
 const EditArticlePage = () => import('./pages/articles/EditArticlePage.vue');
 const NewArticlePage = () => import('./pages/articles/NewArticlePage.vue');
+const PortalSettingsPage = () =>
+  import('./pages/portals/PortalSettingsPage.vue');
 
 const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
@@ -296,6 +298,14 @@ export const newPortalRoutes = [
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
     component: ListLocalesPage,
+  },
+  {
+    path: getPortalRoute(':portalSlug/settings'),
+    name: 'portal_settings',
+    meta: {
+      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+    },
+    component: PortalSettingsPage,
   },
 ];
 
