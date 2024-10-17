@@ -350,7 +350,7 @@ const menuItems = computed(() => [
             {{ 'Search...' }}
           </span>
           <span
-            class="tracking-wide select-none pointer-events-none text-n-slate-10"
+            class="tracking-wide select-none pointer-events-none text-n-slate-10 hidden"
           >
             {{ searchShortcut }}
           </span>
