@@ -44,217 +44,244 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
-const menuItems = computed(() => [
-  {
-    name: 'Inbox',
-    icon: 'i-lucide-inbox',
-    to: accountScopedRoute('inbox_view'),
-  },
-  {
-    name: 'Conversation',
-    icon: 'i-lucide-message-circle',
-    children: [
-      { name: 'All', to: accountScopedRoute('home') },
-      { name: 'Mentions', to: accountScopedRoute('conversation_mentions') },
-      { name: 'Unattended', to: accountScopedRoute('conversation_unattended') },
-      {
-        name: 'Folders',
-        icon: 'i-lucide-folder',
-        children: conversationCustomViews.value.map(view => ({
-          name: view.name,
-          to: accountScopedRoute('folder_conversations', { id: view.id }),
-        })),
-      },
-      {
-        name: 'Channels',
-        icon: 'i-lucide-mailbox',
-        children: inboxes.value
-          .map(inbox => ({
-            name: inbox.name,
-            icon: channelIcon(inbox),
-            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-            // reauthorizationRequired: inbox.reauthorization_required,
-          }))
-          .sort((a, b) =>
-            a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
-          ),
-      },
-      {
-        name: 'Labels',
-        icon: 'i-lucide-tag',
-        children: labels.value.map(label => ({
-          name: label.title,
-          icon: labelIcon(label.color),
-          to: accountScopedRoute('label_conversations', { label: label.title }),
-        })),
-      },
-    ],
-  },
-  { name: 'Captain', icon: 'i-lucide-bot', to: accountScopedRoute('captain') },
-  {
-    name: 'Contacts',
-    icon: 'i-lucide-contact',
-    children: [
-      { name: 'All Contacts', to: accountScopedRoute('contacts_dashboard') },
-      {
-        name: 'Segments',
-        icon: 'i-lucide-group',
-        children: contactCustomViews.value.map(view => ({
-          name: view.name,
-          to: accountScopedRoute('contacts_segments_dashboard', {
-            id: view.id,
-          }),
-        })),
-      },
-      {
-        name: 'Labels',
-        icon: 'i-lucide-tag',
-        children: labels.value.map(label => ({
-          name: label.title,
-          icon: labelIcon(label.color),
-          to: accountScopedRoute('contacts_labels_dashboard', {
-            label: label.title,
-          }),
-        })),
-      },
-    ],
-  },
-  {
-    name: 'Reports',
-    icon: 'i-lucide-chart-spline',
-    children: [
-      { name: 'Overview', to: accountScopedRoute('account_overview_reports') },
-      { name: 'Conversation', to: accountScopedRoute('conversation_reports') },
-      { name: 'CSAT', to: accountScopedRoute('csat_reports') },
-      { name: 'Bot', to: accountScopedRoute('bot_reports') },
-      { name: 'Agent', to: accountScopedRoute('agent_reports') },
-      { name: 'Label', to: accountScopedRoute('label_reports') },
-      { name: 'Inbox', to: accountScopedRoute('inbox_reports') },
-      { name: 'Team', to: accountScopedRoute('team_reports') },
-      { name: 'SLA', to: accountScopedRoute('sla_reports') },
-    ],
-  },
-  {
-    name: 'Campaigns',
-    icon: 'i-lucide-megaphone',
-    children: [
-      { name: 'Ongoing', to: accountScopedRoute('ongoing_campaigns') },
-      { name: 'One-off', to: accountScopedRoute('one_off') },
-    ],
-  },
-  // {
-  //   name: 'Portals',
-  //   icon: 'i-lucide-library-big',
-  //   children: [
-  //     {
-  //       icon: 'i-lucide-book',
-  //       name: t('SIDEBAR.HELP_CENTER.ALL_ARTICLES'),
-  //       to: accountScopedRoute('list_all_locale_articles'),
-  //     },
-  //     {
-  //       icon: 'i-lucide-pen',
-  //       name: t('SIDEBAR.HELP_CENTER.MY_ARTICLES'),
-  //       to: accountScopedRoute('list_mine_articles'),
-  //     },
-  //     {
-  //       icon: 'i-lucide-draft',
-  //       name: t('SIDEBAR.HELP_CENTER.DRAFT'),
-  //       to: accountScopedRoute('list_draft_articles'),
-  //     },
-  //     {
-  //       icon: 'i-lucide-archive',
-  //       name: t('SIDEBAR.HELP_CENTER.ARCHIVED'),
-  //       to: accountScopedRoute('list_archived_articles'),
-  //     },
-  //     {
-  //       icon: 'i-lucide-settings',
-  //       name: t('SIDEBAR.HELP_CENTER.SETTINGS'),
-  //       to: accountScopedRoute('edit_portal_information'),
-  //     },
-  //   ],
-  // },
-  {
-    name: 'Settings',
-    icon: 'i-lucide-bolt',
-    children: [
-      {
-        name: t('SIDEBAR.ACCOUNT_SETTINGS'),
-        icon: 'i-lucide-briefcase',
-        to: accountScopedRoute('general_settings_index'),
-      },
-      {
-        name: t('SIDEBAR.AGENTS'),
-        icon: 'i-lucide-square-user',
-        to: accountScopedRoute('agent_list'),
-      },
-      {
-        name: t('SIDEBAR.TEAMS'),
-        icon: 'i-lucide-users',
-        to: accountScopedRoute('settings_teams_list'),
-      },
-      {
-        name: t('SIDEBAR.INBOXES'),
-        icon: 'i-lucide-inbox',
-        to: accountScopedRoute('settings_inbox_list'),
-      },
-      {
-        name: t('SIDEBAR.LABELS'),
-        icon: 'i-lucide-tags',
-        to: accountScopedRoute('labels_list'),
-      },
-      {
-        name: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-        icon: 'i-lucide-code',
-        to: accountScopedRoute('attributes_list'),
-      },
-      {
-        name: t('SIDEBAR.AUTOMATION'),
-        icon: 'i-lucide-workflow',
-        to: accountScopedRoute('automation_list'),
-      },
-      {
-        name: t('SIDEBAR.AGENT_BOTS'),
-        icon: 'i-lucide-bot',
-        to: accountScopedRoute('agent_bots'),
-      },
-      {
-        name: t('SIDEBAR.MACROS'),
-        icon: 'i-lucide-toy-brick',
-        to: accountScopedRoute('macros_wrapper'),
-      },
-      {
-        name: t('SIDEBAR.CANNED_RESPONSES'),
-        icon: 'i-lucide-message-square-quote',
-        to: accountScopedRoute('canned_list'),
-      },
-      {
-        name: t('SIDEBAR.INTEGRATIONS'),
-        icon: 'i-lucide-blocks',
-        to: accountScopedRoute('settings_applications'),
-      },
-      {
-        name: t('SIDEBAR.AUDIT_LOGS'),
-        icon: 'i-lucide-briefcase',
-        to: accountScopedRoute('auditlogs_list'),
-      },
-      {
-        name: t('SIDEBAR.CUSTOM_ROLES'),
-        icon: 'i-lucide-shield-plus',
-        to: accountScopedRoute('custom_roles_list'),
-      },
-      {
-        name: t('SIDEBAR.SLA'),
-        icon: 'i-lucide-clock-alert',
-        to: accountScopedRoute('sla_list'),
-      },
-      {
-        name: t('SIDEBAR.BILLING'),
-        icon: 'i-lucide-credit-card',
-        to: accountScopedRoute('billing_settings_index'),
-      },
-    ],
-  },
-]);
+const menuItems = computed(() => {
+  const portalProps = {
+    portalSlug: 'testing',
+    locale: 'en',
+  };
+
+  return [
+    {
+      name: 'Inbox',
+      icon: 'i-lucide-inbox',
+      to: accountScopedRoute('inbox_view'),
+    },
+    {
+      name: 'Conversation',
+      icon: 'i-lucide-message-circle',
+      children: [
+        { name: 'All', to: accountScopedRoute('home') },
+        { name: 'Mentions', to: accountScopedRoute('conversation_mentions') },
+        {
+          name: 'Unattended',
+          to: accountScopedRoute('conversation_unattended'),
+        },
+        {
+          name: 'Folders',
+          icon: 'i-lucide-folder',
+          children: conversationCustomViews.value.map(view => ({
+            name: view.name,
+            to: accountScopedRoute('folder_conversations', { id: view.id }),
+          })),
+        },
+        {
+          name: 'Channels',
+          icon: 'i-lucide-mailbox',
+          children: inboxes.value
+            .map(inbox => ({
+              name: inbox.name,
+              icon: channelIcon(inbox),
+              to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+              // reauthorizationRequired: inbox.reauthorization_required,
+            }))
+            .sort((a, b) =>
+              a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
+            ),
+        },
+        {
+          name: 'Labels',
+          icon: 'i-lucide-tag',
+          children: labels.value.map(label => ({
+            name: label.title,
+            icon: labelIcon(label.color),
+            to: accountScopedRoute('label_conversations', {
+              label: label.title,
+            }),
+          })),
+        },
+      ],
+    },
+    {
+      name: 'Captain',
+      icon: 'i-lucide-bot',
+      to: accountScopedRoute('captain'),
+    },
+    {
+      name: 'Contacts',
+      icon: 'i-lucide-contact',
+      children: [
+        { name: 'All Contacts', to: accountScopedRoute('contacts_dashboard') },
+        {
+          name: 'Segments',
+          icon: 'i-lucide-group',
+          children: contactCustomViews.value.map(view => ({
+            name: view.name,
+            to: accountScopedRoute('contacts_segments_dashboard', {
+              id: view.id,
+            }),
+          })),
+        },
+        {
+          name: 'Labels',
+          icon: 'i-lucide-tag',
+          children: labels.value.map(label => ({
+            name: label.title,
+            icon: labelIcon(label.color),
+            to: accountScopedRoute('contacts_labels_dashboard', {
+              label: label.title,
+            }),
+          })),
+        },
+      ],
+    },
+    {
+      name: 'Reports',
+      icon: 'i-lucide-chart-spline',
+      children: [
+        {
+          name: 'Overview',
+          to: accountScopedRoute('account_overview_reports'),
+        },
+        {
+          name: 'Conversation',
+          to: accountScopedRoute('conversation_reports'),
+        },
+        { name: 'CSAT', to: accountScopedRoute('csat_reports') },
+        { name: 'Bot', to: accountScopedRoute('bot_reports') },
+        { name: 'Agent', to: accountScopedRoute('agent_reports') },
+        { name: 'Label', to: accountScopedRoute('label_reports') },
+        { name: 'Inbox', to: accountScopedRoute('inbox_reports') },
+        { name: 'Team', to: accountScopedRoute('team_reports') },
+        { name: 'SLA', to: accountScopedRoute('sla_reports') },
+      ],
+    },
+    {
+      name: 'Campaigns',
+      icon: 'i-lucide-megaphone',
+      children: [
+        { name: 'Ongoing', to: accountScopedRoute('ongoing_campaigns') },
+        { name: 'One-off', to: accountScopedRoute('one_off') },
+      ],
+    },
+    {
+      name: 'Portals',
+      icon: 'i-lucide-library-big',
+      children: [
+        {
+          icon: 'i-lucide-newspaper',
+          name: t('SIDEBAR.HELP_CENTER.ALL_ARTICLES'),
+          to: accountScopedRoute('list_all_locale_articles', portalProps),
+        },
+        {
+          icon: 'i-lucide-pen',
+          name: t('SIDEBAR.HELP_CENTER.MY_ARTICLES'),
+          to: accountScopedRoute('list_mine_articles', portalProps),
+        },
+        {
+          icon: 'i-lucide-book-dashed',
+          name: t('SIDEBAR.HELP_CENTER.DRAFT'),
+          to: accountScopedRoute('list_draft_articles', portalProps),
+        },
+        {
+          icon: 'i-lucide-component',
+          name: t('SIDEBAR.HELP_CENTER.CATEGORY'),
+          to: accountScopedRoute('list_draft_articles', portalProps),
+        },
+        {
+          icon: 'i-lucide-archive',
+          name: t('SIDEBAR.HELP_CENTER.ARCHIVED'),
+          to: accountScopedRoute('list_archived_articles', portalProps),
+        },
+        {
+          icon: 'i-lucide-settings',
+          name: t('SIDEBAR.HELP_CENTER.SETTINGS'),
+          to: accountScopedRoute('edit_portal_information', portalProps),
+        },
+      ],
+    },
+    {
+      name: 'Settings',
+      icon: 'i-lucide-bolt',
+      children: [
+        {
+          name: t('SIDEBAR.ACCOUNT_SETTINGS'),
+          icon: 'i-lucide-briefcase',
+          to: accountScopedRoute('general_settings_index'),
+        },
+        {
+          name: t('SIDEBAR.AGENTS'),
+          icon: 'i-lucide-square-user',
+          to: accountScopedRoute('agent_list'),
+        },
+        {
+          name: t('SIDEBAR.TEAMS'),
+          icon: 'i-lucide-users',
+          to: accountScopedRoute('settings_teams_list'),
+        },
+        {
+          name: t('SIDEBAR.INBOXES'),
+          icon: 'i-lucide-inbox',
+          to: accountScopedRoute('settings_inbox_list'),
+        },
+        {
+          name: t('SIDEBAR.LABELS'),
+          icon: 'i-lucide-tags',
+          to: accountScopedRoute('labels_list'),
+        },
+        {
+          name: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+          icon: 'i-lucide-code',
+          to: accountScopedRoute('attributes_list'),
+        },
+        {
+          name: t('SIDEBAR.AUTOMATION'),
+          icon: 'i-lucide-workflow',
+          to: accountScopedRoute('automation_list'),
+        },
+        {
+          name: t('SIDEBAR.AGENT_BOTS'),
+          icon: 'i-lucide-bot',
+          to: accountScopedRoute('agent_bots'),
+        },
+        {
+          name: t('SIDEBAR.MACROS'),
+          icon: 'i-lucide-toy-brick',
+          to: accountScopedRoute('macros_wrapper'),
+        },
+        {
+          name: t('SIDEBAR.CANNED_RESPONSES'),
+          icon: 'i-lucide-message-square-quote',
+          to: accountScopedRoute('canned_list'),
+        },
+        {
+          name: t('SIDEBAR.INTEGRATIONS'),
+          icon: 'i-lucide-blocks',
+          to: accountScopedRoute('settings_applications'),
+        },
+        {
+          name: t('SIDEBAR.AUDIT_LOGS'),
+          icon: 'i-lucide-briefcase',
+          to: accountScopedRoute('auditlogs_list'),
+        },
+        {
+          name: t('SIDEBAR.CUSTOM_ROLES'),
+          icon: 'i-lucide-shield-plus',
+          to: accountScopedRoute('custom_roles_list'),
+        },
+        {
+          name: t('SIDEBAR.SLA'),
+          icon: 'i-lucide-clock-alert',
+          to: accountScopedRoute('sla_list'),
+        },
+        {
+          name: t('SIDEBAR.BILLING'),
+          icon: 'i-lucide-credit-card',
+          to: accountScopedRoute('billing_settings_index'),
+        },
+      ],
+    },
+  ];
+});
 </script>
 
 <template>
