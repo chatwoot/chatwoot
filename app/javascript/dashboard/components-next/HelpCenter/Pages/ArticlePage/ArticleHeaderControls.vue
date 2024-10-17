@@ -42,7 +42,7 @@ const isCategoryMenuOpen = ref(false);
 const isLocaleMenuOpen = ref(false);
 
 const countKey = tab => {
-  if (tab.value === 'All') {
+  if (tab.value === 'all') {
     return 'articlesCount';
   }
   return `${tab.value}ArticlesCount`;
@@ -146,7 +146,7 @@ const handleTabChange = value => {
             <DropdownMenu
               v-if="isLocaleMenuOpen"
               :menu-items="localeMenuItems"
-              class="left-0 w-40 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+              class="left-0 max-w-[300px] mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
               @action="handleLocaleAction"
             />
           </OnClickOutside>
@@ -166,7 +166,7 @@ const handleTabChange = value => {
             <DropdownMenu
               v-if="isCategoryMenuOpen"
               :menu-items="categoryMenuItems"
-              class="left-0 w-40 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+              class="left-0 w-48 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
               @action="handleCategoryAction"
             />
           </OnClickOutside>

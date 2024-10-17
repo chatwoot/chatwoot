@@ -40,7 +40,7 @@ export default {
         // list of portals. If it is, navigate there. The last active portal is saved in the user's
         // UI settings, regardless of the account. Consequently, it's possible that the saved portal
         // slug is not available in the current account.
-        this.routeToView('list_all_locale_articles', {
+        this.routeToView('list_articles', {
           portalSlug: lastActivePortalSlug,
           locale: lastActiveLocaleCode,
         });
@@ -49,7 +49,7 @@ export default {
         // navigate to the first available portal.
         const { slug: portalSlug, meta: { default_locale: locale } = {} } =
           this.portals[0];
-        this.routeToView('list_all_locale_articles', { portalSlug, locale });
+        this.routeToView('list_articles', { portalSlug, locale });
       } else {
         // If no portals are available, navigate to the portal list page to prompt creation.
         this.$router.replace({ name: 'list_all_portals', replace: true });

@@ -48,7 +48,6 @@ export default {
       showNotificationPanel: false,
       showPortalPopover: false,
       showAddCategoryModal: false,
-      lastActivePortalSlug: '',
       showAccountModal: false,
     };
   },
@@ -232,9 +231,6 @@ export default {
   mounted() {
     emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
 
-    const slug = this.$route.params.portalSlug;
-    if (slug) this.lastActivePortalSlug = slug;
-
     this.fetchPortalAndItsCategories();
   },
   unmounted() {
@@ -242,8 +238,9 @@ export default {
   },
   updated() {
     const slug = this.$route.params.portalSlug;
-    if (slug !== this.lastActivePortalSlug) {
-      this.lastActivePortalSlug = slug;
+    const { last_active_portal_slug: lastActivePortalSlug } = this.uiSettings;
+
+    if (slug && slug !== lastActivePortalSlug) {
       this.updateUISettings({
         last_active_portal_slug: slug,
         last_active_locale_code: this.selectedLocaleInPortal,

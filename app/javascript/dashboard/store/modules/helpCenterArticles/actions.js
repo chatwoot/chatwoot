@@ -37,12 +37,11 @@ export const actions = {
   create: async ({ commit, dispatch }, { portalSlug, ...articleObj }) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
-      const {
-        data: { payload },
-      } = await articlesAPI.createArticle({
+      const { data } = await articlesAPI.createArticle({
         portalSlug,
         articleObj,
       });
+      const payload = camelcaseKeys(data.payload);
       const { id: articleId } = payload;
       commit(types.ADD_ARTICLE, payload);
       commit(types.ADD_ARTICLE_ID, articleId);
@@ -59,10 +58,8 @@ export const actions = {
   show: async ({ commit }, { id, portalSlug }) => {
     commit(types.SET_UI_FLAG, { isFetching: true });
     try {
-      const response = await articlesAPI.getArticle({ id, portalSlug });
-      const {
-        data: { payload },
-      } = response;
+      const { data } = await articlesAPI.getArticle({ id, portalSlug });
+      const payload = camelcaseKeys(data.payload);
       const { id: articleId } = payload;
       commit(types.ADD_ARTICLE, payload);
       commit(types.ADD_ARTICLE_ID, articleId);
@@ -81,14 +78,12 @@ export const actions = {
     });
 
     try {
-      const {
-        data: { payload },
-      } = await articlesAPI.updateArticle({
+      const { data } = await articlesAPI.updateArticle({
         portalSlug,
         articleId,
         articleObj,
       });
-
+      const payload = camelcaseKeys(data.payload);
       commit(types.UPDATE_ARTICLE, payload);
 
       return articleId;
