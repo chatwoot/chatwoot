@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersAgents',
+  emits: ['agentsFilterSelection'],
   data() {
     return {
       selectedOptions: [],

@@ -37,6 +37,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['openModal', 'open', 'close', 'newArticlePage', 'changeLocale'],
   data() {
     return {
       showSortByDropdown: false,

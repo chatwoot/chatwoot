@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "无法删除自定义属性。请重试。"
       },
       "CONFIRM": {
-        "TITLE": "您确定要删除 - %{attributeName}",
+        "TITLE": "您确定要删除 - {attributeName}",
         "PLACE_HOLDER": "请输入 {attributeName} 以确认",
         "MESSAGE": "删除将删除自定义属性",
         "YES": "删除 ",
@@ -92,12 +92,7 @@
       "CONTACT": "联系人"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "姓名：",
-        "描述信息",
-        "类型",
-        "关键字"
-      ],
+      "TABLE_HEADER": ["姓名：", "描述信息", "类型", "关键字"],
       "BUTTONS": {
         "EDIT": "编辑",
         "DELETE": "删除"

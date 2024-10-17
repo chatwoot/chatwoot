@@ -11,6 +11,7 @@ export default {
       default: 'global',
     },
   },
+  emits: ['update:name', 'update:visibility', 'submit'],
   methods: {
     isActive(key) {
       return this.macroVisibility === key
@@ -38,7 +39,7 @@ export default {
         :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
         :error="v$.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
         :class="{ error: v$.macro.name.$error }"
-        @update:modelValue="onUpdateName"
+        @update:model-value="onUpdateName"
       />
     </div>
     <div class="mt-2">
@@ -90,7 +91,7 @@ export default {
         </button>
       </div>
       <div
-        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 p-2 rounded-md"
+        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 rounded-md"
       >
         <fluent-icon icon="info" size="20" class="flex-shrink" />
         <p

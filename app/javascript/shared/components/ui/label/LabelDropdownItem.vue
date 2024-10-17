@@ -14,6 +14,7 @@ export default {
       default: false,
     },
   },
+  emits: ['selectLabel'],
 
   methods: {
     onClick() {

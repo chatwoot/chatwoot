@@ -32,6 +32,12 @@ export default {
       default: () => {},
     },
   },
+  emits: [
+    'businessHoursToggle',
+    'dateRangeChange',
+    'filterChange',
+    'groupByFilterChange',
+  ],
   data() {
     return {
       currentSelectedFilter: null,

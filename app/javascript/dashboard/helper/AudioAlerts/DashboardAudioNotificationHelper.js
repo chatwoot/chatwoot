@@ -22,15 +22,30 @@ class DashboardAudioNotificationHelper {
     this.currentUser = null;
     this.currentUserId = null;
     this.audioAlertTone = 'ding';
+
+    this.onAudioListenEvent = async () => {
+      try {
+        await getAlertAudio('', {
+          type: 'dashboard',
+          alertTone: this.audioAlertTone,
+        });
+        initOnEvents.forEach(event => {
+          document.removeEventListener(event, this.onAudioListenEvent, false);
+        });
+        this.playAudioEvery30Seconds();
+      } catch (error) {
+        // Ignore audio fetch errors
+      }
+    };
   }
 
-  setInstanceValues({
+  setInstanceValues = ({
     currentUser,
     alwaysPlayAudioAlert,
     alertIfUnreadConversationExist,
     audioAlertType,
     audioAlertTone,
-  }) {
+  }) => {
     this.audioAlertType = audioAlertType;
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
     this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
@@ -38,27 +53,14 @@ class DashboardAudioNotificationHelper {
     this.currentUserId = currentUser.id;
     this.audioAlertTone = audioAlertTone;
     initOnEvents.forEach(e => {
-      document.addEventListener(e, this.onAudioListenEvent, false);
+      document.addEventListener(e, this.onAudioListenEvent, {
+        once: true,
+      });
     });
     initFaviconSwitcher();
-  }
+  };
 
-  async onAudioListenEvent() {
-    try {
-      await getAlertAudio('', {
-        type: 'dashboard',
-        alertTone: this.audioAlertTone,
-      });
-      initOnEvents.forEach(event => {
-        document.removeEventListener(event, this.onAudioListenEvent, false);
-      });
-      this.playAudioEvery30Seconds();
-    } catch (error) {
-      // Ignore audio fetch errors
-    }
-  }
-
-  executeRecurringNotification() {
+  executeRecurringNotification = () => {
     if (!window.WOOT_STORE) {
       this.clearSetTimeout();
       return;
@@ -79,9 +81,9 @@ class DashboardAudioNotificationHelper {
       showBadgeOnFavicon();
     }
     this.clearSetTimeout();
-  }
+  };
 
-  clearSetTimeout() {
+  clearSetTimeout = () => {
     if (this.recurringNotificationTimer) {
       clearTimeout(this.recurringNotificationTimer);
     }
@@ -89,9 +91,9 @@ class DashboardAudioNotificationHelper {
       this.executeRecurringNotification,
       NOTIFICATION_TIME
     );
-  }
+  };
 
-  playAudioEvery30Seconds() {
+  playAudioEvery30Seconds = () => {
     //  Audio alert is disabled dismiss the timer
     if (this.audioAlertType === 'none') {
       return;
@@ -102,25 +104,25 @@ class DashboardAudioNotificationHelper {
     }
 
     this.clearSetTimeout();
-  }
+  };
 
-  isConversationAssignedToCurrentUser(message) {
+  isConversationAssignedToCurrentUser = message => {
     const conversationAssigneeId = message?.conversation?.assignee_id;
     return conversationAssigneeId === this.currentUserId;
-  }
+  };
 
   // eslint-disable-next-line class-methods-use-this
-  isMessageFromCurrentConversation(message) {
+  isMessageFromCurrentConversation = message => {
     return (
       window.WOOT_STORE.getters.getSelectedChat?.id === message.conversation_id
     );
-  }
+  };
 
-  isMessageFromCurrentUser(message) {
+  isMessageFromCurrentUser = message => {
     return message?.sender_id === this.currentUserId;
-  }
+  };
 
-  isUserHasConversationPermission() {
+  isUserHasConversationPermission = () => {
     const currentAccountId = window.WOOT_STORE.getters.getCurrentAccountId;
     // Get the user permissions for the current account
     const userPermissions = getUserPermissions(
@@ -132,16 +134,16 @@ class DashboardAudioNotificationHelper {
       permission => userPermissions.includes(permission)
     );
     return hasRequiredPermission;
-  }
+  };
 
-  shouldNotifyOnMessage(message) {
+  shouldNotifyOnMessage = message => {
     if (this.audioAlertType === 'mine') {
       return this.isConversationAssignedToCurrentUser(message);
     }
     return this.audioAlertType === 'all';
-  }
+  };
 
-  onNewMessage(message) {
+  onNewMessage = message => {
     // If the user does not have the permission to view the conversation, then dismiss the alert
     if (!this.isUserHasConversationPermission()) {
       return;
@@ -174,7 +176,7 @@ class DashboardAudioNotificationHelper {
     window.playAudioAlert();
     showBadgeOnFavicon();
     this.playAudioEvery30Seconds();
-  }
+  };
 }
 
 const notifHelper = new DashboardAudioNotificationHelper();

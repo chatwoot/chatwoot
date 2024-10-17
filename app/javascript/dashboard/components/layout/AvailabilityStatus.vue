@@ -105,7 +105,7 @@ export default {
         size="small"
         :color-scheme="status.disabled ? '' : 'secondary'"
         :variant="status.disabled ? 'smooth' : 'clear'"
-        class-names="status-change--dropdown-button"
+        class="status-change--dropdown-button"
         @click="changeAvailabilityStatus(status.value)"
       >
         <AvailabilityStatusBadge :status="status.value" />

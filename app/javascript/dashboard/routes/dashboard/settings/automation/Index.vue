@@ -231,7 +231,7 @@ const tableHeaders = computed(() => {
       <AddAutomationRule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
-        @saveAutomation="submitAutomation"
+        @save-automation="submitAutomation"
       />
     </woot-modal>
 
@@ -255,7 +255,7 @@ const tableHeaders = computed(() => {
         v-if="showEditPopup"
         :on-close="hideEditPopup"
         :selected-response="selectedAutomation"
-        @saveAutomation="submitAutomation"
+        @save-automation="submitAutomation"
       />
     </woot-modal>
     <woot-confirm-modal

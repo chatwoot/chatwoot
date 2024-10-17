@@ -79,35 +79,21 @@ const onShowLabels = e => {
           'invisible absolute': !showAllLabels && index > labelPosition,
         }"
       />
-      <woot-button
+      <button
         v-if="showExpandLabelButton"
         :title="
           showAllLabels
             ? $t('CONVERSATION.CARD.HIDE_LABELS')
             : $t('CONVERSATION.CARD.SHOW_LABELS')
         "
-        class="sticky right-0 flex-shrink-0 mr-6 show-more--button rtl:rotate-180"
-        color-scheme="secondary"
-        variant="hollow"
-        :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
-        size="tiny"
+        class="h-5 py-0 px-1 flex-shrink-0 mr-6 ml-0 rtl:ml-6 rtl:mr-0 rtl:rotate-180 text-slate-700 dark:text-slate-200 hover:border-slate-300 border-slate-100 dark:border-slate-700"
         @click="onShowLabels"
-      />
+      >
+        <fluent-icon
+          :icon="showAllLabels ? 'chevron-left' : 'chevron-right'"
+          size="12"
+        />
+      </button>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.show-more--button {
-  @apply h-5;
-  &.secondary:focus {
-    @apply text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700;
-  }
-}
-
-.labels-wrap {
-  .secondary {
-    @apply border border-solid border-slate-100 dark:border-slate-700;
-  }
-}
-</style>

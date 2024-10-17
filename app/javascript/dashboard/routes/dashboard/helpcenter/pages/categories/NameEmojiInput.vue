@@ -37,6 +37,7 @@ export default {
       default: '',
     },
   },
+  emits: ['iconChange', 'nameChange'],
   data() {
     return {
       name: '',
@@ -105,7 +106,7 @@ export default {
       :label="label"
       :placeholder="placeholder"
       :help-text="helpText"
-      @input="onNameChange"
+      @update:model-value="onNameChange"
     />
     <EmojiInput
       v-if="showEmojiPicker"

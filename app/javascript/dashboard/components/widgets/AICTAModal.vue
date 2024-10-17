@@ -7,6 +7,8 @@ import { useAI } from 'dashboard/composables/useAI';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
+  emits: ['close'],
+
   setup() {
     const { updateUISettings } = useUISettings();
     const { recordAnalytics } = useAI();

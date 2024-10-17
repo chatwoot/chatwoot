@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Ningú",
         "INPUT_PLACEHOLDER": "Selecciona la prioritat",
         "NO_RESULTS": "No s'ha trobat agents",
-        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa %{conversationId} a %{priority}",
+        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa {conversationId} a {priority}",
         "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Assigna un equip",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Id de conversa %{conversationId} assignat a \"%{agentName}\"",
+          "SUCCESFUL": "Id de conversa {conversationId} assignat a \"{agentName}\"",
           "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'etiqueta #%{labelName} a l'id de conversa %{conversationId}",
+          "SUCCESFUL": "S'ha assignat l'etiqueta #{labelName} a l'id de conversa {conversationId}",
           "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "S'ha assignat l'equip \"%{team}\" a l'id de conversa %{conversationId}",
+          "SUCCESFUL": "S'ha assignat l'equip \"{team}\" a l'id de conversa {conversationId}",
           "FAILED": "No s'ha pogut assignar l'equip. Torna-ho a provar."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hola 👋, Benvingut a %{installationName}!",
-    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de %{installationName}. Aquí teniu algunes coses que pots fer a %{installationName} perquè l'experiència sigui agradable.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Hola 👋, Benvingut a {installationName}!",
+    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de {installationName}. Aquí teniu algunes coses que pots fer a {installationName} perquè l'experiència sigui agradable.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Llegiu les nostres últimes actualitzacions",
     "ALL_CONVERSATION": {
       "TITLE": "Totes les teves converses en un sol lloc",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Participants de la conversa",
     "NO_RECORDS_FOUND": "No s'ha trobat agents",
     "ADD_PARTICIPANTS": "Selecciona els participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} més",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} més",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} persones estan participant.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} persona està participant.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} més",
+    "REMANING_PARTICIPANT_TEXT": "+{count} més",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} persones estan participant.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} persona està participant.",
     "NO_PARTICIPANTS_TEXT": "No hi participa ningú!",
     "WATCH_CONVERSATION": "Uneix-te a la conversa",
     "YOU_ARE_WATCHING": "Estàs participant",

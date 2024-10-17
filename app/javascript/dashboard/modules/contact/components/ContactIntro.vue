@@ -13,6 +13,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['edit', 'message'],
 
   computed: {
     additionalAttributes() {

@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Sumár",
-      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> bude vymazaný.",
-      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>%{primaryContactName}</strong> budú skopírované do <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> bude vymazaný.",
+      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>{primaryContactName}</strong> budú skopírované do <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

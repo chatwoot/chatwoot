@@ -149,7 +149,7 @@ const tableHeaders = computed(() => {
       <EditAttribute
         :selected-attribute="selectedAttribute"
         :is-updating="uiFlags.isUpdating"
-        @onClose="hideEditPopup"
+        @on-close="hideEditPopup"
       />
     </woot-modal>
     <woot-confirm-delete-modal
@@ -161,8 +161,8 @@ const tableHeaders = computed(() => {
       :reject-text="deleteRejectText"
       :confirm-value="selectedAttribute.attribute_display_name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @onConfirm="confirmDeletion"
-      @onClose="closeDelete"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>

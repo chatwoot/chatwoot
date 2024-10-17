@@ -15,6 +15,7 @@ export default {
       default: true,
     },
   },
+  emits: ['closeAccountCreateModal'],
   setup() {
     return { v$: useVuelidate() };
   },

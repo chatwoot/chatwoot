@@ -24,6 +24,7 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
+const isTestMode = process.env.TEST === 'true';
 
 const vueOptions = {
   template: {
@@ -33,8 +34,16 @@ const vueOptions = {
   },
 };
 
+let plugins = [ruby(), vue(vueOptions)];
+
+if (isLibraryMode) {
+  plugins = [];
+} else if (isTestMode) {
+  plugins = [vue(vueOptions)];
+}
+
 export default defineConfig({
-  plugins: isLibraryMode ? [] : [ruby(), vue(vueOptions)],
+  plugins: plugins,
   build: {
     rollupOptions: {
       output: {
@@ -57,7 +66,7 @@ export default defineConfig({
     lib: isLibraryMode
       ? {
           entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
-          formats: ['umd'], // UMD format for single file
+          formats: ['iife'], // IIFE format for single file
           name: 'sdk',
         }
       : undefined,
@@ -94,7 +103,7 @@ export default defineConfig({
         inline: ['tinykeys', '@material/mwc-icon'],
       },
     },
-    setupFiles: ['fake-indexeddb/auto'],
+    setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
     mockReset: true,
     clearMocks: true,
   },

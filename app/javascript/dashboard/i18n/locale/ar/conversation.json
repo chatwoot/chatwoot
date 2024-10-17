@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "لا يوجد",
         "INPUT_PLACEHOLDER": "تحديد الأولوية",
         "NO_RESULTS": "لم يتم العثور على النتائج",
-        "SUCCESSFUL": "تغيير أولوية معرف المحادثة %{conversationId} إلى %{priority}",
+        "SUCCESSFUL": "تغيير أولوية معرف المحادثة {conversationId} إلى {priority}",
         "FAILED": "تعذر تغيير الأولوية، الرجاء المحاولة مرة أخرى."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "تعيين فريق",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "معرف المحادثة %{conversationId} تم تعيينه لـ \"%{agentName}\"",
+          "SUCCESFUL": "معرف المحادثة {conversationId} تم تعيينه لـ \"{agentName}\"",
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "تعيين تسمية #%{labelName} لمعرف المحادثة %{conversationId}",
+          "SUCCESFUL": "تعيين تسمية #{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "الفريق المعين \"%{team}\" لمعرف المحادثة %{conversationId}",
+          "SUCCESFUL": "الفريق المعين \"{team}\" لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين الفريق. الرجاء المحاولة مرة أخرى."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "اهلاً 👋، مرحباً بك في %{installationName}!",
-    "DESCRIPTION": "شكرا للتسجيل. نريدك أن تحصل على أقصى استفادة من %{installationName}. إليك بعض الأشياء التي يمكنك القيام بها في %{installationName} لجعل التجربة رائعة.",
-    "GREETING_MORNING": "👋 صباح الخير، %{name}. مرحبا بك في %{installationName}.",
-    "GREETING_AFTERNOON": "👋 مساء الخير، %{name}. مرحبا بك في %{installationName}.",
-    "GREETING_EVENING": "👋 مساء الخير، %{name}. مرحبا بك في %{installationName}.",
+    "TITLE": "اهلاً 👋، مرحباً بك في {installationName}!",
+    "DESCRIPTION": "شكرا للتسجيل. نريدك أن تحصل على أقصى استفادة من {installationName}. إليك بعض الأشياء التي يمكنك القيام بها في {installationName} لجعل التجربة رائعة.",
+    "GREETING_MORNING": "👋 صباح الخير، {name}. مرحبا بك في {installationName}.",
+    "GREETING_AFTERNOON": "👋 مساء الخير، {name}. مرحبا بك في {installationName}.",
+    "GREETING_EVENING": "👋 مساء الخير، {name}. مرحبا بك في {installationName}.",
     "READ_LATEST_UPDATES": "اطلع على آخر التحديثات",
     "ALL_CONVERSATION": {
       "TITLE": "جميع محادثاتك في مكان واحد",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "المشاركون في المحادثة",
     "NO_RECORDS_FOUND": "لم يتم العثور على النتائج",
     "ADD_PARTICIPANTS": "اختر المشاركين",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} أخرى",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} أخرى",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} شخص مشارك.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} شخص مشارك.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} أخرى",
+    "REMANING_PARTICIPANT_TEXT": "+{count} أخرى",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} شخص مشارك.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} شخص مشارك.",
     "NO_PARTICIPANTS_TEXT": "لا أحد يشارك!",
     "WATCH_CONVERSATION": "الانضمام إلى المحادثة",
     "YOU_ARE_WATCHING": "أنت مشترك",

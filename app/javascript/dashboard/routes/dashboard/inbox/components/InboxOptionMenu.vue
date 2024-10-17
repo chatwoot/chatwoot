@@ -4,6 +4,7 @@ export default {
   components: {
     MenuItem,
   },
+  emits: ['optionClick'],
   data() {
     return {
       menuItems: [

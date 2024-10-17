@@ -1,20 +1,22 @@
 <script>
-import { defineModel } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
 export default {
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     currentChat: {
       type: Object,
       default: () => ({}),
     },
   },
-  emits: ['cancel'],
+  emits: ['cancel', 'update:show'],
   setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { v$: useVuelidate(), show };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -31,6 +33,14 @@ export default {
     },
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     sentToOtherEmailAddress() {
       return this.selectedType === 'other_email_address';
     },
@@ -81,7 +91,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onCancel">
+  <woot-modal v-model:show="localShow" :on-close="onCancel">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('EMAIL_TRANSCRIPT.TITLE')"

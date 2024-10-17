@@ -45,6 +45,7 @@ export default {
       default: 'chevron-right',
     },
   },
+  emits: ['togglePanel', 'panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
     return {
@@ -84,9 +85,13 @@ export default {
       const {
         social_profiles: socialProfiles,
         screen_name: twitterScreenName,
+        social_telegram_user_name: telegramUsername,
       } = this.additionalAttributes;
-
-      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
+      return {
+        twitter: twitterScreenName,
+        telegram: telegramUsername,
+        ...(socialProfiles || {}),
+      };
     },
     // Delete Modal
     confirmDeleteMessage() {

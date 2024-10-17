@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersLabels',
+  emits: ['labelsFilterSelection'],
   data() {
     return {
       selectedOption: null,

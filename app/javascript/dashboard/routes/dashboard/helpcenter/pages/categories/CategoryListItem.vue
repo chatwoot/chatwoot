@@ -6,6 +6,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['edit', 'delete'],
 
   methods: {
     editCategory(category) {

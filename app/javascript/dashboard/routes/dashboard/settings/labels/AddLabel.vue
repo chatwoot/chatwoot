@@ -12,6 +12,7 @@ export default {
       default: '',
     },
   },
+  emits: ['close'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -77,6 +78,7 @@ export default {
         :error="labelTitleErrorMessage"
         data-testid="label-title"
         @input="v$.title.$touch"
+        @blur="v$.title.$touch"
       />
 
       <woot-input
@@ -87,6 +89,7 @@ export default {
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         data-testid="label-description"
         @input="v$.description.$touch"
+        @blur="v$.description.$touch"
       />
 
       <div class="w-full">

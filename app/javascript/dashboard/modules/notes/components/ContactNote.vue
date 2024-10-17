@@ -25,6 +25,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['delete'],
   setup() {
     const { formatMessage } = useMessageFormatter();
     return {

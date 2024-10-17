@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import Modal from '../../Modal.vue';
@@ -9,6 +8,7 @@ export default {
     Modal,
   },
   props: {
+    show: { type: Boolean, default: false },
     title: { type: String, default: '' },
     message: { type: String, default: '' },
     confirmText: { type: String, default: '' },
@@ -16,10 +16,9 @@ export default {
     confirmValue: { type: String, default: '' },
     confirmPlaceHolderText: { type: String, default: '' },
   },
-  emits: ['onClose', 'onConfirm'],
+  emits: ['onClose', 'onConfirm', 'update:show'],
   setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { v$: useVuelidate(), show };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -31,6 +30,16 @@ export default {
       required,
       isEqual(value) {
         return value === this.confirmValue;
+      },
+    },
+  },
+  computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
       },
     },
   },
@@ -47,7 +56,7 @@ export default {
 </script>
 
 <template>
-  <Modal v-model:show="show" :on-close="closeModal">
+  <Modal v-model:show="localShow" :on-close="closeModal">
     <woot-modal-header :header-title="title" :header-content="message" />
     <form @submit.prevent="onConfirm">
       <woot-input

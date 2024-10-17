@@ -27,6 +27,13 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'contextMenuClose',
+    'contextMenuOpen',
+    'markNotificationAsRead',
+    'markNotificationAsUnRead',
+    'deleteNotification',
+  ],
   data() {
     return {
       isContextMenuOpen: false,

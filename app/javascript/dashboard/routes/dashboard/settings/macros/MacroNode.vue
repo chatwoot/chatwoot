@@ -79,7 +79,7 @@ const dropdownValues = () => {
         is-macro
         :error-message="errorMessage"
         :initial-file-name="fileName"
-        @resetAction="$emit('resetAction')"
+        @reset-action="$emit('resetAction')"
       />
     </div>
     <woot-button

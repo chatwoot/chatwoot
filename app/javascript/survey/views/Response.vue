@@ -162,14 +162,14 @@ export default {
         </label>
         <Rating
           :selected-rating="selectedRating"
-          @selectRating="selectRating"
+          @select-rating="selectRating"
         />
         <Feedback
           v-if="enableFeedbackForm"
           :is-updating="isUpdating"
           :is-button-disabled="isButtonDisabled"
           :selected-rating="selectedRating"
-          @sendFeedback="sendFeedback"
+          @send-feedback="sendFeedback"
         />
       </div>
       <div class="mb-3">

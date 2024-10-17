@@ -82,7 +82,7 @@ export default {
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
-        @channelItemClick="initChannelAuth"
+        @channel-item-click="initChannelAuth"
       />
     </div>
   </div>

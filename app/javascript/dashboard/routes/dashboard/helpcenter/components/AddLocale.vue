@@ -1,5 +1,4 @@
 <script>
-import { defineModel } from 'vue';
 import Modal from 'dashboard/components/Modal.vue';
 import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -13,15 +12,18 @@ export default {
     Modal,
   },
   props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
     portal: {
       type: Object,
       default: () => ({}),
     },
   },
-  emits: ['cancel'],
+  emits: ['cancel', 'update:show'],
   setup() {
-    const show = defineModel('show', { type: Boolean, default: false });
-    return { v$: useVuelidate(), show };
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -30,6 +32,14 @@ export default {
     };
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     addedLocales() {
       const { allowed_locales: allowedLocales } = this.portal.config;
       return allowedLocales.map(locale => locale.code);
@@ -96,7 +106,7 @@ export default {
 </script>
 
 <template>
-  <Modal v-model:show="show" :on-close="onClose">
+  <Modal v-model:show="localShow" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"

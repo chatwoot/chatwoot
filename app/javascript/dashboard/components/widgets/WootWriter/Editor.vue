@@ -176,7 +176,7 @@ const editorMenuOptions = computed(() => {
 
 function createSuggestionPlugin({
   trigger,
-  minChars = 1,
+  minChars = 0,
   showMenu,
   searchTerm,
   isAllowed = () => true,

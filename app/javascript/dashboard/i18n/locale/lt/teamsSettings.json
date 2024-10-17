@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Pridėti agentus prie komandos",
-        "TITLE": "Pridėti agentus prie komandos - %{teamName}",
+        "TITLE": "Pridėti agentus prie komandos - {teamName}",
         "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Atnaujinkite agentus komandoje",
-        "TITLE": "Pridėti agentus prie komandos - %{teamName}",
+        "TITLE": "Pridėti agentus prie komandos - {teamName}",
         "DESC": "Pridėkite agentus į savo naujai sukurtą komandą. Visiems pridėtiems agentams bus pranešta, kai pokalbis bus priskirtas šiai komandai."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Agentai pridedami prie komandos...",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
-      "SELECTED_COUNT": "Pasirinkta %{selected} iš %{total} agentų."
+      "SELECTED_COUNT": "Pasirinkta {selected} iš {total} agentų."
     },
     "ADD": {
-      "TITLE": "Pridėti agentus prie komandos - %{teamName}",
+      "TITLE": "Pridėti agentus prie komandos - {teamName}",
       "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje.",
       "SELECT": "pasirinkti",
       "SELECT_ALL": "pasirinkti visus agentus",
-      "SELECTED_COUNT": "Pasirinkta %{selected} iš %{total} agentų.",
+      "SELECTED_COUNT": "Pasirinkta {selected} iš {total} agentų.",
       "BUTTON_TEXT": "Pridėti agentus",
       "AGENT_VALIDATION_ERROR": "Pasirinkite bent vieną agentą."
     },

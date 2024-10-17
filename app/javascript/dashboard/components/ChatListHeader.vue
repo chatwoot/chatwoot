@@ -108,7 +108,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
       />
       <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"
-        @changeFilter="onBasicFilterChange"
+        @change-filter="onBasicFilterChange"
       />
     </div>
   </div>

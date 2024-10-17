@@ -16,6 +16,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['change'],
   methods: {
     handleChange(value) {
       this.$emit('change', value);

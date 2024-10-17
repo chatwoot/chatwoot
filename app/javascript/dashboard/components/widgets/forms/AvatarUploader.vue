@@ -18,6 +18,7 @@ export default {
       default: false,
     },
   },
+  emits: ['onAvatarSelect', 'onAvatarDelete'],
   watch: {},
   methods: {
     handleImageUpload(event) {

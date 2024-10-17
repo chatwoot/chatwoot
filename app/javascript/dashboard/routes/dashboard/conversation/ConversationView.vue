@@ -202,11 +202,11 @@ export default {
       :conversation-type="conversationType"
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @conversationLoad="onConversationLoad"
+      @conversation-load="onConversationLoad"
     >
       <PopOverSearch
         :is-on-expanded-layout="isOnExpandedLayout"
-        @toggleConversationLayout="toggleConversationLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
       />
     </ChatList>
     <ConversationBox
@@ -214,7 +214,7 @@ export default {
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
     <CmdBarConversationSnooze />
   </section>

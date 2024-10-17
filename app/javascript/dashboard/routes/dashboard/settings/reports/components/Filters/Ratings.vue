@@ -3,6 +3,7 @@ import { CSAT_RATINGS } from 'shared/constants/messages';
 
 export default {
   name: 'ReportFiltersRatings',
+  emits: ['ratingFilterSelection'],
   data() {
     const translatedOptions = CSAT_RATINGS.reverse().map(option => ({
       ...option,

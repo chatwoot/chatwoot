@@ -20,6 +20,7 @@ export default {
       default: false,
     },
   },
+  emits: ['add', 'edit', 'delete'],
 
   methods: {
     onAddNote(value) {

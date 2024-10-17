@@ -110,7 +110,7 @@ export default {
     <ReportFilterSelector
       :show-agents-filter="false"
       show-group-by-filter
-      @filterChange="onFilterChange"
+      @filter-change="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />
   </div>

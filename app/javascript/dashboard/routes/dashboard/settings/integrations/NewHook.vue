@@ -14,6 +14,7 @@ export default {
       required: true,
     },
   },
+  emits: ['close'],
   setup(props) {
     const { integration, isHookTypeInbox } = useIntegrationHook(
       props.integrationId

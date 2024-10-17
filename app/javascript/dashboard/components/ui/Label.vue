@@ -44,6 +44,7 @@ export default {
       default: '',
     },
   },
+  emits: ['remove'],
   computed: {
     textColor() {
       if (this.variant === 'smooth') return '';

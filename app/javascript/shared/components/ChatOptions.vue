@@ -24,6 +24,7 @@ export default {
       default: false,
     },
   },
+  emits: ['optionSelect'],
   setup() {
     const { formatMessage } = useMessageFormatter();
     return {

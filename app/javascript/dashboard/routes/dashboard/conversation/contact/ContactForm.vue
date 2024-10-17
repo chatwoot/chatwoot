@@ -25,6 +25,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['cancel', 'success'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -200,9 +201,6 @@ export default {
       }
       return contactObject;
     },
-    onPhoneNumberInputChange(value, code) {
-      this.activeDialCode = code;
-    },
     setPhoneCode(code) {
       if (this.phoneNumber !== '' && this.parsePhoneNumber) {
         const dialCode = this.parsePhoneNumber.countryCallingCode;
@@ -280,8 +278,8 @@ export default {
           :username-avatar="name"
           :delete-avatar="!!avatarUrl"
           class="settings-item"
-          @onAvatarSelect="handleImageUpload"
-          @onAvatarDelete="handleAvatarDelete"
+          @on-avatar-select="handleImageUpload"
+          @on-avatar-delete="handleAvatarDelete"
         />
       </div>
     </div>
@@ -335,9 +333,8 @@ export default {
             :value="phoneNumber"
             :error="isPhoneNumberNotValid"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @input="onPhoneNumberInputChange"
             @blur="v$.phoneNumber.$touch"
-            @setCode="setPhoneCode"
+            @set-code="setPhoneCode"
           />
           <span v-if="isPhoneNumberNotValid" class="message">
             {{ phoneNumberError }}

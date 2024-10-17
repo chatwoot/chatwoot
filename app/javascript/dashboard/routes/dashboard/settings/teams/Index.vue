@@ -151,8 +151,8 @@ const confirmPlaceHolderText = computed(() =>
       :reject-text="deleteRejectText"
       :confirm-value="selectedTeam.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @onConfirm="confirmDeletion"
-      @onClose="closeDelete"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>

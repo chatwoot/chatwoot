@@ -6,6 +6,7 @@ export default {
   components: {
     SlaForm,
   },
+  emits: ['close'],
   methods: {
     onClose() {
       this.$emit('close');

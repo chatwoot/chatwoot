@@ -16,6 +16,7 @@ export default {
       default: false,
     },
   },
+  emits: ['sendFeedback'],
   data() {
     return {
       feedback: '',

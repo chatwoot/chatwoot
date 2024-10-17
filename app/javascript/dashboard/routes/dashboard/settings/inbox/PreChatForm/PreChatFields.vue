@@ -9,6 +9,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['update', 'dragEnd'],
   data() {
     return {
       preChatFieldOptions: this.preChatFields,

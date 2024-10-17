@@ -18,6 +18,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   computed: {
     computedModel: {
       get() {

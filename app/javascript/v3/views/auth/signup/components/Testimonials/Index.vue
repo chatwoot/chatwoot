@@ -3,6 +3,7 @@ import TestimonialCard from './TestimonialCard.vue';
 import { getTestimonialContent } from '../../../../../api/testimonials';
 export default {
   components: { TestimonialCard },
+  emits: ['resizeContainers'],
   data() {
     return { testimonials: [] };
   },

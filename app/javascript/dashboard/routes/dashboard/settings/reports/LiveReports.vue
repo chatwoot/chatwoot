@@ -192,7 +192,7 @@ export default {
           :agent-metrics="agentConversationMetric"
           :page-index="pageIndex"
           :is-loading="uiFlags.isFetchingAgentConversationMetric"
-          @pageChange="onPageNumberChange"
+          @page-change="onPageNumberChange"
         />
       </MetricCard>
     </div>

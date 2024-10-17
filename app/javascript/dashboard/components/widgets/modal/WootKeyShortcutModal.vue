@@ -16,6 +16,8 @@ defineProps({
   },
 });
 
+defineEmits(['close']);
+
 const { t } = useI18n();
 
 const shortcutKeys = SHORTCUT_KEYS;

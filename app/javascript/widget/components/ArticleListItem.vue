@@ -13,6 +13,7 @@ export default {
       default: '',
     },
   },
+  emits: ['selectArticle'],
   data() {
     return {};
   },

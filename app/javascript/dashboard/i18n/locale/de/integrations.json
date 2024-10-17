@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Löschung bestätigen",
-          "MESSAGE": "Möchten Sie den Webhook wirklich löschen? (%{webhookURL})",
+          "MESSAGE": "Möchten Sie den Webhook wirklich löschen? ({webhookURL})",
           "YES": "Ja, löschen ",
           "NO": "Nein, behalte es"
         }
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI-Assistent",
-      "WITH_AI": " %{option} mit KI ",
+      "WITH_AI": " {option} mit KI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Antwortvorschlag",
         "SUMMARIZE": "Zusammenfassen",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Ja, löschen",
         "CONFIRM_NO": "Nein, behalte es",
         "TITLE": "Löschen bestätigen",
-        "MESSAGE": "Möchten Sie die App %{appName} wirklich löschen?",
+        "MESSAGE": "Möchten Sie die App {appName} wirklich löschen?",
         "API_SUCCESS": "Dashboard-App erfolgreich gelöscht",
         "API_ERROR": "Wir konnten die App nicht löschen. Bitte versuchen Sie es später erneut"
       }
@@ -235,7 +235,7 @@
         "ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
         "LINK_SUCCESS": "Problem erfolgreich verknüpft",
         "LINK_ERROR": "Beim Verknüpfen des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
-        "LINK_TITLE": "Unterhaltung (#%{conversationId}) mit %{name}"
+        "LINK_TITLE": "Unterhaltung (#{conversationId}) mit {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Lineares Problem erstellen/verknüpfen",
@@ -294,7 +294,7 @@
         "PRIORITY": "Priorität",
         "ASSIGNEE": "Zugewiesener",
         "LABELS": "Labels",
-        "CREATED_AT": "Erstellt am %{createdAt}"
+        "CREATED_AT": "Erstellt am {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Verknüpfung aufheben",

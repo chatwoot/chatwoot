@@ -52,6 +52,7 @@ export default {
       default: false,
     },
   },
+  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
@@ -477,6 +478,7 @@ export default {
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>

@@ -22,6 +22,7 @@ export default {
       default: false,
     },
   },
+  emits: ['setReplyMode', 'togglePopout'],
   setup(props, { emit }) {
     const setReplyMode = mode => {
       emit('setReplyMode', mode);

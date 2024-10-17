@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersTeams',
+  emits: ['teamFilterSelection'],
   data() {
     return {
       selectedOption: null,

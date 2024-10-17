@@ -57,6 +57,7 @@ async function updatePortalSettings(portalObj) {
 }
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <PortalSettingsCustomizationForm
     v-if="currentPortal"

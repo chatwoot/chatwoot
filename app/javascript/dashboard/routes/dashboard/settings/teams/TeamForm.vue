@@ -72,7 +72,7 @@ export default {
         :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
         :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
         :has-error="v$.title.$error"
-        :error-message="v$.title.$error && v$.title.$errors[0].$message"
+        :error-message="v$.title.$error ? v$.title.$errors[0].$message : ''"
         @blur="v$.title.$touch"
       />
       <FormInput
@@ -83,7 +83,7 @@ export default {
         :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
         :has-error="v$.description.$error"
         :error-message="
-          v$.description.$error && v$.description.$errors[0].$message
+          v$.description.$error ? v$.description.$errors[0].$message : ''
         "
         @blur="v$.description.$touch"
       />

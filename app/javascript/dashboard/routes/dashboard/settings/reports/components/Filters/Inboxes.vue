@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersInboxes',
+  emits: ['inboxFilterSelection'],
   data() {
     return {
       selectedOption: null,

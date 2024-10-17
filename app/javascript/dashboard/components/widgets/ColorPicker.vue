@@ -11,6 +11,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       isPickerOpen: false,
@@ -45,7 +46,7 @@ export default {
       disable-alpha
       :model-value="modelValue"
       class="colorpicker--chrome"
-      @update:modelValue="updateColor"
+      @update:model-value="updateColor"
     />
   </div>
 </template>

@@ -38,6 +38,7 @@ export default {
       default: false,
     },
   },
+  emits: ['primaryAction', 'close'],
   computed: {
     bannerClasses() {
       const classList = [this.colorScheme];

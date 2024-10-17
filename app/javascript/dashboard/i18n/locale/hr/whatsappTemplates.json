@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Whatsapp Predlošci",
             "SUBTITLE": "Izaberi whatsapp predložak koji želiš poslati",
-            "TEMPLATE_SELECTED_SUBTITLE": "Proces %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Proces {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Pretraži Predloške",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Varijable",
-            "VARIABLE_PLACEHOLDER": "Unesi %{variable} vrijednost",
+            "VARIABLE_PLACEHOLDER": "Unesi {variable} vrijednost",
             "GO_BACK_LABEL": "Nazad",
             "SEND_MESSAGE_LABEL": "Šalji poruku",
             "FORM_ERROR_MESSAGE": "Popuniti sve varijable prije slanja"
