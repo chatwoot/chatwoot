@@ -1,5 +1,6 @@
 <script>
 import { defineAsyncComponent } from 'vue';
+import NextSidebar from 'dashboard/components/layout-next/Sidebar.vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -16,6 +17,7 @@ import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
+    NextSidebar,
     Sidebar,
     CommandBar,
     WootKeyShortcutModal,
@@ -155,6 +157,7 @@ export default {
 
 <template>
   <div class="flex flex-wrap app-wrapper dark:text-slate-300">
+    <NextSidebar />
     <Sidebar
       :route="currentRoute"
       :has-banner="hasBanner"
