@@ -1,14 +1,16 @@
 class AutomationRules::ActionService < ActionService
-  def initialize(rule, account, conversation)
-    super(conversation)
+  def initialize(rule, account, conversation, contact, params)
+    super(conversation, contact)
     @rule = rule
     @account = account
+    @params = params
     Current.executed_by = rule
   end
 
   def perform
     @rule.actions.each do |action|
-      @conversation.reload
+      @conversation&.reload
+
       action = action.with_indifferent_access
       begin
         send(action[:action_name], action[:action_params])
@@ -49,15 +51,19 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_template(template_params)
-    channel = find_channel_by_inbox(@conversation.inbox_id)
-    contact = Contact.find(@conversation.contact_id)
     template = template_params[0]
+
+    channel = find_channel_by_inbox(template['inbox_id'])
+    contact = @conversation.nil? ? @contact : @conversation.contact
+    processed_params = processed_variable_params(template['processed_params'], template['processed_events'])
+
     processed_template = {
-                            name: template['name'],
-                            namespace: template['namespace'],
-                            lang_code:  template['language'],
-                            parameters: template['processed_params']&.map { |_, value| { type: 'text', text: value } }
-                          }
+      name: template['name'],
+      namespace: template['namespace'],
+      lang_code: template['language'],
+      parameters: processed_params&.map { |_, value| { type: 'text', text: value } }
+    }
+
     channel.send_template(contact.phone_number, processed_template)
   end
 
@@ -70,11 +76,62 @@ class AutomationRules::ActionService < ActionService
   end
 
   def find_channel_by_inbox(inbox_id)
-    inbox = Inbox.find(@conversation.inbox_id)
+    inbox = Inbox.find(inbox_id)
     Channel::Whatsapp.find(inbox.channel_id)
   end
 
   def increment_trigger_count
     @rule.increment!(:trigger_count)
   end
-end 
+
+  def processed_variable_params(processed_params, processed_events)
+    processed_events&.each do |key, variable|
+      next unless processed_params[key.to_s]
+
+      processed_params[key.to_s] = fetch_variable_value(variable['value'])
+    end
+
+    processed_params
+  end
+
+  def fetch_variable_value(variable)
+    object, attribute = variable.split('.', 2)
+
+    case object
+    when 'order'
+      @params[attribute]
+    when 'contact'
+      fetch_value_from_contact(attribute)
+    when 'conversation'
+      fetch_value_from_object(@conversation, attribute)
+    when 'cart'
+      fetch_value_from_cart(attribute)
+    when 'link'
+
+    end
+  end
+
+  def fetch_value_from_object(obj, attribute)
+    obj.send(attribute) if obj.respond_to?(attribute)
+  end
+
+  def fetch_value_from_contact(attribute)
+    return @contact.additional_attributes['shipping_address'] if attribute == 'address'
+
+    @contact.send(attribute) if @contact.respond_to?(attribute)
+  end
+
+  def fetch_value_from_cart(attribute)
+    return unless attribute == 'items'
+
+    @params.filter_map do |item|
+      product_name = item.dig('variant', 'product', 'title')
+      attributes = item['attributes']
+
+      cover_color = attributes.find { |attr| attr['key'] == 'coverColor' }&.dig('value')
+      number_of_photos = attributes.find { |attr| attr['key'] == 'numberOfPhotos' }&.dig('value')
+
+      "#{product_name} - #{cover_color} - #{number_of_photos} fotos"
+    end.compact.join(', ')
+  end
+end

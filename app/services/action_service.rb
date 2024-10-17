@@ -1,9 +1,10 @@
 class ActionService
   include EmailHelper
 
-  def initialize(conversation)
-    @conversation = conversation.reload
-    @account = @conversation.account
+  def initialize(conversation, contact)
+    @conversation = conversation&.reload
+    @account = @conversation&.account
+    @contact = contact
   end
 
   def mute_conversation(_params)
@@ -35,7 +36,11 @@ class ActionService
   def add_contact_label(labels)
     return if labels.empty?
 
-    @conversation.contact.add_labels(labels)
+    if @conversation.nil?
+      @contact.add_labels(labels)
+    else
+      @conversation.contact.add_labels(labels)
+    end
   end
 
   def assign_agent(agent_ids = [])
@@ -58,8 +63,13 @@ class ActionService
   def remove_contact_label(labels)
     return if labels.empty?
 
-    labels = @conversation.contact.label_list - labels
-    @conversation.contact.update(label_list: labels)
+    if @conversation.nil?
+      labels = @contact.label_list - labels
+      @contact.update(label_list: labels)
+    else
+      labels = @conversation.contact.label_list - labels
+      @conversation.contact.update(label_list: labels)
+    end
   end
 
   def assign_team(team_ids = [])

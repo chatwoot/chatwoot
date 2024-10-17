@@ -82,6 +82,28 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
   end
 
+  def order_status_updated(event)
+    account = event&.data&.account
+    tokens = user_tokens(account, account.agents)
+
+    integrations_broadcast(tokens, ORDER_STATUS_UPDATED, event.data)
+  end
+
+  def order_created(event)
+    account = event&.data&.account
+    tokens = user_tokens(account, account.agents)
+
+    integrations_broadcast(tokens, ORDER_CREATED, event.data)
+  end
+
+  def cart_recovery(event)
+    custom_api = event&.data&.[]('custom_api')
+    account = custom_api&.account
+    tokens = user_tokens(account, account.agents)
+
+    integrations_broadcast(tokens, CART_RECOVERY, event.data)
+  end
+
   def conversation_typing_on(event)
     conversation = event.data[:conversation]
     account = conversation.account
@@ -204,6 +226,14 @@ class ActionCableListener < BaseListener
     # So the frondend knows who performed the action.
     # Useful in cases like conversation assignment for generating a notification with assigner name.
     payload[:performer] = Current.user&.push_event_data if Current.user.present?
+    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
+  end
+
+  def integrations_broadcast(tokens, event_name, data)
+    return if tokens.blank?
+
+    payload = data
+    payload[:performer] = Current.user&.push_event_data if Current.user&.present?
 
     ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
   end

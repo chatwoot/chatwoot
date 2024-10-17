@@ -54,15 +54,21 @@
               :option-height="104"
             />
           </div>
-
-          <whatsapp-templates
-            v-if="inputType === 'template' && inboxId"
-            v-model="action_params"
-            :inbox-id="inboxId"
-            :show-message-button="false"
-            @select-template="toggleWaTemplate"
-            @change-variable="templateParams"
-          />
+          <div v-if="inputType === 'template'" class="multiselect-wrap--small">
+            <multiselect
+              v-model="targetInbox"
+              track-by="id"
+              label="name"
+              :placeholder="'Selecionar Inbox'"
+              selected-label=""
+              select-label=""
+              deselect-label=""
+              :max-height="160"
+              :close-on-select="true"
+              :options="[...whatsappInboxes]"
+            >
+            </multiselect>
+          </div>
 
           <input
             v-else-if="inputType === 'email'"
@@ -106,6 +112,18 @@
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
+    <div v-if="targetInbox && inputType === 'template'" class="mt-4">
+      <label for="" class="mb-2">Templates</label>
+      <whatsapp-templates
+        v-model="action_params"
+        :inbox-id="targetInbox.id"
+        :show-message-button="false"
+        :event-options="eventOptions"
+        @select-template="toggleWaTemplate"
+        @change-variable="templateParams"
+        @change-event-variable="templateEventParams"
+      />
+    </div>
     <p
       v-if="v.action_params.$dirty && v.action_params.$error"
       class="filter-error"
@@ -121,6 +139,7 @@ import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 import WhatsappTemplates from 'dashboard/routes/dashboard/conversation/contact/WhatsappTemplates.vue';
+
 export default {
   components: {
     AutomationActionTeamMessageInput,
@@ -161,6 +180,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    eventOptions: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  data() {
+    return { targetInbox: '' };
   },
   computed: {
     action_name: {
@@ -185,7 +212,7 @@ export default {
     },
     inputType() {
       return this.actionTypes.find(action => action.key === this.action_name)
-        .inputType;
+        ?.inputType;
     },
     actionInputStyles() {
       return {
@@ -204,6 +231,10 @@ export default {
         this.action_params = value;
       },
     },
+
+    whatsappInboxes() {
+      return this.$store.getters['inboxes/getWhatsAppInboxes'];
+    },
   },
   methods: {
     removeAction() {
@@ -214,13 +245,31 @@ export default {
     },
     toggleWaTemplate(template) {
       const payload = this.value || {};
-      this.$emit('input', { ...payload, action_params: template });
+      this.$emit('input', {
+        ...payload,
+        action_params: { ...template, inbox_id: this.targetInbox?.id },
+      });
     },
     templateParams(params) {
       const payload = this.value;
+      // const eventVariables = params.filter(param => !!param.value);
       this.$emit('input', {
         ...payload,
-        action_params: { ...payload.action_params, processed_params: params },
+        action_params: {
+          ...payload.action_params,
+          processed_params: params,
+        },
+      });
+    },
+
+    templateEventParams(params) {
+      const payload = this.value;
+      this.$emit('input', {
+        ...payload,
+        action_params: {
+          ...payload.action_params,
+          processed_events: params,
+        },
       });
     },
   },

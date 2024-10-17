@@ -128,6 +128,10 @@ textarea {
   }
 }
 
+.highlighted-suggestion {
+  @apply bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-sm h-12 min-h-[3rem] m-0 py-[6px] px-3 rounded-md;
+}
+
 // Code styling
 code {
   font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',

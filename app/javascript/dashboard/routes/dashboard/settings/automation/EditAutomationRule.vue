@@ -105,7 +105,6 @@
               :show-action-input="showActionInput(action.action_name)"
               :v="$v.automation.actions.$each[i]"
               :initial-file-name="getFileName(action, automation.files)"
-              :inbox-id="isWhatsappChannel(automation.conditions[i])"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
@@ -151,9 +150,13 @@ import automationActionInput from 'dashboard/components/widgets/AutomationAction
 
 import {
   AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
+  AUTOMATION_RULE_INTEGRATION_EVENTS,
   AUTOMATIONS,
+  INTERVAL_TYPES,
+  AUTOMATION_ACTION_TYPES,
 } from './constants';
+
+import { EVENT_VARIABLES } from './eventVariables';
 
 export default {
   components: {
@@ -175,7 +178,6 @@ export default {
     return {
       automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
-      automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
       automation: null,
@@ -199,13 +201,18 @@ export default {
     },
     automationActionTypes() {
       const isSLAEnabled = this.isFeatureEnabled('sla');
+      const actions = this.automationTypes[this.automationRuleEvent]?.actions;
 
-      const filteredActionTypes = this.filterSendTemplateOption(
-        AUTOMATION_ACTION_TYPES
-      );
       return isSLAEnabled
-        ? filteredActionTypes
-        : filteredActionTypes.filter(action => action.key !== 'add_sla');
+        ? actions
+        : actions?.filter(action => action.key !== 'add_sla');
+    },
+
+    automationRuleEvents() {
+      const isIntegrationEnabled = this.isFeatureEnabled('integrations_view');
+      return isIntegrationEnabled
+        ? AUTOMATION_RULE_EVENTS.concat(AUTOMATION_RULE_INTEGRATION_EVENTS)
+        : AUTOMATION_RULE_EVENTS;
     },
   },
   mounted() {
@@ -237,20 +244,6 @@ export default {
       }
 
       return actionTypes;
-    },
-    isWhatsappChannel() {
-      const whatsappChannel = this.automation.conditions?.find(condition => {
-        if (
-          condition.attribute_key === 'inbox_id' &&
-          Array.isArray(condition.values)
-        ) {
-          return condition.values.some(
-            value => value.id && value.channel_type === 'Channel::Whatsapp'
-          );
-        }
-        return false;
-      });
-      return whatsappChannel?.values[0]?.id;
     },
   },
 };

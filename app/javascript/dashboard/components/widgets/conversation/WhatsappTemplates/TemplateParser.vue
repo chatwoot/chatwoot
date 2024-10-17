@@ -1,11 +1,12 @@
 <template>
   <div class="w-full">
-    <textarea
-      v-model="processedString"
-      rows="4"
-      readonly
-      class="template-input"
-    />
+    <div class="p-2.5">
+      <div
+        class="p-2.5 bg-modal-backdrop-light border rounded-md max-h-24 overflow-auto"
+      >
+        <vue-markdown-it :source="processedString" />
+      </div>
+    </div>
     <div v-if="variables" class="template__variables-container">
       <p class="variables-label">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
@@ -18,12 +19,14 @@
         <span class="variable-label">
           {{ key }}
         </span>
-        <woot-input
+        <input-select
           v-model="processedParams[key]"
           type="text"
           class="variable-input"
           :styles="{ marginBottom: 0 }"
+          :suggestions="options"
           @input="variableChanged()"
+          @variable="value => eventVariableChanged(value, key)"
         />
       </div>
       <p v-if="$v.$dirty && $v.$invalid" class="error">
@@ -46,12 +49,25 @@ const allKeysRequired = value => {
   const keys = Object.keys(value);
   return keys.every(key => value[key]);
 };
+
 import { requiredIf } from 'vuelidate/lib/validators';
+import InputSelect from '../../../../../v3/components/Form/InputSelect.vue';
+import VueMarkdownIt from 'vue-markdown-it';
+
 export default {
+  components: {
+    InputSelect,
+    VueMarkdownIt,
+  },
+
   props: {
     template: {
       type: Object,
       default: () => {},
+    },
+    options: {
+      type: Array,
+      default: () => [],
     },
     showMessageButton: {
       type: Boolean,
@@ -67,6 +83,10 @@ export default {
   data() {
     return {
       processedParams: {},
+      selected: 'item1',
+      eventVariables: {},
+      test: '## header',
+      input: '',
     };
   },
   computed: {
@@ -79,13 +99,21 @@ export default {
         component => component.type === 'BODY'
       ).text;
     },
+
     processedString() {
       return this.templateString.replace(/{{([^}]+)}}/g, (match, variable) => {
         const variableKey = this.processVariable(variable);
-        return this.processedParams[variableKey] || `{{${variable}}}`;
+        const processedParam = this.eventVariables[variableKey]
+          ? `==${this.processedParams[variableKey]}==`
+          : `**${this.processedParams[variableKey]}**`;
+
+        return this.processedParams[variableKey]
+          ? processedParam
+          : `**{{${variable}}}**`;
       });
     },
   },
+
   mounted() {
     this.generateVariables();
   },
@@ -120,6 +148,10 @@ export default {
     },
     variableChanged() {
       this.$emit('changeVariable', this.processedParams);
+    },
+    eventVariableChanged(value, key) {
+      this.eventVariables[key] = value;
+      this.$emit('changeEventVariable', this.eventVariables);
     },
   },
 };

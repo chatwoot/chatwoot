@@ -9,9 +9,11 @@
       v-else
       :template="selectedWaTemplate"
       :show-message-button="showMessageButton"
+      :options="eventOptions"
       @resetTemplate="onResetTemplate"
       @sendMessage="onSendMessage"
       @changeVariable="onChangeVariable"
+      @changeEventVariable="onChangeEventVariable"
     />
   </div>
 </template>
@@ -37,6 +39,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    eventOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -60,6 +66,9 @@ export default {
     },
     onChangeVariable(params) {
       this.$emit('change-variable', params);
+    },
+    onChangeEventVariable(params) {
+      this.$emit('change-event-variable', params);
     },
     onClose() {
       this.$emit('cancel');

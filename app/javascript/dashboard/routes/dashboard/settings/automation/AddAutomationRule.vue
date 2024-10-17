@@ -110,21 +110,74 @@
               :show-action-input="
                 showActionInput(automation.actions[i].action_name)
               "
-              :inbox-id="isWhatsappChannel(automation.conditions[i])"
               :v="$v.automation.actions.$each[i]"
+              :event-options="eventOptions"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
-            <div class="mt-4">
-              <woot-button
-                icon="add"
-                color-scheme="success"
-                variant="smooth"
-                size="small"
-                @click="appendNewAction"
+            <div class="flex justify-between items-end">
+              <div class="mt-4">
+                <woot-button
+                  icon="add"
+                  color-scheme="success"
+                  variant="smooth"
+                  size="small"
+                  @click="appendNewAction"
+                >
+                  {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
+                </woot-button>
+              </div>
+
+              <div class="multiselect-wrap--small min-w-[200px]">
+                <label class="typo__label">{{
+                  $t('AUTOMATION.ADD.INTERVAL')
+                }}</label>
+                <multiselect
+                  class="no-margin"
+                  v-model="selectedTimerValue"
+                  track-by="value"
+                  label="name"
+                  selected-label
+                  :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                  deselect-label=""
+                  :max-height="160"
+                  :options="timerValues"
+                  :allow-empty="false"
+                  :searchable="false"
+                  :option-height="104"
+                  @input="onTimerValueChange"
+                />
+              </div>
+              <div
+                v-if="selectedTimerValue.value === 'custom'"
+                class="flex space-x-2 mt-4 items-end"
               >
-                {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
-              </woot-button>
+                <div class="multiselect-wrap--small min-w-[120px] flex-1">
+                  <label class="typo__label">Tipo</label>
+                  <multiselect
+                    class="no-margin"
+                    v-model="customInterval.type"
+                    track-by="value"
+                    label="label"
+                    :max-height="160"
+                    :options="intervalTypes"
+                    :allow-empty="false"
+                    :searchable="false"
+                    :option-height="104"
+                  />
+                </div>
+                <div class="flex-1">
+                  <label class="typo__label">Valor</label>
+                  <input
+                    class="!mb-0"
+                    v-model="customInterval.amount"
+                    type="number"
+                    :max="getMaxValue(customInterval.type)"
+                    :min="0"
+                    :placeholder="$t('Digite a quantidade')"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -150,16 +203,22 @@ import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import Multiselect from 'vue-multiselect';
+
+import { EVENT_VARIABLES } from './eventVariables';
 
 import {
   AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
+  AUTOMATION_RULE_INTEGRATION_EVENTS,
   AUTOMATIONS,
+  INTERVAL_TYPES,
 } from './constants';
+
 export default {
   components: {
     filterInputBox,
     automationActionInput,
+    Multiselect,
   },
   mixins: [automationMethodsMixin, automationValidationsMixin],
   props: {
@@ -172,9 +231,9 @@ export default {
   data() {
     return {
       automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
-      automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
-      automationRuleEvents: AUTOMATION_RULE_EVENTS,
+      intervalTypes: JSON.parse(JSON.stringify(INTERVAL_TYPES)),
       automationMutated: false,
+      showTimerAction: false,
       show: true,
       automation: {
         name: null,
@@ -191,14 +250,24 @@ export default {
         ],
         actions: [
           {
-            action_name: 'assign_agent',
+            action_name: 'add_contact_label',
             action_params: [],
           },
         ],
+        delay: null,
       },
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'create',
+      selectedTimerValue: {
+        name: this.$t('AUTOMATION.ADD.INTERVALS.NONE'),
+        value: null,
+      },
+      customInterval: {
+        type: { value: 'minutes', label: 'MINUTES' },
+        amount: 0,
+      },
+      timerParams: '',
     };
   },
   computed: {
@@ -214,15 +283,52 @@ export default {
         return true;
       return false;
     },
+
+    timerValues() {
+      return [
+        { name: this.$t('AUTOMATION.ADD.INTERVALS.NONE'), value: null },
+        { name: this.$t('AUTOMATION.ADD.INTERVALS.1HOUR'), value: 3600 },
+        { name: this.$t('AUTOMATION.ADD.INTERVALS.1DAY'), value: 86400 },
+        { name: this.$t('AUTOMATION.ADD.INTERVALS.3DAY'), value: 259200 },
+        { name: this.$t('AUTOMATION.ADD.INTERVALS.7DAY'), value: 604800 },
+        { name: this.$t('AUTOMATION.ADD.INTERVALS.CUSTOM'), value: 'custom' },
+      ];
+    },
+
+    eventOptions() {
+      return EVENT_VARIABLES[this.automation.event_name];
+    },
     automationActionTypes() {
       const isSLAEnabled = this.isFeatureEnabled('sla');
+      const actions = this.automationTypes[this.automation.event_name]?.actions;
 
-      const filteredActionTypes = this.filterSendTemplateOption(
-        AUTOMATION_ACTION_TYPES
-      );
       return isSLAEnabled
-        ? filteredActionTypes
-        : filteredActionTypes.filter(action => action.key !== 'add_sla');
+        ? actions
+        : actions.filter(action => action.key !== 'add_sla');
+    },
+
+    computedDelay() {
+      const { type, amount } = this.customInterval;
+      if (this.timerValues[0].value !== 'custom') {
+        return this.timerValues[0].value;
+      }
+      switch (type.value) {
+        case 'minutes':
+          return amount * 60;
+        case 'hours':
+          return amount * 3600;
+        case 'days':
+          return amount * 86400;
+        default:
+          return 0;
+      }
+    },
+
+    automationRuleEvents() {
+      const isIntegrationEnabled = this.isFeatureEnabled('integrations_view');
+      return isIntegrationEnabled
+        ? AUTOMATION_RULE_EVENTS.concat(AUTOMATION_RULE_INTEGRATION_EVENTS)
+        : AUTOMATION_RULE_EVENTS;
     },
   },
   mounted() {
@@ -235,40 +341,87 @@ export default {
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.manifestCustomAttributes();
   },
+
+  watch: {
+    computedDelay(value) {
+      this.automation.delay = value;
+    },
+    customInterval: {
+      handler(value) {
+        const { type, amount } = value;
+
+        const amountInSeconds = this.amountToSeconds(type.value, amount);
+        this.automation.delay = amountInSeconds;
+      },
+      deep: true,
+    },
+
+    'customInterval.type'(type) {
+      this.customInterval.amount = 0;
+    },
+    'customInterval.amount'(amount) {
+      if (amount > this.getMaxValue(this.customInterval.type)) {
+        this.customInterval.amount = 0;
+      }
+    },
+    'automation.event_name'(name) {
+      if (name === 'cart_recovery') {
+        this.automation.conditions = [
+          {
+            key: 'none',
+            name: 'None',
+            attributeI18nKey: 'NONE',
+            inputType: 'plain_text',
+            filterOperators: OPERATOR_TYPES_1,
+          },
+        ];
+      }
+    },
+  },
   methods: {
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
     },
-    filterSendTemplateOption(actionTypes) {
-      const hasWhatsappChannel = this.automation.conditions.some(condition => {
-        if (Array.isArray(condition.values)) {
-          return condition.values.some(
-            value => value.channel_type === 'Channel::Whatsapp'
-          );
-        }
-        return false;
-      });
 
-      if (!hasWhatsappChannel) {
-        return actionTypes.filter(action => action.key !== 'send_template');
+    onTimerValueChange(interval) {
+      this.selectedTimerValue = interval;
+      if (interval !== 'custom') {
+        this.customInterval = { type: this.intervalTypes[0], amount: 0 };
       }
-
-      return actionTypes;
     },
 
-    isWhatsappChannel() {
-      const whatsappChannel = this.automation.conditions?.find(condition => {
-        if (
-          condition.attribute_key === 'inbox_id' &&
-          Array.isArray(condition.values)
-        ) {
-          return condition.values.some(
-            value => value.id && value.channel_type === 'Channel::Whatsapp'
-          );
-        }
-        return false;
-      });
-      return whatsappChannel?.values[0]?.id;
+    amountToSeconds(type, amount) {
+      switch (type) {
+        case 'minutes':
+          return amount * 60;
+        case 'hours':
+          return amount * 3600;
+        case 'days':
+          return amount * 86400;
+        default:
+          return 0;
+      }
+    },
+    getMaxValue(type) {
+      switch (type.value) {
+        case 'days':
+          return 7;
+        case 'hours':
+          return 23;
+        case 'minutes':
+          return 59;
+        default:
+          return 0;
+      }
+    },
+
+    updateCustomTime(event) {
+      this.customTimeInSeconds = event.target.value;
+      this.automation.delay = parseInt(this.customTimeInSeconds, 10) || 0;
+    },
+
+    setShowTimerAction() {
+      this.showTimerAction = !this.showTimerAction;
     },
   },
 };

@@ -37,6 +37,7 @@ export const actions = {
   create: async function createAutomation({ commit }, automationObj) {
     commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: true });
     try {
+      console.log('automation obj: ', automationObj);
       const response = await AutomationAPI.create(automationObj);
       commit(types.ADD_AUTOMATION, response.data);
     } catch (error) {

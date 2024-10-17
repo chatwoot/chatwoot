@@ -235,7 +235,7 @@ export const getDefaultConditions = eventName => {
 export const getDefaultActions = () => {
   return [
     {
-      action_name: 'assign_agent',
+      action_name: 'add_contact_label',
       action_params: [],
     },
   ];
