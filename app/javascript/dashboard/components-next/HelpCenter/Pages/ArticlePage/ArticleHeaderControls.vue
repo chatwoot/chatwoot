@@ -94,12 +94,20 @@ const categoryMenuItems = computed(() => {
   return hasCategorySlug ? [defaultMenuItem, ...categoryItems] : categoryItems;
 });
 
+const hasCategoryMenuItems = computed(() => {
+  return categoryMenuItems.value?.length > 0;
+});
+
 const localeMenuItems = computed(() => {
   return props.allowedLocales.map(locale => ({
     label: locale.name,
     value: locale.code,
     action: 'filter',
   }));
+});
+
+const hasMoreThanOneLocaleMenuItems = computed(() => {
+  return localeMenuItems.value?.length > 1;
 });
 
 const handleLocaleAction = ({ value }) => {
@@ -131,7 +139,7 @@ const handleTabChange = value => {
     />
     <div class="flex items-start justify-between w-full gap-2">
       <div class="flex items-center gap-2">
-        <div class="relative group">
+        <div v-if="hasMoreThanOneLocaleMenuItems" class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
             <Button
               :label="activeLocaleName"
@@ -152,7 +160,7 @@ const handleTabChange = value => {
             />
           </OnClickOutside>
         </div>
-        <div class="relative group">
+        <div v-if="hasCategoryMenuItems" class="relative group">
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
             <Button
               :label="activeCategoryName"

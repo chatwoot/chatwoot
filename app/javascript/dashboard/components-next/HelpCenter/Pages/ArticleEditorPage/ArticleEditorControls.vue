@@ -63,6 +63,12 @@ const agentList = computed(() => {
     .sort((a, b) => b.isSelected - a.isSelected);
 });
 
+const hasMoreThanOneAgentExceptCurrentUser = computed(() => {
+  return (
+    agents.value?.filter(agent => agent.id !== currentUserId.value).length > 0
+  );
+});
+
 const selectedCategory = computed(() => {
   if (isNewArticle.value) {
     return selectedCategoryId.value
@@ -86,6 +92,10 @@ const categoryList = computed(() => {
       action: 'assignCategory',
     }))
     .sort((a, b) => b.isSelected - a.isSelected);
+});
+
+const hasCategoryMenuItems = computed(() => {
+  return categoryList.value?.length > 0;
 });
 
 const handleArticleAction = ({ action, value }) => {
@@ -140,7 +150,7 @@ const updateMeta = meta => {
           </template>
         </Button>
         <DropdownMenu
-          v-if="openAgentsList"
+          v-if="openAgentsList && hasMoreThanOneAgentExceptCurrentUser"
           :menu-items="agentList"
           class="right-0 z-[100] w-48 mt-2 !py-1 overflow-y-auto xl:left-0 top-full max-h-52"
           @action="handleArticleAction"
@@ -163,7 +173,7 @@ const updateMeta = meta => {
           @click="openCategoryList = !openCategoryList"
         />
         <DropdownMenu
-          v-if="openCategoryList"
+          v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
           class="right-0 w-48 mt-2 z-[100] !py-1 overflow-y-auto xl:left-0 top-full max-h-52"
           @action="handleArticleAction"
