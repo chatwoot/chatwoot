@@ -27,7 +27,7 @@
           "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "Message",
+          "LABEL": "Sporočilo",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
         },
@@ -48,7 +48,7 @@
           "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "Message",
+          "LABEL": "Sporočilo",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
         },
