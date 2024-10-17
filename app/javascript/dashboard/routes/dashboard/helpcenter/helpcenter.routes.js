@@ -7,6 +7,7 @@ const ListCategoriesPage = () =>
   import('./pages/categories/ListCategoriesPage.vue');
 const ListLocalesPage = () => import('./pages/locales/ListLocalesPage.vue');
 const EditArticlePage = () => import('./pages/articles/EditArticlePage.vue');
+const NewArticlePage = () => import('./pages/articles/NewArticlePage.vue');
 
 const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
@@ -247,7 +248,7 @@ export const newPortalRoutes = [
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
     },
-    component: NewArticle,
+    component: NewArticlePage,
   },
   {
     path: getPortalRoute(

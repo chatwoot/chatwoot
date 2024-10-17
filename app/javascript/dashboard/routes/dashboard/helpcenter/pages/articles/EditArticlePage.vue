@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 
-import EditArticle from 'dashboard/components-next/HelpCenter/Pages/EditArticlePage/EditArticle.vue';
+import ArticleEditor from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditor.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -78,7 +78,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <EditArticle
+  <ArticleEditor
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
