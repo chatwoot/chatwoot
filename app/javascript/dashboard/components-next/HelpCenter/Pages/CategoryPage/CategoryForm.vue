@@ -223,7 +223,7 @@ defineExpose({ state });
           )
         "
         show-character-count
-        custom-text-area-class="!bg-slate-25 dark:!bg-slate-900 !border-slate-100 dark:!border-slate-700/50"
+        custom-text-area-wrapper-class="!bg-slate-25 dark:!bg-slate-900 !border-slate-100 dark:!border-slate-700/50"
       />
       <div
         v-if="showActionButtons"

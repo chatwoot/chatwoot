@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -37,10 +37,15 @@ const statusText = computed(() => {
 
 const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
 
+// Create a local ref for the title
+const localTitle = ref(props.article.title || '');
+
+// Update the computed property for articleTitle
 const articleTitle = computed({
-  get: () => props.article.title,
-  set: title => {
-    saveArticle({ title });
+  get: () => localTitle.value,
+  set: value => {
+    localTitle.value = value;
+    saveArticle({ title: value });
   },
 });
 
@@ -50,6 +55,16 @@ const articleContent = computed({
     saveArticle({ content });
   },
 });
+
+// Watch for changes in the article prop
+watch(
+  () => props.article.title,
+  newTitle => {
+    if (newTitle !== localTitle.value) {
+      localTitle.value = newTitle;
+    }
+  }
+);
 
 const onClickGoBack = () => {
   emit('goBack');
@@ -106,7 +121,8 @@ const setCategoryId = categoryId => {
         <TextArea
           v-model="articleTitle"
           class="h-12"
-          custom-text-area-class="border-0 !text-[32px] !bg-transparent !py-0 !px-0 !h-auto !leading-[48px] !font-medium !tracking-[0.2px]"
+          custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
+          custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
         />
         <ArticleEditorControls
