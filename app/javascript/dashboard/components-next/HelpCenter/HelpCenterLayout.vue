@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store.js';
 
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -8,10 +10,6 @@ import PortalSwitcher from 'dashboard/components-next/HelpCenter/PortalSwitcher/
 import CreatePortalDialog from 'dashboard/components-next/HelpCenter/PortalSwitcher/CreatePortalDialog.vue';
 
 defineProps({
-  header: {
-    type: String,
-    default: 'Chatwoot Help Center',
-  },
   currentPage: {
     type: Number,
     default: 1,
@@ -36,9 +34,20 @@ defineProps({
 
 const emit = defineEmits(['update:currentPage']);
 
+const route = useRoute();
+
 const createPortalDialogRef = ref(null);
 
 const showPortalSwitcher = ref(false);
+
+const portals = useMapGetter('portals/allPortals');
+
+const currentPortalSlug = computed(() => route.params.portalSlug);
+
+const activePortalName = computed(() => {
+  return portals.value.find(portal => portal.slug === currentPortalSlug.value)
+    ?.name;
+});
 
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
@@ -57,7 +66,7 @@ const togglePortalSwitcher = () => {
           class="flex items-center justify-start h-20 gap-2"
         >
           <span class="text-xl font-medium text-slate-900 dark:text-white">
-            {{ header }}
+            {{ activePortalName }}
           </span>
           <div class="relative group">
             <OnClickOutside @trigger="showPortalSwitcher = false">
