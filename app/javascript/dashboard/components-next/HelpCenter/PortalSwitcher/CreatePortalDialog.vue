@@ -58,10 +58,13 @@ const createPortal = async portal => {
     useTrack(PORTALS_EVENTS.ONBOARD_BASIC_INFORMATION, analyticsPayload);
     useTrack(PORTALS_EVENTS.CREATE_PORTAL, analyticsPayload);
 
-    useAlert(t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_BASIC'));
+    useAlert(
+      t('HELP_CENTER.PORTAL_SETTINGS.API.CREATE_PORTAL.SUCCESS_MESSAGE')
+    );
   } catch (error) {
     useAlert(
-      error?.message || t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_BASIC')
+      error?.message ||
+        t('HELP_CENTER.PORTAL_SETTINGS.API.CREATE_PORTAL.ERROR_MESSAGE')
     );
   }
 };

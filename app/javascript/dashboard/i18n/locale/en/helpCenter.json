@@ -659,6 +659,57 @@
         "MESSAGE": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
         "ERROR": "Slug is required"
       }
+    },
+    "PORTAL_SETTINGS": {
+      "AVATAR": {
+        "LABEL": "Avatar"
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Portal name",
+          "ERROR": "Name is required"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Portal header text"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Portal page title"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Widget color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "HEADER": "Configuration",
+        "SLUG": {
+          "LABEL": "Slug:",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "CUSTOM_DOMAIN": {
+          "LABEL": "Custom domain:",
+          "PLACEHOLDER": "Portal custom domain"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link:",
+          "PLACEHOLDER": "Portal home page link"
+        },
+        "EDIT_CONFIGURATION": "Edit configuration",
+        "DELETE_PORTAL": "Delete {portalName}"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal created successfully",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal updated successfully",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
     }
   }
 }
