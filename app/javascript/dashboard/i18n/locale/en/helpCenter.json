@@ -550,6 +550,7 @@
         "HEADER": {
           "CREATE": "Create category",
           "EDIT": "Edit category",
+          "DESCRIPTION": "Editing a category will update the category in the public facing portal.",
           "PORTAL": "Portal",
           "LOCALE": "Locale"
         },
@@ -563,7 +564,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Category slug for urls",
             "ERROR": "Slug is required",
-            "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Description",

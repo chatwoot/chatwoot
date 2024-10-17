@@ -1,12 +1,13 @@
 <script setup>
+import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-// import { OnClickOutside } from '@vueuse/components';
+
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import CategoryList from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryList.vue';
 import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
-// import EditCategory from 'dashboard/playground/HelpCenter/components/EditCategory.vue';
+import EditCategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/EditCategoryDialog.vue';
 
-defineProps({
+const props = defineProps({
   categories: {
     type: Array,
     required: true,
@@ -22,14 +23,8 @@ const emit = defineEmits(['fetchCategories']);
 const route = useRoute();
 const router = useRouter();
 
-// const showEditCategory = ref(false);
-
-// const openEditCategory = () => {
-//   showEditCategory.value = true;
-// };
-// const closeEditCategory = () => {
-//   showEditCategory.value = false;
-// };
+const editCategoryDialog = ref(null);
+const selectedCategory = ref(null);
 
 const updateRoute = (newParams, routeName) => {
   const { accountId, portalSlug, locale } = route.params;
@@ -53,10 +48,17 @@ const handleLocaleChange = value => {
   updateRoute({ locale: value }, 'list_categories');
   emit('fetchCategories', value);
 };
+
+const handleAction = ({ action, id }) => {
+  if (action === 'edit') {
+    selectedCategory.value = props.categories.find(
+      category => category.id === id
+    );
+    editCategoryDialog.value.dialogRef.open();
+  }
+};
 </script>
 
-<!-- @edit-category="editCategory" -->
-<!-- @new-category="newCategory" -->
 <template>
   <HelpCenterLayout :show-pagination-footer="false">
     <template #header-actions>
@@ -68,7 +70,15 @@ const handleLocaleChange = value => {
       />
     </template>
     <template #content>
-      <CategoryList :categories="categories" @click="openCategoryArticles" />
+      <CategoryList
+        :categories="categories"
+        @click="openCategoryArticles"
+        @action="handleAction"
+      />
     </template>
+    <EditCategoryDialog
+      ref="editCategoryDialog"
+      :selected-category="selectedCategory"
+    />
   </HelpCenterLayout>
 </template>

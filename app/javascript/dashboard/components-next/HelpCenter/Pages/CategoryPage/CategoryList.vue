@@ -8,10 +8,14 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'action']);
 
 const handleClick = slug => {
   emit('click', slug);
+};
+
+const handleAction = ({ action, value, id }) => {
+  emit('action', { action, value, id });
 };
 </script>
 
@@ -27,6 +31,7 @@ const handleClick = slug => {
       :articles-count="category.meta.articles_count || 0"
       :slug="category.slug"
       @click="handleClick(category.slug)"
+      @action="handleAction"
     />
   </ul>
 </template>

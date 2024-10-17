@@ -8,10 +8,10 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
-  // id: {
-  //   type: Number,
-  //   required: true,
-  // },
+  id: {
+    type: Number,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -34,7 +34,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'action']);
 
 const { t } = useI18n();
 
@@ -71,22 +71,20 @@ const handleClick = slug => {
   emit('click', slug);
 };
 
-// eslint-disable-next-line no-unused-vars
-const handleAction = action => {
-  // TODO: Implement action
+const handleAction = ({ action, value }) => {
+  emit('action', { action, value, id: props.id });
 };
 </script>
 
-<!-- TODO: Add i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
-  <CardLayout @click="handleClick(slug)">
+  <CardLayout>
     <template #header>
       <div class="flex gap-2">
         <div class="flex justify-between w-full">
           <div class="flex items-center justify-start gap-2">
             <span
               class="text-base cursor-pointer group-hover/cardLayout:underline text-slate-900 dark:text-slate-50 line-clamp-1"
+              @click="handleClick(slug)"
             >
               {{ categoryTitleWithIcon }}
             </span>

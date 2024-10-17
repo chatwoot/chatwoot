@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store.js';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
@@ -31,6 +33,8 @@ defineProps({
 const emit = defineEmits(['confirm']);
 
 const { t } = useI18n();
+
+const isRTL = useMapGetter('accounts/isRTL');
 
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
@@ -63,6 +67,7 @@ onClickOutside(dialogContentRef, event => {
     <dialog
       ref="dialogRef"
       class="w-full max-w-lg overflow-visible shadow-xl bg-modal-backdrop-light dark:bg-modal-backdrop-dark rounded-xl"
+      :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >
       <div
@@ -91,7 +96,6 @@ onClickOutside(dialogContentRef, event => {
             variant="secondary"
             :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
             class="w-full"
-            size="sm"
             @click="close"
           />
           <Button
@@ -99,7 +103,6 @@ onClickOutside(dialogContentRef, event => {
             :variant="type === 'edit' ? 'default' : 'destructive'"
             :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
             class="w-full"
-            size="sm"
             @click="confirm"
           />
         </div>

@@ -1,7 +1,15 @@
 <script setup>
-import { reactive, ref, watch, computed, defineAsyncComponent } from 'vue';
+import {
+  reactive,
+  ref,
+  watch,
+  computed,
+  defineAsyncComponent,
+  onMounted,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
+import { useRoute } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
@@ -22,7 +30,11 @@ const props = defineProps({
   },
   activeLocaleCode: {
     type: String,
-    required: true,
+    default: '',
+  },
+  showActionButtons: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -33,6 +45,7 @@ const EmojiInput = defineAsyncComponent(
 );
 
 const { t } = useI18n();
+const route = useRoute();
 
 const isEmojiPickerOpen = ref(false);
 
@@ -44,6 +57,8 @@ const state = reactive({
   description: '',
   locale: '',
 });
+
+const isEditMode = computed(() => props.mode === 'edit');
 
 const rules = {
   name: { required, minLength: minLength(1) },
@@ -64,6 +79,15 @@ const slugError = computed(() =>
     : ''
 );
 
+const slugHelpText = computed(() => {
+  const { portalSlug, locale } = route.params;
+  return t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.SLUG.HELP_TEXT', {
+    portalSlug,
+    localeCode: locale,
+    categorySlug: state.slug,
+  });
+});
+
 const onClickInsertEmoji = emoji => {
   state.icon = emoji;
   isEmojiPickerOpen.value = false;
@@ -83,16 +107,30 @@ const handleCancel = () => {
 watch(
   () => state.name,
   () => {
-    state.slug = convertToCategorySlug(state.name);
+    if (!isEditMode.value) {
+      state.slug = convertToCategorySlug(state.name);
+    }
   }
 );
 
-// Initialize form data
-if (props.mode === 'edit' && props.selectedCategory) {
-  const { id, name, icon, slug, description } = props.selectedCategory;
-  Object.assign(state, { id, name, icon, slug, description });
-}
-state.locale = props.activeLocaleCode;
+watch(
+  () => props.selectedCategory,
+  newCategory => {
+    if (props.mode === 'edit' && newCategory) {
+      const { id, name, icon, slug, description } = newCategory;
+      Object.assign(state, { id, name, icon, slug, description });
+    }
+  },
+  { immediate: true }
+);
+
+onMounted(() => {
+  if (props.mode === 'create') {
+    state.locale = props.activeLocaleCode;
+  }
+});
+
+defineExpose({ state });
 </script>
 
 <template>
@@ -134,11 +172,8 @@ state.locale = props.activeLocaleCode;
       :placeholder="
         t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.SLUG.PLACEHOLDER')
       "
-      :message="
-        slugError
-          ? slugError
-          : 'app.chatwoot.com/hc/my-portal/en-US/categories/my-slug'
-      "
+      :disabled="isEditMode"
+      :message="slugError ? slugError : slugHelpText"
       :message-type="slugError ? 'error' : 'info'"
       custom-input-class="!h-10 !bg-slate-25 dark:!bg-slate-900 "
     />
@@ -155,7 +190,10 @@ state.locale = props.activeLocaleCode;
       show-character-count
       custom-text-area-class="!bg-slate-25 dark:!bg-slate-900 !border-slate-100 dark:!border-slate-700/50"
     />
-    <div class="flex items-center justify-between w-full gap-3">
+    <div
+      v-if="showActionButtons"
+      class="flex items-center justify-between w-full gap-3"
+    >
       <Button
         variant="secondary"
         :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"

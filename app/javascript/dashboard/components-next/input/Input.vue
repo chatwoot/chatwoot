@@ -83,7 +83,7 @@ const inputBorderClass = computed(() => {
     />
     <p
       v-if="message"
-      class="mt-1 mb-0 text-xs transition-all duration-500 ease-in-out"
+      class="mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
       :class="messageClass"
     >
       {{ message }}

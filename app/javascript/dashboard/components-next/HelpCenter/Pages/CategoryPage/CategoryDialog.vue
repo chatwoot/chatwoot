@@ -77,14 +77,6 @@ const handleCategory = async formData => {
         : undefined
     );
 
-    // Update categorySlug parameter in the URL if it's an edit operation
-    if (props.mode === 'edit' && route.params.categorySlug !== slug) {
-      await router.replace({
-        name: route.name,
-        params: { ...route.params, categorySlug: slug },
-      });
-    }
-
     emit('close');
   } catch (error) {
     const errorMessage =
