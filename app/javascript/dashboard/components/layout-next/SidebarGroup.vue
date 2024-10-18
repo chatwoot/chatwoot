@@ -1,6 +1,5 @@
 <script setup>
-import { computed, watch } from 'vue';
-import { useParentElement } from '@vueuse/core';
+import { computed, watch, ref } from 'vue';
 import { useSidebarContext } from './provider';
 import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -27,7 +26,7 @@ const {
   isAllowed,
 } = useSidebarContext();
 
-const parentEl = useParentElement();
+const parentEl = ref(null);
 
 const locateLastChild = () => {
   parentEl.value?.querySelectorAll('.child-item').forEach((child, index) => {
@@ -120,6 +119,7 @@ watch([isExpanded, hasActiveChild, isActive], locateLastChild, {
     <ul
       v-if="hasChildren"
       v-show="isExpanded || hasActiveChild"
+      ref="parentEl"
       class="list-none overflow-scroll m-0 grid sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
