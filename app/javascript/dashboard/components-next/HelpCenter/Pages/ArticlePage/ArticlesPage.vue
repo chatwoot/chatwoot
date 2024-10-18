@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
@@ -52,6 +53,12 @@ const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
+const isSwitchingPortal = useMapGetter('portals/isSwitching');
+
+const isFetchingDetails = computed(
+  () => props.isFetching || isSwitchingPortal.value
+);
+
 const isEmptyAllTab = computed(() => !route.params.tab && props.hasNoArticles);
 const isEmptySpecificTab = computed(
   () =>
@@ -98,22 +105,31 @@ const showArticleHeaderControls = computed(() => {
   return (
     !props.isCategoryArticles &&
     !isEmptyAllTab.value &&
-    (props.meta.articlesCount > 0 ||
-      (props.isFetching && articlesCount.value > 0))
+    !isSwitchingPortal.value
   );
 });
 
-const getEmptyStateText = type => {
-  const tabName = route.params.tab?.toUpperCase() || 'ALL';
-  return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.${tabName}.${type}`);
-};
+const showCategoryHeaderControls = computed(() => {
+  return (
+    !isEmptySpecificTab.value &&
+    props.isCategoryArticles &&
+    !isSwitchingPortal.value
+  );
+});
+
+const getEmptyStateText = computed(() => {
+  return type => {
+    const tabName = route.params.tab?.toUpperCase() || 'ALL';
+    return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.${tabName}.${type}`);
+  };
+});
 
 const getEmptyStateTitle = computed(() => {
   if (props.isCategoryArticles) {
     return t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.TITLE');
   }
   return isEmptySpecificTab.value
-    ? getEmptyStateText('TITLE')
+    ? getEmptyStateText.value('TITLE')
     : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.TITLE');
 });
 
@@ -122,7 +138,7 @@ const getEmptyStateSubtitle = computed(() => {
     return t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.SUBTITLE');
   }
   return isEmptySpecificTab.value
-    ? getEmptyStateText('SUBTITLE')
+    ? getEmptyStateText.value('SUBTITLE')
     : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.SUBTITLE');
 });
 
@@ -144,7 +160,7 @@ const newArticlePage = () => router.push({ name: 'portals_articles_new' });
     :total-items="articlesCount"
     :items-per-page="25"
     :header="portalName"
-    :show-pagination-footer="!isFetching && !hasNoArticles"
+    :show-pagination-footer="!isFetchingDetails && !hasNoArticles"
     @update:current-page="handlePageChange"
   >
     <template #header-actions>
@@ -160,7 +176,7 @@ const newArticlePage = () => router.push({ name: 'portals_articles_new' });
           @new-article="newArticlePage"
         />
         <CategoryHeaderControls
-          v-else-if="!isEmptySpecificTab && isCategoryArticles"
+          v-else-if="showCategoryHeaderControls"
           :categories="categories"
           :allowed-locales="allowedLocales"
           :has-selected-category="isCategoryArticles"
@@ -169,7 +185,7 @@ const newArticlePage = () => router.push({ name: 'portals_articles_new' });
     </template>
     <template #content>
       <div
-        v-if="isFetching"
+        v-if="isFetchingDetails"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />

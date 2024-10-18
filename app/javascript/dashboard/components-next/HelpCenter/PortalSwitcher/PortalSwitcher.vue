@@ -1,12 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const emit = defineEmits(['close', 'createPortal']);
 
@@ -14,8 +13,6 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-
-const isPortalChanging = ref(false);
 
 const portals = useMapGetter('portals/allPortals');
 
@@ -36,6 +33,7 @@ const getPortalThumbnailSrc = portal => {
 };
 
 const fetchPortalAndItsCategories = async (slug, locale) => {
+  await store.dispatch('portals/switchPortal', true);
   await store.dispatch('portals/index');
   const selectedPortalParam = {
     portalSlug: slug,
@@ -44,15 +42,16 @@ const fetchPortalAndItsCategories = async (slug, locale) => {
   await store.dispatch('portals/show', selectedPortalParam);
   await store.dispatch('categories/index', selectedPortalParam);
   await store.dispatch('agents/get');
+  await store.dispatch('portals/switchPortal', false);
 };
 
-const handlePortalChange = async portal => {
-  isPortalChanging.value = true;
+const handlePortalChange = portal => {
   const {
     slug,
     meta: { default_locale: defaultLocale },
   } = portal;
-  await fetchPortalAndItsCategories(slug, defaultLocale);
+  emit('close');
+  fetchPortalAndItsCategories(slug, defaultLocale);
   router.push({
     name: 'portals_articles_index',
     params: {
@@ -60,8 +59,6 @@ const handlePortalChange = async portal => {
       locale: defaultLocale,
     },
   });
-  emit('close');
-  isPortalChanging.value = false;
 };
 
 const openCreatePortalDialog = () => {
@@ -83,14 +80,7 @@ const openCreatePortalDialog = () => {
           {{ t('HELP_CENTER.PORTAL_SWITCHER.CREATE_PORTAL') }}
         </p>
       </div>
-      <div
-        v-if="isPortalChanging"
-        class="flex items-center justify-center text-n-slate-11"
-      >
-        <Spinner />
-      </div>
       <Button
-        v-else
         :label="t('HELP_CENTER.PORTAL_SWITCHER.NEW_PORTAL')"
         variant="secondary"
         icon="add"
