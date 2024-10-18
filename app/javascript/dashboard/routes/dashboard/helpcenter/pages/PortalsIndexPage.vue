@@ -47,6 +47,7 @@ const routeToLastActivePortal = () => {
     'portals_articles_index',
     'portals_categories_index',
     'portals_locales_index',
+    'portals_settings_index',
   ].includes(navigationPath);
 
   const navigateTo = isAValidRoute ? navigationPath : 'portals_articles_index';

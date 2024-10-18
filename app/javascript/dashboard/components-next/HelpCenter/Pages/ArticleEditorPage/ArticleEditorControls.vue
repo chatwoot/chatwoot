@@ -63,10 +63,8 @@ const agentList = computed(() => {
     .sort((a, b) => b.isSelected - a.isSelected);
 });
 
-const hasMoreThanOneAgentExceptCurrentUser = computed(() => {
-  return (
-    agents.value?.filter(agent => agent.id !== currentUserId.value).length > 0
-  );
+const hasAgentList = computed(() => {
+  return agents.value?.length > 0;
 });
 
 const selectedCategory = computed(() => {
@@ -150,7 +148,7 @@ const updateMeta = meta => {
           </template>
         </Button>
         <DropdownMenu
-          v-if="openAgentsList && hasMoreThanOneAgentExceptCurrentUser"
+          v-if="openAgentsList && hasAgentList"
           :menu-items="agentList"
           class="z-[100] w-48 mt-2 !py-1 overflow-y-auto left-0 top-full max-h-52"
           @action="handleArticleAction"
@@ -175,7 +173,7 @@ const updateMeta = meta => {
         <DropdownMenu
           v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
-          class="right-0 w-48 mt-2 z-[100] !py-1 overflow-y-auto xl:left-0 top-full max-h-52"
+          class="w-48 mt-2 z-[100] !py-1 overflow-y-auto left-0 top-full max-h-52"
           @action="handleArticleAction"
         />
       </OnClickOutside>

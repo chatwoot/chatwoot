@@ -51,22 +51,24 @@ const configurationState = reactive({
   homePageLink: '',
 });
 
-watch(activePortal, newVal => {
-  if (newVal && !props.isFetching) {
-    state.name = newVal.name;
-    state.headerText = newVal.header_text;
-    state.pageTitle = newVal.page_title;
-    state.widgetColor = newVal.color;
-  }
-});
+watch(
+  activePortal,
+  newVal => {
+    if (newVal && !props.isFetching) {
+      // Update state
+      state.name = newVal.name;
+      state.headerText = newVal.header_text;
+      state.pageTitle = newVal.page_title;
+      state.widgetColor = newVal.color;
 
-watch(activePortal, newVal => {
-  if (newVal && !props.isFetching) {
-    configurationState.slug = newVal.slug;
-    configurationState.customDomain = newVal.custom_domain;
-    configurationState.homePageLink = newVal.homepage_link;
-  }
-});
+      // Update configurationState
+      configurationState.slug = newVal.slug;
+      configurationState.customDomain = newVal.custom_domain;
+      configurationState.homePageLink = newVal.homepage_link;
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const handleUpdatePortal = () => {
   const portal = {

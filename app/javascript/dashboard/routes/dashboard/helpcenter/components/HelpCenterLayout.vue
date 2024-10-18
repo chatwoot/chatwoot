@@ -63,29 +63,6 @@ export default {
         this.uiSettings;
       return showSecondarySidebar;
     },
-    showHelpCenterSidebar() {
-      if (!this.isHelpCenterEnabled) {
-        return false;
-      }
-
-      if (
-        [
-          'portals_articles_new',
-          'portals_categories_index',
-          'portals_categories_articles_index',
-          'portals_articles_edit',
-          'portals_articles_index',
-          'portals_categories_articles_edit',
-          'portals_index',
-          'portals_locales_index',
-          'portals_settings_index',
-        ].includes(this.$route.name)
-      ) {
-        return false;
-      }
-
-      return this.portals.length === 0 ? false : this.isSidebarOpen;
-    },
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);

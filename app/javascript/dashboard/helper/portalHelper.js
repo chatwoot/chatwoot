@@ -28,6 +28,41 @@ export const getArticleStatus = status => {
 };
 
 // Constants
+export const HELP_CENTER_MENU_ITEMS = [
+  {
+    label: 'Articles',
+    icon: 'book',
+    action: 'portals_articles_index',
+    value: [
+      'portals_articles_index',
+      'portals_articles_new',
+      'portals_articles_edit',
+    ],
+  },
+  {
+    label: 'Categories',
+    icon: 'folder',
+    action: 'portals_categories_index',
+    value: [
+      'portals_categories_index',
+      'portals_categories_articles_index',
+      'portals_categories_articles_edit',
+    ],
+  },
+  {
+    label: 'Locales',
+    icon: 'translate',
+    action: 'portals_locales_index',
+    value: ['portals_locales_index'],
+  },
+  {
+    label: 'Settings',
+    icon: 'settings',
+    action: 'portals_settings_index',
+    value: ['portals_settings_index'],
+  },
+];
+
 export const ARTICLE_STATUSES = {
   DRAFT: 'draft',
   PUBLISHED: 'published',
