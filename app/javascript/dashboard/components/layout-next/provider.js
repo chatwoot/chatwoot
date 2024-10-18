@@ -10,17 +10,10 @@ export function useSidebarContext() {
   }
 
   const router = useRouter();
-  const resolvePath = to => router.resolve(to).path;
-  const resolvePermissions = to => {
-    if (!to) return [];
 
-    return router.resolve(to).meta?.permissions ?? [];
-  };
-  const resolveFeatureFlag = to => {
-    if (!to) return '';
-
-    return router.resolve(to).meta?.featureFlag ?? '';
-  };
+  const resolvePath = to => router.resolve(to)?.path || '/';
+  const resolvePermissions = to => router.resolve(to)?.meta?.permissions ?? [];
+  const resolveFeatureFlag = to => router.resolve(to)?.meta?.featureFlag || '';
 
   return {
     ...context,
