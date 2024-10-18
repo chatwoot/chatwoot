@@ -1,9 +1,10 @@
 <script setup>
+import { isVNode, computed } from 'vue';
 import Icon from './Icon.vue';
 import Policy from 'dashboard/components/policy.vue';
 import { useSidebarContext } from './provider';
 
-defineProps({
+const props = defineProps({
   name: {
     type: String,
     required: true,
@@ -20,9 +21,17 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  component: {
+    type: Function,
+    default: null,
+  },
 });
 
 const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
+
+const shouldRenderComponent = computed(() => {
+  return typeof props.component === 'function' || isVNode(props.component);
+});
 </script>
 
 <template>
@@ -41,9 +50,17 @@ const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
         'text-n-blue bg-n-alpha-2 font-medium active': active,
       }"
     >
-      <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
-
-      <div class="flex-1 truncate min-w-0">{{ name }}</div>
+      <component
+        :is="component"
+        v-if="shouldRenderComponent"
+        :name
+        :icon
+        :active
+      />
+      <template v-else>
+        <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
+        <div class="flex-1 truncate min-w-0">{{ name }}</div>
+      </template>
     </component>
   </Policy>
 </template>
