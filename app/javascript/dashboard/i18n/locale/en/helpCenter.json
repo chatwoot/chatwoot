@@ -563,6 +563,10 @@
           "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
         }
       },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "No categories found",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
       },

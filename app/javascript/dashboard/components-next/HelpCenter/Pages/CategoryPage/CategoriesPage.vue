@@ -9,6 +9,7 @@ import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import CategoryList from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryList.vue';
 import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
+import CategoryEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Category/CategoryEmptyState.vue';
 import EditCategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/EditCategoryDialog.vue';
 
 const props = defineProps({
@@ -101,7 +102,14 @@ const handleAction = ({ action, id, category: categoryData }) => {
       />
     </template>
     <template #content>
+      <CategoryEmptyState
+        v-if="categories.length === 0"
+        class="pt-14"
+        :title="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.TITLE')"
+        :subtitle="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.SUBTITLE')"
+      />
       <CategoryList
+        v-else
         :categories="categories"
         @click="openCategoryArticles"
         @action="handleAction"
