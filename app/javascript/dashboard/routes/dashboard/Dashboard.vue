@@ -178,6 +178,7 @@ export default {
     <NextSidebar
       v-if="showNextSidebar"
       @toggle-account-modal="toggleAccountModal"
+      @open-notification-panel="openNotificationPanel"
     />
     <Sidebar
       v-else
