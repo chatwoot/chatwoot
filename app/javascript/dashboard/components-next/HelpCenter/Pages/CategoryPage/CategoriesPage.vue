@@ -11,11 +11,16 @@ import CategoryList from 'dashboard/components-next/HelpCenter/Pages/CategoryPag
 import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
 import CategoryEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Category/CategoryEmptyState.vue';
 import EditCategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/EditCategoryDialog.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   categories: {
     type: Array,
     required: true,
+  },
+  isFetching: {
+    type: Boolean,
+    required: false,
   },
   allowedLocales: {
     type: Array,
@@ -102,8 +107,14 @@ const handleAction = ({ action, id, category: categoryData }) => {
       />
     </template>
     <template #content>
+      <div
+        v-if="isFetching"
+        class="flex items-center justify-center py-10 text-n-slate-11"
+      >
+        <Spinner />
+      </div>
       <CategoryEmptyState
-        v-if="categories.length === 0"
+        v-else-if="categories.length === 0"
         class="pt-14"
         :title="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.TITLE')"
         :subtitle="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.SUBTITLE')"

@@ -14,6 +14,8 @@ const categories = useMapGetter('categories/allCategories');
 const selectedPortalSlug = computed(() => route.params.portalSlug);
 const getPortalBySlug = useMapGetter('portals/portalBySlug');
 
+const isFetching = useMapGetter('categories/isFetching');
+
 const portal = computed(() => getPortalBySlug.value(selectedPortalSlug.value));
 
 const allowedLocales = computed(() => {
@@ -57,6 +59,7 @@ onMounted(() => {
 <template>
   <CategoriesPage
     :categories="categories"
+    :is-fetching="isFetching"
     :allowed-locales="allowedLocales"
     @fetch-categories="fetchCategories"
   />
