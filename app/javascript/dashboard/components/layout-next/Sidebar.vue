@@ -50,6 +50,10 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
+const sortedInboxes = computed(() =>
+  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+);
+
 const menuItems = computed(() => {
   // const portalProps = {
   //   portalSlug: 'testing',
@@ -83,15 +87,11 @@ const menuItems = computed(() => {
         {
           name: 'Channels',
           icon: 'i-lucide-mailbox',
-          children: inboxes.value
-            .map(inbox => ({
-              name: inbox.name,
-              to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-              component: leafProps => h(ChannelLeaf, { ...leafProps, inbox }),
-            }))
-            .sort((a, b) =>
-              a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
-            ),
+          children: sortedInboxes.value.map(inbox => ({
+            name: inbox.name,
+            to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
+            component: leafProps => h(ChannelLeaf, { ...leafProps, inbox }),
+          })),
         },
         {
           name: 'Labels',
