@@ -745,7 +745,7 @@
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Website",
+      "WEB_WIDGET": "Spletna stran",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
