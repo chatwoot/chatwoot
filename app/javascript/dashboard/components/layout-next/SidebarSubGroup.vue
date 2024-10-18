@@ -9,7 +9,7 @@ import { useEventListener } from '@vueuse/core';
 
 const props = defineProps({
   isExpanded: { type: Boolean, default: false },
-  name: { type: String, required: true },
+  label: { type: String, required: true },
   icon: { type: [Object, String], required: true },
   children: { type: Array, default: undefined },
   activeChild: { type: Object, default: undefined },
@@ -48,7 +48,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
   <SidebarGroupSeparator
     v-if="hasAccessibleItems"
     v-show="isExpanded"
-    :name
+    :label
     :icon
     class="my-1"
   />
@@ -70,7 +70,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
           :active="activeChild?.name === child.name"
         />
       </template>
-      <SidebarGroupEmptyLeaf class="ml-3" v-else v-show="isExpanded" />
+      <SidebarGroupEmptyLeaf v-else v-show="isExpanded" class="ml-3" />
     </div>
     <div
       v-if="isScrollable && isExpanded"

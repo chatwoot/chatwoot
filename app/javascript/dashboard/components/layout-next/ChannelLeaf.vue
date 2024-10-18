@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import Icon from './Icon.vue';
 
 const props = defineProps({
-  name: {
+  label: {
     type: String,
     required: true,
   },
@@ -60,7 +60,7 @@ const reauthorizationRequired = computed(() => {
   >
     <Icon :icon="channelIcon" class="size-3" />
   </span>
-  <div class="flex-1 truncate min-w-0">{{ name }}</div>
+  <div class="flex-1 truncate min-w-0">{{ label }}</div>
   <div
     v-if="reauthorizationRequired"
     v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"

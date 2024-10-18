@@ -2,7 +2,7 @@
 import Icon from './Icon.vue';
 
 defineProps({
-  name: {
+  label: {
     type: String,
     default: '',
   },
@@ -19,7 +19,7 @@ defineProps({
   >
     <Icon v-if="icon" :icon="icon" class="size-4" />
     <span class="text-sm font-medium leading-5 flex-grow">
-      {{ name }}
+      {{ label }}
     </span>
   </div>
 </template>

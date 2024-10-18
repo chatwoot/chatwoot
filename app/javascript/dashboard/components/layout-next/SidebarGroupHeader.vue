@@ -3,7 +3,7 @@ import Icon from './Icon.vue';
 
 defineProps({
   to: { type: [Object, String], default: '' },
-  name: { type: String, default: '' },
+  label: { type: String, default: '' },
   icon: { type: [String, Object], default: '' },
   expandable: { type: Boolean, default: false },
   isExpanded: { type: Boolean, default: false },
@@ -20,7 +20,7 @@ const emit = defineEmits(['toggle']);
     class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8"
     role="button"
     :to="to"
-    :title="name"
+    :title="label"
     :class="{
       'text-n-blue bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
       'text-n-slate-12 font-medium': hasActiveChild,
@@ -30,7 +30,7 @@ const emit = defineEmits(['toggle']);
   >
     <Icon v-if="icon" :icon="icon" class="size-4" />
     <span class="text-sm font-medium leading-5 flex-grow">
-      {{ name }}
+      {{ label }}
     </span>
     <span
       v-if="expandable"

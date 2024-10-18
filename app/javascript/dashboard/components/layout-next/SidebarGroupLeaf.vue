@@ -5,26 +5,11 @@ import Policy from 'dashboard/components/policy.vue';
 import { useSidebarContext } from './provider';
 
 const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-  to: {
-    type: [String, Object],
-    required: true,
-  },
-  icon: {
-    type: [String, Object],
-    default: null,
-  },
-  active: {
-    type: Boolean,
-    default: false,
-  },
-  component: {
-    type: Function,
-    default: null,
-  },
+  label: { type: String, required: true },
+  to: { type: [String, Object], required: true },
+  icon: { type: [String, Object], default: null },
+  active: { type: Boolean, default: false },
+  component: { type: Function, default: null },
 });
 
 const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
@@ -44,7 +29,7 @@ const shouldRenderComponent = computed(() => {
     <component
       :is="to ? 'router-link' : 'div'"
       :to="to"
-      :title="name"
+      :title="label"
       class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group"
       :class="{
         'text-n-blue bg-n-alpha-2 font-medium active': active,
@@ -53,13 +38,13 @@ const shouldRenderComponent = computed(() => {
       <component
         :is="component"
         v-if="shouldRenderComponent"
-        :name
+        :label
         :icon
         :active
       />
       <template v-else>
         <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
-        <div class="flex-1 truncate min-w-0">{{ name }}</div>
+        <div class="flex-1 truncate min-w-0">{{ label }}</div>
       </template>
     </component>
   </Policy>

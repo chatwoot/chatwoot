@@ -11,6 +11,7 @@ import SidebarGroupEmptyLeaf from './SidebarGroupEmptyLeaf.vue';
 
 const props = defineProps({
   name: { type: String, required: true },
+  label: { type: String, required: true },
   icon: { type: [String, Object, Function], default: null },
   to: { type: Object, default: null },
   activeOn: { type: Array, default: () => [] },
@@ -97,9 +98,10 @@ watch([isExpanded, hasActiveChild, isActive], locateLastChild, {
     class="text-sm cursor-pointer select-none gap-1 grid"
   >
     <SidebarGroupHeader
-      :icon="icon"
-      :name="name"
-      :to="to"
+      :icon
+      :name
+      :label
+      :to
       :is-active="isActive"
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
