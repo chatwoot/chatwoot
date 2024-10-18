@@ -56,11 +56,6 @@ const sortedInboxes = computed(() =>
 );
 
 const menuItems = computed(() => {
-  // const portalProps = {
-  //   portalSlug: 'testing',
-  //   locale: 'en',
-  // };
-
   return [
     {
       name: 'Inbox',
@@ -263,42 +258,6 @@ const menuItems = computed(() => {
         'show_category_articles',
       ],
     },
-    // {
-    //   name: 'Portals',
-    //   icon: 'i-lucide-library-big',
-    //   children: [
-    //     {
-    //       icon: 'i-lucide-newspaper',
-    //       name: t('SIDEBAR.HELP_CENTER.ALL_ARTICLES'),
-    //       to: accountScopedRoute('list_all_locale_articles', portalProps),
-    //     },
-    //     {
-    //       icon: 'i-lucide-pen',
-    //       name: t('SIDEBAR.HELP_CENTER.MY_ARTICLES'),
-    //       to: accountScopedRoute('list_mine_articles', portalProps),
-    //     },
-    //     {
-    //       icon: 'i-lucide-book-dashed',
-    //       name: t('SIDEBAR.HELP_CENTER.DRAFT'),
-    //       to: accountScopedRoute('list_draft_articles', portalProps),
-    //     },
-    //     {
-    //       icon: 'i-lucide-component',
-    //       name: t('SIDEBAR.HELP_CENTER.CATEGORY'),
-    //       to: accountScopedRoute('list_draft_articles', portalProps),
-    //     },
-    //     {
-    //       icon: 'i-lucide-archive',
-    //       name: t('SIDEBAR.HELP_CENTER.ARCHIVED'),
-    //       to: accountScopedRoute('list_archived_articles', portalProps),
-    //     },
-    //     {
-    //       icon: 'i-lucide-settings',
-    //       name: t('SIDEBAR.HELP_CENTER.SETTINGS'),
-    //       to: accountScopedRoute('edit_portal_information', portalProps),
-    //     },
-    //   ],
-    // },
     {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
