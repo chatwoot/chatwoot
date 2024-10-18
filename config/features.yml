@@ -92,3 +92,5 @@
 - name: custom_roles
   enabled: false
   premium: true
+- name: sidebar_next
+  enabled: false
