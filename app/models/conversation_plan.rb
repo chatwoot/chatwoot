@@ -26,7 +26,6 @@ class ConversationPlan < ApplicationRecord
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :conversation_id, presence: true
-  validates :description, presence: true
 
   belongs_to :account
   belongs_to :contact
