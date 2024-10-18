@@ -47,6 +47,10 @@ const channelIcon = computed(() => {
 
   return icon ?? 'i-ri-global-fill';
 });
+
+const reauthorizationRequired = computed(() => {
+  return props.inbox.reauthorization_required;
+});
 </script>
 
 <template>
@@ -57,4 +61,11 @@ const channelIcon = computed(() => {
     <Icon :icon="channelIcon" class="size-3" />
   </span>
   <div class="flex-1 truncate min-w-0">{{ name }}</div>
+  <div
+    v-if="reauthorizationRequired"
+    v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"
+    class="grid place-content-center size-4 bg-n-ruby-3 rounded-md outline-n-ruby-4 outline outline-1"
+  >
+    <Icon icon="i-lucide-octagon-alert" class="size-2.5 text-n-ruby-11" />
+  </div>
 </template>
