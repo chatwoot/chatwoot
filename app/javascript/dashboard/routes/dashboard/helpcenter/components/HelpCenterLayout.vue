@@ -70,6 +70,12 @@ export default {
         FEATURE_FLAGS.HELP_CENTER
       );
     },
+    showNextSidebar() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.SIDEBAR_NEXT
+      );
+    },
     isSidebarOpen() {
       const { show_help_center_secondary_sidebar: showSecondarySidebar } =
         this.uiSettings;
@@ -291,8 +297,9 @@ export default {
 
 <template>
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
-    <NextSidebar />
+    <NextSidebar v-if="showNextSidebar" />
     <Sidebar
+      v-else
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
