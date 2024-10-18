@@ -1,4 +1,5 @@
 import { inject, provide } from 'vue';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useRouter } from 'vue-router';
 
 const SidebarControl = Symbol('SidebarControl');
@@ -10,6 +11,7 @@ export function useSidebarContext() {
   }
 
   const router = useRouter();
+  const { checkFeatureAllowed, checkPermissions } = usePolicy();
 
   const resolvePath = to => {
     if (to) return router.resolve(to)?.path || '/';
@@ -26,11 +28,19 @@ export function useSidebarContext() {
     return '';
   };
 
+  const isAllowed = to => {
+    const permissions = resolvePermissions(to);
+    const featureFlag = resolveFeatureFlag(to);
+
+    return checkPermissions(permissions) && checkFeatureAllowed(featureFlag);
+  };
+
   return {
     ...context,
     resolvePath,
     resolvePermissions,
     resolveFeatureFlag,
+    isAllowed,
   };
 }
 

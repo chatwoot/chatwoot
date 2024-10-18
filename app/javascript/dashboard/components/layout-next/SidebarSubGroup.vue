@@ -4,7 +4,6 @@ import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
 import SidebarGroupEmptyLeaf from './SidebarGroupEmptyLeaf.vue';
 
-import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useSidebarContext } from './provider';
 import { useEventListener } from '@vueuse/core';
 
@@ -16,18 +15,12 @@ const props = defineProps({
   activeChild: { type: Object, default: undefined },
 });
 
-const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
-const { checkFeatureAllowed, checkPermissions } = usePolicy();
+const { isAllowed } = useSidebarContext();
 const scrollableContainer = ref(null);
 
-const accessibleItems = computed(() => {
-  return props.children.filter(child => {
-    const permissions = resolvePermissions(child.to);
-    const featureFlag = resolveFeatureFlag(child.to);
-
-    return checkPermissions(permissions) && checkFeatureAllowed(featureFlag);
-  });
-});
+const accessibleItems = computed(() =>
+  props.children.filter(child => isAllowed(child.to))
+);
 
 const hasAccessibleItems = computed(() => {
   if (props.children.length === 0) {

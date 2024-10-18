@@ -2,7 +2,6 @@
 import { computed, watch } from 'vue';
 import { useParentElement } from '@vueuse/core';
 import { useSidebarContext } from './provider';
-import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
 import SidebarGroupHeader from './SidebarGroupHeader.vue';
@@ -24,9 +23,8 @@ const {
   resolvePath,
   resolvePermissions,
   resolveFeatureFlag,
+  isAllowed,
 } = useSidebarContext();
-
-const { checkFeatureAllowed, checkPermissions } = usePolicy();
 
 const parentEl = useParentElement();
 
@@ -52,13 +50,7 @@ const hasChildren = computed(
 
 const accessibleItems = computed(() => {
   if (!hasChildren.value) return [];
-
-  return props.children.filter(child => {
-    const permissions = resolvePermissions(child.to);
-    const featureFlag = resolveFeatureFlag(child.to);
-
-    return checkPermissions(permissions) && checkFeatureAllowed(featureFlag);
-  });
+  return props.children.filter(child => isAllowed(child.to));
 });
 
 const hasAccessibleItems = computed(() => {
