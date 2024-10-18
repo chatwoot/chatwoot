@@ -16,7 +16,6 @@ import Logo from './Logo.vue';
 
 const emit = defineEmits([
   'toggleAccountModal',
-  // 'showAddLabelPopup',
   'openNotificationPanel',
   'closeKeyShortcutModal',
   'openKeyShortcutModal',
@@ -50,7 +49,6 @@ provideSidebarContext({
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const teams = useMapGetter('teams/getMyTeams');
-const currentUser = useMapGetter('getCurrentUser');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
@@ -467,7 +465,11 @@ const menuItems = computed(() => {
     <section
       class="p-2 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0 flex gap-2 items-center"
     >
-      <SidebarProfile class="flex-grow hover:bg-n-alpha-1 p-1 -m-1" />
+      <SidebarProfile
+        class="flex-grow hover:bg-n-alpha-1 p-1 -m-1"
+        @toggle-accounts="emit('toggleAccountModal')"
+        @open-key-shortcut-modal="emit('openKeyShortcutModal')"
+      />
       <div class="w-px h-3 bg-n-strong flex-shrink-0" />
       <SidebarNotificationBell
         @open-notification-panel="emit('openNotificationPanel')"

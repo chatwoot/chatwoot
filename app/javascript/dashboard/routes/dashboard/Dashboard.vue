@@ -179,9 +179,10 @@ export default {
       v-if="showNextSidebar"
       @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @close-key-shortcut-modal="closeKeyShortcutModal"
     />
     <Sidebar
-      v-else
       :route="currentRoute"
       :has-banner="hasBanner"
       :show-secondary-sidebar="isSidebarOpen"

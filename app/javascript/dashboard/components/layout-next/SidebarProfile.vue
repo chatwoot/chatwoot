@@ -1,11 +1,117 @@
 <script setup>
+import { computed } from 'vue';
+import Auth from 'dashboard/api/auth';
+import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
+import { useToggle } from '@vueuse/core';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
+import Icon from './Icon.vue';
+
+const emit = defineEmits(['close', 'openKeyShortcutModal', 'toggleAccounts']);
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const { t } = useI18n();
+const router = useRouter();
+
+const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
+const [showProfileMenu, toggleProfileMenu] = useToggle(false);
+
+const closeMenu = () => {
+  if (showProfileMenu.value) {
+    emit('close');
+    toggleProfileMenu(false);
+  }
+};
+
+const showChangeAccountOption = computed(() => {
+  if (globalConfig.value.createNewAccountFromDashboard) {
+    return true;
+  }
+
+  const { accounts = [] } = currentUser.value;
+  return accounts.length > 1;
+});
+
+const menuItems = computed(() => {
+  return [
+    {
+      show: showChangeAccountOption.value,
+      label: t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS'),
+      icon: 'i-lucide-arrow-left-right',
+      click: () => {
+        closeMenu();
+        emit('toggleAccounts');
+      },
+    },
+    {
+      show: !!globalConfig.value.chatwootInboxToken,
+      label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
+      icon: 'i-lucide-life-buoy',
+      click: () => {
+        closeMenu();
+        window.$chatwoot.toggle();
+      },
+    },
+    {
+      show: true,
+      label: t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS'),
+      icon: 'i-lucide-keyboard',
+      click: () => {
+        closeMenu();
+        emit('openKeyShortcutModal');
+      },
+    },
+    {
+      show: true,
+      label: t('SIDEBAR_ITEMS.PROFILE_SETTINGS'),
+      icon: 'i-lucide-user-pen',
+      click: () => {
+        closeMenu();
+        router.push({ name: 'profile_settings_index' });
+      },
+    },
+    {
+      show: true,
+      label: t('SIDEBAR_ITEMS.APPEARANCE'),
+      icon: 'i-lucide-swatch-book',
+      click: () => {
+        closeMenu();
+        const ninja = document.querySelector('ninja-keys');
+        ninja.open({ parent: 'appearance_settings' });
+      },
+    },
+    {
+      show: currentUser.value.type === 'SuperAdmin',
+      label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
+      icon: 'i-lucide-castle',
+      link: '/super_admin',
+      target: '_blank',
+    },
+    {
+      show: true,
+      label: t('SIDEBAR_ITEMS.LOGOUT'),
+      icon: 'i-lucide-log-out',
+      click: Auth.logout,
+    },
+  ];
+});
+
+const allowedMenuItems = computed(() => {
+  return menuItems.value.filter(item => item.show);
+});
 </script>
 
 <template>
-  <div class="flex gap-2 items-center rounded-lg cursor-pointer">
+  <button
+    class="flex gap-2 items-center rounded-lg cursor-pointer text-left"
+    v-bind="$attrs"
+    @click="toggleProfileMenu()"
+  >
     <Avatar
       :size="32"
       :name="currentUser.available_name"
@@ -19,5 +125,24 @@ const currentUser = useMapGetter('getCurrentUser');
         {{ currentUser.email }}
       </div>
     </div>
+  </button>
+  <div
+    v-if="showProfileMenu"
+    v-on-clickaway="closeMenu"
+    class="w-64 bg-n-solid-1 border border-n-weak absolute bottom-14 z-[999] rounded-lg shadow-sm"
+  >
+    <ul class="list-none m-0 grid gap-1 p-1">
+      <li v-for="item in allowedMenuItems" :key="item.label" class="m-0">
+        <component
+          :is="item.link ? 'a' : 'button'"
+          v-bind="item.link ? { target: item.target, href: item.link } : {}"
+          class="text-left hover:bg-n-alpha-1 px-2 py-1.5 w-full flex items-center gap-2"
+          @click="item.click"
+        >
+          <Icon :icon="item.icon" class="size-4" />
+          {{ item.label }}
+        </component>
+      </li>
+    </ul>
   </div>
 </template>
