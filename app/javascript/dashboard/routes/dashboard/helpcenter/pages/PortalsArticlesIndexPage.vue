@@ -98,8 +98,7 @@ watch(
   () => {
     pageNumber.value = 1;
     fetchArticles();
-  },
-  { immediate: true, deep: true }
+  }
 );
 </script>
 
