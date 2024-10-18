@@ -11,7 +11,6 @@ RSpec.describe 'Public Articles API', type: :request do
                      content: 'This is a *test* content with ^markdown^', views: 0)
   end
 
-
   before do
     ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
@@ -71,7 +70,6 @@ RSpec.describe 'Public Articles API', type: :request do
 
     it 'does not increment the view count if the article is not published' do
       draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
-      
       get "/hc/#{portal.slug}/articles/#{draft_article.slug}"
       expect(response).to have_http_status(:success)
       expect(draft_article.reload.views).to eq 0

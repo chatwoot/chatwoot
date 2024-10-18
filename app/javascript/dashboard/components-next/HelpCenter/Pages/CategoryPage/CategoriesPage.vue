@@ -72,7 +72,7 @@ async function deleteCategory(category) {
   } catch (error) {
     useAlert(
       error.message ||
-      t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.DELETE.API.ERROR_MESSAGE')
+        t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.DELETE.API.ERROR_MESSAGE')
     );
   }
 }
