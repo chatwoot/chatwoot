@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import Icon from './Icon.vue';
+import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 
 const emit = defineEmits(['close', 'openKeyShortcutModal', 'toggleAccounts']);
 
@@ -129,8 +130,10 @@ const allowedMenuItems = computed(() => {
   <div
     v-if="showProfileMenu"
     v-on-clickaway="closeMenu"
-    class="w-64 bg-n-solid-1 border border-n-weak absolute bottom-14 z-[999] rounded-lg shadow-sm"
+    class="w-72 bg-n-solid-1 border border-n-weak absolute bottom-14 z-[999] rounded-lg shadow-sm"
   >
+    <SidebarProfileMenuStatus />
+    <div class="border-t border-n-strong mx-2 my-0" />
     <ul class="list-none m-0 grid gap-1 p-1">
       <li v-for="item in allowedMenuItems" :key="item.label" class="m-0">
         <component

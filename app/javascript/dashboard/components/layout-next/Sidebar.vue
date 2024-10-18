@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import SidebarGroup from './SidebarGroup.vue';
-import SidebarProfile from './SidebarProfile.vue';
+import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import Logo from './Logo.vue';
@@ -465,7 +465,7 @@ const menuItems = computed(() => {
     <section
       class="p-2 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0 flex gap-2 items-center"
     >
-      <SidebarProfile
+      <SidebarProfileMenu
         class="flex-grow hover:bg-n-alpha-1 p-1 -m-1"
         @toggle-accounts="emit('toggleAccountModal')"
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"
