@@ -93,14 +93,18 @@ onMounted(() => {
   fetchArticles();
 });
 
-watch(route, () => {
-  pageNumber.value = 1;
-  fetchArticles();
-});
+watch(
+  () => route.params,
+  () => {
+    pageNumber.value = 1;
+    fetchArticles();
+  },
+  { immediate: true, deep: true }
+);
 </script>
 
 <template>
-  <div class="h-full w-full">
+  <div class="w-full h-full">
     <ArticlesPage
       v-if="portal"
       :articles="articles"
@@ -110,7 +114,7 @@ watch(route, () => {
       :meta="meta"
       :portal-meta="portalMeta"
       :is-fetching="isFetching"
-      :should-show-empty-state="shouldShowEmptyState"
+      :has-no-articles="shouldShowEmptyState"
       :is-category-articles="isCategoryArticles"
       @page-change="onPageChange"
       @fetch-portal="fetchPortalAndItsCategories"

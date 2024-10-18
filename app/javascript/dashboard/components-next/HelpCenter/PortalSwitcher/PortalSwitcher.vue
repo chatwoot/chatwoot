@@ -1,11 +1,12 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const emit = defineEmits(['close', 'createPortal']);
 
@@ -13,6 +14,8 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+
+const isPortalChanging = ref(false);
 
 const portals = useMapGetter('portals/allPortals');
 
@@ -43,11 +46,13 @@ const fetchPortalAndItsCategories = async (slug, locale) => {
   await store.dispatch('agents/get');
 };
 
-const handlePortalChange = portal => {
+const handlePortalChange = async portal => {
+  isPortalChanging.value = true;
   const {
     slug,
     meta: { default_locale: defaultLocale },
   } = portal;
+  await fetchPortalAndItsCategories(slug, defaultLocale);
   router.push({
     name: 'portals_articles_index',
     params: {
@@ -55,8 +60,8 @@ const handlePortalChange = portal => {
       locale: defaultLocale,
     },
   });
-  fetchPortalAndItsCategories(slug, defaultLocale);
   emit('close');
+  isPortalChanging.value = false;
 };
 
 const openCreatePortalDialog = () => {
@@ -78,7 +83,14 @@ const openCreatePortalDialog = () => {
           {{ t('HELP_CENTER.PORTAL_SWITCHER.CREATE_PORTAL') }}
         </p>
       </div>
+      <div
+        v-if="isPortalChanging"
+        class="flex items-center justify-center text-n-slate-11"
+      >
+        <Spinner />
+      </div>
       <Button
+        v-else
         :label="t('HELP_CENTER.PORTAL_SWITCHER.NEW_PORTAL')"
         variant="secondary"
         icon="add"

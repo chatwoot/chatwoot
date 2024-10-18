@@ -524,6 +524,33 @@
           "ALL": "All locales"
         },
         "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "There are no articles in mine",
+          "SUBTITLE": "Mine articles will appear here"
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in draft",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no articles in published",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in archived",
+          "SUBTITLE": "Archived articles will appear here"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
       }
     },
     "CATEGORY_PAGE": {

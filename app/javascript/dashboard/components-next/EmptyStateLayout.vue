@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <section
-    class="relative flex flex-col items-center justify-center w-full h-full min-h-screen p-4 overflow-hidden"
+    class="relative flex flex-col items-center justify-center w-full h-full overflow-hidden"
   >
     <div
       class="relative w-full max-w-[940px] mx-auto overflow-hidden h-full max-h-[448px]"
@@ -24,7 +24,7 @@ defineProps({
         <slot name="empty-state-item" />
       </div>
       <div
-        class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end w-full h-full pb-9 bg-gradient-to-t from-white from-35% dark:from-slate-900 to-transparent"
+        class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end w-full h-full pb-20 bg-gradient-to-t from-n-background from-25% dark:from-n-background to-transparent"
       >
         <div class="flex flex-col items-center justify-center gap-6">
           <div class="flex flex-col items-center justify-center gap-3">

@@ -95,7 +95,6 @@ const handleArticleAction = async (action, { status, id }) => {
         useTrack(PORTALS_EVENTS.PUBLISH_ARTICLE);
       }
     }
-
     await updateMeta();
   } catch (error) {
     alertMessage =

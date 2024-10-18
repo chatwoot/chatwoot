@@ -9,7 +9,7 @@ import ArticleList from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/
 import ArticleHeaderControls from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticleHeaderControls.vue';
 import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryHeaderControls.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import ArticleEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Article/ArticleEmptyState.vue';
 
 const props = defineProps({
   articles: {
@@ -36,7 +36,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  shouldShowEmptyState: {
+  hasNoArticles: {
     type: Boolean,
     default: false,
   },
@@ -52,18 +52,32 @@ const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
+const isEmptyAllTab = computed(() => !route.params.tab && props.hasNoArticles);
+const isEmptySpecificTab = computed(
+  () =>
+    [ARTICLE_TABS.MINE, ARTICLE_TABS.DRAFT, ARTICLE_TABS.ARCHIVED].includes(
+      route.params.tab
+    ) && props.hasNoArticles
+);
+
+const showEmptyState = computed(
+  () =>
+    isEmptyAllTab.value ||
+    isEmptySpecificTab.value ||
+    (props.isCategoryArticles && props.hasNoArticles)
+);
+
 const updateRoute = newParams => {
   const { accountId, portalSlug, locale, tab, categorySlug } = route.params;
-  const baseParams = { accountId, portalSlug };
-
   router.push({
     name: 'portals_articles_index',
     params: {
-      ...baseParams,
-      ...newParams,
+      accountId,
+      portalSlug,
       locale: newParams.locale ?? locale,
       tab: newParams.tab ?? tab,
       categorySlug: newParams.categorySlug ?? categorySlug,
+      ...newParams,
     },
   });
 };
@@ -80,26 +94,48 @@ const articlesCount = computed(() => {
   return Number(countMap[tab || '']);
 });
 
-const handleTabChange = tab => {
+const showArticleHeaderControls = computed(() => {
+  return (
+    !props.isCategoryArticles &&
+    !isEmptyAllTab.value &&
+    (props.meta.articlesCount > 0 ||
+      (props.isFetching && articlesCount.value > 0))
+  );
+});
+
+const getEmptyStateText = type => {
+  const tabName = route.params.tab?.toUpperCase() || 'ALL';
+  return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.${tabName}.${type}`);
+};
+
+const getEmptyStateTitle = computed(() => {
+  if (props.isCategoryArticles) {
+    return t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.TITLE');
+  }
+  return isEmptySpecificTab.value
+    ? getEmptyStateText('TITLE')
+    : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.TITLE');
+});
+
+const getEmptyStateSubtitle = computed(() => {
+  if (props.isCategoryArticles) {
+    return t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.SUBTITLE');
+  }
+  return isEmptySpecificTab.value
+    ? getEmptyStateText('SUBTITLE')
+    : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.SUBTITLE');
+});
+
+const handleTabChange = tab =>
   updateRoute({ tab: tab.value === ARTICLE_TABS.ALL ? '' : tab.value });
-};
-
-const handleCategoryAction = value => {
+const handleCategoryAction = value =>
   updateRoute({ categorySlug: value === CATEGORY_ALL ? '' : value });
-};
-
 const handleLocaleAction = value => {
   updateRoute({ locale: value, categorySlug: '' });
   emit('fetchPortal', value);
 };
-
-const handlePageChange = page => {
-  emit('pageChange', page);
-};
-
-const newArticlePage = () => {
-  router.push({ name: 'portals_articles_new' });
-};
+const handlePageChange = page => emit('pageChange', page);
+const newArticlePage = () => router.push({ name: 'portals_articles_new' });
 </script>
 
 <template>
@@ -108,13 +144,13 @@ const newArticlePage = () => {
     :total-items="articlesCount"
     :items-per-page="25"
     :header="portalName"
-    :show-pagination-footer="!isFetching && !shouldShowEmptyState"
+    :show-pagination-footer="!isFetching && !hasNoArticles"
     @update:current-page="handlePageChange"
   >
     <template #header-actions>
       <div class="flex items-end justify-between">
         <ArticleHeaderControls
-          v-if="!isCategoryArticles"
+          v-if="showArticleHeaderControls"
           :categories="categories"
           :allowed-locales="allowedLocales"
           :meta="meta"
@@ -124,7 +160,7 @@ const newArticlePage = () => {
           @new-article="newArticlePage"
         />
         <CategoryHeaderControls
-          v-else
+          v-else-if="!isEmptySpecificTab && isCategoryArticles"
           :categories="categories"
           :allowed-locales="allowedLocales"
           :has-selected-category="isCategoryArticles"
@@ -138,9 +174,18 @@ const newArticlePage = () => {
       >
         <Spinner />
       </div>
-      <EmptyState
-        v-else-if="shouldShowEmptyState"
-        :title="t('HELP_CENTER.TABLE.NO_ARTICLES')"
+      <ArticleEmptyState
+        v-else-if="showEmptyState"
+        class="pt-14"
+        :title="getEmptyStateTitle"
+        :subtitle="getEmptyStateSubtitle"
+        :show-button="isEmptyAllTab && !isCategoryArticles"
+        :button-label="
+          isEmptyAllTab
+            ? t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
+            : ''
+        "
+        @click="newArticlePage"
       />
       <ArticleList
         v-else
