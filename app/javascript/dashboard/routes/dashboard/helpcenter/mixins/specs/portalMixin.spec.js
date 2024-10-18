@@ -2,16 +2,23 @@ import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import { createRouter, createWebHistory } from 'vue-router';
 import portalMixin from '../portalMixin';
-import ListAllArticles from '../../pages/portals/ListAllPortals.vue';
+
+// Create a dummy component
+const DummyComponent = { template: '<div>Dummy Component</div>' };
 
 // Create router instance
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/:portalSlug/:locale/articles', // Add leading "/"
+      path: '/',
+      name: 'home',
+      component: DummyComponent,
+    },
+    {
+      path: '/:portalSlug/:locale/articles',
       name: 'list_all_locale_articles',
-      component: ListAllArticles,
+      component: DummyComponent,
     },
   ],
 });
@@ -36,6 +43,7 @@ describe('portalMixin', () => {
         plugins: [store, router],
       },
     });
+    router.push('/');
   });
 
   it('returns account id', () => {

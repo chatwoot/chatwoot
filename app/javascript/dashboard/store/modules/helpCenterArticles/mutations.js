@@ -30,10 +30,8 @@ export const mutations = {
     $state.articles.allIds.push(...articleIds);
   },
 
-  [types.SET_ARTICLES_META]: ($state, data) => {
-    const { articles_count: count, current_page: currentPage } = data;
-    $state.meta.count = count;
-    $state.meta.currentPage = currentPage;
+  [types.SET_ARTICLES_META]: ($state, meta) => {
+    $state.meta = meta;
   },
 
   [types.ADD_ARTICLE_ID]: ($state, articleId) => {

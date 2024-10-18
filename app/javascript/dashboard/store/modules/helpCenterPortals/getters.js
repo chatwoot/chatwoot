@@ -23,4 +23,5 @@ export const getters = {
   },
   count: state => state.portals.allIds.length || 0,
   getMeta: state => state.meta,
+  isSwitching: state => state.isSwitching,
 };
