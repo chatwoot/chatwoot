@@ -59,17 +59,36 @@ const isFetchingDetails = computed(
   () => props.isFetching || isSwitchingPortal.value
 );
 
-const isEmptyAllTab = computed(() => !route.params.tab && props.hasNoArticles);
-const isEmptySpecificTab = computed(
-  () =>
-    [ARTICLE_TABS.MINE, ARTICLE_TABS.DRAFT, ARTICLE_TABS.ARCHIVED].includes(
-      route.params.tab
-    ) && props.hasNoArticles
+const totalArticlesCount = computed(() => props.meta.allArticlesCount);
+
+const hasNoArticlesInPortal = computed(
+  () => totalArticlesCount.value === 0 && !props.isCategoryArticles
 );
+
+const isEmptySpecificTab = computed(() => {
+  const { tab } = route.params;
+  const specificTabs = [
+    ARTICLE_TABS.MINE,
+    ARTICLE_TABS.DRAFT,
+    ARTICLE_TABS.ARCHIVED,
+    '', // All tab
+  ];
+
+  if (!specificTabs.includes(tab)) return false;
+
+  const tabArticleCountMap = {
+    '': props.meta.articlesCount,
+    [ARTICLE_TABS.MINE]: props.meta.mineArticlesCount,
+    [ARTICLE_TABS.DRAFT]: props.meta.draftArticlesCount,
+    [ARTICLE_TABS.ARCHIVED]: props.meta.archivedArticlesCount,
+  };
+
+  return tabArticleCountMap[tab] === 0;
+});
 
 const showEmptyState = computed(
   () =>
-    isEmptyAllTab.value ||
+    hasNoArticlesInPortal.value ||
     isEmptySpecificTab.value ||
     (props.isCategoryArticles && props.hasNoArticles)
 );
@@ -98,49 +117,33 @@ const articlesCount = computed(() => {
     draft: meta.draftArticlesCount,
     archived: meta.archivedArticlesCount,
   };
-  return Number(countMap[tab || '']);
+  return Number(countMap[tab] || countMap['']);
 });
 
-const showArticleHeaderControls = computed(() => {
-  return (
+const showArticleHeaderControls = computed(
+  () =>
+    !hasNoArticlesInPortal.value &&
     !props.isCategoryArticles &&
-    !isEmptyAllTab.value &&
     !isSwitchingPortal.value
-  );
-});
+);
 
-const showCategoryHeaderControls = computed(() => {
-  return (
+const showCategoryHeaderControls = computed(
+  () =>
     !isEmptySpecificTab.value &&
     props.isCategoryArticles &&
     !isSwitchingPortal.value
-  );
-});
+);
 
-const getEmptyStateText = computed(() => {
-  return type => {
-    const tabName = route.params.tab?.toUpperCase() || 'ALL';
-    return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.${tabName}.${type}`);
-  };
-});
-
-const getEmptyStateTitle = computed(() => {
+const getEmptyStateText = type => {
   if (props.isCategoryArticles) {
-    return t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.TITLE');
+    return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.${type}`);
   }
-  return isEmptySpecificTab.value
-    ? getEmptyStateText.value('TITLE')
-    : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.TITLE');
-});
+  const tabName = route.params.tab?.toUpperCase() || 'ALL';
+  return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.${tabName}.${type}`);
+};
 
-const getEmptyStateSubtitle = computed(() => {
-  if (props.isCategoryArticles) {
-    return t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.SUBTITLE');
-  }
-  return isEmptySpecificTab.value
-    ? getEmptyStateText.value('SUBTITLE')
-    : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.SUBTITLE');
-});
+const getEmptyStateTitle = computed(() => getEmptyStateText('TITLE'));
+const getEmptyStateSubtitle = computed(() => getEmptyStateText('SUBTITLE'));
 
 const handleTabChange = tab =>
   updateRoute({ tab: tab.value === ARTICLE_TABS.ALL ? '' : tab.value });
@@ -151,7 +154,8 @@ const handleLocaleAction = value => {
   emit('fetchPortal', value);
 };
 const handlePageChange = page => emit('pageChange', page);
-const newArticlePage = () => router.push({ name: 'portals_articles_new' });
+const navigateToNewArticlePage = () =>
+  router.push({ name: 'portals_articles_new' });
 </script>
 
 <template>
@@ -173,7 +177,7 @@ const newArticlePage = () => router.push({ name: 'portals_articles_new' });
           @tab-change="handleTabChange"
           @locale-change="handleLocaleAction"
           @category-change="handleCategoryAction"
-          @new-article="newArticlePage"
+          @new-article="navigateToNewArticlePage"
         />
         <CategoryHeaderControls
           v-else-if="showCategoryHeaderControls"
@@ -195,13 +199,11 @@ const newArticlePage = () => router.push({ name: 'portals_articles_new' });
         class="pt-14"
         :title="getEmptyStateTitle"
         :subtitle="getEmptyStateSubtitle"
-        :show-button="isEmptyAllTab && !isCategoryArticles"
+        :show-button="hasNoArticlesInPortal"
         :button-label="
-          isEmptyAllTab
-            ? t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
-            : ''
+          t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
         "
-        @click="newArticlePage"
+        @click="navigateToNewArticlePage"
       />
       <ArticleList
         v-else
