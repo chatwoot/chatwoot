@@ -183,6 +183,7 @@ export default {
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
     <Sidebar
+      v-else
       :route="currentRoute"
       :has-banner="hasBanner"
       :show-secondary-sidebar="isSidebarOpen"
