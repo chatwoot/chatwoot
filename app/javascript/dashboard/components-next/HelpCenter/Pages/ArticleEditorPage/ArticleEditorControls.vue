@@ -152,7 +152,7 @@ const updateMeta = meta => {
         <DropdownMenu
           v-if="openAgentsList && hasMoreThanOneAgentExceptCurrentUser"
           :menu-items="agentList"
-          class="right-0 z-[100] w-48 mt-2 !py-1 overflow-y-auto xl:left-0 top-full max-h-52"
+          class="z-[100] w-48 mt-2 !py-1 overflow-y-auto left-0 top-full max-h-52"
           @action="handleArticleAction"
         />
       </OnClickOutside>
