@@ -41,7 +41,7 @@ const updateRouteAfterDeletion = async deletedPortalSlug => {
       params: { portalSlug: slug, locale: defaultLocale },
     });
   } else {
-    router.push({ name: 'home' });
+    router.push({ name: 'portals_new' });
   }
 };
 
