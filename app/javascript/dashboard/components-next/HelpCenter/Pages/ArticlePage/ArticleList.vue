@@ -33,12 +33,12 @@ const openArticle = id => {
   const { tab, categorySlug, locale } = route.params;
   if (props.isCategoryArticles) {
     router.push({
-      name: 'edit_category_article',
+      name: 'portals_categories_articles_edit',
       params: { articleSlug: id },
     });
   } else {
     router.push({
-      name: 'edit_articles',
+      name: 'portals_articles_edit',
       params: {
         articleSlug: id,
         tab,

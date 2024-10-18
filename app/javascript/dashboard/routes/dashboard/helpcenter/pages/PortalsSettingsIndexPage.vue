@@ -37,7 +37,7 @@ const updateRouteAfterDeletion = async deletedPortalSlug => {
     } = nextPortal;
     await fetchPortalAndItsCategories(slug, defaultLocale);
     router.push({
-      name: 'portal_articles_index',
+      name: 'portals_articles_index',
       params: { portalSlug: slug, locale: defaultLocale },
     });
   } else {

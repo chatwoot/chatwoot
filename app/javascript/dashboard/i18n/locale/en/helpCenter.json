@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Help Center",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Create Portal"
+    },
     "HEADER": {
       "FILTER": "Filter by",
       "SORT": "Sort by",
@@ -611,7 +616,10 @@
     },
     "EDIT_ARTICLE_PAGE": {
       "HEADER": {
-        "STATUS": { "SAVING": "Saving...", "SAVED": "Saved" },
+        "STATUS": {
+          "SAVING": "Saving...",
+          "SAVED": "Saved"
+        },
         "PREVIEW": "Preview",
         "PUBLISH": "Publish",
         "DRAFT": "Draft",

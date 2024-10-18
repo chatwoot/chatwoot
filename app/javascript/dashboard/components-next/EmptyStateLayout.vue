@@ -24,17 +24,17 @@ defineProps({
         <slot name="empty-state-item" />
       </div>
       <div
-        class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end w-full h-full pb-9 bg-gradient-to-t from-white dark:from-slate-900 to-transparent font-interDisplay"
+        class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end w-full h-full pb-9 bg-gradient-to-t from-white from-35% dark:from-slate-900 to-transparent"
       >
         <div class="flex flex-col items-center justify-center gap-6">
-          <div class="flex flex-col items-center justify-center gap-2">
+          <div class="flex flex-col items-center justify-center gap-3">
             <h2
-              class="text-3xl font-medium text-center text-slate-900 dark:text-white"
+              class="text-3xl font-medium text-center text-slate-900 dark:text-white font-interDisplay"
             >
               {{ title }}
             </h2>
             <p
-              class="max-w-lg text-base text-center text-slate-600 dark:text-slate-300"
+              class="max-w-lg text-base text-center text-slate-600 dark:text-slate-300 font-interDisplay tracking-[0.3px]"
             >
               {{ subtitle }}
             </p>

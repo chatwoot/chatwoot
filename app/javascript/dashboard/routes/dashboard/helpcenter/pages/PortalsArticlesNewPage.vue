@@ -56,7 +56,7 @@ const createNewArticle = async ({ title, content }) => {
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
 
     router.replace({
-      name: 'edit_articles',
+      name: 'portals_articles_edit',
       params: {
         articleSlug: articleId,
         portalSlug,
@@ -75,7 +75,7 @@ const createNewArticle = async ({ title, content }) => {
 const goBackToArticles = () => {
   const { tab, categorySlug, locale } = route.params;
   router.push({
-    name: 'portal_articles_index',
+    name: 'portals_articles_index',
     params: { tab, categorySlug, locale },
   });
 };

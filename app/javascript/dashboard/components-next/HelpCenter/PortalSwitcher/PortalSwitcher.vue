@@ -49,7 +49,7 @@ const handlePortalChange = portal => {
     meta: { default_locale: defaultLocale },
   } = portal;
   router.push({
-    name: 'portal_articles_index',
+    name: 'portals_articles_index',
     params: {
       portalSlug: slug,
       locale: defaultLocale,

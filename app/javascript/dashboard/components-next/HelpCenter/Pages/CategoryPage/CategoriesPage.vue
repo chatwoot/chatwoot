@@ -47,11 +47,11 @@ const updateRoute = (newParams, routeName) => {
 };
 
 const openCategoryArticles = slug => {
-  updateRoute({ categorySlug: slug }, 'list_category_articles');
+  updateRoute({ categorySlug: slug }, 'portals_categories_articles_index');
 };
 
 const handleLocaleChange = value => {
-  updateRoute({ locale: value }, 'list_categories');
+  updateRoute({ locale: value }, 'portals_categories_index');
   emit('fetchCategories', value);
 };
 
@@ -72,7 +72,7 @@ async function deleteCategory(category) {
   } catch (error) {
     useAlert(
       error.message ||
-        t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.DELETE.API.ERROR_MESSAGE')
+      t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.DELETE.API.ERROR_MESSAGE')
     );
   }
 }

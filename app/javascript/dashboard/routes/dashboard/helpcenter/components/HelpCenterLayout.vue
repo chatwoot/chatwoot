@@ -70,15 +70,15 @@ export default {
 
       if (
         [
-          'new_articles',
-          'list_categories',
-          'list_category_articles',
-          'edit_articles',
-          'list_articles',
-          'edit_category_article',
-          'default_portal_articles',
-          'list_locales',
-          'portal_settings',
+          'portals_articles_new',
+          'portals_categories_index',
+          'portals_categories_articles_index',
+          'portals_articles_edit',
+          'portals_articles_index',
+          'portals_categories_articles_edit',
+          'portals_index',
+          'portals_locales_index',
+          'portals_settings_index',
         ].includes(this.$route.name)
       ) {
         return false;

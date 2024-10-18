@@ -11,6 +11,7 @@ import { required, minLength } from '@vuelidate/validators';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
+const emit = defineEmits('create');
 const { t } = useI18n();
 const store = useStore();
 
@@ -79,11 +80,11 @@ const handleDialogConfirm = async () => {
     custom_domain: state.domain,
     blob_id: state.avatarBlobId || null,
   };
-  createPortal(portal);
+  await createPortal(portal);
   dialogRef.value.close();
+  emit('create', { slug: portal.slug, locale: 'en' });
 };
 
-// Expose the dialogRef to the parent component
 defineExpose({ dialogRef });
 </script>
 

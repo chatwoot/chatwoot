@@ -56,7 +56,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.HELP_CENTER,
     alwaysVisibleOnChatwootInstances: true,
     toState: frontendURL(`accounts/${accountId}/portals/portal_articles_index`),
-    toStateName: 'portal_index',
+    toStateName: 'portals_index',
   },
   {
     icon: 'settings',

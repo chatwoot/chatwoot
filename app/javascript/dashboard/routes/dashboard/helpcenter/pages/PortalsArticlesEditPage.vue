@@ -57,9 +57,9 @@ const saveArticle = async ({ ...values }) => {
 
 const isCategoryArticles = computed(() => {
   return (
-    route.name === 'list_category_articles' ||
-    route.name === 'edit_category_article' ||
-    route.name === 'list_categories'
+    route.name === 'portals_categories_articles_index' ||
+    route.name === 'portals_categories_articles_edit' ||
+    route.name === 'portals_categories_index'
   );
 });
 
@@ -67,12 +67,12 @@ const goBackToArticles = () => {
   const { tab, categorySlug, locale } = route.params;
   if (isCategoryArticles.value) {
     router.push({
-      name: 'portal_categories_articles_index',
+      name: 'portals_categories_articles_index',
       params: { categorySlug, locale },
     });
   } else {
     router.push({
-      name: 'portal_articles_index',
+      name: 'portals_articles_index',
       params: { tab, categorySlug, locale },
     });
   }

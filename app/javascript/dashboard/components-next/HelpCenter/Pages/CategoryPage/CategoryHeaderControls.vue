@@ -119,7 +119,7 @@ const handleLocaleAction = ({ value }) => {
 const handleBreadcrumbClick = () => {
   const { categorySlug, ...otherParams } = route.params;
   router.push({
-    name: 'list_categories',
+    name: 'portals_categories_index',
     params: otherParams,
   });
 };

@@ -42,10 +42,18 @@ const generateRouterParams = () => {
 
 const routeToLastActivePortal = () => {
   const params = generateRouterParams();
+  const { navigationPath } = route.params;
+  const isAValidRoute = [
+    'portals_articles_index',
+    'portals_categories_index',
+    'portals_locales_index',
+  ].includes(navigationPath);
+
+  const navigateTo = isAValidRoute ? navigationPath : 'portals_articles_index';
   if (params) {
-    return routeToView(route.params.navigationPath, params);
+    return routeToView(navigateTo, params);
   }
-  return routeToView('portal_create', {});
+  return routeToView('portals_new', {});
 };
 
 const performRouting = async () => {
