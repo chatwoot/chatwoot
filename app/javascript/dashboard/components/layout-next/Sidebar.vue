@@ -11,12 +11,13 @@ import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
+import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import Logo from './Logo.vue';
 
 const emit = defineEmits([
   'toggleAccountModal',
   // 'showAddLabelPopup',
-  // 'openNotificationPanel',
+  'openNotificationPanel',
   'closeKeyShortcutModal',
   'openKeyShortcutModal',
 ]);
@@ -412,7 +413,6 @@ const menuItems = computed(() => {
           id="sidebar-account-switcher"
           :data-account-id="accountId"
           aria-haspopup="listbox"
-          aria-expanded="false"
           aria-controls="account-options"
           class="flex items-center gap-2 px-2 justify-between w-full rounded-lg hover:bg-n-alpha-1 -mx-1"
           @click="emit('toggleAccountModal')"
@@ -465,20 +465,27 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="px-4 py-3 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0 flex gap-3 items-center"
+      class="p-2 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0 flex gap-2 items-center"
     >
-      <Avatar
-        :name="currentUser.available_name"
-        :src="currentUser.avatar_url"
-      />
-      <div class="grid">
-        <span class="text-n-slate-12 text-sm leading-5 font-medium">
-          {{ currentUser.available_name }}
-        </span>
-        <span class="text-n-slate-11 leading-4 text-xs">
-          {{ currentUser.email }}
-        </span>
+      <div class="flex gap-2 items-center flex-grow">
+        <Avatar
+          :size="32"
+          :name="currentUser.available_name"
+          :src="currentUser.avatar_url"
+        />
+        <div>
+          <div class="text-n-slate-12 text-sm leading-4 font-medium">
+            {{ currentUser.available_name }}
+          </div>
+          <div class="text-n-slate-11 text-xs">
+            {{ currentUser.email }}
+          </div>
+        </div>
       </div>
+      <div class="w-px h-3 bg-n-strong flex-shrink-0" />
+      <SidebarNotificationBell
+        @open-notification-panel="emit('openNotificationPanel')"
+      />
     </section>
   </aside>
 </template>
