@@ -71,16 +71,25 @@ const isActive = computed(() => {
   return false;
 });
 
-const hasActiveChild = computed(() => {
-  return navigableChildren.value.some(child => {
-    return child.to?.name === route.name;
+const activeChild = computed(() => {
+  return navigableChildren.value.find(child => {
+    // we use startsWith to account for nested routes
+    if (child.to && route.path.startsWith(resolvePath(child.to))) {
+      return true;
+    }
+
+    // nested routes may not be logically nested in the sidebar
+    // but only conceptually, so we allow using activeOn
+    if (child.activeOn && child.activeOn.includes(route.name)) {
+      return true;
+    }
+
+    return false;
   });
 });
 
-const activeChild = computed(() => {
-  return navigableChildren.value.find(child => {
-    return child.to && resolvePath(child.to) === route.path;
-  });
+const hasActiveChild = computed(() => {
+  return activeChild.value !== undefined;
 });
 
 watch([isExpanded, hasActiveChild, isActive], locateLastChild, {
