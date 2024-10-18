@@ -11,6 +11,8 @@ import SidebarGroup from './SidebarGroup.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import Logo from './Logo.vue';
 
+const emit = defineEmits(['toggleAccountModal']);
+
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
@@ -140,7 +142,8 @@ const menuItems = computed(() => {
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
           children: contactCustomViews.value.map(view => ({
-            name: view.name,
+            name: `${view.name}-${view.id}`,
+            label: view.name,
             to: accountScopedRoute('contacts_segments_dashboard', {
               id: view.id,
             }),
@@ -151,7 +154,8 @@ const menuItems = computed(() => {
           icon: 'i-lucide-tag',
           label: t('SIDEBAR.TAGGED_WITH'),
           children: labels.value.map(label => ({
-            name: label.title,
+            name: `${label.title}-${label.id}`,
+            label: label.title,
             icon: labelIcon(label.color),
             to: accountScopedRoute('contacts_labels_dashboard', {
               label: label.title,
@@ -376,6 +380,7 @@ const menuItems = computed(() => {
           aria-expanded="false"
           aria-controls="account-options"
           class="flex items-center gap-2 px-2 justify-between w-full rounded-lg hover:bg-n-alpha-1 -mx-1"
+          @click="emit('toggleAccountModal')"
         >
           <span
             class="text-sm font-medium leading-5 text-n-slate-12"
