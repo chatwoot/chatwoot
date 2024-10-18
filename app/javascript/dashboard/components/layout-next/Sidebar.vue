@@ -319,7 +319,7 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-48 bg-n-solid-2 border-r border-n-weak h-screen flex flex-col text-sm pt-2"
+    class="w-[200px] bg-n-solid-2 border-r border-n-weak h-screen flex flex-col text-sm pt-2"
   >
     <section class="grid gap-2 mt-2 px-2 mb-4">
       <button
