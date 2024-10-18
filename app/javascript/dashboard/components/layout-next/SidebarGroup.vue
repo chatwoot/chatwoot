@@ -30,7 +30,7 @@ const { checkFeatureAllowed, checkPermissions } = usePolicy();
 
 const parentEl = useParentElement();
 
-const locateLasChild = () => {
+const locateLastChild = () => {
   parentEl.value?.querySelectorAll('.child-item').forEach((child, index) => {
     if (index === parentEl.value.querySelectorAll('.child-item').length - 1) {
       child.classList.add('last-child-item');
@@ -90,7 +90,7 @@ const activeChild = computed(() => {
   });
 });
 
-watch([isExpanded, hasActiveChild, isActive], locateLasChild, {
+watch([isExpanded, hasActiveChild, isActive], locateLastChild, {
   immediate: true,
 });
 </script>
