@@ -22,6 +22,10 @@ const emit = defineEmits([
 ]);
 
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
+const store = useStore();
+const searchShortcut = useKbd([`$mod`, 'k']);
+const { t } = useI18n();
+const enableNewConversation = false;
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -32,22 +36,11 @@ const toggleShortcutModalFn = show => {
 };
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
-const store = useStore();
-const searchShortcut = useKbd([`$mod`, 'k']);
-const { t } = useI18n();
-const enableNewConversation = false;
-
-const labelIcon = backgroundColor =>
-  h('span', {
-    class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-    style: { backgroundColor },
-  });
 
 const expandedItem = ref(null);
 const setExpandedItem = name => {
   expandedItem.value = expandedItem.value === name ? null : name;
 };
-
 provideSidebarContext({
   expandedItem,
   setExpandedItem,
@@ -149,7 +142,10 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
-            icon: labelIcon(label.color),
+            icon: h('span', {
+              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              style: { backgroundColor: label.color },
+            }),
             to: accountScopedRoute('label_conversations', {
               label: label.title,
             }),
@@ -192,7 +188,10 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
-            icon: labelIcon(label.color),
+            icon: h('span', {
+              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              style: { backgroundColor: label.color },
+            }),
             to: accountScopedRoute('contacts_labels_dashboard', {
               label: label.title,
             }),
