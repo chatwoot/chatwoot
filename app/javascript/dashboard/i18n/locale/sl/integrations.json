@@ -257,7 +257,7 @@
             "REQUIRED_ERROR": "Team is required"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
+            "LABEL": "Prejemnik",
             "PLACEHOLDER": "Select assignee",
             "SEARCH": "Search assignee"
           },
@@ -292,7 +292,7 @@
       "ISSUE": {
         "STATUS": "Status",
         "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
+        "ASSIGNEE": "Prejemnik",
         "LABELS": "Labels",
         "CREATED_AT": "Created at {createdAt}"
       },
