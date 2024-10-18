@@ -1,15 +1,22 @@
 <script>
+import { mapGetters } from 'vuex';
 import { defineAsyncComponent } from 'vue';
+
 import NextSidebar from 'dashboard/components/layout-next/Sidebar.vue';
 import Sidebar from '../../components/layout/Sidebar.vue';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
+
 import wootConstants from 'dashboard/constants/globals';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
 );
@@ -28,10 +35,12 @@ export default {
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
+    const { accountId } = useAccount();
 
     return {
       uiSettings,
       updateUISettings,
+      accountId,
     };
   },
   data() {
@@ -46,6 +55,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     currentRoute() {
       return ' ';
     },
@@ -63,6 +75,12 @@ export default {
       const { previously_used_sidebar_view: showSecondarySidebar } =
         this.uiSettings;
       return showSecondarySidebar;
+    },
+    showNextSidebar() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.SIDEBAR_NEXT
+      );
     },
   },
   watch: {
@@ -157,8 +175,9 @@ export default {
 
 <template>
   <div class="flex flex-wrap app-wrapper dark:text-slate-300">
-    <NextSidebar />
+    <NextSidebar v-if="showNextSidebar" />
     <Sidebar
+      v-else
       :route="currentRoute"
       :has-banner="hasBanner"
       :show-secondary-sidebar="isSidebarOpen"
