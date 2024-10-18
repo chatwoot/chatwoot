@@ -214,39 +214,67 @@ const menuItems = computed(() => {
     {
       name: 'Portals',
       icon: 'i-lucide-library-big',
-      children: [
-        {
-          icon: 'i-lucide-newspaper',
-          name: t('SIDEBAR.HELP_CENTER.ALL_ARTICLES'),
-          to: accountScopedRoute('list_all_locale_articles', portalProps),
-        },
-        {
-          icon: 'i-lucide-pen',
-          name: t('SIDEBAR.HELP_CENTER.MY_ARTICLES'),
-          to: accountScopedRoute('list_mine_articles', portalProps),
-        },
-        {
-          icon: 'i-lucide-book-dashed',
-          name: t('SIDEBAR.HELP_CENTER.DRAFT'),
-          to: accountScopedRoute('list_draft_articles', portalProps),
-        },
-        {
-          icon: 'i-lucide-component',
-          name: t('SIDEBAR.HELP_CENTER.CATEGORY'),
-          to: accountScopedRoute('list_draft_articles', portalProps),
-        },
-        {
-          icon: 'i-lucide-archive',
-          name: t('SIDEBAR.HELP_CENTER.ARCHIVED'),
-          to: accountScopedRoute('list_archived_articles', portalProps),
-        },
-        {
-          icon: 'i-lucide-settings',
-          name: t('SIDEBAR.HELP_CENTER.SETTINGS'),
-          to: accountScopedRoute('edit_portal_information', portalProps),
-        },
+      to: accountScopedRoute('default_portal_articles'),
+      activeOn: [
+        'all_locale_categories',
+        'default_portal_articles',
+        'edit_article',
+        'edit_category',
+        'edit_portal_customization',
+        'edit_portal_information',
+        'edit_portal_locales',
+        'list_all_locale_articles',
+        'list_all_locale_categories',
+        'list_all_portals',
+        'list_archived_articles',
+        'list_draft_articles',
+        'list_mine_articles',
+        'new_article',
+        'new_category_in_locale',
+        'new_portal_information',
+        'portalSlug',
+        'portal_customization',
+        'portal_finish',
+        'show_category',
+        'show_category_articles',
       ],
     },
+    // {
+    //   name: 'Portals',
+    //   icon: 'i-lucide-library-big',
+    //   children: [
+    //     {
+    //       icon: 'i-lucide-newspaper',
+    //       name: t('SIDEBAR.HELP_CENTER.ALL_ARTICLES'),
+    //       to: accountScopedRoute('list_all_locale_articles', portalProps),
+    //     },
+    //     {
+    //       icon: 'i-lucide-pen',
+    //       name: t('SIDEBAR.HELP_CENTER.MY_ARTICLES'),
+    //       to: accountScopedRoute('list_mine_articles', portalProps),
+    //     },
+    //     {
+    //       icon: 'i-lucide-book-dashed',
+    //       name: t('SIDEBAR.HELP_CENTER.DRAFT'),
+    //       to: accountScopedRoute('list_draft_articles', portalProps),
+    //     },
+    //     {
+    //       icon: 'i-lucide-component',
+    //       name: t('SIDEBAR.HELP_CENTER.CATEGORY'),
+    //       to: accountScopedRoute('list_draft_articles', portalProps),
+    //     },
+    //     {
+    //       icon: 'i-lucide-archive',
+    //       name: t('SIDEBAR.HELP_CENTER.ARCHIVED'),
+    //       to: accountScopedRoute('list_archived_articles', portalProps),
+    //     },
+    //     {
+    //       icon: 'i-lucide-settings',
+    //       name: t('SIDEBAR.HELP_CENTER.SETTINGS'),
+    //       to: accountScopedRoute('edit_portal_information', portalProps),
+    //     },
+    //   ],
+    // },
     {
       name: 'Settings',
       icon: 'i-lucide-bolt',

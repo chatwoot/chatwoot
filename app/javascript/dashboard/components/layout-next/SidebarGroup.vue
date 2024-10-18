@@ -13,6 +13,7 @@ const props = defineProps({
   name: { type: String, required: true },
   icon: { type: [String, Object, Function], default: null },
   to: { type: Object, default: null },
+  activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
 });
 
@@ -56,9 +57,16 @@ const isExpandable = computed(() => props.children);
 const hasChildren = computed(
   () => Array.isArray(props.children) && props.children.length > 0
 );
-const isActive = computed(
-  () => props.to && route.path === resolvePath(props.to)
-);
+
+const isActive = computed(() => {
+  if (props.to) {
+    if (route.path === resolvePath(props.to)) return true;
+
+    return props.activeOn.includes(route.name);
+  }
+
+  return false;
+});
 
 const hasActiveChild = computed(() => {
   return navigableChildren.value.some(child => {
