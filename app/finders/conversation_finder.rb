@@ -136,7 +136,13 @@ class ConversationFinder
   def filter_by_status
     return if params[:status] == 'all'
 
-    @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+    @conversations = if params[:status] == 'snoozed'
+                       @conversations.joins(:conversation_plans)
+                                     .where('conversation_plans.snoozed_until > NOW()')
+                                     .where(conversation_plans: { completed_at: nil })
+                     else
+                       @conversations.where(status: params[:status] || DEFAULT_STATUS)
+                     end
   end
 
   def filter_by_team
