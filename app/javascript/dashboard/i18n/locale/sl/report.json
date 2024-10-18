@@ -504,12 +504,12 @@
       "SEARCH": "Search filter",
       "INPUT_PLACEHOLDER": {
         "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
+        "AGENTS": "Ime agenta",
+        "INBOXES": "Ime nabiralnika",
         "LABELS": "Label name",
         "TEAMS": "Team name"
       },
-      "SLA": "SLA Policy",
+      "SLA": "Politika SLA",
       "INBOXES": "Inbox",
       "AGENTS": "Agent",
       "LABELS": "Label",
