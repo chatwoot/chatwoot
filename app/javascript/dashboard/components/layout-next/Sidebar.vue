@@ -73,15 +73,18 @@ const menuItems = computed(() => {
         {
           name: 'All',
           label: t('SIDEBAR.ALL_CONVERSATIONS'),
+          activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
         },
         {
           name: 'Mentions',
           label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
+          activeOn: ['conversation_through_mentions'],
           to: accountScopedRoute('conversation_mentions'),
         },
         {
           name: 'Unattended',
+          activeOn: ['conversation_through_unattended'],
           label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
           to: accountScopedRoute('conversation_unattended'),
         },
@@ -89,6 +92,7 @@ const menuItems = computed(() => {
           name: 'Folders',
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
           icon: 'i-lucide-folder',
+          activeOn: ['conversations_through_folders'],
           children: conversationCustomViews.value.map(view => ({
             name: `${view.name}-${view.id}`,
             label: view.name,
@@ -99,6 +103,7 @@ const menuItems = computed(() => {
           name: 'Channels',
           label: t('SIDEBAR.CHANNELS'),
           icon: 'i-lucide-mailbox',
+          activeOn: ['conversation_through_inbox'],
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
@@ -110,6 +115,7 @@ const menuItems = computed(() => {
           name: 'Labels',
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tag',
+          activeOn: ['conversations_through_label'],
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
