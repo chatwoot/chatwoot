@@ -8,8 +8,8 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
-import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import SidebarGroup from './SidebarGroup.vue';
+import SidebarProfile from './SidebarProfile.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import Logo from './Logo.vue';
@@ -467,21 +467,7 @@ const menuItems = computed(() => {
     <section
       class="p-2 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] overflow-x-hidden flex-shrink-0 flex gap-2 items-center"
     >
-      <div class="flex gap-2 items-center flex-grow">
-        <Avatar
-          :size="32"
-          :name="currentUser.available_name"
-          :src="currentUser.avatar_url"
-        />
-        <div>
-          <div class="text-n-slate-12 text-sm leading-4 font-medium">
-            {{ currentUser.available_name }}
-          </div>
-          <div class="text-n-slate-11 text-xs">
-            {{ currentUser.email }}
-          </div>
-        </div>
-      </div>
+      <SidebarProfile class="flex-grow hover:bg-n-alpha-1 p-1 -m-1" />
       <div class="w-px h-3 bg-n-strong flex-shrink-0" />
       <SidebarNotificationBell
         @open-notification-panel="emit('openNotificationPanel')"
