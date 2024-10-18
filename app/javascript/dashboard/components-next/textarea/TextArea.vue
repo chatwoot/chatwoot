@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, nextTick, watch } from 'vue';
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -29,13 +30,70 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  customTextAreaWrapperClass: {
+    type: String,
+    default: '',
+  },
   showCharacterCount: {
     type: Boolean,
     default: false,
   },
+  autoHeight: {
+    type: Boolean,
+    default: false,
+  },
+  minHeight: {
+    type: String,
+    default: '6rem',
+  },
 });
-defineEmits(['update:modelValue']);
+
+const emit = defineEmits(['update:modelValue']);
+
+const textareaRef = ref(null);
+const isFocused = ref(false);
+
 const characterCount = computed(() => props.modelValue.length);
+
+const adjustHeight = () => {
+  if (!props.autoHeight || !textareaRef.value) return;
+
+  // Reset height to auto to get the correct scrollHeight
+  textareaRef.value.style.height = 'auto';
+  // Set the height to the scrollHeight
+  textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
+};
+
+const handleInput = event => {
+  emit('update:modelValue', event.target.value);
+  if (props.autoHeight) {
+    nextTick(adjustHeight);
+  }
+};
+
+const handleFocus = () => {
+  isFocused.value = true;
+};
+
+const handleBlur = () => {
+  isFocused.value = false;
+};
+
+// Watch for changes in modelValue to adjust height
+watch(
+  () => props.modelValue,
+  () => {
+    if (props.autoHeight) {
+      nextTick(adjustHeight);
+    }
+  }
+);
+
+onMounted(() => {
+  if (props.autoHeight) {
+    nextTick(adjustHeight);
+  }
+});
 </script>
 
 <template>
@@ -47,23 +105,42 @@ const characterCount = computed(() => props.modelValue.length);
     >
       {{ label }}
     </label>
-    <textarea
-      :id="id"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :maxlength="maxLength"
-      class="flex w-full reset-base text-sm h-24 px-3 pt-3 !mb-0 border rounded-lg focus:border-woot-500 dark:focus:border-woot-600 bg-white dark:bg-slate-900 placeholder:text-slate-200 dark:placeholder:text-slate-500 text-slate-900 dark:text-white transition-all duration-500 ease-in-out resize-none disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-25 dark:disabled:bg-slate-900"
-      :class="[customTextAreaClass, showCharacterCount ? 'pb-9' : 'pb-3']"
-      :disabled="disabled"
-      @input="$emit('update:modelValue', $event.target.value)"
-    />
     <div
-      v-if="showCharacterCount"
-      class="absolute flex items-center justify-between mt-1 bottom-3 ltr:right-3 rtl:left-3"
+      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out bg-white border rounded-lg border-slate-100 dark:border-slate-700/50 dark:bg-slate-900"
+      :class="[
+        customTextAreaWrapperClass,
+        {
+          'cursor-not-allowed opacity-50 !bg-slate-25 dark:!bg-slate-800':
+            disabled,
+          'border-woot-500 dark:border-woot-600': isFocused,
+        },
+      ]"
     >
-      <span class="text-xs tabular-nums text-slate-300 dark:text-slate-600">
-        {{ characterCount }} / {{ maxLength }}
-      </span>
+      <textarea
+        :id="id"
+        ref="textareaRef"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :maxlength="showCharacterCount ? maxLength : undefined"
+        :class="[
+          customTextAreaClass,
+          { 'overflow-hidden': autoHeight },
+          `min-h-[${minHeight}]`,
+        ]"
+        :disabled="disabled"
+        class="flex w-full reset-base text-sm p-0 !rounded-none resize-none !bg-transparent dark:!bg-transparent !border-0 !mb-0 placeholder:text-slate-200 dark:placeholder:text-slate-500 text-slate-900 dark:text-white disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-25 dark:disabled:bg-slate-900"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+      />
+      <div
+        v-if="showCharacterCount"
+        class="flex items-center justify-end h-4 mt-1 bottom-3 ltr:right-3 rtl:left-3"
+      >
+        <span class="text-xs tabular-nums text-slate-300 dark:text-slate-600">
+          {{ characterCount }} / {{ maxLength }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
