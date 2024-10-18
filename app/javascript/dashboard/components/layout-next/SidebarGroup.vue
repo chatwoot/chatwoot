@@ -2,6 +2,7 @@
 import { computed, watch } from 'vue';
 import { useParentElement } from '@vueuse/core';
 import { useSidebarContext } from './provider';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useRoute } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
 import SidebarGroupHeader from './SidebarGroupHeader.vue';
@@ -25,6 +26,8 @@ const {
   resolveFeatureFlag,
 } = useSidebarContext();
 
+const { checkFeatureAllowed, checkPermissions } = usePolicy();
+
 const parentEl = useParentElement();
 
 const locateLasChild = () => {
@@ -46,6 +49,24 @@ const isExpandable = computed(() => props.children);
 const hasChildren = computed(
   () => Array.isArray(props.children) && props.children.length > 0
 );
+
+const accessibleItems = computed(() => {
+  if (!hasChildren.value) return [];
+
+  return props.children.filter(child => {
+    const permissions = resolvePermissions(child.to);
+    const featureFlag = resolveFeatureFlag(child.to);
+
+    return checkPermissions(permissions) && checkFeatureAllowed(featureFlag);
+  });
+});
+
+const hasAccessibleItems = computed(() => {
+  // default true so that rendering is not blocked
+  if (!hasChildren.value) return true;
+
+  return accessibleItems.value.length > 0;
+});
 
 const isActive = computed(() => {
   if (props.to) {
@@ -74,10 +95,13 @@ watch([isExpanded, hasActiveChild, isActive], locateLasChild, {
 });
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
+    v-if="hasAccessibleItems"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
+    as="li"
     class="text-sm cursor-pointer select-none gap-1 grid"
   >
     <SidebarGroupHeader
