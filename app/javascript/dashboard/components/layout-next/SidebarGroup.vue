@@ -36,18 +36,7 @@ const locateLasChild = () => {
 };
 
 const navigableChildren = computed(() => {
-  if (!props.children) {
-    return [];
-  }
-
-  return props.children.reduce((flattened, child) => {
-    if (child.children && child.children.length > 0) {
-      flattened.push(...child.children);
-    } else {
-      flattened.push(child);
-    }
-    return flattened;
-  }, []);
+  return props.children?.flatMap(child => child.children || child) || [];
 });
 
 const route = useRoute();
