@@ -6,14 +6,32 @@ import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+
+import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import Logo from './Logo.vue';
 
-const emit = defineEmits(['toggleAccountModal']);
+const emit = defineEmits([
+  'toggleAccountModal',
+  // 'showAddLabelPopup',
+  // 'openNotificationPanel',
+  'closeKeyShortcutModal',
+  'openKeyShortcutModal',
+]);
 
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
+
+const toggleShortcutModalFn = show => {
+  if (show) {
+    emit('openKeyShortcutModal');
+  } else {
+    emit('closeKeyShortcutModal');
+  }
+};
+
+useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
