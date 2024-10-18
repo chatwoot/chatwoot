@@ -175,7 +175,10 @@ export default {
 
 <template>
   <div class="flex flex-wrap app-wrapper dark:text-slate-300">
-    <NextSidebar v-if="showNextSidebar" />
+    <NextSidebar
+      v-if="showNextSidebar"
+      @toggle-account-modal="toggleAccountModal"
+    />
     <Sidebar
       v-else
       :route="currentRoute"

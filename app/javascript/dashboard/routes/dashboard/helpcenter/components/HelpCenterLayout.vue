@@ -297,7 +297,10 @@ export default {
 
 <template>
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
-    <NextSidebar v-if="showNextSidebar" />
+    <NextSidebar
+      v-if="showNextSidebar"
+      @toggle-account-modal="toggleAccountModal"
+    />
     <Sidebar
       v-else
       :route="currentRoute"
