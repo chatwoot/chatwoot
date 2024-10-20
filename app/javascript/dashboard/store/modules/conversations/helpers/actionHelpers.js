@@ -51,6 +51,14 @@ export const isOnOpenView = ({ route: { name: routeName } }) => {
   return OPEN_ROUTES.includes(routeName);
 };
 
+export const isOnOpenFromSnoozedView = ({ route: { name: routeName } }) => {
+  const OPEN_ROUTES = [
+    'conversation_open_from_snoozed_status',
+    'conversation_through_open_from_snoozed_status',
+  ];
+  return OPEN_ROUTES.includes(routeName);
+};
+
 export const isOnSnoozedView = ({ route: { name: routeName } }) => {
   const SNOOZED_ROUTES = [
     'conversation_snoozed_status',

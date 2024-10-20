@@ -9,14 +9,17 @@ export const findPendingMessageIndex = (chat, message) => {
 
 export const filterByStatus = (chatStatus, filterStatus, conversation) => {
   if (filterStatus === 'snoozed' && chatStatus === 'open') {
-    const now = new Date();
     const plan = conversation.last_conversation_plan;
-    const snoozedUntil = new Date(plan?.snoozed_until);
-    if (plan && snoozedUntil >= now && !plan.completed_at) {
+    if (plan && plan.status === 'todo') {
       conversation.status = filterStatus;
       conversation.snoozed_until = plan.snoozed_until;
       return true;
     }
+  }
+
+  if (filterStatus === 'openFromSnoozed' && chatStatus === 'open') {
+    const plan = conversation.last_conversation_plan;
+    return plan && (plan.status === 'doing' || plan.status === 'replied');
   }
 
   return filterStatus === 'all' ? true : chatStatus === filterStatus;

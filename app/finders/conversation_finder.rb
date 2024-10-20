@@ -136,10 +136,20 @@ class ConversationFinder
   def filter_by_status
     return if params[:status] == 'all'
 
-    @conversations = if params[:status] == 'snoozed'
-                       @conversations.joins(:conversation_plans)
-                                     .where('conversation_plans.snoozed_until > NOW()')
-                                     .where(conversation_plans: { completed_at: nil })
+    @conversations = case params[:status]
+                     when 'snoozed'
+                       @conversations.where.not(status: :resolved)
+                                     .joins(:conversation_plans)
+                                     .where(conversation_plans: { status: :todo })
+                     when 'openFromSnoozed'
+                       @conversations.where(status: :open)
+                                     .joins(:conversation_plans)
+                                     .where(conversation_plans: { status: :doing })
+                     when 'open'
+                       @conversations.where(status: :open)
+                                     .left_outer_joins(:conversation_plans)
+                                     .where('conversation_plans.id IS NULL OR (conversation_plans.status != ? and conversation_plans.replied = true)',
+                                            ConversationPlan.statuses[:done])
                      else
                        @conversations.where(status: params[:status] || DEFAULT_STATUS)
                      end

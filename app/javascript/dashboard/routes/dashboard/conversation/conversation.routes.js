@@ -179,6 +179,25 @@ export default {
       }),
     },
     {
+      path: frontendURL(
+        'accounts/:accountId/openFromSnoozed/conversations/:conversationId'
+      ),
+      name: 'conversation_through_open_from_snoozed_status',
+      roles: ['administrator', 'leader', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        status: 'openFromSnoozed',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/openFromSnoozed/conversations'),
+      name: 'conversation_open_from_snoozed_status',
+      roles: ['administrator', 'leader', 'agent'],
+      component: ConversationView,
+      props: () => ({ status: 'openFromSnoozed' }),
+    },
+    {
       path: frontendURL('accounts/:accountId/pending/conversations'),
       name: 'conversation_pending_status',
       roles: ['administrator', 'leader', 'agent'],

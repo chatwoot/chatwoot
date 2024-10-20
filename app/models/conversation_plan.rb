@@ -5,7 +5,9 @@
 #  id              :bigint           not null, primary key
 #  completed_at    :datetime
 #  description     :string
+#  replied         :boolean          default(FALSE), not null
 #  snoozed_until   :datetime
+#  status          :integer          default("todo"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
@@ -22,6 +24,7 @@
 #
 
 class ConversationPlan < ApplicationRecord
+  enum status: { todo: 0, doing: 1, done: 2 }
   before_validation :ensure_account_id
   validates :account_id, presence: true
   validates :contact_id, presence: true
@@ -32,9 +35,9 @@ class ConversationPlan < ApplicationRecord
   belongs_to :conversation
   belongs_to :created_by, class_name: 'User', optional: true
 
-  scope :completed, -> { where.not(completed_at: nil) }
+  scope :completed, -> { where(status: :done) }
   scope :latest, -> { order(created_at: :desc) }
-  scope :incomplete, -> { where(completed_at: nil) }
+  scope :incomplete, -> { where.not(status: :done) }
 
   private
 

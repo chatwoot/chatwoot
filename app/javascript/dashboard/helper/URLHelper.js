@@ -34,6 +34,8 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/pending/conversations/${id}`;
   } else if (status === 'snoozed') {
     url = `accounts/${accountId}/snoozed/conversations/${id}`;
+  } else if (status === 'openFromSnoozed') {
+    url = `accounts/${accountId}/openFromSnoozed/conversations/${id}`;
   } else if (status === 'resolved') {
     url = `accounts/${accountId}/resolved/conversations/${id}`;
   }

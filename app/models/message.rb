@@ -356,6 +356,10 @@ class Message < ApplicationRecord
 
     conversation.open! if conversation.snoozed?
 
+    if conversation.last_conversation_plan.present? && !conversation.last_conversation_plan.replied
+      conversation.last_conversation_plan.update(replied: true)
+    end
+
     reopen_resolved_conversation if conversation.resolved?
   end
 
