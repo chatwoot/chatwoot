@@ -39,8 +39,7 @@ export const mutations = {
     $state.articles.allIds.push(articleId);
   },
   [types.UPDATE_ARTICLE_FLAG]: ($state, { articleId, uiFlags }) => {
-    const flags =
-      Object.keys($state.articles.uiFlags.byId).includes(articleId) || {};
+    const flags = $state.articles.uiFlags.byId[articleId] || {};
 
     $state.articles.uiFlags.byId[articleId] = {
       ...{
@@ -62,11 +61,19 @@ export const mutations = {
       ...uiFlags,
     };
   },
-  [types.UPDATE_ARTICLE]($state, article) {
-    const articleId = article.id;
-    if (!$state.articles.allIds.includes(articleId)) return;
+  [types.UPDATE_ARTICLE]: ($state, updatedArticle) => {
+    const articleId = updatedArticle.id;
+    if ($state.articles.byId[articleId]) {
+      // Preserve the original position
+      const originalPosition = $state.articles.byId[articleId].position;
 
-    $state.articles.byId[articleId] = { ...article };
+      // Update the article, keeping the original position
+      // This is not moved out of the original position when we update the article
+      $state.articles.byId[articleId] = {
+        ...updatedArticle,
+        position: originalPosition,
+      };
+    }
   },
   [types.REMOVE_ARTICLE]($state, articleId) {
     const { [articleId]: toBeRemoved, ...newById } = $state.articles.byId;

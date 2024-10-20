@@ -1,4 +1,6 @@
 <script setup>
+import { ref, computed, watch } from 'vue';
+import Draggable from 'vuedraggable';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
@@ -27,6 +29,13 @@ const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
+const localArticles = ref(props.articles);
+
+const dragEnabled = computed(() => {
+  // Enable dragging only for category articles and when there's more than one article
+  return props.isCategoryArticles && localArticles.value?.length > 1;
+});
+
 const getCategoryById = useMapGetter('categories/categoryById');
 
 const openArticle = id => {
@@ -47,6 +56,30 @@ const openArticle = id => {
       },
     });
   }
+};
+
+const onReorder = reorderedGroup => {
+  store.dispatch('articles/reorder', {
+    reorderedGroup,
+    portalSlug: route.params.portalSlug,
+  });
+};
+
+const onDragEnd = () => {
+  // Reuse existing positions to maintain order within the current group
+  const sortedArticlePositions = localArticles.value
+    .map(article => article.position)
+    .sort((a, b) => a - b); // Use custom sort to handle numeric values correctly
+
+  const orderedArticles = localArticles.value.map(article => article.id);
+
+  // Create a map of article IDs to their new positions
+  const reorderedGroup = orderedArticles.reduce((obj, key, index) => {
+    obj[key] = sortedArticlePositions[index];
+    return obj;
+  }, {});
+
+  onReorder(reorderedGroup);
 };
 
 const getCategory = categoryId => {
@@ -111,22 +144,49 @@ const updateArticle = ({ action, value, id }) => {
   const status = action !== 'delete' ? getArticleStatus(value) : null;
   handleArticleAction(action, { status, id });
 };
+
+// Watch for changes in the articles prop and update the localArticles ref
+watch(
+  () => props.articles,
+  newArticles => {
+    localArticles.value = newArticles;
+  },
+  { deep: true }
+);
 </script>
 
 <template>
-  <ul role="list" class="w-full h-full space-y-4">
-    <ArticleCard
-      v-for="article in articles"
-      :id="article.id"
-      :key="article.id"
-      :title="article.title"
-      :status="article.status"
-      :author="article.author"
-      :category="getCategory(article.category.id)"
-      :views="article.views || 0"
-      :updated-at="article.updatedAt"
-      @open-article="openArticle"
-      @article-action="updateArticle"
-    />
-  </ul>
+  <Draggable
+    v-model="localArticles"
+    :disabled="!dragEnabled"
+    item-key="id"
+    tag="ul"
+    ghost-class="article-ghost-class"
+    class="w-full h-full space-y-4"
+    @end="onDragEnd"
+  >
+    <template #item="{ element }">
+      <li class="list-none rounded-2xl">
+        <ArticleCard
+          :id="element.id"
+          :key="element.id"
+          :title="element.title"
+          :status="element.status"
+          :author="element.author"
+          :category="getCategory(element.category.id)"
+          :views="element.views || 0"
+          :updated-at="element.updatedAt"
+          :class="{ 'cursor-grab': dragEnabled }"
+          @open-article="openArticle"
+          @article-action="updateArticle"
+        />
+      </li>
+    </template>
+  </Draggable>
 </template>
+
+<style lang="scss" scoped>
+.article-ghost-class {
+  @apply opacity-50 bg-n-solid-1;
+}
+</style>
