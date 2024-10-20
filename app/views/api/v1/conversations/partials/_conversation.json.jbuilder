@@ -35,6 +35,7 @@ else
   ]
 end
 
+json.last_conversation_plan conversation.last_conversation_plan
 json.account_id conversation.account_id
 json.uuid conversation.uuid
 json.additional_attributes conversation.additional_attributes

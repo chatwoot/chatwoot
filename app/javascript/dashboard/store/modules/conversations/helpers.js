@@ -7,8 +7,20 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-export const filterByStatus = (chatStatus, filterStatus) =>
-  filterStatus === 'all' ? true : chatStatus === filterStatus;
+export const filterByStatus = (chatStatus, filterStatus, conversation) => {
+  if (filterStatus === 'snoozed' && chatStatus === 'open') {
+    const now = new Date();
+    const plan = conversation.last_conversation_plan;
+    const snoozedUntil = new Date(plan?.snoozed_until);
+    if (plan && snoozedUntil >= now && !plan.completed_at) {
+      conversation.status = filterStatus;
+      conversation.snoozed_until = plan.snoozed_until;
+      return true;
+    }
+  }
+
+  return filterStatus === 'all' ? true : chatStatus === filterStatus;
+};
 
 export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
   const isOnInbox = Number(inboxId) === chatInboxId;
@@ -48,7 +60,7 @@ export const applyPageFilters = (conversation, filters) => {
   const team = meta.team || {};
   const { id: chatTeamId } = team;
 
-  let shouldFilter = filterByStatus(chatStatus, status);
+  let shouldFilter = filterByStatus(chatStatus, status, conversation);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
   shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
   shouldFilter = filterByLabel(shouldFilter, labels, chatLabels);

@@ -135,6 +135,10 @@ class Conversation < ApplicationRecord
     messages&.incoming&.last
   end
 
+  def last_conversation_plan
+    conversation_plans&.order(created_at: :desc)&.last
+  end
+
   def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
 
