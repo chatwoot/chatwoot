@@ -72,7 +72,7 @@ const articleMenuItems = computed(() => {
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return '!text-slate-12';
+      return '!text-n-slate-12';
     case 'draft':
       return '!text-n-amber-11';
     default:

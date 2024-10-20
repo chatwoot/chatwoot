@@ -71,10 +71,11 @@ const togglePortalSwitcher = () => {
           <div class="relative group">
             <OnClickOutside @trigger="showPortalSwitcher = false">
               <Button
-                icon="more-vertical"
-                variant="ghost"
+                icon="chevron-lucide-down"
+                variant="secondary"
                 size="sm"
-                class="group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+                icon-lib="lucide"
+                class="!w-6 !h-6 group-hover:bg-n-solid-2 !p-0.5 rounded-md"
                 @click="togglePortalSwitcher"
               />
 

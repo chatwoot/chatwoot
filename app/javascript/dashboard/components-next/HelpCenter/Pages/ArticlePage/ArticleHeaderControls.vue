@@ -147,8 +147,7 @@ const handleTabChange = value => {
               icon-position="right"
               icon="chevron-lucide-down"
               icon-lib="lucide"
-              variant="ghost"
-              class="bg-n-solid-3 text-n-slate-12"
+              variant="secondary"
               @click="isLocaleMenuOpen = !isLocaleMenuOpen"
             />
 
@@ -168,8 +167,7 @@ const handleTabChange = value => {
               icon-position="right"
               icon="chevron-lucide-down"
               icon-lib="lucide"
-              variant="ghost"
-              class="bg-n-solid-3 text-n-slate-12"
+              variant="secondary"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
             />
 

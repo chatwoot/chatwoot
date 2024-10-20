@@ -55,14 +55,13 @@ const emit = defineEmits(['click']);
 const buttonVariants = {
   variant: {
     default:
-      'bg-woot-500 dark:bg-woot-500 text-white dark:text-white hover:bg-woot-600 dark:hover:bg-woot-600',
+      'bg-n-brand text-white dark:text-white hover:bg-woot-600 dark:hover:bg-woot-600',
     destructive:
       'bg-ruby-700 dark:bg-ruby-700 text-white dark:text-white hover:bg-ruby-800 dark:hover:bg-ruby-800',
     outline:
       'border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600',
-    secondary:
-      'bg-slate-50 text-slate-900 dark:bg-slate-700/50 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-600',
-    ghost: '',
+    secondary: 'bg-n-solid-3 text-n-slate-12 hover:bg-n-solid-2',
+    ghost: 'text-n-slate-12',
     link: 'text-woot-500 underline-offset-4 hover:underline dark:hover:underline',
   },
   size: {
@@ -78,9 +77,8 @@ const buttonVariants = {
       '!text-green-500 dark:!text-green-500 hover:!text-green-600 dark:hover:!text-green-600',
     warning:
       '!text-amber-600 dark:!text-amber-600 hover:!text-amber-600 dark:hover:!text-amber-600',
-    danger:
-      '!text-ruby-700 dark:!text-ruby-700 hover:!text-ruby-800 dark:hover:!text-ruby-800',
-    info: '!text-slate-500 dark:!text-slate-400 hover:!text-slate-600 dark:hover:!text-slate-500',
+    danger: '!text-n-ruby-11 hover:!text-n-ruby-10',
+    info: '!text-n-slate-12 hover:!text-n-slate-11',
   },
 };
 

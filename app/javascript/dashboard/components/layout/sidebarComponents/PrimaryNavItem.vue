@@ -110,7 +110,7 @@ export default {
       <DropdownMenu
         v-if="showHelpCenterMenu && isHelpCenter"
         :menu-items="helpCenterMenuItems"
-        class="left-10 w-48 z-[100] !py-1 top-0 overflow-y-auto max-h-52"
+        class="left-10 w-36 z-[100] !py-1 top-0 overflow-y-auto max-h-52"
         @action="handleHelpCenterAction"
       />
     </button>

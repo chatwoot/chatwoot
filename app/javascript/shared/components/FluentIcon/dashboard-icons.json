@@ -294,5 +294,6 @@
   "chevron-lucide-left-outline": "m15 18l-6-6l6-6",
   "chevron-lucide-right-outline": "m9 18l6-6l-6-6",
   "chevron-lucide-up-outline": "m18 15l-6-6l-6 6",
-  "chevron-lucide-down-outline": "m6 9l6 6l6-6"
+  "chevron-lucide-down-outline": "m6 9l6 6l6-6",
+  "checkmark-lucide-outline": "M20 6L9 17l-5-5"
 }
