@@ -70,13 +70,13 @@ onClickOutside(dialogContentRef, event => {
   <Teleport to="body">
     <dialog
       ref="dialogRef"
-      class="w-full max-w-lg overflow-visible shadow-xl bg-modal-backdrop-light dark:bg-modal-backdrop-dark rounded-xl"
+      class="w-full max-w-lg overflow-visible transition-all duration-300 ease-in-out shadow-xl rounded-xl"
       :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >
       <div
         ref="dialogContentRef"
-        class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-white shadow-xl dark:bg-slate-800 rounded-xl"
+        class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
         @click.stop
       >
         <div class="flex flex-col gap-2">
@@ -97,9 +97,9 @@ onClickOutside(dialogContentRef, event => {
         </slot>
         <div class="flex items-center justify-between w-full gap-3">
           <Button
-            variant="secondary"
+            variant="ghost"
             :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
-            class="w-full"
+            class="w-full bg-n-alpha-2 hover:bg-n-alpha-3"
             @click="close"
           />
           <Button
@@ -115,3 +115,9 @@ onClickOutside(dialogContentRef, event => {
     </dialog>
   </Teleport>
 </template>
+
+<style scoped>
+dialog::backdrop {
+  @apply bg-n-alpha-white backdrop-blur-sm;
+}
+</style>

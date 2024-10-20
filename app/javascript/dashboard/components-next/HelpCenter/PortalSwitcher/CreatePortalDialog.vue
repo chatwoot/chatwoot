@@ -11,7 +11,7 @@ import { required, minLength } from '@vuelidate/validators';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
-const emit = defineEmits('create');
+const emit = defineEmits(['create']);
 
 const { t } = useI18n();
 const store = useStore();

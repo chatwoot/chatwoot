@@ -99,7 +99,6 @@ onClickOutside(comboboxRef, () => {
       variant="outline"
       :label="selectedLabel"
       icon-position="right"
-      size="sm"
       :disabled="disabled"
       class="justify-between w-full text-slate-900 dark:text-slate-100 group-hover/combobox:border-slate-300 dark:group-hover/combobox:border-slate-600"
       :icon="open ? 'chevron-up' : 'chevron-down'"
@@ -107,9 +106,9 @@ onClickOutside(comboboxRef, () => {
     />
     <div
       v-show="open"
-      class="absolute z-50 w-full mt-1 transition-opacity duration-200 bg-white border rounded-md shadow-lg border-slate-200 dark:bg-slate-900 dark:border-slate-700/50"
+      class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-solid-3"
     >
-      <div class="relative border-b border-slate-100 dark:border-slate-700/50">
+      <div class="relative border-b border-n-solid-3">
         <FluentIcon
           icon="search"
           :size="14"
@@ -121,7 +120,7 @@ onClickOutside(comboboxRef, () => {
           v-model="search"
           type="search"
           :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
-          class="w-full py-2 pl-10 pr-2 text-sm bg-white border-none rounded-t-md dark:bg-slate-900 text-slate-900 dark:text-slate-50"
+          class="w-full py-2 pl-10 pr-2 text-sm border-none rounded-t-md bg-n-solid-1 text-slate-900 dark:text-slate-50"
         />
       </div>
       <ul
@@ -132,9 +131,9 @@ onClickOutside(comboboxRef, () => {
         <li
           v-for="option in filteredOptions"
           :key="option.value"
-          class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50"
+          class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
           :class="{
-            'bg-slate-50 dark:bg-slate-800/50': option.value === selectedValue,
+            'bg-n-solid-2': option.value === selectedValue,
           }"
           role="option"
           :aria-selected="option.value === selectedValue"

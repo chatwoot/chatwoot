@@ -75,6 +75,8 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
+const isSubmitDisabled = computed(() => v$.value.$invalid);
+
 const nameError = computed(() =>
   v$.value.name.$error
     ? t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.FORM.NAME.ERROR')
@@ -230,10 +232,10 @@ defineExpose({ state });
         class="flex items-center justify-between w-full gap-3"
       >
         <Button
-          variant="secondary"
+          variant="ghost"
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"
           text-variant="default"
-          class="w-full"
+          class="w-full bg-n-alpha-2 hover:bg-n-alpha-3"
           @click="handleCancel"
         />
         <Button
@@ -243,6 +245,7 @@ defineExpose({ state });
             )
           "
           class="w-full"
+          :disabled="isSubmitDisabled"
           @click="handleSubmit"
         />
       </div>

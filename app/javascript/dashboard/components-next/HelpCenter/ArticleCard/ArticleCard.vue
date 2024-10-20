@@ -127,7 +127,7 @@ const handleClick = id => {
     <template #header>
       <div class="flex justify-between gap-1">
         <span
-          class="text-base cursor-pointer group-hover/cardLayout:underline text-n-slate-12 line-clamp-1"
+          class="text-base cursor-pointer hover:underline text-n-slate-12 line-clamp-1"
           @click="handleClick(id)"
         >
           {{ title }}

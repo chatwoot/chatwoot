@@ -78,7 +78,7 @@ const inputBorderClass = computed(() => {
       :type="type"
       :placeholder="placeholder"
       :disabled="disabled"
-      class="flex w-full reset-base text-sm h-8 pl-3 pr-2 rtl:pr-3 rtl:pl-2 py-1.5 !mb-0 border rounded-lg focus:border-woot-500 dark:focus:border-woot-600 bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
+      class="flex w-full reset-base text-sm h-10 pl-3 pr-2 rtl:pr-3 rtl:pl-2 py-1.5 !mb-0 border rounded-lg focus:border-woot-500 dark:focus:border-woot-600 bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
       @input="$emit('update:modelValue', $event.target.value)"
     />
     <p
