@@ -135,6 +135,10 @@ class Conversation < ApplicationRecord
     messages&.incoming&.last
   end
 
+  def last_conversation_plan
+    conversation_plans&.order(created_at: :desc)&.last
+  end
+
   def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
 
@@ -270,9 +274,9 @@ class Conversation < ApplicationRecord
   end
 
   def sync_conversation_plan_status
-    return unless status_changed?
+    return unless status_changed? && last_conversation_plan.present? && last_conversation_plan.status != :done
 
-    conversation_plans.update(completed_at: Time.now.utc) if resolved?
+    last_conversation_plan.update(completed_at: Time.now.utc, status: :done) if resolved?
   end
 
   def notify_conversation_updation

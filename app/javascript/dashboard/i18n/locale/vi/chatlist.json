@@ -24,9 +24,9 @@
         "ICON": "arrow-circle-right",
         "TEXT": "Đang giải quyết"
       },
-      "pending": {
-        "ICON": "arrow-clockwise",
-        "TEXT": "Chờ giải quyết"
+      "openFromSnoozed": {
+        "ICON": "arrow-rotate-clockwise",
+        "TEXT": "Đến lịch hẹn"
       },
       "snoozed": {
         "ICON": "clock",
@@ -35,6 +35,10 @@
       "resolved": {
         "ICON": "approvals-app",
         "TEXT": "Đã hoàn thành"
+      },
+      "pending": {
+        "ICON": "arrow-clockwise",
+        "TEXT": "Chờ giải quyết"
       },
       "all": {
         "ICON": "app-folder",

@@ -216,6 +216,7 @@ import {
   isOnUnattendedView,
   isOnOpenView,
   isOnSnoozedView,
+  isOnOpenFromSnoozedView,
   isOnPendingView,
   isOnResolvedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
@@ -975,6 +976,8 @@ export default {
           status = 'open';
         } else if (isOnSnoozedView({ route: { name } })) {
           status = 'snoozed';
+        } else if (isOnOpenFromSnoozedView({ route: { name } })) {
+          status = 'openFromSnoozed';
         } else if (isOnPendingView({ route: { name } })) {
           status = 'pending';
         } else if (isOnResolvedView({ route: { name } })) {

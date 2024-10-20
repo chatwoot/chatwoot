@@ -20,18 +20,27 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
+        "ICON": "arrow-circle-right",
         "TEXT": "Open"
       },
+      "openFromSnoozed": {
+        "ICON": "arrow-rotate-clockwise",
+        "TEXT": "Open from snoozed"
+      },
+      "snoozed": {
+        "ICON": "clock",
+        "TEXT": "Snoozed"
+      },
       "resolved": {
+        "ICON": "approvals-app",
         "TEXT": "Resolved"
       },
       "pending": {
+        "ICON": "arrow-clockwise",
         "TEXT": "Pending"
       },
-      "snoozed": {
-        "TEXT": "Snoozed"
-      },
       "all": {
+        "ICON": "app-folder",
         "TEXT": "All"
       }
     },

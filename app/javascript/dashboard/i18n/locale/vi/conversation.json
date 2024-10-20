@@ -80,7 +80,7 @@
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Đánh dấu chờ giải quyết",
-      "SNOOZE_UNTIL": "Hẹn liên hệ lại",
+      "SNOOZE_UNTIL": "Lên lịch hẹn đến:",
       "SNOOZE": {
         "TITLE": "Lên lịch đến khi",
         "NEXT_REPLY": "Có câu trả lời",
@@ -89,7 +89,7 @@
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Hẹn liên hệ lại vào lúc",
+      "TITLE": "Lên lịch liên hệ vào lúc",
       "APPLY": "Áp dụng",
       "CANCEL": "Huỷ"
     },
