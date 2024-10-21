@@ -45,7 +45,7 @@ docker-compose down
 build sdk:
 
 ```shell
-BUILD_MODE=library bin/vite build
+docker-compose run --rm rails sh -c 'BUILD_MODE=library bundle exec vite build'
 ```
 
 ```
