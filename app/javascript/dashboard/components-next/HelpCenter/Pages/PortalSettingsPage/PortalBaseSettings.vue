@@ -2,6 +2,10 @@
 import { reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
+import { useAlert } from 'dashboard/composables';
+import { useStore } from 'dashboard/composables/store';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -23,6 +27,9 @@ const props = defineProps({
 const emit = defineEmits(['updatePortal']);
 
 const { t } = useI18n();
+const store = useStore();
+
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 const state = reactive({
   name: '',
@@ -32,6 +39,8 @@ const state = reactive({
   widgetColor: '',
   homePageLink: '',
   liveChatWidget: '',
+  logoUrl: '',
+  avatarBlobId: '',
 });
 
 const liveChatWidgets = [
@@ -51,6 +60,13 @@ watch(
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
       });
+      if (newVal.logo) {
+        const {
+          logo: { file_url: logoURL, blob_id: blobId },
+        } = newVal;
+        state.logoUrl = logoURL;
+        state.avatarBlobId = blobId;
+      }
     }
   },
   { immediate: true, deep: true }
@@ -65,12 +81,53 @@ const handleUpdatePortal = () => {
     page_title: state.pageTitle,
     header_text: state.headerText,
     homepage_link: state.homePageLink,
+    blob_id: state.avatarBlobId,
   };
   emit('updatePortal', portal);
 };
 
-const handleUploadAvatar = () => {
-  // Implement avatar upload logic
+async function uploadLogoToStorage({ file }) {
+  try {
+    const { fileUrl, blobId } = await uploadFile(file);
+    if (fileUrl) {
+      state.logoUrl = fileUrl;
+      state.avatarBlobId = blobId;
+    }
+    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SUCCESS'));
+  } catch (error) {
+    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_ERROR'));
+  }
+}
+
+async function deleteLogo() {
+  try {
+    const portalSlug = props.activePortal.slug;
+    await store.dispatch('portals/deleteLogo', {
+      portalSlug,
+    });
+    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error?.message ||
+        t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_ERROR')
+    );
+  }
+}
+
+const handleAvatarUpload = file => {
+  if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+    uploadLogoToStorage(file);
+  } else {
+    const errorKey =
+      'HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SIZE_ERROR';
+    useAlert(t(errorKey, { size: MAXIMUM_FILE_UPLOAD_SIZE }));
+  }
+};
+
+const handleAvatarDelete = () => {
+  state.logoUrl = '';
+  state.avatarBlobId = '';
+  deleteLogo();
 };
 </script>
 
@@ -78,13 +135,14 @@ const handleUploadAvatar = () => {
   <div class="flex flex-col w-full gap-4">
     <div class="flex flex-col w-full gap-2">
       <label class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50">
-        {{ t('HELP_CENTER.PORTAL_SETTINGS.AVATAR.LABEL') }}
+        {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.LABEL') }}
       </label>
       <Avatar
         label="Avatar"
-        src="https://api.dicebear.com/9.x/avataaars/svg?seed=Amaya"
-        class="bg-ruby-300 dark:bg-ruby-400"
-        @upload="handleUploadAvatar"
+        :src="state.logoUrl"
+        :name="state.name"
+        @upload="handleAvatarUpload"
+        @delete="handleAvatarDelete"
       />
     </div>
     <div class="flex flex-col w-full gap-4">
