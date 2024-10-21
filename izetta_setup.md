@@ -42,6 +42,12 @@ docker-compose down
 
 ## Test widget
 
+build sdk:
+
+```shell
+BUILD_MODE=library bin/vite build
+```
+
 ```
 visit: http://localhost:3000/widget_tests
 ```
