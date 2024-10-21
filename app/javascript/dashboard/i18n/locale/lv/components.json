@@ -4,9 +4,9 @@
     "CURRENT_PAGE_INFO": "{currentPage} no {totalPages} lapām"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
+    "PLACEHOLDER": "Izvēlieties opciju...",
     "EMPTY_STATE": "Nav atrasts.",
-    "SEARCH_PLACEHOLDER": "Search..."
+    "SEARCH_PLACEHOLDER": "Meklēt..."
   },
   "DIALOG": {
     "BUTTONS": {
@@ -15,6 +15,6 @@
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "Rīvmaize"
   }
 }
