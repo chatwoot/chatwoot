@@ -742,7 +742,22 @@
           "DESCRIPTION": "You can serve your portal on a custom domain, For example, if your website is yourdomain.com and you want your portal accessible at docs.yourdomain.com, type that in this field.",
           "PLACEHOLDER": "Portal custom domain",
           "EDIT_BUTTON": "Edit custom domain",
-          "ADD_BUTTON": "Add custom domain"
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "HEADER": "Add custom domain",
+            "DESCRIPTION": "Serve your portal on a custom domain",
+            "CONFIRM_BUTTON_LABEL": "Add domain",
+            "LABEL": "Custom domain",
+            "PLACEHOLDER": "Portal custom domain",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!",
+            "CANCEL_BUTTON_LABEL": "Know more"
+          }
         },
         "DELETE_PORTAL": {
           "BUTTON": "Delete {portalName}",
@@ -751,8 +766,7 @@
           "DIALOG": {
             "HEADER": "Sure you want to delete {portalName}?",
             "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Delete",
-            "CANCEL_BUTTON_LABEL": "Cancel"
+            "CONFIRM_BUTTON_LABEL": "Delete"
           }
         },
         "EDIT_CONFIGURATION": "Edit configuration"

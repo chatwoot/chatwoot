@@ -75,7 +75,6 @@ const handleDeletePortal = () => {
           :active-portal="activePortal"
           :is-fetching="isFetching"
           @update-portal-configuration="handleUpdatePortalConfiguration"
-          @delete-portal="handleDeletePortal"
         />
         <div class="w-full h-px bg-slate-50 dark:bg-slate-800/50" />
         <div class="flex justify-between w-full gap-4">

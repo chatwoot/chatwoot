@@ -34,7 +34,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['confirm']);
+const emit = defineEmits(['confirm', 'close']);
 
 const { t } = useI18n();
 
@@ -47,6 +47,7 @@ const open = () => {
   dialogRef.value?.showModal();
 };
 const close = () => {
+  emit('close');
   dialogRef.value?.close();
 };
 const confirm = () => {
@@ -80,15 +81,10 @@ onClickOutside(dialogContentRef, event => {
         @click.stop
       >
         <div class="flex flex-col gap-2">
-          <h3
-            class="text-base font-medium leading-6 text-gray-900 dark:text-white"
-          >
+          <h3 class="text-base font-medium leading-6 text-n-slate-12">
             {{ title }}
           </h3>
-          <p
-            v-if="description"
-            class="mb-0 text-sm text-slate-500 dark:text-slate-400"
-          >
+          <p v-if="description" class="mb-0 text-sm text-n-slate-11">
             {{ description }}
           </p>
         </div>

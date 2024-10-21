@@ -46,11 +46,6 @@ defineExpose({ dialogRef });
         'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.DIALOG.CONFIRM_BUTTON_LABEL'
       )
     "
-    :cancel-button-label="
-      t(
-        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.DELETE_PORTAL.DIALOG.CANCEL_BUTTON_LABEL'
-      )
-    "
     @confirm="handleDialogConfirm"
   />
 </template>
