@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
