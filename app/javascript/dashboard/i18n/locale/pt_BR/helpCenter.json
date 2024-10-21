@@ -41,7 +41,7 @@
         "UPLOADING": "Enviando...",
         "SUCCESS": "Imagem enviada com sucesso",
         "ERROR": "Erro ao fazer upload da imagem",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "UN_AUTHORIZED_ERROR": "Você não está autorizado a enviar imagens",
         "ERROR_FILE_SIZE": "O tamanho da imagem deve ser menor que {size}MB",
         "ERROR_FILE_FORMAT": "O formato da imagem deve ser jpg, jpeg ou png",
         "ERROR_FILE_DIMENSIONS": "Dimensões da imagem devem ser menores que 2000 x 2000"
@@ -244,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Domínio personalizado",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "HELP_TEXT": "Adicione somente se você quiser usar um domínio personalizado para seus portais. Por exemplo: https://example. com",
           "ERROR": "Insira uma URL de domínio válida"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "HELP_TEXT": "O link usado para retornar do portal para a página inicial. Ex: https://example.com",
           "ERROR": "Digite uma URL de página inicial válida"
         },
         "THEME_COLOR": {
@@ -479,8 +479,8 @@
     },
     "LOADING": "Carregando...",
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale"
+      "LOCALES_COUNT": "Localizações não disponíveis | {n} local | {n} localidades",
+      "NEW_LOCALE_BUTTON_TEXT": "Nova localização"
     }
   }
 }
