@@ -175,7 +175,7 @@ export default {
     },
     canLocktoSingleConversation() {
       return (
-        this.isASmsInbox || this.isAWhatsAppChannel || this.isAFacebookInbox
+        this.isASmsInbox || this.isAWhatsAppChannel || this.isAFacebookInbox || this.isAPIInbox
       );
     },
     inboxNameLabel() {
