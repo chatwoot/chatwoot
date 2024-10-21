@@ -20,12 +20,14 @@ done
 
 echo "Database ready to accept connections."
 
+
+source /root/.shrc
 #install missing gems for local dev as we are using base image compiled for production
 bundle install
 
 BUNDLE="bundle check"
-
-until $BUNDLE
+MIGRATE="bundle exec rails db:chatwoot_prepare"
+until $MIGRATE && $BUNDLE
 do
   sleep 2;
 done
