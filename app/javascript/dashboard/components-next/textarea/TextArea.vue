@@ -42,9 +42,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  resize: {
+    type: Boolean,
+    default: false,
+  },
   minHeight: {
     type: String,
-    default: '6rem',
+    default: '4rem',
+  },
+  maxHeight: {
+    type: String,
+    default: '12rem',
   },
 });
 
@@ -55,6 +63,7 @@ const isFocused = ref(false);
 
 const characterCount = computed(() => props.modelValue.length);
 
+// TODO - use "field-sizing: content" and "height: auto" in future for auto height, when available.
 const adjustHeight = () => {
   if (!props.autoHeight || !textareaRef.value) return;
 
@@ -125,11 +134,17 @@ onMounted(() => {
         :maxlength="showCharacterCount ? maxLength : undefined"
         :class="[
           customTextAreaClass,
-          { 'overflow-hidden': autoHeight },
-          `min-h-[${minHeight}]`,
+          {
+            'resize-none': !resize,
+          },
         ]"
+        :style="{
+          minHeight: autoHeight ? minHeight : undefined,
+          maxHeight: autoHeight ? maxHeight : undefined,
+        }"
         :disabled="disabled"
-        class="flex w-full reset-base text-sm p-0 !rounded-none resize-none !bg-transparent dark:!bg-transparent !border-0 !mb-0 placeholder:text-slate-200 dark:placeholder:text-slate-500 text-slate-900 dark:text-white disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-25 dark:disabled:bg-slate-900"
+        rows="1"
+        class="flex w-full reset-base text-sm p-0 !rounded-none !bg-transparent dark:!bg-transparent !border-0 !mb-0 placeholder:text-slate-200 dark:placeholder:text-slate-500 text-slate-900 dark:text-white disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-25 dark:disabled:bg-slate-900"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"

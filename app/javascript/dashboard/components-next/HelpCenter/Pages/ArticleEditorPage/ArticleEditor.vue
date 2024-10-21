@@ -99,7 +99,8 @@ const previewArticle = () => {
       <div class="flex flex-col gap-3 pl-4 mb-3 rtl:pr-3 rtl:pl-0">
         <TextArea
           v-model="articleTitle"
-          class="h-12"
+          auto-height
+          min-height="4rem"
           custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
