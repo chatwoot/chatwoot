@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
-const emit = defineEmits(['closeDialog']);
+const emit = defineEmits(['confirm', 'close']);
 
 const { t } = useI18n();
 
@@ -13,11 +13,11 @@ const subdomainCNAME = ref('subdomain CNAME chatwoot.help');
 const dialogRef = ref(null);
 
 const handleDialogConfirm = () => {
-  emit('closeDialog');
+  emit('confirm');
 };
 
 const handleDialogClose = () => {
-  emit('closeDialog');
+  emit('close');
 };
 
 defineExpose({ dialogRef });
