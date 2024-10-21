@@ -29,7 +29,10 @@
           />
         </label>
 
-        <label :class="{ error: $v.email.$error }">
+        <label
+          v-if="shouldShowContactDetails"
+          :class="{ error: $v.email.$error }"
+        >
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
           <input
             v-model.trim="email"
@@ -55,7 +58,7 @@
       </label>
     </div>
     <div>
-      <div class="w-full">
+      <div v-if="shouldShowContactDetails" class="w-full">
         <label
           :class="{
             error: isPhoneNumberNotValid,
@@ -160,6 +163,7 @@ import { required, email } from 'vuelidate/lib/validators';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
+import { mapGetters } from 'vuex';
 
 export default {
   mixins: [alertMixin],
@@ -222,6 +226,23 @@ export default {
   computed: {
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
+    },
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      currentUser: 'getCurrentUser',
+      getAccount: 'accounts/getAccount',
+    }),
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
+    shouldShowContactDetails() {
+      const contactMasking =
+        this.currentAccount?.custom_attributes?.contact_masking;
+      if (this.currentUser.role === 'administrator' && contactMasking?.admin)
+        return false;
+      if (this.currentUser.role === 'agent' && contactMasking?.agent)
+        return false;
+      return true;
     },
     isPhoneNumberNotValid() {
       if (this.phoneNumber !== '') {
