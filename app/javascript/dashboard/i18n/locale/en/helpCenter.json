@@ -701,7 +701,7 @@
     },
     "PORTAL_SETTINGS": {
       "AVATAR": {
-        "LABEL": "Avatar"
+        "LABEL": "Logo"
       },
       "FORM": {
         "NAME": {
@@ -717,27 +717,45 @@
           "LABEL": "Page title",
           "PLACEHOLDER": "Portal page title"
         },
-        "WIDGET_COLOR": {
-          "LABEL": "Widget color"
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Portal home page link"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
         },
         "SAVE_CHANGES": "Save changes"
       },
       "CONFIGURATION_FORM": {
-        "HEADER": "Configuration",
-        "SLUG": {
-          "LABEL": "Slug:",
-          "PLACEHOLDER": "Portal slug"
-        },
         "CUSTOM_DOMAIN": {
+          "HEADER": "Custom domain",
           "LABEL": "Custom domain:",
-          "PLACEHOLDER": "Portal custom domain"
+          "DESCRIPTION": "You can serve your portal on a custom domain, For example, if your website is yourdomain.com and you want your portal accessible at docs.yourdomain.com, type that in this field.",
+          "PLACEHOLDER": "Portal custom domain",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain"
         },
-        "HOME_PAGE_LINK": {
-          "LABEL": "Home page link:",
-          "PLACEHOLDER": "Portal home page link"
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Delete portal",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Delete",
+            "CANCEL_BUTTON_LABEL": "Cancel"
+          }
         },
-        "EDIT_CONFIGURATION": "Edit configuration",
-        "DELETE_PORTAL": "Delete {portalName}"
+        "EDIT_CONFIGURATION": "Edit configuration"
       },
       "API": {
         "CREATE_PORTAL": {

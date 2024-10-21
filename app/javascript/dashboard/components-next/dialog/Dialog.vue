@@ -103,7 +103,6 @@ onClickOutside(dialogContentRef, event => {
             @click="close"
           />
           <Button
-            v-if="type !== 'alert'"
             :variant="type === 'edit' ? 'default' : 'destructive'"
             :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
             class="w-full"

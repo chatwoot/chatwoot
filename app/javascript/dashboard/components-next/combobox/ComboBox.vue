@@ -104,7 +104,7 @@ onClickOutside(comboboxRef, () => {
       :label="selectedLabel"
       icon-position="right"
       :disabled="disabled"
-      class="justify-between w-full text-slate-900 dark:text-slate-100 group-hover/combobox:border-n-slate-6"
+      class="justify-between w-full !px-2 !py-2.5 text-slate-900 dark:text-slate-100 group-hover/combobox:border-n-slate-6"
       :icon="open ? 'chevron-lucide-up' : 'chevron-lucide-down'"
       icon-lib="lucide"
       @click="toggleDropdown"
@@ -136,7 +136,7 @@ onClickOutside(comboboxRef, () => {
         <li
           v-for="option in filteredOptions"
           :key="option.value"
-          class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
+          class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-2 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
           :class="{
             'bg-n-solid-2': option.value === selectedValue,
           }"

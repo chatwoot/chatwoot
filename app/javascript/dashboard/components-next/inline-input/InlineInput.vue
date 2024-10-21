@@ -43,7 +43,7 @@ const onEnterPress = () => {
 
 <template>
   <div
-    class="relative flex items-center justify-between w-full gap-2 whitespace-nowrap"
+    class="relative flex items-center justify-between w-full gap-3 whitespace-nowrap"
   >
     <label
       v-if="label"
