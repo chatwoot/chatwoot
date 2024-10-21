@@ -479,8 +479,8 @@
     },
     "LOADING": "Notiek ielāde...",
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale"
+      "LOCALES_COUNT": "Nav pieejama neviena lokalizācija | {n} lokalizācija | {n} lokalizācijas",
+      "NEW_LOCALE_BUTTON_TEXT": "Jauna lokalizācija"
     }
   }
 }
