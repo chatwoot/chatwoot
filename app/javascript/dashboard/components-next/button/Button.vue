@@ -59,7 +59,7 @@ const buttonVariants = {
     destructive:
       'bg-ruby-700 dark:bg-ruby-700 text-white dark:text-white hover:bg-ruby-800 dark:hover:bg-ruby-800',
     outline:
-      'border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600',
+      'border border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6',
     secondary: 'bg-n-solid-3 text-n-slate-12 hover:bg-n-solid-2',
     ghost: 'text-n-slate-12',
     link: 'text-woot-500 underline-offset-4 hover:underline dark:hover:underline',

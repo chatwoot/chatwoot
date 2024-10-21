@@ -100,15 +100,15 @@ onClickOutside(comboboxRef, () => {
       :label="selectedLabel"
       icon-position="right"
       :disabled="disabled"
-      class="justify-between w-full text-slate-900 dark:text-slate-100 group-hover/combobox:border-slate-300 dark:group-hover/combobox:border-slate-600"
+      class="justify-between w-full text-slate-900 dark:text-slate-100 group-hover/combobox:border-n-slate-6"
       :icon="open ? 'chevron-up' : 'chevron-down'"
       @click="toggleDropdown"
     />
     <div
       v-show="open"
-      class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-solid-3"
+      class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
     >
-      <div class="relative border-b border-n-solid-3">
+      <div class="relative border-b border-n-strong">
         <FluentIcon
           icon="search"
           :size="14"

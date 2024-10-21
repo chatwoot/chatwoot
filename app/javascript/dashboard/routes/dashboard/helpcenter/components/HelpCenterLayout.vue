@@ -2,26 +2,28 @@
 import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
-import Sidebar from 'dashboard/components/layout/Sidebar.vue';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import portalMixin from '../mixins/portalMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { emitter } from 'shared/helpers/mitt';
 
 const CommandBar = defineAsyncComponent(
   () => import('dashboard/routes/dashboard/commands/commandbar.vue')
 );
 
+// Add Sidebar as an async component
+const Sidebar = defineAsyncComponent(
+  () => import('dashboard/components/layout/Sidebar.vue')
+);
+
 export default {
   components: {
+    Sidebar,
     AccountSelector,
     CommandBar,
     NotificationPanel,
-    Sidebar,
     UpgradePage,
     WootKeyShortcutModal,
   },
@@ -58,22 +60,14 @@ export default {
         FEATURE_FLAGS.HELP_CENTER
       );
     },
-    isSidebarOpen() {
-      const { show_help_center_secondary_sidebar: showSecondarySidebar } =
-        this.uiSettings;
-      return showSecondarySidebar;
-    },
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);
 
-      return this.$store.getters['portals/allPortals'][0];
+      return this.portals[0];
     },
     selectedLocaleInPortal() {
       return this.$route.params.locale || this.defaultPortalLocale;
-    },
-    selectedPortalName() {
-      return this.selectedPortal ? this.selectedPortal.name : '';
     },
     selectedPortalSlug() {
       return this.selectedPortal ? this.selectedPortal?.slug : '';
@@ -88,33 +82,8 @@ export default {
     },
   },
 
-  watch: {
-    '$route.name'() {
-      const routeName = this.$route?.name;
-      const routeParams = this.$route?.params;
-      const updateMetaInAllPortals = routeName === 'list_all_portals';
-      const updateMetaInEditArticle =
-        routeName === 'edit_article' && routeParams?.recentlyCreated;
-      const updateMetaInLocaleArticles =
-        routeName === 'list_all_locale_articles' &&
-        routeParams?.recentlyDeleted;
-      if (
-        updateMetaInAllPortals ||
-        updateMetaInEditArticle ||
-        updateMetaInLocaleArticles
-      ) {
-        this.fetchPortalAndItsCategories();
-      }
-    },
-  },
-
   mounted() {
-    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-
     this.fetchPortalAndItsCategories();
-  },
-  unmounted() {
-    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   updated() {
     const slug = this.$route.params.portalSlug;
@@ -128,13 +97,6 @@ export default {
     }
   },
   methods: {
-    toggleSidebar() {
-      if (this.portals.length > 0) {
-        this.updateUISettings({
-          show_help_center_secondary_sidebar: !this.isSidebarOpen,
-        });
-      }
-    },
     async fetchPortalAndItsCategories() {
       await this.$store.dispatch('portals/index');
       const selectedPortalParam = {

@@ -72,7 +72,7 @@ const togglePortalSwitcher = () => {
             <OnClickOutside @trigger="showPortalSwitcher = false">
               <Button
                 icon="chevron-lucide-down"
-                variant="secondary"
+                variant="ghost"
                 size="sm"
                 icon-lib="lucide"
                 class="!w-6 !h-6 group-hover:bg-n-solid-2 !p-0.5 rounded-md"

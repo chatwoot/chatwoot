@@ -80,6 +80,7 @@ const handleDialogConfirm = async () => {
     slug: state.slug,
     custom_domain: state.domain,
     blob_id: state.avatarBlobId || null,
+    color: '#2781F6', // default color
   };
   await createPortal(portal);
   dialogRef.value.close();
