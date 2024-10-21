@@ -119,7 +119,7 @@
       "EMPTY_LIST": "Nenhum resultado encontrado"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Exibindo {start} - {end} de {total} resultados "
     }
   },
   "AGENT_REPORTS": {
@@ -515,7 +515,7 @@
       "LABELS": "Nome do campo",
       "TEAMS": "Times"
     },
-    "WITH": "with",
+    "WITH": "com",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Taxa de acerto",
