@@ -1,6 +1,9 @@
 <script setup>
-import { reactive, watch, computed } from 'vue';
+import { reactive, watch, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
+// import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
@@ -19,6 +22,9 @@ const emit = defineEmits(['updatePortalConfiguration']);
 
 const { t } = useI18n();
 
+const addCustomDomainDialogRef = ref(null);
+// const dnsConfigurationDialogRef = ref(null);
+
 const configurationState = reactive({
   customDomain: '',
 });
@@ -36,6 +42,15 @@ watch(
   },
   { immediate: true, deep: true }
 );
+
+const updatePortalConfiguration = customDomain => {
+  const portal = {
+    id: props.activePortal.id,
+    custom_domain: customDomain,
+  };
+  emit('updatePortalConfiguration', portal);
+  addCustomDomainDialogRef.value.dialogRef.close();
+};
 
 const handleUpdatePortalConfiguration = () => {
   const portal = {
@@ -99,10 +114,18 @@ const handleUpdatePortalConfiguration = () => {
               )
             "
             variant="secondary"
-            @click="handleUpdatePortalConfiguration"
+            @click="addCustomDomainDialogRef.dialogRef.open()"
           />
         </div>
       </div>
     </div>
+    <AddCustomDomainDialog
+      ref="addCustomDomainDialogRef"
+      :custom-domain="configurationState.customDomain"
+      @add-custom-domain="updatePortalConfiguration"
+    />
+    <!-- <DNSConfigurationDialog
+      ref="dnsConfigurationDialogRef"
+    /> -->
   </div>
 </template>

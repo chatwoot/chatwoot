@@ -751,7 +751,7 @@
             "PLACEHOLDER": "Portal custom domain",
             "ERROR": "Custom domain is required"
           },
-          "DNS_DIALOG": {
+          "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
             "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
             "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
