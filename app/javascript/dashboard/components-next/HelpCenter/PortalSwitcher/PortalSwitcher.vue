@@ -110,7 +110,7 @@ const openCreatePortalDialog = () => {
         </template>
         <template #rightPrefix>
           <span class="text-sm truncate text-n-slate-11">
-            {{ portal.custom_domain || '-' }}
+            {{ portal.custom_domain || '' }}
           </span>
         </template>
       </Button>
