@@ -21,6 +21,14 @@ const props = defineProps({
     type: Number,
     default: 16,
   },
+  showAuthorName: {
+    type: Boolean,
+    default: true,
+  },
+  iconName: {
+    type: String,
+    default: '',
+  },
 });
 const hasImageLoaded = ref(false);
 const imgError = ref(false);
@@ -45,14 +53,12 @@ const fontSize = computed(() => {
   return props.size / 2;
 });
 
+const iconSize = computed(() => {
+  return props.size / 2;
+});
+
 const shouldShowImage = computed(() => {
-  if (!props.src) {
-    return false;
-  }
-  if (hasImageLoaded.value) {
-    return !imgError.value;
-  }
-  return false;
+  return props.src && !imgError.value;
 });
 
 const onImgError = () => {
@@ -71,20 +77,34 @@ const onImgLoad = () => {
   >
     <div v-if="author">
       <img
-        v-show="shouldShowImage"
+        v-if="shouldShowImage"
         :src="src"
         :alt="name"
         class="w-full h-full rounded-full"
         @load="onImgLoad"
         @error="onImgError"
       />
-      <span
-        v-show="!shouldShowImage"
-        class="flex items-center justify-center font-medium text-slate-500 dark:text-slate-400"
-        :style="{ fontSize: `${fontSize}px` }"
-      >
-        {{ authorInitial }}
-      </span>
+      <template v-else>
+        <span
+          v-if="showAuthorName"
+          class="flex items-center justify-center font-medium text-slate-500 dark:text-slate-400"
+          :style="{ fontSize: `${fontSize}px` }"
+        >
+          {{ authorInitial }}
+        </span>
+        <div
+          v-else
+          class="flex items-center justify-center w-full h-full rounded-xl"
+        >
+          <FluentIcon
+            v-if="iconName"
+            :icon="iconName"
+            icon-lib="lucide"
+            :size="iconSize"
+            class="text-n-brand"
+          />
+        </div>
+      </template>
     </div>
     <div
       v-else

@@ -69,13 +69,13 @@ const handleDismiss = event => {
     />
     <div
       v-else
-      class="flex items-center justify-center w-full h-full rounded-xl bg-slate-100 dark:bg-slate-700/50"
+      class="flex items-center justify-center w-full h-full rounded-xl bg-n-alpha-2"
     >
       <FluentIcon
-        icon="person"
-        type="filled"
+        icon="building-lucide"
+        icon-lib="lucide"
         :size="iconSize"
-        class="text-woot-500 dark:text-woot-400"
+        class="dark:text-n-brand/50 text-n-brand/30"
       />
     </div>
     <div
@@ -86,7 +86,7 @@ const handleDismiss = event => {
       <FluentIcon icon="dismiss" :size="16" class="text-n-slate-11" />
     </div>
     <div
-      class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl dark:bg-slate-900/50 bg-slate-900/20 group-hover/avatar:visible group-hover/avatar:opacity-100"
+      class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleUploadAvatar"
     >
       <FluentIcon

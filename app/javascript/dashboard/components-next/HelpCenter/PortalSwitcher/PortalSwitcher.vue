@@ -106,6 +106,8 @@ const openCreatePortalDialog = () => {
             :name="portal.name"
             :size="20"
             :src="getPortalThumbnailSrc(portal)"
+            :show-author-name="false"
+            icon-name="building-lucide"
           />
         </template>
         <template #rightPrefix>
