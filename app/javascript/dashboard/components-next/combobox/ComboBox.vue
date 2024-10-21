@@ -104,7 +104,7 @@ onClickOutside(comboboxRef, () => {
       :label="selectedLabel"
       icon-position="right"
       :disabled="disabled"
-      class="justify-between w-full !px-2 !py-2.5 text-slate-900 dark:text-slate-100 group-hover/combobox:border-n-slate-6"
+      class="justify-between w-full !px-2 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
       :icon="open ? 'chevron-lucide-up' : 'chevron-lucide-down'"
       icon-lib="lucide"
       @click="toggleDropdown"
@@ -151,7 +151,7 @@ onClickOutside(comboboxRef, () => {
             v-if="option.value === selectedValue"
             icon="checkmark"
             :size="16"
-            class="flex-shrink-0"
+            class="flex-shrink-0 text-n-slate-11 dark:text-n-slate-11"
             aria-hidden="true"
           />
         </li>
