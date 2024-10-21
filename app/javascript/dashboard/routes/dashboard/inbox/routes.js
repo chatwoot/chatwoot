@@ -7,6 +7,8 @@ import {
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/inbox-view'),
@@ -18,6 +20,7 @@ export const routes = [
         component: InboxEmptyStateView,
         meta: {
           permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+          featureFlag: FEATURE_FLAGS.INBOX_VIEW,
         },
       },
       {
@@ -26,6 +29,7 @@ export const routes = [
         component: InboxDetailView,
         meta: {
           permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+          featureFlag: FEATURE_FLAGS.INBOX_VIEW,
         },
       },
     ],
