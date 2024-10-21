@@ -11,6 +11,12 @@
       size="small"
       :color-scheme="showDarkSpinner ? 'dark' : ''"
     />
+    <img
+      v-else-if="customIcon"
+      :src="customIcon"
+      class="custom-icon"
+      alt="Custom icon"
+    />
     <emoji-or-icon
       v-else-if="icon || emoji"
       class="icon"
@@ -75,6 +81,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    customIcon: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     variantClasses() {
@@ -84,7 +94,7 @@ export default {
       return this.variant;
     },
     hasOnlyIcon() {
-      const hasEmojiOrIcon = this.emoji || this.icon;
+      const hasEmojiOrIcon = this.emoji || this.icon || this.customIcon;
       return !this.$slots.default && hasEmojiOrIcon;
     },
     hasOnlyIconClasses() {

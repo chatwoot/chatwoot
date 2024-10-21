@@ -15,6 +15,7 @@
         :name="name"
         :display-name="displayName"
         :email="email"
+        :phone-number="phoneNumber"
         :email-enabled="!globalConfig.disableUserProfileUpdate"
         @update-user="updateProfile"
       />
@@ -98,7 +99,6 @@ import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
-import AccessToken from './AccessToken.vue';
 
 export default {
   components: {
@@ -110,7 +110,6 @@ export default {
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
-    AccessToken,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -165,6 +164,7 @@ export default {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
+      this.phoneNumber = this.currentUser.custom_attributes.phone_number;
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
     },
@@ -187,17 +187,18 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName } = userAttributes;
+      const { name, email, displayName, phoneNumber } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
-
+      this.phoneNumber = phoneNumber || this.phoneNumber;
       const updatePayload = {
         name: this.name,
         email: this.email,
         displayName: this.displayName,
         avatar: this.avatarFile,
+        phone_number: this.phoneNumber,
       };
 
       const success = await this.dispatchUpdate(

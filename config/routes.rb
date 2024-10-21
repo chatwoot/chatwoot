@@ -96,6 +96,11 @@ Rails.application.routes.draw do
                   patch :update_with_source_id
                 end
               end
+              resources :call, only: [:create] do
+                collection do
+                  patch :update_call_config
+                end
+              end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
@@ -450,6 +455,9 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+
+  # webhook for call
+  post 'webhooks/call/:account_id/:inbox_id/:conversation_id', to: 'webhooks/call#handle_call_callback'
 
   namespace :twitter do
     resource :callback, only: [:show]

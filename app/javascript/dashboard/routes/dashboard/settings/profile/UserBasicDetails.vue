@@ -36,6 +36,12 @@
       }`"
       @input="$v.userEmail.$touch"
     />
+    <woot-input
+      v-model="userPhone"
+      :styles="inputStyles"
+      label="Your phone number"
+      placeholder="Enter your phone number here."
+    />
     <form-button
       type="submit"
       color-scheme="primary"
@@ -64,6 +70,10 @@ export default {
       type: String,
       default: '',
     },
+    phoneNumber: {
+      type: String,
+      default: '',
+    },
     displayName: {
       type: String,
       default: '',
@@ -78,6 +88,7 @@ export default {
       userName: this.name,
       userDisplayName: this.displayName,
       userEmail: this.email,
+      userPhone: this.phoneNumber,
       inputStyles: {
         borderRadius: '12px',
         padding: '6px 12px',
@@ -95,6 +106,10 @@ export default {
     userEmail: {
       required,
       email,
+    },
+    userPhone: {
+      required,
+      minLength: minLength(1),
     },
   },
   watch: {
@@ -116,6 +131,12 @@ export default {
       },
       immediate: true,
     },
+    phoneNumber: {
+      handler(value) {
+        this.userPhone = value;
+      },
+      immediate: true,
+    },
   },
   methods: {
     async updateUser() {
@@ -128,6 +149,7 @@ export default {
         name: this.userName,
         displayName: this.userDisplayName,
         email: this.userEmail,
+        phoneNumber: this.userPhone,
       });
     },
   },
