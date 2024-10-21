@@ -62,11 +62,16 @@ const activeTabIndex = computed(() => {
 });
 
 const activeCategoryName = computed(() => {
-  return (
-    props.categories.find(
-      category => category.slug === route.params.categorySlug
-    )?.name ?? t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.CATEGORY.ALL')
+  const activeCategory = props.categories.find(
+    category => category.slug === route.params.categorySlug
   );
+
+  if (activeCategory) {
+    const { icon, name } = activeCategory;
+    return `${icon} ${name}`;
+  }
+
+  return t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.CATEGORY.ALL');
 });
 
 const activeLocaleName = computed(() => {
