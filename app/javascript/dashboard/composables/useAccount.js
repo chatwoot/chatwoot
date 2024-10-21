@@ -37,6 +37,7 @@ export function useAccount() {
 
   return {
     accountId,
+    route,
     currentAccount,
     accountScopedUrl,
     accountScopedRoute,
