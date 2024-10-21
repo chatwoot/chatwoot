@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import Icon from '../icon/Icon.vue';
 
 const props = defineProps({
   src: {
@@ -41,9 +41,8 @@ const handleUploadAvatar = () => {
       class="absolute inset-0 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl dark:bg-slate-900/50 bg-slate-900/20 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleUploadAvatar"
     >
-      <FluentIcon
-        icon="upload-lucide"
-        icon-lib="lucide"
+      <Icon
+        icon="i-lucide-upload"
         :size="iconSize"
         class="text-white dark:text-white"
       />
