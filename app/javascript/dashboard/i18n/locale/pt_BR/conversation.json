@@ -126,7 +126,7 @@
           "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "SUCCESFUL": "Etiqueta ##{labelName} atribuída para a conversa {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
