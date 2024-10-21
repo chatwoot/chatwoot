@@ -56,13 +56,12 @@ const buttonVariants = {
   variant: {
     default:
       'bg-n-brand text-white dark:text-white hover:bg-woot-600 dark:hover:bg-woot-600',
-    destructive:
-      'bg-ruby-700 dark:bg-ruby-700 text-white dark:text-white hover:bg-ruby-800 dark:hover:bg-ruby-800',
+    destructive: 'bg-n-ruby-9 text-white dark:text-white hover:bg-n-ruby-10',
     outline:
       'border border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6',
     secondary: 'bg-n-solid-3 text-n-slate-12 hover:bg-n-solid-2',
     ghost: 'text-n-slate-12',
-    link: 'text-woot-500 underline-offset-4 hover:underline dark:hover:underline',
+    link: 'text-n-brand underline-offset-4 hover:underline dark:hover:underline',
   },
   size: {
     default: 'h-10 px-4 py-2',
@@ -72,7 +71,7 @@ const buttonVariants = {
   },
   text: {
     default:
-      '!text-woot-500 dark:!text-woot-500 hover:!text-woot-600 dark:hover:!text-woot-600',
+      '!text-n-brand dark:!text-n-brand hover:!text-woot-600 dark:hover:!text-woot-600',
     success:
       '!text-green-500 dark:!text-green-500 hover:!text-green-600 dark:hover:!text-green-600',
     warning:
@@ -118,6 +117,10 @@ const handleClick = e => {
       :size="iconSize"
       :icon-lib="iconLib"
       class="flex-shrink-0"
+      :class="{
+        'text-n-slate-11 dark:text-n-slate-11':
+          variant === 'secondary' || size === 'icon',
+      }"
     />
     <slot name="leftPrefix" />
     <span v-if="emoji">{{ emoji }}</span>
@@ -129,6 +132,10 @@ const handleClick = e => {
       :size="iconSize"
       :icon-lib="iconLib"
       class="flex-shrink-0"
+      :class="{
+        'text-n-slate-11 dark:text-n-slate-11':
+          variant === 'secondary' || size === 'icon',
+      }"
     />
   </button>
 </template>

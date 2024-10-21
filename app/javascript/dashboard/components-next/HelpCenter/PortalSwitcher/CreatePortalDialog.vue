@@ -7,6 +7,7 @@ import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -121,9 +122,7 @@ defineExpose({ dialogRef });
           :placeholder="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.PLACEHOLDER')"
           :label="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.LABEL')"
           :message-type="slugError ? 'error' : 'info'"
-          :message="
-            slugError || t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.MESSAGE')
-          "
+          :message="slugError || buildPortalURL(state.slug)"
         />
       </div>
     </template>

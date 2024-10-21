@@ -32,6 +32,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  message: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -101,7 +105,8 @@ onClickOutside(comboboxRef, () => {
       icon-position="right"
       :disabled="disabled"
       class="justify-between w-full text-slate-900 dark:text-slate-100 group-hover/combobox:border-n-slate-6"
-      :icon="open ? 'chevron-up' : 'chevron-down'"
+      :icon="open ? 'chevron-lucide-up' : 'chevron-lucide-down'"
+      icon-lib="lucide"
       @click="toggleDropdown"
     />
     <div
@@ -124,14 +129,14 @@ onClickOutside(comboboxRef, () => {
         />
       </div>
       <ul
-        class="py-1 overflow-auto max-h-60"
+        class="py-1 mb-0 overflow-auto max-h-60"
         role="listbox"
         :aria-activedescendant="selectedValue"
       >
         <li
           v-for="option in filteredOptions"
           :key="option.value"
-          class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
+          class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
           :class="{
             'bg-n-solid-2': option.value === selectedValue,
           }"
@@ -158,5 +163,11 @@ onClickOutside(comboboxRef, () => {
         </li>
       </ul>
     </div>
+    <p
+      v-if="message"
+      class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out text-n-slate-11 dark:text-n-slate-11"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>

@@ -106,13 +106,13 @@ onMounted(() => {
       {{ label }}
     </label>
     <div
-      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out bg-white border rounded-lg border-slate-100 dark:border-slate-700/50 dark:bg-slate-900"
+      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out bg-white border rounded-lg border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 dark:bg-slate-900"
       :class="[
         customTextAreaWrapperClass,
         {
-          'cursor-not-allowed opacity-50 !bg-slate-25 dark:!bg-slate-800':
+          'cursor-not-allowed opacity-50 !bg-slate-25 dark:!bg-slate-800 disabled:border-n-weak dark:disabled:border-n-weak':
             disabled,
-          'border-woot-500 dark:border-woot-600': isFocused,
+          'border-n-brand dark:border-n-brand': isFocused,
         },
       ]"
     >
