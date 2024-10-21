@@ -10,7 +10,9 @@ const props = defineProps({
     required: true,
     validator: value => {
       return value.every(
-        tab => typeof tab.label === 'string' && typeof tab.count === 'number'
+        tab =>
+          typeof tab.label === 'string' &&
+          (tab.count ? typeof tab.count === 'number' : true)
       );
     },
   },
@@ -32,14 +34,14 @@ const showDivider = index => {
 </script>
 
 <template>
-  <div class="flex h-8 rounded-lg bg-slate-25 dark:bg-slate-800/50 w-fit">
+  <div class="flex h-8 rounded-lg bg-n-solid-1 w-fit">
     <template v-for="(tab, index) in tabs" :key="index">
       <button
-        class="relative px-4 truncate py-1.5 text-sm border-0 rounded-lg transition-colors duration-300 ease-in-out"
+        class="relative px-4 truncate py-1.5 text-sm border-0 rounded-lg transition-colors duration-300 ease-in-out hover:text-n-brand"
         :class="[
           activeTab === index
-            ? 'text-woot-500 bg-woot-500/10 dark:bg-woot-500/10'
-            : 'text-slate-500 dark:text-slate-400 hover:text-woot-500 dark:hover:text-woot-400',
+            ? 'text-n-brand bg-n-solid-active font-medium'
+            : 'text-n-slate-10',
         ]"
         @click="selectTab(index)"
       >

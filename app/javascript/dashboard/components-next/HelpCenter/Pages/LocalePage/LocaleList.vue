@@ -1,12 +1,94 @@
 <script setup>
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
+import { useStore } from 'dashboard/composables/store';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
-defineProps({
+const props = defineProps({
   locales: {
     type: Array,
     required: true,
   },
+  portal: {
+    type: Object,
+    required: true,
+  },
 });
+
+const store = useStore();
+const { t } = useI18n();
+const route = useRoute();
+
+const isLocaleDefault = code => {
+  return props.portal?.meta?.default_locale === code;
+};
+
+const updatePortalLocales = async ({
+  newAllowedLocales,
+  defaultLocale,
+  messageKey,
+}) => {
+  let alertMessage = '';
+  try {
+    await store.dispatch('portals/update', {
+      portalSlug: props.portal.slug,
+      config: {
+        default_locale: defaultLocale,
+        allowed_locales: newAllowedLocales,
+      },
+    });
+
+    alertMessage = t(`HELP_CENTER.PORTAL.${messageKey}.API.SUCCESS_MESSAGE`);
+  } catch (error) {
+    alertMessage =
+      error?.message || t(`HELP_CENTER.PORTAL.${messageKey}.API.ERROR_MESSAGE`);
+  } finally {
+    useAlert(alertMessage);
+  }
+};
+
+const changeDefaultLocale = ({ localeCode }) => {
+  const newAllowedLocales = props.locales.map(locale => locale.code);
+  updatePortalLocales({
+    newAllowedLocales,
+    defaultLocale: localeCode,
+    messageKey: 'CHANGE_DEFAULT_LOCALE',
+  });
+
+  useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
+    newLocale: localeCode,
+    from: route.name,
+  });
+};
+
+const deletePortalLocale = ({ localeCode }) => {
+  const updatedLocales = props.locales
+    .filter(locale => locale.code !== localeCode)
+    .map(locale => locale.code);
+
+  const defaultLocale = props.portal.meta.default_locale;
+
+  updatePortalLocales({
+    newAllowedLocales: updatedLocales,
+    defaultLocale,
+    messageKey: 'DELETE_LOCALE',
+  });
+
+  useTrack(PORTALS_EVENTS.DELETE_LOCALE, {
+    deletedLocale: localeCode,
+    from: route.name,
+  });
+};
+
+const handleAction = ({ action }, localeCode) => {
+  if (action === 'change-default') {
+    changeDefaultLocale({ localeCode: localeCode });
+  } else if (action === 'delete') {
+    deletePortalLocale({ localeCode: localeCode });
+  }
+};
 </script>
 
 <template>
@@ -15,9 +97,11 @@ defineProps({
       v-for="(locale, index) in locales"
       :key="index"
       :locale="locale.name"
-      :is-default="locale.isDefault"
-      :article-count="locale.articleCount"
-      :category-count="locale.categoryCount"
+      :is-default="isLocaleDefault(locale.code)"
+      :locale-code="locale.code"
+      :article-count="locale.articlesCount || 0"
+      :category-count="locale.categoriesCount || 0"
+      @action="handleAction($event, locale.code)"
     />
   </ul>
 </template>

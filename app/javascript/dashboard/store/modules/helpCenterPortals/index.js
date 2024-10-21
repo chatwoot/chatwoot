@@ -6,6 +6,7 @@ export const defaultPortalFlags = {
   isFetching: false,
   isUpdating: false,
   isDeleting: false,
+  isSwitching: false,
 };
 
 const state = {

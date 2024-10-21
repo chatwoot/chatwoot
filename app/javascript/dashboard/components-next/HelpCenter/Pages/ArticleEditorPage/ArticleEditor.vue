@@ -1,104 +1,123 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
+import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
+import ArticleEditorHeader from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorHeader.vue';
+import ArticleEditorControls from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorControls.vue';
 
-const { article } = defineProps({
+const props = defineProps({
   article: {
     type: Object,
     default: () => ({}),
   },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
+  isSaved: {
+    type: Boolean,
+    default: false,
+  },
 });
-const emit = defineEmits(['saveArticle']);
+
+const emit = defineEmits([
+  'saveArticle',
+  'goBack',
+  'setAuthor',
+  'setCategory',
+  'previewArticle',
+]);
+
+const { t } = useI18n();
 
 const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
 
+// Create a local ref for the title
+const localTitle = ref(props.article.title || '');
+
+// Update the computed property for articleTitle
 const articleTitle = computed({
-  get: () => article.title,
-  set: title => {
-    saveArticle({ title });
+  get: () => localTitle.value,
+  set: value => {
+    localTitle.value = value;
+    saveArticle({ title: value });
   },
 });
 
 const articleContent = computed({
-  get: () => article.content,
+  get: () => props.article.content,
   set: content => {
     saveArticle({ content });
   },
 });
+
+// Watch for changes in the article prop
+watch(
+  () => props.article.title,
+  newTitle => {
+    if (newTitle !== localTitle.value) {
+      localTitle.value = newTitle;
+    }
+  }
+);
+
+const onClickGoBack = () => {
+  emit('goBack');
+};
+
+const setAuthorId = authorId => {
+  emit('setAuthor', authorId);
+};
+
+const setCategoryId = categoryId => {
+  emit('setCategory', categoryId);
+};
+
+const previewArticle = () => {
+  emit('previewArticle');
+};
 </script>
 
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <HelpCenterLayout :show-header-title="false" :show-pagination-footer="false">
     <template #header-actions>
-      <div class="flex items-center justify-between h-20">
-        <Button
-          label="Back to articles"
-          icon="chevron-lucide-left"
-          icon-lib="lucide"
-          variant="link"
-          text-variant="info"
-          size="sm"
-        />
-        <div class="flex items-center gap-4">
-          <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Saved
-          </span>
-          <div class="flex items-center gap-2">
-            <Button label="Preview" variant="secondary" size="sm" />
-            <Button
-              label="Publish"
-              icon="chevron-lucide-down"
-              icon-position="right"
-              icon-lib="lucide"
-              size="sm"
-            />
-          </div>
-        </div>
-      </div>
+      <ArticleEditorHeader
+        :is-updating="isUpdating"
+        :is-saved="isSaved"
+        :status="article.status"
+        :article-id="article.id"
+        @go-back="onClickGoBack"
+        @preview-article="previewArticle"
+      />
     </template>
     <template #content>
       <div class="flex flex-col gap-3 pl-4 mb-3 rtl:pr-3 rtl:pl-0">
         <TextArea
           v-model="articleTitle"
-          class="h-12"
-          custom-text-area-class="border-0 !text-[32px] !bg-transparent !py-0 !px-0 !h-auto !leading-[48px] !font-medium !tracking-[0.2px]"
+          auto-height
+          min-height="4rem"
+          custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
+          custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
         />
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
-            <div class="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-700" />
-            <span class="text-sm text-slate-500 dark:text-slate-400">
-              John Doe
-            </span>
-          </div>
-          <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
-          <Button
-            label="Uncategorized"
-            icon="play-shape"
-            variant="ghost"
-            class="!px-2 font-normal"
-            text-variant="info"
-          />
-          <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
-          <Button
-            label="More properties"
-            icon="add"
-            variant="ghost"
-            class="!px-2 font-normal"
-          />
-        </div>
+        <ArticleEditorControls
+          :article="article"
+          @save-article="saveArticle"
+          @set-author="setAuthorId"
+          @set-category="setCategoryId"
+        />
       </div>
       <FullEditor
         v-model="articleContent"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
-        placeholder="Write something"
+        :placeholder="
+          t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
+        "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
       />
     </template>

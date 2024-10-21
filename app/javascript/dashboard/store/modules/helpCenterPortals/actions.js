@@ -110,4 +110,10 @@ export const actions = {
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
+
+  switchPortal: async ({ commit }, isSwitching) => {
+    commit(types.SET_PORTAL_SWITCHING_FLAG, {
+      isSwitching,
+    });
+  },
 };

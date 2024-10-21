@@ -10,14 +10,14 @@ const twoItems = ref([
 const threeItems = ref([
   { label: 'Home', link: '#' },
   { label: 'Categories', link: '#' },
-  { label: 'Marketing', count: 6 },
+  { label: 'Marketing', count: 6, emoji: '📊' },
 ]);
 const longBreadcrumb = ref([
   { label: 'Home', link: '#' },
-  { label: 'Categories', link: '#' },
+  { label: 'Categories', link: '#', emoji: '📁' },
   { label: 'Marketing', link: '#' },
-  { label: 'Digital', link: '#' },
-  { label: 'Social Media', count: 12 },
+  { label: 'Digital', link: '#', emoji: '💻' },
+  { label: 'Social Media', count: 12, emoji: '📱' },
 ]);
 </script>
 
