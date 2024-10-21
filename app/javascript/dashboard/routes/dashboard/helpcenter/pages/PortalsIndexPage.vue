@@ -4,6 +4,8 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+
 const store = useStore();
 const router = useRouter();
 const { uiSettings } = useUISettings();
@@ -69,6 +71,6 @@ onMounted(() => performRouting());
   <div
     class="flex items-center justify-center w-full text-slate-600 dark:text-slate-200"
   >
-    {{ $t('HELP_CENTER.LOADING') }}
+    <Spinner />
   </div>
 </template>
