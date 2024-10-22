@@ -64,8 +64,9 @@ onMounted(() => {
       </h3>
       <Button
         icon="dismiss"
-        size="icon"
+        size="sm"
         variant="ghost"
+        class="w-8 hover:text-n-slate-11"
         @click="emit('close')"
       />
     </div>

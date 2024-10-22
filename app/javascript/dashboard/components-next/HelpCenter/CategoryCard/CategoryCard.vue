@@ -102,7 +102,7 @@ const handleAction = ({ action, value }) => {
             <OnClickOutside @trigger="isOpen = false">
               <Button
                 variant="ghost"
-                size="icon"
+                size="sm"
                 icon="more-vertical"
                 class="w-8 z-60 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
                 @click="isOpen = !isOpen"

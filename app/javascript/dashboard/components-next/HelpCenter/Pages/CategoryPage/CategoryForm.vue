@@ -188,7 +188,7 @@ defineExpose({ state });
               <Button
                 :label="state.icon"
                 variant="secondary"
-                size="icon"
+                size="sm"
                 :icon="!state.icon ? 'emoji-add' : ''"
                 class="!h-[38px] !w-[38px] absolute top-[31px] !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
                 @click="isEmojiPickerOpen = !isEmojiPickerOpen"

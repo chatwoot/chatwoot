@@ -68,7 +68,7 @@ const handleAction = ({ action, value }) => {
             {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DEFAULT') }}
           </span>
         </div>
-        <div class="flex items-center justify-end gap-1">
+        <div class="flex items-center justify-end gap-2">
           <div class="flex items-center gap-4">
             <span
               class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
@@ -96,7 +96,7 @@ const handleAction = ({ action, value }) => {
             <OnClickOutside @trigger="showDropdownMenu = false">
               <Button
                 variant="ghost"
-                size="icon"
+                size="sm"
                 icon="more-vertical"
                 class="w-8 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
                 @click="showDropdownMenu = !showDropdownMenu"

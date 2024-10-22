@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
+
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   label: {
@@ -29,7 +31,12 @@ const props = defineProps({
   size: {
     type: String,
     default: 'default',
-    validator: value => ['default', 'sm', 'lg', 'icon'].includes(value),
+    validator: value => ['default', 'sm', 'lg'].includes(value),
+  },
+  type: {
+    type: String,
+    default: 'button',
+    validator: value => ['button', 'submit', 'reset'].includes(value),
   },
   icon: {
     type: String,
@@ -48,6 +55,10 @@ const props = defineProps({
     type: String,
     default: 'fluent',
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['click']);
@@ -65,9 +76,8 @@ const buttonVariants = {
   },
   size: {
     default: 'h-10 px-4 py-2',
-    sm: 'h-8 px-3',
-    lg: 'h-11 px-4',
-    icon: 'h-auto w-auto px-2',
+    sm: 'h-8 px-3 py-1',
+    lg: 'h-12 px-5 py-3',
   },
   text: {
     default:
@@ -108,23 +118,25 @@ const handleClick = e => {
 <template>
   <button
     :class="buttonClasses"
-    class="inline-flex items-center justify-center h-10 min-w-0 gap-2 text-sm font-medium transition-all duration-200 ease-in-out rounded-lg disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50"
+    :type="type"
+    class="inline-flex items-center justify-center min-w-0 gap-2 text-sm font-medium transition-all duration-200 ease-in-out rounded-lg disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50"
     @click="handleClick"
   >
     <FluentIcon
-      v-if="icon && iconPosition === 'left'"
+      v-if="icon && iconPosition === 'left' && !isLoading"
       :icon="icon"
       :size="iconSize"
       :icon-lib="iconLib"
       class="flex-shrink-0"
       :class="{
-        'text-n-slate-11 dark:text-n-slate-11':
-          variant === 'secondary' || size === 'icon',
+        'text-n-slate-11 dark:text-n-slate-11': variant === 'secondary',
       }"
     />
+    <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
     <slot name="leftPrefix" />
     <span v-if="emoji">{{ emoji }}</span>
     <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
+    <slot />
     <slot name="rightPrefix" />
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
@@ -133,8 +145,7 @@ const handleClick = e => {
       :icon-lib="iconLib"
       class="flex-shrink-0"
       :class="{
-        'text-n-slate-11 dark:text-n-slate-11':
-          variant === 'secondary' || size === 'icon',
+        'text-n-slate-11 dark:text-n-slate-11': variant === 'secondary',
       }"
     />
   </button>
