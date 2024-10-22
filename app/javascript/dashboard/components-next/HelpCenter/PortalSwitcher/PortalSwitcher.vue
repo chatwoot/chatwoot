@@ -14,6 +14,13 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
+const DEFAULT_ROUTE = 'portals_articles_index';
+const CATEGORY_ROUTE = 'portals_categories_index';
+const CATEGORY_SUB_ROUTES = [
+  'portals_categories_articles_index',
+  'portals_categories_articles_edit',
+];
+
 const portals = useMapGetter('portals/allPortals');
 
 const currentPortalSlug = computed(() => route.params.portalSlug);
@@ -39,16 +46,19 @@ const fetchPortalAndItsCategories = async (slug, locale) => {
   await store.dispatch('portals/switchPortal', false);
 };
 
-const handlePortalChange = portal => {
+const handlePortalChange = async portal => {
   if (isPortalActive(portal)) return;
   const {
     slug,
     meta: { default_locale: defaultLocale },
   } = portal;
   emit('close');
-  fetchPortalAndItsCategories(slug, defaultLocale);
+  await fetchPortalAndItsCategories(slug, defaultLocale);
+  const targetRouteName = CATEGORY_SUB_ROUTES.includes(route.name)
+    ? CATEGORY_ROUTE
+    : route.name || DEFAULT_ROUTE;
   router.push({
-    name: 'portals_articles_index',
+    name: targetRouteName,
     params: {
       portalSlug: slug,
       locale: defaultLocale,

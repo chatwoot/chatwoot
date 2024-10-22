@@ -13,8 +13,6 @@ const router = useRouter();
 const portals = useMapGetter('portals/allPortals');
 const isFetching = useMapGetter('portals/isFetchingPortals');
 
-const { portalSlug } = route.params;
-
 const getNextAvailablePortal = deletedPortalSlug =>
   portals.value?.find(portal => portal.slug !== deletedPortalSlug) ?? null;
 
@@ -46,8 +44,12 @@ const updateRouteAfterDeletion = async deletedPortalSlug => {
 };
 
 const updatePortalSettings = async portalObj => {
+  const { portalSlug } = route.params;
   try {
-    await store.dispatch('portals/update', { ...portalObj, portalSlug });
+    await store.dispatch('portals/update', {
+      ...portalObj,
+      portalSlug: portalSlug || portalObj?.slug,
+    });
     useAlert(
       t('HELP_CENTER.PORTAL_SETTINGS.API.UPDATE_PORTAL.SUCCESS_MESSAGE')
     );

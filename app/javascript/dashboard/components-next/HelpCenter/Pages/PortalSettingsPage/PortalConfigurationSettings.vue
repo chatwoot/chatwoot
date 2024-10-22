@@ -20,13 +20,13 @@ const { t } = useI18n();
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
 
-const hasCustomDomainConfigured = computed(
-  () => props.activePortal.custom_domain
+const customDomainAddress = computed(
+  () => props.activePortal?.custom_domain || ''
 );
 
 const updatePortalConfiguration = customDomain => {
   const portal = {
-    id: props.activePortal.id,
+    id: props.activePortal?.id,
     custom_domain: customDomain,
   };
   emit('updatePortalConfiguration', portal);
@@ -56,7 +56,7 @@ const updatePortalConfiguration = customDomain => {
     <div class="flex flex-col w-full gap-4">
       <div class="flex justify-between w-full gap-2">
         <div
-          v-if="hasCustomDomainConfigured"
+          v-if="customDomainAddress"
           class="flex items-center w-full h-8 gap-4"
         >
           <label class="text-sm font-medium text-n-slate-12">
@@ -67,12 +67,12 @@ const updatePortalConfiguration = customDomain => {
             }}
           </label>
           <span class="text-sm text-n-slate-12">
-            {{ props.activePortal.custom_domain }}
+            {{ customDomainAddress }}
           </span>
         </div>
         <div class="flex items-center justify-end w-full">
           <Button
-            v-if="hasCustomDomainConfigured"
+            v-if="customDomainAddress"
             :label="
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
@@ -96,7 +96,8 @@ const updatePortalConfiguration = customDomain => {
     </div>
     <AddCustomDomainDialog
       ref="addCustomDomainDialogRef"
-      :custom-domain="props.activePortal.custom_domain"
+      :mode="customDomainAddress ? 'edit' : 'add'"
+      :custom-domain="customDomainAddress"
       @add-custom-domain="updatePortalConfiguration"
     />
     <DNSConfigurationDialog

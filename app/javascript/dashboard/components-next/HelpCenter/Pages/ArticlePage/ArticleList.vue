@@ -105,7 +105,6 @@ const updateMeta = () => {
 };
 
 const handleArticleAction = async (action, { status, id }) => {
-  let alertMessage = '';
   const { portalSlug } = route.params;
   try {
     if (action === 'delete') {
@@ -113,14 +112,14 @@ const handleArticleAction = async (action, { status, id }) => {
         portalSlug,
         articleId: id,
       });
-      alertMessage = t('HELP_CENTER.DELETE_ARTICLE.API.SUCCESS_MESSAGE');
+      useAlert(t('HELP_CENTER.DELETE_ARTICLE.API.SUCCESS_MESSAGE'));
     } else {
       await store.dispatch('articles/update', {
         portalSlug,
         articleId: id,
         status,
       });
-      alertMessage = getStatusMessage(status, true);
+      useAlert(getStatusMessage(status, true));
 
       if (status === ARTICLE_STATUS_TYPES.ARCHIVE) {
         useTrack(PORTALS_EVENTS.ARCHIVE_ARTICLE, { uiFrom: 'header' });
@@ -130,13 +129,12 @@ const handleArticleAction = async (action, { status, id }) => {
     }
     await updateMeta();
   } catch (error) {
-    alertMessage =
+    const errorMessage =
       error?.message ||
       (action === 'delete'
         ? t('HELP_CENTER.DELETE_ARTICLE.API.ERROR_MESSAGE')
         : getStatusMessage(status, false));
-  } finally {
-    useAlert(alertMessage);
+    useAlert(errorMessage);
   }
 };
 

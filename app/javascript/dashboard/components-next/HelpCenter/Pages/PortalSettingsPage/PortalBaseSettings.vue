@@ -89,7 +89,7 @@ const hasChanges = computed(() => {
 
 const handleUpdatePortal = () => {
   const portal = {
-    id: props.activePortal.id,
+    id: props.activePortal?.id,
     slug: state.slug,
     name: state.name,
     color: state.widgetColor,
@@ -116,7 +116,7 @@ async function uploadLogoToStorage({ file }) {
 
 async function deleteLogo() {
   try {
-    const portalSlug = props.activePortal.slug;
+    const portalSlug = props.activePortal?.slug;
     await store.dispatch('portals/deleteLogo', {
       portalSlug,
     });

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed } from 'vue';
 const props = defineProps({
   initialActiveTab: {
     type: Number,
@@ -17,12 +17,15 @@ const props = defineProps({
     },
   },
 });
+
 const emit = defineEmits(['tabChanged']);
-const activeTab = ref(props.initialActiveTab);
+
+const activeTab = computed(() => props.initialActiveTab);
+
 const selectTab = index => {
-  activeTab.value = index;
   emit('tabChanged', props.tabs[index]);
 };
+
 const showDivider = index => {
   return (
     // Show dividers after the active tab, but not after the last tab

@@ -749,9 +749,11 @@
           "EDIT_BUTTON": "Edit custom domain",
           "ADD_BUTTON": "Add custom domain",
           "DIALOG": {
-            "HEADER": "Add custom domain",
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
             "DESCRIPTION": "Serve your portal on a custom domain",
-            "CONFIRM_BUTTON_LABEL": "Add domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
             "LABEL": "Custom domain",
             "PLACEHOLDER": "Portal custom domain",
             "ERROR": "Custom domain is required"

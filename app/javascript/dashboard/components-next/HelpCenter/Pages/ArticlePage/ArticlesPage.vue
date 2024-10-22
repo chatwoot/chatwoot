@@ -94,11 +94,10 @@ const showEmptyState = computed(
 );
 
 const updateRoute = newParams => {
-  const { accountId, portalSlug, locale, tab, categorySlug } = route.params;
+  const { portalSlug, locale, tab, categorySlug } = route.params;
   router.push({
     name: 'portals_articles_index',
     params: {
-      accountId,
       portalSlug,
       locale: newParams.locale ?? locale,
       tab: newParams.tab ?? tab,
