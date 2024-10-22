@@ -194,7 +194,6 @@ export default {
       v-if="isOpen && !isCannedResponseModalOpen"
       :x="contextMenuPosition.x"
       :y="contextMenuPosition.y"
-      class="invisible group-hover/context-menu:visible"
       @close="handleClose"
     >
       <div class="menu-container">
