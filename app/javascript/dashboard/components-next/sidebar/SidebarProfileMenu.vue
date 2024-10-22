@@ -118,6 +118,7 @@ const allowedMenuItems = computed(() => {
         :size="32"
         :name="currentUser.available_name"
         :src="currentUser.avatar_url"
+        rounded-full
       />
       <div>
         <div class="text-n-slate-12 text-sm leading-4 font-medium">
