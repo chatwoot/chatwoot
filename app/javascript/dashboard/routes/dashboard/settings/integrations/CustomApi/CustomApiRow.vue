@@ -9,6 +9,9 @@
     <td class="max-w-xs truncate" :title="app.api_key">
       {{ app.api_key }}
     </td>
+    <td class="max-w-xs truncate" :title="app.frontend_url">
+      {{ app.frontend_url }}
+    </td>
     <td class="flex justify-end gap-1">
       <woot-button
         v-tooltip.top="

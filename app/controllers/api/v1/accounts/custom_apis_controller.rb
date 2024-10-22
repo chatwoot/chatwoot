@@ -52,7 +52,7 @@ class Api::V1::Accounts::CustomApisController < Api::V1::Accounts::BaseControlle
   end
 
   def custom_api_params
-    params.require(:custom_api).permit(:name, :base_url, :api_key)
+    params.require(:custom_api).permit(:name, :base_url, :api_key, :frontend_url)
   end
 
   def permitted_params

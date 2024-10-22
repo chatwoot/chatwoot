@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="p-2.5">
       <div
-        class="p-2.5 bg-modal-backdrop-light border rounded-md max-h-24 overflow-auto"
+        class="p-2.5 bg-woot-25 dark:bg-modal-backdrop-light border rounded-md max-h-24 overflow-auto"
       >
         <vue-markdown-it :source="processedString" />
       </div>

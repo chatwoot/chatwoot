@@ -223,7 +223,13 @@
         "TITLE_ERROR": "É necessário um nome para o aplicativo da dashboard",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu aplicativo está hospedado",
-        "URL_ERROR": "É necessário uma URL válida"
+        "URL_ERROR": "É necessário uma URL válida",
+        "KEY_LABEL": "Api Key",
+        "KEY_PLACEHOLDER": "Digite a chave de verificação da sua api",
+        "KEY_ERROR": "A chave de verificação é necessária",
+        "FRONTEND_LABEL": "Frontend URL",
+        "FRONTEND_PLACEHOLDER": "Digite a URL base de fronted do seu website",
+        "FRONTEND_ERROR": "É necessário uma URL válida"
       },
       "CREATE": {
         "HEADER": "Adicionar um novo app da dashboard",

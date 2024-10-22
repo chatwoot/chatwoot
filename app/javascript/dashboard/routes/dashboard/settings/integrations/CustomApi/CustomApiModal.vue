@@ -51,6 +51,22 @@
           data-testid="app-url"
           @input="$v.app.api_key.$touch"
         />
+        <woot-input
+          v-model.trim="app.frontend_url"
+          :class="{ error: $v.app.frontend_url.$error }"
+          class="w-full"
+          :label="$t('INTEGRATION_SETTINGS.CUSTOM_API.FORM.FRONTEND_LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.CUSTOM_API.FORM.FRONTEND_PLACEHOLDER')
+          "
+          :error="
+            $v.app.frontend_url.$error
+              ? $t('INTEGRATION_SETTINGS.CUSTOM_API.FORM.FRONTEND_ERROR')
+              : null
+          "
+          data-testid="app-url"
+          @input="$v.app.frontend_url.$touch"
+        />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button
             :is-loading="isLoading"
@@ -90,8 +106,9 @@ export default {
   validations: {
     app: {
       name: { required },
-      base_url: { required, url },
+      base_url: { required },
       api_key: { required },
+      frontend_url: { required, url },
     },
   },
   data() {
@@ -101,6 +118,7 @@ export default {
         name: '',
         base_url: '',
         api_key: '',
+        frontend_url: '',
       },
     };
   },
@@ -119,6 +137,7 @@ export default {
       this.app.name = this.selectedAppData.name;
       this.app.base_url = this.selectedAppData.base_url;
       this.app.api_key = this.selectedAppData.api_key;
+      this.app.frontend_url = this.selectedAppData.frontend_url;
     }
   },
   methods: {
@@ -127,6 +146,7 @@ export default {
         name: '',
         api_key: '',
         base_url: '',
+        frontend_url: '',
       };
       this.$emit('close');
     },
@@ -142,6 +162,7 @@ export default {
           name: this.app.name,
           base_url: this.app.base_url,
           api_key: this.app.api_key,
+          frontend_url: this.app.frontend_url,
         };
 
         if (action === 'update') {
