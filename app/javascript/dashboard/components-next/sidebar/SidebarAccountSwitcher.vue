@@ -32,7 +32,7 @@ const emitNewAccount = () => {
 </script>
 
 <template>
-  <div class="relative w-full z-20">
+  <div class="relative z-20">
     <button
       id="sidebar-account-switcher"
       :data-account-id="accountId"
@@ -43,7 +43,7 @@ const emitNewAccount = () => {
       @click="toggleDropdown()"
     >
       <span
-        class="text-sm font-medium leading-5 text-n-slate-12"
+        class="text-sm font-medium leading-5 text-n-slate-12 truncate"
         aria-live="polite"
       >
         {{ currentAccount.name }}
@@ -51,7 +51,7 @@ const emitNewAccount = () => {
 
       <span
         aria-hidden="true"
-        class="i-lucide-chevron-down size-4 text-n-slate-10"
+        class="i-lucide-chevron-down size-4 text-n-slate-10 flex-shrink-0"
       />
     </button>
     <div v-if="showDropdown" v-on-clickaway="close" class="absolute top-8 z-50">
