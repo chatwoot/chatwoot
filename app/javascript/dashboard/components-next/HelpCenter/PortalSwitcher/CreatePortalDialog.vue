@@ -53,9 +53,20 @@ watch(
   }
 );
 
+const redirectToPortal = portal => {
+  emit('create', { slug: portal.slug, locale: 'en' });
+};
+
+const resetForm = () => {
+  Object.keys(state).forEach(key => {
+    state[key] = '';
+  });
+  v$.value.$reset();
+};
 const createPortal = async portal => {
   try {
     await store.dispatch('portals/create', portal);
+    dialogRef.value.close();
 
     const analyticsPayload = {
       has_custom_domain: Boolean(portal.custom_domain),
@@ -66,7 +77,12 @@ const createPortal = async portal => {
     useAlert(
       t('HELP_CENTER.PORTAL_SETTINGS.API.CREATE_PORTAL.SUCCESS_MESSAGE')
     );
+
+    resetForm();
+    redirectToPortal(portal);
   } catch (error) {
+    dialogRef.value.close();
+
     useAlert(
       error?.message ||
         t('HELP_CENTER.PORTAL_SETTINGS.API.CREATE_PORTAL.ERROR_MESSAGE')
@@ -83,17 +99,9 @@ const handleDialogConfirm = async () => {
     slug: state.slug,
     custom_domain: state.domain,
     blob_id: state.avatarBlobId || null,
-    color: '#2781F6', // default color
+    color: '#2781F6', // The default color is set to Chatwoot brand color
   };
   await createPortal(portal);
-  dialogRef.value.close();
-  // Reset state
-  Object.keys(state).forEach(key => {
-    state[key] = '';
-  });
-  v$.value.$reset(); // Reset validation
-
-  emit('create', { slug: portal.slug, locale: 'en' });
 };
 
 defineExpose({ dialogRef });
@@ -107,6 +115,7 @@ defineExpose({ dialogRef });
     :confirm-button-label="
       t('HELP_CENTER.CREATE_PORTAL_DIALOG.CONFIRM_BUTTON_LABEL')
     "
+    :description="t('HELP_CENTER.CREATE_PORTAL_DIALOG.DESCRIPTION')"
     :disable-confirm-button="isSubmitDisabled || isCreatingPortal"
     :is-loading="isCreatingPortal"
     @confirm="handleDialogConfirm"

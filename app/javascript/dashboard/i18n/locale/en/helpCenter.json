@@ -684,18 +684,18 @@
       "PORTAL_NAME": "Portal name"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create New Portal",
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
       "CONFIRM_BUTTON_LABEL": "Create",
       "NAME": {
         "LABEL": "Name",
         "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "This will be the name of your public facing portal",
+        "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Name is required"
       },
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
-        "MESSAGE": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
         "ERROR": "Slug is required"
       }
     },
