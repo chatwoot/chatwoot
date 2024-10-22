@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Pracovní e-mail",
-      "PLACEHOLDER": "Zadejte svou pracovní e-mailovou adresu. např.: jan@novak.spolecnost",
+      "PLACEHOLDER": "Zadejte svou pracovní e-mailovou adresu. např.: jan{'@'}novak.spolecnost",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
