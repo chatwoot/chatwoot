@@ -24,7 +24,7 @@ const shouldRenderComponent = computed(() => {
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
-    class="py-0.5 pl-3 relative child-item before:bg-n-slate-4 after:bg-transparent after:border-n-slate-4 ml-3"
+    class="py-0.5 pl-3 rtl:pr-3 rtl:mr-3 ml-3 relative child-item before:bg-n-slate-4 after:bg-transparent after:border-n-slate-4 before:left-0 rtl:before:right-0"
   >
     <component
       :is="to ? 'router-link' : 'div'"
@@ -56,7 +56,6 @@ const shouldRenderComponent = computed(() => {
   position: absolute;
   width: 0.125rem; /* 0.5px */
   height: 100%;
-  left: 0;
 }
 
 .child-item:first-child::before {
@@ -73,11 +72,20 @@ const shouldRenderComponent = computed(() => {
   width: 10px;
   height: 12px;
   bottom: calc(50% - 2px);
-  left: 0;
   border-bottom-width: 0.125rem;
   border-left-width: 0.125rem;
   border-right-width: 0px;
   border-top-width: 0px;
   border-radius: 0 0 0 4px;
+  left: 0;
+}
+
+.app-rtl--wrapper .last-child-item::after {
+  right: 0;
+  border-bottom-width: 0.125rem;
+  border-right-width: 0.125rem;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0 0 4px 0px;
 }
 </style>
