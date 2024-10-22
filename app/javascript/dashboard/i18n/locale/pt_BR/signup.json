@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "E-mail comercial",
-      "PLACEHOLDER": "Digite seu e-mail de trabalho. Ex.: bruce@wayne.com.br",
+      "PLACEHOLDER": "Digite seu e-mail de trabalho. Ex.: bruce{'@'}wayne.com.br",
       "ERROR": "Por favor, insira um endereço de e-mail de trabalho válido."
     },
     "PASSWORD": {
