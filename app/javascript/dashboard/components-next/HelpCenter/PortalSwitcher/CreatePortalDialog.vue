@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
@@ -18,6 +18,8 @@ const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
+
+const isCreatingPortal = useMapGetter('portals/isCreatingPortal');
 
 const state = reactive({
   name: '',
@@ -85,6 +87,12 @@ const handleDialogConfirm = async () => {
   };
   await createPortal(portal);
   dialogRef.value.close();
+  // Reset state
+  Object.keys(state).forEach(key => {
+    state[key] = '';
+  });
+  v$.value.$reset(); // Reset validation
+
   emit('create', { slug: portal.slug, locale: 'en' });
 };
 
@@ -99,7 +107,8 @@ defineExpose({ dialogRef });
     :confirm-button-label="
       t('HELP_CENTER.CREATE_PORTAL_DIALOG.CONFIRM_BUTTON_LABEL')
     "
-    :disable-confirm-button="isSubmitDisabled"
+    :disable-confirm-button="isSubmitDisabled || isCreatingPortal"
+    :is-loading="isCreatingPortal"
     @confirm="handleDialogConfirm"
   >
     <template #form>

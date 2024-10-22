@@ -45,7 +45,7 @@ const portals = useMapGetter('portals/allPortals');
 const currentPortalSlug = computed(() => route.params.portalSlug);
 
 const activePortalName = computed(() => {
-  return portals.value.find(portal => portal.slug === currentPortalSlug.value)
+  return portals.value?.find(portal => portal.slug === currentPortalSlug.value)
     ?.name;
 });
 
@@ -65,10 +65,13 @@ const togglePortalSwitcher = () => {
           v-if="showHeaderTitle"
           class="flex items-center justify-start h-20 gap-2"
         >
-          <span class="text-xl font-medium text-slate-900 dark:text-white">
+          <span
+            v-if="activePortalName"
+            class="text-xl font-medium text-slate-900 dark:text-white"
+          >
             {{ activePortalName }}
           </span>
-          <div class="relative group">
+          <div v-if="activePortalName" class="relative group">
             <OnClickOutside @trigger="showPortalSwitcher = false">
               <Button
                 icon="chevron-lucide-down"

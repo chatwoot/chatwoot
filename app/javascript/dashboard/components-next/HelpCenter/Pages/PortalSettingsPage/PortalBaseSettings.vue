@@ -76,6 +76,9 @@ watch(
         } = newVal;
         state.logoUrl = logoURL;
         state.avatarBlobId = blobId;
+      } else {
+        state.logoUrl = '';
+        state.avatarBlobId = '';
       }
       Object.assign(originalState, state);
     }

@@ -6,6 +6,7 @@ export const getters = {
   },
 
   isFetchingPortals: state => state.uiFlags.isFetching,
+  isCreatingPortal: state => state.uiFlags.isCreating,
   portalBySlug:
     (...getterArguments) =>
     portalId => {
