@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import PortalSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalSettings.vue';
@@ -10,11 +11,18 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
+const { updateUISettings } = useUISettings();
+
 const portals = useMapGetter('portals/allPortals');
 const isFetching = useMapGetter('portals/isFetchingPortals');
+const getPortalBySlug = useMapGetter('portals/portalBySlug');
 
 const getNextAvailablePortal = deletedPortalSlug =>
   portals.value?.find(portal => portal.slug !== deletedPortalSlug) ?? null;
+
+const getDefaultLocale = slug => {
+  return getPortalBySlug.value(slug)?.meta?.default_locale;
+};
 
 const fetchPortalAndItsCategories = async (slug, locale) => {
   const selectedPortalParam = { portalSlug: slug, locale };
@@ -43,13 +51,33 @@ const updateRouteAfterDeletion = async deletedPortalSlug => {
   }
 };
 
+const refreshPortalRoute = async (newSlug, defaultLocale) => {
+  // This is to refresh the portal route and update the UI settings
+  // If there is slug change, this will be called to refresh the route and UI settings
+  await fetchPortalAndItsCategories(newSlug, defaultLocale);
+  updateUISettings({
+    last_active_portal_slug: newSlug,
+    last_active_locale_code: defaultLocale,
+  });
+  await router.replace({
+    name: 'portals_settings_index',
+    params: { portalSlug: newSlug },
+  });
+};
+
 const updatePortalSettings = async portalObj => {
   const { portalSlug } = route.params;
   try {
+    const defaultLocale = getDefaultLocale(portalSlug);
     await store.dispatch('portals/update', {
       ...portalObj,
       portalSlug: portalSlug || portalObj?.slug,
     });
+
+    // If there is a slug change, this will refresh the route and update the UI settings
+    if (portalSlug !== portalObj?.slug) {
+      await refreshPortalRoute(portalObj.slug, defaultLocale);
+    }
     useAlert(
       t('HELP_CENTER.PORTAL_SETTINGS.API.UPDATE_PORTAL.SUCCESS_MESSAGE')
     );
