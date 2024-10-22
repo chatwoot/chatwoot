@@ -19,6 +19,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  roundedFull: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['upload']);
 
@@ -53,7 +57,11 @@ watch(
 <template>
   <span
     role="img"
-    class="inline-flex items-center justify-center object-cover overflow-hidden font-medium rounded-full bg-woot-50 text-woot-500"
+    class="inline-flex relative items-center justify-center object-cover overflow-hidden font-medium bg-woot-50 text-woot-500 group/avatar"
+    :class="{
+      'rounded-full': roundedFull,
+      'rounded-xl': !roundedFull,
+    }"
     :style="{
       width: typeof size === 'number' ? `${size}px` : undefined,
       height: typeof size === 'number' ? `${size}px` : undefined,
@@ -74,11 +82,7 @@ watch(
       class="absolute inset-0 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl dark:bg-slate-900/50 bg-slate-900/20 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="emit('upload')"
     >
-      <Icon
-        icon="0-lucide-upload"
-        :size="size / 2"
-        class="text-white dark:text-white"
-      />
+      <Icon icon="i-lucide-upload" class="text-white dark:text-white size-4" />
     </div>
   </span>
 </template>
