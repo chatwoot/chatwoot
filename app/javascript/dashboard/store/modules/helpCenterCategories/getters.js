@@ -6,10 +6,6 @@ export const getters = {
   },
   isFetching: state => state.uiFlags.isFetching,
   isCreating: state => state.uiFlags.isCreating,
-  isCategoryUpdating: state => categoryId => {
-    const flags = state.categories.uiFlags.byId[categoryId];
-    return flags?.isUpdating || false;
-  },
   categoryById:
     (...getterArguments) =>
     categoryId => {

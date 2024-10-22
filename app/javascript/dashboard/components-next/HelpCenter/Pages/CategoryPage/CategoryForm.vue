@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -55,9 +55,16 @@ const EmojiInput = defineAsyncComponent(
 
 const { t } = useI18n();
 const route = useRoute();
+const getters = useStoreGetters();
 
 const isCreating = useMapGetter('categories/isCreating');
-const isCategoryUpdating = useMapGetter('categories/isCategoryUpdating');
+
+const isUpdatingCategory = computed(() => {
+  const id = props.selectedCategory?.id;
+  if (id) return getters['categories/uiFlags'].value(id)?.isUpdating;
+
+  return false;
+});
 
 const isEmojiPickerOpen = ref(false);
 
@@ -71,7 +78,6 @@ const state = reactive({
 });
 
 const isEditMode = computed(() => props.mode === 'edit');
-const selectedCategoryId = computed(() => props.selectedCategory?.id);
 
 const rules = {
   name: { required, minLength: minLength(1) },
@@ -250,12 +256,8 @@ defineExpose({ state, isSubmitDisabled });
             )
           "
           class="w-full"
-          :disabled="
-            isSubmitDisabled ||
-            isCreating ||
-            isCategoryUpdating(selectedCategoryId)
-          "
-          :is-loading="isCreating || isCategoryUpdating(selectedCategoryId)"
+          :disabled="isSubmitDisabled || isCreating || isUpdatingCategory"
+          :is-loading="isCreating || isUpdatingCategory"
           @click="handleSubmit"
         />
       </div>

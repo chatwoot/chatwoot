@@ -1,9 +1,9 @@
 <script setup>
-import { reactive, watch } from 'vue';
+import { reactive, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 import { useAlert } from 'dashboard/composables';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
@@ -28,6 +28,7 @@ const emit = defineEmits(['updatePortal']);
 
 const { t } = useI18n();
 const store = useStore();
+const getters = useStoreGetters();
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
@@ -48,6 +49,15 @@ const liveChatWidgets = [
   { value: 2, label: 'Tidio live chat' },
 ];
 
+const originalState = reactive({});
+
+const isUpdatingPortal = computed(() => {
+  const slug = props.activePortal?.slug;
+  if (slug) return getters['portals/uiFlagsIn'].value(slug)?.isUpdating;
+
+  return false;
+});
+
 watch(
   () => props.activePortal,
   newVal => {
@@ -67,10 +77,15 @@ watch(
         state.logoUrl = logoURL;
         state.avatarBlobId = blobId;
       }
+      Object.assign(originalState, state);
     }
   },
   { immediate: true, deep: true }
 );
+
+const hasChanges = computed(() => {
+  return JSON.stringify(state) !== JSON.stringify(originalState);
+});
 
 const handleUpdatePortal = () => {
   const portal = {
@@ -249,6 +264,8 @@ const handleAvatarDelete = () => {
       <div class="flex justify-end w-full gap-2">
         <Button
           :label="t('HELP_CENTER.PORTAL_SETTINGS.FORM.SAVE_CHANGES')"
+          :disabled="!hasChanges || isUpdatingPortal"
+          :is-loading="isUpdatingPortal"
           @click="handleUpdatePortal"
         />
       </div>

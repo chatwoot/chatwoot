@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useRoute } from 'vue-router';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -22,12 +22,17 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
+const getters = useStoreGetters();
 
 const dialogRef = ref(null);
 const categoryFormRef = ref(null);
 
-const isCategoryUpdating = useMapGetter('categories/isCategoryUpdating');
-const selectedCategoryId = computed(() => props.selectedCategory?.id);
+const isUpdatingCategory = computed(() => {
+  const id = props.selectedCategory?.id;
+  if (id) return getters['categories/uiFlags'].value(id)?.isUpdating;
+
+  return false;
+});
 
 const isInvalidForm = computed(() => {
   if (!categoryFormRef.value) return false;
@@ -88,10 +93,8 @@ defineExpose({ dialogRef });
     :description="
       t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.DESCRIPTION')
     "
-    :is-loading="isCategoryUpdating(selectedCategoryId)"
-    :disable-confirm-button="
-      isCategoryUpdating(selectedCategoryId) || isInvalidForm
-    "
+    :is-loading="isUpdatingCategory"
+    :disable-confirm-button="isUpdatingCategory || isInvalidForm"
     @confirm="onUpdateCategory"
   >
     <template #form>
