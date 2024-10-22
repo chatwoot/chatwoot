@@ -57,6 +57,7 @@ const { t } = useI18n();
 const route = useRoute();
 
 const isCreating = useMapGetter('categories/isCreating');
+const isCategoryUpdating = useMapGetter('categories/isCategoryUpdating');
 
 const isEmojiPickerOpen = ref(false);
 
@@ -143,7 +144,7 @@ onMounted(() => {
   }
 });
 
-defineExpose({ state });
+defineExpose({ state, isSubmitDisabled });
 </script>
 
 <template>
@@ -248,8 +249,12 @@ defineExpose({ state });
             )
           "
           class="w-full"
-          :disabled="isSubmitDisabled || isCreating"
-          :is-loading="isCreating"
+          :disabled="
+            isSubmitDisabled ||
+            isCreating ||
+            isCategoryUpdating(selectedCategory.id)
+          "
+          :is-loading="isCreating || isCategoryUpdating(selectedCategory.id)"
           @click="handleSubmit"
         />
       </div>

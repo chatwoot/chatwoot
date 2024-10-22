@@ -32,6 +32,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['confirm', 'close']);
@@ -93,7 +97,8 @@ defineExpose({ open, close });
               :variant="type === 'edit' ? 'default' : 'destructive'"
               :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
               class="w-full"
-              :disabled="disableConfirmButton"
+              :is-loading="isLoading"
+              :disabled="disableConfirmButton || isLoading"
               @click="confirm"
             />
           </div>

@@ -12,7 +12,9 @@ describe('#getters', () => {
       isDeleting: false,
     });
   });
-
+  it('isCategoryUpdating', () => {
+    expect(getters.isCategoryUpdating(state)(1)).toEqual(true);
+  });
   it('categoryById', () => {
     expect(getters.categoryById(state)(1)).toEqual(
       categoriesState.categories.byId[1]
