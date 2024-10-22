@@ -42,6 +42,8 @@ const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 
+const isArticlePublishing = ref(false);
+
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
 const showArticleActionMenu = ref(false);
@@ -85,6 +87,9 @@ const getStatusMessage = (status, isSuccess) => {
 const updateArticleStatus = async ({ value }) => {
   showArticleActionMenu.value = false;
   const status = getArticleStatus(value);
+  if (status === ARTICLE_STATUS_TYPES.PUBLISH) {
+    isArticlePublishing.value = true;
+  }
   const { portalSlug } = route.params;
 
   try {
@@ -101,8 +106,10 @@ const updateArticleStatus = async ({ value }) => {
     } else if (status === ARTICLE_STATUS_TYPES.PUBLISH) {
       useTrack(PORTALS_EVENTS.PUBLISH_ARTICLE);
     }
+    isArticlePublishing.value = false;
   } catch (error) {
     useAlert(error?.message ?? getStatusMessage(status, false));
+    isArticlePublishing.value = false;
   }
 };
 </script>
@@ -138,7 +145,12 @@ const updateArticleStatus = async ({ value }) => {
             :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PUBLISH')"
             size="sm"
             class="ltr:rounded-r-none rtl:rounded-l-none"
-            :disabled="status === ARTICLE_STATUSES.PUBLISHED || !articleId"
+            :is-loading="isArticlePublishing"
+            :disabled="
+              status === ARTICLE_STATUSES.PUBLISHED ||
+              !articleId ||
+              isArticlePublishing
+            "
             @click="updateArticleStatus({ value: ARTICLE_STATUSES.PUBLISHED })"
           />
           <div class="relative">
