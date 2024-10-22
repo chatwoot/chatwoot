@@ -12,7 +12,7 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarNotificationBell from './SidebarNotificationBell.vue';
-import Logo from './Logo.vue';
+import Logo from 'next/icon/Logo.vue';
 
 const emit = defineEmits([
   'toggleAccountModal',

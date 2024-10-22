@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
-import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import Icon from './Icon.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 

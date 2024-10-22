@@ -1,5 +1,5 @@
 <script setup>
-import Icon from './Icon.vue';
+import Icon from 'next/icon/Icon.vue';
 
 defineProps({
   to: { type: [Object, String], default: '' },
