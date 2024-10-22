@@ -3,7 +3,7 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "Tölvupóstfang",
-      "PLACEHOLDER": "Tölvupóstfang t.d. someone@example.com",
+      "PLACEHOLDER": "Tölvupóstfang t.d. someone{'@'}example.com",
       "ERROR": "Vinsamlegast skrifaðu gilt netfang"
     },
     "PASSWORD": {
