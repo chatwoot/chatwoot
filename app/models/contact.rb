@@ -61,7 +61,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+            format: { with: /\+[0-9]{1,14}(\s*-\s*[a-zA-Z0-9\sà-ỹÀ-Ý]+)?\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
   belongs_to :stage, optional: true
