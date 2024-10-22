@@ -54,10 +54,8 @@ const emitNewAccount = () => {
         class="i-lucide-chevron-down size-4 text-n-slate-10"
       />
     </button>
-    <div class="absolute top-8 z-50">
+    <div v-if="showDropdown" v-on-clickaway="close" class="absolute top-8 z-50">
       <div
-        v-if="showDropdown"
-        v-on-clickaway="close"
         class="w-72 text-sm block bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
       >
         <h3

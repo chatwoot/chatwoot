@@ -108,44 +108,50 @@ const allowedMenuItems = computed(() => {
 </script>
 
 <template>
-  <button
-    class="flex gap-2 items-center rounded-lg cursor-pointer text-left"
-    v-bind="$attrs"
-    @click="toggleProfileMenu()"
-  >
-    <Avatar
-      :size="32"
-      :name="currentUser.available_name"
-      :src="currentUser.avatar_url"
-    />
-    <div>
-      <div class="text-n-slate-12 text-sm leading-4 font-medium">
-        {{ currentUser.available_name }}
+  <div class="relative z-20">
+    <button
+      class="flex gap-2 items-center rounded-lg cursor-pointer text-left"
+      v-bind="$attrs"
+      @click="toggleProfileMenu()"
+    >
+      <Avatar
+        :size="32"
+        :name="currentUser.available_name"
+        :src="currentUser.avatar_url"
+      />
+      <div>
+        <div class="text-n-slate-12 text-sm leading-4 font-medium">
+          {{ currentUser.available_name }}
+        </div>
+        <div class="text-n-slate-11 text-xs">
+          {{ currentUser.email }}
+        </div>
       </div>
-      <div class="text-n-slate-11 text-xs">
-        {{ currentUser.email }}
+    </button>
+    <div
+      v-if="showProfileMenu"
+      v-on-clickaway="closeMenu"
+      class="absolute left-0 bottom-12 z-50"
+    >
+      <div
+        class="w-72 min-h-32 bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
+      >
+        <SidebarProfileMenuStatus />
+        <div class="border-t border-n-strong mx-2 my-0" />
+        <ul class="list-none m-0 grid gap-1 p-1">
+          <li v-for="item in allowedMenuItems" :key="item.label" class="m-0">
+            <component
+              :is="item.link ? 'a' : 'button'"
+              v-bind="item.link ? { target: item.target, href: item.link } : {}"
+              class="text-left hover:bg-n-alpha-1 px-2 py-1.5 w-full flex items-center gap-2"
+              @click="item.click"
+            >
+              <Icon :icon="item.icon" class="size-4" />
+              {{ item.label }}
+            </component>
+          </li>
+        </ul>
       </div>
     </div>
-  </button>
-  <div
-    v-if="showProfileMenu"
-    v-on-clickaway="closeMenu"
-    class="w-72 bg-n-solid-1 border border-n-weak absolute bottom-14 z-[999] rounded-xl shadow-sm"
-  >
-    <SidebarProfileMenuStatus />
-    <div class="border-t border-n-strong mx-2 my-0" />
-    <ul class="list-none m-0 grid gap-1 p-1">
-      <li v-for="item in allowedMenuItems" :key="item.label" class="m-0">
-        <component
-          :is="item.link ? 'a' : 'button'"
-          v-bind="item.link ? { target: item.target, href: item.link } : {}"
-          class="text-left hover:bg-n-alpha-1 px-2 py-1.5 w-full flex items-center gap-2"
-          @click="item.click"
-        >
-          <Icon :icon="item.icon" class="size-4" />
-          {{ item.label }}
-        </component>
-      </li>
-    </ul>
   </div>
 </template>
