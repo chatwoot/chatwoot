@@ -1,6 +1,6 @@
 <script setup>
 import { isVNode, computed } from 'vue';
-import Icon from './Icon.vue';
+import Icon from 'next/icon/Icon.vue';
 import Policy from 'dashboard/components/policy.vue';
 import { useSidebarContext } from './provider';
 

@@ -5,7 +5,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
-import Icon from './Icon.vue';
+import Icon from 'next/icon/Icon.vue';
 
 const { t } = useI18n();
 const store = useStore();

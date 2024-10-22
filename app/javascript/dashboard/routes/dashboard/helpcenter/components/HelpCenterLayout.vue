@@ -2,7 +2,7 @@
 import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
-import NextSidebar from 'dashboard/components/layout-next/Sidebar.vue';
+import NextSidebar from 'next/sidebar/Sidebar.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';

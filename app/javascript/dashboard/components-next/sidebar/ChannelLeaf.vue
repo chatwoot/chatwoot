@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import Icon from './Icon.vue';
+import Icon from 'next/icon/Icon.vue';
 
 const props = defineProps({
   label: {
