@@ -108,9 +108,9 @@ const allowedMenuItems = computed(() => {
 </script>
 
 <template>
-  <div class="relative z-20">
+  <div class="relative z-20 w-full min-w-0">
     <button
-      class="flex gap-2 items-center rounded-lg cursor-pointer text-left"
+      class="flex gap-2 items-center rounded-lg cursor-pointer text-left w-full"
       v-bind="$attrs"
       @click="toggleProfileMenu()"
     >
@@ -118,13 +118,14 @@ const allowedMenuItems = computed(() => {
         :size="32"
         :name="currentUser.available_name"
         :src="currentUser.avatar_url"
+        class="flex-shrink-0"
         rounded-full
       />
-      <div>
-        <div class="text-n-slate-12 text-sm leading-4 font-medium">
+      <div class="min-w-0">
+        <div class="text-n-slate-12 text-sm leading-4 font-medium truncate">
           {{ currentUser.available_name }}
         </div>
-        <div class="text-n-slate-11 text-xs">
+        <div class="text-n-slate-11 text-xs truncate">
           {{ currentUser.email }}
         </div>
       </div>
