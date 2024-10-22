@@ -130,7 +130,7 @@ const allowedMenuItems = computed(() => {
   <div
     v-if="showProfileMenu"
     v-on-clickaway="closeMenu"
-    class="w-72 bg-n-solid-1 border border-n-weak absolute bottom-14 z-[999] rounded-lg shadow-sm"
+    class="w-72 bg-n-solid-1 border border-n-weak absolute bottom-14 z-[999] rounded-xl shadow-sm"
   >
     <SidebarProfileMenuStatus />
     <div class="border-t border-n-strong mx-2 my-0" />
