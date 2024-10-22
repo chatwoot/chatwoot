@@ -73,6 +73,7 @@ const handleClick = slug => {
 
 const handleAction = ({ action, value }) => {
   emit('action', { action, value, id: props.id });
+  isOpen.value = false;
 };
 </script>
 

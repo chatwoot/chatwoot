@@ -9,6 +9,7 @@ import {
 } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -54,6 +55,8 @@ const EmojiInput = defineAsyncComponent(
 
 const { t } = useI18n();
 const route = useRoute();
+
+const isCreating = useMapGetter('categories/isCreating');
 
 const isEmojiPickerOpen = ref(false);
 
@@ -245,7 +248,8 @@ defineExpose({ state });
             )
           "
           class="w-full"
-          :disabled="isSubmitDisabled"
+          :disabled="isSubmitDisabled || isCreating"
+          :is-loading="isCreating"
           @click="handleSubmit"
         />
       </div>
