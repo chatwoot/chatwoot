@@ -9,7 +9,7 @@ import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import EditableAvatar from 'dashboard/components-next/avatar/EditableAvatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 
@@ -137,7 +137,7 @@ const handleAvatarDelete = () => {
       <label class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50">
         {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.LABEL') }}
       </label>
-      <Avatar
+      <EditableAvatar
         label="Avatar"
         :src="state.logoUrl"
         :name="state.name"
