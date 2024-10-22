@@ -61,7 +61,7 @@ function updateAutoOffline(autoOffline) {
         class="flex items-baseline"
       >
         <button
-          class="text-left hover:bg-n-alpha-1 px-2 py-1.5 w-full flex items-center gap-2"
+          class="text-left rtl:text-right hover:bg-n-alpha-1 px-2 py-1.5 w-full flex items-center gap-2"
           :class="{
             'pointer-events-none bg-n-amber-10/10': status.active,
             'bg-n-teal-3': status.active && status.value === 'online',
