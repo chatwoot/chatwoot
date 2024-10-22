@@ -51,7 +51,9 @@ function updateAutoOffline(autoOffline) {
 
 <template>
   <div class="pt-2">
-    <span class="px-2 text-sm font-medium">
+    <span
+      class="px-3 uppercase tracking-wider font-semibold text-n-slate-11 text-xs"
+    >
       {{ t('SIDEBAR.SET_AVAILABILITY_TITLE') }}
     </span>
     <ul class="list-none m-0 grid gap-1 p-1">
