@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE})",
     "MESSAGE_ERROR": "Ekki er hægt að senda þessi skilaboð, vinsamlegast reyndu aftur síðar",
     "SENT_BY": "Sent af:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Tókst ekki að senda skilaboð! Reyndu aftur",
     "TRY_AGAIN": "reyna aftur",
     "ASSIGNMENT": {

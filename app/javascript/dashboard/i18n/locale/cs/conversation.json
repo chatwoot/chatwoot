@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Odeslání zprávy se nezdařilo! Zkuste to znovu",
     "TRY_AGAIN": "opakovat",
     "ASSIGNMENT": {

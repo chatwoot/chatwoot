@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Lampiran melebihi batas ukuran {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Tidak dapat mengirim pesan ini, mohon coba lagi nanti",
     "SENT_BY": "Dikirim oleh:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Tidak dapat mengirim pesan! Coba lagi",
     "TRY_AGAIN": "coba lagi",
     "ASSIGNMENT": {

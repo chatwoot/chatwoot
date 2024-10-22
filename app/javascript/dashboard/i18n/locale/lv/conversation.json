@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB pielikuma ierobežojumu",
     "MESSAGE_ERROR": "Nevar nosūtīt šo ziņojumu. Lūdzu, vēlāk mēģiniet vēlreiz",
     "SENT_BY": "Sūtīja:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Nevarēja nosūtīt ziņojumu! Mēģiniet vēlreiz",
     "TRY_AGAIN": "mēģināt vēlreiz",
     "ASSIGNMENT": {

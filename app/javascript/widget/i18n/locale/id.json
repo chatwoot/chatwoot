@@ -41,12 +41,12 @@
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
     "COMPANY_FROM": "dari",
-    "BOT": "Bot"
+    "BOT": ""
   },
   "BUBBLE": {
     "LABEL": "Chat dengan kami"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Powered by iZetta",
   "EMAIL_PLACEHOLDER": "Masukkan email Anda",
   "CHAT_PLACEHOLDER": "Ketik pesan Anda",
   "TODAY": "Hari ini",

@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} limitet",
     "MESSAGE_ERROR": "Nem tudsz üzenetet küldeni, kérlek, próbáld újra",
     "SENT_BY": "Küldő:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Nem sikerült elküldeni az üzenetet! Próbáld újra.",
     "TRY_AGAIN": "újra",
     "ASSIGNMENT": {

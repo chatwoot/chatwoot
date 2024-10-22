@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Nije bilo moguće poslati poruku! Pokušajte ponovo",
     "TRY_AGAIN": "pokušaj ponovo",
     "ASSIGNMENT": {

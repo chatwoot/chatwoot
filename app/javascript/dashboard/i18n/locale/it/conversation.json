@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB per l'allegato",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
     "SENT_BY": "Inviato da:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Impossibile inviare il messaggio! Riprova",
     "TRY_AGAIN": "riprova",
     "ASSIGNMENT": {

@@ -41,12 +41,12 @@
     "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
     "CLOSE_MESSAGES_BUTTON": "Zavřít",
     "COMPANY_FROM": "od",
-    "BOT": "Bot"
+    "BOT": ""
   },
   "BUBBLE": {
     "LABEL": "Napiště nám"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Powered by iZetta",
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
   "CHAT_PLACEHOLDER": "Zde začněte psát",
   "TODAY": "Dnes",

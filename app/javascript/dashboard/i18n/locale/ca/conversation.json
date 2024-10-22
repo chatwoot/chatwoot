@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "El fitxer supera el límit de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB fitxers adjunts",
     "MESSAGE_ERROR": "No es pot enviar aquest missatge, torna-ho a provar més tard",
     "SENT_BY": "Enviat per:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "No s'ha pogut enviar el missatge! Torna-ho a provar",
     "TRY_AGAIN": "reintenta",
     "ASSIGNMENT": {

@@ -78,7 +78,7 @@ export default {
       <img
         v-if="avatarUrl"
         class="w-8 h-8 mr-3 rounded-full"
-        :src="avatarUrl"
+        src="../assets/images/avatar.gif"
         alt="avatar"
       />
       <div>

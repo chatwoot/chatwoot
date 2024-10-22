@@ -41,12 +41,12 @@
     "VIEW_MESSAGES_BUTTON": "新しいメッセージを見る",
     "CLOSE_MESSAGES_BUTTON": "閉じる",
     "COMPANY_FROM": "from",
-    "BOT": "Bot"
+    "BOT": ""
   },
   "BUBBLE": {
     "LABEL": "チャットをする"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Powered by iZetta",
   "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
   "CHAT_PLACEHOLDER": "メッセージを入力してください。",
   "TODAY": "今日",

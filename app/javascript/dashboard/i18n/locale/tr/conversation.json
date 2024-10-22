@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Dosya, {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB ek dosya sınırını aşıyor",
     "MESSAGE_ERROR": "Bu mesaj gönderilemiyor, lütfen daha sonra tekrar deneyin",
     "SENT_BY": "Tarafından gönderildi:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Mesaj gönderilemedi! Tekrar deneyin",
     "TRY_AGAIN": "tekrar dene",
     "ASSIGNMENT": {

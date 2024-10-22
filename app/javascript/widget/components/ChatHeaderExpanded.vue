@@ -10,7 +10,7 @@ export default {
   props: {
     avatarUrl: {
       type: String,
-      default: '',
+      default: '../assets/avatar.gif',
     },
     introHeading: {
       type: String,

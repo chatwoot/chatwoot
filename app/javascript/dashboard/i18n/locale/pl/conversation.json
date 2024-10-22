@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nie można wysłać tej wiadomości, spróbuj ponownie później",
     "SENT_BY": "Wysłane przez:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Nie można wysłać wiadomości! Spróbuj ponownie",
     "TRY_AGAIN": "spróbuj ponownie",
     "ASSIGNMENT": {

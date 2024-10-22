@@ -197,7 +197,7 @@
     "FILE_SIZE_LIMIT": "Fișierul depășește limita de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
     "SENT_BY": "Trimis de:",
-    "BOT": "Bot",
+    "BOT": "",
     "SEND_FAILED": "Nu a putut trimite mesaj! Încearcă din nou",
     "TRY_AGAIN": "reîncercare",
     "ASSIGNMENT": {
