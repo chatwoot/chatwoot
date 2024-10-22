@@ -18,33 +18,34 @@
     </div>
     <div>
       <div class="w-full">
-        <div class="gap-2 flex flex-row">
-          <div class="w-[50%]">
-            <label :class="{ error: $v.name.$error }">
-              {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
-              <input v-model.trim="name" type="text" @input="$v.name.$touch" />
-            </label>
-          </div>
-          <div class="w-[50%]">
-            <label
-              :class="{
-                error: isPhoneNumberNotValid,
-              }"
-            >
-              {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
-              <woot-phone-input
-                v-model="phoneNumber"
-                :value="phoneNumber"
-                :error="isPhoneNumberNotValid"
-                @input="onPhoneNumberInputChange"
-                @blur="$v.phoneNumber.$touch"
-                @setCode="setPhoneCode"
-              />
-              <span v-if="isPhoneNumberNotValid" class="message">
-                {{ phoneNumberError }}
-              </span>
-            </label>
-          </div>
+        <div class="w-full">
+          <label :class="{ error: $v.name.$error }">
+            {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
+            <input v-model.trim="name" type="text" @input="$v.name.$touch" />
+          </label>
+        </div>
+        <div class="w-full">
+          <label
+            :class="{
+              error: isPhoneNumberNotValid,
+            }"
+          >
+            {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
+            <woot-phone-input
+              v-model="phoneNumber"
+              :value="phoneNumber"
+              :error="isPhoneNumberNotValid"
+              :placeholder="
+                $t('CONTACT_FORM.FORM.PHONE_NUMBER.CONTACT_PLACEHOLDER')
+              "
+              @input="onPhoneNumberInputChange"
+              @blur="$v.phoneNumber.$touch"
+              @setCode="setPhoneCode"
+            />
+            <span v-if="isPhoneNumberNotValid" class="message">
+              {{ phoneNumberError }}
+            </span>
+          </label>
         </div>
         <label :class="{ error: $v.email.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
@@ -214,7 +215,7 @@ export default {
         return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DIAL_CODE_ERROR');
       }
       if (!isPhoneNumberValid(this.phoneNumber, this.activeDialCode)) {
-        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR');
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.CONTACT_ERROR');
       }
       return '';
     },
