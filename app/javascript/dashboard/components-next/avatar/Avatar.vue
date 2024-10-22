@@ -1,52 +1,84 @@
 <script setup>
-import { computed } from 'vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
   src: {
     type: String,
     default: '',
   },
+  name: {
+    type: String,
+    required: true,
+  },
   size: {
     type: Number,
-    default: 72,
+    default: 32,
+  },
+  allowUpload: {
+    type: Boolean,
+    default: false,
   },
 });
-
 const emit = defineEmits(['upload']);
 
-const avatarSize = computed(() => `${props.size}px`);
-const iconSize = computed(() => `${props.size / 2}px`);
+const isImageValid = ref(true);
 
-const handleUploadAvatar = () => {
-  emit('upload');
-};
+function invalidateCurrentImage() {
+  isImageValid.value = false;
+}
+
+const initials = computed(() => {
+  const splitNames = props.name.split(' ');
+
+  if (splitNames.length > 1) {
+    const firstName = splitNames[0];
+    const lastName = splitNames[splitNames.length - 1];
+
+    return firstName[0] + lastName[0];
+  }
+
+  const firstName = splitNames[0];
+  return firstName[0];
+});
+
+watch(
+  () => props.src,
+  () => {
+    isImageValid.value = true;
+  }
+);
 </script>
 
 <template>
-  <div
-    class="relative flex flex-col items-center gap-2 select-none rounded-xl group/avatar"
+  <span
+    role="img"
+    class="inline-flex items-center justify-center object-cover overflow-hidden font-medium rounded-full bg-woot-50 text-woot-500"
     :style="{
-      width: avatarSize,
-      height: avatarSize,
+      width: typeof size === 'number' ? `${size}px` : undefined,
+      height: typeof size === 'number' ? `${size}px` : undefined,
     }"
   >
     <img
-      v-if="src"
-      :src="props.src"
-      alt="avatar"
-      class="w-full h-full shadow-sm rounded-xl"
+      v-if="src && isImageValid"
+      :src="src"
+      :alt="name"
+      @error="invalidateCurrentImage"
     />
+    <span v-else>
+      {{ initials }}
+    </span>
     <div
+      v-if="allowUpload"
+      role="button"
       class="absolute inset-0 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl dark:bg-slate-900/50 bg-slate-900/20 group-hover/avatar:visible group-hover/avatar:opacity-100"
-      @click="handleUploadAvatar"
+      @click="emit('upload')"
     >
-      <FluentIcon
-        icon="upload-lucide"
-        icon-lib="lucide"
-        :size="iconSize"
+      <Icon
+        icon="0-lucide-upload"
+        :size="size / 2"
         class="text-white dark:text-white"
       />
     </div>
-  </div>
+  </span>
 </template>
