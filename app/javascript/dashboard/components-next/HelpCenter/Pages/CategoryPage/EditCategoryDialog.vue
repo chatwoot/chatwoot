@@ -27,6 +27,7 @@ const dialogRef = ref(null);
 const categoryFormRef = ref(null);
 
 const isCategoryUpdating = useMapGetter('categories/isCategoryUpdating');
+const selectedCategoryId = computed(() => props.selectedCategory?.id);
 
 const isInvalidForm = computed(() => {
   if (!categoryFormRef.value) return false;
@@ -87,9 +88,9 @@ defineExpose({ dialogRef });
     :description="
       t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.DESCRIPTION')
     "
-    :is-loading="isCategoryUpdating(selectedCategory.id)"
+    :is-loading="isCategoryUpdating(selectedCategoryId)"
     :disable-confirm-button="
-      isCategoryUpdating(selectedCategory.id) || isInvalidForm
+      isCategoryUpdating(selectedCategoryId) || isInvalidForm
     "
     @confirm="onUpdateCategory"
   >

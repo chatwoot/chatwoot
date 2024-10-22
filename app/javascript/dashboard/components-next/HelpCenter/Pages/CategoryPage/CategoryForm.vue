@@ -71,6 +71,7 @@ const state = reactive({
 });
 
 const isEditMode = computed(() => props.mode === 'edit');
+const selectedCategoryId = computed(() => props.selectedCategory?.id);
 
 const rules = {
   name: { required, minLength: minLength(1) },
@@ -252,9 +253,9 @@ defineExpose({ state, isSubmitDisabled });
           :disabled="
             isSubmitDisabled ||
             isCreating ||
-            isCategoryUpdating(selectedCategory.id)
+            isCategoryUpdating(selectedCategoryId)
           "
-          :is-loading="isCreating || isCategoryUpdating(selectedCategory.id)"
+          :is-loading="isCreating || isCategoryUpdating(selectedCategoryId)"
           @click="handleSubmit"
         />
       </div>
