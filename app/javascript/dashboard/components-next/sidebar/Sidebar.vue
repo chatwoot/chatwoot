@@ -12,6 +12,7 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarNotificationBell from './SidebarNotificationBell.vue';
+import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 
 const emit = defineEmits([
@@ -19,9 +20,10 @@ const emit = defineEmits([
   'openNotificationPanel',
   'closeKeyShortcutModal',
   'openKeyShortcutModal',
+  'showCreateAccountModal',
 ]);
 
-const { accountId, currentAccount, accountScopedRoute } = useAccount();
+const { accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
@@ -407,26 +409,10 @@ const menuItems = computed(() => {
           <Logo />
         </div>
         <div class="w-px h-3 bg-n-strong" />
-        <button
-          id="sidebar-account-switcher"
-          :data-account-id="accountId"
-          aria-haspopup="listbox"
-          aria-controls="account-options"
-          class="flex items-center gap-2 px-2 justify-between w-full rounded-lg hover:bg-n-alpha-1 -mx-1"
-          @click="emit('toggleAccountModal')"
-        >
-          <span
-            class="text-sm font-medium leading-5 text-n-slate-12"
-            aria-live="polite"
-          >
-            {{ currentAccount.name }}
-          </span>
-
-          <span
-            aria-hidden="true"
-            class="i-lucide-chevron-down size-4 text-n-slate-10"
-          />
-        </button>
+        <SidebarAccountSwitcher
+          class="-mx-1"
+          @show-create-account-modal="emit('showCreateAccountModal')"
+        />
       </div>
       <div class="gap-2 flex px-2">
         <RouterLink

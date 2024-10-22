@@ -181,6 +181,7 @@ export default {
       @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
+      @show-create-account-modal="openCreateAccountModal"
     />
     <Sidebar
       v-else
