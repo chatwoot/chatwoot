@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import Avatar from 'dashboard/components/base-next/avatar/Avatar.vue';
 
 describe('Avatar.vue', () => {
