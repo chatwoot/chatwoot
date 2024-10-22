@@ -75,7 +75,7 @@ const updatePortalSettings = async portalObj => {
     });
 
     // If there is a slug change, this will refresh the route and update the UI settings
-    if (portalSlug !== portalObj?.slug) {
+    if (portalObj?.slug && portalSlug !== portalObj.slug) {
       await refreshPortalRoute(portalObj.slug, defaultLocale);
     }
     useAlert(
