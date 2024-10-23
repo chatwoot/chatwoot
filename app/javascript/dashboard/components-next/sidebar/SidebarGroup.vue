@@ -70,21 +70,23 @@ const isActive = computed(() => {
   return false;
 });
 
+// We could use the RouterLink isActive too, but our routes are not always
+// nested correctly, so we need to check the active state ourselves
+// TODO: Audit the routes and fix the nesting and remove this
 const activeChild = computed(() => {
-  return navigableChildren.value.find(child => {
-    // we use startsWith to account for nested routes
-    if (child.to && route.path.startsWith(resolvePath(child.to))) {
-      return true;
-    }
+  const pathSame = navigableChildren.value.find(
+    child => child.to && route.path === resolvePath(child.to)
+  );
+  if (pathSame) return pathSame;
 
-    // nested routes may not be logically nested in the sidebar
-    // but only conceptually, so we allow using activeOn
-    if (child.activeOn && child.activeOn.includes(route.name)) {
-      return true;
-    }
+  const pathSatrtsWith = navigableChildren.value.find(
+    child => child.to && route.path.startsWith(resolvePath(child.to))
+  );
+  if (pathSatrtsWith) return pathSatrtsWith;
 
-    return false;
-  });
+  return navigableChildren.value.find(child =>
+    child.activeOn?.includes(route.name)
+  );
 });
 
 const hasActiveChild = computed(() => {
