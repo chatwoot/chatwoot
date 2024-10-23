@@ -110,8 +110,11 @@ const allowedMenuItems = computed(() => {
 <template>
   <div class="relative z-20 w-full min-w-0">
     <button
-      class="flex gap-2 items-center rounded-lg cursor-pointer text-left w-full"
+      class="flex gap-2 items-center rounded-lg cursor-pointer text-left w-full hover:bg-n-alpha-1 p-1"
       v-bind="$attrs"
+      :class="{
+        'bg-n-alpha-1': showProfileMenu,
+      }"
       @click="toggleProfileMenu"
     >
       <Avatar

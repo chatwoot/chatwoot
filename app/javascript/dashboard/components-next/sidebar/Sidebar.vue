@@ -461,7 +461,6 @@ const menuItems = computed(() => {
       class="p-1 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
     >
       <SidebarProfileMenu
-        class="hover:bg-n-alpha-1 p-1"
         @toggle-accounts="emit('toggleAccountModal')"
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"
       />
