@@ -6,6 +6,7 @@ import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useStorage } from '@vueuse/core';
 
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import SidebarGroup from './SidebarGroup.vue';
@@ -39,7 +40,15 @@ const toggleShortcutModalFn = show => {
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
-const expandedItem = ref(null);
+// We're using localStorage to store the expanded item in the sidebar
+// This helps preserve context when navigating between portal and dashboard layouts
+// and also when the user refreshes the page
+const expandedItem = useStorage(
+  'next-sidebar-expanded-item',
+  null,
+  localStorage
+);
+
 const setExpandedItem = name => {
   expandedItem.value = expandedItem.value === name ? null : name;
 };
