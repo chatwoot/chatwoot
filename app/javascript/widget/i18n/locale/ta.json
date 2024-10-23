@@ -105,7 +105,7 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CLICK_HERE_TO_JOIN": " Connect",
       "LEAVE_THE_ROOM": "Leave the call"
     }
   },

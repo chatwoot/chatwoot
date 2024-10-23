@@ -32,7 +32,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
           end
         end
 
-        payload = { id: id, urls: links, files: files, text: params[:text] }
+        payload = { id: id, urls: links, files: files, text: params[:text], inbox_id: params[:inbox_id] }
         begin
           response = HTTP.post(create_uri, form: payload)
         rescue HTTP::Error => e
@@ -51,13 +51,22 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
              else
                'Disabled'
              end
-    @chatbot.update!(name: params[:chatbotName], reply_on_no_relevant_result: params[:chatbotReplyOnNoRelevantResult], status: status)
+    @chatbot.update!(
+      name: params[:chatbotName],
+      reply_on_no_relevant_result: params[:chatbotReplyOnNoRelevantResult],
+      reply_on_connect_with_team: params[:chatbotReplyOnConnectWithTeam],
+      status: status
+    )
   end
 
   def destroy_chatbot
     chatbot = Chatbot.find_by(id: params[:id])
     return unless chatbot
 
+    conversations = Conversation.where("chatbot_attributes ->> 'id' = ?", params[:id].to_s)
+    conversations.find_each do |conversation|
+      conversation.update(chatbot_attributes: {})
+    end
     chatbot.destroy!
     begin
       delete_uri = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot/delete'
@@ -200,6 +209,7 @@ class Api::V1::Accounts::ChatbotsController < Api::V1::Accounts::BaseController
     @chatbot = Chatbot.new(
       name: SecureRandom.alphanumeric(10),
       reply_on_no_relevant_result: I18n.t('chatbots.reply_on_no_relevant_result'),
+      reply_on_connect_with_team: I18n.t('chatbots.reply_on_connect_with_team'),
       last_trained_at: DateTime.now.strftime('%B %d, %Y at %I:%M %p'),
       account_id: params['accountId'],
       website_token: params['website_token'],
