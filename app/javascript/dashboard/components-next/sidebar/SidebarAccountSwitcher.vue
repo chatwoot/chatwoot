@@ -71,7 +71,7 @@ const emitNewAccount = () => {
             class="flex w-full hover:bg-n-alpha-1 space-x-4"
             @click="onChangeAccount(account.id)"
           >
-            <label
+            <div
               :for="account.name"
               class="text-left rtl:text-right flex gap-2"
             >
@@ -85,7 +85,7 @@ const emitNewAccount = () => {
                     : account.role
                 }}
               </span>
-            </label>
+            </div>
             <Icon
               v-show="account.id === accountId"
               icon="i-lucide-check"
