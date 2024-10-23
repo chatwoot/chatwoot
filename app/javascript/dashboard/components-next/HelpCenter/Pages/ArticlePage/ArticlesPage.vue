@@ -47,7 +47,6 @@ const { t } = useI18n();
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
 const isFetching = useMapGetter('articles/isFetching');
-const isFetchingItem = useMapGetter('portals/isFetchingItem');
 
 const hasNoArticles = computed(
   () => !isFetching.value && !props.articles.length
@@ -62,12 +61,7 @@ const hasNoArticlesInPortal = computed(
 );
 
 const shouldShowPaginationFooter = computed(() => {
-  return !(
-    isFetching.value ||
-    isFetchingItem.value ||
-    isSwitchingPortal.value ||
-    hasNoArticles.value
-  );
+  return !(isFetching.value || isSwitchingPortal.value || hasNoArticles.value);
 });
 
 const updateRoute = newParams => {
