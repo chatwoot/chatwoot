@@ -39,15 +39,20 @@ const state = reactive({
   slug: '',
   widgetColor: '',
   homePageLink: '',
-  liveChatWidget: '',
+  liveChatWidgetInboxId: '',
   logoUrl: '',
   avatarBlobId: '',
 });
 
-const liveChatWidgets = [
-  { value: 1, label: 'Chatwoot live chat' },
-  { value: 2, label: 'Tidio live chat' },
-];
+const liveChatWidgets = computed(() => {
+  const inboxes = store.getters['inboxes/getInboxes'];
+  return inboxes
+    .filter(inbox => inbox.channel_type === 'Channel::WebWidget')
+    .map(inbox => ({
+      value: inbox.id,
+      label: inbox.name,
+    }));
+});
 
 const originalState = reactive({});
 
@@ -69,6 +74,7 @@ watch(
         widgetColor: newVal.color,
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
+        liveChatWidgetInboxId: newVal.inbox?.id,
       });
       if (newVal.logo) {
         const {
@@ -100,6 +106,7 @@ const handleUpdatePortal = () => {
     header_text: state.headerText,
     homepage_link: state.homePageLink,
     blob_id: state.avatarBlobId,
+    inbox_id: state.liveChatWidgetInboxId,
   };
   emit('updatePortal', portal);
 };
@@ -127,7 +134,7 @@ async function deleteLogo() {
   } catch (error) {
     useAlert(
       error?.message ||
-        t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_ERROR')
+      t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_ERROR')
     );
   }
 }
@@ -185,9 +192,8 @@ const handleAvatarDelete = () => {
         </label>
         <Input
           v-model="state.headerText"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.PLACEHOLDER')
-          "
+          :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.PLACEHOLDER')
+            "
           class="w-[432px]"
           custom-input-class="!bg-transparent dark:!bg-transparent"
         />
@@ -200,9 +206,8 @@ const handleAvatarDelete = () => {
         </label>
         <Input
           v-model="state.pageTitle"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.PLACEHOLDER')
-          "
+          :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.PLACEHOLDER')
+            "
           class="w-[432px]"
           custom-input-class="!bg-transparent dark:!bg-transparent"
         />
@@ -215,9 +220,8 @@ const handleAvatarDelete = () => {
         </label>
         <Input
           v-model="state.homePageLink"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.PLACEHOLDER')
-          "
+          :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.PLACEHOLDER')
+            "
           class="w-[432px]"
           custom-input-class="!bg-transparent dark:!bg-transparent"
         />
@@ -243,14 +247,12 @@ const handleAvatarDelete = () => {
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
         </label>
         <ComboBox
-          v-model="state.liveChatWidget"
+          v-model="state.liveChatWidgetInboxId"
           :options="liveChatWidgets"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.PLACEHOLDER')
-          "
-          :message="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
-          "
+          :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.PLACEHOLDER')
+            "
+          :message="t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
+            "
           class="[&>button]:w-[432px] !w-[432px]"
         />
       </div>

@@ -744,14 +744,13 @@
         "CUSTOM_DOMAIN": {
           "HEADER": "Custom domain",
           "LABEL": "Custom domain:",
-          "DESCRIPTION": "You can serve your portal on a custom domain, For example, if your website is yourdomain.com and you want your portal accessible at docs.yourdomain.com, type that in this field.",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
           "PLACEHOLDER": "Portal custom domain",
           "EDIT_BUTTON": "Edit custom domain",
           "ADD_BUTTON": "Add custom domain",
           "DIALOG": {
             "ADD_HEADER": "Add custom domain",
             "EDIT_HEADER": "Edit custom domain",
-            "DESCRIPTION": "Serve your portal on a custom domain",
             "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
             "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
             "LABEL": "Custom domain",

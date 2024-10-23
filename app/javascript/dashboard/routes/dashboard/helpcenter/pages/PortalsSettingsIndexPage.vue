@@ -31,6 +31,7 @@ const fetchPortalAndItsCategories = async (slug, locale) => {
     store.dispatch('portals/show', selectedPortalParam),
     store.dispatch('categories/index', selectedPortalParam),
     store.dispatch('agents/get'),
+    store.dispatch('inboxes/get'),
   ]);
 };
 
@@ -84,7 +85,7 @@ const updatePortalSettings = async portalObj => {
   } catch (error) {
     useAlert(
       error?.message ||
-        t('HELP_CENTER.PORTAL_SETTINGS.API.UPDATE_PORTAL.ERROR_MESSAGE')
+      t('HELP_CENTER.PORTAL_SETTINGS.API.UPDATE_PORTAL.ERROR_MESSAGE')
     );
   }
 };
@@ -100,7 +101,7 @@ const deletePortal = async selectedPortalForDelete => {
   } catch (error) {
     useAlert(
       error?.message ||
-        t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR')
+      t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR')
     );
   }
 };
