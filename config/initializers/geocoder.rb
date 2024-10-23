@@ -24,3 +24,8 @@ module GeocoderConfiguration
 end
 
 Geocoder.configure(ip_lookup: :geoip2, geoip2: { file: GeocoderConfiguration::LOOK_UP_DB }) if ENV['IP_LOOKUP_API_KEY'].present?
+
+Rails.application.config.after_initialize do
+  Rails.application.load_tasks
+  Rake::Task['ip_lookup:setup'].invoke
+end
