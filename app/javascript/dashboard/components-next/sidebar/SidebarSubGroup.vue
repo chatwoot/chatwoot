@@ -70,7 +70,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
           :active="activeChild?.name === child.name"
         />
       </template>
-      <SidebarGroupEmptyLeaf v-else v-show="isExpanded" class="ml-3" />
+      <SidebarGroupEmptyLeaf v-else v-show="isExpanded" class="ml-3 rtl:mr-3" />
     </div>
     <div
       v-if="isScrollable && isExpanded"
