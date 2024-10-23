@@ -1,7 +1,7 @@
 <script setup>
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { computed, ref, watch } from 'vue';
-import { AVAILABILITY_STATUS_KEYS } from 'dashboard/constants/globals';
+import wootConstants from 'dashboard/constants/globals';
 
 const props = defineProps({
   src: {
@@ -29,7 +29,7 @@ const props = defineProps({
     default: null,
     validator: value => {
       if (!value) return true;
-      return AVAILABILITY_STATUS_KEYS.includes(value);
+      return wootConstants.AVAILABILITY_STATUS_KEYS.includes(value);
     },
   },
 });
