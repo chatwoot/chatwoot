@@ -64,8 +64,8 @@ const reauthorizationRequired = computed(() => {
   <div
     v-if="reauthorizationRequired"
     v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"
-    class="grid place-content-center size-4 bg-n-ruby-3 rounded-md outline-n-ruby-4 outline outline-1"
+    class="grid place-content-center size-5 bg-n-ruby-5/60 rounded-full"
   >
-    <Icon icon="i-lucide-octagon-alert" class="size-2.5 text-n-ruby-11" />
+    <Icon icon="i-woot-alert" class="size-3 text-n-ruby-9" />
   </div>
 </template>
