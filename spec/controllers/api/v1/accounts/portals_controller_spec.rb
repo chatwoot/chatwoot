@@ -210,4 +210,37 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/portals/{portal.slug}/logo' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/logo"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        portal.logo.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'throw error if agent' do
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/logo",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'delete portal logo if admin' do
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/logo",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect { portal.logo.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 end

@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "팀 생성하기",
     "HEADER": "팀",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "계정에 연결된 에이전트가 없습니다.",
-      "EDIT_TEAM": "팀 수정하기"
+      "EDIT_TEAM": "팀 수정하기",
+      "NONE": "없음"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "팀에 에이전트 추가",
-        "TITLE": "%{teamName}팀에 에이전트 추가",
+        "TITLE": "{teamName}팀에 에이전트 추가",
         "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "에이전트 업데이트",
-        "TITLE": "%{teamName}팀에 에이전트 추가",
+        "TITLE": "{teamName}팀에 에이전트 추가",
         "DESC": "생성된 팀에 에이전트들을 추가하세요. 본 팀에 대화가 할당되면 추가된 에이전트들에게 알림이 갈 것입니다."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "팀에 에이전트를 추가하는 중...",
       "SELECT": "선택",
       "SELECT_ALL": "모든 에이전트 선택",
-      "SELECTED_COUNT": "%{total} 에이전트 중 %{selected} 선택됨."
+      "SELECTED_COUNT": "{total} 에이전트 중 {selected} 선택됨."
     },
     "ADD": {
-      "TITLE": "%{teamName}팀에 에이전트 추가",
+      "TITLE": "{teamName}팀에 에이전트 추가",
       "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요.",
       "SELECT": "선택",
       "SELECT_ALL": "모든 에이전트 선택",
-      "SELECTED_COUNT": "%{total} 에이전트 중 %{selected} 선택됨.",
+      "SELECTED_COUNT": "{total} 에이전트 중 {selected} 선택됨.",
       "BUTTON_TEXT": "에이전트 추가",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "팀을 삭제할 수 없습니다. 다시 시도해주세요."
       },
       "CONFIRM": {
-        "TITLE": "%{teamName}팀을 삭제하시겠습니까?",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
         "YES": "삭제 ",

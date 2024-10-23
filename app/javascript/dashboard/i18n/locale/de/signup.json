@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Geschäftliche E-Mail-Adresse",
-      "PLACEHOLDER": "Geben Sie Ihre geschäftliche E-Mail-Adresse ein, z. B.: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Geben Sie Ihre geschäftliche E-Mail-Adresse ein, z. B.: bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Bitte geben Sie eine gültige Arbeits-E-Mail-Adresse ein"
     },
     "PASSWORD": {

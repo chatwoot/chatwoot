@@ -1,28 +1,7 @@
-<template>
-  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
-    <div class="icon-container">
-      <fluent-icon icon="search" class="icon" aria-hidden="true" />
-    </div>
-    <input
-      ref="searchInput"
-      type="search"
-      :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
-      :value="searchQuery"
-      @focus="onFocus"
-      @blur="onBlur"
-      @input="debounceSearch"
-    />
-    <woot-label
-      :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
-      :show-close="false"
-      small
-      class="helper-label"
-    />
-  </div>
-</template>
-
 <script>
 export default {
+  emits: ['search'],
+
   data() {
     return {
       searchQuery: '',
@@ -33,7 +12,7 @@ export default {
     this.$refs.searchInput.focus();
     document.addEventListener('keydown', this.handler);
   },
-  beforeDestroy() {
+  unmounted() {
     document.removeEventListener('keydown', this.handler);
   },
   methods: {
@@ -70,10 +49,34 @@ export default {
 };
 </script>
 
+<template>
+  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
+    <div class="icon-container">
+      <fluent-icon icon="search" class="icon" aria-hidden="true" />
+    </div>
+    <input
+      ref="searchInput"
+      type="search"
+      class="dark:bg-slate-900"
+      :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
+      :value="searchQuery"
+      @focus="onFocus"
+      @blur="onBlur"
+      @input="debounceSearch"
+    />
+    <woot-label
+      :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
+      :show-close="false"
+      small
+      class="helper-label"
+    />
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .input-container {
   transition: border-bottom 0.2s ease-in-out;
-  @apply relative flex items-center py-2 px-4 rounded-sm border border-solid border-slate-100 dark:border-slate-800;
+  @apply relative flex items-center py-2 px-4 h-14 gap-2 rounded-sm border border-solid border-slate-100 dark:border-slate-800;
 
   input[type='search'] {
     @apply w-full m-0 shadow-none border-transparent active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none;
@@ -96,6 +99,6 @@ export default {
 }
 
 .helper-label {
-  @apply m-0;
+  @apply m-0 whitespace-nowrap;
 }
 </style>

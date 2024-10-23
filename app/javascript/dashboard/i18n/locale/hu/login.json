@@ -3,7 +3,7 @@
     "TITLE": "Chatwoot belépés",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "E-mail pl.: valaki@példa.hu",
+      "PLACEHOLDER": "E-mail pl.: valaki{'@'}példa.hu",
       "ERROR": "Kérjük helyes e-mailcímet adj meg"
     },
     "PASSWORD": {

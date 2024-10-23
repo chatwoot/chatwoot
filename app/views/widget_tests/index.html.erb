@@ -14,6 +14,7 @@
 
 window.chatwootSettings = {
   hideMessageBubble: false,
+  // showUnreadMessagesDialog: false,
   // baseDomain: '.loca.lt',
   position: '<%= @widget_position %>',
   locale: 'en',
@@ -62,6 +63,6 @@ window.addEventListener('chatwoot:on-message', function(e) {
 
 
 window.addEventListener('chatwoot:on-start-conversation', function(e) {
-  console.log('chatwoot:on-start-conversation')
+  console.log('chatwoot:on-start-conversation', e.detail)
 })
 </script>

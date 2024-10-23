@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { actions } from '../actions';
+import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import * as types from '../../../mutation-types';
-import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { actions } from '../actions';
 
-jest.mock('dashboard/helper/uploadHelper');
+vi.mock('dashboard/helper/uploadHelper');
 
 const articleList = [
   {
@@ -12,10 +12,10 @@ const articleList = [
     title: 'Documents are required to complete KYC',
   },
 ];
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#index', () => {
@@ -187,33 +187,53 @@ describe('#actions', () => {
 
   describe('attachImage', () => {
     it('should upload the file and return the fileUrl', async () => {
-      // Given
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
 
       const mockFileUrl = 'https://test.com/test.png';
       uploadFile.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
-      // When
       const result = await actions.attachImage({}, { file: mockFile });
 
-      // Then
       expect(uploadFile).toHaveBeenCalledWith(mockFile);
       expect(result).toBe(mockFileUrl);
     });
 
     it('should throw an error if the upload fails', async () => {
-      // Given
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
 
       const mockError = new Error('Upload failed');
       uploadFile.mockRejectedValueOnce(mockError);
 
-      // When & Then
       await expect(actions.attachImage({}, { file: mockFile })).rejects.toThrow(
         'Upload failed'
       );
+    });
+  });
+
+  describe('uploadExternalImage', () => {
+    it('should upload the image from external URL and return the fileUrl', async () => {
+      const mockUrl = 'https://example.com/image.jpg';
+      const mockFileUrl = 'https://uploaded.example.com/image.jpg';
+      uploadExternalImage.mockResolvedValueOnce({ fileUrl: mockFileUrl });
+
+      // When
+      const result = await actions.uploadExternalImage({}, { url: mockUrl });
+
+      // Then
+      expect(uploadExternalImage).toHaveBeenCalledWith(mockUrl);
+      expect(result).toBe(mockFileUrl);
+    });
+
+    it('should throw an error if the upload fails', async () => {
+      const mockUrl = 'https://example.com/image.jpg';
+      const mockError = new Error('Upload failed');
+      uploadExternalImage.mockRejectedValueOnce(mockError);
+
+      await expect(
+        actions.uploadExternalImage({}, { url: mockUrl })
+      ).rejects.toThrow('Upload failed');
     });
   });
 });

@@ -35,7 +35,8 @@ class Messages::MentionService
         notification_type: 'conversation_mention',
         user: User.find(user_id),
         account: message.account,
-        primary_actor: message
+        primary_actor: message.conversation,
+        secondary_actor: message
       ).perform
     end
   end

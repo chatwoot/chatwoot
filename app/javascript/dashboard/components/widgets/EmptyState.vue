@@ -1,8 +1,17 @@
+<script>
+export default {
+  props: {
+    title: { type: String, default: '' },
+    message: { type: String, default: '' },
+  },
+};
+</script>
+
 <template>
   <div class="empty-state py-16 px-1 ml-0 mr-0">
     <h3
       v-if="title"
-      class="text-slate-700 dark:text-slate-200 block text-center w-full text-4xl font-thin"
+      class="text-slate-700 dark:text-slate-200 block text-center w-full text-xl font-thin"
     >
       {{ title }}
     </h3>
@@ -15,11 +24,3 @@
     <slot />
   </div>
 </template>
-<script>
-export default {
-  props: {
-    title: { type: String, default: '' },
-    message: { type: String, default: '' },
-  },
-};
-</script>

@@ -13,7 +13,9 @@ describe Messages::Instagram::MessageBuilder do
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
+  let!(:shared_reel_params) { build(:instagram_shared_reel_event).with_indifferent_access }
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
+  let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
   let(:fb_object) { double }
   let(:contact) { create(:contact, id: 'Sender-id-1', name: 'Jane Dae') }
   let(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_inbox.id, source_id: 'Sender-id-1') }
@@ -78,6 +80,27 @@ describe Messages::Instagram::MessageBuilder do
       expect(instagram_inbox.messages.count).to be 1
     end
 
+    it 'creates message for shared reel' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: 'Sender-id-1',
+          account_id: instagram_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      messaging = shared_reel_params[:entry][0]['messaging'][0]
+      contact_inbox
+      described_class.new(messaging, instagram_inbox).perform
+
+      message = instagram_channel.inbox.messages.first
+      expect(message.attachments.first.file_type).to eq('ig_reel')
+      expect(message.attachments.first.external_url).to eq(
+        shared_reel_params[:entry][0]['messaging'][0]['message']['attachments'][0]['payload']['url']
+      )
+    end
+
     it 'creates message with for reply with story id' do
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
@@ -99,6 +122,34 @@ describe Messages::Instagram::MessageBuilder do
       expect(message.content_attributes[:story_sender]).to eq(instagram_inbox.channel.instagram_id)
       expect(message.content_attributes[:story_id]).to eq('chatwoot-app-user-id-1')
       expect(message.content_attributes[:story_url]).to eq('https://chatwoot-assets.local/sample.png')
+    end
+
+    it 'creates message with for reply with mid' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: 'Sender-id-1',
+          account_id: instagram_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      # create first message to ensure reply to is valid
+      first_message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+      described_class.new(first_message, instagram_inbox).perform
+
+      # create the second message with the reply to mid set
+      messaging = instagram_message_reply_event[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(messaging, instagram_inbox).perform
+      first_message = instagram_channel.inbox.messages.first
+      message = instagram_channel.inbox.messages.last
+
+      expect(message.content).to eq('This is message with replyto mid')
+      expect(message.content_attributes[:in_reply_to_external_id]).to eq(first_message.source_id)
+      expect(message.content_attributes[:in_reply_to]).to eq(first_message.id)
     end
 
     it 'raises exception on deleted story' do
@@ -152,6 +203,98 @@ describe Messages::Instagram::MessageBuilder do
       contact = instagram_channel.inbox.contacts.first
 
       expect(contact.name).to eq('Jane Dae')
+    end
+  end
+
+  context 'when lock to single conversation is disabled' do
+    before do
+      instagram_inbox.update!(lock_to_single_conversation: false)
+      stub_request(:get, /graph.facebook.com/)
+    end
+
+    it 'creates a new conversation if existing conversation is not present' do
+      inital_count = Conversation.count
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      expect(instagram_inbox.conversations.count).to eq(1)
+      expect(Conversation.count).to eq(inital_count + 1)
+    end
+
+    it 'will not create a new conversation if last conversation is not resolved' do
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id, status: :open,
+                                                    additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
+
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
+    end
+
+    it 'creates a new conversation if last conversation is resolved' do
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id, status: :resolved,
+                                                    additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
+
+      inital_count = Conversation.count
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      expect(instagram_inbox.conversations.last.id).not_to eq(existing_conversation.id)
+      expect(Conversation.count).to eq(inital_count + 1)
+    end
+  end
+
+  context 'when lock to single conversation is enabled' do
+    before do
+      instagram_inbox.update!(lock_to_single_conversation: true)
+      stub_request(:get, /graph.facebook.com/)
+    end
+
+    it 'creates a new conversation if existing conversation is not present' do
+      inital_count = Conversation.count
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      expect(instagram_inbox.conversations.count).to eq(1)
+      expect(Conversation.count).to eq(inital_count + 1)
+    end
+
+    it 'reopens last conversation if last conversation is resolved' do
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id, status: :resolved,
+                                                    additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
+
+      inital_count = Conversation.count
+
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
+      expect(Conversation.count).to eq(inital_count)
     end
   end
 end

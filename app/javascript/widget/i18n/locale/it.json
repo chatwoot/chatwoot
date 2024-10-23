@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Il numero di telefono è obbligatorio",
         "DIAL_CODE_VALID_ERROR": "Please select a country code",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "Nessun risultato trovato"
+        "DROPDOWN_EMPTY": "Nessun risultato trovato",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Messaggio",
@@ -80,7 +81,8 @@
     },
     "CAMPAIGN_HEADER": "Per favore inserisci il tuo nome ed email prima di iniziare la conversazione",
     "IS_REQUIRED": "è obbligatorio",
-    "REQUIRED": "Obbligatorio"
+    "REQUIRED": "Obbligatorio",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
   "CHAT_FORM": {
@@ -90,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Valuta la conversazione",
@@ -132,5 +135,8 @@
     "fallback": {
       "CONTENT": "ha condiviso un url"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

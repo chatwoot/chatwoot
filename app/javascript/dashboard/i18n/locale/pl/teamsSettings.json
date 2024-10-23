@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Utwórz nowy zespół",
     "HEADER": "Zespoły",
-    "SIDEBAR_TXT": "<p><b>Zespoły</b></p> <p>Zespoły pozwalają zorganizować agentów w grupy na podstawie ich odpowiedzialności. <br /> Agent może być częścią wielu zespołów. Możesz przypisywać rozmowy do zespołu, gdy pracujesz w trybie współpracy. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Na tym koncie nie ma żadnych zespołów.",
-      "EDIT_TEAM": "Edytuj zespół"
+      "EDIT_TEAM": "Edytuj zespół",
+      "NONE": "Brak"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Dodaj agentów do zespołu",
-        "TITLE": "Dodaj agentów do zespołu - %{teamName}",
+        "TITLE": "Dodaj agentów do zespołu - {teamName}",
         "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Aktualizuj agentów w zespole",
-        "TITLE": "Dodaj agentów do zespołu - %{teamName}",
+        "TITLE": "Dodaj agentów do zespołu - {teamName}",
         "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Wszyscy dodani agenci zostaną powiadomieni, gdy rozmowa zostanie przypisana do tego zespołu."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Dodaj agenta do swojego zespołu...",
       "SELECT": "wybierz",
       "SELECT_ALL": "zaznacz wszystkich agentów",
-      "SELECTED_COUNT": "%{selected} z %{total} agentów wybranych."
+      "SELECTED_COUNT": "{selected} z {total} agentów wybranych."
     },
     "ADD": {
-      "TITLE": "Dodaj agentów do zespołu - %{teamName}",
+      "TITLE": "Dodaj agentów do zespołu - {teamName}",
       "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie.",
       "SELECT": "wybierz",
       "SELECT_ALL": "zaznacz wszystkich agentów",
-      "SELECTED_COUNT": "%{selected} z %{total} agentów wybranych.",
+      "SELECTED_COUNT": "{selected} z {total} agentów wybranych.",
       "BUTTON_TEXT": "Dodaj agentów",
       "AGENT_VALIDATION_ERROR": "Wybierz co najmniej jednego agenta."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Nie można usunąć zespołu. Spróbuj ponownie."
       },
       "CONFIRM": {
-        "TITLE": "Czy na pewno chcesz usunąć - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Wpisz {teamName}, aby potwierdzić",
         "MESSAGE": "Usuwanie zespołu spowoduje usunięcie przypisania zespołu z rozmów przypisanych do tego zespołu.",
         "YES": "Usuń ",

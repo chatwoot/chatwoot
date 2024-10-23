@@ -1,72 +1,49 @@
-<template>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-white dark:bg-slate-800 p-2 border border-slate-100 dark:border-slate-700 rounded-md"
-  >
-    <div
-      v-for="metric in metrics"
-      :key="metric.KEY"
-      class="p-4 rounded-md mb-3"
-    >
-      <chart-stats :metric="metric" />
-      <div class="mt-4 h-72">
-        <woot-loading-state
-          v-if="accountReport.isFetching[metric.KEY]"
-          class="text-xs"
-          :message="$t('REPORT.LOADING_CHART')"
-        />
-        <div v-else class="h-72 flex items-center justify-center">
-          <woot-bar
-            v-if="accountReport.data[metric.KEY].length"
-            :collection="getCollection(metric)"
-            :chart-options="getChartOptions(metric)"
-            class="h-72 w-full"
-          />
-          <span v-else class="text-sm text-slate-600">
-            {{ $t('REPORT.NO_ENOUGH_DATA') }}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
+import { mapGetters } from 'vuex';
+import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
-import reportMixin from 'dashboard/mixins/reportMixin';
 import ChartStats from './components/ChartElements/ChartStats.vue';
-const REPORTS_KEYS = {
-  CONVERSATIONS: 'conversations_count',
-  INCOMING_MESSAGES: 'incoming_messages_count',
-  OUTGOING_MESSAGES: 'outgoing_messages_count',
-  FIRST_RESPONSE_TIME: 'avg_first_response_time',
-  RESOLUTION_TIME: 'avg_resolution_time',
-  RESOLUTION_COUNT: 'resolutions_count',
-  REPLY_TIME: 'reply_time',
-};
+import BarChart from 'shared/components/charts/BarChart.vue';
 
 export default {
-  components: { ChartStats },
-  mixins: [reportMixin],
+  components: { ChartStats, BarChart },
   props: {
     groupBy: {
       type: Object,
       default: () => ({}),
     },
+    accountSummaryKey: {
+      type: String,
+      default: 'getAccountSummary',
+    },
+    reportKeys: {
+      type: Object,
+      default: () => ({
+        CONVERSATIONS: 'conversations_count',
+        INCOMING_MESSAGES: 'incoming_messages_count',
+        OUTGOING_MESSAGES: 'outgoing_messages_count',
+        FIRST_RESPONSE_TIME: 'avg_first_response_time',
+        RESOLUTION_TIME: 'avg_resolution_time',
+        RESOLUTION_COUNT: 'resolutions_count',
+        REPLY_TIME: 'reply_time',
+      }),
+    },
+  },
+  setup(props) {
+    const { calculateTrend, isAverageMetricType } = useReportMetrics(
+      props.accountSummaryKey
+    );
+    return { calculateTrend, isAverageMetricType };
   },
   computed: {
+    ...mapGetters({
+      accountReport: 'getAccountReports',
+    }),
     metrics() {
-      const reportKeys = [
-        'CONVERSATIONS',
-        'FIRST_RESPONSE_TIME',
-        'REPLY_TIME',
-        'RESOLUTION_TIME',
-        'RESOLUTION_COUNT',
-        'INCOMING_MESSAGES',
-        'OUTGOING_MESSAGES',
-      ];
+      const reportKeys = Object.keys(this.reportKeys);
       const infoText = {
         FIRST_RESPONSE_TIME: this.$t(
           `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
@@ -75,11 +52,11 @@ export default {
       };
       return reportKeys.map(key => ({
         NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
-        KEY: REPORTS_KEYS[key],
+        KEY: this.reportKeys[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
         INFO_TEXT: infoText[key],
         TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
-        trend: this.calculateTrend(REPORTS_KEYS[key]),
+        trend: this.calculateTrend(this.reportKeys[key]),
       }));
     },
   },
@@ -114,14 +91,14 @@ export default {
           case 'bar':
             return {
               ...dataset,
-              yAxisID: 'y-left',
+              yAxisID: 'y',
               label: metric.NAME,
               data: data.map(element => element.value),
             };
           case 'line':
             return {
               ...dataset,
-              yAxisID: 'y-right',
+              yAxisID: 'y',
               label: this.metrics[0].NAME,
               data: data.map(element => element.count),
             };
@@ -155,3 +132,34 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="grid grid-cols-1 p-2 bg-white border rounded-md md:grid-cols-2 lg:grid-cols-3 dark:bg-slate-800 border-slate-100 dark:border-slate-700"
+  >
+    <div
+      v-for="metric in metrics"
+      :key="metric.KEY"
+      class="p-4 mb-3 rounded-md"
+    >
+      <ChartStats :metric="metric" :account-summary-key="accountSummaryKey" />
+      <div class="mt-4 h-72">
+        <woot-loading-state
+          v-if="accountReport.isFetching[metric.KEY]"
+          class="text-xs"
+          :message="$t('REPORT.LOADING_CHART')"
+        />
+        <div v-else class="flex items-center justify-center h-72">
+          <BarChart
+            v-if="accountReport.data[metric.KEY].length"
+            :collection="getCollection(metric)"
+            :chart-options="getChartOptions(metric)"
+          />
+          <span v-else class="text-sm text-slate-600">
+            {{ $t('REPORT.NO_ENOUGH_DATA') }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

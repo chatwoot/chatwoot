@@ -39,15 +39,30 @@ module Reauthorizable
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
+    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
+
     case self.class.name
     when 'Integrations::Hook'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).slack_disconnect.deliver_later if slack?
+      process_integration_hook_reauthorization_emails(mailer)
     when 'Channel::FacebookPage'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).facebook_disconnect(inbox).deliver_later
+      mailer.facebook_disconnect(inbox).deliver_later
     when 'Channel::Whatsapp'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).whatsapp_disconnect(inbox).deliver_later
+      mailer.whatsapp_disconnect(inbox).deliver_later
     when 'Channel::Email'
-      AdministratorNotifications::ChannelNotificationsMailer.with(account: account).email_disconnect(inbox).deliver_later
+      mailer.email_disconnect(inbox).deliver_later
+    when 'AutomationRule'
+      update!(active: false)
+      mailer.automation_rule_disabled(self).deliver_later
+    end
+
+    invalidate_inbox_cache unless instance_of?(::AutomationRule)
+  end
+
+  def process_integration_hook_reauthorization_emails(mailer)
+    if slack?
+      mailer.slack_disconnect.deliver_later
+    elsif dialogflow?
+      mailer.dialogflow_disconnect.deliver_later
     end
   end
 
@@ -55,9 +70,15 @@ module Reauthorizable
   def reauthorized!
     ::Redis::Alfred.delete(authorization_error_count_key)
     ::Redis::Alfred.delete(reauthorization_required_key)
+
+    invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
 
   private
+
+  def invalidate_inbox_cache
+    inbox.update_account_cache if inbox.present?
+  end
 
   def authorization_error_count_key
     format(::Redis::Alfred::AUTHORIZATION_ERROR_COUNT, obj_type: self.class.table_name.singularize, obj_id: id)

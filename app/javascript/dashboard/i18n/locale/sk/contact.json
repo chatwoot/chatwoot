@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Zlúčiť kontakt",
     "CONTACT_ACTIONS": "Akcie kontaktov",
-    "MUTE_CONTACT": "Stlmiť konverzáciu",
-    "UNMUTE_CONTACT": "Zrušenie stíšenia konverzácie",
-    "MUTED_SUCCESS": "Táto konverzácia je stlmená na 6 hodín",
-    "UNMUTED_SUCCESS": "Táto konverzácia nie je stlmená",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Odoslať prepis",
     "EDIT_LABEL": "Upraviť",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Vlastné atribúty",
       "CONTACT_LABELS": "Označenia kontaktov",
-      "PREVIOUS_CONVERSATIONS": "Prechádzajúce konverzácie"
+      "PREVIOUS_CONVERSATIONS": "Prechádzajúce konverzácie",
+      "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Vyskytla sa chyba, skúste to prosím znova"
+    "ERROR_MESSAGE": "Vyskytla sa chyba, skúste to prosím znova",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -204,6 +212,10 @@
         "PLACEHOLDER": "Napíšte svoju správu sem",
         "ERROR": "Správa nemôže byť prázdna"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Poslať správu",
       "CANCEL": "Zrušiť",
       "SUCCESS_MESSAGE": "Správa poslaná!",
@@ -286,6 +298,8 @@
     "BUTTON": "Pridať vlastné atribúty",
     "NOT_AVAILABLE": "Pre tento kontakt nie sú k dispozícii žiadne vlastné atribúty.",
     "COPY_SUCCESSFUL": "Úspešne nakopírované",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopírovať atribút",
       "DELETE": "Vymazaž atribút",
@@ -335,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Vyžaduje sa platná hodnota",
-      "INVALID_URL": "Neplatná URL"
+      "INVALID_URL": "Neplatná URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
@@ -343,17 +358,17 @@
     "DESCRIPTION": "Zlúčením kontaktov spojíte dva profily do jedného vrátane všetkých atribútov a konverzácií. V prípade konfliktu budú mať prednosť atribúty primárneho kontaktu.",
     "PRIMARY": {
       "TITLE": "Primárny kontakt",
-      "HELP_LABEL": "Na uchovanie"
+      "HELP_LABEL": "Na vymazanie"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt na zlúčenie",
       "PLACEHOLDER": "Hľadať kontakt",
-      "HELP_LABEL": "Na vymazanie"
+      "HELP_LABEL": "Na uchovanie"
     },
     "SUMMARY": {
       "TITLE": "Sumár",
-      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> bude vymazaný.",
-      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>%{childContactName}</strong> budú skopírované do <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> bude vymazaný.",
+      "ATTRIBUTE_WARNING": "Kontaktné údaje <strong>{primaryContactName}</strong> budú skopírované do <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -366,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt úspešne zlúčený",
       "ERROR_MESSAGE": "Nepodarilo sa zlúčiť kontakty, skúste to znova!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

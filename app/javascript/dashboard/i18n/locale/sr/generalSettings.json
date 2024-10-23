@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sada možete da dobijate e-poruke u vaš prilagođeni domen."
       }
     },
-    "UPDATE_CHATWOOT": "Dostupna je nadogradnja %{latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
+    "UPDATE_CHATWOOT": "Dostupna je nadogradnja {latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
     "LEARN_MORE": "Saznajte više",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Dodeljen razgovoru",
       "assigned_conversation_new_message": "Nova poruka",
       "participating_conversation_new_message": "Nova poruka",
-      "conversation_mention": "Pominjanje"
+      "conversation_mention": "Pominjanje",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Prekini vezu sa Chatwoot"
+      "OFFLINE": "Nedostupan",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Osveži"
@@ -104,6 +109,7 @@
       "GENERAL": "Opšta",
       "REPORTS": "Izveštaji",
       "CONVERSATION": "Razgovor",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Promeni dodeljenog",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Promeni tim",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Ukloni oznaku sa razgovora",
       "SETTINGS": "Podešavanja",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Idi na radnu tablu razgovora",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Do sutra",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

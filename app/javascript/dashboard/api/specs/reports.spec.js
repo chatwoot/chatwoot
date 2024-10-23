@@ -20,10 +20,10 @@ describe('#Reports API', () => {
   describe('API calls', () => {
     const originalAxios = window.axios;
     const axiosMock = {
-      post: jest.fn(() => Promise.resolve()),
-      get: jest.fn(() => Promise.resolve()),
-      patch: jest.fn(() => Promise.resolve()),
-      delete: jest.fn(() => Promise.resolve()),
+      post: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve()),
+      patch: vi.fn(() => Promise.resolve()),
+      delete: vi.fn(() => Promise.resolve()),
     };
 
     beforeEach(() => {
@@ -109,6 +109,40 @@ describe('#Reports API', () => {
           until: 1621621800,
         },
       });
+    });
+
+    it('#getBotMetrics', () => {
+      reportsAPI.getBotMetrics({ from: 1621103400, to: 1621621800 });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/bot_metrics',
+        {
+          params: {
+            since: 1621103400,
+            until: 1621621800,
+          },
+        }
+      );
+    });
+
+    it('#getBotSummary', () => {
+      reportsAPI.getBotSummary({
+        from: 1621103400,
+        to: 1621621800,
+        groupBy: 'date',
+        businessHours: true,
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/bot_summary',
+        {
+          params: {
+            since: 1621103400,
+            until: 1621621800,
+            type: 'account',
+            group_by: 'date',
+            business_hours: true,
+          },
+        }
+      );
     });
 
     it('#getConversationMetric', () => {

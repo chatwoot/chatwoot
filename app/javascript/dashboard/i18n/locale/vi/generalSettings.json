@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
       }
     },
-    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
+    "UPDATE_CHATWOOT": "Đã có bản cập nhật {latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
     "LEARN_MORE": "Tìm hiểu thêm",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Hội thoại đã được phân công",
       "assigned_conversation_new_message": "Tin nhắn mới",
       "participating_conversation_new_message": "Tin nhắn mới",
-      "conversation_mention": "Nhắc đến"
+      "conversation_mention": "Nhắc đến",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Đã ngắt kết nối khỏi máy chủ"
+      "OFFLINE": "Không Trực Tuyến",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Làm mới"
@@ -104,6 +109,7 @@
       "GENERAL": "Chung",
       "REPORTS": "Báo cáo",
       "CONVERSATION": "Hội thoại",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Thay đổi người được phân công",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Thay đổi nhóm",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Xoá nhãn khỏi hội thoại",
       "SETTINGS": "Cài đặt",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan hội thoại",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Cho đến ngày mai",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

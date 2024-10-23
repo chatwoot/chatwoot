@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtern nach",
       "SORT": "Sortieren nach",
+      "LOCALE": "Sprache",
       "SETTINGS_BUTTON": "Einstellungen",
       "NEW_BUTTON": "Neuer Artikel",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Meine Artikel",
         "DRAFT": "Artikelentwürfe",
         "ARCHIVED": "Archivierte Artikel"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Sprache auswählen",
+        "PLACEHOLDER": "Sprache auswählen",
+        "NO_RESULT": "Keine Sprache gefunden",
+        "SEARCH_PLACEHOLDER": "Sprache suchen"
       }
     },
     "EDIT_HEADER": {
@@ -34,6 +41,7 @@
         "UPLOADING": "Hochladen...",
         "SUCCESS": "Bild erfolgreich hochgeladen",
         "ERROR": "Fehler beim Hochladen des Bildes",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Bildgröße sollte kleiner als {size}MB sein",
         "ERROR_FILE_FORMAT": "Bildformat sollte jpg, jpeg oder png sein",
         "ERROR_FILE_DIMENSIONS": "Bildgröße sollte kleiner als 2000 x 2000 sein"
@@ -75,12 +83,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Nicht kategorisiert",
+      "SEARCH_RESULTS": "Suchergebnisse für {query}",
+      "EMPTY_TEXT": "Suche nach Artikeln, um sie in Antworten einzufügen.",
+      "SEARCH_LOADER": "Suchen...",
+      "INSERT_ARTICLE": "Einfügen",
+      "NO_RESULT": "Keine Artikel gefunden",
+      "COPY_LINK": "Artikellink in die Zwischenablage kopieren",
+      "OPEN_LINK": "Artikel in neuem Fenster öffnen",
+      "PREVIEW_LINK": "Artikelvorschau anzeigen"
     },
     "PORTAL": {
       "HEADER": "Portale",
@@ -220,7 +231,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Logo hochladen",
-          "HELP_TEXT": "Dieses Logo wird in der Kopfzeile des Portals angezeigt."
+          "HELP_TEXT": "Dieses Logo wird in der Kopfzeile des Portals angezeigt.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo erfolgreich hochgeladen",
+          "IMAGE_UPLOAD_ERROR": "Logo erfolgreich gelöscht",
+          "IMAGE_DELETE_ERROR": "Fehler beim Löschen des Logos"
         },
         "NAME": {
           "LABEL": "Name",
@@ -306,12 +320,13 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategorie",
-        "READ_COUNT": "Gelesen",
+        "READ_COUNT": "Ansichten",
         "STATUS": "Status",
         "LAST_EDITED": "Zuletzt bearbeitet"
       },
       "COLUMNS": {
-        "BY": "von"
+        "BY": "von",
+        "AUTHOR_NOT_AVAILABLE": "Autor ist nicht verfügbar"
       }
     },
     "EDIT_ARTICLE": {
@@ -365,7 +380,7 @@
         "NAME": {
           "LABEL": "Name",
           "PLACEHOLDER": "Kategoriename",
-          "HELP_TEXT": "Der Kategoriename wird im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
+          "HELP_TEXT": "Der Kategoriename und das Symbol werden im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
           "ERROR": "Name wird benötigt"
         },
         "SLUG": {
@@ -396,7 +411,7 @@
         "NAME": {
           "LABEL": "Name",
           "PLACEHOLDER": "Kategoriename",
-          "HELP_TEXT": "Der Kategoriename wird im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
+          "HELP_TEXT": "Der Kategoriename und das Symbol werden im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
           "ERROR": "Name wird benötigt"
         },
         "SLUG": {
@@ -425,6 +440,49 @@
           "ERROR_MESSAGE": "Kategorie kann nicht gelöscht werden"
         }
       }
-    }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Artikel suchen",
+      "PLACEHOLDER": "Artikel suchen",
+      "NO_RESULT": "Keine Artikel gefunden",
+      "SEARCHING": "Suchen...",
+      "SEARCH_BUTTON": "Suchen",
+      "INSERT_ARTICLE": "Link einfügen",
+      "IFRAME_ERROR": "URL ist leer oder ungültig. Inhalt kann nicht angezeigt werden.",
+      "OPEN_ARTICLE_SEARCH": "Artikel aus dem Help Center einfügen",
+      "SUCCESS_ARTICLE_INSERTED": "Artikel erfolgreich eingefügt",
+      "PREVIEW_LINK": "Artikelvorschau anzeigen",
+      "CANCEL": "Schließen",
+      "BACK": "Zurück",
+      "BACK_RESULTS": "Zurück zu den Ergebnissen"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Hilfezentrum",
+      "DESCRIPTION": "Erstellen Sie benutzerfreundliche Self Service-Portale. Helfen Sie Ihren Nutzern, auf die Artikel zuzugreifen und rund um die Uhr Unterstützung zu erhalten. Erweitern Sie Ihr Abonnement, um diese Funktion zu aktivieren.",
+      "SELF_HOSTED_DESCRIPTION": "Erstellen Sie benutzerfreundliche Self Service-Portale. Helfen Sie Ihren Nutzern, auf die Artikel zuzugreifen und rund um die Uhr Unterstützung zu erhalten. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu aktivieren.",
+      "BUTTON": {
+        "LEARN_MORE": "Mehr erfahren",
+        "UPGRADE": "Upgrade durchführen"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Mehrere Portale",
+          "DESCRIPTION": "Erstellen Sie mehrere Help Center-Portale für verschiedene Produkte mit demselben Konto."
+        },
+        "LOCALES": {
+          "TITLE": "Vollständige Unterstützung für Sprachen",
+          "DESCRIPTION": "Finden Sie das Portal in Ihrer Sprache. Wir unterstützen alle Sprachen und ermöglichen Übersetzungen für jeden Artikel."
+        },
+        "SEO": {
+          "TITLE": "SEO-freundliches Design",
+          "DESCRIPTION": "Passen Sie Ihre Meta-Tags an, um Ihre Sichtbarkeit in Suchmaschinen mit unseren SEO-freundlichen Seiten zu verbessern."
+        },
+        "API": {
+          "TITLE": "Vollständige API-Unterstützung",
+          "DESCRIPTION": "Verwenden Sie das Portal als Headless-CMS mit Drittanbieter-Front-End-Frameworks mithilfe unserer APIs."
+        }
+      }
+    },
+    "LOADING": "Laden..."
   }
 }

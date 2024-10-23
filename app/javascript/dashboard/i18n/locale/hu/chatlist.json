@@ -41,18 +41,40 @@
       "STATUS": "Státusz",
       "ORDER_BY": "Rendezés"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Utolsó aktivitás"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Létrehozva",
+        "OLDEST": "Létrehozva:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Létrehozva"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Utolsó aktivitás:",
+        "ACTIVE": "Utolsó aktivitás"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Utolsó tevékenység: Legrégebbi először"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioritás"
+      "last_activity_at_desc": {
+        "TEXT": "Utolsó tevékenység: Legújabb először"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Függőben lévő válasz"
+      "created_at_desc": {
+        "TEXT": "Készült: Legújabb először"
+      },
+      "created_at_asc": {
+        "TEXT": "Készült: Legrégebbi először"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritás: Először a legfontosabb"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritás: Legkevésbé fontos először"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Függőben lévő válasz: Leghosszabb először"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Függőben lévő válasz: Legrövidebb először"
       }
     },
     "ATTACHMENTS": {

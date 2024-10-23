@@ -216,6 +216,21 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.deleted).to be true
         expect(message.reload.content_attributes['bcc_emails']).to be_nil
       end
+
+      it 'deletes interactive messages' do
+        interactive_message = create(
+          :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
+                    content_attributes: { 'items' => [{ 'title' => 'test', 'value' => 'test' }] },
+                    conversation: conversation
+        )
+
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{interactive_message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(interactive_message.reload.deleted).to be true
+      end
     end
 
     context 'when the message id is invalid' do
@@ -231,6 +246,51 @@ RSpec.describe 'Conversation Messages API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id/retry' do
+    let(:message) { create(:message, account: account, status: :failed, content_attributes: { external_error: 'error' }) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user with access to conversation' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: message.conversation.inbox, user: agent)
+      end
+
+      it 'retries the message' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(message.reload.status).to eq('sent')
+        expect(message.reload.content_attributes['external_error']).to be_nil
+      end
+    end
+
+    context 'when the message id is invalid' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: message.conversation.inbox, user: agent)
+      end
+
+      it 'returns not found error' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/99999/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

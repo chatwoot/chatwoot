@@ -1,23 +1,3 @@
-<template>
-  <div class="custom-attributes--panel">
-    <div
-      v-for="attribute in listOfAttributes"
-      :key="attribute"
-      class="custom-attribute--row"
-    >
-      <div class="custom-attribute--row__attribute">
-        {{ attribute }}
-      </div>
-      <div>
-        <span v-dompurify-html="valueWithLink(customAttributes[attribute])" />
-      </div>
-    </div>
-    <p v-if="!listOfAttributes.length">
-      {{ $t('CUSTOM_ATTRIBUTES.NOT_AVAILABLE') }}
-    </p>
-  </div>
-</template>
-
 <script>
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 
@@ -55,6 +35,26 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="custom-attributes--panel">
+    <div
+      v-for="attribute in listOfAttributes"
+      :key="attribute"
+      class="custom-attribute--row"
+    >
+      <div class="custom-attribute--row__attribute">
+        {{ attribute }}
+      </div>
+      <div>
+        <span v-dompurify-html="valueWithLink(customAttributes[attribute])" />
+      </div>
+    </div>
+    <p v-if="!listOfAttributes.length">
+      {{ $t('CUSTOM_ATTRIBUTES.NOT_AVAILABLE') }}
+    </p>
+  </div>
+</template>
 
 <style scoped>
 .custom-attributes--panel {

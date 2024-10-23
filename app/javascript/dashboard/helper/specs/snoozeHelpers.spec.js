@@ -1,6 +1,6 @@
 import {
   findSnoozeTime,
-  conversationReopenTime,
+  snoozedReopenTime,
   findStartOfNextWeek,
   findStartOfNextMonth,
   findNextDay,
@@ -88,13 +88,13 @@ describe('#Snooze Helpers', () => {
     });
   });
 
-  describe('conversationReopenTime', () => {
+  describe('snoozedReopenTime', () => {
     it('should return nil if snoozedUntil is nil', () => {
-      expect(conversationReopenTime(null)).toEqual(null);
+      expect(snoozedReopenTime(null)).toEqual(null);
     });
 
     it('should return formatted date if snoozedUntil is not nil', () => {
-      expect(conversationReopenTime('2023-06-07T09:00:00.000Z')).toEqual(
+      expect(snoozedReopenTime('2023-06-07T09:00:00.000Z')).toEqual(
         '7 Jun, 9.00am'
       );
     });

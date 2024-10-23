@@ -41,18 +41,40 @@
       "STATUS": "Būsena",
       "ORDER_BY": "Rūšiuoti pagal"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Paskutiniai veiksmai"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Sukurta",
+        "OLDEST": "Sukurta:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Sukurta"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Paskutiniai veiksmai:",
+        "ACTIVE": "Paskutiniai veiksmai"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Paskutinė veikla: nuo seniausio"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioritetas"
+      "last_activity_at_desc": {
+        "TEXT": "Paskutinė veikla: nuo naujausio"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Laukiama atsakymo"
+      "created_at_desc": {
+        "TEXT": "Sukurta: nuo naujausio"
+      },
+      "created_at_asc": {
+        "TEXT": "Sukurta: nuo seniausio"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritetas: nuo aukščiausio"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritetas: nuo žemiausio"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Laukia atsakymo: nuo ilgiausio"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Laukia atsakymo: nuo trumpiausio"
       }
     },
     "ATTACHMENTS": {

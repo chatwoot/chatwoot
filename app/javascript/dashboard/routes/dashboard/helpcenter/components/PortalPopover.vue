@@ -1,3 +1,42 @@
+<script>
+import PortalSwitch from './PortalSwitch.vue';
+export default {
+  components: {
+    PortalSwitch,
+  },
+  props: {
+    portals: {
+      type: Array,
+      default: () => [],
+    },
+    activePortalSlug: {
+      type: String,
+      default: '',
+    },
+    activeLocale: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: ['closePopover', 'fetchPortal'],
+
+  methods: {
+    closePortalPopover() {
+      this.$emit('closePopover');
+    },
+    openPortalPage() {
+      this.closePortalPopover();
+      this.$router.push({
+        name: 'list_all_portals',
+      });
+    },
+    fetchPortalAndItsCategories() {
+      this.$emit('fetchPortal');
+    },
+  },
+};
+</script>
+
 <template>
   <div
     v-on-clickaway="closePortalPopover"
@@ -27,12 +66,12 @@
           />
         </div>
       </div>
-      <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
+      <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
       </p>
     </header>
     <div>
-      <portal-switch
+      <PortalSwitch
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
@@ -45,43 +84,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mixin as clickaway } from 'vue-clickaway';
-import PortalSwitch from './PortalSwitch.vue';
-export default {
-  components: {
-    PortalSwitch,
-  },
-  mixins: [clickaway],
-  props: {
-    portals: {
-      type: Array,
-      default: () => [],
-    },
-    activePortalSlug: {
-      type: String,
-      default: '',
-    },
-    activeLocale: {
-      type: String,
-      default: '',
-    },
-  },
-
-  methods: {
-    closePortalPopover() {
-      this.$emit('close-popover');
-    },
-    openPortalPage() {
-      this.closePortalPopover();
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-    },
-    fetchPortalAndItsCategories() {
-      this.$emit('fetch-portal');
-    },
-  },
-};
-</script>

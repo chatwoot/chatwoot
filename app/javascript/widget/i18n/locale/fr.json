@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
         "DIAL_CODE_VALID_ERROR": "Veuillez sélectionner un code pays",
         "VALID_ERROR": "Veuillez saisir un numéro de téléphone valide",
-        "DROPDOWN_EMPTY": "Aucun résultat trouvé"
+        "DROPDOWN_EMPTY": "Aucun résultat trouvé",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -80,7 +81,8 @@
     },
     "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
     "IS_REQUIRED": "est obligatoire",
-    "REQUIRED": "Requis"
+    "REQUIRED": "Requis",
+    "REGEX_ERROR": "Veuillez fournir une entrée valide"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {
@@ -90,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Rechercher des émojis",
-    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche"
+    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Évaluer votre conversation",
@@ -104,7 +107,7 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Cliquez ici pour rejoindre",
+      "CLICK_HERE_TO_JOIN": "Cliquez ici pour se connecter",
       "LEAVE_THE_ROOM": "Quitter l'appel"
     }
   },
@@ -132,5 +135,8 @@
     "fallback": {
       "CONTENT": "a partagé une URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Répondre à:"
   }
 }

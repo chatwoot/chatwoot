@@ -78,6 +78,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
+        context: whatsapp_reply_context(message),
         to: phone_number,
         text: { body: message.content },
         type: 'text'
@@ -100,6 +101,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         :messaging_product => 'whatsapp',
+        :context => whatsapp_reply_context(message),
         'to' => phone_number,
         'type' => type,
         type.to_s => type_content
@@ -129,6 +131,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         type: 'body',
         parameters: template_info[:parameters]
       }]
+    }
+  end
+
+  def whatsapp_reply_context(message)
+    reply_to = message.content_attributes[:in_reply_to_external_id]
+    return nil if reply_to.blank?
+
+    {
+      message_id: reply_to
     }
   end
 

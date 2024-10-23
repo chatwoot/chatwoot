@@ -1,8 +1,15 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
+import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+
+const findRecordById = ($state, id) =>
+  $state.records.find(record => record.id === Number(id)) || {};
+
+const TRIAL_PERIOD_DAYS = 15;
 
 const state = {
   records: [],
@@ -16,24 +23,29 @@ const state = {
 
 export const getters = {
   getAccount: $state => id => {
-    return $state.records.find(record => record.id === Number(id)) || {};
+    return findRecordById($state, id);
   },
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isFeatureEnabledonAccount:
-    ($state, _, __, rootGetters) => (id, featureName) => {
-      // If a user is SuperAdmin and has access to the account, then they would see all the available features
-      const isUserASuperAdmin =
-        rootGetters.getCurrentUser?.type === 'SuperAdmin';
-      if (isUserASuperAdmin) {
-        return true;
-      }
+  isRTL: ($state, _, rootState) => {
+    const accountId = rootState.route?.params?.accountId;
+    if (!accountId) return false;
 
-      const { features = {} } =
-        $state.records.find(record => record.id === Number(id)) || {};
-      return features[featureName] || false;
-    },
+    const { locale } = findRecordById($state, Number(accountId));
+    return locale ? getLanguageDirection(locale) : false;
+  },
+  isTrialAccount: $state => id => {
+    const account = findRecordById($state, id);
+    const createdAt = new Date(account.created_at);
+    const diffDays = differenceInDays(new Date(), createdAt);
+
+    return diffDays <= TRIAL_PERIOD_DAYS;
+  },
+  isFeatureEnabledonAccount: $state => (id, featureName) => {
+    const { features = {} } = findRecordById($state, id);
+    return features[featureName] || false;
+  },
 };
 
 export const actions = {
@@ -104,6 +116,10 @@ export const actions = {
     } catch (error) {
       // silent error
     }
+  },
+
+  getCacheKeys: async () => {
+    return AccountAPI.getCacheKeys();
   },
 };
 

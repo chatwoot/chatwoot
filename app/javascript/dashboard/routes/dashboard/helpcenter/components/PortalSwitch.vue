@@ -1,13 +1,85 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import portalMixin from '../mixins/portalMixin';
+
+export default {
+  components: {
+    Thumbnail,
+  },
+  mixins: [portalMixin],
+  props: {
+    portal: {
+      type: Object,
+      default: () => ({}),
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    activePortalSlug: {
+      type: String,
+      default: '',
+    },
+    activeLocale: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: ['fetchPortal', 'openPortalPage'],
+  data() {
+    return {
+      selectedLocale: null,
+    };
+  },
+  computed: {
+    locales() {
+      return this.portal?.config?.allowed_locales;
+    },
+    articlesCount() {
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
+    },
+  },
+  mounted() {
+    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
+  },
+  methods: {
+    onClick(event, code, portal) {
+      event.preventDefault();
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: portal.slug,
+          locale: code,
+        },
+      });
+      this.$emit('fetchPortal');
+      this.$emit('openPortalPage');
+    },
+    isLocaleActive(code, slug) {
+      const isPortalActive = this.portal.slug === slug;
+      const isLocaleActive = this.activeLocale === code;
+      return isPortalActive && isLocaleActive;
+    },
+    isLocaleDefault(code) {
+      return this.portal?.meta?.default_locale === code;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="portal" :class="{ active }">
-    <thumbnail :username="portal.name" variant="square" />
+    <Thumbnail :username="portal.name" variant="square" />
     <div class="actions-container">
       <header class="flex items-center justify-between mb-2.5">
         <div>
           <h3 class="text-sm mb-0.5 text-slate-700 dark:text-slate-100">
             {{ portal.name }}
           </h3>
-          <p class="text-slate-600 dark:text-slate-200 mb-0 text-xs">
+          <p class="mb-0 text-xs text-slate-600 dark:text-slate-200">
             {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
@@ -44,14 +116,14 @@
                     </span>
                     <span
                       v-if="isLocaleDefault(locale.code)"
-                      class="fs-small text-slate-300 dark:text-slate-200"
+                      class="text-sm text-slate-300 dark:text-slate-200"
                     >
                       {{ `(${$t('HELP_CENTER.PORTAL.DEFAULT')})` }}
                     </span>
                   </h6>
 
                   <span
-                    class="flex text-slate-600 dark:text-slate-200 text-sm text-left leading-4 w-full"
+                    class="flex w-full text-sm leading-4 text-left text-slate-600 dark:text-slate-200"
                   >
                     {{ locale.articles_count }}
                     {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
@@ -69,77 +141,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import portalMixin from '../mixins/portalMixin';
-
-export default {
-  components: {
-    thumbnail,
-  },
-  mixins: [portalMixin],
-  props: {
-    portal: {
-      type: Object,
-      default: () => ({}),
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    activePortalSlug: {
-      type: String,
-      default: '',
-    },
-    activeLocale: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      selectedLocale: null,
-    };
-  },
-  computed: {
-    locales() {
-      return this.portal?.config?.allowed_locales;
-    },
-    articlesCount() {
-      const { allowed_locales: allowedLocales } = this.portal.config;
-      return allowedLocales.reduce((acc, locale) => {
-        return acc + locale.articles_count;
-      }, 0);
-    },
-  },
-  mounted() {
-    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
-  },
-  methods: {
-    onClick(event, code, portal) {
-      event.preventDefault();
-      this.$router.push({
-        name: 'list_all_locale_articles',
-        params: {
-          portalSlug: portal.slug,
-          locale: code,
-        },
-      });
-      this.$emit('fetch-portal');
-      this.$emit('open-portal-page');
-    },
-    isLocaleActive(code, slug) {
-      const isPortalActive = this.portal.slug === slug;
-      const isLocaleActive = this.activeLocale === code;
-      return isPortalActive && isLocaleActive;
-    },
-    isLocaleDefault(code) {
-      return this.portal?.meta?.default_locale === code;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .portal {

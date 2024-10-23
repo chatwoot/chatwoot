@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "x日前"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "値は必須です"
+    },
     "ATTRIBUTES": {
       "NAME": "名前",
       "EMAIL": "Eメール",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Last Activity",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

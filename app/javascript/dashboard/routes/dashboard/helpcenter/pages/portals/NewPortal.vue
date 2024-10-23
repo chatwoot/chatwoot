@@ -1,27 +1,3 @@
-<template>
-  <div class="flex-1">
-    <settings-header
-      button-route="new"
-      :header-title="portalHeaderText"
-      show-back-button
-      :back-button-label="
-        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
-      "
-      :show-new-button="false"
-    />
-    <div
-      class="flex flex-row overflow-auto py-4 pl-4 rtl:pl-0 rtl:pr-4 h-full bg-slate-50 dark:bg-slate-800"
-    >
-      <woot-wizard
-        class="hide-for-small-only w-[25%]"
-        :global-config="globalConfig"
-        :items="items"
-      />
-      <router-view />
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -36,17 +12,22 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      const allItems = this.$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW').map(
-        item => ({
-          ...item,
-          body: this.useInstallationName(
-            item.body,
-            this.globalConfig.installationName
-          ),
-        })
-      );
+      const routes = {
+        BASIC: 'new_portal_information',
+        CUSTOMIZATION: 'portal_customization',
+        FINISH: 'portal_finish',
+      };
 
-      return allItems;
+      const steps = ['BASIC', 'CUSTOMIZATION', 'FINISH'];
+
+      return steps.map(step => ({
+        title: this.$t(`HELP_CENTER.PORTAL.ADD.CREATE_FLOW.${step}.TITLE`),
+        route: routes[step],
+        body: this.useInstallationName(
+          this.$t(`HELP_CENTER.PORTAL.ADD.CREATE_FLOW.${step}.BODY`),
+          this.globalConfig.installationName
+        ),
+      }));
     },
     portalHeaderText() {
       if (this.$route.name === 'new_portal_information') {
@@ -64,3 +45,31 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="flex-1">
+    <SettingsHeader
+      button-route="new"
+      :header-title="portalHeaderText"
+      show-back-button
+      :back-button-label="
+        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
+      "
+      :show-new-button="false"
+    />
+    <div
+      class="grid grid-cols-[20rem_1fr] w-full h-full overflow-auto rtl:pl-0 rtl:pr-4 bg-slate-50 dark:bg-slate-800 p-5"
+    >
+      <woot-wizard
+        class="hidden md:block"
+        :global-config="globalConfig"
+        :items="items"
+      />
+      <div
+        class="w-full p-5 bg-white border border-transparent border-solid rounded-md shadow-sm dark:bg-slate-900 dark:border-transparent"
+      >
+        <router-view />
+      </div>
+    </div>
+  </section>
+</template>

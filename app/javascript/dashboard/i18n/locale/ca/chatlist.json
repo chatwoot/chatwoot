@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Converses",
     "MENTION_HEADING": "Mencions",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Sense assistència",
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
@@ -36,23 +36,45 @@
       }
     },
     "VIEW_FILTER": "Veure",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Ordena les converses",
     "CHAT_SORT": {
       "STATUS": "Estat",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Ordena per"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creat",
+        "OLDEST": "Creat per:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Created at"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Darrera activitat:",
+        "ACTIVE": "Darrera activitat"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última activitat: Més antic primer"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "last_activity_at_desc": {
+        "TEXT": "Última activitat: La més nova primer"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_desc": {
+        "TEXT": "Creat a: El més nou primer"
+      },
+      "created_at_asc": {
+        "TEXT": "Creat a: el més antic primer"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritat: primer el més alt"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritat: primer el més baix"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Resposta pendent: el més llarg primer"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Resposta pendent: el més curt primer"
       }
     },
     "ATTACHMENTS": {
@@ -76,20 +98,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "Ordena la conversa",
+      "DROPDOWN_TITLE": "Ordenat per",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Darrera activitat a les",
+          "LABEL": "Darrera activitat"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "Creat per",
+          "LABEL": "Creat per"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Últim missatge de l'usuari a les",
+          "LABEL": "Últim missatge"
         }
       }
     },
@@ -98,8 +120,8 @@
     "REPLY_TO_TWEET": "Respon a aquest tuit",
     "LINK_TO_STORY": "Ves a la història d'instagram",
     "SENT": "Enviat correctament",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Llegit correctament",
+    "DELIVERED": "S'ha lliurat correctament",
     "NO_MESSAGES": "Cap Missatge",
     "NO_CONTENT": "No hi ha contingut disponible",
     "HIDE_QUOTED_TEXT": "Amaga text entre cometes",

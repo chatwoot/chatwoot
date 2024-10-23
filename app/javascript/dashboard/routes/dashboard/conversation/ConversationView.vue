@@ -1,46 +1,29 @@
-<template>
-  <section class="conversation-page bg-white dark:bg-slate-900">
-    <chat-list
-      :show-conversation-list="showConversationList"
-      :conversation-inbox="inboxId"
-      :label="label"
-      :team-id="teamId"
-      :conversation-type="conversationType"
-      :folders-id="foldersId"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @conversation-load="onConversationLoad"
-    >
-      <pop-over-search
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
-      />
-    </chat-list>
-    <conversation-box
-      v-if="showMessageView"
-      :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
-  </section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import PopOverSearch from './search/PopOverSearch.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 import wootConstants from 'dashboard/constants/globals';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
     ChatList,
     ConversationBox,
     PopOverSearch,
+    CmdBarConversationSnooze,
   },
-  mixins: [uiSettingsMixin],
+  beforeRouteLeave(to, from, next) {
+    // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
+    // and resolves timing issues during navigation with conversation view and other screens
+    if (this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+    next(); // Continue with navigation
+  },
   props: {
     inboxId: {
       type: [String, Number],
@@ -66,6 +49,14 @@ export default {
       type: [String, Number],
       default: 0,
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {
@@ -105,6 +96,17 @@ export default {
       this.fetchConversationIfUnavailable();
     },
   },
+
+  created() {
+    // Clear selected state early if no conversation is selected
+    // This prevents child components from accessing stale data
+    // and resolves timing issues during navigation
+    // with conversation view and other screens
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+  },
+
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();
@@ -169,7 +171,7 @@ export default {
             after: messageId,
           })
           .then(() => {
-            bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+            emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
       } else {
         this.$store.dispatch('clearSelectedState');
@@ -189,6 +191,35 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="bg-white conversation-page dark:bg-slate-900">
+    <ChatList
+      :show-conversation-list="showConversationList"
+      :conversation-inbox="inboxId"
+      :label="label"
+      :team-id="teamId"
+      :conversation-type="conversationType"
+      :folders-id="foldersId"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @conversation-load="onConversationLoad"
+    >
+      <PopOverSearch
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
+      />
+    </ChatList>
+    <ConversationBox
+      v-if="showMessageView"
+      :inbox-id="inboxId"
+      :is-contact-panel-open="isContactPanelOpen"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @contact-panel-toggle="onToggleContactPanel"
+    />
+    <CmdBarConversationSnooze />
+  </section>
+</template>
+
 <style lang="scss" scoped>
 .conversation-page {
   display: flex;

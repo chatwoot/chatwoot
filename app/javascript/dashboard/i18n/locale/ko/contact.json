@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "연락처 합치기",
     "CONTACT_ACTIONS": "연락처 활동",
-    "MUTE_CONTACT": "대화 음소거",
-    "UNMUTE_CONTACT": "대화 음소거 해제",
-    "MUTED_SUCCESS": "이 대화는 6시간 동안 중단됩니다.",
-    "UNMUTED_SUCCESS": "이 대화는 음소거 되었습니다.",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "대화기록 보내기",
     "EDIT_LABEL": "수정",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
       "CONTACT_LABELS": "연락처 라벨",
-      "PREVIOUS_CONVERSATIONS": "이전 대화"
+      "PREVIOUS_CONVERSATIONS": "이전 대화",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오.",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -204,6 +212,10 @@
         "PLACEHOLDER": "메시지를 여기에 작성해주세요",
         "ERROR": "메시지는 비어 있을 수 없습니다"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "메시지 보내기",
       "CANCEL": "취소",
       "SUCCESS_MESSAGE": "메시지가 보내졌습니다!",
@@ -286,6 +298,8 @@
     "BUTTON": "사용자 지정 속성 추가하기",
     "NOT_AVAILABLE": "이 연락처에 사용 가능한 커스텀 속성이 없습니다.",
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "속성 복사하기",
       "DELETE": "속성 삭제하기",
@@ -335,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "잘못된 주소입니다."
+      "INVALID_URL": "잘못된 주소입니다.",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
@@ -343,17 +358,17 @@
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "To be deleted"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Contact to merge",
       "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "To be kept"
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "에러_메시지"
@@ -366,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

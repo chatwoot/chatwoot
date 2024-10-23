@@ -32,7 +32,8 @@ describe Messages::MentionService do
       expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
                                                               user: first_agent,
                                                               account: account,
-                                                              primary_actor: message)
+                                                              primary_actor: message.conversation,
+                                                              secondary_actor: message)
     end
   end
 
@@ -55,11 +56,13 @@ describe Messages::MentionService do
       expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
                                                               user: second_agent,
                                                               account: account,
-                                                              primary_actor: message)
+                                                              primary_actor: message.conversation,
+                                                              secondary_actor: message)
       expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
                                                               user: first_agent,
                                                               account: account,
-                                                              primary_actor: message)
+                                                              primary_actor: message.conversation,
+                                                              secondary_actor: message)
     end
 
     it 'add the users to the participants list' do

@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Conversations::ResolutionJob do
-  subject(:job) { described_class.perform_later(account) }
+  subject(:job) { described_class.perform_later(account: account) }
 
   let!(:account) { create(:account) }
   let!(:conversation) { create(:conversation, account: account) }
 
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
-      .with(account)
+      .with(account: account)
       .on_queue('low')
   end
 

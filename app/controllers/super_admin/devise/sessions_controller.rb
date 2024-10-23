@@ -27,7 +27,8 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
 
     true
   rescue StandardError => e
-    @error_message = e.message
+    Rails.logger.error e.message
+    @error_message = 'Invalid credentials. Please try again.'
     false
   end
 end

@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您現在可以在您的自定義域名的電子信箱中接收消息。"
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
+    "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
@@ -75,24 +75,24 @@
     "LIST": {
       "LOADING_MESSAGE": "載入更多通知...",
       "404": "沒有通知",
-      "TABLE_HEADER": [
-        "姓名",
-        "聯絡人電話",
-        "對話",
-        "最後聯絡"
-      ]
+      "TABLE_HEADER": ["姓名", "聯絡人電話", "對話", "最後聯絡"]
     },
     "TYPE_LABEL": {
       "conversation_creation": "新對話",
       "conversation_assignment": "對話已被指派",
       "assigned_conversation_new_message": "新訊息",
       "participating_conversation_new_message": "新訊息",
-      "conversation_mention": "被提及"
+      "conversation_mention": "被提及",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "OFFLINE": "離線的",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Refresh"
@@ -104,6 +104,7 @@
       "GENERAL": "General",
       "REPORTS": "報表",
       "CONVERSATION": "對話",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
@@ -112,7 +113,8 @@
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "設定",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -149,11 +151,12 @@
       "UNTIL_TOMORROW": "Until tomorrow",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

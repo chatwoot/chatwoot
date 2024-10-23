@@ -14,4 +14,8 @@ class UserPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def bulk_create?
+    @account_user.administrator?
+  end
 end

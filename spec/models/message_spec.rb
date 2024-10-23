@@ -11,7 +11,7 @@ RSpec.describe Message do
   end
 
   describe 'length validations' do
-    let(:message) { create(:message) }
+    let!(:message) { create(:message) }
 
     context 'when it validates name length' do
       it 'valid when within limit' do
@@ -26,6 +26,17 @@ RSpec.describe Message do
 
         expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+      end
+
+      it 'adds error in case of message flooding' do
+        with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+          conversation = message.conversation
+          create(:message, conversation: conversation)
+          conv_new_message = build(:message, conversation: message.conversation)
+
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
       end
     end
   end
@@ -96,7 +107,11 @@ RSpec.describe Message do
   end
 
   describe 'message create event' do
-    let(:conversation) { create(:conversation) }
+    let!(:conversation) { create(:conversation) }
+
+    before do
+      conversation.reload
+    end
 
     it 'updates the conversation first reply created at if it is the first outgoing message' do
       expect(conversation.first_reply_created_at).to be_nil
@@ -413,6 +428,51 @@ RSpec.describe Message do
       }.to_json, headers: {})
       instagram_message.push_event_data
       expect(instagram_message.reload.attachments.count).to eq 1
+    end
+  end
+
+  describe '#ensure_in_reply_to' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, source_id: 12_345) }
+
+    context 'when in_reply_to is present' do
+      let(:content_attributes) { { in_reply_to: message.id } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'sets in_reply_to_external_id based on the source_id of the referenced message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to eq(message.source_id)
+      end
+    end
+
+    context 'when in_reply_to is not present' do
+      let(:content_attributes) { { in_reply_to_external_id: message.source_id } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'sets in_reply_to based on the source_id of the referenced message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to]).to eq(message.id)
+      end
+    end
+
+    context 'when the referenced message is not found' do
+      let(:content_attributes) { { in_reply_to: message.id + 1 } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'does not set in_reply_to_external_id' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to be_nil
+      end
+    end
+
+    context 'when the source message is not found' do
+      let(:content_attributes) { { in_reply_to_external_id: 'source-id-that-does-not-exist' } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'does not set in_reply_to' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to]).to be_nil
+      end
     end
   end
 end

@@ -1,3 +1,83 @@
+<script>
+import { ref } from 'vue';
+import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import Spinner from 'shared/components/Spinner.vue';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
+
+export default {
+  components: {
+    Spinner,
+    LabelDropdown,
+    AddLabel,
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+
+    const {
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    } = useConversationLabels();
+
+    const showSearchDropdownLabel = ref(false);
+
+    const toggleLabels = () => {
+      showSearchDropdownLabel.value = !showSearchDropdownLabel.value;
+    };
+
+    const closeDropdownLabel = () => {
+      showSearchDropdownLabel.value = false;
+    };
+
+    const keyboardEvents = {
+      KeyL: {
+        action: e => {
+          e.preventDefault();
+          toggleLabels();
+        },
+      },
+      Escape: {
+        action: () => {
+          if (showSearchDropdownLabel.value) {
+            toggleLabels();
+          }
+        },
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+    return {
+      isAdmin,
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+      showSearchDropdownLabel,
+      closeDropdownLabel,
+      toggleLabels,
+    };
+  },
+  data() {
+    return {
+      selectedLabels: [],
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      conversationUiFlags: 'conversationLabels/getUIFlags',
+    }),
+  },
+};
+</script>
+
 <template>
   <div class="sidebar-labels-wrap">
     <div
@@ -9,16 +89,17 @@
         class="label-wrap"
         @keyup.esc="closeDropdownLabel"
       >
-        <add-label @add="toggleLabels" />
+        <AddLabel @add="toggleLabels" />
         <woot-label
           v-for="label in activeLabels"
           :key="label.id"
           :title="label.title"
           :description="label.description"
-          :show-close="true"
+          show-close
           :color="label.color"
           variant="smooth"
-          @click="removeLabelFromConversation"
+          class="max-w-[calc(100%-0.5rem)]"
+          @remove="removeLabelFromConversation"
         />
 
         <div class="dropdown-wrap">
@@ -26,7 +107,7 @@
             :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
             class="dropdown-pane"
           >
-            <label-dropdown
+            <LabelDropdown
               v-if="showSearchDropdownLabel"
               :account-labels="accountLabels"
               :selected-labels="savedLabels"
@@ -38,74 +119,9 @@
         </div>
       </div>
     </div>
-    <spinner v-else />
+    <Spinner v-else />
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
-import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
-import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
-import { mixin as clickaway } from 'vue-clickaway';
-import adminMixin from 'dashboard/mixins/isAdmin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import {
-  buildHotKeys,
-  isEscape,
-  isActiveElementTypeable,
-} from 'shared/helpers/KeyboardHelpers';
-
-export default {
-  components: {
-    Spinner,
-    LabelDropdown,
-    AddLabel,
-  },
-
-  mixins: [clickaway, conversationLabelMixin, adminMixin, eventListenerMixins],
-  props: {
-    conversationId: {
-      type: Number,
-      required: true,
-    },
-  },
-
-  data() {
-    return {
-      selectedLabels: [],
-      showSearchDropdownLabel: false,
-    };
-  },
-
-  computed: {
-    ...mapGetters({
-      conversationUiFlags: 'conversationLabels/getUIFlags',
-      labelUiFlags: 'conversationLabels/getUIFlags',
-    }),
-  },
-  methods: {
-    toggleLabels() {
-      this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
-    },
-    closeDropdownLabel() {
-      this.showSearchDropdownLabel = false;
-    },
-    handleKeyEvents(e) {
-      const keyPattern = buildHotKeys(e);
-
-      if (keyPattern === 'l' && !isActiveElementTypeable(e)) {
-        this.toggleLabels();
-        e.preventDefault();
-      } else if (isEscape(e) && this.showSearchDropdownLabel) {
-        this.closeDropdownLabel();
-        e.preventDefault();
-      }
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .sidebar-labels-wrap {

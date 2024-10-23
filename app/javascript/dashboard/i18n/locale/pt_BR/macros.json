@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Adicionar uma nova macro",
     "HEADER_BTN_TXT_SAVE": "Salvar macro",
     "LOADING": "Obtendo macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>Uma macro é um conjunto de ações salvas que ajudam os agentes de serviço ao cliente a concluírem facilmente as tarefas. Os agentes podem definir um conjunto de ações como marcar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizando um atributo personalizado, etc. e eles podem executar essas ações com um único clique. Quando os agentes executam a macro, as ações seriam executadas sequencialmente na ordem em que são definidas. Macros melhoram a produtividade e aumentam a consistência em ações. </p><p>Uma macro pode ser útil de 2 maneiras. </p><p><b>Como assistente de agente:</b> Se um agente executa um conjunto de ações várias vezes, eles podem salvá-lo como uma macro e executar todas as ações juntas usando um único clique.</p><p><b>Como opção para integrar um membro da equipe:</b> Todos os agentes devem realizar verificações/ações diferentes durante cada conversa. Integrar um novo membro da equipe de suporte será fácil se macros predefinidos estiverem disponíveis na conta. Em vez de descrever cada passo em detalhe, o chumbo do gerente/equipe pode apontar para as macros usadas em diferentes cenários.</p>",
     "ERROR": "Algo deu errado. Por favor, tente novamente",
     "ORDER_INFO": "As macros serão executadas na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Executar",
       "PREVIEW": "Pré-visualizar Macro",
       "EXECUTED_SUCCESSFULLY": "Macro executada com sucesso"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Valor obrigatório",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

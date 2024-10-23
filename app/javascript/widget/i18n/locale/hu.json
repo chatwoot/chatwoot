@@ -34,9 +34,9 @@
   "START_CONVERSATION": "Beszélgetés megkezdése",
   "END_CONVERSATION": "Beszélgetés befejezése",
   "CONTINUE_CONVERSATION": "Beszélgetés folytatása",
-  "YOU": "You",
+  "YOU": "Ön",
   "START_NEW_CONVERSATION": "Új beszélgetés megkezdése",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Olvasatlan üzenetei vannak",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
     "CLOSE_MESSAGES_BUTTON": "Bezárás",
@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefonszám megadása kötelező",
         "DIAL_CODE_VALID_ERROR": "Kérlek válassz országot",
         "VALID_ERROR": "Kérlek egy valós telefonszámot adj meg",
-        "DROPDOWN_EMPTY": "Nincs találat"
+        "DROPDOWN_EMPTY": "Nincs találat",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Üzenet",
@@ -80,7 +81,8 @@
     },
     "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed",
     "IS_REQUIRED": "kötelező",
-    "REQUIRED": "Kötelező"
+    "REQUIRED": "Kötelező",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
   "CHAT_FORM": {
@@ -90,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Emoji keresése",
-    "NOT_FOUND": "Nem található emoji"
+    "NOT_FOUND": "Nem található emoji",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Értékeld a beszélgetést",
@@ -109,9 +112,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
+    "POPULAR_ARTICLES": "Népszerű cikkek",
     "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "Hiba történt a cikk betöltése során, kérjük, frissítse az oldalt, és próbálja meg újra."
   },
   "ATTACHMENTS": {
     "image": {
@@ -132,5 +135,8 @@
     "fallback": {
       "CONTENT": "megosztott URL-t tartalmaz"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Válaszolva a következőre:"
   }
 }

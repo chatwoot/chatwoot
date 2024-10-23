@@ -34,4 +34,12 @@ describe('#mutations', () => {
       expect(state.records).toEqual(updateCustomViewList);
     });
   });
+
+  describe('#SET_ACTIVE_CONVERSATION_FOLDER', () => {
+    it('set active conversation folder', () => {
+      const state = { activeConversationFolder: customViewList[0] };
+      mutations[types.SET_ACTIVE_CONVERSATION_FOLDER](state, customViewList[0]);
+      expect(state.activeConversationFolder).toEqual(customViewList[0]);
+    });
+  });
 });

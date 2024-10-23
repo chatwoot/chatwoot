@@ -1,5 +1,32 @@
+<script>
+import portalMixin from '../mixins/portalMixin';
+export default {
+  mixins: [portalMixin],
+  props: {
+    locales: {
+      type: Array,
+      default: () => [],
+    },
+    selectedLocaleCode: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: ['changeDefaultLocale', 'delete'],
+
+  methods: {
+    changeDefaultLocale(localeCode) {
+      this.$emit('changeDefaultLocale', { localeCode });
+    },
+    deleteLocale(localeCode) {
+      this.$emit('delete', { localeCode });
+    },
+  },
+};
+</script>
+
 <template>
-  <table>
+  <table class="woot-table">
     <thead>
       <tr>
         <th scope="col">
@@ -48,7 +75,7 @@
               )
             "
             color-scheme="warning"
-            :small="true"
+            small
             variant="smooth"
             class="default-status"
           />
@@ -85,7 +112,7 @@
             size="tiny"
             variant="smooth"
             icon="delete"
-            color-scheme="secondary"
+            color-scheme="alert"
             :disabled="locale.code === selectedLocaleCode"
             @click="deleteLocale(locale.code)"
           />
@@ -94,32 +121,6 @@
     </tbody>
   </table>
 </template>
-
-<script>
-import portalMixin from '../mixins/portalMixin';
-export default {
-  mixins: [portalMixin],
-  props: {
-    locales: {
-      type: Array,
-      default: () => [],
-    },
-    selectedLocaleCode: {
-      type: String,
-      default: '',
-    },
-  },
-
-  methods: {
-    changeDefaultLocale(localeCode) {
-      this.$emit('change-default-locale', { localeCode });
-    },
-    deleteLocale(localeCode) {
-      this.$emit('delete', { localeCode });
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 table {

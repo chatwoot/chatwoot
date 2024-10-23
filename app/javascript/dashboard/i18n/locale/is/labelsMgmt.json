@@ -3,8 +3,9 @@
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Add label",
     "LOADING": "Fetching labels",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
-    "SIDEBAR_TXT": "<p><b>Flokkar</b> <p>Flokkar hjálpa þér að flokka samtöl og forgangsraða þeim. Þú getur úthlutað flokk á samtal frá hliðarborðinu. <br /><br />Flokkar eru tengdir við reikninginn og hægt er að nota þau til að búa til sérsniðin verkflæði í fyrirtækinu þínu. Þú getur úthlutað sérsniðnum lit á merkimiðann, það gerir það auðveldara að bera kennsl á merkimiðann. Þú munt geta birt merkimiðann á hliðarstikunni til að sía samtölin auðveldlega.</p>",
     "LIST": {
       "404": "Engar merkingar eru tiltækir á þessum reikningi.",
       "TITLE": "Manage labels",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Add label",

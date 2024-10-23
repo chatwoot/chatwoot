@@ -41,18 +41,40 @@
       "STATUS": "État",
       "ORDER_BY": "Trier par"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Dernière activité"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Créé",
+        "OLDEST": "Créé le:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Créé le"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Dernière activité:",
+        "ACTIVE": "Dernière activité"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Dernière activité : la plus ancienne en premier"
       },
-      "sort_on_priority": {
-        "TEXT": "Priorité"
+      "last_activity_at_desc": {
+        "TEXT": "Dernière activité : la plus récente en premier"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "En attente de réponse"
+      "created_at_desc": {
+        "TEXT": "Créé le : le plus récent en premier"
+      },
+      "created_at_asc": {
+        "TEXT": "Créé le : le plus ancien en premier"
+      },
+      "priority_desc": {
+        "TEXT": "Priorité: le plus important en premier"
+      },
+      "priority_asc": {
+        "TEXT": "Priorité : le moins important en premier"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Réponse en attente : La plus longue en premier"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Réponse en attente : La plus courte en premier"
       }
     },
     "ATTACHMENTS": {

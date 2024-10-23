@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
+    "UPDATE_CHATWOOT": "Доступно обновление {latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
     "LEARN_MORE": "Узнайте больше",
     "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать Chatwoot",
     "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
       "participating_conversation_new_message": "Новое сообщение",
-      "conversation_mention": "Упоминание"
+      "conversation_mention": "Упоминание",
+      "sla_missed_first_response": "Пропущено SLA",
+      "sla_missed_next_response": "Пропущено SLA",
+      "sla_missed_resolution": "Пропущено SLA"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Отключён от Чата"
+      "OFFLINE": "Оффлайн",
+      "RECONNECTING": "Повторное подключение:",
+      "RECONNECT_SUCCESS": "Повторное подключение успешно"
     },
     "BUTTON": {
       "REFRESH": "Обновить"
@@ -104,6 +109,7 @@
       "GENERAL": "Главное",
       "REPORTS": "Отчёты",
       "CONVERSATION": "Диалоги",
+      "BULK_ACTIONS": "Массовые действия",
       "CHANGE_ASSIGNEE": "Изменить Назначенного",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Удалить метку из разговора",
       "SETTINGS": "Настройки",
       "AI_ASSIST": "Помощь ИИ",
-      "APPEARANCE": "Образец"
+      "APPEARANCE": "Образец",
+      "SNOOZE_NOTIFICATION": "Отложить уведомление"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "До завтра",
       "UNTIL_NEXT_MONTH": "До следующего месяца",
       "AN_HOUR_FROM_NOW": "Еще через час",
-      "CUSTOM": "Пользовательский...",
+      "UNTIL_CUSTOM_TIME": "Пользовательский...",
       "CHANGE_APPEARANCE": "Изменить внешний вид",
       "LIGHT_MODE": "Светлая",
       "DARK_MODE": "Тёмная",
-      "SYSTEM_MODE": "Система"
+      "SYSTEM_MODE": "Система",
+      "SNOOZE_NOTIFICATION": "Отложить уведомление"
     }
   },
   "DASHBOARD_APPS": {

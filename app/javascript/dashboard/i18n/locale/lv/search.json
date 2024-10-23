@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Sarunas",
       "MESSAGES": "Ziņojumi"
     },
-    "EMPTY_STATE": "Vaicājumam '%{query}' nav atrasts neviens %{item} vienums",
-    "EMPTY_STATE_FULL": "Vaicājumam '%{query}' nav atrasts neviens rezultāts",
+    "SEARCHING_DATA": "Meklēšana",
+    "EMPTY_STATE": "Vaicājumam '{query}' nav atrasts neviens {item} vienums",
+    "EMPTY_STATE_FULL": "Vaicājumam '{query}' nav atrasts neviens rezultāts",
     "PLACEHOLDER_KEYBINDING": "/ fokusēt",
     "INPUT_PLACEHOLDER": "Ievadiet 3, vai vairāk, rakstzīmes, lai meklētu",
     "EMPTY_STATE_DEFAULT": "Lai iegūtu labākus meklēšanas rezultātus, meklējiet pēc sarunas Id, e-pasta, tālruņa numura vai ziņām. ",

@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
       }
     },
-    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "UPDATE_CHATWOOT": "Uppfærsla {latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
     "LEARN_MORE": "Læra meira",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Samtali úthlutað",
       "assigned_conversation_new_message": "Nýtt skilaboð",
       "participating_conversation_new_message": "Nýtt skilaboð",
-      "conversation_mention": "Nefna"
+      "conversation_mention": "Nefna",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Aftengdur Chatwoot"
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Uppfæra"
@@ -104,6 +109,7 @@
       "GENERAL": "Almennar",
       "REPORTS": "Skýrslur",
       "CONVERSATION": "Samtal",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Breyta Teymi",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Fjarlægja merki af samtali",
       "SETTINGS": "Stillingar",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Opna Stjórnborð Samtals",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Þar til á morgun",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

@@ -1,6 +1,21 @@
+<script>
+export default {
+  props: {
+    option: {
+      type: Object,
+      default: () => {},
+    },
+    subMenuAvailable: {
+      type: Boolean,
+      default: true,
+    },
+  },
+};
+</script>
+
 <template>
   <div
-    class="menu-with-submenu min-width-calc w-full p-1 flex items-center h-7 rounded-md relative bg-white dark:bg-slate-700 justify-between hover:bg-woot-75 cursor-pointer dark:hover:bg-slate-800"
+    class="text-slate-800 dark:text-slate-100 menu-with-submenu min-width-calc w-full p-1 flex items-center h-7 rounded-md relative bg-white dark:bg-slate-700 justify-between hover:bg-woot-75 cursor-pointer dark:hover:bg-slate-800"
     :class="!subMenuAvailable ? 'opacity-50 cursor-not-allowed' : ''"
   >
     <div class="flex items-center">
@@ -16,21 +31,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-    subMenuAvailable: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .menu-with-submenu {

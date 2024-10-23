@@ -1,84 +1,17 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <woot-modal :show.sync="show" :on-close="onClose">
-    <woot-modal-header
-      :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
-      :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
-    />
-    <form class="w-full" @submit.prevent="onCreate">
-      <div class="w-full">
-        <div class="flex flex-row w-full mt-0 mx-0 mb-4">
-          <div class="w-[50%]">
-            <label>
-              <span>{{ $t('HELP_CENTER.CATEGORY.ADD.PORTAL') }}</span>
-              <p class="text-slate-600 dark:text-slate-400">{{ portalName }}</p>
-            </label>
-          </div>
-          <div class="w-[50%]">
-            <label>
-              <span>{{ $t('HELP_CENTER.CATEGORY.ADD.LOCALE') }}</span>
-              <p class="text-slate-600 dark:text-slate-400">{{ locale }}</p>
-            </label>
-          </div>
-        </div>
-        <woot-input
-          v-model.trim="name"
-          :class="{ error: $v.name.$error }"
-          class="w-full"
-          :error="nameError"
-          :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
-          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
-          :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
-          @input="onNameChange"
-        />
-        <woot-input
-          v-model.trim="slug"
-          :class="{ error: $v.slug.$error }"
-          class="w-full"
-          :error="slugError"
-          :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
-          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
-          :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
-          @input="$v.slug.$touch"
-        />
-        <label>
-          {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
-          <textarea
-            v-model="description"
-            rows="3"
-            type="text"
-            :placeholder="
-              $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.PLACEHOLDER')
-            "
-          />
-        </label>
-        <div class="w-full">
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
-            <woot-button class="button clear" @click.prevent="onClose">
-              {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CANCEL') }}
-            </woot-button>
-            <woot-button @click="addCategory">
-              {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CREATE') }}
-            </woot-button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </woot-modal>
-</template>
-
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
+import NameEmojiInput from './NameEmojiInput.vue';
 
 export default {
-  mixins: [alertMixin],
+  components: { NameEmojiInput },
   props: {
     show: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     portalName: {
       type: String,
@@ -93,9 +26,14 @@ export default {
       default: '',
     },
   },
+  emits: ['create', 'cancel', 'update:show'],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       name: '',
+      icon: '',
       slug: '',
       description: '',
     };
@@ -110,26 +48,29 @@ export default {
     },
   },
   computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
+    },
     selectedPortalSlug() {
       return this.$route.params.portalSlug
         ? this.$route.params.portalSlug
         : this.portalSlug;
     },
-    nameError() {
-      if (this.$v.name.$error) {
-        return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
-      }
-      return '';
-    },
     slugError() {
-      if (this.$v.slug.$error) {
+      if (this.v$.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
       }
       return '';
     },
   },
   methods: {
-    onNameChange() {
+    onNameChange(name) {
+      this.name = name;
       this.slug = convertToCategorySlug(this.name);
     },
     onCreate() {
@@ -138,17 +79,21 @@ export default {
     onClose() {
       this.$emit('cancel');
     },
+    onClickInsertEmoji(emoji) {
+      this.icon = emoji;
+    },
 
     async addCategory() {
-      const { name, slug, description, locale } = this;
+      const { name, slug, description, locale, icon } = this;
       const data = {
         name,
+        icon,
         slug,
         description,
         locale,
       };
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {
@@ -160,7 +105,7 @@ export default {
           'HELP_CENTER.CATEGORY.ADD.API.SUCCESS_MESSAGE'
         );
         this.onClose();
-        this.$track(PORTALS_EVENTS.CREATE_CATEGORY, {
+        useTrack(PORTALS_EVENTS.CREATE_CATEGORY, {
           hasDescription: Boolean(description),
         });
       } catch (error) {
@@ -168,12 +113,81 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('HELP_CENTER.CATEGORY.ADD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
   },
 };
 </script>
+
+<template>
+  <woot-modal v-model:show="localShow" :on-close="onClose">
+    <woot-modal-header
+      :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
+      :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
+    />
+    <form class="w-full" @submit.prevent="onCreate">
+      <div class="w-full">
+        <div class="flex flex-row w-full mx-0 mt-0 mb-4">
+          <div class="w-[50%]">
+            <label>
+              <span>{{ $t('HELP_CENTER.CATEGORY.ADD.PORTAL') }}</span>
+              <p class="text-slate-600 dark:text-slate-400">{{ portalName }}</p>
+            </label>
+          </div>
+          <div class="w-[50%]">
+            <label>
+              <span>{{ $t('HELP_CENTER.CATEGORY.ADD.LOCALE') }}</span>
+              <p class="text-slate-600 dark:text-slate-400">{{ locale }}</p>
+            </label>
+          </div>
+        </div>
+        <NameEmojiInput
+          :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
+          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
+          :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
+          :has-error="v$.name.$error"
+          :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
+          @name-change="onNameChange"
+          @icon-change="onClickInsertEmoji"
+        />
+        <woot-input
+          v-model="slug"
+          :class="{ error: v$.slug.$error }"
+          class="w-full"
+          :error="slugError"
+          :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
+          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
+          :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
+          @input="v$.slug.$touch"
+          @blur="v$.slug.$touch"
+        />
+        <label>
+          {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
+          <textarea
+            v-model="description"
+            rows="3"
+            type="text"
+            :placeholder="
+              $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.PLACEHOLDER')
+            "
+          />
+        </label>
+        <div class="w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+            <woot-button class="button clear" @click.prevent="onClose">
+              {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CANCEL') }}
+            </woot-button>
+            <woot-button @click="addCategory">
+              {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CREATE') }}
+            </woot-button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </woot-modal>
+</template>
+
 <style scoped lang="scss">
 .input-container::v-deep {
   @apply mt-0 mb-4 mx-0;

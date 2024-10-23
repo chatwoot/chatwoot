@@ -1,3 +1,46 @@
+<script>
+export default {
+  props: {
+    menuPlacement: {
+      type: String,
+      default: 'right',
+      validator: value => ['right', 'left'].indexOf(value) !== -1,
+    },
+    open: {
+      type: Boolean,
+      default: false,
+    },
+    toggleMenu: {
+      type: Function,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      isOpen: false,
+    };
+  },
+  watch: {
+    open() {
+      this.isOpen = !this.isOpen;
+    },
+  },
+  mounted() {
+    document.addEventListener('keydown', this.onEscape);
+  },
+  unmounted() {
+    document.removeEventListener('keydown', this.onEscape);
+  },
+  methods: {
+    onEscape(e) {
+      if (e.key === 'Esc' || e.key === 'Escape') {
+        this.isOpen = false;
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="relative">
     <button class="z-10 focus:outline-none select-none" @click="toggleMenu">
@@ -32,50 +75,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    menuPlacement: {
-      type: String,
-      default: 'right',
-      validator: value => ['right', 'left'].indexOf(value) !== -1,
-    },
-    open: {
-      type: Boolean,
-      default: false,
-    },
-    toggleMenu: {
-      type: Function,
-      default: () => {},
-    },
-  },
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  watch: {
-    open() {
-      this.isOpen = !this.isOpen;
-    },
-  },
-  mounted() {
-    document.addEventListener('keydown', this.onEscape);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.onEscape);
-  },
-  methods: {
-    onEscape(e) {
-      if (e.key === 'Esc' || e.key === 'Escape') {
-        this.isOpen = false;
-      }
-    },
-  },
-};
-</script>
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .menu-content {
   width: max-content;

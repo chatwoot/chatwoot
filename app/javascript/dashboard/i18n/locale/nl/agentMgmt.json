@@ -3,7 +3,8 @@
     "HEADER": "Medewerkers",
     "HEADER_BTN_TXT": "Medewerker toevoegen",
     "LOADING": "Ophalen van medewerkerslijst",
-    "SIDEBAR_TXT": "<p><b>Agenten</b></p> <p> Een <b>Agent</b> is lid van uw klantenservice. </p><p> De agenten kunnen berichten van uw gebruikers bekijken en beantwoorden. De lijst toont alle agenten die momenteel in uw account staan. </p><p> Klik op <b>Voeg agent toe</b> om een nieuwe agent toe te voegen. De agent die je toevoegt ontvangt een e-mail met een bevestigingslink om zijn account te activeren, waarna hij Chatwoot kan bezoeken en op berichten kan reageren. </p><p> Toegang tot Chatwoot's functies zijn gebaseerd op de volgende rollen. </p><p> <b>Agent</b> - Agenten met deze rol kunnen alleen inboxen, rapporten en gesprekken gebruiken. Ze kunnen gesprekken toewijzen aan andere agenten of zichzelf en gesprekken oplossen.</p><p> <b>Beheerder</b> - Beheerder heeft toegang tot alle Chatwoot functies ingeschakeld voor uw account, inclusief instellingen, samen met alle normale agents' privileges.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Beheerder",
       "AGENT": "Medewerker"
@@ -17,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Acties",
       "VERIFIED": "Geverifieerd",
-      "VERIFICATION_PENDING": "Verificatie in behandeling"
+      "VERIFICATION_PENDING": "Verificatie in behandeling",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Voeg medewerker toe aan je team",

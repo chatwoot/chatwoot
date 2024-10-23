@@ -1,28 +1,26 @@
-import SettingsContent from '../Wrapper';
-import Automation from './Index';
 import { frontendURL } from '../../../../helper/URLHelper';
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
+const Automation = () => import('./Index.vue');
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/automation'),
-      component: SettingsContent,
-      props: {
-        headerTitle: 'AUTOMATION.HEADER',
-        icon: 'automation',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
-          name: 'automation_wrapper',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'automation_list', params: to.params };
+          },
         },
         {
           path: 'list',
           name: 'automation_list',
           component: Automation,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

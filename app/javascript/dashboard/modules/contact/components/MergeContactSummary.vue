@@ -1,34 +1,3 @@
-<template>
-  <div v-if="childContactName" class="merge-summary callout">
-    <h5 class="text-block-title">
-      {{ $t('MERGE_CONTACTS.SUMMARY.TITLE') }}
-    </h5>
-    <ul class="summary-items">
-      <li>
-        <span class="bullet">❌</span>
-        <span
-          v-dompurify-html="
-            $t('MERGE_CONTACTS.SUMMARY.DELETE_WARNING', {
-              childContactName,
-            })
-          "
-        />
-      </li>
-      <li>
-        <span class="bullet">✅</span>
-        <span
-          v-dompurify-html="
-            $t('MERGE_CONTACTS.SUMMARY.ATTRIBUTE_WARNING', {
-              childContactName,
-              primaryContactName,
-            })
-          "
-        />
-      </li>
-    </ul>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -36,32 +5,45 @@ export default {
       type: String,
       default: '',
     },
-    childContactName: {
+    parentContactName: {
       type: String,
       default: '',
     },
   },
-
-  computed: {},
 };
 </script>
 
-<style lang="scss" scoped>
-.merge-summary {
-  margin-top: var(--space-normal);
-}
-
-.summary-items {
-  margin-left: 0;
-  list-style: none;
-
-  li {
-    margin-bottom: var(--space-smaller);
-  }
-}
-
-.bullet {
-  display: inline-block;
-  margin-right: var(--space-smaller);
-}
-</style>
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <div
+    v-if="parentContactName"
+    class="my-4 relative p-2.5 border rounded-[4px] text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800"
+  >
+    <h5 class="text-base font-medium text-slate-900 dark:text-white">
+      {{ $t('MERGE_CONTACTS.SUMMARY.TITLE') }}
+    </h5>
+    <ul class="ml-0 list-none">
+      <li>
+        <span class="inline-block mr-1">❌</span>
+        <span
+          v-dompurify-html="
+            $t('MERGE_CONTACTS.SUMMARY.DELETE_WARNING', {
+              primaryContactName,
+            })
+          "
+        />
+      </li>
+      <li>
+        <span class="inline-block mr-1">✅</span>
+        <span
+          v-dompurify-html="
+            $t('MERGE_CONTACTS.SUMMARY.ATTRIBUTE_WARNING', {
+              primaryContactName,
+              parentContactName,
+            })
+          "
+        />
+      </li>
+    </ul>
+  </div>
+</template>

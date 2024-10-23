@@ -1,117 +1,26 @@
-<template>
-  <div class="bulk-action__container">
-    <div class="flex-between">
-      <label class="bulk-action__panel flex-between">
-        <input
-          ref="selectAllCheck"
-          type="checkbox"
-          class="checkbox"
-          :checked="allConversationsSelected"
-          :indeterminate.prop="!allConversationsSelected"
-          @change="selectAll($event)"
-        />
-        <span>
-          {{
-            $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
-              conversationCount: conversations.length,
-            })
-          }}
-        </span>
-      </label>
-      <div class="bulk-action__actions flex-between">
-        <woot-button
-          v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="tag"
-          class="margin-right-smaller"
-          @click="toggleLabelActions"
-        />
-        <woot-button
-          v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="repeat"
-          class="margin-right-smaller"
-          @click="toggleUpdateActions"
-        />
-        <woot-button
-          v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="person-assign"
-          class="margin-right-smaller"
-          @click="toggleAgentList"
-        />
-        <woot-button
-          v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="people-team-add"
-          @click="toggleTeamsList"
-        />
-      </div>
-      <transition name="popover-animation">
-        <label-actions
-          v-if="showLabelActions"
-          class="label-actions-box"
-          @assign="assignLabels"
-          @close="showLabelActions = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <update-actions
-          v-if="showUpdateActions"
-          class="update-actions-box"
-          :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
-          :show-resolve="!showResolvedAction"
-          :show-reopen="!showOpenAction"
-          :show-snooze="!showSnoozedAction"
-          @update="updateConversations"
-          @close="showUpdateActions = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <agent-selector
-          v-if="showAgentsList"
-          class="agent-actions-box"
-          :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
-          @select="submit"
-          @close="showAgentsList = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <team-actions
-          v-if="showTeamsList"
-          class="team-actions-box"
-          @assign-team="assignTeam"
-          @close="showTeamsList = false"
-        />
-      </transition>
-    </div>
-    <div v-if="allConversationsSelected" class="bulk-action__alert">
-      {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
-    </div>
-  </div>
-</template>
-
 <script>
+import { getUnixTime } from 'date-fns';
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { emitter } from 'shared/helpers/mitt';
+import wootConstants from 'dashboard/constants/globals';
+import {
+  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+  CMD_BULK_ACTION_REOPEN_CONVERSATION,
+  CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+} from 'dashboard/helper/commandbar/events';
+
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
 import TeamActions from './TeamActions.vue';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 export default {
   components: {
     AgentSelector,
     UpdateActions,
     LabelActions,
     TeamActions,
+    CustomSnoozeModal,
   },
   props: {
     conversations: {
@@ -139,6 +48,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'selectAllConversations',
+    'assignAgent',
+    'updateConversations',
+    'assignLabels',
+    'assignTeam',
+    'resolveConversations',
+  ],
   data() {
     return {
       showAgentsList: false,
@@ -146,26 +63,77 @@ export default {
       showLabelActions: false,
       showTeamsList: false,
       popoverPositions: {},
+      showCustomTimeSnoozeModal: false,
     };
   },
+  mounted() {
+    emitter.on(
+      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+      this.onCmdSnoozeConversation
+    );
+    emitter.on(
+      CMD_BULK_ACTION_REOPEN_CONVERSATION,
+      this.onCmdReopenConversation
+    );
+    emitter.on(
+      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+      this.onCmdResolveConversation
+    );
+  },
+  unmounted() {
+    emitter.off(
+      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+      this.onCmdSnoozeConversation
+    );
+    emitter.off(
+      CMD_BULK_ACTION_REOPEN_CONVERSATION,
+      this.onCmdReopenConversation
+    );
+    emitter.off(
+      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+      this.onCmdResolveConversation
+    );
+  },
   methods: {
+    onCmdSnoozeConversation(snoozeType) {
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.showCustomTimeSnoozeModal = true;
+      } else {
+        this.updateConversations('snoozed', findSnoozeTime(snoozeType) || null);
+      }
+    },
+    onCmdReopenConversation() {
+      this.updateConversations('open', null);
+    },
+    onCmdResolveConversation() {
+      this.updateConversations('resolved', null);
+    },
+    customSnoozeTime(customSnoozedTime) {
+      this.showCustomTimeSnoozeModal = false;
+      if (customSnoozedTime) {
+        this.updateConversations('snoozed', getUnixTime(customSnoozedTime));
+      }
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomTimeSnoozeModal = false;
+    },
     selectAll(e) {
-      this.$emit('select-all-conversations', e.target.checked);
+      this.$emit('selectAllConversations', e.target.checked);
     },
     submit(agent) {
-      this.$emit('assign-agent', agent);
+      this.$emit('assignAgent', agent);
     },
-    updateConversations(status) {
-      this.$emit('update-conversations', status);
+    updateConversations(status, snoozedUntil) {
+      this.$emit('updateConversations', status, snoozedUntil);
     },
     assignLabels(labels) {
-      this.$emit('assign-labels', labels);
+      this.$emit('assignLabels', labels);
     },
     assignTeam(team) {
-      this.$emit('assign-team', team);
+      this.$emit('assignTeam', team);
     },
     resolveConversations() {
-      this.$emit('resolve-conversations');
+      this.$emit('resolveConversations');
     },
     toggleUpdateActions() {
       this.showUpdateActions = !this.showUpdateActions;
@@ -182,6 +150,114 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="bulk-action__container">
+    <div class="flex items-center justify-between">
+      <label class="flex items-center justify-between bulk-action__panel">
+        <input
+          type="checkbox"
+          class="checkbox"
+          :checked="allConversationsSelected"
+          :indeterminate.prop="!allConversationsSelected"
+          @change="selectAll($event)"
+        />
+        <span>
+          {{
+            $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
+              conversationCount: conversations.length,
+            })
+          }}
+        </span>
+      </label>
+      <div class="flex items-center gap-1 bulk-action__actions">
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="tag"
+          @click="toggleLabelActions"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="repeat"
+          @click="toggleUpdateActions"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="person-assign"
+          @click="toggleAgentList"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="people-team-add"
+          @click="toggleTeamsList"
+        />
+      </div>
+      <transition name="popover-animation">
+        <LabelActions
+          v-if="showLabelActions"
+          class="label-actions-box"
+          @assign="assignLabels"
+          @close="showLabelActions = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <UpdateActions
+          v-if="showUpdateActions"
+          class="update-actions-box"
+          :selected-inboxes="selectedInboxes"
+          :conversation-count="conversations.length"
+          :show-resolve="!showResolvedAction"
+          :show-reopen="!showOpenAction"
+          :show-snooze="!showSnoozedAction"
+          @update="updateConversations"
+          @close="showUpdateActions = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <AgentSelector
+          v-if="showAgentsList"
+          class="agent-actions-box"
+          :selected-inboxes="selectedInboxes"
+          :conversation-count="conversations.length"
+          @select="submit"
+          @close="showAgentsList = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <TeamActions
+          v-if="showTeamsList"
+          class="team-actions-box"
+          @assign-team="assignTeam"
+          @close="showTeamsList = false"
+        />
+      </transition>
+    </div>
+    <div v-if="allConversationsSelected" class="bulk-action__alert">
+      {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
+    </div>
+    <woot-modal
+      v-model:show="showCustomTimeSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <CustomSnoozeModal
+        @close="hideCustomSnoozeModal"
+        @choose-time="customSnoozeTime"
+      />
+    </woot-modal>
+  </div>
+</template>
 
 <style scoped lang="scss">
 // For RTL direction view

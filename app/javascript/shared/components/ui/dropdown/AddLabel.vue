@@ -1,3 +1,15 @@
+<script>
+export default {
+  emits: ['add'],
+
+  methods: {
+    addLabel() {
+      this.$emit('add');
+    },
+  },
+};
+</script>
+
 <template>
   <woot-button
     variant="smooth"
@@ -9,16 +21,6 @@
     {{ $t('CONTACT_PANEL.LABELS.CONVERSATION.ADD_BUTTON') }}
   </woot-button>
 </template>
-
-<script>
-export default {
-  methods: {
-    addLabel() {
-      this.$emit('add');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .label--add {

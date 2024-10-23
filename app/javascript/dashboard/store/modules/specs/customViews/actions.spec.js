@@ -3,9 +3,9 @@ import { actions } from '../../customViews';
 import * as types from '../../../mutation-types';
 import { customViewList, updateCustomViewList } from './fixtures';
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
@@ -88,6 +88,15 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: true }],
         [types.default.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+  });
+
+  describe('#setActiveConversationFolder', () => {
+    it('set active conversation folder', async () => {
+      await actions.setActiveConversationFolder({ commit }, customViewList[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_ACTIVE_CONVERSATION_FOLDER, customViewList[0]],
       ]);
     });
   });

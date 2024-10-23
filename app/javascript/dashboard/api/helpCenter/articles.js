@@ -1,6 +1,7 @@
 /* global axios */
 
 import PortalsAPI from './portals';
+import { getArticleSearchURL } from 'dashboard/helper/URLHelper.js';
 
 class ArticlesAPI extends PortalsAPI {
   constructor() {
@@ -12,14 +13,31 @@ class ArticlesAPI extends PortalsAPI {
     portalSlug,
     locale,
     status,
-    author_id,
-    category_slug,
+    authorId,
+    categorySlug,
+    sort,
   }) {
-    let baseUrl = `${this.url}/${portalSlug}/articles?page=${pageNumber}&locale=${locale}`;
-    if (status !== undefined) baseUrl += `&status=${status}`;
-    if (author_id) baseUrl += `&author_id=${author_id}`;
-    if (category_slug) baseUrl += `&category_slug=${category_slug}`;
-    return axios.get(baseUrl);
+    const url = getArticleSearchURL({
+      pageNumber,
+      portalSlug,
+      locale,
+      status,
+      authorId,
+      categorySlug,
+      sort,
+      host: this.url,
+    });
+
+    return axios.get(url);
+  }
+
+  searchArticles({ portalSlug, query }) {
+    const url = getArticleSearchURL({
+      portalSlug,
+      query,
+      host: this.url,
+    });
+    return axios.get(url);
   }
 
   getArticle({ id, portalSlug }) {

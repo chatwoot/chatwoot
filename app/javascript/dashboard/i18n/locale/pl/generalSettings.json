@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz odbierać wiadomości e-mail na swojej własnej domenie."
       }
     },
-    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji %{latestChatwootVersion} Chatwoot. Proszę zaktualizować swoją instancję.",
+    "UPDATE_CHATWOOT": "Dostępna jest aktualizacja do wersji {latestChatwootVersion} Chatwoot. Proszę zaktualizować swoją instancję.",
     "LEARN_MORE": "Dowiedz się więcej",
     "PAYMENT_PENDING": "Twoja płatność jest w toku. Zaktualizuj informacje o płatności, aby kontynuować korzystanie z Chatwoot.",
     "LIMITS_UPGRADE": "Twoje konto przekroczyło limit użytkowania. Zaktualizuj swój plan, aby kontynuować korzystanie z Chatwoot.",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Przypisanie rozmowy",
       "assigned_conversation_new_message": "Nowa wiadomość",
       "participating_conversation_new_message": "Nowa wiadomość",
-      "conversation_mention": "Wzmianka"
+      "conversation_mention": "Wzmianka",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Rozłączono z Chatwoot"
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Odśwież"
@@ -104,6 +109,7 @@
       "GENERAL": "Ogólne",
       "REPORTS": "Raporty",
       "CONVERSATION": "Rozmowa",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Zmień przypisanego",
       "CHANGE_PRIORITY": "Zmień priorytet",
       "CHANGE_TEAM": "Zmień zespół",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Usuń etykietę z rozmowy",
       "SETTINGS": "Ustawienia",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Przejdź do pulpitu rozmów",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Do jutra",
       "UNTIL_NEXT_MONTH": "Do następnego miesiąca",
       "AN_HOUR_FROM_NOW": "Do godziny od teraz",
-      "CUSTOM": "Niestandardowe...",
+      "UNTIL_CUSTOM_TIME": "Niestandardowe...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

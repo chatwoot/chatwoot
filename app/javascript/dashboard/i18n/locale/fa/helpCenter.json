@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "فیلتر براساس",
       "SORT": "مرتب‌سازی براساس",
+      "LOCALE": "محلی",
       "SETTINGS_BUTTON": "تنظیمات",
       "NEW_BUTTON": "مقاله جدید",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "مقالات من",
         "DRAFT": "پیش نویس مقالات",
         "ARCHIVED": "مقالات آرشیو شده"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "انتخاب زبان",
+        "PLACEHOLDER": "انتخاب زبان",
+        "NO_RESULT": "هیچ زبانی یافت نشد",
+        "SEARCH_PLACEHOLDER": "جستجوی زبان"
       }
     },
     "EDIT_HEADER": {
@@ -34,6 +41,7 @@
         "UPLOADING": "در حال آپلود...",
         "SUCCESS": "تصویر با موفقیت آپلود شد",
         "ERROR": "خطا هنگام آپلود تصویر",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "اندازه تصویر باید کمتر از {size} مگابایت باشد",
         "ERROR_FILE_FORMAT": "فرمت تصویر باید jpg، jpeg یا png باشد",
         "ERROR_FILE_DIMENSIONS": "ابعاد تصویر باید کمتر از 2000*2000 باشد"
@@ -75,12 +83,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "دسته بندی نشده",
+      "SEARCH_RESULTS": "جستجو بر اساس {query}",
+      "EMPTY_TEXT": "جستجو در مقالات برای درج در پاسخ.",
+      "SEARCH_LOADER": "در حال جستجو...",
+      "INSERT_ARTICLE": "درج",
+      "NO_RESULT": "هیچ مقاله ای یافت نشد",
+      "COPY_LINK": "کپی آدرس مقاله در کلیپ برد",
+      "OPEN_LINK": "باز کردن مقاله در صفحه جدید",
+      "PREVIEW_LINK": "پیش نمایش مقاله"
     },
     "PORTAL": {
       "HEADER": "پورتال ها",
@@ -220,7 +231,10 @@
         "LOGO": {
           "LABEL": "آرم",
           "UPLOAD_BUTTON": "بارگذاری آرم",
-          "HELP_TEXT": "این لوگو در هدر پورتال نمایش داده می شود."
+          "HELP_TEXT": "این لوگو در هدر پورتال نمایش داده می شود.",
+          "IMAGE_UPLOAD_SUCCESS": "تصویر با موفقیت آپلود شد",
+          "IMAGE_UPLOAD_ERROR": "تصویر با موفقیت حذف شد",
+          "IMAGE_DELETE_ERROR": "خطا هنگام حذف تصویر"
         },
         "NAME": {
           "LABEL": "نام",
@@ -306,12 +320,13 @@
       "HEADERS": {
         "TITLE": "عنوان",
         "CATEGORY": "دسته‌بندی",
-        "READ_COUNT": "تعداد خوانده شده",
+        "READ_COUNT": "نمایش‌ها",
         "STATUS": "وضعیت",
         "LAST_EDITED": "آخرین ویرایش"
       },
       "COLUMNS": {
-        "BY": "توسط"
+        "BY": "توسط",
+        "AUTHOR_NOT_AVAILABLE": "نویسنده در دسترس نیست"
       }
     },
     "EDIT_ARTICLE": {
@@ -365,7 +380,7 @@
         "NAME": {
           "LABEL": "نام",
           "PLACEHOLDER": "نام دسته‌بندی",
-          "HELP_TEXT": "از نام دسته در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
+          "HELP_TEXT": "از نام و نماد دسته بندی در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
           "ERROR": "نام الزامی است"
         },
         "SLUG": {
@@ -396,7 +411,7 @@
         "NAME": {
           "LABEL": "نام",
           "PLACEHOLDER": "نام دسته‌بندی",
-          "HELP_TEXT": "از نام دسته در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
+          "HELP_TEXT": "از نام و نماد دسته بندی در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
           "ERROR": "نام الزامی است"
         },
         "SLUG": {
@@ -425,6 +440,49 @@
           "ERROR_MESSAGE": "حذف دسته‌بندی ممکن نیست"
         }
       }
-    }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "جستجو مقالات",
+      "PLACEHOLDER": "جستجو مقالات",
+      "NO_RESULT": "هیچ مقاله ای یافت نشد",
+      "SEARCHING": "در حال جستجو...",
+      "SEARCH_BUTTON": "جستجو",
+      "INSERT_ARTICLE": "درج آدرس",
+      "IFRAME_ERROR": "آدرس URL خالی یا نامعتبر است. امکان نمایش محتوا وجود ندارد.",
+      "OPEN_ARTICLE_SEARCH": "درج مقاله از مرکز راهنما",
+      "SUCCESS_ARTICLE_INSERTED": "مقاله با موفقیت درج شد",
+      "PREVIEW_LINK": "پیش نمایش مقاله",
+      "CANCEL": "بستن",
+      "BACK": "بازگشت",
+      "BACK_RESULTS": "بازگشت به نتایج"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "مرکز راهنما",
+      "DESCRIPTION": "پورتال های سلف سرویس کاربر پسند ایجاد کنید. به کاربران خود کمک کنید تا به مقالات دسترسی پیدا کنند و پشتیبانی دریافت کنند.",
+      "SELF_HOSTED_DESCRIPTION": "پورتال های سلف سرویس کاربر پسند ایجاد کنید. به کاربران خود کمک کنید تا به مقالات دسترسی پیدا کنند و پشتیبانی دریافت کنند. لطفا با ادمین برای فعال سازی این قابلیت تماس بگیرید.",
+      "BUTTON": {
+        "LEARN_MORE": "بیشتر بدانید",
+        "UPGRADE": "ارتقا"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "چندین پرتال",
+          "DESCRIPTION": "با استفاده از یک حساب، چندین پورتال مرکز راهنمایی برای محصولات مختلف ایجاد کنید."
+        },
+        "LOCALES": {
+          "TITLE": "پشتیبانی کامل از چند زبانه",
+          "DESCRIPTION": "پورتال را به زبان خود بومی سازی کنید. ما از همه زبان‌ها پشتیبانی می‌کنیم و اجازه ترجمه برای هر مقاله را می‌دهیم."
+        },
+        "SEO": {
+          "TITLE": "طراحی مناسب SEO",
+          "DESCRIPTION": "متا تگ های خود را سفارشی کنید تا بهتر در موتورهای جستجو دیده شوید."
+        },
+        "API": {
+          "TITLE": "پشتیبانی کامل از API",
+          "DESCRIPTION": "از پرتال به عنوان یک CMS می توانید استفاده کنید که از طریق Front آدرس های API را فراخوانی می کنید."
+        }
+      }
+    },
+    "LOADING": "Loading..."
   }
 }

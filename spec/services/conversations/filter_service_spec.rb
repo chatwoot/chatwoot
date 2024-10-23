@@ -55,7 +55,7 @@ describe Conversations::FilterService do
         [
           {
             attribute_key: 'browser_language',
-            filter_operator: 'contains',
+            filter_operator: 'equal_to',
             values: 'en',
             query_operator: 'AND',
             custom_attribute_type: ''
@@ -88,7 +88,7 @@ describe Conversations::FilterService do
       it 'filters items with contains filter_operator with values being an array' do
         params[:payload] = [{
           attribute_key: 'browser_language',
-          filter_operator: 'contains',
+          filter_operator: 'equal_to',
           values: %w[tr fr],
           query_operator: '',
           custom_attribute_type: ''
@@ -106,7 +106,7 @@ describe Conversations::FilterService do
       it 'filters items with does not contain filter operator with values being an array' do
         params[:payload] = [{
           attribute_key: 'browser_language',
-          filter_operator: 'does_not_contain',
+          filter_operator: 'not_equal_to',
           values: %w[tr en],
           query_operator: '',
           custom_attribute_type: ''
@@ -140,19 +140,20 @@ describe Conversations::FilterService do
           {
             attribute_key: 'assignee_id',
             filter_operator: 'equal_to',
-            values: [
-              user_1.id,
-              user_2.id
-            ],
-            query_operator: 'AND',
-            custom_attribute_type: ''
+            values: [user_1.id, user_2.id],
+            query_operator: 'AND'
           }.with_indifferent_access,
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
             values: ['support'],
-            query_operator: nil,
-            custom_attribute_type: ''
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'labels',
+            filter_operator: 'not_equal_to',
+            values: ['random-label'],
+            query_operator: nil
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -290,6 +291,11 @@ describe Conversations::FilterService do
       end
 
       it 'filter by custom_attributes and additional_attributes' do
+        conversations = user_1.conversations
+        conversations[0].update!(additional_attributes: { 'browser_language': 'en' }, custom_attributes: { conversation_type: 'silver' })
+        conversations[1].update!(additional_attributes: { 'browser_language': 'en' }, custom_attributes: { conversation_type: 'platinum' })
+        conversations[2].update!(additional_attributes: { 'browser_language': 'tr' }, custom_attributes: { conversation_type: 'platinum' })
+
         params[:payload] = [
           {
             attribute_key: 'conversation_type',
@@ -300,7 +306,7 @@ describe Conversations::FilterService do
           }.with_indifferent_access,
           {
             attribute_key: 'browser_language',
-            filter_operator: 'is_equal_to',
+            filter_operator: 'not_equal_to',
             values: 'en',
             query_operator: nil,
             custom_attribute_type: ''

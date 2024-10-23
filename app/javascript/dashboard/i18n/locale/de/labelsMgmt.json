@@ -3,8 +3,9 @@
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Label hinzufügen",
     "LOADING": "Label werden abgerufen",
+    "DESCRIPTION": "Labels helfen Ihnen, Konversationen und Leads zu kategorisieren und zu priorisieren. Sie können einer Konversation oder einem Kontakt über das Seitenpanel ein Label zuweisen.",
+    "LEARN_MORE": "Mehr über Labels erfahren",
     "SEARCH_404": "Es existieren keine Elemente, die dieser Abfrage entsprechen",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Mit Labels können Sie Konversationen kategorisieren und priorisieren. Sie können einer Konversation aus der Seitenleiste ein Label zuweisen. <br /><br />Labels sind an das Konto gebunden und können verwendet werden, um benutzerdefinierte Arbeitsabläufe in Ihrem Unternehmen zu erstellen. Sie können einen Label eine benutzerdefinierte Farbe zuordnen, um die Identifizierung des Labels zu erleichtern. Sie können das Label in der Seitenleiste anzeigen, um die Unterhaltungen einfach zu filtern.</p>",
     "LIST": {
       "404": "In diesem Konto sind keine Labels verfügbar.",
       "TITLE": "Labels verwalten",
@@ -40,16 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Label zur Konversation hinzufügen",
+        "MULTIPLE_SUGGESTION": "Dieses Label auswählen",
+        "DESELECT": "Label abwählen",
+        "DISMISS": "Vorschlag verwerfen"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "Verwerfen",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "Ausgewählte Labels hinzufügen",
+      "ADD_SELECTED_LABEL": "Ausgewähltes Label hinzufügen",
+      "ADD_ALL_LABELS": "Alle Labels hinzufügen",
+      "SUGGESTED_LABELS": "Vorgeschlagene Labels"
     },
     "ADD": {
       "TITLE": "Label hinzufügen",

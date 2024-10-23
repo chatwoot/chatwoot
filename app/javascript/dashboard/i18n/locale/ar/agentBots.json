@@ -1,73 +1,73 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
+    "HEADER": "الروبوتات",
+    "LOADING_EDITOR": "جار جلب المحرر...",
+    "HEADER_BTN_TXT": "إضافة إعدادات الروبوت",
+    "SIDEBAR_TXT": "<p><b>الروبوتات</b> <p>الروبوتات هي مثل الأعضاء الأكثر روعة في فريقك. يمكنهم التعامل مع الأمور الصغيرة، حتى تتمكن من التركيز على الأمور التي تهمك. جربهم.</p> <p> يمكنك إدارة الروبوتات الخاصة بك من هذه الصفحة أو إنشاء روبوتات جديدة باستخدام زر 'إضافة تكوين روبوت'.</p> <p> افتح <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">دليل البوتات</a> في علامة تبويب أخرى للحصول على مساعدة.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
+        "LABEL": "اسم الروبوت",
+        "PLACEHOLDER": "قم بتسمية الروبوت الخاص بك.",
+        "ERROR": "اسم الروبوت مطلوب."
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "وصف الروبوت",
+        "PLACEHOLDER": "ماذا يفعل هذا الروبوت؟"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
+        "ERROR": "يرجى إدخال تكوين بوت CSML الخاص بك أعلاه.",
+        "API_ERROR": "تكوين CSML الخاص بك غير صالح. يرجى إصلاحه والمحاولة مرة أخرى."
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "التحقق والحفظ"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "اختر الروبوت",
+      "DESC": "قم بتعيين روبوت لصندوق الوارد الخاص بك. يمكنهم التعامل مع المحادثات الأولية ونقلها إلى وكيل مباشر عند الضرورة.",
       "SUBMIT": "تحديث",
-      "DISCONNECT": "Disconnect Bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "DISCONNECT": "قطع اتصال الروبوت",
+      "SUCCESS_MESSAGE": "تم تحديث الروبوت بنجاح.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "تم فصل الروبوت بنجاح.",
+      "ERROR_MESSAGE": "تعذر تحديث الروبوت. يرجى المحاولة مرة أخرى.",
+      "DISCONNECTED_ERROR_MESSAGE": "تعذر فصل الروبوت. يرجى المحاولة مرة أخرى.",
+      "SELECT_PLACEHOLDER": "اختر الروبوت"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "تكوين روبوت جديد",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "تمت إضافة الروبوت بنجاح.",
+        "ERROR_MESSAGE": "تعذر إضافة الروبوت. يرجى المحاولة مرة أخرى لاحقًا."
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "لم يتم العثور على أي روبوتات. يمكنك إنشاء الروبوت بالنقر على زر 'تكوين روبوت جديد' ↗",
+      "LOADING": "جار جلب الروبوتات...",
+      "TYPE": "نوع الروبوت"
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
-      "TITLE": "Delete Bot",
+      "TITLE": "حذف الروبوت",
       "SUBMIT": "حذف",
       "CANCEL_BUTTON_TEXT": "إلغاء",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "DESCRIPTION": "هل أنت متأكد أنك تريد حذف هذا الروبوت؟ هذا الإجراء لا يمكن التراجع عنه.",
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "تم حذف الروبوت بنجاح.",
+        "ERROR_MESSAGE": "تعذر حذف الروبوت. يرجى المحاولة مرة أخرى."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "تعديل",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
+      "LOADING": "جار جلب الروبوتات...",
+      "TITLE": "تعديل الروبوت",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "تم تحديث الروبوت بنجاح.",
+        "ERROR_MESSAGE": "تعذر تحديث الروبوت. يرجى المحاولة مرة أخرى."
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "روبوت الـWebhook",
+      "CSML": "بوت CSML"
     }
   }
 }

@@ -6,8 +6,6 @@ describe V2::ReportBuilder do
   let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
-  # Update this spec to use travel_to
-  # This spec breaks in certain timezone
   describe '#timeseries' do
     before do
       travel_to(Time.zone.today) do
@@ -128,6 +126,75 @@ describe V2::ReportBuilder do
         end
       end
 
+      it 'returns bot_resolutions count' do
+        travel_to(Time.zone.today) do
+          params = {
+            metric: 'bot_resolutions_count',
+            type: :account,
+            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+            until: Time.zone.today.end_of_day.to_time.to_i.to_s
+          }
+
+          create(:agent_bot_inbox, inbox: account.inboxes.first)
+          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations.each do |conversation|
+            conversation.messages.outgoing.all.update(sender: nil)
+          end
+
+          perform_enqueued_jobs do
+            # Resolve all 5 conversations
+            conversations.each(&:resolved!)
+
+            # Reopen 1 conversation
+            conversations.first.open!
+          end
+
+          builder = described_class.new(account, params)
+          metrics = builder.timeseries
+          summary = builder.bot_summary
+
+          # 4 conversations are resolved
+          expect(metrics[Time.zone.today]).to be 4
+          expect(metrics[Time.zone.today - 2.days]).to be 0
+          expect(summary[:bot_resolutions_count]).to be 4
+        end
+      end
+
+      it 'return bot_handoff count' do
+        travel_to(Time.zone.today) do
+          params = {
+            metric: 'bot_handoffs_count',
+            type: :account,
+            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+            until: Time.zone.today.end_of_day.to_time.to_i.to_s
+          }
+
+          create(:agent_bot_inbox, inbox: account.inboxes.first)
+          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          conversations.each do |conversation|
+            conversation.pending!
+            conversation.messages.outgoing.all.update(sender: nil)
+          end
+
+          perform_enqueued_jobs do
+            # Resolve all 5 conversations
+            conversations.each(&:bot_handoff!)
+
+            # Reopen 1 conversation
+            conversations.first.open!
+          end
+
+          builder = described_class.new(account, params)
+          metrics = builder.timeseries
+          summary = builder.bot_summary
+
+          # 4 conversations are resolved
+          expect(metrics[Time.zone.today]).to be 5
+          expect(metrics[Time.zone.today - 2.days]).to be 0
+          expect(summary[:bot_handoffs_count]).to be 5
+        end
+      end
+
       it 'returns average first response time' do
         params = {
           metric: 'avg_first_response_time',
@@ -170,6 +237,34 @@ describe V2::ReportBuilder do
 
         builder = described_class.new(account, params)
         expect { builder.timeseries }.to raise_error(ArgumentError)
+      end
+
+      it 'logs error when metric is nil' do
+        params = {
+          metric: nil, # Set metric to nil to test this case
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
+        }
+
+        builder = described_class.new(account, params)
+
+        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric - ')
+        builder.timeseries
+      end
+
+      it 'calls the appropriate metric method for a valid metric' do
+        params = {
+          metric: 'not_conversation_count', # Provide a invalid metric
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
+        }
+
+        builder = described_class.new(account, params)
+        expect(Rails.logger).to receive(:error).with('ReportBuilder: Invalid metric - not_conversation_count')
+
+        builder.timeseries
       end
     end
 

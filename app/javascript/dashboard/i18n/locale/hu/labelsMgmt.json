@@ -3,8 +3,9 @@
     "HEADER": "Cimkék",
     "HEADER_BTN_TXT": "Cimke hozzáadása",
     "LOADING": "Cimkék letöltése",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Nincs megfelelő elem",
-    "SIDEBAR_TXT": "<p><b>Cimkék</b><p>A cimkék segítenek kategorizálni és priorizálni a beszélgetéseket. A beszélgetésekhez cimkét rendelhetsz az oldalpanelben <br /><br />A cimkék a fiókodhoz vannak kötve. A cimkékkel egyedi munkameneteket hozhatsz létre a szervezetedben. Egyedi színt adhatsz a cimkéknek a könnyű azonosíthatóság érdekében. Az oldalsávban meg tudod majd jeleníteni a cimkéket hogy könnyen szűrhesd a beszélgetéseket</p>",
     "LIST": {
       "404": "Nincs megfelelő cimke ebben a fiókban.",
       "TITLE": "Cimkék kezelése",
@@ -40,16 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Címke hozzáadása a beszélgetéshez",
+        "MULTIPLE_SUGGESTION": "Válassza ki ezt a címkét",
+        "DESELECT": "Címke kijelölésének megszüntetése",
+        "DISMISS": "Javaslatok kihagyása"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "Elutasítás",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "Kijelölt címkék hozzáadása",
+      "ADD_SELECTED_LABEL": "Kijelölt címke hozzáadása",
+      "ADD_ALL_LABELS": "Minden címke hozzáadása",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Cimke hozzáadása",

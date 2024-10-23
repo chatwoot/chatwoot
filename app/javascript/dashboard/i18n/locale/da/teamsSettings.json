@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Opret nyt team",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Hold</b></p> <p>Hold lader dig organisere dine agenter i grupper baseret på deres ansvar. <br /> En agent kan være en del af flere hold. Du kan tildele samtaler til et team, når du arbejder i fællesskab. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Der er ingen teams oprettet på denne konto.",
-      "EDIT_TEAM": "Rediger team"
+      "EDIT_TEAM": "Rediger team",
+      "NONE": "Ingen"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Tilføj agenter til team",
-        "TITLE": "Tilføj agenter til team - %{teamName}",
+        "TITLE": "Tilføj agenter til team - {teamName}",
         "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Opdater agenter i teamet",
-        "TITLE": "Tilføj agenter til team - %{teamName}",
+        "TITLE": "Tilføj agenter til team - {teamName}",
         "DESC": "Tilføj agenter til dit nyoprettede team. Alle de tilføjede agenter vil blive underrettet, når en samtale er tildelt til dette team."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Tilføjer agenter til dit Team...",
       "SELECT": "vælg",
       "SELECT_ALL": "vælg alle agenter",
-      "SELECTED_COUNT": "%{selected} ud af %{total} valgte agenter."
+      "SELECTED_COUNT": "{selected} ud af {total} valgte agenter."
     },
     "ADD": {
-      "TITLE": "Tilføj agenter til team - %{teamName}",
+      "TITLE": "Tilføj agenter til team - {teamName}",
       "DESC": "Tilføj agenter til dit nyoprettede team. Dette lader dig samarbejde som et team om samtaler, få besked om nye begivenheder i samme samtale.",
       "SELECT": "vælg",
       "SELECT_ALL": "vælg alle agenter",
-      "SELECTED_COUNT": "%{selected} ud af %{total} valgte agenter.",
+      "SELECTED_COUNT": "{selected} ud af {total} valgte agenter.",
       "BUTTON_TEXT": "Tilføj agenter",
       "AGENT_VALIDATION_ERROR": "Vælg mindst én agent."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Kunne ikke slette teamet. Prøv igen."
       },
       "CONFIRM": {
-        "TITLE": "Er du sikker på du vil slette - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Skriv venligst {teamName} for at bekræfte",
         "MESSAGE": "Sletning af teamet vil fjerne teamtildelingen fra de samtaler, der er tildelt dette team.",
         "YES": "Slet ",

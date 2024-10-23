@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Sammenflet kontakt",
     "CONTACT_ACTIONS": "Kontakt handlinger",
-    "MUTE_CONTACT": "Gør Samtale Lydløs",
-    "UNMUTE_CONTACT": "Fjern Lydløs",
-    "MUTED_SUCCESS": "Denne samtale er gjort tavs i 6 timer",
-    "UNMUTED_SUCCESS": "Denne samtale er genaktiveret",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Send Udskrift",
     "EDIT_LABEL": "Rediger",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
       "CONTACT_LABELS": "Kontakt Labels",
-      "PREVIOUS_CONVERSATIONS": "Tidligere Samtaler"
+      "PREVIOUS_CONVERSATIONS": "Tidligere Samtaler",
+      "NO_RECORDS_FOUND": "Ingen attributter fundet"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+    "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -204,6 +212,10 @@
         "PLACEHOLDER": "Skriv din besked her",
         "ERROR": "Beskeden må ikke være tom"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "Send besked",
       "CANCEL": "Annuller",
       "SUCCESS_MESSAGE": "Besked sendt!",
@@ -286,6 +298,8 @@
     "BUTTON": "Tilføj brugerdefineret attribut",
     "NOT_AVAILABLE": "Der er ingen brugerdefinerede attributter tilgængelige for denne kontakt.",
     "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopier attribut",
       "DELETE": "Slet egenskab",
@@ -335,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Gyldig værdi er påkrævet",
-      "INVALID_URL": "Ugyldig URL"
+      "INVALID_URL": "Ugyldig URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
@@ -343,17 +358,17 @@
     "DESCRIPTION": "Sammenflet kontakter for at kombinere to profiler til én, herunder alle attributter og samtaler. I tilfælde af konflikter vil den primære kontakts attributter have forrang.",
     "PRIMARY": {
       "TITLE": "Primær kontakt",
-      "HELP_LABEL": "Skal opbevares"
+      "HELP_LABEL": "Skal slettes"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "Kontakt for sammenfletning",
       "PLACEHOLDER": "Søg efter en kontakt",
-      "HELP_LABEL": "Skal slettes"
+      "HELP_LABEL": "Skal opbevares"
     },
     "SUMMARY": {
       "TITLE": "Oversigt",
-      "DELETE_WARNING": "Kontakt af <strong>%{childContactName}</strong> vil blive slettet.",
-      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{childContactName}</strong> vil blive kopieret til <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt af <strong>{primaryContactName}</strong> vil blive slettet.",
+      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>{primaryContactName}</strong> vil blive kopieret til <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FEJL_MEDDELELSE"
@@ -366,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt flettet med succes",
       "ERROR_MESSAGE": "Kunne ikke sammenflette kontakter, prøv igen!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

@@ -1,45 +1,3 @@
-<template>
-  <div
-    class="banner flex items-center h-12 gap-4 text-white dark:text-white text-xs py-3 px-4 justify-center"
-    :class="bannerClasses"
-  >
-    <span class="banner-message">
-      {{ bannerMessage }}
-      <a
-        v-if="hrefLink"
-        :href="hrefLink"
-        rel="noopener noreferrer nofollow"
-        target="_blank"
-      >
-        {{ hrefLinkText }}
-      </a>
-    </span>
-    <div class="actions">
-      <woot-button
-        v-if="hasActionButton"
-        size="tiny"
-        icon="arrow-right"
-        :variant="actionButtonVariant"
-        color-scheme="primary"
-        class-names="banner-action__button"
-        @click="onClick"
-      >
-        {{ actionButtonLabel }}
-      </woot-button>
-      <woot-button
-        v-if="hasCloseButton"
-        size="tiny"
-        :color-scheme="colorScheme"
-        icon="dismiss-circle"
-        class-names="banner-action__button"
-        @click="onClickClose"
-      >
-        {{ $t('GENERAL_SETTINGS.DISMISS') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -67,6 +25,10 @@ export default {
       type: String,
       default: '',
     },
+    actionButtonIcon: {
+      type: String,
+      default: 'arrow-right',
+    },
     colorScheme: {
       type: String,
       default: '',
@@ -76,6 +38,7 @@ export default {
       default: false,
     },
   },
+  emits: ['primaryAction', 'close'],
   computed: {
     bannerClasses() {
       const classList = [this.colorScheme];
@@ -88,7 +51,7 @@ export default {
   },
   methods: {
     onClick(e) {
-      this.$emit('click', e);
+      this.$emit('primaryAction', e);
     },
     onClickClose(e) {
       this.$emit('close', e);
@@ -96,6 +59,48 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
+    :class="bannerClasses"
+  >
+    <span class="banner-message">
+      {{ bannerMessage }}
+      <a
+        v-if="hrefLink"
+        :href="hrefLink"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        {{ hrefLinkText }}
+      </a>
+    </span>
+    <div class="actions">
+      <woot-button
+        v-if="hasActionButton"
+        size="tiny"
+        :icon="actionButtonIcon"
+        :variant="actionButtonVariant"
+        color-scheme="primary"
+        class-names="banner-action__button"
+        @click="onClick"
+      >
+        {{ actionButtonLabel }}
+      </woot-button>
+      <woot-button
+        v-if="hasCloseButton"
+        size="tiny"
+        :color-scheme="colorScheme"
+        icon="dismiss-circle"
+        class-names="banner-action__button"
+        @click="onClickClose"
+      >
+        {{ $t('GENERAL_SETTINGS.DISMISS') }}
+      </woot-button>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .banner {

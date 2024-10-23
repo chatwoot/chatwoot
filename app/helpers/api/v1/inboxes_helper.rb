@@ -53,7 +53,7 @@ module Api::V1::InboxesHelper
   rescue StandardError => e
     raise StandardError, e.message
   ensure
-    ChatwootExceptionTracker.new(e).capture_exception if e.present?
+    Rails.logger.error "[Api::V1::InboxesHelper] check_imap_connection failed with #{e.message}" if e.present?
   end
 
   def check_smtp_connection(channel_data, smtp)

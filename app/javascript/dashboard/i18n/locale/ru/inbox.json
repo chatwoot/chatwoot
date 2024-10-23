@@ -1,0 +1,64 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Электронная почта",
+      "DISPLAY_DROPDOWN": "Отображать",
+      "LOADING": "Загрузка уведомлений",
+      "404": "В этой группе нет активных уведомлений.",
+      "NO_NOTIFICATIONS": "Уведомления отсутствуют",
+      "NOTE": "Уведомления от всех подписанных источников",
+      "NO_MESSAGES_AVAILABLE": "Ой! Не удалось получить сообщения",
+      "SNOOZED_UNTIL": "Отложить до",
+      "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Отложить уведомление",
+      "DELETE": "Удалить уведомление",
+      "BACK": "Назад"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Вас упомянули в диалоге",
+      "CONVERSATION_CREATION": "Диалог создан",
+      "CONVERSATION_ASSIGNMENT": "Вам назначен диалог",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение в назначенном диалоге",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение в диалоге, в котором вы участвуете",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Отметить как прочитанное",
+      "MARK_AS_UNREAD": "Отметить как непрочитанное",
+      "SNOOZE": "Отложено",
+      "DELETE": "Удалить",
+      "MARK_ALL_READ": "Отметить все как прочитанные",
+      "DELETE_ALL": "Удалить всё",
+      "DELETE_ALL_READ": "Удалить всё прочитанное"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Сортировка",
+      "DISPLAY": "Отображать :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Самые новые",
+        "OLDEST": "Самые старые",
+        "PRIORITY": "Приоритет"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Отложено",
+        "READ": "Прочитано",
+        "LABELS": "Категории",
+        "CONVERSATION_ID": "ID диалога"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Уведомление отмечено как прочитанное",
+      "MARK_AS_UNREAD": "Уведомление отмечено как непрочитанное",
+      "SNOOZE": "Уведомление отложено",
+      "DELETE": "Уведомление удалено",
+      "MARK_ALL_READ": "Все уведомления отмечены как прочитанные",
+      "DELETE_ALL": "Все уведомления удалены",
+      "DELETE_ALL_READ": "Все прочитанные уведомления удалены"
+    }
+  }
+}

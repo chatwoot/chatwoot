@@ -1,49 +1,3 @@
-<template>
-  <div class="contact-attribute">
-    <div class="title-wrap">
-      <h4 class="text-block-title title">
-        <div class="title--icon">
-          <emoji-or-icon :icon="icon" :emoji="emoji" />
-        </div>
-        {{ label }}
-      </h4>
-    </div>
-    <div v-show="isEditing">
-      <div class="input-group small">
-        <input
-          ref="inputfield"
-          v-model="editedValue"
-          type="text"
-          class="input-group-field"
-          autofocus="true"
-          @keyup.enter="onUpdate"
-        />
-        <div class="input-group-button">
-          <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
-        </div>
-      </div>
-    </div>
-    <div
-      v-show="!isEditing"
-      class="value--view"
-      :class="{ 'is-editable': showEdit }"
-    >
-      <p class="value">
-        {{ value || '---' }}
-      </p>
-      <woot-button
-        v-if="showEdit"
-        variant="clear link"
-        size="small"
-        color-scheme="secondary"
-        icon="edit"
-        class-names="edit-button"
-        @click="onEdit"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
@@ -58,6 +12,7 @@ export default {
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
   },
+  emits: ['update'],
   data() {
     return {
       isEditing: false,
@@ -81,6 +36,57 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="contact-attribute">
+    <div class="title-wrap">
+      <h4 class="text-sm title">
+        <div class="title--icon">
+          <EmojiOrIcon :icon="icon" :emoji="emoji" />
+        </div>
+        {{ label }}
+      </h4>
+    </div>
+    <div v-show="isEditing">
+      <div class="mb-2 w-full flex items-center">
+        <input
+          ref="inputfield"
+          v-model="editedValue"
+          type="text"
+          class="!h-8 ltr:rounded-r-none rtl:rounded-l-none !mb-0 !text-sm"
+          autofocus="true"
+          @keyup.enter="onUpdate"
+        />
+        <div>
+          <woot-button
+            size="small"
+            icon="ion-checkmark"
+            class="rounded-l-none rtl:rounded-r-none"
+            @click="onUpdate"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      v-show="!isEditing"
+      class="value--view"
+      :class="{ 'is-editable': showEdit }"
+    >
+      <p class="value">
+        {{ value || '---' }}
+      </p>
+      <woot-button
+        v-if="showEdit"
+        variant="clear link"
+        size="small"
+        color-scheme="secondary"
+        icon="edit"
+        class-names="edit-button"
+        @click="onEdit"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .contact-attribute {

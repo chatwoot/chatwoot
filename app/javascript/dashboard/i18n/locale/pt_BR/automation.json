@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automações",
+    "HEADER": "Automação",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Adicionar regra de automação",
     "LOADING": "Buscando regras de automação",
-    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e agilizar processos existentes que requerem esforço manual. Você pode fazer muitas coisas automatizadas, como adicionar marcadores e atribuir a conversa ao melhor agente, enquanto a equipe se concentra no que saber fazer de melhor, que é atender, sem se preocupar com tarefas manuais.</p>",
     "ADD": {
       "TITLE": "Adicionar regra de automação",
       "SUBMIT": "Criar",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar regra de automação",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Enviando...",
       "LABEL_UPLOADED": "Upload feito com sucesso",
       "LABEL_UPLOAD_FAILED": "Faha no envio"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Valor obrigatório",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

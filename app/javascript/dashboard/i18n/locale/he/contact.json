@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "מזג אנשי קשר",
     "CONTACT_ACTIONS": "פעולות אנשי קשר",
-    "MUTE_CONTACT": "השתק שיחה",
-    "UNMUTE_CONTACT": "בטל השתקת שיחה",
-    "MUTED_SUCCESS": "שיחה זו מושתקת למשך 6 שעות",
-    "UNMUTED_SUCCESS": "השיחה זו אינה מושתקת",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "שלח תמלול",
     "EDIT_LABEL": "ערוך",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "שדות מותאמים אישית",
       "CONTACT_LABELS": "תגיות אנשי קשר",
-      "PREVIOUS_CONVERSATIONS": "שיחות קודמות"
+      "PREVIOUS_CONVERSATIONS": "שיחות קודמות",
+      "NO_RECORDS_FOUND": "לא נמצאו מאפיינים"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -204,6 +212,10 @@
         "PLACEHOLDER": "כתוב את הודעתך כאן",
         "ERROR": "ההודעה לא יכולה להיות ריקה"
       },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
       "SUBMIT": "שלח הודעה",
       "CANCEL": "ביטול",
       "SUCCESS_MESSAGE": "הודעה נשלחה!",
@@ -286,6 +298,8 @@
     "BUTTON": "הוסף מאפיין מותאם אישית",
     "NOT_AVAILABLE": "אין מאפיינים מותאמים אישית זמינים עבור איש קשר זה.",
     "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "העתק מאפיין",
       "DELETE": "מחק מאפיין",
@@ -335,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "נדרש ערך חוקי",
-      "INVALID_URL": "כתובת אתר לא חוקית"
+      "INVALID_URL": "כתובת אתר לא חוקית",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
@@ -343,17 +358,17 @@
     "DESCRIPTION": "מיזוג אנשי קשר כדי לשלב שני פרופילים לאחד, כולל כל התכונות והשיחות. במקרה של התנגשות, התכונות של איש הקשר הראשי יקבלו עדיפות.",
     "PRIMARY": {
       "TITLE": "איש קשר ראשי",
-      "HELP_LABEL": "להישמר"
+      "HELP_LABEL": "להימחק"
     },
-    "CHILD": {
+    "PARENT": {
       "TITLE": "צור קשר למיזוג",
       "PLACEHOLDER": "חפש איש קשר",
-      "HELP_LABEL": "להימחק"
+      "HELP_LABEL": "להישמר"
     },
     "SUMMARY": {
       "TITLE": "סיכום",
-      "DELETE_WARNING": "איש הקשר של <strong>%{childContactName}</strong> יימחק.",
-      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{childContactName}</strong> יועתקו אל <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "איש הקשר של <strong>{primaryContactName}</strong> יימחק.",
+      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>{primaryContactName}</strong> יועתקו אל <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "הודעת שגיאה"
@@ -366,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "איש הקשר מוזג בהצלחה",
       "ERROR_MESSAGE": "לא ניתן למזג אנשי קשר, נסה שוב!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Aplică",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Ultimele 7 zile",
+      "LAST_30_DAYS": "Ultimele 30 zile",
+      "LAST_3_MONTHS": "Ultimele 3 luni",
+      "LAST_6_MONTHS": "Ultimele 6 luni",
+      "LAST_YEAR": "Anul trecut",
+      "CUSTOM_RANGE": "Interval de date particularizat"
+    }
+  }
+}

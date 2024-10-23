@@ -146,7 +146,24 @@ class MailPresenter < SimpleDelegator
     end
   end
 
+  def auto_reply?
+    auto_submitted? || x_auto_reply?
+  end
+
+  def notification_email_from_chatwoot?
+    # notification emails are send via mailer sender email address. so it should match
+    original_sender == Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
+  end
+
   private
+
+  def auto_submitted?
+    @mail['Auto-Submitted'].present? && @mail['Auto-Submitted'].value != 'no'
+  end
+
+  def x_auto_reply?
+    @mail['X-Autoreply'].present? && @mail['X-Autoreply'].value == 'yes'
+  end
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
   def encode_to_unicode(str)

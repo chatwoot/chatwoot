@@ -3,7 +3,8 @@ import {
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
-import * as Sentry from '@sentry/browser';
+import { replaceVariablesInMessage } from '@chatwoot/utils';
+import * as Sentry from '@sentry/vue';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -156,3 +157,217 @@ export function extractTextFromMarkdown(markdown) {
     .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
     .trim(); // Trim any extra space
 }
+
+/**
+ * Scrolls the editor view into current cursor position
+ *
+ * @param {EditorView} view - The Prosemirror EditorView
+ *
+ */
+export const scrollCursorIntoView = view => {
+  // Get the current selection's head position (where the cursor is).
+  const pos = view.state.selection.head;
+
+  // Get the corresponding DOM node for that position.
+  const domAtPos = view.domAtPos(pos);
+  const node = domAtPos.node;
+
+  // Scroll the node into view.
+  if (node && node.scrollIntoView) {
+    node.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+};
+
+/**
+ * Returns a transaction that inserts a node into editor at the given position
+ * Has an optional param 'content' to check if the
+ *
+ * @param {Node} node - The prosemirror node that needs to be inserted into the editor
+ * @param {number} from - Position in the editor where the node needs to be inserted
+ * @param {number} to - Position in the editor where the node needs to be replaced
+ *
+ */
+export function insertAtCursor(editorView, node, from, to) {
+  if (!editorView) {
+    return undefined;
+  }
+
+  // This is a workaround to prevent inserting content into new line rather than on the exiting line
+  // If the node is of type 'doc' and has only one child which is a paragraph,
+  // then extract its inline content to be inserted as inline.
+  const isWrappedInParagraph =
+    node.type.name === 'doc' &&
+    node.childCount === 1 &&
+    node.firstChild.type.name === 'paragraph';
+
+  if (isWrappedInParagraph) {
+    node = node.firstChild.content;
+  }
+
+  let tr;
+  if (to) {
+    tr = editorView.state.tr.replaceWith(from, to, node).insertText(` `);
+  } else {
+    tr = editorView.state.tr.insert(from, node);
+  }
+  const state = editorView.state.apply(tr);
+  editorView.updateState(state);
+  editorView.focus();
+
+  return state;
+}
+
+/**
+ * Determines the appropriate node and position to insert an image in the editor.
+ *
+ * Based on the current editor state and the provided image URL, this function finds out the correct node (either
+ * a standalone image node or an image wrapped in a paragraph) and its respective position in the editor.
+ *
+ * 1. If the current node is a paragraph and doesn't contain an image or text, the image is inserted directly into it.
+ * 2. If the current node isn't a paragraph or it's a paragraph containing text, the image will be wrapped
+ *    in a new paragraph and then inserted.
+ * 3. If the current node is a paragraph containing an image, the new image will be inserted directly into it.
+ *
+ * @param {Object} editorState - The current state of the editor. It provides necessary details like selection, schema, etc.
+ * @param {string} fileUrl - The URL of the image to be inserted into the editor.
+ * @returns {Object|null} An object containing details about the node to be inserted and its position. It returns null if no image node can be created.
+ * @property {Node} node - The ProseMirror node to be inserted (either an image node or a paragraph containing the image).
+ * @property {number} pos - The position where the new node should be inserted in the editor.
+ */
+
+export const findNodeToInsertImage = (editorState, fileUrl) => {
+  const { selection, schema } = editorState;
+  const { nodes } = schema;
+  const currentNode = selection.$from.node();
+  const {
+    type: { name: typeName },
+    content: { size, content },
+  } = currentNode;
+
+  const imageNode = nodes.image.create({ src: fileUrl });
+
+  if (!imageNode) return null;
+
+  const isInParagraph = typeName === 'paragraph';
+  const needsNewLine =
+    !content.some(n => n.type.name === 'image') && size !== 0 ? 1 : 0;
+
+  return {
+    node: isInParagraph ? imageNode : nodes.paragraph.create({}, imageNode),
+    pos: selection.from + needsNewLine,
+  };
+};
+
+/**
+ * Set URL with query and size.
+ *
+ * @param {Object} selectedImageNode - The current selected node.
+ * @param {Object} size - The size to set.
+ * @param {Object} editorView - The editor view.
+ */
+export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
+  if (selectedImageNode) {
+    // Create and apply the transaction
+    const tr = editorView.state.tr.setNodeMarkup(
+      editorView.state.selection.from,
+      null,
+      {
+        src: selectedImageNode.src,
+        height: size.height,
+      }
+    );
+
+    if (tr.docChanged) {
+      editorView.dispatch(tr);
+    }
+  }
+}
+
+/**
+ * Content Node Creation Helper Functions for
+ * - mention
+ * - canned response
+ * - variable
+ * - emoji
+ */
+
+/**
+ * Centralized node creation function that handles the creation of different types of nodes based on the specified type.
+ * @param {Object} editorView - The editor view instance.
+ * @param {string} nodeType - The type of node to create ('mention', 'cannedResponse', 'variable', 'emoji').
+ * @param {Object|string} content - The content needed to create the node, which varies based on node type.
+ * @returns {Object|null} - The created ProseMirror node or null if the type is not supported.
+ */
+const createNode = (editorView, nodeType, content) => {
+  const { state } = editorView;
+  switch (nodeType) {
+    case 'mention':
+      return state.schema.nodes.mention.create({
+        userId: content.id,
+        userFullName: content.name,
+      });
+    case 'cannedResponse':
+      return new MessageMarkdownTransformer(messageSchema).parse(content);
+    case 'variable':
+      return state.schema.text(`{{${content}}}`);
+    case 'emoji':
+      return state.schema.text(content);
+    default:
+      return null;
+  }
+};
+
+/**
+ * Object mapping types to their respective node creation functions.
+ */
+const nodeCreators = {
+  mention: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'mention', content),
+    from,
+    to,
+  }),
+  cannedResponse: (editorView, content, from, to, variables) => {
+    const updatedMessage = replaceVariablesInMessage({
+      message: content,
+      variables,
+    });
+    const node = createNode(editorView, 'cannedResponse', updatedMessage);
+    return {
+      node,
+      from: node.textContent === updatedMessage ? from : from - 1,
+      to,
+    };
+  },
+  variable: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'variable', content),
+    from,
+    to,
+  }),
+  emoji: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'emoji', content),
+    from,
+    to,
+  }),
+};
+
+/**
+ * Retrieves a content node based on the specified type and content, using a functional approach to select the appropriate node creation function.
+ * @param {Object} editorView - The editor view instance.
+ * @param {string} type - The type of content node to create ('mention', 'cannedResponse', 'variable', 'emoji').
+ * @param {string|Object} content - The content to be transformed into a node.
+ * @param {Object} range - An object containing 'from' and 'to' properties indicating the range in the document where the node should be placed.
+ * @param {Object} variables - Optional. Variables to replace in the content, used for 'cannedResponse' type.
+ * @returns {Object} - An object containing the created node and the updated 'from' and 'to' positions.
+ */
+export const getContentNode = (
+  editorView,
+  type,
+  content,
+  { from, to },
+  variables
+) => {
+  const creator = nodeCreators[type];
+  return creator
+    ? creator(editorView, content, from, to, variables)
+    : { node: null, from, to };
+};

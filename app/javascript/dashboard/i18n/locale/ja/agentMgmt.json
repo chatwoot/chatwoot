@@ -3,7 +3,8 @@
     "HEADER": "担当者",
     "HEADER_BTN_TXT": "担当者を追加",
     "LOADING": "担当者リストを設定",
-    "SIDEBAR_TXT": "<p><b>担当者</b></p> <p> <b>担当者</b> は、カスタマーサポートチームのメンバーです。 </p><p> 担当者は、ユーザーからのメッセージを閲覧でき、返信することができます。リストに、全担当者が表示されます。 </p><p><b>担当者を追加</b> ボタンを押して、担当者を追加してください。あなたが追加した担当者は、自身のメールアドレスにメールが届き、確認リンクを使ってアカウントを有効化します。その後、Chatwootにアクセスし、メッセージに返信します。 </p><p> Chatwoot の機能を利用するには、その権限に準じます。 </p><p> <b>担当者</b> - 担当者権限では、受信トレイにアクセスする他、会話のデータをレポートできます。担当者間で会話の割り当てが行えるほか、会話を解決済みにすることもできます。</p><p> <b>管理者</b> - 管理者は、すべてのChatwootの機能にアクセスでき、担当者権限もすべて有効です。</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理者",
       "AGENT": "担当者"
@@ -17,7 +18,8 @@
       "STATUS": "状況",
       "ACTIONS": "操作",
       "VERIFIED": "確認済み",
-      "VERIFICATION_PENDING": "確認保留中です。"
+      "VERIFICATION_PENDING": "確認保留中です。",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "チームに担当者を追加",

@@ -41,17 +41,20 @@ describe Twilio::OneoffSmsCampaignService do
       expect(twilio_messages).to receive(:create).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
-        to: contact_with_label1.phone_number
+        to: contact_with_label1.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
       expect(twilio_messages).to receive(:create).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
-        to: contact_with_label2.phone_number
+        to: contact_with_label2.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
       expect(twilio_messages).to receive(:create).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
-        to: contact_with_both_labels.phone_number
+        to: contact_with_both_labels.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
 
       sms_campaign_service.perform

@@ -3,7 +3,8 @@
     "HEADER": "Þjónustufulltrúar",
     "HEADER_BTN_TXT": "Bæta við þjónustufulltrúa",
     "LOADING": "Sækja lista yfir þjónustufulltrúa",
-    "SIDEBAR_TXT": "<p><b>Þjónustufulltrúar</b></p> <p> <b>Þjónustufulltrúi</b> er meðlimur í þjónustuverinu þínu. </p><p> Þjónustufulltrúar munu geta skoðað og svarað skilaboðum frá notendum þínum. Listinn sýnir alla þjónustufulltrúa sem eru á reikningnum þínum. </p><p> Smelltu á <b>Bæta við þjónustufulltrúa</b> til að bæta við nýjum þjónustufulltrúa. þjónustufulltrúi sem þú bætir við mun fá tölvupóst með staðfestingartengli til að virkja reikninginn sinn, eftir það getur hann fengið aðgang að Chatwoot og svarað skilaboðum. </p><p> Aðgangur að eiginleikum Chatwoot byggist á eftirfarandi hlutverkum. </p><p> <b>Þjónustufulltrúi</b> - Þjónustufulltrúi með þetta hlutverk hafa aðeins aðgang að innhólfum, skýrslur og samtöl. Þeir geta úthlutað samtölum til annarra umboðsmanna eða á sjálfa sig og leyst samtöl.</p><p> <b>Stjórnandi</b> - Stjórnandi mun hafa aðgang að öllum Chatwoot eiginleikum sem eru virkjaðir fyrir reikninginn þinn, þar á meðal stillingar, ásamt öllum venjulegum réttindum þjónustufulltrúa.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Stjórnandi",
       "AGENT": "Þjónustufulltrúi"
@@ -17,7 +18,8 @@
       "STATUS": "Staða",
       "ACTIONS": "Aðgerðir",
       "VERIFIED": "Staðfest",
-      "VERIFICATION_PENDING": "Bíður staðfestingar"
+      "VERIFICATION_PENDING": "Bíður staðfestingar",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Bæta þjónustufulltrúa við teymið",

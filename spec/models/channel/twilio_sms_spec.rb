@@ -68,7 +68,8 @@ RSpec.describe Channel::TwilioSms do
       expect(twilio_messages).to receive(:create).with(
         messaging_service_sid: channel.messaging_service_sid,
         to: '+15555550111',
-        body: 'hello world'
+        body: 'hello world',
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
 
       channel.send_message(to: '+15555550111', body: 'hello world')
@@ -81,7 +82,8 @@ RSpec.describe Channel::TwilioSms do
         expect(twilio_messages).to receive(:create).with(
           from: channel.phone_number,
           to: '+15555550111',
-          body: 'hello world'
+          body: 'hello world',
+          status_callback: 'http://localhost:3000/twilio/delivery_status'
         ).once
 
         channel.send_message(to: '+15555550111', body: 'hello world')
@@ -94,7 +96,8 @@ RSpec.describe Channel::TwilioSms do
           messaging_service_sid: channel.messaging_service_sid,
           to: '+15555550111',
           body: 'hello world',
-          media_url: ['https://example.com/1.jpg']
+          media_url: ['https://example.com/1.jpg'],
+          status_callback: 'http://localhost:3000/twilio/delivery_status'
         ).once
 
         channel.send_message(to: '+15555550111', body: 'hello world', media_url: ['https://example.com/1.jpg'])

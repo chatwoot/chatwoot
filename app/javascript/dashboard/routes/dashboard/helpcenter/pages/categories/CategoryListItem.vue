@@ -1,6 +1,27 @@
+<script>
+export default {
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  emits: ['edit', 'delete'],
+
+  methods: {
+    editCategory(category) {
+      this.$emit('edit', category);
+    },
+    deleteCategory(category) {
+      this.$emit('delete', category);
+    },
+  },
+};
+</script>
+
 <template>
   <div>
-    <table>
+    <table class="woot-table">
       <thead>
         <tr>
           <th scope="col">
@@ -24,7 +45,7 @@
       <tbody>
         <tr v-for="category in categories" :key="category.id">
           <td>
-            <span>{{ category.name }}</span>
+            <span>{{ category.icon }} {{ category.name }}</span>
           </td>
           <td>
             <span>{{ category.description }}</span>
@@ -35,7 +56,7 @@
           <td>
             <span>{{ category.meta.articles_count }}</span>
           </td>
-          <td>
+          <td class="inline-flex gap-1">
             <woot-button
               v-tooltip.top-end="
                 $t(
@@ -66,32 +87,12 @@
     </table>
     <p
       v-if="categories.length === 0"
-      class="flex justify-center text-slate-500 dark:text-slate-300 text-base mt-8"
+      class="flex justify-center mt-8 text-base text-slate-500 dark:text-slate-300"
     >
       {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TABLE.EMPTY_TEXT') }}
     </p>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    categories: {
-      type: Array,
-      default: () => [],
-    },
-  },
-
-  methods: {
-    editCategory(category) {
-      this.$emit('edit', category);
-    },
-    deleteCategory(category) {
-      this.$emit('delete', category);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 table {

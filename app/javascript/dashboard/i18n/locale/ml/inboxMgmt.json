@@ -1,7 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "ഇൻ‌ബോക്സുകൾ",
-    "SIDEBAR_TXT": "<p> <b> ഇൻ‌ബോക്സ് </b> </p> <p> നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് അല്ലെങ്കിൽ ഒരു ഫേസ്ബുക്ക് പേജ് ചാറ്റ്വൂട്ടിലേക്ക് ബന്ധിപ്പിക്കുമ്പോൾ, അതിനെ <b> ഇൻ‌ബോക്സ് </b> എന്ന് വിളിക്കുന്നു. നിങ്ങളുടെ ചാറ്റ്വൂട്ട് അക്ക in ണ്ടിൽ പരിധിയില്ലാത്ത ഇൻ‌ബോക്സുകൾ‌ നേടാൻ‌ കഴിയും. </p> <p> ഒരു വെബ്‌സൈറ്റോ ഫേസ്ബുക്ക് പേജോ ബന്ധിപ്പിക്കുന്നതിന് <b> ഇൻ‌ബോക്സ് ചേർക്കുക </b> ക്ലിക്കുചെയ്യുക. </p> <p> ഡാഷ്‌ബോർഡിൽ, നിങ്ങളുടെ എല്ലാ ഇൻ‌ബോക്‌സുകളിൽ‌ നിന്നുമുള്ള എല്ലാ സംഭാഷണങ്ങളും ഒരൊറ്റ സ്ഥലത്ത് കാണാനും `സംഭാഷണങ്ങൾ‌ 'ടാബിന് കീഴിൽ അവയോട് പ്രതികരിക്കാനും കഴിയും. </p> <p> ഡാഷ്‌ബോർഡിന്റെ ഇടത് പാളിയിലെ ഇൻ‌ബോക്സ് നാമത്തിൽ ക്ലിക്കുചെയ്തുകൊണ്ട് നിങ്ങൾക്ക് ഇൻ‌ബോക്സിന് പ്രത്യേകമായുള്ള സംഭാഷണങ്ങളും കാണാൻ കഴിയും. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "ഈ അക്കൗണ്ടിലേക്കു ഇൻ‌ബോക്സുകളൊന്നും ബന്ധിപ്പിച്ചിട്ടില്ല."
     },
@@ -22,7 +25,7 @@
         "body": "സൃഷ്ടിച്ച ഇൻ‌ബോക്സിലേക്ക് ഏജന്റുമാരെ ചേർക്കുക."
       },
       {
-        "title": "പൊളിച്ചു!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "എല്ലാം ഭംഗിയായി പാപര്യവസാനിച്ചിരിക്കുന്നു. വരൂ നമുക്ക്‌ പോകാം!"
       }
@@ -43,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "ലിസ്റ്റിൽ നിന്ന് ഒരു പേജ് തിരഞ്ഞെടുക്കുക",
         "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
         "ADD_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്‌സിനായി ഒരു പേര് ചേർക്കുക",
-        "PICK_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്സിന്റെ പേര് തിരഞ്ഞെടുക്കുക",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക"
       },
       "TWITTER": {
@@ -62,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +146,7 @@
           "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
         },
         "PHONE_NUMBER": {
-          "LABEL": "ഫോൺ നമ്പർ",
+          "LABEL": "ഫോൺ നമ്പർ",
           "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
@@ -175,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
           },
           "APPLICATION_ID": {
@@ -239,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
@@ -269,7 +272,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "വെബ്‌ഹുക്ക് യുആർഎൽ"
         },
         "SUBMIT_BUTTON": "Create API Channel",
@@ -279,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "ചാനലിന്റെ പേര്",
           "PLACEHOLDER": "ഈ ചാനലിനു ദയവായി ഒരു പേര് നൽകുക",
@@ -345,7 +348,7 @@
       "AGENTS": {
         "TITLE": "ഏജന്റുമാർ",
         "DESC": "നിങ്ങളുടെ പുതുതായി സൃഷ്ടിച്ച ഇൻ‌ബോക്സ് മാനേജു ചെയ്യുന്നതിന് ഇവിടെ നിങ്ങൾക്ക് ഏജന്റുമാരെ ചേർക്കാൻ‌ കഴിയും. ഈ തിരഞ്ഞെടുത്ത ഏജന്റുമാർ‌ക്ക് മാത്രമേ നിങ്ങളുടെ ഇൻ‌ബോക്സിലേക്ക് ആക്‌സസ് ഉണ്ടായിരിക്കുകയുള്ളൂ. ഈ ഇൻ‌ബോക്സിന്റെ ഭാഗമല്ലാത്ത ഏജന്റുമാർ‌ക്ക് ഈ ഇൻ‌ബോക്സിലെ സന്ദേശങ്ങൾ‌ കാണാനോ പ്രതികരിക്കാനോ കഴിയില്ല. <br> ഒരു അഡ്മിനിസ്ട്രേറ്റർ എന്ന നിലയിൽ, നിങ്ങൾക്ക് എല്ലാ ഇൻ‌ബോക്സുകളിലേക്കും ആക്സസ് ആവശ്യമുണ്ടെങ്കിൽ, നിങ്ങൾ സൃഷ്ടിക്കുന്ന എല്ലാ ഇൻ‌ബോക്സുകളിലേക്കും നിങ്ങൾ സ്വയം ഏജന്റായി ചേർക്കണം.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
@@ -364,12 +367,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "ഫേസ്ബുക് ഉപയോഗിച്ച് നിങ്ങളെ പ്രാമാണീകരിക്കുന്നു...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "എന്തോ കുഴപ്പം സംഭവിച്ചു, ദയവായി പേജ് പുതുക്കുക...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -406,7 +417,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +519,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷം സന്ദേശങ്ങൾ അനുവദിക്കുക",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷവും സന്ദേശങ്ങൾ അയയ്ക്കാൻ അന്തിമ ഉപയോക്താക്കളെ അനുവദിക്കുക.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "അപ്‌ഡേറ്റ്",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +580,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
@@ -585,7 +596,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update IMAP settings"
@@ -733,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "ഇമെയിൽ",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Channel"
     }
   }
 }

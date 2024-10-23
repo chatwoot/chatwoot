@@ -1,84 +1,18 @@
-<template>
-  <div class="w-full">
-    <div
-      class="my-0 py-0 px-4 grid grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
-      :class="{ draggable: onCategoryPage }"
-    >
-      <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 ltr:text-left rtl:text-right col-span-4"
-      >
-        {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
-      </div>
-      <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right"
-      >
-        {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
-      </div>
-      <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden lg:block"
-      >
-        {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
-      </div>
-      <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right"
-      >
-        {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
-      </div>
-      <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden md:block"
-      >
-        {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
-      </div>
-    </div>
-    <draggable
-      tag="div"
-      class="border-t-0 px-4"
-      :disabled="!dragEnabled"
-      :list="localArticles"
-      ghost-class="article-ghost-class"
-      @start="dragging = true"
-      @end="onDragEnd"
-    >
-      <ArticleItem
-        v-for="article in localArticles"
-        :id="article.id"
-        :key="article.id"
-        :class="{ draggable: onCategoryPage }"
-        :title="article.title"
-        :author="article.author"
-        :category="article.category"
-        :views="article.views"
-        :status="article.status"
-        :updated-at="article.updated_at"
-      />
-    </draggable>
-
-    <table-footer
-      v-if="showArticleFooter"
-      :current-page="currentPage"
-      :total-count="totalCount"
-      :page-size="pageSize"
-      class="dark:bg-slate-900 sticky bottom-0 border-t-0 px-4"
-      @page-change="onPageChange"
-    />
-  </div>
-</template>
-
 <script>
 import ArticleItem from './ArticleItem.vue';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 
 export default {
   components: {
     ArticleItem,
     TableFooter,
-    draggable,
+    Draggable,
   },
   props: {
     articles: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     totalCount: {
       type: Number,
@@ -93,17 +27,16 @@ export default {
       default: 25,
     },
   },
+  emits: ['reorder', 'pageChange'],
   data() {
     return {
-      localArticles: [],
+      localArticles: this.articles || [],
     };
   },
   computed: {
     dragEnabled() {
       // dragging allowed only on category page
-      return (
-        this.articles.length > 1 && !this.isFetching && this.onCategoryPage
-      );
+      return this.articles.length > 1 && this.onCategoryPage;
     },
     onCategoryPage() {
       return this.$route.name === 'show_category';
@@ -149,12 +82,86 @@ export default {
       this.$emit('reorder', reorderedGroup);
     },
     onPageChange(page) {
-      this.$emit('page-change', page);
+      this.$emit('pageChange', page);
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex-1">
+    <div
+      class="sticky z-10 content-center hidden h-12 grid-cols-12 gap-4 px-6 py-0 bg-white border-b lg:grid border-slate-50 dark:border-slate-700 top-16 dark:bg-slate-900"
+      :class="{ draggable: onCategoryPage }"
+    >
+      <div
+        class="col-span-6 px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right"
+      >
+        {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
+      </div>
+      <div
+        class="col-span-2 px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right"
+      >
+        {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
+      </div>
+      <div
+        class="hidden px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right lg:block"
+      >
+        {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
+      </div>
+      <div
+        class="px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right"
+      >
+        {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
+      </div>
+      <div
+        class="hidden col-span-2 px-0 py-2 text-sm font-semibold text-right capitalize text-slate-700 dark:text-slate-100 rtl:text-left md:block"
+      >
+        {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
+      </div>
+    </div>
+    <Draggable
+      tag="div"
+      class="px-4 pb-4 border-t-0"
+      :disabled="!dragEnabled"
+      :list="localArticles"
+      ghost-class="article-ghost-class"
+      item-key="id"
+      @start="dragging = true"
+      @end="onDragEnd"
+    >
+      <template #item="{ element }">
+        <ArticleItem
+          :id="element.id"
+          :key="element.id"
+          :class="{ draggable: onCategoryPage }"
+          :title="element.title"
+          :author="element.author"
+          :show-drag-icon="dragEnabled"
+          :category="element.category"
+          :views="element.views"
+          :status="element.status"
+          :updated-at="element.updated_at"
+        />
+      </template>
+    </Draggable>
+
+    <TableFooter
+      v-if="showArticleFooter"
+      :current-page="currentPage"
+      :total-count="totalCount"
+      :page-size="pageSize"
+      class="bottom-0 border-t dark:bg-slate-900 border-slate-75 dark:border-slate-700/50"
+      @page-change="onPageChange"
+    />
+  </div>
+</template>
+
 <style lang="scss" scoped>
+/*
+The .article-ghost-class class is maintained as the vueDraggable doesn't allow multiple classes
+to be passed in the ghost-class prop.
+ */
 .article-ghost-class {
   @apply opacity-50 bg-slate-50 dark:bg-slate-800;
 }

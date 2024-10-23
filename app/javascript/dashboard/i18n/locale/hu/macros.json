@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Makrók",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Új makró hozzáadása",
     "HEADER_BTN_TXT_SAVE": "Makró mentése",
     "LOADING": "Makrók lekérdezése",
-    "SIDEBAR_TXT": "<p><b>Makrók</b><p>A makró olyan mentett műveletek halmaza, amelyek segítségével az ügyfélszolgálati ügynökök könnyedén elvégezhetik a feladatokat. Az ügynökök meghatározhatnak egy sor műveletet, mint például egy beszélgetés címkével való címkézése, e-mail átirat küldése, egyéni tulajdonság frissítése stb., Ezeket a műveleteket egyetlen kattintással végrehajthatják. Amikor az ügynökök futtatják a makrót, a műveletek egymás után, a meghatározott sorrendben hajtódnak végre. A makrók javítják a produktivitást és növelik a műveletek következetességét. </p><p>A makró kétféleképpen lehet hasznos: </p><p><b>Ügynöki asszisztensként:</b> Ha egy ügynök többször végrehajt egy műveletsort, makróként mentheti el, és egyetlen kattintással végrehajthatja az összes műveletet.</p><p><b>Csapattag bevonásának lehetősége:</b> Minden ügynöknek sok különböző ellenőrzést/műveletet kell végrehajtania minden beszélgetés során. Egy új ügyfélszolgálati tag felvétele egyszerű lesz, ha előre meghatározott makrók állnak rendelkezésre a fiókban. Az egyes lépések részletes leírása helyett a menedzser/csapatvezető rámutathat a különböző forgatókönyvekben használt makrókra.</p>",
     "ERROR": "Valami elromlott, kérjük töltsd próbáld újra",
     "ORDER_INFO": "A makrók a műveletek hozzáadásának sorrendjében fognak futni. A makrókat áthúzással át tudod rendezni.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Futtatás",
       "PREVIEW": "Makró előnézet",
       "EXECUTED_SUCCESSFULLY": "Makró végrehajtása sikeres"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Kötelező megadni",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

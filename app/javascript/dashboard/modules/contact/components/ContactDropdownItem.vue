@@ -1,28 +1,3 @@
-<template>
-  <div class="option-item--user">
-    <thumbnail :src="thumbnail" size="28px" :username="name" />
-    <div class="option__user-data">
-      <h5 class="option__title">
-        {{ name }}
-        <span v-if="identifier" class="user-identifier">
-          (ID: {{ identifier }})
-        </span>
-      </h5>
-      <p class="option__body">
-        <span v-if="email" class="email-icon-wrap">
-          <fluent-icon class="merge-contact--icon" icon="mail" size="12" />
-          {{ email }}
-        </span>
-        <span v-if="phoneNumber" class="phone-icon-wrap">
-          <fluent-icon class="merge-contact--icon" icon="call" size="12" />
-          {{ phoneNumber }}
-        </span>
-        <span v-if="!phoneNumber && !email">{{ '---' }}</span>
-      </p>
-    </div>
-  </div>
-</template>
-
 <script>
 import Thumbnail from '../../../components/widgets/Thumbnail.vue';
 
@@ -54,6 +29,31 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="option-item--user">
+    <Thumbnail :src="thumbnail" size="28px" :username="name" />
+    <div class="option__user-data">
+      <h5 class="option__title">
+        {{ name }}
+        <span v-if="identifier" class="user-identifier">
+          {{ $t('MERGE_CONTACTS.DROPDOWN_ITEM.ID', { identifier }) }}
+        </span>
+      </h5>
+      <p class="option__body">
+        <span v-if="email" class="email-icon-wrap">
+          <fluent-icon class="merge-contact--icon" icon="mail" size="12" />
+          {{ email }}
+        </span>
+        <span v-if="phoneNumber" class="phone-icon-wrap">
+          <fluent-icon class="merge-contact--icon" icon="call" size="12" />
+          {{ phoneNumber }}
+        </span>
+        <span v-if="!phoneNumber && !email">{{ '---' }}</span>
+      </p>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .option-item--user {

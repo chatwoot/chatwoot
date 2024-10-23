@@ -1,13 +1,3 @@
-<template>
-  <button
-    :class="buttonClassName"
-    :style="buttonStyles"
-    :disabled="disabled"
-    @click="onClick"
-  >
-    <slot />
-  </button>
-</template>
 <script>
 export default {
   props: {
@@ -58,10 +48,11 @@ export default {
       return styles;
     },
   },
-  methods: {
-    onClick(e) {
-      this.$emit('click', e);
-    },
-  },
 };
 </script>
+
+<template>
+  <button :class="buttonClassName" :style="buttonStyles" :disabled="disabled">
+    <slot />
+  </button>
+</template>

@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "Is x days before"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Изисква се стойност"
+    },
     "ATTRIBUTES": {
       "NAME": "Име",
       "EMAIL": "Имейл",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Последна активност",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

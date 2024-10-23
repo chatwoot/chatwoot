@@ -27,9 +27,15 @@ class PortalPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def logo?
+    @account_user.administrator?
+  end
+
   private
 
   def portal_member?
     @record.first.members.include?(@user)
   end
 end
+
+PortalPolicy.prepend_mod_with('Enterprise::PortalPolicy')

@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Pokalbiai",
       "MESSAGES": "Pranešimai"
     },
-    "EMPTY_STATE": "Nerasta %{item} pagal užklausą '%{query}'",
-    "EMPTY_STATE_FULL": "Nerasta rezultatų pagal užklausą '%{query}'",
+    "SEARCHING_DATA": "Ieškoma",
+    "EMPTY_STATE": "Nerasta {item} pagal užklausą '{query}'",
+    "EMPTY_STATE_FULL": "Nerasta rezultatų pagal užklausą '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ sutelkti dėmesį",
     "INPUT_PLACEHOLDER": "Įveskite 3 ar daugiau smibolius paieškai",
     "EMPTY_STATE_DEFAULT": "Norėdami gauti geresnių paieškos rezultatų, ieškokite pagal pokalbio ID, el. pašto adresą, telefono numerį, žinutes.",

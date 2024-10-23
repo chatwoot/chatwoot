@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā."
       }
     },
-    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
+    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot {latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
     "LEARN_MORE": "Uzzināt vairāk",
     "PAYMENT_PENDING": "Jūsu maksājums tiek gaidīts. Lūdzu, atjauniniet savu maksājumu informāciju, lai turpinātu lietot Chatwoot",
     "LIMITS_UPGRADE": "Jūsu konts ir pārsniedzis lietošanas ierobežojumus. Lūdzu, uzlabojiet savu abonementu, lai turpinātu izmantot Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Saruna Piešķirta",
       "assigned_conversation_new_message": "Jauns ziņojums",
       "participating_conversation_new_message": "Jauns ziņojums",
-      "conversation_mention": "Pieminēt"
+      "conversation_mention": "Pieminēt",
+      "sla_missed_first_response": "SLA Nokavēts",
+      "sla_missed_next_response": "SLA Nokavēts",
+      "sla_missed_resolution": "SLA Nokavēts"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Atvienots no Chatwoot"
+      "OFFLINE": "Bezsaistē",
+      "RECONNECTING": "Notiek savienojuma atjaunošana...",
+      "RECONNECT_SUCCESS": "Atkārtoti izveidots savienojums"
     },
     "BUTTON": {
       "REFRESH": "Atjaunot"
@@ -104,6 +109,7 @@
       "GENERAL": "Vispārēji",
       "REPORTS": "Pārskati",
       "CONVERSATION": "Saruna",
+      "BULK_ACTIONS": "Lielapjoma Darbības",
       "CHANGE_ASSIGNEE": "Mainīt Pilnvaroto",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "CHANGE_TEAM": "Mainīt Komandu",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
       "SETTINGS": "Iestatījumi",
       "AI_ASSIST": "AI Palīgs",
-      "APPEARANCE": "Izskats"
+      "APPEARANCE": "Izskats",
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Līdz rītdienai",
       "UNTIL_NEXT_MONTH": "Līdz nākamajam mēnesim",
       "AN_HOUR_FROM_NOW": "Līdz stundai, no šī brīža",
-      "CUSTOM": "Pielāgot...",
+      "UNTIL_CUSTOM_TIME": "Pielāgot...",
       "CHANGE_APPEARANCE": "Mainīt Izskatu",
       "LIGHT_MODE": "Gaišs",
       "DARK_MODE": "Tumšs",
-      "SYSTEM_MODE": "Sistēma"
+      "SYSTEM_MODE": "Sistēma",
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     }
   },
   "DASHBOARD_APPS": {

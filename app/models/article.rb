@@ -5,6 +5,7 @@
 #  id                    :bigint           not null, primary key
 #  content               :text
 #  description           :text
+#  locale                :string           default("en"), not null
 #  meta                  :jsonb
 #  position              :integer
 #  slug                  :string           not null
@@ -43,7 +44,7 @@ class Article < ApplicationRecord
   belongs_to :account
   belongs_to :category, optional: true
   belongs_to :portal
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: 'User', inverse_of: :articles
 
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
@@ -55,12 +56,14 @@ class Article < ApplicationRecord
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
+  before_create :add_locale_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
+  scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
   scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
   scope :order_by_updated_at, -> { reorder(updated_at: :desc) }
@@ -83,11 +86,11 @@ class Article < ApplicationRecord
   )
 
   def self.search(params)
-    records = joins(
+    records = left_outer_joins(
       :category
     ).search_by_category_slug(
       params[:category_slug]
-    ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
+    ).search_by_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
 
     records = records.text_search(params[:query]) if params[:query].present?
     records
@@ -140,6 +143,14 @@ class Article < ApplicationRecord
     update_article_position_in_category
   end
 
+  def add_locale_to_article
+    self.locale = if category.present?
+                    category.locale
+                  else
+                    portal.default_locale
+                  end
+  end
+
   def add_position_to_article
     # on creation if a position is already present, ignore it
     return if position.present?
@@ -170,3 +181,4 @@ class Article < ApplicationRecord
     self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
   end
 end
+Article.include_mod_with('Concerns::Article')

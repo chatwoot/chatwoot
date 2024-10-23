@@ -3,7 +3,8 @@
     "HEADER": "Agenter",
     "HEADER_BTN_TXT": "Tilføj Agent",
     "LOADING": "Henter Agent Liste",
-    "SIDEBAR_TXT": "<p><b>Agenter</b></p> <p> En <b>Agent</b> er medlemmer af dit kundesupportteam. </p><p> Agenter vil være i stand til at se og besvare beskeder fra dine brugere. Listen viser alle agenter i øjeblikket på din konto. </p><p> Klik på <b>Tilføj agent</b> for at tilføje en ny agent. Agent du tilføjer, vil modtage en e-mail med et bekræftelseslink for at aktivere deres konto, hvorefter de kan få adgang til Chatwoot og svare på beskeder. </p><p> Adgang til Chatwoot's funktioner er baseret på følgende roller. </p><p> <b>Agent</b> - Agenter med denne rolle kan kun få adgang til indbakker, rapporter og samtaler. De kan tildele samtaler til andre agenter eller sig selv og løse samtaler.</p><p> <b>Administrator</b> - Administrator vil have adgang til alle Chatwoot-funktioner aktiveret for din konto, herunder indstillinger sammen med alle normale agenters privilegier.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
@@ -17,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Handlinger",
       "VERIFIED": "Verificeret",
-      "VERIFICATION_PENDING": "Verifikation Afventer"
+      "VERIFICATION_PENDING": "Verifikation Afventer",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Tilføj agent til dit team",

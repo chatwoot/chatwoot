@@ -27,6 +27,8 @@ describe Webhooks::InstagramEventsJob do
   let!(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:story_mention_echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
+  let!(:messaging_seen_event) { build(:messaging_seen_event).with_indifferent_access }
+  let!(:unsupported_message_event) { build(:instagram_message_unsupported_event).with_indifferent_access }
   let(:fb_object) { double }
 
   describe '#perform' do
@@ -41,9 +43,10 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
+        expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
 
       it 'creates standby message in the instagram inbox' do
@@ -56,7 +59,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
+        expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
 
@@ -78,9 +81,7 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'handle instagram unsend message event' do
-        create(:message,
-               source_id: 'message-id-to-delete',
-               inbox_id: instagram_inbox.id)
+        message = create(:message, inbox_id: instagram_inbox.id, source_id: 'message-id-to-delete')
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
           {
@@ -90,10 +91,15 @@ describe Webhooks::InstagramEventsJob do
             profile_pic: 'https://chatwoot-assets.local/sample.png'
           }.with_indifferent_access
         )
+        message.attachments.new(file_type: :image, external_url: 'https://www.example.com/test.jpeg')
+
         expect(instagram_inbox.messages.count).to be 1
+
         instagram_webhook.perform_now(unsend_event[:entry])
 
         expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
+        expect(instagram_inbox.messages.last.deleted).to be true
+        expect(instagram_inbox.messages.last.attachments.count).to be 0
         expect(instagram_inbox.messages.last.reload.deleted).to be true
       end
 
@@ -150,6 +156,27 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.contacts.count).to be 0
         expect(instagram_inbox.contact_inboxes.count).to be 0
         expect(instagram_inbox.messages.count).to be 0
+      end
+
+      it 'handle messaging_seen callback' do
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: messaging_seen_event[:entry][0][:messaging][0]).and_call_original
+        instagram_webhook.perform_now(messaging_seen_event[:entry])
+      end
+
+      it 'handles unsupported message' do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          return_object.with_indifferent_access
+        )
+
+        instagram_webhook.perform_now(unsupported_message_event[:entry])
+        instagram_inbox.reload
+
+        expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
+        expect(instagram_inbox.conversations.count).to be 1
+        expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be true
       end
     end
   end

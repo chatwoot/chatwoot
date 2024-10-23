@@ -1,8 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrazioni",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventi iscritti",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Annulla",
         "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
@@ -66,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Conferma eliminazione",
-          "MESSAGE": "Sei sicuro di voler eliminare il webhook? (%{webhookURL})",
+          "MESSAGE": "Sei sicuro di voler eliminare il webhook? ({webhookURL})",
           "YES": "Sì, elimina ",
           "NO": "No, conserva"
         }
@@ -104,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -169,6 +179,7 @@
       "HEADER_BTN_TXT": "Aggiungi una nuova app dashboard",
       "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno del cruscotto Chatwoot per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni all'utente, i loro ordini, o la loro cronologia di pagamento precedente.</p><p>Quando hai incorporato la tua applicazione usando il cruscotto in Chatwoot, la tua applicazione avrà il contesto della conversazione e del contatto come evento finestra. Implementa un ascoltatore per l'evento del messaggio sulla tua pagina per ricevere il contesto.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
       "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporare che per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Non ci sono ancora app dashboard configurate su questo account",
         "LOADING": "Recupero delle app dashboard...",
@@ -205,9 +216,90 @@
         "CONFIRM_YES": "Sì, eliminalo",
         "CONFIRM_NO": "No, mantienilo",
         "TITLE": "Conferma eliminazione",
-        "MESSAGE": "Sei sicuro di voler eliminare l'app - %{appName}?",
+        "MESSAGE": "Sei sicuro di voler eliminare l'app - {appName}?",
         "API_SUCCESS": "App dashboard cancellata con successo",
         "API_ERROR": "Non è stato possibile eliminare l'app. Riprova più tardi"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Crea",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titolo",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Il titolo è obbligatorio"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descrizione",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Team",
+            "PLACEHOLDER": "Seleziona team",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Priorità",
+            "PLACEHOLDER": "Select priority",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Etichetta",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Stato",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Crea",
+        "CANCEL": "annulla",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Stato",
+        "PRIORITY": "Priorità",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Etichette",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

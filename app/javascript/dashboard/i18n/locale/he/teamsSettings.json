@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "צור צוות חדש",
     "HEADER": "צוותים",
-    "SIDEBAR_TXT": "<p><b>צוותים</b></p> <p>צוותים מאפשרים לך לארגן את הסוכנים שלך בקבוצות על סמך תחומי האחריות שלהם. <br /> סוכן יכול להיות חלק ממספר צוותים. אתה יכול להקצות שיחות לצוות כאשר אתה עובד בשיתוף פעולה. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "לא נוצרו צוותים בחשבון זה.",
-      "EDIT_TEAM": "ערוך צוות"
+      "EDIT_TEAM": "ערוך צוות",
+      "NONE": "כלום"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "הוסף סוכנים לצוות",
-        "TITLE": "הוסף סוכנים לצוות - %{teamName}",
+        "TITLE": "הוסף סוכנים לצוות - {teamName}",
         "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. זה מאפשר לך לשתף פעולה כצוות בשיחות, לקבל התראות על אירועים חדשים באותה שיחה."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "עדכן סוכנים בצוות",
-        "TITLE": "הוסף סוכנים לצוות - %{teamName}",
+        "TITLE": "הוסף סוכנים לצוות - {teamName}",
         "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. כל הסוכנים שנוספו יקבלו הודעה כאשר שיחה תוקצה לצוות זה."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "הוספת סוכנים לצוות שלך...",
       "SELECT": "בחר",
       "SELECT_ALL": "בחר את כל הסוכנים",
-      "SELECTED_COUNT": "%{selected} מתוך %{total} סוכנים שנבחרו."
+      "SELECTED_COUNT": "{selected} מתוך {total} סוכנים שנבחרו."
     },
     "ADD": {
-      "TITLE": "הוסף סוכנים לצוות - %{teamName}",
+      "TITLE": "הוסף סוכנים לצוות - {teamName}",
       "DESC": "הוסף סוכנים לצוות החדש שלך שנוצר. זה מאפשר לך לשתף פעולה כצוות בשיחות, לקבל התראות על אירועים חדשים באותה שיחה.",
       "SELECT": "בחר",
       "SELECT_ALL": "בחר את כל הסוכנים",
-      "SELECTED_COUNT": "%{selected} מתוך %{total} סוכנים שנבחרו.",
+      "SELECTED_COUNT": "{selected} מתוך {total} סוכנים שנבחרו.",
       "BUTTON_TEXT": "הוסף נציגים",
       "AGENT_VALIDATION_ERROR": "בחר סוכן אחד לפחות."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "לא ניתן למחוק את הצוות. נסה שוב."
       },
       "CONFIRM": {
-        "TITLE": "האם אתה בטוח רוצה למחוק - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "אנא הקלד {teamName} כדי לאשר",
         "MESSAGE": "מחיקת הצוות תסיר את הקצאת הצוות מהשיחות שהוקצו לצוות זה.",
         "YES": "מחק ",

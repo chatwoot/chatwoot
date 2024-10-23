@@ -1,75 +1,76 @@
 {
   "CANNED_MGMT": {
     "HEADER": "תגובות מוכנות",
-    "HEADER_BTN_TXT": "הוסף תגובה מוכנה",
-    "LOADING": "מביא תגובות שמורות",
-    "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
-    "SIDEBAR_TXT": "<p><b>תגובות מוכנות</b> </p><p> תגובות מוכנות הן תבניות לתגובה מהירה להודעות בצ'אטים שלך. </p><p> כדי להוסיף תגובה מוכנה, יש ללחוץ על <b> הוספת תגובה מוכנה </b> ניתן גם למחוק או לערוך תגובות קיימות </p><p> תגובות מוכנות עושות שימוש <b>בקוד מקוצר</b>. ניתן להציג את רשימת הקיצורים במהלך שיחה על ידי הקשת המקש <b>'/'</b> והקוד המקוצר לאחר מכן. </p>",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "אין פריטים התואמים לשאילתה זו.",
     "LIST": {
       "404": "אין תגובות מוכנות זמינות בחשבון זה.",
       "TITLE": "נהל תגובות מוכנות",
-      "DESC": "תגובות מוכנות הן תבניות תשובה מוגדרות מראש שבהן ניתן להשתמש כדי לשלוח במהירות תשובות לשיחות.",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "קוד מקוצר",
+        "Short code",
         "תוכן",
         "פעולות"
       ]
     },
     "ADD": {
-      "TITLE": "הוסף תגובה מוכנה",
-      "DESC": "התגובות המוכנות הם תבניות תשובה מהירה מוגדרות מראש שניתן להשתמש בהם על מנת לענות במהירות לשיחות.",
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "קוד מקוצר",
-          "PLACEHOLDER": "נא להזין קוד מקוצר",
-          "ERROR": "קוד מקוצר נדרש"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "תוכן",
-          "PLACEHOLDER": "נא להזין תוכן",
-          "ERROR": "חובה להזין תוכן"
+          "LABEL": "הודעה",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "שלח"
       },
       "API": {
-        "SUCCESS_MESSAGE": "תגובה מוכנה נוספה בהצלחה",
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       }
     },
     "EDIT": {
-      "TITLE": "ערוך תגובה מוכנה",
+      "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "קוד מקוצר",
-          "PLACEHOLDER": "נא להזין קוד מקוצר",
-          "ERROR": "קוד מקוצר נדרש"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "תוכן",
-          "PLACEHOLDER": "נא להזין תוכן",
-          "ERROR": "חובה להזין תוכן"
+          "LABEL": "הודעה",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "הודעה שדה חובה."
         },
         "SUBMIT": "שלח"
       },
       "BUTTON_TEXT": "ערוך",
       "API": {
-        "SUCCESS_MESSAGE": "תגובה מוכנה עודכנה בהצלחה",
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
       "API": {
-        "SUCCESS_MESSAGE": "תגובה מוכנה נמחקה בהצלחה",
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {
         "TITLE": "אשר מחיקה",
         "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-        "YES": "כן, מחק ",
-        "NO": "לא, השאר "
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
       }
     }
   }

@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum."
       }
     },
-    "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța.",
+    "UPDATE_CHATWOOT": "Este disponibilă o actualizare {latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța.",
     "LEARN_MORE": "Află mai mult",
     "PAYMENT_PENDING": "Plata dvs. este în așteptare. Vă rugăm să actualizați informațiile de plată pentru a continua să utilizați Chatwoot",
     "LIMITS_UPGRADE": "Contul dvs. a depășit limitele de utilizare, vă rugăm să vă actualizați planul pentru a continua să utilizați Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
       "participating_conversation_new_message": "Trimite mesaj nou",
-      "conversation_mention": "Menţiune"
+      "conversation_mention": "Menţiune",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Oferit de Chatwoot"
+      "OFFLINE": "Deconectat",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Reîmprospătare"
@@ -104,6 +109,7 @@
       "GENERAL": "General",
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
       "CHANGE_PRIORITY": "Modificarea priorității",
       "CHANGE_TEAM": "Schimbarea echipei",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
       "SETTINGS": "Setări",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Până mâine",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "Sistem"
+      "SYSTEM_MODE": "Sistem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

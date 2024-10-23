@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizari",
+    "HEADER": "Automatizare",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Adaugă Regulă de Automatizare",
     "LOADING": "Preluarea regulilor de automatizare",
-    "SIDEBAR_TXT": "<p><b>Reguli de automatizare</b> <p>Automatizarea poate înlocui și automatiza procesele existente care necesită efort manual. Puteți face multe lucruri cu automatizarea, inclusiv adăugarea de etichete și atribuirea conversației celui mai bun agent. Astfel, echipa se concentrează pe ceea ce face cel mai bine și petrece mai mult timp pe sarcini manuale.</p>",
     "ADD": {
       "TITLE": "Adaugă Regulă de Automatizare",
       "SUBMIT": "Creeaza",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduceți mesajul aici",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selectați echipe",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activați regula de automatizare",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Încărcare...",
       "LABEL_UPLOADED": "Încărcare reușită",
       "LABEL_UPLOAD_FAILED": "Încărcare eșuată"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Este necesară o valoare validă",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Makrokomandos",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Pridėti naują makrokomandą",
     "HEADER_BTN_TXT_SAVE": "Išsaugoti makrokomandą",
     "LOADING": "Gaunama makrokomanda",
-    "SIDEBAR_TXT": "<p><b>Makrokomandos</b><p>Makrokomandos yra išsaugotų veiksmų rinkinys, padedantis klientų aptarnavimo agentams lengvai atlikti užduotis. Agentai gali apibrėžti veiksmų rinkinį, pvz., pokalbio žymėjimą etikete, el. laiško nuorašo siuntimą, atributo atnaujinimą ir pan., ir jie gali atlikti šiuos veiksmus vienu paspaudimu. Kai agentai vykdo makrokomandą, veiksmai bus atliekami nuosekliai tokia tvarka, kokia jie yra apibrėžti. Makrokomandos pagerina produktyvumą ir padidina veiksmų nuoseklumą. </p><p>Makrokomandas gali būti naudingas dviem būdais. </p><p><b>Kaip agento pagalba:</b> jei agentas kelis kartus atlieka veiksmų rinkinį, jis gali išsaugoti jį kaip makrokomandą ir atlikti visus veiksmus kartu vienu spustelėjimu.</b> p><p><b>Kaip galimybė įtraukti komandos narį:</b> kiekvienas agentas kiekvieno pokalbio metu turi atlikti daugybę skirtingų patikrinimų / veiksmų. Priimant naują komandos narį bus lengva, jei paskyroje bus iš anksto nustatytų makrokomandų. Užuot išsamiai aprašęs kiekvieną veiksmą, vadovas / komandos vadovas gali nurodyti įvairiuose scenarijuose naudojamas makrokomandas.</p>",
     "ERROR": "Kažkas nepavyko. Bandykite dar kartą",
     "ORDER_INFO": "Makrokomandos bus paleistos ta tvarka, kuria pridėsite veiksmus. Galite juos pertvarkyti vilkdami už rankenos šalia kiekvieno mazgo.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Vykdyti",
       "PREVIEW": "Peržiūrėti makrokomandą",
       "EXECUTED_SUCCESSFULLY": "Sėkmingai įvykdyta makrokomanda"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Reikalinga vertė",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

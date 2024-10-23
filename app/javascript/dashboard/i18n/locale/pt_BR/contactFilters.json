@@ -1,6 +1,6 @@
 {
   "CONTACTS_FILTER": {
-    "TITLE": "Filtrar contatos",
+    "TITLE": "Filtrar Contatos",
     "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
     "EDIT_CUSTOM_SEGMENT": "Editar segmento",
     "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize seu segmento.",
@@ -30,6 +30,9 @@
       "is_lesser_than": "É menor que",
       "days_before": "É x dias antes"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Valor obrigatório"
+    },
     "ATTRIBUTES": {
       "NAME": "Nome",
       "EMAIL": "e-mail",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Criado em",
       "LAST_ACTIVITY": "Última atividade",
-      "REFERER_LINK": "Link de origem"
+      "REFERER_LINK": "Link de origem",
+      "BLOCKED": "Bloqueado"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros Padrão",
