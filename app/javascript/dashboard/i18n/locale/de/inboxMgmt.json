@@ -498,7 +498,7 @@
       "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Merere Konversationen zulassen",
+      "LOCK_TO_SINGLE_CONVERSATION": "Mehrere Konversationen zulassen",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Mehrere gleichzeitige Unterhaltungen für denselben Kontakt in diesem Posteingang aktivieren oder deaktivieren",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
