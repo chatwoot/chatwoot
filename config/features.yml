@@ -92,5 +92,5 @@
 - name: custom_roles
   enabled: false
   premium: true
-- name: sidebar_next
+- name: chatwoot_v4
   enabled: false

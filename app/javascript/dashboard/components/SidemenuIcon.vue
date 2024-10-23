@@ -19,7 +19,7 @@ export default {
     hasNextSidebar() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
-        FEATURE_FLAGS.SIDEBAR_NEXT
+        FEATURE_FLAGS.CHATWOOT_V4
       );
     },
   },
