@@ -147,7 +147,7 @@ class Article < ApplicationRecord
     self.locale = if category.present?
                     category.locale
                   else
-                    portal.default_locale
+                    locale || portal.default_locale
                   end
   end
 

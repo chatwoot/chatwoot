@@ -44,13 +44,15 @@ const createNewArticle = async ({ title, content }) => {
 
   isUpdating.value = true;
   try {
+    console.log(route.params);
     const { locale } = route.params;
     const articleId = await store.dispatch('articles/create', {
       portalSlug,
       content: articleContent.value,
       title: articleTitle.value,
-      author_id: selectedAuthorId.value || currentUserId.value,
-      category_id: selectedCategoryId.value || categoryId.value,
+      locale: locale,
+      authorId: selectedAuthorId.value || currentUserId.value,
+      categoryId: selectedCategoryId.value || categoryId.value,
     });
 
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
