@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -18,7 +18,7 @@ const { t } = useI18n();
 
 const domain = window?.location?.hostname || '';
 
-const subdomainCNAME = ref(`${props.customDomain} CNAME ${domain}`);
+const subdomainCNAME = computed(() => `${props.customDomain} CNAME ${domain}`);
 
 const dialogRef = ref(null);
 

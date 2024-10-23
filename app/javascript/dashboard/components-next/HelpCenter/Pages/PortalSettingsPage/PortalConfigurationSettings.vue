@@ -19,6 +19,7 @@ const { t } = useI18n();
 
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
+const updatedDomainAddress = ref('');
 
 const customDomainAddress = computed(
   () => props.activePortal?.custom_domain || ''
@@ -32,8 +33,14 @@ const updatePortalConfiguration = customDomain => {
   emit('updatePortalConfiguration', portal);
   addCustomDomainDialogRef.value.dialogRef.close();
   if (customDomain) {
+    updatedDomainAddress.value = customDomain;
     dnsConfigurationDialogRef.value.dialogRef.open();
   }
+};
+
+const closeDNSConfigurationDialog = () => {
+  updatedDomainAddress.value = '';
+  dnsConfigurationDialogRef.value.dialogRef.close();
 };
 </script>
 
@@ -104,8 +111,8 @@ const updatePortalConfiguration = customDomain => {
     />
     <DNSConfigurationDialog
       ref="dnsConfigurationDialogRef"
-      :custom-domain="customDomainAddress"
-      @confirm="dnsConfigurationDialogRef.dialogRef.close()"
+      :custom-domain="updatedDomainAddress || customDomainAddress"
+      @confirm="closeDNSConfigurationDialog"
     />
   </div>
 </template>

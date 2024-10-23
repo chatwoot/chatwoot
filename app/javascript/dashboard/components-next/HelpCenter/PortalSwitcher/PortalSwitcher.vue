@@ -70,6 +70,15 @@ const openCreatePortalDialog = () => {
   emit('createPortal');
   emit('close');
 };
+
+const redirectToPortalHomePage = () => {
+  router.push({
+    name: 'portals_index',
+    params: {
+      navigationPath: DEFAULT_ROUTE,
+    },
+  });
+};
 </script>
 
 <template>
@@ -80,7 +89,10 @@ const openCreatePortalDialog = () => {
       class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-n-alpha-2"
     >
       <div class="flex flex-col gap-1">
-        <h2 class="text-base font-medium text-slate-900 dark:text-slate-50">
+        <h2
+          class="text-base font-medium cursor-pointer text-slate-900 dark:text-slate-50 w-fit hover:underline"
+          @click="redirectToPortalHomePage"
+        >
           {{ t('HELP_CENTER.PORTAL_SWITCHER.PORTALS') }}
         </h2>
         <p class="text-sm text-slate-600 dark:text-slate-300">
