@@ -6,7 +6,6 @@ export const defaultPortalFlags = {
   isFetching: false,
   isUpdating: false,
   isDeleting: false,
-  isSwitching: false,
 };
 
 const state = {
@@ -32,6 +31,7 @@ const state = {
   uiFlags: {
     allFetched: false,
     isFetching: false,
+    isSwitching: false,
   },
 };
 

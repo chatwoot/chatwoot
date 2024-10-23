@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -37,6 +37,10 @@ const { t } = useI18n();
 
 const editCategoryDialog = ref(null);
 const selectedCategory = ref(null);
+
+const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
+const isLoading = computed(() => props.isFetching || isSwitchingPortal.value);
+const hasCategories = computed(() => props.categories?.length > 0);
 
 const updateRoute = (newParams, routeName) => {
   const { accountId, portalSlug, locale } = route.params;
@@ -108,22 +112,22 @@ const handleAction = ({ action, id, category: categoryData }) => {
     </template>
     <template #content>
       <div
-        v-if="isFetching"
+        v-if="isLoading"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
       </div>
-      <CategoryEmptyState
-        v-else-if="categories.length === 0"
-        class="pt-14"
-        :title="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.TITLE')"
-        :subtitle="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.SUBTITLE')"
-      />
       <CategoryList
-        v-else
+        v-else-if="hasCategories"
         :categories="categories"
         @click="openCategoryArticles"
         @action="handleAction"
+      />
+      <CategoryEmptyState
+        v-else
+        class="pt-14"
+        :title="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.TITLE')"
+        :subtitle="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_EMPTY_STATE.SUBTITLE')"
       />
     </template>
     <EditCategoryDialog

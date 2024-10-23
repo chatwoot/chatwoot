@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store.js';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import PortalBaseSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalBaseSettings.vue';
@@ -34,11 +35,15 @@ const confirmDeletePortalDialogRef = ref(null);
 
 const currentPortalSlug = computed(() => route.params.portalSlug);
 
+const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
+
 const activePortal = computed(() => {
   return props.portals?.find(portal => portal.slug === currentPortalSlug.value);
 });
 
 const activePortalName = computed(() => activePortal.value?.name || '');
+
+const isLoading = computed(() => props.isFetching || isSwitchingPortal.value);
 
 const handleUpdatePortal = portal => {
   emit('updatePortal', portal);
@@ -62,7 +67,13 @@ const handleDeletePortal = () => {
   <HelpCenterLayout :show-pagination-footer="false">
     <template #content>
       <div
-        v-if="!isFetching && activePortal"
+        v-if="isLoading"
+        class="flex items-center justify-center py-10 pt-2 pb-8 text-n-slate-11"
+      >
+        <Spinner />
+      </div>
+      <div
+        v-else-if="activePortal"
         class="flex flex-col w-full gap-4 max-w-[640px] pb-8"
       >
         <PortalBaseSettings
@@ -108,12 +119,6 @@ const handleDeletePortal = () => {
             @click="openConfirmDeletePortalDialog"
           />
         </div>
-      </div>
-      <div
-        v-else
-        class="flex items-center justify-center py-10 pt-2 pb-8 text-n-slate-11"
-      >
-        <Spinner />
       </div>
     </template>
     <ConfirmDeletePortalDialog

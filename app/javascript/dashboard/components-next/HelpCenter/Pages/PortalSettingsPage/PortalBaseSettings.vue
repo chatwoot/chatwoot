@@ -47,6 +47,8 @@ const state = reactive({
   avatarBlobId: '',
 });
 
+const originalState = reactive({ ...state });
+
 const liveChatWidgets = computed(() => {
   const inboxes = store.getters['inboxes/getInboxes'];
   return inboxes
@@ -78,8 +80,6 @@ const homePageLinkError = computed(() =>
     ? t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.ERROR')
     : ''
 );
-
-const originalState = reactive({});
 
 const isUpdatingPortal = computed(() => {
   const slug = props.activePortal?.slug;

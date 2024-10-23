@@ -15,13 +15,8 @@ const articles = useMapGetter('articles/allArticles');
 const categories = useMapGetter('categories/allCategories');
 const meta = useMapGetter('articles/getMeta');
 const portalMeta = useMapGetter('portals/getMeta');
-const isFetching = useMapGetter('articles/isFetching');
 const currentUserId = useMapGetter('getCurrentUserID');
 const getPortalBySlug = useMapGetter('portals/portalBySlug');
-
-const shouldShowEmptyState = computed(
-  () => !isFetching.value && !articles.value.length
-);
 
 const selectedPortalSlug = computed(() => route.params.portalSlug);
 const selectedCategorySlug = computed(() => route.params.categorySlug);
@@ -113,8 +108,6 @@ watch(
       :allowed-locales="allowedLocales"
       :meta="meta"
       :portal-meta="portalMeta"
-      :is-fetching="isFetching"
-      :has-no-articles="shouldShowEmptyState"
       :is-category-articles="isCategoryArticles"
       @page-change="onPageChange"
       @fetch-portal="fetchPortalAndItsCategories"

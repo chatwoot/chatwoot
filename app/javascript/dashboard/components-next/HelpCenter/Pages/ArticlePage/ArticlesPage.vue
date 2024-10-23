@@ -33,14 +33,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  isFetching: {
-    type: Boolean,
-    default: false,
-  },
-  hasNoArticles: {
-    type: Boolean,
-    default: false,
-  },
   isCategoryArticles: {
     type: Boolean,
     default: false,
@@ -53,11 +45,15 @@ const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
-const isSwitchingPortal = useMapGetter('portals/isSwitching');
+const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
+const isFetching = useMapGetter('articles/isFetching');
+const isFetchingItem = useMapGetter('portals/isFetchingItem');
 
-const isFetchingDetails = computed(
-  () => props.isFetching || isSwitchingPortal.value
+const hasNoArticles = computed(
+  () => !isFetching.value && !props.articles.length
 );
+
+const isLoading = computed(() => isFetching.value || isSwitchingPortal.value);
 
 const totalArticlesCount = computed(() => props.meta.allArticlesCount);
 
@@ -65,33 +61,14 @@ const hasNoArticlesInPortal = computed(
   () => totalArticlesCount.value === 0 && !props.isCategoryArticles
 );
 
-const isEmptySpecificTab = computed(() => {
-  const { tab } = route.params;
-  const specificTabs = [
-    ARTICLE_TABS.MINE,
-    ARTICLE_TABS.DRAFT,
-    ARTICLE_TABS.ARCHIVED,
-    '', // All tab
-  ];
-
-  if (!specificTabs.includes(tab)) return false;
-
-  const tabArticleCountMap = {
-    '': props.meta.articlesCount,
-    [ARTICLE_TABS.MINE]: props.meta.mineArticlesCount,
-    [ARTICLE_TABS.DRAFT]: props.meta.draftArticlesCount,
-    [ARTICLE_TABS.ARCHIVED]: props.meta.archivedArticlesCount,
-  };
-
-  return tabArticleCountMap[tab] === 0;
+const shouldShowPaginationFooter = computed(() => {
+  return !(
+    isFetching.value ||
+    isFetchingItem.value ||
+    isSwitchingPortal.value ||
+    hasNoArticles.value
+  );
 });
-
-const showEmptyState = computed(
-  () =>
-    hasNoArticlesInPortal.value ||
-    isEmptySpecificTab.value ||
-    (props.isCategoryArticles && props.hasNoArticles)
-);
 
 const updateRoute = newParams => {
   const { portalSlug, locale, tab, categorySlug } = route.params;
@@ -127,10 +104,7 @@ const showArticleHeaderControls = computed(
 );
 
 const showCategoryHeaderControls = computed(
-  () =>
-    !isEmptySpecificTab.value &&
-    props.isCategoryArticles &&
-    !isSwitchingPortal.value
+  () => props.isCategoryArticles && !isSwitchingPortal.value
 );
 
 const getEmptyStateText = type => {
@@ -163,7 +137,7 @@ const navigateToNewArticlePage = () =>
     :total-items="articlesCount"
     :items-per-page="25"
     :header="portalName"
-    :show-pagination-footer="!isFetchingDetails && !hasNoArticles"
+    :show-pagination-footer="shouldShowPaginationFooter"
     @update:current-page="handlePageChange"
   >
     <template #header-actions>
@@ -188,13 +162,18 @@ const navigateToNewArticlePage = () =>
     </template>
     <template #content>
       <div
-        v-if="isFetchingDetails"
+        v-if="isLoading"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
       </div>
+      <ArticleList
+        v-else-if="!hasNoArticles"
+        :articles="articles"
+        :is-category-articles="isCategoryArticles"
+      />
       <ArticleEmptyState
-        v-else-if="showEmptyState"
+        v-else
         class="pt-14"
         :title="getEmptyStateTitle"
         :subtitle="getEmptyStateSubtitle"
@@ -203,11 +182,6 @@ const navigateToNewArticlePage = () =>
           t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
         "
         @click="navigateToNewArticlePage"
-      />
-      <ArticleList
-        v-else
-        :articles="articles"
-        :is-category-articles="isCategoryArticles"
       />
     </template>
   </HelpCenterLayout>

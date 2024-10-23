@@ -108,6 +108,6 @@ export const mutations = {
   },
 
   [types.SET_PORTAL_SWITCHING_FLAG]($state, { isSwitching }) {
-    $state.isSwitching = isSwitching;
+    $state.uiFlags.isSwitching = isSwitching;
   },
 };
