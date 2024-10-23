@@ -31,7 +31,9 @@ const updatePortalConfiguration = customDomain => {
   };
   emit('updatePortalConfiguration', portal);
   addCustomDomainDialogRef.value.dialogRef.close();
-  dnsConfigurationDialogRef.value.dialogRef.open();
+  if (customDomain) {
+    dnsConfigurationDialogRef.value.dialogRef.open();
+  }
 };
 </script>
 
@@ -102,6 +104,7 @@ const updatePortalConfiguration = customDomain => {
     />
     <DNSConfigurationDialog
       ref="dnsConfigurationDialogRef"
+      :custom-domain="customDomainAddress"
       @confirm="dnsConfigurationDialogRef.dialogRef.close()"
     />
   </div>

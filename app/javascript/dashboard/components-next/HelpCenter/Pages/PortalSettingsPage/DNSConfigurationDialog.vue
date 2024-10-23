@@ -5,11 +5,21 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
+const props = defineProps({
+  customDomain: {
+    type: String,
+    default: '',
+  },
+});
+
 const emit = defineEmits(['confirm']);
 
 const { t } = useI18n();
 
-const subdomainCNAME = ref('subdomain CNAME chatwoot.help');
+const domain = window?.location?.hostname || '';
+
+const subdomainCNAME = ref(`${props.customDomain} CNAME ${domain}`);
+
 const dialogRef = ref(null);
 
 const handleDialogConfirm = () => {
