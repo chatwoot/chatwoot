@@ -112,7 +112,7 @@ const allowedMenuItems = computed(() => {
     <button
       class="flex gap-2 items-center rounded-lg cursor-pointer text-left w-full"
       v-bind="$attrs"
-      @click="toggleProfileMenu()"
+      @click="toggleProfileMenu"
     >
       <Avatar
         :size="32"
