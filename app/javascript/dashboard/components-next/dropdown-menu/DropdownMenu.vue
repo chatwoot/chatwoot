@@ -27,7 +27,7 @@ const handleAction = (action, value) => {
 
 <template>
   <div
-    class="bg-n-alpha-3 backdrop-blur-[100px] absolute rounded-xl z-50 py-3 px-1 gap-2 flex flex-col min-w-[136px] shadow-lg"
+    class="bg-n-alpha-3 backdrop-blur-[100px] absolute rounded-xl z-50 py-2 px-2 gap-2 flex flex-col min-w-[136px] shadow-lg"
   >
     <Button
       v-for="item in menuItems"
@@ -38,9 +38,9 @@ const handleAction = (action, value) => {
       :disabled="item.disabled"
       variant="ghost"
       size="sm"
-      class="!justify-start w-full hover:!bg-n-alpha-3 z-60 font-normal"
-      :class="item.isSelected ? '!bg-n-alpha-2 dark:!bg-n-alpha-2' : ''"
-      :text-variant="item.action === 'delete' ? 'danger' : 'info'"
+      class="!justify-start w-full hover:!bg-n-slate-3 dark:hover:!bg-n-slate-4 z-60 px-2 font-normal"
+      :class="item.isSelected ? '!bg-n-alpha-1 dark:!bg-n-solid-active' : ''"
+      :text-variant="item.action === 'delete' ? 'danger' : ''"
       @click="handleAction(item.action, item.value)"
     >
       <template #leftPrefix>

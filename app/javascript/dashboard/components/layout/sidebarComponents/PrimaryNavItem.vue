@@ -95,7 +95,7 @@ export default {
   <OnClickOutside v-if="isHelpCenter" @trigger="showHelpCenterMenu = false">
     <button
       v-tooltip.top="$t(`SIDEBAR.${name}`)"
-      class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
+      class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:!bg-slate-25 dark:hover:!bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
       :class="{
         'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50':
           isHelpCenterSelected,
@@ -111,7 +111,7 @@ export default {
       <DropdownMenu
         v-if="showHelpCenterMenu && isHelpCenter"
         :menu-items="helpCenterMenuItems"
-        class="ltr:left-10 rtl:right-10 w-36 z-[100] !py-1 top-0 overflow-y-auto max-h-52"
+        class="ltr:left-10 rtl:right-10 w-36 z-[100] top-0 overflow-y-auto max-h-52"
         @action="handleHelpCenterAction"
       />
     </button>

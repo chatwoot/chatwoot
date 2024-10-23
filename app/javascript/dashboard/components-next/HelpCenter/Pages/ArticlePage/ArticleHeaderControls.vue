@@ -159,7 +159,7 @@ const handleTabChange = value => {
             <DropdownMenu
               v-if="isLocaleMenuOpen"
               :menu-items="localeMenuItems"
-              class="left-0 max-w-[300px] mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+              class="left-0 w-40 max-w-[300px] mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
               @action="handleLocaleAction"
             />
           </OnClickOutside>
