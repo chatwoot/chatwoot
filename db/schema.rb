@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_20_122047) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_23_041753) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -496,6 +496,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_20_122047) do
     t.string "po_note"
     t.integer "po_agent_id"
     t.integer "po_team_id"
+    t.text "secondary_phone_number"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"

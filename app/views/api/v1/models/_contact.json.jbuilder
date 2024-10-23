@@ -3,6 +3,7 @@ json.email resource.email
 json.id resource.id
 json.name resource.name
 json.phone_number resource.phone_number
+json.secondary_phone_number resource.secondary_phone_number
 json.identifier resource.identifier
 json.thumbnail resource.avatar_url
 json.stage resource.stage if resource.stage.present?

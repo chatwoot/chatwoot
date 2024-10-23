@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Chưa nhập",
     "EMAIL_ADDRESS": "Địa chỉ email",
     "PHONE_NUMBER": "Số điện thoại",
-    "PARENTS_PHONE_NUMBER": "Số điện thoại phụ huynh",
+    "SECONDARY_PHONE_NUMBER": "Số điện thoại phụ",
     "PRODUCT_NAME": "Sản phẩm dịch vụ",
     "IDENTIFIER": "Định danh",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
@@ -179,11 +179,19 @@
         "PLACEHOLDER": "Nhập số điện thoại của khách hàng",
         "LABEL": "Số điện thoại",
         "HELP": "Số điện thoại cần theo định dạng mã quốc gia, ví dụ +84919191919 [+][mã quốc gia][mã nhà cung cấp][số điện thoại].",
-        "CONTACT_PLACEHOLDER": "Có thể bổ sung thêm ' - chị A phụ huynh'",
+        "CONTACT_PLACEHOLDER": "Có thể thêm thông tin, ví dụ ' - c.An phụ huynh'",
         "CONTACT_ERROR": "Số điện thoại theo định dạng XXX hoặc XXX - thông tin bổ sung",
         "ERROR": "Số điện thoại nên rỗng hoặc thuộc định dạng E.164",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "Vui lòng chọn mã quốc gia từ danh sách",
         "DUPLICATE": "Số điện thoại này đang được dùng cho một khách hàng khác."
+      },
+      "SECONDARY_PHONE_NUMBER": {
+        "PLACEHOLDER": "Nhập số điện thoại phụ của khách hàng",
+        "LABEL": "Số điện thoại phụ",
+        "HELP": "Số điện thoại cần theo định dạng mã quốc gia, ví dụ +84919191919 [+][mã quốc gia][mã nhà cung cấp][số điện thoại].",
+        "CONTACT_PLACEHOLDER": "Có thể thêm thông tin, ví dụ ' - Zalo'",
+        "CONTACT_ERROR": "Số điện thoại theo định dạng XXX hoặc XXX - thông tin bổ sung",
+        "DIAL_CODE_ERROR": "Vui lòng chọn mã quốc gia từ danh sách"
       },
       "LOCATION": {
         "PLACEHOLDER": "Nhập vị trí của khách hàng",

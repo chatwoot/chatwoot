@@ -61,15 +61,12 @@
             show-copy
           />
           <contact-info-row
-            v-if="
-              contact.custom_attributes &&
-              contact.custom_attributes.parents_phone
-            "
-            :href="`tel:${contact.custom_attributes.parents_phone}`"
-            :value="contact.custom_attributes.parents_phone"
+            v-if="contact.secondary_phone_number"
+            :href="`tel:${contact.secondary_phone_number}`"
+            :value="contact.secondary_phone_number"
             icon="person-account"
             emoji="📞"
-            :title="$t('CONTACT_PANEL.PARENTS_PHONE_NUMBER')"
+            :title="$t('CONTACT_PANEL.SECONDARY_PHONE_NUMBER')"
             show-copy
           />
           <contact-info-row
