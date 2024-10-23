@@ -1,5 +1,6 @@
 <script>
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+
 export default {
   components: {
     LoadingState,
@@ -51,19 +52,18 @@ export default {
       }
     },
   },
-
   mounted() {
-    window.onmessage = e => {
-      if (
-        typeof e.data !== 'string' ||
-        e.data !== 'chatwoot-dashboard-app:fetch-info'
-      ) {
-        return;
-      }
-      this.onIframeLoad(0);
-    };
+    window.addEventListener('message', this.triggerEvent);
+  },
+  unmounted() {
+    window.removeEventListener('message', this.triggerEvent);
   },
   methods: {
+    triggerEvent(event) {
+      if (event.data === 'chatwoot-dashboard-app:fetch-info') {
+        this.onIframeLoad(0);
+      }
+    },
     getFrameId(index) {
       return `dashboard-app--frame-${this.position}-${index}`;
     },
