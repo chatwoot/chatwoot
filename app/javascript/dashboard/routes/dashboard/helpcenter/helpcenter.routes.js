@@ -1,5 +1,6 @@
-import HelpCenterLayout from './components/HelpCenterLayout.vue';
 import { getPortalRoute } from './helpers/routeHelper';
+
+import HelpCenterPageRouteView from './pages/HelpCenterPageRouteView.vue';
 
 const PortalsIndex = () => import('./pages/PortalsIndexPage.vue');
 const PortalsNew = () => import('./pages/PortalsNewPage.vue');
@@ -114,7 +115,7 @@ export default {
   routes: [
     {
       path: getPortalRoute(),
-      component: HelpCenterLayout,
+      component: HelpCenterPageRouteView,
       children: [...portalRoutes],
     },
   ],
