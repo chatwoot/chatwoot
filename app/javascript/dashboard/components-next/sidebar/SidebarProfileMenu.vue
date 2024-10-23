@@ -9,7 +9,7 @@ import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'next/icon/Icon.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 
-const emit = defineEmits(['close', 'openKeyShortcutModal', 'toggleAccounts']);
+const emit = defineEmits(['close', 'openKeyShortcutModal']);
 
 defineOptions({
   inheritAttrs: false,
@@ -30,26 +30,8 @@ const closeMenu = () => {
   }
 };
 
-const showChangeAccountOption = computed(() => {
-  if (globalConfig.value.createNewAccountFromDashboard) {
-    return true;
-  }
-
-  const { accounts = [] } = currentUser.value;
-  return accounts.length > 1;
-});
-
 const menuItems = computed(() => {
   return [
-    {
-      show: showChangeAccountOption.value,
-      label: t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS'),
-      icon: 'i-lucide-arrow-left-right',
-      click: () => {
-        closeMenu();
-        emit('toggleAccounts');
-      },
-    },
     {
       show: !!globalConfig.value.chatwootInboxToken,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
