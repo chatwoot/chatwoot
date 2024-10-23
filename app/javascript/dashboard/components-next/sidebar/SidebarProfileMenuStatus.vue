@@ -52,7 +52,7 @@ function updateAutoOffline(autoOffline) {
 <template>
   <div class="pt-2">
     <span
-      class="px-3 uppercase tracking-wider font-semibold text-n-slate-11 text-xs"
+      class="px-3 leading-4 font-normal tracking-[0.2px] text-n-slate-10 text-xs"
     >
       {{ t('SIDEBAR.SET_AVAILABILITY_TITLE') }}
     </span>

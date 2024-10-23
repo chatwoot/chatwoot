@@ -58,11 +58,11 @@ const emitNewAccount = () => {
       <div
         class="w-72 text-sm block bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
       >
-        <h3
-          class="px-4 pt-3 pb-2 uppercase tracking-wider font-semibold text-n-slate-11 text-xs"
+        <div
+          class="px-4 pt-3 pb-2 leading-4 font-normal tracking-[0.2px] text-n-slate-10 text-xs"
         >
           {{ t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
-        </h3>
+        </div>
         <div class="px-1 gap-1 grid">
           <button
             v-for="account in currentUser.accounts"
