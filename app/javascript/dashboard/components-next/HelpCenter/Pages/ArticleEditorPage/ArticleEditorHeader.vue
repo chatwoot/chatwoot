@@ -166,7 +166,7 @@ const updateArticleStatus = async ({ value }) => {
               <DropdownMenu
                 v-if="showArticleActionMenu"
                 :menu-items="articleMenuItems"
-                class="right-0 mt-2 top-full"
+                class="mt-2 ltr:right-0 rtl:left-0 top-full"
                 @action="updateArticleStatus($event)"
               />
             </OnClickOutside>

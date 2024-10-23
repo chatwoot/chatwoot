@@ -83,7 +83,7 @@ const togglePortalSwitcher = () => {
 
               <PortalSwitcher
                 v-if="showPortalSwitcher"
-                class="absolute left-0 top-9"
+                class="absolute ltr:left-0 rtl:right-0 top-9"
                 @close="showPortalSwitcher = false"
                 @create-portal="createPortalDialogRef.dialogRef.open()"
               />

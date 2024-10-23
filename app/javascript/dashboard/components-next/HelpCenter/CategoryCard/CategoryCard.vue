@@ -111,7 +111,7 @@ const handleAction = ({ action, value }) => {
               <DropdownMenu
                 v-if="isOpen"
                 :menu-items="categoryMenuItems"
-                class="right-0 mt-1 xl:left-0 top-full z-60"
+                class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full z-60"
                 @action="handleAction"
               />
             </OnClickOutside>
