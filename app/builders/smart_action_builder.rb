@@ -40,7 +40,9 @@ class SmartActionBuilder
       :to,
       :from,
       :link,
-      :content
+      :content,
+      :score,
+      :sentiment
     )
   end
 end

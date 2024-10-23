@@ -21,7 +21,7 @@
 #  index_smart_actions_on_message_id       (message_id)
 #
 class SmartAction < ApplicationRecord
-  store :custom_attributes, accessors: [:to, :from, :link, :content]
+  store :custom_attributes, accessors: [:to, :from, :link, :content, :score, :sentiment]
 
   belongs_to :conversation
   belongs_to :message
@@ -38,13 +38,23 @@ class SmartAction < ApplicationRecord
   RESOLVE_CONVERSATION = 'resolve_conversation'.freeze
   CREATE_PRIVATE_MESSAGE = 'create_private_message'.freeze
   HANDOVER_CONVERSATION = 'handover_conversation'.freeze
+  RECORD_OUTGOING_MESSAGE_SCORE = 'record_message_score'.freeze
+  RECORD_INCOMING_MESSAGE_SENTIMENT = 'record_message_sentiment'.freeze
+  ESCALATE_CONVERSATION = 'escalate_conversation'.freeze
 
   MANUAL_ACTION = [
     CREATE_BOOKING,
     CANCEL_BOOKING
-  ]
+  ].freeze
 
   scope :ask_copilot, -> { where(event: ASK_COPILOT) }
+  scope :outgoing_message_score, -> { where(event: RECORD_OUTGOING_MESSAGE_SCORE) }
+  scope :incoming_message_sentiment, -> { where(event: RECORD_INCOMING_MESSAGE_SENTIMENT) }
+  scope :escalate_conversation, -> { where(event: ESCALATE_CONVERSATION) }
+  scope :resolve_conversation, -> { where(event: RESOLVE_CONVERSATION) }
+  scope :create_private_message, -> { where(event: CREATE_PRIVATE_MESSAGE) }
+  scope :automated_response, -> { where(event: AUTOMATED_RESPONSE) }
+  scope :handover_conversation, -> { where(event: HANDOVER_CONVERSATION) }
   scope :active, -> { where(active: true) }
   delegate :account, to: :conversation
 
@@ -69,18 +79,40 @@ class SmartAction < ApplicationRecord
     MANUAL_ACTION.include?(event)
   end
 
+  def bot_agent
+    find_or_create_bot_agent
+  end
+
   private
 
   def execute_after_create_commit_callbacks
     dispatch_create_events
 
     set_agent_bot
-    create_automated_response
-    resolve_conversation
-    create_private_message
-    handover_conversation_to_team
+    trigger_after_create_callbacks
     restore_current_user
   end
+
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def trigger_after_create_callbacks
+    case event
+    when AUTOMATED_RESPONSE
+      create_automated_response
+    when CREATE_PRIVATE_MESSAGE
+      create_private_message
+    when ESCALATE_CONVERSATION
+      create_escalate_conversation
+    when HANDOVER_CONVERSATION
+      handover_conversation_to_team
+    when RECORD_OUTGOING_MESSAGE_SCORE
+      record_outgoing_message_score
+    when RECORD_INCOMING_MESSAGE_SENTIMENT
+      record_incoming_message_sentiment
+    when RESOLVE_CONVERSATION
+      resolve_conversation
+    end
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def set_agent_bot
     @prev_user = Current.user
@@ -109,9 +141,16 @@ class SmartAction < ApplicationRecord
     Messages::MessageBuilder.new(assignee, conversation, { content: content, private: true }).perform
   end
 
+  def create_escalate_conversation
+    return unless event == ESCALATE_CONVERSATION
+
+    conversation.team_id = handover_team&.id
+    conversation.save!
+  end
+
   def handover_conversation_to_team
     return unless event == HANDOVER_CONVERSATION
-    
+
     conversation.team_id = handover_team&.id
     conversation.save!
   end
@@ -123,12 +162,24 @@ class SmartAction < ApplicationRecord
     conversation.save!
   end
 
+  def record_incoming_message_sentiment
+    return unless event == RECORD_INCOMING_MESSAGE_SENTIMENT
+
+    update_cached_message
+  end
+
+  def record_outgoing_message_score
+    return unless event == RECORD_OUTGOING_MESSAGE_SCORE
+
+    update_cached_message
+  end
+
   def handover_team
     conversation.account.teams.where(high_priority: true).first
   end
 
-  def bot_agent
-    find_or_create_bot_agent
+  def update_cached_message
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self.message)
   end
 
   def find_or_create_bot_agent

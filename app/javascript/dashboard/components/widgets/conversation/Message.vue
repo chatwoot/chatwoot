@@ -105,6 +105,11 @@
           :inbox-id="data.inbox_id"
           :created-at="createdAt"
         />
+        <div v-if="data.contact_sentiment">
+          <small>
+            Sentiment: {{ data.contact_sentiment }}
+          </small>
+        </div>
       </div>
       <spinner v-if="isPending" size="tiny" />
       <div

@@ -71,7 +71,9 @@ RSpec.describe Message do
 
         account_id: message.account_id,
         additional_attributes: message.additional_attributes,
+        agent_score: nil,
         auto_reply: message.auto_reply,
+        contact_sentiment: '',
         content_attributes: message.content_attributes,
         content_type: message.content_type,
         content: message.content,

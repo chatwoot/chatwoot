@@ -172,6 +172,8 @@ class Message < ApplicationRecord
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
+    data[:contact_sentiment] = contact_sentiment
+    data[:agent_score] = agent_score
     merge_sender_attributes(data)
   end
 
@@ -284,6 +286,15 @@ class Message < ApplicationRecord
     save!
   end
 
+  def agent_score
+    smart_actions.outgoing_message_score.active.last&.score
+  end
+
+  def contact_sentiment
+    snt = smart_actions.incoming_message_sentiment.active.last&.sentiment
+    snt.to_s.capitalize
+  end
+
   private
 
   def prevent_message_flooding
@@ -348,7 +359,9 @@ class Message < ApplicationRecord
   end
 
   def deactivate_copilot_drafts
+    # rubocop:disable Rails/SkipsModelValidations
     conversation.smart_actions.ask_copilot.where('message_id < ?', id).update_all(active: false)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def update_contact_activity

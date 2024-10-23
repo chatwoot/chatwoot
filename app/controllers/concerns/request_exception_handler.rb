@@ -60,6 +60,6 @@ module RequestExceptionHandler
   end
 
   def log_handled_error(exception)
-    logger.error("Handled error: #{exception.inspect} backtrace: #{exception.backtrace.first} params: #{params.inspect}")
+    logger.error("Handled error: #{exception.inspect} backtrace: #{exception.backtrace&.first} params: #{params.inspect}")
   end
 end

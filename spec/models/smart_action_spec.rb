@@ -44,6 +44,8 @@ RSpec.describe SmartAction do
   end
 
   describe 'event types' do
+    let(:handover_team) { create(:team, name: 'Handover Team', high_priority: true) }
+
     context 'automated_response' do
       it 'creates automated response' do
         smart_action = create(:smart_action, event: 'automated_response', content: 'test content')
@@ -72,6 +74,46 @@ RSpec.describe SmartAction do
         expect(smart_action.conversation.messages.last.private).to be_truthy
         expect(smart_action.conversation.messages.last.content).to eq 'private content'
       }
+    end
+
+    context 'escalate_conversation' do
+      it 'escalates conversation' do
+        conversation = create(:conversation, account_id: handover_team.account_id)
+        expect(conversation.team_id).not_to eq handover_team.id
+
+        smart_action = create(:smart_action, event: 'escalate_conversation', conversation: conversation)
+        expect(smart_action.conversation.team_id).to eq handover_team.id
+      end
+    end
+
+    context 'handover_conversation' do
+      it 'hands over conversation to team' do
+        conversation = create(:conversation, account_id: handover_team.account_id)
+        expect(conversation.team_id).not_to eq handover_team.id
+
+        smart_action = create(:smart_action, event: 'handover_conversation', conversation: conversation)
+        expect(smart_action.conversation.team_id).to eq handover_team.id
+      end
+    end
+
+    context 'record_message_score' do
+      it 'records outgoing message score' do
+        conversation = create(:conversation)
+        message = create(:message, conversation: conversation)
+
+        smart_action = create(:smart_action, event: 'record_message_score', message: message, conversation: conversation, score: 3)
+        expect(message.agent_score).to eq 3
+      end
+    end
+
+    context 'record_incoming_message_sentiment' do
+      it 'records incoming message contact_sentiment' do
+        conversation = create(:conversation)
+        message = create(:message, conversation: conversation)
+
+        smart_action = create(:smart_action, event: 'record_message_sentiment', message: message, conversation: conversation, sentiment: 'angry')
+        expect(message.contact_sentiment).to eq 'Angry'
+      end
     end
   end
 end
