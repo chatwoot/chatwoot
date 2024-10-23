@@ -225,7 +225,10 @@
         "URL_ERROR": "A valid URL is required",
         "KEY_LABEL": "Api Key",
         "KEY_PLACEHOLDER": "Enter your api verification key",
-        "KEY_ERROR": "A api-key for the Custom API is required"
+        "KEY_ERROR": "A api-key for the Custom API is required",
+        "FRONTEND_LABEL": "Frontend URL",
+        "FRONTEND_PLACEHOLDER": "Enter the base URL from your website frontend",
+        "FRONTEND_ERROR": "A valid URL is required"
       },
       "CREATE": {
         "HEADER": "Add a new Custom API",

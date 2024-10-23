@@ -34,9 +34,9 @@
       "INTERVALS": {
         "NONE": "Nenhum",
         "1HOUR": "1 Hora",
-        "1DAY": "1 Day",
-        "3DAY": "3 Days",
-        "7DAY": "7 Days",
+        "1DAY": "1 Dia",
+        "3DAY": "3 Dias",
+        "7DAY": "7 Dias",
         "CUSTOM": "Tempo Personalizado"
       },
 

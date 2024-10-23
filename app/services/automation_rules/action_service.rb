@@ -56,14 +56,12 @@ class AutomationRules::ActionService < ActionService
     channel = find_channel_by_inbox(template['inbox_id'])
     contact = @conversation.nil? ? @contact : @conversation.contact
     processed_params = processed_variable_params(template['processed_params'], template['processed_events'])
-
     processed_template = {
       name: template['name'],
       namespace: template['namespace'],
       lang_code: template['language'],
       parameters: processed_params&.map { |_, value| { type: 'text', text: value } }
     }
-
     channel.send_template(contact.phone_number, processed_template)
   end
 
@@ -96,7 +94,6 @@ class AutomationRules::ActionService < ActionService
 
   def fetch_variable_value(variable)
     object, attribute = variable.split('.', 2)
-
     case object
     when 'order'
       @params[attribute]
@@ -107,7 +104,7 @@ class AutomationRules::ActionService < ActionService
     when 'cart'
       fetch_value_from_cart(attribute)
     when 'link'
-
+      fetch_links(attribute)
     end
   end
 
@@ -133,5 +130,16 @@ class AutomationRules::ActionService < ActionService
 
       "#{product_name} - #{cover_color} - #{number_of_photos} fotos"
     end.compact.join(', ')
+  end
+
+  def fetch_links(attribute)
+    return unless attribute == 'photo'
+
+    custom_api = find_custom_api_by_name(@contact)
+    "#{custom_api['frontend_url']}/upload-fotos/#{@params['order_key']}"
+  end
+
+  def find_custom_api_by_name(contact)
+    CustomApi.find_by(name: contact.additional_attributes['integration'])
   end
 end
