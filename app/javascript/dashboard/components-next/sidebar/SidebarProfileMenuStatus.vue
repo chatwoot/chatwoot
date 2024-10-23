@@ -50,7 +50,7 @@ function updateAutoOffline(autoOffline) {
 </script>
 
 <template>
-  <div class="pt-2">
+  <div class="pt-2 text-n-slate-12">
     <span
       class="px-3 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
     >

@@ -140,7 +140,7 @@ const allowedMenuItems = computed(() => {
       >
         <SidebarProfileMenuStatus />
         <div class="border-t border-n-strong mx-2 my-0" />
-        <ul class="list-none m-0 grid gap-1 p-1">
+        <ul class="list-none m-0 grid gap-1 p-1 text-n-slate-12">
           <li v-for="item in allowedMenuItems" :key="item.label" class="m-0">
             <component
               :is="item.link ? 'a' : 'button'"
