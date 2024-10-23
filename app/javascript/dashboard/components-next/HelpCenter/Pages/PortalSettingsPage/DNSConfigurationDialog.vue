@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
-const emit = defineEmits(['confirm', 'close']);
+const emit = defineEmits(['confirm']);
 
 const { t } = useI18n();
 
@@ -14,10 +14,6 @@ const dialogRef = ref(null);
 
 const handleDialogConfirm = () => {
   emit('confirm');
-};
-
-const handleDialogClose = () => {
-  emit('close');
 };
 
 defineExpose({ dialogRef });
@@ -41,13 +37,8 @@ defineExpose({ dialogRef });
         'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.CONFIRM_BUTTON_LABEL'
       )
     "
-    :cancel-button-label="
-      t(
-        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.CANCEL_BUTTON_LABEL'
-      )
-    "
+    :show-cancel-button="false"
     @confirm="handleDialogConfirm"
-    @close="handleDialogClose"
   >
     <template #form>
       <div class="flex flex-col gap-6">

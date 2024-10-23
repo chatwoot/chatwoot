@@ -173,6 +173,7 @@ const handleTabChange = value => {
               icon="chevron-lucide-down"
               icon-lib="lucide"
               variant="secondary"
+              class="max-w-48"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
             />
 

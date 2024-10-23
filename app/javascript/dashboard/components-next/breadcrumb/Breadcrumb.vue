@@ -38,7 +38,7 @@ const onClick = event => {
           :label="item.label"
           variant="link"
           text-variant="info"
-          class="!p-0 text-sm !font-normal hover:!no-underline !text-slate-300 dark:!text-slate-500 hover:!text-slate-700 dark:hover:!text-slate-100"
+          class="!p-0 text-sm !font-normal hover:!no-underline max-w-56 !text-slate-300 dark:!text-slate-500 hover:!text-slate-700 dark:hover:!text-slate-100"
           size="sm"
           @click="onClick"
         />
@@ -49,7 +49,9 @@ const onClick = event => {
             icon-lib="lucide"
             class="flex-shrink-0 mx-2 text-slate-300 dark:text-slate-500"
           />
-          <span class="text-sm text-slate-900 dark:text-slate-50">
+          <span
+            class="text-sm truncate text-slate-900 dark:text-slate-50 max-w-56"
+          >
             {{ item.emoji ? item.emoji : '' }} {{ item.label }}
           </span>
         </template>

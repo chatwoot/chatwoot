@@ -40,7 +40,7 @@ const props = defineProps({
   },
 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur', 'input']);
 
 const messageClass = computed(() => {
   switch (props.messageType) {
@@ -61,6 +61,11 @@ const inputBorderClass = computed(() => {
       return 'border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak';
   }
 });
+
+const handleInput = event => {
+  emit('update:modelValue', event.target.value);
+  emit('input', event);
+};
 </script>
 
 <template>
@@ -82,7 +87,8 @@ const inputBorderClass = computed(() => {
       :placeholder="placeholder"
       :disabled="disabled"
       class="flex w-full reset-base text-sm h-10 !px-2 !py-2.5 !mb-0 border rounded-lg focus:border-n-brand dark:focus:border-n-brand bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
+      @blur="emit('blur')"
     />
     <p
       v-if="message"

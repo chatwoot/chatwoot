@@ -36,6 +36,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  showCancelButton: {
+    type: Boolean,
+    default: true,
+  },
+  showConfirmButton: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['confirm', 'close']);
@@ -88,12 +96,14 @@ defineExpose({ open, close });
           </slot>
           <div class="flex items-center justify-between w-full gap-3">
             <Button
+              v-if="showCancelButton"
               variant="ghost"
               :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
               class="w-full bg-n-alpha-2 hover:bg-n-alpha-3"
               @click="close"
             />
             <Button
+              v-if="showConfirmButton"
               :variant="type === 'edit' ? 'default' : 'destructive'"
               :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
               class="w-full"

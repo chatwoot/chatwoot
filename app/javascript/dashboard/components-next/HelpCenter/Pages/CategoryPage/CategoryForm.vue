@@ -264,3 +264,9 @@ defineExpose({ state, isSubmitDisabled });
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.emoji-dialog::before {
+  @apply hidden;
+}
+</style>

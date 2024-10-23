@@ -210,7 +210,7 @@ export default {
         },
       });
     },
-    handleKeyEvents() { },
+    handleKeyEvents() {},
     focusEditorInputField() {
       const { tr } = editorView.state;
       const selection = Selection.atEnd(tr.doc);
@@ -310,7 +310,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  >.ProseMirror {
+  > .ProseMirror {
     padding: 0;
     word-break: break-word;
   }

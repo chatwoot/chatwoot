@@ -90,7 +90,7 @@ const handleAction = ({ action, value }) => {
               {{ categoryTitleWithIcon }}
             </span>
             <span
-              class="inline-flex items-center justify-center h-6 px-2 py-1 text-xs text-center border rounded-lg text-slate-500 w-fit border-slate-200 dark:border-slate-800 dark:text-slate-400"
+              class="inline-flex items-center justify-center h-6 px-2 py-1 text-xs text-center truncate border rounded-lg min-w-fit text-slate-500 w-fit border-slate-200 dark:border-slate-800 dark:text-slate-400"
             >
               {{
                 t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_CARD.ARTICLES_COUNT', {

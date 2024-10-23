@@ -110,9 +110,3 @@ const handleCategory = async formData => {
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-.emoji-dialog::before {
-  @apply hidden;
-}
-</style>

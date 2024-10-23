@@ -101,8 +101,9 @@ const previewArticle = () => {
       <FullEditor
         v-model="articleContent"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
-        :placeholder="t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
-          "
+        :placeholder="
+          t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
+        "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
         :autofocus="false"
       />
