@@ -93,7 +93,7 @@ const hasActiveChild = computed(() => {
   return activeChild.value !== undefined;
 });
 
-watch([isExpanded, hasActiveChild, isActive], locateLastChild, {
+watch(expandedItem, locateLastChild, {
   immediate: true,
 });
 </script>
