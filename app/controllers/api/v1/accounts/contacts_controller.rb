@@ -18,7 +18,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     contacts = resolved_contacts.where(
       'contacts.name ILIKE :search OR contacts.email ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier LIKE :search
-        OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
+        OR contacts.secondary_phone_number ILIKE :search OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
       search: "%#{params[:q].strip}%"
     )
     @contacts_count = contacts.count
@@ -132,8 +132,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id, :team_id, :product_id, :po_date,
-                  :po_note, :po_value, :po_agent_id, :po_team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id, :team_id, :product_id, :po_date, :po_note,
+                  :po_value, :po_agent_id, :po_team_id, :avatar_url, :secondary_phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_update_params

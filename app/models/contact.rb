@@ -24,6 +24,7 @@
 #  po_date                :datetime
 #  po_note                :string
 #  po_value               :float
+#  secondary_phone_number :text
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
@@ -61,6 +62,9 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
+            format: { with: /\+[0-9]{1,14}(\s*-\s*[a-zA-Z0-9\sà-ỹÀ-Ý]+)?\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+  validates :secondary_phone_number,
+            allow_blank: true,
             format: { with: /\+[0-9]{1,14}(\s*-\s*[a-zA-Z0-9\sà-ỹÀ-Ý]+)?\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account

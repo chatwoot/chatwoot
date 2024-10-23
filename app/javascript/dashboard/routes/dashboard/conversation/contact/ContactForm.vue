@@ -27,14 +27,14 @@
         <div class="w-full">
           <label
             :class="{
-              error: isPhoneNumberNotValid,
+              error: isPhoneNumberNotValid(phoneNumber, activeDialCode),
             }"
           >
             {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
             <woot-phone-input
               v-model="phoneNumber"
               :value="phoneNumber"
-              :error="isPhoneNumberNotValid"
+              :error="isPhoneNumberNotValid(phoneNumber, activeDialCode)"
               :placeholder="
                 $t('CONTACT_FORM.FORM.PHONE_NUMBER.CONTACT_PLACEHOLDER')
               "
@@ -42,8 +42,39 @@
               @blur="$v.phoneNumber.$touch"
               @setCode="setPhoneCode"
             />
-            <span v-if="isPhoneNumberNotValid" class="message">
-              {{ phoneNumberError }}
+            <span
+              v-if="isPhoneNumberNotValid(phoneNumber, activeDialCode)"
+              class="message"
+            >
+              {{ phoneNumberError(phoneNumber, activeDialCode) }}
+            </span>
+          </label>
+        </div>
+        <div class="w-full">
+          <label
+            :class="{
+              error: isPhoneNumberNotValid(phoneNumber2, activeDialCode2),
+            }"
+          >
+            {{ $t('CONTACT_FORM.FORM.SECONDARY_PHONE_NUMBER.LABEL') }}
+            <woot-phone-input
+              v-model="phoneNumber2"
+              :value="phoneNumber2"
+              :error="isPhoneNumberNotValid(phoneNumber2, activeDialCode2)"
+              :placeholder="
+                $t(
+                  'CONTACT_FORM.FORM.SECONDARY_PHONE_NUMBER.CONTACT_PLACEHOLDER'
+                )
+              "
+              @input="onPhoneNumber2InputChange"
+              @blur="$v.phoneNumber2.$touch"
+              @setCode="setPhoneCode2"
+            />
+            <span
+              v-if="isPhoneNumberNotValid(phoneNumber2, activeDialCode2)"
+              class="message"
+            >
+              {{ phoneNumberError(phoneNumber2, activeDialCode2) }}
             </span>
           </label>
         </div>
@@ -172,7 +203,9 @@ export default {
       email: '',
       name: '',
       phoneNumber: '',
+      phoneNumber2: '',
       activeDialCode: '',
+      activeDialCode2: '',
       avatarFile: null,
       avatarUrl: '',
       country: {
@@ -191,6 +224,7 @@ export default {
       email,
     },
     phoneNumber: {},
+    phoneNumber2: {},
   },
   computed: {
     ...mapGetters({
@@ -201,23 +235,8 @@ export default {
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
     },
-    isPhoneNumberNotValid() {
-      if (this.phoneNumber !== '') {
-        return (
-          !isPhoneNumberValid(this.phoneNumber, this.activeDialCode) ||
-          (this.phoneNumber !== '' ? this.activeDialCode === '' : false)
-        );
-      }
-      return false;
-    },
-    phoneNumberError() {
-      if (this.activeDialCode === '') {
-        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DIAL_CODE_ERROR');
-      }
-      if (!isPhoneNumberValid(this.phoneNumber, this.activeDialCode)) {
-        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.CONTACT_ERROR');
-      }
-      return '';
+    parsePhoneNumber2() {
+      return parsePhoneNumber(this.phoneNumber2);
     },
     setPhoneNumber() {
       if (this.parsePhoneNumber && this.parsePhoneNumber.countryCallingCode) {
@@ -230,6 +249,17 @@ export default {
         ? `${this.activeDialCode}${this.phoneNumber}`
         : '';
     },
+    setPhoneNumber2() {
+      if (this.parsePhoneNumber2 && this.parsePhoneNumber2.countryCallingCode) {
+        return this.phoneNumber2;
+      }
+      if (this.phoneNumber2 === '' && this.activeDialCode2 !== '') {
+        return '';
+      }
+      return this.activeDialCode2
+        ? `${this.activeDialCode2}${this.phoneNumber2}`
+        : '';
+    },
   },
   mounted() {
     this.$store.dispatch('agents/get');
@@ -239,6 +269,7 @@ export default {
         .then(() => {
           this.setContactObject();
           this.setDialCode();
+          this.setDialCode2();
         });
     } else {
       this.agent = this.currentUser;
@@ -248,6 +279,24 @@ export default {
     }
   },
   methods: {
+    isPhoneNumberNotValid(phoneNumber, activeDialCode) {
+      if (phoneNumber !== '') {
+        return (
+          !isPhoneNumberValid(phoneNumber, activeDialCode) ||
+          (phoneNumber !== '' ? activeDialCode === '' : false)
+        );
+      }
+      return false;
+    },
+    phoneNumberError(phoneNumber, activeDialCode) {
+      if (activeDialCode === '') {
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DIAL_CODE_ERROR');
+      }
+      if (!isPhoneNumberValid(phoneNumber, activeDialCode)) {
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.CONTACT_ERROR');
+      }
+      return '';
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -275,16 +324,28 @@ export default {
         this.activeDialCode = `+${dialCode}`;
       }
     },
+    setDialCode2() {
+      if (
+        this.phoneNumber2 !== '' &&
+        this.parsePhoneNumber2 &&
+        this.parsePhoneNumber2.countryCallingCode
+      ) {
+        const dialCode = this.parsePhoneNumber2.countryCallingCode;
+        this.activeDialCode2 = `+${dialCode}`;
+      }
+    },
     setContactObject() {
       const {
         email: emailAddress,
         phone_number: phoneNumber,
+        secondary_phone_number: phoneNumber2,
         name,
       } = this.contact;
 
       this.name = name || '';
       this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
+      this.phoneNumber2 = phoneNumber2 || '';
       this.avatarUrl = this.contact.thumbnail || '';
       this.customAttributes = this.contact.custom_attributes || {};
       this.agent = this.contact.assignee || {};
@@ -302,6 +363,7 @@ export default {
         name: this.name,
         email: this.email,
         phone_number: this.setPhoneNumber,
+        secondary_phone_number: this.setPhoneNumber2,
         stage_id: this.contact.stage_id,
         custom_attributes: this.customAttributes,
         assignee_id: this.agent?.id,
@@ -315,6 +377,9 @@ export default {
     },
     onPhoneNumberInputChange(value, code) {
       this.activeDialCode = code;
+    },
+    onPhoneNumber2InputChange(value, code) {
+      this.activeDialCode2 = code;
     },
     setPhoneCode(code) {
       if (this.phoneNumber !== '' && this.parsePhoneNumber) {
@@ -332,10 +397,30 @@ export default {
         this.activeDialCode = code;
       }
     },
+    setPhoneCode2(code) {
+      if (this.phoneNumber2 !== '' && this.parsePhoneNumber2) {
+        const dialCode = this.parsePhoneNumber2.countryCallingCode;
+        if (dialCode === code) {
+          return;
+        }
+        this.activeDialCode2 = `+${dialCode}`;
+        const newPhoneNumber = this.phoneNumber2.replace(
+          `+${dialCode}`,
+          `${code}`
+        );
+        this.phoneNumber2 = newPhoneNumber;
+      } else {
+        this.activeDialCode2 = code;
+      }
+    },
     async handleSubmit() {
       if (!this.submitEnabled) return;
       this.$v.$touch();
-      if (this.$v.$invalid || this.isPhoneNumberNotValid) {
+      if (
+        this.$v.$invalid ||
+        this.isPhoneNumberNotValid(this.phoneNumber, this.activeDialCode) ||
+        this.isPhoneNumberNotValid(this.phoneNumber2, this.activeDialCode2)
+      ) {
         return;
       }
       try {
