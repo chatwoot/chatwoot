@@ -34,10 +34,8 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getCustomViews(_state) {
-    return _state.records;
-  },
-  getCustomViewsByFilterType: _state => filterType => {
+  getCustomViewsByFilterType: _state => key => {
+    const filterType = FILTER_KEYS[key];
     return _state[filterType].records;
   },
   getConversationCustomViews(_state) {
