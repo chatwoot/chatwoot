@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_18_040646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -435,6 +435,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
   end
 
+  create_table "conversation_assignments", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "assignee_id", null: false
+    t.bigint "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversation_assignments_on_account_id"
+    t.index ["assignee_id"], name: "index_conversation_assignments_on_assignee_id"
+    t.index ["conversation_id"], name: "index_conversation_assignments_on_conversation_id"
+    t.index ["inbox_id"], name: "index_conversation_assignments_on_inbox_id"
+    t.index ["team_id"], name: "index_conversation_assignments_on_team_id"
+  end
+
   create_table "conversation_participants", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "user_id", null: false
@@ -445,6 +460,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
     t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
     t.index ["user_id", "conversation_id"], name: "index_conversation_participants_on_user_id_and_conversation_id", unique: true
     t.index ["user_id"], name: "index_conversation_participants_on_user_id"
+  end
+
+  create_table "conversation_statuses", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "conversation_id", null: false
+    t.integer "status", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversation_statuses_on_account_id"
+    t.index ["conversation_id", "created_at"], name: "index_conversation_statuses_on_conversation_id_and_created_at"
+    t.index ["conversation_id"], name: "index_conversation_statuses_on_conversation_id"
+    t.index ["inbox_id"], name: "index_conversation_statuses_on_inbox_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|

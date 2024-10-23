@@ -26,6 +26,12 @@ module ReportingEventHelper
     handoff_event&.event_end_time || conversation.created_at
   end
 
+  def last_agent_assignment(conversation)
+    latest_agent_assignment = ConversationAssignment.where(conversation_id: conversation.id).last
+
+    latest_agent_assignment&.created_at || conversation.created_at
+  end
+
   private
 
   def configure_working_hours(working_hours)

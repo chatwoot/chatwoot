@@ -101,6 +101,8 @@ class Conversation < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
+  has_many :conversation_statuses, dependent: :destroy_async
+  has_many :conversation_assignments, dependent: :destroy_async
   has_many :attachments, through: :messages
 
   before_save :ensure_snooze_until_reset
@@ -110,6 +112,9 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  after_create_commit :log_status_change
+  after_save :log_status_change, if: :saved_change_to_status?
+  after_save :log_assignment_change, if: :saved_change_to_assignee_id?
 
   delegate :auto_resolve_duration, to: :account
 
@@ -200,6 +205,28 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def log_status_change
+    ConversationStatus.create!(
+      account_id: account_id,
+      inbox_id: inbox_id,
+      conversation_id: id,
+      status: status
+    )
+  end
+
+  def log_assignment_change
+    ConversationAssignment.create!(
+      account_id: account_id,
+      inbox_id: inbox_id,
+      conversation_id: id,
+      assignee_id: assignee_id,
+      team_id: team_id
+    )
+
+    # Clear first_reply_created_at when assignee changes
+    update(first_reply_created_at: nil)
+  end
 
   def execute_after_update_commit_callbacks
     notify_status_change
