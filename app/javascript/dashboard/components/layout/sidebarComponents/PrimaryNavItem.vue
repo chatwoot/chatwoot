@@ -58,6 +58,7 @@ export default {
     },
     isHelpCenterSelected() {
       const routes = [
+        'portals_new',
         'portals_index',
         'portals_articles_index',
         'portals_articles_new',
