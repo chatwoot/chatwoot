@@ -421,7 +421,7 @@ const menuItems = computed(() => {
         >
           <span class="i-lucide-search size-4 text-n-slate-11 flex-shrink-0" />
           <span class="flex-grow text-left">
-            {{ 'Search...' }}
+            {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span
             class="tracking-wide select-none pointer-events-none text-n-slate-10 hidden"
