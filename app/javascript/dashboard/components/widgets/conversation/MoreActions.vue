@@ -21,14 +21,16 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
-    isWebWidgetInbox() {
-      const currentInbox = this.$store.getters['inboxes/getInbox'](
-        this.currentChat.inbox_id
-      );
-      return currentInbox.channel_type === 'Channel::WebWidget';
+    isChatbotConnectedToInbox() {
+      if (this.currentChat && this.currentChat.chatbot_attributes) {
+        return !!this.currentChat.chatbot_attributes.id;
+      }
+      return false;
     },
     isChatbotEnabled() {
-      return this.currentChat.chatbot_status === 'Enabled';
+      return (
+        this.currentChat?.chatbot_attributes?.status === 'Enabled' || false
+      );
     },
   },
   mounted() {
@@ -67,7 +69,7 @@ export default {
 
 <template>
   <div class="relative flex items-center gap-2 actions--container">
-    <div v-if="isWebWidgetInbox">
+    <div v-if="isChatbotConnectedToInbox">
       <woot-button
         v-if="isChatbotEnabled"
         v-tooltip.left="$t('CHATBOTS.DISABLE_BOT')"

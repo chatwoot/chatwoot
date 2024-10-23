@@ -4,9 +4,14 @@ class Chatbots::CallbacksController < ApplicationController
     return unless @chatbot
 
     if params[:result] == 'success'
-      @chatbot.update(status: 'Enabled')
+      conversations = Conversation.where(inbox_id: params[:inbox_id])
+      conversations.find_each do |conversation|
+        updated_attributes = conversation.chatbot_attributes.merge({ id: params[:id], status: 'Enabled', connect_with_team: true })
+        conversation.update(chatbot_attributes: updated_attributes)
+      end
+      @chatbot.update!(status: 'Enabled')
     else
-      @chatbot.update(status: 'Failed')
+      @chatbot.update!(status: 'Failed')
     end
   end
 
@@ -16,9 +21,10 @@ class Chatbots::CallbacksController < ApplicationController
     key_phrases = ["I don't know", "I don't understand", 'No matched documents found', 'Internal server error']
     if key_phrases.any? { |phrase| bot_message.include?(phrase) }
       bot_message = Chatbot.find_by(id: params[:chatbot_id]).reply_on_no_relevant_result || I18n.t('chatbots.reply_on_no_relevant_result')
-      conversation.update!(chatbot_status: 'Disabled')
+      MessageTemplates::Template::ChatbotReply.new(conversation: conversation).perform(bot_message, true)
+    else
+      MessageTemplates::Template::ChatbotReply.new(conversation: conversation).perform(bot_message, false)
     end
-    MessageTemplates::Template::ChatbotReply.new(conversation: conversation).perform(bot_message)
   end
 
   def links_crawled

@@ -302,12 +302,12 @@ export const mutations = {
 
   [types.DISABLE_CHATBOT](_state) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'chatbot_status', 'Disabled');
+    Vue.set(chat.chatbot_attributes, 'status', 'Disabled');
   },
 
   [types.ENABLE_CHATBOT](_state) {
     const [chat] = getSelectedChatConversation(_state);
-    Vue.set(chat, 'chatbot_status', 'Enabled');
+    Vue.set(chat.chatbot_attributes, 'status', 'Enabled');
   },
 
   [types.SET_CONTEXT_MENU_CHAT_ID](_state, chatId) {

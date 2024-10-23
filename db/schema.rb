@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_11_070029) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_22_122141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -408,6 +408,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_11_070029) do
     t.string "reply_on_no_relevant_result"
     t.string "text"
     t.jsonb "urls", default: []
+    t.string "reply_on_connect_with_team"
     t.index ["account_id"], name: "index_chatbots_on_account_id"
   end
 
@@ -493,7 +494,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_11_070029) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
-    t.string "chatbot_status", default: "Enabled"
+    t.jsonb "chatbot_attributes", default: {}
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
