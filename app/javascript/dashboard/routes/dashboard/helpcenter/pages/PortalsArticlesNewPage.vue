@@ -44,7 +44,6 @@ const createNewArticle = async ({ title, content }) => {
 
   isUpdating.value = true;
   try {
-    console.log(route.params);
     const { locale } = route.params;
     const articleId = await store.dispatch('articles/create', {
       portalSlug,
