@@ -89,7 +89,6 @@ describe('#mutations', () => {
         isFetching: true,
         isUpdating: false,
         isDeleting: false,
-        isSwitching: false,
       });
     });
   });
