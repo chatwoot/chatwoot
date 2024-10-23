@@ -54,6 +54,10 @@ const props = defineProps({
     type: String,
     default: '12rem',
   },
+  autofocus: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -101,6 +105,10 @@ watch(
 onMounted(() => {
   if (props.autoHeight) {
     nextTick(adjustHeight);
+  }
+
+  if (props.autofocus) {
+    textareaRef.value.focus();
   }
 });
 </script>

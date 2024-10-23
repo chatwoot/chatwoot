@@ -46,6 +46,10 @@ export default {
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
+    autofocus: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['blur', 'input', 'update:modelValue', 'keyup', 'focus', 'keydown'],
   setup() {
@@ -86,7 +90,9 @@ export default {
     this.createEditorView();
 
     editorView.updateState(state);
-    this.focusEditorInputField();
+    if (this.autofocus) {
+      this.focusEditorInputField();
+    }
   },
   methods: {
     contentFromEditor() {
@@ -204,7 +210,7 @@ export default {
         },
       });
     },
-    handleKeyEvents() {},
+    handleKeyEvents() { },
     focusEditorInputField() {
       const { tr } = editorView.state;
       const selection = Selection.atEnd(tr.doc);
@@ -304,7 +310,7 @@ export default {
   display: flex;
   flex-direction: column;
 
-  > .ProseMirror {
+  >.ProseMirror {
     padding: 0;
     word-break: break-word;
   }

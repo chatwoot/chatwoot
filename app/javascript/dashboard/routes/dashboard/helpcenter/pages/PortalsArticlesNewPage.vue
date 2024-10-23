@@ -23,8 +23,7 @@ const categories = useMapGetter('categories/allCategories');
 
 const categoryId = computed(() => categories.value[0]?.id || null);
 
-const articleTitle = ref('');
-const articleContent = ref('');
+const article = ref({});
 const isUpdating = ref(false);
 const isSaved = ref(false);
 
@@ -37,18 +36,18 @@ const setCategoryId = newCategoryId => {
 };
 
 const createNewArticle = async ({ title, content }) => {
-  if (title) articleTitle.value = title;
-  if (content) articleContent.value = content;
+  if (title) article.value.title = title;
+  if (content) article.value.content = content;
 
-  if (!articleTitle.value || !articleContent.value) return;
+  if (!article.value.title || !article.value.content) return;
 
   isUpdating.value = true;
   try {
     const { locale } = route.params;
     const articleId = await store.dispatch('articles/create', {
       portalSlug,
-      content: articleContent.value,
-      title: articleTitle.value,
+      content: article.value.content,
+      title: article.value.title,
       locale: locale,
       authorId: selectedAuthorId.value || currentUserId.value,
       categoryId: selectedCategoryId.value || categoryId.value,
@@ -84,6 +83,7 @@ const goBackToArticles = () => {
 
 <template>
   <ArticleEditor
+    :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @save-article="createNewArticle"

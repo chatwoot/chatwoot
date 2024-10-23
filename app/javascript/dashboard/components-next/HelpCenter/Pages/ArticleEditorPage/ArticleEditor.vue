@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
@@ -37,14 +37,9 @@ const { t } = useI18n();
 
 const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
 
-// Create a local ref for the title
-const localTitle = ref(props.article.title || '');
-
-// Update the computed property for articleTitle
 const articleTitle = computed({
-  get: () => localTitle.value,
+  get: () => props.article.title,
   set: value => {
-    localTitle.value = value;
     saveArticle({ title: value });
   },
 });
@@ -55,16 +50,6 @@ const articleContent = computed({
     saveArticle({ content });
   },
 });
-
-// Watch for changes in the article prop
-watch(
-  () => props.article.title,
-  newTitle => {
-    if (newTitle !== localTitle.value) {
-      localTitle.value = newTitle;
-    }
-  }
-);
 
 const onClickGoBack = () => {
   emit('goBack');
@@ -104,6 +89,7 @@ const previewArticle = () => {
           custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
+          autofocus
         />
         <ArticleEditorControls
           :article="article"
@@ -115,10 +101,10 @@ const previewArticle = () => {
       <FullEditor
         v-model="articleContent"
         class="py-0 pb-10 pl-4 rtl:pr-4 rtl:pl-0 h-fit"
-        :placeholder="
-          t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
-        "
+        :placeholder="t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
+          "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
+        :autofocus="false"
       />
     </template>
   </HelpCenterLayout>
@@ -151,8 +137,10 @@ const previewArticle = () => {
 
       .ProseMirror-menuitem {
         @apply mr-0;
+
         .ProseMirror-icon {
           @apply p-0 mt-1 !mr-0;
+
           svg {
             width: 20px !important;
             height: 20px !important;
