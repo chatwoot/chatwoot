@@ -63,8 +63,8 @@ watch(
       'rounded-xl': !roundedFull,
     }"
     :style="{
-      width: typeof size === 'number' ? `${size}px` : undefined,
-      height: typeof size === 'number' ? `${size}px` : undefined,
+      width: `${size}px`,
+      height: `${size}px`,
     }"
   >
     <img
