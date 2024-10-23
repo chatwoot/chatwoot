@@ -115,7 +115,7 @@ RUN apk update && apk add --no-cache \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add --no-cache nodejs-current; \
+  apk add --no-cache nodejs=20.15.1-r0; \
   # Install pnpm and configure environment
   wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.shrc" SHELL="$(which sh)" sh - \
   && source /root/.shrc \
