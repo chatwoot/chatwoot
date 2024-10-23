@@ -59,7 +59,7 @@ const emitNewAccount = () => {
         class="w-72 text-sm block bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
       >
         <div
-          class="px-4 pt-3 pb-2 leading-4 font-normal tracking-[0.2px] text-n-slate-10 text-xs"
+          class="px-4 pt-3 pb-2 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
         >
           {{ t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
         </div>
