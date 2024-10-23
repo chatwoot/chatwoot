@@ -10,12 +10,6 @@ const VIEW_TYPES = {
 const FILTER_KEYS = [VIEW_TYPES.CONVERSATION, VIEW_TYPES.CONTACT];
 
 export const state = {
-  records: [],
-  // adding a new records array, this is added with
-  // the next sidebar changes and will be used to
-  // separate contact and conversation custom views
-  // We can continue to use this in the future in favor of
-  // the previous records array
   [VIEW_TYPES.CONVERSATION]: {
     records: [],
   },
@@ -38,7 +32,7 @@ export const getters = {
     return _state.records;
   },
   getCustomViewsByFilterType: _state => filterType => {
-    return _state.records.filter(record => record.filter_type === filterType);
+    return _state[filterType].records;
   },
   getConversationCustomViews(_state) {
     return _state[VIEW_TYPES.CONVERSATION].records;
@@ -119,20 +113,15 @@ export const mutations = {
   },
 
   [types.ADD_CUSTOM_VIEW]: (_state, { data, filterType }) => {
-    MutationHelpers.create(_state, data);
     MutationHelpers.create(_state[filterType], data);
   },
   [types.SET_CUSTOM_VIEW]: (_state, { data, filterType }) => {
-    // legacy setting, where we using a single records array
-    MutationHelpers.set(_state, data);
     MutationHelpers.set(_state[filterType], data);
   },
   [types.UPDATE_CUSTOM_VIEW]: (_state, { data, filterType }) => {
-    MutationHelpers.update(_state, data);
     MutationHelpers.update(_state[filterType], data);
   },
   [types.DELETE_CUSTOM_VIEW]: (_state, { data, filterType }) => {
-    MutationHelpers.destroy(_state, data);
     MutationHelpers.destroy(_state[filterType], data);
   },
 
