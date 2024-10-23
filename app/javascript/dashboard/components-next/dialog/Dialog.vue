@@ -120,6 +120,6 @@ defineExpose({ open, close });
 
 <style scoped>
 dialog::backdrop {
-  @apply bg-n-alpha-white backdrop-blur-sm;
+  @apply dark:bg-n-alpha-white bg-n-alpha-black2;
 }
 </style>
