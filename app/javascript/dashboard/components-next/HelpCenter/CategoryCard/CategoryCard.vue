@@ -81,7 +81,7 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <template #header>
       <div class="flex gap-2">
-        <div class="flex justify-between w-full">
+        <div class="flex justify-between w-full gap-1">
           <div class="flex items-center justify-start gap-2">
             <span
               class="text-base cursor-pointer hover:underline text-slate-900 dark:text-slate-50 line-clamp-1"
