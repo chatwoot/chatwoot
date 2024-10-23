@@ -458,14 +458,14 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="p-2 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
+      class="p-1 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
     >
       <SidebarProfileMenu
-        class="hover:bg-n-alpha-1 p-1 -m-1"
+        class="hover:bg-n-alpha-1 p-1"
         @toggle-accounts="emit('toggleAccountModal')"
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"
       />
-      <div class="flex items-center">
+      <div v-if="false" class="flex items-center">
         <div class="w-px h-3 bg-n-strong flex-shrink-0" />
         <SidebarNotificationBell
           @open-notification-panel="emit('openNotificationPanel')"
