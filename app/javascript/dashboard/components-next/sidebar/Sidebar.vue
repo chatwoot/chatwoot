@@ -409,7 +409,7 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[200px] bg-n-solid-2 border-r border-n-weak h-screen flex flex-col text-sm pt-2"
+    class="w-[200px] bg-n-solid-2 border-r border-n-weak h-screen flex flex-col text-sm pt-2 pb-1"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex gap-2 px-2 items-center min-w-0">
@@ -447,7 +447,7 @@ const menuItems = computed(() => {
         </button>
       </div>
     </section>
-    <nav class="grid gap-2 overflow-y-scroll no-scrollbar px-2 flex-grow">
+    <nav class="grid gap-2 overflow-y-scroll no-scrollbar px-2 flex-grow pb-5">
       <ul class="flex flex-col gap-2 list-none m-0">
         <SidebarGroup
           v-for="item in menuItems"
