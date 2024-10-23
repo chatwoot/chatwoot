@@ -399,5 +399,37 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
       end
     end
+
+    context 'when prefer inbox emails configured' do
+      let(:new_account) { create(:account, domain: 'example.com') }
+      let!(:email_channel) { create(:channel_email, account: new_account, email: 'testing@channel.com') }
+      let!(:inbox) { create(:inbox, channel: email_channel, account: new_account, email_address: 'testing@inbox.com') }
+      let(:inbox_member) { create(:inbox_member, user: agent, inbox: inbox) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: new_account) }
+      let!(:message) { create(:message, conversation: conversation, account: new_account) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
+      let(:domain) { inbox.channel.email.split('@').last }
+
+      before do
+        allow(class_instance).to receive(:should_use_channel_domain?).and_return(true)
+        allow(class_instance).to receive(:should_use_inbox_from?).and_return(true)
+      end
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{domain}")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
+      end
+
+      it 'sets reply to email to be based on the inbox domain' do
+        expect(mail.reply_to).to eq(["reply+#{message.conversation.uuid}@#{domain}"])
+      end
+
+      it 'sets from email to the inbox email address' do
+        expect(mail.from).to eq([inbox.email_address])
+      end
+    end
   end
 end
