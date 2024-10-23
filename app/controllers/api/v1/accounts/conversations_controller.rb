@@ -117,12 +117,16 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def disable_chatbot
-    @conversation.update!(chatbot_status: 'Disabled')
+    @conversation.chatbot_attributes['status'] = 'Disabled'
+    @conversation.chatbot_attributes['connect_with_team'] = false
+    @conversation.save!
     head :ok
   end
 
   def enable_chatbot
-    @conversation.update!(chatbot_status: 'Enabled')
+    @conversation.chatbot_attributes['status'] = 'Enabled'
+    @conversation.chatbot_attributes['connect_with_team'] = true
+    @conversation.save!
     head :ok
   end
 
