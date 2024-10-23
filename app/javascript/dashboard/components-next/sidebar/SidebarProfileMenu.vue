@@ -20,6 +20,7 @@ const router = useRouter();
 
 const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
+const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const [showProfileMenu, toggleProfileMenu] = useToggle(false);
 
 const closeMenu = () => {
@@ -121,6 +122,7 @@ const allowedMenuItems = computed(() => {
         :size="32"
         :name="currentUser.available_name"
         :src="currentUser.avatar_url"
+        :status="currentUserAvailability"
         class="flex-shrink-0"
         rounded-full
       />
