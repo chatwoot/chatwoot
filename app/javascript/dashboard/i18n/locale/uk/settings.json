@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
     "SWITCH": "Перемкнути",
     "INBOX_VIEW": "Перегляд вхідних",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Довідковий центр",
-      "ALL_ARTICLES": "Всі статті",
-      "MY_ARTICLES": "Мої статті",
-      "DRAFT": "Чернетка",
-      "ARCHIVED": "Архівовано",
-      "CATEGORY": "Категорія",
-      "SETTINGS": "Налаштування",
-      "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Категорії",
+      "LOCALES": "Locales",
+      "SETTINGS": "Налаштування"
     },
+    "CHANNELS": "Канали",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Позначити не в мережі (auto)",
-      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління."
+      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Читати документи"
   },
