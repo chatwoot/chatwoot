@@ -56,7 +56,7 @@ const emitNewAccount = () => {
     </button>
     <div v-if="showDropdown" v-on-clickaway="close" class="absolute top-8 z-50">
       <div
-        class="w-72 text-sm block bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
+        class="min-w-72 max-w-96 text-sm block bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
       >
         <div
           class="px-4 pt-3 pb-2 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
@@ -75,10 +75,16 @@ const emitNewAccount = () => {
               :for="account.name"
               class="text-left rtl:text-right flex gap-2"
             >
-              <span class="text-n-slate-12">
+              <span
+                class="text-n-slate-12 max-w-36 truncate min-w-0"
+                :title="account.name"
+              >
                 {{ account.name }}
               </span>
-              <span class="text-n-slate-11 capitalize">
+              <span
+                class="text-n-slate-11 max-w-24 truncate capitalize"
+                :title="account.name"
+              >
                 {{
                   account.custom_role_id
                     ? account.custom_role.name
