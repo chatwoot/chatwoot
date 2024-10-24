@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Jelenleg nézi:",
     "SWITCH": "Váltás",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Súgóközpont",
-      "ALL_ARTICLES": "Minden bejegyzés",
-      "MY_ARTICLES": "Saját bejegyzések",
-      "DRAFT": "Vázlat",
-      "ARCHIVED": "Archivált",
-      "CATEGORY": "Kategória",
-      "SETTINGS": "Beállítások",
-      "CATEGORY_EMPTY_MESSAGE": "Kategóriák nem találhatók "
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategóriák",
+      "LOCALES": "Nyelvek",
+      "SETTINGS": "Beállítások"
     },
+    "CHANNELS": "Csatornák",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Offline állapot automatikusan",
-      "INFO_TEXT": "Hagyd, hogy a rendszer automatikusan offline módban jelöljön meg, amikor nem használod az alkalmazást vagy az irányítópultot."
+      "INFO_TEXT": "Hagyd, hogy a rendszer automatikusan offline módban jelöljön meg, amikor nem használod az alkalmazást vagy az irányítópultot.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Dokumentum olvasása"
   },
