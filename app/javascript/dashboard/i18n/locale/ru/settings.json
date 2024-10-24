@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
     "SWITCH": "Переключить",
     "INBOX_VIEW": "Просмотр входящих сообщений",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Центр поддержки",
-      "ALL_ARTICLES": "Все статьи",
-      "MY_ARTICLES": "Мои статьи",
-      "DRAFT": "Черновик",
-      "ARCHIVED": "Архив",
-      "CATEGORY": "Категория",
-      "SETTINGS": "Настройки",
-      "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Категории",
+      "LOCALES": "Locales",
+      "SETTINGS": "Настройки"
     },
+    "CHANNELS": "Источники",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Отметить автоматически",
-      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель."
+      "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Открыть документацию"
   },
