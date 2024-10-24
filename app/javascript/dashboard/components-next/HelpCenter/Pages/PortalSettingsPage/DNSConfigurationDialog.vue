@@ -19,7 +19,7 @@ const { t } = useI18n();
 
 const domain = computed(() => {
   const { hostURL, helpCenterURL } = window?.chatwootConfig || {};
-  return getHostNameFromURL(hostURL) || getHostNameFromURL(helpCenterURL) || '';
+  return getHostNameFromURL(helpCenterURL) || getHostNameFromURL(hostURL) || '';
 });
 
 const subdomainCNAME = computed(
