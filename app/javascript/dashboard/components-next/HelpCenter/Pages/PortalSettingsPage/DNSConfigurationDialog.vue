@@ -43,11 +43,6 @@ defineExpose({ dialogRef });
         'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HEADER'
       )
     "
-    :description="
-      t(
-        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.DESCRIPTION'
-      )
-    "
     :confirm-button-label="
       t(
         'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.CONFIRM_BUTTON_LABEL'
@@ -56,10 +51,23 @@ defineExpose({ dialogRef });
     :show-cancel-button="false"
     @confirm="handleDialogConfirm"
   >
+    <template #description>
+      <p class="mb-0 text-sm text-n-slate-12">
+        {{
+          t(
+            'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.DESCRIPTION'
+          )
+        }}
+      </p>
+    </template>
     <template #form>
       <div class="flex flex-col gap-6">
-        <Input v-model="subdomainCNAME" disabled />
-        <p class="text-sm text-n-slate-11">
+        <span
+          class="h-10 px-3 py-2.5 text-sm select-none bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
+        >
+          {{ subdomainCNAME }}
+        </span>
+        <p class="text-sm text-n-slate-12">
           {{
             t(
               'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HELP_TEXT'

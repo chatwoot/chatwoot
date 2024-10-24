@@ -87,9 +87,11 @@ defineExpose({ open, close });
             <h3 class="text-base font-medium leading-6 text-n-slate-12">
               {{ title }}
             </h3>
-            <p v-if="description" class="mb-0 text-sm text-n-slate-11">
-              {{ description }}
-            </p>
+            <slot name="description">
+              <p v-if="description" class="mb-0 text-sm text-n-slate-11">
+                {{ description }}
+              </p>
+            </slot>
           </div>
           <slot name="form">
             <!-- Form content will be injected here -->

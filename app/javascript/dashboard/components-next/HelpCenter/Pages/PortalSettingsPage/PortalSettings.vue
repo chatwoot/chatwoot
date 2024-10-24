@@ -88,7 +88,7 @@ const handleDeletePortal = () => {
           @update-portal-configuration="handleUpdatePortalConfiguration"
         />
         <div class="w-full h-px bg-slate-50 dark:bg-slate-800/50" />
-        <div class="flex justify-between w-full gap-4">
+        <div class="flex items-end justify-between w-full gap-4">
           <div class="flex flex-col gap-2">
             <h6 class="text-base font-medium text-n-slate-12">
               {{
