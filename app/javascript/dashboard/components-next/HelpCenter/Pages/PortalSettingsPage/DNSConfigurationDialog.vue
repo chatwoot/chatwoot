@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 import { getHostNameFromURL } from 'dashboard/helper/URLHelper';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
 
 const props = defineProps({
   customDomain: {
