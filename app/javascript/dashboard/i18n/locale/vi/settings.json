@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
     "SWITCH": "Chuyển",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "Tất cả các bài",
-      "MY_ARTICLES": "Các bài của tôi",
-      "DRAFT": "Nháp",
-      "ARCHIVED": "Lưu trữ",
-      "CATEGORY": "Loại",
-      "SETTINGS": "Cài đặt",
-      "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Danh mục",
+      "LOCALES": "Ngôn ngữ",
+      "SETTINGS": "Cài đặt"
     },
+    "CHANNELS": "Kênh",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tự động đánh dấu ngoại tuyến",
-      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan."
+      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Đọc tài liệu"
   },
