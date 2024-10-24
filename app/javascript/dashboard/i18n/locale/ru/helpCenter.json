@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Центр поддержки",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Создать портал"
+    },
     "HEADER": {
       "FILTER": "Фильтровать по",
       "SORT": "Сортировать по",
@@ -343,6 +348,12 @@
         "SUCCESS": "Статья успешно архивирована"
       }
     },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
@@ -478,9 +489,304 @@
       }
     },
     "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Опубликовано",
+            "DRAFT": "Черновик",
+            "ARCHIVE": "Archive",
+            "DELETE": "Удалить"
+          },
+          "STATUS": {
+            "DRAFT": "Черновик",
+            "PUBLISHED": "Опубликовано",
+            "ARCHIVED": "Архив"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Мои",
+          "DRAFT": "Черновик",
+          "PUBLISHED": "Опубликовано",
+          "ARCHIVED": "Архив"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "There are no articles in mine",
+          "SUBTITLE": "Mine articles will appear here"
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in draft",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no articles in published",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in archived",
+          "SUBTITLE": "Archived articles will appear here"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Новая категория",
+        "EDIT_CATEGORY": "Редактировать категорию",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Категорий не найдено",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категория успешно создана",
+            "ERROR_MESSAGE": "Не удалось создать категорию"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категория успешно обновлена",
+            "ERROR_MESSAGE": "Не удается обновить категорию"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Категория успешно удалена",
+            "ERROR_MESSAGE": "Не удается удалить категорию"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Создать категорию",
+          "EDIT": "Редактировать категорию",
+          "DESCRIPTION": "Изменение категории обновит категорию на портале.",
+          "PORTAL": "Портал",
+          "LOCALE": "Local"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Имя",
+            "PLACEHOLDER": "Имя категории",
+            "ERROR": "Необходимо указать имя"
+          },
+          "SLUG": {
+            "LABEL": "Метка",
+            "PLACEHOLDER": "Метка категории для url",
+            "ERROR": "Необходимо указать метку",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Описание",
+            "PLACEHOLDER": "Укажите краткое описание категории.",
+            "ERROR": "Необходимо описание"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Создать",
+          "EDIT": "Обновить",
+          "CANCEL": "Отменить"
+        }
+      }
+    },
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale"
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "По умолчанию",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Удалить"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Добавить новую локаль",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Выберите язык..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Локаль успешно добавлен",
+          "ERROR_MESSAGE": "Не удалось добавить локаль. Попробуйте еще раз."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Сохранение...",
+          "SAVED": "Сохранено"
+        },
+        "PREVIEW": "Предпросмотр",
+        "PUBLISH": "Опубликовано",
+        "DRAFT": "Черновик",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Без категории",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Мета описание",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Мета-заголовок",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Мета теги",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Ошибка при сохранении статьи"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Портал",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "статьи",
+      "DOMAIN": "домен",
+      "PORTAL_NAME": "Имя портала"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Создать",
+      "NAME": {
+        "LABEL": "Имя",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Необходимо указать имя"
+      },
+      "SLUG": {
+        "LABEL": "Метка",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Необходимо указать метку"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Логотип",
+          "IMAGE_UPLOAD_ERROR": "Не удалось загрузить изображение! Попробуйте еще раз",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Логотип успешно удалён",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Размер изображения должен быть меньше, чем {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Имя",
+          "PLACEHOLDER": "Имя портала",
+          "ERROR": "Необходимо указать имя"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Текст заголовка портала"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Заголовок страницы портала"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Ссылка на главную страницу портала",
+          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Метка",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Свой домен",
+          "LABEL": "Свой домен:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "PLACEHOLDER": "Пользовательский домен портала",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Свой домен",
+            "PLACEHOLDER": "Пользовательский домен портала",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!"
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Удалить портал",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Удалить"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Портал создан успешно",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Портал успешно обновлен",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
     }
   }
 }
