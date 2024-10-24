@@ -118,7 +118,11 @@ const handleClick = () => {
       :icon-lib="iconLib"
       class="flex-shrink-0"
     />
-    <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
+    <slot>
+      <span v-if="label" class="min-w-0 truncate">
+        {{ label }}
+      </span>
+    </slot>
     <FluentIcon
       v-if="icon && iconPosition === 'right'"
       :icon="icon"
