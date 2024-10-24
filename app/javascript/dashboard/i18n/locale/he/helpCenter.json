@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Help Center",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "צור פורטל"
+    },
     "HEADER": {
       "FILTER": "סנן לפי",
       "SORT": "מיין לפי",
@@ -343,6 +348,12 @@
         "SUCCESS": "המאמר הועבר לארכיון בהצלחה"
       }
     },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
@@ -478,9 +489,304 @@
       }
     },
     "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "פרסם",
+            "DRAFT": "טיוטה",
+            "ARCHIVE": "Archive",
+            "DELETE": "מחק"
+          },
+          "STATUS": {
+            "DRAFT": "טיוטה",
+            "PUBLISHED": "יצא לאור",
+            "ARCHIVED": "בארכיון"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "שלי",
+          "DRAFT": "טיוטה",
+          "PUBLISHED": "יצא לאור",
+          "ARCHIVED": "בארכיון"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "There are no articles in mine",
+          "SUBTITLE": "Mine articles will appear here"
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in draft",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no articles in published",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in archived",
+          "SUBTITLE": "Archived articles will appear here"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "קטגוריה חדשה",
+        "EDIT_CATEGORY": "ערוך קטגוריה",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "לא נמצאו קטגוריות",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "קטגוריה נוצרה בהצלחה",
+            "ERROR_MESSAGE": "לא ניתן ליצור קטגוריה"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "הקטגוריה עודכנה בהצלחה",
+            "ERROR_MESSAGE": "לא ניתן לעדכן את הקטגוריה"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "הקטגוריה נמחקה בהצלחה",
+            "ERROR_MESSAGE": "לא ניתן למחוק קטגוריה"
+          }
+        },
+        "HEADER": {
+          "CREATE": "צור קטגוריה",
+          "EDIT": "ערוך קטגוריה",
+          "DESCRIPTION": "עריכת קטגוריה תעדכן את הקטגוריה בפורטל הפונה לציבור.",
+          "PORTAL": "פורטל",
+          "LOCALE": "מקומי"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "שם",
+            "PLACEHOLDER": "שם קטגוריה",
+            "ERROR": "שם שדה חובה"
+          },
+          "SLUG": {
+            "LABEL": "שבלול",
+            "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
+            "ERROR": "נדרש שבלול",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "תיאור",
+            "PLACEHOLDER": "תן תיאור קצר על הקטגוריה.",
+            "ERROR": "נדרש תיאור"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "צור",
+          "EDIT": "עדכן",
+          "CANCEL": "ביטול"
+        }
+      }
+    },
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale"
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "ברירת מחדל",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "מחק"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "הוסף מקום חדש",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Select locale..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "האזור נוסף בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן להוסיף אזור. נסה שוב."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "שומר...",
+          "SAVED": "שמור"
+        },
+        "PREVIEW": "תצוגה מקדימה",
+        "PUBLISH": "פרסם",
+        "DRAFT": "טיוטה",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Uncategorized",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "מטא תיאור",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "כותרת מטא",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "מטא תגים",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "שגיאה בעת שמירת מאמר"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "פורטלים",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "מאמרים",
+      "DOMAIN": "דומיין",
+      "PORTAL_NAME": "שם הפורטל"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "צור",
+      "NAME": {
+        "LABEL": "שם",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "שם שדה חובה"
+      },
+      "SLUG": {
+        "LABEL": "שבלול",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "נדרש שבלול"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "לוגו",
+          "IMAGE_UPLOAD_ERROR": "לא ניתן להעלות את התמונה! נסה שוב",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "גודל התמונה צריך להיות פחות מ-{size}MB"
+        },
+        "NAME": {
+          "LABEL": "שם",
+          "PLACEHOLDER": "שם הפורטל",
+          "ERROR": "שם שדה חובה"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "טקסט כותרת הפורטל"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "כותרת דף הפורטל"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "קישור לדף הבית של הפורטל",
+          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "שבלול",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "תחום מותאם אישית",
+          "LABEL": "תחום מותאם אישית:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "PLACEHOLDER": "דומיין מותאם אישית של פורטל",
+          "EDIT_BUTTON": "Edit custom domain",
+          "ADD_BUTTON": "Add custom domain",
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "תחום מותאם אישית",
+            "PLACEHOLDER": "דומיין מותאם אישית של פורטל",
+            "ERROR": "Custom domain is required"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
+            "CONFIRM_BUTTON_LABEL": "Got it!"
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "מחק את הפורטל",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "מחק"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "הפורטל נוצר בהצלחה",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "הפורטל עודכן בהצלחה",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
     }
   }
 }
