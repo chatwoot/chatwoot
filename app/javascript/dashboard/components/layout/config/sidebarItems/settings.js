@@ -43,6 +43,7 @@ const settings = accountId => ({
     'settings_teams_list',
     'settings_teams_new',
     'sla_list',
+    'settings_integrations_onehash_apps',
   ],
   menuItems: [
     {

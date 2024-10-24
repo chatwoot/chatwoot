@@ -1,5 +1,5 @@
-# class Onehash::SendCalEventConfirmationController < ApplicationController
-class Onehash::SendCalEventConfirmationController < Api::V1::Widget::BaseController
+class Onehash::SendCalEventConfirmationController < ApplicationController
+  # class Onehash::SendCalEventConfirmationController < Api::V1::Widget::BaseController
   def send_confirmation_handler
     return render_error('Message Id and Event payload are required.') unless valid_params?
 
