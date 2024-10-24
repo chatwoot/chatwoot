@@ -6,7 +6,19 @@ const {
   getIconCollections,
 } = require('@egoist/tailwindcss-icons');
 
-module.exports = {
+const defaultSansFonts = [
+  '-apple-system',
+  'system-ui',
+  'BlinkMacSystemFont',
+  '"Segoe UI"',
+  'Roboto',
+  '"Helvetica Neue"',
+  'Tahoma',
+  'Arial',
+  'sans-serif !important',
+];
+
+const tailwindConfig = {
   darkMode: 'class',
   content: [
     './enterprise/app/views/**/*.html.erb',
@@ -21,8 +33,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        inter: ['Inter', ...defaultTheme.fontFamily.sans],
-        interDisplay: ['Inter Display', ...defaultTheme.fontFamily.sans],
+        sans: defaultSansFonts,
+        inter: ['Inter', ...defaultSansFonts],
+        interDisplay: ['Inter Display', ...defaultSansFonts],
       },
     },
     screens: {
@@ -110,3 +123,5 @@ module.exports = {
     }),
   ],
 };
+
+module.exports = tailwindConfig;
