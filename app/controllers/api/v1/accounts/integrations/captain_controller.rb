@@ -1,22 +1,25 @@
 class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
-  before_action :fetch_hook
+  before_action :hook
 
-  def sso_url
-    params_string =
-      "token=#{URI.encode_www_form_component(@hook['settings']['access_token'])}" \
-      "&email=#{URI.encode_www_form_component(@hook['settings']['account_email'])}" \
-      "&account_id=#{URI.encode_www_form_component(@hook['settings']['account_id'])}"
+  def proxy
+    base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
+    url = "#{base_url}/api/v1/accounts/#{hook.settings[:account_id]}/#{params[:route]}"
 
-    installation_config = InstallationConfig.find_by(name: 'CAPTAIN_APP_URL')
+    # make the request to the Captain service
+    # also add the access token and email to header use X-User-Email and X-User-Token
+    #
+    response = HTTParty.send(params[:method].downcase, url, body: params[:body], headers: {
+                               'X-User-Email' => hook.settings[:account_email],
+                               'X-User-Token' => hook.settings[:access_token]
+                             })
 
-    sso_url = "#{installation_config.value}/sso?#{params_string}"
-    render json: { sso_url: sso_url }, status: :ok
+    render json: response.body, status: response.code
   end
 
   private
 
-  def fetch_hook
-    @hook = Current.account.hooks.find_by!(app_id: 'captain')
+  def hook
+    @hook ||= Current.account.hooks.find_by!(app_id: 'captain')
   end
 end

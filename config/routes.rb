@@ -219,7 +219,7 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resource :captain, controller: 'captain', only: [] do
               collection do
-                get :sso_url
+                post :proxy
               end
             end
             resources :hooks, only: [:show, :create, :update, :destroy] do
