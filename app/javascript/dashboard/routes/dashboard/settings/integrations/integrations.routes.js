@@ -1,10 +1,12 @@
 import { frontendURL } from '../../../../helper/URLHelper';
+const OneHash = () => import('./OneHash.vue');
 const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const IntegrationHooks = () => import('./IntegrationHooks.vue');
 const Index = () => import('./Index.vue');
 const Webhook = () => import('./Webhooks/Index.vue');
 const DashboardApps = () => import('./DashboardApps/Index.vue');
 const Slack = () => import('./Slack.vue');
+
 const SettingsContent = () => import('../Wrapper.vue');
 
 export default {
@@ -65,6 +67,14 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'onehash_apps',
+          name: 'settings_integrations_onehash_apps',
+          component: OneHash,
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: ':integration_id',

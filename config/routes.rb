@@ -253,6 +253,7 @@ Rails.application.routes.draw do
                 get :linked_issues
               end
             end
+            resource :onehash_cal, only: [:create, :destroy], controller: 'onehash_cal'
           end
           resources :working_hours, only: [:update]
 
@@ -565,10 +566,13 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/integrations/accounts', to: 'onehash/api/accounts#index'
-  get '/integrations/contacts', to: 'onehash/api/contacts#index'
-  post '/integrations/contacts', to: 'onehash/api/contacts#create'
-  patch '/integrations/users', to: 'onehash/api/users#update'
-  get '/integrations/users', to: 'onehash/api/users#index'
-  delete '/integrations/users', to: 'onehash/api/users#destroy'
+  get 'api/oh/integrations/accounts', to: 'onehash/api/accounts#index'
+  get 'api/oh/integrations/contacts', to: 'onehash/api/contacts#index'
+  post 'api/oh/integrations/contacts', to: 'onehash/api/contacts#create'
+  patch 'api/oh/integrations/cal_event', to: 'onehash/api/cal_event#update'
+  get 'api/oh/integrations/cal_event', to: 'onehash/api/cal_event#index'
+  delete 'api/oh/integrations/cal_event', to: 'onehash/api/cal_event#destroy'
+
+  post 'api/send_cal_event/', to: 'onehash/send_cal_event#send_event_handler'
+  post 'api/send_cal_event_confirmation/', to: 'onehash/send_cal_event_confirmation#send_confirmation_handler'
 end

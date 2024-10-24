@@ -1,4 +1,4 @@
-class Onehash::Api::UsersController < Onehash::IntegrationController
+class Onehash::Api::CalEventController < Onehash::IntegrationController
   before_action :validate_update_params, only: [:update]
   before_action :validate_delete_params, only: [:destroy]
   before_action :set_user, only: [:update, :destroy]
@@ -38,7 +38,7 @@ class Onehash::Api::UsersController < Onehash::IntegrationController
 
   def user_update_params
     params.require(:cal_events).map do |event|
-      event.permit(:uid, :name, :description, :embed_script)
+      event.permit(:uid, :title, :description, :url)
     end
   end
 

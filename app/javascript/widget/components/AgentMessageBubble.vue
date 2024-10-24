@@ -8,6 +8,8 @@ import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
+import CalEventCard from './template/CalEventCard.vue';
+import CalEventConfirmationCard from './template/CalEventConfirmationCard.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -19,6 +21,8 @@ export default {
     EmailInput,
     CustomerSatisfaction,
     IntegrationCard,
+    CalEventCard,
+    CalEventConfirmationCard,
   },
   mixins: [messageFormatterMixin, darkModeMixin],
   props: {
@@ -31,6 +35,7 @@ export default {
       default: () => {},
     },
   },
+
   computed: {
     isTemplate() {
       return this.messageType === 3;
@@ -56,7 +61,14 @@ export default {
     isIntegrations() {
       return this.contentType === 'integrations';
     },
+    isCalEvent() {
+      return this.contentType === 'cal_event';
+    },
+    isCalEventConfirmation() {
+      return this.contentType === 'cal_event_confirmation';
+    },
   },
+
   methods: {
     onResponse(messageResponse) {
       this.$store.dispatch('message/update', messageResponse);
@@ -104,6 +116,17 @@ export default {
         v-if="isIntegrations"
         :message-id="messageId"
         :meeting-data="messageContentAttributes.data"
+      />
+
+      <CalEventCard
+        v-if="isCalEvent"
+        :event-url="messageContentAttributes.event_url"
+        :message-id="messageId"
+      />
+
+      <CalEventConfirmationCard
+        v-if="isCalEventConfirmation"
+        :event-payload="messageContentAttributes.event_payload"
       />
     </div>
     <div v-if="isOptions">
