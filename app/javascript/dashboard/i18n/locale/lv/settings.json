@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "Nav vienumu",
     "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
     "SWITCH": "Pārslēgt",
     "INBOX_VIEW": "Iesūtnes Skats",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Jūsu iesūtnes savienojuma termiņš ir beidzies. Lūdzu, pievienojiet vēlreiz\n lai turpinātu saņemt un sūtīt ziņas",
     "HELP_CENTER": {
       "TITLE": "Palīdzības centrs",
-      "ALL_ARTICLES": "Visi Raksti",
-      "MY_ARTICLES": "Mani Raksti",
-      "DRAFT": "Melnraksts",
-      "ARCHIVED": "Arhivēts",
-      "CATEGORY": "Kategorija",
-      "SETTINGS": "Iestatījumi",
-      "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
+      "ARTICLES": "Raksti",
+      "CATEGORIES": "Kategorijas",
+      "LOCALES": "Lokalizācijas",
+      "SETTINGS": "Iestatījumi"
     },
+    "CHANNELS": "Kanāli",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automātiski atzīmēt bezsaistē",
-      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē."
+      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē.",
+      "INFO_SHORT": "Automātiski atzīmēt bezsaistē, kad neizmantojat lietotni."
     },
     "DOCS": "Lasīt dokumentus"
   },
