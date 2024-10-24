@@ -47,6 +47,6 @@ class CustomApi < ApplicationRecord
   private
 
   def delete_associated_orders
-    Order.where(platform: name).destroy_all
+    Integrations::CustomApi::DeleteOrdersJob.perform_later(name)
   end
 end
