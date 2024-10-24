@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
     "SWITCH": "Εναλλαγή",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "Όλα Τα Άρθρα",
-      "MY_ARTICLES": "Τα Άρθρα Μου",
-      "DRAFT": "Πρόχειρο",
-      "ARCHIVED": "Αρχειοθετημένο",
-      "CATEGORY": "Κατηγορία",
-      "SETTINGS": "Ρυθμίσεις",
-      "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Κατηγορίες",
+      "LOCALES": "Γλώσσες",
+      "SETTINGS": "Ρυθμίσεις"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Αυτόματη σήμανση εκτός σύνδεσης",
-      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου."
+      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Ανάγνωση εγγράφων"
   },
