@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
     "INBOX_VIEW": "",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
     "HELP_CENTER": {
       "TITLE": "Central de Ajuda",
-      "ALL_ARTICLES": "Todos os artigos",
-      "MY_ARTICLES": "Meus Artigos",
-      "DRAFT": "Rascunho",
-      "ARCHIVED": "Arquivado",
-      "CATEGORY": "Categoria",
-      "SETTINGS": "Confirgurações",
-      "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categorias",
+      "LOCALES": "Localidades",
+      "SETTINGS": "Confirgurações"
     },
+    "CHANNELS": "Canais",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar offline automaticamente",
-      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle."
+      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Ler documentos"
   },
