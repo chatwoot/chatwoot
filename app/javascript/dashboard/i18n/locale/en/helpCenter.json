@@ -532,20 +532,20 @@
           "BUTTON_LABEL": "New article"
         },
         "MINE": {
-          "TITLE": "There are no articles in mine",
-          "SUBTITLE": "Mine articles will appear here"
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in draft",
+          "TITLE": "There are no articles in drafts",
           "SUBTITLE": "Draft articles will appear here"
         },
         "PUBLISHED": {
-          "TITLE": "There are no articles in published",
+          "TITLE": "There are no published articles",
           "SUBTITLE": "Published articles will appear here"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in archived",
-          "SUBTITLE": "Archived articles will appear here"
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
         },
         "CATEGORY": {
           "TITLE": "There are no articles in this category",

@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
@@ -24,6 +25,10 @@ const CATEGORY_SUB_ROUTES = [
 const portals = useMapGetter('portals/allPortals');
 
 const currentPortalSlug = computed(() => route.params.portalSlug);
+
+const portalLink = computed(() => {
+  return buildPortalURL(currentPortalSlug.value);
+});
 
 const isPortalActive = portal => {
   return portal.slug === currentPortalSlug.value;
@@ -71,6 +76,10 @@ const openCreatePortalDialog = () => {
   emit('close');
 };
 
+const onClickPreviewPortal = () => {
+  window.open(portalLink.value, '_blank');
+};
+
 const redirectToPortalHomePage = () => {
   router.push({
     name: 'portals_index',
@@ -89,12 +98,22 @@ const redirectToPortalHomePage = () => {
       class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-n-alpha-2"
     >
       <div class="flex flex-col gap-1">
-        <h2
-          class="text-base font-medium cursor-pointer text-slate-900 dark:text-slate-50 w-fit hover:underline"
-          @click="redirectToPortalHomePage"
-        >
-          {{ t('HELP_CENTER.PORTAL_SWITCHER.PORTALS') }}
-        </h2>
+        <div class="flex items-center gap-2">
+          <h2
+            class="text-base font-medium cursor-pointer text-slate-900 dark:text-slate-50 w-fit hover:underline"
+            @click="redirectToPortalHomePage"
+          >
+            {{ t('HELP_CENTER.PORTAL_SWITCHER.PORTALS') }}
+          </h2>
+          <Button
+            icon="arrow-up-right-lucide"
+            variant="ghost"
+            icon-lib="lucide"
+            size="sm"
+            class="!w-6 !h-6 hover:bg-n-slate-2 text-n-slate-11 !p-0.5 rounded-md"
+            @click="onClickPreviewPortal"
+          />
+        </div>
         <p class="text-sm text-slate-600 dark:text-slate-300">
           {{ t('HELP_CENTER.PORTAL_SWITCHER.CREATE_PORTAL') }}
         </p>

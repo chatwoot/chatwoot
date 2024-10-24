@@ -114,15 +114,23 @@ const getEmptyStateSubtitle = computed(() => getEmptyStateText('SUBTITLE'));
 
 const handleTabChange = tab =>
   updateRoute({ tab: tab.value === ARTICLE_TABS.ALL ? '' : tab.value });
+
 const handleCategoryAction = value =>
   updateRoute({ categorySlug: value === CATEGORY_ALL ? '' : value });
+
 const handleLocaleAction = value => {
   updateRoute({ locale: value, categorySlug: '' });
   emit('fetchPortal', value);
 };
 const handlePageChange = page => emit('pageChange', page);
-const navigateToNewArticlePage = () =>
-  router.push({ name: 'portals_articles_new' });
+
+const navigateToNewArticlePage = () => {
+  const { categorySlug, locale } = route.params;
+  router.push({
+    name: 'portals_articles_new',
+    params: { categorySlug, locale },
+  });
+};
 </script>
 
 <template>
