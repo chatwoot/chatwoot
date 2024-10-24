@@ -90,7 +90,6 @@ const chatsOnView = ref([]);
 const foldersQuery = ref({});
 const showAddFoldersModal = ref(false);
 const showDeleteFoldersModal = ref(false);
-const selectedInboxes = ref([]);
 const isContextMenuOpen = ref(false);
 const appliedFilter = ref([]);
 const advancedFilterTypes = ref(
@@ -122,6 +121,7 @@ const getTeamFn = useMapGetter('teams/getTeam');
 useChatListKeyboardEvents(conversationListRef);
 const {
   selectedConversations,
+  selectedInboxes,
   selectConversation,
   deSelectConversation,
   selectAllConversations,
