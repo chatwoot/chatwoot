@@ -1,13 +1,25 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
+import { useI18n } from 'vue-i18n';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import {
+  ARTICLE_MENU_ITEMS,
+  ARTICLE_MENU_OPTIONS,
+  ARTICLE_STATUSES,
+} from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -17,11 +29,11 @@ const props = defineProps({
     required: true,
   },
   author: {
-    type: String,
+    type: Object,
     required: true,
   },
   category: {
-    type: String,
+    type: Object,
     required: true,
   },
   views: {
@@ -29,84 +41,112 @@ const props = defineProps({
     required: true,
   },
   updatedAt: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
 
+const emit = defineEmits(['openArticle', 'articleAction']);
+
+const { t } = useI18n();
+
 const isOpen = ref(false);
 
-const menuItems = computed(() => {
-  const baseItems = [{ label: 'Delete', action: 'delete', icon: 'delete' }];
-  const menuOptions = {
-    archived: [
-      { label: 'Publish', action: 'publish', icon: 'checkmark' },
-      { label: 'Draft', action: 'draft', icon: 'draft' },
-    ],
-    draft: [
-      { label: 'Publish', action: 'publish', icon: 'checkmark' },
-      { label: 'Archive', action: 'archive', icon: 'archive' },
-    ],
-    '': [
-      // Empty string represents published status
-      { label: 'Draft', action: 'draft', icon: 'draft' },
-      { label: 'Archive', action: 'archive', icon: 'archive' },
-    ],
-  };
-  return [...(menuOptions[props.status] || menuOptions['']), ...baseItems];
+const articleMenuItems = computed(() => {
+  const commonItems = Object.entries(ARTICLE_MENU_ITEMS).reduce(
+    (acc, [key, item]) => {
+      acc[key] = { ...item, label: t(item.label) };
+      return acc;
+    },
+    {}
+  );
+
+  const statusItems = (
+    ARTICLE_MENU_OPTIONS[props.status] ||
+    ARTICLE_MENU_OPTIONS[ARTICLE_STATUSES.PUBLISHED]
+  ).map(key => commonItems[key]);
+
+  return [...statusItems, commonItems.delete];
 });
 
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return '!text-slate-600 dark:!text-slate-200';
+      return '!text-n-slate-12';
     case 'draft':
-      return '!text-amber-700 dark:!text-amber-400';
+      return '!text-n-amber-11';
     default:
-      return '!text-teal-700 dark:!text-teal-400';
+      return '!text-n-teal-11';
   }
 });
 
 const statusText = computed(() => {
   switch (props.status) {
     case 'archived':
-      return 'Archived';
+      return t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.STATUS.ARCHIVED');
     case 'draft':
-      return 'Draft';
+      return t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.STATUS.DRAFT');
     default:
-      return 'Published';
+      return t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.STATUS.PUBLISHED');
   }
 });
 
-const handleAction = () => {
+const categoryName = computed(() => {
+  if (props.category?.slug) {
+    return `${props.category.icon} ${props.category.name}`;
+  }
+  return t(
+    'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.CATEGORY.UNCATEGORISED'
+  );
+});
+
+const authorName = computed(() => {
+  return props.author?.name || props.author?.availableName || '-';
+});
+
+const authorThumbnailSrc = computed(() => {
+  return props.author?.thumbnail;
+});
+
+const lastUpdatedAt = computed(() => {
+  return dynamicTime(props.updatedAt);
+});
+
+const handleArticleAction = ({ action, value }) => {
   isOpen.value = false;
+  emit('articleAction', { action, value, id: props.id });
+};
+
+const handleClick = id => {
+  emit('openArticle', id);
 };
 </script>
 
-<!-- TODO: Add i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <CardLayout>
     <template #header>
       <div class="flex justify-between gap-1">
-        <span class="text-base text-slate-900 dark:text-slate-50 line-clamp-1">
+        <span
+          class="text-base cursor-pointer hover:underline text-n-slate-12 line-clamp-1"
+          @click="handleClick(id)"
+        >
           {{ title }}
         </span>
-        <div class="relative group">
-          <Button
-            variant="ghost"
-            size="sm"
-            class="text-xs bg-slate-50 !font-normal group-hover:bg-slate-100/50 dark:group-hover:bg-slate-700/50 !h-6 dark:bg-slate-800 rounded-md border-0 !px-2 !py-0.5"
-            :label="statusText"
-            :class="statusTextColor"
-            @click="isOpen = !isOpen"
-          />
+        <div class="relative group" @click.stop>
           <OnClickOutside @trigger="isOpen = false">
+            <Button
+              variant="ghost"
+              size="sm"
+              class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
+              :label="statusText"
+              :class="statusTextColor"
+              @click="isOpen = !isOpen"
+            />
             <DropdownMenu
               v-if="isOpen"
-              :menu-items="menuItems"
-              class="right-0 mt-2 xl:left-0 top-full"
-              @action="handleAction"
+              :menu-items="articleMenuItems"
+              class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
+              @action="handleArticleAction($event)"
             />
           </OnClickOutside>
         </div>
@@ -116,25 +156,34 @@ const handleAction = () => {
       <div class="flex items-center justify-between gap-4">
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
-            <div class="w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-700" />
-            <span class="text-sm text-slate-500 dark:text-slate-400">
-              {{ author }}
+            <Thumbnail
+              v-if="author"
+              :author="author"
+              :name="authorName"
+              :src="authorThumbnailSrc"
+            />
+            <span class="text-sm text-n-slate-11">
+              {{ authorName }}
             </span>
           </div>
-          <span
-            class="block text-sm whitespace-nowrap text-slate-500 dark:text-slate-400"
-          >
-            {{ category }}
+          <span class="block text-sm whitespace-nowrap text-n-slate-11">
+            {{ categoryName }}
           </span>
           <div
-            class="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 whitespace-nowrap"
+            class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
           >
             <FluentIcon icon="eye-show" size="18" />
-            <span class="text-sm"> {{ views }} views </span>
+            <span class="text-sm">
+              {{
+                t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {
+                  count: views,
+                })
+              }}
+            </span>
           </div>
         </div>
-        <span class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">
-          {{ updatedAt }}
+        <span class="text-sm text-n-slate-11 line-clamp-1">
+          {{ lastUpdatedAt }}
         </span>
       </div>
     </template>

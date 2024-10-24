@@ -1,86 +1,38 @@
 <script setup>
-// import { ref } from 'vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ArticleCard from 'dashboard/components-next/HelpCenter/ArticleCard/ArticleCard.vue';
-import CategoryCard from 'dashboard/components-next/HelpCenter/CategoryCard/CategoryCard.vue';
-import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
-// import CreatePortalDialog from 'dashboard/playground/HelpCenter/components/CreatePortalDialog.vue';
+import articleContent from './portalEmptyStateContent';
+import CreatePortalDialog from 'dashboard/components-next/HelpCenter/PortalSwitcher/CreatePortalDialog.vue';
 
-const articles = [
-  {
-    title: "How to get an SSL certificate for your Help Center's custom domain",
-    status: 'draft',
-    updatedAt: '2 days ago',
-    author: 'Michael',
-    category: '⚡️ Marketing',
-    views: 3400,
-  },
-  {
-    title: 'Setting up your first Help Center portal',
-    status: '',
-    updatedAt: '1 week ago',
-    author: 'John',
-    category: '🛠️ Development',
-    views: 400,
-  },
-  {
-    title: 'Best practices for organizing your Help Center content',
-    status: 'archived',
-    updatedAt: '3 days ago',
-    author: 'Fernando',
-    category: '💰 Finance',
-    views: 400,
-  },
-  {
-    title: 'Customizing the appearance of your Help Center',
-    status: '',
-    updatedAt: '5 days ago',
-    author: 'Jane',
-    category: '💰 Finance',
-    views: 400,
-  },
-];
-const categories = [
-  {
-    title: 'Getting Started',
-    description: 'Essential guides for new users',
-    articlesCount: '5',
-  },
-  {
-    title: 'Advanced Features',
-    description: 'In-depth tutorials for power users',
-    articlesCount: '8',
-  },
-];
+const createPortalDialogRef = ref(null);
+const openDialog = () => {
+  createPortalDialogRef.value.dialogRef.open();
+};
 
-const locales = [
-  { name: 'English', isDefault: true },
-  { name: 'Spanish', isDefault: false },
-  { name: 'Malayalam', isDefault: false },
-];
+const router = useRouter();
 
-// const createPortalDialogRef = ref(null);
-// const openDialog = () => {
-//   createPortalDialogRef.value.dialogRef.open();
-// };
-// const handleDialogConfirm = () => {
-//   // Add logic to create a new portal
-// };
+const onPortalCreate = ({ slug: portalSlug, locale }) => {
+  router.push({
+    name: 'portals_articles_index',
+    params: { portalSlug, locale },
+  });
+};
 </script>
 
-<!-- TODO: Add i18n -->
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <template>
   <EmptyStateLayout
-    title="Help Center"
-    subtitle="Create self-service portals to access articles and information. Streamline queries, enhance agent efficiency, and elevate customer support."
+    :title="$t('HELP_CENTER.TITLE')"
+    :subtitle="$t('HELP_CENTER.NEW_PAGE.DESCRIPTION')"
   >
     <template #empty-state-item>
       <div class="grid grid-cols-2 gap-4">
         <div class="space-y-4">
           <ArticleCard
-            v-for="(article, index) in articles"
+            v-for="(article, index) in articleContent"
+            :id="article.id"
             :key="`article-${index}`"
             :title="article.title"
             :status="article.status"
@@ -91,18 +43,16 @@ const locales = [
           />
         </div>
         <div class="space-y-4">
-          <CategoryCard
-            v-for="(category, index) in categories"
-            :key="`category-${index}`"
-            :title="category.title"
-            :description="category.description"
-            :articles-count="category.articlesCount"
-          />
-          <LocaleCard
-            v-for="(locale, index) in locales"
-            :key="`locale-${index}`"
-            :locale="locale.name"
-            :is-default="locale.isDefault"
+          <ArticleCard
+            v-for="(article, index) in articleContent.reverse()"
+            :id="article.id"
+            :key="`article-${index}`"
+            :title="article.title"
+            :status="article.status"
+            :updated-at="article.updatedAt"
+            :author="article.author"
+            :category="article.category"
+            :views="article.views"
           />
         </div>
       </div>
@@ -110,14 +60,14 @@ const locales = [
     <template #actions>
       <Button
         variant="default"
-        label="Create Portal"
+        :label="$t('HELP_CENTER.NEW_PAGE.CREATE_PORTAL_BUTTON')"
         icon="add"
         @click="openDialog"
       />
-      <!-- <CreatePortalDialog
-          ref="createPortalDialogRef"
-          @confirm="handleDialogConfirm"
-        /> -->
+      <CreatePortalDialog
+        ref="createPortalDialogRef"
+        @create="onPortalCreate"
+      />
     </template>
   </EmptyStateLayout>
 </template>
