@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
     "SWITCH": "Comută contul",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Asistenta",
-      "ALL_ARTICLES": "Toate articolele",
-      "MY_ARTICLES": "Articolele mele",
-      "DRAFT": "Schita",
-      "ARCHIVED": "Arhivate",
-      "CATEGORY": "Categorie",
-      "SETTINGS": "Setări",
-      "CATEGORY_EMPTY_MESSAGE": "Nu s-au găsit categorii"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categorii",
+      "LOCALES": "Limbi",
+      "SETTINGS": "Setări"
     },
+    "CHANNELS": "Canale",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcarea automată a offline-ului",
-      "INFO_TEXT": "Permiteți sistemului să vă marcheze automat offline atunci când nu utilizați aplicația sau tabloul de bord."
+      "INFO_TEXT": "Permiteți sistemului să vă marcheze automat offline atunci când nu utilizați aplicația sau tabloul de bord.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Citiți Documente"
   },
