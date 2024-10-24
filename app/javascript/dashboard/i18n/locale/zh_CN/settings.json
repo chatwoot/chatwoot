@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "帮助中心",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "已存档",
-      "CATEGORY": "类别",
-      "SETTINGS": "设置",
-      "CATEGORY_EMPTY_MESSAGE": "未找到类别"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "设置"
     },
+    "CHANNELS": "频道",
     "SET_AUTO_OFFLINE": {
       "TEXT": "自动标记离线状态",
-      "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。"
+      "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "阅读文档"
   },
