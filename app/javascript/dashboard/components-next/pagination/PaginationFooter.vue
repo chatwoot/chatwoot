@@ -56,12 +56,10 @@ const pageInfo = computed(() => {
 
 <template>
   <div
-    class="flex justify-between h-12 w-full max-w-[957px] mx-auto bg-slate-25 dark:bg-slate-800/50 rounded-xl py-2 px-3 items-center"
+    class="flex justify-between h-12 w-full max-w-[957px] mx-auto bg-n-solid-2 rounded-xl py-2 ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 items-center"
   >
     <div class="flex items-center gap-3">
-      <span
-        class="min-w-0 text-sm font-normal line-clamp-1 text-slate-600 dark:text-slate-300"
-      >
+      <span class="min-w-0 text-sm font-normal line-clamp-1 text-n-slate-11">
         {{ currentPageInformation }}
       </span>
     </div>
@@ -82,12 +80,8 @@ const pageInfo = computed(() => {
         :disabled="isFirstPage"
         @click="changePage(currentPage - 1)"
       />
-      <div
-        class="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"
-      >
-        <span
-          class="px-3 tabular-nums py-0.5 bg-white dark:bg-slate-900 rounded-md"
-        >
+      <div class="inline-flex items-center gap-2 text-sm text-n-slate-11">
+        <span class="px-3 tabular-nums py-0.5 bg-n-alpha-black2 rounded-md">
           {{ currentPage }}
         </span>
         <span>{{ pageInfo }}</span>

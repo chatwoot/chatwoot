@@ -100,7 +100,7 @@ import Button from './Button.vue';
           icon-position="left"
           size="sm"
         />
-        <Button icon="emoji-add" size="icon" />
+        <Button icon="emoji-add" size="sm" />
       </div>
     </Variant>
 
@@ -119,7 +119,7 @@ import Button from './Button.vue';
           icon-position="right"
           size="sm"
         />
-        <Button icon="emoji-add" size="icon" />
+        <Button icon="emoji-add" size="sm" />
       </div>
     </Variant>
   </Story>

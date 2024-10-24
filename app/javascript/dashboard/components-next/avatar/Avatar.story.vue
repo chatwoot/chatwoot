@@ -24,14 +24,14 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="Invalid or empty SRC">
-      <div class="p-4 bg-white dark:bg-slate-900 space-x-4">
+      <div class="p-4 space-x-4 bg-white dark:bg-slate-900">
         <Avatar src="https://example.com/ruby.png" name="Ruby" allow-upload />
         <Avatar name="Bruce Wayne" allow-upload />
       </div>
     </Variant>
 
     <Variant title="Rounded Full">
-      <div class="p-4 bg-white dark:bg-slate-900 space-x-4">
+      <div class="p-4 space-x-4 bg-white dark:bg-slate-900">
         <Avatar
           src="https://api.dicebear.com/9.x/thumbs/svg?seed=Amaya"
           allow-upload
