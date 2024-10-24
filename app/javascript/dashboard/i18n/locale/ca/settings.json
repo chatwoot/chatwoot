@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualització actual:",
     "SWITCH": "Canvia",
     "INBOX_VIEW": "Vista de la safata d'entrada",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "La vostra connexió a la safata d'entrada ha caducat, torna a connectar\n per continuar rebent i enviant missatges",
     "HELP_CENTER": {
       "TITLE": "Centre d'ajuda",
-      "ALL_ARTICLES": "Tots els articles",
-      "MY_ARTICLES": "Els articles",
-      "DRAFT": "Esborrany",
-      "ARCHIVED": "Arxivat",
-      "CATEGORY": "Categoria",
-      "SETTINGS": "Configuracions",
-      "CATEGORY_EMPTY_MESSAGE": "No s'han trobat categories"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Localitzacions",
+      "SETTINGS": "Configuracions"
     },
+    "CHANNELS": "Canals",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marca fora de línia automàticament",
-      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler."
+      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Llegir documents"
   },
