@@ -73,7 +73,7 @@ const emitNewAccount = () => {
           >
             <div
               :for="account.name"
-              class="text-left rtl:text-right flex gap-2"
+              class="text-left rtl:text-right flex gap-2 items-center"
             >
               <span
                 class="text-n-slate-12 max-w-36 truncate min-w-0"
@@ -81,6 +81,7 @@ const emitNewAccount = () => {
               >
                 {{ account.name }}
               </span>
+              <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
               <span
                 class="text-n-slate-11 max-w-24 truncate capitalize"
                 :title="account.name"
