@@ -99,9 +99,11 @@ const emitNewAccount = () => {
             />
           </button>
         </div>
-        <div class="px-2 mt-2 pb-2">
+        <div
+          v-if="globalConfig.createNewAccountFromDashboard"
+          class="px-2 mt-2 pb-2"
+        >
           <ButtonNext
-            v-if="globalConfig.createNewAccountFromDashboard"
             variant="secondary"
             class="w-full"
             size="sm"
