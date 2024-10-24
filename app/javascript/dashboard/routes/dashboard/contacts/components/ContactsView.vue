@@ -71,7 +71,7 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
-      segments: 'customViews/getCustomViews',
+      segments: 'customViews/getContactCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
