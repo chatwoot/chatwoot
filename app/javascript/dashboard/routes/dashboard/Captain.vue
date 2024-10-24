@@ -8,7 +8,7 @@ const { accountId } = useAccount();
 onMounted(async () => {
   await nextTick();
   setupCaptain('#captain', {
-    routerBase: `app/accounts/${accountId}/captain`,
+    routerBase: `app/accounts/${accountId.value}/captain`,
     fetchFn: async (source, options) => {
       console.log(source, options);
       return fetch(source, options);
