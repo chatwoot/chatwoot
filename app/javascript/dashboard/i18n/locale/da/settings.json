@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
     "SWITCH": "Skift",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "Alle Artikler",
-      "MY_ARTICLES": "Alle Artikler",
-      "DRAFT": "Kladde",
-      "ARCHIVED": "Arkiveret",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Indstillinger",
-      "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorier",
+      "LOCALES": "Locales",
+      "SETTINGS": "Indstillinger"
     },
+    "CHANNELS": "Kanaler",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Læs dokumenter"
   },
