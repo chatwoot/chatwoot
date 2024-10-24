@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Saat ini dilihat:",
     "SWITCH": "Ganti",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Pusat Bantuan",
-      "ALL_ARTICLES": "Semua Artikel",
-      "MY_ARTICLES": "Artikel Saya",
-      "DRAFT": "Konsep",
-      "ARCHIVED": "Arsip",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Pengaturan",
-      "CATEGORY_EMPTY_MESSAGE": "Tidak ada kategori ditemukan"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategori",
+      "LOCALES": "Bahasa",
+      "SETTINGS": "Pengaturan"
     },
+    "CHANNELS": "Channel",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tandai offline secara otomatis",
-      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor."
+      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Baca dokumen"
   },
