@@ -108,6 +108,15 @@ class MessageApi extends ApiClient {
       }
     );
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  sendCalEvent({ account_id, conversation_id, event_url }) {
+    return axios.post(`/api/send_cal_event`, {
+      account_id,
+      conversation_id,
+      event_url,
+    });
+  }
 }
 
 export default new MessageApi();
