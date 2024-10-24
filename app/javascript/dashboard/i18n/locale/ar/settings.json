@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
     "SWITCH": "تبديل",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
     "HELP_CENTER": {
       "TITLE": "مركز المساعدة",
-      "ALL_ARTICLES": "جميع المقالات",
-      "MY_ARTICLES": "مقالاتي",
-      "DRAFT": "مسودة",
-      "ARCHIVED": "مؤرشفة",
-      "CATEGORY": "الفئة",
-      "SETTINGS": "الإعدادات",
-      "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "الفئات",
+      "LOCALES": "اللغات",
+      "SETTINGS": "الإعدادات"
     },
+    "CHANNELS": "القنوات",
     "SET_AUTO_OFFLINE": {
       "TEXT": "وضع علامة غير متصل تلقائيا",
-      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم."
+      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "قراءة المستندات"
   },
