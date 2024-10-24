@@ -52,6 +52,8 @@ module ConversationReplyMailerHelper
       tls: false,
       enable_starttls_auto: true,
       openssl_verify_mode: 'none',
+      open_timeout: 15,
+      read_timeout: 15,
       authentication: 'xoauth2'
     }
   end
