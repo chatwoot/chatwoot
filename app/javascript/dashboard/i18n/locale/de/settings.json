@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
     "SWITCH": "Wechseln",
     "INBOX_VIEW": "Posteingangsansicht",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Ihre Posteingangsverbindung ist abgelaufen. Bitte erneut verbinden,\n um weiterhin Nachrichten empfangen und senden zu können",
     "HELP_CENTER": {
       "TITLE": "Hilfezentrum",
-      "ALL_ARTICLES": "Alle Artikel",
-      "MY_ARTICLES": "Meine Artikel",
-      "DRAFT": "Entwürfe",
-      "ARCHIVED": "Archiviert",
-      "CATEGORY": "Kategorie",
-      "SETTINGS": "Einstellungen",
-      "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorien",
+      "LOCALES": "Sprachen",
+      "SETTINGS": "Einstellungen"
     },
+    "CHANNELS": "Kanäle",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatisch offline markieren",
-      "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden."
+      "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Dokumente lesen"
   },
