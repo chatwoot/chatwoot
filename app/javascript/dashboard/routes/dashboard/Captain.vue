@@ -10,7 +10,8 @@ onMounted(async () => {
   setupCaptain('#captain', {
     routerBase: `app/accounts/${accountId.value}/captain`,
     fetchFn: async (source, options) => {
-      console.log(source, options);
+      const parsedPath = new URL(source).pathname;
+      console.log(parsedPath);
       return fetch(source, options);
     },
   });
