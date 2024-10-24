@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
     "SWITCH": "Değiştir",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ALL_ARTICLES": "Tüm Makaleler",
-      "MY_ARTICLES": "Benim Makalelerim",
-      "DRAFT": "Taslak",
-      "ARCHIVED": "Arşivlenmiş",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Ayarlar",
-      "CATEGORY_EMPTY_MESSAGE": "Kategori bulunamadı"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategoriler",
+      "LOCALES": "Yereller",
+      "SETTINGS": "Ayarlar"
     },
+    "CHANNELS": "Kanallar",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Otomatik olarak çevrimdışı olarak işaretle",
-      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız."
+      "INFO_TEXT": "Sistem sizi otomatik olarak çevrimdışı işaretlesin, uygulamayı veya gösterge tablosunu kullanmıyorsanız.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Dokümantasyonu oku"
   },
