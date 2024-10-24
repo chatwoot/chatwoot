@@ -10,8 +10,7 @@ import EditableAvatar from './EditableAvatar.vue';
           src="https://api.dicebear.com/9.x/avataaars/svg?seed=Amaya"
           class="bg-ruby-300 dark:bg-ruby-900"
         />
-      </div>
-    </Variant>
+	@@ -15,17 +15,17 @@ import Avatar from './Avatar.vue';
 
     <Variant title="Different Sizes">
       <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">

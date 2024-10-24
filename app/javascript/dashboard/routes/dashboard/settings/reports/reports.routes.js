@@ -1,4 +1,5 @@
 import { frontendURL } from '../../../../helper/URLHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const SettingsContent = () => import('../Wrapper.vue');
 const Index = () => import('./Index.vue');
@@ -90,6 +91,7 @@ export default {
           name: 'bot_reports',
           meta: {
             permissions: ['administrator', 'report_manage'],
+            featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
           },
           component: BotReports,
         },
@@ -184,6 +186,7 @@ export default {
           name: 'sla_reports',
           meta: {
             permissions: ['administrator', 'report_manage'],
+            featureFlag: FEATURE_FLAGS.SLA,
           },
           component: SLAReports,
         },
