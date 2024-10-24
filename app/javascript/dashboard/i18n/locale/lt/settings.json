@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
     "SWITCH": "Perjungti",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Palaikymo centras",
-      "ALL_ARTICLES": "Visi Straipsniai",
-      "MY_ARTICLES": "Mano Straipsniai",
-      "DRAFT": "Ruošinys",
-      "ARCHIVED": "Suarchyvuota",
-      "CATEGORY": "Kategorija",
-      "SETTINGS": "Nustatymai",
-      "CATEGORY_EMPTY_MESSAGE": "Kategorijų nerasta"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorijos",
+      "LOCALES": "Lokalizacija",
+      "SETTINGS": "Nustatymai"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatiškai pažymėkite \"neprisijungęs\"",
-      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio."
+      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Skaityti dokumentus"
   },
