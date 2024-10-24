@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { getHostNameFromURL } from 'dashboard/helper/URLHelper';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -16,9 +17,14 @@ const emit = defineEmits(['confirm']);
 
 const { t } = useI18n();
 
-const domain = window?.location?.hostname || '';
+const domain = computed(() => {
+  const { hostURL, helpCenterURL } = window?.chatwootConfig || {};
+  return getHostNameFromURL(hostURL) || getHostNameFromURL(helpCenterURL) || '';
+});
 
-const subdomainCNAME = computed(() => `${props.customDomain} CNAME ${domain}`);
+const subdomainCNAME = computed(
+  () => `${props.customDomain} CNAME ${domain.value}`
+);
 
 const dialogRef = ref(null);
 
