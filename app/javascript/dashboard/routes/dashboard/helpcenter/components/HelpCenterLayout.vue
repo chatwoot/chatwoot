@@ -2,6 +2,7 @@
 import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import UpgradePage from './UpgradePage.vue';
+import NextSidebar from 'next/sidebar/Sidebar.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -22,6 +23,7 @@ const CommandBar = defineAsyncComponent(
 
 export default {
   components: {
+    NextSidebar,
     AccountSelector,
     AddCategory,
     CommandBar,
@@ -66,6 +68,12 @@ export default {
       return this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.HELP_CENTER
+      );
+    },
+    showNextSidebar() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHATWOOT_V4
       );
     },
     isSidebarOpen() {
@@ -289,7 +297,15 @@ export default {
 
 <template>
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
+    <NextSidebar
+      v-if="showNextSidebar"
+      @toggle-account-modal="toggleAccountModal"
+      @open-notification-panel="openNotificationPanel"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @close-key-shortcut-modal="closeKeyShortcutModal"
+    />
     <Sidebar
+      v-else
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
