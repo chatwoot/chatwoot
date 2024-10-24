@@ -31,7 +31,7 @@ const portalRoutes = [
     component: PortalsArticlesIndexPage,
   },
   {
-    path: getPortalRoute(':portalSlug/:locale/articles/new'),
+    path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/new'),
     name: 'portals_articles_new',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],
