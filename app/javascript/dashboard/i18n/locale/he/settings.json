@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "צופה כרגע:",
     "SWITCH": "החלף",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "כל המאמרים",
-      "MY_ARTICLES": "הכתבות שלי",
-      "DRAFT": "טיוטה",
-      "ARCHIVED": "בארכיון",
-      "CATEGORY": "קטגוריה",
-      "SETTINGS": "הגדרות",
-      "CATEGORY_EMPTY_MESSAGE": "לא נמצאו קטגוריות"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "קטגוריות",
+      "LOCALES": "מקומיים",
+      "SETTINGS": "הגדרות"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "סמן באופן לא מקוון באופן אוטומטי",
-      "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים."
+      "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "קרא מסמכים"
   },
