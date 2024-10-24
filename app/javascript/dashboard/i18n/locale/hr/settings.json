@@ -227,6 +227,7 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
@@ -283,17 +284,16 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centar za pomoć",
-      "ALL_ARTICLES": "Svi članci",
-      "MY_ARTICLES": "Moji članci",
-      "DRAFT": "Skica",
-      "ARCHIVED": "Arhivirano",
-      "CATEGORY": "Kategorija",
-      "SETTINGS": "Postavke",
-      "CATEGORY_EMPTY_MESSAGE": "Nisu pronađene kategorije"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "Postavke"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Pročitaj članke"
   },
