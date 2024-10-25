@@ -112,7 +112,7 @@ const onImgLoad = () => {
     </div>
     <div
       v-else
-      v-tooltip.right-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
+      v-tooltip.top-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
       class="flex items-center justify-center w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-700/50"
     >
       <FluentIcon
