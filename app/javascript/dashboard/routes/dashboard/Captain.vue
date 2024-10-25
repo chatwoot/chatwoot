@@ -1,18 +1,34 @@
 <script setup>
 import { nextTick, onMounted } from 'vue';
 import { useAccount } from 'dashboard/composables/useAccount';
+import IntegrationsAPI from 'dashboard/api/integrations';
+
 import setupCaptain from '@chatwoot/captain-dashboard/dist/captain.es.js';
 
-const { accountId } = useAccount();
+const { accountId, currentAccount } = useAccount();
 
 onMounted(async () => {
   await nextTick();
   setupCaptain('#captain', {
     routerBase: `app/accounts/${accountId.value}/captain`,
     fetchFn: async (source, options) => {
-      const parsedPath = new URL(source).pathname;
-      console.log(parsedPath);
-      return fetch(source, options);
+      const path = new URL(source).pathname;
+      if (path === `/api/sessions/profile`) {
+        // need to proxy the request
+        return Promise.resolve({
+          account: {
+            id: accountId.value,
+            name: currentAccount.value.name,
+          },
+        });
+      }
+
+      const parsedPath = path.replace(/^\/api\/accounts\/\d+/, '');
+      return IntegrationsAPI.requestCaptain({
+        method: options.method ?? 'GET',
+        route: parsedPath,
+        body: options.body,
+      });
     },
   });
 });
