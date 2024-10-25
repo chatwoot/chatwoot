@@ -59,6 +59,17 @@ export const actions = {
     }
   },
 
+  suggest: async ({ commit }, keyword) => {
+    try {
+      const {
+        data: { payload },
+      } = await ContactAPI.search(keyword);
+      return payload;
+    } catch (error) {
+      return [];
+    }
+  },
+
   get: async ({ commit }, { page = 1, sortAttr, label } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {

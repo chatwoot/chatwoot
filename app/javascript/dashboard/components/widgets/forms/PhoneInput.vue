@@ -173,6 +173,10 @@ export default {
           `+${number.countryCallingCode}`,
           ''
         );
+      } else if (!this.value) {
+        this.activeCountryCode = '';
+        this.activeDialCode = '';
+        this.phoneNumber = '';
       }
     },
   },

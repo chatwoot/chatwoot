@@ -39,9 +39,20 @@
       </div>
 
       <div class="w-full">
-        <label class="mb-2 ml-2">
+        <label class="mb-2 ml-2 email-label">
           Email Address
           <input type="email" v-model="newTicket.email" @input="$v.newTicket.email.$touch"/>
+          <ul v-if="contactSuggestions.length" class="suggestions-list">
+            <li 
+              v-for="(suggestion, index) in contactSuggestions" 
+              :key="index" 
+              @click="selectSuggestion(suggestion)"
+            >
+              {{ suggestion.email }}
+              <div><small>{{ suggestion.name }}</small></div>
+              <div><small>{{ suggestion.phone_number }}</small></div>
+            </li>
+          </ul>
           <span v-if="$v.newTicket.email.$error" class="message text-red-400">
             {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
           </span>
@@ -240,6 +251,8 @@
         privateNote: true,
         bccEmails: '',
         ccEmails: '',
+        debounceTimeout: null,
+        contactSuggestions: [],
         contactKinds: [
         {
           id: 0,
@@ -307,6 +320,11 @@
       contactType(){
         return this.contactKinds.find(kind => kind.id === this.newTicket.contact_kind)?.name;
       },
+
+      issueType(){
+        return this.newTicket.issue_type;
+      },
+
       customAttributes(){
         return {
           response_needed: this.newTicket.response_needed,
@@ -405,7 +423,6 @@
         }
       },
       submitForm(){
-        console.log(this.newTicketData)
         this.$v.$touch();
 
         if (this.$v.$invalid) {
@@ -427,9 +444,45 @@
 
       getValidationErrors() {
         const errors = {};
-        
-
         return errors;
+      },
+      
+      checkEmailDebounced(newEmail){
+        clearTimeout(this.debounceTimeout);
+
+        if (newEmail === '') {
+          this.contactSuggestions = [];
+          this.newTicket.name = '';
+          this.newTicket.phoneNumber = '';
+          this.newTicket.phoneCode = '';
+          return;
+        }
+
+        this.debounceTimeout = setTimeout(() => {
+          this.checkEmailInBackend(newEmail);
+        }, 300);
+      },
+
+      selectSuggestion(suggestion){
+        this.newTicket.email = suggestion.email;
+        this.newTicket.name = suggestion.name;
+        this.newTicket.phoneNumber = suggestion.phone_number || "";
+
+        if (!!this.newTicket.phoneNumber && !!this.parsePhoneNumber) {
+          const dialCode = this.parsePhoneNumber.countryCallingCode;
+          this.newTicket.phoneCode = `+${dialCode}`;
+        }
+
+        this.contactSuggestions = [];
+      },
+
+      async checkEmailInBackend(newEmail){
+        try {
+          const response = await this.$store.dispatch('contacts/suggest', newEmail)
+          this.contactSuggestions = response;
+        } catch (error) {
+          this.contactSuggestions = [];
+        }
       },
 
       clearTicket(){
@@ -446,14 +499,16 @@
         this.assignedLabels = this.assignedLabels.filter((label) => !label.title.includes('_contact'))
       },
 
+      clearIssueTypeLabels(){
+        this.assignedLabels = this.assignedLabels.filter((label) => !['feedback', 'question', '2nd-line-support'].includes(label.title))
+      },
+
       handleMessageClick() {
         this.privateNote = false;
-        // this.$emit('reply-click');
       },
 
       handleNoteClick() {
         this.privateNote = true;
-        // this.$emit('note-click');
       },
     },
     validations: {
@@ -499,8 +554,37 @@
           this.assignedLabels.push(label)
         }
       },
+
+      issueType(){
+        let label_title = '';
+        switch(this.issueType){
+          case 'Feedback':
+            this.clearIssueTypeLabels();
+            label_title = 'feedback';
+            break;
+          case 'Question':
+            this.clearIssueTypeLabels();
+            label_title = 'question';
+            break;
+          case '2nd Line Support':
+            this.clearIssueTypeLabels();
+            label_title = '2nd-line-support';
+            break;
+        }
+
+        if (label_title){
+          const label = this.allLabels.find((label) => label.title === label_title)
+          if(label){
+            this.assignedLabels.push(label)
+          }
+        }
+      },
+
       privateNote(){
         this.$refs.messageEditor.reloadState(this.newTicket.note)
+      },
+      'newTicket.email': function(newEmail) {
+        this.checkEmailDebounced(newEmail);
       }
     }
   };
@@ -578,5 +662,25 @@
       @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
     }
   }
+  .email-label {
+    position: relative;
+  }
+  .suggestions-list {
+    @apply bg-white dark:bg-slate-900;
 
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+
+    li {
+      @apply cursor-pointer p-2;
+      text-decoration: none;
+      &:hover {
+        @apply bg-slate-100 dark:bg-slate-800;
+      }
+    }
+  }
 </style>

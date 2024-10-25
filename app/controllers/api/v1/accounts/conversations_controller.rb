@@ -54,8 +54,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def create_ticket
-    service = Digitaltolk::CreateTicketService.new(Current.account, params)
-    service.perform
+    begin
+      service = Digitaltolk::CreateTicketService.new(Current.account, params)
+      service.perform
+    rescue ActiveRecord::RecordInvalid => e
+      render_could_not_create_error(e.message)
+    end
 
     @conversation = service.conversation
   end

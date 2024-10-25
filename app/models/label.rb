@@ -20,6 +20,8 @@ class Label < ApplicationRecord
   include RegexHelper
   include AccountCacheRevalidator
 
+  CREATED_BY_AGENT = 'created-by-agent'.freeze
+
   belongs_to :account
 
   validates :title,

@@ -80,6 +80,10 @@ class ContactAPI extends ApiClient {
   exportContacts(queryPayload) {
     return axios.post(`${this.url}/export`, queryPayload);
   }
+
+  suggest(keywords) {
+    return this.search(keywords)
+  }
 }
 
 export default new ContactAPI();
