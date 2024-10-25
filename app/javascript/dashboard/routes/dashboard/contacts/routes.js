@@ -1,7 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-const ContactsView = () => import('./components/ContactsView.vue');
-const ContactManageView = () => import('./pages/ContactManageView.vue');
+import ContactsView from './components/ContactsView.vue';
+import ContactManageView from './pages/ContactManageView.vue';
 
 export const routes = [
   {
