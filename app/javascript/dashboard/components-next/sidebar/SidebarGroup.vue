@@ -92,27 +92,13 @@ const hasActiveChild = computed(() => {
 
 const toggleTrigger = () => {
   if (
-    hasChildren.value &&
     hasAccessibleChildren.value &&
     !isExpanded.value &&
     !hasActiveChild.value
   ) {
     // if not already expanded, navigate to the first child
     const firstItem = accessibleItems.value[0];
-    const startTime = performance.now();
-
-    // Record network requests during navigation
-    const observer = new PerformanceObserver(list => {
-      console.table(list.getEntries(), ['name', 'duration', 'initiatorType']);
-    });
-
-    observer.observe({ entryTypes: ['resource'] });
-
-    router.push(firstItem.to).then(() => {
-      const endTime = performance.now();
-      console.log(`Total navigation took ${endTime - startTime}ms`);
-      observer.disconnect();
-    });
+    router.push(firstItem.to);
   }
   setExpandedItem(props.name);
 };
