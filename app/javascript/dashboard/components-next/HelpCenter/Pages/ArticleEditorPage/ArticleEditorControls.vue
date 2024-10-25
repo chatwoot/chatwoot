@@ -46,7 +46,7 @@ const author = computed(() => {
       ? agents.value.find(agent => agent.id === selectedAuthorId.value)
       : currentUser.value;
   }
-  return props.article?.author || currentUser.value;
+  return props.article?.author || null;
 });
 
 const authorName = computed(
@@ -189,7 +189,6 @@ onMounted(() => {
         >
           <template #leftPrefix>
             <Thumbnail
-              v-if="author"
               :author="author"
               :name="authorName"
               :size="20"

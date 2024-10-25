@@ -157,7 +157,6 @@ const handleClick = id => {
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
             <Thumbnail
-              v-if="author"
               :author="author"
               :name="authorName"
               :src="authorThumbnailSrc"
