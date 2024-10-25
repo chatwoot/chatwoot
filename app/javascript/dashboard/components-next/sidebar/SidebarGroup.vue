@@ -53,10 +53,7 @@ const accessibleItems = computed(() => {
   return props.children.filter(child => isAllowed(child.to));
 });
 
-const hasAccessibleItems = computed(() => {
-  // default true so that rendering is not blocked
-  if (!hasChildren.value) return true;
-
+const hasAccessibleChildren = computed(() => {
   return accessibleItems.value.length > 0;
 });
 
@@ -94,7 +91,11 @@ const hasActiveChild = computed(() => {
 });
 
 const toggleTrigger = () => {
-  if (hasAccessibleItems.value && !isExpanded.value && !hasActiveChild.value) {
+  if (
+    hasAccessibleChildren.value &&
+    !isExpanded.value &&
+    !hasActiveChild.value
+  ) {
     // if not already expanded, navigate to the first child
     const firstItem = accessibleItems.value[0];
     router.push(firstItem.to);
@@ -110,7 +111,7 @@ watch(expandedItem, locateLastChild, {
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
-    v-if="hasAccessibleItems"
+    v-if="!hasChildren || hasAccessibleChildren"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
