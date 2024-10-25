@@ -156,9 +156,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
-  def get
-    # TODO: unused?
-    render json: { total: @conversation.inbox.csat_template.questions_count }
+  def add_labels
+    @conversation.add_labels(params[:labels])
+
+    render json: @conversation.label_list
   end
 
   def ticket

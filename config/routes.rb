@@ -120,10 +120,11 @@ Rails.application.routes.draw do
               post :change_contact_kind
               get :attachments
               get :related_emails
+              get :handled_by_tags
               post :reply
               post :close
               post :takeover
-              get :handled_by_tags
+              post :add_labels
             end
           end
 
