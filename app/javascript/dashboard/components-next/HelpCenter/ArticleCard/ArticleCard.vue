@@ -30,7 +30,7 @@ const props = defineProps({
   },
   author: {
     type: Object,
-    required: true,
+    default: null,
   },
   category: {
     type: Object,
