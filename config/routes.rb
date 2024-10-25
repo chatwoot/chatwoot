@@ -340,6 +340,11 @@ Rails.application.routes.draw do
             end
           end
         end
+        resource :chatbots, only: [] do
+          collection do
+            post :connect_with_team
+          end
+        end
       end
     end
 

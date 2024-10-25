@@ -7,7 +7,7 @@
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
-#  chatbot_status         :string           default("Enabled")
+#  chatbot_attributes     :jsonb
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
