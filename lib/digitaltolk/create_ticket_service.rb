@@ -18,8 +18,6 @@ class Digitaltolk::CreateTicketService
     create_conversation
     create_note
     add_labels
-    auto_assign_created_by_agent_label
-    assign_contact_and_issue_type_labels
   end
 
   private
@@ -56,13 +54,17 @@ class Digitaltolk::CreateTicketService
   end
 
   def create_contact
-    account.contacts.create(contact_params)
+    account.contacts.create!(contact_params)
   end
 
   def add_labels
-    return if service_params[:labels].blank?
+    @labels = service_params[:labels] || []
+    add_created_by_agent_label
+    add_contact_kind_label
+    add_issue_type_label
+    return if @labels.blank?
 
-    @conversation.update_labels(service_params[:labels])
+    @conversation.update_labels(@labels.uniq)
   end
 
   def auto_assign_created_by_agent_label
@@ -71,23 +73,22 @@ class Digitaltolk::CreateTicketService
     @conversation.reload.add_labels(Label::CREATED_BY_AGENT)
   end
 
-  def assign_contact_and_issue_type_labels
-    ensure_contact_kind_label
-    ensure_issue_type_label
+  def add_created_by_agent_label
+    @labels << Label::CREATED_BY_AGENT
   end
 
-  def ensure_contact_kind_label
+  def add_contact_kind_label
     return if params[:contact_kind].blank?
 
     label = Digitaltolk::ChangeContactKindService::KIND_LABELS[params[:contact_kind].to_i]
-    @conversation.reload.add_labels(label) if label.present?
+    @labels << label if label.present?
   end
 
-  def ensure_issue_type_label
+  def add_issue_type_label
     return if params[:issue_type].blank?
 
     label = ISSUE_TYPE_HASH[params[:issue_type].to_s]
-    @conversation.reload.add_labels(label) if label.present?
+    @labels << label if label.present?
   end
 
   def contact_params
@@ -102,6 +103,7 @@ class Digitaltolk::CreateTicketService
     {
       team_id: service_params[:team_id],
       custom_attributes: service_params[:custom_attributes].permit!.to_h.symbolize_keys,
+      status: service_params[:status],
       additional_attributes: {
         ticket: true,
         mail_subject: service_params[:subject]

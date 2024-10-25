@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ newTicket.phoneNumber }}
+    {{ newTicket.phoneCode }}
     <div class="flex flex-row">
       <div class="w-full">
         <label>
@@ -207,16 +209,30 @@
       </div>
     </div>
 
-    <div class="w-full flex items-center gap-2">
-      <input type="checkbox" value="true" v-model="newTicket.response_needed">
-      <label for="conversation_creation">
-        In need of response
-      </label>
+    <div class="left-wrap">
+      <!-- file upload here -->
+    </div>
+    <div class="float-right mt-5">
+      <woot-button
+        size="small"
+        @click="createWithResponse"
+      >
+        Create with response
+      </woot-button>
+      <woot-button
+        size="small"
+        color-scheme="success"
+        @click="createAndSolve"
+      >
+        Create and solve
+      </woot-button>
     </div>
   </div>
 </template>
 
 <script>
+  import FileUpload from 'vue-upload-component';
+  import * as ActiveStorage from 'activestorage';
   import { mapGetters } from 'vuex';
   import LabelSelector from 'dashboard/components/widgets/LabelSelector.vue';
   import { getInboxSource } from 'dashboard/helper/inbox';
@@ -228,6 +244,9 @@
   import alertMixin from 'shared/mixins/alertMixin';
   import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
   import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
+  import {
+    ALLOWED_FILE_TYPES,
+  } from 'shared/constants/messages';
 
   export default {
     mixins: [alertMixin],
@@ -237,6 +256,7 @@
       WootMessageEditor,
       MultiselectDropdown,
       ReplyEmailHead,
+      FileUpload,
     },
     props: {
       headerTitle: {
@@ -327,7 +347,6 @@
 
       customAttributes(){
         return {
-          response_needed: this.newTicket.response_needed,
           issue_type: this.newTicket.issue_type,
           contact_type: this.contactType,
         }
@@ -351,6 +370,10 @@
         }
       },
 
+      allowedFileTypes() {
+        return ALLOWED_FILE_TYPES;
+      },
+
       newTicketData(){
         return {
           'contact_kind': this.newTicket.contact_kind,
@@ -369,8 +392,12 @@
           'bcc_emails': this.bccEmails,
           'cc_emails': this.ccEmails,
           'private': this.privateNote,
+          'status': this.newTicket.status,
         }
       }
+    },
+    mounted(){
+      ActiveStorage.start();
     },
     methods: {
       onConversationLoad() {
@@ -397,6 +424,7 @@
 
       onPhoneNumberInputChange(value, code) {
         this.newTicket.phoneCode = code;
+        this.phoneNumber = value;
       },
 
       setPhoneCode(code) {
@@ -422,6 +450,18 @@
           this.assignedTeam = selectedItemTeam;
         }
       },
+
+      createWithResponse(){
+        this.newTicket.status = 'open';
+        this.newTicket.response_needed = true;
+        this.submitForm();
+      },
+
+      createAndSolve(){
+        this.newTicket.status = 'resolved'
+        this.submitForm();
+      },
+
       submitForm(){
         this.$v.$touch();
 
@@ -435,8 +475,9 @@
             this.clearTicket()
             this.navigateToTicket(result.data.id)
             this.$emit('enable-submit')
-          }).catch(() => {
-            this.showAlert('Failed to create ticket', 'error')
+          }).catch((e) => {
+            const error_message = e.response?.data?.error
+            this.showAlert(error_message, 'error')
             this.$emit('enable-submit')
           })
         }

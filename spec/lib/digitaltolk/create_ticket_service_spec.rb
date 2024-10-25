@@ -22,7 +22,8 @@ describe Digitaltolk::CreateTicketService do
       subject: 'test',
       cc_emails: 'test1@test.com, test2@test.com',
       bcc_emails: 'test3@test.com, test4@test.com',
-      private: private_note
+      private: private_note,
+      status: 'open'
     }
   end
 
@@ -119,8 +120,42 @@ describe Digitaltolk::CreateTicketService do
         expect(subject.conversation.contact.name).to eq(base_params[:name])
 
         message = subject.conversation.messages.outgoing.last
-        expect(message.content_attributes[:cc_emails]).to eq ["test1@test.com", "test2@test.com"]
-        expect(message.content_attributes[:bcc_emails]).to eq ["test3@test.com", "test4@test.com"]
+        expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['test3@test.com', 'test4@test.com']
+      end
+    end
+
+    context 'with status' do
+      let(:private_note) { false }
+
+      context 'with open status' do
+        let(:params) { ActionController::Parameters.new(base_params.merge(status: 'open')) }
+
+        it 'creates a conversation with the correct status' do
+          subject.perform
+
+          expect(subject.conversation.status).to eq('open')
+        end
+      end
+
+      context 'with resolved status' do
+        let(:params) { ActionController::Parameters.new(base_params.merge(status: 'resolved')) }
+
+        it 'creates a conversation with the correct status' do
+          subject.perform
+
+          expect(subject.conversation.status).to eq('resolved')
+        end
+      end
+
+      context 'with pending status' do
+        let(:params) { ActionController::Parameters.new(base_params.merge(status: 'pending')) }
+
+        it 'creates a conversation with the correct status' do
+          subject.perform
+
+          expect(subject.conversation.status).to eq('pending')
+        end
       end
     end
   end

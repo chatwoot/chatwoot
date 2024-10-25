@@ -500,11 +500,7 @@ const actions = {
     commit(types.ASSIGN_CONTACT_KIND, { contactKind, conversationId });
   },
   saveTicket: async (_, ticket) => {
-    try {
-      return await ConversationApi.saveTicket(ticket);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return await ConversationApi.saveTicket(ticket);
   },
   clearTicket({ commit }){
     commit(types.CLEAR_NEW_TICKET)

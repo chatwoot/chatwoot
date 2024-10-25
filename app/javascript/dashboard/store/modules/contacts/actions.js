@@ -63,7 +63,7 @@ export const actions = {
     try {
       const {
         data: { payload },
-      } = await ContactAPI.search(keyword);
+      } = await ContactAPI.suggest(keyword);
       return payload;
     } catch (error) {
       return [];

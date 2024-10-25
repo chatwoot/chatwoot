@@ -18,11 +18,6 @@
         <div class="py-4 px-1 ml-0 mr-0">
           <new-ticket-form ref="ticketForm" @close-panel="closePanel" @enable-submit="onEnableSubmit" @disable-submit="onDisableSubmit"/>
         </div>
-        <button type="submit" class="button success mb-5" @click="submitForm" :disabled="disableSubmit">
-          <span class="button__content">
-            Create
-          </span>
-        </button>
       </div>
     </div>
   </div>

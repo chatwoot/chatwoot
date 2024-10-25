@@ -83,12 +83,11 @@ class Article < ApplicationRecord
   )
 
   def self.search(params)
-
     records = left_joins(:category)
-      .search_by_category_slug(params[:category_slug])
-      .search_by_category_locale(params[:locale])
-      .search_by_author(params[:author_id])
-      .search_by_status(params[:status])
+              .search_by_category_slug(params[:category_slug])
+              .search_by_category_locale(params[:locale])
+              .search_by_author(params[:author_id])
+              .search_by_status(params[:status])
 
     records = records.text_search(params[:query]) if params[:query].present?
     records
@@ -169,6 +168,17 @@ class Article < ApplicationRecord
 
   def ensure_article_slug
     self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
+  end
+
+  def validate_content_length(column)
+    if column.name == 'content'
+      max_length = 100_000
+      return if self[column.name].nil? || self[column.name].length <= max_length
+
+      errors.add(column.name.to_sym, "is too long (maximum is #{max_length} characters)")
+    else
+      super(column)
+    end
   end
 end
 Article.include_mod_with('Concerns::Article')
