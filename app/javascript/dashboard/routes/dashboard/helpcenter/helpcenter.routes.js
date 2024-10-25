@@ -2,8 +2,8 @@ import { getPortalRoute } from './helpers/routeHelper';
 
 import HelpCenterPageRouteView from './pages/HelpCenterPageRouteView.vue';
 
-const PortalsIndex = () => import('./pages/PortalsIndexPage.vue');
-const PortalsNew = () => import('./pages/PortalsNewPage.vue');
+import PortalsIndex from './pages/PortalsIndexPage.vue';
+import PortalsNew from './pages/PortalsNewPage.vue';
 
 const PortalsArticlesIndexPage = () =>
   import('./pages/PortalsArticlesIndexPage.vue');
