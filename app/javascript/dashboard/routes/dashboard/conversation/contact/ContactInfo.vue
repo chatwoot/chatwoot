@@ -320,7 +320,8 @@ export default {
       const ok = await this.$refs.confirmCallingDialog.showConfirmation();
 
       if (ok) {
-        this.handleMakeCall(this.contact.phone_number);
+        const phoneNumber = this.contact.phone_number.split(' - ');
+        this.handleMakeCall(phoneNumber[0]);
       }
     },
     async deleteContact({ id }) {
