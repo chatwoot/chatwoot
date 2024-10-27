@@ -114,6 +114,7 @@ class Rack::Attack
   # For clients using the widgets in specific conditions like inside and iframe
   # TODO: Deprecate this feature in future after finding a better solution
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_API', true))
+    token = ActionDispatch::Request.new(req.env).params['website_token']
     ## Prevent Conversation Bombing on Widget APIs ###
     throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
       req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
@@ -121,17 +122,17 @@ class Rack::Attack
 
     ## Prevent Contact update Bombing in Widget API ###
     throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
-      req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+      token || req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
     end
 
     ## Prevent Conversation Bombing through multiple sessions
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+      token || req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
 
     ## Prevent Conversation Bombing through multiple sessions
     throttle('widget?website_token={website_token}', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extentions == '/widget'
+      token || req.ip if req.path_without_extentions == '/widget'
     end
   end
 
