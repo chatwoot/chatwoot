@@ -121,12 +121,12 @@ class Rack::Attack
 
     ## Prevent Contact update Bombing in Widget API ###
     throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
-      req.website_token || req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
+      req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
     end
 
     ## Prevent Conversation Bombing through multiple sessions
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
-      req.website_token || req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+      req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
 
     ## Prevent Conversation Bombing through multiple sessions
