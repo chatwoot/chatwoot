@@ -131,7 +131,7 @@ class Rack::Attack
 
     ## Prevent Conversation Bombing through multiple sessions
     throttle('widget?website_token={website_token}', limit: 5, period: 1.hour) do |req|
-      req.website_token || req.ip if req.path_without_extentions == '/widget'
+      req.ip if req.path_without_extentions == '/widget'
     end
   end
 
