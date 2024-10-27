@@ -65,7 +65,8 @@ class ContactIdentifyAction
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
+    phone_number = params[:phone_number].gsub(/^\+840/, '+84')
+    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: phone_number)
   end
 
   def merge_contacts?(existing_contact, key)

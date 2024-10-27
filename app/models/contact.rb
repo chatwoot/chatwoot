@@ -85,6 +85,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
                                                                                     dependent: :nullify, inverse_of: :contact
   has_many :conversation_plans, through: :conversations
   before_validation :prepare_contact_attributes, :set_default_stage_id
+  before_validation :normalize_phone_number
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event, :dispatch_won_event
   after_destroy_commit :dispatch_destroy_event
@@ -314,6 +315,10 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     new_stage = Stage.find_by(account_id: account_id, code: 'New')
     self.stage_id = new_stage.id if new_stage.present?
+  end
+
+  def normalize_phone_number
+    self.phone_number = phone_number.gsub(/^\+840/, '+84') if phone_number.present?
   end
 
   def prepare_email_attribute
