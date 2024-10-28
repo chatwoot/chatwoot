@@ -46,6 +46,14 @@
   @apply hidden;
 }
 
+.blue-border {
+  @apply border-n-blue-border;
+}
+
+.blue-text {
+  @apply text-n-blue-text;
+}
+
 // scss-lint:disable PropertySortOrder
 @layer base {
   /* NEXT COLORS START */
@@ -114,6 +122,7 @@
     --solid-active: 255 255 255;
     --solid-amber: 252 232 193;
     --solid-blue: 218 236 255;
+    --text-blue: 126, 182, 255, 1;
 
     /* alpha is added by default */
     --alpha-1: 67, 67, 67, 0.06;
@@ -189,6 +198,7 @@
     --solid-active: 53 57 66;
     --solid-amber: 42 37 30;
     --solid-blue: 16 49 91;
+    --text-blue: 126, 182, 255, 1;
 
     /* alpha is added by default */
     --alpha-1: 36, 36, 36, 0.8;
