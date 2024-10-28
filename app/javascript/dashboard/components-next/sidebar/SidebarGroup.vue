@@ -91,6 +91,19 @@ const hasActiveChild = computed(() => {
   return activeChild.value !== undefined;
 });
 
+const toggleTrigger = () => {
+  if (
+    hasAccessibleChildren.value &&
+    !isExpanded.value &&
+    !hasActiveChild.value
+  ) {
+    // if not already expanded, navigate to the first child
+    const firstItem = accessibleItems.value[0];
+    router.push(firstItem.to);
+  }
+  setExpandedItem(props.name);
+};
+
 watch([expandedItem, accessibleItems], locateLastChild, {
   immediate: true,
 });
