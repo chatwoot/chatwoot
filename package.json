@@ -142,6 +142,13 @@
       "pre-push": "sh bin/validate_push"
     }
   },
+  "pnpm": {
+    "overrides": {
+      "vite-node": "2.0.1",
+      "vite": "5.4.8",
+      "vitest": "2.0.1"
+    }
+  },
   "lint-staged": {
     "app/**/*.{js,vue}": [
       "eslint --fix",
