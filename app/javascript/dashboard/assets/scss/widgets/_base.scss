@@ -28,10 +28,16 @@ hr {
   @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
 }
 
+ul,
+ol,
+dl {
+  @apply list-disc list-outside leading-[1.65];
+}
+
 ul:not(.reset-base),
 ol:not(.reset-base),
 dl:not(.reset-base) {
-  @apply mb-2 list-disc list-outside leading-[1.65];
+  @apply mb-0;
 }
 
 // Form elements
