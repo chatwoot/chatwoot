@@ -1,7 +1,7 @@
 <script setup>
 import { computed, watch, ref } from 'vue';
 import { useSidebarContext } from './provider';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
 import SidebarGroupHeader from './SidebarGroupHeader.vue';
 import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
@@ -42,7 +42,7 @@ const navigableChildren = computed(() => {
 });
 
 const route = useRoute();
-
+const router = useRouter();
 const isExpanded = computed(() => expandedItem.value === props.name);
 const isExpandable = computed(() => props.children);
 const hasChildren = computed(
@@ -54,10 +54,7 @@ const accessibleItems = computed(() => {
   return props.children.filter(child => isAllowed(child.to));
 });
 
-const hasAccessibleItems = computed(() => {
-  // default true so that rendering is not blocked
-  if (!hasChildren.value) return true;
-
+const hasAccessibleChildren = computed(() => {
   return accessibleItems.value.length > 0;
 });
 
@@ -102,7 +99,7 @@ watch([expandedItem, accessibleItems], locateLastChild, {
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
-    v-if="hasAccessibleItems"
+    v-if="!hasChildren || hasAccessibleChildren"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
@@ -117,7 +114,7 @@ watch([expandedItem, accessibleItems], locateLastChild, {
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
       :is-expanded="isExpanded"
-      @toggle="setExpandedItem(name)"
+      @toggle="toggleTrigger"
     />
     <ul
       v-if="hasChildren"
