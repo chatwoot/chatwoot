@@ -15,7 +15,7 @@ const closeMenu = () => {
 <template>
   <div class="relative z-20 space-y-2">
     <slot name="trigger" :is-open :toggle="() => toggle()" />
-    <div v-show="isOpen" v-on-clickaway="closeMenu" class="absolute">
+    <div v-if="isOpen" v-on-clickaway="closeMenu" class="absolute">
       <slot />
     </div>
   </div>
