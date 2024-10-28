@@ -9,7 +9,6 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
     # even if the base_url has /api URL.join will get
     # rid of it, so the request path has to include it
     url = URI.join(base_url, request_path).to_s
-    url = "#{base_url}/api/v1/accounts/#{hook.settings[:account_id]}/#{params[:route]}"
 
     # make the request to the Captain service
     # also add the access token and email to header use X-User-Email and X-User-Token
