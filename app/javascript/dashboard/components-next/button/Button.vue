@@ -47,21 +47,21 @@ const STYLE_CONFIG = {
       solid: 'bg-n-brand text-white hover:bg-n-blue-text outline-transparent',
       faded:
         'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
-      outline: 'border border-n-brand text-n-slate-11 hover:bg-n-brand/10',
+      outline: 'text-n-blue-text hover:bg-n-brand/10 outline-n-blue-border',
       link: 'text-n-brand hover:underline outline-transparent',
     },
     ruby: {
       solid: 'bg-n-ruby-9 text-white hover:bg-n-ruby-10 outline-transparent',
       faded:
         'bg-n-ruby-9/10 text-n-slate-12 hover:bg-n-ruby-9/20 outline-transparent',
-      outline: 'border border-n-ruby-9 text-n-slate-11 hover:bg-n-ruby-9/10',
+      outline: 'text-n-ruby-11 hover:bg-n-ruby-9/10 outline-n-ruby-9',
       link: 'text-n-ruby-9 hover:underline outline-transparent',
     },
     amber: {
       solid: 'bg-n-amber-9 text-white hover:bg-n-amber-10 outline-transparent',
       faded:
         'bg-n-amber-9/10 text-n-slate-12 hover:bg-n-amber-9/20 outline-transparent',
-      outline: 'border border-n-amber-9 text-n-amber-11 hover:bg-n-amber-9/10',
+      outline: 'text-n-amber-11 hover:bg-n-amber-9/10 outline-n-amber-9',
       link: 'text-n-amber-9 hover:underline outline-transparent',
     },
     slate: {
@@ -69,14 +69,14 @@ const STYLE_CONFIG = {
         'bg-n-solid-3 hover:bg-n-solid-2 text-n-slate-12 outline-n-container',
       faded:
         'bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20 outline-transparent',
-      outline: 'border border-n-slate-9 text-n-slate-11 hover:bg-n-slate-9/10',
+      outline: 'text-n-slate-11 outline-n-strong hover:bg-n-slate-9/10',
       link: 'text-n-slate-11 hover:text-n-slate-12 hover:underline outline-transparent',
     },
     teal: {
       solid: 'bg-n-teal-9 text-white hover:bg-n-teal-10 outline-transparent',
       faded:
         'bg-n-teal-9/10 text-n-slate-12 hover:bg-n-teal-9/20 outline-transparent',
-      outline: 'border border-n-teal-9 text-n-slate-11 hover:bg-n-teal-9/10',
+      outline: 'text-n-teal-11 hover:bg-n-teal-9/10 outline-n-teal-9',
       link: 'text-n-teal-9 hover:underline outline-transparent',
     },
   },
