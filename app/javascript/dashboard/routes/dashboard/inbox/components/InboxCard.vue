@@ -4,7 +4,7 @@ import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { shortTimestamp } from 'shared/helpers/timeHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
@@ -64,8 +64,11 @@ export default {
       );
     },
     lastActivityAt() {
-      const time = dynamicTime(this.notificationItem?.last_activity_at);
-      return shortTimestamp(time, true);
+      return shortTimestamp(
+        this.notificationItem?.last_activity_at,
+        true,
+        this.$root.$i18n.locale
+      );
     },
     menuItems() {
       const items = [

@@ -27,17 +27,31 @@ export default {
   },
   data() {
     return {
-      lastActivityAtTimeAgo: dynamicTime(this.lastActivityTimestamp),
-      createdAtTimeAgo: dynamicTime(this.createdAtTimestamp),
+      lastActivityAtTimeAgo: dynamicTime(
+        this.lastActivityTimestamp,
+        this.$root.$i18n.locale
+      ),
+      createdAtTimeAgo: dynamicTime(
+        this.createdAtTimestamp,
+        this.$root.$i18n.locale
+      ),
       timer: null,
     };
   },
   computed: {
     lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
+      return shortTimestamp(
+        this.lastActivityTimestamp,
+        false,
+        this.$root.$i18n.locale
+      );
     },
     createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
+      return shortTimestamp(
+        this.createdAtTimestamp,
+        false,
+        this.$root.$i18n.locale
+      );
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
@@ -69,10 +83,16 @@ export default {
   },
   watch: {
     lastActivityTimestamp() {
-      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+      this.lastActivityAtTimeAgo = dynamicTime(
+        this.lastActivityTimestamp,
+        this.$root.$i18n.locale
+      );
     },
     createdAtTimestamp() {
-      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+      this.createdAtTimeAgo = dynamicTime(
+        this.createdAtTimestamp,
+        this.$root.$i18n.locale
+      );
     },
   },
   mounted() {
@@ -86,8 +106,14 @@ export default {
   methods: {
     createTimer() {
       this.timer = setTimeout(() => {
-        this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
-        this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+        this.lastActivityAtTimeAgo = dynamicTime(
+          this.lastActivityTimestamp,
+          this.$root.$i18n.locale
+        );
+        this.createdAtTimeAgo = dynamicTime(
+          this.createdAtTimestamp,
+          this.$root.$i18n.locale
+        );
         this.createTimer();
       }, this.refreshTime());
     },

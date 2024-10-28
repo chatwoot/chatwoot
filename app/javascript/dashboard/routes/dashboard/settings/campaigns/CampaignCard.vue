@@ -108,7 +108,13 @@ const colorScheme = computed(() => {
         v-if="campaign.scheduled_at"
         class="w-1/4 mb-1 text-xs text-slate-700 dark:text-slate-500"
       >
-        {{ messageStamp(new Date(campaign.scheduled_at), 'LLL d, h:mm a') }}
+        {{
+          messageStamp(
+            new Date(campaign.scheduled_at),
+            'fullDateTime',
+            $root.$i18n.locale
+          )
+        }}
       </div>
     </div>
   </div>
