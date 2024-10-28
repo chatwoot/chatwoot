@@ -1,4 +1,4 @@
-class Migration::AddNewLabelsJob < ApplicationJob
+class Migration::SetupTicketLabelsJob < ApplicationJob
   queue_as :async_database_migration
 
   def perform
