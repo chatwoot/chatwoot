@@ -25,9 +25,8 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     queue_id = create_queue("#{inbox_name} queue")
     return if queue_id.blank?
 
-    # TODO: need to consider with the way adding new number to Stringee
-    # number_id = add_number(phone_number, inbox_name, queue_id)
-    number_id = 'XXXXXX'
+    # TODO: need to have an option to add a new number or link with an existing number
+    number_id = add_number(phone_number, inbox_name, queue_id)
     return if number_id.blank?
 
     inbox = nil
