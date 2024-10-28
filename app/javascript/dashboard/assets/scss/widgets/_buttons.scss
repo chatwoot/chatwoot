@@ -1,6 +1,6 @@
 // scss-lint:disable SpaceAfterPropertyColon
 // scss-lint:disable MergeableSelector
-button {
+button:not(.reset-base) {
   font-family: inherit;
   transition:
     background-color 0.25s ease-out,
@@ -96,7 +96,7 @@ button {
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon+.button__content {
+  .icon + .button__content {
     @apply w-auto;
   }
 
