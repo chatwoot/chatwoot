@@ -8,6 +8,7 @@ import { useI18n } from 'vue-i18n';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 import DropdownSeparator from 'next/dropdown-menu/base/DropdownSeparator.vue';
+import Icon from 'next/icon/Icon.vue';
 
 const { t } = useI18n();
 const store = useStore();
@@ -80,8 +81,13 @@ function updateAutoOffline(autoOffline) {
   <DropdownSeparator />
   <DropdownSection>
     <DropdownItem>
-      <div class="flex-grow">
+      <div class="flex-grow flex items-center gap-1">
         {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
+        <Icon
+          v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
+          icon="i-lucide-info"
+          class="size-4 text-n-slate-10"
+        />
       </div>
       <woot-switch
         class="flex-shrink-0"
