@@ -132,7 +132,7 @@ watch(expandedItem, locateLastChild, {
       v-if="hasChildren"
       v-show="isExpanded || hasActiveChild"
       ref="parentEl"
-      class="list-none m-0 grid sidebar-group-children"
+      class="list-none mb-0 reset-base m-0 grid sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
         <SidebarSubGroup
