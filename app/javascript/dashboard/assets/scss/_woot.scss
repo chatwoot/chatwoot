@@ -107,7 +107,7 @@
     --border-blue: 39, 129, 246, 0.5;
     --border-strong: 235 235 235;
     --border-weak: 234 234 234;
-    --border-light-only: var(--border-weak);
+    --border-container: 236, 236, 236, 1;
     --solid-1: 255 255 255;
     --solid-2: 255 255 255;
     --solid-3: 255 255 255;
@@ -182,7 +182,7 @@
     --border-blue: 39, 129, 246, 0.5;
     --border-strong: 52 52 52;
     --border-weak: 38 38 42;
-    --border-light-only: transparent;
+    --border-container: 236, 236, 236, 0;
     --solid-1: 23 23 26;
     --solid-2: 29 30 36;
     --solid-3: 44 45 54;

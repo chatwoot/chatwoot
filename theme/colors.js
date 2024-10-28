@@ -365,7 +365,7 @@ export const colors = {
       white: 'rgba(var(--white-alpha))',
     },
     weak: 'rgb(var(--border-weak) / <alpha-value>)',
-    'light-only': 'rgb(var(--border-light-only) / <alpha-value>)',
+    container: 'rgb(var(--border-container) / <alpha-value>)',
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
     blue: 'rgba(var(--border-blue))',
   },
