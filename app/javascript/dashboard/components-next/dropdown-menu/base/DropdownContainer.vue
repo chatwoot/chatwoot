@@ -2,7 +2,7 @@
 import { useToggle } from '@vueuse/core';
 
 const emit = defineEmits(['close']);
-const [isOpen, toggle] = useToggle(true);
+const [isOpen, toggle] = useToggle(false);
 
 const closeMenu = () => {
   if (isOpen.value) {
