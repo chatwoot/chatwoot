@@ -37,12 +37,12 @@ const triggerClick = () => {
     <component
       :is="componentIs"
       v-bind="$attrs"
-      @click="triggerClick"
-      :href="props.link"
       class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full"
       :class="{
         'hover:bg-n-alpha-1 rounded-lg w-full gap-3': !$slots.default,
       }"
+      :href="props.link || null"
+      @click="triggerClick"
     >
       <slot>
         <slot name="icon">
