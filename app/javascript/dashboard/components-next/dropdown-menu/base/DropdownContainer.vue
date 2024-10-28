@@ -1,5 +1,6 @@
 <script setup>
 import { useToggle } from '@vueuse/core';
+import { provideDropdownContext } from './provider.js';
 
 const emit = defineEmits(['close']);
 const [isOpen, toggle] = useToggle(false);
@@ -10,6 +11,12 @@ const closeMenu = () => {
     toggle(false);
   }
 };
+
+provideDropdownContext({
+  isOpen,
+  toggle,
+  closeMenu,
+});
 </script>
 
 <template>

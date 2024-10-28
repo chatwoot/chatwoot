@@ -1,29 +1,35 @@
 <script setup>
-import { computed, useAttrs } from 'vue';
+import { computed } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { useDropdownContext } from './provider.js';
 
 const props = defineProps({
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
   link: { type: String, default: '' },
+  click: { type: Function, default: null },
+  preserveOpen: { type: Boolean, default: false },
 });
 
-const attrs = useAttrs();
 defineOptions({
   inheritAttrs: false,
 });
 
-const componentIs = computed(() => {
-  if (props.link) {
-    return 'router-link';
-  }
+const { closeMenu } = useDropdownContext();
 
-  if (attrs.click) {
-    return 'button';
-  }
+const componentIs = computed(() => {
+  if (props.link) return 'router-link';
+  if (props.click) return 'button';
 
   return 'div';
 });
+
+const triggerClick = () => {
+  if (props.click) {
+    props.click();
+    if (!props.preserveOpen) closeMenu();
+  }
+};
 </script>
 
 <template>
@@ -31,6 +37,7 @@ const componentIs = computed(() => {
     <component
       :is="componentIs"
       v-bind="$attrs"
+      @click="triggerClick"
       :href="props.link"
       class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full"
       :class="{
