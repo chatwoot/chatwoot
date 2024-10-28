@@ -1,0 +1,48 @@
+<script setup>
+import { computed, useAttrs } from 'vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
+const props = defineProps({
+  label: { type: String, default: '' },
+  icon: { type: [String, Object, Function], default: '' },
+  link: { type: String, default: '' },
+});
+
+const attrs = useAttrs();
+defineOptions({
+  inheritAttrs: false,
+});
+
+const componentIs = computed(() => {
+  if (props.link) {
+    return 'router-link';
+  }
+
+  if (attrs.click) {
+    return 'button';
+  }
+
+  return 'div';
+});
+</script>
+
+<template>
+  <li class="n-dropdown-item">
+    <component
+      :is="componentIs"
+      v-bind="$attrs"
+      :href="props.link"
+      class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full"
+      :class="{
+        'hover:bg-n-alpha-1 rounded-lg w-full gap-3': !$slots.default,
+      }"
+    >
+      <slot>
+        <slot name="icon">
+          <Icon v-if="icon" class="size-4 text-n-slate-11" :icon="icon" />
+        </slot>
+        <slot name="label">{{ label }}</slot>
+      </slot>
+    </component>
+  </li>
+</template>
