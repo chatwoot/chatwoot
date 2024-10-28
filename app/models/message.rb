@@ -123,7 +123,7 @@ class Message < ApplicationRecord
   scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
 
   scope :filter_by_label, lambda { |selected_label|
-    joins(:conversation).where(conversations: { cached_label_list: selected_label }) if selected_label.present?
+    joins(:conversation).merge(Conversation.tagged_with(selected_label)) if selected_label.present?
   }
 
   scope :filter_by_team, lambda { |selected_team|
@@ -174,6 +174,7 @@ class Message < ApplicationRecord
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data[:contact_sentiment] = contact_sentiment
     data[:agent_score] = agent_score
+    data[:agent_score_criteria] = agent_score_criteria
     merge_sender_attributes(data)
   end
 
@@ -287,7 +288,15 @@ class Message < ApplicationRecord
   end
 
   def agent_score
-    smart_actions.outgoing_message_score.active.last&.score
+    last_outgoing_message_score&.score
+  end
+
+  def agent_score_criteria
+    last_outgoing_message_score&.criteria
+  end
+
+  def last_outgoing_message_score
+    smart_actions.outgoing_message_score.active.last
   end
 
   def contact_sentiment

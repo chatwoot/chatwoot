@@ -13,4 +13,5 @@ json.source_id message.source_id
 json.sender message.sender.push_event_data if message.sender
 json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
 json.agent_score message.agent_score
+json.agent_score_criteria message.agent_score_criteria
 json.contact_sentiment message.contact_sentiment

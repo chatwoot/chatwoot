@@ -21,7 +21,7 @@
 #  index_smart_actions_on_message_id       (message_id)
 #
 class SmartAction < ApplicationRecord
-  store :custom_attributes, accessors: [:to, :from, :link, :content, :score, :sentiment]
+  store :custom_attributes, accessors: [:to, :from, :link, :content, :criteria, :score, :sentiment]
 
   belongs_to :conversation
   belongs_to :message

@@ -104,6 +104,18 @@ RSpec.describe SmartAction do
         smart_action = create(:smart_action, event: 'record_message_score', message: message, conversation: conversation, score: 3)
         expect(message.agent_score).to eq 3
       end
+
+      context 'with criteria' do
+        let(:criteria) { { 'language_level' => 5, 'grammar' => 4, 'professionalism' => 3, 'tonality' => 2 } }
+        it 'records outgoing message score with criteria' do
+          conversation = create(:conversation)
+          message = create(:message, conversation: conversation)
+
+          smart_action = create(:smart_action, event: 'record_message_score', message: message, conversation: conversation, score: 3, criteria: criteria)
+          expect(message.agent_score).to eq 3
+          expect(message.agent_score_criteria).to eq criteria
+        end
+      end
     end
 
     context 'record_incoming_message_sentiment' do
