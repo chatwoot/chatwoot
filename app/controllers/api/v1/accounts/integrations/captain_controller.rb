@@ -5,7 +5,7 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
 
   def proxy
     base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
-    url = URI.join(base_url, request_path)
+    url = URI.join(base_url, request_path).to_s
 
     # make the request to the Captain service
     # also add the access token and email to header use X-User-Email and X-User-Token
@@ -24,7 +24,7 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
     paths = if params[:route] === '/sessions/profile'
               %w[api sessions profile]
             else
-              ['api/accounts', hook.settings['account_id'], params[:route]]
+              ['api', 'accounts', hook.settings['account_id'], params[:route]]
             end
 
     File.join(*paths)
