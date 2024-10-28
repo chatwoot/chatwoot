@@ -9,9 +9,9 @@ import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-const AppContainer = () => import('./Dashboard.vue');
-const Captain = () => import('./Captain.vue');
-const Suspended = () => import('./suspended/Index.vue');
+import AppContainer from './Dashboard.vue';
+import Captain from './Captain.vue';
+import Suspended from './suspended/Index.vue';
 
 export default {
   routes: [
