@@ -5,19 +5,30 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
 
   def proxy
     base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
-    url = "#{base_url}/api/v1/accounts/#{hook.settings[:account_id]}/#{params[:route]}"
+    url = URI.join(base_url, request_path)
 
     # make the request to the Captain service
     # also add the access token and email to header use X-User-Email and X-User-Token
     response = HTTParty.send(params[:method].downcase, url, body: params[:body], headers: {
-                               'X-User-Email' => hook.settings[:account_email],
-                               'X-User-Token' => hook.settings[:access_token]
+                               'X-User-Email' => hook.settings['account_email'],
+                               'X-User-Token' => hook.settings['access_token']
                              })
 
-    render json: response.body, status: response.code
+    response.headers.each { |key, value| headers[key] = value }
+    render plain: response.body, status: response.code
   end
 
   private
+
+  def request_path
+    paths = if params[:route] === '/sessions/profile'
+              %w[api sessions profile]
+            else
+              ['api/accounts', hook.settings['account_id'], params[:route]]
+            end
+
+    File.join(*paths)
+  end
 
   def hook
     @hook ||= Current.account.hooks.find_by!(app_id: 'captain')
