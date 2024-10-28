@@ -4,8 +4,7 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   before_action :validate_method, only: :proxy
 
   def proxy
-    # base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
-    base_url = 'http://localhost:3001'
+    base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
 
     # even if the base_url has /api URL.join will get
     # rid of it, so the request path has to include it
