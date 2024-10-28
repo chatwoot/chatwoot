@@ -137,7 +137,6 @@ const handleTabChange = value => {
 <template>
   <div class="flex flex-col items-start w-full gap-2 lg:flex-row">
     <TabBar
-      class="bg-n-solid-1"
       :tabs="tabs"
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"

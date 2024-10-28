@@ -56,7 +56,7 @@ const reauthorizationRequired = computed(() => {
 <template>
   <span
     class="size-4 grid place-content-center rounded-full bg-n-alpha-2"
-    :class="{ 'bg-n-blue/20': active }"
+    :class="{ 'bg-n-solid-blue': active }"
   >
     <Icon :icon="channelIcon" class="size-3" />
   </span>
