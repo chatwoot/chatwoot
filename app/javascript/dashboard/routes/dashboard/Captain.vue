@@ -10,25 +10,28 @@ const { accountId, currentAccount } = useAccount();
 onMounted(async () => {
   await nextTick();
   setupCaptain('#captain', {
-    routerBase: `app/accounts/${accountId.value}/captain`,
+    routerBase: `app/accounts/${accountId.value}/captain/`,
     fetchFn: async (source, options) => {
-      const path = new URL(source).pathname;
+      let path = new URL(source).pathname;
       if (path === `/api/sessions/profile`) {
-        // need to proxy the request
-        return Promise.resolve({
-          account: {
-            id: accountId.value,
-            name: currentAccount.value.name,
-          },
-        });
+        path = '/sessions/profile';
+      } else {
+        path = path.replace(/^\/api\/accounts\/\d+/, '');
       }
 
-      const parsedPath = path.replace(/^\/api\/accounts\/\d+/, '');
-      return IntegrationsAPI.requestCaptain({
+      const response = await IntegrationsAPI.requestCaptain({
         method: options.method ?? 'GET',
-        route: parsedPath,
+        route: path,
         body: options.body,
       });
+
+      return {
+        json: () => {
+          return response.data;
+        },
+        ok: response.status === 200,
+        status: response.status,
+      };
     },
   });
 });
