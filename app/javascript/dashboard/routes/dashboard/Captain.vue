@@ -5,7 +5,7 @@ import IntegrationsAPI from 'dashboard/api/integrations';
 
 import setupCaptain from '@chatwoot/captain-dashboard/dist/captain.es.js';
 
-const { accountId, currentAccount } = useAccount();
+const { accountId } = useAccount();
 
 onMounted(async () => {
   await nextTick();
@@ -31,6 +31,7 @@ onMounted(async () => {
         },
         ok: response.status === 200,
         status: response.status,
+        headers: response.headers,
       };
     },
   });
