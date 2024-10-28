@@ -34,12 +34,16 @@ defineProps({
   },
 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'enterPress']);
+
+const onEnterPress = () => {
+  emit('enterPress');
+};
 </script>
 
 <template>
   <div
-    class="relative flex items-center justify-between w-full gap-2 whitespace-nowrap"
+    class="relative flex items-center justify-between w-full gap-3 whitespace-nowrap"
   >
     <label
       v-if="label"
@@ -60,6 +64,7 @@ defineEmits(['update:modelValue']);
       :class="customInputClass"
       class="flex w-full reset-base text-sm h-6 !mb-0 border-0 rounded-lg bg-transparent dark:bg-transparent placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
       @input="$emit('update:modelValue', $event.target.value)"
+      @keydown.enter.prevent="onEnterPress"
     />
   </div>
 </template>

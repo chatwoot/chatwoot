@@ -82,6 +82,7 @@ export default {
       />
       <PrimaryNavItem
         v-for="menuItem in menuItems"
+        :id="menuItem.key"
         :key="menuItem.toState"
         :icon="menuItem.icon"
         :name="menuItem.label"
@@ -94,7 +95,7 @@ export default {
         v-if="!isACustomBrandedInstance"
         v-tooltip.right="$t(`SIDEBAR.DOCS`)"
         :href="helpDocsURL"
-        class="text-slate-700 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600 relative"
+        class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
         rel="noopener noreferrer nofollow"
         target="_blank"
       >
