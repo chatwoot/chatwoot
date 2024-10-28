@@ -102,10 +102,10 @@ const handleAction = ({ action, value }) => {
           <div class="relative group" @click.stop>
             <OnClickOutside @trigger="isOpen = false">
               <Button
-                variant="ghost"
-                size="sm"
-                icon="more-vertical"
-                class="w-8 z-60 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+                icon="i-lucide-ellipsis-vertical"
+                color="slate"
+                size="xs"
+                class="rounded-md group-hover:bg-n-solid-2"
                 @click="isOpen = !isOpen"
               />
               <DropdownMenu

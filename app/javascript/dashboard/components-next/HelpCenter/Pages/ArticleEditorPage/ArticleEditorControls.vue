@@ -131,21 +131,24 @@ const updateMeta = meta => {
     <div class="relative flex items-center gap-2">
       <OnClickOutside @trigger="openAgentsList = false">
         <Button
-          :label="authorName"
           variant="ghost"
-          class="!px-0 font-normal"
+          class="!px-0 font-normal hover:!bg-transparent"
           text-variant="info"
           @click="openAgentsList = !openAgentsList"
         >
-          <template #leftPrefix>
-            <Thumbnail
-              v-if="author"
-              :author="author"
-              :name="authorName"
-              :size="20"
-              :src="authorThumbnailSrc"
-            />
-          </template>
+          <Thumbnail
+            v-if="author"
+            :author="author"
+            :name="authorName"
+            :size="20"
+            :src="authorThumbnailSrc"
+          />
+          <span
+            v-if="author"
+            class="text-sm text-n-slate-12 hover:text-n-slate-11"
+          >
+            {{ author.available_name }}
+          </span>
         </Button>
         <DropdownMenu
           v-if="openAgentsList && hasAgentList"
@@ -163,13 +166,20 @@ const updateMeta = meta => {
             selectedCategory?.name ||
             t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')
           "
-          :emoji="selectedCategory?.icon || ''"
-          :icon="!selectedCategory?.icon ? 'play-shape' : ''"
+          :icon="!selectedCategory?.icon ? 'i-lucide-shapes' : ''"
           variant="ghost"
-          class="!px-2 font-normal"
-          text-variant="info"
+          class="!px-2 font-normal hover:!bg-transparent"
           @click="openCategoryList = !openCategoryList"
-        />
+        >
+          <span
+            v-if="selectedCategory"
+            class="text-sm text-n-slate-12 hover:text-n-slate-11"
+          >
+            {{
+              `${selectedCategory.icon || ''} ${selectedCategory.name || t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.UNCATEGORIZED')}`
+            }}
+          </span>
+        </Button>
         <DropdownMenu
           v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
@@ -186,11 +196,10 @@ const updateMeta = meta => {
           :label="
             t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.MORE_PROPERTIES')
           "
-          icon="add"
+          icon="i-lucide-plus"
           variant="ghost"
           :disabled="isNewArticle"
-          text-variant="info"
-          class="!px-2 font-normal"
+          class="!px-2 font-normal hover:!bg-transparent hover:!text-n-slate-11"
           @click="openProperties = !openProperties"
         />
         <ArticleEditorProperties

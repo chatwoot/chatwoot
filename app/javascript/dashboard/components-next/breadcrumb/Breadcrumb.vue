@@ -37,17 +37,14 @@ const onClick = event => {
           v-if="index === 0"
           :label="item.label"
           variant="link"
-          text-variant="info"
-          class="!p-0 text-sm !font-normal hover:!no-underline max-w-56 !text-slate-300 dark:!text-slate-500 hover:!text-slate-700 dark:hover:!text-slate-100"
+          color="slate"
+          class="max-w-56 hover:!no-underline"
           size="sm"
           @click="onClick"
         />
         <template v-else>
-          <FluentIcon
-            icon="chevron-lucide-right"
-            size="18"
-            icon-lib="lucide"
-            class="flex-shrink-0 mx-2 text-slate-300 dark:text-slate-500"
+          <span
+            class="flex-shrink-0 mx-2 i-lucide-chevron-right size-4 text-n-slate-11 dark:text-n-slate-11"
           />
           <span
             class="text-sm truncate text-slate-900 dark:text-slate-50 max-w-56"

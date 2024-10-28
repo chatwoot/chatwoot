@@ -63,10 +63,10 @@ onMounted(() => {
         }}
       </h3>
       <Button
-        icon="dismiss"
+        icon="i-lucide-x"
         size="sm"
         variant="ghost"
-        class="w-8 hover:text-n-slate-11"
+        class="hover:text-n-slate-11"
         @click="emit('close')"
       />
     </div>
@@ -89,7 +89,7 @@ onMounted(() => {
                 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_DESCRIPTION_PLACEHOLDER'
               )
             "
-            class="w-[224px]"
+            class="w-[220px]"
             custom-text-area-wrapper-class="!p-0 !border-0 !rounded-none !bg-transparent transition-none"
             custom-text-area-class="max-h-[150px]"
             auto-height

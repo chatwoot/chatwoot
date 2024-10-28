@@ -52,7 +52,7 @@ const handleAction = ({ action, value }) => {
 </script>
 
 <template>
-  <CardLayout class="ltr:pr-2 rtl:pl-2">
+  <CardLayout>
     <template #header>
       <div class="flex justify-between gap-2">
         <div class="flex items-center justify-start gap-2">
@@ -68,7 +68,7 @@ const handleAction = ({ action, value }) => {
             {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DEFAULT') }}
           </span>
         </div>
-        <div class="flex items-center justify-end gap-2">
+        <div class="flex items-center justify-end gap-4">
           <div class="flex items-center gap-4">
             <span
               class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
@@ -95,10 +95,10 @@ const handleAction = ({ action, value }) => {
           <div class="relative group">
             <OnClickOutside @trigger="showDropdownMenu = false">
               <Button
-                variant="ghost"
-                size="sm"
-                icon="more-vertical"
-                class="w-8 group-hover:bg-slate-100 dark:group-hover:bg-slate-800"
+                icon="i-lucide-ellipsis-vertical"
+                color="slate"
+                size="xs"
+                class="rounded-md group-hover:bg-n-solid-2"
                 @click="showDropdownMenu = !showDropdownMenu"
               />
 

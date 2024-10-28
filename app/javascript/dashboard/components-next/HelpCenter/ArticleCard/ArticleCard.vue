@@ -72,11 +72,11 @@ const articleMenuItems = computed(() => {
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return '!text-n-slate-12';
+      return 'text-n-slate-12';
     case 'draft':
-      return '!text-n-amber-11';
+      return 'text-n-amber-11';
     default:
-      return '!text-n-teal-11';
+      return 'text-n-teal-11';
   }
 });
 
@@ -127,28 +127,38 @@ const handleClick = id => {
     <template #header>
       <div class="flex justify-between gap-1">
         <span
-          class="text-base cursor-pointer hover:underline text-n-slate-12 line-clamp-1"
+          class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12 line-clamp-1"
           @click="handleClick(id)"
         >
           {{ title }}
         </span>
-        <div class="relative group" @click.stop>
-          <OnClickOutside @trigger="isOpen = false">
-            <Button
-              variant="ghost"
-              size="sm"
-              class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
-              :label="statusText"
-              :class="statusTextColor"
-              @click="isOpen = !isOpen"
-            />
-            <DropdownMenu
-              v-if="isOpen"
-              :menu-items="articleMenuItems"
-              class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
-              @action="handleArticleAction($event)"
-            />
-          </OnClickOutside>
+        <div class="flex items-center gap-2">
+          <span
+            class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
+            :class="statusTextColor"
+          >
+            {{ statusText }}
+          </span>
+          <div class="relative group" @click.stop>
+            <OnClickOutside
+              class="flex items-center h-6"
+              @trigger="isOpen = false"
+            >
+              <Button
+                icon="i-lucide-ellipsis-vertical"
+                color="slate"
+                size="xs"
+                class="group-hover:bg-n-solid-2 !p-0.5 rounded-md"
+                @click="isOpen = !isOpen"
+              />
+              <DropdownMenu
+                v-if="isOpen"
+                :menu-items="articleMenuItems"
+                class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
+                @action="handleArticleAction($event)"
+              />
+            </OnClickOutside>
+          </div>
         </div>
       </div>
     </template>

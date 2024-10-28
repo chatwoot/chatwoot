@@ -294,7 +294,7 @@ const handleAvatarDelete = () => {
           :message="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
           "
-          class="[&>button]:w-[432px] !w-[432px]"
+          class="!w-[432px] [&>div>button]:!outline-n-weak"
         />
       </div>
       <div class="flex items-start justify-between w-full gap-2">
