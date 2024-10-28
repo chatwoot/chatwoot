@@ -1,58 +1,115 @@
 version: '3'
 
 services:
-  base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
-    volumes:
-      - /data/storage:/app/storage
-
   rails:
-    <<: *base
-    depends_on:
-      - postgres
-      - redis
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     ports:
       - '127.0.0.1:3000:3000'
     environment:
+      - SERVICE_FQDN_CHATWOOT_3000
+      - SECRET_KEY_BASE=$SERVICE_PASSWORD_CHATWOOT
+      - 'FRONTEND_URL=${SERVICE_FQDN_CHATWOOT}'
+      - 'DEFAULT_LOCALE=${CHATWOOT_DEFAULT_LOCALE}'
+      - FORCE_SSL=false
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - REDIS_URL=${SERVICE_REDIS_URL:-redis://localhost:6379}
+      - REDIS_PASSWORD=$SERVICE_REDIS_PASSWORD
+      - POSTGRES_DATABASE=chatwoot_production
+      - MAILER_SENDER_EMAIL='iZetta <mia@izetta.org>'
+      - POSTGRES_HOST=${SERVICE_POSTGRES_HOST:-localhost}
+      - POSTGRES_USERNAME=${SERVICE_POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES:-password}
+      - RAILS_MAX_THREADS=5
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - 'MAILER_SENDER_EMAIL=${CHATWOOT_MAILER_SENDER_EMAIL}'
+      - 'SMTP_ADDRESS=${CHATWOOT_SMTP_ADDRESS}'
+      - 'SMTP_AUTHENTICATION=${CHATWOOT_SMTP_AUTHENTICATION}'
+      - 'SMTP_DOMAIN=${CHATWOOT_SMTP_DOMAIN}'
+      - 'SMTP_ENABLE_STARTTLS_AUTO=${CHATWOOT_SMTP_ENABLE_STARTTLS_AUTO}'
+      - 'SMTP_PORT=${CHATWOOT_SMTP_PORT}'
+      - 'SMTP_USERNAME=${CHATWOOT_SMTP_USERNAME}'
+      - 'SMTP_PASSWORD=${CHATWOOT_SMTP_PASSWORD}'
+      - ACTIVE_STORAGE_SERVICE=local
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    restart: always
+    volumes:
+      - 'rails-data:/app/storage'
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - '--spider'
+        - '-q'
+        - 'http://127.0.0.1:3000'
+      interval: 5s
+      timeout: 20s
+      retries: 10
 
   sidekiq:
-    <<: *base
-    depends_on:
-      - postgres
-      - redis
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     environment:
+      - SERVICE_FQDN_CHATWOOT_3000
+      - SECRET_KEY_BASE=$SERVICE_PASSWORD_CHATWOOT
+      - 'FRONTEND_URL=${SERVICE_FQDN_CHATWOOT}'
+      - 'DEFAULT_LOCALE=${CHATWOOT_DEFAULT_LOCALE}'
+      - FORCE_SSL=false
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - REDIS_URL=${SERVICE_REDIS_URL:-redis://localhost:6379}
+      - REDIS_PASSWORD=$SERVICE_REDIS_PASSWORD
+      - POSTGRES_DATABASE=chatwoot_production
+      - MAILER_SENDER_EMAIL='iZetta <mia@izetta.org>'
+      - POSTGRES_HOST=${SERVICE_POSTGRES_HOST:-localhost}
+      - POSTGRES_USERNAME=${SERVICE_POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES:-password}
+      - RAILS_MAX_THREADS=5
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - 'MAILER_SENDER_EMAIL=${CHATWOOT_MAILER_SENDER_EMAIL}'
+      - 'SMTP_ADDRESS=${CHATWOOT_SMTP_ADDRESS}'
+      - 'SMTP_AUTHENTICATION=${CHATWOOT_SMTP_AUTHENTICATION}'
+      - 'SMTP_DOMAIN=${CHATWOOT_SMTP_DOMAIN}'
+      - 'SMTP_ENABLE_STARTTLS_AUTO=${CHATWOOT_SMTP_ENABLE_STARTTLS_AUTO}'
+      - 'SMTP_PORT=${CHATWOOT_SMTP_PORT}'
+      - 'SMTP_USERNAME=${CHATWOOT_SMTP_USERNAME}'
+      - 'SMTP_PASSWORD=${CHATWOOT_SMTP_PASSWORD}'
+      - ACTIVE_STORAGE_SERVICE=local
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-    restart: always
-
-  postgres:
-    image: postgres:12
-    restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
     volumes:
-      - /data/postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - 'rails-data:/app/storage'
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "bundle exec rails runner 'puts Sidekiq.redis(&:info)' > /dev/null 2>&1"
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
-    volumes:
-      - /data/redis:/data
-    ports:
-      - '127.0.0.1:6379:6379'
+  # postgres:
+  #   image: postgres:12
+  #   restart: always
+  #   ports:
+  #     - '127.0.0.1:5432:5432'
+  #   volumes:
+  #     - /data/postgres:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=chatwoot
+  #     - POSTGRES_USER=postgres
+  #     # Please provide your own password.
+  #     - POSTGRES_PASSWORD=
+
+  # redis:
+  #   image: redis:alpine
+  #   restart: always
+  #   command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+  #   env_file: .env
+  #   volumes:
+  #     - /data/redis:/data
+  #   ports:
+  #     - '127.0.0.1:6379:6379'
