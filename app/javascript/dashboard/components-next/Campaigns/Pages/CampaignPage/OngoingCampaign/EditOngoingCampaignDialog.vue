@@ -1,0 +1,76 @@
+<script setup>
+import { ref, computed } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import OngoingCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignForm.vue';
+
+const props = defineProps({
+  selectedCampaign: {
+    type: Object,
+    default: null,
+  },
+});
+
+const { t } = useI18n();
+const store = useStore();
+
+const dialogRef = ref(null);
+const ongoingCampaignFormRef = ref(null);
+
+const uiFlags = useMapGetter('campaigns/getUIFlags');
+const isUpdatingCampaign = computed(() => uiFlags.value.isUpdating);
+
+const isInvalidForm = computed(
+  () => ongoingCampaignFormRef.value?.isSubmitDisabled
+);
+
+const selectedCampaignId = computed(() => props.selectedCampaign.id);
+
+const updateCampaign = async campaignDetails => {
+  try {
+    await store.dispatch('campaigns/update', {
+      id: selectedCampaignId.value,
+      ...campaignDetails,
+    });
+
+    useAlert(
+      t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EDIT.FORM.API.SUCCESS_MESSAGE')
+    );
+    dialogRef.value.close();
+  } catch (error) {
+    const errorMessage =
+      error?.response?.message ||
+      t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EDIT.FORM.API.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  }
+};
+
+const handleSubmit = () => {
+  updateCampaign(ongoingCampaignFormRef.value.prepareCampaignDetails());
+};
+
+defineExpose({ dialogRef });
+</script>
+
+<template>
+  <Dialog
+    ref="dialogRef"
+    type="edit"
+    :title="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EDIT.TITLE')"
+    :is-loading="isUpdatingCampaign"
+    :disable-confirm-button="isUpdatingCampaign || isInvalidForm"
+    @confirm="handleSubmit"
+  >
+    <template #form>
+      <OngoingCampaignForm
+        ref="ongoingCampaignFormRef"
+        mode="edit"
+        :selected-campaign="selectedCampaign"
+        :show-action-buttons="false"
+        @submit="handleSubmit"
+      />
+    </template>
+  </Dialog>
+</template>
