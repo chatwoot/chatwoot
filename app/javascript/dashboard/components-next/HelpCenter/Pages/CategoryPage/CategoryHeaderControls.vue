@@ -147,7 +147,9 @@ const handleBreadcrumbClick = () => {
         </OnClickOutside>
       </div>
       <div class="w-px h-3.5 rounded my-auto bg-slate-75 dark:bg-slate-800" />
-      <span class="text-sm font-medium text-slate-800 dark:text-slate-100">
+      <span
+        class="min-w-0 text-sm font-medium truncate text-slate-800 dark:text-slate-100"
+      >
         {{
           t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.CATEGORIES_COUNT', {
             n: categoriesCount,
