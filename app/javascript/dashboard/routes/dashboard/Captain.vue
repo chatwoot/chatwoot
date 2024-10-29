@@ -1,16 +1,37 @@
 <script setup>
-import { nextTick, onMounted } from 'vue';
+import { nextTick, onMounted, watch } from 'vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import IntegrationsAPI from 'dashboard/api/integrations';
+import {
+  makeRouter,
+  setupApp,
+} from '@chatwoot/captain-dashboard/dist/captain.es.js';
 
-import setupCaptain from '@chatwoot/captain-dashboard/dist/captain.es.js';
-
+const props = defineProps({
+  page: {
+    type: String,
+    required: true,
+  },
+});
 const { accountId } = useAccount();
 
-onMounted(async () => {
-  await nextTick();
-  setupCaptain('#captain', {
-    routerBase: `app/accounts/${accountId.value}/captain/`,
+let app = null;
+let router = null;
+
+watch(
+  () => props.page,
+  () => {
+    if (router) {
+      router.push({ name: props.page });
+    }
+  },
+  { immediate: true }
+);
+
+function buildApp() {
+  router = makeRouter(`app/accounts/${accountId.value}/captain/`);
+  app = setupApp('#captain', {
+    router,
     fetchFn: async (source, options) => {
       const parsedSource = new URL(source);
       let path = parsedSource.pathname;
@@ -39,6 +60,13 @@ onMounted(async () => {
       };
     },
   });
+  window.router = router;
+  window.app = app;
+}
+
+onMounted(async () => {
+  await nextTick();
+  buildApp();
 });
 </script>
 
