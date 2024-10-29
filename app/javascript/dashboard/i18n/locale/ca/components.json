@@ -14,6 +14,11 @@
       "CONFIRM": "Confirma"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "L'autor no està disponible"
+    }
+  },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
   }
