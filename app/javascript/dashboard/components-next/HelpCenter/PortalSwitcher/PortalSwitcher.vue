@@ -106,7 +106,7 @@ const redirectToPortalHomePage = () => {
             {{ t('HELP_CENTER.PORTAL_SWITCHER.PORTALS') }}
           </h2>
           <Button
-            icon="arrow-up-right-lucide"
+            icon="i-lucide-arrow-up-right"
             variant="ghost"
             icon-lib="lucide"
             size="sm"

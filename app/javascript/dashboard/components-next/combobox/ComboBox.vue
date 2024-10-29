@@ -128,9 +128,9 @@ watch(
           <li
             v-for="option in filteredOptions"
             :key="option.value"
-            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
+            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
             :class="{
-              'bg-n-solid-2': option.value === selectedValue,
+              'bg-n-alpha-2': option.value === selectedValue,
             }"
             role="option"
             :aria-selected="option.value === selectedValue"

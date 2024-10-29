@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { OnClickOutside } from '@vueuse/components';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useToggle } from '@vueuse/core';
 import { LOCALE_MENU_ITEMS } from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -35,7 +35,7 @@ const emit = defineEmits(['action']);
 
 const { t } = useI18n();
 
-const showDropdownMenu = ref(false);
+const [showDropdownMenu, toggleDropdown] = useToggle();
 
 const localeMenuItems = computed(() =>
   LOCALE_MENU_ITEMS.map(item => ({
@@ -47,7 +47,7 @@ const localeMenuItems = computed(() =>
 
 const handleAction = ({ action, value }) => {
   emit('action', { action, value });
-  showDropdownMenu.value = false;
+  toggleDropdown(false);
 };
 </script>
 
@@ -92,23 +92,24 @@ const handleAction = ({ action, value }) => {
               }}
             </span>
           </div>
-          <div class="relative group">
-            <OnClickOutside @trigger="showDropdownMenu = false">
-              <Button
-                icon="i-lucide-ellipsis-vertical"
-                color="slate"
-                size="xs"
-                class="rounded-md group-hover:bg-n-solid-2"
-                @click="showDropdownMenu = !showDropdownMenu"
-              />
+          <div
+            v-on-clickaway="() => toggleDropdown(false)"
+            class="relative group"
+          >
+            <Button
+              icon="i-lucide-ellipsis-vertical"
+              color="slate"
+              size="xs"
+              class="rounded-md group-hover:bg-n-alpha-2"
+              @click="toggleDropdown()"
+            />
 
-              <DropdownMenu
-                v-if="showDropdownMenu"
-                :menu-items="localeMenuItems"
-                class="ltr:right-0 rtl:left-0 mt-1 xl:ltr:left-0 xl:rtl:right-0 top-full z-60 min-w-[150px]"
-                @action="handleAction"
-              />
-            </OnClickOutside>
+            <DropdownMenu
+              v-if="showDropdownMenu"
+              :menu-items="localeMenuItems"
+              class="ltr:right-0 rtl:left-0 mt-1 xl:ltr:left-0 xl:rtl:right-0 top-full z-60 min-w-[150px]"
+              @action="handleAction"
+            />
           </div>
         </div>
       </div>
