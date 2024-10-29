@@ -14,6 +14,11 @@
       "CONFIRM": "Apstiprināt"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Autors nav pieejams"
+    }
+  },
   "BREADCRUMB": {
     "ARIA_LABEL": "Rīvmaize"
   }
