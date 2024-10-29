@@ -14,6 +14,11 @@
       "CONFIRM": "Onayla"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Yazar uygun değil"
+    }
+  },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
   }
