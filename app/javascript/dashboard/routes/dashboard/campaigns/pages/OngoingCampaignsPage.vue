@@ -8,24 +8,30 @@ import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
-import OneOffCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OneOffCampaign/OneOffCampaignDialog.vue';
+import OngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignDialog.vue';
+import EditOngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/EditOngoingCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
 
+const editOngoingCampaignDialogRef = ref(null);
+const confirmDeleteCampaignDialogRef = ref(null);
 const selectedCampaign = ref(null);
-const [showOneOffCampaignDialog, toggleOneOffCampaignDialog] = useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
-const confirmDeleteCampaignDialogRef = ref(null);
+const [showOngoingCampaignDialog, toggleOngoingCampaignDialog] = useToggle();
 
-const oneOffCampaigns = computed(() =>
-  getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONE_OFF)
+const ongoingCampaigns = computed(() =>
+  getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONGOING)
 );
 
+const handleEdit = campaign => {
+  selectedCampaign.value = campaign;
+  editOngoingCampaignDialogRef.value.dialogRef.open();
+};
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
@@ -34,15 +40,15 @@ const handleDelete = campaign => {
 
 <template>
   <CampaignLayout
-    :header-title="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.HEADER_TITLE')"
-    :button-label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.NEW_CAMPAIGN')"
-    @click="toggleOneOffCampaignDialog()"
-    @close="toggleOneOffCampaignDialog(false)"
+    :header-title="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.HEADER_TITLE')"
+    :button-label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.NEW_CAMPAIGN')"
+    @click="toggleOngoingCampaignDialog()"
+    @close="toggleOngoingCampaignDialog(false)"
   >
     <template #action>
-      <OneOffCampaignDialog
-        v-if="showOneOffCampaignDialog"
-        @close="toggleOneOffCampaignDialog(false)"
+      <OngoingCampaignDialog
+        v-if="showOngoingCampaignDialog"
+        @close="toggleOngoingCampaignDialog(false)"
       />
     </template>
     <template #content>
@@ -54,10 +60,16 @@ const handleDelete = campaign => {
       </div>
       <CampaignList
         v-else
-        :campaigns="oneOffCampaigns"
+        :campaigns="ongoingCampaigns"
+        is-ongoing-type
+        @edit="handleEdit"
         @delete="handleDelete"
       />
     </template>
+    <EditOngoingCampaignDialog
+      ref="editOngoingCampaignDialogRef"
+      :selected-campaign="selectedCampaign"
+    />
     <ConfirmDeleteCampaignDialog
       ref="confirmDeleteCampaignDialogRef"
       :selected-campaign="selectedCampaign"

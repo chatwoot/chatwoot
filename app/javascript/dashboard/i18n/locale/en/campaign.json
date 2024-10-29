@@ -137,6 +137,65 @@
           "FROM": "From",
           "URL": "URL :"
         }
+      },
+      "CREATE": {
+        "TITLE": "Create ongoing campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "MESSAGE": {
+            "LABEL": "Message",
+            "PLACEHOLDER": "Please enter the message of campaign",
+            "ERROR": "Message is required"
+          },
+          "INBOX": {
+            "LABEL": "Select Inbox",
+            "PLACEHOLDER": "Select Inbox",
+            "ERROR": "Inbox is required"
+          },
+          "SENT_BY": {
+            "LABEL": "Sent by",
+            "PLACEHOLDER": "Please select sender",
+            "ERROR": "Sender is required"
+          },
+          "END_POINT": {
+            "LABEL": "URL",
+            "PLACEHOLDER": "Please enter the URL",
+            "ERROR": "Please enter a valid URL"
+          },
+          "TIME_ON_PAGE": {
+            "LABEL": "Time on page(Seconds)",
+            "PLACEHOLDER": "Please enter the time",
+            "ERROR": "Time on page is required"
+          },
+          "OTHER_PREFERENCES": {
+            "TITLE": "Other preferences",
+            "ENABLED": "Enable campaign",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Ongoing campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit ongoing campaign",
+        "FORM": {
+          "API": {
+            "SUCCESS_MESSAGE": "Ongoing campaign updated successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
       }
     },
     "ONE_OFF_CAMPAIGNS_PAGE": {
@@ -153,7 +212,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create a campaign",
+        "TITLE": "Create one off campaign",
         "CANCEL_BUTTON_TEXT": "Cancel",
         "CREATE_BUTTON_TEXT": "Create",
         "FORM": {
@@ -187,12 +246,16 @@
             "CANCEL": "Cancel"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Campaign created successfully",
+            "SUCCESS_MESSAGE": "One off campaign created successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
-      },
-      "EDIT": {}
+      }
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Sure you want to delete {title}?",
+      "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+      "CONFIRM": "Delete"
     }
   }
 }

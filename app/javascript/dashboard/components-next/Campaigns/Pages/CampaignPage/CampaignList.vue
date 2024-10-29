@@ -11,6 +11,11 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(['edit', 'delete']);
+
+const handleEdit = campaign => emit('edit', campaign);
+const handleDelete = campaign => emit('delete', campaign);
 </script>
 
 <template>
@@ -27,6 +32,8 @@ defineProps({
       :inbox="campaign.inbox"
       :scheduled-at="campaign.scheduled_at"
       :is-ongoing-type="isOngoingType"
+      @edit="handleEdit(campaign)"
+      @delete="handleDelete(campaign)"
     />
   </div>
 </template>
