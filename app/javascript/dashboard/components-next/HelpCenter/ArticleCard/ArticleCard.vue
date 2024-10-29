@@ -140,7 +140,7 @@ const handleClick = id => {
             {{ statusText }}
           </span>
           <div
-            v-on-clickaway="toggleDropdown(false)"
+            v-on-clickaway="() => toggleDropdown(false)"
             class="relative flex items-center group"
           >
             <Button
