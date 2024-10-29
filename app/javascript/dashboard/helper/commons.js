@@ -29,17 +29,26 @@ export const getTypingUsersText = (users = []) => {
   const count = users.length;
   if (count === 1) {
     const [user] = users;
-    return `${user.name} is typing`;
+    return {
+      typingUsers: [user.name],
+      additionalUsers: 0,
+    };
   }
 
   if (count === 2) {
     const [first, second] = users;
-    return `${first.name} and ${second.name} are typing`;
+    return {
+      typingUsers: [first.name, second.name],
+      additionalUsers: 0,
+    };
   }
 
   const [user] = users;
   const rest = users.length - 1;
-  return `${user.name} and ${rest} others are typing`;
+  return {
+    typingUsers: [user.name],
+    additionalUsers: rest,
+  };
 };
 
 export const createPendingMessage = data => {

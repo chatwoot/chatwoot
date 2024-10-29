@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Originalus turinys",
     "TRANSLATED_CONTENT": "Išverstas turinys",
     "NO_TRANSLATIONS_AVAILABLE": "Nėra šio turinio vertimo"
+  },
+  "TYPING": {
+    "SINGLE": "{user} is typing",
+    "DOUBLE": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }
