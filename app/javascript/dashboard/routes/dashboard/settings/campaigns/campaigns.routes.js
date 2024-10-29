@@ -5,7 +5,7 @@ import Index from './Index.vue';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/campaigns'),
+      path: frontendURL('accounts/:accountId/campaignsw'),
       component: SettingsContent,
       props: {
         headerTitle: 'CAMPAIGN.ONGOING.HEADER',
@@ -20,7 +20,7 @@ export default {
         },
         {
           path: 'ongoing',
-          name: 'ongoing_campaigns',
+          name: 'ongoing_campaignss',
           meta: {
             permissions: ['administrator'],
           },
@@ -29,7 +29,7 @@ export default {
       ],
     },
     {
-      path: frontendURL('accounts/:accountId/campaigns'),
+      path: frontendURL('accounts/:accountId/campaignsw'),
       component: SettingsContent,
       props: {
         headerTitle: 'CAMPAIGN.ONE_OFF.HEADER',
