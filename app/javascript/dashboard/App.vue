@@ -82,7 +82,7 @@ export default {
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
+    this.setLocale(window.chatwootConfig.selectedLocale.replace('-', '_'));
   },
   unmounted() {
     if (this.reconnectService) {
@@ -98,7 +98,7 @@ export default {
       mql.onchange = e => setColorTheme(e.matches);
     },
     setLocale(locale) {
-      this.$root.$i18n.locale = locale;
+      this.$root.$i18n.locale = locale.replace('-', '_');
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
@@ -108,7 +108,7 @@ export default {
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      this.setLocale(locale);
+      this.setLocale(locale.replace('-', '_'));
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
