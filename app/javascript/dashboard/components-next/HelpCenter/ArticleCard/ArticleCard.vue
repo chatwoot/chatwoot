@@ -13,7 +13,6 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
   id: {
@@ -181,7 +180,7 @@ const handleClick = id => {
           <div
             class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
           >
-            <FluentIcon icon="eye-show" size="18" />
+            <span class="i-lucide-eye size-4" />
             <span class="text-sm">
               {{
                 t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {

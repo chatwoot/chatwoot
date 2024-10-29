@@ -155,7 +155,7 @@ const redirectToPortalHomePage = () => {
           :size="20"
           :src="getPortalThumbnailSrc(portal)"
           :show-author-name="false"
-          icon-name="building-lucide"
+          icon-name="i-lucide-building-2"
         />
       </Button>
     </div>

@@ -122,6 +122,7 @@ const updateArticleStatus = async ({ value }) => {
       variant="link"
       color="slate"
       size="sm"
+      class="ltr:pl-3 rtl:pr-3"
       @click="onClickGoBack"
     />
     <div class="flex items-center gap-4">

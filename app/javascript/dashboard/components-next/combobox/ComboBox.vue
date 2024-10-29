@@ -2,7 +2,6 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -111,12 +110,7 @@ watch(
         class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
       >
         <div class="relative border-b border-n-strong">
-          <FluentIcon
-            icon="search"
-            :size="14"
-            class="absolute text-gray-400 dark:text-slate-500 top-3 left-3"
-            aria-hidden="true"
-          />
+          <span class="absolute i-lucide-search top-2.5 size-4 left-3" />
           <input
             ref="searchInput"
             v-model="search"
@@ -144,12 +138,9 @@ watch(
             <span :class="{ 'font-medium': option.value === selectedValue }">
               {{ option.label }}
             </span>
-            <FluentIcon
+            <span
               v-if="option.value === selectedValue"
-              icon="checkmark"
-              :size="16"
-              class="flex-shrink-0 text-n-slate-11 dark:text-n-slate-11"
-              aria-hidden="true"
+              class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
             />
           </li>
           <li
