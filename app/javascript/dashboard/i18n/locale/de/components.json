@@ -14,6 +14,11 @@
       "CONFIRM": "Bestätigen"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Autor ist nicht verfügbar"
+    }
+  },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
   }
