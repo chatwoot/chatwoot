@@ -198,10 +198,10 @@ defineExpose({ state, isSubmitDisabled });
             <OnClickOutside @trigger="isEmojiPickerOpen = false">
               <Button
                 :label="state.icon"
-                variant="secondary"
+                color="slate"
                 size="sm"
-                :icon="!state.icon ? 'emoji-add' : ''"
-                class="!h-[38px] !w-[38px] absolute top-[31px] !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
+                :icon="!state.icon ? 'i-lucide-smile-plus' : ''"
+                class="!h-[38px] !w-[38px] absolute top-[31px] !outline-none !rounded-[7px] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
                 @click="isEmojiPickerOpen = !isEmojiPickerOpen"
               />
               <EmojiInput
@@ -243,10 +243,10 @@ defineExpose({ state, isSubmitDisabled });
         class="flex items-center justify-between w-full gap-3"
       >
         <Button
-          variant="ghost"
+          variant="faded"
+          color="slate"
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"
-          text-variant="default"
-          class="w-full bg-n-alpha-2 hover:bg-n-alpha-3"
+          class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
           @click="handleCancel"
         />
         <Button

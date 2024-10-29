@@ -43,7 +43,7 @@ const showDivider = index => {
         class="relative px-4 truncate py-1.5 text-sm border-0 outline-1 outline rounded-lg transition-colors duration-300 ease-in-out hover:text-n-brand"
         :class="[
           activeTab === index
-            ? 'text-n-brand bg-n-solid-active outline-n-container dark:outline-transparent'
+            ? 'text-n-blue-text bg-n-solid-active outline-n-container dark:outline-transparent'
             : 'text-n-slate-10 outline-transparent h-8',
         ]"
         @click="selectTab(index)"
@@ -54,7 +54,7 @@ const showDivider = index => {
         class="w-px h-3.5 rounded my-auto transition-colors duration-300 ease-in-out"
         :class="
           showDivider(index)
-            ? 'bg-slate-75 dark:bg-slate-800'
+            ? 'bg-n-strong'
             : 'bg-transparent dark:bg-transparent'
         "
       />

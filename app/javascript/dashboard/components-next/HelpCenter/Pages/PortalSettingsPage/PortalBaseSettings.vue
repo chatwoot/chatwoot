@@ -196,16 +196,17 @@ const handleAvatarDelete = () => {
       />
     </div>
     <div class="flex flex-col w-full gap-4">
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.LABEL') }}
         </label>
         <Input
           v-model="state.name"
           :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-          class="w-[432px]"
           :message-type="nameError ? 'error' : 'info'"
           :message="nameError"
           custom-input-class="!bg-transparent dark:!bg-transparent"
@@ -213,9 +214,11 @@ const handleAvatarDelete = () => {
           @blur="v$.name.$touch()"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.LABEL') }}
         </label>
@@ -224,13 +227,14 @@ const handleAvatarDelete = () => {
           :placeholder="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.PLACEHOLDER')
           "
-          class="w-[432px]"
           custom-input-class="!bg-transparent dark:!bg-transparent"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] text-slate-900 py-2.5 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap text-slate-900 py-2.5 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.LABEL') }}
         </label>
@@ -239,13 +243,14 @@ const handleAvatarDelete = () => {
           :placeholder="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.PLACEHOLDER')
           "
-          class="w-[432px]"
           custom-input-class="!bg-transparent dark:!bg-transparent"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] text-slate-900 py-2.5 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap text-slate-900 py-2.5 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.LABEL') }}
         </label>
@@ -254,7 +259,6 @@ const handleAvatarDelete = () => {
           :placeholder="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.PLACEHOLDER')
           "
-          class="w-[432px]"
           :message-type="homePageLinkError ? 'error' : 'info'"
           :message="homePageLinkError"
           custom-input-class="!bg-transparent dark:!bg-transparent"
@@ -262,16 +266,17 @@ const handleAvatarDelete = () => {
           @blur="v$.homePageLink.$touch()"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.LABEL') }}
         </label>
         <Input
           v-model="state.slug"
           :placeholder="t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.PLACEHOLDER')"
-          class="w-[432px]"
           :message-type="slugError ? 'error' : 'info'"
           :message="slugError || buildPortalURL(state.slug)"
           custom-input-class="!bg-transparent dark:!bg-transparent"
@@ -279,9 +284,11 @@ const handleAvatarDelete = () => {
           @blur="v$.slug.$touch()"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
         </label>
@@ -294,12 +301,12 @@ const handleAvatarDelete = () => {
           :message="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
           "
-          class="[&>button]:w-[432px] !w-[432px]"
+          class="[&>div>button]:!outline-n-weak"
         />
       </div>
       <div class="flex items-start justify-between w-full gap-2">
         <label
-          class="text-sm font-medium whitespace-nowrap min-w-[100px] py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.BRAND_COLOR.LABEL') }}
         </label>
