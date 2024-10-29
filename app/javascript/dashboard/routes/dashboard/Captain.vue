@@ -12,12 +12,16 @@ onMounted(async () => {
   setupCaptain('#captain', {
     routerBase: `app/accounts/${accountId.value}/captain/`,
     fetchFn: async (source, options) => {
-      let path = new URL(source).pathname;
+      const parsedSource = new URL(source);
+      let path = parsedSource.pathname;
       if (path === `/api/sessions/profile`) {
         path = '/sessions/profile';
       } else {
         path = path.replace(/^\/api\/accounts\/\d+/, '');
       }
+
+      // include search params
+      path = `${path}${parsedSource.search}`;
 
       const response = await IntegrationsAPI.requestCaptain({
         method: options.method ?? 'GET',
