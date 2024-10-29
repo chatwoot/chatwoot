@@ -121,7 +121,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <Input
       v-model="state.title"
       :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.LABEL')"
@@ -213,10 +213,10 @@ const handleSubmit = async () => {
       <Button
         :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.BUTTONS.CREATE')"
         class="w-full"
+        type="submit"
         :is-loading="isCreating"
         :disabled="isCreating || isSubmitDisabled"
-        @click="handleSubmit"
       />
     </div>
-  </div>
+  </form>
 </template>
