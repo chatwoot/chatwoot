@@ -264,6 +264,7 @@ const menuItems = computed(() => {
       name: 'Campaigns',
       label: t('SIDEBAR.CAMPAIGNS'),
       icon: 'i-lucide-megaphone',
+      to: accountScopedRoute('ongoing_campaigns'),
       children: [
         {
           name: 'Ongoing',
@@ -273,7 +274,7 @@ const menuItems = computed(() => {
         {
           name: 'One-off',
           label: t('SIDEBAR.ONE_OFF'),
-          to: accountScopedRoute('one_off'),
+          to: accountScopedRoute('one_off_campaigns'),
         },
       ],
     },
