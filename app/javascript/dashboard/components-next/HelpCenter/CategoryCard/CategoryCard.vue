@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useToggle } from '@vueuse/core';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -37,7 +38,7 @@ const emit = defineEmits(['click', 'action']);
 
 const { t } = useI18n();
 
-const isOpen = ref(false);
+const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const categoryMenuItems = [
   {
@@ -72,7 +73,7 @@ const handleClick = slug => {
 
 const handleAction = ({ action, value }) => {
   emit('action', { action, value, id: props.id });
-  isOpen.value = false;
+  toggleDropdown(false);
 };
 </script>
 
@@ -98,17 +99,20 @@ const handleAction = ({ action, value }) => {
               }}
             </span>
           </div>
-          <div v-on-clickaway="() => (isOpen = false)" class="relative group">
+          <div
+            v-on-clickaway="() => toggleDropdown(false)"
+            class="relative group"
+          >
             <Button
               icon="i-lucide-ellipsis-vertical"
               color="slate"
               size="xs"
               variant="ghost"
               class="rounded-md group-hover:bg-n-alpha-2"
-              @click="isOpen = !isOpen"
+              @click="toggleDropdown(!showActionsDropdown)"
             />
             <DropdownMenu
-              v-if="isOpen"
+              v-if="showActionsDropdown"
               :menu-items="categoryMenuItems"
               class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full z-60"
               @action="handleAction"

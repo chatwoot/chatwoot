@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useToggle } from '@vueuse/core';
 import { LOCALE_MENU_ITEMS } from 'dashboard/helper/portalHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -34,7 +35,7 @@ const emit = defineEmits(['action']);
 
 const { t } = useI18n();
 
-const showDropdownMenu = ref(false);
+const [showDropdownMenu, toggleDropdown] = useToggle();
 
 const localeMenuItems = computed(() =>
   LOCALE_MENU_ITEMS.map(item => ({
@@ -46,7 +47,7 @@ const localeMenuItems = computed(() =>
 
 const handleAction = ({ action, value }) => {
   emit('action', { action, value });
-  showDropdownMenu.value = false;
+  toggleDropdown(false);
 };
 </script>
 
@@ -92,7 +93,7 @@ const handleAction = ({ action, value }) => {
             </span>
           </div>
           <div
-            v-on-clickaway="() => (showDropdownMenu = false)"
+            v-on-clickaway="() => toggleDropdown(false)"
             class="relative group"
           >
             <Button
@@ -100,7 +101,7 @@ const handleAction = ({ action, value }) => {
               color="slate"
               size="xs"
               class="rounded-md group-hover:bg-n-alpha-2"
-              @click="showDropdownMenu = !showDropdownMenu"
+              @click="toggleDropdown(!showDropdownMenu)"
             />
 
             <DropdownMenu

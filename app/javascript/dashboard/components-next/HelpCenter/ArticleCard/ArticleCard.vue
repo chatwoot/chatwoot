@@ -1,5 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
+import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import {
@@ -49,7 +50,7 @@ const emit = defineEmits(['openArticle', 'articleAction']);
 
 const { t } = useI18n();
 
-const isOpen = ref(false);
+const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const articleMenuItems = computed(() => {
   const commonItems = Object.entries(ARTICLE_MENU_ITEMS).reduce(
@@ -112,7 +113,7 @@ const lastUpdatedAt = computed(() => {
 });
 
 const handleArticleAction = ({ action, value }) => {
-  isOpen.value = false;
+  toggleDropdown(false);
   emit('articleAction', { action, value, id: props.id });
 };
 
@@ -139,7 +140,7 @@ const handleClick = id => {
             {{ statusText }}
           </span>
           <div
-            v-on-clickaway="() => (isOpen = false)"
+            v-on-clickaway="() => toggleDropdown(false)"
             class="relative flex items-center group"
           >
             <Button
@@ -147,10 +148,10 @@ const handleClick = id => {
               color="slate"
               size="xs"
               class="rounded-md group-hover:bg-n-alpha-2"
-              @click="isOpen = !isOpen"
+              @click="toggleDropdown(!showActionsDropdown)"
             />
             <DropdownMenu
-              v-if="isOpen"
+              v-if="showActionsDropdown"
               :menu-items="articleMenuItems"
               class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
               @action="handleArticleAction($event)"

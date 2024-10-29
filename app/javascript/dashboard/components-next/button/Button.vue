@@ -45,7 +45,7 @@ const slots = useSlots();
 const STYLE_CONFIG = {
   colors: {
     blue: {
-      solid: 'bg-n-brand text-white hover:bg-n-brand/90 outline-transparent',
+      solid: 'bg-n-brand text-white outline-transparent',
       faded:
         'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text hover:bg-n-brand/10 outline-n-blue-border',
