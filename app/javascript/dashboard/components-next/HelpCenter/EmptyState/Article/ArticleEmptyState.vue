@@ -49,12 +49,7 @@ const onClick = () => {
     </template>
     <template #actions>
       <div v-if="showButton">
-        <Button
-          variant="default"
-          :label="buttonLabel"
-          icon="add"
-          @click="onClick"
-        />
+        <Button :label="buttonLabel" icon="i-lucide-plus" @click="onClick" />
       </div>
     </template>
   </EmptyStateLayout>

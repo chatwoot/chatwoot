@@ -41,7 +41,7 @@ const localeCount = computed(() => props.locales?.length);
         </div>
         <Button
           :label="$t('HELP_CENTER.LOCALES_PAGE.NEW_LOCALE_BUTTON_TEXT')"
-          icon="add"
+          icon="i-lucide-plus"
           size="sm"
           @click="openAddLocaleDialog"
         />

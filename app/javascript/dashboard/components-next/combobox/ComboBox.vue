@@ -2,7 +2,7 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -89,7 +89,7 @@ watch(
 <template>
   <div
     ref="comboboxRef"
-    class="relative w-full"
+    class="relative w-full min-w-0"
     :class="{
       'cursor-not-allowed': disabled,
       'group/combobox': !disabled,
@@ -98,12 +98,12 @@ watch(
     <OnClickOutside @trigger="open = false">
       <Button
         variant="outline"
+        color="slate"
         :label="selectedLabel"
-        icon-position="right"
+        trailing-icon
         :disabled="disabled"
-        class="justify-between w-full !px-2 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
-        :icon="open ? 'chevron-lucide-up' : 'chevron-lucide-down'"
-        icon-lib="lucide"
+        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
+        :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"
       />
       <div
@@ -111,12 +111,7 @@ watch(
         class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
       >
         <div class="relative border-b border-n-strong">
-          <FluentIcon
-            icon="search"
-            :size="14"
-            class="absolute text-gray-400 dark:text-slate-500 top-3 left-3"
-            aria-hidden="true"
-          />
+          <span class="absolute i-lucide-search top-2.5 size-4 left-3" />
           <input
             ref="searchInput"
             v-model="search"
@@ -133,7 +128,7 @@ watch(
           <li
             v-for="option in filteredOptions"
             :key="option.value"
-            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-2 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
+            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-solid-2"
             :class="{
               'bg-n-solid-2': option.value === selectedValue,
             }"
@@ -144,12 +139,9 @@ watch(
             <span :class="{ 'font-medium': option.value === selectedValue }">
               {{ option.label }}
             </span>
-            <FluentIcon
+            <span
               v-if="option.value === selectedValue"
-              icon="checkmark"
-              :size="16"
-              class="flex-shrink-0 text-n-slate-11 dark:text-n-slate-11"
-              aria-hidden="true"
+              class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
             />
           </li>
           <li

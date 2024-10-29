@@ -118,11 +118,11 @@ const updateArticleStatus = async ({ value }) => {
   <div class="flex items-center justify-between h-20">
     <Button
       :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.BACK_TO_ARTICLES')"
-      icon="chevron-lucide-left"
-      icon-lib="lucide"
+      icon="i-lucide-chevron-left"
       variant="link"
-      text-variant="info"
+      color="slate"
       size="sm"
+      class="ltr:pl-3 rtl:pr-3"
       @click="onClickGoBack"
     />
     <div class="flex items-center gap-4">
@@ -135,7 +135,7 @@ const updateArticleStatus = async ({ value }) => {
       <div class="flex items-center gap-2">
         <Button
           :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
-          variant="secondary"
+          color="slate"
           size="sm"
           :disabled="!articleId"
           @click="previewArticle"
@@ -156,8 +156,7 @@ const updateArticleStatus = async ({ value }) => {
           <div class="relative">
             <OnClickOutside @trigger="showArticleActionMenu = false">
               <Button
-                icon="chevron-lucide-down"
-                icon-lib="lucide"
+                icon="i-lucide-chevron-down"
                 size="sm"
                 :disabled="!articleId"
                 class="ltr:rounded-l-none rtl:rounded-r-none"
