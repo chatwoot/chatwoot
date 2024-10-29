@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_29_060838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
+    t.integer "contactable_contacts_count", default: 0
     t.index ["status"], name: "index_accounts_on_status"
   end
 

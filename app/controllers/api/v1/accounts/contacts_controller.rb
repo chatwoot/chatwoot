@@ -17,7 +17,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
-    @contacts_count = resolved_contacts.count
+    @contacts_count = Current.account.contactable_contacts_count
     @contacts = fetch_contacts(resolved_contacts)
   end
 
