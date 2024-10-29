@@ -1,6 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { OnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store';
 
@@ -19,6 +20,7 @@ const props = defineProps({
 const emit = defineEmits(['saveArticle', 'setAuthor', 'setCategory']);
 
 const { t } = useI18n();
+const route = useRoute();
 
 const openAgentsList = ref(false);
 const openCategoryList = ref(false);
@@ -36,13 +38,15 @@ const currentUser = computed(() =>
   agents.value.find(agent => agent.id === currentUserId.value)
 );
 
+const categorySlugFromRoute = computed(() => route.params.categorySlug);
+
 const author = computed(() => {
   if (isNewArticle.value) {
     return selectedAuthorId.value
       ? agents.value.find(agent => agent.id === selectedAuthorId.value)
       : currentUser.value;
   }
-  return props.article?.author || currentUser.value;
+  return props.article?.author || null;
 });
 
 const authorName = computed(
@@ -51,24 +55,52 @@ const authorName = computed(
 const authorThumbnailSrc = computed(() => author.value?.thumbnail);
 
 const agentList = computed(() => {
-  return [...agents.value]
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(agent => ({
-      label: agent.name,
-      value: agent.id,
-      thumbnail: { name: agent.name, src: agent.thumbnail },
-      isSelected: agent.id === props.article?.author?.id,
-      action: 'assignAuthor',
-    }))
-    .sort((a, b) => b.isSelected - a.isSelected);
+  return (
+    agents.value
+      ?.map(({ name, id, thumbnail }) => ({
+        label: name,
+        value: id,
+        thumbnail: { name, src: thumbnail },
+        isSelected:
+          id === props.article?.author?.id ||
+          id === (selectedAuthorId.value || currentUserId.value),
+        action: 'assignAuthor',
+      }))
+      // Sort the list by isSelected first, then by name(label)
+      .toSorted((a, b) => {
+        if (a.isSelected !== b.isSelected) {
+          return Number(b.isSelected) - Number(a.isSelected);
+        }
+        return a.label.localeCompare(b.label);
+      }) ?? []
+  );
 });
 
 const hasAgentList = computed(() => {
-  return agents.value?.length > 0;
+  return agents.value?.length > 1;
 });
+
+const findCategoryFromSlug = slug => {
+  return categories.value?.find(category => category.slug === slug);
+};
+
+const assignCategoryFromSlug = slug => {
+  const categoryFromSlug = findCategoryFromSlug(slug);
+  if (categoryFromSlug) {
+    selectedCategoryId.value = categoryFromSlug.id;
+    return categoryFromSlug;
+  }
+  return null;
+};
 
 const selectedCategory = computed(() => {
   if (isNewArticle.value) {
+    if (categorySlugFromRoute.value) {
+      const categoryFromSlug = assignCategoryFromSlug(
+        categorySlugFromRoute.value
+      );
+      if (categoryFromSlug) return categoryFromSlug;
+    }
     return selectedCategoryId.value
       ? categories.value.find(
           category => category.id === selectedCategoryId.value
@@ -81,15 +113,20 @@ const selectedCategory = computed(() => {
 });
 
 const categoryList = computed(() => {
-  return categories.value
-    .map(category => ({
-      label: category.name,
-      value: category.id,
-      emoji: category.icon,
-      isSelected: category.id === props.article?.category?.id,
-      action: 'assignCategory',
-    }))
-    .sort((a, b) => b.isSelected - a.isSelected);
+  return (
+    categories.value
+      .map(({ name, id, icon }) => ({
+        label: name,
+        value: id,
+        emoji: icon,
+        isSelected: isNewArticle.value
+          ? id === (selectedCategoryId.value || selectedCategory.value?.id)
+          : id === props.article?.category?.id,
+        action: 'assignCategory',
+      }))
+      // Sort categories by isSelected
+      .toSorted((a, b) => Number(b.isSelected) - Number(a.isSelected))
+  );
 });
 
 const hasCategoryMenuItems = computed(() => {
@@ -124,6 +161,19 @@ const handleArticleAction = ({ action, value }) => {
 const updateMeta = meta => {
   emit('saveArticle', { meta });
 };
+
+onMounted(() => {
+  if (categorySlugFromRoute.value && isNewArticle.value) {
+    // Assign category from slug if there is one
+    const categoryFromSlug = findCategoryFromSlug(categorySlugFromRoute.value);
+    if (categoryFromSlug) {
+      handleArticleAction({
+        action: 'assignCategory',
+        value: categoryFromSlug?.id,
+      });
+    }
+  }
+});
 </script>
 
 <template>
@@ -139,7 +189,6 @@ const updateMeta = meta => {
         >
           <template #leftPrefix>
             <Thumbnail
-              v-if="author"
               :author="author"
               :name="authorName"
               :size="20"
