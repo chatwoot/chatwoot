@@ -14,6 +14,11 @@
       "CONFIRM": "Подтвердить"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Автор недоступен"
+    }
+  },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
   }
