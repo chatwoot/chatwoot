@@ -63,8 +63,13 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  after_commit :schedule_counter_cache_update
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
+
+  scope :contactable, lambda {
+    where("email != '' OR phone_number != '' OR identifier != ''")
+  }
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
@@ -222,5 +227,17 @@ class Contact < ApplicationRecord
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+  end
+
+  def schedule_counter_cache_update
+    if saved_change_to_email? ||
+       saved_change_to_phone_number? ||
+       saved_change_to_identifier? ||
+       destroyed?
+
+      UpdateContactableContactsCountJob
+        .set(wait: 5.seconds)
+        .perform_later(account_id)
+    end
   end
 end
