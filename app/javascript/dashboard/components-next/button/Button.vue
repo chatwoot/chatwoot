@@ -45,7 +45,7 @@ const slots = useSlots();
 const STYLE_CONFIG = {
   colors: {
     blue: {
-      solid: 'bg-n-brand text-white hover:bg-n-blue-text outline-transparent',
+      solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
         'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text hover:bg-n-brand/10 outline-n-blue-border',
@@ -67,7 +67,7 @@ const STYLE_CONFIG = {
     },
     slate: {
       solid:
-        'bg-n-solid-3 hover:bg-n-solid-2 text-n-slate-12 outline-n-container',
+        'bg-n-solid-3 dark:hover:bg-n-solid-2 hover:bg-n-alpha-2 text-n-slate-12 outline-n-container',
       faded:
         'bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20 outline-transparent',
       outline: 'text-n-slate-11 outline-n-strong hover:bg-n-slate-9/10',

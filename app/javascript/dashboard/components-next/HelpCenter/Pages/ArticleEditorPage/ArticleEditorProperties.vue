@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col absolute w-[400px] bg-n-alpha-3 backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
+    class="flex flex-col absolute w-[400px] bg-n-alpha-3 outline outline-1 outline-n-container backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
   >
     <div class="flex items-center justify-between">
       <h3>

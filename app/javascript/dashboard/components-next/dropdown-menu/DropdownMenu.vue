@@ -27,7 +27,7 @@ const handleAction = (action, value) => {
 
 <template>
   <div
-    class="bg-n-alpha-3 backdrop-blur-[100px] absolute rounded-xl z-50 py-2 px-2 gap-2 flex flex-col min-w-[136px] shadow-lg"
+    class="bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container absolute rounded-xl z-50 py-2 px-2 gap-2 flex flex-col min-w-[136px] shadow-lg"
   >
     <button
       v-for="item in menuItems"
@@ -48,9 +48,11 @@ const handleAction = (action, value) => {
         :size="thumbnailSize"
         :src="item.thumbnail.src"
       />
-      <Icon v-if="item.icon" :icon="item.icon" />
-      <span v-if="item.emoji">{{ item.emoji }}</span>
-      <span v-if="item.label" class="text-sm">{{ item.label }}</span>
+      <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
+      <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
+      <span v-if="item.label" class="min-w-0 text-sm truncate">{{
+        item.label
+      }}</span>
     </button>
   </div>
 </template>
