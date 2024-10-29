@@ -99,6 +99,7 @@ watch(
       'cursor-not-allowed': disabled,
       'group/combobox': !disabled,
     }"
+    @click.prevent
   >
     <OnClickOutside @trigger="open = false">
       <Button

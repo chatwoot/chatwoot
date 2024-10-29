@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { messageStamp } from 'shared/helpers/timeHelper';
@@ -37,7 +37,7 @@ const props = defineProps({
   },
   sender: {
     type: Object,
-    required: true,
+    default: null,
   },
   inbox: {
     type: Object,
@@ -45,9 +45,11 @@ const props = defineProps({
   },
   scheduledAt: {
     type: Number,
-    required: true,
+    default: 0,
   },
 });
+
+const emit = defineEmits(['edit', 'delete']);
 
 const { t } = useI18n();
 
@@ -185,8 +187,15 @@ const campaignStatus = computed(() => {
           size="sm"
           color="slate"
           icon="i-lucide-sliders-vertical"
+          @click="emit('edit')"
         />
-        <Button variant="faded" color="ruby" size="sm" icon="i-lucide-trash" />
+        <Button
+          variant="faded"
+          color="ruby"
+          size="sm"
+          icon="i-lucide-trash"
+          @click="emit('delete')"
+        />
       </div>
     </template>
   </CardLayout>
