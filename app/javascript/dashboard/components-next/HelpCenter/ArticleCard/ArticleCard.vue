@@ -141,13 +141,12 @@ const handleClick = id => {
           <div
             v-on-clickaway="() => (isOpen = false)"
             class="relative flex items-center group"
-            @click.stop
           >
             <Button
               icon="i-lucide-ellipsis-vertical"
               color="slate"
               size="xs"
-              class="group-hover:bg-n-solid-2 !p-0.5 rounded-md"
+              class="rounded-md group-hover:bg-n-alpha-2"
               @click="isOpen = !isOpen"
             />
             <DropdownMenu

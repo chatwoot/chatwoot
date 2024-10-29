@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 import { LOCALE_MENU_ITEMS } from 'dashboard/helper/portalHelper';
 
@@ -92,23 +91,24 @@ const handleAction = ({ action, value }) => {
               }}
             </span>
           </div>
-          <div class="relative group">
-            <OnClickOutside @trigger="showDropdownMenu = false">
-              <Button
-                icon="i-lucide-ellipsis-vertical"
-                color="slate"
-                size="xs"
-                class="rounded-md group-hover:bg-n-solid-2"
-                @click="showDropdownMenu = !showDropdownMenu"
-              />
+          <div
+            v-on-clickaway="() => (showDropdownMenu = false)"
+            class="relative group"
+          >
+            <Button
+              icon="i-lucide-ellipsis-vertical"
+              color="slate"
+              size="xs"
+              class="rounded-md group-hover:bg-n-alpha-2"
+              @click="showDropdownMenu = !showDropdownMenu"
+            />
 
-              <DropdownMenu
-                v-if="showDropdownMenu"
-                :menu-items="localeMenuItems"
-                class="ltr:right-0 rtl:left-0 mt-1 xl:ltr:left-0 xl:rtl:right-0 top-full z-60 min-w-[150px]"
-                @action="handleAction"
-              />
-            </OnClickOutside>
+            <DropdownMenu
+              v-if="showDropdownMenu"
+              :menu-items="localeMenuItems"
+              class="ltr:right-0 rtl:left-0 mt-1 xl:ltr:left-0 xl:rtl:right-0 top-full z-60 min-w-[150px]"
+              @action="handleAction"
+            />
           </div>
         </div>
       </div>
