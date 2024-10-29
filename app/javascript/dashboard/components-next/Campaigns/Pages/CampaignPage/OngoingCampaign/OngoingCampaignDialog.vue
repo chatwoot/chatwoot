@@ -32,11 +32,12 @@ const addCampaign = async campaignDetails => {
   }
 };
 
+const handleClose = () => emit('close');
+
 const handleSubmit = campaignDetails => {
   addCampaign(campaignDetails);
+  handleClose();
 };
-
-const handleClose = () => emit('close');
 </script>
 
 <template>

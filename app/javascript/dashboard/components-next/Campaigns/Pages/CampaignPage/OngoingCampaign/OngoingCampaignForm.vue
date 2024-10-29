@@ -349,7 +349,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         "
         class="w-full"
         :is-loading="isCreating"
-        :disabled="isCreating"
+        :disabled="isCreating || isSubmitDisabled"
       />
     </div>
   </form>
