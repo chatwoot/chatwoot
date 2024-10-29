@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { removeEmoji } from 'shared/helpers/emoji';
 
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
@@ -30,6 +31,9 @@ const props = defineProps({
     default: '',
   },
 });
+
+const { t } = useI18n();
+
 const hasImageLoaded = ref(false);
 const imgError = ref(false);
 
@@ -108,6 +112,7 @@ const onImgLoad = () => {
     </div>
     <div
       v-else
+      v-tooltip.top-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
       class="flex items-center justify-center w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-700/50"
     >
       <FluentIcon
