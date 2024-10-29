@@ -120,8 +120,8 @@ const redirectToPortalHomePage = () => {
       </div>
       <Button
         :label="t('HELP_CENTER.PORTAL_SWITCHER.NEW_PORTAL')"
-        variant="secondary"
-        icon="add"
+        color="slate"
+        icon="i-lucide-plus"
         size="sm"
         class="!bg-n-alpha-2 hover:!bg-n-alpha-3"
         @click="openCreatePortalDialog"
@@ -133,29 +133,30 @@ const redirectToPortalHomePage = () => {
         :key="index"
         :label="portal.name"
         variant="ghost"
-        :icon="isPortalActive(portal) ? 'checkmark-lucide' : ''"
-        icon-lib="lucide"
-        icon-position="right"
-        class="!justify-start !px-2 !py-2 hover:!bg-n-alpha-2 [&>svg]:text-n-teal-10 [&>svg]:w-5 [&>svg]:h-5 h-9"
+        trailing-icon
+        :icon="isPortalActive(portal) ? 'i-lucide-check' : ''"
+        class="!justify-end !px-2 !py-2 hover:!bg-n-alpha-2 [&>.i-lucide-check]:text-n-teal-10 h-9"
         size="sm"
         @click="handlePortalChange(portal)"
       >
-        <template #leftPrefix>
-          <Thumbnail
-            v-if="portal"
-            :author="portal"
-            :name="portal.name"
-            :size="20"
-            :src="getPortalThumbnailSrc(portal)"
-            :show-author-name="false"
-            icon-name="building-lucide"
-          />
-        </template>
-        <template #rightPrefix>
+        <div v-if="portal.custom_domain" class="flex items-center gap-1">
+          <span class="i-lucide-link size-3" />
           <span class="text-sm truncate text-n-slate-11">
             {{ portal.custom_domain || '' }}
           </span>
-        </template>
+        </div>
+        <span class="text-sm font-medium truncate text-n-slate-12">
+          {{ portal.name || '' }}
+        </span>
+        <Thumbnail
+          v-if="portal"
+          :author="portal"
+          :name="portal.name"
+          :size="20"
+          :src="getPortalThumbnailSrc(portal)"
+          :show-author-name="false"
+          icon-name="i-lucide-building-2"
+        />
       </Button>
     </div>
   </div>

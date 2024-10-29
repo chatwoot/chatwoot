@@ -114,8 +114,8 @@ const handleDeletePortal = () => {
                 }
               )
             "
-            variant="destructive"
-            class="w-56"
+            color="ruby"
+            class="max-w-56 !w-fit"
             @click="openConfirmDeletePortalDialog"
           />
         </div>

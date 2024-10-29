@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   src: {
@@ -57,7 +57,7 @@ const handleDismiss = event => {
 
 <template>
   <div
-    class="relative flex flex-col items-center gap-2 select-none rounded-xl group/avatar"
+    class="relative flex flex-col items-center gap-2 select-none rounded-xl outline outline-1 outline-n-container group/avatar"
     :style="{ width: avatarSize, height: avatarSize }"
   >
     <img
@@ -71,29 +71,27 @@ const handleDismiss = event => {
       v-else
       class="flex items-center justify-center w-full h-full rounded-xl bg-n-alpha-2"
     >
-      <FluentIcon
-        icon="building-lucide"
-        icon-lib="lucide"
-        :size="iconSize"
-        class="dark:text-n-brand/50 text-n-brand/30"
+      <Icon
+        icon="i-lucide-building-2"
+        class="text-n-brand/50"
+        :style="{ width: `${iconSize}`, height: `${iconSize}` }"
       />
     </div>
     <div
       v-if="src"
-      class="absolute z-20 flex items-center cursor-pointer justify-center w-6 h-6 transition-all invisible opacity-0 duration-500 ease-in-out -top-2.5 -right-2.5 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
+      class="absolute z-20 outline outline-1 outline-n-container flex items-center cursor-pointer justify-center w-6 h-6 transition-all invisible opacity-0 duration-500 ease-in-out -top-2.5 -right-2.5 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleDismiss"
     >
-      <FluentIcon icon="dismiss" :size="16" class="text-n-slate-11" />
+      <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
     </div>
     <div
       class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleUploadAvatar"
     >
-      <FluentIcon
-        icon="upload-lucide"
-        icon-lib="lucide"
-        :size="iconSize"
-        class="text-white dark:text-white"
+      <Icon
+        icon="i-lucide-upload"
+        class="text-white"
+        :style="{ width: `${iconSize}`, height: `${iconSize}` }"
       />
       <input
         ref="fileInput"

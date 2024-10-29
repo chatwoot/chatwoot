@@ -65,18 +65,18 @@ const pageInfo = computed(() => {
     </div>
     <div class="flex items-center gap-2">
       <Button
-        icon="chevrons-lucide-left"
-        icon-lib="lucide"
+        icon="i-lucide-chevrons-left"
         variant="ghost"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isFirstPage"
         @click="changePage(1)"
       />
       <Button
-        icon="chevron-lucide-left"
-        icon-lib="lucide"
+        icon="i-lucide-chevron-left"
         variant="ghost"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isFirstPage"
         @click="changePage(currentPage - 1)"
       />
@@ -87,18 +87,18 @@ const pageInfo = computed(() => {
         <span>{{ pageInfo }}</span>
       </div>
       <Button
-        icon="chevron-lucide-right"
-        icon-lib="lucide"
+        icon="i-lucide-chevron-right"
         variant="ghost"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isLastPage"
         @click="changePage(currentPage + 1)"
       />
       <Button
-        icon="chevrons-lucide-right"
-        icon-lib="lucide"
+        icon="i-lucide-chevrons-right"
         variant="ghost"
         size="sm"
+        class="!w-8 !h-6"
         :disabled="isLastPage"
         @click="changePage(totalPages)"
       />
