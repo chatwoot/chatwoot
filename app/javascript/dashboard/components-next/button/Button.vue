@@ -22,8 +22,8 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: 'default',
-    validator: value => ['default', 'sm', 'xs', 'lg'].includes(value),
+    default: 'md',
+    validator: value => ['md', 'sm', 'xs', 'lg'].includes(value),
   },
   icon: {
     type: String,
@@ -82,19 +82,21 @@ const STYLE_CONFIG = {
   },
   sizes: {
     regular: {
-      default: 'h-10 px-4',
+      md: 'h-10 px-4',
       sm: 'h-8 px-3',
+      xs: 'h-6 px-2',
       lg: 'h-12 px-5',
     },
     iconOnly: {
-      default: 'h-10 w-10 p-0',
+      md: 'h-10 w-10 p-0',
       xs: 'h-6 w-6 p-0',
       sm: 'h-8 w-8 p-0',
       lg: 'h-12 w-12 p-0',
     },
     link: {
-      default: 'p-0',
+      md: 'p-0',
       sm: 'p-0',
+      xs: 'p-0',
       lg: 'p-0',
     },
   },

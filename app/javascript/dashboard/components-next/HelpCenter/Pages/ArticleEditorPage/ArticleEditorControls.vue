@@ -61,9 +61,9 @@ const agentList = computed(() => {
         label: name,
         value: id,
         thumbnail: { name, src: thumbnail },
-        isSelected:
-          id === props.article?.author?.id ||
-          id === (selectedAuthorId.value || currentUserId.value),
+        isSelected: props.article?.author?.id
+          ? id === props.article.author.id
+          : id === (selectedAuthorId.value || currentUserId.value),
         action: 'assignAuthor',
       }))
       // Sort the list by isSelected first, then by name(label)
