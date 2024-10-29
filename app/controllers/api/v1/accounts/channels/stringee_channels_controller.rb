@@ -91,16 +91,25 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     other_stringee_channels.joins(:inbox_members).exists?(inbox_members: { user_id: user_id })
   end
 
+  def agent_from_params
+    if params[:team_id].present?
+      team = Current.account.teams.find(params[:team_id])
+      team.members.pluck(:id)
+    else
+      params[:user_ids]
+    end
+  end
+
   def agents_to_be_added_ids
-    params[:user_ids] - @current_agents_ids
+    agent_from_params - @current_agents_ids
   end
 
   def agents_to_be_removed_ids
-    @current_agents_ids - params[:user_ids]
+    @current_agents_ids - agent_from_params
   end
 
   def current_agents_ids
-    @current_agents_ids = @inbox.members.pluck(:id)
+    @current_agents_ids = @inbox.agents.pluck(:id)
   end
 
   def fetch_inbox

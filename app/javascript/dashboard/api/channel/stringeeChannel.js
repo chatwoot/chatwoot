@@ -6,10 +6,11 @@ class StringeeChannel extends ApiClient {
     super('channels/stringee_channels', { accountScoped: true });
   }
 
-  updateAgents({ inboxId, agentList }) {
+  updateAgents({ inboxId, agentList, teamId }) {
     return axios.patch(`${this.url}/update_agents`, {
       inbox_id: inboxId,
       user_ids: agentList,
+      team_id: teamId,
     });
   }
 

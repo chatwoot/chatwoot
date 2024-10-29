@@ -124,6 +124,7 @@ export default {
           await StringeeChannelAPI.updateAgents({
             inboxId,
             agentList: selectedAgents,
+            teamId: this.selectedTeam?.id,
           });
         }
 

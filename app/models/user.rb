@@ -173,7 +173,7 @@ class User < ApplicationRecord
   end
 
   def stringee_user_id
-    email.sub('@', '_')
+    email.split('@').first
   end
 
   def stringee_access_token
