@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
 const props = defineProps({
   src: {
     type: String,
@@ -69,8 +71,9 @@ const handleDismiss = event => {
       v-else
       class="flex items-center justify-center w-full h-full rounded-xl bg-n-alpha-2"
     >
-      <span
-        class="text-n-brand/50 i-lucide-building-2"
+      <Icon
+        icon="i-lucide-building-2"
+        class="text-n-brand/50"
         :style="{ width: `${iconSize}`, height: `${iconSize}` }"
       />
     </div>
@@ -79,14 +82,15 @@ const handleDismiss = event => {
       class="absolute z-20 outline outline-1 outline-n-container flex items-center cursor-pointer justify-center w-6 h-6 transition-all invisible opacity-0 duration-500 ease-in-out -top-2.5 -right-2.5 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleDismiss"
     >
-      <span class="text-n-slate-11 i-lucide-x size-4" />
+      <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
     </div>
     <div
       class="absolute inset-0 z-10 flex items-center justify-center invisible w-full h-full transition-all duration-500 ease-in-out opacity-0 rounded-xl bg-n-alpha-black1 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleUploadAvatar"
     >
-      <span
-        class="text-white i-lucide-upload dark:text-white"
+      <Icon
+        icon="i-lucide-upload"
+        class="text-white"
         :style="{ width: `${iconSize}`, height: `${iconSize}` }"
       />
       <input

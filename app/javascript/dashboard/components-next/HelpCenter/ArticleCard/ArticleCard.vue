@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import {
@@ -9,6 +8,7 @@ import {
   ARTICLE_STATUSES,
 } from 'dashboard/helper/portalHelper';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -138,25 +138,24 @@ const handleClick = id => {
           >
             {{ statusText }}
           </span>
-          <div class="relative group" @click.stop>
-            <OnClickOutside
-              class="flex items-center h-6"
-              @trigger="isOpen = false"
-            >
-              <Button
-                icon="i-lucide-ellipsis-vertical"
-                color="slate"
-                size="xs"
-                class="group-hover:bg-n-solid-2 !p-0.5 rounded-md"
-                @click="isOpen = !isOpen"
-              />
-              <DropdownMenu
-                v-if="isOpen"
-                :menu-items="articleMenuItems"
-                class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
-                @action="handleArticleAction($event)"
-              />
-            </OnClickOutside>
+          <div
+            v-on-clickaway="() => (isOpen = false)"
+            class="relative flex items-center group"
+            @click.stop
+          >
+            <Button
+              icon="i-lucide-ellipsis-vertical"
+              color="slate"
+              size="xs"
+              class="group-hover:bg-n-solid-2 !p-0.5 rounded-md"
+              @click="isOpen = !isOpen"
+            />
+            <DropdownMenu
+              v-if="isOpen"
+              :menu-items="articleMenuItems"
+              class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
+              @action="handleArticleAction($event)"
+            />
           </div>
         </div>
       </div>
@@ -180,7 +179,7 @@ const handleClick = id => {
           <div
             class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
           >
-            <span class="i-lucide-eye size-4" />
+            <Icon icon="i-lucide-eye" class="size-4" />
             <span class="text-sm">
               {{
                 t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {

@@ -2,6 +2,7 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -88,7 +89,7 @@ watch(
 <template>
   <div
     ref="comboboxRef"
-    class="relative w-full"
+    class="relative w-full min-w-0"
     :class="{
       'cursor-not-allowed': disabled,
       'group/combobox': !disabled,

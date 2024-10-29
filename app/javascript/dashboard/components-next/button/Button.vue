@@ -1,5 +1,6 @@
 <script setup>
 import { computed, useSlots } from 'vue';
+
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
@@ -23,7 +24,7 @@ const props = defineProps({
   size: {
     type: String,
     default: 'md',
-    validator: value => ['md', 'sm', 'xs', 'lg'].includes(value),
+    validator: value => ['xs', 'sm', 'md', 'lg'].includes(value),
   },
   icon: {
     type: String,
@@ -82,27 +83,28 @@ const STYLE_CONFIG = {
   },
   sizes: {
     regular: {
-      md: 'h-10 px-4',
-      sm: 'h-8 px-3',
       xs: 'h-6 px-2',
+      sm: 'h-8 px-3',
+      md: 'h-10 px-4',
       lg: 'h-12 px-5',
     },
     iconOnly: {
-      md: 'h-10 w-10 p-0',
       xs: 'h-6 w-6 p-0',
       sm: 'h-8 w-8 p-0',
+      md: 'h-10 w-10 p-0',
       lg: 'h-12 w-12 p-0',
     },
     link: {
-      md: 'p-0',
-      sm: 'p-0',
       xs: 'p-0',
+      sm: 'p-0',
+      md: 'p-0',
       lg: 'p-0',
     },
   },
   fontSize: {
-    default: 'text-sm font-medium',
+    xs: 'text-xs',
     sm: 'text-sm',
+    md: 'text-sm font-medium',
     lg: 'text-base',
   },
   base: 'inline-flex items-center justify-center min-w-0 gap-2 transition-all duration-200 ease-in-out border-0 rounded-lg outline-1 outline disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50',
@@ -152,7 +154,7 @@ const linkButtonClasses = computed(() => {
       'flex-row-reverse': trailingIcon && !isIconOnly,
     }"
   >
-    <slot v-if="icon && !isLoading" name="icon">
+    <slot v-if="(icon || $slots.icon) && !isLoading" name="icon">
       <Icon :icon="icon" class="flex-shrink-0" />
     </slot>
 
