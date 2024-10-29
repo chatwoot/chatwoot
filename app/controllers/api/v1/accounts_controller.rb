@@ -56,6 +56,10 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
+  def conversation_contact_types
+    render json: { contact_types: @account.conversation_contact_types }, status: :ok
+  end
+
   private
 
   def ensure_account_name

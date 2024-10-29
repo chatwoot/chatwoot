@@ -8,14 +8,16 @@ RSpec.describe ChatwootMarkdownRenderer do
   let(:markdown_renderer) { instance_double(CustomMarkdownRenderer) }
   let(:base_markdown_renderer) { instance_double(BaseMarkdownRenderer) }
   let(:html_content) { '<p>This is a <em>test</em> content with <sup>markdown</sup></p>' }
+  let(:render_type) { :DEFAULT }
 
   before do
-    allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT).and_return(doc)
+    allow(CommonMarker).to receive(:render_doc).with(markdown_content, render_type).and_return(doc)
     allow(CustomMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
     allow(markdown_renderer).to receive(:render).with(doc).and_return(html_content)
   end
 
   describe '#render_article' do
+    let(:render_type) { :UNSAFE }
     let(:rendered_content) { renderer.render_article }
 
     it 'renders the markdown content to html' do
@@ -32,7 +34,7 @@ RSpec.describe ChatwootMarkdownRenderer do
     let(:rendered_message) { renderer.render_message }
 
     before do
-      allow(CommonMarker).to receive(:render_html).with(markdown_content).and_return(message_html_content)
+      allow(CommonMarker).to receive(:render_html).with(markdown_content, :DEFAULT).and_return(message_html_content)
       allow(BaseMarkdownRenderer).to receive(:new).and_return(base_markdown_renderer)
       allow(base_markdown_renderer).to receive(:render).with(doc).and_return(message_html_content)
     end

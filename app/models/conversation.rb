@@ -95,7 +95,7 @@ class Conversation < ApplicationRecord
   }
 
   scope :filter_by_label, lambda { |selected_label|
-    where(cached_label_list: selected_label) if selected_label.present?
+    tagged_with(selected_label) if selected_label.present?
   }
 
   scope :filter_by_team, lambda { |selected_team|
@@ -261,7 +261,7 @@ class Conversation < ApplicationRecord
     create_activity
     notify_conversation_updation
     send_csat_survey_email
-    contact_kind_changed_callback
+    contact_type_changed_callback
     log_handled_by_tag_change
   end
 
@@ -281,14 +281,14 @@ class Conversation < ApplicationRecord
     ConversationHandledByTag.create(conversation_id: id, handled_by: handled_by, user_id: Current.user&.id)
   end
 
-  def contact_kind_changed_callback
+  def contact_type_changed_callback
     return unless account.feature_enabled?('required_contact_type')
     return unless saved_change_to_custom_attributes?
 
     before_changes, after_changes = saved_change_to_custom_attributes
-    return if before_changes['contact_type'] == after_changes['contact_type']
+    return if before_changes[CustomAttributeDefinition::CONTACT_TYPE] == after_changes[CustomAttributeDefinition::CONTACT_TYPE]
 
-    Digitaltolk::ChangeContactKindService.new(account, self, nil, after_changes['contact_type']).perform
+    Digitaltolk::ChangeContactKindService.new(account, self, after_changes[CustomAttributeDefinition::CONTACT_TYPE]).perform
   end
 
   def ensure_snooze_until_reset
@@ -326,7 +326,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-       priority handled_by]
+       priority handled_by contact_kind]
   end
 
   def allowed_keys?

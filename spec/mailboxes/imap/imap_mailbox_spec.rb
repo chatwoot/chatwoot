@@ -194,7 +194,6 @@ RSpec.describe Imap::ImapMailbox do
         expect(references_same_email.mail.references).to include('test-reference-id')
       end
 
-
       it 'append email to conversation with reference id string' do
         inbox = Inbox.last
         message = create(

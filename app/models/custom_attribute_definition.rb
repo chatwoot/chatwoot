@@ -22,7 +22,10 @@
 #  index_custom_attribute_definitions_on_account_id  (account_id)
 #
 class CustomAttributeDefinition < ApplicationRecord
+  CONTACT_TYPE = 'contact_type'.freeze
+
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
+  scope :attribute_key_contact_type , -> { where(attribute_key: CONTACT_TYPE) }
   validates :attribute_display_name, presence: true
 
   validates :attribute_key,

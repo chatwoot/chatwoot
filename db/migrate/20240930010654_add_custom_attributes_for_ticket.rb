@@ -42,11 +42,11 @@ class AddCustomAttributesForTicket < ActiveRecord::Migration[7.0]
           CustomAttributeDefinition.create(cad2_definition)
         end
 
-        cad3 = CustomAttributeDefinition.find_by(attribute_key: 'contact_type')
+        cad3 = CustomAttributeDefinition.find_by(attribute_key: CustomAttributeDefinition::CONTACT_TYPE)
 
         cad3_definition = {
           attribute_display_name: "Contact Type",
-          attribute_key: "contact_type",
+          attribute_key: CustomAttributeDefinition::CONTACT_TYPE,
           attribute_display_type: "list",
           default_value: nil,
           attribute_model: "conversation_attribute",

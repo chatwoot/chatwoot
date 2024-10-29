@@ -26,4 +26,8 @@ class AccountPolicy < ApplicationPolicy
   def checkout?
     @account_user.administrator?
   end
+
+  def contact_types?
+    @account_user.administrator?
+  end
 end

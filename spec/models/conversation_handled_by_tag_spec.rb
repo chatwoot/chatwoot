@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ConversationHandledByTag, type: :model do
-
   describe 'Associations' do
     it { is_expected.to belong_to(:conversation) }
     it { is_expected.to belong_to(:user).optional }

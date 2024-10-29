@@ -229,7 +229,7 @@ RSpec.describe Conversation do
       expect(conversation.conversation_handled_by_tags.count).to eq(1)
       conversation.update(handled_by: 'human_agent')
       expect(conversation.conversation_handled_by_tags.count).to eq(2)
-      expect(conversation.conversation_handled_by_tags.pluck(:handled_by)).to eq(['autopilot', 'human_agent'])
+      expect(conversation.conversation_handled_by_tags.pluck(:handled_by)).to eq(%w[autopilot human_agent])
     end
   end
 

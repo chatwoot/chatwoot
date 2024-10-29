@@ -113,7 +113,7 @@ describe Digitaltolk::SendEmailTicketService do
       end
 
       it 'does not update existing contact customer id' do
-        contact = create(:contact, email: email, custom_attributes: {customer_id: '321'})
+        contact = create(:contact, email: email, custom_attributes: { customer_id: '321' })
         create(:conversation, contact: contact, inbox: inbox, custom_attributes: { booking_id: booking_id })
 
         result = service.perform

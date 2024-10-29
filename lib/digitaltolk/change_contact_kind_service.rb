@@ -1,63 +1,66 @@
-module Digitaltolk
-  class ChangeContactKindService
-    KIND_LABELS = {
-      1 => 'tolk_contact',
-      2 => 'kund_contact',
-      3 => 'översättare_contact',
-      4 => 'anställd_contact',
-      5 => 'övrigt_contact'
-    }
+class Digitaltolk::ChangeContactKindService
+  KIND_LABELS = {
+    1 => 'tolk_contact',
+    2 => 'kund_contact',
+    3 => 'översättare_contact',
+    4 => 'anställd_contact',
+    5 => 'övrigt_contact'
+  }.freeze
 
-    def initialize(account, conversation, contact_kind, contact_kind_string = '')
-      @account = account
-      @conversation = conversation
-      @contact_kind = contact_kind
-      @contact_kind_string = contact_kind_string
-      convert_contact_kind_string_to_integer
-    end
+  def initialize(account, conversation, contact_kind)
+    @account = account
+    @conversation = conversation
+    @contact_kind = contact_kind.to_i
 
-    def perform
-      return false unless @contact_kind.present?
+    return unless @contact_kind.zero? && contact_kind.is_a?(String)
 
-      set_custom_atributes
-      toggle_contact_kind
-      toggle_contact_kind_labels
-    end
+    @contact_kind_string = contact_kind
+    convert_contact_kind_string_to_integer
+  end
 
-    private
+  def perform
+    return false if @contact_kind.blank?
 
-    def convert_contact_kind_string_to_integer
-      return unless @contact_kind_string.present?
+    set_custom_attributes
+    toggle_contact_kind
+    toggle_contact_kind_labels
+    true
+  end
 
-      key = [@contact_kind_string.downcase, 'contact'].join('_')
-      @contact_kind = KIND_LABELS.key(key)
-    end
+  private
 
-    def toggle_contact_kind_labels
-      return unless @account.feature_enabled?('required_contact_type')
-      return if @contact_kind.blank?
+  def convert_contact_kind_string_to_integer
+    return if @contact_kind_string.blank?
 
-      updated_labels = (@conversation.cached_label_list_array - KIND_LABELS.values + [KIND_LABELS[@contact_kind]]).uniq
-      @conversation.update_labels(updated_labels)
-    end
+    key = if @contact_kind_string.downcase.in?(KIND_LABELS.values)
+            @contact_kind_string = @contact_kind_string.downcase
+          else
+            [@contact_kind_string.downcase, 'contact'].join('_')
+          end
 
-    def toggle_contact_kind
-      @conversation.update!(contact_kind: @contact_kind)
-    end
+    @contact_kind = KIND_LABELS.key(key)
+  end
 
-    def set_custom_atributes
-      if @contact_kind.present? && equivalent_label.present?
-        attrs = @conversation.custom_attributes || {}
-        attrs['contact_type'] = equivalent_label
+  def toggle_contact_kind_labels
+    return unless @account.feature_enabled?('required_contact_type')
+    return if @contact_kind.blank?
 
-        @conversation.update_column(:custom_attributes, attrs)
-      end
-    end
+    updated_labels = (@conversation.cached_label_list_array - KIND_LABELS.values + [KIND_LABELS[@contact_kind]]).uniq
+    @conversation.update_labels(updated_labels)
+  end
 
-    def equivalent_label
-      return unless @contact_kind.present?
+  def toggle_contact_kind
+    @conversation.update!(contact_kind: @contact_kind)
+  end
 
-      KIND_LABELS[@contact_kind].to_s.split('_').first&.capitalize
-    end
+  def set_custom_attributes
+    attrib = equivalent_attrib.presence || @contact_kind_string
+    Digitaltolk::ChangeContactTypeCustomAttributesService.new(@conversation, attrib).perform
+  end
+
+  def equivalent_attrib
+    return if @contact_kind.blank?
+
+    KIND_LABELS[@contact_kind].to_s.split('_').first&.capitalize
   end
 end

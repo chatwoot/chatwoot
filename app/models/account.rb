@@ -127,6 +127,10 @@ class Account < ApplicationRecord
     }
   end
 
+  def conversation_contact_types
+    custom_attribute_definitions.conversation_attribute.attribute_key_contact_type.first&.attribute_values.to_a
+  end
+
   private
 
   def notify_creation
