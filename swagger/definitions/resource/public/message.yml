@@ -1,0 +1,38 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Id of the message
+  content:
+    type: string
+    description: Text content of the message
+  message_type:
+    type: string
+    description: Denotes the message type
+  content_type:
+    type: string
+    description: Content type of the message
+  content_attributes:
+    type: string
+    description: Additional content attributes of the message
+  created_at:
+    type: string
+    description: Created at time stamp of the message
+  conversation_id:
+    type: string
+    description: Conversation Id of the message
+  attachments:
+    type: array
+    items:
+      type: object
+    description: Attachments if any
+  sender:
+    type: object
+    description: Details of the sender
+
+
+
+
+
+
+

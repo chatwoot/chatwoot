@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Create an account",
+    "TITLE": "สร้างบัญชี",
+    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Company name is too short."
+    },
+    "FULL_NAME": {
+      "LABEL": "ชื่อเต็ม",
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "ชื่อเต็มสั้นเกินไป."
+    },
+    "EMAIL": {
+      "LABEL": "อีเมลบริษัท",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Please enter a valid work email address."
+    },
+    "PASSWORD": {
+      "LABEL": "หรัสผ่าน",
+      "PLACEHOLDER": "หรัสผ่าน",
+      "ERROR": "หรัสผ่านนั้นสั้นเกินไป.",
+      "IS_INVALID_PASSWORD": "รหัสผ่านต้องมีอย่างน้อย 1 ตัวอักษรภาษาอังกฤษพิมพ์เล็ก, 1 ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่, 1 ตัวเลข และอักขระพิเศษ 1 ตัว."
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "รหัสผ่านไม่เหมือนกัน."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "ลงทะเบียนสำเร็จแล้ว",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+    },
+    "SUBMIT": "Create account",
+    "HAVE_AN_ACCOUNT": "มีบัญชีอยู่แล้ว?"
+  }
+}

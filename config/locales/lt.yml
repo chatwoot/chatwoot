@@ -1,0 +1,283 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+lt:
+  hello: "Labas pasauli"
+  messages:
+    reset_password_success: Kietai! Slaptažodžio nustatymo iš naujo užklausa įvykdyta. Instrukcijų ieškokite savo pašte.
+    reset_password_failure: Oho! Nepavyko rasti vartotojo su nurodytu el. pašto adresu.
+    inbox_deletetion_response: Jūsų gautųj laiškų aplanko ištrynimo užklausa bus apdorota po kurio laiko.
+  errors:
+    validations:
+      presence: neturi būti tuščias
+    webhook:
+      invalid: Netinkami įvykiai
+    signup:
+      disposable_email: Neleidžiame naudoti vienkartinių el. laiškų
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Įvedėte neteisingą el. pašto adresą
+      email_already_exists: "Jūs jau užregistravote paskyrą su %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
+      failed: Prisijungimas nesėkmingas
+    data_import:
+      data_type:
+        invalid: Neteisingas duomenų tipas
+    contacts:
+      import:
+        failed: Failas yra tuščias
+      export:
+        success: Mes jums pranešime, kai kontaktų eksporto failas bus paruoštas peržiūrėti.
+      email:
+        invalid: Neteisingas el. paštas
+      phone_number:
+        invalid: turėtų būti e164 formato
+    categories:
+      locale:
+        unique: turėtų būti unikalūs kategorijoje ir portale
+    dyte:
+      invalid_message_type: "Neteisingas pranešimo tipas. Veiksmas neleidžiamas"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
+    inboxes:
+      imap:
+        socket_error: Patikrinkite tinklo sujungimus, IMAP adresą ir bandykite dar kartą.
+        no_response_error: Patikrinkite IMAP prisijungimo duomenis ir bandykite dar kartą.
+        host_unreachable_error: Kompiuteris nepasiekiamas. Patikrinkite IMAP adresą, IMAP prievadą ir bandykite dar kartą.
+        connection_timed_out_error: Baigėsi %{address}:%{port} sujungimo laukimo laikas
+        connection_closed_error: Sujungimas uždarytas.
+      validations:
+        name: neturėtų prasidėti ar baigtis simboliais ir jame neturėtų būti simbolių < > / \ @.
+    custom_filters:
+      number_of_records: Pasiekta riba. Didžiausias leistinas personalizuotų filtrų skaičius vienam vartotojui yra 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+  reports:
+    period: Ataskaitinis laikotarpis nuo %{since} iki %{until}
+    utc_warning: Sugeneruota ataskaita yra UTC laiko juostoje
+    agent_csv:
+      agent_name: Agento Vardas
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Sprendimų skaičius
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Gautų laiškų aplanko pavadinimas
+      inbox_type: Gautų laiškų aplanko tipas
+      conversations_count: Pokalbių kiekis
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    label_csv:
+      label_title: Etiketė
+      conversations_count: Pokalbių kiekis
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    team_csv:
+      team_name: Komandos pavadinimas
+      conversations_count: Pokalbių skaičius
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Sprendimų skaičius
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Laiko zona
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Komanda
+      inbox: Gautų laiškų aplankas
+      labels: Etiketės
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
+    default_group_by: diena
+    csat:
+      headers:
+        contact_name: Kontakto Vardas
+        contact_email_address: Kontakto El. pašto Adresas
+        contact_phone_number: Kontaktinis Telefonas
+        link_to_the_conversation: Nuoroda į pokalbį
+        agent_name: Agento Vardas
+        rating: Reitingas
+        feedback: Atsiliepimų komentaras
+        recorded_at: Įrašo data
+  notifications:
+    notification_title:
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} paminėjo jus pasakojime: "
+      instagram_deleted_story_content: Šis pasakojimas nebepasiekiamas.
+      deleted: Šis pranešimas buvo ištrintas
+      delivery_status:
+        error_code: "Klaidos kodas: %{error_code}"
+    activity:
+      status:
+        resolved: "Pokalbį pažymėjo %{user_name} kaip baigtą"
+        contact_resolved: "Pokalbį užbaigė %{contact_name}"
+        open: "Pokalbį iš naujo pradėjo %{user_name}"
+        pending: "Pokalbį pažymėjo %{user_name} kaip laukiantį"
+        snoozed: "Pokalbį atidėjo %{user_name}"
+        auto_resolved: "Sistema pokalbį pažymėjo kaip baigtą dėl %{duration} neaktyvumo dienų"
+        system_auto_open: Sistema vėl atidarė pokalbį dėl naujo gaunamo pranešimo.
+      priority:
+        added: '%{user_name} nustatė prioritetą į %{new_priority}'
+        updated: '%{user_name} pakeitė prioritetą iš %{old_priority} į %{new_priority}'
+        removed: '%{user_name} pašalino prioritetą'
+      assignee:
+        self_assigned: "%{user_name} sau priskyrė šį pokalbį"
+        assigned: "%{user_name} priskyrė %{assignee_name}"
+        removed: "%{user_name} atšaukė pokalbio priskyrimą"
+      team:
+        assigned: "%{user_name} priskyrė %{team_name}"
+        assigned_with_assignee: "%{user_name} priskyrė %{assignee_name} per %{team_name}"
+        removed: "%{user_name} atšauktas iš %{team_name}"
+      labels:
+        added: "%{user_name} pridėjo %{labels}"
+        removed: "%{user_name} pašalino %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
+      muted: "%{user_name} nutildė pokalbį"
+      unmuted: "%{user_name} įjungė pokalbio garsą"
+    templates:
+      greeting_message_body: "%{account_name} paprastai atsako per kelias valandas."
+      ways_to_reach_you_message_body: "Suteikite komandai būdą, kaip su jumis susisiekti."
+      email_input_box_message_body: "Gaukite perspėjimą el. paštu"
+      csat_input_message_body: "Prašome įvertinti pokalbį"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} nuo %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} nuo %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} nuo %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} nuo %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Nauji pranešimai šiame pokalbyje"
+      transcript_subject: "Poklabio stenograma"
+    survey:
+      response: "Prašome įvertinti pokalbį, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} yra prisijungęs, pabandykite dar kartą vėliau"
+  integration_apps:
+    dashboard_apps:
+      name: "Informacinio skydelio programos"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} pradėjo susitikimą"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhook"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Translate"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Ieškokite straipsnio pagal pavadinimą arba turinį...
+      empty_placeholder: Nieko nerasta.
+      loading_placeholder: Ieškoma...
+      results_title: Paieškos rezultatai
+    toc_header: 'Šitame puslapyje'
+    hero:
+      sub_title: Ieškokite straipsnių čia arba naršykite toliau pateiktose kategorijose.
+    common:
+      home: Pagrindinis
+      last_updated_on: Paskutinį kartą atnaujinta %{last_updated_on}
+      view_all_articles: Peržiūrėti visus
+      article: straipsnis
+      articles: straipsniai
+      author: autorius
+      authors: autoriai
+      other: kitas
+      others: kiti
+      by: Autorius
+      no_articles: Čia nėra straipsnių
+    footer:
+      made_with: Padaryta su
+    header:
+      go_to_homepage: Internetinis puslapis
+      appearance:
+        system: Sistema
+        light: Šviesus
+        dark: Tamsus
+      featured_articles: Featured Articles
+      uncategorized: Neįtraukta į kategorijas
+    404:
+      title: Puslapis nerastas
+      description: We couldn't find the page you were looking for.
+      back_to_home: Eikite į pradinį puslapį
+  slack_unfurl:
+    fields:
+      name: Vardas
+      email: El. paštas
+      phone_number: Telefono Nr.
+      company_name: Įmonė
+      inbox_name: Gautų laiškų aplankas
+      inbox_type: Gautų laiškų aplanko tipas
+    button: Atidaryti pokalbį
+  time_units:
+    days:
+      one: "%{count} day"
+      few: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      few: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      few: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      few: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"

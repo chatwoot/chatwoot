@@ -1,0 +1,300 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Entegrasyonlar",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "İptal Et",
+        "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Olaylar",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
+            "CONVERSATION_STATUS_CHANGED": "Görüşme Durumu Değişti",
+            "CONVERSATION_UPDATED": "Görüşme Güncellendi",
+            "MESSAGE_CREATED": "Mesaj Oluşturuldu",
+            "MESSAGE_UPDATED": "Mesaj Güncellendi",
+            "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
+            "CONTACT_CREATED": "Kişi Oluşturuldu",
+            "CONTACT_UPDATED": "Kişi Güncellendi"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Web kancası URL'si",
+          "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
+          "ERROR": "Lütfen geçerli bir adres girin"
+        },
+        "EDIT_SUBMIT": "Web kancasını güncelle",
+        "ADD_SUBMIT": "Web kancası oluştur"
+      },
+      "TITLE": "Web Kancası",
+      "CONFIGURE": "Yapılandır",
+      "HEADER": "Web Kancası Ayarları",
+      "HEADER_BTN_TXT": "Yeni Web Kancası Ekle",
+      "LOADING": "Ekli web kancaları getiriliyor",
+      "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+      "SIDEBAR_TXT": "<p> <b> Web Kancaları </b> </p> <p> Web Kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla web kancası oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni Web Kancası Ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
+      "LIST": {
+        "404": "Bu hesap için yapılandırılmış web kancası yok.",
+        "TITLE": "Web Kancalarını Yönet",
+        "TABLE_HEADER": ["Web Kancası Uç Noktası", "Hareketler"]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Düzenle",
+        "TITLE": "Web Kancasını Düzenle",
+        "API": {
+          "SUCCESS_MESSAGE": "Web Kancası yapılandırması başarıyla güncellendi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        }
+      },
+      "ADD": {
+        "CANCEL": "İptal Et",
+        "TITLE": "Yeni Web Kancası Ekle",
+        "API": {
+          "SUCCESS_MESSAGE": "Web Kancası yapılandırması başarıyla eklendi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Sil",
+        "API": {
+          "SUCCESS_MESSAGE": "Web Kancası başarıyla silindi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        },
+        "CONFIRM": {
+          "TITLE": "Silmeyi Onayla",
+          "MESSAGE": "Web Kancasını silmek istediğinizden emin misiniz? ({webhookURL})",
+          "YES": "Evet, Sil ",
+          "NO": "Hayır, Kalsın"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Sil",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Entegrasyonu Sil",
+        "MESSAGE": "Entegrasyonu silmek istediğinizden emin misiniz? Bu işlem, Slack iş alanınızdaki konuşmalara erişim kaybına neden olacaktır."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Slack Entegrasyonu Kullanımı",
+        "BODY": "<br/><p>Chatwoot artık tüm gelen konuşmaları Slack iş alanınız içindeki <b><i>customer-conversations</i></b> kanalına senkronize edecektir.</p><p><b><i>customer-conversations</i></b> slack kanalındaki bir konuşma başlığına yanıt vermek, bir yanıtı müşteriye geri bildirerek Chatwoot üzerinden yapacaktır.</p><p>Cevaplamaya başlamadan önce <b><i>note:</i></b> ile başlarsanız, yanıtlar yerine özel notlar oluşturabilirsiniz.</p><p>Slack'teki yanıtlayıcının, aynı e-posta altında Chatwoot'ta bir temsilci profiline sahip olması durumunda yanıtlar buna göre ilişkilendirilecektir.</p><p>Yanıtlayıcının ilişkilendirilmiş bir temsilci profili olmadığında yanıtlar bot profili üzerinden yapılacaktır.</p>",
+        "SELECTED": "seçili"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Bir kanal seçin",
+        "UPDATE": "Güncelleme",
+        "BUTTON_TEXT": "Kanalı Bağla",
+        "DESCRIPTION": "Slack iş alanınız şimdi Chatwoot ile bağlantılı. Ancak entegrasyon şu anda etkin değil. Entegrasyonu etkinleştirmek ve bir kanalı Chatwoot'a bağlamak için lütfen aşağıdaki düğmeye tıklayın.\n\n**Not:** Eğer özel bir kanal bağlamaya çalışıyorsanız, bu adımdan önce Slack kanalına Chatwoot uygulamasını ekleyin.",
+        "ATTENTION_REQUIRED": "Dikkat gerekiyor",
+        "EXPIRED": "Slack entegrasyonunuz süresi dolmuştur. Slack üzerinde mesaj almaya devam etmek için lütfen entegrasyonu silip iş alanınızı tekrar bağlayın."
+      },
+      "UPDATE_ERROR": "Entegrasyonu güncelleme hatası oluştu, lütfen tekrar deneyin",
+      "UPDATE_SUCCESS": "Kanal başarıyla bağlandı",
+      "FAILED_TO_FETCH_CHANNELS": "Slack'ten kanallar alınırken bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Katılmak için buraya tıkla",
+      "LEAVE_THE_ROOM": "Odadan Ayrıl",
+      "START_VIDEO_CALL_HELP_TEXT": "Müşteri ile yeni bir video görüşmesi başlatın",
+      "JOIN_ERROR": "Aramaya katılırken bir hata oluştu, lütfen tekrar deneyin",
+      "CREATE_ERROR": "Toplantı bağlantısı oluşturulurken bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Yardımı",
+      "WITH_AI": "AI ile {option} ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Yanıt Önerisi",
+        "SUMMARIZE": "Özetle",
+        "REPHRASE": "Yazımı İyileştir",
+        "FIX_SPELLING_GRAMMAR": "Yazım ve Dilbilgisini Düzelt",
+        "SHORTEN": "Kısalt",
+        "EXPAND": "Genişlet",
+        "MAKE_FRIENDLY": "Mesaj tonunu dostça yap",
+        "MAKE_FORMAL": "Resmi ton kullan",
+        "SIMPLIFY": "Basitleştir"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Taslak içeriği",
+        "GENERATED_TITLE": "Oluşturulan içerik",
+        "AI_WRITING": "AI yazıyor",
+        "BUTTONS": {
+          "APPLY": "Bu öneriyi kullan",
+          "CANCEL": "İptal Et"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "OpenAI ile Entegre Olun",
+        "DESC": "OpenAI'nın GPT modelleri ile panonuza gelişmiş AI özellikleri getirin. Başlamak için OpenAI hesabınızdan API anahtarını girin.",
+        "KEY_PLACEHOLDER": "OpenAI API anahtarınızı girin",
+        "BUTTONS": {
+          "NEED_HELP": "Yardıma mı ihtiyacınız var?",
+          "DISMISS": "Kapat",
+          "FINISH": "Kurulumu Tamamla"
+        },
+        "DISMISS_MESSAGE": "OpenAI entegrasyonunu daha sonra istediğiniz zaman kurabilirsiniz.",
+        "SUCCESS_MESSAGE": "OpenAI entegrasyonu başarıyla kuruldu"
+      },
+      "TITLE": "AI ile İyileştir",
+      "SUMMARY_TITLE": "AI ile Özetle",
+      "REPLY_TITLE": "AI ile Yanıt Önerisi",
+      "SUBTITLE": "Mevcut taslağınıza dayanarak AI tarafından geliştirilmiş bir yanıt oluşturulacaktır.",
+      "TONE": {
+        "TITLE": "Ton",
+        "OPTIONS": {
+          "PROFESSIONAL": "Profesyonel",
+          "FRIENDLY": "Dostça"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Oluştur",
+        "GENERATING": "Oluşturuluyor...",
+        "CANCEL": "İptal Et"
+      },
+      "GENERATE_ERROR": "İçerik işlenirken bir hata oluştu, lütfen tekrar deneyin"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Entegrasyon başarıyla silindi"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Bağlan"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Panel Uygulamaları",
+      "HEADER_BTN_TXT": "Yeni bir panel uygulaması ekle",
+      "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı Chatwoot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>Chatwoot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
+      "DESCRIPTION": "Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı panel içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LIST": {
+        "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",
+        "LOADING": "Panel uygulamaları alınıyor...",
+        "TABLE_HEADER": ["İsim", "Endpoint"],
+        "EDIT_TOOLTIP": "Uygulamayı Düzenle",
+        "DELETE_TOOLTIP": "Uygulamayı Sil"
+      },
+      "FORM": {
+        "TITLE_LABEL": "İsim",
+        "TITLE_PLACEHOLDER": "Panel uygulamanız için bir isim girin",
+        "TITLE_ERROR": "Panel uygulaması için bir isim gereklidir",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Uygulamanızın barındırıldığı endpoint URL'sini girin",
+        "URL_ERROR": "Geçerli bir URL gereklidir"
+      },
+      "CREATE": {
+        "HEADER": "Yeni bir panel uygulaması ekle",
+        "FORM_SUBMIT": "Gönder",
+        "FORM_CANCEL": "İptal Et",
+        "API_SUCCESS": "Panel uygulaması başarıyla yapılandırıldı",
+        "API_ERROR": "Uygulama oluşturamadık. Lütfen daha sonra tekrar deneyin"
+      },
+      "UPDATE": {
+        "HEADER": "Panel uygulamasını düzenle",
+        "FORM_SUBMIT": "Güncelle",
+        "FORM_CANCEL": "İptal Et",
+        "API_SUCCESS": "Panel uygulaması başarıyla güncellendi",
+        "API_ERROR": "Uygulamayı güncelleyemedik. Lütfen daha sonra tekrar deneyin"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Evet, sil",
+        "CONFIRM_NO": "Hayır, sakla",
+        "TITLE": "Silme işlemini onayla",
+        "MESSAGE": "Uygulamayı silmek istediğinizden emin misiniz - {appName}?",
+        "API_SUCCESS": "Panel uygulaması başarıyla silindi",
+        "API_ERROR": "Uygulamayı silemedik. Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Yarat",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Bağlantı",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Başlık",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Başlık gerekli"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Açıklama",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Ekip",
+            "PLACEHOLDER": "Takım seçin",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Öncelik",
+            "PLACEHOLDER": "Öncelik seçin",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Etiket",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Durum",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Yarat",
+        "CANCEL": "İptal Et",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Durum",
+        "PRIORITY": "Öncelik",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Etiketler",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
+    }
+  }
+}

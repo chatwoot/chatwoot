@@ -1,0 +1,69 @@
+.tabs--container {
+  @apply flex;
+}
+
+.tabs--container--with-border {
+  @apply border-b border-slate-50 dark:border-slate-800/50;
+}
+
+.tabs {
+  @apply border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4 list-none mb-0;
+}
+
+.tabs--with-scroll {
+  @apply overflow-hidden py-0 px-1;
+  max-width: calc(100% - 64px);
+}
+
+.tabs--scroll-button {
+  @apply items-center rounded-none cursor-pointer flex h-auto justify-center min-w-[2rem];
+}
+
+// Tab chat type
+.tab--chat-type {
+  @apply flex;
+
+  .tabs-title {
+    a {
+      @apply text-base font-medium py-3;
+    }
+  }
+}
+
+.tabs-title {
+  @apply flex-shrink-0 my-0 mx-2;
+
+  .badge {
+    @apply bg-slate-50 dark:bg-slate-800 rounded-md text-slate-600 dark:text-slate-100 h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0;
+  }
+
+  &:first-child {
+    @apply ml-0;
+  }
+
+  &:last-child {
+    @apply mr-0;
+  }
+
+  &:hover,
+  &:focus {
+    a {
+      @apply text-slate-800 dark:text-slate-100;
+    }
+  }
+
+  a {
+    @apply flex items-center flex-row border-b py-2.5 select-none cursor-pointer border-transparent text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
+    transition: border-color 0.15s $swift-ease-out-function;
+  }
+
+  &.is-active {
+    a {
+      @apply border-b border-woot-500 text-woot-500 dark:text-woot-500;
+    }
+
+    .badge {
+      @apply bg-woot-50 dark:bg-woot-500 text-woot-500 dark:text-woot-50 dark:bg-opacity-40;
+    }
+  }
+}

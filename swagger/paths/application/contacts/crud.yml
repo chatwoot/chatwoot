@@ -1,0 +1,58 @@
+parameters:
+  - $ref: '#/parameters/account_id'
+  - name: id
+    in: path
+    type: number
+    description: ID of the contact
+    required: true
+
+get:
+  tags:
+    - Contacts
+  operationId: contactDetails
+  summary: Show Contact
+  description: Get a contact belonging to the account using ID
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/extended_contact'
+    404:
+      description: Contact not found
+    403:
+      description: Access denied
+
+put:
+  tags:
+    - Contacts
+  operationId: contactUpdate
+  summary: Update Contact
+  description: Update a contact belonging to the account using ID
+  parameters:
+    - name: data
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/contact_update'
+  responses:
+    204:
+      description: Success
+      schema:
+        $ref: '#/definitions/contact_base'
+    404:
+      description: Contact not found
+    403:
+      description: Access denied
+
+delete:
+  tags:
+    - Contacts
+  operationId: contactDelete
+  summary: Delete Contact
+  responses:
+    200:
+      description: Success
+    401:
+      description: Unauthorized
+    404:
+      description: Contact not found

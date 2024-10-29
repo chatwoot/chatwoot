@@ -1,0 +1,275 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+hu:
+  hello: "Szia világ"
+  messages:
+    reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
+    reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
+    inbox_deletetion_response: A beérkező üzeneteid törlésére vonatkozó kérésed nem sokára feldolgozásra kerül.
+  errors:
+    validations:
+      presence: nem lehet üres
+    webhook:
+      invalid: Invalid események
+    signup:
+      disposable_email: Nem támogatjuk az eldobható e-mailcímeket
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Hibás e-mailcímet adtál meg
+      email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
+      failed: Feliratkozás sikertelen
+    data_import:
+      data_type:
+        invalid: Hibás adattípus
+    contacts:
+      import:
+        failed: A fájl üres
+      export:
+        success: Értesíteni fogunk, amikor elkészül a kontakt export fájl.
+      email:
+        invalid: Hibás email
+      phone_number:
+        invalid: e164 formátumban kell megadni
+    categories:
+      locale:
+        unique: egyedinek kell lennie a kategóriában a portálon
+    dyte:
+      invalid_message_type: "Hibás üzenet típus. Kérés elutasítva"
+    slack:
+      invalid_channel_id: "Érvénytelen Slack csatorna. Kérjük, próbálja újra"
+    inboxes:
+      imap:
+        socket_error: Kérlek ellenőrizd a hálózati kapcsolatot, az IMAP címet, majd próbáld újra.
+        no_response_error: Kérlek ellenőrizd az IMAP kapcsolódási adatokat, és próbáld újra.
+        host_unreachable_error: A host nem érhető el, kérlek ellenőrizd az IMAP címet és portot, majd próbáld újra.
+        connection_timed_out_error: A kapcsolódás timeoutolt a %{address}:%{port}-n
+        connection_closed_error: Kapcsolódás bezárva.
+      validations:
+        name: nem kezdődhet vagy végződhet szimbólummal, és nem tartalmazhat < > / \ @ karaktereket.
+    custom_filters:
+      number_of_records: Limit túllépve. Maximum 50 speciális szűrőt használhat egy fiók.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+  reports:
+    period: Jelentési időszak %{since}-tól %{until}-ig
+    utc_warning: A generált riport UTC időzónát használ
+    agent_csv:
+      agent_name: Ügynök neve
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Megoldások száma
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Fiók név
+      inbox_type: Fiók típus
+      conversations_count: Beszélgetések száma
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    label_csv:
+      label_title: Cimke
+      conversations_count: Beszélgetések száma
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    team_csv:
+      team_name: Csapatnév
+      conversations_count: Beszélgetésszám
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Megoldások száma
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Időzóna
+    sla_csv:
+      conversation_id: Beszélgetés azonosítója
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Csapat
+      inbox: Fiók
+      labels: Cimkék
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
+    default_group_by: nap
+    csat:
+      headers:
+        contact_name: Kontakt neve
+        contact_email_address: Kontakt email címe
+        contact_phone_number: Kontakt telefonszáma
+        link_to_the_conversation: Beszélgetés linkje
+        agent_name: Ügynök neve
+        rating: Értékelés
+        feedback: Visszajelző komment
+        recorded_at: Felvétel időpontja
+  notifications:
+    notification_title:
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} megemlített egy storyban: "
+      instagram_deleted_story_content: Ez a story már nem érhető el.
+      deleted: Az üzenet törölve lett
+      delivery_status:
+        error_code: "Hibakód: %{error_code}"
+    activity:
+      status:
+        resolved: "A beszélgetést lezárta %{user_name}"
+        contact_resolved: "A beszélgetést megoldottra állította: %{contact_name}"
+        open: "A beszélgetést újranyitotta %{user_name}"
+        pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
+        snoozed: "A beszélgetést %{user_name} elnémította"
+        auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
+        system_auto_open: A rendszer újranyitotta a beszélgetést egy új bejövő üzenet miatt.
+      priority:
+        added: '%{user_name} beállította a prioritást erre: %{new_priority}'
+        updated: '%{user_name} módosította a prioritást: %{old_priority} -> %{new_priority}'
+        removed: '%{user_name} eltávolított a prioritást'
+      assignee:
+        self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
+        assigned: "%{user_name} ráosztotta a beszélgetést: %{assignee_name}"
+        removed: "A beszélgetést gazdátlanná tette %{user_name}"
+      team:
+        assigned: "%{user_name} ráosztotta a beszélgetést: %{team_name}"
+        assigned_with_assignee: "Hozzárendelve ehhez: %{assignee_name} ezen csoportból %{team_name} általa: %{user_name}"
+        removed: "Hozzárendelés megszüntetve: %{team_name} általa: %{user_name}"
+      labels:
+        added: "%{user_name} a következő cimkéket adta hozzá: %{labels}"
+        removed: "%{user_name} leszedte a következő cimkéket %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
+      muted: "%{user_name} elnémította a beszélgetést"
+      unmuted: "%{user_name} kikapcsolta a beszélgetés elnémítását"
+    templates:
+      greeting_message_body: "%{account_name} általában néhány órán belül válaszol."
+      ways_to_reach_you_message_body: "Adj egy elérhetőséget hogy megkereshessenek."
+      email_input_box_message_body: "E-mail értesítés kérése"
+      csat_input_message_body: "Kérlek értékeld a beszélgetést"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} innen %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} innen %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} innen %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Új üzenet a beszélgetésben"
+      transcript_subject: "Beszélgetés kivonat"
+    survey:
+      response: "Kérlek értékeld a beszélgetést, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} elérhető, kérjük, próbálja meg később újra"
+  integration_apps:
+    dashboard_apps:
+      name: "Kezdőlap applikációi"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} megbeszélést kezdett"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhook"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Fordító"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Keress a bejegyzések címében és tartalmában...
+      empty_placeholder: Nincs találat.
+      loading_placeholder: Keresés...
+      results_title: Keresés eredménye
+    toc_header: 'Ezen az oldalon'
+    hero:
+      sub_title: Keress bejegyzéseket, vagy válassz a kategóriákból lejjebb.
+    common:
+      home: Nyitólap
+      last_updated_on: 'Utoljára frissítve: %{last_updated_on}'
+      view_all_articles: Összes megtekintése
+      article: bejegyzés
+      articles: bejegyzések
+      author: szerző
+      authors: szerzők
+      other: egyéb
+      others: egyebek
+      by: Által
+      no_articles: Nincsenek bejegyzések
+    footer:
+      made_with: 'Ezzel készítve: '
+    header:
+      go_to_homepage: Honlap
+      appearance:
+        system: Rendszer
+        light: Világos mód
+        dark: Sötét mód
+      featured_articles: Kiemelt cikkek
+      uncategorized: Kategorizálhatatlan
+    404:
+      title: Az oldal nem található
+      description: Nem találtuk meg a keresett oldalt.
+      back_to_home: Menj a kezdőlapra
+  slack_unfurl:
+    fields:
+      name: Név
+      email: E-mail
+      phone_number: Telefon
+      company_name: Cég
+      inbox_name: Fiók
+      inbox_type: Beérkezett üzenetek típusa
+    button: Beszélgetés megnyitása
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

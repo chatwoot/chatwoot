@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "로그인",
+    "EMAIL": {
+      "LABEL": "이메일",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "올바른 전자 메일 주소를 입력하십시오."
+    },
+    "PASSWORD": {
+      "LABEL": "비밀번호",
+      "PLACEHOLDER": "비밀번호"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "로그인 성공",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요.",
+      "UNAUTH": "이름 또는 비밀번호가 올바르지 않습니다. 다시 시도해 주세요."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "회사 이메일 주소를 사용하여 로그인하세요.",
+      "NO_ACCOUNT_FOUND": "귀하의 이메일 주소로 계정을 찾을 수 없습니다."
+    },
+    "FORGOT_PASSWORD": "암호를 잊으셨나요?",
+    "CREATE_NEW_ACCOUNT": "계정 생성",
+    "SUBMIT": "로그인"
+  }
+}

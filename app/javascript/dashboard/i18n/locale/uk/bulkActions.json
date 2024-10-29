@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "Обрано {conversationCount} розмов",
+    "AGENT_SELECT_LABEL": "Виберіть агента",
+    "ASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {conversationCount} {conversationLabel} до",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете скасувати призначення {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Повернутися назад",
+    "ASSIGN_LABEL": "Призначити",
+    "YES": "Так",
+    "SEARCH_INPUT_PLACEHOLDER": "Пошук",
+    "ASSIGN_AGENT_TOOLTIP": "Призначити агента",
+    "ASSIGN_TEAM_TOOLTIP": "Призначити команду",
+    "ASSIGN_SUCCESFUL": "Розмови успішно призначені.",
+    "ASSIGN_FAILED": "Не вдалося призначити розмови, будь ласка, спробуйте ще раз.",
+    "RESOLVE_SUCCESFUL": "Розмови успішно закриті.",
+    "RESOLVE_FAILED": "Не вдалося закрити розмови, будь ласка, спробуйте ще раз.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Розмови, які відображаються на цій сторінці, обрані.",
+    "AGENT_LIST_LOADING": "Завантаження агентів",
+    "UPDATE": {
+      "CHANGE_STATUS": "Змінити статус",
+      "SNOOZE_UNTIL": "Відкласти",
+      "UPDATE_SUCCESFUL": "Статус розмови успішно оновлено.",
+      "UPDATE_FAILED": "Не вдалося оновити розмови, будь ласка, спробуйте ще раз."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Призначити мітки",
+      "NO_LABELS_FOUND": "Міток не знайдено для",
+      "ASSIGN_SELECTED_LABELS": "Призначити вибрані мітки",
+      "ASSIGN_SUCCESFUL": "Мітки додано успішно.",
+      "ASSIGN_FAILED": "Не вдалося призначити мітки, будь ласка, спробуйте ще раз."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Виберіть команду",
+      "NONE": "Нiчого",
+      "NO_TEAMS_AVAILABLE": "Цей акаунт ще не доданий до жодної команди.",
+      "ASSIGN_SELECTED_TEAMS": "Призначити обрану команду.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Не вдалося призначити команду, будь ласка, спробуйте ще раз."
+    }
+  }
+}

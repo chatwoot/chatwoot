@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profielinstellingen",
+    "TITLE": "Profielinstellingen",
+    "BTN_TEXT": "Profiel bijwerken",
+    "DELETE_AVATAR": "Verwijder avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar succesvol verwijderd",
+    "AVATAR_DELETE_FAILED": "Er is een fout opgetreden bij het verwijderen van de avatar, probeer het opnieuw",
+    "UPDATE_SUCCESS": "Uw profiel is succesvol bijgewerkt",
+    "PASSWORD_UPDATE_SUCCESS": "Uw wachtwoord is succesvol gewijzigd",
+    "AFTER_EMAIL_CHANGED": "Uw profiel is succesvol bijgewerkt. Log opnieuw in als uw inloggegevens zijn gewijzigd",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Profiel afbeelding",
+      "ERROR": "Corrigeer formulierfouten",
+      "REMOVE_IMAGE": "Verwijderen",
+      "UPLOAD_IMAGE": "Afbeelding uploaden",
+      "UPDATE_IMAGE": "Afbeelding bijwerken",
+      "PROFILE_SECTION": {
+        "TITLE": "Profiel",
+        "NOTE": "Uw e-mailadres is uw identiteit en wordt gebruikt om in te loggen."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Sneltoets om berichten te verzenden",
+        "NOTE": "U kunt een sneltoets selecteren (Enter of Cmd/Ctrl+Enter) gebaseerd op uw voorkeur voor schrijven.",
+        "UPDATE_SUCCESS": "Uw instellingen zijn met succes bijgewerkt",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Verstuur berichten door op Enter te drukken in plaats van op de verzendknop te klikken."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Verstuur berichten door op Cmd/Ctrl + Enter te drukken in plaats van op de verzendknop te klikken."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Handtekening persoonlijke berichten",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Ondertekening van bericht opslaan",
+        "API_ERROR": "Kon ondertekening niet opslaan! Probeer het opnieuw",
+        "API_SUCCESS": "Ondertekening succesvol opgeslagen",
+        "IMAGE_UPLOAD_ERROR": "Kon afbeelding niet uploaden! Probeer het opnieuw",
+        "IMAGE_UPLOAD_SUCCESS": "Afbeelding succesvol toegevoegd. Klik op opslaan om de handtekening op te slaan",
+        "IMAGE_UPLOAD_SIZE_ERROR": "De grootte van de afbeelding moet kleiner zijn dan {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Bericht Ondertekening",
+        "ERROR": "Bericht ondertekening kan niet leeg zijn",
+        "PLACEHOLDER": "Voer hier uw persoonlijke bericht handtekening in."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Wachtwoord",
+        "NOTE": "Het bijwerken van uw wachtwoord zou uw logins op meerdere apparaten opnieuw instellen.",
+        "BTN_TEXT": "Wachtwoord wijzigen"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Toegangs-token",
+        "NOTE": "Dit token kan worden gebruikt als u een API gebaseerde integratie bouwt",
+        "COPY": "Kopiëren"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notificaties",
+        "NOTE": "Audio-meldingen inschakelen in dashboard voor nieuwe berichten en gesprekken.",
+        "ALERT_TYPES": {
+          "NONE": "Geen",
+          "MINE": "Assigned",
+          "ALL": "Allemaal"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "Geen",
+          "ASSIGNED": "Toegewezen gesprekken",
+          "ALL_CONVERSATIONS": "Alle gesprekken"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Notificatie toon:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Voorwaarden voor notificaties:",
+          "CONDITION_ONE": "Stuur alleen audio notificaties als het browservenster niet actief is",
+          "CONDITION_TWO": "Verstuur notificaties om de 30 seconden tot alle toegewezen gesprekken zijn gelezen"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-mail notificaties",
+        "NOTE": "Update hier uw e-mailvoorkeuren",
+        "CONVERSATION_ASSIGNMENT": "E-mailberichten verzenden wanneer een gesprek aan mij is toegewezen",
+        "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt",
+        "CONVERSATION_MENTION": "E-mail notificaties versturen wanneer u in een gesprek wordt genoemd",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "E-mail notificaties verzenden wanneer een nieuw bericht is gemaakt in een toegewezen gesprek",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-mail notificaties verzenden wanneer een nieuw bericht is gemaakt in een deelnemend gesprek",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mailadres",
+        "PUSH": "Push-melding",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Uw notificatie-instellingen zijn succesvol bijgewerkt",
+        "UPDATE_ERROR": "Er is een fout opgetreden tijdens het bijwerken van de voorkeuren, probeer het opnieuw"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Pushberichten",
+        "NOTE": "Werk je pushberichtvoorkeuren hier bij",
+        "CONVERSATION_ASSIGNMENT": "Stuur pushberichten wanneer een gesprek aan mij is toegewezen",
+        "CONVERSATION_CREATION": "Stuur pushberichten wanneer een nieuw gesprek is aangemaakt",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "Je hebt pushberichten voor deze browser ingeschakeld.",
+        "REQUEST_PUSH": "Pushberichten inschakelen",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profiel afbeelding"
+      },
+      "NAME": {
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          "Online",
+          "Busy",
+          "Offline"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "Uw e-mailadres",
+        "ERROR": "Voer een geldig e-mailadres in",
+        "PLACEHOLDER": "Voer je e-mailadres in, dit zou worden weergegeven in gesprekken"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Voer uw huidige wachtwoord in"
+      },
+      "PASSWORD": {
+        "LABEL": "New password",
+        "ERROR": "Voer een wachtwoord in van 6 of meer",
+        "PLACEHOLDER": "Voer een nieuw wachtwoord in"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bevestig nieuw wachtwoord",
+        "ERROR": "Bevestig wachtwoord moet overeenkomen met het wachtwoord",
+        "PLACEHOLDER": "Please re-enter your new password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Veranderen",
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "CONTACT_SUPPORT": "Contact Support",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "PROFILE_SETTINGS": "Profiel instellingen",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "Afmelden"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dagen proefperiode resterend.",
+    "TRAIL_BUTTON": "Nu kopen",
+    "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopiëren",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "Code succesvol naar het klembord gekopieerd "
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Downloaden",
+      "UPLOADING": "Uploaden...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Dit verhaal is niet meer beschikbaar."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Bevestigen"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifiëren...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Postvak toevoegen"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Gesprekken",
+    "INBOX": "Postvak In",
+    "ALL_CONVERSATIONS": "Alle gesprekken",
+    "MENTIONED_CONVERSATIONS": "Vermeldingen",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "REPORTS": "Rapporten",
+    "SETTINGS": "Instellingen",
+    "CONTACTS": "Contacten",
+    "CAPTAIN": "Captain",
+    "HOME": "Startpagina",
+    "AGENTS": "Medewerkers",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "Inboxen",
+    "NOTIFICATIONS": "Notifications",
+    "CANNED_RESPONSES": "Standaard antwoorden",
+    "INTEGRATIONS": "Integraties",
+    "PROFILE_SETTINGS": "Profielinstellingen",
+    "ACCOUNT_SETTINGS": "Accountinstellingen",
+    "APPLICATIONS": "Applicaties",
+    "LABELS": "Labelen",
+    "CUSTOM_ATTRIBUTES": "Aangepaste attributen",
+    "AUTOMATION": "Automation",
+    "MACROS": "Macro's",
+    "TEAMS": "Teams",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_CONVERSATION": "Gesprekken",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campagnes",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Medewerkers",
+    "REPORTS_LABEL": "Labelen",
+    "REPORTS_INBOX": "Postvak In",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Categorie",
+      "SETTINGS": "Instellingen",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Chat met ons"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Bedrijfsnaam",
+        "PLACEHOLDER": "Wayne Ondernemingen"
+      },
+      "SUBMIT": "Bevestigen"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

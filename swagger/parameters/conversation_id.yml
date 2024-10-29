@@ -1,0 +1,5 @@
+in: path
+name: conversation_id
+type: integer
+required: true
+description: The numeric ID of the conversation

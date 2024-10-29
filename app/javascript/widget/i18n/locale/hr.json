@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Preuzmite",
+      "UPLOADING": "Prenosim..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Pošalji"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Pošalji poruku ponovno",
+      "ERROR_MESSAGE": "Nismo uspjeli poslati, pokušajte ponovno"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Online smo",
+    "OFFLINE": "Trenutačno nismo online"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Obično odgovara za nekoliko minuta",
+    "IN_A_FEW_HOURS": "Obično odgovara za nekoliko sati",
+    "IN_A_DAY": "Obično odgovara u roku jednog dana",
+    "BACK_IN": "Bit ćemo ponovno online"
+  },
+  "DAY_NAMES": [
+    "Nedjelja",
+    "Ponedjeljak",
+    "Utorak",
+    "Srijeda",
+    "Četvrtak",
+    "Petak",
+    "Subota"
+  ],
+  "START_CONVERSATION": "Započnite razgovor",
+  "END_CONVERSATION": "Završite razgovor",
+  "CONTINUE_CONVERSATION": "Nastavite razgovor",
+  "YOU": "Vi",
+  "START_NEW_CONVERSATION": "Započnite novi razgovor",
+  "VIEW_UNREAD_MESSAGES": "Imate nepročitane poruke",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Pogledajte nove poruke",
+    "CLOSE_MESSAGES_BUTTON": "Zatvori",
+    "COMPANY_FROM": "od",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Čavrljajte s nama"
+  },
+  "POWERED_BY": "Pokreće Chatwoot",
+  "EMAIL_PLACEHOLDER": "Unesite svoju e-mail adresu",
+  "CHAT_PLACEHOLDER": "Unesite svoju poruku",
+  "TODAY": "Danas",
+  "YESTERDAY": "Jučer",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Ime i prezime",
+        "PLACEHOLDER": "Molimo unesite vaše puno ime",
+        "REQUIRED_ERROR": "Potrebno je unijeti puno ime"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adresa e-pošte",
+        "PLACEHOLDER": "Molimo unesite adresu e-pošte",
+        "REQUIRED_ERROR": "Potrebno je unijeti adresu e-pošte",
+        "VALID_ERROR": "Molimo unesite validnu adresu e-pošte"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Broj telefona",
+        "PLACEHOLDER": "Molimo unesite vaš broj telefona",
+        "REQUIRED_ERROR": "Potrebno je unijeti broj telefona",
+        "DIAL_CODE_VALID_ERROR": "Molimo odaberite kod države",
+        "VALID_ERROR": "Molimo unesite validan broj telefona",
+        "DROPDOWN_EMPTY": "Nisu pronađeni rezultati",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Poruka",
+        "PLACEHOLDER": "Molimo unesite poruku",
+        "ERROR": "Poruka je prekratka"
+      }
+    },
+    "CAMPAIGN_HEADER": "Molimo unesite svoje ime i e-mail prije početka razgovora",
+    "IS_REQUIRED": "je obavezno",
+    "REQUIRED": "Obavezno",
+    "REGEX_ERROR": "Molimo unesite važeći unos"
+  },
+  "FILE_SIZE_LIMIT": "Datoteka prelazi ograničenje priloga za {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Nevažeće polje"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Pretraži emojije",
+    "NOT_FOUND": "Nema emojija koji odgovaraju vašoj pretrazi",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Ocijenite vaš razgovor",
+    "SUBMITTED_TITLE": "Hvala vam na ocjeni",
+    "PLACEHOLDER": "Recite nam više..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Zatražite transkript razgovora",
+    "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspješno poslan",
+    "SEND_EMAIL_ERROR": "Došlo je do pogreške, molimo pokušajte ponovo"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Kliknite ovdje za pridruživanje",
+      "LEAVE_THE_ROOM": "Napustite poziv"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popularni članci",
+    "VIEW_ALL_ARTICLES": "Pogledajte sve članke",
+    "IFRAME_LOAD_ERROR": "Došlo je do pogreške pri učitavanju članka, molimo osvježite stranicu i pokušajte ponovo"
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Poruka sa slikom"
+    },
+    "audio": {
+      "CONTENT": "Poruka sa zvukom"
+    },
+    "video": {
+      "CONTENT": "Video poruka"
+    },
+    "file": {
+      "CONTENT": "Privitak datoteke"
+    },
+    "location": {
+      "CONTENT": "Lokacija"
+    },
+    "fallback": {
+      "CONTENT": "je podijelio/la url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

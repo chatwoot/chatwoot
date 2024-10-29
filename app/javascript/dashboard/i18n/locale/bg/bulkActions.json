@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
+    "AGENT_SELECT_LABEL": "Изберете агент",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Go back",
+    "ASSIGN_LABEL": "Assign",
+    "YES": "Yes",
+    "SEARCH_INPUT_PLACEHOLDER": "Търсене",
+    "ASSIGN_AGENT_TOOLTIP": "Assign agent",
+    "ASSIGN_TEAM_TOOLTIP": "Assign team",
+    "ASSIGN_SUCCESFUL": "Conversations assigned successfully.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Conversations resolved successfully.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
+    "AGENT_LIST_LOADING": "Loading agents",
+    "UPDATE": {
+      "CHANGE_STATUS": "Change status",
+      "SNOOZE_UNTIL": "Snooze",
+      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "No labels found for",
+      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
+      "ASSIGN_SUCCESFUL": "Labels assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Изберете екип",
+      "NONE": "Нито един",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "ตั้งค่าข้อมูลส่วนตัว",
+    "TITLE": "ตั้งค่าข้อมูลส่วนตัว",
+    "BTN_TEXT": "อัปเดตข้อมูลส่วนตัว",
+    "DELETE_AVATAR": "ลบรูป",
+    "AVATAR_DELETE_SUCCESS": "ลบรูปสำเร็จแล้ว",
+    "AVATAR_DELETE_FAILED": "เกิดข้อผิดพลาดขณะลบรูป โปรดลองใหม่อีกครั้ง",
+    "UPDATE_SUCCESS": "ข้อมูลส่วนตัวของคุณได้รับการอัปเดตแล้ว",
+    "PASSWORD_UPDATE_SUCCESS": "เปลี่ยนรหัสผ่านของคุณเรียบร้อยแล้ว",
+    "AFTER_EMAIL_CHANGED": "ข้อมูลส่วนตัวของคุณได้รับการอัปเดตแล้ว โปรดเข้าสู่ระบบใหม่อีกครั้งเนื่องจากมีการเปลี่ยนแปลงข้อมูลสำหรับยืนยันตัวตน",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "รูปโปรไฟล์",
+      "ERROR": "กรุณาเเก้ไขข้อผิดพลาดในเเบบฟอร์ม",
+      "REMOVE_IMAGE": "ลบรูปภาพ",
+      "UPLOAD_IMAGE": "อัปโหลดรูปภาพ",
+      "UPDATE_IMAGE": "อัปเดตรูปภาพ",
+      "PROFILE_SECTION": {
+        "TITLE": "ข้อมูลส่วนตัว",
+        "NOTE": "อีเมลเป็นข้อมูลระบุตัวตนของคุณ และใช้ในการเข้าสู่ระบบ"
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "ลายเซ็นส่วนตัว",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "บันทึกลายเซ็น",
+        "API_ERROR": "ไม่สามารถบันทึกลายเซ็นได้ โปรดลองใหม่อีกครั้ง",
+        "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "ข้อความลายเซ็น",
+        "ERROR": "ข้อความลายเซ็นไม่สามารถเว้นว่างได้",
+        "PLACEHOLDER": "ใส่ข้อความที่คุณต้องการใช้เป็นลายเซ็นที่นี่"
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "หรัสผ่าน",
+        "NOTE": "การอัปเดตรหัสผ่านจะรีเซ็ทการเข้าสู่ระบบของบัญชีนี้ในอุปกรณ์อื่นๆ",
+        "BTN_TEXT": "เปลี่ยนรหัสผ่าน"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Access Token",
+        "NOTE": "คุณสามารถใช้ token นี้เชื่อมต่อกับ API ได้",
+        "COPY": "คัดลอก"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "เสียงแจ้งเตือน",
+        "NOTE": "เปิดใช้เสียงแจ้งเตือนในแดชบอร์ดเมื่อมีข้อความหรือบทสนทนาใหม่",
+        "ALERT_TYPES": {
+          "NONE": "ไม่มี",
+          "MINE": "Assigned",
+          "ALL": "ทั้งหมด"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "ไม่มี",
+          "ASSIGNED": "การสนทนาที่ได้รับมอบหมาย",
+          "ALL_CONVERSATIONS": "การสนทนาทั้งหมด"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "การแจ้งเตือนทางอีเมล",
+        "NOTE": "ตั้งค่าการแจ้งเตือนทางอีเมลของคุณที่นี่",
+        "CONVERSATION_ASSIGNMENT": "ส่งอีเมลแจ้งเตือนเมื่อมีบทสนทนาที่ฉันได้รับมอบหมาย",
+        "CONVERSATION_CREATION": "ส่งอีเมลแจ้งเตือนเมื่อมีการสร้างบทสนทนาใหม่",
+        "CONVERSATION_MENTION": "ส่งอีเมลแจ้งเตือนเมื่อฉันถูกกล่าวถึงในการสนทนา",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ส่งอีเมลแจ้งเตือนเมื่อมีข้อความใหม่ในการสนทนาที่ฉันได้รับมอบหมาย",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "อีเมล์",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "ปรับแต่งการแจ้งเตือนสำเร็จแล้ว",
+        "UPDATE_ERROR": "เกิดข้อผิดพลาดขณะอัปเดต โปรดลองใหม่อีกครั้ง"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "การแจ้งเตือนแบบพุช",
+        "NOTE": "ตั้งค่าการแจ้งเตือนแบบพุชที่นี่",
+        "CONVERSATION_ASSIGNMENT": "ส่งการแจ้งเตือนแบบพุชเมื่อมีการสนทนาที่ฉันได้รับมอบหมาย",
+        "CONVERSATION_CREATION": "ส่งการแจ้งเตือนแบบพุชเมื่อมีการสนทนาใหม่",
+        "CONVERSATION_MENTION": "ส่งการแจ้งเตือนแบบพุชเมื่อฉันถูกกล่าวถึงในการสนทนา",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ส่งการแจ้งเตือนแบบพุชเมื่อมีข้อความใหม่ในการสนทนาที่ฉันได้รับมอบหมาย",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "คุณได้เปิดการแจ้งเตือนแบบพุชสำหรับเบราว์เซอร์นี้",
+        "REQUEST_PUSH": "เปิดการแจ้งเตือนแบบพุช",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "รูปโปรไฟล์"
+      },
+      "NAME": {
+        "LABEL": "ชื่อเต็ม",
+        "ERROR": "โปรดใส่ชื่อเต็มที่ถูกต้อง",
+        "PLACEHOLDER": "โปรดใส่ชื่อเต็มของคุณ"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "ชื่อที่ใช้แสดง",
+        "ERROR": "โปรดใส่ชื่อที่ใช้แสดงให้ถูกต้อง",
+        "PLACEHOLDER": "โปรดใส่ชื่อที่คุณต้องการใช้แสดงในการสนทนา"
+      },
+      "AVAILABILITY": {
+        "LABEL": "สถานะ",
+        "STATUSES_LIST": ["ออนไลน์", "ไม่ว่าง", "ออฟไลน์"],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "อีเมลของคุณ",
+        "ERROR": "กรุณากรอกที่อยู่อีเมล์ให้ถูกต้อง",
+        "PLACEHOLDER": "โปรดกรอกอีเมลของคุณ อีเมลจะถูกแสดงขณะสนทนา"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "รหัสผ่านปัจจุบัน",
+        "ERROR": "โปรดใส่รหัสผ่านปัจจุบัน",
+        "PLACEHOLDER": "โปรดใส่รหัสผ่านปัจจุบัน"
+      },
+      "PASSWORD": {
+        "LABEL": "รหัสผ่านใหม่",
+        "ERROR": "โปรดใส่รหัสผ่านที่มีอย่างน้อย 6 ตัวอักษร",
+        "PLACEHOLDER": "โปรดใส่รหัสผ่านใหม่"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "ยืนยันรหัสผ่านใหม่",
+        "ERROR": "รหัสผ่านไม่ตรงกัน",
+        "PLACEHOLDER": "โปรดใส่รหัสผ่านใหม่อีกครั้ง"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "เปลี่ยน",
+    "CHANGE_ACCOUNTS": "สลับบัญชี",
+    "CONTACT_SUPPORT": "ติดต่อฝ่ายสนับสนุน",
+    "SELECTOR_SUBTITLE": "เลือกบัญชีจากรายชื่อต่อไปนี้",
+    "PROFILE_SETTINGS": "ตั้งค่าข้อมูลส่วนตัว",
+    "KEYBOARD_SHORTCUTS": "คีย์ลัด",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "ออกจากระบบ"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "จำนวนวันทดลองใช้ที่เหลืออยู่",
+    "TRAIL_BUTTON": "ซื้อเลย",
+    "DELETED_USER": "ผู้ใช้งานที่ถูกลบ",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "คัดลอก",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "คัดลอกไปยังคลิปบอร์ดเเล้ว"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "แสดงเพิ่มเติม",
+      "SHOW_LESS": "แสดงน้อยลง"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "ดาวโหลด",
+      "UPLOADING": "กำลังอัปโหลด",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "ส่ง"
+    }
+  },
+  "CONFIRM_EMAIL": "กำลังตรวจสอบ",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "เพิ่มกล่องข้อความ"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "กำลังดูอยู่:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "การสนทนา",
+    "INBOX": "กล่องข้อความ",
+    "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
+    "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "ไม่ได้เข้าร่วม",
+    "REPORTS": "รายงาน",
+    "SETTINGS": "ตั้งค่า",
+    "CONTACTS": "ผู้ติดต่อ",
+    "CAPTAIN": "Captain",
+    "HOME": "หน้าหลัก",
+    "AGENTS": "พนักงาน",
+    "AGENT_BOTS": "บอท",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "กล่องข้อความ",
+    "NOTIFICATIONS": "การแจ้งเตือน",
+    "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
+    "INTEGRATIONS": "การเชื่อมต่อกับระบบ",
+    "PROFILE_SETTINGS": "ตั้งค่าข้อมูลส่วนตัว",
+    "ACCOUNT_SETTINGS": "ตั้งค่าบัญชี",
+    "APPLICATIONS": "โปรแกรม",
+    "LABELS": "ป้ายกำกับ",
+    "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
+    "AUTOMATION": "เงื่อนไขอัตโนมัติ",
+    "MACROS": "Macros",
+    "TEAMS": "ทีม",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",
+    "CUSTOM_VIEWS_SEGMENTS": "กลุ่มตามตัวกรอง",
+    "ALL_CONTACTS": "รายชื่อผู้ติดต่อทั้งหมด",
+    "TAGGED_WITH": "ที่ติดป้าย",
+    "NEW_LABEL": "เพิ่มป้ายกำกับ",
+    "NEW_TEAM": "สร้างทีมใหม่",
+    "NEW_INBOX": "เพิ่มกล่องข้อความ",
+    "REPORTS_CONVERSATION": "การสนทนา",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "แคมเปญ",
+    "ONGOING": "ต่อเนื่อง",
+    "ONE_OFF": "ครั้งเดียว",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "บอท",
+    "REPORTS_AGENT": "พนักงาน",
+    "REPORTS_LABEL": "ป้ายกำกับ",
+    "REPORTS_INBOX": "กล่องข้อความ",
+    "REPORTS_TEAM": "ทีม",
+    "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "ภาพรวม",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "SETTINGS": "ตั้งค่า",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "คุยกับเรา"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",
+    "NEW_ACCOUNT": "สร้างบัญชีใหม่",
+    "SELECTOR_SUBTITLE": "สร้างบัญชีใหม่",
+    "API": {
+      "SUCCESS_MESSAGE": "สร้างบัญชีสำเร็จแล้ว",
+      "EXIST_MESSAGE": "บัญชีนี้มีผู้ใช้งานแล้ว",
+      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "ชื่อบริษัท",
+        "PLACEHOLDER": "ชื่อบริษัท"
+      },
+      "SUBMIT": "ส่ง"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "เปิดดูการสนทนา",
+      "RESOLVE_AND_NEXT": "จบการสนทนานี้และเริ่มการสนทนาถัดไป",
+      "NAVIGATE_DROPDOWN": "เลือกรายการ",
+      "RESOLVE_CONVERSATION": "เสร็จสิ้นการสนทนา",
+      "GO_TO_CONVERSATION_DASHBOARD": "ไปที่หน้าการสนทนา",
+      "ADD_ATTACHMENT": "เพิ่มไฟล์แนบ",
+      "GO_TO_CONTACTS_DASHBOARD": "ไปที่หน้าผู้ติดต่อ",
+      "TOGGLE_SIDEBAR": "เปิดหรือปิดเมนูข้าง",
+      "GO_TO_REPORTS_SIDEBAR": "ไปที่แถบรายงาน",
+      "MOVE_TO_NEXT_TAB": "ไปแท็บการสนทนาถัดไป",
+      "GO_TO_SETTINGS": "ไปที่ตั้งค่า",
+      "SWITCH_TO_PRIVATE_NOTE": "สลับเป็นโน้ตส่วนตัว",
+      "SWITCH_TO_REPLY": "สลับเป็นการตอบกลับ",
+      "TOGGLE_SNOOZE_DROPDOWN": "เปิดหรือปิดเมนูพักการสนทนา"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

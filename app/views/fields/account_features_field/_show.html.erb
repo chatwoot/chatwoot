@@ -1,0 +1,14 @@
+<div class='feature-container'>
+  <% field.data.each do |key,val| %>
+    <div class='feature-cell'>
+    <% if SuperAdmin::AccountFeaturesHelper.account_premium_features.include? key %>
+    <span class='icon-container'>
+      <svg class="inline" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path d="M480 224l-186.828 7.487L401.688 64l-59.247-32L256 208 169.824 32l-59.496 32 108.5 167.487L32 224v64l185.537-10.066L113.65 448l55.969 32L256 304l86.381 176 55.949-32-103.867-170.066L480 288z" fill="currentColor"/></svg>
+    </span>
+    <% end %>
+    <span><%= key %></span> 
+    <span class='value-container'><%= val.present? ? '✅' : '❌' %> </span>
+    </div>
+  <% end %>
+</div>
+

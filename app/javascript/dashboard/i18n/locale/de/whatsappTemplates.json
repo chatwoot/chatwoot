@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "WhatsApp-Vorlagen",
+            "SUBTITLE": "Wählen Sie die WhatsApp-Vorlage aus, die Sie senden möchten",
+            "TEMPLATE_SELECTED_SUBTITLE": "Verarbeite {templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Vorlagen suchen",
+            "NO_TEMPLATES_FOUND": "Keine Vorlagen gefunden für",
+            "LABELS": {
+                "LANGUAGE": "Sprache",
+                "TEMPLATE_BODY": "Vorlagenbody",
+                "CATEGORY": "Kategorie"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Variablen",
+            "VARIABLE_PLACEHOLDER": "Geben Sie den Wert {variable} ein",
+            "GO_BACK_LABEL": "Zurück",
+            "SEND_MESSAGE_LABEL": "Nachricht senden",
+            "FORM_ERROR_MESSAGE": "Bitte füllen Sie vor dem Absenden alle Variablen aus"
+        }
+    }
+}

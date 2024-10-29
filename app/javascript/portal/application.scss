@@ -1,0 +1,41 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'widget/assets/scss/reset';
+@import 'widget/assets/scss/variables';
+@import 'widget/assets/scss/buttons';
+@import 'widget/assets/scss/mixins';
+@import 'widget/assets/scss/forms';
+@import 'shared/assets/fonts/InterDisplay/inter-display';
+
+html,
+body {
+  font-family: 'InterDisplay', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  letter-spacing: 0.2px;
+}
+
+
+// Taking these utils from tailwind 3.x.x, need to remove once we upgrade
+.scroll-mt-24 {
+  scroll-margin-top: 6rem;
+}
+
+.top-24 {
+  top: 6rem;
+}
+
+.heading {
+  .permalink {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .permalink {
+      visibility: visible;
+    }
+  }
+}

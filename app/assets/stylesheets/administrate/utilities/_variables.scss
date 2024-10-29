@@ -1,0 +1,90 @@
+// Font sizes
+$font-size-nano: 0.5rem;
+$font-size-micro: 0.675rem;
+$font-size-mini: 0.75rem;
+$font-size-small: 0.875rem;
+$font-size-default: 1rem;
+$font-size-medium: 1.125rem;
+$font-size-large: 1.375rem;
+$font-size-big: 1.5rem;
+$font-size-bigger: 1.75rem;
+$font-size-mega: 2.125rem;
+$font-size-giga: 2.5rem;
+
+// spaces
+$zero: 0;
+$space-micro: 0.125rem;
+$space-smaller: 0.25rem;
+$space-small: 0.5rem;
+$space-one: 0.675rem;
+$space-slab: 0.75rem;
+$space-normal: 1rem;
+$space-two: 1.25rem;
+$space-medium: 1.5rem;
+$space-large: 2rem;
+$space-larger: 3rem;
+$space-jumbo: 4rem;
+$space-mega: 6.25rem;
+
+// font-weight
+$font-weight-feather: 100;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 600;
+$font-weight-black: 700;
+
+//Navbar
+$nav-bar-width: 23rem;
+$header-height: 5.6rem;
+
+$woot-logo-padding: $space-large $space-two;
+
+// Colors
+$color-woot: #1f93ff;
+$color-gray: #6e6f73;
+$color-light-gray: #747677;
+$color-border: #e0e6ed;
+$color-border-light: #f0f4f5;
+$color-background: #f4f6fb;
+$color-border-dark: #cad0d4;
+$color-background-light: #f9fafc;
+$color-white: #fff;
+$color-body: #3c4858;
+$color-heading: #1f2d3d;
+$color-extra-light-blue: #f5f7f9;
+
+$primary-color: $color-woot;
+$secondary-color: #5d7592;
+$success-color: #44ce4b;
+$warning-color: #ffc532;
+$alert-color: #ff382d;
+
+$masked-bg: rgba(0, 0, 0, .4);
+
+// Color-palettes
+
+$color-primary-light: #c7e3ff;
+$color-primary-dark: darken($color-woot, 20%);
+
+// Thumbnail
+$thumbnail-radius: 4rem;
+
+// chat-header
+$conv-header-height: 4rem;
+
+// Inbox List
+
+$inbox-thumb-size: 4.8rem;
+
+
+// Snackbar default
+$woot-snackbar-bg: #323232;
+$woot-snackbar-button: #ffeb3b;
+
+$swift-ease-out-duration: .4s !default;
+$swift-ease-out-timing-function: cubic-bezier(.25, .8, .25, 1) !default;
+$swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
+
+// Transitions
+$transition-ease-in: all 0.250s ease-in;

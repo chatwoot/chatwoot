@@ -1,0 +1,763 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Saapuneet-kansiot",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "LIST": {
+      "404": "Tähän tiliin ei ole liitetty saapuneet-kansiota."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Valitse kanava",
+        "route": "settings_inbox_new",
+        "body": "Valitse keskusteluväylä, jonka haluat integroida Chatwotin kanssa."
+      },
+      {
+        "title": "Luo saapet-kansio",
+        "route": "settings_inboxes_page_channel",
+        "body": "Todenna tilisi ja luo saapuneet-kansio."
+      },
+      {
+        "title": "Lisää edustaja",
+        "route": "settings_inboxes_add_agents",
+        "body": "Lisää edustajia luotuun saapuneet-kansioon."
+      },
+      {
+        "title": "Voilà!",
+        "route": "settings_inbox_finish",
+        "body": "Kaikki valmiina!"
+      }
+    ],
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Kansion nimi",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Sivuston nimi",
+        "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
+      },
+      "FB": {
+        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
+        "CHOOSE_PAGE": "Valitse sivu",
+        "CHOOSE_PLACEHOLDER": "Valitse sivu listasta",
+        "INBOX_NAME": "Kansion nimi",
+        "ADD_NAME": "Lisää kansiolle nimi",
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "Valitse arvo"
+      },
+      "TWITTER": {
+        "HELP": "Lisätäksesi twitter-profiilin kanavaksesi, sinun tulee autentikoida twitter-tilisi klikkaamalla \"Kirjaudu sisään Twitterillä\" ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "TWEETS": {
+          "ENABLE": "Create conversations from mentioned Tweets"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Sivuston chat",
+        "DESC": "Luo kanava sivustollesi ja ala tarjoamaan tukea asiakkaillesi chat-widgetin kautta.",
+        "LOADING_MESSAGE": "Luodaan chat-tukikanavaa",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Kanavan avatar"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhookin URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
+          "ERROR": "Anna kelvollinen URL-osoite"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Sivuston verkkotunnus",
+          "PLACEHOLDER": "Anna sivuston verkkotunnus (esim. acme.fi)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Tervetuloa-otsikko",
+          "PLACEHOLDER": "Hei siellä!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Tervetulotoivotus",
+          "PLACEHOLDER": "Teemme yhteydenoton yksinkertaiseksi. Kysy meiltä mitä vaan tai kerro palautetta."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Tervetuloviesti",
+          "PLACEHOLDER": "Acme Oy vastaa tyypillisesti muutamassa tunnissa."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Ota käyttöön tervetulotoivotus",
+          "HELP_TEXT": "Lähetä tervehdys viestejä automaattisesti, kun asiakkaat aloittavat keskustelun ja lähettävät ensimmäisen viestin.",
+          "ENABLED": "Käytössä",
+          "DISABLED": "Pois käytöstä"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Aseta vastausaika",
+          "IN_A_FEW_MINUTES": "Muutamassa minuutissa",
+          "IN_A_FEW_HOURS": "Muutamassa tunnissa",
+          "IN_A_DAY": "Päivän kuluessa",
+          "HELP_TEXT": "Vastausaika näytetään chat -widgetissä"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Widgetin väri",
+          "PLACEHOLDER": "Päivitä widgetissä käytetty pääväri"
+        },
+        "SUBMIT_BUTTON": "Luo saapet-kansio",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Tilin SID",
+          "PLACEHOLDER": "Syötä Twilio-tilisi SID",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Tämä kenttä on pakollinen",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Kanavan tyyppi",
+          "ERROR": "Ole hyvä ja valitse kanavan tyyppi"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Syötä Twilio-Auth Token",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Kansion nimi",
+          "PLACEHOLDER": "Please enter a inbox name",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Puhelinnumero",
+          "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero, josta viesti lähetetään.",
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "Sinun täytyy määrittää viestin callback URL Twiliossa tässä mainitun URL:n kanssa."
+        },
+        "SUBMIT_BUTTON": "Luo Twilio-kanava",
+        "API": {
+          "ERROR_MESSAGE": "Emme pystyneet todentamaan Twilio tunnuksia, yritä uudelleen"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS Channel",
+        "DESC": "Start supporting your customers via SMS.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandwidth"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "Tämä kenttä on pakollinen"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "ERROR": "Tämä kenttä on pakollinen"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "ERROR": "Tämä kenttä on pakollinen"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "Tämä kenttä on pakollinen"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Kansion nimi",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "Tämä kenttä on pakollinen"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Puhelinnumero",
+            "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero, josta viesti lähetetään.",
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          },
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        }
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Channel",
+        "DESC": "Start supporting your customers via WhatsApp.",
+        "PROVIDERS": {
+          "LABEL": "API Provider",
+          "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Kansion nimi",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Puhelinnumero",
+          "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero, josta viesti lähetetään.",
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "ERROR": "Please enter a valid value."
+        },
+        "API_KEY": {
+          "LABEL": "API key",
+          "SUBTITLE": "Configure the WhatsApp API key.",
+          "PLACEHOLDER": "API key",
+          "ERROR": "Please enter a valid value."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhookin URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+        },
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API-rajapinta",
+        "DESC": "Integroi API-rajapintaan ja aloita tukemaan asiakkaitasi.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanavan nimi",
+          "PLACEHOLDER": "Ole hyvä ja anna kanavan nimi",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhookin URL",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "PLACEHOLDER": "Webhook-URL"
+        },
+        "SUBMIT_BUTTON": "Luo API-kanava",
+        "API": {
+          "ERROR_MESSAGE": "Emme pystyneet tallentamaan API-rajapintaa"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Sähköpostikanava",
+        "DESC": "Integrate your email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanavan nimi",
+          "PLACEHOLDER": "Ole hyvä ja anna kanavan nimi",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "EMAIL": {
+          "LABEL": "Sähköposti",
+          "SUBTITLE": "Sähköposti, johon asiakkaasi lähettää viestit",
+          "PLACEHOLDER": "Sähköposti"
+        },
+        "SUBMIT_BUTTON": "Luo sähköpostikanava",
+        "API": {
+          "ERROR_MESSAGE": "Emme pystyneet tallentamaan sähköpostikanavaa"
+        },
+        "FINISH_MESSAGE": "Aloita välittämällä sähköpostit seuraavaan osoitteeseen."
+      },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE Channel",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanavan nimi",
+          "PLACEHOLDER": "Ole hyvä ja anna kanavan nimi",
+          "ERROR": "Tämä kenttä on pakollinen"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE Channel ID",
+          "PLACEHOLDER": "LINE Channel ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
+        },
+        "SUBMIT_BUTTON": "Create LINE Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram Channel",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "BOT_TOKEN": {
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
+        },
+        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot tukee live-chat-widgetejä, Facebook Messenger, WhatsApp, sähköpostit jne. kanavina. Jos haluat rakentaa mukautetun kanavan, voit luoda sen API-kanavalla. Päästäksesi alkuun, valitse jokin kanava alta."
+      },
+      "AGENTS": {
+        "TITLE": "Edustajat",
+        "DESC": "Täällä voit lisätä edustajia hallitsemaan juuri luotua saapuneet-kansiota. Vain näillä valituilla edustajilla on pääsy tähän saapuneet-kansioon. Edustajat, jotka eivät kuulu tähän saapuneet-kansioon, eivät pysty näkemään tai vastaamaan viesteihin tässä saapuneet-kansiossa, kun he kirjautuvat. <br> <b>PS:</b> Jos tarvitset ylläpitäjänä pääsyn kaikkiin saapuneisiin, sinun pitäisi lisätä itsesi edustajaksi kaikkiin laatikoihin, jotka luot.",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "PICK_AGENTS": "Valitse edustajat postilaatikolle"
+      },
+      "DETAILS": {
+        "TITLE": "Postilaatikon tiedot",
+        "DESC": "Valitse alla olevasta pudotusvalikosta Facebook-sivu, johon haluat muodostaa yhteyden. Voit myös antaa mukautetun nimen saapuneet-kansioon paremman tunnistamisen varmistamiseksi."
+      },
+      "FINISH": {
+        "TITLE": "Nappiin meni!",
+        "DESC": "Olet onnistuneesti suorittanut Facebook-sivusi integroinnin. Seuraavalla kerralla kun asiakas lähettää sivullesi viestin, keskustelu ilmaantuu automaattisesti saapuneet-kansioon.<br>Tarjoamme myös sivustolle lisättävän widget skriptin, jonka voit helposti lisätä sivustosi. Kun tämä on sivustollasi, asiakkaat voivat lähettää sinulle viestin suoraan sivustostasi ilman ulkoisen työkalun apua, ja keskustelu näkyy täällä.<br>Makeeta vai mitä? No, me ainakin yrittämme olla :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "SIGN_IN": "Sign in with Microsoft",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Varmennetaan sinua Facebookissa...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_AUTH": "Jokin meni pieleen, päivitä sivu...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "CREATING_CHANNEL": "Luodaan postilaatikkoasi...",
+      "TITLE": "Määritä postilaatikon tiedot",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Lisää edustaja",
+      "ADD_AGENTS": "Lisätään edustajia postilaatikkoon..."
+    },
+    "FINISH": {
+      "TITLE": "Postilaatikkosi on valmis!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
+      "BUTTON_TEXT": "Vie minut sinne",
+      "MORE_SETTINGS": "More settings",
+      "WEBSITE_SUCCESS": "Olet onnistuneesti lisännyt sivuston chat-widgetin. Kopioi alla näkyvä koodi ja liitä se verkkosivuillesi. Seuraavalla kerralla kun asiakas käyttää live-keskustelua, keskustelu ilmestyy automaattisesti saapuneet-kansioon."
+    },
+    "REAUTH": "Uudelleenvaltuuta",
+    "VIEW": "Näytä",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Saapuneet-kansion asetukset päivitetty onnistuneesti",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automaattinen delegointi päivitetty onnistuneesti",
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "lähettäjä",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Save"
+        }
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Enable"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Poista",
+      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "CONFIRM": {
+        "TITLE": "Vahvista poistaminen",
+        "MESSAGE": "Oletko varma että haluat poistaa ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "YES": "Kyllä, poista ",
+        "NO": "Ei, säilytä "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Postilaatikko poistettu onnistuneesti",
+        "ERROR_MESSAGE": "Postilaatikkoa ei voitu poistaa. Yritä myöhemmin uudelleen.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "Asetukset",
+      "COLLABORATORS": "Yhteistyökumppanit",
+      "CONFIGURATION": "Määritykset",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
+    },
+    "SETTINGS": "Asetukset",
+    "FEATURES": {
+      "LABEL": "Ominaisuudet",
+      "DISPLAY_FILE_PICKER": "Näytä liitevalitsin widgetissä",
+      "DISPLAY_EMOJI_PICKER": "Näytä emojivalitsin widgetissä",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger-skripti",
+      "MESSENGER_SUB_HEAD": "Aseta tämä painike body-tagiisi",
+      "INBOX_AGENTS": "Edustajat",
+      "INBOX_AGENTS_SUB_TEXT": "Lisää tai poista edustajia tästä saapuneet-kansiosta",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "UPDATE": "Päivitä",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "AUTO_ASSIGNMENT": "Ota automaattinen delegointi käyttöön",
+      "ENABLE_CSAT": "Enable CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "INBOX_UPDATE_TITLE": "Postilaatikon tiedot",
+      "INBOX_UPDATE_SUB_TEXT": "Päivitä postilaatikon asetukset",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Ota käyttöön tai poista käytöstä automaattinen keskusteluiden delegointi edustajille.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Aloita välittämällä sähköpostit seuraavaan osoitteeseen.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Päivitä",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "Help Center",
+      "PLACEHOLDER": "Select Help Center",
+      "SELECT_PLACEHOLDER": "Select Help Center",
+      "REMOVE": "Remove Help Center",
+      "SUB_TEXT": "Attach a Help Center with the inbox"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Uudelleenvaltuuta",
+      "SUBTITLE": "Facebook-yhteytesi on vanhentunut, ole hyvä ja yhdistä uudelleen Facebook-sivusi jatkaaksesi palveluita",
+      "MESSAGE_SUCCESS": "Uudelleenyhdistäminen onnistui",
+      "MESSAGE_ERROR": "Tapahtui virhe, yritä uudelleen"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre chat message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
+      },
+      "ALL_DAY": "All-Day"
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "LOGIN": {
+        "LABEL": "Kirjaudu",
+        "PLACE_HOLDER": "Kirjaudu"
+      },
+      "PASSWORD": {
+        "LABEL": "Salasana",
+        "PLACE_HOLDER": "Salasana"
+      },
+      "ENABLE_SSL": "Enable SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "LOGIN": {
+        "LABEL": "Kirjaudu",
+        "PLACE_HOLDER": "Kirjaudu"
+      },
+      "PASSWORD": {
+        "LABEL": "Salasana",
+        "PLACE_HOLDER": "Salasana"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Sivuston nimi",
+          "PLACE_HOLDER": "Anna sivuston nimi (esim. Acme Oy)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Tervetuloa-otsikko",
+          "PLACE_HOLDER": "Hei siellä!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Tervetulotoivotus",
+          "PLACE_HOLDER": "Teemme yhteydenoton yksinkertaiseksi. Kysy meiltä mitä vaan tai kerro palautetta."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "Muutamassa minuutissa",
+          "IN_A_FEW_HOURS": "Muutamassa tunnissa",
+          "IN_A_DAY": "Päivän kuluessa"
+        },
+        "WIDGET_COLOR_LABEL": "Widgetin väri",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Keskustele kanssamme",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Keskustele kanssamme"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
+        "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
+        "IN_A_DAY": "Vastaa tyypillisesti päivässä"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Aloita keskustelu",
+        "CHAT_INPUT_PLACEHOLDER": "Kirjoita viestisi"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Olemme online-tilassa",
+          "OFFLINE": "Olemme tällä hetkellä poissa"
+        },
+        "USER_MESSAGE": "Hei",
+        "AGENT_MESSAGE": "Moi"
+      },
+      "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
+      "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Sähköposti",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API-rajapinta"
+    }
+  }
+}

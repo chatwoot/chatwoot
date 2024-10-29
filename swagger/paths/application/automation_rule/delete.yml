@@ -1,0 +1,20 @@
+tags:
+  - Automation Rule
+operationId: delete-automation-rule-from-account
+summary: Remove a automation rule from account
+description: Remove a automation rule from account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the automation rule to be deleted
+responses:
+  '200':
+    description: Success
+  '403':
+    description: Access denied
+  '404':
+    description: automation rule not found

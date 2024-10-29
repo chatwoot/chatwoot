@@ -1,0 +1,248 @@
+@mixin label-multiselect-hover {
+  &::after {
+    @apply text-woot-600 dark:text-woot-600;
+  }
+
+  &:hover {
+    @apply bg-slate-50 dark:bg-slate-700;
+
+    &::after {
+      @apply text-woot-500 dark:text-woot-500;
+    }
+  }
+}
+
+.multiselect {
+  &:not(.no-margin) {
+    @apply mb-4;
+  }
+
+  &.multiselect--disabled {
+    @apply opacity-50 border border-slate-200 dark:border-slate-600 rounded-md cursor-not-allowed;
+
+    .multiselect__select {
+      @apply cursor-not-allowed bg-white dark:bg-slate-900 rounded-md;
+    }
+
+    .multiselect__tags {
+      @apply border-0;
+    }
+  }
+
+  .multiselect--active {
+    > .multiselect__tags {
+      @apply border-woot-500 dark:border-woot-500;
+    }
+  }
+
+  .multiselect__select {
+    @apply min-h-[2.875rem] p-0 right-0 top-0;
+
+    &::before {
+      @apply right-0;
+    }
+  }
+
+  .multiselect__content-wrapper {
+    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100;
+  }
+
+  .multiselect__content {
+    @apply max-w-full;
+
+    .multiselect__option {
+      @apply text-sm font-normal;
+
+      span {
+        @apply inline-block overflow-hidden text-ellipsis whitespace-nowrap w-fit;
+      }
+
+      p {
+        @apply mb-0;
+      }
+
+      &.multiselect__option--highlight {
+        @apply bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100;
+      }
+
+      &.multiselect__option--highlight:hover {
+        @apply bg-woot-50 dark:bg-woot-600 text-slate-800 dark:text-slate-100;
+
+        &::after {
+          @apply bg-woot-50 dark:bg-woot-600 text-slate-600 dark:text-slate-200;
+        }
+      }
+
+      &.multiselect__option--highlight::after {
+        @apply bg-transparent;
+      }
+
+      &.multiselect__option--selected {
+        @apply bg-woot-50 dark:bg-woot-600 text-slate-800 dark:text-slate-100;
+
+        &.multiselect__option--highlight:hover {
+          @apply bg-woot-75 dark:bg-woot-600;
+
+          &::after {
+            @apply bg-transparent;
+          }
+
+          &::after:hover {
+            @apply text-slate-800 dark:text-slate-100;
+          }
+        }
+      }
+    }
+  }
+
+  .multiselect__tags {
+    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 m-0 min-h-[2.875rem] pt-0;
+
+    input {
+      @apply border-0 border-none;
+    }
+  }
+
+  .multiselect__tags-wrap {
+    @apply inline-block leading-none mt-1;
+  }
+
+  .multiselect__placeholder {
+    @apply text-slate-400 dark:text-slate-400 font-normal pt-3;
+  }
+
+  .multiselect__tag {
+    @apply bg-slate-50 dark:bg-slate-800 mt-1 text-slate-800 dark:text-slate-100 pr-6 pl-2.5 py-1.5;
+  }
+
+  .multiselect__tag-icon {
+    @include label-multiselect-hover;
+  }
+
+  .multiselect__input {
+    @include ghost-input;
+    @apply text-sm h-[2.875rem] mb-0 p-0;
+  }
+
+  .multiselect__single {
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 inline-block mb-0 py-3 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis;
+  }
+}
+
+.sidebar-labels-wrap {
+  &.has-edited,
+  &:hover {
+    .multiselect {
+      @apply cursor-pointer;
+    }
+  }
+
+  .multiselect {
+    > .multiselect__select {
+      @apply invisible;
+    }
+
+    > .multiselect__tags {
+      @apply border-transparent;
+    }
+
+    &.multiselect--active > .multiselect__tags {
+      @apply border-woot-500 dark:border-woot-500;
+    }
+  }
+}
+
+.multiselect-wrap--small {
+  // To be removed one SLA reports date picker is created
+  &.tiny {
+    .multiselect.no-margin {
+      @apply min-h-[32px];
+    }
+
+    .multiselect__select {
+      @apply min-h-[32px] h-8;
+
+      &::before {
+        @apply top-[60%];
+      }
+    }
+
+    .multiselect__tags {
+      @apply min-h-[32px] max-h-[32px];
+
+      .multiselect__single {
+        @apply pt-1 pb-1;
+      }
+    }
+  }
+
+  .multiselect__tags,
+  .multiselect__input,
+  .multiselect {
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-[5px] text-sm  min-h-[2.5rem];
+  }
+
+  .multiselect__input {
+    @apply h-[2.375rem] min-h-[2.375rem];
+  }
+
+  .multiselect__single {
+    @apply items-center flex m-0 text-sm max-h-[2.375rem] text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 py-3 px-0.5;
+  }
+
+  .multiselect__placeholder {
+    @apply m-0 py-2 px-0.5;
+  }
+
+  .multiselect__tag {
+    @apply py-[6px] my-[1px];
+  }
+
+  .multiselect__select {
+    @apply min-h-[2.5rem];
+  }
+
+  .multiselect--disabled .multiselect__current,
+  .multiselect--disabled .multiselect__select {
+    @apply bg-transparent;
+  }
+}
+
+.multiselect-wrap--medium {
+  .multiselect__tags,
+  .multiselect__input {
+    @apply items-center flex;
+  }
+
+  .multiselect__tags,
+  .multiselect__input,
+  .multiselect {
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-sm h-12 min-h-[3rem];
+  }
+
+  .multiselect__input {
+    @apply h-[2.875rem] min-h-[2.875rem];
+    margin-bottom: 0px !important;
+  }
+
+  .multiselect__single {
+    @apply items-center flex m-0 text-sm py-1 px-0.5 text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900;
+  }
+
+  .multiselect__placeholder {
+    @apply m-0 py-1 px-0.5;
+  }
+
+  .multiselect__select {
+    @apply min-h-[3rem];
+  }
+
+  .multiselect--disabled .multiselect__current,
+  .multiselect--disabled .multiselect__select {
+    @apply bg-transparent;
+  }
+
+  .multiselect__tags-wrap {
+    @apply flex-shrink-0;
+  }
+}

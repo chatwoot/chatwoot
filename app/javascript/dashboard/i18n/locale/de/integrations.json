@@ -1,0 +1,306 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrationen",
+    "DESCRIPTION": "Chatwoot integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
+    "LEARN_MORE": "Mehr über Integrationen erfahren",
+    "LOADING": "Integrationen werden abgerufen",
+    "CAPTAIN": {
+      "DISABLED": "Captain ist auf Ihrem Konto nicht aktiviert.",
+      "CLICK_HERE_TO_CONFIGURE": "Hier klicken, um zu konfigurieren",
+      "LOADING_CONSOLE": "Captain-Konsole wird geladen...",
+      "FAILED_TO_LOAD_CONSOLE": "Fehler beim Laden der Captain-Konsole. Bitte aktualisieren und erneut versuchen."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Abonnierte Events",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "Stornieren",
+        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Konversation erstellt",
+            "CONVERSATION_STATUS_CHANGED": "Konversationsstatus geändert",
+            "CONVERSATION_UPDATED": "Konversation aktualisiert",
+            "MESSAGE_CREATED": "Nachricht erstellt",
+            "MESSAGE_UPDATED": "Nachricht aktualisiert",
+            "WEBWIDGET_TRIGGERED": "Vom Benutzer geöffnetes Live-Chat-Widget",
+            "CONTACT_CREATED": "Kontakt erstellt",
+            "CONTACT_UPDATED": "Kontakt aktualisiert"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook-URL",
+          "PLACEHOLDER": "Beispiel: https://beispiel/api/webhook",
+          "ERROR": "Bitte geben Sie eine gültige URL ein"
+        },
+        "EDIT_SUBMIT": "Webhook aktualisieren",
+        "ADD_SUBMIT": "Webhook erstellen"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Konfigurieren",
+      "HEADER": "Webhook-Einstellungen",
+      "HEADER_BTN_TXT": "Neuen Webhook hinzufügen",
+      "LOADING": "Angehängte Webhooks abrufen",
+      "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
+      "SIDEBAR_TXT": "<p> <b> Webhooks </b> </p> <p> Webhooks sind HTTP-Rückrufe, die für jedes Konto definiert werden können. Sie werden durch Ereignisse wie die Erstellung von Nachrichten in Chatwoot ausgelöst. Sie können mehr als einen Webhook für dieses Konto erstellen. <br /> <br /> Um einen <b> Webhook </b> zu erstellen, klicken Sie auf die Schaltfläche <b> Neuen Webhook hinzufügen </b>. Sie können auch vorhandene Webhooks entfernen, indem Sie auf die Schaltfläche Löschen klicken. </p>",
+      "LIST": {
+        "404": "Für dieses Konto sind keine Webhooks konfiguriert.",
+        "TITLE": "Webhooks verwalten",
+        "TABLE_HEADER": [
+          "Webhook-Endpunkt",
+          "Aktionen"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Bearbeiten",
+        "TITLE": "Webhook bearbeiten",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook-Konfiguration erfolgreich aktualisiert",
+          "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Stornieren",
+        "TITLE": "Neuen Webhook hinzufügen",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook-Konfiguration erfolgreich hinzugefügt",
+          "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Löschen",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        },
+        "CONFIRM": {
+          "TITLE": "Löschung bestätigen",
+          "MESSAGE": "Möchten Sie den Webhook wirklich löschen? ({webhookURL})",
+          "YES": "Ja, löschen ",
+          "NO": "Nein, behalte es"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Löschen",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Integration löschen",
+        "MESSAGE": "Sind Sie sicher, dass Sie die Integration löschen möchten? Dadurch verlieren Sie den Zugang zu Konversationen in Ihrem Slack-Arbeitsbereich."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Slack-Integration verwenden",
+        "BODY": "<br/><p>Chatwoot wird nun alle eingehenden Konversationen in den <b><i>Kundengespräche</i></b> Channel innerhalb Ihres Slack Arbeitsplatzes synchronisieren.</p><p>Wenn Sie in <b><i>Kunden-Konversationen</i></b> antworten, wird der Slack Kanal eine Antwort an den Kunden durch Chat erzeugen.</p><p>Starten Sie die Antworten mit <b><i>Notiz:</i></b> um private Notizen anstatt Antworten zu erstellen.</p><p>Wenn der Replier auf Slack ein Agentenprofil im Chatwoot unter der gleichen E-Mail hat, werden die Antworten entsprechend assoziiert.</p><p>Wenn der Replier kein Agentenprofil hat, werden die Antworten aus dem Bot-Profil getätigt.</p>",
+        "SELECTED": "ausgewählt"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Einen Kanal auswählen",
+        "UPDATE": "Aktualisieren",
+        "BUTTON_TEXT": "Kanal verbinden",
+        "DESCRIPTION": "Ihr Slack-Arbeitsbereich ist jetzt mit Chatwoot verbunden. Die Integration ist jedoch derzeit inaktiv. Um die Integration zu aktivieren und einen Kanal mit Chatwoot zu verbinden, klicken Sie bitte auf den untenstehenden Button.\n\n**Hinweis:** Wenn Sie versuchen, einen privaten Kanal zu verbinden, fügen Sie die Chatwoot-App dem Slack-Kanal hinzu, bevor Sie diesen Schritt fortsetzen.",
+        "ATTENTION_REQUIRED": "Achtung",
+        "EXPIRED": "Ihre Slack-Integration ist abgelaufen. Um weiterhin Nachrichten auf Slack zu erhalten, löschen Sie bitte die Integration und verbinden Sie Ihren Arbeitsbereich erneut."
+      },
+      "UPDATE_ERROR": "Beim Aktualisieren der Integration ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+      "UPDATE_SUCCESS": "Der Kanal wurde erfolgreich verbunden",
+      "FAILED_TO_FETCH_CHANNELS": "Beim Abrufen der Kanäle von Slack ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klicken Sie hier, um beizutreten",
+      "LEAVE_THE_ROOM": "Raum verlassen",
+      "START_VIDEO_CALL_HELP_TEXT": "Einen neuen Videoanruf mit dem Kunden starten",
+      "JOIN_ERROR": "Beim Verbinden des Anrufs ist ein Fehler aufgetreten, bitte versuche es erneut",
+      "CREATE_ERROR": "Beim Erstellen eines Meeting-Links ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI-Assistent",
+      "WITH_AI": " {option} mit KI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Antwortvorschlag",
+        "SUMMARIZE": "Zusammenfassen",
+        "REPHRASE": "Schreibstil verbessern",
+        "FIX_SPELLING_GRAMMAR": "Rechtschreibung und Grammatik korrigieren",
+        "SHORTEN": "Kürzen",
+        "EXPAND": "Erweitern",
+        "MAKE_FRIENDLY": "Nachrichtenton in freundlich ändern",
+        "MAKE_FORMAL": "Formellen Ton verwenden",
+        "SIMPLIFY": "Vereinfachen"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Inhalt entwerfen",
+        "GENERATED_TITLE": "Generierter Inhalt",
+        "AI_WRITING": "Die KI schreibt",
+        "BUTTONS": {
+          "APPLY": "Diesen Vorschlag verwenden",
+          "CANCEL": "Stornieren"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Mit OpenAI integrieren",
+        "DESC": "Erweitern Sie Ihr Dashboard um fortschrittliche KI-Funktionen mit OpenAI's GPT-Modellen. Um loszulegen, geben Sie den API-Schlüssel aus Ihrem OpenAI-Konto ein.",
+        "KEY_PLACEHOLDER": "Geben Sie Ihren OpenAI-API-Schlüssel ein",
+        "BUTTONS": {
+          "NEED_HELP": "Brauchen Sie Hilfe?",
+          "DISMISS": "Verwerfen",
+          "FINISH": "Einrichtung abschließen"
+        },
+        "DISMISS_MESSAGE": "Sie können die OpenAI-Integration später jederzeit einrichten.",
+        "SUCCESS_MESSAGE": "OpenAI-Integration erfolgreich eingerichtet"
+      },
+      "TITLE": "Mit KI verbessern",
+      "SUMMARY_TITLE": "Zusammenfassung mit KI",
+      "REPLY_TITLE": "Vorschlag mit KI beantworten",
+      "SUBTITLE": "Eine verbesserte Antwort wird mithilfe der KI generiert, basierend auf Ihrem aktuellen Entwurf.",
+      "TONE": {
+        "TITLE": "Ton",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professionell",
+          "FRIENDLY": "Freundlich"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generieren",
+        "GENERATING": "Generieren...",
+        "CANCEL": "Abbrechen"
+      },
+      "GENERATE_ERROR": "Beim Verarbeiten des Inhalts ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration erfolgreich gelöscht"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Verbinden"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard-Apps",
+      "HEADER_BTN_TXT": "Eine neue Dashboard-App hinzufügen",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Chatwoot-Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese in das Dashboard einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.</p><p>Wenn Sie Ihre Anwendung über das Dashboard in Chatwoot einbetten, erhält Ihre Anwendung den Kontext der Unterhaltung und des Kontakts als Fensterereignis. Implementieren Sie einen Listener für das Nachrichtenereignis auf Ihrer Seite, um den Kontext zu erhalten. </p><p>Um eine neue Dashboard-App hinzuzufügen, klicken Sie auf die Schaltfläche „Neue Dashboard-App hinzufügen“.</p>",
+      "DESCRIPTION": "Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.",
+      "LEARN_MORE": "Mehr über Dashboard-Apps erfahren",
+      "LIST": {
+        "404": "Für dieses Konto sind noch keine Dashboard-Apps konfiguriert",
+        "LOADING": "Dashboard-Apps werden abgerufen...",
+        "TABLE_HEADER": [
+          "Name",
+          "Endpunkt"
+        ],
+        "EDIT_TOOLTIP": "App bearbeiten",
+        "DELETE_TOOLTIP": "Anwendung löschen"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Name",
+        "TITLE_PLACEHOLDER": "Geben Sie einen Namen für Ihre Dashboard-App ein",
+        "TITLE_ERROR": "Ein Name für die Dashboard-App ist erforderlich",
+        "URL_LABEL": "Endpunkt",
+        "URL_PLACEHOLDER": "Geben Sie die Endpunkt-URL ein, auf der Ihre App gehostet wird",
+        "URL_ERROR": "Eine gültige URL ist erforderlich"
+      },
+      "CREATE": {
+        "HEADER": "Eine neue Dashboard-App hinzufügen",
+        "FORM_SUBMIT": "Einreichen",
+        "FORM_CANCEL": "Stornieren",
+        "API_SUCCESS": "Dashboard-App erfolgreich konfiguriert",
+        "API_ERROR": "Wir konnten keine App erstellen. Bitte versuchen Sie es später erneut"
+      },
+      "UPDATE": {
+        "HEADER": "Dashboard-App bearbeiten",
+        "FORM_SUBMIT": "Aktualisieren",
+        "FORM_CANCEL": "Stornieren",
+        "API_SUCCESS": "Dashboard-App erfolgreich aktualisiert",
+        "API_ERROR": "Wir konnten die App nicht aktualisieren. Bitte versuchen Sie es später erneut"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Ja, löschen",
+        "CONFIRM_NO": "Nein, behalte es",
+        "TITLE": "Löschen bestätigen",
+        "MESSAGE": "Möchten Sie die App {appName} wirklich löschen?",
+        "API_SUCCESS": "Dashboard-App erfolgreich gelöscht",
+        "API_ERROR": "Wir konnten die App nicht löschen. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Lineares Problem erstellen/verknüpfen",
+      "LOADING": "Lineare Probleme werden abgerufen...",
+      "LOADING_ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+      "CREATE": "Erstellen",
+      "LINK": {
+        "SEARCH": "Probleme suchen",
+        "SELECT": "Problem auswählen",
+        "TITLE": "Link",
+        "EMPTY_LIST": "Keine linearen Probleme gefunden",
+        "LOADING": "Wird geladen",
+        "ERROR": "Beim Abrufen der linearen Probleme ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LINK_SUCCESS": "Problem erfolgreich verknüpft",
+        "LINK_ERROR": "Beim Verknüpfen des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LINK_TITLE": "Unterhaltung (#{conversationId}) mit {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Lineares Problem erstellen/verknüpfen",
+        "DESCRIPTION": "Erstellen Sie lineare Tickets aus Unterhaltungen oder verknüpfen Sie bestehende zur nahtlosen Verfolgung.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Titel eingeben",
+            "REQUIRED_ERROR": "Titel ist erforderlich"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Beschreibung",
+            "PLACEHOLDER": "Beschreibung eingeben"
+          },
+          "TEAM": {
+            "LABEL": "Team",
+            "PLACEHOLDER": "Team auswählen",
+            "SEARCH": "Team suchen",
+            "REQUIRED_ERROR": "Team ist erforderlich"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Zugewiesener",
+            "PLACEHOLDER": "Zuständigen auswählen",
+            "SEARCH": "Zuständigen suchen"
+          },
+          "PRIORITY": {
+            "LABEL": "Priorität",
+            "PLACEHOLDER": "Priorität auswählen",
+            "SEARCH": "Priorität suchen"
+          },
+          "LABEL": {
+            "LABEL": "Label",
+            "PLACEHOLDER": "Label auswählen",
+            "SEARCH": "Label suchen"
+          },
+          "STATUS": {
+            "LABEL": "Status",
+            "PLACEHOLDER": "Status auswählen",
+            "SEARCH": "Status suchen"
+          },
+          "PROJECT": {
+            "LABEL": "Projekt",
+            "PLACEHOLDER": "Projekt auswählen",
+            "SEARCH": "Projekt suchen"
+          }
+        },
+        "CREATE": "Erstellen",
+        "CANCEL": "Stornieren",
+        "CREATE_SUCCESS": "Problem erfolgreich erstellt",
+        "CREATE_ERROR": "Beim Erstellen des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LOADING_TEAM_ERROR": "Beim Abrufen der Teams ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+        "LOADING_TEAM_ENTITIES_ERROR": "Beim Abrufen der Team-Entitäten ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+      },
+      "ISSUE": {
+        "STATUS": "Status",
+        "PRIORITY": "Priorität",
+        "ASSIGNEE": "Zugewiesener",
+        "LABELS": "Labels",
+        "CREATED_AT": "Erstellt am {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Verknüpfung aufheben",
+        "SUCCESS": "Problem erfolgreich getrennt",
+        "ERROR": "Beim Aufheben der Verknüpfung des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Hämtar konversationer",
+    "LOAD_MORE_CONVERSATIONS": "Ladda fler konversationer",
+    "EOF": "Alla konversationer laddade 🎉",
+    "LIST": {
+      "404": "Det finns inga aktiva konversationer i denna grupp."
+    },
+    "TAB_HEADING": "Konversationer",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Sök efter personer, chattar, sparade svar .."
+    },
+    "FILTER_ALL": "Alla",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mina",
+      "unassigned": "Otilldelade",
+      "all": "Alla"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Öppna"
+      },
+      "resolved": {
+        "TEXT": "Löst"
+      },
+      "pending": {
+        "TEXT": "Väntande"
+      },
+      "snoozed": {
+        "TEXT": "Pausad"
+      },
+      "all": {
+        "TEXT": "Alla"
+      }
+    },
+    "VIEW_FILTER": "Visa",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Skapad",
+        "OLDEST": "Skapad den:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Senaste aktivitet:",
+        "ACTIVE": "Senaste aktivitet"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Bildmeddelande"
+      },
+      "audio": {
+        "CONTENT": "Ljudmeddelande"
+      },
+      "video": {
+        "CONTENT": "Videomeddelande"
+      },
+      "file": {
+        "CONTENT": "Bifogad fil"
+      },
+      "location": {
+        "CONTENT": "Plats"
+      },
+      "fallback": {
+        "CONTENT": "har delat en webbadress"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Senaste meddelandet"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Mottaget via e-post",
+    "VIEW_TWEET_IN_TWITTER": "Visa tweet i Twitter",
+    "REPLY_TO_TWEET": "Svara på detta tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Skickades framgångsrikt",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Inga meddelanden",
+    "NO_CONTENT": "Inget innehåll tillgängligt",
+    "HIDE_QUOTED_TEXT": "Dölj citerad text",
+    "SHOW_QUOTED_TEXT": "Visa citerad text",
+    "MESSAGE_READ": "Read"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "MACROS": {
+    "HEADER": "Makros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Neues Makro hinzufügen",
+    "HEADER_BTN_TXT_SAVE": "Makro speichern",
+    "LOADING": "Makros abrufen",
+    "ERROR": "Etwas ist schiefgelaufen. Bitte versuche es erneut",
+    "ORDER_INFO": "Makros werden in der Reihenfolge ausgeführt, in der Sie Ihre Aktionen hinzufügen. Sie können sie neu anordnen, indem Sie sie am Griff neben jedem Knoten ziehen.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Makroname",
+          "PLACEHOLDER": "Geben Sie einen Namen für Ihr Makro ein",
+          "ERROR": "Der Name ist zum Erstellen eines Makros erforderlich"
+        },
+        "ACTIONS": {
+          "LABEL": "Aktionen"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro erfolgreich hinzugefügt",
+        "ERROR_MESSAGE": "Makro kann nicht erstellt werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Name",
+        "Erstellt von",
+        "Zuletzt aktualisiert von",
+        "Sichtbarkeit"
+      ],
+      "404": "Keine Makros gefunden"
+    },
+    "DELETE": {
+      "TOOLTIP": "Makro löschen",
+      "CONFIRM": {
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "YES": "Ja, löschen",
+        "NO": "Nein"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Beim Löschen des Makros ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Makro bearbeiten",
+      "API": {
+        "SUCCESS_MESSAGE": "Makro erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Makro konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Flow starten",
+      "END_FLOW": "Flow beenden",
+      "LOADING": "Makro abrufen",
+      "ADD_BTN_TOOLTIP": "Neue Aktion hinzufügen",
+      "DELETE_BTN_TOOLTIP": "Aktion löschen",
+      "VISIBILITY": {
+        "LABEL": "Makrosichtbarkeit",
+        "GLOBAL": {
+          "LABEL": "Öffentlich",
+          "DESCRIPTION": "Dieses Makro ist öffentlich für alle Agenten in diesem Konto verfügbar."
+        },
+        "PERSONAL": {
+          "LABEL": "Privat",
+          "DESCRIPTION": "Dieses Makro ist für Sie privat und steht anderen nicht zur Verfügung."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Ausführen",
+      "PREVIEW": "Makrovorschau",
+      "EXECUTED_SUCCESSFULLY": "Makro erfolgreich ausgeführt"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribut-Schlüssel ist erforderlich",
+      "FILTER_OPERATOR_REQUIRED": "Filter-Operator ist erforderlich",
+      "VALUE_REQUIRED": "Wert ist erforderlich",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wert muss zwischen 1 und 998 liegen",
+      "ACTION_PARAMETERS_REQUIRED": "Aktionsparameter sind erforderlich",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Mindestens eine Bedingung ist erforderlich",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Mindestens eine Aktion ist erforderlich"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Create an account",
+    "TITLE": "Đăng kí",
+    "TESTIMONIAL_HEADER": "Tất cả chỉ cần một bước để tiến về phía trước",
+    "TESTIMONIAL_CONTENT": "Bạn chỉ còn một bước nữa là có thể thu hút khách hàng của mình, giữ chân họ và tìm kiếm những khách hàng mới.",
+    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Tên công ty",
+      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
+      "ERROR": "Tên công ty quá ngắn."
+    },
+    "FULL_NAME": {
+      "LABEL": "Tên đầy đủ",
+      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
+      "ERROR": "Tên đầy đủ quá ngắn."
+    },
+    "EMAIL": {
+      "LABEL": "Email công việc",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Vui lòng nhập địa chỉ email công việc hợp lệ."
+    },
+    "PASSWORD": {
+      "LABEL": "Mật khẩu",
+      "PLACEHOLDER": "Mật khẩu",
+      "ERROR": "Mật khẩu quá ngắn.",
+      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt."
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirm password",
+      "PLACEHOLDER": "Confirm password",
+      "ERROR": "Mật khẩu không khớp."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+    },
+    "SUBMIT": "Create account",
+    "HAVE_AN_ACCOUNT": "Đã có tài khoản?"
+  }
+}

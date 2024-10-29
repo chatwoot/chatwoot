@@ -1,0 +1,283 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ru:
+  hello: "Привет мир"
+  messages:
+    reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
+    reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
+    inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
+  errors:
+    validations:
+      presence: не должен быть пустым
+    webhook:
+      invalid: Недопустимые события
+    signup:
+      disposable_email: Мы не разрешаем одноразовые почтовые ящики
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Вы ввели неверный email
+      email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
+      invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
+      failed: Ошибка регистрации
+    data_import:
+      data_type:
+        invalid: Недопустимый тип данных
+    contacts:
+      import:
+        failed: Пустой файл
+      export:
+        success: Мы сообщим вам, как только файл для экспорта контактов будет готов к просмотру.
+      email:
+        invalid: Неверный email
+      phone_number:
+        invalid: должен иметь формат e164
+    categories:
+      locale:
+        unique: Должны быть уникальными в категории и портале
+    dyte:
+      invalid_message_type: "Недопустимый тип сообщения. Действие запрещено"
+    slack:
+      invalid_channel_id: "Неправильный канал slack - попробуйте еще раз"
+    inboxes:
+      imap:
+        socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
+        no_response_error: Проверьте учетные данные IMAP и повторите попытку.
+        host_unreachable_error: Хост недоступен. Проверьте адрес IMAP, порт IMAP и повторите попытку.
+        connection_timed_out_error: Время ожидания соединения для %{address}:%{port} истекло
+        connection_closed_error: Соединение закрыто.
+      validations:
+        name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
+    custom_filters:
+      number_of_records: Достигнут лимит. Максимальное количество разрешенных пользовательских фильтров для каждого пользователя - 50.
+      invalid_attribute: Недопустимый ключ атрибута - [%{key}]. Ключ должен быть одним из [%{allowed_keys}] или пользовательским атрибутом, указанным в учетной записи.
+      invalid_operator: Неверный оператор. Допустимыми операторами для %{attribute_name} являются [%{allowed_keys}].
+      invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
+  reports:
+    period: Отчётный период с %{since} по %{until}
+    utc_warning: Отчёт создан в часовом поясе UTC
+    agent_csv:
+      agent_name: Имя оператора
+      conversations_count: Назначенные диалоги
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
+      resolution_count: Количество завершенных
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Имя источника
+      inbox_type: Тип входящего сообщения
+      conversations_count: Количество диалогов
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
+    label_csv:
+      label_title: Метка
+      conversations_count: Количество диалогов
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
+    team_csv:
+      team_name: Название команды
+      conversations_count: Количество бесед
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
+      resolution_count: Количество завершенных
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Часовой пояс
+    sla_csv:
+      conversation_id: ID диалога
+      sla_policy_breached: Политика SLA
+      assignee: Назначено
+      team: Команда
+      inbox: Электронная почта
+      labels: Категории
+      conversation_link: Ссылка на диалог
+      breached_events: Пропущенные события
+    default_group_by: день
+    csat:
+      headers:
+        contact_name: Имя контакта
+        contact_email_address: Email контакта
+        contact_phone_number: Номер телефона контакта
+        link_to_the_conversation: Ссылка на диалог
+        agent_name: Имя оператора
+        rating: Оценка
+        feedback: Комментарий к отзыву
+        recorded_at: Дата записи
+  notifications:
+    notification_title:
+      conversation_creation: "В %{inbox_name} создана беседа (#%{display_id})"
+      conversation_assignment: "Вам назначен диалог (#%{display_id})"
+      assigned_conversation_new_message: "Новое сообщение создано в разговоре (#%{display_id})"
+      conversation_mention: "Вас упомянули в разговоре (#%{display_id})"
+      sla_missed_first_response: "Целевой показатель SLA - пропущенный первый ответ для разговора (#%{display_id})"
+      sla_missed_next_response: "SLA целевой следующий ответ, пропущенный для разговора (#%{display_id})"
+      sla_missed_resolution: "Пропущен срок выполнения SLA для разговора (#%{display_id})"
+    attachment: "Вложение"
+    no_content: "Нет содержимого"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} упомянул Вас в истории: "
+      instagram_deleted_story_content: Эта история больше недоступна.
+      deleted: Это сообщение было удалено
+      delivery_status:
+        error_code: "Код ошибки: %{error_code}"
+    activity:
+      status:
+        resolved: "%{user_name} завершил диалог"
+        contact_resolved: "Разговор был закрыт %{contact_name}"
+        open: "%{user_name} открыл заново диалог"
+        pending: "Разговор был помечен как ожидающий %{user_name}"
+        snoozed: "Разговор был помечен как отложенный %{user_name}"
+        auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
+        system_auto_open: Система переоткрыла разговор из-за нового входящего сообщения.
+      priority:
+        added: '%{user_name} установил приоритет на %{new_priority}'
+        updated: '%{user_name} изменил приоритет с %{old_priority} на %{new_priority}'
+        removed: '%{user_name} удалил приоритет'
+      assignee:
+        self_assigned: "%{user_name} назначил(а) разговор себе"
+        assigned: "%{user_name} назначил %{assignee_name} ответственным"
+        removed: "Ответственный снят %{user_name}"
+      team:
+        assigned: "%{user_name} назначил %{team_name} ответственным"
+        assigned_with_assignee: "%{user_name} назначил %{assignee_name} в %{team_name}"
+        removed: "%{user_name} исключил из %{team_name}"
+      labels:
+        added: "%{user_name} добавил %{labels}"
+        removed: "%{user_name} удалил %{labels}"
+      sla:
+        added: "%{user_name} добавил политику SLA %{sla_name}"
+        removed: "%{user_name} удалил политику SLA %{sla_name}"
+      muted: "%{user_name} заглушил(а) этот разговор"
+      unmuted: "%{user_name} включил(а) уведомления для разговора"
+    templates:
+      greeting_message_body: "%{account_name} как правило отвечает в течении несколько часов."
+      ways_to_reach_you_message_body: "Оставьте ваш email для связи"
+      email_input_box_message_body: "Получать уведомления по email"
+      csat_input_message_body: "Пожалуйста, оцените разговор"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} от %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} от %{inbox_name} <%{reply_email}>"
+          friendly_name: "%{sender_name} из %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} из %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Новые сообщения в этом диалоге"
+      transcript_subject: "Субтитры общения"
+    survey:
+      response: "Пожалуйста, оцените этот разговор, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} в сети, повторите попытку позже"
+  integration_apps:
+    dashboard_apps:
+      name: "Панель приложений"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} приступил к встрече"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Диалог"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Перевод"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Поиск статьи по названию или содержанию...
+      empty_placeholder: Результаты не найдены.
+      loading_placeholder: Идёт поиск...
+      results_title: Результаты поиска
+    toc_header: 'На этой странице'
+    hero:
+      sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
+    common:
+      home: Главная
+      last_updated_on: Обновлено %{last_updated_on}
+      view_all_articles: Посмотреть все
+      article: статья
+      articles: статьи
+      author: автор
+      authors: авторы
+      other: другое
+      others: другие
+      by: От
+      no_articles: Здесь нет статей
+    footer:
+      made_with: Сделано с
+    header:
+      go_to_homepage: Сайт
+      appearance:
+        system: Система
+        light: Светлая
+        dark: Тёмная
+      featured_articles: Рекомендуемые статьи
+      uncategorized: Без категории
+    404:
+      title: Страница не найдена
+      description: Мы не смогли найти запрашиваемую вами страницу.
+      back_to_home: Перейти на главную страницу
+  slack_unfurl:
+    fields:
+      name: Имя
+      email: Email
+      phone_number: Телефон
+      company_name: Компания
+      inbox_name: Электронная почта
+      inbox_type: Тип источника
+    button: Открыть беседу
+  time_units:
+    days:
+      one: "%{count} день"
+      few: "%{count} дней"
+      many: "%{count} дней"
+      other: "%{count} дней"
+    hours:
+      one: "%{count} час"
+      few: "%{count} часов"
+      many: "%{count} часов"
+      other: "%{count} часов"
+    minutes:
+      one: "%{count} минут"
+      few: "%{count} минут"
+      many: "%{count} минут"
+      other: "%{count} минут"
+    seconds:
+      one: "%{count} секунд"
+      few: "%{count} секунд"
+      many: "%{count} секунд"
+      other: "%{count} секунд"

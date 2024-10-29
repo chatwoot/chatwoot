@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "注册帐户",
+    "TITLE": "注册",
+    "TERMS_ACCEPT": "通过注册，您同意我们的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 和 <a href=\"https://www.chatwoot.com/privacy-policy\">隐私政策</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "帐户名称",
+      "PLACEHOLDER": "Wayne企业",
+      "ERROR": "帐号名称太短了"
+    },
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "电子邮件无效"
+    },
+    "PASSWORD": {
+      "LABEL": "密码",
+      "PLACEHOLDER": "密码",
+      "ERROR": "密码太短了"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "请确认密码",
+      "PLACEHOLDER": "请确认密码",
+      "ERROR": "密码不匹配"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "注册成功",
+      "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+    },
+    "SUBMIT": "提交"
+  }
+}

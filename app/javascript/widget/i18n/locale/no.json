@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Last ned",
+      "UPLOADING": "Laster opp..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Send"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Send meldingen på nytt",
+      "ERROR_MESSAGE": "Kunne ikke sende, prøv på nytt"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Vi er pålogget",
+    "OFFLINE": "Vi er for øyeblikket borte"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
+    "IN_A_FEW_HOURS": "Svarer vanligvis innen et par timer",
+    "IN_A_DAY": "Svarer vanligvis innen en dag",
+    "BACK_IN": "Vi vil være tilbake online"
+  },
+  "DAY_NAMES": [
+    "Søndag",
+    "Mandag",
+    "Tirsdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lørdag"
+  ],
+  "START_CONVERSATION": "Start samtale",
+  "END_CONVERSATION": "Avslutt samtale",
+  "CONTINUE_CONVERSATION": "Fortsett samtalen",
+  "YOU": "Du",
+  "START_NEW_CONVERSATION": "Start en ny samtale",
+  "VIEW_UNREAD_MESSAGES": "Du har uleste meldinger",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
+    "CLOSE_MESSAGES_BUTTON": "Lukk",
+    "COMPANY_FROM": "fra",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat med oss"
+  },
+  "POWERED_BY": "Drevet av Chatwoot",
+  "EMAIL_PLACEHOLDER": "Skriv inn din e-post",
+  "CHAT_PLACEHOLDER": "Skriv inn meldingen",
+  "TODAY": "I dag",
+  "YESTERDAY": "I går",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Fullt navn",
+        "PLACEHOLDER": "Skriv inn fullt navn",
+        "REQUIRED_ERROR": "Fullt navn er påkrevd"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-postadresse",
+        "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
+        "REQUIRED_ERROR": "E-postadresse er påkrevd",
+        "VALID_ERROR": "Vennligst skriv inn en gyldig e-postadresse"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Tast inn ditt telefonnummer",
+        "REQUIRED_ERROR": "Telefonnummer er påkrevd",
+        "DIAL_CODE_VALID_ERROR": "Vennligst velg landskode",
+        "VALID_ERROR": "Tast inn ditt telefonnummer",
+        "DROPDOWN_EMPTY": "Ingen resultater funnet",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Melding",
+        "PLACEHOLDER": "Skriv inn meldingen din",
+        "ERROR": "Meldingen er for kort"
+      }
+    },
+    "CAMPAIGN_HEADER": "Angi navn og e-post før du starter samtalen",
+    "IS_REQUIRED": "er påkrevd",
+    "REQUIRED": "Påkrevd",
+    "REGEX_ERROR": "Vennligst oppgi gyldige opplysninger"
+  },
+  "FILE_SIZE_LIMIT": "Filens størrelse overskrider grensen på {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ugyldig felt"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Søk emojier",
+    "NOT_FOUND": "Ingen emojier samsvarer søket ditt",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Vurder samtalen din",
+    "SUBMITTED_TITLE": "Takk for at du ga din vurdering",
+    "PLACEHOLDER": "Fortell oss mer..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Be om utskrift av samtalen",
+    "SEND_EMAIL_SUCCESS": "Kopi av samtalen ble sendt",
+    "SEND_EMAIL_ERROR": "Det oppstod en feil. Prøv igjen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klikk her for å bli med",
+      "LEAVE_THE_ROOM": "Forlat samtalen"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populære artikler",
+    "VIEW_ALL_ARTICLES": "Vis alle artikler",
+    "IFRAME_LOAD_ERROR": "Det oppstod en feil under lasting av artikkelen, oppdater siden og prøv igjen."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bildemelding"
+    },
+    "audio": {
+      "CONTENT": "Lydmelding"
+    },
+    "video": {
+      "CONTENT": "Video beskjed"
+    },
+    "file": {
+      "CONTENT": "Vedlegg"
+    },
+    "location": {
+      "CONTENT": "Plassering"
+    },
+    "fallback": {
+      "CONTENT": "har delt en URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

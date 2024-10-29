@@ -1,0 +1,306 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrációk",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Feliratkozott események",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "Mégse",
+        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Események",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Beszélgetés létrehozva",
+            "CONVERSATION_STATUS_CHANGED": "Beszélgetés státusza megváltozott",
+            "CONVERSATION_UPDATED": "Beszélgetés frissítve",
+            "MESSAGE_CREATED": "Üzenet létrehozva",
+            "MESSAGE_UPDATED": "Üzenet frissítve",
+            "WEBWIDGET_TRIGGERED": "A felhasználó által megnyitott élő chat widget",
+            "CONTACT_CREATED": "Kontakt létrehozva",
+            "CONTACT_UPDATED": "Kontakt frissítve"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Például: https://példa.com/api/webhook",
+          "ERROR": "Kérjük helyes URL-t adj meg"
+        },
+        "EDIT_SUBMIT": "Webhook frissítése",
+        "ADD_SUBMIT": "Webhook létrehozása"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Beállítások",
+      "HEADER": "Webhook beállítások",
+      "HEADER_BTN_TXT": "Új webhook hozzáadása",
+      "LOADING": "Kapcsolódó Webhookok betöltése",
+      "SEARCH_404": "Nincs megfelelő elem",
+      "SIDEBAR_TXT": "<p><b>Webhook</b>-ok</p><p>A Webhook-ok HTTP visszahívások, melyek minden fiókhoz bállíthatóak. Chatwoot események, például beérkező üzenetek aktiválhatják a webhookokat. Több webhookot is beállíthatsz a fiókodhoz. <br /><br /> Egy <b>webhook</b> létrehozásához kattints a <b>Webhook hozzáadása</b> gombra. Le is törölheted a létrejött webhookokat a Törlés gombra kattintva.</p>",
+      "LIST": {
+        "404": "Nincs a fiókhoz rendelt Webhook.",
+        "TITLE": "Webhook kezelés",
+        "TABLE_HEADER": [
+          "Webhook végpont",
+          "Műveletek"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Szerkesztés",
+        "TITLE": "Webhook szerkesztése",
+        "API": {
+          "SUCCESS_MESSAGE": "A Webhook konfigurációja sikeresen frissítve",
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Mégse",
+        "TITLE": "Új webhook hozzáadása",
+        "API": {
+          "SUCCESS_MESSAGE": "A Webhook konfigurációja sikeresen hozzáadva",
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Törlés",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook sikeresen törölve",
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        },
+        "CONFIRM": {
+          "TITLE": "Törlés megerősítése",
+          "MESSAGE": "Biztosan törölni szeretnéd a webhookot? ({webhookURL})",
+          "YES": "Igen, Törlés ",
+          "NO": "Nem, tartsa meg"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Törlés",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Az integráció törlése",
+        "MESSAGE": "Biztos, hogy törölni szeretné az integrációt? Ha így tesz, elveszíti a Slack munkaterületén lévő beszélgetésekhez való hozzáférést."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "SELECTED": "kiválasztás"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Csatorna kiválasztása",
+        "UPDATE": "Frissítés",
+        "BUTTON_TEXT": "Csatlakozás a csatornához",
+        "DESCRIPTION": "A Slack munkaterülete mostantól összekapcsolódik a Chatwoot-tal. Az integráció azonban jelenleg inaktív. Az aktiválásához és egy Chatwoot-hoz való csatlakoztatásához kattintson az alábbi gombra.\n\n**Figyelem:** Ha egy privát csatornát próbál csatlakoztatni, akkor a Chatwoot alkalmazást adja hozzá a Slack-csatornához, mielőtt ezt a lépést folytatná.",
+        "ATTENTION_REQUIRED": "Figyelem szükséges",
+        "EXPIRED": "A Slack integráció lejárt. Ha továbbra is szeretne üzeneteket kapni a Slacken, törölje az integrációt, és csatlakoztassa újra a munkaterületét."
+      },
+      "UPDATE_ERROR": "Hiba történt az integráció frissítésében, kérjük, próbálja újra",
+      "UPDATE_SUCCESS": "A csatorna sikeresen csatlakozott",
+      "FAILED_TO_FETCH_CHANNELS": "Hiba történt a csatornák lekérdezésében a Slackből, kérjük, próbálja meg újra"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Kattintsd ide a csatlakozáshoz",
+      "LEAVE_THE_ROOM": "Szoba elhagyása",
+      "START_VIDEO_CALL_HELP_TEXT": "Új videóhívás indítása ügyféllel",
+      "JOIN_ERROR": "Hiba történt az híváshoz való csatlakozás során, kérjük próbáld újra",
+      "CREATE_ERROR": "Hiba történt a link létrehozása során, kérjük próbáld újra"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI segítség",
+      "WITH_AI": " {option} AI-al ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Válasz lehetőségek",
+        "SUMMARIZE": "Összefoglalás",
+        "REPHRASE": "Írás fejlesztése",
+        "FIX_SPELLING_GRAMMAR": "Helyesírás és nyelvtan kijavítása",
+        "SHORTEN": "Rövidítés",
+        "EXPAND": "Kiegészítés",
+        "MAKE_FRIENDLY": "Legyen személyes hangvételű",
+        "MAKE_FORMAL": "Legyen hivatalos hangvételű",
+        "SIMPLIFY": "Egyszerűsít"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Vázlatos szöveg",
+        "GENERATED_TITLE": "Generált szöveg",
+        "AI_WRITING": "AI éppen ír",
+        "BUTTONS": {
+          "APPLY": "Használja ezt a javaslatot",
+          "CANCEL": "Mégse"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "OpenAI-al integrálás",
+        "DESC": "Az OpenAI GPT modelljeivel fejlett AI funkciókat építhet be a menüjébe. A kezdéshez adja meg az API kulcsot az OpenAI-fiókjából.",
+        "KEY_PLACEHOLDER": "Adja meg az OpenAI API kulcsát",
+        "BUTTONS": {
+          "NEED_HELP": "Kell segítség?",
+          "DISMISS": "Elutasítás",
+          "FINISH": "Előkészületek befejezése"
+        },
+        "DISMISS_MESSAGE": "Az OpenAI integrációt később is beállíthatja, amikor csak akarja.",
+        "SUCCESS_MESSAGE": "OpenAI integráció sikeres beállítva"
+      },
+      "TITLE": "Javítás AI segítségével",
+      "SUMMARY_TITLE": "Összegzés Al segítségével",
+      "REPLY_TITLE": "Válasz a javaslatra az AI-val",
+      "SUBTITLE": "\nA jelenlegi piszkozat alapján továbbfejlesztett válasz jön létre mesterséges intelligencia használatával.",
+      "TONE": {
+        "TITLE": "Hangnem",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professzionális",
+          "FRIENDLY": "Barátságos"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generálás",
+        "GENERATING": "Generálás...",
+        "CANCEL": "Mégse"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "API": {
+        "SUCCESS_MESSAGE": "Integráció sikeresen törölve"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Kapcsolódás"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Kezdőlap applikációi",
+      "HEADER_BTN_TXT": "Új kezdőlapi applikáció hozzáadása",
+      "SIDEBAR_TXT": "<p><b>Irányítópult-alkalmazások</b></p><p>Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást a Chatwoot irányítópultjába, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ezzel a funkcióval önállóan hozhat létre alkalmazást, és beágyazhatja azt az irányítópultba, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.</p><p>Ha beágyazza alkalmazását a Chatwoot irányítópultjával, az alkalmazás ablakeseményként kapja meg a beszélgetés és a kapcsolatfelvétel kontextusát. Helyezzen el egy figyelőt az üzeneteseményhez az oldalon, hogy megkapja a kontextust.</p><p>Új irányítópult-alkalmazás hozzáadásához kattintson az „Új irányítópult-alkalmazás hozzáadása” gombra.</p>",
+      "DESCRIPTION": "Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást az irányítópultba, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ez a funkció lehetővé teszi, hogy önállóan hozzon létre egy alkalmazást, és beágyazza azt, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.\n",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LIST": {
+        "404": "Ebben a fiókban még nincsenek konfigurálva kezdőlapi-alkalmazások",
+        "LOADING": "Kezdőlapi alkalmazások lekérése...",
+        "TABLE_HEADER": [
+          "Név",
+          "Végpont"
+        ],
+        "EDIT_TOOLTIP": "App szerkesztése",
+        "DELETE_TOOLTIP": "App törlése"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Név",
+        "TITLE_PLACEHOLDER": "Add meg a kezdőlapi applikáció nevét",
+        "TITLE_ERROR": "A kezdőlapi applikáció nevének megadása kötelező",
+        "URL_LABEL": "Végpont",
+        "URL_PLACEHOLDER": "Add meg azt a végpont URL-jét, ahol az alkalmazást tárolják",
+        "URL_ERROR": "Érvényes URL megadása kötelező"
+      },
+      "CREATE": {
+        "HEADER": "Új kezdőlapi applikáció hozzáadása",
+        "FORM_SUBMIT": "Elküldés",
+        "FORM_CANCEL": "Mégse",
+        "API_SUCCESS": "Kezdőlapi applikációk sikeresen konfigurálva",
+        "API_ERROR": "Nem tudtuk megjeleníteni az appot, kérlek próbáld újra"
+      },
+      "UPDATE": {
+        "HEADER": "Kezdőlapi app szerkesztése",
+        "FORM_SUBMIT": "Frissítés",
+        "FORM_CANCEL": "Mégse",
+        "API_SUCCESS": "Kezdőlapi applikációk sikeresen frissítve",
+        "API_ERROR": "Nem tudtuk frissíteni az appot, kérlek próbáld újra"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Igen, töröld",
+        "CONFIRM_NO": "Nem, tartsd meg",
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Biztosan törölni szeretnéd az appot? ({appName}?",
+        "API_SUCCESS": "Kezdőlapi applikációk sikeresen törölve",
+        "API_ERROR": "Nem tudtuk törölni az appot, kérlek próbáld újra"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Létrehozás",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Cím",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Cím megadása kötelező"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Leírás",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Csapat",
+            "PLACEHOLDER": "Csapat kiválasztása",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioritás",
+            "PLACEHOLDER": "Prioritás megadása",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Cimke",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Státusz",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Létrehozás",
+        "CANCEL": "Mégse",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Státusz",
+        "PRIORITY": "Prioritás",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Cimkék",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
+    }
+  }
+}

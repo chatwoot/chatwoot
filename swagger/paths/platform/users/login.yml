@@ -1,0 +1,20 @@
+tags:
+  - Users
+operationId: get-sso-url-of-a-user
+summary: Get User SSO Link
+description: Get the sso link of a user
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+      type: object
+      properties:
+        url:
+          type: string
+          description: SSO url to autenticate the user
+  401:
+    description: Unauthorized
+  404:
+    description: The given user does not exist

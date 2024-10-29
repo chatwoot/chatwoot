@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "正在取得對話",
+    "LOAD_MORE_CONVERSATIONS": "載入更多對話",
+    "EOF": "所有對話已載入 🎉",
+    "LIST": {
+      "404": "這個群組中無有效對話"
+    },
+    "TAB_HEADING": "對話",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "搜尋人、聊天室、保存回覆"
+    },
+    "FILTER_ALL": "所有的",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "我的",
+      "unassigned": "未指派的",
+      "all": "所有的"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "打開"
+      },
+      "resolved": {
+        "TEXT": "已解決"
+      },
+      "pending": {
+        "TEXT": "待處理"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "所有的"
+      }
+    },
+    "VIEW_FILTER": "查看",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "狀態",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "建立於:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "圖片訊息"
+      },
+      "audio": {
+        "CONTENT": "聲音訊息"
+      },
+      "video": {
+        "CONTENT": "影片訊息"
+      },
+      "file": {
+        "CONTENT": "附件"
+      },
+      "location": {
+        "CONTENT": "位置"
+      },
+      "fallback": {
+        "CONTENT": "分享了一個網址"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "建立於",
+          "LABEL": "建立於"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "傳送成功",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "沒有訊息",
+    "NO_CONTENT": "沒有可用內容",
+    "HIDE_QUOTED_TEXT": "隱藏引用文字",
+    "SHOW_QUOTED_TEXT": "顯示引用文字",
+    "MESSAGE_READ": "Read"
+  }
+}

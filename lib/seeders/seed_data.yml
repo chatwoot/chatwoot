@@ -1,0 +1,437 @@
+company:
+  name: 'PaperLayer'
+  domain: 'paperlayer.test'
+users:
+  - name: 'Michael Scott'
+    gender: male
+    email: 'michael_scott@paperlayer.test'
+    team:
+      - 'sales'
+      - 'management'
+      - 'administration'
+      - 'warehouse'
+    role: 'administrator'
+  - name: 'David Wallace'
+    gender: male
+    email: 'david@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Deangelo Vickers'
+    gender: male
+    email: 'deangelo@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Jo Bennett'
+    gender: female
+    email: 'jo@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Josh Porter'
+    gender: male
+    email: 'josh@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Charles Miner'
+    gender: male
+    email: 'charles@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Ed Truck'
+    gender: male
+    email: 'ed@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Dan Gore'
+    gender: male
+    email: 'dan@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Craig D'
+    gender: male
+    email: 'craig@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Troy Underbridge'
+    gender: male
+    email: 'troy@paperlayer.test'
+    team:
+      - 'Management'
+  - name: 'Karen Filippelli'
+    gender: female
+    email: 'karn@paperlayer.test'
+    team:
+      - 'Sales'
+  - name: 'Danny Cordray'
+    gender: female
+    email: 'danny@paperlayer.test'
+    team:
+      - 'Sales'
+  - name: 'Ben Nugent'
+    gender: male
+    email: 'ben@paperlayer.test'
+    team:
+      - 'Sales'
+  - name: 'Todd Packer'
+    gender: male
+    email: 'todd@paperlayer.test'
+    team:
+      - 'Sales'
+  - name: 'Cathy Simms'
+    gender: female
+    email: 'cathy@paperlayer.test'
+    team:
+      - 'Administration'
+  - name: 'Hunter Jo'
+    gender: male
+    email: 'hunter@paperlayer.test'
+    team:
+      - 'Administration'
+  - name: 'Rolando Silva'
+    gender: male
+    email: 'rolando@paperlayer.test'
+    team:
+      - 'Administration'
+  - name: 'Stephanie Wilson'
+    gender: female
+    email: 'stephanie@paperlayer.test'
+    team:
+      - 'Administration'
+  - name: 'Jordan Garfield'
+    gender: male
+    email: 'jorodan@paperlayer.test'
+    team:
+      - 'Administration'
+  - name: 'Ronni Carlo'
+    gender: male
+    email: 'ronni@paperlayer.test'
+    team:
+      - 'Administration'
+  - name: 'Lonny Collins'
+    gender: female
+    email: 'lonny@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Madge Madsen'
+    gender: female
+    email: 'madge@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Glenn Max'
+    gender: female
+    email: 'glenn@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Jerry DiCanio'
+    gender: male
+    email: 'jerry@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Phillip Martin'
+    gender: male
+    email: 'phillip@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Michael Josh'
+    gender: male
+    email: 'michale_josh@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Matt Hudson'
+    gender: male
+    email: 'matt@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Gideon'
+    gender: male
+    email: 'gideon@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Bruce'
+    gender: male
+    email: 'bruce@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Frank'
+    gender: male
+    email: 'frank@paperlayer.test'
+    team:
+      - 'Warehouse'
+  - name: 'Louanne Kelley'
+    gender: female
+    email: 'louanne@paperlayer.test'
+  - name: 'Devon White'
+    gender: male
+    email: 'devon@paperlayer.test'
+  - name: 'Kendall'
+    gender: male
+    email: 'kendall@paperlayer.test'
+  - email: 'sadiq@paperlayer.test'
+    name: 'Sadiq'
+    gender: male
+teams:
+  - '💰 Sales'
+  - '💼 Management'
+  - '👩‍💼 Administration'
+  - '🚛 Warehouse'
+labels:
+    - title: 'billing'
+      color: '#28AD21'
+      show_on_sidebar: true
+    - title: 'software'
+      color: '#8F6EF2'
+      show_on_sidebar: true
+    - title: 'delivery'
+      color: '#A2FDD5'
+      show_on_sidebar: true
+    - title: 'ops-handover'
+      color: '#A53326'
+      show_on_sidebar: true
+    - title: 'premium-customer'
+      color: '#6FD4EF'
+      show_on_sidebar: true
+    - title: 'lead'
+      color: '#F161C8'
+      show_on_sidebar: true
+contacts:
+    - name: "Lorrie Trosdall"
+      email: "ltrosdall0@bravesites.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::WebWidget
+          messages:
+          - message_type: incoming
+            content: Hi, I'm having trouble logging in to my account.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Hi! Sorry to hear that. Can you please provide me with your username and email address so I can look into it for you?
+    - name: "Tiffanie Cloughton"
+      email: "tcloughton1@newyorker.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::FacebookPage
+          messages:
+          - message_type: incoming
+            content: Hi, I need some help with my billing statement.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Hello! I'd be happy to assist you with that. Can you please tell me which billing statement you're referring to?
+    - name: "Melonie Keatch"
+      email: "mkeatch2@reuters.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::TwitterProfile
+          messages:
+          - message_type: incoming
+            content: Hi, I think I accidentally deleted some important files. Can you help me recover them?
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Of course! Can you please tell me what type of files they were and where they were located on your device?
+    - name: "Olin Canniffe"
+      email: "ocanniffe3@feedburner.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Whatsapp
+          source_id: "123456723"
+          messages:
+          - message_type: incoming
+            content: Hi, I'm having trouble connecting to the internet.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Have you tried restarting your modem/router? If that doesn't work, please let me know and I can provide further assistance.
+    - name: "Viviene Corp"
+      email: "vcorp4@instagram.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Sms
+          source_id: "+1234567"
+          messages:
+          - message_type: incoming
+            content: Hi, I'm having trouble with the mobile app. It keeps crashing.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please try uninstalling and reinstalling the app and see if that helps? If not, please let me know and I can look into it further.
+    - name: "Drake Pittway"
+      email: "dpittway5@chron.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Line
+          messages:
+          - message_type: incoming
+            content: Hi, I'm trying to update my account information but it won't save.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Sorry for the inconvenience. Can you please provide me with the specific information you're trying to update and the error message you're receiving?
+    - name: "Klaus Crawley"
+      email: "kcrawley6@narod.ru"
+      gender: 'male'
+      conversations:
+        - channel: Channel::WebWidget
+          messages:
+          - message_type: incoming
+            content: Hi, I need some help setting up my new device.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: No problem! Can you please tell me the make and model of your device and what specifically you need help with?
+    - name: "Bing Cusworth"
+      email: "bcusworth7@arstechnica.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::TwitterProfile
+          messages:
+          - message_type: incoming
+            content: Hi, I accidentally placed an order for the wrong item. Can I cancel it?
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please provide me with your order number and I'll see if I can cancel it for you?
+    - name: "Claus Jira"
+      email: "cjira8@comcast.net"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Whatsapp
+          source_id: "12323432"
+          messages:
+          - message_type: incoming
+            content: Hi, I'm having trouble with my email. I can't seem to send or receive any messages.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please tell me what email client you're using and if you're receiving any error messages?
+    - name: "Quent Dalliston"
+      email: "qdalliston9@zimbio.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Whatsapp
+          source_id: "12342234324"
+          messages:
+          - message_type: incoming
+            content: Hi, I need some help resetting my password.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Sure! Can you please provide me with your username or email address and I'll send you a password reset link?
+    - name: "Coreen Mewett"
+      email: "cmewetta@home.pl"
+      gender: 'female'
+      conversations:
+        - channel: Channel::FacebookPage
+          messages:
+          - message_type: incoming
+            content: Hi, I think someone may have hacked into my account. What should I do?
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Please change your password immediately and enable two-factor authentication if you haven't already done so. I can also assist you in reviewing your account activity if needed.
+    - name: "Benyamin Janeway"
+      email: "bjanewayb@ustream.tv"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Line
+          messages:
+          - message_type: incoming
+            content: Hi, I have a question about your product features.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: Sure thing! What specific feature are you interested in learning more about?
+    - name: "Cordell Dalinder"
+      email: "cdalinderc@msn.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Email
+          source_id: "cdalinderc@msn.test"
+          messages:
+          - message_type: incoming
+            content: Hi, I need help setting up my new printer.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: No problem! Can you please provide me with the make and model of your printer and what type of device you'll be connecting it to?
+    - name: "Merrile Petruk"
+      email: "mpetrukd@wunderground.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Email
+          source_id: "mpetrukd@wunderground.test"
+          priority: urgent
+          messages:
+          - message_type: incoming
+            content: Hi, I'm having trouble accessing a file that I shared with someone.
+          - message_type: outgoing
+            sender: michael_scott@paperlayer.test
+            content: I'm sorry to hear that. Can you please tell me which file you're having trouble accessing and who you shared it with? I'll do my best to help you regain access.
+    - name: "Nathaniel Vannuchi"
+      email: "nvannuchie@photobucket.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::FacebookPage
+          priority: high
+          messages:
+            - message_type: incoming
+              content: "Hey there,I need some help with billing, my card is not working on the website."
+    - name: "Olia Olenchenko"
+      email: "oolenchenkof@bluehost.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::WebWidget
+          priority: high
+          assignee: michael_scott@paperlayer.test
+          messages:
+            - message_type: incoming
+              content: "Billing section is not working, it throws some error."
+    - name: "Elisabeth Derington"
+      email: "ederingtong@printfriendly.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Whatsapp
+          priority: high
+          source_id: "1223423567"
+          labels:
+            - billing
+            - delivery
+            - ops-handover
+            - premium-customer
+          messages:
+            - message_type: incoming
+              content: "Hey \n I didn't get the product delivered, but it shows it is delivered to my address. Please check"
+    - name: "Willy Castelot"
+      email: "wcasteloth@exblog.jp"
+      gender: 'male'
+      conversations:
+        - channel: Channel::WebWidget
+          priority: medium
+          labels:
+            - software
+            - ops-handover
+          messages:
+            - message_type: incoming
+              content: "Hey there, \n I need some help with the product, my button is not working on the website."
+    - name: "Ophelia Folkard"
+      email: "ofolkardi@taobao.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::WebWidget
+          priority: low
+          assignee: michael_scott@paperlayer.test
+          labels:
+            - billing
+            - software
+            - lead
+          messages:
+            - message_type: incoming
+              content: "Hey, \n My card is not working on your website. Please help"
+    - name: "Candice Matherson"
+      email: "cmathersonj@va.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Email
+          priority: urgent
+          source_id: "cmathersonj@va.test"
+          assignee: michael_scott@paperlayer.test
+          labels:
+            - billing
+            - lead
+          messages:
+            - message_type: incoming
+              content: "Hey, \n I'm looking for some help to figure out if it is the right product for me."
+            - message_type: outgoing
+              sender: michael_scott@paperlayer.test
+              content: Welcome to PaperLayer. Our Team will be getting back you shortly.
+            - message_type: outgoing
+              sender: michael_scott@paperlayer.test
+              content: How may i help you ?
+              sender: michael_scott@paperlayer.test

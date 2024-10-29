@@ -1,0 +1,61 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+ca:
+  devise:
+    confirmations:
+      confirmed: "El teu compte ha estat confirmat correctament. Si us plau, inicia la sessió."
+      send_instructions: "En breu rebràs un correu electrònic amb instruccions sobre com confirmar el teu compte."
+      send_paranoid_instructions: "Si la teva adreça electrònica existeix a la base de dades, rebràs un correu electrònic amb instruccions sobre com confirmar el teu compte."
+    failure:
+      already_authenticated: "Ja estàs identificat."
+      inactive: "El teu compte encara no ha estat activat."
+      invalid: "%{authentication_keys} o contrasenya invàlids."
+      locked: "El teu compte està bloquejat."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid email or password."
+      timeout: "La teva sessió ha caducat. Si us plau, torna a iniciar sessió per a continuar."
+      unauthenticated: "Has d'iniciar sessió o bé registrar-te abans de continuar."
+      unconfirmed: "Has de confirmar el teu compte abans de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instruccions de confirmació"
+      reset_password_instructions:
+        subject: "Instruccions de regeneració de contrasenya"
+      unlock_instructions:
+        subject: "Instruccions de desbloqueig"
+      password_change:
+        subject: "S'ha canviat la contrasenya"
+    omniauth_callbacks:
+      failure: "No hem pogut autoritzar el compte des de %{kind} perquè \"%{reason}\"."
+      success: "Autoritzat satisfactoriament el compte des de %{kind}."
+    passwords:
+      no_token: "No pots accedir aquesta pàgina si no ho fas seguint l'enllaç d'un correu de regeneració de contrasenya. Si ja en vens, assegura't que estàs utilitzant l'adreça sencera que has rebut."
+      send_instructions: "En breu rebràs un correu electrònic amb instruccions sobre com restablir la teva contrasenya."
+      send_paranoid_instructions: "Si la teva adreça electrònica existeix a la base de dades, rebràs un correu electrònic amb un enllaç per reestablir la contrasenya."
+      updated: "La teva contrasenya ha estat canviada correctament. S'ha iniciat la sessió."
+      updated_not_active: "La teva contrasenya ha estat canviada correctament."
+    registrations:
+      destroyed: "Adéu! El teu compte ha estat cancel·lat correctament. Esperem tornar-te a veure!"
+      signed_up: "Has estat registrat correctament."
+      signed_up_but_inactive: "Has estat registrat correctament. Tanmateix, no hem pogut iniciar la sessió perquè el teu compte encara no està activat."
+      signed_up_but_locked: "Has estat registrat correctament. Tanmateix, no hem pogut iniciar la sessió perquè el teu compte està bloquejat."
+      signed_up_but_unconfirmed: "Hem enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Si us plau, segueix l'enllaç per activar el teu compte."
+      update_needs_confirmation: "Has actualitzat el teu compte correctament, però hem de verificar la teva nova adreça de correu electrònic. Si us plau, revisa el teu correu i clica l'enllaç de confirmació per acabar el procès de verificació de la teva adreça de correu electrònic."
+      updated: "Has actualitzat el teu compte correctament."
+    sessions:
+      signed_in: "Sessió iniciada correctament."
+      signed_out: "Sessió tancada correctament."
+      already_signed_out: "Sessió tancada correctament."
+    unlocks:
+      send_instructions: "En breu rebràs un correu electrònic amb instruccions sobre com desbloquejar el teu compte."
+      send_paranoid_instructions: "Si el teu compte existeix, rebràs un correu electrònic amb instruccions sobre com desbloquejar-lo."
+      unlocked: "El teu compte ha estat desbloquejat correctament. S'ha iniciat la sessió."
+  errors:
+    messages:
+      already_confirmed: "ja està confirmat"
+      confirmation_period_expired: "ha de ser confirmada en %{period}, si us plau, demana'n un de nou"
+      expired: "ha caducat, demana'n un de nou"
+      not_found: "no s'ha trobat"
+      not_locked: "no està bloquejat"
+      not_saved:
+        one: "1 error ha evitat que %{resource} es pugui desar:"
+        other: "%{count} errors han evitat que %{resource} es pugui desar:"

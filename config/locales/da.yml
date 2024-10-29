@@ -1,0 +1,275 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+da:
+  hello: "Hej verden"
+  messages:
+    reset_password_success: Woot! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
+    reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+  errors:
+    validations:
+      presence: må ikke være tomt
+    webhook:
+      invalid: Ugyldige begivenheder
+    signup:
+      disposable_email: Vi tillader ikke engangs e-mails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Du har indtastet en ugyldig e-mail
+      email_already_exists: "Du har allerede tilmeldt dig en konto med %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
+      failed: Tilmelding mislykkedes
+    data_import:
+      data_type:
+        invalid: Ugyldig datatype
+    contacts:
+      import:
+        failed: Filen er tom
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: skal være i e164 format
+    categories:
+      locale:
+        unique: bør være unik i kategorien og portalen
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
+    inboxes:
+      imap:
+        socket_error: Tjek venligst netværksforbindelsen, IMAP-adressen og prøv igen.
+        no_response_error: Tjek venligst IMAP-legitimationsoplysningerne og prøv igen.
+        host_unreachable_error: Vært utilgængeligt, tjek venligst IMAP-adressen, IMAP-porten og prøv igen.
+        connection_timed_out_error: Forbindelsen fik timeout for %{address}:%{port}
+        connection_closed_error: Forbindelsen er lukket.
+      validations:
+        name: bør ikke starte eller slutte med symboler, og det skal ikke have < > / \ @ tegn.
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+  reports:
+    period: Rapporteringsperiode %{since} til %{until}
+    utc_warning: The report generated is in UTC timezone
+    agent_csv:
+      agent_name: Agentens navn
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Antal Afsluttede
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Indbakkens navn
+      inbox_type: Indbakke type
+      conversations_count: Antal samtaler
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    label_csv:
+      label_title: Etiketter
+      conversations_count: Antal samtaler
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    team_csv:
+      team_name: Team navn
+      conversations_count: Samtaler tæller
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Antal Afsluttede
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Team
+      inbox: Indbakke
+      labels: Etiketter
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
+    default_group_by: dag
+    csat:
+      headers:
+        contact_name: Kontakt Navn
+        contact_email_address: Kontakt E-Mail Adresse
+        contact_phone_number: Kontakt Telefonnummer
+        link_to_the_conversation: Link til samtalen
+        agent_name: Agentens Navn
+        rating: Bedømmelse
+        feedback: Feedback Kommentar
+        recorded_at: Optaget dato
+  notifications:
+    notification_title:
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} nævnte dig i historien: "
+      instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
+      deleted: Denne besked blev slettet
+      delivery_status:
+        error_code: "Error code: %{error_code}"
+    activity:
+      status:
+        resolved: "Samtalen blev markeret som løst af %{user_name}"
+        contact_resolved: "Samtalen blev løst af %{contact_name}"
+        open: "Samtalen blev genåbnet af %{user_name}"
+        pending: "Samtalen blev markeret som afventende af %{user_name}"
+        snoozed: "Samtalen blev udskudt af %{user_name}"
+        auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
+      assignee:
+        self_assigned: "%{user_name} selv-tildelte denne samtale"
+        assigned: "Tildelt %{assignee_name} af %{user_name}"
+        removed: "Samtale fjernet tildeling af %{user_name}"
+      team:
+        assigned: "Tildelt %{team_name} af %{user_name}"
+        assigned_with_assignee: "Tildelt %{assignee_name} via %{team_name} af %{user_name}"
+        removed: "Ikke tildelt fra %{team_name} af %{user_name}"
+      labels:
+        added: "%{user_name} tilføjede %{labels}"
+        removed: "%{user_name} fjernede %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
+      muted: "%{user_name} har slukket for samtalen"
+      unmuted: "%{user_name} har genaktiveret samtalen"
+    templates:
+      greeting_message_body: "%{account_name} svarer typisk på et par timer."
+      ways_to_reach_you_message_body: "Giv teamet en måde at kontakte dig på."
+      email_input_box_message_body: "Få besked via e-mail"
+      csat_input_message_body: "Bedøm venligst samtalen"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} fra %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} fra %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} fra %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} fra %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Nye beskeder i denne samtale"
+      transcript_subject: "Samtaleudskrift"
+    survey:
+      response: "Bedøm denne samtale, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} er online, prøv igen senere"
+  integration_apps:
+    dashboard_apps:
+      name: "Dashboard Apps"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Translate"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Ingen resultater fundet.
+      loading_placeholder: Søger...
+      results_title: Søgeresultater
+    toc_header: 'On this page'
+    hero:
+      sub_title: Søg efter artiklerne her eller gennemse kategorierne nedenfor.
+    common:
+      home: Hjem
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all
+      article: article
+      articles: artikler
+      author: forfatter
+      authors: authors
+      other: other
+      others: others
+      by: By
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
+  slack_unfurl:
+    fields:
+      name: Navn
+      email: E-mail
+      phone_number: Phone
+      company_name: Virksomhed
+      inbox_name: Indbakke
+      inbox_type: Inbox Type
+    button: Åbn samtale
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

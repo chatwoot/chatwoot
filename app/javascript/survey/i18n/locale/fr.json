@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Cher client 👋, veuillez prendre quelques instants pour partager vos commentaires sur la conversation que vous avez eue avec {inboxName}.",
+    "RATING": {
+      "LABEL": "Évaluer votre conversation",
+      "SUCCESS_MESSAGE": "Merci d'avoir soumis votre évaluation"
+    },
+    "FEEDBACK": {
+      "LABEL": "Avez-vous des pensées que vous aimeriez partager?",
+      "PLACEHOLDER": "Vos commentaires (facultatif)",
+      "BUTTON_TEXT": "Soumettre des commentaires"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Enquête mise à jour avec succès",
+      "ERROR_MESSAGE": "L'attribut personnalisé a été ajouté"
+    }
+  },
+  "POWERED_BY": "Propulsé par Chatwoot"
+}

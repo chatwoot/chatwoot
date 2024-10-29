@@ -1,0 +1,306 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integraties",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "Annuleren",
+        "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Gebeurtenissen",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Gesprek aangemaakt",
+            "CONVERSATION_STATUS_CHANGED": "Gespreksstatus veranderd",
+            "CONVERSATION_UPDATED": "Gesprek bijgewerkt",
+            "MESSAGE_CREATED": "Bericht aangemaakt",
+            "MESSAGE_UPDATED": "Bericht bijgewerkt",
+            "WEBWIDGET_TRIGGERED": "Live chat widget geopend door de gebruiker",
+            "CONTACT_CREATED": "Contact aangemaakt",
+            "CONTACT_UPDATED": "Contact aangemaakt"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Voorbeeld: https://voorbeeld/api/webhook",
+          "ERROR": "Voer een geldige URL in"
+        },
+        "EDIT_SUBMIT": "Webhook bijwerken",
+        "ADD_SUBMIT": "Maak webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Configureren",
+      "HEADER": "Webhook instellingen",
+      "HEADER_BTN_TXT": "Nieuwe webhook toevoegen",
+      "LOADING": "Bijgevoegde webhooks ophalen",
+      "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks zijn HTTP callbacks die voor elk account kunnen worden gedefinieerd. Ze worden geactiveerd door gebeurtenissen zoals het aanmaken van berichten in Chatwoot. Je kunt meer dan één webhook aanmaken voor dit account. <br /><br /> Voor het maken van een <b>webhook</b>, klik op de <b>Voeg nieuwe webhook</b> knop toe. U kunt ook alle bestaande webhook verwijderen door te klikken op de verwijderknop.</p>",
+      "LIST": {
+        "404": "Er zijn geen webhooks geconfigureerd voor dit account.",
+        "TITLE": "Webhooks beheren",
+        "TABLE_HEADER": [
+          "Webhook eindpunt",
+          "acties"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Bewerken",
+        "TITLE": "Webhook bewerken",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook configuratie succesvol bijgewerkt",
+          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        }
+      },
+      "ADD": {
+        "CANCEL": "annuleren",
+        "TITLE": "Nieuwe webhook toevoegen",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook configuratie succesvol toegevoegd",
+          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Verwijderen",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook succesvol verwijderd",
+          "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+        },
+        "CONFIRM": {
+          "TITLE": "Verwijdering bevestigen",
+          "MESSAGE": "Weet je zeker dat je de webhook wilt verwijderen? ({webhookURL})",
+          "YES": "Ja, verwijderen ",
+          "NO": "Nee, Bewaar het"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Verwijderen",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Integratie verwijderen",
+        "MESSAGE": "Weet u zeker dat u de integratie wilt verwijderen? Dit zal leiden tot verlies van toegang tot gesprekken op uw Slack werkruimte."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Using Slack Integration",
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "SELECTED": "geselecteerd"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Selecteer een kanaal",
+        "UPDATE": "Vernieuwen",
+        "BUTTON_TEXT": "Kanaal koppelen",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Aandacht vereist",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "Het kanaal is succesvol verbonden",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klik hier om deel te nemen",
+      "LEAVE_THE_ROOM": "Gesprek verlaten",
+      "START_VIDEO_CALL_HELP_TEXT": "Start een nieuw videogesprek met de klant",
+      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "AI Assistent",
+      "WITH_AI": " {option} met AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Antwoord suggestie",
+        "SUMMARIZE": "Samenvatten",
+        "REPHRASE": "Verbeter schrijven",
+        "FIX_SPELLING_GRAMMAR": "Repareer spelling en grammatica",
+        "SHORTEN": "Verkorten",
+        "EXPAND": "Uitklappen",
+        "MAKE_FRIENDLY": "Wijzig berichttoon naar vriendelijk",
+        "MAKE_FORMAL": "Gebruik formele toon",
+        "SIMPLIFY": "Vereenvoudigen"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Concept inhoud",
+        "GENERATED_TITLE": "Gegenereerde inhoud",
+        "AI_WRITING": "AI schrijft",
+        "BUTTONS": {
+          "APPLY": "Deze suggestie gebruiken",
+          "CANCEL": "Annuleren"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integreer met OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Voer je OpenAI API-sleutel in",
+        "BUTTONS": {
+          "NEED_HELP": "Hulp nodig?",
+          "DISMISS": "Negeer",
+          "FINISH": "Installatie voltooien"
+        },
+        "DISMISS_MESSAGE": "U kunt OpenAI integratie later instellen wanneer u wilt.",
+        "SUCCESS_MESSAGE": "OpenAI integratie installatie succesvol"
+      },
+      "TITLE": "Verbeter met AI",
+      "SUMMARY_TITLE": "Samenvatting met AI",
+      "REPLY_TITLE": "Antwoord suggesties met AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Toon",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professioneel",
+          "FRIENDLY": "Vriendelijk"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Genereer",
+        "GENERATING": "Genereren...",
+        "CANCEL": "Annuleren"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Integratie succesvol verwijderd"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Verbinden"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard apps",
+      "HEADER_BTN_TXT": "Voeg een nieuwe dashboard app toe",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LIST": {
+        "404": "There are no dashboard apps configured on this account yet",
+        "LOADING": "Fetching dashboard apps...",
+        "TABLE_HEADER": [
+          "Naam",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Bewerk app",
+        "DELETE_TOOLTIP": "App verwijderen"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Naam",
+        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "URL_ERROR": "A valid URL is required"
+      },
+      "CREATE": {
+        "HEADER": "Voeg een nieuwe dashboard app toe",
+        "FORM_SUBMIT": "Bevestigen",
+        "FORM_CANCEL": "Annuleren",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "We couldn't create an app. Please try again later"
+      },
+      "UPDATE": {
+        "HEADER": "Edit dashboard app",
+        "FORM_SUBMIT": "Vernieuwen",
+        "FORM_CANCEL": "Annuleren",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "We couldn't update the app. Please try again later"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Ja, verwijderen",
+        "CONFIRM_NO": "Nee, behouden",
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u de app - {appName} wilt verwijderen?",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "We couldn't delete the app. Please try again later"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Aanmaken",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Title is required"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Beschrijving",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Team",
+            "PLACEHOLDER": "Selecteer team",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioriteit",
+            "PLACEHOLDER": "Selecteer prioriteit",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Label",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Status",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Aanmaken",
+        "CANCEL": "Annuleren",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Status",
+        "PRIORITY": "Prioriteit",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Labelen",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
+    }
+  }
+}

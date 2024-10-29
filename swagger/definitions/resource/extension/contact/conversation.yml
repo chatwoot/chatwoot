@@ -1,0 +1,22 @@
+type: object
+properties:
+  meta:
+    type: object
+    properties:
+      sender:
+        type: object
+        properties:
+          id:
+            type: number
+            description: ID fo the sender
+          name:
+            type: string
+            description: The name of the sender
+          thumbnail:
+            type: string
+            description: Avatar URL of the contact
+          channel:
+            type: string
+            description: Channel Type
+      assignee:
+        $ref: '#/definitions/user'

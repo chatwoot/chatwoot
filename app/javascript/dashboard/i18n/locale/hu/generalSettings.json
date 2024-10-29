@@ -1,0 +1,174 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Fiókbeállítások",
+    "SUBMIT": "Beállítások frissítése",
+    "BACK": "Vissza",
+    "DISMISS": "Elutasítás",
+    "UPDATE": {
+      "ERROR": "Beállítás frissítés sikertelen, kérjük próbáld később!",
+      "SUCCESS": "Fiókbeállítások frissítve"
+    },
+    "FORM": {
+      "ERROR": "Kérjük javítsd ki az űrlaphibákat",
+      "GENERAL_SECTION": {
+        "TITLE": "Általános beállítások",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "Fiók Azonosító",
+        "NOTE": "Ez a személyazonosság akkor használható, ha API-alapú integrációt építesz"
+      },
+      "NAME": {
+        "LABEL": "Fióknév",
+        "PLACEHOLDER": "A fiókneved",
+        "ERROR": "Kérjük helyes fióknevet adj meg"
+      },
+      "LANGUAGE": {
+        "LABEL": "Oldal nyelve",
+        "PLACEHOLDER": "A fiókneved",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Beérkező e-mail domain",
+        "PLACEHOLDER": "A domain melyen az e-maileket fogadod",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Támogatási e-mail",
+        "PLACEHOLDER": "A vállalati támogatási e-mailcímed",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "A napok száma, mely után a ticketek automatikusan megoldódnak, ha nincs aktivitás",
+        "PLACEHOLDER": "30",
+        "ERROR": "Kérjük helyes auto feloldási időszakot adj meg (minimum 1 nap, maximum 999 nap)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "A beszélgetésfolytonosság e-maillel már elérhető a fiókodban.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Most már goadhatsz e-maileket az egyedi domaineden."
+      }
+    },
+    "UPDATE_CHATWOOT": "Egy frissítés elérhető a Chatwoothoz {latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
+    "LEARN_MORE": "Tudj meg többet",
+    "PAYMENT_PENDING": "A fizetésed folyamatban van. Kérlek, frissítsd fizetési adataitat a Chatwoot használatának folytatásához",
+    "LIMITS_UPGRADE": "A fiókod túllépte a használati korlátokat. Kérjük, frissítsd tervedet a Chatwoot használatának folytatásához",
+    "OPEN_BILLING": "Számlázási beállítások megnyitása"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Enter-rel válaszd ki",
+      "ENTER_TO_REMOVE": "Enter-rel távolítsd el",
+      "SELECT_ONE": "Válassz egyet",
+      "SELECT": "Kiválasztás"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Értesítések",
+    "MARK_ALL_DONE": "Mind kész",
+    "DELETE_TITLE": "törölve",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Olvasatlan értesítések",
+      "ALL_NOTIFICATIONS": "Összes értesítés nézete",
+      "LOADING_UNREAD_MESSAGE": "Olvasatlan értesítések betöltése...",
+      "EMPTY_MESSAGE": "Nincs olvasatlan értesítésed"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Értesítések betöltése...",
+      "404": "Nincs értesítés",
+      "TABLE_HEADER": [
+        "Név",
+        "Telefonszám",
+        "Beszélgetések",
+        "Utoljára kapcsolatban"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Új beszélgetés",
+      "conversation_assignment": "Beszélgetés hozzárendelve",
+      "assigned_conversation_new_message": "Új üzenet",
+      "participating_conversation_new_message": "Új üzenet",
+      "conversation_mention": "Megemlítés",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
+    },
+    "BUTTON": {
+      "REFRESH": "Frissítés"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Keresés vagy ugrás ide:",
+    "SECTIONS": {
+      "GENERAL": "Általános",
+      "REPORTS": "Jelentések",
+      "CONVERSATION": "Beszélgetés",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "Felelős megváltoztatása",
+      "CHANGE_PRIORITY": "Prioritás megváltoztatása",
+      "CHANGE_TEAM": "Csapat megváltoztatása",
+      "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
+      "ADD_LABEL": "Címke hozzáadása a beszélgetéshez",
+      "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
+      "SETTINGS": "Beállítások",
+      "AI_ASSIST": "AI segítség",
+      "APPEARANCE": "Megjelenés",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
+      "GO_TO_CONTACTS_DASHBOARD": "Ugrás a kapcsolatok kezdőoldalára",
+      "GO_TO_REPORTS_OVERVIEW": "Ugrás a jelentések áttekintésére",
+      "GO_TO_CONVERSATION_REPORTS": "Ugrás a beszélgetések kezdőoldalára",
+      "GO_TO_AGENT_REPORTS": "Ugrás ügynök jelentésére",
+      "GO_TO_LABEL_REPORTS": "Ugrás címke jelentésére",
+      "GO_TO_INBOX_REPORTS": "Ugrás beérkező levelek jelentésére",
+      "GO_TO_TEAM_REPORTS": "Ugrás csapat jelentésére",
+      "GO_TO_SETTINGS_AGENTS": "Ugrás az ügynük beállításaira",
+      "GO_TO_SETTINGS_TEAMS": "Csapat beállítások megnyitása",
+      "GO_TO_SETTINGS_INBOXES": "Fiók beállítások megnyitása",
+      "GO_TO_SETTINGS_LABELS": "Cimke beállítások megnyitása",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Sablonválasz beállítások megnyitása",
+      "GO_TO_SETTINGS_APPLICATIONS": "Alkalmazás beállítások megnyitása",
+      "GO_TO_SETTINGS_ACCOUNT": "Fiók szintű beállítások megnyitása",
+      "GO_TO_SETTINGS_PROFILE": "Profil beállítások megnyitása",
+      "GO_TO_NOTIFICATIONS": "Értesítések megnyitása",
+      "ADD_LABELS_TO_CONVERSATION": "Cimke hozzáadása a beszélgetéshez",
+      "ASSIGN_AN_AGENT": "Ügynök hozzárendelése",
+      "AI_ASSIST": "AI segítség",
+      "ASSIGN_PRIORITY": "Prioritás beállítása",
+      "ASSIGN_A_TEAM": "Csapat hozzárendelése",
+      "MUTE_CONVERSATION": "Beszélgetés némítása",
+      "UNMUTE_CONVERSATION": "Beszélgetés némításának feloldása",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Cimke eltávolítása a beszélgetésről",
+      "REOPEN_CONVERSATION": "Beszélgetés újranyitása",
+      "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
+      "SEND_TRANSCRIPT": "E-mail átirat küldése",
+      "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
+      "UNTIL_NEXT_REPLY": "Következő válaszig",
+      "UNTIL_NEXT_WEEK": "Jövő hétig",
+      "UNTIL_TOMORROW": "Holnapig",
+      "UNTIL_NEXT_MONTH": "Következő hónapig",
+      "AN_HOUR_FROM_NOW": "Mostantól egy óráig",
+      "UNTIL_CUSTOM_TIME": "Speciális...",
+      "CHANGE_APPEARANCE": "Megjelenés módosítása",
+      "LIGHT_MODE": "Világos mód",
+      "DARK_MODE": "Sötét mód",
+      "SYSTEM_MODE": "Rendszer",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Kezelőoldal App betöltése..."
+  },
+  "COMMON": {
+    "OR": "Vagy",
+    "CLICK_HERE": "kattints ide"
+  }
+}

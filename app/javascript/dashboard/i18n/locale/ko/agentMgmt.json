@@ -1,0 +1,121 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "에이전트",
+    "HEADER_BTN_TXT": "에이전트 추가",
+    "LOADING": "에이전트 목록을 가져오는 중",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "관리자",
+      "AGENT": "에이전트"
+    },
+    "LIST": {
+      "404": "이 계정에 연결된 에이전트가 없음",
+      "TITLE": "팀 내 에이전트 관리",
+      "DESC": "팀에 에이전트를 추가/제거할 수 있습니다.",
+      "NAME": "이름",
+      "EMAIL": "이메일",
+      "STATUS": "상태",
+      "ACTIONS": "액션",
+      "VERIFIED": "인증됨",
+      "VERIFICATION_PENDING": "인증 보류",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "팀에 에이전트 추가",
+      "DESC": "받은 메시지함에 대한 지원을 처리할 수 있는 사용자를 추가할 수 있습니다.",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "FORM": {
+        "NAME": {
+          "LABEL": "에이전트 이름",
+          "PLACEHOLDER": "에이전트 이름을 입력하십시오."
+        },
+        "AGENT_TYPE": {
+          "LABEL": "역할",
+          "PLACEHOLDER": "역할을 선택하십시오.",
+          "ERROR": "역할이 필요함"
+        },
+        "EMAIL": {
+          "LABEL": "이메일 주소",
+          "PLACEHOLDER": "에이전트의 이메일 주소를 입력하십시오."
+        },
+        "SUBMIT": "에이전트 추가"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "에이전트가 성공적으로 추가됨",
+        "EXIST_MESSAGE": "에이전트 이메일이 이미 사용 중입니다. 다른 이메일 주소를 시도하십시오.",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "삭제",
+      "API": {
+        "SUCCESS_MESSAGE": "에이전트가 성공적으로 삭제됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      },
+      "CONFIRM": {
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
+      }
+    },
+    "EDIT": {
+      "TITLE": "에이전트 수정",
+      "FORM": {
+        "NAME": {
+          "LABEL": "에이전트 이름",
+          "PLACEHOLDER": "에이전트 이름을 입력하십시오."
+        },
+        "AGENT_TYPE": {
+          "LABEL": "역할",
+          "PLACEHOLDER": "역할을 선택하십시오.",
+          "ERROR": "역할이 필요함"
+        },
+        "EMAIL": {
+          "LABEL": "이메일 주소",
+          "PLACEHOLDER": "에이전트의 이메일 주소를 입력하십시오."
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "유용성",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "에이전트 수정"
+      },
+      "BUTTON_TEXT": "수정",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "API": {
+        "SUCCESS_MESSAGE": "에이전트가 성공적으로 업데이트됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "비밀번호 재설정",
+        "ADMIN_SUCCESS_MESSAGE": "비밀번호 재설정 지침이 포함된 이메일이 에이전트로 전송됨",
+        "SUCCESS_MESSAGE": "에이전트 비밀번호 재설정 성공",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "검색 결과가 없습니다."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "없음",
+      "TITLE": {
+        "AGENT": "에이전트 선택",
+        "TEAM": "팀 선택"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "에이전트를 찾을 수 없음",
+          "TEAM": "팀을 찾을 수 없음"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "에이전트 찾기",
+          "TEAM": "팀 찾기",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

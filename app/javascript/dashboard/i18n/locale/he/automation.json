@@ -1,0 +1,130 @@
+{
+  "AUTOMATION": {
+    "HEADER": "אוטומציה",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "הוספת אוטומציה",
+    "LOADING": "חיבור אוטומציות",
+    "ADD": {
+      "TITLE": "הוספת אוטומציה",
+      "SUBMIT": "צור",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "FORM": {
+        "NAME": {
+          "LABEL": "שם",
+          "PLACEHOLDER": "הכנס שם לאוטומציה",
+          "ERROR": "שם שדה חובה"
+        },
+        "DESC": {
+          "LABEL": "תיאור",
+          "PLACEHOLDER": "הכנס תיאור",
+          "ERROR": "נדרש תיאור"
+        },
+        "EVENT": {
+          "LABEL": "אירוע",
+          "PLACEHOLDER": "בבקשה תבחר אחד",
+          "ERROR": "אירוע נדרש"
+        },
+        "CONDITIONS": {
+          "LABEL": "תנאים"
+        },
+        "ACTIONS": {
+          "LABEL": "פעולות"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "הוסף תנאי",
+      "ACTION_BUTTON_LABEL": "הוסף פעולה",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה התווספה בהצלחה",
+        "ERROR_MESSAGE": "הוספת אוטומציה נכשלה, נסה שנית מאוחר יותר"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "שם",
+        "תיאור",
+        "פעיל",
+        "נוצר ב"
+      ],
+      "404": "לא נמצאו אוטומציות"
+    },
+    "DELETE": {
+      "TITLE": "מחק אוטומציה",
+      "SUBMIT": "מחק",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה נמחקה בהצלחה",
+        "ERROR_MESSAGE": "מחיקת האוטומציה נכשלה, נסה שנית מאוחר יותר"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך אוטומציה",
+      "SUBMIT": "עדכן",
+      "CANCEL_BUTTON_TEXT": "ביטול",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה התעדכנה בהצלחה",
+        "ERROR_MESSAGE": "עדכון אוטומציה נכשל, נסה שנית מאוחר יותר"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "שכפל",
+      "API": {
+        "SUCCESS_MESSAGE": "אוטומציה שוכפלה בהצלחה",
+        "ERROR_MESSAGE": "שכפול אוטומציה נכשל, נסה שנית מאוחר יותר"
+      }
+    },
+    "FORM": {
+      "EDIT": "ערוך",
+      "CREATE": "צור",
+      "DELETE": "מחק",
+      "CANCEL": "ביטול",
+      "RESET_MESSAGE": "שינוי סוג אירוע יאפס את התנאים והפעולות שהוגדרו"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "נדרש לפחות תנאי אחד",
+      "CONTACT_CUSTOM_ATTR_LABEL": "שדה מותאם של איש קשר",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "שדה מותאם של שיחה"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "נדרשת פעולה אחת לפחות",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס כאן את ההודעה",
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "הפעל אוטומציה",
+      "DEACTIVATION_TITLE": "השהה אוטומציה",
+      "ACTIVATION_DESCRIPTION": "פעולה זו תפעיל את האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "DEACTIVATION_DESCRIPTION": "פעולה זו תשהה את האוטומציה '{automationName}'. האם אתה בטוח שברצונך להמשיך?",
+      "ACTIVATION_SUCCESFUL": "אוטומציה הופעלה בהצלחה",
+      "DEACTIVATION_SUCCESFUL": "אוטומציה הושהתה בהצלחה",
+      "ACTIVATION_ERROR": "הפעלת אוטומציה נכשלה, נסה שנית מאוחר יותר",
+      "DEACTIVATION_ERROR": "השהיית אוטומציה נכשלה, נסה שנית מאוחר יותר",
+      "CONFIRMATION_LABEL": "כן",
+      "CANCEL_LABEL": "לא"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "העלאת קובץ נכשלה, נסה שנית",
+      "LABEL_IDLE": "העלה קובץ",
+      "LABEL_UPLOADING": "מעלה...",
+      "LABEL_UPLOADED": "קובץ הועלה בהצלחה",
+      "LABEL_UPLOAD_FAILED": "העלאה נכשלה"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "חובה ערך",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    }
+  }
+}

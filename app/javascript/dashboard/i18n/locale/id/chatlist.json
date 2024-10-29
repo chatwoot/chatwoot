@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Mengambil percakapan",
+    "LOAD_MORE_CONVERSATIONS": "Muat lebih banyak percakapan",
+    "EOF": "Semua percakapan dimuat 🎉",
+    "LIST": {
+      "404": "Tidak ada percakapan aktif di grup ini."
+    },
+    "TAB_HEADING": "Percakapan",
+    "MENTION_HEADING": "Sebutkan",
+    "UNATTENDED_HEADING": "Belum dihadiri",
+    "SEARCH": {
+      "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
+    },
+    "FILTER_ALL": "Semua",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Milikku",
+      "unassigned": "Belum ditugaskan",
+      "all": "Semua"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Terbuka"
+      },
+      "resolved": {
+        "TEXT": "Terselesaikan"
+      },
+      "pending": {
+        "TEXT": "Ditunda"
+      },
+      "snoozed": {
+        "TEXT": "Ditunda Sebentar"
+      },
+      "all": {
+        "TEXT": "Semua"
+      }
+    },
+    "VIEW_FILTER": "Lihat",
+    "SORT_TOOLTIP_LABEL": "Urutkan percakapan",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Urut berdasarkan"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Dibuat",
+        "OLDEST": "Dibuat pada:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Aktivitas terakhir:",
+        "ACTIVE": "Aktivitas terakhir"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Pesan gambar"
+      },
+      "audio": {
+        "CONTENT": "Pesan audio"
+      },
+      "video": {
+        "CONTENT": "Pesan video"
+      },
+      "file": {
+        "CONTENT": "Lampiran File"
+      },
+      "location": {
+        "CONTENT": "Lokasi"
+      },
+      "fallback": {
+        "CONTENT": "telah membagikan url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Urutkan percakapan",
+      "DROPDOWN_TITLE": "Urutkan berdasarkan",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Aktivitas terakhir pada",
+          "LABEL": "Aktivitas terakhir"
+        },
+        "CREATED_AT": {
+          "NAME": "Dibuat pada",
+          "LABEL": "Dibuat pada"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Pesan terakhir dari pengguna pada",
+          "LABEL": "Pesan terakhir"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Diterima melalui email",
+    "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter",
+    "REPLY_TO_TWEET": "Balas tweet ini",
+    "LINK_TO_STORY": "Buka cerita di Instagram",
+    "SENT": "Berhasil terkirim",
+    "READ": "Berhasil dibaca",
+    "DELIVERED": "Berhasil dikirim",
+    "NO_MESSAGES": "Tidak Ada Pesan",
+    "NO_CONTENT": "Tidak ada konten yang tersedia",
+    "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
+    "SHOW_QUOTED_TEXT": "Tampilkan Teks yang Dikutip",
+    "MESSAGE_READ": "Dibaca"
+  }
+}

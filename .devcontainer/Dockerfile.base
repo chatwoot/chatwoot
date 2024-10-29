@@ -1,0 +1,75 @@
+
+ARG VARIANT
+
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+
+ARG NODE_VERSION
+ARG RUBY_VERSION
+ARG USER_UID
+ARG USER_GID
+
+# Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
+RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
+        groupmod --gid $USER_GID vscode \
+        && usermod --uid $USER_UID --gid $USER_GID vscode \
+        && chmod -R $USER_UID:$USER_GID /home/vscode; \
+    fi
+
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+  && apt-get -y install --no-install-recommends \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    gnupg2 \
+    tar \
+    tzdata \
+    postgresql-client \
+    libpq-dev \
+    yarn \
+    git \
+    imagemagick \
+    tmux \
+    zsh \
+    git-flow \
+    npm \
+    libyaml-dev
+
+# Install rbenv and ruby
+RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
+    &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
+    &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
+RUN git clone https://github.com/rbenv/ruby-build.git && \
+    PREFIX=/usr/local ./ruby-build/install.sh
+
+RUN rbenv install $RUBY_VERSION && \
+    rbenv global $RUBY_VERSION && \
+    rbenv versions
+
+# Install overmind
+RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
+  && gunzip overmind.gz \
+  && sudo mv overmind /usr/local/bin \
+  && chmod +x /usr/local/bin/overmind
+
+
+# Install gh
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+   && sudo apt update \
+   && sudo apt install gh
+
+
+# Do the set up required for chatwoot app
+WORKDIR /workspace
+COPY . /workspace
+
+# set up ruby
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler && bundle install
+
+# set up node js
+RUN npm install n -g && \
+    n $NODE_VERSION
+RUN npm install --global yarn
+RUN yarn

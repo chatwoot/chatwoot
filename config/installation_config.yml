@@ -1,0 +1,235 @@
+# This file contains all the installation wide configuration which controls various settings in Chatwoot
+# This is internal config and should not be modified by the user directly in database
+# Chatwoot might override and modify these values during the upgrade process
+# Configs which can be modified by the user are available in the dashboard under appropriate UI
+#
+# name: the name of the config referenced in the code
+# value: the value of the config
+# display_title: the title of the config displayed in the dashboard UI
+# description: the description of the config displayed in the dashboard UI
+# locked: if you don't specify locked attribute in yaml, the default value will be true,
+#         which means the particular config will be locked and won't be available in `super_admin/installation_configs`
+# premium: These values get overwritten unless the user is on a premium plan
+# type: The type of the config. Default is text,  boolean is also supported
+
+# ------- Branding Related Config ------- #
+- name: INSTALLATION_NAME
+  value: 'Chatwoot'
+  display_title: 'Installation Name'
+  description: 'The installation wide name that would be used in the dashboard, title etc.'
+- name: LOGO_THUMBNAIL
+  value: '/brand-assets/logo_thumbnail.svg'
+  display_title: 'Logo Thumbnail'
+  description: 'The thumbnail that would be used for favicon (512px X 512px)'
+- name: LOGO
+  value: '/brand-assets/logo.svg'
+  display_title: 'Logo'
+  description: 'The logo that would be used on the dashboard, login page etc.'
+- name: LOGO_DARK
+  value: '/brand-assets/logo_dark.svg'
+  display_title: 'Logo Dark Mode'
+  description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
+- name: BRAND_URL
+  value: 'https://www.chatwoot.com'
+  display_title: 'Brand URL'
+  description: 'The URL that would be used in emails under the section “Powered By”'
+- name: WIDGET_BRAND_URL
+  value: 'https://www.chatwoot.com'
+  display_title: 'Widget Brand URL'
+  description: 'The URL that would be used in the widget under the section “Powered By”'
+- name: BRAND_NAME
+  value: 'Chatwoot'
+  display_title: 'Brand Name'
+  description: 'The name that would be used in emails and the widget'
+- name: TERMS_URL
+  value: 'https://www.chatwoot.com/terms-of-service'
+  display_title: 'Terms URL'
+  description: 'The terms of service URL displayed in Signup Page'
+- name: PRIVACY_URL
+  value: 'https://www.chatwoot.com/privacy-policy'
+  display_title: 'Privacy URL'
+  description: 'The privacy policy URL displayed in the app'
+- name: DISPLAY_MANIFEST
+  value: true
+  display_title: 'Chatwoot Metadata'
+  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  type: boolean
+# ------- End of Branding Related Config ------- #
+
+# ------- Signup & Account Related Config ------- #
+- name: ENABLE_ACCOUNT_SIGNUP
+  display_title: 'Enable Account Signup'
+  value: false
+  description: 'Allow users to signup for new accounts'
+  locked: false
+  type: boolean
+- name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
+  value: false
+  description: 'Allow users to create new accounts from the dashboard'
+  locked: false
+- name: HCAPTCHA_SITE_KEY
+  value:
+  locked: false
+- name: HCAPTCHA_SERVER_KEY
+  value:
+  locked: false
+- name: INSTALLATION_EVENTS_WEBHOOK_URL
+  value:
+  display_title: 'System events Webhook URL'
+  description: 'The URL to which the system events like new accounts created will be sent'
+  locked: false
+- name: DIRECT_UPLOADS_ENABLED
+  type: boolean
+  value: false
+  description: 'Enable direct uploads to cloud storage'
+  locked: false
+# ------- End of Account Related Config ------- #
+
+# ------- Email Related Config ------- #
+- name: MAILER_INBOUND_EMAIL_DOMAIN
+  value:
+  description: 'The domain name to be used for generating conversation continuity emails (reply+id@domain.com)'
+  locked: false
+- name: MAILER_SUPPORT_EMAIL
+  value:
+  locked: false
+# ------- End of Email Related Config ------- #
+
+# ------- Facebook Channel Related Config ------- #
+- name: FB_APP_ID
+  display_title: 'Facebook App ID'
+  locked: false
+- name: FB_VERIFY_TOKEN
+  display_title: 'Facebook Verify Token'
+  description: 'The verify token used for Facebook Messenger Webhook'
+  locked: false
+- name: FB_APP_SECRET
+  display_title: 'Facebook App Secret'
+  locked: false
+- name: IG_VERIFY_TOKEN
+  display_title: 'Instagram Verify Token'
+  description: 'The verify token used for Instagram Webhook'
+  locked: false
+- name: FACEBOOK_API_VERSION
+  display_title: 'Facebook API Version'
+  description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'
+  value: 'v17.0'
+  locked: false
+- name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
+  display_title: 'Enable human agent'
+  value: false
+  locked: false
+  description: 'Enable human agent for messenger channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
+  type: boolean
+# ------- End of Facebook Channel Related Config ------- #
+
+# MARK: Microsoft Email Channel Config
+- name: AZURE_APP_ID
+  display_title: 'Azure App ID'
+  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: https://chwt.app/dev/ms'
+  locked: false
+- name: AZURE_APP_SECRET
+  display_title: 'Azure App Secret'
+  locked: false
+# End of Microsoft Email Channel Config
+
+# ------- Chatwoot Internal Config for Cloud ----#
+- name: CHATWOOT_INBOX_TOKEN
+  value:
+  display_title: 'Inbox Token'
+  description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
+  locked: false
+- name: CHATWOOT_INBOX_HMAC_KEY
+  value:
+  display_title: 'Inbox HMAC Key'
+  description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
+  locked: false
+- name: CHATWOOT_CLOUD_PLANS
+  display_title: 'Cloud Plans'
+  value:
+  description: 'Config to store stripe plans for cloud'
+- name: CHATWOOT_CLOUD_PLAN_FEATURES
+  display_title: 'Planwise Features List'
+  value:
+  description: 'Config to features and their associated plans'
+- name: DEPLOYMENT_ENV
+  value: self-hosted
+  description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+- name: ANALYTICS_TOKEN
+  value:
+  display_title: 'Analytics Token'
+  description: 'The June.so analytics token for Chatwoot cloud'
+- name: CLEARBIT_API_KEY
+  value:
+  display_title: 'Clearbit API Key'
+  description: 'This API key is used for onboarding the users, to pre-fill account data.'
+- name: DASHBOARD_SCRIPTS
+  value:
+  display_title: 'Dashboard Scripts'
+  description: 'Scripts are loaded as the last item in the <body> tag'
+  type: code
+- name: BLOCKED_EMAIL_DOMAINS
+  value:
+  display_title: 'Blocked Email Domains'
+  description: 'Add a domain per line to block them from signing up, accepts Regex'
+  type: code
+# ------- End of Chatwoot Internal Config for Cloud ----#
+
+# ------- Chatwoot Internal Config for Self Hosted ----#
+- name: INSTALLATION_PRICING_PLAN
+  value: 'community'
+  description: 'The pricing plan for the installation, retrieved from the billing API'
+- name: INSTALLATION_PRICING_PLAN_QUANTITY
+  value: 0
+  description: 'The number of licenses purchased for the installation, retrieved from the billing API'
+- name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
+  value:
+  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
+- name: CHATWOOT_SUPPORT_SCRIPT_URL
+  value:
+  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
+- name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
+  value:
+  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+# ------- End of Chatwoot Internal Config for Self Hosted ----#
+
+## ------ Configs added for enterprise clients ------ ##
+- name: API_CHANNEL_NAME
+  value:
+  description: 'Custom name for the API channel'
+- name: API_CHANNEL_THUMBNAIL
+  value:
+  description: 'Custom thumbnail for the API channel'
+- name: LOGOUT_REDIRECT_LINK
+  value: /app/login
+  locked: false
+  description: 'Redirect to a different link after logout'
+- name: DISABLE_USER_PROFILE_UPDATE
+  value: false
+  locked: false
+  description: 'Disable rendering profile update page for users'
+## ------ End of Configs added for enterprise clients ------ ##
+
+## ------ Configs added for FCM v1 notifications ------ ##
+- name: FIREBASE_PROJECT_ID
+  display_title: 'Firebase Project ID'
+  value:
+  locked: false
+  description: 'Firebase project ID'
+- name: FIREBASE_CREDENTIALS
+  display_title: 'Firebase Credentials'
+  value:
+  locked: false
+  description: 'Contents on your firebase credentials json file'
+## ------ End of Configs added for FCM v1 notifications ------ ##
+
+## ----- Captain Configs ----- ##
+- name: CAPTAIN_API_URL
+  value:
+  display_title: 'Captain API URL'
+  description: 'The API URL for Captain'
+- name: CAPTAIN_APP_URL
+  value:
+  display_title: 'Captain App URL'
+  description: 'The App URL for Captain'
+## ----- End of Captain Configs ----- ##

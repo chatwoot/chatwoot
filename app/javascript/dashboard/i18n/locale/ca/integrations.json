@@ -1,0 +1,306 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integracions",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Esdeveniments subscrits",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "Cancel·la",
+        "DESC": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Introduïu una URL vàlid per configurar un callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Esdeveniments",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversa Creada",
+            "CONVERSATION_STATUS_CHANGED": "Estat de la conversa canviat",
+            "CONVERSATION_UPDATED": "Conversa Actualitzada",
+            "MESSAGE_CREATED": "Missatge creat",
+            "MESSAGE_UPDATED": "Missatge actualitzat",
+            "WEBWIDGET_TRIGGERED": "Widget de xat en directe obert per l'usuari",
+            "CONTACT_CREATED": "Contacte creat",
+            "CONTACT_UPDATED": "Contacte actualitzat"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL del webhook",
+          "PLACEHOLDER": "Exemple: https://example/api/webhook",
+          "ERROR": "Introduïu una URL vàlid"
+        },
+        "EDIT_SUBMIT": "Webhook actualitzat",
+        "ADD_SUBMIT": "Crear webhook"
+      },
+      "TITLE": "Webhook",
+      "CONFIGURE": "Configura",
+      "HEADER": "Configuració Webhook",
+      "HEADER_BTN_TXT": "Afegeix un nou webhook",
+      "LOADING": "S'estan recollint els webhooks adjunts",
+      "SEARCH_404": "No hi ha articles que coincideixin amb aquesta consulta",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Els webhooks són callbacks HTTP que es poden definir per a cada compte. Es produeixen per esdeveniments com la creació de missatges a Chatwoot. Podeu crear més d'un webhook per a aquest compte. <br /><br /> Per crear un <b>webhook</b>, feu clic al botó <b> Afegir nou webhook </b>. També podeu eliminar qualsevol webhook existent fent clic al botó Elimina.</p>",
+      "LIST": {
+        "404": "No hi ha cap webhooks configurat per a aquest compte.",
+        "TITLE": "Gestiona els webhooks",
+        "TABLE_HEADER": [
+          "Punt final del webhook",
+          "Accions"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Edita",
+        "TITLE": "Edita el webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "La configuració del webhook s'ha actualitzat correctament",
+          "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Cancel·la",
+        "TITLE": "Afegir un nou webhook",
+        "API": {
+          "SUCCESS_MESSAGE": "La configuració del webhook s'ha afegit correctament",
+          "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Suprimeix",
+        "API": {
+          "SUCCESS_MESSAGE": "S'ha esborrat el Webhook correctament",
+          "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+        },
+        "CONFIRM": {
+          "TITLE": "Confirma l'esborrat",
+          "MESSAGE": "N'estàs segur que suprimiu el webhook? ({webhookURL})",
+          "YES": "Si, esborra ",
+          "NO": "No, mantén-la"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "Esborrar",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Suprimeix la integració",
+        "MESSAGE": "N'estàs segur que vols suprimir la integració? Si ho fas, es perdrà l'accés a les converses del vostre espai de treball de Slack."
+      },
+      "HELP_TEXT": {
+        "TITLE": "Com utilitzar la integració de Slack?",
+        "BODY": "Amb aquesta integració, totes les teves converses entrants se sincronitzaran amb el canal ***{selectedChannelName}*** del teu espai de treball de Slack. Podeu gestionar totes les converses dels vostres clients directament des del canal i no perdreu cap missatge.\n\nAquestes són les principals característiques de la integració:\n\n**Respondre a converses des de Slack:** Per respondre a una conversa al ***{selectedChannelName}*** canal de Slack, només has d'escriure el teu missatge i enviar-lo com a fil. Això crearà una resposta al client mitjançant Chatwoot. Així de senzill!\n\n  **Crear notes privades:** si vols crear notes privades en lloc de respostes, comença el teu missatge amb ***`nota:`***. Això garanteix que el vostre missatge es mantingui privat i no serà visible per al client.\n\n**Associar un perfil d'agent:** si la persona que va respondre a Slack té un perfil d'agent a Chatwoot amb el mateix correu electrònic, les respostes s'associaran amb aquest perfil d'agent automàticament. Això vol dir que podeu fer un seguiment fàcilment qui va dir què i quan. D'altra banda, quan el contestador no té un perfil d'agent associat, les respostes apareixeran des del perfil del bot al client.",
+        "SELECTED": "seleccionat"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "Selecciona el canal",
+        "UPDATE": "Actualitza",
+        "BUTTON_TEXT": "Connecta el canal",
+        "DESCRIPTION": "El teu espai de treball de Slack ara està enllaçat amb Chatwoot. Tanmateix, actualment la integració està inactiva. Per activar la integració i connectar un canal a Chatwoot, feu clic al botó següent.\n\n**Nota:** si estas intentant connectar un canal privat, afegeix l'aplicació Chatwoot al canal de Slack abans de continuar amb aquest pas.",
+        "ATTENTION_REQUIRED": "Es requereix atenció",
+        "EXPIRED": "La teva integració de Slack ha caducat. Per continuar rebent missatges a Slack, suprimeix la integració i torna a connectar el vostre espai de treball."
+      },
+      "UPDATE_ERROR": "S'ha produït un error en actualitzar la integració, torna-ho a provar",
+      "UPDATE_SUCCESS": "El canal s'ha connectat correctament",
+      "FAILED_TO_FETCH_CHANNELS": "S'ha produït un error en obtenir els canals de Slack, torna-ho a provar"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Fes clic aquí per unir-te",
+      "LEAVE_THE_ROOM": "Deixa la sala",
+      "START_VIDEO_CALL_HELP_TEXT": "Inicia una nova videotrucada amb el client",
+      "JOIN_ERROR": "S'ha produït un error en unir-se a la trucada, torna-ho a provar",
+      "CREATE_ERROR": "S'ha produït un error en crear un enllaç de reunió, torna-ho a provar"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "Assistència IA",
+      "WITH_AI": " {option} amb IA ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Suggeriment de resposta",
+        "SUMMARIZE": "Resumir",
+        "REPHRASE": "Millorar l'escriptura",
+        "FIX_SPELLING_GRAMMAR": "Corregir l'ortografia i la gramàtica",
+        "SHORTEN": "Abreuja",
+        "EXPAND": "Expandeix",
+        "MAKE_FRIENDLY": "Canvia el to del missatge a amigable",
+        "MAKE_FORMAL": "Utilitza un to formal",
+        "SIMPLIFY": "Simplifica"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Esborrany de contingut",
+        "GENERATED_TITLE": "Contingut generat",
+        "AI_WRITING": "La IA està escrivint",
+        "BUTTONS": {
+          "APPLY": "Utilitza aquest suggeriment",
+          "CANCEL": "Cancel·la"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integració amb OpenAI",
+        "DESC": "Aporta funcions d'IA avançades al teu tauler amb els models GPT d'OpenAI. Per començar, introdueix la clau API del teu compte d'OpenAI.",
+        "KEY_PLACEHOLDER": "Introdueix la vostra API key d'OpenAI",
+        "BUTTONS": {
+          "NEED_HELP": "Necessita ajuda?",
+          "DISMISS": "Descartar",
+          "FINISH": "Finalitza la configuració"
+        },
+        "DISMISS_MESSAGE": "Pots configurar la integració d'OpenAI més tard quan vulguis.",
+        "SUCCESS_MESSAGE": "S'ha configurat correctament la integració d'OpenAI"
+      },
+      "TITLE": "Millora amb IA",
+      "SUMMARY_TITLE": "Resum amb IA",
+      "REPLY_TITLE": "Respon el suggeriment amb IA",
+      "SUBTITLE": "Es generarà una resposta millorada mitjançant IA, basada en el teu esborrany actual.",
+      "TONE": {
+        "TITLE": "To",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Amable"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Genera",
+        "GENERATING": "Generant...",
+        "CANCEL": "Cancel·la"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Suprimeix",
+      "API": {
+        "SUCCESS_MESSAGE": "La integració s'ha suprimit correctament"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connectar"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Aplicacions del tauler de control",
+      "HEADER_BTN_TXT": "Afegeix una aplicació de tauler nova",
+      "SIDEBAR_TXT": "<p><b>Aplicacions del tauler de control</b></p><p>Les aplicacions del tauler de control permeten a les organitzacions incrustar una aplicació dins del tauler de control de Chatwoot per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i inserir-la dins del tauler per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anteriors.</p><p>Quan incrusteu la teva aplicació mitjançant el tauler de control de Chatwoot, la teva aplicació obté el context de la conversa i el contacte com a esdeveniment de finestra. Implementa un oient per a l'esdeveniment del missatge a la teva pàgina per rebre el context.</p><p>Per afegir una aplicació de tauler nova, feu clic al botó \"Afegeix una aplicació de tauler nova\".</p>",
+      "DESCRIPTION": "Les aplicacions del tauler permeten a les organitzacions incrustar una aplicació dins del tauler per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i incorporar-la per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anterior.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LIST": {
+        "404": "Encara no hi ha cap aplicació de tauler configurada en aquest compte",
+        "LOADING": "S'estan obtenint les aplicacions del tauler de control...",
+        "TABLE_HEADER": [
+          "Nom",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Edita l'aplicació",
+        "DELETE_TOOLTIP": "Suprimeix l'aplicació"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nom",
+        "TITLE_PLACEHOLDER": "Introdueix un nom per a l'aplicació del tauler",
+        "TITLE_ERROR": "Un nom per a l'aplicació del tauler és obligatori",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Introdueix l'URL del punt final on està allotjada la teva aplicació",
+        "URL_ERROR": "Una URL vàlida és obligatoria"
+      },
+      "CREATE": {
+        "HEADER": "Afegeix una aplicació de tauler nova",
+        "FORM_SUBMIT": "Envia",
+        "FORM_CANCEL": "Cancel·la",
+        "API_SUCCESS": "L'aplicació del tauler de control s'ha configurat correctament",
+        "API_ERROR": "No hem pogut crear una aplicació. Intenta-ho més tard"
+      },
+      "UPDATE": {
+        "HEADER": "Edita l'aplicació del tauler",
+        "FORM_SUBMIT": "Actualitza",
+        "FORM_CANCEL": "Cancel·la",
+        "API_SUCCESS": "L'aplicació del tauler de control s'ha actualitzat correctament",
+        "API_ERROR": "No hem pogut actualitzar l'aplicació. Intenta-ho més tard"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Sí, esborra-ho",
+        "CONFIRM_NO": "No, mantén-la",
+        "TITLE": "Confirma la supressió",
+        "MESSAGE": "N'estàs segur que vols suprimir l'aplicació - {appName}?",
+        "API_SUCCESS": "L'aplicació del tauler de control s'ha esborrat correctament",
+        "API_ERROR": "No hem pogut esborrar l'aplicació. Intenta-ho més tard"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Crear/enllaçar una issue en Linear",
+      "LOADING": "S'estan buscant issues en Linear...",
+      "LOADING_ERROR": "S'ha produït un error en obtenir les issues en Linear, torna-ho a provar",
+      "CREATE": "Crear",
+      "LINK": {
+        "SEARCH": "Cerca issues",
+        "SELECT": "Selecciona una issue",
+        "TITLE": "Enllaç",
+        "EMPTY_LIST": "No s'han trobat issues de Linear",
+        "LOADING": "Carregant",
+        "ERROR": "S'ha produït un error en obtenir les issues en Linear, torna-ho a provar",
+        "LINK_SUCCESS": "S'ha enllaçat la issue correctament",
+        "LINK_ERROR": "S'ha produït un error en enllaçar la issue, torna-ho a provar",
+        "LINK_TITLE": "Conversa (#{conversationId}) amb {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Crear/enllaçar una issue en Linear",
+        "DESCRIPTION": "Crea issues en Linear a partir de converses o enllaça els existents per fer un seguiment perfecte.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Títol",
+            "PLACEHOLDER": "Introdueix un títol",
+            "REQUIRED_ERROR": "El títol és necessari"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descripció",
+            "PLACEHOLDER": "Introdueix la descripció"
+          },
+          "TEAM": {
+            "LABEL": "Equip",
+            "PLACEHOLDER": "Selecciona equip",
+            "SEARCH": "Cerca equip",
+            "REQUIRED_ERROR": "Un equip és necessari"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Cessionari",
+            "PLACEHOLDER": "Selecciona assignat",
+            "SEARCH": "Cerca assignat"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioritat",
+            "PLACEHOLDER": "Selecciona la prioritat",
+            "SEARCH": "Cerca prioritat"
+          },
+          "LABEL": {
+            "LABEL": "Etiqueta",
+            "PLACEHOLDER": "Selecciona l'etiqueta",
+            "SEARCH": "Cerca etiqueta"
+          },
+          "STATUS": {
+            "LABEL": "Estat",
+            "PLACEHOLDER": "Selecciona l'estat",
+            "SEARCH": "Cerca l'estat"
+          },
+          "PROJECT": {
+            "LABEL": "Projecte",
+            "PLACEHOLDER": "Selecciona el projecte",
+            "SEARCH": "Cerca el projecte"
+          }
+        },
+        "CREATE": "Crear",
+        "CANCEL": "Cancel·la",
+        "CREATE_SUCCESS": "Issue creada correctament",
+        "CREATE_ERROR": "S'ha produït un error en crear la issue, torna-ho a provar",
+        "LOADING_TEAM_ERROR": "S'ha produït un error en obtenir els equips, torna-ho a provar",
+        "LOADING_TEAM_ENTITIES_ERROR": "S'ha produït un error en recuperar les entitats de l'equip, torna-ho a provar"
+      },
+      "ISSUE": {
+        "STATUS": "Estat",
+        "PRIORITY": "Prioritat",
+        "ASSIGNEE": "Cessionari",
+        "LABELS": "Etiquetes",
+        "CREATED_AT": "Creat a {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Desenllaça",
+        "SUCCESS": "S'ha desenllaçat la issue correctament",
+        "ERROR": "S'ha produït un error en desenllaçar la issue, torna-ho a provar"
+      }
+    }
+  }
+}

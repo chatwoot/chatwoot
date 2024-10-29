@@ -1,0 +1,26 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the webhook
+  url:
+    type: string
+    description: The url to which the events will be send
+  subscriptions:
+    type: array
+    items:
+      type: string
+      enum: [
+        "conversation_created",
+        "conversation_status_changed",
+        "conversation_updated",
+        "contact_created",
+        "contact_updated",
+        "message_created",
+        "message_updated",
+        "webwidget_triggered"
+      ]
+    description: The list of subscribed events
+  account_id:
+    type: number
+    description: The id of the account which the webhook object belongs to

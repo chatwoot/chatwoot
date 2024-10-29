@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "فیلتر مخاطبین",
+    "SUBTITLE": "فیلترهای زیر را اضافه کنید و برای اعمال فیلتر کردن مخاطبین، برروی «ثبت» ضربه بزنید.",
+    "EDIT_CUSTOM_SEGMENT": "ویرایش بخش",
+    "CUSTOM_VIEWS_SUBTITLE": "فیلترها را اضافه یا حذف کنید و بخش خود را به روز کنید.",
+    "ADD_NEW_FILTER": "افزودن فیلتر",
+    "CLEAR_ALL_FILTERS": "پاک کردن همه فیلترها",
+    "FILTER_DELETE_ERROR": "شما باید حداقل یک فیلتر برای ذخیره داشته باشید",
+    "SUBMIT_BUTTON_LABEL": "ثبت",
+    "UPDATE_BUTTON_LABEL": "ویرایش بخش",
+    "CANCEL_BUTTON_LABEL": "انصراف",
+    "CLEAR_BUTTON_LABEL": "پاک کردن فیلترها",
+    "EMPTY_VALUE_ERROR": "مقدار الزامی است",
+    "SEGMENT_LABEL": "اسم بخش",
+    "SEGMENT_QUERY_LABEL": "کوئری بخش",
+    "TOOLTIP_LABEL": "فیلتر مخاطبین",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "یا"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "مساوی با",
+      "not_equal_to": "مساوی نیست با",
+      "contains": "شامل",
+      "does_not_contain": "شامل نمی‌شود",
+      "is_present": "در حال حاضر وجود دارد",
+      "is_not_present": "در حال حاضر وجود ندارد",
+      "is_greater_than": "بزرگتر از",
+      "is_lesser_than": "کوچکتر از",
+      "days_before": "x روز قبل است"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "مقدار الزامی است"
+    },
+    "ATTRIBUTES": {
+      "NAME": "نام",
+      "EMAIL": "ایمیل",
+      "PHONE_NUMBER": "شماره تلفن",
+      "IDENTIFIER": "شناسه",
+      "CITY": "شهر",
+      "COUNTRY": "کشور",
+      "CUSTOM_ATTRIBUTE_LIST": "فهرست",
+      "CUSTOM_ATTRIBUTE_TEXT": "متن",
+      "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
+      "CUSTOM_ATTRIBUTE_LINK": "پیوند",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
+      "CREATED_AT": "ایجاد شده در",
+      "LAST_ACTIVITY": "آخرین فعالیت",
+      "REFERER_LINK": "پیوند ارجاع‌دهنده",
+      "BLOCKED": "مسدود شده"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "فیلترهای استاندارد",
+      "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+      "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
+    }
+  }
+}

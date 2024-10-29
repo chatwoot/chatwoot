@@ -1,0 +1,19 @@
+
+<footer class="pt-16 pb-8 flex flex-col items-center justify-center">
+  <div class="mx-auto max-w-2xl text-center py-2">
+    <div class="flex items-center gap-2">
+
+        <img
+          class="w-4 h-4"
+          alt="<%= @global_config['BRAND_NAME'] %>"
+          src="<%= @global_config['LOGO_THUMBNAIL'] %>"
+        />
+      <p class="text-slate-700 dark:text-slate-300 text-sm font-medium text-center">
+        <%= I18n.t('public_portal.footer.made_with') %>
+       
+          <a class="hover:underline" href="<%= @global_config['BRAND_URL'] %>" target="_blank" rel="noopener noreferrer nofoll/ow"><%= @global_config['BRAND_NAME'] %></a>
+    
+      </p>
+    </div>
+  </div>
+</footer>

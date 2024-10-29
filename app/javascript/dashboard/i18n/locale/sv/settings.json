@@ -1,0 +1,355 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profilinställningar",
+    "TITLE": "Profilinställningar",
+    "BTN_TEXT": "Uppdatera profil",
+    "DELETE_AVATAR": "Ta bort Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats. Vänligen logga in på nytt eftersom dina inloggningsuppgifter har ändrats",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Profilbild",
+      "ERROR": "Vänligen åtgärda formulärfel",
+      "REMOVE_IMAGE": "Radera",
+      "UPLOAD_IMAGE": "Ladda upp bild",
+      "UPDATE_IMAGE": "Uppdatera bild",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Din e-postadress är din identitet och används för att logga in."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Lösenord",
+        "NOTE": "Uppdatering av ditt lösenord skulle återställa dina inloggningar på flera enheter.",
+        "BTN_TEXT": "Change password"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Åtkomsttoken",
+        "NOTE": "Denna token kan användas om du bygger en API-baserad integration",
+        "COPY": "Kopiera"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "Inget",
+          "MINE": "Assigned",
+          "ALL": "Alla"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "Inget",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-postaviseringar",
+        "NOTE": "Uppdatera dina e-postaviseringsinställningar här",
+        "CONVERSATION_ASSIGNMENT": "Skicka e-postmeddelanden när en konversation är tilldelad till mig",
+        "CONVERSATION_CREATION": "Skicka e-postmeddelanden när en ny konversation skapas",
+        "CONVERSATION_MENTION": "Skicka e-postaviseringar när du nämns i en konversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka e-postaviseringar när ett nytt meddelande skapas i en tilldelad konversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-post",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Dina aviseringsinställningar har uppdaterats",
+        "UPDATE_ERROR": "Ett fel uppstod vid uppdateringen av inställningarna, vänligen försök igen"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push-notiser",
+        "NOTE": "Uppdatera dina inställningar för push-notiser här",
+        "CONVERSATION_ASSIGNMENT": "Skicka push-notiser när en konversation tilldelas till mig",
+        "CONVERSATION_CREATION": "Skicka push-notiser när en ny konversation skapas",
+        "CONVERSATION_MENTION": "Skicka push-meddelanden när du nämns i en konversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka push-meddelanden när ett nytt meddelande skapas i en tilldelad konversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "Du har aktiverat push-funktionen för denna webbläsare.",
+        "REQUEST_PUSH": "Aktivera push-meddelanden",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilbild"
+      },
+      "NAME": {
+        "LABEL": "Ditt fullständiga namn",
+        "ERROR": "Vänligen ange ett giltigt fullständigt namn",
+        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Visningsnamn",
+        "ERROR": "Vänligen ange ett giltigt visningsnamn",
+        "PLACEHOLDER": "Ange ett visningsnamn, detta visas i konversationer"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Tillgänglighet",
+        "STATUSES_LIST": ["Online", "Upptagen", "Offline"],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "Din e-postadress",
+        "ERROR": "Ange en giltig e-postadress",
+        "PLACEHOLDER": "Ange din e-postadress, detta visas i konversationer"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
+      "PASSWORD": {
+        "LABEL": "New password",
+        "ERROR": "Ange ett lösenord med minst 6 tecken",
+        "PLACEHOLDER": "Ange ett nytt lösenord"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bekräfta nytt lösenord",
+        "ERROR": "Bekräfta lösenord måste matcha lösenordet",
+        "PLACEHOLDER": "Please re-enter your new password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Ändra",
+    "CHANGE_ACCOUNTS": "Byt konto",
+    "CONTACT_SUPPORT": "Contact Support",
+    "SELECTOR_SUBTITLE": "Välj ett konto från följande lista",
+    "PROFILE_SETTINGS": "Profilinställningar",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "Logga ut"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dagars provperiod återstår.",
+    "TRAIL_BUTTON": "Köp nu",
+    "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "Det verkar som om du inte har bekräftat din e-postadress ännu. Vänligen kolla din inkorg för verifieringsmailet.",
+    "RESEND_VERIFICATION_MAIL": "Skicka verifieringsmail igen",
+    "EMAIL_VERIFICATION_SENT": "Ett verifieringsmail har skickats. Kolla din inkorg.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopiera",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "Koden har kopierats till urklipp"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Hämta",
+      "UPLOADING": "Laddar upp...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Skicka"
+    }
+  },
+  "CONFIRM_EMAIL": "Bekräftar...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Lägg till inkorg"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Konversationer",
+    "INBOX": "Inkorg",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Deltar",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "REPORTS": "Rapporter",
+    "SETTINGS": "Inställningar",
+    "CONTACTS": "Kontakter",
+    "CAPTAIN": "Captain",
+    "HOME": "Hem",
+    "AGENTS": "Agenter",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "Inkorgar",
+    "NOTIFICATIONS": "Aviseringar",
+    "CANNED_RESPONSES": "Svarsmallar",
+    "INTEGRATIONS": "Integrationer",
+    "PROFILE_SETTINGS": "Profilinställningar",
+    "ACCOUNT_SETTINGS": "Kontoinställningar",
+    "APPLICATIONS": "Applikationer",
+    "LABELS": "Etiketter",
+    "CUSTOM_ATTRIBUTES": "Egna egenskaper",
+    "AUTOMATION": "Automation",
+    "MACROS": "Macros",
+    "TEAMS": "Teams",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_CONVERSATION": "Konversationer",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campaigns",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Agenter",
+    "REPORTS_LABEL": "Etiketter",
+    "REPORTS_INBOX": "Inkorg",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Hjälpcenter",
+      "ALL_ARTICLES": "Alla artiklar",
+      "MY_ARTICLES": "Mina artiklar",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "SETTINGS": "Inställningar",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Chatta med oss"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NEW_ACCOUNT": "Nytt konto",
+    "SELECTOR_SUBTITLE": "Skapa ett nytt konto",
+    "API": {
+      "SUCCESS_MESSAGE": "Kontot har skapats",
+      "EXIST_MESSAGE": "Konto finns redan",
+      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Företagsnamn",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Skicka"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

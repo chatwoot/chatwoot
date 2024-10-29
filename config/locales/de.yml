@@ -1,0 +1,275 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+de:
+  hello: "Hallo Welt"
+  messages:
+    reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
+    reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
+    inbox_deletetion_response: Die Löschanfrage Ihres Posteingangs wird in Kürze bearbeitet.
+  errors:
+    validations:
+      presence: darf nicht leer sein
+    webhook:
+      invalid: Ungültige Events
+    signup:
+      disposable_email: Wir erlauben keine Einweg-E-Mails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
+      email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
+      invalid_params: 'Ungültig, bitte überprüfen Sie die Anmeldeparameter und versuchen Sie es erneut'
+      failed: Anmeldung gescheitert
+    data_import:
+      data_type:
+        invalid: Ungültiger Datentyp
+    contacts:
+      import:
+        failed: Datei ist leer
+      export:
+        success: Wir werden Sie benachrichtigen, sobald die Exportdatei der Kontakte angezeigt werden kann.
+      email:
+        invalid: Ungültige E-Mail
+      phone_number:
+        invalid: sollte im e164-Format vorliegen
+    categories:
+      locale:
+        unique: sollte in der Kategorie und im Portal eindeutig sein
+    dyte:
+      invalid_message_type: "Ungültiger Nachrichtentyp. Aktion nicht erlaubt"
+    slack:
+      invalid_channel_id: "Ungültiger Slack Channel. Bitte erneut versuchen"
+    inboxes:
+      imap:
+        socket_error: Bitte überprüfen Sie die Netzwerkverbindung, die IMAP-Adresse und versuchen Sie es erneut.
+        no_response_error: Bitte überprüfen Sie die IMAP-Anmeldeinformationen und versuchen Sie es erneut.
+        host_unreachable_error: Host nicht erreichbar. Bitte überprüfen Sie die IMAP-Adresse und den IMAP-Port und versuchen Sie es erneut.
+        connection_timed_out_error: Zeitüberschreitung der Verbindung für %{address}:%{port}
+        connection_closed_error: Verbindung geschlossen.
+      validations:
+        name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
+    custom_filters:
+      number_of_records: Limit erreicht. Die maximale Anzahl an benutzerdefinierten Filtern pro Benutzerkonto beträgt 50.
+      invalid_attribute: Ungültiger Attribut schlüssel - [%{key}]. Der Schlüssel sollte einer von [%{allowed_keys}] oder ein benutzerdefiniertes Attribut sein, das im Konto definiert ist.
+      invalid_operator: Ungültiger Operator. Die erlaubten Operatoren für %{attribute_name} sind [%{allowed_keys}].
+      invalid_value: Ungültiger Wert. Die Werte für %{attribute_name} sind ungültig
+  reports:
+    period: Berichtszeitraum von %{since} bis %{until}
+    utc_warning: Der generierte Bericht ist in UTC-Zeitzone
+    agent_csv:
+      agent_name: Agentenname
+      conversations_count: Zugewiesene Unterhaltungen
+      avg_first_response_time: Durchschnittliche Zeit bis zur ersten Antwort
+      avg_resolution_time: Durchschnittliche Auflösung
+      resolution_count: Auflösungsanzahl
+      avg_customer_waiting_time: Durchschnittliche Kundenwartezeit
+    inbox_csv:
+      inbox_name: Posteingangsname
+      inbox_type: Posteingangstyp
+      conversations_count: Anzahl der Konversationen
+      avg_first_response_time: Durchschnittliche Zeit bis zur ersten Antwort
+      avg_resolution_time: Durchschnittliche Auflösung
+    label_csv:
+      label_title: Label
+      conversations_count: Anzahl der Konversationen
+      avg_first_response_time: Durchschnittliche Zeit bis zur ersten Antwort
+      avg_resolution_time: Durchschnittliche Auflösung
+    team_csv:
+      team_name: Teamname
+      conversations_count: Anzahl Gespräche
+      avg_first_response_time: Durchschnittliche Zeit bis zur ersten Antwort
+      avg_resolution_time: Durchschnittliche Auflösung
+      resolution_count: Auflösungsanzahl
+      avg_customer_waiting_time: Durchschnittliche Kundenwartezeit
+    conversation_traffic_csv:
+      timezone: Zeitzone
+    sla_csv:
+      conversation_id: Konversation-ID
+      sla_policy_breached: SLA-Richtlinie
+      assignee: Zugewiesener
+      team: Team
+      inbox: Posteingang
+      labels: Labels
+      conversation_link: Link zur Konversation
+      breached_events: Gesperrte Ereignisse
+    default_group_by: Tag
+    csat:
+      headers:
+        contact_name: Kontaktname
+        contact_email_address: Kontakt-E-Mail-Adresse
+        contact_phone_number: Kontakt Telefonnummer
+        link_to_the_conversation: Link zur Konversation
+        agent_name: Agentenname
+        rating: Bewertung
+        feedback: Feedback-Kommentar
+        recorded_at: Aufnahmedatum
+  notifications:
+    notification_title:
+      conversation_creation: "Neues Gespräch - #%{display_id} wurde in %{inbox_name} erstellt"
+      conversation_assignment: "Eine Unterhaltung (#%{display_id}) wurde Ihnen zugewiesen"
+      assigned_conversation_new_message: "Eine neue Nachricht wurde in der Unterhaltung erstellt (#%{display_id})"
+      conversation_mention: "Du wurdest in der Unterhaltung erwähnt (#%{display_id})"
+      sla_missed_first_response: "SLA Ziel erste Antwort für die Unterhaltung verpasst (#%{display_id})"
+      sla_missed_next_response: "SLA Ziel nächste Antwort für die Unterhaltung verpasst (#%{display_id})"
+      sla_missed_resolution: "SLA Ziel Auflösung für die Unterhaltung verpasst (#%{display_id})"
+    attachment: "Anhang"
+    no_content: "Kein Inhalt"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
+      instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
+      deleted: Diese Nachricht wurde gelöscht
+      delivery_status:
+        error_code: "Fehlercode: %{error_code}"
+    activity:
+      status:
+        resolved: "Das Gespräch wurde von %{user_name} gelöst"
+        contact_resolved: "Konversation wurde von %{contact_name} gelöst"
+        open: "Das Gespräch wurde von %{user_name} wieder eröffnet"
+        pending: "Das Gespräch wurde von %{user_name} als ausstehend markiert"
+        snoozed: "Das Gespräch wurde von %{user_name} zur Erinnerung markiert"
+        auto_resolved: "Das Gespräch wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
+        system_auto_open: Das System hat die Unterhaltung aufgrund einer neuen eingehenden Nachricht wieder geöffnet.
+      priority:
+        added: '%{user_name} hat die Priorität auf %{new_priority} gesetzt'
+        updated: '%{user_name} hat die Priorität von %{old_priority} zu %{new_priority} geändert'
+        removed: '%{user_name} hat die Priorität entfernt'
+      assignee:
+        self_assigned: "%{user_name} hat sich dieses Gespräch selbst zugewiesen"
+        assigned: "%{user_name} von %{assignee_name} zugewiesen"
+        removed: "Gespräch nicht zugewiesen von %{user_name}"
+      team:
+        assigned: "Zugewiesen an %{team_name} von %{user_name}"
+        assigned_with_assignee: "Zugewiesen an %{assignee_name} über %{team_name} von %{user_name}"
+        removed: "Entfernt aus %{team_name} von %{user_name}"
+      labels:
+        added: "%{user_name} hat %{labels} hinzugefügt"
+        removed: "%{user_name} hat %{labels} entfernt"
+      sla:
+        added: "%{user_name} hat SLA-Richtlinie %{sla_name} hinzugefügt"
+        removed: "%{user_name} hat SLA-Richtlinie %{sla_name} entfernt"
+      muted: "%{user_name} hat das Gespräch stumm geschaltet"
+      unmuted: "%{user_name} hat das Gespräch laut gestellt"
+    templates:
+      greeting_message_body: "%{account_name} antwortet in der Regel in wenigen Stunden."
+      ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
+      email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"
+      csat_input_message_body: "Bitte bewerte die Unterhaltung"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} von %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} von %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} von %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} von %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Neue Nachrichten in dieser Unterhaltung"
+      transcript_subject: "Gesprächsprotokoll"
+    survey:
+      response: "Bitte bewerten Sie diese Unterhaltung, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} ist online, bitte versuchen Sie es später erneut"
+  integration_apps:
+    dashboard_apps:
+      name: "Dashboard-Apps"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} hat ein Meeting begonnen"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Übersetzer"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Artikel nach Titel oder Text suchen...
+      empty_placeholder: Keine Ergebnisse gefunden.
+      loading_placeholder: Suchen...
+      results_title: Suchergebnisse
+    toc_header: 'Auf dieser Seite'
+    hero:
+      sub_title: Suchen Sie hier nach den Artikeln oder stöbern Sie in den unten stehenden Kategorien.
+    common:
+      home: Startseite
+      last_updated_on: Zuletzt aktualisiert am %{last_updated_on}
+      view_all_articles: Alle anzeigen
+      article: Artikel
+      articles: Artikel
+      author: autor
+      authors: Autoren
+      other: anders
+      others: andere
+      by: Von
+      no_articles: Keine Artikel vorhanden
+    footer:
+      made_with: Erstellt mit
+    header:
+      go_to_homepage: Webseite
+      appearance:
+        system: System
+        light: Hell
+        dark: Dunkel
+      featured_articles: Empfohlene Artikel
+      uncategorized: Unkategorisiert
+    404:
+      title: Seite nicht gefunden
+      description: Wir konnten die von Ihnen gesuchte Seite nicht finden.
+      back_to_home: Zur Startseite wechseln
+  slack_unfurl:
+    fields:
+      name: Name
+      email: E-Mail
+      phone_number: Telefon
+      company_name: Firma
+      inbox_name: Posteingang
+      inbox_type: Posteingangstyp
+    button: Unterhaltung öffnen
+  time_units:
+    days:
+      one: "%{count} Tag"
+      other: "%{count} Tage"
+    hours:
+      one: "%{count} Stunde"
+      other: "%{count} Stunden"
+    minutes:
+      one: "%{count} Minute"
+      other: "%{count} Minuten"
+    seconds:
+      one: "%{count} Sekunde"
+      other: "%{count} Sekunden"

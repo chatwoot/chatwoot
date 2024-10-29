@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Lataa",
+      "UPLOADING": "Lähetetään..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Lähetä"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Lähetä viesti uudelleen",
+      "ERROR_MESSAGE": "Ei voitu lähettää, yritä uudestaan"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Olemme online-tilassa",
+    "OFFLINE": "Olemme tällä hetkellä poissa"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
+    "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
+    "IN_A_DAY": "Vastaa tyypillisesti päivässä",
+    "BACK_IN": "Tulemme olemaan takaisin linjoilla"
+  },
+  "DAY_NAMES": [
+    "Sunnuntai",
+    "Maanantai",
+    "Tiistai",
+    "Keskiviikko",
+    "Torstai",
+    "Perjantai",
+    "Lauantai"
+  ],
+  "START_CONVERSATION": "Aloita keskustelu",
+  "END_CONVERSATION": "Lopeta keskustelu",
+  "CONTINUE_CONVERSATION": "Jatka keskustelua",
+  "YOU": "Sinä",
+  "START_NEW_CONVERSATION": "Aloita uusi keskustelu",
+  "VIEW_UNREAD_MESSAGES": "Sinulla on lukemattomia viestejä",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit",
+    "CLOSE_MESSAGES_BUTTON": "Sulje",
+    "COMPANY_FROM": "lähettäjä",
+    "BOT": "Botti"
+  },
+  "BUBBLE": {
+    "LABEL": "Keskustele kanssamme"
+  },
+  "POWERED_BY": "Palvelun tarjoaa Chatwoot",
+  "EMAIL_PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
+  "CHAT_PLACEHOLDER": "Kirjoita viestisi",
+  "TODAY": "Tänään",
+  "YESTERDAY": "Eilen",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Koko nimi",
+        "PLACEHOLDER": "Syötä koko nimesi",
+        "REQUIRED_ERROR": "Koko nimi vaaditaan"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Sähköpostiosoite",
+        "PLACEHOLDER": "Ole hyvä ja syötä email osoite",
+        "REQUIRED_ERROR": "Sähköpostiosoite on pakollinen",
+        "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Puhelinnumero",
+        "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero",
+        "REQUIRED_ERROR": "Puhelinnumero vaaditaan",
+        "DIAL_CODE_VALID_ERROR": "Ole hyvä ja valitse maakoodi",
+        "VALID_ERROR": "Anna kelvollinen puhelinnumero",
+        "DROPDOWN_EMPTY": "Tuloksia ei löytynyt",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Viesti",
+        "PLACEHOLDER": "Ole hyvä ja syötä viesti",
+        "ERROR": "Viesti on liian lyhyt"
+      }
+    },
+    "CAMPAIGN_HEADER": "Ole hyvä ja anna nimesi ja sähköpostisi ennen keskustelun aloittamista",
+    "IS_REQUIRED": "on vaadittu",
+    "REQUIRED": "Pakollinen",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Tiedosto ylittää sallitun {MAXIMUM_FILE_UPLOAD_SIZE} liitteen rajan",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Virheellinen kenttä"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Etsi emojeista",
+    "NOT_FOUND": "Yksikään emoji ei vastaa hakuasi",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Anna arvio palvelusta",
+    "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",
+    "PLACEHOLDER": "Kerro meille lisää..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Lähetä keskustelun tallenne",
+    "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
+    "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klikkaa tästä liittyäksesi",
+      "LEAVE_THE_ROOM": "Poistu puhelusta"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Suosittuja artikkeleita",
+    "VIEW_ALL_ARTICLES": "Näytä kaikki artikkelit",
+    "IFRAME_LOAD_ERROR": "Artikkelin lataamisessa tapahtui virhe. Ole hyvä ja päivitä sivu ja yritä uudelleen."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Kuvaviesti"
+    },
+    "audio": {
+      "CONTENT": "Ääniviesti"
+    },
+    "video": {
+      "CONTENT": "Videoviesti"
+    },
+    "file": {
+      "CONTENT": "Liite"
+    },
+    "location": {
+      "CONTENT": "Sijainti"
+    },
+    "fallback": {
+      "CONTENT": "on jakanut URL-osoitteen"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

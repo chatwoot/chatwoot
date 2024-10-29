@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profilindstillinger",
+    "TITLE": "Profilindstillinger",
+    "BTN_TEXT": "Opdater Profil",
+    "DELETE_AVATAR": "Slet Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar er blevet slettet",
+    "AVATAR_DELETE_FAILED": "Der er en fejl under sletning af avatar, prøv igen",
+    "UPDATE_SUCCESS": "Din profil er blevet opdateret",
+    "PASSWORD_UPDATE_SUCCESS": "Din adgangskode er blevet ændret",
+    "AFTER_EMAIL_CHANGED": "Din profil er blevet opdateret. Log venligst ind igen, da dine loginoplysninger er ændret",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Profilbillede",
+      "ERROR": "Ret venligst formularfejl",
+      "REMOVE_IMAGE": "Fjern",
+      "UPLOAD_IMAGE": "Upload billede",
+      "UPDATE_IMAGE": "Opdater billede",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Din e-mailadresse er din identitet og bruges til at logge ind."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Genvejstast til at sende beskeder",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Dine indstillinger er blevet opdateret",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personlig beskedsignatur",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Gem beskedsignatur",
+        "API_ERROR": "Kunne ikke gemme signatur! Prøv igen",
+        "API_SUCCESS": "Signatur gemt",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Besked Signatur",
+        "ERROR": "Beskedsignatur kan ikke være tom",
+        "PLACEHOLDER": "Indsæt din personlige beskedsignatur her."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Adgangskode",
+        "NOTE": "Opdatering af din adgangskode vil nulstille dine logins på flere enheder.",
+        "BTN_TEXT": "Skift adgangskode"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Adgangs Token",
+        "NOTE": "Denne token kan bruges, hvis du bygger en API-baseret integration",
+        "COPY": "Kopiér"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Lyd Notifikationer",
+        "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
+        "ALERT_TYPES": {
+          "NONE": "Ingen",
+          "MINE": "Assigned",
+          "ALL": "Alle"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "Ingen",
+          "ASSIGNED": "Tildelte Samtaler",
+          "ALL_CONVERSATIONS": "Alle Samtaler"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-Mail Notifikationer",
+        "NOTE": "Opdater dine e-mail notifikationspræferencer her",
+        "CONVERSATION_ASSIGNMENT": "Send e-mail notifikationer når en samtale er tildelt mig",
+        "CONVERSATION_CREATION": "Send e-mail notifikationer når en ny samtale er oprettet",
+        "CONVERSATION_MENTION": "Send e-mail notifikationer, når du er nævnt i en samtale",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-mail notifikationer når en ny besked er oprettet i en tildelt samtale",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Dine notifikationsindstillinger er opdateret",
+        "UPDATE_ERROR": "Der er en fejl under opdatering af indstillingerne, prøv venligst igen"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifikationer",
+        "NOTE": "Opdater dine push-notifikationspræferencer her",
+        "CONVERSATION_ASSIGNMENT": "Send push-notifikationer, når en samtale er tildelt mig",
+        "CONVERSATION_CREATION": "Send push-notifikationer, når en ny samtale er oprettet",
+        "CONVERSATION_MENTION": "Send push-notifikationer, når du er nævnt i en samtale",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-notifikationer, når en ny besked oprettes i en tildelt samtale",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "Du har aktiveret push for denne browser.",
+        "REQUEST_PUSH": "Aktivér push-notifikationer",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilbillede"
+      },
+      "NAME": {
+        "LABEL": "Dit fulde navn",
+        "ERROR": "Indtast et gyldigt fuldt navn",
+        "PLACEHOLDER": "Indtast venligst dit fulde navn"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display navn",
+        "ERROR": "Angiv et gyldigt displaynavn",
+        "PLACEHOLDER": "Angiv venligst et displaynavn, dette vil blive vist i samtaler"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Tilgængelighed",
+        "STATUSES_LIST": [
+          "Online",
+          "Optaget",
+          "Offline"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "Din e-mail adresse",
+        "ERROR": "Indtast venligst en gyldig e-mailadresse",
+        "PLACEHOLDER": "Indtast venligst din e-mailadresse, dette vil blive vist i samtaler"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Nuværende adgangskode",
+        "ERROR": "Indtast den aktuelle adgangskode",
+        "PLACEHOLDER": "Indtast den aktuelle adgangskode"
+      },
+      "PASSWORD": {
+        "LABEL": "Ny adgangskode",
+        "ERROR": "Indtast en adgangskode med længde 6 eller flere",
+        "PLACEHOLDER": "Indtast venligst en ny adgangskode"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bekræft ny adgangskode",
+        "ERROR": "Bekræftelses adgangskoden skal matche adgangskoden",
+        "PLACEHOLDER": "Indtast venligst din nye adgangskode igen"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Skift",
+    "CHANGE_ACCOUNTS": "Skift Konto",
+    "CONTACT_SUPPORT": "Kontakt Support",
+    "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
+    "PROFILE_SETTINGS": "Profilindstillinger",
+    "KEYBOARD_SHORTCUTS": "Tastaturgenveje",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "Log Ud"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dage prøveperiode tilbage.",
+    "TRAIL_BUTTON": "Køb Nu",
+    "DELETED_USER": "Slettet Bruger",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Konto Suspenderet",
+      "MESSAGE": "Din konto er suspenderet. Gå ud til supportteamet for mere information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopiér",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "Kode kopieret til udklipsholder med succes"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Vis Mere",
+      "SHOW_LESS": "Vis Mindre"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Uploader...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Denne historie er ikke længere tilgængelig."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Se på kort"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Send"
+    }
+  },
+  "CONFIRM_EMAIL": "Verificerer...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Tilføj Indbakke"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
+    "SWITCH": "Skift",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Samtaler",
+    "INBOX": "Indbakke",
+    "ALL_CONVERSATIONS": "Alle Samtaler",
+    "MENTIONED_CONVERSATIONS": "Omtaler",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattet",
+    "REPORTS": "Rapporter",
+    "SETTINGS": "Indstillinger",
+    "CONTACTS": "Kontakter",
+    "CAPTAIN": "Captain",
+    "HOME": "Hjem",
+    "AGENTS": "Agenter",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "Indbakker",
+    "NOTIFICATIONS": "Notifikationer",
+    "CANNED_RESPONSES": "Standardsvar Svar",
+    "INTEGRATIONS": "Integrationer",
+    "PROFILE_SETTINGS": "Profilindstillinger",
+    "ACCOUNT_SETTINGS": "Kontoindstillinger",
+    "APPLICATIONS": "Applikationer",
+    "LABELS": "Etiketter",
+    "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
+    "AUTOMATION": "Automatisering",
+    "MACROS": "Macros",
+    "TEAMS": "Teams",
+    "BILLING": "Fakturering",
+    "CUSTOM_VIEWS_FOLDER": "Mapper",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenter",
+    "ALL_CONTACTS": "Alle Kontakter",
+    "TAGGED_WITH": "Mærket med",
+    "NEW_LABEL": "Ny label",
+    "NEW_TEAM": "Nyt team",
+    "NEW_INBOX": "Ny indbakke",
+    "REPORTS_CONVERSATION": "Samtaler",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Kampagner",
+    "ONGOING": "Igangværende",
+    "ONE_OFF": "En rabat",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Agenter",
+    "REPORTS_LABEL": "Etiketter",
+    "REPORTS_INBOX": "Indbakke",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Sæt dig selv som",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Oversigt",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "Alle Artikler",
+      "MY_ARTICLES": "Alle Artikler",
+      "DRAFT": "Kladde",
+      "ARCHIVED": "Arkiveret",
+      "CATEGORY": "Kategori",
+      "SETTINGS": "Indstillinger",
+      "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Læs dokumenter"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Fakturering",
+    "CURRENT_PLAN": {
+      "TITLE": "Nuværende Abonnement",
+      "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Administrer dit abonnement",
+      "DESCRIPTION": "Se dine tidligere fakturaer, rediger dine fakturaoplysninger eller annuller dit abonnement.",
+      "BUTTON_TXT": "Gå til faktureringsportalen"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Brug for hjælp?",
+      "DESCRIPTION": "Har du problemer med fakturering? Vi er her for at hjælpe.",
+      "BUTTON_TXT": "Chat med os"
+    },
+    "NO_BILLING_USER": "Din faktureringskonto er ved at blive konfigureret. Opdater venligst siden og prøv igen."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! Vi kunne ikke finde nogen Chatwoot-konti. Opret venligst en ny konto for at fortsætte.",
+    "NEW_ACCOUNT": "Ny Konto",
+    "SELECTOR_SUBTITLE": "Opret en ny konto",
+    "API": {
+      "SUCCESS_MESSAGE": "Konto oprettet med succes",
+      "EXIST_MESSAGE": "Konto findes allerede",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Virksomhedens Navn",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Send"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Åbn samtale",
+      "RESOLVE_AND_NEXT": "Løs og flyt til næste",
+      "NAVIGATE_DROPDOWN": "Naviger rullemenuer",
+      "RESOLVE_CONVERSATION": "Løs Samtale",
+      "GO_TO_CONVERSATION_DASHBOARD": "Gå til Konversationspanel",
+      "ADD_ATTACHMENT": "Tilføj Vedhæftning",
+      "GO_TO_CONTACTS_DASHBOARD": "Gå til Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Slå Sidebjælke Til/Fra",
+      "GO_TO_REPORTS_SIDEBAR": "Gå til Rapporter sidepanel",
+      "MOVE_TO_NEXT_TAB": "Flyt til næste fane i samtalelisten",
+      "GO_TO_SETTINGS": "Gå til Indstillinger",
+      "SWITCH_TO_PRIVATE_NOTE": "Skift til privat note",
+      "SWITCH_TO_REPLY": "Skift til svar",
+      "TOGGLE_SNOOZE_DROPDOWN": "Skift snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Vind / ¤",
+      "ALT_OR_OPTION_KEY": "Alt. / ¤",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "சாட்வூட்டில் உள்நுழையவும்",
+    "EMAIL": {
+      "LABEL": "இமெயில்",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "சரியான ஈமெயில் முகவரியை பதிவிடவும்"
+    },
+    "PASSWORD": {
+      "LABEL": "பாஸ்வேர்ட்",
+      "PLACEHOLDER": "பாஸ்வேர்ட்"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "உங்கள் பாஸ்வேர்ட்டை மறந்துவிட்டதா?",
+    "CREATE_NEW_ACCOUNT": "புதிய கணக்கை உருவாக்க",
+    "SUBMIT": "உள்நுழையவும்"
+  }
+}

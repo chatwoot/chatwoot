@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Entegrasyonlar alınıyor",
+    "NO_HOOK_CONFIGURED": "Bu hesapta yapılandırılmış {integrationId} entegrasyonu bulunmuyor.",
+    "HEADER": "Uygulamalar",
+    "STATUS": {
+      "ENABLED": "Etkin",
+      "DISABLED": "Devre dışı"
+    },
+    "CONFIGURE": "Yapılandır",
+    "ADD_BUTTON": "Yeni bir bağlantı ekle",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Silme işlemini onayla",
+        "ACCOUNT": "Bağlantıyı Kes"
+      },
+      "MESSAGE": {
+        "INBOX": "Silmek istediğinizden emin misiniz?",
+        "ACCOUNT": "Bağlantıyı kesmek istediğinizden emin misiniz?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Evet, Sil",
+        "ACCOUNT": "Evet, Bağlantıyı Kes"
+      },
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "SUCCESS_MESSAGE": "Bağlantı başarıyla silindi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Entegrasyon kancaları alınıyor",
+      "INBOX": "Gelen Kutusu",
+      "DELETE": {
+        "BUTTON_TEXT": "Sil"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Gelen Kutu Seç",
+          "PLACEHOLDER": "Gelen Kutu Seç"
+        },
+        "SUBMIT": "Oluştur",
+        "CANCEL": "İptal Et"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Entegrasyon kancası başarıyla eklendi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Bağlan"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Bağlantıyı Kes"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow, doğal dil anlama platformudur ve mobil uygulamanıza, web uygulamanıza, cihazınıza, botunuza, etkileşimli sesli yanıt sistemine vb. sohbet kullanıcı arayüzü tasarlamayı ve entegre etmeyi kolaylaştırır. <br /> <br /> Dialogflow'un {installationName} ile entegrasyonu, botunuzu gelen kutularınızla yapılandırmanıza olanak tanır, bu da bota soruları başlangıçta ele almasını ve gerektiğinde bir temsilciye devretmesini sağlar. Dialogflow, lead'leri nitelendirmek, temsilcilere sıkça sorulan soruları sağlayarak temsilcilerin iş yükünü azaltmak için kullanılabilir. <br /> <br /> Dialogflow eklemek için, Google proje konsolunuzda bir Hizmet Hesabı oluşturmanız ve kimlik bilgilerini paylaşmanız gerekmektedir. Daha fazla bilgi için Dialogflow belgelerine başvurun."
+    }
+  }
+}

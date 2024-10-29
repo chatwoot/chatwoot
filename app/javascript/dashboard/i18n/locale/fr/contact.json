@@ -1,0 +1,389 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Non disponible",
+    "EMAIL_ADDRESS": "Adresse de courriel",
+    "PHONE_NUMBER": "Numéro de téléphone",
+    "IDENTIFIER": "Identifier",
+    "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
+    "COMPANY": "Société",
+    "LOCATION": "Localisation",
+    "BROWSER_LANGUAGE": "Langue du navigateur",
+    "CONVERSATION_TITLE": "Détails de la conversation",
+    "VIEW_PROFILE": "Voir le profil",
+    "BROWSER": "Navigateur",
+    "OS": "Système d'exploitation",
+    "INITIATED_FROM": "Initié depuis",
+    "INITIATED_AT": "Initié à",
+    "IP_ADDRESS": "Adresse IP",
+    "CREATED_AT_LABEL": "Créé",
+    "NEW_MESSAGE": "Nouveau message",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
+      "TITLE": "Conversations précédentes"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Libellés des contacts",
+        "ERROR": "Impossible de mettre à jour les étiquettes"
+      },
+      "CONVERSATION": {
+        "TITLE": "Étiquettes de conversation",
+        "ADD_BUTTON": "Ajouter des étiquettes"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Ajouter une étiquette",
+        "PLACEHOLDER": "Rechercher des étiquettes",
+        "NO_RESULT": "Aucune étiquette trouvée",
+        "CREATE_LABEL": "Créer une nouvelle étiquette"
+      }
+    },
+    "MERGE_CONTACT": "Fusionner le contact",
+    "CONTACT_ACTIONS": "Actions du contact",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "SEND_TRANSCRIPT": "Envoyer la transcription",
+    "EDIT_LABEL": "Modifier",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
+      "CONTACT_LABELS": "Libellés des contacts",
+      "PREVIOUS_CONVERSATIONS": "Conversations précédentes",
+      "NO_RECORDS_FOUND": "Aucun attribut trouvé"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Modifier le contact",
+    "TITLE": "Modifier le contact",
+    "DESC": "Modifier les informations de contact"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Nouveau contact",
+    "TITLE": "Créer un nouveau contact",
+    "DESC": "Ajouter des informations de base à propos du contact."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Importer",
+    "TITLE": "Importer des contacts",
+    "DESC": "Importer des contacts via un fichier CSV.",
+    "DOWNLOAD_LABEL": "Télécharger un exemple de CSV.",
+    "FORM": {
+      "LABEL": "Fichier CSV",
+      "SUBMIT": "Importer",
+      "CANCEL": "Annuler"
+    },
+    "SUCCESS_MESSAGE": "Vous serez notifié par e-mail lorsque l'importation sera terminée.",
+    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Exporter",
+    "TITLE": "Exporter les contacts",
+    "DESC": "Exporter les contacts vers un fichier CSV.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer",
+    "CONFIRM": {
+      "TITLE": "Exporter les contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmer la suppression",
+      "MESSAGE": "Êtes-vous sûr de vouloir supprimer cette note ?",
+      "YES": "Oui, supprimer",
+      "NO": "Non, conservez-le"
+    }
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Supprimer le contact",
+    "TITLE": "Supprimer le contact",
+    "DESC": "Supprimer les données de contact",
+    "CONFIRM": {
+      "TITLE": "Confirmer la suppression",
+      "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+      "YES": "Oui, supprimer",
+      "NO": "Non, Conserver"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Contact supprimé avec succès",
+      "ERROR_MESSAGE": "Impossible de supprimer le contact. Veuillez réessayer plus tard."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Envoyer",
+      "CANCEL": "Annuler",
+      "AVATAR": {
+        "LABEL": "Avatar du contact"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Entrez le nom complet du contact",
+        "LABEL": "Nom complet"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Entrez la biographie du contact",
+        "LABEL": "Biographie"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Entrez l'adresse de courriel du contact",
+        "LABEL": "Adresse de courriel",
+        "DUPLICATE": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
+        "ERROR": "Veuillez saisir une adresse de courriel valide."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Entrez le numéro de téléphone du contact",
+        "LABEL": "Numéro de téléphone",
+        "HELP": "Le numéro de téléphone doit être au format E.164. Ex. : +1415555555 [+][code pays][code régional][numéro de téléphone local]",
+        "ERROR": "Le numéro de téléphone doit être soit vide soit au format E.164",
+        "DIAL_CODE_ERROR": "Veuillez sélectionner un code d'appel dans la liste",
+        "DUPLICATE": "Ce numéro de téléphone est utilisé par un autre contact."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Entrez l'emplacement du contact",
+        "LABEL": "Localisation"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Entrez le nom de la société",
+        "LABEL": "Nom de la société"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Entrez le nom du pays",
+        "LABEL": "Nom du pays",
+        "SELECT_PLACEHOLDER": "Sélectionner",
+        "REMOVE": "Supprimer",
+        "SELECT_COUNTRY": "Sélectionner un pays"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Entrez le nom de la ville",
+        "LABEL": "Nom de la Ville"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar du contact supprimé avec succès",
+        "ERROR_MESSAGE": "Impossible de supprimer l'avatar du contact. Veuillez réessayer plus tard."
+      }
+    },
+    "SUCCESS_MESSAGE": "Contact enregistré avec succès",
+    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Nouvelle conversation",
+    "TITLE": "Nouvelle conversation",
+    "DESC": "Commencez une nouvelle conversation en envoyant un nouveau message.",
+    "NO_INBOX": "Impossible de trouver une boîte de réception pour lancer une nouvelle conversation avec ce contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "À"
+      },
+      "INBOX": {
+        "LABEL": "Boîte de réception",
+        "PLACEHOLDER": "Choisir la boîte de réception source",
+        "ERROR": "Sélectionner une boîte de réception"
+      },
+      "SUBJECT": {
+        "LABEL": "Objet",
+        "PLACEHOLDER": "Objet",
+        "ERROR": "Le sujet ne peut pas être vide"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Ecrivez votre message ici",
+        "ERROR": "Le message ne peut être vide"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choisir les fichiers",
+        "HELP_TEXT": "Glissez et déposez des fichiers ici ou choisissez les fichiers à joindre"
+      },
+      "SUBMIT": "Envoyer un message",
+      "CANCEL": "Annuler",
+      "SUCCESS_MESSAGE": "Message envoyé !",
+      "GO_TO_CONVERSATION": "Voir",
+      "ERROR_MESSAGE": "Impossible d'envoyer ! Veuillez réessayer"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "FIELDS": "Champs du contact",
+    "SEARCH_BUTTON": "Rechercher",
+    "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
+    "FILTER_CONTACTS": "Filtrer",
+    "FILTER_CONTACTS_SAVE": "Enregistrer le filtre",
+    "FILTER_CONTACTS_DELETE": "Supprimer le filtre",
+    "FILTER_CONTACTS_EDIT": "Modifier le segment",
+    "LIST": {
+      "LOADING_MESSAGE": "Chargement des contacts...",
+      "404": "Aucun contact ne correspond à votre recherche 🔍",
+      "NO_CONTACTS": "Il n'y a aucun contact disponible",
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "PHONE_NUMBER": "Numéro de téléphone",
+        "CONVERSATIONS": "Conversations",
+        "LAST_ACTIVITY": "Dernière activité",
+        "CREATED_AT": "Créé le",
+        "COUNTRY": "Pays",
+        "CITY": "Ville",
+        "SOCIAL_PROFILES": "Comptes réseaux sociaux",
+        "COMPANY": "Société",
+        "EMAIL_ADDRESS": "Adresse de courriel"
+      },
+      "VIEW_DETAILS": "Voir les détails"
+    }
+  },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Contacts",
+    "LOADING": "Chargement du profil du contact..."
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Ajouter",
+      "TITLE": "Shift + Entrée pour créer une tâche"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Date d'échéance",
+      "LABEL_TITLE": "Définir le type"
+    }
+  },
+  "NOTES": {
+    "FETCHING_NOTES": "Récupération des notes...",
+    "NOT_AVAILABLE": "Il n'y a aucune note créée pour ce contact",
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "a ajouté une note"
+    },
+    "ADD": {
+      "BUTTON": "Ajouter",
+      "PLACEHOLDER": "Ajouter une note",
+      "TITLE": "Shift + Entrée pour créer une note"
+    },
+    "CONTENT_HEADER": {
+      "DELETE": "Supprimer la note"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activités"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "Notes",
+      "PILL_BUTTON_EVENTS": "Evénements",
+      "PILL_BUTTON_CONVO": "conversations"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Ajouter des attributs",
+    "BUTTON": "Ajouter un attribut personnalisé",
+    "NOT_AVAILABLE": "Il n'y a aucun attribut personnalisé disponible pour ce contact.",
+    "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
+    "ACTIONS": {
+      "COPY": "Copier l'attribut",
+      "DELETE": "Supprimer l'attribut",
+      "EDIT": "Modifier l'attribut"
+    },
+    "ADD": {
+      "TITLE": "Créer un attribut personnalisé",
+      "DESC": "Ajouter des informations personnalisées à ce contact."
+    },
+    "FORM": {
+      "CREATE": "Ajouter un attribut",
+      "CANCEL": "Annuler",
+      "NAME": {
+        "LABEL": "Nom de l'attribut personnalisé",
+        "PLACEHOLDER": "Ex. : id shopify",
+        "ERROR": "Nom de l'attribut personnalisé invalide"
+      },
+      "VALUE": {
+        "LABEL": "Valeur de l'attribut",
+        "PLACEHOLDER": "Ex.: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Créer un nouvel attribut ",
+        "SUCCESS": "Attribut ajouté avec succès",
+        "ERROR": "Impossible d'ajouter l'attribut. Veuillez réessayer plus tard"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribut mis à jour avec succès",
+        "ERROR": "Impossible de mettre à jour l'attribut. Veuillez réessayer plus tard"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribut supprimé avec succès",
+        "ERROR": "Impossible de supprimer l'attribut. Veuillez réessayer plus tard"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Ajouter des attributs",
+        "PLACEHOLDER": "Rechercher des attributs",
+        "NO_RESULT": "Aucun attribut trouvé"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Sélectionner une valeur",
+          "SEARCH_INPUT_PLACEHOLDER": "Valeur de recherche",
+          "NO_RESULT": "Aucun résultat trouvé"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Une valeur valide est requise",
+      "INVALID_URL": "URL invalide",
+      "INVALID_INPUT": "Entrée invalide"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Fusionner les contacts",
+    "DESCRIPTION": "Fusionner les contacts pour combiner deux profils en un, y compris tous les attributs et conversations. En cas de conflit, les attributs du contact principal auront priorité.",
+    "PRIMARY": {
+      "TITLE": "Contact principal",
+      "HELP_LABEL": "A supprimer"
+    },
+    "PARENT": {
+      "TITLE": "Contact à fusionner",
+      "PLACEHOLDER": "Rechercher un contact",
+      "HELP_LABEL": "À conserver"
+    },
+    "SUMMARY": {
+      "TITLE": "Résumé",
+      "DELETE_WARNING": "Le contact de <strong>{primaryContactName}</strong> sera supprimé.",
+      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>{primaryContactName}</strong> seront copiées vers <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Fusionner les contacts",
+      "CANCEL": "Annuler",
+      "CHILD_CONTACT": {
+        "ERROR": "Sélectionner un contact enfant à fusionner"
+      },
+      "SUCCESS_MESSAGE": "Contact fusionné avec succès",
+      "ERROR_MESSAGE": "Impossible de fusionner les contacts, essayez à nouveau !"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  }
+}

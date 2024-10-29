@@ -1,0 +1,62 @@
+.cell-label {
+  &:hover {
+    a {
+      color: $action-color;
+    }
+
+    svg {
+      fill: $action-color;
+      transform: rotate(180deg);
+    }
+  }
+
+  a {
+    color: inherit;
+    display: inline-block;
+    transition: color $base-duration $base-timing;
+    width: 100%;
+  }
+}
+
+.cell-label--asc,
+.cell-label--desc {
+  font-weight: $font-weight-medium;
+}
+
+.cell-label__sort-indicator {
+  float: right;
+  margin-left: 5px;
+
+  svg {
+    fill: $hint-grey;
+    height: 13px;
+    transition: transform $base-duration $base-timing;
+    width: 13px;
+  }
+}
+
+.cell-label__sort-indicator--desc {
+  transform: rotate(180deg);
+}
+
+.cell-data--number,
+.cell-label--number {
+  text-align: right;
+}
+
+.cell-data__secret-field {
+  align-items: center;
+  display: flex;
+
+  span {
+    flex: 1;
+  }
+
+  button {
+    margin-left: 5px;
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}

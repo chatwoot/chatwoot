@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 1
+  channel_id: 1
+  inbox_id: 1
+  status: 1
+  assignee_id: 1
+
+two:
+  account_id: 1
+  channel_id: 1
+  inbox_id: 1
+  status: 1
+  assignee_id: 1

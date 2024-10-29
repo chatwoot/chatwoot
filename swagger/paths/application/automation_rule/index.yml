@@ -1,0 +1,20 @@
+tags:
+  - Automation Rule
+operationId: get-account-automation-rule
+summary: List all automation rules in an account
+parameters:
+  - $ref: '#/parameters/account_id'
+  - $ref: '#/parameters/page'
+description: Get details of automation rules in an Account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    schema:
+      type: array
+      description: Array of all automation rules
+      items:
+        $ref: '#/definitions/automation_rule'
+  '403':
+    description: Access denied

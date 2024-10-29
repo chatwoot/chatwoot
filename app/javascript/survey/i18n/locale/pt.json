@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Caro cliente 👋, por favor, reserve alguns instantes para compartilhar a sua opinião sobre a conversa que teve com {inboxName}.",
+    "RATING": {
+      "LABEL": "Avalie a sua conversa",
+      "SUCCESS_MESSAGE": "Obrigado pela sua Avaliação"
+    },
+    "FEEDBACK": {
+      "LABEL": "Tem alguma sugestão para partilhar connosco?",
+      "PLACEHOLDER": "A sua sugestão (opcional)",
+      "BUTTON_TEXT": "Submeter"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Formulário atualizado",
+      "ERROR_MESSAGE": "Não foi possível ligar ao servidor, por favor tente novamente mais tarde"
+    }
+  },
+  "POWERED_BY": "Desenvolvido por Chatwoot"
+}

@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Herunterladen",
+      "UPLOADING": "Hochladen..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Abschicken"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Nachricht erneut senden",
+      "ERROR_MESSAGE": "Senden nicht möglich, versuchen Sie es noch einmal"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Wir sind online",
+    "OFFLINE": "Wir sind momentan abwesend"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
+    "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
+    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
+    "BACK_IN": "Wir werden wieder online sein"
+  },
+  "DAY_NAMES": [
+    "Sonntag",
+    "Montag",
+    "Dienstag",
+    "Mittwoch",
+    "Donnerstag",
+    "Freitag",
+    "Samstag"
+  ],
+  "START_CONVERSATION": "Unterhaltung beginnen",
+  "END_CONVERSATION": "Konversation beenden",
+  "CONTINUE_CONVERSATION": "Konversation fortsetzen",
+  "YOU": "Sie",
+  "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
+  "VIEW_UNREAD_MESSAGES": "Sie haben ungelesene Nachrichten",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
+    "CLOSE_MESSAGES_BUTTON": "Schließen",
+    "COMPANY_FROM": "von",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chatten Sie mit uns"
+  },
+  "POWERED_BY": "Unterstützt von Chatwoot",
+  "EMAIL_PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein",
+  "CHAT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht",
+  "TODAY": "Heute",
+  "YESTERDAY": "Gestern",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Vollständiger Name",
+        "PLACEHOLDER": "Bitte geben Sie Ihren vollständigen Namen ein",
+        "REQUIRED_ERROR": "Vollständiger Name ist erforderlich"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-Mail-Adresse",
+        "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
+        "REQUIRED_ERROR": "E-Mail-Adresse wird benötigt",
+        "VALID_ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Bitte geben Sie ihre Telefonnummer ein",
+        "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
+        "DIAL_CODE_VALID_ERROR": "Bitte wählen Sie eine Landesvorwahl",
+        "VALID_ERROR": "Bitte geben Sie eine gültige Telefonnummer ein",
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Nachricht",
+        "PLACEHOLDER": "Bitte geben Sie Ihre Nachricht ein",
+        "ERROR": "Nachricht ist zu kurz"
+      }
+    },
+    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie die Konversation beginnen",
+    "IS_REQUIRED": "erforderlich",
+    "REQUIRED": "Benötigt",
+    "REGEX_ERROR": "Bitte geben Sie eine gültige Eingabe ein"
+  },
+  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ungültiges Feld"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Emojis durchsuchen",
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Bewerten Sie Ihre Konversation",
+    "SUBMITTED_TITLE": "Danke, dass Sie die Bewertung eingereicht haben",
+    "PLACEHOLDER": "Erzählen Sie uns mehr..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Chat-Protokoll anfordern",
+    "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
+    "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klicken Sie hier, um beizutreten",
+      "LEAVE_THE_ROOM": "Anruf verlassen"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Beliebte Artikel",
+    "VIEW_ALL_ARTICLES": "Alle Artikel anzeigen",
+    "IFRAME_LOAD_ERROR": "Beim Laden des Artikels ist ein Fehler aufgetreten. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bildnachricht"
+    },
+    "audio": {
+      "CONTENT": "Audio-Nachricht"
+    },
+    "video": {
+      "CONTENT": "Videonachricht"
+    },
+    "file": {
+      "CONTENT": "Dateianhang"
+    },
+    "location": {
+      "CONTENT": "Ort"
+    },
+    "fallback": {
+      "CONTENT": "hat eine URL geteilt"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Antwort auf:"
+  }
+}

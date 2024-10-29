@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descărcare",
+      "UPLOADING": "Încărcare..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Trimite"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Trimiteți din nou un mesaj",
+      "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Suntem online",
+    "OFFLINE": "Suntem plecați în acest moment"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
+    "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
+    "IN_A_DAY": "De obicei, răspunsurile într-o zi",
+    "BACK_IN": "Vom reveni online"
+  },
+  "DAY_NAMES": [
+    "Duminică",
+    "Luni",
+    "Marți",
+    "Miercuri",
+    "Joi",
+    "Vineri",
+    "Sâmbătă"
+  ],
+  "START_CONVERSATION": "Începe conversația",
+  "END_CONVERSATION": "Terminați conversația",
+  "CONTINUE_CONVERSATION": "Continuați conversația",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "Începeți o conversație nouă",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Vezi mesajele noi",
+    "CLOSE_MESSAGES_BUTTON": "Închide",
+    "COMPANY_FROM": "de la",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Discută cu noi"
+  },
+  "POWERED_BY": "Oferit de Chatwoot",
+  "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
+  "CHAT_PLACEHOLDER": "Scrie mesajul tău",
+  "TODAY": "Astăzi",
+  "YESTERDAY": "Ieri",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nume complet",
+        "PLACEHOLDER": "Te rugăm să introduci un nume valid",
+        "REQUIRED_ERROR": "Este necesar numele complet"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adresa Email",
+        "PLACEHOLDER": "Te rugăm să-ți introduci adresa de email",
+        "REQUIRED_ERROR": "Adresa de e-mail este obligatorie",
+        "VALID_ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Număr de telefon",
+        "PLACEHOLDER": "Te rugăm să introduci numărul de telefon",
+        "REQUIRED_ERROR": "Numărul de telefon este obligatoriu",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Niciun rezultat găsit",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Introdu mesajul tău",
+        "ERROR": "Mesaj prea scurt"
+      }
+    },
+    "CAMPAIGN_HEADER": "Vă rugăm să furnizați numele și e-mailul înainte de a începe conversația",
+    "IS_REQUIRED": "este obligatoriu",
+    "REQUIRED": "Necesar",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Câmp invalid"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Caută emoji-uri",
+    "NOT_FOUND": "Niciun emoji nu corespunde căutării tale",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Evaluează conversația ta",
+    "SUBMITTED_TITLE": "Vă mulțumim pentru trimiterea de rating",
+    "PLACEHOLDER": "Spune-ne mai mult..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Solicitați o transcriere a conversației",
+    "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
+    "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Apasă aici pentru a te alătura",
+      "LEAVE_THE_ROOM": "Părăsiți apelul"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Vezi toate articolele",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Mesaj imagine"
+    },
+    "audio": {
+      "CONTENT": "Mesaj audio"
+    },
+    "video": {
+      "CONTENT": "Mesaj video"
+    },
+    "file": {
+      "CONTENT": "Fişier ataşat"
+    },
+    "location": {
+      "CONTENT": "Locaţie"
+    },
+    "fallback": {
+      "CONTENT": "a partajat un URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

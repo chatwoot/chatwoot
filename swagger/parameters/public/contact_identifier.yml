@@ -1,0 +1,5 @@
+in: path
+name: contact_identifier
+type: string
+required: true
+description: The source id of contact obtained on contact create

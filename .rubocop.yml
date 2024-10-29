@@ -1,0 +1,168 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+  - ./rubocop/use_from_email.rb
+  - ./rubocop/custom_cop_location.rb
+
+Layout/LineLength:
+  Max: 150
+
+Metrics/ClassLength:
+  Max: 175
+  Exclude:
+    - 'app/models/message.rb'
+    - 'app/models/conversation.rb'
+Metrics/MethodLength:
+  Max: 19
+RSpec/ExampleLength:
+  Max: 25
+Style/Documentation:
+  Enabled: false
+Style/ExponentialNotation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/OpenStructUse:
+  Enabled: false
+Style/OptionalBooleanParameter:
+  Exclude:
+    - 'app/services/email_templates/db_resolver_service.rb'
+    - 'app/dispatchers/dispatcher.rb'
+Style/GlobalVars:
+  Exclude:
+    - 'config/initializers/01_redis.rb'
+    - 'config/initializers/rack_attack.rb'
+    - 'lib/redis/alfred.rb'
+    - 'lib/global_config.rb'
+Style/ClassVars:
+  Exclude:
+    - 'app/services/email_templates/db_resolver_service.rb'
+Lint/MissingSuper:
+  Exclude:
+    - 'app/drops/base_drop.rb'
+Lint/SymbolConversion:
+  Enabled: false
+Lint/EmptyBlock:
+  Exclude:
+    - 'app/views/api/v1/accounts/conversations/toggle_status.json.jbuilder'
+Lint/OrAssignmentToConstant:
+  Exclude:
+    - 'lib/redis/config.rb'
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - spec/**/*
+    - '**/routes.rb'
+    - 'config/environments/*'
+    - db/schema.rb
+Metrics/ModuleLength:
+  Exclude:
+    - lib/seeders/message_seeder.rb
+    - spec/support/slack_stubs.rb
+Rails/ApplicationController:
+  Exclude:
+    - 'app/controllers/api/v1/widget/messages_controller.rb'
+    - 'app/controllers/dashboard_controller.rb'
+    - 'app/controllers/widget_tests_controller.rb'
+    - 'app/controllers/widgets_controller.rb'
+    - 'app/controllers/platform_controller.rb'
+    - 'app/controllers/public_controller.rb'
+    - 'app/controllers/survey/responses_controller.rb'
+Rails/FindEach:
+  Enabled: true
+  Include:
+    - 'app/**/*.rb'
+Rails/CompactBlank:
+  Enabled: false
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+Rails/TimeZoneAssignment:
+  Enabled: false
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+    - 'config/application.rb'
+    - 'config/initializers/monkey_patches/*'
+Style/MapToHash:
+  Enabled: false
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: no_mixed_keys
+  EnforcedShorthandSyntax: never
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 4
+RSpec/MessageSpies:
+  Enabled: false
+RSpec/StubbedMock:
+  Enabled: false
+RSpec/FactoryBot/SyntaxMethods:
+  Enabled: false
+Naming/VariableNumber:
+  Enabled: false
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - 'app/models/message.rb'
+Style/GuardClause:
+  Exclude:
+    - 'app/builders/account_builder.rb'
+    - 'app/models/attachment.rb'
+    - 'app/models/message.rb'
+Metrics/AbcSize:
+  Max: 26
+  Exclude:
+    - 'app/controllers/concerns/auth_helper.rb'
+Rails/UniqueValidationWithoutIndex:
+  Exclude:
+    - 'app/models/channel/twitter_profile.rb'
+    - 'app/models/webhook.rb'
+    - 'app/models/contact.rb'
+    - 'app/models/integrations/hook.rb'
+    - 'app/models/canned_response.rb'
+    - 'app/models/telegram_bot.rb'
+Rails/RenderInline:
+  Exclude:
+    - 'app/controllers/swagger_controller.rb'
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - 'db/migrate/20230503101201_create_sla_policies.rb'
+RSpec/IndexedLet:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
+
+# we should bring this down
+RSpec/MultipleExpectations:
+  Max: 7
+RSpec/MultipleMemoizedHelpers:
+  Max: 14
+
+# custom rules
+UseFromEmail:
+  Enabled: true
+  Exclude:
+    - 'app/models/user.rb'
+    - 'app/models/contact.rb'
+
+CustomCopLocation:
+  Enabled: true
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'public/**/*'
+    - 'config/initializers/bot.rb'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'config/environments/**/*'
+    - 'tmp/**/*'
+    - 'storage/**/*'
+    - 'db/migrate/20230426130150_init_schema.rb'

@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Ρυθμίσεις Προφίλ",
+    "TITLE": "Ρυθμίσεις Προφίλ",
+    "BTN_TEXT": "Ενημέρωση Προφίλ",
+    "DELETE_AVATAR": "Διαγραφή Avatar",
+    "AVATAR_DELETE_SUCCESS": "Το Avatar διαγράφηκε με επιτυχία",
+    "AVATAR_DELETE_FAILED": "Παρουσιάστηκε σφάλμα κατά τη διαγραφή του avatar, παρακαλώ προσπαθήστε ξανά",
+    "UPDATE_SUCCESS": "Το προφίλ σας ενημερώθηκε επιτυχώς",
+    "PASSWORD_UPDATE_SUCCESS": "Ο κωδικός σας άλλαξε με επιτυχία",
+    "AFTER_EMAIL_CHANGED": "Το προφίλ σας ενημερώθηκε επιτυχώς, παρακαλώ κάντε είσοδο (login) επειδή τα στοιχεία εισόδου σας έχουν αλλάξει",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Εικόνα Προφίλ",
+      "ERROR": "Παρακαλώ διορθώστε τα λάθη της φόρμας",
+      "REMOVE_IMAGE": "Διαγραφή",
+      "UPLOAD_IMAGE": "Ανέβασμα Εικόνας",
+      "UPDATE_IMAGE": "Ενημέρωση Εικόνας",
+      "PROFILE_SECTION": {
+        "TITLE": "Προφίλ",
+        "NOTE": "Η διεύθυνση email είναι η ταυτότητά σας και χρησιμοποιείται για την είσοδο (login) σας."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Πλήκτρο συντόμευσης για αποστολή μηνυμάτων",
+        "NOTE": "Μπορείτε να επιλέξετε μια συντόμευση (είτε εισάγετε είτε Cmd/Ctrl+Enter) με βάση την προτίμηση για το γράψιμο.",
+        "UPDATE_SUCCESS": "Οι ρυθμίσεις σας έχουν ενημερωθεί με επιτυχία",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Αποστολή μηνυμάτων πατώντας το πλήκτρο Enter αντί να πατήσετε το κουμπί αποστολής."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Αποστολή μηνυμάτων πατώντας το πλήκτρο Enter αντί να πατήσετε το κουμπί αποστολής."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Προσωπική υπογραφή μηνύματος",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Αποθήκευση υπογραφής μηνύματος",
+        "API_ERROR": "Δεν ήταν δυνατή η αποθήκευση της υπογραφής! Δοκιμάστε ξανά",
+        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Υπογραφή μηνύματος",
+        "ERROR": "H υπογραφή μηνύματος δεν μπορεί να είναι κενή",
+        "PLACEHOLDER": "Εισάγετε εδώ την προσωπική σας υπογραφή μηνύματος."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Κωδικός",
+        "NOTE": "Η ενημέρωση του κωδικού κα επαναφέρει τα logins σε όλες τις συσκευές που έχετε συνδεθεί.",
+        "BTN_TEXT": "Αλλαγή κωδικού πρόσβασης"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Κώδικας Πρόσβασης (Access Token)",
+        "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)",
+        "COPY": "Αντιγραφή"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Ειδοποιήσεις Ήχου",
+        "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
+        "ALERT_TYPES": {
+          "NONE": "Κανένα",
+          "MINE": "Assigned",
+          "ALL": "Όλες"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "Κανένα",
+          "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
+          "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Ήχος προειδοποίησης:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Συνθήκες προειδοποίησης:",
+          "CONDITION_ONE": "Αποστολή ειδοποιήσεων ήχου μόνο αν το παράθυρο του προγράμματος περιήγησης δεν είναι ενεργό",
+          "CONDITION_TWO": "Ειδοποίηση κάθε 30s μέχρι να διαβαστούν όλες οι αντιστοιχισμένες συνομιλίες"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Ειδοποιήσεις Email",
+        "NOTE": "Ενημέρωστε την προτίμηση για ειδοποιήσεις με email εδώ",
+        "CONVERSATION_ASSIGNMENT": "Να στέλνεται ειδοποίηση email όταν μια συνομιλία αντιστοιχίζεται σε μένα",
+        "CONVERSATION_CREATION": "Να στέλνεται ειδοποίηση όταν δημιουργείται μια νέα συνομιλία",
+        "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων email όταν αναφέρεστε σε μια συνομιλία",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
+        "UPDATE_ERROR": "Παρουσιάστηκε σφάλμα κατά την ενημέρωση των προτιμήσεων προσπαθήστε ξανά"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Ειδοποιήσεις Push",
+        "NOTE": "Ενημερώστε τις ρυθμίσεις για τις push ειδοποιήσεις εδώ",
+        "CONVERSATION_ASSIGNMENT": "Να ειδοποιούμαι με push όταν μια συνομιλία μου ανατείθεται",
+        "CONVERSATION_CREATION": "Να ειδοποιούμαι με push όταν δημιουργείται μια νέα συνομιλία",
+        "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων push όταν αναφέρεστε σε μια συνομιλία",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης push όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "Έχετε ενεργοποιήσει τις ειδοποιήσεις push για αυτόν τον browser.",
+        "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Εικόνα Προφίλ"
+      },
+      "NAME": {
+        "LABEL": "Το πλήρες σας όνομα",
+        "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο πλήρες όνομα",
+        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το πλήρες όνομα σας"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Εμφανιζόμενο όνομα",
+        "ERROR": "Παρακαλώ συμπληρώστε έγκυρο εμφανιζόμενο όνομα",
+        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το όνομα που θα εμφανίζεται στις συνομιλίες"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Διαθεσιμότητα",
+        "STATUSES_LIST": [
+          "Στην Γραμμή",
+          "Απασχολημένος",
+          "Εκτός"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Η διαθεσιμότητα ορίστηκε με επιτυχία",
+        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά"
+      },
+      "EMAIL": {
+        "LABEL": "Η διεύθυνση email",
+        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email",
+        "PLACEHOLDER": "Εισάγετε το Email σας, όπως θα εμφανίζεται στις συνομιλίες σας"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Τρέχων κωδικός πρόσβασης",
+        "ERROR": "Παρακαλώ εισάγετε τον τρέχοντα κωδικό πρόσβασης",
+        "PLACEHOLDER": "Παρακαλώ εισάγετε τον τρέχοντα κωδικό πρόσβασης"
+      },
+      "PASSWORD": {
+        "LABEL": "Νέος κωδικός πρόσβασης",
+        "ERROR": "Παρακαλώ εισάγετε κωδικό τουλάχιστον 6 χαρακτήρων",
+        "PLACEHOLDER": "Παρακαλώ εισάγετε ένα νέο κωδικό (password)"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Επιβεβαίωση νέου κωδικού",
+        "ERROR": "Η Επιβεβαίωση κωδικού θα πρέπει να ταιριάζει με τον κωδικό",
+        "PLACEHOLDER": "Παρακαλώ εισάγετε ξανά τον νέο κωδικό (password)"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
+    "CHANGE_ACCOUNTS": "Αλλαγή Λογαριασμού",
+    "CONTACT_SUPPORT": "Υποστήριξη Επαφών",
+    "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
+    "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
+    "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Κονσόλα",
+    "LOGOUT": "Έξοδος (Logout)"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
+    "TRAIL_BUTTON": "Αγόρασε τώρα",
+    "DELETED_USER": "Διαγραμμένος Χρήστης",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Αναστολή Λογαριασμού",
+      "MESSAGE": "Ο λογαριασμός σας έχει ανασταλεί. Επικοινωνήστε με την ομάδα υποστήριξης για περισσότερες πληροφορίες."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Αντιγραφή",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Εμφάνιση Περισσότερων",
+      "SHOW_LESS": "Εμφάνιση Λιγότερων"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Κατέβασμα",
+      "UPLOADING": "Ανέβασμα ...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Η ιστορία δεν είναι πλέον διαθέσιμη."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Δείτε στον χάρτη"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Καταχώρηση"
+    }
+  },
+  "CONFIRM_EMAIL": "Επιβεβαίωση...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Προσθήκη Κιβωτίου"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
+    "SWITCH": "Εναλλαγή",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Συζητήσεις",
+    "INBOX": "Εισερχόμενα",
+    "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
+    "MENTIONED_CONVERSATIONS": "Αναφορές",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Χωρίς Παρακολούθηση",
+    "REPORTS": "Αναφορές",
+    "SETTINGS": "Ρυθμίσεις",
+    "CONTACTS": "Επαφές",
+    "CAPTAIN": "Captain",
+    "HOME": "Αρχική",
+    "AGENTS": "Πράκτορες",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "Κιβώτια Εισερχομένων",
+    "NOTIFICATIONS": "Ειδοποιήσεις",
+    "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
+    "INTEGRATIONS": "Ενοποιήσεις",
+    "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
+    "ACCOUNT_SETTINGS": "Ρυθμίσεις Λογαριασμού",
+    "APPLICATIONS": "Εφαρμογές",
+    "LABELS": "Ετικέτες",
+    "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
+    "AUTOMATION": "Αυτοματισμός",
+    "MACROS": "Μακροεντολές",
+    "TEAMS": "Ομάδες",
+    "BILLING": "Χρεώσεις",
+    "CUSTOM_VIEWS_FOLDER": "Φάκελοι",
+    "CUSTOM_VIEWS_SEGMENTS": "Τμήματα",
+    "ALL_CONTACTS": "Όλες Οι Επαφές",
+    "TAGGED_WITH": "Ετικέτα με",
+    "NEW_LABEL": "Νέα ετικέτα",
+    "NEW_TEAM": "Νέα ομάδα",
+    "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
+    "REPORTS_CONVERSATION": "Συζητήσεις",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Καμπάνιες",
+    "ONGOING": "Σε Εξέλιξη",
+    "ONE_OFF": "Ένα/μία από",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Πράκτορες",
+    "REPORTS_LABEL": "Ετικέτες",
+    "REPORTS_INBOX": "Εισερχόμενα",
+    "REPORTS_TEAM": "Ομάδα",
+    "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Επισκόπηση",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "Όλα Τα Άρθρα",
+      "MY_ARTICLES": "Τα Άρθρα Μου",
+      "DRAFT": "Πρόχειρο",
+      "ARCHIVED": "Αρχειοθετημένο",
+      "CATEGORY": "Κατηγορία",
+      "SETTINGS": "Ρυθμίσεις",
+      "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Αυτόματη σήμανση εκτός σύνδεσης",
+      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου."
+    },
+    "DOCS": "Ανάγνωση εγγράφων"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Χρεώσεις",
+    "CURRENT_PLAN": {
+      "TITLE": "Τρέχον Πλάνο",
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **{plan}** με **{quantity}** άδειες"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Διαχειριστείτε τη συνδρομή σας",
+      "DESCRIPTION": "Δείτε τα προηγούμενα τιμολόγια σας, επεξεργαστείτε τα στοιχεία χρέωσης ή ακυρώστε τη συνδρομή σας.",
+      "BUTTON_TXT": "Μετάβαση στην πύλη χρέωσης"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Χρειάζεστε βοήθεια;",
+      "DESCRIPTION": "Αντιμετωπίζετε οποιαδήποτε προβλήματα στην τιμολόγηση? Είμαστε εδώ για να βοηθήσουμε.",
+      "BUTTON_TXT": "Συνομιλήστε μαζί μας"
+    },
+    "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
+    "NEW_ACCOUNT": "Νέος Λογαριασμός",
+    "SELECTOR_SUBTITLE": "Δημιουργία νέου Λογαριασμού",
+    "API": {
+      "SUCCESS_MESSAGE": "Ο Λογαριασμός δημιουργήθηκε επιτυχώς",
+      "EXIST_MESSAGE": "Ο Λογαριασμός υπάρχει ήδη",
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Όνομα Εταιρείας",
+        "PLACEHOLDER": "Wayne Α. Ε"
+      },
+      "SUBMIT": "Καταχώρηση"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Εμφάνιση όλων των συντομεύσεων",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
+      "RESOLVE_AND_NEXT": "Επίλυση και μετακίνηση στην επόμενη",
+      "NAVIGATE_DROPDOWN": "Πλοηγηθείτε στα αναπτυσσόμενα στοιχεία",
+      "RESOLVE_CONVERSATION": "Επίλυση Συνομιλίας",
+      "GO_TO_CONVERSATION_DASHBOARD": "Μεταβείτε στον Πίνακα Συνομιλίων",
+      "ADD_ATTACHMENT": "Προσθήκη Συνημμένου",
+      "GO_TO_CONTACTS_DASHBOARD": "Μετάβαση στον Πίνακα Επαφών",
+      "TOGGLE_SIDEBAR": "Εναλλαγή πλευρικής μπάρας",
+      "GO_TO_REPORTS_SIDEBAR": "Πλευρική μπάρα αναφορών",
+      "MOVE_TO_NEXT_TAB": "Μετακίνηση στην επόμενη καρτέλα στη λίστα συνομιλιών",
+      "GO_TO_SETTINGS": "Μετάβαση στις ρυθμίσεις",
+      "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
+      "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
+      "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / °C.",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

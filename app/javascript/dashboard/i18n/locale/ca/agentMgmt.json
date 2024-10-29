@@ -1,0 +1,121 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agents",
+    "HEADER_BTN_TXT": "Afegir Agent",
+    "LOADING": "S'està recollint la llista d'agents",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrador/a",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "No hi ha agents associats a aquest compte",
+      "TITLE": "Gestiona agents en el teu equip",
+      "DESC": "Pots afegir/esborrar agents del teu equip.",
+      "NAME": "Nom",
+      "EMAIL": "Correu electrònic",
+      "STATUS": "Estat",
+      "ACTIONS": "Accions",
+      "VERIFIED": "Verificat",
+      "VERIFICATION_PENDING": "Verificació pendent",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Afegir agent al teu equip",
+      "DESC": "Podeu afegir persones que podran gestionar suport per a les vostres safates d'entrada.",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom de l'Agent",
+          "PLACEHOLDER": "Introduïu el nom de l'agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Tipus d'Agent",
+          "PLACEHOLDER": "Selecciona un tipus",
+          "ERROR": "El rol és necessari"
+        },
+        "EMAIL": {
+          "LABEL": "Adreça de correu electrònic",
+          "PLACEHOLDER": "Introduïu l'adreça de correu electrònic de l'agent"
+        },
+        "SUBMIT": "Afegir Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent afegit correctament",
+        "EXIST_MESSAGE": "L'adreça de correu electrònic de l'agent ja està en ús. Introduïu una altre adreça",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborrar",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent esborrat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirma l'esborrat",
+        "MESSAGE": "N'estas segur? ",
+        "YES": "Si, esborra ",
+        "NO": "No, segueix "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edita l'agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom de l'Agent",
+          "PLACEHOLDER": "Introduïu el nom de l'agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Tipus d'Agent",
+          "PLACEHOLDER": "Selecciona un tipus",
+          "ERROR": "El tipus d'Agent és necessari"
+        },
+        "EMAIL": {
+          "LABEL": "Adreça de correu electrònic",
+          "PLACEHOLDER": "Introduïu l'adreça de correu electrònic de l'agent"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Disponibilitat",
+          "PLACEHOLDER": "Seleccioneu un estat de disponibilitat",
+          "ERROR": "Es requereix disponibilitat"
+        },
+        "SUBMIT": "Editar l'agent"
+      },
+      "BUTTON_TEXT": "Edita",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent actualitzat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Reinicialització de la contrasenya",
+        "ADMIN_SUCCESS_MESSAGE": "S'ha enviat a l'agent un correu electrònic amb instruccions per restablir la contrasenya",
+        "SUCCESS_MESSAGE": "La contrasenya de l'agent s'ha restablit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "No s'ha trobat agents."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Ningú",
+      "TITLE": {
+        "AGENT": "Seleccionar Agent",
+        "TEAM": "Selecciona equip"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "No s'han trobat agents",
+          "TEAM": "No s'han trobat equips"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Cerca agents",
+          "TEAM": "Cerca equips",
+          "INPUT": "Cerca agent"
+        }
+      }
+    }
+  }
+}

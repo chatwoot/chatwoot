@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Caricamento..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Invia"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Invia di nuovo il messaggio",
+      "ERROR_MESSAGE": "Impossibile inviare, riprova"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Siamo online",
+    "OFFLINE": "Siamo offline in questo momento"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
+    "IN_A_FEW_HOURS": "In genere risponde in poche ore",
+    "IN_A_DAY": "In genere risponde in un giorno",
+    "BACK_IN": "We will be back online"
+  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
+  "START_CONVERSATION": "Avvia conversazione",
+  "END_CONVERSATION": "Termina conversazione",
+  "CONTINUE_CONVERSATION": "Continua conversazione",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "Avvia una nuova conversazione",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Vedi i nuovi messaggi",
+    "CLOSE_MESSAGES_BUTTON": "Chiudi",
+    "COMPANY_FROM": "da",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chatta con noi"
+  },
+  "POWERED_BY": "Offerto da Chatwoot",
+  "EMAIL_PLACEHOLDER": "Inserisci la tua email",
+  "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio",
+  "TODAY": "Oggi",
+  "YESTERDAY": "Ieri",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nome completo",
+        "PLACEHOLDER": "Per favore inserisci il tuo nome completo",
+        "REQUIRED_ERROR": "Il nome completo è obbligatorio"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Indirizzo email",
+        "PLACEHOLDER": "Inserisci il tuo indirizzo email",
+        "REQUIRED_ERROR": "L'indirizzo email è obbligatorio",
+        "VALID_ERROR": "Inserisci un indirizzo email valido"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Numero di telefono",
+        "PLACEHOLDER": "Inserisci il tuo numero di telefono",
+        "REQUIRED_ERROR": "Il numero di telefono è obbligatorio",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Nessun risultato trovato",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Messaggio",
+        "PLACEHOLDER": "Per favore inserisci il tuo messaggio",
+        "ERROR": "Messaggio troppo corto"
+      }
+    },
+    "CAMPAIGN_HEADER": "Per favore inserisci il tuo nome ed email prima di iniziare la conversazione",
+    "IS_REQUIRED": "è obbligatorio",
+    "REQUIRED": "Obbligatorio",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Campo non valido"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Valuta la conversazione",
+    "SUBMITTED_TITLE": "Grazie per aver inviato la valutazione",
+    "PLACEHOLDER": "Raccontaci di più..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Richiedi la trascrizione della conversazione",
+    "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
+    "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Messaggio immagine"
+    },
+    "audio": {
+      "CONTENT": "Messaggio audio"
+    },
+    "video": {
+      "CONTENT": "Messaggio video"
+    },
+    "file": {
+      "CONTENT": "File allegato"
+    },
+    "location": {
+      "CONTENT": "Posizione"
+    },
+    "fallback": {
+      "CONTENT": "ha condiviso un url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

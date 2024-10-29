@@ -1,0 +1,130 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automatització",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "Afegeix una regla d'automatització",
+    "LOADING": "S'estan recollint regles d'automatització",
+    "ADD": {
+      "TITLE": "Afegeix una regla d'automatització",
+      "SUBMIT": "Crear",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom de la regla",
+          "PLACEHOLDER": "Introdueix el nom de la regla",
+          "ERROR": "El valor és necessari"
+        },
+        "DESC": {
+          "LABEL": "Descripció",
+          "PLACEHOLDER": "Introdueix la descripció de la regla",
+          "ERROR": "La descripció és necessària"
+        },
+        "EVENT": {
+          "LABEL": "Esdeveniment",
+          "PLACEHOLDER": "Selecciona un",
+          "ERROR": "És necessari un esdeveniment"
+        },
+        "CONDITIONS": {
+          "LABEL": "Condicions"
+        },
+        "ACTIONS": {
+          "LABEL": "Accions"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Afegeix condició",
+      "ACTION_BUTTON_LABEL": "Afegeix acció",
+      "API": {
+        "SUCCESS_MESSAGE": "La regla d'automatització s'ha afegit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut crear una regla d'automatització. Intenta-ho més tard"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nom",
+        "Descripció",
+        "Actiu",
+        "Creat el"
+      ],
+      "404": "No s'han trobat regles d'automatització"
+    },
+    "DELETE": {
+      "TITLE": "Suprimeix una regla d'automatització",
+      "SUBMIT": "Esborrar",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "CONFIRM": {
+        "TITLE": "Confirma l'esborrat",
+        "MESSAGE": "N'estas segur? ",
+        "YES": "Si, esborra ",
+        "NO": "No, segueix "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "La regla d'automatització s'ha suprimit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut suprimir una regla d'automatització. Intenta-ho més tard"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edita una regla d'automatització",
+      "SUBMIT": "Actualitza",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "API": {
+        "SUCCESS_MESSAGE": "La regla d'automatització s'ha actualitzat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar una regla d'automatització. Intenta-ho més tard"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clona",
+      "API": {
+        "SUCCESS_MESSAGE": "L'automatització s'ha clonat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut clonar una regla d'automatització. Intenta-ho més tard"
+      }
+    },
+    "FORM": {
+      "EDIT": "Edita",
+      "CREATE": "Crear",
+      "DELETE": "Esborrar",
+      "CANCEL": "Cancel·la",
+      "RESET_MESSAGE": "Si canvies el tipus d'esdeveniment, es restabliran les condicions i els esdeveniments que has afegit a continuació"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Necessites almenys una condició per desar",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contacta amb Atributs personalitzats",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributs personalitzats de conversa"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Necessites almenys una acció per desar",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introdueix el teu missatge aquí",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecciona els equips",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activa la regla d'automatització",
+      "DEACTIVATION_TITLE": "Desactiva la regla d'automatització",
+      "ACTIVATION_DESCRIPTION": "Aquesta acció activarà la regla d'automatització '{automationName}'. Estàs segur que vols continuar?",
+      "DEACTIVATION_DESCRIPTION": "Aquesta acció desactivarà la regla d'automatització '{automationName}'. Estàs segur que vols continuar?",
+      "ACTIVATION_SUCCESFUL": "La regla d'automatització s'ha activat correctament",
+      "DEACTIVATION_SUCCESFUL": "La regla d'automatització s'ha desactivat correctament",
+      "ACTIVATION_ERROR": "No s'ha pogut activar l'automatització. Intenta-ho més tard",
+      "DEACTIVATION_ERROR": "No s'ha pogut desactivar l'automatització. Intenta-ho més tard",
+      "CONFIRMATION_LABEL": "Si",
+      "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "No s'ha pogut carregar el fitxer adjunt. Torna-ho a provar",
+      "LABEL_IDLE": "Puja fitxer adjunt",
+      "LABEL_UPLOADING": "S'està carregant...",
+      "LABEL_UPLOADED": "S'ha pujat correctament",
+      "LABEL_UPLOAD_FAILED": "Ha fallat la pujada"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "El valor és necessari",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    }
+  }
+}

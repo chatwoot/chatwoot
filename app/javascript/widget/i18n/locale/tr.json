@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "İndir",
+      "UPLOADING": "Yükleniyor ..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Yolla"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Mesajı tekrar gönder",
+      "ERROR_MESSAGE": "Gönderilemedi, tekrar deneyin"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Çevrimiçi",
+    "OFFLINE": "Şu an operatörlerimiz müsait değil"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
+    "IN_A_FEW_HOURS": "Genellikle birkaç saat içinde yanıt verir",
+    "IN_A_DAY": "Genellikle bir gün içinde yanıtlar",
+    "BACK_IN": "Tekrar çevrimiçi olacağız"
+  },
+  "DAY_NAMES": [
+    "Pazar",
+    "Pazartesi",
+    "Salı",
+    "Çarşamba",
+    "Perşembe",
+    "Cuma",
+    "Cumartesi"
+  ],
+  "START_CONVERSATION": "Görüşmeyi Başlatın",
+  "END_CONVERSATION": "Görüşmeyi Sonlandır",
+  "CONTINUE_CONVERSATION": "Görüşmeye devam et",
+  "YOU": "Sen",
+  "START_NEW_CONVERSATION": "Yeni Görüşme Başlatın",
+  "VIEW_UNREAD_MESSAGES": "Okunmamış mesajlarınız var",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
+    "CLOSE_MESSAGES_BUTTON": "Kapat",
+    "COMPANY_FROM": "dan",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Sohbet et"
+  },
+  "POWERED_BY": "Chatwoot tarafından desteklenmektedir",
+  "EMAIL_PLACEHOLDER": "Lütfen E-postanızı Girin",
+  "CHAT_PLACEHOLDER": "Mesajınız",
+  "TODAY": "Bugün",
+  "YESTERDAY": "Dün",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Ad Soyad",
+        "PLACEHOLDER": "lütfen tam adınızı giriniz",
+        "REQUIRED_ERROR": "Tam isim gerekli"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-posta adresi",
+        "PLACEHOLDER": "Lütfen e-postanızı girin",
+        "REQUIRED_ERROR": "e-Posta adresi zorunludur",
+        "VALID_ERROR": "Lütfen geçerli bir e-posta adresi girin"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefon numarası",
+        "PLACEHOLDER": "Lütfen telefon numaranızı yazınız",
+        "REQUIRED_ERROR": "Telefon numarası zorunludur",
+        "DIAL_CODE_VALID_ERROR": "Lütfen bir ülke kodu seçin",
+        "VALID_ERROR": "Lütfen geçerli bir telefon numarası girin",
+        "DROPDOWN_EMPTY": "Sonuç bulunamadı",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Lütfen mesajınızı girin",
+        "ERROR": "Mesaj çok kısa"
+      }
+    },
+    "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz",
+    "IS_REQUIRED": "zorunlu",
+    "REQUIRED": "Zorunlu",
+    "REGEX_ERROR": "Lütfen geçerli bir giriş yapın"
+  },
+  "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Geçersiz alan"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "İfade ara",
+    "NOT_FOUND": "İfade bulunamadı",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Görüşmenizi değerlendirin",
+    "SUBMITTED_TITLE": "Değerlendirmeniz için teşekkürler",
+    "PLACEHOLDER": "Biraz daha fazla bilgi verin..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Konuşma transkripti talep et",
+    "SEND_EMAIL_SUCCESS": "Sohbet metni başarıyla gönderildi",
+    "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Görüşmeye katılmak için tıklayın",
+      "LEAVE_THE_ROOM": "Görüşmeden ayrıl"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popüler Makaleler",
+    "VIEW_ALL_ARTICLES": "Tüm makaleleri görüntüle",
+    "IFRAME_LOAD_ERROR": "Makale yüklenirken bir hata oluştu, lütfen sayfayı yenileyip tekrar deneyin."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Görsel mesaj"
+    },
+    "audio": {
+      "CONTENT": "Sesli mesaj"
+    },
+    "video": {
+      "CONTENT": "Video mesajı"
+    },
+    "file": {
+      "CONTENT": "Dosya eklentisi"
+    },
+    "location": {
+      "CONTENT": "Yer"
+    },
+    "fallback": {
+      "CONTENT": "bir url paylaştı"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Cevap veriliyor:"
+  }
+}

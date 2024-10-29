@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Скачать",
+      "UPLOADING": "Загружаем..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Отправить"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Отправить сообщение еще раз",
+      "ERROR_MESSAGE": "Не удалось отправить! Попробуйте еще раз"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Мы в сети",
+    "OFFLINE": "В данный момент мы отсутствуем"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
+    "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
+    "IN_A_DAY": "Обычно отвечаем в течение дня",
+    "BACK_IN": "Мы будем онлайн"
+  },
+  "DAY_NAMES": [
+    "Воскресенье",
+    "Понедельник",
+    "Вторник",
+    "Среда",
+    "Четверг",
+    "Пятница",
+    "Суббота"
+  ],
+  "START_CONVERSATION": "Начать диалог",
+  "END_CONVERSATION": "Завершить диалог",
+  "CONTINUE_CONVERSATION": "Продолжить беседу",
+  "YOU": "Вы",
+  "START_NEW_CONVERSATION": "Начать диалог",
+  "VIEW_UNREAD_MESSAGES": "У вас есть непрочитанные сообщения",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
+    "CLOSE_MESSAGES_BUTTON": "Закрыть",
+    "COMPANY_FROM": "от",
+    "BOT": "Бот"
+  },
+  "BUBBLE": {
+    "LABEL": "Пообщайтесь с нами"
+  },
+  "POWERED_BY": "Работает на Chatwoot",
+  "EMAIL_PLACEHOLDER": "Пожалуйста, введите ваш email",
+  "CHAT_PLACEHOLDER": "Введите сообщение",
+  "TODAY": "Сегодня",
+  "YESTERDAY": "Вчера",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Полное имя",
+        "PLACEHOLDER": "Пожалуйста, введите ваше ФИО",
+        "REQUIRED_ERROR": "Необходимо указать имя"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Пожалуйста, введите ваш адрес электронной почты",
+        "REQUIRED_ERROR": "Требуется адрес электронной почты",
+        "VALID_ERROR": "Пожалуйста, введите действительный адрес электронной почты"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Номер телефона",
+        "PLACEHOLDER": "Пожалуйста, введите ваш номер телефона",
+        "REQUIRED_ERROR": "Требуется указать номер телефона",
+        "DIAL_CODE_VALID_ERROR": "Пожалуйста выберите код страны",
+        "VALID_ERROR": "Пожалуйста, введите действительный номер телефона",
+        "DROPDOWN_EMPTY": "Результаты не найдены",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Сообщение",
+        "PLACEHOLDER": "Пожалуйста, введите ваше сообщение здесь",
+        "ERROR": "Сообщение слишком короткое"
+      }
+    },
+    "CAMPAIGN_HEADER": "Пожалуйста, укажите Ваше имя и адрес электронной почты перед началом диалога",
+    "IS_REQUIRED": "обязательно",
+    "REQUIRED": "Обязательно",
+    "REGEX_ERROR": "Пожалуйста, предоставьте корректные данные"
+  },
+  "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Неверное поле"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Искать эмодзи",
+    "NOT_FOUND": "По Вашему запросу не было найдено эмодзи",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Оцените разговор",
+    "SUBMITTED_TITLE": "Спасибо за оценку",
+    "PLACEHOLDER": "Расскажите подробнее..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Запросить историю разговора",
+    "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
+    "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Нажмите, чтобы присоединиться",
+      "LEAVE_THE_ROOM": "Закончить разговор"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Популярные статьи",
+    "VIEW_ALL_ARTICLES": "Показать все статьи",
+    "IFRAME_LOAD_ERROR": "Произошла ошибка при загрузке статьи, пожалуйста, обновите страницу и повторите попытку."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Изображение"
+    },
+    "audio": {
+      "CONTENT": "Аудиосообщение"
+    },
+    "video": {
+      "CONTENT": "Видео"
+    },
+    "file": {
+      "CONTENT": "Прикрепленный файл"
+    },
+    "location": {
+      "CONTENT": "Местоположение"
+    },
+    "fallback": {
+      "CONTENT": "поделился ссылкой"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Ответить:"
+  }
+}

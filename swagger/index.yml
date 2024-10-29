@@ -1,0 +1,81 @@
+swagger: "2.0"
+info:
+  description: This is the API documentation for Chatwoot server.
+  version: 1.0.0
+  title: Chatwoot
+  termsOfService:	https://www.chatwoot.com/terms-of-service/
+  contact:
+    email: hello@chatwoot.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+host: app.chatwoot.com
+basePath: /
+schemes:
+  - https
+produces:
+- application/json; charset=utf-8
+consumes:
+- application/json; charset=utf-8
+securityDefinitions:
+  userApiKey:
+    type: apiKey
+    in: header
+    name: api_access_token
+    description: This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user.
+  agentBotApiKey:
+    type: apiKey
+    in: header
+    name: api_access_token
+    description: This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis.
+  platformAppApiKey:
+    type: apiKey
+    in: header
+    name: api_access_token
+    description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles.
+security:
+  - userApiKey: []
+
+paths:
+  $ref: ./paths/index.yml
+definitions:
+  $ref: ./definitions/index.yml
+parameters:
+  $ref: ./parameters/index.yml
+
+x-tagGroups:
+  - name: Platform
+    tags:
+      - Accounts
+      - Account Users
+      - AgentBots
+      - Users
+  - name: Application
+    tags:
+      - Account AgentBots
+      - Agents
+      - Canned Responses
+      - Contacts
+      - Contact Labels
+      - Conversation Assignment
+      - Conversation Labels
+      - Conversations
+      - Custom Attributes
+      - Custom Filters
+      - Inboxes
+      - Integrations
+      - Messages
+      - Profile
+      - Reports
+      - Teams
+      - Webhooks
+      - Automation Rule
+      - Help Center
+  - name: Client
+    tags:
+      - Contacts API
+      - Conversations API
+      - Messages API
+  - name: Others
+    tags:
+      - CSAT Survey Page

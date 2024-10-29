@@ -1,0 +1,109 @@
+:root {
+  --white: #fff;
+  --white-transparent: rgba(255, 255, 255, 0.9);
+  --black-transparent: rgba(0, 0, 0, 0.9);
+
+  --w-25: #F5FAFF;
+  --w-50: #EBF5FF;
+  --w-75: #D6EBFF;
+  --w-100: #C2E1FF;
+  --w-200: #99CEFF;
+  --w-300: #70BAFF;
+  --w-400: #47A6FF;
+  --w-500: #1F93FF;
+  --w-600: #1976CC;
+  --w-700: #135899;
+  --w-800: #0C3B66;
+  --w-900: #061D33;
+
+  --g-50: #E6F8E6;
+  --g-100: #C4EEC2;
+  --g-200: #9DE29A;
+  --g-300: #6FD86F;
+  --g-400: #44CE4B;
+  --g-500: #00C41D;
+  --g-600: #00B412;
+  --g-700: #00A200;
+  --g-800: #009000;
+  --g-900: #007000;
+
+  --y-50: #FEFDE8;
+  --y-100: #FDFCC4;
+  --y-200: #FCF68C;
+  --y-300: #F9E736;
+  --y-400: #F6D819;
+  --y-500: #E6C00C;
+  --y-600: #C69608;
+  --y-700: #9E6b0A;
+  --y-800: #835510;
+  --y-900: #6F4514;
+
+  --s-25: #F8FAFC;
+  --s-50: #F1F5F8;
+  --s-75: #EBF0F5;
+  --s-100: #E4EBF1;
+  --s-200: #C9D7E3;
+  --s-300: #AEC3D5;
+  --s-400: #93AFC8;
+  --s-500: #779BBB;
+  --s-600: #446888;
+  --s-700: #37546D;
+  --s-800: #293F51;
+  --s-900: #1B2836;
+
+  --b-50: #F7F7F7;
+  --b-100: #ECECED;
+  --b-200: #DDDDE0;
+  --b-300: #C6C7CA;
+  --b-400: #ABACAF;
+  --b-500: #96979C;
+  --b-600: #6E6F73;
+  --b-700: #5A5B5F;
+  --b-800: #3C3D40;
+  --b-900: #1B1C1F;
+
+  --r-50: #FFEBEE;
+  --r-100: #FFCCD1;
+  --r-200: #F69898;
+  --r-300: #EF6F6F;
+  --r-400: #F94B4A;
+  --r-500: #FF382D;
+  --r-600: #F02B2D;
+  --r-700: #DE1E27;
+  --r-800: #D11320;
+  --r-900: #C30011;
+
+  --v-50: #FFFFFF;
+  --v-100: #F5EBFF;
+  --v-200: #DDB8FF;
+  --v-300: #C585FF;
+  --v-400: #AC52FF;
+  --v-500: #941FFF;
+  --v-600: #7B00EB;
+  --v-700: #6000B8;
+  --v-800: #450085;
+  --v-900: #2B0052;
+
+  // Common color aliases
+  --color-woot: var(--w-500);
+
+  --color-heading: #1f2d3d;
+  --color-body: #3c4858;
+
+  --color-border: var(--s-75);
+  --color-border-light: var(--s-50);
+  --color-border-dark: var(--s-100);
+
+  --color-background: var(--s-50);
+  --color-background-light: var(--s-25);
+
+  // Social and inboxes brand colors
+  --color-facebook-brand: #3b5998;
+  --color-twitter-brand: #1da1f2;
+  --color-whatsapp-brand: #25d366;
+  --color-sms-twilio: #f42f46;
+  --color-cloud-generic: #18b7b0;
+
+  // Tech-debt
+  --color-medium-gray: #8492a6;
+}

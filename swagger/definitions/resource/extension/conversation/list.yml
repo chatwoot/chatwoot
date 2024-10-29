@@ -1,0 +1,24 @@
+type: object
+properties:
+  data:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          mine_count:
+            type: number
+          unassigned_count:
+            type: number
+          assigned_count:
+            type: number
+          all_count:
+            type: number
+      payload:
+        type: array
+        description: 'array of conversations'
+        items:
+          allOf:
+            - $ref: '#/definitions/generic_id'
+            - $ref: '#/definitions/conversation'
+            - $ref: '../contact/conversation.yml'

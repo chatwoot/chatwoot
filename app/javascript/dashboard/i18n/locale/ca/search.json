@@ -1,0 +1,26 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Totes",
+      "CONTACTS": "Contactes",
+      "CONVERSATIONS": "Converses",
+      "MESSAGES": "Missatges"
+    },
+    "SECTION": {
+      "CONTACTS": "Contactes",
+      "CONVERSATIONS": "Converses",
+      "MESSAGES": "Missatges"
+    },
+    "SEARCHING_DATA": "S'està cercant",
+    "EMPTY_STATE": "No s'ha trobat cap {item} per a la consulta '{query}'",
+    "EMPTY_STATE_FULL": "No s'han trobat resultats per a la consulta '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ centrar",
+    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Llegir més",
+    "WROTE": "va escriure:",
+    "FROM": "des de",
+    "EMAIL": "correu electrònic"
+  }
+}

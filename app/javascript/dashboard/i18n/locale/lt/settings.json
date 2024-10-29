@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profilio Nustatymai",
+    "TITLE": "Profilio Nustatymai",
+    "BTN_TEXT": "Atnaujinti Profilį",
+    "DELETE_AVATAR": "Ištrinti Avatarą",
+    "AVATAR_DELETE_SUCCESS": "Avataras buvo ištrintas sėkmingai",
+    "AVATAR_DELETE_FAILED": "Pašalinant avatarą įvyko klaida, pabandykite dar kartą",
+    "UPDATE_SUCCESS": "Jūsų profilis sėkmingai atnaujintas",
+    "PASSWORD_UPDATE_SUCCESS": "Jūsų slaptažodis buvo sėkmingai pakeistas",
+    "AFTER_EMAIL_CHANGED": "Jūsų profilis buvo sėkmingai atnaujintas, prisijunkite dar kartą, nes jūsų prisijungimo duomenys yra pakeisti",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Profilio paveikslėlis",
+      "ERROR": "Ištaisykite formos klaidas",
+      "REMOVE_IMAGE": "Pašalinti",
+      "UPLOAD_IMAGE": "Įkelti paveikslėlį",
+      "UPDATE_IMAGE": "Atnaujinti paveikslėlį",
+      "PROFILE_SECTION": {
+        "TITLE": "Profilis",
+        "NOTE": "Jūsų el. pašto adresas yra jūsų tapatybė ir yra naudojamas prisijungimui."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Spartusis klavišas žinutėms siųsti",
+        "NOTE": "Galite pasirinkti spartųjį klavišą (arba Enter, arba Cmd/Ctrl+Enter), atsižvelgdami į savo rašymo nuostatas.",
+        "UPDATE_SUCCESS": "Jūsų nustatymai sėkmingai atnaujinti",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Siųskite pranešimus paspausdami klavišą Enter, o ne spustelėdami siuntimo mygtuką."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Siųskite pranešimus paspausdami Cmd/Ctrl + Enter, o ne spustelėdami siuntimo mygtuką."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Asmeninis pranešimo parašas",
+        "NOTE": "Sukurkite unikalų pranešimo parašą, kuris bus rodomas kiekvieno pranešimo pabaigoje, siunčiamo iš bet kurio gautųjų laiškų aplanko. Taip pat galite įdėti paveikslėlį, kuris rodomas tiesioginio pokalbio, el. pašto ir API.",
+        "BTN_TEXT": "Išsaugoti pranešimo parašą",
+        "API_ERROR": "Nepavyko išsaugoti parašo! Bandykite dar kartą",
+        "API_SUCCESS": "Parašas išsaugotas sėkmingai",
+        "IMAGE_UPLOAD_ERROR": "Nepavyko įkelti vaizdo! Prašau, pabandykite dar kartą",
+        "IMAGE_UPLOAD_SUCCESS": "Vaizdas sėkmingai pridėtas. Spustelėkite \"Išsaugoti\", kad išsaugotumėte parašą",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Paveiksliuko dydis turi būti mažesnis nei {size} MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Pranešimo parašas",
+        "ERROR": "Pranešimo Parašas negali būti tuščias",
+        "PLACEHOLDER": "Įdėkite savo asmeninį pranešimo parašą čia."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Slaptažodis",
+        "NOTE": "Atnaujinus slaptažodį būtų iš naujo nustatyti prisijungimai keliuose įrenginiuose.",
+        "BTN_TEXT": "Keisti slaptažodį"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Prieeigos raktas",
+        "NOTE": "Šis prieigos raktas gali būti naudojamas, jei kuriate API pagrįstą integraciją",
+        "COPY": "Kopijuoti"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Garsiniai Perspėjimai",
+        "NOTE": "Prietaisų skydelyje įgalinkite garso perspėjimus apie naujus pranešimus ir pokalbius.",
+        "ALERT_TYPES": {
+          "NONE": "Nėra",
+          "MINE": "Assigned",
+          "ALL": "Visi"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "Nėra",
+          "ASSIGNED": "Priskirti Pokalbiai",
+          "ALL_CONVERSATIONS": "Visi Pokalbiai"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Įspėjimo tonas:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Įspėjimo sąlygos:",
+          "CONDITION_ONE": "Garsinius įspėjimus siųskite tik tuo atveju, jei naršyklės langas neaktyvus",
+          "CONDITION_TWO": "Siųskite įspėjimus kas 30 sekundžių, kol bus perskaityti visi priskirti pokalbiai"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "El. pašto Perspėjimai",
+        "NOTE": "Čia atnaujinkite el. pašto perspėjimų nustatymus",
+        "CONVERSATION_ASSIGNMENT": "Siųsti perspėjimus el. paštu, kai pokalbis yra priskirtas man",
+        "CONVERSATION_CREATION": "Siųsti perspėjimus el. paštu, kai naujas pokalbis yra sukuriamas",
+        "CONVERSATION_MENTION": "Siųsti perspėjimus el. paštu, kai pokalbyje esate paminimas/a",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Siųsti perspėjimus el. paštu, kai priskirtame pokalbyje sukuriamas naujas pranešimas",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Siųsti perspėjimus el. paštu, kai dalyvaujant pokalbyje sukuriamas naujas pranešimas",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "El. paštas",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Jūsų perspėjimų nuostatos sėkmingai atnaujintos",
+        "UPDATE_ERROR": "Atnaujinant nuostatas įvyko klaida, pabandykite dar kartą"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Aktyvieji perspėjimai",
+        "NOTE": "Čia atnaujinkite aktyviūjų pranešimų nustatymus",
+        "CONVERSATION_ASSIGNMENT": "Siųsti aktyviuosius perspėjimus, kai pokalbis yra priskirtas man",
+        "CONVERSATION_CREATION": "Siųsti aktyviuosius perspėjimus, kai naujas pokalbis yra sukuriamas",
+        "CONVERSATION_MENTION": "Siųsti aktyviuosius perspėjimus, kai pokalbyje esate paminimas/a",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Siųsti aktyviuosius perspėjimus, kai priskirtame pokalbyje sukuriamas naujas pranešimas",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Siųsti aktyviuosius perspėjimus, kai dalyvaujant pokalbyje sukuriamas naujas pranešimas",
+        "HAS_ENABLED_PUSH": "Leidote aktyviuosius perspėjimus šioje naršyklėje.",
+        "REQUEST_PUSH": "Leisti aktyviuosius pranešimus",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilio paveikslėlis"
+      },
+      "NAME": {
+        "LABEL": "Jūsų pilnas vardas",
+        "ERROR": "Prašau įveskite teisingą vardą ir pavardę",
+        "PLACEHOLDER": "Prašau įveskite jūsų pilną vardą"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Rodomas vardas",
+        "ERROR": "Prašau įveskite teisingą rodomą vardą",
+        "PLACEHOLDER": "Įveskite rodomą vardą, kuris bus rodomas pokalbiuose"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Prieinamumas",
+        "STATUSES_LIST": [
+          "Prisijungęs",
+          "Užimta",
+          "Atsijungęs"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Pasiekiamumas nustatytas sėkmingai",
+        "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą"
+      },
+      "EMAIL": {
+        "LABEL": "Jūsų el. pašto adresas",
+        "ERROR": "Prašau įveskite teisingą el. pašto adresą",
+        "PLACEHOLDER": "Įveskite el. pašto adresą, kuris bus rodomas pokalbiuose"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Dabartinis slaptažodis",
+        "ERROR": "Įveskite dabartinį slaptažodį",
+        "PLACEHOLDER": "Įveskite dabartinį slaptažodį"
+      },
+      "PASSWORD": {
+        "LABEL": "Naujas slaptažodis",
+        "ERROR": "Įveskite slaptažodį, kurio ilgis yra 6 arba daugiau simbolių",
+        "PLACEHOLDER": "Įveskite naują slaptažodį"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Patvirtinti naują slaptažodį",
+        "ERROR": "Patvirtinimo slaptažodis turi sutapti su slaptažodžiu",
+        "PLACEHOLDER": "Dar kartą įveskite naują slaptažodį"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Keisti",
+    "CHANGE_ACCOUNTS": "Perjungti Paskyrą",
+    "CONTACT_SUPPORT": "Susisiekite su pagalbos tarnyba",
+    "SELECTOR_SUBTITLE": "Pasirinkite paskyrą iš toliau pateikto sąrašo",
+    "PROFILE_SETTINGS": "Profilio Nustatymai",
+    "KEYBOARD_SHORTCUTS": "Spartieji klavišai",
+    "APPEARANCE": "Keisti išvaizdą",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "Atsijungti"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "liko bandymo dienų.",
+    "TRAIL_BUTTON": "Pirkti dabar",
+    "DELETED_USER": "Trinti Vartotoją",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Paskyra laikinai sustabdyta",
+      "MESSAGE": "Jūsų paskyra laikinai sustabdyta. Norėdami gauti daugiau informacijos, susisiekite su palaikymo komanda."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopijuoti",
+      "CODEPEN": "Atidaryti su CodePenu",
+      "COPY_SUCCESSFUL": "Nukopijuotas į iškarpinę"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Rodyti Daugiau",
+      "SHOW_LESS": "Rodyti Mažiau"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Parsisiųsti",
+      "UPLOADING": "Įkeliama...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Šis pasakojimas nebepasiekiamas."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Pamatyti žemėlapyje"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Pateikti"
+    }
+  },
+  "CONFIRM_EMAIL": "Tikrinama...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Pridėti Gautų Laiškų Aplanką"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
+    "SWITCH": "Perjungti",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Pokalbiai",
+    "INBOX": "Gautų laiškų aplankas",
+    "ALL_CONVERSATIONS": "Visi Pokalbiai",
+    "MENTIONED_CONVERSATIONS": "Paminėjimai",
+    "PARTICIPATING_CONVERSATIONS": "Dalyvaujantys",
+    "UNATTENDED_CONVERSATIONS": "Be priežiūros",
+    "REPORTS": "Ataskaitos",
+    "SETTINGS": "Nustatymai",
+    "CONTACTS": "Kontaktai",
+    "CAPTAIN": "Captain",
+    "HOME": "Pagrindinis",
+    "AGENTS": "Agentai",
+    "AGENT_BOTS": "Botai",
+    "AUDIT_LOGS": "Audito Žurnalas",
+    "INBOXES": "Gautų laiškų aplankai",
+    "NOTIFICATIONS": "Pranešimai",
+    "CANNED_RESPONSES": "Atsakymų Ruošiniai",
+    "INTEGRATIONS": "Integracijos",
+    "PROFILE_SETTINGS": "Profilio Nustatymai",
+    "ACCOUNT_SETTINGS": "Paskyros Nustatymai",
+    "APPLICATIONS": "Programos",
+    "LABELS": "Etiketės",
+    "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai",
+    "AUTOMATION": "Automatizacija",
+    "MACROS": "Makrokomandos",
+    "TEAMS": "Komandos",
+    "BILLING": "Atsiskaitymas",
+    "CUSTOM_VIEWS_FOLDER": "Aplankas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentas",
+    "ALL_CONTACTS": "Visi Kontaktai",
+    "TAGGED_WITH": "Pažymėta su",
+    "NEW_LABEL": "Nauja etiketė",
+    "NEW_TEAM": "Nauja komanda",
+    "NEW_INBOX": "Naujas gautų laiškų aplankas",
+    "REPORTS_CONVERSATION": "Pokalbiai",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Akcijos",
+    "ONGOING": "Vykstantis",
+    "ONE_OFF": "Vienas iš",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Botas",
+    "REPORTS_AGENT": "Agentai",
+    "REPORTS_LABEL": "Etiketės",
+    "REPORTS_INBOX": "Gautų laiškų aplankas",
+    "REPORTS_TEAM": "Komanda",
+    "SET_AVAILABILITY_TITLE": "Nustatykite save kaip",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Apžvalga",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Palaikymo centras",
+      "ALL_ARTICLES": "Visi Straipsniai",
+      "MY_ARTICLES": "Mano Straipsniai",
+      "DRAFT": "Ruošinys",
+      "ARCHIVED": "Suarchyvuota",
+      "CATEGORY": "Kategorija",
+      "SETTINGS": "Nustatymai",
+      "CATEGORY_EMPTY_MESSAGE": "Kategorijų nerasta"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Automatiškai pažymėkite \"neprisijungęs\"",
+      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio."
+    },
+    "DOCS": "Skaityti dokumentus"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Atsiskaitymas",
+    "CURRENT_PLAN": {
+      "TITLE": "Prenumeratos Dabartinis Planas",
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Tvarkykite savo prenumeratą",
+      "DESCRIPTION": "Peržiūrėkite ankstesnes sąskaitas faktūras, redaguokite atsiskaitymo informaciją arba atšaukite prenumeratą.",
+      "BUTTON_TXT": "Eiti į mokėjimų portalą"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Reikia pagalbos?",
+      "DESCRIPTION": "Ar susiduriate su atsiskaitymo problemomis? Esame čia, kad padėtume.",
+      "BUTTON_TXT": "Pabendraukite su mumis"
+    },
+    "NO_BILLING_USER": "Jūsų atsiskaitomoji sąskaita konfigūruojama. Atnaujinkite puslapį ir bandykite dar kartą."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Oi! Nepavyko rasti jokių Chatwoot paskyrų. Jei norite tęsti, susikurkite naują paskyrą.",
+    "NEW_ACCOUNT": "Nauja Paskyra",
+    "SELECTOR_SUBTITLE": "Sukurti naują paskyrą",
+    "API": {
+      "SUCCESS_MESSAGE": "Paskyra sukurta sėkmingai",
+      "EXIST_MESSAGE": "Paskyra jau yra",
+      "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Įmonės pavadinimas",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Pateikti"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Peržiūrėkite visus sparčiuosius klavišus",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Atidaryti pokalbį",
+      "RESOLVE_AND_NEXT": "Išspręsti ir pereiti toliau",
+      "NAVIGATE_DROPDOWN": "Pereikite tarp išskleidžiamojo sąrašo elementų",
+      "RESOLVE_CONVERSATION": "Išspręsti pokalbį",
+      "GO_TO_CONVERSATION_DASHBOARD": "Eikite į Pokalbio informacijos skydelį",
+      "ADD_ATTACHMENT": "Pridėti Priedą",
+      "GO_TO_CONTACTS_DASHBOARD": "Eikite į Kontaktų informacijos skydelį",
+      "TOGGLE_SIDEBAR": "Perjungti šoninę juostą",
+      "GO_TO_REPORTS_SIDEBAR": "Eikite į Ataskaitų šoninę juostą",
+      "MOVE_TO_NEXT_TAB": "Pereiti į kitą skirtuką pokalbių sąraše",
+      "GO_TO_SETTINGS": "Eiti į Nustatymus",
+      "SWITCH_TO_PRIVATE_NOTE": "Perjungti į Privatų užrašą",
+      "SWITCH_TO_REPLY": "Perjungti į Atsakyti",
+      "TOGGLE_SNOOZE_DROPDOWN": "Perjungti snooze išskleidžiamąjį meniu"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

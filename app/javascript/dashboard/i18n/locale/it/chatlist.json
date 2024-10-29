@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Recupero delle conversazioni",
+    "LOAD_MORE_CONVERSATIONS": "Carica altre conversazioni",
+    "EOF": "Tutte le conversazioni caricate 🎉",
+    "LIST": {
+      "404": "Non ci sono conversazioni attive in questo gruppo."
+    },
+    "TAB_HEADING": "Conversazioni",
+    "MENTION_HEADING": "Menzioni",
+    "UNATTENDED_HEADING": "Non partecipate",
+    "SEARCH": {
+      "INPUT": "Cerca persone, Chat, risposte salvate .."
+    },
+    "FILTER_ALL": "Tutti",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mie",
+      "unassigned": "Non assegnate",
+      "all": "Tutti"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Aperte"
+      },
+      "resolved": {
+        "TEXT": "Risolti"
+      },
+      "pending": {
+        "TEXT": "In sospeso"
+      },
+      "snoozed": {
+        "TEXT": "Posticipato"
+      },
+      "all": {
+        "TEXT": "Tutti"
+      }
+    },
+    "VIEW_FILTER": "Visualizza",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Stato",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Creato il:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Messaggio immagine"
+      },
+      "audio": {
+        "CONTENT": "Messaggio audio"
+      },
+      "video": {
+        "CONTENT": "Messaggio video"
+      },
+      "file": {
+        "CONTENT": "File allegato"
+      },
+      "location": {
+        "CONTENT": "Posizione"
+      },
+      "fallback": {
+        "CONTENT": "ha condiviso un url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Ordina per",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Creato il",
+          "LABEL": "Creato il"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Ricevuto via email",
+    "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
+    "REPLY_TO_TWEET": "Rispondi a questo tweet",
+    "LINK_TO_STORY": "Vai alla storia di instagram",
+    "SENT": "Inviato correttamente",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Nessun messaggio",
+    "NO_CONTENT": "Nessun contenuto disponibile",
+    "HIDE_QUOTED_TEXT": "Nascondi testo citato",
+    "SHOW_QUOTED_TEXT": "Mostra testo citato",
+    "MESSAGE_READ": "Leggi"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Oceń udzielone Ci wsparcie",
+    "PLACEHOLDER": "Dodaj swój komentarz...",
+    "RATINGS": {
+      "POOR": "😞 Słabo",
+      "FAIR": "😑 Średnio",
+      "AVERAGE": "😐 Przeciętnie",
+      "GOOD": "😀 Dobrze",
+      "EXCELLENT": "😍 Doskonale"
+    }
+  }
+}

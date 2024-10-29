@@ -1,0 +1,763 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "收件箱",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "LIST": {
+      "404": "此账户没有收件箱。"
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "选择频道",
+        "route": "settings_inbox_new",
+        "body": "选择你想要与Chatwoot 集成的提供商。"
+      },
+      {
+        "title": "新增收件箱",
+        "route": "settings_inboxes_page_channel",
+        "body": "验证您的帐户并创建收件箱。"
+      },
+      {
+        "title": "添加客服代理",
+        "route": "settings_inboxes_add_agents",
+        "body": "将客服添加到创建的收件箱。"
+      },
+      {
+        "title": "Voilà!",
+        "route": "settings_inbox_finish",
+        "body": "你已设定状态为离开"
+      }
+    ],
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "收件箱名称",
+        "PLACEHOLDER": "输入您的收件箱名称 (e.g: Acme Inc)",
+        "ERROR": "请输入一个有效的收件箱名称"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "网站名称",
+        "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
+      },
+      "FB": {
+        "HELP": "注意: 通过登录，我们只能访问您的页面的消息。您的私人消息永远不能被聊天室访问。",
+        "CHOOSE_PAGE": "选择页面",
+        "CHOOSE_PLACEHOLDER": "从列表中选择一个页面",
+        "INBOX_NAME": "收件箱名称",
+        "ADD_NAME": "为收件箱添加名称",
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "选择一个数值"
+      },
+      "TWITTER": {
+        "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
+        "ERROR_MESSAGE": "连接 Twitter 时出现错误，请重试",
+        "TWEETS": {
+          "ENABLE": "从提及的推文创建对话"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "网站频道",
+        "DESC": "为您的网站创建一个频道并通过我们的网站小部件开始支持您的客户。",
+        "LOADING_MESSAGE": "创建网站支持频道",
+        "CHANNEL_AVATAR": {
+          "LABEL": "频道头像"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Webhook 网址",
+          "PLACEHOLDER": "Please enter your Webhook URL",
+          "ERROR": "请输入一个有效的 URL"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "网站域名",
+          "PLACEHOLDER": "输入您的网站域名(e.g: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "欢迎标题：",
+          "PLACEHOLDER": "你好！"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "欢迎标签行",
+          "PLACEHOLDER": "如有疑问，请联系我们"
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "频道问候消息",
+          "PLACEHOLDER": "Acme Inc通常在几小时内回复。"
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "开启频道问候功能",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "ENABLED": "已启用",
+          "DISABLED": "已禁用"
+        },
+        "REPLY_TIME": {
+          "TITLE": "设置回复时间",
+          "IN_A_FEW_MINUTES": "几分钟前",
+          "IN_A_FEW_HOURS": "几个小时前",
+          "IN_A_DAY": "一天内",
+          "HELP_TEXT": "此回复时间将会显示在实时聊天窗口上"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "窗口小部件颜色",
+          "PLACEHOLDER": "更新小部件中使用的部件颜色"
+        },
+        "SUBMIT_BUTTON": "创建收件箱",
+        "API": {
+          "ERROR_MESSAGE": "我们无法创建一个网站频道，请重试"
+        }
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/WhatsApp 频道",
+        "DESC": "整合Twilio 并开始通过短信或 WhatsApp 支持您的客户。",
+        "ACCOUNT_SID": {
+          "LABEL": "账户 SID",
+          "PLACEHOLDER": "请输入您的 Twilio 账户 SID",
+          "ERROR": "此字段是必填项"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "使用 API 密钥认证",
+          "LABEL": "API 密钥 SID",
+          "PLACEHOLDER": "请输入您的 API 密钥 SID",
+          "ERROR": "此字段是必填项"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API 密钥密码",
+          "PLACEHOLDER": "请输入您的 API 密钥密码",
+          "ERROR": "此字段是必填项"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "短信服务 SID",
+          "PLACEHOLDER": "请输入您的 Twilio 短信服务 SID",
+          "ERROR": "此字段是必填项",
+          "USE_MESSAGING_SERVICE": "使用 Twilio 短信服务"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "频道类型",
+          "ERROR": "请选择您的频道类型"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "身份验证令牌",
+          "PLACEHOLDER": "请输入您的 Twilio 认证令牌",
+          "ERROR": "此字段是必填项"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "收件箱名称",
+          "PLACEHOLDER": "请输入收件箱名称",
+          "ERROR": "此字段是必填项"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "电话号码",
+          "PLACEHOLDER": "请输入发送消息的电话号码。",
+          "ERROR": "请提供一个有效的电话号码，以`+`符号开头，且不包含任何空格。"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回调地址",
+          "SUBTITLE": "您必须使用这里提到的URL来配置Twilio中的回调URL。"
+        },
+        "SUBMIT_BUTTON": "创建 Twilio 频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法验证 Twilio 凭据，请重试"
+        }
+      },
+      "SMS": {
+        "TITLE": "短信通道",
+        "DESC": "开始通过短信支持您的客户",
+        "PROVIDERS": {
+          "LABEL": "API提供商",
+          "TWILIO": "思源",
+          "BANDWIDTH": "带宽"
+        },
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存短信通道"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "帐号 ID",
+            "PLACEHOLDER": "请输入您的 Bandwidth 应用ID",
+            "ERROR": "此字段是必填项"
+          },
+          "API_KEY": {
+            "LABEL": "API 密钥",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "ERROR": "此字段是必填项"
+          },
+          "API_SECRET": {
+            "LABEL": "API秘钥",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "ERROR": "此字段是必填项"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "应用ID",
+            "PLACEHOLDER": "请输入您的 Bandwidth 应用ID",
+            "ERROR": "此字段是必填项"
+          },
+          "INBOX_NAME": {
+            "LABEL": "收件箱名称",
+            "PLACEHOLDER": "请输入收件箱名称",
+            "ERROR": "此字段是必填项"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "电话号码",
+            "PLACEHOLDER": "请输入发送消息的电话号码。",
+            "ERROR": "请提供以'+'号开头且不包含任何空格的有效电话号码"
+          },
+          "SUBMIT_BUTTON": "创建Bandwidth渠道",
+          "API": {
+            "ERROR_MESSAGE": "我们无法身份验证Bandwidth凭据，请重试"
+          },
+          "API_CALLBACK": {
+            "TITLE": "回调地址",
+            "SUBTITLE": "您必须使用这里提到的URL来配置Bandwidth的消息回调URL。"
+          }
+        }
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp 渠道",
+        "DESC": "开始通过WhatsApp支持您的客户",
+        "PROVIDERS": {
+          "LABEL": "API提供商",
+          "TWILIO": "思源",
+          "WHATSAPP_CLOUD": "WhatsApp 云服务",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "收件箱名称",
+          "PLACEHOLDER": "请输入收件箱名称",
+          "ERROR": "此字段是必填项"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "电话号码",
+          "PLACEHOLDER": "请输入发送消息的电话号码。",
+          "ERROR": "请提供以'+'号开头且不包含任何空格的有效电话号码"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "电话号码标识",
+          "PLACEHOLDER": "请在输入框中输入从Facebook开发者控制台获得的电话号码标识",
+          "ERROR": "请输入一个有效的值"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "企业账户ID",
+          "PLACEHOLDER": "请在输入框中输入从Facebook开发者控制台获得的企业账户ID",
+          "ERROR": "请输入一个有效的值"
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook 验证令牌",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "ERROR": "请输入一个有效的值"
+        },
+        "API_KEY": {
+          "LABEL": "API 密钥",
+          "SUBTITLE": "配置 WhatsApp API 密钥",
+          "PLACEHOLDER": "API 密钥",
+          "ERROR": "请输入一个有效的值"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回调地址",
+          "SUBTITLE": "您需要在Facebook开发者门户中使用下面显示的值配置Webhook URL和验证令牌。",
+          "WEBHOOK_URL": "Webhook 网址",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook 验证令牌"
+        },
+        "SUBMIT_BUTTON": "创建WhatsApp频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API 频道",
+        "DESC": "与API通道集成，开始为您的客户提供支持",
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook 网址",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "PLACEHOLDER": "Webhook 网址"
+        },
+        "SUBMIT_BUTTON": "创建 API 频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存 api 频道"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "电子邮件频道",
+        "DESC": "Integrate your email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "SUBTITLE": "提供您的客户发送支持请求的电子邮件地址",
+          "PLACEHOLDER": "Email"
+        },
+        "SUBMIT_BUTTON": "创建电子邮件频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存电子邮件频道"
+        },
+        "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。"
+      },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE频道",
+        "DESC": "与LINE频道集成，开始为您的客户提供支持",
+        "CHANNEL_NAME": {
+          "LABEL": "频道类型",
+          "PLACEHOLDER": "请输入频道名称",
+          "ERROR": "此字段是必填项"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "LINE 频道 ID",
+          "PLACEHOLDER": "LINE 频道 ID"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "LINE 频道秘钥",
+          "PLACEHOLDER": "LINE 频道秘钥"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "LINE 频道验证令牌",
+          "PLACEHOLDER": "LINE 频道验证令牌"
+        },
+        "SUBMIT_BUTTON": "创建LINE频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存LINE频道"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回调地址",
+          "SUBTITLE": "您需要在LINE应用程序中配置Webhook URL，使用此处提到的URL"
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram 频道",
+        "DESC": "与Telegram通道集成，开始为您的客户提供支持",
+        "BOT_TOKEN": {
+          "LABEL": "机器人令牌",
+          "SUBTITLE": "配置您从 Telegram BotFather 获得的机器人令牌。",
+          "PLACEHOLDER": "机器人令牌"
+        },
+        "SUBMIT_BUTTON": "创建 Telegram 頻道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法保存 Telegram 通道"
+        }
+      },
+      "AUTH": {
+        "TITLE": "选择一个通道",
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+      },
+      "AGENTS": {
+        "TITLE": "客服代理们",
+        "DESC": "在这里您可以添加代理来管理您新创建的收件箱。只有这些选定的代理才能访问您的收件箱。 不属于此收件箱的代理人在登录时将无法看到或回复此收件箱中的消息。 <br> <b>PS：</b> 作为管理员，如果您需要访问所有收件箱， 您应该将自己添加到您创建的所有收件箱中。",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "PICK_AGENTS": "为收件箱选择代理"
+      },
+      "DETAILS": {
+        "TITLE": "收件箱详细信息",
+        "DESC": "从下面的下拉菜单中选择您想要连接到聊天室的 Facebook 页面。 您也可以给您的收件箱提供一个自定义名称以便更好地识别身份。"
+      },
+      "FINISH": {
+        "TITLE": "已被注明！",
+        "DESC": "您已成功地将您的Facebook页面与Chatwoot集成。下次客户消息您的页面时，对话将自动出现在收件箱中。<br>我们还为您提供了一个小部件脚本，您可以轻松地添加到您的网站。 在您的网站上登录后， 客户可以在没有任何外部工具帮助的情况下从您的网站向您发送消息，对话将会在这里出现在Chatwoot 上。<br>酷，好吧？好吧，我们肯定试着是 :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "选择您的电子邮件提供商",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "输入电子邮件地址",
+        "SIGN_IN": "Sign in with Microsoft",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "输入电子邮件地址",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "在 Facebook 上认证你... ..",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_AUTH": "出错了，请刷新页面...",
+      "ERROR_FB_UNAUTHORIZED": "您无权执行此操作。 ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "请确保您拥有对 Facebook 页面的完全控制权。您可以在<a href=\" https://www.facebook.com/help/187316341316631\">这里</a>阅读更多关于 Facebook 角色的信息。",
+      "CREATING_CHANNEL": "创建您的收件箱...",
+      "TITLE": "配置收件箱详情",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "添加客服代理",
+      "ADD_AGENTS": "正在向收件箱添加代理..."
+    },
+    "FINISH": {
+      "TITLE": "您的收件箱已准备就绪！",
+      "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持",
+      "BUTTON_TEXT": "带我到这里",
+      "MORE_SETTINGS": "更多设置",
+      "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。 下次客户使用实时聊天时，对话将自动出现在您的收件箱中。"
+    },
+    "REAUTH": "重新授权",
+    "VIEW": "查看",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "已成功更新收件箱设置",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自动分配成功更新",
+        "ERROR_MESSAGE": "我们无法更新收件箱设置。请稍后再试。"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "发件人姓名",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "友好的",
+          "FROM": "发自",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "专业的",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "保存"
+        }
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "启用"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "AVATAR_DELETE_BUTTON_TEXT": "删除头像",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "PLACE_HOLDER": "请输入 {inboxName} 以确认",
+        "YES": "是，删除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "收件箱删除成功",
+        "ERROR_MESSAGE": "无法删除收件箱。请稍后再试。",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "设置",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "工作时间",
+      "WIDGET_BUILDER": "小部件生成器",
+      "BOT_CONFIGURATION": "机器人配置"
+    },
+    "SETTINGS": "设置",
+    "FEATURES": {
+      "LABEL": "特性",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger 脚本",
+      "MESSENGER_SUB_HEAD": "将此按钮放置在窗体标签中",
+      "INBOX_AGENTS": "客服代理们",
+      "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "UPDATE": "更新",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "AUTO_ASSIGNMENT": "启用自动分配",
+      "ENABLE_CSAT": "Enable CSAT",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "通过电子邮件启用对话连续性",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "如果有联系人的电子邮件地址，对话将会继续在电子邮件中进行。",
+      "LOCK_TO_SINGLE_CONVERSATION": "锁定到单一对话",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "在此收件箱中启用或禁用同一联系人的多个对话",
+      "INBOX_UPDATE_TITLE": "收件箱设置",
+      "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
+      "HMAC_VERIFICATION": "用户身份验证",
+      "HMAC_DESCRIPTION": "使用这个密钥，您可以生成一个秘密令牌，用于验证您用户的身份",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "开始将您的电子邮件转发到以下电子邮件地址。",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API 密钥",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook 验证令牌",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+    },
+    "HELP_CENTER": {
+      "LABEL": "帮助中心",
+      "PLACEHOLDER": "选择帮助中心",
+      "SELECT_PLACEHOLDER": "选择帮助中心",
+      "REMOVE": "移除帮助中心",
+      "SUB_TEXT": "将帮助中心附加到收件箱"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "自动分配限制",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "请输入一个大于0 的值",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "限制从此收件箱自动分配给代理的对话的最大数量"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "重新授权",
+      "SUBTITLE": "您的 Facebook 连接已过期，请重新连接您的 Facebook 页面以继续服务",
+      "MESSAGE_SUCCESS": "重新连接成功",
+      "MESSAGE_ERROR": "出现错误，请重试"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "字段",
+        "LABEL": "标签",
+        "PLACE_HOLDER": "占位符",
+        "KEY": "键",
+        "TYPE": "类型",
+        "REQUIRED": "必填项"
+      },
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "是",
+          "DISABLED": "否"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre chat message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "不可用",
+        "HOURS": "小时",
+        "VALIDATION_ERROR": "起始时间应在结束时间之前。",
+        "CHOOSE": "选择"
+      },
+      "ALL_DAY": "全天"
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "设置您的 IMAP 详情",
+      "NOTE_TEXT": "要启用 SMTP，请配置 IMAP。",
+      "UPDATE": "更新 IMAP 设置",
+      "TOGGLE_AVAILABILITY": "为此收件箱启用 IMAP 配置",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP 设置更新成功",
+        "ERROR_MESSAGE": "无法更新 IMAP 设置"
+      },
+      "ADDRESS": {
+        "LABEL": "地址",
+        "PLACE_HOLDER": "地址 (例如：imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "端口",
+        "PLACE_HOLDER": "端口"
+      },
+      "LOGIN": {
+        "LABEL": "登录",
+        "PLACE_HOLDER": "登录"
+      },
+      "PASSWORD": {
+        "LABEL": "密码",
+        "PLACE_HOLDER": "密码"
+      },
+      "ENABLE_SSL": "启用 SSL"
+    },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "重新授权您的 Microsoft 帐户"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
+      },
+      "ADDRESS": {
+        "LABEL": "地址",
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "端口",
+        "PLACE_HOLDER": "端口"
+      },
+      "LOGIN": {
+        "LABEL": "登录",
+        "PLACE_HOLDER": "登录"
+      },
+      "PASSWORD": {
+        "LABEL": "密码",
+        "PLACE_HOLDER": "密码"
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACE_HOLDER": "Domain"
+      },
+      "ENCRYPTION": "Encryption",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "出现错误，请重试"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "网站名称",
+          "PLACE_HOLDER": "输入您的网站名称 (e.g: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "欢迎标题：",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "欢迎标签行",
+          "PLACE_HOLDER": "如有疑问，请联系我们"
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "几分钟前",
+          "IN_A_FEW_HOURS": "几个小时前",
+          "IN_A_DAY": "一天内"
+        },
+        "WIDGET_COLOR_LABEL": "窗口小部件颜色",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "联系我们",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "联系我们"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "预览",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
+        "IN_A_FEW_HOURS": "通常在几小时内回复您",
+        "IN_A_DAY": "通常在一天之内回复您"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "开始会话",
+        "CHAT_INPUT_PLACEHOLDER": "输入您的消息"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "当前已离线"
+        },
+        "USER_MESSAGE": "嗨",
+        "AGENT_MESSAGE": "您好"
+      },
+      "BRANDING_TEXT": "由 Chatwoot 支持",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
+      "OTHER_PROVIDERS": "其他提供商"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "网站",
+      "TWITTER_PROFILE": "推特",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API 频道"
+    }
+  }
+}

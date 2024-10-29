@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bot",
+    "LOADING_EDITOR": "Loading editor...",
+    "HEADER_BTN_TXT": "Add bot configuration",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Name your bot.",
+        "ERROR": "Nama bot wajib diisi."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Bot description",
+        "PLACEHOLDER": "Apa yang dilakukan bot ini?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Harap masukkan konfigurasi bot CSML Anda di atas.",
+        "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
+      },
+      "SUBMIT": "Validasi dan simpan"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Pilih bot agen",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "Perbarui",
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Berhasil memperbarui bot agen.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Berhasil memutuskan hubungan bot agen.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
+    },
+    "ADD": {
+      "TITLE": "Konfigurasi bot baru",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot berhasil ditambahkan.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+      }
+    },
+    "LIST": {
+      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
+      "LOADING": "Fetching bots...",
+      "TYPE": "Bot type"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "TITLE": "Delete bot",
+      "SUBMIT": "Hapus",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "DESCRIPTION": "Apakah Anda yakin ingin menghapus bot ini? Tindakan ini tidak dapat dibatalkan.",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot berhasil dihapus.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edit",
+      "LOADING": "Fetching bots...",
+      "TITLE": "Edit bot",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot berhasil diperbarui.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
+    }
+  }
+}

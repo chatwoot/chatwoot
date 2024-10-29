@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Logga in till Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-post",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "Ange en giltig e-postadress"
+    },
+    "PASSWORD": {
+      "LABEL": "Lösenord",
+      "PLACEHOLDER": "Lösenord"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "Glömt ditt lösenord?",
+    "CREATE_NEW_ACCOUNT": "Skapa nytt konto",
+    "SUBMIT": "Logga in"
+  }
+}

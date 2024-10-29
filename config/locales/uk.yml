@@ -1,0 +1,283 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+uk:
+  hello: "Привіт, світе"
+  messages:
+    reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
+    reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
+    inbox_deletetion_response: Ваш запит на видалення буде оброблений протягом деякого часу.
+  errors:
+    validations:
+      presence: не повинно бути пустим
+    webhook:
+      invalid: Недійсні події
+    signup:
+      disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Ви ввели неправильну адресу електронної пошти
+      email_already_exists: "Ви вже зареєстровані з адресою %{email}"
+      invalid_params: 'Неправильно, будь ласка, перевірте параметри реєстрації та повторіть спробу'
+      failed: Помилка реєстрації
+    data_import:
+      data_type:
+        invalid: Некоректний тип даних
+    contacts:
+      import:
+        failed: Файл порожній
+      export:
+        success: Ми повідомимо Вас, коли файл експорту контактів буде готовий до перегляду.
+      email:
+        invalid: Невірний email
+      phone_number:
+        invalid: має бути у форматі e164
+    categories:
+      locale:
+        unique: має бути унікальним на категорії і порталі
+    dyte:
+      invalid_message_type: "Невірний тип повідомлення. Дію не дозволено"
+    slack:
+      invalid_channel_id: "Недійсний канал slack. Будь ласка, спробуйте ще раз"
+    inboxes:
+      imap:
+        socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
+        no_response_error: Будь ласка, перевірте облікові дані IMAP і повторіть спробу.
+        host_unreachable_error: Хост недоступний. Будь ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
+        connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
+        connection_closed_error: З'єднання закрито.
+      validations:
+        name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
+    custom_filters:
+      number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на рахунок становить 50.
+      invalid_attribute: Некоректний ключ атрибута - [%{key}]. Ключ повинен бути одним з [%{allowed_keys}] або налаштованим атрибутом, визначеним в обліковому записі.
+      invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
+      invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
+  reports:
+    period: Період звіту %{since} до %{until}
+    utc_warning: Звіт створено в часовій зоні UTC
+    agent_csv:
+      agent_name: Ім'я агента
+      conversations_count: Призначені розмови
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Назва Джерела
+      inbox_type: Тип Джерела
+      conversations_count: '№ розмов'
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+    label_csv:
+      label_title: Мітка
+      conversations_count: '№ розмов'
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+    team_csv:
+      team_name: Назва команди
+      conversations_count: Кількість бесід
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Timezone
+    sla_csv:
+      conversation_id: ID бесіди
+      sla_policy_breached: Політика SLA
+      assignee: Assignee
+      team: Команда
+      inbox: Вхідні
+      labels: Мітки
+      conversation_link: Посилання на бесіду
+      breached_events: Breached Events
+    default_group_by: день
+    csat:
+      headers:
+        contact_name: Ім'я контакту
+        contact_email_address: Email
+        contact_phone_number: Контактний телефон
+        link_to_the_conversation: Посилання на бесіду
+        agent_name: Ім'я агента
+        rating: Оцінка
+        feedback: Відгук
+        recorded_at: Дата запису
+  notifications:
+    notification_title:
+      conversation_creation: "Розмова (#%{display_id}) була створена в %{inbox_name}"
+      conversation_assignment: "Розмова (#%{display_id}) була призначена вам"
+      assigned_conversation_new_message: "Нове повідомлення створено в розмові (#%{display_id})"
+      conversation_mention: "Ви були згадані в розмові (#%{display_id})"
+      sla_missed_first_response: "Перша відповідь на SLA пропущена для розмови (#%{display_id})"
+      sla_missed_next_response: "Наступна відповідь SLA пропущена для розмови (#%{display_id})"
+      sla_missed_resolution: "Дозвіл SLA пропущений для розмови (#%{display_id})"
+    attachment: "Вкладення"
+    no_content: "Немає вмісту"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} згадав вас у сторіс: "
+      instagram_deleted_story_content: Ця історія більше не доступна.
+      deleted: Це повідомлення було видалено
+      delivery_status:
+        error_code: "Код помилки: %{error_code}"
+    activity:
+      status:
+        resolved: "Розмова була відмічена як вирішена %{user_name}"
+        contact_resolved: "Діалог був закритий %{contact_name}"
+        open: "Розмову знову відкрито %{user_name}"
+        pending: "Бесіда була позначена як очікується %{user_name}"
+        snoozed: "Розмова була відкладена %{user_name}"
+        auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
+        system_auto_open: Система повторно відкрила розмову через нове вхідне повідомлення.
+      priority:
+        added: '%{user_name} встановив пріоритет %{new_priority}'
+        updated: '%{user_name} змінив пріоритет з %{old_priority} на %{new_priority}'
+        removed: '%{user_name} видалив пріоритет'
+      assignee:
+        self_assigned: "%{user_name} самостійно призначив цей діалог"
+        assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
+        removed: "Діалог знято %{user_name}"
+      team:
+        assigned: "Призначено до %{team_name} користувачем %{user_name}"
+        assigned_with_assignee: "Призначено до %{assignee_name} користувачем %{user_name} з %{team_name}"
+        removed: "Виключений з %{team_name} користувачем %{user_name}"
+      labels:
+        added: "%{user_name} додав %{labels}"
+        removed: "%{user_name} видалив %{labels}"
+      sla:
+        added: "%{user_name} додав політику SLA %{sla_name}"
+        removed: "%{user_name} видалив політику SLA %{sla_name}"
+      muted: "%{user_name} включив безвучний режим"
+      unmuted: "%{user_name} виключив безвучний режим"
+    templates:
+      greeting_message_body: "%{account_name} зазвичай відповідає за кілька годин."
+      ways_to_reach_you_message_body: "Дайте команді можливість з вами зв'язатися."
+      email_input_box_message_body: "Отримувати сповіщення електронною поштою"
+      csat_input_message_body: "Будь ласка, оцініть розмову"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} від %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} з %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} з %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Нові повідомлення в цьому діалозі"
+      transcript_subject: "Транскрипція діалогу"
+    survey:
+      response: "Будь ласка, оцініть цю розмову, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше"
+  integration_apps:
+    dashboard_apps:
+      name: "Додатки для головного екрану"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} розпочав зустріч"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Веб-хуки"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Translate"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Пошук статті за заголовком або змістом...
+      empty_placeholder: Результатів не знайдено.
+      loading_placeholder: Шукаємо...
+      results_title: Результати пошуку
+    toc_header: 'На цій сторінці'
+    hero:
+      sub_title: Шукайте тут або перегляньте категорії нижче.
+    common:
+      home: Головна
+      last_updated_on: Востаннє оновлено %{last_updated_on}
+      view_all_articles: Переглянути все
+      article: статті
+      articles: статті
+      author: автор
+      authors: автори
+      other: інше
+      others: інші
+      by: Від
+      no_articles: Тут немає статей
+    footer:
+      made_with: Зроблено з
+    header:
+      go_to_homepage: Вебсайт
+      appearance:
+        system: Системна
+        light: Світла
+        dark: Темна
+      featured_articles: Вибрані статті
+      uncategorized: Без категорії
+    404:
+      title: Сторінку не знайдено
+      description: Ми не змогли знайти сторінку, яку Ви шукали.
+      back_to_home: Перейти на головну сторінку
+  slack_unfurl:
+    fields:
+      name: Ім'я
+      email: Email
+      phone_number: Телефон
+      company_name: Організація
+      inbox_name: Вхідні
+      inbox_type: Тип Джерела
+    button: Відкрити розмову
+  time_units:
+    days:
+      one: "%{count} день(ів)"
+      few: "%{count} days"
+      many: "%{count} днів"
+      other: "%{count} days"
+    hours:
+      one: "%{count} годин(а)"
+      few: "%{count} hours"
+      many: "%{count} годин"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} хвилин(а)"
+      few: "%{count} minutes"
+      many: "%{count} хвилин"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} секунд(a)"
+      few: "%{count} секунд"
+      many: "%{count} секунд"
+      other: "%{count} seconds"

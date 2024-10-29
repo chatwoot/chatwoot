@@ -1,0 +1,306 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "برنامه‌های تلفیق شده",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "رویدادهای مشترک شده",
+      "LEARN_MORE": "Learn more about webhooks",
+      "FORM": {
+        "CANCEL": "انصراف",
+        "DESC": "رویدادهای وب هوک اطلاعات لحظه‌ای حساب چت ووت شما را منتقل می‌کنند. لطفا آدرس URL صحیحی وارد کنید.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "رویدادها",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "گفتگو ایجاد شد",
+            "CONVERSATION_STATUS_CHANGED": "وضعیت گفتگو تغییر کرد",
+            "CONVERSATION_UPDATED": "گفتگو به روز شد",
+            "MESSAGE_CREATED": "پیام ایجاد شد",
+            "MESSAGE_UPDATED": "پیام به روز شد",
+            "WEBWIDGET_TRIGGERED": "ابزارک گفتگو زنده توسط کاربر باز شده است",
+            "CONTACT_CREATED": "مخاطب ایجاد شد",
+            "CONTACT_UPDATED": "مخاطب به‌روزرسانی شد"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "آدرس URL وب هوک",
+          "PLACEHOLDER": "به عنوان مثال: https://example/api/webhook",
+          "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
+        },
+        "EDIT_SUBMIT": "به‌روزرسانی وب‌هوک",
+        "ADD_SUBMIT": "ساخت وب هوک"
+      },
+      "TITLE": "وب هوک",
+      "CONFIGURE": "تنظیمات",
+      "HEADER": "تنظیمات وب هوک",
+      "HEADER_BTN_TXT": "اضافه کردن یک وب هوک جدید",
+      "LOADING": "درحال دریافت اطلاعات وب هوک",
+      "SEARCH_404": "هیچ گزینه‌ای با این شرایط پیدا نشد",
+      "SIDEBAR_TXT": "<p><b>وب هوک‌ها</b> </p> \n<p>وب هوک‌ها اجرا کننده‌ی درخواست‌های HTTP هستند که برای هر حسابی قابل تنظیم شدن هستند. به عنوان مثال می‌توان وقتی گفتگوی جدیدی ایجاد شد یک وب سرویس صدا زده شود. برای هر حساب می‌توان چند وب هوک ایجاد کرد. <br /><br /> برای ساختن یک <b>وب هوک</b>, روی دکمه <b>اضافه کردن وب هوک جدید</b> کلیک کنید. همچنین با زدن دکمه «حذف» می‌توانید وب هوک ساخته شده را حذف کنید.</p>",
+      "LIST": {
+        "404": "هیچ وب هوکی برای این حساب ساخته نشده است",
+        "TITLE": "مدیریت وب هوک‌ها",
+        "TABLE_HEADER": [
+          "آدرس مقصد وب هوک",
+          "رویدادها"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "ویرایش",
+        "TITLE": "ویرایش وب هوک",
+        "API": {
+          "SUCCESS_MESSAGE": "پیکربندی وب‌هوک با موفقیت به روز شد",
+          "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        }
+      },
+      "ADD": {
+        "CANCEL": "انصراف",
+        "TITLE": "اضافه کردن وب هوک جدید",
+        "API": {
+          "SUCCESS_MESSAGE": "پیکربندی وب‌هوک با موفقیت اضافه شد",
+          "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "حذف",
+        "API": {
+          "SUCCESS_MESSAGE": "وب هوک حذف شد",
+          "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        },
+        "CONFIRM": {
+          "TITLE": "تاییدیه حذف",
+          "MESSAGE": "آیا برای حذف وب‌هوک مطمئن هستید؟ \n({webhookURL})",
+          "YES": "بله، حذف شود",
+          "NO": "خیر، بماند"
+        }
+      }
+    },
+    "SLACK": {
+      "DELETE": "حذف",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+      },
+      "HELP_TEXT": {
+        "TITLE": "استفاده از اسلک",
+        "BODY": "<br/> <p> ما اکنون تمام مکالمات ورودی را در کانال <b><i> گفتگوهای مشتری </i> </b> داخل محل کار شما همگام سازی می کنیم. </p> <p> پاسخ به یک رشته مکالمه در کانال مکالمه <b><i> مشتری- مکالمات </ i> </b> از طریق برنامه پاسخی به مشتری ایجاد می کند. </ p> <p> پاسخ ها را با <b> <i> شروع کنید توجه: </i> </b> برای ایجاد یادداشت های خصوصی به جای پاسخ ها. </p> <p> اگر پاسخ دهنده در slack نمایه نماینده ای در برنامه تحت همان ایمیل داشته باشد ، پاسخ ها به همین ترتیب مرتبط می شوند. </ p> <p> وقتی ارسال کننده نمایه نماینده مرتبطی ندارد ، پاسخها از نمایه ربات انجام می شود. </p>",
+        "SELECTED": "انتخاب شد"
+      },
+      "SELECT_CHANNEL": {
+        "OPTION_LABEL": "یک کانال انتخاب کنید",
+        "UPDATE": "اعمال شود",
+        "BUTTON_TEXT": "اتصال کانال",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "ATTENTION_REQUIRED": "Attention required",
+        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+      },
+      "UPDATE_ERROR": "There was an error updating the integration, please try again",
+      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+    },
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
+      "LEAVE_THE_ROOM": "اتاق را ترک کن",
+      "START_VIDEO_CALL_HELP_TEXT": "یک تماس ویدیویی جدید با مشتری شروع کنید",
+      "JOIN_ERROR": "هنگام پیوستن به تماس خطایی روی داد، لطفاً دوباره امتحان کنید",
+      "CREATE_ERROR": "در ایجاد پیوند جلسه خطایی روی داد، لطفاً دوباره امتحان کنید"
+    },
+    "OPEN_AI": {
+      "AI_ASSIST": "دستیار هوش مصنوعی",
+      "WITH_AI": " {option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "پیشنهاد پاسخ",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "انصراف"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with OpenAI",
+        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
+        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "BUTTONS": {
+          "NEED_HELP": "به کمک احتياج داری؟",
+          "DISMISS": "نادیده بگیر",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+      },
+      "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "حرفه‌ای",
+          "FRIENDLY": "دوستانه"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "تولید",
+        "GENERATING": "در حال تولید...",
+        "CANCEL": "انصراف"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please try again"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "ادغام با موفقیت حذف شد"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "اتصال"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "برنامه‌های پیشخوان",
+      "HEADER_BTN_TXT": "اضافه کردن یک برنامه پیشخوان جدید",
+      "SIDEBAR_TXT": "<p><b>برنامه‌های داشبورد</b></p><p>برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد Chatwoot جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه ایجاد کنید و آن را در داشبورد جاسازی کنید تا اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها را ارائه کنید.</p><p>وقتی برنامه خود را با استفاده از داشبورد در Chatwoot جاسازی می کنید، برنامه شما این کار را انجام می دهد. زمینه گفتگو و تماس را به عنوان یک رویداد پنجره دریافت کنید. یک شنونده برای رویداد پیام در صفحه خود اجرا کنید تا زمینه را دریافت کنید.</p><p>برای افزودن یک برنامه داشبورد جدید، روی دکمه \"افزودن یک برنامه داشبورد جدید\" کلیک کنید.</p>",
+      "DESCRIPTION": "برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه کاربردی ایجاد کنید و آن را برای ارائه اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها درج کنید.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LIST": {
+        "404": "هنوز هیچ برنامه داشبوردی روی این حساب پیکربندی نشده است",
+        "LOADING": "در حال واکشی برنامه های داشبورد...",
+        "TABLE_HEADER": [
+          "نام",
+          "نقطه پایانی"
+        ],
+        "EDIT_TOOLTIP": "ویرایش برنامه",
+        "DELETE_TOOLTIP": "حذف برنامه"
+      },
+      "FORM": {
+        "TITLE_LABEL": "نام",
+        "TITLE_PLACEHOLDER": "یک نام برای برنامه پیشخوان خود وارد کنید",
+        "TITLE_ERROR": "یک نام برای برنامه داشبورد لازم است",
+        "URL_LABEL": "نقطه پایانی",
+        "URL_PLACEHOLDER": "URL نقطه پایانی را که برنامه شما در آن میزبانی شده است وارد کنید",
+        "URL_ERROR": "یک URL معتبر مورد نیاز است"
+      },
+      "CREATE": {
+        "HEADER": "اضافه کردن یک برنامه پیشخوان جدید",
+        "FORM_SUBMIT": "ثبت",
+        "FORM_CANCEL": "انصراف",
+        "API_SUCCESS": "برنامه داشبورد با موفقیت پیکربندی شد",
+        "API_ERROR": "ما نتوانستیم یک برنامه ایجاد کنیم. لطفاً بعداً دوباره امتحان کنید"
+      },
+      "UPDATE": {
+        "HEADER": "ویرایش برنامه پیشخوان",
+        "FORM_SUBMIT": "اعمال شود",
+        "FORM_CANCEL": "انصراف",
+        "API_SUCCESS": "برنامه پیشخوان با موفقیت به‌روز شد",
+        "API_ERROR": "ما نمی‌توانستیم برنامه را به‌روز کنیم. لطفا بعدا دوباره امتحان کنید"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "بله، حذف شود",
+        "CONFIRM_NO": "خیر، بماند",
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "آیا مطمئن هستید که برنامه {appName} حذف شود؟",
+        "API_SUCCESS": "برنامه پیشخوان با موفقیت حذف شد",
+        "API_ERROR": "ما نتوانستیم برنامه را حذف کنیم. لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "ايجاد كردن",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "پیوند",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "عنوان",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "عنوان الزامی است"
+          },
+          "DESCRIPTION": {
+            "LABEL": "توضیحات",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "تیم‌",
+            "PLACEHOLDER": "انتخاب تیم",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "مسئول",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "اولویت",
+            "PLACEHOLDER": "انتخاب اولویت",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "برچسب",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "وضعیت",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "ايجاد كردن",
+        "CANCEL": "انصراف",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "وضعیت",
+        "PRIORITY": "اولویت",
+        "ASSIGNEE": "مسئول",
+        "LABELS": "برچسب‌ها",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
+    }
+  }
+}

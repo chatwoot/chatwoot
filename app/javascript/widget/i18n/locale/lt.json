@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Parsisiųsti",
+      "UPLOADING": "Įkeliama..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Pateikti"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Siųsti žinutę dar kartą",
+      "ERROR_MESSAGE": "Nepavyko išsiųsti! bandykite dar kartą"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Mes prisijungę",
+    "OFFLINE": "Šiuo metu esame atsijungę"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Paprastai atsako per kelias minutes",
+    "IN_A_FEW_HOURS": "Paprastai atsako per kelias valandas",
+    "IN_A_DAY": "Paprastai atsako per dieną",
+    "BACK_IN": "Mes grįšime"
+  },
+  "DAY_NAMES": [
+    "Sekmadienis",
+    "Pirmadienis",
+    "Antradienis",
+    "Trečiadienis",
+    "Ketvirtadienis",
+    "Penktadienis",
+    "Šeštadienis"
+  ],
+  "START_CONVERSATION": "Pradėti Pokalbį",
+  "END_CONVERSATION": "Užbaigti Pokalbį",
+  "CONTINUE_CONVERSATION": "Tęsti pokalbį",
+  "YOU": "Jūs",
+  "START_NEW_CONVERSATION": "Pradėti naują pokalbį",
+  "VIEW_UNREAD_MESSAGES": "Turite neperskaitytų pranešimų",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Žiūrėti naujus pranešimus",
+    "CLOSE_MESSAGES_BUTTON": "Uždaryti",
+    "COMPANY_FROM": "nuo",
+    "BOT": "Botas"
+  },
+  "BUBBLE": {
+    "LABEL": "Pabendraukite su mumis"
+  },
+  "POWERED_BY": "Parengta pagal Chatwoot",
+  "EMAIL_PLACEHOLDER": "Prašau įveskite jūsų el. paštą",
+  "CHAT_PLACEHOLDER": "Parašykite pranešimą",
+  "TODAY": "Šiandien",
+  "YESTERDAY": "Vakar",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Pilnas vardas",
+        "PLACEHOLDER": "Prašau įveskite jūsų pilną vardą",
+        "REQUIRED_ERROR": "Yra reikalingas pilnas vardas"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "El. pašto adresas",
+        "PLACEHOLDER": "Prašau įveskite jūsų el. pašto adresą",
+        "REQUIRED_ERROR": "El. pašto Adresas yra reikalingas",
+        "VALID_ERROR": "Prašau įveskite teisingą el. pašto adresą"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefono numeris",
+        "PLACEHOLDER": "Prašau įveskite jūsų telefono numerį",
+        "REQUIRED_ERROR": "Telefono Numeris yra reikalingas",
+        "DIAL_CODE_VALID_ERROR": "Prašome pasirinkti šalies kodą",
+        "VALID_ERROR": "Prašau įveskite teisingą telefono numerį",
+        "DROPDOWN_EMPTY": "Nieko nerasta",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Žinutė",
+        "PLACEHOLDER": "Prašau įveskite jūsų pranešimą",
+        "ERROR": "Pranešimas pertrumpas"
+      }
+    },
+    "CAMPAIGN_HEADER": "Prieš pradėdami pokalbį nurodykite savo vardą ir el. pašto adresą",
+    "IS_REQUIRED": "reikalingas",
+    "REQUIRED": "Reikalingas",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_FILE_UPLOAD_SIZE} apribojimą",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Neteisingas laukas"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Ieškoti emodžių",
+    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Įvertinkite savo pokalbį",
+    "SUBMITTED_TITLE": "Dėkojame, kad pateikėte įvertinimą",
+    "PLACEHOLDER": "Papasakokit detaliau..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Prašyti pokalbio stenogramos",
+    "SEND_EMAIL_SUCCESS": "Pokalbio stenograma sėkmingai išsiųsta",
+    "SEND_EMAIL_ERROR": "Įvyko klaida, prašau pabandykite dar kartą"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Spausti čia kad prisijungti",
+      "LEAVE_THE_ROOM": "Išeiti iš skambučio"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populiarūs straipsniai",
+    "VIEW_ALL_ARTICLES": "Žiūrėti visus straipsnius",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Vaizdinė žinutė"
+    },
+    "audio": {
+      "CONTENT": "Garso žinutė"
+    },
+    "video": {
+      "CONTENT": "Video žinutė"
+    },
+    "file": {
+      "CONTENT": "Failas pridėtas"
+    },
+    "location": {
+      "CONTENT": "Vieta"
+    },
+    "fallback": {
+      "CONTENT": "pasidalino URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Atsakant į:"
+  }
+}

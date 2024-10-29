@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Botok",
+    "LOADING_EDITOR": "Szerkesztő betöltése...",
+    "HEADER_BTN_TXT": "Bot konfiguráció hozzáadása",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Bot neve",
+        "PLACEHOLDER": "Nevezd el a botodat.",
+        "ERROR": "Bot név megadása kötelező."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Bot leírás",
+        "PLACEHOLDER": "Mit csinál ez a bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Add meg a CSML bot konfigurációt feljebb.",
+        "API_ERROR": "A CSML konfigurációja érvénytelen. Kérjük, javítsa ki és próbálja meg újra."
+      },
+      "SUBMIT": "Validáció és mentés"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Válassz ügynököt",
+      "DESC": "Rendeljen egy Agent Botot a postaládájához. Ők képesek kezelni a kezdeti beszélgetéseket, és szükség esetén átirányítani őket egy emberhez.",
+      "SUBMIT": "Frissítés",
+      "DISCONNECT": "Bot lekapcsolása",
+      "SUCCESS_MESSAGE": "Ügynök frissítve.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Ügynök leválasztva.",
+      "ERROR_MESSAGE": "Nem sikerült frissíteni a botot. Kérjük, próbálja meg újra.",
+      "DISCONNECTED_ERROR_MESSAGE": "Nem sikerült leválasztani az botot. Kérjük, próbálja meg újra.",
+      "SELECT_PLACEHOLDER": "Válassza ki a botot"
+    },
+    "ADD": {
+      "TITLE": "Új bot beállítása",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot hozzáadva.",
+        "ERROR_MESSAGE": "Nem tudott botot hozzáadni. Kérjük, próbálja meg később újra."
+      }
+    },
+    "LIST": {
+      "404": "Nem találtunk botokat. A 'Új bot konfigurálása' gombra kattintva hozhat létre botot ↗",
+      "LOADING": "Botok hívása...",
+      "TYPE": "Bot típus"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "TITLE": "Bot törlése",
+      "SUBMIT": "Törlés",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "DESCRIPTION": "Biztosan törölni szeretnéd ezt a botot? Ez a művelet visszafordíthatatlan.",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot törölve.",
+        "ERROR_MESSAGE": "Nem sikerült törölni a botot. Kérjük, próbálja újra."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Szerkesztés",
+      "LOADING": "Botok hívása...",
+      "TITLE": "Bot szerkesztése",
+      "CANCEL_BUTTON_TEXT": "Mégse",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot frissítve.",
+        "ERROR_MESSAGE": "Nem tudta frissíteni a botot. Kérjük, próbálja újra."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
+    }
+  }
+}

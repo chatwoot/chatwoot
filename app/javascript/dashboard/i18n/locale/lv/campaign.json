@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Kampaņas",
+    "SIDEBAR_TXT": "Proaktīvi ziņojumi ļauj klientam nosūtīt izejošos ziņojumus savām kontaktpersonām, kas aktivizē citas sarunas. Noklikšķiniet uz <b>Pievienot Kampaņu</b> lai izveidotu jaunu kampaņu. Jūs varat arī rediģēt vai dzēst esošu kampaņu, noklikšķinot uz Rediģēt vai Dzēst pogas.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Izveidot vienreizēju kampaņu",
+      "ONGOING": "Izveidot notiekošu kampaņu"
+    },
+    "ADD": {
+      "TITLE": "Izveidot kampaņu",
+      "DESC": "Proaktīvi ziņojumi ļauj klientam nosūtīt izejošos ziņojumus savām kontaktpersonām, kas aktivizē citas sarunas.",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "CREATE_BUTTON_TEXT": "Izveidot",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Nosaukums",
+          "PLACEHOLDER": "Lūdzu, ievadiet kampaņas nosaukumu",
+          "ERROR": "Nepieciešams nosaukums"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Plānotais laiks",
+          "PLACEHOLDER": "Lūdzu, izvēlieties laiku",
+          "CONFIRM": "Apstiprināt",
+          "ERROR": "Nepieciešams ieplānotais laiks"
+        },
+        "AUDIENCE": {
+          "LABEL": "Auditorija",
+          "PLACEHOLDER": "Izvēlieties klientu etiķetes",
+          "ERROR": "Nepieciešama auditorija"
+        },
+        "INBOX": {
+          "LABEL": "Izvēlieties Iesūtni",
+          "PLACEHOLDER": "Izvēlieties Iesūtni",
+          "ERROR": "Nepieciešama iesūtne"
+        },
+        "MESSAGE": {
+          "LABEL": "Ziņojums",
+          "PLACEHOLDER": "Lūdzu, ievadiet kampaņas ziņojumu",
+          "ERROR": "Nepieciešams ziņojums"
+        },
+        "SENT_BY": {
+          "LABEL": "Sūtīja",
+          "PLACEHOLDER": "Lūdzu, izvēlieties kampaņas saturu",
+          "ERROR": "Nepieciešams sūtītājs"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Lūdzu, ievadiet URL",
+          "ERROR": "Lūdzu, ievadiet derīgu URL"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Lapā pavadītais laiks (Sekundes)",
+          "PLACEHOLDER": "Lūdzu, ievadiet laiku",
+          "ERROR": "Nepieciešams lapā pavadītais laiks"
+        },
+        "ENABLED": "Iespējot kampaņu",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Aktivizēt tikai darba laikā",
+        "SUBMIT": "Pievienot Kampaņu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampaņa ir veiksmīgi izveidota",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai tiešām vēlaties izdzēst?",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampaņa ir veiksmīgi izdzēsta",
+        "ERROR_MESSAGE": "Nevarēja izdzēst kampaņu. Lūdzu, pamēģiniet vēlāk vēlreiz."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediģēt kampaņu",
+      "UPDATE_BUTTON_TEXT": "Atjaunināt",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampaņa ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Notiek kampaņu ielāde...",
+      "404": "Šai iesūtnei nav izveidota neviena kampaņa.",
+      "TABLE_HEADER": {
+        "TITLE": "Nosaukums",
+        "MESSAGE": "Ziņojums",
+        "INBOX": "Iesūtne",
+        "STATUS": "Statuss",
+        "SENDER": "Sūtītājs",
+        "URL": "URL",
+        "SCHEDULED_AT": "Plānotais laiks",
+        "TIME_ON_PAGE": "Laiks (Sekundes)",
+        "CREATED_AT": "Izveidots plkst"
+      },
+      "BUTTONS": {
+        "ADD": "Pievienot",
+        "EDIT": "Rediģēt",
+        "DELETE": "Dzēst"
+      },
+      "STATUS": {
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots",
+        "COMPLETED": "Pabeigts",
+        "ACTIVE": "Aktīvs"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Vienreizējas kampaņas",
+      "404": "Nav izveidota neviena vienreizēja kampaņa",
+      "INBOXES_NOT_FOUND": "Lūdzu, izveidojiet sms iesūtni un sāciet pievienot kampaņas"
+    },
+    "ONGOING": {
+      "HEADER": "Notiekošās kampaņas",
+      "404": "Nav izveidota neviena notiekoša kampaņa",
+      "INBOXES_NOT_FOUND": "Lūdzu, izveidojiet tīmekļa vietnes iesūtni un sāciet pievienot kampaņas"
+    }
+  }
+}

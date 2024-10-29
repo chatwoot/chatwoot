@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Fetching conversations",
+    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
+    "EOF": "All conversations loaded 🎉",
+    "LIST": {
+      "404": "There are no active conversations in this group."
+    },
+    "TAB_HEADING": "Conversations",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Search for People, Chats, Saved Replies .."
+    },
+    "FILTER_ALL": "All",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Unassigned",
+      "all": "All"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Open"
+      },
+      "resolved": {
+        "TEXT": "Resolved"
+      },
+      "pending": {
+        "TEXT": "Pending"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "All"
+      }
+    },
+    "VIEW_FILTER": "Pregled",
+    "SORT_TOOLTIP_LABEL": "Poredaj razgovore",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Poredaj po"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Kreirano:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Zadnja aktivnost:",
+        "ACTIVE": "Zadnja aktivnost"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Picture message"
+      },
+      "audio": {
+        "CONTENT": "Audio message"
+      },
+      "video": {
+        "CONTENT": "Video message"
+      },
+      "file": {
+        "CONTENT": "File Attachment"
+      },
+      "location": {
+        "CONTENT": "Location"
+      },
+      "fallback": {
+        "CONTENT": "has shared a url"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Poredaj razgovor",
+      "DROPDOWN_TITLE": "Poredaj po",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Zadnja aktivnost",
+          "LABEL": "Zadnja aktivnost"
+        },
+        "CREATED_AT": {
+          "NAME": "Kreirano",
+          "LABEL": "Kreirano"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Zadnja poruka korisnika",
+          "LABEL": "Zadnja poruka"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Sent successfully",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "No Messages",
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
+  }
+}

@@ -1,0 +1,41 @@
+type: object
+properties:
+  id:
+    type: number
+    description: ID of the inbox
+  name:
+    type: string
+    description: The name of the inbox
+  website_url:
+    type: string
+    description: Website URL
+  channel_type:
+    type: string
+    description: The type of the inbox
+  avatar_url:
+    type: string
+    description: The avatar image of the inbox
+  widget_color:
+    type: string
+    description: Widget Color used for customization of the widget
+  website_token:
+    type: string
+    description: Website Token
+  enable_auto_assignment:
+    type: boolean
+    description: The flag which shows whether Auto Assignment is enabled or not
+  web_widget_script:
+    type: string
+    description: Script used to load the website widget
+  welcome_title:
+    type: string
+    description: Welcome title to be displayed on the widget
+  welcome_tagline:
+    type: string
+    description: Welcome tagline to be displayed on the widget
+  greeting_enabled:
+    type: boolean
+    description: The flag which shows whether greeting is enabled
+  greeting_message:
+    type: string
+    description: A greeting message when the user starts the conversation

@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtrovat kontakty",
+    "SUBTITLE": "Přidejte filtry níže a stiskněte 'Odeslat' pro filtrování kontaktů.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "Přidat filtr",
+    "CLEAR_ALL_FILTERS": "Vymazat všechny filtry",
+    "FILTER_DELETE_ERROR": "Pro uložení byste měli mít alespoň jeden filtr",
+    "SUBMIT_BUTTON_LABEL": "Odeslat",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "Zrušit",
+    "CLEAR_BUTTON_LABEL": "Vymazat filtry",
+    "EMPTY_VALUE_ERROR": "Hodnota je povinná",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filtrovat kontakty",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "A",
+      "OR": "NEBO"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Rovno",
+      "not_equal_to": "Nerovno",
+      "contains": "Obsahuje",
+      "does_not_contain": "Neobsahuje",
+      "is_present": "Je přítomno",
+      "is_not_present": "Není přítomno",
+      "is_greater_than": "Je větší než",
+      "is_lesser_than": "Je menší než",
+      "days_before": "Je o x dnů dříve"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Hodnota je povinná"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Název",
+      "EMAIL": "E-mailová adresa",
+      "PHONE_NUMBER": "Telefonní číslo",
+      "IDENTIFIER": "Identifikátor",
+      "CITY": "Město",
+      "COUNTRY": "Země",
+      "CUSTOM_ATTRIBUTE_LIST": "Seznam",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Číslo",
+      "CUSTOM_ATTRIBUTE_LINK": "Odkaz",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Zaškrtávací pole",
+      "CREATED_AT": "Vytvořeno",
+      "LAST_ACTIVITY": "Poslední aktivita",
+      "REFERER_LINK": "Odkazující odkaz",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standardní filtry",
+      "ADDITIONAL_FILTERS": "Další filtry",
+      "CUSTOM_ATTRIBUTES": "Vlastní atributy"
+    }
+  }
+}

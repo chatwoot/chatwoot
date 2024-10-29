@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Récupération des conversations",
+    "LOAD_MORE_CONVERSATIONS": "Charger plus de conversations",
+    "EOF": "Toutes les conversations sont chargées 🎉",
+    "LIST": {
+      "404": "Il n'y a aucune conversation active dans ce groupe."
+    },
+    "TAB_HEADING": "Conversations",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Sans suivi",
+    "SEARCH": {
+      "INPUT": "Rechercher des personnes, des conversations, des réponses standardisées ..."
+    },
+    "FILTER_ALL": "Tous",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Les miens",
+      "unassigned": "Non assigné",
+      "all": "Tous"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Ouvert"
+      },
+      "resolved": {
+        "TEXT": "Résolu"
+      },
+      "pending": {
+        "TEXT": "En attente"
+      },
+      "snoozed": {
+        "TEXT": "Reporté"
+      },
+      "all": {
+        "TEXT": "Tous"
+      }
+    },
+    "VIEW_FILTER": "Voir",
+    "SORT_TOOLTIP_LABEL": "Trier les conversations",
+    "CHAT_SORT": {
+      "STATUS": "État",
+      "ORDER_BY": "Trier par"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Créé",
+        "OLDEST": "Créé le:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Dernière activité:",
+        "ACTIVE": "Dernière activité"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Dernière activité : la plus ancienne en premier"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Dernière activité : la plus récente en premier"
+      },
+      "created_at_desc": {
+        "TEXT": "Créé le : le plus récent en premier"
+      },
+      "created_at_asc": {
+        "TEXT": "Créé le : le plus ancien en premier"
+      },
+      "priority_desc": {
+        "TEXT": "Priorité: le plus important en premier"
+      },
+      "priority_asc": {
+        "TEXT": "Priorité : le moins important en premier"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Réponse en attente : La plus longue en premier"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Réponse en attente : La plus courte en premier"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Message image"
+      },
+      "audio": {
+        "CONTENT": "Message audio"
+      },
+      "video": {
+        "CONTENT": "Message vidéo"
+      },
+      "file": {
+        "CONTENT": "Pièce jointe"
+      },
+      "location": {
+        "CONTENT": "Localisation"
+      },
+      "fallback": {
+        "CONTENT": "a partagé une URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Trier la conversation",
+      "DROPDOWN_TITLE": "Trier par",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Dernière activité à",
+          "LABEL": "Dernière activité"
+        },
+        "CREATED_AT": {
+          "NAME": "Créé le",
+          "LABEL": "Créé le"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Dernier message utilisateur à",
+          "LABEL": "Dernier message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Reçu par courriel",
+    "VIEW_TWEET_IN_TWITTER": "Voir le tweet sur Twitter",
+    "REPLY_TO_TWEET": "Répondre à ce tweet",
+    "LINK_TO_STORY": "Aller à l'histoire instagram",
+    "SENT": "Envoyé avec succès",
+    "READ": "Lu",
+    "DELIVERED": "Reçu",
+    "NO_MESSAGES": "Pas de messages",
+    "NO_CONTENT": "Aucun contenu disponible",
+    "HIDE_QUOTED_TEXT": "Masquer le texte cité",
+    "SHOW_QUOTED_TEXT": "Afficher le texte cité",
+    "MESSAGE_READ": "Lu"
+  }
+}

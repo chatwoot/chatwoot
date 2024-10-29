@@ -1,0 +1,275 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ca:
+  hello: "Hola món"
+  messages:
+    reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
+    reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
+    inbox_deletetion_response: La teva sol·licitud d'eliminació de la safata d'entrada es processarà d'aquí a un temps.
+  errors:
+    validations:
+      presence: no ha de quedar en blanc
+    webhook:
+      invalid: Esdeveniments no vàlids
+    signup:
+      disposable_email: Els correus d'un sol ús no s'accepten
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Heu introduït un correu electrònic no vàlid
+      email_already_exists: "Ja us heu registrat amb el compte %{email}"
+      invalid_params: 'No és vàlid, comprova els paràmetres de registre i torna-ho a provar'
+      failed: El registre ha fallat
+    data_import:
+      data_type:
+        invalid: Tipus de dades no vàlid
+    contacts:
+      import:
+        failed: El fitxer està en blanc
+      export:
+        success: Us notificarem quan el fitxer d'exportació de contactes estigui llest per veure'l.
+      email:
+        invalid: Correu electrònic invàlid
+      phone_number:
+        invalid: hauria d'estar en format e164
+    categories:
+      locale:
+        unique: hauria de ser únic a la categoria i al portal
+    dyte:
+      invalid_message_type: "Tipus de missatge no vàlid. Acció no permesa"
+    slack:
+      invalid_channel_id: "Canal slack no vàlid. Torna-ho a provar"
+    inboxes:
+      imap:
+        socket_error: Comprova la connexió de xarxa, l'adreça IMAP i torna-ho a provar.
+        no_response_error: Comprova les credencials IMAP i torna-ho a provar.
+        host_unreachable_error: Amfitrió inaccessible. Comprova l'adreça IMAP, el port IMAP i torna-ho a provar.
+        connection_timed_out_error: S'ha esgotat el temps d'espera de la connexió per a %{address}:%{port}
+        connection_closed_error: Connexió tancada.
+      validations:
+        name: no hauria de començar ni acabar amb símbols, i no hauria de tenir caràcters < > / \ @.
+    custom_filters:
+      number_of_records: S'ha arribat al límit. El nombre màxim de filtres personalitzats permesos per a un usuari per compte és de 50.
+      invalid_attribute: 'Clau d''atribut no vàlida: [%{key}]. La clau hauria de ser una de [%{allowed_keys}] o un atribut personalitzat definit al compte.'
+      invalid_operator: Operador no vàlid. Els operadors permesos per a %{attribute_name} son [%{allowed_keys}].
+      invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
+  reports:
+    period: Període d'informes %{since} a %{until}
+    utc_warning: L'informe generat es troba a la zona horària UTC
+    agent_csv:
+      agent_name: Nom de l'Agent
+      conversations_count: Converses assignades
+      avg_first_response_time: Temps mitjà de primera resposta
+      avg_resolution_time: Temps mitjà de resolució
+      resolution_count: Total de resolucions
+      avg_customer_waiting_time: Temps mitjà d'espera dels clients
+    inbox_csv:
+      inbox_name: Nom de la safata d'entrada
+      inbox_type: Tipus de safata d'entrada
+      conversations_count: Nre. de converses
+      avg_first_response_time: Temps mitjà de primera resposta
+      avg_resolution_time: Temps mitjà de resolució
+    label_csv:
+      label_title: Etiqueta
+      conversations_count: Nre. de converses
+      avg_first_response_time: Temps mitjà de primera resposta
+      avg_resolution_time: Temps mitjà de resolució
+    team_csv:
+      team_name: Nom de l'equip
+      conversations_count: Recompte de converses
+      avg_first_response_time: Temps mitjà de primera resposta
+      avg_resolution_time: Temps mitjà de resolució
+      resolution_count: Total de resolucions
+      avg_customer_waiting_time: Temps mitjà d'espera dels clients
+    conversation_traffic_csv:
+      timezone: Fus horari
+    sla_csv:
+      conversation_id: ID de la conversa
+      sla_policy_breached: Política SLA
+      assignee: Cessionari
+      team: Equip
+      inbox: Safata d'entrada
+      labels: Etiquetes
+      conversation_link: Enllaç a la conversa
+      breached_events: Cas d'incompliment
+    default_group_by: dia
+    csat:
+      headers:
+        contact_name: Nom de contacte
+        contact_email_address: Correu electrònic de contacte
+        contact_phone_number: Telèfon de contacte
+        link_to_the_conversation: Enllaç a la conversa
+        agent_name: Nom de l'Agent
+        rating: Valoració
+        feedback: Comentaris
+        recorded_at: Data gravada
+  notifications:
+    notification_title:
+      conversation_creation: "Una conversa (#%{display_id}) ha estat creada a %{inbox_name}"
+      conversation_assignment: "Una conversa (#%{display_id}) ha estat assignada a tu"
+      assigned_conversation_new_message: "Es crea un missatge nou a la conversa (#%{display_id})"
+      conversation_mention: "T'han mencionat a la conversa (#%{display_id})"
+      sla_missed_first_response: "S'ha perdut la primera resposta de l'objectiu de SLA per a la conversa (#%{display_id})"
+      sla_missed_next_response: "S'ha perdut la següent resposta de l'objectiu de SLA per a la conversa (#%{display_id})"
+      sla_missed_resolution: "S'ha perdut la resolució de l'objectiu de SLA per a la conversa (#%{display_id})"
+    attachment: "Adjunt"
+    no_content: "Sense contingut"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} t'ha mencionat a la història: "
+      instagram_deleted_story_content: Aquesta història ja no està disponible.
+      deleted: Aquest missatge a sigut eliminat
+      delivery_status:
+        error_code: "Codi d'error: %{error_code}"
+    activity:
+      status:
+        resolved: "La conversa va ser marcada com resolta per %{user_name}"
+        contact_resolved: "La conversa va ser resolta per %{contact_name}"
+        open: "La conversa es va reobrir per %{user_name}"
+        pending: "La conversa va ser marcada com pendent per %{user_name}"
+        snoozed: "%{user_name} ha posposat la conversa"
+        auto_resolved: "El sistema ha marcat que la conversa s'ha resolt a causa de %{duration} dies d'inactivitat"
+        system_auto_open: El sistema ha reobert la conversa a causa d'un nou missatge entrant.
+      priority:
+        added: '%{user_name} ha establert la prioritat a %{new_priority}'
+        updated: '%{user_name} ha canviat la prioritat de %{old_priority} a %{new_priority}'
+        removed: '%{user_name} ha eliminat la prioritat'
+      assignee:
+        self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
+        assigned: "Assignada a %{assignee_name} per %{user_name}"
+        removed: "%{user_name} ha tret l'assignació de la conversa"
+      team:
+        assigned: "Assignada a %{team_name} per %{user_name}"
+        assigned_with_assignee: "Assignat a %{assignee_name} mitjançant %{team_name} per %{user_name}"
+        removed: "Sense assignar des de %{team_name} per %{user_name}"
+      labels:
+        added: "%{user_name} ha afegit %{labels}"
+        removed: "%{user_name} ha eliminat %{labels}"
+      sla:
+        added: "%{user_name} ha afegit la política de SLA %{sla_name}"
+        removed: "%{user_name} ha eliminat la política de SLA %{sla_name}"
+      muted: "%{user_name} ha silenciat la conversa"
+      unmuted: "%{user_name} ha desactivat el silenci de la conversa"
+    templates:
+      greeting_message_body: "%{account_name} normalment respon a les poques hores."
+      ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
+      email_input_box_message_body: "Rep les notificacions per correu electrònic"
+      csat_input_message_body: "Si us plau, valoreu la conversa"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} des de %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} des de %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} des de %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} des de %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Missatges nous en aquesta conversa"
+      transcript_subject: "Transcripció de conversa"
+    survey:
+      response: "Si us plau, valoreu la conversa, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} està en línia, si us plau, torna-ho a provar més tard"
+  integration_apps:
+    dashboard_apps:
+      name: "Aplicacions del tauler de control"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} ha iniciat una reunió"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Translate"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Cerca l'article per títol o cos...
+      empty_placeholder: No s'ha trobat agents.
+      loading_placeholder: S'està cercant...
+      results_title: Resultats de la cerca
+    toc_header: 'En aquesta pàgina'
+    hero:
+      sub_title: Cerca els articles aquí o navega per les categories següents.
+    common:
+      home: Inici
+      last_updated_on: Última actualització el %{last_updated_on}
+      view_all_articles: Veure tot
+      article: article
+      articles: articles
+      author: autor
+      authors: autors
+      other: altre
+      others: altres
+      by: Per
+      no_articles: No hi ha articles aquí
+    footer:
+      made_with: Fet amb
+    header:
+      go_to_homepage: Lloc web
+      appearance:
+        system: Sistema
+        light: Clar
+        dark: Fosc
+      featured_articles: Articles destacats
+      uncategorized: Sense categoria
+    404:
+      title: Pàgina no trobada
+      description: No hem pogut trobar la pàgina que estaves buscant.
+      back_to_home: Ves a la pàgina d'inici
+  slack_unfurl:
+    fields:
+      name: Nom
+      email: Correu electrònic
+      phone_number: Telèfon
+      company_name: Companyia
+      inbox_name: Safata d'entrada
+      inbox_type: Tipus de safata d'entrada
+    button: Obrir conversa
+  time_units:
+    days:
+      one: "%{count} dia"
+      other: "%{count} dies"
+    hours:
+      one: "%{count} hora"
+      other: "%{count} hores"
+    minutes:
+      one: "%{count} minut"
+      other: "%{count} minuts "
+    seconds:
+      one: "%{count} segon"
+      other: "%{count} segons"

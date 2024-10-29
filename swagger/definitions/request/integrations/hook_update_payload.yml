@@ -1,0 +1,5 @@
+type: object
+properties:
+  settings:
+    type: object
+    description: The settings required by the integration

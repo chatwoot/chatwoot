@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversazioni selezionate",
+    "AGENT_SELECT_LABEL": "Seleziona un'agente",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Torna indietro",
+    "ASSIGN_LABEL": "Assegna",
+    "YES": "Sì",
+    "SEARCH_INPUT_PLACEHOLDER": "Cerca",
+    "ASSIGN_AGENT_TOOLTIP": "Assegna agente",
+    "ASSIGN_TEAM_TOOLTIP": "Assegna team",
+    "ASSIGN_SUCCESFUL": "Conversazioni assegnate correttamente.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Conversazioni risolte correttamente.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Le conversazioni visibili in questa pagina sono selezionate.",
+    "AGENT_LIST_LOADING": "Caricamento agenti",
+    "UPDATE": {
+      "CHANGE_STATUS": "Cambia stato",
+      "SNOOZE_UNTIL": "Posticipa",
+      "UPDATE_SUCCESFUL": "Stato della conversazione aggiornata correttamente.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "Nessuna etichetta trovata per",
+      "ASSIGN_SELECTED_LABELS": "Assegna etichette selezeionate",
+      "ASSIGN_SUCCESFUL": "Etichette assegnate correttamente.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Seleziona team",
+      "NONE": "Nessuno",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

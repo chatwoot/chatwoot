@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Roboti",
+    "LOADING_EDITOR": "Notiek redaktora ielāde...",
+    "HEADER_BTN_TXT": "Pievienot robota konfigurāciju",
+    "SIDEBAR_TXT": "<p><b>Aģentu Roboti</b> <p>Aģentu Roboti ir kā visbrīnišķīgākie jūsu komandas locekļi. Viņi var tikt galā ar sīkumiem, lai jūs varētu koncentrēties uz svarīgākajām lietām. Izmēģiniet viņus.</p> <p> Jūs varat pārvaldīt savus robotus šajā lapā vai izveidot jaunus, izmantojot pogu 'Pievienot robota konfigurāciju'.</p> <p> Atveriet <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Aģentu robotu rokasgrāmatu</a> jaunā cilnē, lai saņemtu palīdzību.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Robota nosaukums",
+        "PLACEHOLDER": "Piešķiriet robotam nosaukumu.",
+        "ERROR": "Jānorāda robota nosaukums."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Robota apraksts",
+        "PLACEHOLDER": "Ko dara šis robots?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Lūdzu, ievadiet sava robota CSML konfigurāciju.",
+        "API_ERROR": "Jūsu CSML konfigurācija nav derīga. Lūdzu, izlabojiet to un mēģiniet vēlreiz."
+      },
+      "SUBMIT": "Apstiprināt un saglabāt"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Izvēlieties aģentu robotu",
+      "DESC": "Piešķiriet savai iesūtnei Aģentu Robotu. Viņi var apstrādāt sākotnējās sarunas un vajadzības gadījumā tās pārsūtīt tiešajam aģentam.",
+      "SUBMIT": "Atjaunināt",
+      "DISCONNECT": "Atvienot robotu",
+      "SUCCESS_MESSAGE": "Aģents robots ir veiksmīgi atjaunināts.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Aģenta robots ir veiksmīgi atvienots.",
+      "ERROR_MESSAGE": "Nevarēja atjaunināt aģenta robotu. Lūdzu mēģiniet vēlreiz.",
+      "DISCONNECTED_ERROR_MESSAGE": "Nevarēja atvienot aģenta robotu. Lūdzu mēģiniet vēlreiz.",
+      "SELECT_PLACEHOLDER": "Izvēlieties robotu"
+    },
+    "ADD": {
+      "TITLE": "Konfigurēt jaunu robotu",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi pievienots.",
+        "ERROR_MESSAGE": "Nevarēja pievienot robotu. Lūdzu, pamēģiniet vēlāk vēlreiz."
+      }
+    },
+    "LIST": {
+      "404": "Roboti nav atrasti. Jūs varat izveidot robotu, noklikšķinot uz 'Konfigurēt jaunu robotu' pogas ↗",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TYPE": "Robota tips"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "TITLE": "Dzēst robotu",
+      "SUBMIT": "Dzēst",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "DESCRIPTION": "Vai tiešām vēlaties dzēst šo robotu? Šī darbība ir neatgriezeniska.",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi izdzēsts.",
+        "ERROR_MESSAGE": "Nevarēja izdzēst robotu. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Rediģēt",
+      "LOADING": "Notiek robotu iegūšana...",
+      "TITLE": "Rediģēt robotu",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "SUCCESS_MESSAGE": "Robots ir veiksmīgi atjaunināts.",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt robotu. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook robots",
+      "CSML": "CSML robots"
+    }
+  }
+}

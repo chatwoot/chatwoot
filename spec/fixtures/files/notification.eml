@@ -1,0 +1,169 @@
+Delivered-To: sojan@chatwoot.com
+Received: by 2002:ac9:4481:0:0:0:0:0 with SMTP id s1csp1820446och;
+        Sat, 1 Feb 2020 05:23:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxV20fwjufESyTOPFd/uwBzzlZLYt5TXijaypShpt1RnEjy7Jw2JtohXqAUnJb4JiRM0FPA
+X-Received: by 2002:a63:e80d:: with SMTP id s13mr16094686pgh.134.1580563433783;
+        Sat, 01 Feb 2020 05:23:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1580563433; cv=none;
+        d=google.com; s=arc-20160816;
+        b=j8nqQpLKON6089iHd6tWOjgVPNwLapRZawpbxtOqKLw7YIofOGRSR7ktTwC6xEf0k2
+         E7bGbM3rNUfSuL8b90TF8BqYhGPqZWNVQmdWgfSeYzxOll6o+ilN1XaPu8tiEwn32dv3
+         /GdAIvKJcV2FmTmm/1mn7nHRcrTt8essC4/LHcTmAjivYwMkFFAAmaW/x3cGjQoVqweQ
+         YjLHIvJ4Gf8VA59BTQW6v5mp40LTJgqhMI0KCtF823wpjh+4hb2ZzC3tDFOI755Yb+Eu
+         UrQHhRzxIblUa2HjNfCXIaTbPKsAwKQYeMtxciGGThxNqOVtH7QAfYHAueu9aGwEgd54
+         r5Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:content-transfer-encoding:mime-version:subject
+         :message-id:to:from:date:dkim-signature:dkim-signature;
+        bh=KJNEbnNwTq190bQAUmxmxwtVMZr3HECa101UQNDCVw0=;
+        b=pq1j5E9GCLApAY+LvKyaGu4XavbKvwFp9GWNsA25PVwkicme7mFHR+3U3PBO3qQwyu
+         lnAGFv8CneaOAOEbuxncmJnTX8qnrtw0K6vfPN1POAiIgn/WVg1ib/mfj3Tw7YSgLd/i
+         O6UyxWKS+AYu+CiHAxhGLHFue3tJ8Vba3XFRoSHTbDK0Y8XT5XK3Ex0Lx8QdiDseTkI/
+         HXIxYC+73WeLiZNsvhQdM0gftESktx41baytvHUNMEUu+VMhI3fgdkEUDa3pU64yLD/p
+         lQSmxl9i1fD/9KOWZFvs6AdpHjpHfuKk7tNiMAlvwHRT2PFKVZqmN7ZWVtsotdjZ/LBS
+         Tkpg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@chatwoot.com header.s=jywwku4pypva75vx2ayl2qfvg46arq6j header.b="S/vIfBFO";
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=b0rWlX4V;
+       spf=pass (google.com: domain of 0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com designates 54.240.27.27 as permitted sender) smtp.mailfrom=0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com
+Return-Path: <0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com>
+Received: from a27-27.smtp-out.us-west-2.amazonses.com (a27-27.smtp-out.us-west-2.amazonses.com. [54.240.27.27])
+        by mx.google.com with ESMTPS id az9si3221498plb.69.2020.02.01.05.23.53
+        for <sojan@chatwoot.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sat, 01 Feb 2020 05:23:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of 0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com designates 54.240.27.27 as permitted sender) client-ip=54.240.27.27;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@chatwoot.com header.s=jywwku4pypva75vx2ayl2qfvg46arq6j header.b="S/vIfBFO";
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=b0rWlX4V;
+       spf=pass (google.com: domain of 0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com designates 54.240.27.27 as permitted sender) smtp.mailfrom=0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=jywwku4pypva75vx2ayl2qfvg46arq6j; d=chatwoot.com; t=1580563433; h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type:Content-Transfer-Encoding; bh=sidGViYBMVWvZmddU9y4tJbPdSakZIQ0SRFD7VFPP88=; b=S/vIfBFOWSSX45lxfB5jZsT0/Jb9NZefnlLdmF8yicPNiV2/H8HtDAqyO3JqHLfM fPefZPKhYhzBqfxoEEFAY/vr7ov8XT+D4Y+VCv1zl0fiyytTntJ/uQztF5Eg61j+Tqj JPgRqJRdfW0g+E06CH1vhVPVzD8jIpUGnZ6gVEl4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1580563433; h=Date:From:To:Message-ID:Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID; bh=sidGViYBMVWvZmddU9y4tJbPdSakZIQ0SRFD7VFPP88=; b=b0rWlX4Vo8FpaGzSe57iuHhxj/d57qliYmPmv0mBn/0ZEmGjkBlNYbE0An7T3Jmk Pu2TIOr71f9H/DLnMw9n8ro4Orl/ISn26uYfttP4u6iCOCEDV6/BC3xvlpSvg7R9Sin yHhY0LWM/F5zTFPO7EfOt+ibS33LXOKFseQVzpfI=
+Date: Sat, 1 Feb 2020 13:23:53 +0000
+From: accounts@chatwoot.com
+To: sojan@chatwoot.com
+Message-ID: <0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com>
+Subject: Sojan, A new conversation [ID - 873] has been assigned to you.
+Mime-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SES-Outgoing: 2020.02.01-54.240.27.27
+Feedback-ID: 1.us-west-2.dvcdkuZzAcrrEXRRdlOP0Y5qm4KoH22dS4zlDs+reGg=:AmazonSES
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+
+    <style type="text/css">
+        img {
+            max-width: 100%;
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: none;
+            width: 100% !important;
+            height: 100%;
+            line-height: 1.6em;
+        }
+
+        body {
+            background-color: #f6f6f6;
+        }
+
+        @media only screen and (max-width: 640px) {
+            body {
+                padding: 0 !important;
+            }
+            h1 {
+                font-weight: 800 !important;
+                margin: 20px 0 5px !important;
+            }
+            h2 {
+                font-weight: 800 !important;
+                margin: 20px 0 5px !important;
+            }
+            h3 {
+                font-weight: 800 !important;
+                margin: 20px 0 5px !important;
+            }
+            h4 {
+                font-weight: 800 !important;
+                margin: 20px 0 5px !important;
+            }
+            h1 {
+                font-size: 22px !important;
+            }
+            h2 {
+                font-size: 18px !important;
+            }
+            h3 {
+                font-size: 16px !important;
+            }
+            .container {
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            .content {
+                padding: 0 !important;
+            }
+            .content-wrap {
+                padding: 10px !important;
+            }
+            .invoice {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+
+<body itemscope itemtype="http://schema.org/EmailMessage" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; background-color: #f6f6f6; margin: 0;" bgcolor="#f6f6f6">
+
+    <table class="body-wrap" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; background-color: #f6f6f6; margin: 0;" bgcolor="#f6f6f6">
+        <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+            <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top"></td>
+            <td class="container" width="600" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;" valign="top">
+                <div class="content" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; max-width: 600px; display: block; margin: 0 auto; padding: 20px; text-align:center;">
+                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 4px; background-color: #fff; text-align:left; margin: 0; border: 1px solid #e9e9e9; box-shadow:0 2px 11px 0 rgba(0,0,0,0.15)" bgcolor="#fff">
+                        <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                            <td class="content-wrap" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;" valign="top">
+                                <meta itemprop="name" content="Confirm Email" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                                <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                    <p>Hi Sojan,</p>
+
+<p>Time to save the world. A new conversation has been assigned to you</p>
+
+<p>Click <a href="https://chatwoot.herokuapp.com/app/conversations/873">here</a> to get cracking. </p>
+
+
+                                    <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                        <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+                                            &mdash; Team Chatwoot <br/>
+                                            <a href="https://www.chatwoot.com" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;" align="center" valign="top">https://www.chatwoot.com</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="footer" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;">
+                        <table width="100%" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                <td class="aligncenter content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;" align="center" valign="top">
+                                  Follow <a href="http://twitter.com/chatwootapp" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999; text-decoration: underline; margin: 0;">@chatwootapp</a> on Twitter.
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top"></td>
+        </tr>
+    </table>
+</body>
+
+</html>

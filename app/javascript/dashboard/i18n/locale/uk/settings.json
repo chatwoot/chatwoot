@@ -1,0 +1,355 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Налаштування облікового запису",
+    "TITLE": "Налаштування облікового запису",
+    "BTN_TEXT": "Оновити обліковий запис",
+    "DELETE_AVATAR": "Видалити аватар",
+    "AVATAR_DELETE_SUCCESS": "Аватар був успішно видалений",
+    "AVATAR_DELETE_FAILED": "Виникла помилка під час видалення аватару, будь ласка, спробуйте ще раз",
+    "UPDATE_SUCCESS": "Ваш профіль було успішно оновлено",
+    "PASSWORD_UPDATE_SUCCESS": "Ваш пароль було успішно змінено",
+    "AFTER_EMAIL_CHANGED": "Ваш обліковий запис було успішно оновлено. Будь ласка, увійдіть знову, оскільки ваші дані були змінені",
+    "FORM": {
+      "PICTURE": "Фото профілю",
+      "AVATAR": "Зображення облікового запису",
+      "ERROR": "Будь ласка, виправте помилки форми",
+      "REMOVE_IMAGE": "Видалити",
+      "UPLOAD_IMAGE": "Завантажити зображення",
+      "UPDATE_IMAGE": "Оновити зображення",
+      "PROFILE_SECTION": {
+        "TITLE": "Анкета",
+        "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Комбінація клавіш для надсилання повідомлень",
+        "NOTE": "Ви можете обрати гарячу клавішу (Enter або Cmd/Ctrl+Enter) на основі ваших вподобань.",
+        "UPDATE_SUCCESS": "Ваші налаштування були успішно оновлені",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Надсилати повідомлення, натиснувши клавішу Enter замість кнопки надсилання."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Надсилати повідомлення, натиснувши комбінацію Cmd/Ctrl + Enter замість кнопки надсилання."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Підпис особистого повідомлення",
+        "NOTE": "Створити унікальний підпис повідомлення для кожного повідомлення, яке ви надсилаєте з будь-якої поштової скриньки. Ви також можете включити вбудоване зображення, яке підтримується у живому чаті, електронній пошті та API-поштових скриньках.",
+        "BTN_TEXT": "Зберегти підпис повідомлення",
+        "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
+        "API_SUCCESS": "Підпис успішно збережено",
+        "IMAGE_UPLOAD_ERROR": "Не вдалося завантажити зображення! Повторіть спробу",
+        "IMAGE_UPLOAD_SUCCESS": "Зображення успішно додано. Будь ласка, натисніть на кнопку Зберегти, щоб зберегти підпис",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Підпис повідомлення",
+        "ERROR": "Підпис повідомлення не може бути порожнім",
+        "PLACEHOLDER": "Вставити свій персональний підпис повідомлення тут."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Пароль",
+        "NOTE": "Оновлення вашого пароля призведе до скидання ваших записів про вхід на інших пристроях.",
+        "BTN_TEXT": "Змінити пароль"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Ключ доступу",
+        "NOTE": "Цей ключ можна використовувати, якщо ви створюєте API-інтеграцію",
+        "COPY": "Копіювати"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Звукові сповіщення",
+        "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
+        "ALERT_TYPES": {
+          "NONE": "Нiчого",
+          "MINE": "Призначено",
+          "ALL": "Всі"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Сповіщення про події для розмов:",
+          "NONE": "Нiчого",
+          "ASSIGNED": "Призначені розмови",
+          "ALL_CONVERSATIONS": "Всі розмови"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Тон сигналу:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Умови оповіщення:",
+          "CONDITION_ONE": "Надсилати аудіосповіщення тільки якщо вікно браузера не активне",
+          "CONDITION_TWO": "Надсилати сповіщення кожні 30 секунд, поки всі призначені розмови не будуть переглянуті"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Сповіщення електронною поштою",
+        "NOTE": "Тут оновлюються налаштування повідомлень електронною поштою",
+        "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
+        "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
+        "CONVERSATION_MENTION": "Надсилати сповіщення електронною поштою, коли вас згадують в розмові",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати поштові листи, коли нове повідомлення створюється в призначеній розмові",
+        "SLA_MISSED_FIRST_RESPONSE": "Надсилати сповіщення електронною поштою, коли в бесіді пропущено першу відповідь SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Надсилати сповіщення електронною поштою, коли в бесіді пропущено наступну відповідь SLA",
+        "SLA_MISSED_RESOLUTION": "Надсилати сповіщення електронною поштою, коли бесіда пропускає SLA розширення"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Налаштування сповіщень",
+        "TYPE_TITLE": "Тип сповіщення",
+        "EMAIL": "Email",
+        "PUSH": "Push-сповіщення",
+        "TYPES": {
+          "CONVERSATION_CREATED": "Діалог створено",
+          "CONVERSATION_ASSIGNED": "Розмова призначена вам",
+          "CONVERSATION_MENTION": "Ви згадані в розмові",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Нове повідомлення створено в призначеній розмові",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Створено нове повідомлення в розмові з учасниками",
+          "SLA_MISSED_FIRST_RESPONSE": "Розмова пропускає першу відповідь SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "Розмова пропускає наступну відповідь SLA",
+          "SLA_MISSED_RESOLUTION": "Розмова пропускає SLA розширення"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
+        "UPDATE_ERROR": "Виникла помилка під час оновлення налаштувань, будь ласка, спробуйте ще раз"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push-сповіщення",
+        "NOTE": "Оновіть ваші налаштування push-сповіщень тут",
+        "CONVERSATION_ASSIGNMENT": "Надсилати push-повідомлення, коли мені призначено розмову",
+        "CONVERSATION_CREATION": "Надсилати push-повідомлення, коли створюється нова розмова",
+        "CONVERSATION_MENTION": "Надсилати push-повідомлення, коли вас згадують в розмові",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
+        "HAS_ENABLED_PUSH": "Ви увімкнули push для цього браузера.",
+        "REQUEST_PUSH": "Увімкнути push-сповіщення",
+        "SLA_MISSED_FIRST_RESPONSE": "Надсилати push-повідомлення, коли в розмові пропущено першу відповідь SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Надсилати push-повідомлення, коли в розмові пропущено наступну відповідь SLA",
+        "SLA_MISSED_RESOLUTION": "Надсилати push-повідомлення, коли бесіда пропускає SLA розширення"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Зображення облікового запису"
+      },
+      "NAME": {
+        "LABEL": "Ваше повне ім'я",
+        "ERROR": "Будь ласка, введіть своє повне ім'я",
+        "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Ім'я для відображення",
+        "ERROR": "Будь ласка, введіть коректне ім'я",
+        "PLACEHOLDER": "Будь ласка, введіть ім'я, яке буде показано у розмовах"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Присутність",
+        "STATUSES_LIST": ["Онлайн", "Зайнятий", "Не в мережі"],
+        "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
+        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
+      },
+      "EMAIL": {
+        "LABEL": "Ваша адреса електронної пошти",
+        "ERROR": "Будь ласка, введіть коректну адресу електронної пошти",
+        "PLACEHOLDER": "Введіть адресу електронної пошти, її буде видно в бесідах"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Поточний пароль",
+        "ERROR": "Будь ласка, введіть поточний пароль",
+        "PLACEHOLDER": "Будь ласка, введіть поточний пароль"
+      },
+      "PASSWORD": {
+        "LABEL": "Новий пароль",
+        "ERROR": "Будь ласка, введіть пароль довжиною 6 або більше символів",
+        "PLACEHOLDER": "Будь ласка, введіть новий пароль"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Підвердіть новий пароль",
+        "ERROR": "Підтвердження пароля має відповідати паролю",
+        "PLACEHOLDER": "Будь ласка, введіть новий пароль ще раз"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Змінити",
+    "CHANGE_ACCOUNTS": "Змінити обліковий запис",
+    "CONTACT_SUPPORT": "Звернутися зі службою підтримки",
+    "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
+    "PROFILE_SETTINGS": "Налаштування облікового запису",
+    "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
+    "APPEARANCE": "Змінити зовнішній вигляд",
+    "SUPER_ADMIN_CONSOLE": "Консоль адміна",
+    "LOGOUT": "Вийти"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
+    "TRAIL_BUTTON": "Придбати зараз",
+    "DELETED_USER": "Видалений користувач",
+    "EMAIL_VERIFICATION_PENDING": "Схоже, ви ще не підтвердили адресу електронної пошти. Будь ласка, перевірте вашу поштову скриньку для підтвердження.",
+    "RESEND_VERIFICATION_MAIL": "Повторно надіслати листа з підтвердженням",
+    "EMAIL_VERIFICATION_SENT": "Лист для підтвердження було надіслано. Будь ласка, перевірте вашу електронну пошту.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Обліковий запис призупинено",
+      "MESSAGE": "Ваш обліковий запис призупинено. Будь ласка, зверніться до служби підтримки для отримання додаткової інформації."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Копіювати",
+      "CODEPEN": "Відкрити у CodePen",
+      "COPY_SUCCESSFUL": "Код скопійований в буфер обміну"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Показати більше",
+      "SHOW_LESS": "Показати менше"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Звантажити",
+      "UPLOADING": "Завантажується...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ця історія більше не доступна."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Дивитись на карті"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Додати"
+    }
+  },
+  "CONFIRM_EMAIL": "Перевірка...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Додати канал"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
+    "SWITCH": "Перемкнути",
+    "INBOX_VIEW": "Перегляд вхідних",
+    "CONVERSATIONS": "Бесіди",
+    "INBOX": "Вхідні",
+    "ALL_CONVERSATIONS": "Всі розмови",
+    "MENTIONED_CONVERSATIONS": "Згадування",
+    "PARTICIPATING_CONVERSATIONS": "Підключені агенти",
+    "UNATTENDED_CONVERSATIONS": "Не зв'язаний",
+    "REPORTS": "Звіти",
+    "SETTINGS": "Налаштування",
+    "CONTACTS": "Контакти",
+    "CAPTAIN": "Captain",
+    "HOME": "Головна",
+    "AGENTS": "Агенти",
+    "AGENT_BOTS": "Боти",
+    "AUDIT_LOGS": "Журнал аудиту",
+    "INBOXES": "Вхідні",
+    "NOTIFICATIONS": "Сповіщення",
+    "CANNED_RESPONSES": "Швидкі відповіді",
+    "INTEGRATIONS": "Інтеграції",
+    "PROFILE_SETTINGS": "Налаштування облікового запису",
+    "ACCOUNT_SETTINGS": "Налаштування акаунту",
+    "APPLICATIONS": "Додатки",
+    "LABELS": "Мітки",
+    "CUSTOM_ATTRIBUTES": "Свої атрибути",
+    "AUTOMATION": "Автоматизація",
+    "MACROS": "Макроси",
+    "TEAMS": "Команди",
+    "BILLING": "Біллінг",
+    "CUSTOM_VIEWS_FOLDER": "Папки",
+    "CUSTOM_VIEWS_SEGMENTS": "Сегменти",
+    "ALL_CONTACTS": "Усі контакти",
+    "TAGGED_WITH": "З тегами",
+    "NEW_LABEL": "Нова мітка",
+    "NEW_TEAM": "Нова команда",
+    "NEW_INBOX": "Нове джерело",
+    "REPORTS_CONVERSATION": "Бесіди",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Розсилки",
+    "ONGOING": "У процесі",
+    "ONE_OFF": "Один з",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Бот",
+    "REPORTS_AGENT": "Агенти",
+    "REPORTS_LABEL": "Мітки",
+    "REPORTS_INBOX": "Канал",
+    "REPORTS_TEAM": "Команда",
+    "SET_AVAILABILITY_TITLE": "Позначити себе як",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Огляд",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Довідковий центр",
+      "ALL_ARTICLES": "Всі статті",
+      "MY_ARTICLES": "Мої статті",
+      "DRAFT": "Чернетка",
+      "ARCHIVED": "Архівовано",
+      "CATEGORY": "Категорія",
+      "SETTINGS": "Налаштування",
+      "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Позначити не в мережі (auto)",
+      "INFO_TEXT": "Дозволити системі автоматично позначати як не в мережі коли ви не використовуєте програму або панель управління."
+    },
+    "DOCS": "Читати документи"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Біллінг",
+    "CURRENT_PLAN": {
+      "TITLE": "Поточний План",
+      "PLAN_NOTE": "Зараз ви підписані на **{plan}** план з **{quantity}** ліцензій"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Керування підпискою",
+      "DESCRIPTION": "Перегляньте попередні рахунки, відредагуйте платіжні реквізити, або скасуйте вашу підписку.",
+      "BUTTON_TXT": "Перейти на портал для платежів"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Потрібна допомога?",
+      "DESCRIPTION": "Чи зіткнулися ви з питаннями у рахунках? Ми тут, щоб допомогти.",
+      "BUTTON_TXT": "Почніть розмову з нами"
+    },
+    "NO_BILLING_USER": "Ваш платіжний обліковий запис налаштовується. Будь ласка, оновіть сторінку та повторіть спробу."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",
+    "NEW_ACCOUNT": "Новий акаунт",
+    "SELECTOR_SUBTITLE": "Створити новий обліковий запис",
+    "API": {
+      "SUCCESS_MESSAGE": "Обліковий запис створено",
+      "EXIST_MESSAGE": "Обліковий запис вже існує",
+      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Назва компанії",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Додати"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Переглянути всі шорткоди",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Відкрити розмову",
+      "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",
+      "NAVIGATE_DROPDOWN": "Навігація випадаючих елементів",
+      "RESOLVE_CONVERSATION": "Вирішити розмову",
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
+      "ADD_ATTACHMENT": "Додати вкладення",
+      "GO_TO_CONTACTS_DASHBOARD": "Перейти до панелі керування контактами",
+      "TOGGLE_SIDEBAR": "Перемикач бічної панелі",
+      "GO_TO_REPORTS_SIDEBAR": "Перейти до бічної панелі звітів",
+      "MOVE_TO_NEXT_TAB": "Перейти до наступної вкладки в списку бесід",
+      "GO_TO_SETTINGS": "Перейти до налаштувань",
+      "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
+      "SWITCH_TO_REPLY": "Перейти до відповіді",
+      "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "Custom Attributes",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
+    "ADD": {
+      "TITLE": "Add Custom Attribute",
+      "SUBMIT": "Create",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter custom attribute display name",
+          "ERROR": "Name is required"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Enter custom attribute description",
+          "ERROR": "Description is required"
+        },
+        "MODEL": {
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Model is required"
+        },
+        "TYPE": {
+          "LABEL": "Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Type is required",
+          "LIST": {
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
+          }
+        },
+        "KEY": {
+          "LABEL": "Key",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required",
+          "IN_VALID": "Invalid key"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - {attributeName}",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "MESSAGE": "Deleting will remove the custom attribute",
+        "YES": "Delete ",
+        "NO": "Cancel"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Custom Attribute",
+      "UPDATE_BUTTON_TEXT": "Update",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+      }
+    },
+    "TABS": {
+      "HEADER": "Custom Attributes",
+      "CONVERSATION": "Conversation",
+      "CONTACT": "Contact"
+    },
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
+      "BUTTONS": {
+        "EDIT": "Edit",
+        "DELETE": "Delete"
+      },
+      "EMPTY_RESULT": {
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    }
+  }
+}

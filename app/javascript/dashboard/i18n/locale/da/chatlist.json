@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Henter samtaler",
+    "LOAD_MORE_CONVERSATIONS": "Indlæs flere samtaler",
+    "EOF": "Alle samtaler indlæst 🎉",
+    "LIST": {
+      "404": "Der er ingen aktive samtaler i denne gruppe."
+    },
+    "TAB_HEADING": "Samtaler",
+    "MENTION_HEADING": "Omtaler",
+    "UNATTENDED_HEADING": "Unattet",
+    "SEARCH": {
+      "INPUT": "Søg efter Mennesker, Chats, Gemte svar .."
+    },
+    "FILTER_ALL": "Alle",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Ikke Tildelt",
+      "all": "Alle"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Åbn"
+      },
+      "resolved": {
+        "TEXT": "Løst"
+      },
+      "pending": {
+        "TEXT": "Afventer"
+      },
+      "snoozed": {
+        "TEXT": "Udsat"
+      },
+      "all": {
+        "TEXT": "Alle"
+      }
+    },
+    "VIEW_FILTER": "Vis",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Oprettet den:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Billedbesked"
+      },
+      "audio": {
+        "CONTENT": "Lydbesked"
+      },
+      "video": {
+        "CONTENT": "Video besked"
+      },
+      "file": {
+        "CONTENT": "Fil Vedhæftning"
+      },
+      "location": {
+        "CONTENT": "Lokation"
+      },
+      "fallback": {
+        "CONTENT": "har delt en URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sorter efter",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Oprettet den",
+          "LABEL": "Oprettet den"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Modtaget via e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Se tweet på Twitter",
+    "REPLY_TO_TWEET": "Svar på dette tweet",
+    "LINK_TO_STORY": "Gå til instagram historie",
+    "SENT": "Sendt med succes",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Ingen Beskeder",
+    "NO_CONTENT": "Intet tilgængeligt indhold",
+    "HIDE_QUOTED_TEXT": "Skjul Citeret Tekst",
+    "SHOW_QUOTED_TEXT": "Vis Citeret Tekst",
+    "MESSAGE_READ": "Læst"
+  }
+}

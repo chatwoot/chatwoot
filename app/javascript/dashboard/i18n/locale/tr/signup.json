@@ -1,0 +1,44 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Hesap oluştur",
+    "TITLE": "Kayıt ol",
+    "TESTIMONIAL_HEADER": "İlerlemek için tek bir adım atmanız yeterlidir",
+    "TESTIMONIAL_CONTENT": "Müşterilerinizle etkileşimde bulunmaktan, onları elde tutmaktan ve yeni müşteriler bulmaktan sadece bir adım uzaktasınız.",
+    "TERMS_ACCEPT": "Bir hesap oluşturarak, <a href=\"https://www.chatwoot.com/terms\">Kullanım Koşulları</a> ve <a href=\"https://www.chatwoot.com/privacy-policy\">Gizlilik Politikamızı</a> kabul etmiş olursunuz",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Google ile kaydol"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Şirket adı",
+      "PLACEHOLDER": "Şirket adınızı girin. Örneğin, Wayne Enterprises",
+      "ERROR": "Şirket adı çok kısa."
+    },
+    "FULL_NAME": {
+      "LABEL": "Ad Soyad",
+      "PLACEHOLDER": "Tam adınızı girin. Örneğin, Bruce Wayne",
+      "ERROR": "Ad Soyad çok kısa."
+    },
+    "EMAIL": {
+      "LABEL": "İş emaili",
+      "PLACEHOLDER": "İş email adresinizi girin. Örneğin, bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Lütfen geçerli bir iş email adresi girin."
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola",
+      "ERROR": "Parola çok kısa.",
+      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir."
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Parolayı onayla",
+      "PLACEHOLDER": "Parolayı onayla",
+      "ERROR": "Parolalar eşleşmiyor."
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Kayıt başarılı",
+      "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
+    },
+    "SUBMIT": "Hesap oluştur",
+    "HAVE_AN_ACCOUNT": "Hesabın var mı?"
+  }
+}

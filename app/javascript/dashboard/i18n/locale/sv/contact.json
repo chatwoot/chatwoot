@@ -1,0 +1,389 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Ej tillgänglig",
+    "EMAIL_ADDRESS": "E-postadress",
+    "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifier",
+    "COPY_SUCCESSFUL": "Kopierat till urklipp",
+    "COMPANY": "Företag",
+    "LOCATION": "Plats",
+    "BROWSER_LANGUAGE": "Browser Language",
+    "CONVERSATION_TITLE": "Konversationsdetaljer",
+    "VIEW_PROFILE": "Visa profil",
+    "BROWSER": "Webbläsare",
+    "OS": "Operativsystem",
+    "INITIATED_FROM": "Initierad från",
+    "INITIATED_AT": "Initierad den",
+    "IP_ADDRESS": "IP-adress",
+    "CREATED_AT_LABEL": "Created",
+    "NEW_MESSAGE": "Nytt meddelande",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
+      "TITLE": "Tidigare konversationer"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "Etiketter för kontakt",
+        "ERROR": "Kunde inte uppdatera etiketter"
+      },
+      "CONVERSATION": {
+        "TITLE": "Etiketter för konversation",
+        "ADD_BUTTON": "Lägg till etiketter"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "Lägg till etiketter",
+        "PLACEHOLDER": "Sök etiketter",
+        "NO_RESULT": "Inga etiketter hittades",
+        "CREATE_LABEL": "Create new label"
+      }
+    },
+    "MERGE_CONTACT": "Slå samman kontakt",
+    "CONTACT_ACTIONS": "Kontakt åtgärder",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "SEND_TRANSCRIPT": "Skicka transkribering",
+    "EDIT_LABEL": "Redigera",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "Egna egenskaper",
+      "CONTACT_LABELS": "Etiketter för kontakt",
+      "PREVIOUS_CONVERSATIONS": "Tidigare konversationer",
+      "NO_RECORDS_FOUND": "Inga attribut hittades"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Redigera kontakt",
+    "TITLE": "Redigera kontakt",
+    "DESC": "Redigera kontaktuppgifter"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Ny kontakt",
+    "TITLE": "Skapa ny kontakt",
+    "DESC": "Lägg till grundläggande information om kontakten."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "Importera",
+    "TITLE": "Importera kontakter",
+    "DESC": "Importera kontakter via en CSV-fil.",
+    "DOWNLOAD_LABEL": "Ladda ner en exempel csv.",
+    "FORM": {
+      "LABEL": "CSV-fil",
+      "SUBMIT": "Importera",
+      "CANCEL": "Avbryt"
+    },
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Bekräfta borttagning",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nej, behåll"
+    }
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "Ta bort kontakt",
+    "TITLE": "Ta bort kontakt",
+    "DESC": "Ta bort kontaktuppgifter",
+    "CONFIRM": {
+      "TITLE": "Bekräfta borttagning",
+      "MESSAGE": "Är du säker på att ta bort ",
+      "YES": "Ja, ta bort",
+      "NO": "Nej, behåll"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Kontakten har tagits bort",
+      "ERROR_MESSAGE": "Kunde inte ta bort kontakt. Försök igen senare."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "Skicka",
+      "CANCEL": "Avbryt",
+      "AVATAR": {
+        "LABEL": "Kontaktavatar"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Ange det fullständiga namnet för kontakten",
+        "LABEL": "Fullständigt namn"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Ange biografi för kontakten",
+        "LABEL": "Biografi"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Ange e-postadressen till kontakten",
+        "LABEL": "E-postadress",
+        "DUPLICATE": "Den här e-postadressen används för en annan kontakt.",
+        "ERROR": "Ange en giltig e-postadress."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Ange telefonnummer till kontakten",
+        "LABEL": "Telefonnummer",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "ERROR": "Telefonnumret ska vara antingen tomt eller i E.164-format",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "This phone number is in use for another contact."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Ange platsen för kontakten",
+        "LABEL": "Plats"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Ange företagets namn",
+        "LABEL": "Företagsnamn"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "Country Name",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "Radera",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Ange Facebook-användarnamn",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Ange Twitter-användarnamn",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Ange LinkedIn-användarnamn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Ange Github-användarnamn",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontakt har sparats",
+    "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Starta konversation",
+    "TITLE": "Ny konversation",
+    "DESC": "Starta en ny konversation genom att skicka ett nytt meddelande.",
+    "NO_INBOX": "Det gick inte att hitta en inkorg för att initiera en ny konversation med denna kontakt.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Till"
+      },
+      "INBOX": {
+        "LABEL": "Via Inbox",
+        "PLACEHOLDER": "Choose source inbox",
+        "ERROR": "Välj en inkorg"
+      },
+      "SUBJECT": {
+        "LABEL": "Ämne",
+        "PLACEHOLDER": "Ämne",
+        "ERROR": "Ämne kan inte vara tomt"
+      },
+      "MESSAGE": {
+        "LABEL": "Meddelande",
+        "PLACEHOLDER": "Skriv ditt meddelande här",
+        "ERROR": "Meddelandet kan inte vara tomt"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Välj filer",
+        "HELP_TEXT": "Dra och släpp filer här eller välj filer att bifoga"
+      },
+      "SUBMIT": "Skicka meddelande",
+      "CANCEL": "Avbryt",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Visa",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Kontakter",
+    "FIELDS": "Contact fields",
+    "SEARCH_BUTTON": "Sök",
+    "SEARCH_INPUT_PLACEHOLDER": "Sök kontakter",
+    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "LIST": {
+      "LOADING_MESSAGE": "Laddar kontakter...",
+      "404": "Inga kontakter matchar din sökning 🔍",
+      "NO_CONTACTS": "There are no available contacts",
+      "TABLE_HEADER": {
+        "NAME": "Namn",
+        "PHONE_NUMBER": "Telefonnummer",
+        "CONVERSATIONS": "Konversationer",
+        "LAST_ACTIVITY": "Last Activity",
+        "CREATED_AT": "Created At",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Företag",
+        "EMAIL_ADDRESS": "E-postadress"
+      },
+      "VIEW_DETAILS": "View details"
+    }
+  },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "Kontakter",
+    "LOADING": "Loading contact profile..."
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "FETCHING_NOTES": "Fetching notes...",
+    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "LIST": {
+      "LABEL": "added a note"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "CONTENT_HEADER": {
+      "DELETE": "Delete note"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "konversationer"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Add attributes",
+    "BUTTON": "Add custom attribute",
+    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "COPY_SUCCESSFUL": "Kopierat till urklipp",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
+    "ACTIONS": {
+      "COPY": "Copy attribute",
+      "DELETE": "Delete attribute",
+      "EDIT": "Edit attribute"
+    },
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Avbryt",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "Add attributes",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "No result found"
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "Ogiltig URL",
+      "INVALID_INPUT": "Invalid Input"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Slå samman kontakter",
+    "DESCRIPTION": "Sammanfoga kontakter för att kombinera två profiler till en, inklusive alla attribut och konversationer. Vid konflikter kommer attributen Primärkontakt att ha företräde.",
+    "PRIMARY": {
+      "TITLE": "Primär kontakt",
+      "HELP_LABEL": "Ta bort"
+    },
+    "PARENT": {
+      "TITLE": "Kontakt att slå samman",
+      "PLACEHOLDER": "Sök efter en kontakt",
+      "HELP_LABEL": "Att behållas"
+    },
+    "SUMMARY": {
+      "TITLE": "Sammanfattning",
+      "DELETE_WARNING": "Kontakt för <strong>{primaryContactName}</strong> kommer att tas bort.",
+      "ATTRIBUTE_WARNING": "Kontaktuppgifter till <strong>{primaryContactName}</strong> kommer att kopieras till <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "FEL_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Slå samman kontakter",
+      "CANCEL": "Avbryt",
+      "CHILD_CONTACT": {
+        "ERROR": "Välj en underordnad kontakt att slå samman"
+      },
+      "SUCCESS_MESSAGE": "Kontakten har slagits samman",
+      "ERROR_MESSAGE": "Kunde inte slå samman kontakter, försök igen!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  }
+}

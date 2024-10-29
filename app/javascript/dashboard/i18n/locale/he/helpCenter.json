@@ -1,0 +1,488 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "סנן לפי",
+      "SORT": "מיין לפי",
+      "LOCALE": "מקומי",
+      "SETTINGS_BUTTON": "הגדרות",
+      "NEW_BUTTON": "מאמר חדש",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "יצא לאור",
+        "DRAFT": "טיוטה",
+        "ARCHIVED": "בארכיון"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "כל המאמרים",
+        "MINE": "הכתבות שלי",
+        "DRAFT": "טיוטת מאמרים",
+        "ARCHIVED": "מאמרים בארכיון"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "כל המאמרים",
+      "PUBLISH_BUTTON": "פרסם",
+      "MOVE_TO_ARCHIVE_BUTTON": "העבר לארכיון",
+      "PREVIEW": "תצוגה מקדימה",
+      "ADD_TRANSLATION": "הוסף תרגום",
+      "OPEN_SIDEBAR": "פתח סרגל צד",
+      "CLOSE_SIDEBAR": "סגור סרגל צד",
+      "SAVING": "שומר...",
+      "SAVED": "שמור"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "העלה תמונה",
+        "UPLOADING": "מעלה...",
+        "SUCCESS": "התמונה הועלתה בהצלחה",
+        "ERROR": "שגיאה בעת העלאת תמונה",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "גודל התמונה צריך להיות פחות מ-{size}MB",
+        "ERROR_FILE_FORMAT": "פורמט התמונה צריך להיות jpg, jpeg או png",
+        "ERROR_FILE_DIMENSIONS": "מידות התמונה צריכות להיות פחות מ-2000 x 2000"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "הגדרות מאמר",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "קטגוריה",
+          "TITLE": "בחר קטגוריה",
+          "PLACEHOLDER": "בחר קטגוריה",
+          "NO_RESULT": "לא נמצאה קטגוריה",
+          "SEARCH_PLACEHOLDER": "קטגוריית חיפוש"
+        },
+        "AUTHOR": {
+          "LABEL": "מחבר",
+          "TITLE": "בחר מחבר",
+          "PLACEHOLDER": "בחר מחבר",
+          "NO_RESULT": "לא נמצאו מחברים",
+          "SEARCH_PLACEHOLDER": "חפש מחבר"
+        },
+        "META_TITLE": {
+          "LABEL": "כותרת מטא",
+          "PLACEHOLDER": "הוסף מטא כותרת"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "מטא תיאור",
+          "PLACEHOLDER": "הוסף את המטא תיאור שלך לתוצאות SEO טובות יותר..."
+        },
+        "META_TAGS": {
+          "LABEL": "מטא תגים",
+          "PLACEHOLDER": "הוסף מטא תגיות מופרדות בפסיק..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "ארכיון מאמר",
+        "DELETE": "מחק מאמר"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for {query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Searching...",
+      "INSERT_ARTICLE": "Insert",
+      "NO_RESULT": "No articles found",
+      "COPY_LINK": "Copy article link to clipboard",
+      "OPEN_LINK": "Open article in new tab",
+      "PREVIEW_LINK": "Preview article"
+    },
+    "PORTAL": {
+      "HEADER": "פורטלים",
+      "DEFAULT": "ברירת מחדל",
+      "NEW_BUTTON": "פורטל חדש",
+      "ACTIVE_BADGE": "פעיל",
+      "CHOOSE_LOCALE_LABEL": "בחר מקום",
+      "LOADING_MESSAGE": "טוען פורטלים...",
+      "ARTICLES_LABEL": "מאמרים",
+      "NO_PORTALS_MESSAGE": "אין פורטלים זמינים",
+      "ADD_NEW_LOCALE": "הוסף מקום חדש",
+      "POPOVER": {
+        "TITLE": "פורטלים",
+        "PORTAL_SETTINGS": "הגדרות פורטל",
+        "SUBTITLE": "יש לך מספר פורטלים ויכולים להיות לך מקומות שונים עבור כל פורטל.",
+        "CANCEL_BUTTON_LABEL": "ביטול",
+        "CHOOSE_LOCALE_BUTTON": "בחר מיקום"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "מאמרים",
+            "ADD": "הוסף מקום",
+            "VISIT": "בקר באתר",
+            "SETTINGS": "הגדרות",
+            "DELETE": "מחק"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "תצורות פורטל",
+            "ITEMS": {
+              "NAME": "שם",
+              "DOMAIN": "תחום מותאם אישית",
+              "SLUG": "שבלול",
+              "TITLE": "כותרת הפורטל",
+              "THEME": "צבע נושא",
+              "SUB_TEXT": "טקסט משנה של פורטל"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "מקומות זמינים",
+            "TABLE": {
+              "NAME": "שם מקומי",
+              "CODE": "קוד מקומי",
+              "ARTICLE_COUNT": "מספר מאמרים",
+              "CATEGORIES": "מספר קטגוריות",
+              "SWAP": "החלפה",
+              "DELETE": "מחק",
+              "DEFAULT_LOCALE": "ברירת מחדל"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "מחק את הפורטל",
+          "MESSAGE": "האם אתה בטוח שאתה רוצה למחוק את הפורטל הזה",
+          "YES": "כן, מחק את הפורטל",
+          "NO": "לא, שמור על הפורטל",
+          "API": {
+            "DELETE_SUCCESS": "הפורטל נמחק בהצלחה",
+            "DELETE_ERROR": "שגיאה בעת מחיקת הפורטל"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "ערוך פורטל",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "מידע בסיסי"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "התאמה אישית של פורטל"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "קטגוריות"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "מקומיים"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "קטגוריות ב",
+          "NEW_CATEGORY": "קטגוריה חדשה",
+          "TABLE": {
+            "NAME": "שם",
+            "DESCRIPTION": "תיאור",
+            "LOCALE": "מקומי",
+            "ARTICLE_COUNT": "מספר מאמרים",
+            "ACTION_BUTTON": {
+              "EDIT": "ערוך קטגוריה",
+              "DELETE": "מחק קטגוריה"
+            },
+            "EMPTY_TEXT": "לא נמצאו קטגוריות"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "עדכן הגדרות בסיסיות"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": [
+          {
+            "title": "מידע על מרכז העזרה",
+            "route": "new_portal_information",
+            "body": "מידע בסיסי על הפורטל",
+            "CREATE_BASIC_SETTING_BUTTON": "צור הגדרות בסיסיות של פורטל"
+          },
+          {
+            "title": "התאמה אישית של מרכז העזרה",
+            "route": "portal_customization",
+            "body": "התאמה אישית של פורטל",
+            "UPDATE_PORTAL_BUTTON": "עדכון הגדרות פורטל"
+          },
+          {
+            "title": "וואילה! 🎉",
+            "route": "portal_finish",
+            "body": "אתה מוכן!",
+            "FINISH": "סיים"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "חזור",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "צור פורטל",
+            "TITLE": "מידע על מרכז העזרה",
+            "CREATE_BASIC_SETTING_BUTTON": "צור הגדרות בסיסיות של פורטל"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "התאמה אישית של פורטל",
+            "TITLE": "התאמה אישית של מרכז העזרה",
+            "UPDATE_PORTAL_BUTTON": "עדכון הגדרות פורטל"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "וואילה!🎉 הכל מסודר!",
+            "MESSAGE": "עכשיו אתה יכול לראות את הפורטל שנוצר בדף כל הפורטלים שלך.",
+            "FINISH": "עבור לדף כל הפורטלים"
+          }
+        },
+        "LOGO": {
+          "LABEL": "לוגו",
+          "UPLOAD_BUTTON": "העלה לוגו",
+          "HELP_TEXT": "לוגו זה יוצג בכותרת הפורטל.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+        },
+        "NAME": {
+          "LABEL": "שם",
+          "PLACEHOLDER": "שם הפורטל",
+          "HELP_TEXT": "השם ישמש בפורטל הפונה לציבור באופן פנימי.",
+          "ERROR": "שם שדה חובה"
+        },
+        "SLUG": {
+          "LABEL": "שבלול",
+          "PLACEHOLDER": "שבלול פורטל עבור כתובות אתרים",
+          "ERROR": "נדרש שבלול"
+        },
+        "DOMAIN": {
+          "LABEL": "תחום מותאם אישית",
+          "PLACEHOLDER": "דומיין מותאם אישית של פורטל",
+          "HELP_TEXT": "הוסף רק אם אתה רוצה להשתמש בדומיין מותאם אישית עבור הפורטלים שלך. לדוגמה: https://example.com",
+          "ERROR": "הזן כתובת אתר חוקית של דומיין"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "קישור לדף הבית",
+          "PLACEHOLDER": "קישור לדף הבית של הפורטל",
+          "HELP_TEXT": "הקישור ששימש לחזרה מהפורטל לדף הבית. לדוגמה: https://example.com",
+          "ERROR": "הזן כתובת אתר חוקית של דף הבית"
+        },
+        "THEME_COLOR": {
+          "LABEL": "צבע נושא הפורטל",
+          "HELP_TEXT": "צבע זה יוצג כצבע הנושא עבור הפורטל."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "כותרת העמוד",
+          "PLACEHOLDER": "כותרת דף הפורטל",
+          "HELP_TEXT": "כותרת העמוד תשמש בפורטל הפונה לציבור.",
+          "ERROR": "נדרשת כותרת העמוד"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "טקסט כותרת",
+          "PLACEHOLDER": "טקסט כותרת הפורטל",
+          "HELP_TEXT": "טקסט כותרת הפורטל ישמש בפורטל הפונה לציבור.",
+          "ERROR": "נדרש טקסט של כותרת הפורטל"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "הפורטל נוצר בהצלחה.",
+          "ERROR_MESSAGE_FOR_BASIC": "לא ניתן היה ליצור את הפורטל. נסה שוב.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "הפורטל עודכן בהצלחה.",
+          "ERROR_MESSAGE_FOR_UPDATE": "לא ניתן היה לעדכן את הפורטל. נסה שוב."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "הוסף מקום חדש",
+        "SUB_TITLE": "זה מוסיף מקום חדש לרשימת התרגום הזמינה שלך.",
+        "PORTAL": "פורטל",
+        "LOCALE": {
+          "LABEL": "מקומי",
+          "PLACEHOLDER": "בחר מקום",
+          "ERROR": "דרוש מיקום"
+        },
+        "BUTTONS": {
+          "CREATE": "צור מקום",
+          "CANCEL": "ביטול"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "האזור נוסף בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן להוסיף אזור. נסה שוב."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "מקום ברירת המחדל עודכן בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן לעדכן את אזור ברירת המחדל. נסה שוב."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "המקום הוסר מהפורטל בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן להסיר את המקום מהפורטל. נסה שוב."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "טוען מאמרים...",
+      "404": "אין מאמרים שתואמים לחיפוש שלך 🔍",
+      "NO_ARTICLES": "אין מאמרים זמינים",
+      "HEADERS": {
+        "TITLE": "כותרת",
+        "CATEGORY": "קטגוריה",
+        "READ_COUNT": "Views",
+        "STATUS": "מצב",
+        "LAST_EDITED": "עריכה אחרונה"
+      },
+      "COLUMNS": {
+        "BY": "על ידי",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "טוען מאמר...",
+      "TITLE_PLACEHOLDER": "כותרת המאמר נכנסת לכאן",
+      "CONTENT_PLACEHOLDER": "כתוב את המאמר שלך כאן",
+      "API": {
+        "ERROR": "שגיאה בעת שמירת מאמר"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "שגיאה בעת פרסום מאמר",
+        "SUCCESS": "המאמר פורסם בהצלחה"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "שגיאה בעת העברת מאמר לארכיון",
+        "SUCCESS": "המאמר הועבר לארכיון בהצלחה"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "אשר מחיקה",
+          "MESSAGE": "האם אתה בטוח שתמחק את המאמר?",
+          "YES": "כן, מחק",
+          "NO": "לא, השאר"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "המאמר נמחק בהצלחה",
+        "ERROR_MESSAGE": "שגיאה בעת מחיקת מאמר"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "אנא הוסף את כותרת המאמר והתוכן ואז רק אתה יכול לעדכן את ההגדרות"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "חפש מאמרים"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "צור קטגוריה",
+        "SUB_TITLE": "הקטגוריה תשמש בפורטל הפונה לציבור כדי לסווג מאמרים.",
+        "PORTAL": "פורטל",
+        "LOCALE": "מקומי",
+        "NAME": {
+          "LABEL": "שם",
+          "PLACEHOLDER": "שם קטגוריה",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "ERROR": "שם שדה חובה"
+        },
+        "SLUG": {
+          "LABEL": "שבלול",
+          "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "נדרש שבלול"
+        },
+        "DESCRIPTION": {
+          "LABEL": "תיאור",
+          "PLACEHOLDER": "תן תיאור קצר על הקטגוריה.",
+          "ERROR": "נדרש תיאור"
+        },
+        "BUTTONS": {
+          "CREATE": "צור קטגוריה",
+          "CANCEL": "ביטול"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "קטגוריה נוצרה בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן ליצור קטגוריה"
+        }
+      },
+      "EDIT": {
+        "TITLE": "ערוך קטגוריה",
+        "SUB_TITLE": "עריכת קטגוריה תעדכן את הקטגוריה בפורטל הפונה לציבור.",
+        "PORTAL": "פורטל",
+        "LOCALE": "מקומי",
+        "NAME": {
+          "LABEL": "שם",
+          "PLACEHOLDER": "שם קטגוריה",
+          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "ERROR": "שם שדה חובה"
+        },
+        "SLUG": {
+          "LABEL": "שבלול",
+          "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "נדרש שבלול"
+        },
+        "DESCRIPTION": {
+          "LABEL": "תיאור",
+          "PLACEHOLDER": "תן תיאור קצר על הקטגוריה.",
+          "ERROR": "נדרש תיאור"
+        },
+        "BUTTONS": {
+          "CREATE": "עדכון קטגוריה",
+          "CANCEL": "ביטול"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "הקטגוריה עודכנה בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן לעדכן את הקטגוריה"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "הקטגוריה נמחקה בהצלחה",
+          "ERROR_MESSAGE": "לא ניתן למחוק קטגוריה"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "Searching...",
+      "SEARCH_BUTTON": "חפש",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "סגור",
+      "BACK": "חזור",
+      "BACK_RESULTS": "Back to results"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Help Center",
+      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
+      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "BUTTON": {
+        "LEARN_MORE": "למד עוד",
+        "UPGRADE": "Upgrade"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Multiple portals",
+          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+        },
+        "LOCALES": {
+          "TITLE": "Full support for locales",
+          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+        },
+        "SEO": {
+          "TITLE": "SEO-friendly design",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Full API support",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
+    },
+    "LOADING": "Loading..."
+  }
+}

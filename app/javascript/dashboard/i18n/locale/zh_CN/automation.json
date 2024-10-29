@@ -1,0 +1,130 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automation",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
+    "HEADER_BTN_TXT": "添加自动化规则",
+    "LOADING": "正在获取自动化规则",
+    "ADD": {
+      "TITLE": "添加自动化规则",
+      "SUBMIT": "创建",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "FORM": {
+        "NAME": {
+          "LABEL": "规则名称",
+          "PLACEHOLDER": "请输入规则名称",
+          "ERROR": "名称是必填项"
+        },
+        "DESC": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "输入规则说明",
+          "ERROR": "描述是必需的"
+        },
+        "EVENT": {
+          "LABEL": "事件",
+          "PLACEHOLDER": "请选择一个",
+          "ERROR": "事件是必填项"
+        },
+        "CONDITIONS": {
+          "LABEL": "条件"
+        },
+        "ACTIONS": {
+          "LABEL": "操作"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "添加条件",
+      "ACTION_BUTTON_LABEL": "添加操作",
+      "API": {
+        "SUCCESS_MESSAGE": "自动化规则添加成功",
+        "ERROR_MESSAGE": "无法创建自动化规则，请稍后再试"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "姓名：",
+        "描述信息",
+        "状态",
+        "创建时间"
+      ],
+      "404": "未找到自动化规则"
+    },
+    "DELETE": {
+      "TITLE": "删除自动化规则",
+      "SUBMIT": "删除",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是的，删除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "自动化规则删除成功",
+        "ERROR_MESSAGE": "无法删除自动化规则，请稍后再试"
+      }
+    },
+    "EDIT": {
+      "TITLE": "编辑自动化规则",
+      "SUBMIT": "更新",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "SUCCESS_MESSAGE": "自动化规则更新成功",
+        "ERROR_MESSAGE": "无法更新自动化规则，请稍后再试"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "克隆",
+      "API": {
+        "SUCCESS_MESSAGE": "自动化克隆成功",
+        "ERROR_MESSAGE": "无法克隆自动化规则，请稍后再试"
+      }
+    },
+    "FORM": {
+      "EDIT": "编辑",
+      "CREATE": "创建",
+      "DELETE": "删除",
+      "CANCEL": "取消",
+      "RESET_MESSAGE": "更改事件类型将重置您在下方添加的条件和事件"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "保存时至少需要一个条件",
+      "CONTACT_CUSTOM_ATTR_LABEL": "联系人自定义属性",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "对话自定义属性"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "保存时至少需要一个操作",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "在这里输入您的消息",
+      "TEAM_DROPDOWN_PLACEHOLDER": "选择团队",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "激活自动化规则",
+      "DEACTIVATION_TITLE": "停用自动化规则",
+      "ACTIVATION_DESCRIPTION": "此操作将激活自动化规则 '{automationName}'。您确定要继续吗？",
+      "DEACTIVATION_DESCRIPTION": "此操作将停用自动化规则 '{automationName}'。您确定要继续吗？",
+      "ACTIVATION_SUCCESFUL": "自动化规则激活成功",
+      "DEACTIVATION_SUCCESFUL": "自动化规则停用成功",
+      "ACTIVATION_ERROR": "无法激活自动化，请稍后再试",
+      "DEACTIVATION_ERROR": "无法停用自动化，请稍后再试",
+      "CONFIRMATION_LABEL": "是",
+      "CANCEL_LABEL": "否"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "无法上传附件。请重试",
+      "LABEL_IDLE": "上传附件",
+      "LABEL_UPLOADING": "上传中...",
+      "LABEL_UPLOADED": "上传成功",
+      "LABEL_UPLOAD_FAILED": "上传失败"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "必须填写值",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    }
+  }
+}

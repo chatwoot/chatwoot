@@ -1,0 +1,121 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Kullanıcılar",
+    "HEADER_BTN_TXT": "Kullanıcı Ekle",
+    "LOADING": "Kullanıcı Listesi Alınıyor",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Yönetici",
+      "AGENT": "Kullanıcı"
+    },
+    "LIST": {
+      "404": "Bu hesapla ilişkilendirilmiş hesap yok",
+      "TITLE": "Bu hesapla ilişkilendirilmiş kullanıcı yok",
+      "DESC": "Ekibinize kullanıcı ekleyebilir veya kaldırabilirsiniz.",
+      "NAME": "İsim",
+      "EMAIL": "E-Posta",
+      "STATUS": "Durum",
+      "ACTIONS": "Hareketler",
+      "VERIFIED": "Doğrulandı",
+      "VERIFICATION_PENDING": "Doğrulama Bekleniyor",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Ekibinize temsilci ekleyin",
+      "DESC": "Gelen kutularınız için destek sağlayabilecek kişiler ekleyebilirsiniz.",
+      "CANCEL_BUTTON_TEXT": "İptal et",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Kullanıcı Adı",
+          "PLACEHOLDER": "Lütfen temsilcinin adını girin"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "E-posta adresi",
+          "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
+        },
+        "SUBMIT": "Kullanıcı Ekle"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kullanıcı başarıyla eklendi",
+        "EXIST_MESSAGE": "Temsilci e-postası zaten kullanımda, Lütfen başka bir e-posta adresi deneyin",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "API": {
+        "SUCCESS_MESSAGE": "Kullanıcı başarıyla silindi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      },
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Temsilciyi düzenle",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Kullanıcı Adı",
+          "PLACEHOLDER": "Lütfen temsilcinin adını girin"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL": {
+          "LABEL": "E-posta adresi",
+          "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Uygun",
+          "PLACEHOLDER": "Lütfen bir erişilebilirlik durumu seçin",
+          "ERROR": "Erişilebilirlik gereklidir"
+        },
+        "SUBMIT": "Temsilciyi düzenle"
+      },
+      "BUTTON_TEXT": "Düzenle",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "SUCCESS_MESSAGE": "Kullanıcı başarıyla güncellendi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Şifreyi yenile",
+        "ADMIN_SUCCESS_MESSAGE": "Temsilciye şifre sıfırlama talimatlarını içeren bir e-posta gönderildi",
+        "SUCCESS_MESSAGE": "Kullanıcı şifresi başarıyla sıfırlandı",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Sonuç bulunamadı."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Hiç",
+      "TITLE": {
+        "AGENT": "Temsilci seçin",
+        "TEAM": "Takım seçin"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Kullanıcı bulunamadı",
+          "TEAM": "Takım bulunamadı"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Temsilci ara",
+          "TEAM": "Takım ara",
+          "INPUT": "Temsilci Arama"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the integration
+  name:
+    type: string
+    description: The name of the integration
+  description:
+    type: string
+    description: The description about the team
+  hook_type:
+    type: string
+    description: Whether the integration is an account or inbox integration
+  enabled:
+    type: boolean
+    description: Whether the integration is enabled for the account
+  allow_multiple_hooks:
+    type: boolean
+    description: Whether multiple hooks can be created for the integration
+  hooks:
+    type: array
+    items:
+      type: object
+    description: If there are any hooks created for this integration

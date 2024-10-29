@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Sehr geehrter Kunde 👋, bitte nehmen Sie sich einen Moment Zeit, um Feedback zu dem Gespräch zu geben, das Sie mit {inboxName} geführt haben.",
+    "RATING": {
+      "LABEL": "Bewerten Sie ihre Unterhaltung",
+      "SUCCESS_MESSAGE": "Danke, dass Sie die Bewertung eingereicht haben"
+    },
+    "FEEDBACK": {
+      "LABEL": "Haben Sie irgendwelche Gedanken, die Sie teilen möchten?",
+      "PLACEHOLDER": "Ihr Feedback (optional)",
+      "BUTTON_TEXT": "Feedback absenden"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Umfrage wurde erfolgreich aktualisiert",
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
+    }
+  },
+  "POWERED_BY": "Unterstützt von Chatwoot"
+}

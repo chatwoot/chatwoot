@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Tải xuống",
+      "UPLOADING": "Đang tải lên..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Gửi"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Gửi lại tin nhắn",
+      "ERROR_MESSAGE": "Không thể gửi, xin thử lại"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Chúng tôi đang trực tuyến",
+    "OFFLINE": "Hiện tại chúng tôi đang bận chút"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
+    "IN_A_FEW_HOURS": "Thường trả lời sau vài giờ",
+    "IN_A_DAY": "Thường trả lời trong một ngày",
+    "BACK_IN": "Chúng tôi sẽ quay lại"
+  },
+  "DAY_NAMES": [
+    "Chủ Nhật",
+    "Thứ Hai",
+    "Thứ Ba",
+    "Thứ Tư",
+    "Thứ Năm",
+    "Thứ Sáu",
+    "Thứ Bảy"
+  ],
+  "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
+  "END_CONVERSATION": "Kết thúc hội thoại",
+  "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
+    "CLOSE_MESSAGES_BUTTON": "Đóng",
+    "COMPANY_FROM": "từ",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Trò chuyện với chúng tôi"
+  },
+  "POWERED_BY": "CC bởi Chatwoot",
+  "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
+  "CHAT_PLACEHOLDER": "Gõ tin nhắn của bạn",
+  "TODAY": "Hôm nay",
+  "YESTERDAY": "Hôm qua",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Tên đầy đủ",
+        "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn",
+        "REQUIRED_ERROR": "Tên đầy đủ là bắt buộc"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Vui lòng nhập email",
+        "REQUIRED_ERROR": "Phải có \u001dđịa chỉ email",
+        "VALID_ERROR": "Vui lòng nhập một địa chỉ email hợp lệ"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Số điện thoại",
+        "PLACEHOLDER": "\u001dVui lòng nhập số điện thoại của bạn",
+        "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
+        "DIAL_CODE_VALID_ERROR": "Vui lòng chọn quốc gia",
+        "VALID_ERROR": "Vui lòng nhập số điện thoại đúng",
+        "DROPDOWN_EMPTY": "Không tìm thấy kết quả",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Tin nhắn",
+        "PLACEHOLDER": "Vui lòng nhập tin nhắn",
+        "ERROR": "Tin nhắn quá ngắn"
+      }
+    },
+    "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu hội thoại",
+    "IS_REQUIRED": "được yêu cầu",
+    "REQUIRED": "Bắt buộc",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Tệp vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Trường không hợp lệ"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Tìm kiếm biểu tượng cảm xúc",
+    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Đánh giá hội thoại",
+    "SUBMITTED_TITLE": "Cảm ơn vì đã đánh giá",
+    "PLACEHOLDER": "Cho chúng tôi biết thêm..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Yêu cầu bản ghi hội thoại",
+    "SEND_EMAIL_SUCCESS": "Bản ghi cuộc trò chuyện đã được gửi thành công",
+    "SEND_EMAIL_ERROR": "Đã có lỗi, vui lòng thử lại"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Bấm vào đây để tham gia",
+      "LEAVE_THE_ROOM": "Rời cuộc gọi"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Xem tất cả bài viết",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Tin nhắn hình ảnh"
+    },
+    "audio": {
+      "CONTENT": "Tin nhắn thoại"
+    },
+    "video": {
+      "CONTENT": "Tin nhắn video"
+    },
+    "file": {
+      "CONTENT": "Tập tin đính kèm"
+    },
+    "location": {
+      "CONTENT": "Địa điểm"
+    },
+    "fallback": {
+      "CONTENT": "có một đường dẫn chia sẻ"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

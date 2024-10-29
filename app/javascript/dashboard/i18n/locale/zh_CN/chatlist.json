@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "正在获取对话",
+    "LOAD_MORE_CONVERSATIONS": "加载更多对话",
+    "EOF": "所有对话已加载 🎉",
+    "LIST": {
+      "404": "没有有效的对话在这个群组里面"
+    },
+    "TAB_HEADING": "会话",
+    "MENTION_HEADING": "提及",
+    "UNATTENDED_HEADING": "未处理",
+    "SEARCH": {
+      "INPUT": "搜索人、聊天室、保存回复"
+    },
+    "FILTER_ALL": "所有的",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "我的",
+      "unassigned": "未分配的",
+      "all": "所有的"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "打开"
+      },
+      "resolved": {
+        "TEXT": "已解决"
+      },
+      "pending": {
+        "TEXT": "等待中"
+      },
+      "snoozed": {
+        "TEXT": "已关闭"
+      },
+      "all": {
+        "TEXT": "所有的"
+      }
+    },
+    "VIEW_FILTER": "查看",
+    "SORT_TOOLTIP_LABEL": "对话排序",
+    "CHAT_SORT": {
+      "STATUS": "状态",
+      "ORDER_BY": "按顺序排列"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "创建时间",
+        "OLDEST": "创建于："
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "上次操作：",
+        "ACTIVE": "上次操作"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "最后一次活动：最早在前"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "最后一次活动：最新在前"
+      },
+      "created_at_desc": {
+        "TEXT": "创建于：最新在前"
+      },
+      "created_at_asc": {
+        "TEXT": "创建于：最早在前"
+      },
+      "priority_desc": {
+        "TEXT": "优先级：最高在前"
+      },
+      "priority_asc": {
+        "TEXT": "优先级：最低在前"
+      },
+      "waiting_since_asc": {
+        "TEXT": "等待响应：最长在前"
+      },
+      "waiting_since_desc": {
+        "TEXT": "等待响应：最短在前"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "图片消息"
+      },
+      "audio": {
+        "CONTENT": "音频消息"
+      },
+      "video": {
+        "CONTENT": "视频消息"
+      },
+      "file": {
+        "CONTENT": "附件"
+      },
+      "location": {
+        "CONTENT": "位置"
+      },
+      "fallback": {
+        "CONTENT": "分享了一个网址"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "对话排序",
+      "DROPDOWN_TITLE": "排序方式",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "最后活动于",
+          "LABEL": "上次操作"
+        },
+        "CREATED_AT": {
+          "NAME": "创建于",
+          "LABEL": "创建于"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "用户最后一条消息于",
+          "LABEL": "最后的消息"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "通过电子邮件接收",
+    "VIEW_TWEET_IN_TWITTER": "在 Twitter 中查看 tweet",
+    "REPLY_TO_TWEET": "回复此推文",
+    "LINK_TO_STORY": "查看 Instagram 故事",
+    "SENT": "发送成功",
+    "READ": "阅读成功",
+    "DELIVERED": "已成功发送",
+    "NO_MESSAGES": "没有信息",
+    "NO_CONTENT": "没有可用的内容",
+    "HIDE_QUOTED_TEXT": "隐藏引用文字",
+    "SHOW_QUOTED_TEXT": "显示引用文字",
+    "MESSAGE_READ": "已读"
+  }
+}

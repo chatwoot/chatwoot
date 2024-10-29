@@ -1,0 +1,121 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenter",
+    "HEADER_BTN_TXT": "Legg til agent",
+    "LOADING": "Henter agentliste",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "Det er ingen agenter tilknyttet denne kontoen",
+      "TITLE": "Administrer agentene i ditt team",
+      "DESC": "Du kan legge til eller fjerne agenter i ditt team.",
+      "NAME": "Navn",
+      "EMAIL": "E-POST",
+      "STATUS": "Satus",
+      "ACTIONS": "Handlinger",
+      "VERIFIED": "Verifisert",
+      "VERIFICATION_PENDING": "Verifisering venter",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Legg til agent i teamet ditt",
+      "DESC": "Du kan legge til personer som vil kunne håndtere støtte for dine innbokser.",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent navn",
+          "PLACEHOLDER": "Skriv inn navnet til agenten"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rolle",
+          "PLACEHOLDER": "Velg en rolle",
+          "ERROR": "En rolle er påkrevd"
+        },
+        "EMAIL": {
+          "LABEL": "E-postadresse",
+          "PLACEHOLDER": "Skriv inn en agent sin e-postadresse"
+        },
+        "SUBMIT": "Legg til agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent ble lagt til",
+        "EXIST_MESSAGE": "E-postadressen til agenten er allerede i bruk, prøv en annen e-postadresse",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten ble slettet",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekreft sletting",
+        "MESSAGE": "Er du sikker på at du vil slette ",
+        "YES": "Ja, slett ",
+        "NO": "Nei, behold "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Rediger agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent navn",
+          "PLACEHOLDER": "Skriv inn navnet til agenten"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Rolle",
+          "PLACEHOLDER": "Velg en rolle",
+          "ERROR": "En rolle er påkrevd"
+        },
+        "EMAIL": {
+          "LABEL": "E-postadresse",
+          "PLACEHOLDER": "Skriv inn en agent sin e-postadresse"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Tilgjengelighet",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Rediger agent"
+      },
+      "BUTTON_TEXT": "Rediger",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "API": {
+        "SUCCESS_MESSAGE": "Agenten ble oppdatert",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Tilbakestill passord",
+        "ADMIN_SUCCESS_MESSAGE": "En e-post med instruksjoner for å tilbakestille passordet er sendt til agenten",
+        "SUCCESS_MESSAGE": "Passordet til agenten ble tilbakestilt",
+        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "No results found."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "None",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Ingen agenter funnet",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<div class="field-unit field-unit--string">
+  <%= f.label field.attribute, class: "field-unit__label" %>
+  <div class="field-unit__field">
+    <% if field.array? %>
+      <% field.data.each do |sub_field| %>
+        <%= f.fields_for "#{field.attribute}[]", field.resource do |values_form| %>
+          <div class="field-unit">
+            <% sub_field.each do |sf_key, sf_value| %>
+              <%= values_form.label sf_key %>
+              <%= values_form.text_field sf_key, value: sf_value, disabled: true %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= f.text_field field.attribute %>
+    <% end %>
+  </div>
+</div>

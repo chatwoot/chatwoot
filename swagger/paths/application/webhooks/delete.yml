@@ -1,0 +1,12 @@
+tags:
+  - Webhooks
+operationId: delete-a-webhook
+summary: Delete a webhook
+description: Delete a webhook from the account
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The webhook does not exist in the account

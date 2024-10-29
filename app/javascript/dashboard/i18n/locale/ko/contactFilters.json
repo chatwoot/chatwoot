@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filter Contacts",
+    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "필터 추가하기",
+    "CLEAR_ALL_FILTERS": "Clear All Filters",
+    "FILTER_DELETE_ERROR": "적어도 하나 이상의 필터가 있어야 저장됩니다.",
+    "SUBMIT_BUTTON_LABEL": "보내기",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "취소",
+    "CLEAR_BUTTON_LABEL": "필터 제거하기",
+    "EMPTY_VALUE_ERROR": "값이 필요합니다.",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filter contacts",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "와/과",
+      "OR": "혹은"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "동일한",
+      "not_equal_to": "비동일한",
+      "contains": "포함된",
+      "does_not_contain": "포함되지 않은",
+      "is_present": "현존하는",
+      "is_not_present": "현존하지 않은",
+      "is_greater_than": "보다 큰",
+      "is_lesser_than": "Is lesser than",
+      "days_before": "x 일 전에"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "값이 필요합니다."
+    },
+    "ATTRIBUTES": {
+      "NAME": "이름",
+      "EMAIL": "이메일",
+      "PHONE_NUMBER": "휴대폰 번호",
+      "IDENTIFIER": "Identifier",
+      "CITY": "도시",
+      "COUNTRY": "국가",
+      "CUSTOM_ATTRIBUTE_LIST": "리스트",
+      "CUSTOM_ATTRIBUTE_TEXT": "텍스트",
+      "CUSTOM_ATTRIBUTE_NUMBER": "숫자",
+      "CUSTOM_ATTRIBUTE_LINK": "링크",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
+      "CREATED_AT": "에 만들어짐",
+      "LAST_ACTIVITY": "지난 활동",
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "기본 필터",
+      "ADDITIONAL_FILTERS": "추가 필터",
+      "CUSTOM_ATTRIBUTES": "사용자 지정 특성"
+    }
+  }
+}

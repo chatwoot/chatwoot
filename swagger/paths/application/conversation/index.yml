@@ -1,0 +1,144 @@
+parameters:
+  - $ref: '#/parameters/account_id'
+
+get:
+  tags:
+    - Conversations
+  operationId: conversationList
+  description: List all the conversations with pagination
+  summary: Conversations List
+  parameters:
+    - name: assignee_type
+      in: query
+      type: string
+      enum: ['me', 'unassigned', 'all', 'assigned']
+      default: 'all'
+      description: Filter conversations by assignee type.
+    - name: status
+      in: query
+      type: string
+      enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
+      default: 'open'
+      description: Filter by conversation status.
+    - name: q
+      in: query
+      type: string
+      description: Filters conversations with messages containing the search term
+    - name: inbox_id
+      in: query
+      type: integer
+    - name: team_id
+      in: query
+      type: integer
+    - name: labels
+      in: query
+      type: array
+      items:
+        type: string
+    - name: page
+      in: query
+      type: integer
+      default: 1
+      description: paginate through conversations
+
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/conversation_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+
+post:
+  tags:
+    - Conversations
+  operationId: newConversation
+  summary: Create New Conversation
+  description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations"
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
+  parameters:
+    - name: data
+      in: body
+      required: true
+      schema:
+        type: object
+        required:
+          - source_id
+          - inbox_id
+        properties:
+          source_id:
+            type: string
+            description: Conversation source id
+          inbox_id:
+            type: string
+            description: "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
+          contact_id:
+            type: string
+            description: Contact Id for which conversation is created
+          additional_attributes:
+            type: object
+            description: Lets you specify attributes like browser information
+          custom_attributes:
+            type: object
+            description: The object to save custom attributes for conversation, accepts custom attributes key and value
+            example: { attribute_key: attribute_value, priority_conversation_number: 3 }
+          status:
+            type: string
+            enum: ['open', 'resolved', 'pending']
+            description: Specify the conversation whether it's pending, open, closed
+          assignee_id:
+            type: string
+            description: Agent Id for assigning a conversation to an agent
+          team_id:
+            type: string
+            description: Team Id for assigning a conversation to a team
+          message:
+            type: object
+            description: The initial message to be sent to the conversation
+            required: ['content']
+            properties:
+              content:
+                type: string
+                description: The content of the message
+              template_params:
+                type: object
+                description: The template params for the message in case of whatsapp Channel
+                properties:
+                  name:
+                    type: string
+                    description: Name of the template
+                    example: 'sample_issue_resolution'
+                  category:
+                    type: string
+                    description: Category of the template
+                    example: UTILITY
+                  language:
+                    type: string
+                    description: Language of the template
+                    example: en_US
+                  processed_params: 
+                    type: object
+                    description: The processed param values for template variables in template
+                    example: 
+                      1: "Chatwoot"
+  responses:
+    200:
+      description: Success
+      schema:
+        type: object
+        properties:
+          id:
+            type: number
+            description: ID of the conversation
+          account_id:
+            type: number
+            description: Account Id
+          inbox_id:
+            type: number
+            description: ID of the inbox
+    403:
+      description: Access denied

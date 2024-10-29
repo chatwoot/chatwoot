@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Stiahnuť",
+      "UPLOADING": "Nahrávanie..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Odoslať"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Znova odoslať správu",
+      "ERROR_MESSAGE": "Couldn't send, try again"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Sme online",
+    "OFFLINE": "Momentálne nie sme k dispozícii"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Zvyčajne odpovedá do niekoľkých minút",
+    "IN_A_FEW_HOURS": "Zvyčajne odpovedá do niekoľkých hodín",
+    "IN_A_DAY": "Zvyčajne odpovedá do dňa",
+    "BACK_IN": "We will be back online"
+  },
+  "DAY_NAMES": [
+    "Nedeľa",
+    "Pondelok",
+    "Tuesday",
+    "Streda",
+    "Thursday",
+    "Piatok",
+    "Saturday"
+  ],
+  "START_CONVERSATION": "Začať konverzáciu",
+  "END_CONVERSATION": "Ukončiť konverzáciu",
+  "CONTINUE_CONVERSATION": "Pokračovať v konverzácii",
+  "YOU": "Vy",
+  "START_NEW_CONVERSATION": "Začať novú konverzáciu",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy",
+    "CLOSE_MESSAGES_BUTTON": "Zatvoriť",
+    "COMPANY_FROM": "od",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Četujte s nami"
+  },
+  "POWERED_BY": "Používame Chatwoot",
+  "EMAIL_PLACEHOLDER": "Zadajte svoj e-mail",
+  "CHAT_PLACEHOLDER": "Zadajte svoju správu",
+  "TODAY": "Dnes",
+  "YESTERDAY": "Včera",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Celé meno",
+        "PLACEHOLDER": "Prosím zadajte svoje celé meno",
+        "REQUIRED_ERROR": "Vyžaduje sa celé meno"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-mailová adresa",
+        "PLACEHOLDER": "Zadajte svoj e-mail",
+        "REQUIRED_ERROR": "E-mailová adresa je povinná",
+        "VALID_ERROR": "Prosím zadajte platnú e-mailovú adresu"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefónne číslo",
+        "PLACEHOLDER": "Zadajte svoje telefónne číslo",
+        "REQUIRED_ERROR": "Telefónne číslo je povinné",
+        "DIAL_CODE_VALID_ERROR": "Vyberte kód krajiny",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Žiadne výsledky neboli nájdené",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Správa",
+        "PLACEHOLDER": "Zadajte svoju správu",
+        "ERROR": "Správa je príliš krátka"
+      }
+    },
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "je povinné",
+    "REQUIRED": "Povinné",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Ohodnoťte konverzáciu",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "PLACEHOLDER": "Povedzte nám viac..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Request a conversation transcript",
+    "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný",
+    "SEND_EMAIL_ERROR": "There was an error, please try again"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Opustiť hovor"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "Zobraziť všetky články",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Obrázková správa"
+    },
+    "audio": {
+      "CONTENT": "Hlasová správa"
+    },
+    "video": {
+      "CONTENT": "Video správa"
+    },
+    "file": {
+      "CONTENT": "Súbor v prílohe"
+    },
+    "location": {
+      "CONTENT": "Lokácia"
+    },
+    "fallback": {
+      "CONTENT": "zdieľal/a url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

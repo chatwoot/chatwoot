@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Haetaan keskusteluita",
+    "LOAD_MORE_CONVERSATIONS": "Lataa lisää keskusteluita",
+    "EOF": "Kaikki keskustelut ladattu 🎉",
+    "LIST": {
+      "404": "Tässä ryhmässä ei ole aktiivisia keskusteluja."
+    },
+    "TAB_HEADING": "Keskustelut",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
+    },
+    "FILTER_ALL": "Kaikki",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minun",
+      "unassigned": "Osoittamaton",
+      "all": "Kaikki"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Avaa"
+      },
+      "resolved": {
+        "TEXT": "Ratkaistu"
+      },
+      "pending": {
+        "TEXT": "Pending"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
+      },
+      "all": {
+        "TEXT": "Kaikki"
+      }
+    },
+    "VIEW_FILTER": "Näytä",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Tila",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Created at:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Kuvaviesti"
+      },
+      "audio": {
+        "CONTENT": "Ääniviesti"
+      },
+      "video": {
+        "CONTENT": "Videoviesti"
+      },
+      "file": {
+        "CONTENT": "Liite"
+      },
+      "location": {
+        "CONTENT": "Sijainti"
+      },
+      "fallback": {
+        "CONTENT": "on jakanut URL-osoitteen"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Vastaanotettu sähköpostitse",
+    "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
+    "REPLY_TO_TWEET": "Vastaa tähän twiittiin",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Sent successfully",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Ei Viestejä",
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
+  }
+}

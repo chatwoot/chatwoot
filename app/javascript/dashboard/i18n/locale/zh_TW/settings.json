@@ -1,0 +1,355 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "個人資料設定",
+    "TITLE": "個人資料設定",
+    "BTN_TEXT": "更新個人資料",
+    "DELETE_AVATAR": "刪除頭貼",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "UPDATE_SUCCESS": "你的個人檔案已經成功更新",
+    "PASSWORD_UPDATE_SUCCESS": "你的密碼已成功變更",
+    "AFTER_EMAIL_CHANGED": "您的個人資料已成功更新，請在您的登入憑證更改後重新登入",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "頭像",
+      "ERROR": "請修正表單錯誤",
+      "REMOVE_IMAGE": "刪除",
+      "UPLOAD_IMAGE": "上傳頭像",
+      "UPDATE_IMAGE": "更新頭像",
+      "PROFILE_SECTION": {
+        "TITLE": "個人資訊",
+        "NOTE": "您的電子信箱地址是您的身份並用於登入。"
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "傳送訊息熱鍵",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "你的設定已經成功更新",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "密碼",
+        "NOTE": "更新您的密碼會在多個設備中重置您的登入資訊。",
+        "BTN_TEXT": "變更密碼"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "訪問 token",
+        "NOTE": "如果要構建基於 API 的整合，則可以使用此 token",
+        "COPY": "複製"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "音效通知",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "無",
+          "MINE": "Assigned",
+          "ALL": "所有的"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "無",
+          "ASSIGNED": "已指派的對話",
+          "ALL_CONVERSATIONS": "所有對話"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "電子信箱通知",
+        "NOTE": "在此更新您的電子信箱通知設定",
+        "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
+        "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
+        "CONVERSATION_MENTION": "當你在對話中被提及時以 Email 通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "您的通知設定已成功更新",
+        "UPDATE_ERROR": "更新配置時出錯，請再試一次"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "推送通知",
+        "NOTE": "在此更新您的電子信箱通知設定",
+        "CONVERSATION_ASSIGNMENT": "當對話被分配給我時發送推送通知",
+        "CONVERSATION_CREATION": "建立新對話時發送推送通知",
+        "CONVERSATION_MENTION": "當你在對話中被提及時以推播通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以推播通知",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
+        "REQUEST_PUSH": "啟用推送通知",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "頭像"
+      },
+      "NAME": {
+        "LABEL": "你的姓名",
+        "ERROR": "請輸入一個有效的完整姓名",
+        "PLACEHOLDER": "請輸入您的完整姓名"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "顯示名稱",
+        "ERROR": "請輸入一個有效的顯示名稱",
+        "PLACEHOLDER": "請輸入一個名字，這將會在對話中顯示"
+      },
+      "AVAILABILITY": {
+        "LABEL": "有效的",
+        "STATUSES_LIST": ["線上的", "忙碌中", "離線的"],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "您的電子信箱地址",
+        "ERROR": "請輸入一個有效的電子信箱",
+        "PLACEHOLDER": "請輸入您的名字，這將會在對話中顯示"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "目前的密碼",
+        "ERROR": "請輸入目前的密碼",
+        "PLACEHOLDER": "請輸入目前的密碼"
+      },
+      "PASSWORD": {
+        "LABEL": "新密碼",
+        "ERROR": "請輸入長度6或更長的密碼",
+        "PLACEHOLDER": "請輸入新密碼"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "重新輸入一次密碼",
+        "ERROR": "兩次密碼不一致",
+        "PLACEHOLDER": "請重複您的新密碼"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "變更",
+    "CHANGE_ACCOUNTS": "切換帳戶",
+    "CONTACT_SUPPORT": "Contact Support",
+    "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
+    "PROFILE_SETTINGS": "個人資料設定",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "退出登入"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "剩餘試用期天數",
+    "TRAIL_BUTTON": "立即購買",
+    "DELETED_USER": "刪除使用者",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "複製",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "Copied to clipboard"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "顯示更多",
+      "SHOW_LESS": "顯示更少"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "下載",
+      "UPLOADING": "上傳中...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "送出"
+    }
+  },
+  "CONFIRM_EMAIL": "正在驗證...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "新增收件匣"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "會話",
+    "INBOX": "收件匣",
+    "ALL_CONVERSATIONS": "所有對話",
+    "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "REPORTS": "報表",
+    "SETTINGS": "設定",
+    "CONTACTS": "聯絡人",
+    "CAPTAIN": "Captain",
+    "HOME": "首頁",
+    "AGENTS": "客服",
+    "AGENT_BOTS": "機器人",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "收件匣",
+    "NOTIFICATIONS": "通知",
+    "CANNED_RESPONSES": "預設回覆",
+    "INTEGRATIONS": "整合方式",
+    "PROFILE_SETTINGS": "個人檔案設定",
+    "ACCOUNT_SETTINGS": "帳戶設定",
+    "APPLICATIONS": "Applications",
+    "LABELS": "標籤",
+    "CUSTOM_ATTRIBUTES": "自訂屬性",
+    "AUTOMATION": "Automation",
+    "MACROS": "Macros",
+    "TEAMS": "團隊",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "所有聯絡人",
+    "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_CONVERSATION": "對話",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campaigns",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "機器人",
+    "REPORTS_AGENT": "客服",
+    "REPORTS_LABEL": "標籤",
+    "REPORTS_INBOX": "收件匣",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "總覽",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "SETTINGS": "設定",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "與我們對話"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NEW_ACCOUNT": "新帳戶",
+    "SELECTOR_SUBTITLE": "建立新帳戶",
+    "API": {
+      "SUCCESS_MESSAGE": "成功建立帳戶",
+      "EXIST_MESSAGE": "帳戶已經存在",
+      "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "公司名稱",
+        "PLACEHOLDER": "Wayne 企業"
+      },
+      "SUBMIT": "送出"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "開啟對話",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "新增附件",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "前往設定",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

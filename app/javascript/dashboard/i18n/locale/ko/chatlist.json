@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "대화 가져오기",
+    "LOAD_MORE_CONVERSATIONS": "더 많은 대화 불러오기",
+    "EOF": "모든 대화 불러오기🎉",
+    "LIST": {
+      "404": "이 그룹에는 활성 대화가 없습니다."
+    },
+    "TAB_HEADING": "대화",
+    "MENTION_HEADING": "멘션",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "사람 검색, 채팅, 저장된 응답..."
+    },
+    "FILTER_ALL": "모두",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "나에게 할당",
+      "unassigned": "지정되지 않음",
+      "all": "모두"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "열기"
+      },
+      "resolved": {
+        "TEXT": "해결됨"
+      },
+      "pending": {
+        "TEXT": "보내는 중"
+      },
+      "snoozed": {
+        "TEXT": "일시 중지됨"
+      },
+      "all": {
+        "TEXT": "모두"
+      }
+    },
+    "VIEW_FILTER": "보기",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "상태",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Created at:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "사진 메시지"
+      },
+      "audio": {
+        "CONTENT": "음성 메시지"
+      },
+      "video": {
+        "CONTENT": "영상 메시지"
+      },
+      "file": {
+        "CONTENT": "파일 첨부"
+      },
+      "location": {
+        "CONTENT": "장소"
+      },
+      "fallback": {
+        "CONTENT": "URL을 공유함"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "이메일을 통해 수신됨",
+    "VIEW_TWEET_IN_TWITTER": "트위터에서 트윗 보기",
+    "REPLY_TO_TWEET": "트윗에 응답하기",
+    "LINK_TO_STORY": "인스타그램 스토리로 가기",
+    "SENT": "성공적으로 보내짐",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "메시지 없음",
+    "NO_CONTENT": "콘텐츠 이용 불가",
+    "HIDE_QUOTED_TEXT": "인용문 가리기",
+    "SHOW_QUOTED_TEXT": "인용문 보이기",
+    "MESSAGE_READ": "읽기"
+  }
+}

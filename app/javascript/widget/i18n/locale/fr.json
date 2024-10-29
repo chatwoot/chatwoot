@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Télécharger",
+      "UPLOADING": "Téléversement..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Envoyer"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Renvoyer le message",
+      "ERROR_MESSAGE": "Échec de l'envoi, veuillez réessayer"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Nous sommes en ligne",
+    "OFFLINE": "Nous sommes absents pour le moment"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
+    "IN_A_FEW_HOURS": "Répond généralement en quelques heures",
+    "IN_A_DAY": "Répond généralement dans la journée",
+    "BACK_IN": "Nous serons de retour en ligne"
+  },
+  "DAY_NAMES": [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"
+  ],
+  "START_CONVERSATION": "Démarrer la conversation",
+  "END_CONVERSATION": "Clôturer la conversation",
+  "CONTINUE_CONVERSATION": "Continuer la conversation",
+  "YOU": "Vous",
+  "START_NEW_CONVERSATION": "Démarrer une nouvelle conversation",
+  "VIEW_UNREAD_MESSAGES": "Vous avez des messages non lus",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
+    "CLOSE_MESSAGES_BUTTON": "Fermer",
+    "COMPANY_FROM": "de",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Discutez avec nous"
+  },
+  "POWERED_BY": "Propulsé par Chatwoot",
+  "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
+  "CHAT_PLACEHOLDER": "Tapez votre message",
+  "TODAY": "Aujourd'hui",
+  "YESTERDAY": "Hier",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nom complet",
+        "PLACEHOLDER": "Veuillez entrer votre nom complet",
+        "REQUIRED_ERROR": "Le nom complet est requis"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adresse de courriel",
+        "PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
+        "REQUIRED_ERROR": "L'adresse email est obligatoire",
+        "VALID_ERROR": "Veuillez saisir une adresse de courriel valide"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Numéro de téléphone",
+        "PLACEHOLDER": "Veuillez saisir votre numéro de téléphone",
+        "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
+        "DIAL_CODE_VALID_ERROR": "Veuillez sélectionner un code pays",
+        "VALID_ERROR": "Veuillez saisir un numéro de téléphone valide",
+        "DROPDOWN_EMPTY": "Aucun résultat trouvé",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Veuillez entrer votre message",
+        "ERROR": "Message trop court"
+      }
+    },
+    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
+    "IS_REQUIRED": "est obligatoire",
+    "REQUIRED": "Requis",
+    "REGEX_ERROR": "Veuillez fournir une entrée valide"
+  },
+  "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Champ non valide"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Rechercher des émojis",
+    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Évaluer votre conversation",
+    "SUBMITTED_TITLE": "Merci d'avoir soumis votre évaluation",
+    "PLACEHOLDER": "Dites-nous en plus..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Demander une transcription de la conversation",
+    "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
+    "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Cliquez ici pour se connecter",
+      "LEAVE_THE_ROOM": "Quitter l'appel"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Articles populaires",
+    "VIEW_ALL_ARTICLES": "Voir tous les articles",
+    "IFRAME_LOAD_ERROR": "Une erreur s'est produite lors du chargement de l'article, veuillez actualiser la page et réessayer."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Message image"
+    },
+    "audio": {
+      "CONTENT": "Message audio"
+    },
+    "video": {
+      "CONTENT": "Message vidéo"
+    },
+    "file": {
+      "CONTENT": "Pièce jointe"
+    },
+    "location": {
+      "CONTENT": "Localisation"
+    },
+    "fallback": {
+      "CONTENT": "a partagé une URL"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Répondre à:"
+  }
+}

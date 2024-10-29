@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Login to Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-pošta",
+      "PLACEHOLDER": "example{'@'}companyname.com",
+      "ERROR": "Molim vas unesite ispravnu adresu e-pošte"
+    },
+    "PASSWORD": {
+      "LABEL": "Lozinka",
+      "PLACEHOLDER": "Lozinka"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Login successful",
+      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "UNAUTH": "Username or password is incorrect. Please try again."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Login with Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+    },
+    "FORGOT_PASSWORD": "Da li ste zaboravili lozinku?",
+    "CREATE_NEW_ACCOUNT": "Napravite novi nalog",
+    "SUBMIT": "Prijava"
+  }
+}

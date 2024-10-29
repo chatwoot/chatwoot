@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Pelanggan yang terhormat 👋, harap luangkan waktu sejenak untuk memberikan umpan balik tentang percakapan yang Anda lakukan {inboxName}.",
+    "RATING": {
+      "LABEL": "Nilai percakapan Anda",
+      "SUCCESS_MESSAGE": "Terima kasih telah mengirimkan penilaian"
+    },
+    "FEEDBACK": {
+      "LABEL": "Apakah Anda memiliki pemikiran yang ingin Anda bagikan?",
+      "PLACEHOLDER": "Masukan Anda (opsional)",
+      "BUTTON_TEXT": "Berikan umpan balik"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Survei berhasil diperbarui",
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+    }
+  },
+  "POWERED_BY": "Powered by Chatwoot"
+}

@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Hämta",
+      "UPLOADING": "Laddar upp..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Skicka"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Skicka meddelande igen",
+      "ERROR_MESSAGE": "Kunde inte skicka, försök igen"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Vi är online",
+    "OFFLINE": "Vi är borta för tillfället"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
+    "IN_A_FEW_HOURS": "Svarar vanligtvis inom några timmar",
+    "IN_A_DAY": "Svar vanligtvis inom en dag",
+    "BACK_IN": "Vi kommer tillbaka online"
+  },
+  "DAY_NAMES": [
+    "Söndag",
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag"
+  ],
+  "START_CONVERSATION": "Starta konversation",
+  "END_CONVERSATION": "Avsluta konversation",
+  "CONTINUE_CONVERSATION": "Fortsätt konversation",
+  "YOU": "Du",
+  "START_NEW_CONVERSATION": "Starta konversation",
+  "VIEW_UNREAD_MESSAGES": "Du har olästa meddelanden",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
+    "CLOSE_MESSAGES_BUTTON": "Stäng",
+    "COMPANY_FROM": "från",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chatta med oss"
+  },
+  "POWERED_BY": "Drivs av Chatwoot",
+  "EMAIL_PLACEHOLDER": "Ange din e-postadress",
+  "CHAT_PLACEHOLDER": "Skriv ditt meddelande",
+  "TODAY": "Idag",
+  "YESTERDAY": "Igår",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Fullständigt namn",
+        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
+        "REQUIRED_ERROR": "Fullständigt namn krävs"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-postadress",
+        "PLACEHOLDER": "Vänligen ange din e-postadress",
+        "REQUIRED_ERROR": "E-postadress är obligatoriskt",
+        "VALID_ERROR": "Ange en giltig e-postadress"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Vänligen ange ditt telefonnummer",
+        "REQUIRED_ERROR": "Telefonnummer är obligatoriskt",
+        "DIAL_CODE_VALID_ERROR": "Välj en landskod",
+        "VALID_ERROR": "Vänligen ange ett giltigt telefonnummer",
+        "DROPDOWN_EMPTY": "Inga resultat hittades",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Meddelande",
+        "PLACEHOLDER": "Skriv ditt meddelande",
+        "ERROR": "Meddelandet är för kort"
+      }
+    },
+    "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
+    "IS_REQUIRED": "är obligatoriskt",
+    "REQUIRED": "Obligatoriskt",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ogiltigt fält"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Sök emoji",
+    "NOT_FOUND": "Ingen emoji matchar din sökning",
+    "ARIA_LABEL": "Emoji-väljare"
+  },
+  "CSAT": {
+    "TITLE": "Betygsätt din konversation",
+    "SUBMITTED_TITLE": "Tack för att du lämnat in omdömet",
+    "PLACEHOLDER": "Berätta mer för oss!"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Skicka konversationstranskribering",
+    "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
+    "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klicka här för att gå med",
+      "LEAVE_THE_ROOM": "Lämna samtalet"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populära artiklar",
+    "VIEW_ALL_ARTICLES": "Se alla artiklar",
+    "IFRAME_LOAD_ERROR": "Det gick inte att ladda artikeln, uppdatera sidan och försök igen."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Bildmeddelande"
+    },
+    "audio": {
+      "CONTENT": "Ljudmeddelande"
+    },
+    "video": {
+      "CONTENT": "Videomeddelande"
+    },
+    "file": {
+      "CONTENT": "Bifogad fil"
+    },
+    "location": {
+      "CONTENT": "Plats"
+    },
+    "fallback": {
+      "CONTENT": "har delat en webbadress"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Svarar till:"
+  }
+}

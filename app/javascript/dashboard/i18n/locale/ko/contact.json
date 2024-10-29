@@ -1,0 +1,389 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "사용할 수 없음",
+    "EMAIL_ADDRESS": "이메일 주소",
+    "PHONE_NUMBER": "휴대폰 번호",
+    "IDENTIFIER": "식별자",
+    "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
+    "COMPANY": "회사",
+    "LOCATION": "장소",
+    "BROWSER_LANGUAGE": "언어 표시",
+    "CONVERSATION_TITLE": "대화 자세히",
+    "VIEW_PROFILE": "프로필 보기",
+    "BROWSER": "브라우저",
+    "OS": "운영 체제",
+    "INITIATED_FROM": "시작 위치",
+    "INITIATED_AT": "시작 시간",
+    "IP_ADDRESS": "IP 주소",
+    "CREATED_AT_LABEL": "Created",
+    "NEW_MESSAGE": "새 메시지",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
+      "TITLE": "이전 대화"
+    },
+    "LABELS": {
+      "CONTACT": {
+        "TITLE": "연락처 라벨",
+        "ERROR": "라벨 업데이트 실패"
+      },
+      "CONVERSATION": {
+        "TITLE": "대화 라벨",
+        "ADD_BUTTON": "라벨 추가하기"
+      },
+      "LABEL_SELECT": {
+        "TITLE": "라벨 추가하기",
+        "PLACEHOLDER": "라벨 찾기",
+        "NO_RESULT": "라벨을 찾을 수 없습니다",
+        "CREATE_LABEL": "Create new label"
+      }
+    },
+    "MERGE_CONTACT": "연락처 합치기",
+    "CONTACT_ACTIONS": "연락처 활동",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "SEND_TRANSCRIPT": "대화기록 보내기",
+    "EDIT_LABEL": "수정",
+    "SIDEBAR_SECTIONS": {
+      "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
+      "CONTACT_LABELS": "연락처 라벨",
+      "PREVIOUS_CONVERSATIONS": "이전 대화",
+      "NO_RECORDS_FOUND": "No attributes found"
+    }
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "연락처 수정",
+    "TITLE": "연락처 수정",
+    "DESC": "연락처 수정 자세히"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "새 연결",
+    "TITLE": "새 연결 만들기",
+    "DESC": "연락처에 대한 기본 정보 세부 정보를 추가합니다."
+  },
+  "IMPORT_CONTACTS": {
+    "BUTTON_LABEL": "가져오기",
+    "TITLE": "연락처 가져오기",
+    "DESC": "CSV 파일을 통해 연락처 가져오기",
+    "DOWNLOAD_LABEL": "간단한 CSV 파일 다운받기",
+    "FORM": {
+      "LABEL": "CSV 파일",
+      "SUBMIT": "가져오기",
+      "CANCEL": "취소"
+    },
+    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+  },
+  "EXPORT_CONTACTS": {
+    "BUTTON_LABEL": "Export",
+    "TITLE": "Export Contacts",
+    "DESC": "Export contacts to a CSV file.",
+    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오.",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "삭제 확인",
+      "MESSAGE": "정말로 이 노트를 삭제하고 싶으신가요?",
+      "YES": "예, 삭제합니다",
+      "NO": "아니요, 유지합니다."
+    }
+  },
+  "DELETE_CONTACT": {
+    "BUTTON_LABEL": "연락처 지우기",
+    "TITLE": "연락처 지우기",
+    "DESC": "연락처 설명 지우기",
+    "CONFIRM": {
+      "TITLE": "삭제 확인",
+      "MESSAGE": "삭제하시겠습니까? ",
+      "YES": "예, 삭제합니다",
+      "NO": "아니요, 유지합니다"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "연락처가 성공적으로 삭제되었습니다",
+      "ERROR_MESSAGE": "연락처를 삭제할 수 없습니다. 나중에 다시 시도해 주세요."
+    }
+  },
+  "CONTACT_FORM": {
+    "FORM": {
+      "SUBMIT": "보내기",
+      "CANCEL": "취소",
+      "AVATAR": {
+        "LABEL": "연락처 아바타"
+      },
+      "NAME": {
+        "PLACEHOLDER": "연락처의 전체 이름 입력",
+        "LABEL": "전체 이름"
+      },
+      "BIO": {
+        "PLACEHOLDER": "연락처의 자기 소개 입력",
+        "LABEL": "자기 소개"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "연락처의 이메일 주소 입력",
+        "LABEL": "이메일 주소",
+        "DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
+        "ERROR": "올바른 전자 메일 주소를 입력하세요."
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "연락처의 전화 번호 입력",
+        "LABEL": "전화 번호",
+        "HELP": "전화번호는 E.164 형식이여야 합니다. 예: +1415555555 [+][국가 코드][지역 코드][전화번호]",
+        "ERROR": "전화번호는 비어있거나 E.164 형식이여야 합니다",
+        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DUPLICATE": "이 전화번호는 다른 연락처에 사용 중입니다."
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "연락처 위치 입력",
+        "LABEL": "장소"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "회사명 입력",
+        "LABEL": "회사명"
+      },
+      "COUNTRY": {
+        "PLACEHOLDER": "Enter the country name",
+        "LABEL": "국가 이름",
+        "SELECT_PLACEHOLDER": "Select",
+        "REMOVE": "제거",
+        "SELECT_COUNTRY": "Select Country"
+      },
+      "CITY": {
+        "PLACEHOLDER": "Enter the city name",
+        "LABEL": "City Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "페이스북 사용자 이름 입력",
+          "LABEL": "페이스북"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "트위터 사용자 이름 입력",
+          "LABEL": "트위터"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "링크드인 사용자 이름 입력",
+          "LABEL": "링크드인"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "깃허브 사용자 이름 입력",
+          "LABEL": "깃허브"
+        }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "연락처 아바타가 성공적으로 삭제되었습니다",
+        "ERROR_MESSAGE": "연락처 아바타를 삭제할 수 없습니다. 나중에 다시 시도해 주세요."
+      }
+    },
+    "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "대화 시작",
+    "TITLE": "새 대화",
+    "DESC": "새로운 메세지를 보내 대화를 시작하세요.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "~~에게"
+      },
+      "INBOX": {
+        "LABEL": "받은 메시지함",
+        "PLACEHOLDER": "Choose source inbox",
+        "ERROR": "받은 메시지함 선택"
+      },
+      "SUBJECT": {
+        "LABEL": "Subject",
+        "PLACEHOLDER": "Subject",
+        "ERROR": "제목은 공백일 수 없습니다."
+      },
+      "MESSAGE": {
+        "LABEL": "메시지",
+        "PLACEHOLDER": "메시지를 여기에 작성해주세요",
+        "ERROR": "메시지는 비어 있을 수 없습니다"
+      },
+      "ATTACHMENTS": {
+        "SELECT": "Choose files",
+        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+      },
+      "SUBMIT": "메시지 보내기",
+      "CANCEL": "취소",
+      "SUCCESS_MESSAGE": "메시지가 보내졌습니다!",
+      "GO_TO_CONVERSATION": "보기",
+      "ERROR_MESSAGE": "전송이 불가능합니다! 다시 시도해주세요"
+    }
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "연락처",
+    "FIELDS": "Contact fields",
+    "SEARCH_BUTTON": "검색",
+    "SEARCH_INPUT_PLACEHOLDER": "연락처 검색",
+    "FILTER_CONTACTS": "필터",
+    "FILTER_CONTACTS_SAVE": "필터 저장하기",
+    "FILTER_CONTACTS_DELETE": "필터 삭제하기",
+    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "LIST": {
+      "LOADING_MESSAGE": "연락처를 불러오는 중...",
+      "404": "검색과 일치하는 연락처 없음 🔍",
+      "NO_CONTACTS": "사용 가능한 연락처가 없습니다",
+      "TABLE_HEADER": {
+        "NAME": "이름",
+        "PHONE_NUMBER": "전화 번호",
+        "CONVERSATIONS": "대화",
+        "LAST_ACTIVITY": "지난 활동",
+        "CREATED_AT": "에 만들어짐",
+        "COUNTRY": "국가",
+        "CITY": "도시",
+        "SOCIAL_PROFILES": "소셜 프로필",
+        "COMPANY": "회사",
+        "EMAIL_ADDRESS": "이메일 주소"
+      },
+      "VIEW_DETAILS": "상세보기"
+    }
+  },
+  "CONTACT_PROFILE": {
+    "BACK_BUTTON": "연락처",
+    "LOADING": "연락처 프로필 불러오는 중..."
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "추가하기",
+      "TITLE": "쉬프트와 엔터를 눌러 작업 만들기"
+    },
+    "FOOTER": {
+      "DUE_DATE": "끝나는 날짜",
+      "LABEL_TITLE": "유형 선택하기"
+    }
+  },
+  "NOTES": {
+    "FETCHING_NOTES": "노트를 가져오는 중...",
+    "NOT_AVAILABLE": "이 연락처에 대한 노트가 없습니다",
+    "HEADER": {
+      "TITLE": "노트들"
+    },
+    "LIST": {
+      "LABEL": "노트가 추가되었습니다"
+    },
+    "ADD": {
+      "BUTTON": "추가하기",
+      "PLACEHOLDER": "노트 추가하기",
+      "TITLE": "쉬프트와 엔터를 눌러 노트 만들기"
+    },
+    "CONTENT_HEADER": {
+      "DELETE": "노트 삭제하기"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "노트들",
+      "PILL_BUTTON_EVENTS": "이벤트들",
+      "PILL_BUTTON_CONVO": "대화"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "속성 추가하기",
+    "BUTTON": "사용자 지정 속성 추가하기",
+    "NOT_AVAILABLE": "이 연락처에 사용 가능한 커스텀 속성이 없습니다.",
+    "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
+    "ACTIONS": {
+      "COPY": "속성 복사하기",
+      "DELETE": "속성 삭제하기",
+      "EDIT": "속성 수정하기"
+    },
+    "ADD": {
+      "TITLE": "사용자 지정 속성 만들기",
+      "DESC": "이 연락처에 사용자 지정 설명 추가하기"
+    },
+    "FORM": {
+      "CREATE": "속성 추가하기",
+      "CANCEL": "취소",
+      "NAME": {
+        "LABEL": "사용자 지정 속성 이름",
+        "PLACEHOLDER": "Shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      },
+      "ADD": {
+        "TITLE": "Create new attribute ",
+        "SUCCESS": "Attribute added successfully",
+        "ERROR": "Unable to add attribute. Please try again later"
+      },
+      "UPDATE": {
+        "SUCCESS": "Attribute updated successfully",
+        "ERROR": "Unable to update attribute. Please try again later"
+      },
+      "DELETE": {
+        "SUCCESS": "Attribute deleted successfully",
+        "ERROR": "Unable to delete attribute. Please try again later"
+      },
+      "ATTRIBUTE_SELECT": {
+        "TITLE": "속성 추가하기",
+        "PLACEHOLDER": "Search attributes",
+        "NO_RESULT": "No attributes found"
+      },
+      "ATTRIBUTE_TYPE": {
+        "LIST": {
+          "PLACEHOLDER": "Select value",
+          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "NO_RESULT": "검색 결과가 없습니다."
+        }
+      }
+    },
+    "VALIDATIONS": {
+      "REQUIRED": "Valid value is required",
+      "INVALID_URL": "잘못된 주소입니다.",
+      "INVALID_INPUT": "Invalid Input"
+    }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "PRIMARY": {
+      "TITLE": "Primary contact",
+      "HELP_LABEL": "To be deleted"
+    },
+    "PARENT": {
+      "TITLE": "Contact to merge",
+      "PLACEHOLDER": "Search for a contact",
+      "HELP_LABEL": "To be kept"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
+    },
+    "SEARCH": {
+      "ERROR": "에러_메시지"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "취소",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
+    }
+  }
+}

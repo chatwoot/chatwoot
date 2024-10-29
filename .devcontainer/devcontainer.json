@@ -1,0 +1,40 @@
+{
+  "name": "Chatwoot Development Codespace",
+  "service": "app",
+  "dockerComposeFile": "docker-compose.yml",
+
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/zsh"
+  },
+
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "rebornix.Ruby",
+    "misogi.ruby-rubocop",
+    "wingrunr21.vscode-ruby",
+    "davidpallinder.rails-test-runner",
+    "eamodio.gitlens",
+    "github.copilot",
+    "mrmlnc.vscode-duplicate"
+  ],
+
+
+  // 5432 postgres
+  // 6379 redis
+  // 1025,8025 mailhog
+  "forwardPorts": [8025, 3000, 3035],
+
+  "postCreateCommand": ".devcontainer/scripts/setup.sh && POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:chatwoot_prepare && yarn",
+  "portsAttributes": {
+    "3000": {
+      "label": "Rails Server"
+    },
+    "3035": {
+      "label": "Webpack Dev Server"
+    },
+    "8025": {
+      "label": "Mailhog UI"
+    }
+  }
+}

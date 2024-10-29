@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} samtaler valgt",
+    "AGENT_SELECT_LABEL": "Vælg agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Gå tilbage",
+    "ASSIGN_LABEL": "Tildel",
+    "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Søg",
+    "ASSIGN_AGENT_TOOLTIP": "Tildel agent",
+    "ASSIGN_TEAM_TOOLTIP": "Tildel team",
+    "ASSIGN_SUCCESFUL": "Samtaler tildelt.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Samtaler løst med succes.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Samtaler synlig på denne side er kun valgt.",
+    "AGENT_LIST_LOADING": "Indlæser agenter",
+    "UPDATE": {
+      "CHANGE_STATUS": "Skift status",
+      "SNOOZE_UNTIL": "Udsæt",
+      "UPDATE_SUCCESFUL": "Samtalens status blev opdateret.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "Ingen etiketter fundet for",
+      "ASSIGN_SELECTED_LABELS": "Tildel valgte etiketter",
+      "ASSIGN_SUCCESFUL": "Etiketter tildelt med succes.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Vælg hold",
+      "NONE": "Ingen",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Tildel det valgte team.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

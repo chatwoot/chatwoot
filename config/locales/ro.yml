@@ -1,0 +1,279 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ro:
+  hello: "Salutare lume"
+  messages:
+    reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
+    reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
+    inbox_deletetion_response: Solicitarea de ștergere a inboxului va fi procesată într-un anumit timp.
+  errors:
+    validations:
+      presence: nu trebuie să fie gol
+    webhook:
+      invalid: Evenimente nevalide
+    signup:
+      disposable_email: Nu permitem email-uri de unică folosință
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Ați introdus un e-mail invalid
+      email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
+      failed: Înregistrare eșuată
+    data_import:
+      data_type:
+        invalid: Tip de date nevalid
+    contacts:
+      import:
+        failed: Fișierul este necompletat
+      export:
+        success: Vă vom anunța imediat ce fișierul de export al contactelor este gata de vizualizare.
+      email:
+        invalid: E-mail invalid
+      phone_number:
+        invalid: ar trebui să fie în format e164
+    categories:
+      locale:
+        unique: ar trebui să fie unic în categorie și portal
+    dyte:
+      invalid_message_type: "Tip de mesaj nevalid. Acțiune nepermisă"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
+    inboxes:
+      imap:
+        socket_error: Verificați conexiunea la rețea, adresa IMAP și încercați din nou.
+        no_response_error: Verificați acreditările IMAP și încercați din nou.
+        host_unreachable_error: Gazdă imposibil de găsit, Verificați adresa IMAP, portul IMAP și încercați din nou.
+        connection_timed_out_error: Conexiunea a expirat pentru %{address}:%{port}
+        connection_closed_error: Conexiune închisă.
+      validations:
+        name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
+    custom_filters:
+      number_of_records: Limita atinsă. Numărul maxim de filtre personalizate permise pentru un utilizator per cont este de 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+  reports:
+    period: Perioada de raportare %{since}-%{until}
+    utc_warning: Raportul generat este în fusul orar UTC
+    agent_csv:
+      agent_name: Nume agent
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Număr de rezoluții
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Nume Inbox
+      inbox_type: Tip inbox
+      conversations_count: Conversații
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    label_csv:
+      label_title: Etichetă
+      conversations_count: Conversații
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    team_csv:
+      team_name: Numele echipei
+      conversations_count: Conversațiile contează
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Număr de rezoluții
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Fus orar
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Echipa
+      inbox: Inbox
+      labels: Etichete
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
+    default_group_by: zi
+    csat:
+      headers:
+        contact_name: Nume de contact
+        contact_email_address: Adresă de e-mail persoană de contact
+        contact_phone_number: Număr de telefon persoană de contact
+        link_to_the_conversation: Link către conversație
+        agent_name: Nume Agent
+        rating: Evaluare
+        feedback: Feedback comentariu
+        recorded_at: Data înregistrată
+  notifications:
+    notification_title:
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} menționat în poveste: "
+      instagram_deleted_story_content: Această poveste nu mai este disponibilă.
+      deleted: Acest mesaj a fost șters
+      delivery_status:
+        error_code: "Error code: %{error_code}"
+    activity:
+      status:
+        resolved: "Conversația a fost marcată de %{user_name}"
+        contact_resolved: "Conversația a fost rezolvată de %{contact_name}"
+        open: "Conversația a fost redeschisă de %{user_name}"
+        pending: "Conversația a fost marcată ca fiind în așteptare de către %{user_name}"
+        snoozed: "Conversația a fost snoozed de %{user_name}"
+        auto_resolved: "Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate"
+        system_auto_open: Sistemul a redeschis conversația din cauza unui nou mesaj de intrare.
+      priority:
+        added: '%{user_name} setați prioritatea pentru a %{new_priority}'
+        updated: '%{user_name} schimbat prioritatea de la %{old_priority} la %{new_priority}'
+        removed: '%{user_name} eliminat prioritatea'
+      assignee:
+        self_assigned: "%{user_name} auto-atribuit această conversație"
+        assigned: "Atribuit lui %{assignee_name} de %{user_name}"
+        removed: "Conversație neasociată de %{user_name}"
+      team:
+        assigned: "Atribuit lui %{team_name} de %{user_name}"
+        assigned_with_assignee: "Atribuit %{assignee_name} prin %{team_name} de către %{user_name}"
+        removed: "Neatribuit de la %{team_name} de către %{user_name}"
+      labels:
+        added: "%{user_name} adăugat %{labels}"
+        removed: "%{user_name} eliminat %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
+      muted: "%{user_name} a dezactivat conversația"
+      unmuted: "%{user_name} a activat conversația"
+    templates:
+      greeting_message_body: "%{account_name} răspunde de obicei în câteva ore."
+      ways_to_reach_you_message_body: "Dă-i echipei o modalitate de a te contacta."
+      email_input_box_message_body: "Primește notificări prin e-mail"
+      csat_input_message_body: "Vă rugăm să evaluați conversația"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} din %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} din %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} din %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Mesaje noi în această conversație"
+      transcript_subject: "Trimite Transcriere"
+    survey:
+      response: "Vă rugăm să evaluați această conversație, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} este online, încercați din nou mai târziu"
+  integration_apps:
+    dashboard_apps:
+      name: "Aplicații tablou de bord"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} a început o întâlnire"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhook-uri"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Flux de dialog"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Translate"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Căutați articol după titlu sau corp...
+      empty_placeholder: Niciun rezultat găsit.
+      loading_placeholder: In căutare...
+      results_title: Rezultate căutare pentru
+    toc_header: 'Pe această pagină'
+    hero:
+      sub_title: Căutați articolele aici sau răsfoiți categoriile de mai jos.
+    common:
+      home: Acasa
+      last_updated_on: Ultima actualizare pe %{last_updated_on}
+      view_all_articles: View all
+      article: articol
+      articles: articole
+      author: autor
+      authors: authors
+      other: other
+      others: others
+      by: By
+      no_articles: Nu există articole aici
+    footer:
+      made_with: Realizat cu
+    header:
+      go_to_homepage: Website
+      appearance:
+        system: Sistem
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Necategorizat
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
+  slack_unfurl:
+    fields:
+      name: Nume
+      email: E-mail
+      phone_number: Phone
+      company_name: Companie
+      inbox_name: Inbox
+      inbox_type: Inbox Type
+    button: Deschiderea conversației
+  time_units:
+    days:
+      one: "%{count} day"
+      few: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      few: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      few: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      few: "%{count} seconds"
+      other: "%{count} seconds"

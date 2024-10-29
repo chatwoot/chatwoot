@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} שיחות נבחרו",
+    "AGENT_SELECT_LABEL": "בחר נציג",
+    "ASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לשייך {conversationCount} {conversationLabel} ל-",
+    "UNASSIGN_CONFIRMATION_LABEL": "האם אתה בטוח שברצונך לבטל שיוך {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "חזור",
+    "ASSIGN_LABEL": "שייך",
+    "YES": "כן",
+    "SEARCH_INPUT_PLACEHOLDER": "חפש",
+    "ASSIGN_AGENT_TOOLTIP": "שייך סוכן",
+    "ASSIGN_TEAM_TOOLTIP": "שייך צוות",
+    "ASSIGN_SUCCESFUL": "שיוך בוצע בהצלחה.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "שיחה טופלה בהצלחה.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "השיחות הנבחרות הן המוצגות בדף זה בלבד.",
+    "AGENT_LIST_LOADING": "טוען סוכנים",
+    "UPDATE": {
+      "CHANGE_STATUS": "שנה סטאטוס",
+      "SNOOZE_UNTIL": "נודניק",
+      "UPDATE_SUCCESFUL": "סטאטוס השיחה שונה בהצלחה.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "לא נצאו תוויות עבור",
+      "ASSIGN_SELECTED_LABELS": "שייך תוויות נבחרות",
+      "ASSIGN_SUCCESFUL": "תוויות שוייכו בהצלחה.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "בחר קבוצה",
+      "NONE": "כלום",
+      "NO_TEAMS_AVAILABLE": "לא קיימות קבוצות להוספה.",
+      "ASSIGN_SELECTED_TEAMS": "שייך קבוצה.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

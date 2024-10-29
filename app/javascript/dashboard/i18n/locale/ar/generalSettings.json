@@ -1,0 +1,174 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "إعدادات الحساب",
+    "SUBMIT": "تحديث الإعدادات",
+    "BACK": "العودة",
+    "DISMISS": "تجاهل",
+    "UPDATE": {
+      "ERROR": "تعذر تحديث الإعدادات، الرجاء المحاولة مرة أخرى!",
+      "SUCCESS": "تم تحديث إعدادات الحساب بنجاح"
+    },
+    "FORM": {
+      "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
+      "GENERAL_SECTION": {
+        "TITLE": "الإعدادات العامة",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "معرف الحساب",
+        "NOTE": "هذا المعرف مطلوب إذا كنت بصدد بناء تكامل على API"
+      },
+      "NAME": {
+        "LABEL": "اسم الحساب",
+        "PLACEHOLDER": "اسم الحساب الخاص بك",
+        "ERROR": "الرجاء إدخال اسم حساب صحيح"
+      },
+      "LANGUAGE": {
+        "LABEL": "لغة الموقع",
+        "PLACEHOLDER": "اسم الحساب الخاص بك",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "نطاق البريد الإلكتروني الوارد",
+        "PLACEHOLDER": "النطاق الذي ستتلقى عليه رسائل البريد الإلكتروني",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "البريد الإلكتروني للدعم الفني",
+        "PLACEHOLDER": "عنوان البريد الإلكتروني الخاص باستقبال رسائل الدعم الفني",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "عدد الأيام للتذكرة التي يجب أن يتم حلها تلقائياً إذا لم يكن هناك أي نشاط",
+        "PLACEHOLDER": "30",
+        "ERROR": "الرجاء إدخال مدة صالحة للحل تلقائي (حد أدنى 1 يوم والحد الأقصى 999 يوما)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
+      }
+    },
+    "UPDATE_CHATWOOT": "يتوفر تحديث {latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "LEARN_MORE": "اعرف المزيد",
+    "PAYMENT_PENDING": "الدفعة الخاصة بك معلقة. الرجاء تحديث معلومات الدفع الخاصة بك للاستمرار في استخدام Chatwoot",
+    "LIMITS_UPGRADE": "لقد تجاوز حسابك حدود الاستخدام، يرجى ترقية خطتك للاستمرار في استخدام Chatwoot",
+    "OPEN_BILLING": "فتح الفواتير"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
+      "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
+      "SELECT_ONE": "اختر واحدا",
+      "SELECT": "اختر"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "الإشعارات",
+    "MARK_ALL_DONE": "وضع علامة منجز على الجميع",
+    "DELETE_TITLE": "تم الحذف",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "إشعارات غير مقروءة",
+      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
+      "LOADING_UNREAD_MESSAGE": "جار جلب الإشعارات الغير مقروءة...",
+      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "جاري جلب الإشعارات...",
+      "404": "لا يوجد إشعارات",
+      "TABLE_HEADER": [
+        "الاسم",
+        "رقم الهاتف",
+        "المحادثات",
+        "آخر تواصل"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "محادثة جديدة",
+      "conversation_assignment": "تم تعيين المحادثة",
+      "assigned_conversation_new_message": "رسالة جديدة",
+      "participating_conversation_new_message": "رسالة جديدة",
+      "conversation_mention": "إشارة",
+      "sla_missed_first_response": "فشل اتفاقية مستوى الخدمة",
+      "sla_missed_next_response": "فشل اتفاقية مستوى الخدمة",
+      "sla_missed_resolution": "فشل اتفاقية مستوى الخدمة"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "OFFLINE": "غير متصل",
+      "RECONNECTING": "جاري إعادة الاتصال...",
+      "RECONNECT_SUCCESS": "تمت إعادة الاتصال"
+    },
+    "BUTTON": {
+      "REFRESH": "تحديث"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "البحث أو القفز إلى",
+    "SECTIONS": {
+      "GENERAL": "عام",
+      "REPORTS": "التقارير",
+      "CONVERSATION": "المحادثات",
+      "BULK_ACTIONS": "الإجراءات الشاملة",
+      "CHANGE_ASSIGNEE": "تغيير المحال إليه",
+      "CHANGE_PRIORITY": "تغيير الأولوية",
+      "CHANGE_TEAM": "تغيير الفريق",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "ADD_LABEL": "إضافة وسم إلى المحادثة",
+      "REMOVE_LABEL": "إزالة الوسم من المحادثة",
+      "SETTINGS": "الإعدادات",
+      "AI_ASSIST": "مساعدة AI",
+      "APPEARANCE": "المظهر",
+      "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير العامة",
+      "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
+      "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير الوسم",
+      "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
+      "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
+      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى إعدادات الوكيل",
+      "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
+      "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات الصندوق الوارد",
+      "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات الوسم",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الردود الجاهزة",
+      "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
+      "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
+      "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
+      "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
+      "ADD_LABELS_TO_CONVERSATION": "إضافة وسم إلى المحادثة",
+      "ASSIGN_AN_AGENT": "تعيين وكيل",
+      "AI_ASSIST": "مساعدة AI",
+      "ASSIGN_PRIORITY": "تعيين الأولوية",
+      "ASSIGN_A_TEAM": "تعيين فريق",
+      "MUTE_CONVERSATION": "كتم المحادثة",
+      "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
+      "REMOVE_LABEL_FROM_CONVERSATION": "إزالة الوسم من المحادثة",
+      "REOPEN_CONVERSATION": "إعادة فتح المحادثة",
+      "RESOLVE_CONVERSATION": "حل المحادثة",
+      "SEND_TRANSCRIPT": "إرسال نسخة نصية للبريد الإلكتروني",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "UNTIL_NEXT_REPLY": "حتى الرد القادم",
+      "UNTIL_NEXT_WEEK": "حتى الأسبوع القادم",
+      "UNTIL_TOMORROW": "حتى الغد",
+      "UNTIL_NEXT_MONTH": "حتي الشهر القادم",
+      "AN_HOUR_FROM_NOW": "حتي ساعة من الأن",
+      "UNTIL_CUSTOM_TIME": "مخصص...",
+      "CHANGE_APPEARANCE": "تغيير المظهر",
+      "LIGHT_MODE": "فاتح",
+      "DARK_MODE": "مظلم",
+      "SYSTEM_MODE": "النظام",
+      "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
+    }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "جاري جلب تطبيق لوحة التحكم..."
+  },
+  "COMMON": {
+    "OR": "أو",
+    "CLICK_HERE": "اضغط هنا"
+  }
+}

@@ -1,0 +1,275 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+fa:
+  hello: "سلام دنیا"
+  messages:
+    reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
+    reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
+    inbox_deletetion_response: درخواست حذف صندوق ورودی شما پس از مدتی پردازش خواهد شد.
+  errors:
+    validations:
+      presence: نباید خالی باشد
+    webhook:
+      invalid: رویدادهای نامعتبر
+    signup:
+      disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: ایمیل وارد شده معتبر نیست
+      email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
+      invalid_params: 'نامعتبر است، لطفا پارامترهای ثبت‌نام را بررسی کرده و دوباره امتحان کنید'
+      failed: ثبت نام ناموفق بود
+    data_import:
+      data_type:
+        invalid: نوع داده نامعتبر است
+    contacts:
+      import:
+        failed: پرونده خالی است
+      export:
+        success: هر زمان فایل خروجی مخاطبین برای مشاهده آماده شود به شما اطلاع خواهیم داد.
+      email:
+        invalid: ایمیل نامعتبر است
+      phone_number:
+        invalid: باید در قالب e164 باشد
+    categories:
+      locale:
+        unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
+    dyte:
+      invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
+    slack:
+      invalid_channel_id: "کانال اسلک نامعتبر است. لطفا دوباره تلاش کنید"
+    inboxes:
+      imap:
+        socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
+        no_response_error: لطفا اعتبارنامه IMAP را بررسی کنید و دوباره امتحان کنید.
+        host_unreachable_error: میزبان غیرقابل دسترسی است، لطفا آدرس IMAP و پورت IMAP را بررسی کنید و دوباره امتحان کنید.
+        connection_timed_out_error: زمان اتصال برای %{address}:%{port} تمام شد
+        connection_closed_error: اتصال بسته شد.
+      validations:
+        name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
+    custom_filters:
+      number_of_records: سررسید محدودیت. حداکثر تعداد قابل قبول فیلترها برای یک کاربر در هر اکانت 50 می باشند.
+      invalid_attribute: کلید ویژگی معتبر نیست (%{key}). کلید باید یکی از %{allowed_keys} باشد یا یک ویژگی سفارشی ایجاد شده در حساب.
+      invalid_operator: این عملیات مجاز نیست. عملیات های مجاز برای %{attribute_name} شامل %{allowed_keys} می باشد.
+      invalid_value: مقدار معتبر نیست. مقادیر ارائه شده برای %{attribute_name} معتبر نیست
+  reports:
+    period: زمان گزارش از %{since} تا %{until}
+    utc_warning: گزارش تولید شده در منطقه زمانی UTC است
+    agent_csv:
+      agent_name: اسم ایجنت
+      conversations_count: گفتگو‌های اختصاص داده شده
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
+      resolution_count: تعداد مسائل حل شده
+      avg_customer_waiting_time: میانگین زمان انتظار مشتری
+    inbox_csv:
+      inbox_name: نام صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
+    label_csv:
+      label_title: برچسب
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
+    team_csv:
+      team_name: نام تیم
+      conversations_count: Conversations count
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
+      resolution_count: تعداد مسائل حل شده
+      avg_customer_waiting_time: میانگین زمان انتظار مشتری
+    conversation_traffic_csv:
+      timezone: منطقه زمانی
+    sla_csv:
+      conversation_id: شناسه گفتگو
+      sla_policy_breached: سیاست SLA
+      assignee: مسئول
+      team: تیم‌
+      inbox: صندوق ورودی
+      labels: برچسب‌ها
+      conversation_link: پیوند به گفتگو
+      breached_events: رویدادهای نقض شده
+    default_group_by: روز
+    csat:
+      headers:
+        contact_name: نام تماس
+        contact_email_address: آدرس ایمیل تماس
+        contact_phone_number: شماره تلفن تماس
+        link_to_the_conversation: پیوند به گفتگو
+        agent_name: اسم ایجنت
+        rating: رتبه
+        feedback: بازخورد نظر
+        recorded_at: تاریخ ثبت شده
+  notifications:
+    notification_title:
+      conversation_creation: "یک گفتگو جدید (%{display_id}) در %{inbox_name} ایجاد شده است"
+      conversation_assignment: "یک گفتگو جدید (%{display_id}) به شما اختصاص داده شده"
+      assigned_conversation_new_message: "یک پیام جدید در گفتگوی %{display_id} ارسال شده"
+      conversation_mention: "به نام شما در گفتگو (%{display_id}) اشاره شده است"
+      sla_missed_first_response: "سیاست SLA مربوط به اولین پاسخ در گفتگوی (%{display_id}) نقض شده"
+      sla_missed_next_response: "سیاست SLA مربوط به پاسخ بعدی در گفتگوی (%{display_id}) نقض شده"
+      sla_missed_resolution: "سیاست SLA مربوط به زمان حل موضوع در گفتگوی (%{display_id}) نقض شده"
+    attachment: "پیوست"
+    no_content: "فاقد محتوا"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
+      instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
+      deleted: این پیام حذف شد
+      delivery_status:
+        error_code: "کد خطا \" %{error_code}"
+    activity:
+      status:
+        resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
+        contact_resolved: "گفتگو توسط %{contact_name} حل شد"
+        open: "گفتگو توسط ایجنت %{user_name} مجددا باز شده بود"
+        pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
+        snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"
+        auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
+        system_auto_open: سیستم به دلیل یک پیام دریافتی جدید، مکالمه را دوباره باز کرد.
+      priority:
+        added: '%{user_name} اولویت را روی %{new_priority} تنظیم کرد'
+        updated: '%{user_name} اولویت را از %{old_priority} به %{new_priority} تغییر داد'
+        removed: '%{user_name} اولویت را حذف کرد'
+      assignee:
+        self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
+        assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
+        removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
+      team:
+        assigned: "%{user_name} گفتگو را به %{team_name} اختصاص داد"
+        assigned_with_assignee: "از طرف %{user_name} به تیم %{team_name} و ایجنت %{assignee_name} اختصاص داده شده است"
+        removed: "اختصاص داده نشده از %{team_name} توسط %{user_name}"
+      labels:
+        added: "%{user_name}، %{labels} را اضافه کرد"
+        removed: "%{user_name}، %{labels} را حذف کرد"
+      sla:
+        added: "%{user_name} سیاست SLA %{sla_name} را اضافه کرد"
+        removed: "%{user_name} سیاست SLA %{sla_name} را حذف کرد"
+      muted: "%{user_name} مکالمه را بی صدا کرد"
+      unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
+    templates:
+      greeting_message_body: "%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد."
+      ways_to_reach_you_message_body: "راهی برای ارتباط گرفتن تیم با شما قرار دهید"
+      email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
+      csat_input_message_body: "لطفاً به مکالمه امتیاز دهید"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
+          reply_with_name: "%{assignee_name} از %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} از %{business_name} «%{from_email}»"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "پیام‌های جدید در این مکالمه"
+      transcript_subject: "متن مکالمه"
+    survey:
+      response: "لطفاً به مکالمه امتیاز دهید %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید"
+  integration_apps:
+    dashboard_apps:
+      name: "برنامه‌های پیشخوان"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "%{agent_name} جلسه ای را آغاز کرده است"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "وب هوک"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "مترجم گوگل"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: جستجوی مقاله براساس عنوان یا متن...
+      empty_placeholder: نتیجه‌ای یافت نشد.
+      loading_placeholder: در حال جستجو...
+      results_title: نتایج جستجو
+    toc_header: 'در این صفحه'
+    hero:
+      sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
+    common:
+      home: صفحه اصلی
+      last_updated_on: آخرین به‌روزرسانی در تاریخ %{last_updated_on}
+      view_all_articles: مشاهده همه
+      article: مقاله
+      articles: مقالات
+      author: نویسنده
+      authors: نویسنده ها
+      other: دیگر
+      others: دیگران
+      by: توسط
+      no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
+    footer:
+      made_with: ساخته شده با
+    header:
+      go_to_homepage: وب سایت
+      appearance:
+        system: سیستم
+        light: روشن
+        dark: تیره
+      featured_articles: مقالات برگزیده
+      uncategorized: دسته بندی نشده
+    404:
+      title: صفحه یافت نشد
+      description: ما نتوانستیم صفحه مورد نظر شما را پیدا کنیم.
+      back_to_home: به صفحه اصلی بروید
+  slack_unfurl:
+    fields:
+      name: نام
+      email: ایمیل
+      phone_number: موبایل
+      company_name: شرکت
+      inbox_name: صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+    button: باز کردن گفتگو
+  time_units:
+    days:
+      one: "%{count} روز"
+      other: "%{count} روز"
+    hours:
+      one: "%{count} ساعت"
+      other: "%{count} ساعت"
+    minutes:
+      one: "%{count} قیقه"
+      other: "%{count} قیقه"
+    seconds:
+      one: "%{count} ثانیه"
+      other: "%{count} ثانیه"

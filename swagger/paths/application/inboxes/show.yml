@@ -1,0 +1,22 @@
+get:
+  tags:
+    - Inboxes
+  operationId: GetInbox
+  summary: Get an inbox
+  description: Get an inbox available in the current account
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the inbox
+      required: true
+  responses:
+    200:
+      description: Success
+      schema:
+          $ref: '#/definitions/inbox'
+    404:
+      description: Inbox not found
+    403:
+      description: Access denied

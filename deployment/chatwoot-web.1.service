@@ -1,0 +1,25 @@
+[Unit]
+Requires=network.target
+PartOf=chatwoot.target
+
+[Service]
+Type=simple
+User=chatwoot
+WorkingDirectory=/home/chatwoot/chatwoot
+
+ExecStart=/bin/bash -lc 'bin/rails server -p $PORT -e $RAILS_ENV'
+
+Restart=always
+RestartSec=1
+TimeoutStopSec=30
+KillMode=mixed
+StandardInput=null
+SyslogIdentifier=%p
+
+Environment="PATH=/home/chatwoot/.rvm/gems/ruby-3.3.3/bin:/home/chatwoot/.rvm/gems/ruby-3.3.3@global/bin:/home/chatwoot/.rvm/rubies/ruby-3.3.3/bin:/home/chatwoot/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/chatwoot/.rvm/bin:/home/chatwoot/.rvm/bin"
+Environment="PORT=3000"
+Environment="RAILS_ENV=production"
+Environment="NODE_ENV=production"
+Environment="RAILS_LOG_TO_STDOUT=true"
+Environment="GEM_HOME=/home/chatwoot/.rvm/gems/ruby-3.3.3"
+Environment="GEM_PATH=/home/chatwoot/.rvm/gems/ruby-3.3.3:/home/chatwoot/.rvm/gems/ruby-3.3.3@global"

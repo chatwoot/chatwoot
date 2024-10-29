@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} Konversationen ausgewählt",
+    "AGENT_SELECT_LABEL": "Agent auswählen",
+    "ASSIGN_CONFIRMATION_LABEL": "Sind Sie sicher, {conversationCount} {conversationLabel} zuzuweisen",
+    "UNASSIGN_CONFIRMATION_LABEL": "Möchten Sie die Zuweisung von {conversationCount} {conversationLabel} wirklich aufheben?",
+    "GO_BACK_LABEL": "Zurück",
+    "ASSIGN_LABEL": "Zuordnen",
+    "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Suchen",
+    "ASSIGN_AGENT_TOOLTIP": "Agent zuweisen",
+    "ASSIGN_TEAM_TOOLTIP": "Team zuweisen",
+    "ASSIGN_SUCCESFUL": "Konversationen erfolgreich zugewiesen.",
+    "ASSIGN_FAILED": "Konversationen konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut.",
+    "RESOLVE_SUCCESFUL": "Konversationen erfolgreich gelöst.",
+    "RESOLVE_FAILED": "Konversationen konnten nicht gelöst werden. Bitte versuchen Sie es erneut.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Nur auf dieser Seite sichtbaren Konversationen sind ausgewählt.",
+    "AGENT_LIST_LOADING": "Agenten werden geladen",
+    "UPDATE": {
+      "CHANGE_STATUS": "Status ändern",
+      "SNOOZE_UNTIL": "Erinnern",
+      "UPDATE_SUCCESFUL": "Der Konversationsstatus wurde erfolgreich aktualisiert.",
+      "UPDATE_FAILED": "Konversationen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Labels zuweisen",
+      "NO_LABELS_FOUND": "Keine Labels gefunden für",
+      "ASSIGN_SELECTED_LABELS": "Ausgewählte Labels zuweisen",
+      "ASSIGN_SUCCESFUL": "Labels erfolgreich zugewiesen.",
+      "ASSIGN_FAILED": "Labels konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Team auswählen",
+      "NONE": "Keine",
+      "NO_TEAMS_AVAILABLE": "Es wurden noch keine Teams zu diesem Konto hinzugefügt.",
+      "ASSIGN_SELECTED_TEAMS": "Ausgewähltes Team zuweisen.",
+      "ASSIGN_SUCCESFUL": "Teams erfolgreich zugewiesen.",
+      "ASSIGN_FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
+    }
+  }
+}

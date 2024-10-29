@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Unduh",
+      "UPLOADING": "Mengunggah..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Kirim"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Kirim pesan lagi",
+      "ERROR_MESSAGE": "Tidak dapat mengirim, coba lagi"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Kami sedang online",
+    "OFFLINE": "Kami sedang tidak tersedia saat ini"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
+    "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
+    "IN_A_DAY": "Biasanya membalas dalam sehari",
+    "BACK_IN": "Kami akan kembali online"
+  },
+  "DAY_NAMES": [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu"
+  ],
+  "START_CONVERSATION": "Mulai Percakapan",
+  "END_CONVERSATION": "Akhiri Percakapan",
+  "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
+  "YOU": "Anda",
+  "START_NEW_CONVERSATION": "Mulai Percakapan",
+  "VIEW_UNREAD_MESSAGES": "Anda memiliki pesan yang belum dibaca",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
+    "CLOSE_MESSAGES_BUTTON": "Tutup",
+    "COMPANY_FROM": "dari",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat dengan kami"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Masukkan email Anda",
+  "CHAT_PLACEHOLDER": "Ketik pesan Anda",
+  "TODAY": "Hari ini",
+  "YESTERDAY": "Kemarin",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nama Lengkap",
+        "PLACEHOLDER": "Harap masukkan nama lengkap anda yang valid",
+        "REQUIRED_ERROR": "Nama Lengkap dibutuhkan"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Alamat email",
+        "PLACEHOLDER": "Harap masukkan alamat email Anda",
+        "REQUIRED_ERROR": "Alamat Email dibutuhkan",
+        "VALID_ERROR": "Harap masukkan alamat email yang valid"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Nomor Telpon",
+        "PLACEHOLDER": "Masukan Nomor Telepon",
+        "REQUIRED_ERROR": "Nomor Telepon Dibutuhkan",
+        "DIAL_CODE_VALID_ERROR": "Silakan pilih kode negara",
+        "VALID_ERROR": "Mohon berikan nomor telepon yang valid",
+        "DROPDOWN_EMPTY": "Tidak ada hasil ditemukan",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Pesan",
+        "PLACEHOLDER": "Harap masukkan pesan Anda",
+        "ERROR": "Pesan terlalu pendek"
+      }
+    },
+    "CAMPAIGN_HEADER": "Silahkan input nama dan email anda sebelum memulai percakapan",
+    "IS_REQUIRED": "dibutuhkan",
+    "REQUIRED": "Diperlukan",
+    "REGEX_ERROR": "Tolong berikan masukan yang tepat"
+  },
+  "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Kolom tidak valid"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Cari emoji",
+    "NOT_FOUND": "Tidak ada emoji yang cocok dengan penelusuran anda",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Nilai percakapan anda",
+    "SUBMITTED_TITLE": "Terima kasih telah mengirimkan penilaian",
+    "PLACEHOLDER": "Beritahu kami lebih lanjut..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Minta transkrip percakapan",
+    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
+    "SEND_EMAIL_ERROR": "Terjadi kesalahan, harap coba lagi"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klik disini untuk join",
+      "LEAVE_THE_ROOM": "Tinggalkan panggilan"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Artikel Populer",
+    "VIEW_ALL_ARTICLES": "Lihat semua artikel",
+    "IFRAME_LOAD_ERROR": "Terjadi kesalahan saat memuat artikel, harap muat ulang halaman dan coba lagi."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Pesan gambar"
+    },
+    "audio": {
+      "CONTENT": "Pesan audio"
+    },
+    "video": {
+      "CONTENT": "Pesan video"
+    },
+    "file": {
+      "CONTENT": "Lampiran File"
+    },
+    "location": {
+      "CONTENT": "Lokasi"
+    },
+    "fallback": {
+      "CONTENT": "telah membagikan url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

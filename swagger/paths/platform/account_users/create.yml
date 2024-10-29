@@ -1,0 +1,41 @@
+tags:
+  - Account Users
+operationId: create-an-account-user
+summary: Create an Account User
+description: Create an Account User
+security:
+  - platformAppApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - user_id
+        - role
+      properties: 
+        user_id:
+          type: integer
+          description: The ID of the user
+        role:
+          type: string
+          description: whether user is an administrator or agent
+      
+responses:
+  200:
+    description: Success
+    schema:
+      properties: 
+        account_id:
+          type: integer
+          description: The ID of the user
+        user_id:
+          type: integer
+          description: The ID of the user
+        role:
+          type: string
+          description: whether user is an administrator or agent
+      
+  401:
+    description: Unauthorized

@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Načítání konverzací",
+    "LOAD_MORE_CONVERSATIONS": "Načíst více konverzací",
+    "EOF": "Všechny konverzace načteny 🎉",
+    "LIST": {
+      "404": "V této skupině nejsou žádné aktivní konverzace."
+    },
+    "TAB_HEADING": "Konverzace",
+    "MENTION_HEADING": "Zmínky",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
+    },
+    "FILTER_ALL": "Vše",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Moje",
+      "unassigned": "Nepřiřazeno",
+      "all": "Vše"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Otevřené"
+      },
+      "resolved": {
+        "TEXT": "Vyřešené"
+      },
+      "pending": {
+        "TEXT": "Čekající"
+      },
+      "snoozed": {
+        "TEXT": "Odložené"
+      },
+      "all": {
+        "TEXT": "Vše"
+      }
+    },
+    "VIEW_FILTER": "Zobrazit",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Stav",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Created at:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Poslední aktivita:",
+        "ACTIVE": "Poslední aktivita"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Poslední aktivita: od nejstarších"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Poslední aktivita: od nejnovějších"
+      },
+      "created_at_desc": {
+        "TEXT": "Vytvořeno: od nejnovějších"
+      },
+      "created_at_asc": {
+        "TEXT": "Vytvořeno: od nejstarších"
+      },
+      "priority_desc": {
+        "TEXT": "Priorita: od nejvyšší"
+      },
+      "priority_asc": {
+        "TEXT": "Priorita: Od nejnižší"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Zpráva obrázku"
+      },
+      "audio": {
+        "CONTENT": "Zvuková zpráva"
+      },
+      "video": {
+        "CONTENT": "Video zpráva"
+      },
+      "file": {
+        "CONTENT": "Přílohu souboru"
+      },
+      "location": {
+        "CONTENT": "Poloha"
+      },
+      "fallback": {
+        "CONTENT": "sdílel URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Seřadit podle",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Vytvořeno",
+          "LABEL": "Vytvořeno"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Poslední zpráva"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Obdrženo e-mailem",
+    "VIEW_TWEET_IN_TWITTER": "Zobrazit tweet na Twitteru",
+    "REPLY_TO_TWEET": "Odpovědět na tento tweet",
+    "LINK_TO_STORY": "Přejít na instagram příběh",
+    "SENT": "Úspěšně odesláno",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Žádné zprávy",
+    "NO_CONTENT": "Žádný obsah k dispozici",
+    "HIDE_QUOTED_TEXT": "Skrýt citovaný text",
+    "SHOW_QUOTED_TEXT": "Zobrazit citovaný text",
+    "MESSAGE_READ": "Přečtené"
+  }
+}

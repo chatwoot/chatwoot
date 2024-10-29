@@ -1,0 +1,61 @@
+// Typography
+$base-font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif !default;
+$heading-font-family: $base-font-family !default;
+
+$base-font-size: 16px !default;
+
+$base-line-height: 1.5 !default;
+$heading-line-height: 1.2 !default;
+
+// Other Sizes
+$base-border-radius: 4px !default;
+$base-spacing: $base-line-height * 1em !default;
+$small-spacing: $base-spacing / 2 !default;
+
+// Colors
+$white: #fff !default;
+$black: #000 !default;
+
+$blue: #1f93ff !default;
+$red: #ff382d !default;
+$light-yellow: #ffc532 !default;
+$light-green: #44ce4b !default;
+
+$grey-0: #f6f7f7 !default;
+$grey-1: #f0f4f5 !default;
+$grey-2: #cfd8dc !default;
+$grey-5: #adb5bd !default;
+$grey-7: #293f54 !default;
+
+$hint-grey: #7b808c !default;
+
+// Font Colors
+$base-font-color: $grey-7 !default;
+$action-color: $blue !default;
+
+// Background Colors
+$base-background-color: $grey-0 !default;
+
+// Focus
+$focus-outline-color: transparentize($action-color, 0.4);
+$focus-outline-width: 3px;
+$focus-outline: $focus-outline-width solid $focus-outline-color;
+$focus-outline-offset: 1px;
+
+// Flash Colors
+$flash-colors: (
+  alert: $light-yellow,
+  error: $red,
+  notice: mix($white, $blue, 50%),
+  success: $light-green
+);
+
+// Border
+$base-border-color: $grey-1 !default;
+$base-border: 1px solid $base-border-color !default;
+
+// Transitions
+$base-duration: 250ms !default;
+$base-timing: ease-in-out !default;

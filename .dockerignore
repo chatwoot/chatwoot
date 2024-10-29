@@ -1,0 +1,17 @@
+.bundle
+.env
+.env.*
+docker-compose.*
+docker/Dockerfile
+docker/dockerfiles
+log
+storage
+public/system
+tmp
+.codeclimate.yml
+public/packs
+node_modules
+vendor/bundle
+.DS_Store
+*.swp
+*~

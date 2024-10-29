@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Botai",
+    "LOADING_EDITOR": "Įkeliama redagavimo priemonė...",
+    "HEADER_BTN_TXT": "Pridėti Boto konfiguraciją",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Boto Pavadinimas",
+        "PLACEHOLDER": "Name your bot.",
+        "ERROR": "Yra reikalingas Boto vardas."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Boto Aprašymas",
+        "PLACEHOLDER": "Ką daro šis botas?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Įveskite CSML boto konfigūraciją aukščiau.",
+        "API_ERROR": "Jūsų CSML konfigūracija neteisinga. Pataisykite ją ir bandykite dar kartą."
+      },
+      "SUBMIT": "Patvirtinkite ir išsaugokite"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Pasirinkite agento botą",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "Atnaujinti",
+      "DISCONNECT": "Atsijungti Botą",
+      "SUCCESS_MESSAGE": "Sėkmingai atnaujintas agento botas.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Sėkmingai atjungtas agento botas.",
+      "ERROR_MESSAGE": "Nepavyko atnaujinti agento boto. Bandykite dar kartą vėliau.",
+      "DISCONNECTED_ERROR_MESSAGE": "Nepavyko ajungti agento boto. Bandykite dar kartą vėliau.",
+      "SELECT_PLACEHOLDER": "Pasirinkti Botą"
+    },
+    "ADD": {
+      "TITLE": "Konfigūruoti naują botą",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "API": {
+        "SUCCESS_MESSAGE": "Botas pridėtas sėkmingai.",
+        "ERROR_MESSAGE": "Nepavyko pridėti boto. Bandykite dar kartą vėliau."
+      }
+    },
+    "LIST": {
+      "404": "Botų nerasta, galite sukurti botą spustelėdami mygtuką „Konfigūruoti naują robotą“ ↗",
+      "LOADING": "Gaunami Botai...",
+      "TYPE": "Boto Tipas"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "TITLE": "Ištrinti Botą",
+      "SUBMIT": "Ištrinti",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "DESCRIPTION": "Ar tikrai norite ištrinti šį botą? Šis veiksmas yra neatšaukiamas.",
+      "API": {
+        "SUCCESS_MESSAGE": "Botas ištrintas sėkmingai.",
+        "ERROR_MESSAGE": "Nepavyko ištrinti boto. Bandykite dar kartą."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Redaguoti",
+      "LOADING": "Gaunami Botai...",
+      "TITLE": "Keisti Botą",
+      "CANCEL_BUTTON_TEXT": "Atšaukti",
+      "API": {
+        "SUCCESS_MESSAGE": "Botas atnaujintas sėkmingai.",
+        "ERROR_MESSAGE": "Nepavyko atnaujinti boto. Bandykite dar kartą vėliau."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Boto Webhook",
+      "CSML": "CSML Bot"
+    }
+  }
+}

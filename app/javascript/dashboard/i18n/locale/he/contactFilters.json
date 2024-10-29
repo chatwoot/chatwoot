@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "סינון אנשי קשר",
+    "SUBTITLE": "הוסיפו פילטרים מתחת ולחצו 'אישור' בכדי לסנן אנשי קשר.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "הוסף מסנן",
+    "CLEAR_ALL_FILTERS": "ניקוי כל הפילטרים",
+    "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
+    "SUBMIT_BUTTON_LABEL": "שלח",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "ביטול",
+    "CLEAR_BUTTON_LABEL": "מחק סננים",
+    "EMPTY_VALUE_ERROR": "חובה ערך",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "סינון אנשי קשר",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ו/גם",
+      "OR": "או"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "שווה ל",
+      "not_equal_to": "לא שווה ל",
+      "contains": "מכיל",
+      "does_not_contain": "לא מכיל",
+      "is_present": "נוכח",
+      "is_not_present": "לא נוכח",
+      "is_greater_than": "גדול מ",
+      "is_lesser_than": "הוא פחות מ",
+      "days_before": "זה x ימים לפני"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "חובה ערך"
+    },
+    "ATTRIBUTES": {
+      "NAME": "שם",
+      "EMAIL": "אימייל",
+      "PHONE_NUMBER": "מספר טלפון",
+      "IDENTIFIER": "מזהה",
+      "CITY": "עיר",
+      "COUNTRY": "מדינה",
+      "CUSTOM_ATTRIBUTE_LIST": "רשימה",
+      "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
+      "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
+      "CUSTOM_ATTRIBUTE_LINK": "קישור",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
+      "CREATED_AT": "הוקם ב",
+      "LAST_ACTIVITY": "פעילות אחרונה",
+      "REFERER_LINK": "קישור מפנה",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "סננים סטנדרטיים",
+      "ADDITIONAL_FILTERS": "סננים נוספים",
+      "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית"
+    }
+  }
+}

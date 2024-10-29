@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Филтриране на контакти",
+    "SUBTITLE": "Добавете филтри по-долу и натиснете „Изпращане“, за да филтрирате контактите.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "Добавяне на филтър",
+    "CLEAR_ALL_FILTERS": "Изчисти всички филтри",
+    "FILTER_DELETE_ERROR": "За да запазите, трябва да имате поне един филтър",
+    "SUBMIT_BUTTON_LABEL": "Изпращане",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "Отмени",
+    "CLEAR_BUTTON_LABEL": "Изчисти филтрите",
+    "EMPTY_VALUE_ERROR": "Изисква се стойност",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Филтриране на контакти",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "И",
+      "OR": "ИЛИ"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Равно на",
+      "not_equal_to": "Различно от",
+      "contains": "Съдържа",
+      "does_not_contain": "Не съдържа",
+      "is_present": "Присъства",
+      "is_not_present": "Не присъства",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Изисква се стойност"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Име",
+      "EMAIL": "Имейл",
+      "PHONE_NUMBER": "Телефон",
+      "IDENTIFIER": "Идентификатор",
+      "CITY": "Град",
+      "COUNTRY": "Държава",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "Последна активност",
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Персонализирани атрибути"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Chatwoot'ta oturum açın",
+    "EMAIL": {
+      "LABEL": "E-Posta",
+      "PLACEHOLDER": "ornek{'@'}firmadi.com",
+      "ERROR": "Lütfen geçerli bir e-posta adresi girin"
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Oturum açma başarılı",
+      "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin.",
+      "UNAUTH": "Kullanıcı adı veya parola yanlış. Lütfen tekrar deneyin."
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Google ile giriş yap",
+      "BUSINESS_ACCOUNTS_ONLY": "Lütfen giriş yapmak için şirket e-posta adresinizi kullanın",
+      "NO_ACCOUNT_FOUND": "E-posta adresinizle ilişkilendirilmiş bir hesap bulunamadı."
+    },
+    "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",
+    "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",
+    "SUBMIT": "Oturum aç"
+  }
+}

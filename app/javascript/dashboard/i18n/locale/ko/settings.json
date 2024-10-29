@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "프로필 설정",
+    "TITLE": "프로필 설정",
+    "BTN_TEXT": "프로필 업데이트",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "AFTER_EMAIL_CHANGED": "프로필이 성공적으로 업데이트되었습니다. 로그인 자격 증명이 변경된 경우 다시 로그인하십시오.",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "프로필 이미지",
+      "ERROR": "양식 오류를 수정하십시오",
+      "REMOVE_IMAGE": "제거",
+      "UPLOAD_IMAGE": "이미지 업로드",
+      "UPDATE_IMAGE": "이미지 업데이트",
+      "PROFILE_SECTION": {
+        "TITLE": "프로필",
+        "NOTE": "당신의 이메일 주소는 당신의 신분이고 로그인에 사용됩니다."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "비밀번호",
+        "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다.",
+        "BTN_TEXT": "Change password"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "엑세스 토큰",
+        "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있음",
+        "COPY": "복사"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "음성 알림",
+        "NOTE": "대시보드에서 새 메시지 및 대화에 대한 오디오 알림을 활성화합니다.",
+        "ALERT_TYPES": {
+          "NONE": "없음",
+          "MINE": "Assigned",
+          "ALL": "모두"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "없음",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "이메일 알림",
+        "NOTE": "여기서 이메일 알림 기본 설정 업데이트",
+        "CONVERSATION_ASSIGNMENT": "대화가 할당될 때 이메일 알림 보내기",
+        "CONVERSATION_CREATION": "새 대화가 생성될 때 이메일 알림 보내기",
+        "CONVERSATION_MENTION": "대화에서 멘션될 때 이메일 알림 보내기",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "이메일",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "알림 기본 설정이 성공적으로 업데이트됨",
+        "UPDATE_ERROR": "기본 설정을 업데이트하는 동안 오류가 발생했습니다. 다시 시도하십시오."
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "푸시 알림",
+        "NOTE": "여기에서 푸시 알림 기본 설정 업데이트",
+        "CONVERSATION_ASSIGNMENT": "대화가 할당되면 푸시 알림 보내기",
+        "CONVERSATION_CREATION": "새 대화가 만들어질 때 푸시 알림 보내기",
+        "CONVERSATION_MENTION": "대화에서 멘션될 때 푸시 알림 보내기",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "이 브라우저에 대한 푸시를 사용 가능으로 설정하셨습니다.",
+        "REQUEST_PUSH": "푸시 알림 사용",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "프로필 이미지"
+      },
+      "NAME": {
+        "LABEL": "전체 이름",
+        "ERROR": "올바른 전체 이름을 입력하십시오.",
+        "PLACEHOLDER": "전체 이름을 입력하십시오."
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "표기 이름",
+        "ERROR": "올바른 표시 이름을 입력하십시오.",
+        "PLACEHOLDER": "대화에서 표시되는 표시 이름을 입력하십시오."
+      },
+      "AVAILABILITY": {
+        "LABEL": "유용성",
+        "STATUSES_LIST": [
+          "온라인",
+          "바쁨",
+          "오프라인"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "이메일 주소",
+        "ERROR": "올바른 전자 메일 주소를 입력하십시오.",
+        "PLACEHOLDER": "대화 중에 표시되는 이메일 주소를 입력하십시오."
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
+      "PASSWORD": {
+        "LABEL": "New password",
+        "ERROR": "6글자 이상의 비밀번호를 입력하십시오.",
+        "PLACEHOLDER": "새 비밀번호를 입력하십시오."
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "새 비밀번호 확인",
+        "ERROR": "비밀번호가 비밀번호와 일치하는지 확인",
+        "PLACEHOLDER": "Please re-enter your new password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "변경",
+    "CHANGE_ACCOUNTS": "계정 전환",
+    "CONTACT_SUPPORT": "Contact Support",
+    "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
+    "PROFILE_SETTINGS": "프로필 설정",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "로그아웃"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "일 평가판이 남아 있습니다.",
+    "TRAIL_BUTTON": "지금 구입하기",
+    "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "복사",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "코드가 클립보드에 복사됨"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "다운로드",
+      "UPLOADING": "업로드 중...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "보내기"
+    }
+  },
+  "CONFIRM_EMAIL": "확인 중...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "받은 메시지함 추가"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "대화",
+    "INBOX": "받은 메시지함",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "멘션",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "REPORTS": "보고서",
+    "SETTINGS": "설정",
+    "CONTACTS": "연락처",
+    "CAPTAIN": "Captain",
+    "HOME": "홈",
+    "AGENTS": "에이전트",
+    "AGENT_BOTS": "봇",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "받은 메시지함",
+    "NOTIFICATIONS": "알림",
+    "CANNED_RESPONSES": "미리 준비된 답변",
+    "INTEGRATIONS": "통합",
+    "PROFILE_SETTINGS": "프로필 설정",
+    "ACCOUNT_SETTINGS": "계정 설정",
+    "APPLICATIONS": "Applications",
+    "LABELS": "라벨",
+    "CUSTOM_ATTRIBUTES": "사용자 지정 특성",
+    "AUTOMATION": "Automation",
+    "MACROS": "Macros",
+    "TEAMS": "팀",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_CONVERSATION": "대화",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campaigns",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "봇",
+    "REPORTS_AGENT": "에이전트",
+    "REPORTS_LABEL": "라벨",
+    "REPORTS_INBOX": "받은 메시지함",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "SETTINGS": "설정",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "채팅하기"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NEW_ACCOUNT": "새 계정",
+    "SELECTOR_SUBTITLE": "새 계정 만들기",
+    "API": {
+      "SUCCESS_MESSAGE": "계정이 성공적으로 생성됨",
+      "EXIST_MESSAGE": "계정이 이미 있음",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "회사명",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "보내기"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

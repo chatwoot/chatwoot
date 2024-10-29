@@ -1,0 +1,130 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Автоматизация",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Узнайте больше об автоматизации",
+    "HEADER_BTN_TXT": "Добавить правило автоматизации",
+    "LOADING": "Получение правил автоматизации",
+    "ADD": {
+      "TITLE": "Добавить правило автоматизации",
+      "SUBMIT": "Создать",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Название правила",
+          "PLACEHOLDER": "Введите название правила",
+          "ERROR": "Необходимо указать имя"
+        },
+        "DESC": {
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Введите описание правила",
+          "ERROR": "Необходимо описание"
+        },
+        "EVENT": {
+          "LABEL": "Событие",
+          "PLACEHOLDER": "Пожалуйста, выберите один",
+          "ERROR": "Необходимо указать событие"
+        },
+        "CONDITIONS": {
+          "LABEL": "Условия"
+        },
+        "ACTIONS": {
+          "LABEL": "Действия"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Добавить условие",
+      "ACTION_BUTTON_LABEL": "Добавить действие",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно добавлено",
+        "ERROR_MESSAGE": "Не удалось создать правило автоматизации, пожалуйста, повторите попытку позже"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Имя",
+        "Описание",
+        "Активно",
+        "Создано"
+      ],
+      "404": "Правила автоматизации не найдены"
+    },
+    "DELETE": {
+      "TITLE": "Удалить правило автоматизации",
+      "SUBMIT": "Удалить",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "CONFIRM": {
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Вы точно хотите удалить ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно удалено",
+        "ERROR_MESSAGE": "Не удалось удалить правило автоматизации, пожалуйста, повторите попытку позже"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Изменить правило автоматизации",
+      "SUBMIT": "Обновить",
+      "CANCEL_BUTTON_TEXT": "Отменить",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно обновлено",
+        "ERROR_MESSAGE": "Не удалось обновить правило автоматизации, повторите попытку позже"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Копировать",
+      "API": {
+        "SUCCESS_MESSAGE": "Правило автоматизации успешно скопировано",
+        "ERROR_MESSAGE": "Не удалось скопировать правило автоматизации, повторите попытку позже"
+      }
+    },
+    "FORM": {
+      "EDIT": "Редактировать",
+      "CREATE": "Создать",
+      "DELETE": "Удалить",
+      "CANCEL": "Отменить",
+      "RESET_MESSAGE": "Изменение типа события сбросит условия и события, добавленные вами ниже"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Контактные пользовательские атрибуты",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Пользовательские атрибуты разговора"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Вам нужно иметь по крайней мере одно условие для сохранения",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Напишите здесь ваше сообщение",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Выберите команды",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Включить правило автоматизации",
+      "DEACTIVATION_TITLE": "Выключить правило автоматизации",
+      "ACTIVATION_DESCRIPTION": "Это действие запустит правило автоматизации '{automationName}'. Вы уверены, что хотите продолжить?",
+      "DEACTIVATION_DESCRIPTION": "Это действие отключит правило автоматизации '{automationName}'. Вы уверены, что хотите продолжить?",
+      "ACTIVATION_SUCCESFUL": "Правило автоматизации успешно включено",
+      "DEACTIVATION_SUCCESFUL": "Правило автоматизации успешно отключено",
+      "ACTIVATION_ERROR": "Не удалось включить правило автоматизации, пожалуйста, повторите попытку позже",
+      "DEACTIVATION_ERROR": "Не удалось отключить правило автоматизации, пожалуйста, повторите попытку позже",
+      "CONFIRMATION_LABEL": "Да",
+      "CANCEL_LABEL": "Нет"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Не удалось загрузить вложение, попробуйте еще раз",
+      "LABEL_IDLE": "Загрузка вложений",
+      "LABEL_UPLOADING": "Загружаем...",
+      "LABEL_UPLOADED": "Успешно загружено",
+      "LABEL_UPLOAD_FAILED": "Загрузка не удалась"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необходимо указать значение",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    }
+  }
+}

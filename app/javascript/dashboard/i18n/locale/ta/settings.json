@@ -1,0 +1,355 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "சுயவிவர அமைப்புகள்",
+    "TITLE": "சுயவிவர அமைப்புகள்",
+    "BTN_TEXT": "சுயவிவரத்தைப் புதுப்பிக்க",
+    "DELETE_AVATAR": "Delete Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
+    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "AFTER_EMAIL_CHANGED": "உங்கள் சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது, உங்கள் உள்நுழைவு சான்றுகள் மாற்றப்பட்டதால் மீண்டும் உள்நுழையவும்",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "சுயவிவர படம்",
+      "ERROR": "படிவ பிழைகளை சரிசெய்யவும்",
+      "REMOVE_IMAGE": "நீக்கு",
+      "UPLOAD_IMAGE": "படத்தை பதிவேற்றம் செய்யவும்",
+      "UPDATE_IMAGE": "படத்தைப் புதுப்பிக்கவும்",
+      "PROFILE_SECTION": {
+        "TITLE": "சுயவிவரம்",
+        "NOTE": "உங்கள் ஈ-மெயில் முகவரியே உங்கள் அடையாளம் மற்றும் உள்நுழையவும் பயன்படுகிறது."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "பாஸ்வேர்ட்",
+        "NOTE": "உங்கள் பாஸ்வேர்டைப் புதுப்பிப்பது உங்கள் உள்நுழைவுகளை பல சாதனங்களில் மீட்டமைக்கும்.",
+        "BTN_TEXT": "Change password"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "அணுகுவதற்கான டோக்கன்",
+        "NOTE": "நீங்கள் API அடிப்படையிலான ஒருங்கிணைப்பை உருவாக்கினால் இந்த டோக்கனைப் பயன்படுத்தலாம்",
+        "COPY": "நகல்"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "None",
+          "MINE": "Assigned",
+          "ALL": "எல்லாம்"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "None",
+          "ASSIGNED": "Assigned Conversations",
+          "ALL_CONVERSATIONS": "All Conversations"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alert tone:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alert conditions:",
+          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
+          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "ஈமெயில் வழியான அறிவிப்புகள்",
+        "NOTE": "உங்கள் ஈமெயில் வழியான அறிவிப்பு தொடர்பான விருப்பங்களை இங்கே புதுப்பிக்கவும்",
+        "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்பட்டால் ஈமெயிலில் அறிவிப்புகளை அனுப்பவும்",
+        "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது ஈ-மெயிலில் அறிவிப்புகளை அனுப்பவும்",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "இமெயில்",
+        "PUSH": "தானியங்கியாய் அறிவிப்பை தள்ள",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "உங்களின் அறிவிப்பு விருப்பத்தேர்வுகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
+        "UPDATE_ERROR": "விருப்பங்களை புதுப்பிக்கும்போது பிழை ஏற்பட்டுள்ளது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "புஷ் அறிவிப்புகள்",
+        "NOTE": "உங்கள் புஷ் அறிவிப்பு விருப்பங்களை இங்கே புதுப்பிக்கவும்",
+        "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்படும் போது புஷ் அறிவிப்புகளை அனுப்பவும்",
+        "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது புஷ் அறிவிப்புகளை அனுப்பவும்",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "HAS_ENABLED_PUSH": "இந்த பிரௌசருக்கான புஷ் அறிவிப்புகளை இயக்கியுள்ளீர்கள்.",
+        "REQUEST_PUSH": "புஷ் அறிவிப்புகளை இயக்கு",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "சுயவிவர படம்"
+      },
+      "NAME": {
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": ["Online", "Busy", "Offline"],
+        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+      },
+      "EMAIL": {
+        "LABEL": "உங்கள் ஈ-மெயில் முகவரி",
+        "ERROR": "சரியான ஈமெயில் முகவரியை பதிவிடவும்",
+        "PLACEHOLDER": "தயவுசெய்து உங்கள் ஈ-மெயில் முகவரியை உள்ளிடவும், இது உரையாடல்களில் காண்பிக்கப்படும்"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
+      "PASSWORD": {
+        "LABEL": "New password",
+        "ERROR": "6 அல்லது அதற்கு மேற்பட்ட நீள பாஸ்வேர்டை உள்ளிடவும்",
+        "PLACEHOLDER": "புதிய பாஸ்வேர்டை உள்ளிடவும்"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "புதிய பாஸ்வேர்டை உறுதிப்படுத்தவும்",
+        "ERROR": "பாஸ்வேர்டு ஒன்றோடு ஒன்று ஒத்துபோகும்படி இருக்கிறதா என்பதை உறுதிப்படுத்தவும்",
+        "PLACEHOLDER": "Please re-enter your new password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "மாற்ற",
+    "CHANGE_ACCOUNTS": "கணக்கை மாற்றவும்",
+    "CONTACT_SUPPORT": "Contact Support",
+    "SELECTOR_SUBTITLE": "பின்வரும் பட்டியலிலிருந்து ஒரு கணக்கைத் தேர்ந்தெடுக்கவும்",
+    "PROFILE_SETTINGS": "சுயவிவர அமைப்புகள்",
+    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "வெளியேறு"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "நாட்கள் சோதனை மீதமுள்ளது.",
+    "TRAIL_BUTTON": "இப்போது வாங்க",
+    "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "நகல்",
+      "CODEPEN": "Open in CodePen",
+      "COPY_SUCCESSFUL": "குறியீடு கிளிப்போர்டில் வெற்றிகரமாக காப்பி செய்யப்பட்டது"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "பதிவிறக்கம்",
+      "UPLOADING": "பதிவேறுகிறது...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "சமர்பிக்கவும்"
+    }
+  },
+  "CONFIRM_EMAIL": "சரிபார்க்கிறது...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "இன்பாக்ஸைச் சேர்க்க"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "உரையாடல்கள்",
+    "INBOX": "Inbox",
+    "ALL_CONVERSATIONS": "All Conversations",
+    "MENTIONED_CONVERSATIONS": "Mentions",
+    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "REPORTS": "அறிக்கைகள்",
+    "SETTINGS": "அமைப்புகள்",
+    "CONTACTS": "Contacts",
+    "CAPTAIN": "Captain",
+    "HOME": "முகப்பு",
+    "AGENTS": "ஏஜென்ட்கள்",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit Logs",
+    "INBOXES": "இன்பாக்ஸ்கள்",
+    "NOTIFICATIONS": "Notifications",
+    "CANNED_RESPONSES": "பதிவு செய்யப்பட்ட பதில்கள்",
+    "INTEGRATIONS": "சேர்ப்புகள்",
+    "PROFILE_SETTINGS": "சுயவிவர அமைப்புகள்",
+    "ACCOUNT_SETTINGS": "கணக்கின் அமைப்புகள்",
+    "APPLICATIONS": "Applications",
+    "LABELS": "Labels",
+    "CUSTOM_ATTRIBUTES": "Custom Attributes",
+    "AUTOMATION": "Automation",
+    "MACROS": "Macros",
+    "TEAMS": "Teams",
+    "BILLING": "Billing",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with",
+    "NEW_LABEL": "New label",
+    "NEW_TEAM": "New team",
+    "NEW_INBOX": "New inbox",
+    "REPORTS_CONVERSATION": "உரையாடல்கள்",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Campaigns",
+    "ONGOING": "Ongoing",
+    "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "ஏஜென்ட்கள்",
+    "REPORTS_LABEL": "Labels",
+    "REPORTS_INBOX": "Inbox",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Help Center",
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "SETTINGS": "அமைப்புகள்",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Mark offline automatically",
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Chat with us"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Company Name",
+        "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
+      },
+      "SUBMIT": "சமர்பிக்கவும்"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "View all shortcuts",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Open conversation",
+      "RESOLVE_AND_NEXT": "Resolve and move to next",
+      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
+      "ADD_ATTACHMENT": "Add Attachment",
+      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Toggle Sidebar",
+      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
+      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
+      "GO_TO_SETTINGS": "Go to Settings",
+      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
+      "SWITCH_TO_REPLY": "Switch to Reply",
+      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

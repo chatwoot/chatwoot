@@ -1,0 +1,279 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+lv:
+  hello: "Sveika pasaule"
+  messages:
+    reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
+    reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
+    inbox_deletetion_response: Jūsu iesūtnes dzēšanas pieprasījums pēc kāda laika tiks apstrādāts.
+  errors:
+    validations:
+      presence: nedrīkst būt tukšs
+    webhook:
+      invalid: Nederīgi notikumi
+    signup:
+      disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
+      blocked_domain: Šis domēns nav atļauts. Ja uzskatāt, ka tā ir kļūda, lūdzu, sazinieties ar atbalsta dienestu.
+      invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
+      email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
+      invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
+      failed: Reģistrēšanās neizdevās
+    data_import:
+      data_type:
+        invalid: Nederīgs datu tips
+    contacts:
+      import:
+        failed: Fails ir tukšs
+      export:
+        success: Mēs jūs informēsim, kad kontaktpersonu eksporta fails būs gatavs apskatei.
+      email:
+        invalid: Nederīga e-pasta adrese
+      phone_number:
+        invalid: vajadzētu būt E.164 formātā
+    categories:
+      locale:
+        unique: vajadzētu būt unikālai, kategorijā un portālā 
+    dyte:
+      invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
+    slack:
+      invalid_channel_id: "Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz"
+    inboxes:
+      imap:
+        socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
+        no_response_error: Lūdzu, pārbaudiet IMAP akreditācijas datus un mēģiniet vēlreiz.
+        host_unreachable_error: Resursdators nav pieejams. Lūdzu, pārbaudiet IMAP adresi, IMAP portu un mēģiniet vēlreiz.
+        connection_timed_out_error: Savienojumam %{address}:%{port} iestājās taimauts
+        connection_closed_error: Savienojums slēgts.
+      validations:
+        name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
+    custom_filters:
+      number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
+      invalid_attribute: Nederīga atribūta atslēga - [%{key}]. Atslēgai ir jābūt vienai no [%{allowed_keys}] vai pielāgotam atribūtam, kas definēts kontā.
+      invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
+      invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
+  reports:
+    period: Ziņošanas periods %{since} līdz %{until}
+    utc_warning: Izveidotais pārskats atbilst UTC laika joslai
+    agent_csv:
+      agent_name: Aģenta vārds
+      conversations_count: Piešķirtās sarunas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
+    inbox_csv:
+      inbox_name: Iesūtnes nosaukums
+      inbox_type: Iesūtnes tips
+      conversations_count: Sarunu skaits
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+    label_csv:
+      label_title: Etiķete
+      conversations_count: Sarunu skaits
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+    team_csv:
+      team_name: Komandas nosaukums
+      conversations_count: Sarunu skaits
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
+    conversation_traffic_csv:
+      timezone: Laika zona
+    sla_csv:
+      conversation_id: Sarunas ID
+      sla_policy_breached: SLA politika
+      assignee: Uzdevuma saņēmējs
+      team: Komanda
+      inbox: Iesūtne
+      labels: Etiķetes
+      conversation_link: Saite uz sarunu
+      breached_events: Pārkāptie Notikumi
+    default_group_by: diena
+    csat:
+      headers:
+        contact_name: Kontaktpersonas Vārds
+        contact_email_address: Kontaktpersonas E-pasta Adrese
+        contact_phone_number: Kontaktpersonas Tālruņa Numurs
+        link_to_the_conversation: Saite uz sarunu
+        agent_name: Aģenta Vārds
+        rating: Vērtējums
+        feedback: Atsauksmes Komentārs
+        recorded_at: Reģistrētais datums
+  notifications:
+    notification_title:
+      conversation_creation: "Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}"
+      conversation_assignment: "Jums ir piešķirta saruna (#%{display_id})"
+      assigned_conversation_new_message: "Sarunā (#%{display_id}) ir izveidots jauns ziņojums"
+      conversation_mention: "Jūs esat pieminēts sarunā (#%{display_id})"
+      sla_missed_first_response: "SLA sarunas (#%{display_id}) pirmā atbilde nokavēta"
+      sla_missed_next_response: "SLA sarunas (#%{display_id}) nākamā atbilde nokavēta"
+      sla_missed_resolution: "SLA sarunas (#%{display_id}) atrisināšana nokavēta"
+    attachment: "Pielikums"
+    no_content: "Nav satura"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
+      instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
+      deleted: Šis ziņojums ir izdzēsts
+      delivery_status:
+        error_code: "Kļūdas kods: %{error_code}"
+    activity:
+      status:
+        resolved: "%{user_name} sarunu atzīmēja kā atrisinātu"
+        contact_resolved: "%{contact_name} atrisināja sarunu"
+        open: "%{user_name} atkārtoti atvēra sarunu"
+        pending: "%{user_name} sarunu atzīmēja kā neapstiprinātu"
+        snoozed: "%{user_name} atlika sarunu"
+        auto_resolved: "Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ"
+        system_auto_open: Sistēma atkārtoti atvēra sarunu jauna ienākoša ziņojuma dēļ.
+      priority:
+        added: '%{user_name} iestatīja prioritāti uz %{new_priority}'
+        updated: '%{user_name} nomainīja prioritāti no %{old_priority} uz %{new_priority}'
+        removed: '%{user_name} noņēma prioritāti'
+      assignee:
+        self_assigned: "%{user_name} sev piešķīra šo sarunu"
+        assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
+        removed: "%{user_name} noņēma piešķiršanu"
+      team:
+        assigned: "%{user_name} piešķīra sarunu %{team_name}"
+        assigned_with_assignee: "%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}"
+        removed: "%{user_name} noņēma piešķiršanu %{team_name}"
+      labels:
+        added: "%{user_name} pievienoja %{labels}"
+        removed: "%{user_name} noņēma %{labels}"
+      sla:
+        added: "%{user_name} pievienoja SLA politiku %{sla_name}"
+        removed: "%{user_name} noņēma SLA politiku %{sla_name}"
+      muted: "%{user_name} izslēdza sarunu"
+      unmuted: "%{user_name} ieslēdza sarunu"
+    templates:
+      greeting_message_body: "%{account_name} parasti atbild dažu stundu laikā."
+      ways_to_reach_you_message_body: "Dodiet komandai iespēju ar jums sazināties."
+      email_input_box_message_body: "Saņemiet paziņojumus pa e-pastu"
+      csat_input_message_body: "Lūdzu, novērtējiet sarunu"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} no %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} no %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} no %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "Jauni ziņojumi šajā sarunā"
+      transcript_subject: "Sarunas Transkripts"
+    survey:
+      response: "Lūdzu, novērtējiet šo sarunu, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
+  integration_apps:
+    dashboard_apps:
+      name: "Informācijas paneļa Lietotnes"
+      description: "Informācijas paneļa Lietotnes ļauj izveidot un iegult lietojumprogrammas, kurās tiek parādīta lietotāja informācija, pasūtījumu vai maksājumu vēsture, nodrošinot plašāku kontekstu jūsu klientu atbalsta aģentiem."
+    dyte:
+      name: "Dyte"
+      description: "Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no Chatwoot."
+      meeting_name: "%{agent_name} ir sācis sapulci"
+    slack:
+      name: "Slack"
+      description: "Integrējiet Chatwoot ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Chatwoot kontā. Varat abonēt vēlamos notikumus, un Chatwoot nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un viegli integrējiet tos savā iesūtnē. Šīs robotprogrammatūras var apstrādāt sākotnējos vaicājumus pirms to nodošanas klientu apkalpošanas aģentam."
+    google_translate:
+      name: "Google Tulkotājs"
+      description: "Integrējiet Google tulkotāju, lai palīdzētu aģentiem viegli tulkot klientu ziņojumus. Šī integrācija automātiski nosaka valodu un pārslēdz to uz aģenta vai administratora vēlamo valodu."
+    openai:
+      name: "OpenAI"
+      description: "Izmantojiet OpenAI lielo valodu modeļu iespējas, tādas kā atbilžu ieteikumus, kopsavilkumus, ziņojumu pārfrāzēšanu, pareizrakstības pārbaudi un etiķešu klasifikāciju."
+    linear:
+      name: "Lineārs"
+      description: "Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu."
+    captain:
+      name: "Captain"
+      description: "Captain ir vietējais AI palīgs, kas ir izveidots jūsu produktam un ir apmācīts, izmantojot jūsu uzņēmuma zināšanu bāzi. Tas reaģē kā cilvēks un efektīvi atrisina klientu jautājumus. Viegli konfigurējams jūsu iesūtnēs."
+  public_portal:
+    search:
+      search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
+      empty_placeholder: Nav atrasts.
+      loading_placeholder: Meklēšana...
+      results_title: Meklēšanas rezultāti
+    toc_header: 'Šajā lapā'
+    hero:
+      sub_title: Meklējiet rakstus šeit, vai pārlūkojiet tālāk norādītās kategorijas.
+    common:
+      home: Sākums
+      last_updated_on: Pēdējo reizi atjaunināts %{last_updated_on}
+      view_all_articles: Apskatīt visu
+      article: raksts
+      articles: raksti
+      author: autors
+      authors: autori
+      other: cits
+      others: citi
+      by: autors
+      no_articles: Šeit nav neviena raksta
+    footer:
+      made_with: Veidots ar
+    header:
+      go_to_homepage: Tīmekļa vietne
+      appearance:
+        system: Sistēma
+        light: Gaišs
+        dark: Tumšs
+      featured_articles: Piedāvātie raksti
+      uncategorized: Bez kategorijas
+    404:
+      title: Lapa nav atrasta
+      description: Mēs nevarējām atrast lapu, kuru meklējāt.
+      back_to_home: Doties uz sākumlapu
+  slack_unfurl:
+    fields:
+      name: Nosaukums
+      email: E-pasts
+      phone_number: Telefona Nr.
+      company_name: Uzņēmums
+      inbox_name: Iesūtne
+      inbox_type: Iesūtnes Veids
+    button: Atvērt sarunu
+  time_units:
+    days:
+      zero: "%{count} dienas"
+      one: "%{count} diena"
+      other: "%{count} dienas"
+    hours:
+      zero: "%{count} stundas"
+      one: "%{count} stunda"
+      other: "%{count} stundas"
+    minutes:
+      zero: "%{count} minūtes"
+      one: "%{count} minūte"
+      other: "%{count} minūtes"
+    seconds:
+      zero: "%{count} sekundes"
+      one: "%{count} sekunde"
+      other: "%{count} sekundes"

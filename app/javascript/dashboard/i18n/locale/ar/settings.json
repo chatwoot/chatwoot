@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "إعدادات الملف الشخصي",
+    "TITLE": "إعدادات الملف الشخصي",
+    "BTN_TEXT": "تعديل الملف الشخصي",
+    "DELETE_AVATAR": "حذف الصورة الرمزية",
+    "AVATAR_DELETE_SUCCESS": "تم حذف الصورة الشخصية بنجاح",
+    "AVATAR_DELETE_FAILED": "حدث خطأ أثناء حذف الصورة الشخصية، الرجاء المحاولة مرة أخرى",
+    "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
+    "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
+    "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
+    "FORM": {
+      "PICTURE": "صورة الملف الشخصي",
+      "AVATAR": "صورة الملف الشخصي",
+      "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
+      "REMOVE_IMAGE": "حذف",
+      "UPLOAD_IMAGE": "رفع صورة",
+      "UPDATE_IMAGE": "تحديث الصورة",
+      "PROFILE_SECTION": {
+        "TITLE": "الملف الشخصي",
+        "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "أختصار إرسال الرسائل",
+        "NOTE": "يمكنك تحديد أختصار (إما Enter أو Cmd/Ctrl+Enter) استنادًا إلى تفضيلك في الكتابة.",
+        "UPDATE_SUCCESS": "تم تحديث الإعدادات الخاصة بك بنجاح",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "إرسال الرسائل بالضغط على مفتاح (Enter) بدلاً من النقر على زر الإرسال."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (<unk> + <unk> )",
+            "CONTENT": "إرسال الرسائل بالضغط على Cmd/Ctrl + إدخال المفتاح بدلاً من النقر على زر الإرسال."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "توقيع الرسالة الشخصية",
+        "NOTE": "إنشاء توقيع رسالة فريدة تظهر في نهاية كل رسالة ترسلها من أي صندوق وارد. يمكنك أيضًا تضمين صورة داخلية، مدعومة في الدردشة المباشرة، والبريد الإلكتروني، وصناديق API الواردة.",
+        "BTN_TEXT": "حفظ توقيع الرسالة",
+        "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
+        "API_SUCCESS": "تم حفظ التوقيع بنجاح",
+        "IMAGE_UPLOAD_ERROR": "تعذر رفع الصورة! حاول مرة أخرى",
+        "IMAGE_UPLOAD_SUCCESS": "تم إضافة الصورة بنجاح. الرجاء النقر على الحفظ لحفظ التوقيع",
+        "IMAGE_UPLOAD_SIZE_ERROR": "حجم الصورة يجب أن يكون أقل من {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "توقيع الرسالة",
+        "ERROR": "توقيع الرسالة لا يمكن أن يكون فارغاً",
+        "PLACEHOLDER": "أدخل توقيع رسالتك الشخصية هنا."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "كلمة المرور",
+        "NOTE": "تعديل كلمة المرور الخاصة بك سيعيد ضبط تسجيلات الدخول الخاصة بك في الأجهزة الأخرى.",
+        "BTN_TEXT": "تغيير كلمة المرور"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "رمز المصادقة",
+        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
+        "COPY": "نسخ"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "الإشعارات الصوتية",
+        "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
+        "ALERT_TYPES": {
+          "NONE": "لا شيء",
+          "MINE": "المعين",
+          "ALL": "الكل"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "تنبيه الأحداث للمحادثات:",
+          "NONE": "لا شيء",
+          "ASSIGNED": "المحادثات المعينة",
+          "ALL_CONVERSATIONS": "كل المحادثات"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "نغمة التنبيه:"
+        },
+        "CONDITIONS": {
+          "TITLE": "شروط التنبيه:",
+          "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
+          "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "إشعارات البريد الإلكتروني",
+        "NOTE": "قم بتحديث تفضيلات إشعار البريد الإلكتروني الخاص بك من هنا",
+        "CONVERSATION_ASSIGNMENT": "إرسال إشعارات البريد الإلكتروني عند إسناد محادثة لي",
+        "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة",
+        "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك في محادثة",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات البريد الإلكتروني عند إنشاء رسالة جديدة في محادثة موكلة",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "البريد الإلكتروني",
+        "PUSH": "الإشعارات الفورية",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "يتم تحديث إعدادات الإشعارات بنجاح",
+        "UPDATE_ERROR": "حدث خطأ أثناء تحديث الإعدادات، الرجاء المحاولة مرة أخرى"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "إشعارات المتصفح",
+        "NOTE": "قم بتحديث تفضيلات إشعارات المتصفح من هنا",
+        "CONVERSATION_ASSIGNMENT": "إرسال إشعارات على المتصفح عند إسناد محادثة لي",
+        "CONVERSATION_CREATION": "إرسال إشعارات المتصفح عند ورود محادثة جديدة",
+        "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك او الاشارة اليك في محادثة",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "HAS_ENABLED_PUSH": "لقد قمت بتمكين الإشعارات لهذا المتصفح.",
+        "REQUEST_PUSH": "تفعيل إشعارات المتصفح",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "صورة الملف الشخصي"
+      },
+      "NAME": {
+        "LABEL": "اسمك الكامل",
+        "ERROR": "الرجاء إدخال اسم صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "اسم العرض",
+        "ERROR": "الرجاء إدخال اسم عرض صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسم العرض، سيتم عرض هذا في المحادثات"
+      },
+      "AVAILABILITY": {
+        "LABEL": "التوفر",
+        "STATUSES_LIST": [
+          "متصل",
+          "مشغول",
+          "غير متصل"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
+        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
+      },
+      "EMAIL": {
+        "LABEL": "عنوان البريد الإلكتروني الخاص بك",
+        "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
+        "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني الخاص بك، سيتم عرضه في المحادثات"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "كلمة المرور الحالية",
+        "ERROR": "الرجاء إدخال كلمة مرور جديدة",
+        "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
+      },
+      "PASSWORD": {
+        "LABEL": "كلمة مرور جديدة",
+        "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
+        "PLACEHOLDER": "الرجاء إدخال كلمة مرور جديدة"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "تأكيد كلمة المرور الجديدة",
+        "ERROR": "تأكيد كلمة المرور يجب أن تتطابق",
+        "PLACEHOLDER": "الرجاء إعادة إدخال كلمة المرور"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
+    "CHANGE_ACCOUNTS": "تبديل الحساب",
+    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
+    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
+    "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
+    "APPEARANCE": "تغيير المظهر",
+    "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
+    "LOGOUT": "تسجيل الخروج"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
+    "TRAIL_BUTTON": "اشترك الآن",
+    "DELETED_USER": "المستخدم المحذوف",
+    "EMAIL_VERIFICATION_PENDING": "يبدو أنك لم تتحقق من عنوان بريدك الإلكتروني بعد. الرجاء التحقق من صندوق الوارد الخاص بك للتحقق من البريد الإلكتروني.",
+    "RESEND_VERIFICATION_MAIL": "إعادة إرسال رسالة التحقق",
+    "EMAIL_VERIFICATION_SENT": "تم إرسال البريد الإلكتروني للتحقق. الرجاء التحقق من البريد الوارد الخاص بك.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "تم تعليق الحساب",
+      "MESSAGE": "تم تعليق حسابك. يرجى الاتصال بفريق الدعم للمزيد من المعلومات."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "نسخ",
+      "CODEPEN": "فتح في CodePen",
+      "COPY_SUCCESSFUL": "تم نسخ الكود إلى الحافظة بنجاح"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "إظهار المزيد",
+      "SHOW_LESS": "إظهار أقل"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "تنزيل",
+      "UPLOADING": "جاري الرفع...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "هذه القصة لم تعد متاحة."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "مشاهدة على الخريطة"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "إرسال"
+    }
+  },
+  "CONFIRM_EMAIL": "جار التحقق...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "إضافة قناة تواصل"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
+    "SWITCH": "تبديل",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "المحادثات",
+    "INBOX": "صندوق الوارد",
+    "ALL_CONVERSATIONS": "كل المحادثات",
+    "MENTIONED_CONVERSATIONS": "الإشارات",
+    "PARTICIPATING_CONVERSATIONS": "شارك",
+    "UNATTENDED_CONVERSATIONS": "بدون حضور",
+    "REPORTS": "التقارير",
+    "SETTINGS": "الإعدادات",
+    "CONTACTS": "جهات الاتصال",
+    "CAPTAIN": "قائد",
+    "HOME": "الرئيسية",
+    "AGENTS": "وكيل الدعم",
+    "AGENT_BOTS": "الروبوتات",
+    "AUDIT_LOGS": "سجلات التدقيق",
+    "INBOXES": "قنوات التواصل",
+    "NOTIFICATIONS": "الإشعارات",
+    "CANNED_RESPONSES": "الردود الجاهزة",
+    "INTEGRATIONS": "خيارات الربط",
+    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
+    "ACCOUNT_SETTINGS": "إعدادات الحساب",
+    "APPLICATIONS": "التطبيقات",
+    "LABELS": "الوسوم",
+    "CUSTOM_ATTRIBUTES": "سمات مخصصة",
+    "AUTOMATION": "الأتمتة",
+    "MACROS": "ماكروس",
+    "TEAMS": "الفرق",
+    "BILLING": "الفواتير",
+    "CUSTOM_VIEWS_FOLDER": "المجلدات",
+    "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
+    "ALL_CONTACTS": "جميع جهات الاتصال",
+    "TAGGED_WITH": "مشار إليه بواسطة",
+    "NEW_LABEL": "علامة جديدة",
+    "NEW_TEAM": "فريق جديد",
+    "NEW_INBOX": "صندوق الوارد الجديد",
+    "REPORTS_CONVERSATION": "المحادثات",
+    "CSAT": "تقييم رضاء العملاء",
+    "CAMPAIGNS": "الحملات",
+    "ONGOING": "جارية",
+    "ONE_OFF": "إيقاف واحد",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "رد آلي",
+    "REPORTS_AGENT": "وكيل الدعم",
+    "REPORTS_LABEL": "الوسوم",
+    "REPORTS_INBOX": "صندوق الوارد",
+    "REPORTS_TEAM": "الفريق",
+    "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "تجريبي",
+    "REPORTS_OVERVIEW": "نظرة عامة",
+    "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
+    "HELP_CENTER": {
+      "TITLE": "مركز المساعدة",
+      "ALL_ARTICLES": "جميع المقالات",
+      "MY_ARTICLES": "مقالاتي",
+      "DRAFT": "مسودة",
+      "ARCHIVED": "مؤرشفة",
+      "CATEGORY": "الفئة",
+      "SETTINGS": "الإعدادات",
+      "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "وضع علامة غير متصل تلقائيا",
+      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم."
+    },
+    "DOCS": "قراءة المستندات"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "الفواتير",
+    "CURRENT_PLAN": {
+      "TITLE": "الباقة الحالية",
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "إدارة الاشتراك الخاص بك",
+      "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
+      "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "تحتاج مساعدة؟",
+      "DESCRIPTION": "هل تواجه أي مشاكل في الفواتير؟ نحن هنا للمساعدة.",
+      "BUTTON_TXT": "تحدث الينا"
+    },
+    "NO_BILLING_USER": "حساب الفوترة الخاص بك قيد الإعداد. الرجاء تحديث الصفحة وحاول مرة أخرى."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
+    "NEW_ACCOUNT": "حساب جديد",
+    "SELECTOR_SUBTITLE": "إنشاء حساب جديد",
+    "API": {
+      "SUCCESS_MESSAGE": "تم إنشاء الحساب بنجاح",
+      "EXIST_MESSAGE": "الحساب موجود بالفعل",
+      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "اسم المنشأة",
+        "PLACEHOLDER": "مؤسسة Wayne"
+      },
+      "SUBMIT": "إرسال"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "عرض جميع الاختصارات",
+    "TITLE": {
+      "OPEN_CONVERSATION": "فتح المحادثة",
+      "RESOLVE_AND_NEXT": "حل وانتقل إلى التالي",
+      "NAVIGATE_DROPDOWN": "تصفح العناصر المنسدلة",
+      "RESOLVE_CONVERSATION": "إعادة فتح المحادثة",
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "ADD_ATTACHMENT": "إضافة مرفقات",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "TOGGLE_SIDEBAR": "تبديل الشريط الجانبي",
+      "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
+      "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
+      "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
+      "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
+      "SWITCH_TO_REPLY": "التبديل إلى الرد",
+      "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversas selecionadas",
+    "AGENT_SELECT_LABEL": "Escolher agente",
+    "ASSIGN_CONFIRMATION_LABEL": "Tem a certeza que pretende atribuir {conversationCount} {conversationLabel} a",
+    "UNASSIGN_CONFIRMATION_LABEL": "Tem a certeza que pretende remover a atribuição de {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Voltar",
+    "ASSIGN_LABEL": "Atribuir",
+    "YES": "Sim",
+    "SEARCH_INPUT_PLACEHOLDER": "Procurar",
+    "ASSIGN_AGENT_TOOLTIP": "Atribuir agente",
+    "ASSIGN_TEAM_TOOLTIP": "Atribuir equipa",
+    "ASSIGN_SUCCESFUL": "Conversas atribuídas com sucesso.",
+    "ASSIGN_FAILED": "Falha ao atribuir conversas. Por favor, tente novamente.",
+    "RESOLVE_SUCCESFUL": "Conversas resolvidas com sucesso.",
+    "RESOLVE_FAILED": "Falha ao resolver conversas. Por favor, tente novamente.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "As conversas visíveis nesta página estão apenas selecionadas.",
+    "AGENT_LIST_LOADING": "A carregar agentes",
+    "UPDATE": {
+      "CHANGE_STATUS": "Alterar estado",
+      "SNOOZE_UNTIL": "Adiar",
+      "UPDATE_SUCCESFUL": "Estado da conversa atualizado com sucesso.",
+      "UPDATE_FAILED": "Falha ao atualizar conversas. Por favor, tente novamente."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Atribuir etiquetas",
+      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada para",
+      "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
+      "ASSIGN_SUCCESFUL": "Etiquetas atribuídas com sucesso.",
+      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Escolher equipa",
+      "NONE": "Nenhuma",
+      "NO_TEAMS_AVAILABLE": "Não há equipas nesta conta.",
+      "ASSIGN_SELECTED_TEAMS": "Atribuir equipa selecionada.",
+      "ASSIGN_SUCCESFUL": "Equipas atribuídas.",
+      "ASSIGN_FAILED": "Falha ao atribuir equipa. Tente novamente."
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtrer Kontakter",
+    "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Send' for at filtrere kontakter.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "Tilføj Filter",
+    "CLEAR_ALL_FILTERS": "Ryd Alle Filtre",
+    "FILTER_DELETE_ERROR": "Du skal have mindst et filter at gemme",
+    "SUBMIT_BUTTON_LABEL": "Send",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "Annuller",
+    "CLEAR_BUTTON_LABEL": "Ryd Filtre",
+    "EMPTY_VALUE_ERROR": "Værdi er påkrævet",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filtrer kontaktpersoner",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "OG",
+      "OR": "ELLER"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Lig med",
+      "not_equal_to": "Ikke lig med",
+      "contains": "Indeholder",
+      "does_not_contain": "Indeholder ikke",
+      "is_present": "Er til stede",
+      "is_not_present": "Er ikke til stede",
+      "is_greater_than": "Er større end",
+      "is_lesser_than": "Er mindre end",
+      "days_before": "Er x dage før"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Værdi er påkrævet"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Navn",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Telefonnummer",
+      "IDENTIFIER": "Identifier",
+      "CITY": "By",
+      "COUNTRY": "Land",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
+      "CREATED_AT": "Oprettet Den",
+      "LAST_ACTIVITY": "Sidste Aktivitet",
+      "REFERER_LINK": "Link til reference",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filtre",
+      "ADDITIONAL_FILTERS": "Yderligere Filtre",
+      "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber"
+    }
+  }
+}

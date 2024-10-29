@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filter Contacts",
+    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
+    "CLEAR_ALL_FILTERS": "Clear All Filters",
+    "FILTER_DELETE_ERROR": "സേവ് ചെയ്യാൻ നിങ്ങൾക്ക് ഒരു ഫിൽട്ടറെങ്കിലും ഉണ്ടായിരിക്കണം",
+    "SUBMIT_BUTTON_LABEL": "സമർപ്പിക്കുക",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
+    "CLEAR_BUTTON_LABEL": "ഫിൽട്ടറുകൾ മായ്ക്കുക",
+    "EMPTY_VALUE_ERROR": "Value is required",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filter contacts",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ഒപ്പം",
+      "OR": "അഥവാ"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "തുല്യമാണ്",
+      "not_equal_to": "തുല്യമല്ല",
+      "contains": "അടങ്ങിയിരിക്കുന്നു",
+      "does_not_contain": "ഉൾപ്പെട്ടിട്ടില്ല",
+      "is_present": "നിലവിലുണ്ട്",
+      "is_not_present": "നിലവിലില്ല",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Value is required"
+    },
+    "ATTRIBUTES": {
+      "NAME": "പേര്",
+      "EMAIL": "ഇമെയിൽ",
+      "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+      "IDENTIFIER": "Identifier",
+      "CITY": "നഗരം",
+      "COUNTRY": "രാജ്യം",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ"
+    }
+  }
+}

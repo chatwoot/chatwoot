@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "beszélgetés kiválasztva",
+    "AGENT_SELECT_LABEL": "Ügynök kiválasztása",
+    "ASSIGN_CONFIRMATION_LABEL": "Biztosan hozzá szeretnéd rendelni?",
+    "UNASSIGN_CONFIRMATION_LABEL": "Biztosan meg szeretnéd szüntetni a hozzárendelést?",
+    "GO_BACK_LABEL": "Visszaugrás",
+    "ASSIGN_LABEL": "Hozzárendelés",
+    "YES": "Igen",
+    "SEARCH_INPUT_PLACEHOLDER": "Keresés",
+    "ASSIGN_AGENT_TOOLTIP": "Ügynök hozzárendelése",
+    "ASSIGN_TEAM_TOOLTIP": "Csapat hozzárendelése",
+    "ASSIGN_SUCCESFUL": "Beszélgetés sikeresen hozzá lett rendelve.",
+    "ASSIGN_FAILED": "Nem sikerült beszélgetéseket hozzárendelni. Kérjük, próbálja újra.",
+    "RESOLVE_SUCCESFUL": "Beszélgetés sikeresen megoldva.",
+    "RESOLVE_FAILED": "Nem sikerült megoldani a beszélgetéseket. Kérjük, próbálja újra.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Csak a kiválasztott beszélgetések láthatóak ezen az oldalon.",
+    "AGENT_LIST_LOADING": "Ügynökök betöltése",
+    "UPDATE": {
+      "CHANGE_STATUS": "Státusz változtatása",
+      "SNOOZE_UNTIL": "Halasztás",
+      "UPDATE_SUCCESFUL": "Beszélgetés státusza sikeresen frissítve ",
+      "UPDATE_FAILED": "Nem sikerült frissíteni a beszélgetéseket. Kérjük, próbálja újra."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Címkék hozzárendelése",
+      "NO_LABELS_FOUND": "Nem található cimke erre:",
+      "ASSIGN_SELECTED_LABELS": "Válogatott címkék hozzárendelése",
+      "ASSIGN_SUCCESFUL": "Címkék hozzárendelése sikeres.",
+      "ASSIGN_FAILED": "Nem sikerült címkéket hozzárendelni. Kérjük, próbálja újra."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Csapat kiválasztása",
+      "NONE": "Nincs",
+      "NO_TEAMS_AVAILABLE": "Ebben a fiókban még nincs csapat létrehozva.",
+      "ASSIGN_SELECTED_TEAMS": "Válogatott csapatok hozzárendelése.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Nem sikerült csapatot kijelölni. Kérjük, próbálja újra."
+    }
+  }
+}

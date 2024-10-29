@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Ustawienia profilu",
+    "TITLE": "Ustawienia profilu",
+    "BTN_TEXT": "Aktualizuj profil",
+    "DELETE_AVATAR": "Usuń awatar",
+    "AVATAR_DELETE_SUCCESS": "Awatar został usunięty",
+    "AVATAR_DELETE_FAILED": "Wystąpił błąd podczas usuwania awatara, spróbuj ponownie",
+    "UPDATE_SUCCESS": "Twój profil został pomyślnie zaktualizowany",
+    "PASSWORD_UPDATE_SUCCESS": "Twoje hasło zostało zmienione",
+    "AFTER_EMAIL_CHANGED": "Twój profil został pomyślnie zaktualizowany, zaloguj się ponownie po zmianie danych logowania",
+    "FORM": {
+      "PICTURE": "Profile Picture",
+      "AVATAR": "Zdjęcie profilowe",
+      "ERROR": "Proszę naprawić błędy formularza",
+      "REMOVE_IMAGE": "Usuń",
+      "UPLOAD_IMAGE": "Prześlij obraz",
+      "UPDATE_IMAGE": "Aktualizuj obraz",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Twój adres e-mail jest Twoją tożsamością i jest używany do logowania."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Skrót klawiszowy do wysyłania wiadomości",
+        "NOTE": "Możesz wybrać skrót klawiszowy (Enter lub Cmd/Ctrl+Enter) w zależności od preferencji pisania.",
+        "UPDATE_SUCCESS": "Twoje ustawienia zostały pomyślnie zaktualizowane",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Wyślij wiadomości, naciskając klawisz Enter zamiast kliknięcia przycisku Wyślij."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Wyślij wiadomości, naciskając klawisze Cmd/Ctrl + Enter zamiast kliknięcia przycisku Wyślij."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Osobisty podpis wiadomości",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "BTN_TEXT": "Zapisz podpis wiadomości",
+        "API_ERROR": "Nie można zapisać podpisu! Spróbuj ponownie",
+        "API_SUCCESS": "Podpis został pomyślnie zapisany",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Rozmiar obrazu powinien być mniejszy niż {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Podpis wiadomości",
+        "ERROR": "Podpis wiadomości nie może być pusty",
+        "PLACEHOLDER": "Wprowadź swój osobisty podpis wiadomości tutaj."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Hasło",
+        "NOTE": "Zmiana hasła spowoduje zresetowanie logowania na wielu urządzeniach.",
+        "BTN_TEXT": "Zmień hasło"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token dostępu",
+        "NOTE": "Ten token może być użyty, jeśli budujesz integrację opartą na API",
+        "COPY": "Kopiuj"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Powiadomienia dźwiękowe",
+        "NOTE": "Włącz powiadomienia dźwiękowe na pulpicie dla nowych wiadomości i konwersacji.",
+        "ALERT_TYPES": {
+          "NONE": "Brak",
+          "MINE": "Assigned",
+          "ALL": "Wszystkie"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Alert events for conversations:",
+          "NONE": "Brak",
+          "ASSIGNED": "Przypisane rozmowy",
+          "ALL_CONVERSATIONS": "Rozmowy"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Domyślny dźwięk powiadomień:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Warunki powiadomień:",
+          "CONDITION_ONE": "Wysyłaj dźwiękowe powiadomienia tylko wtedy, gdy okno przeglądarki nie jest aktywne",
+          "CONDITION_TWO": "Wysyłaj powiadomienia co 30 sekund, dopóki wszystkie przypisane rozmowy nie zostaną odczytane"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Powiadomienia e-mail",
+        "NOTE": "Zaktualizuj ustawienia powiadomień e-mail tutaj",
+        "CONVERSATION_ASSIGNMENT": "Wysyłaj powiadomienia e-mail, gdy konwersacja jest przypisana do mnie",
+        "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy",
+        "CONVERSATION_MENTION": "Wysyłaj powiadomienia e-mail, gdy zostaniesz wymieniony w rozmowie",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy w przypisanej konwersacji zostanie utworzona nowa wiadomość",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy w rozmowie, w której bierzesz udział, zostanie utworzona nowa wiadomość",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Twoje preferencje powiadomień zostały pomyślnie zaktualizowane",
+        "UPDATE_ERROR": "Wystąpił błąd podczas aktualizacji preferencji, spróbuj ponownie"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Powiadomienia push",
+        "NOTE": "Zaktualizuj ustawienia powiadomień push tutaj",
+        "CONVERSATION_ASSIGNMENT": "Wyślij powiadomienia push, gdy konwersacja jest przypisana do mnie",
+        "CONVERSATION_CREATION": "Wysyłaj powiadomienia push po utworzeniu nowej rozmowy",
+        "CONVERSATION_MENTION": "Wyślij powiadomienia push, gdy jesteś wymieniony w rozmowie",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia push, gdy w przypisanej konwersacji zostanie utworzona nowa wiadomość",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Wyślij powiadomienia push, gdy w rozmowie, w której bierzesz udział, zostanie utworzona nowa wiadomość",
+        "HAS_ENABLED_PUSH": "Włączyłeś opcję powiadomień push dla tej przeglądarki.",
+        "REQUEST_PUSH": "Włącz powiadomienia push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Zdjęcie profilowe"
+      },
+      "NAME": {
+        "LABEL": "Twoje imię i nazwisko",
+        "ERROR": "Podaj swoje imię i nazwisko",
+        "PLACEHOLDER": "Podaj swoje imię i nazwisko"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Wyświetlana nazwa",
+        "ERROR": "Wprowadź poprawną nazwę wyświetlaną",
+        "PLACEHOLDER": "Wprowadź nazwę wyświetlaną, która będzie widoczna w rozmowach"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Dostępność",
+        "STATUSES_LIST": [
+          "Online",
+          "Zajęty",
+          "Offline"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Dostępność została pomyślnie ustawiona",
+        "SET_AVAILABILITY_ERROR": "Nie można ustawić dostępności, spróbuj ponownie"
+      },
+      "EMAIL": {
+        "LABEL": "Twój adres e-mail",
+        "ERROR": "Wprowadź poprawny adres e-mail",
+        "PLACEHOLDER": "Wprowadź swój adres e-mail, który będzie widoczny w rozmowach"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Aktualne hasło",
+        "ERROR": "Wprowadź aktualne hasło",
+        "PLACEHOLDER": "Wprowadź aktualne hasło"
+      },
+      "PASSWORD": {
+        "LABEL": "Nowe hasło",
+        "ERROR": "Wprowadź hasło o długości co najmniej 6 znaków",
+        "PLACEHOLDER": "Wprowadź nowe hasło"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Potwierdź nowe hasło",
+        "ERROR": "Potwierdzenie hasła musi być zgodne z hasłem",
+        "PLACEHOLDER": "Wprowadź ponownie nowe hasło"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Zmień dostępność",
+    "CHANGE_ACCOUNTS": "Przełącz konto",
+    "CONTACT_SUPPORT": "Skontaktuj się z pomocą techniczną",
+    "SELECTOR_SUBTITLE": "Wybierz konto z poniższej listy",
+    "PROFILE_SETTINGS": "Ustawienia profilu",
+    "KEYBOARD_SHORTCUTS": "Skróty klawiszowe",
+    "APPEARANCE": "Change Appearance",
+    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "LOGOUT": "Wyloguj się"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dni pozostało w okresie próbnym.",
+    "TRAIL_BUTTON": "Kup teraz",
+    "DELETED_USER": "Usunięty użytkownik",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Konto zawieszone",
+      "MESSAGE": "Twoje konto zostało zawieszone. Skontaktuj się z zespołem pomocy technicznej w celu uzyskania dodatkowych informacji."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopiuj",
+      "CODEPEN": "Otwórz w CodePen",
+      "COPY_SUCCESSFUL": "Kod został skopiowany do schowka"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Pokaż więcej",
+      "SHOW_LESS": "Pokaż mniej"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Pobierz",
+      "UPLOADING": "Przesyłanie...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Ta historia nie jest już dostępna."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Zobacz na mapie"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Wyślij"
+    }
+  },
+  "CONFIRM_EMAIL": "Weryfikacja...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Dodaj skrzynkę odbiorczą"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Aktualnie przeglądane konto:",
+    "SWITCH": "Przełącz",
+    "INBOX_VIEW": "Inbox View",
+    "CONVERSATIONS": "Rozmowy",
+    "INBOX": "Skrzynka odbiorcza",
+    "ALL_CONVERSATIONS": "Rozmowy",
+    "MENTIONED_CONVERSATIONS": "Wzmianki",
+    "PARTICIPATING_CONVERSATIONS": "Udział",
+    "UNATTENDED_CONVERSATIONS": "Bez odpowiedzi",
+    "REPORTS": "Raporty",
+    "SETTINGS": "Ustawienia",
+    "CONTACTS": "Kontakty",
+    "CAPTAIN": "Captain",
+    "HOME": "Strona główna",
+    "AGENTS": "Agenci",
+    "AGENT_BOTS": "Boty",
+    "AUDIT_LOGS": "Logi audytowe",
+    "INBOXES": "Skrzynki odbiorcze",
+    "NOTIFICATIONS": "Powiadomienia",
+    "CANNED_RESPONSES": "Gotowe odpowiedzi",
+    "INTEGRATIONS": "Integracje",
+    "PROFILE_SETTINGS": "Ustawienia profilu",
+    "ACCOUNT_SETTINGS": "Ustawienia konta",
+    "APPLICATIONS": "Aplikacje",
+    "LABELS": "Etykiety",
+    "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
+    "AUTOMATION": "Automatyzacja",
+    "MACROS": "Makra",
+    "TEAMS": "Zespoły",
+    "BILLING": "Rozliczenia",
+    "CUSTOM_VIEWS_FOLDER": "Foldery",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenty",
+    "ALL_CONTACTS": "Wszyscy Kontakty",
+    "TAGGED_WITH": "Otagowane jako",
+    "NEW_LABEL": "Nowa etykieta",
+    "NEW_TEAM": "Nowy zespół",
+    "NEW_INBOX": "Nowa skrzynka odbiorcza",
+    "REPORTS_CONVERSATION": "Rozmowy",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Kampanie",
+    "ONGOING": "Trwające",
+    "ONE_OFF": "Jednorazowe",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Agenci",
+    "REPORTS_LABEL": "Etykiety",
+    "REPORTS_INBOX": "Skrzynka odbiorcza",
+    "REPORTS_TEAM": "Zespół",
+    "SET_AVAILABILITY_TITLE": "Ustaw dostępność jako",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Przegląd",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "HELP_CENTER": {
+      "TITLE": "Centrum pomocy",
+      "ALL_ARTICLES": "Wszystkie artykuły",
+      "MY_ARTICLES": "Moje artykuły",
+      "DRAFT": "Szkic",
+      "ARCHIVED": "Zarchiwizowane",
+      "CATEGORY": "Kategoria",
+      "SETTINGS": "Ustawienia",
+      "CATEGORY_EMPTY_MESSAGE": "Nie znaleziono kategorii"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Automatycznie oznaczaj jako offline",
+      "INFO_TEXT": "Pozwól systemowi automatycznie oznaczać Cię jako offline, gdy nie korzystasz z aplikacji lub panelu"
+    },
+    "DOCS": "Czytaj dokumentację"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Rozliczenia",
+    "CURRENT_PLAN": {
+      "TITLE": "Obecny plan",
+      "PLAN_NOTE": "Obecnie subskrybujesz plan **{plan}** z **{quantity}** licencjami"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Zarządzaj subskrypcją",
+      "DESCRIPTION": "Wyświetl swoje poprzednie faktury, edytuj dane rozliczeniowe lub anuluj subskrypcję.",
+      "BUTTON_TXT": "Przejdź do portalu rozliczeniowego"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Potrzebujesz pomocy?",
+      "DESCRIPTION": "Masz problemy z rozliczeniami? Jesteśmy tutaj, aby pomóc.",
+      "BUTTON_TXT": "Porozmawiaj z nami"
+    },
+    "NO_BILLING_USER": "Konfigurowanie konta rozliczeniowego. Odśwież stronę i spróbuj ponownie."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Ups! Nie znaleziono żadnych kont Chatwoot. Aby kontynuować, utwórz nowe konto.",
+    "NEW_ACCOUNT": "Nowe konto",
+    "SELECTOR_SUBTITLE": "Utwórz nowe konto",
+    "API": {
+      "SUCCESS_MESSAGE": "Konto zostało pomyślnie utworzone",
+      "EXIST_MESSAGE": "Konto już istnieje",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, spróbuj ponownie później"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nazwa firmy",
+        "PLACEHOLDER": "Przedsiębiorstwo Wayne"
+      },
+      "SUBMIT": "Wyślij"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Wyświetl wszystkie skróty",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Otwórz rozmowę",
+      "RESOLVE_AND_NEXT": "Zamknij i przejdź do następnej",
+      "NAVIGATE_DROPDOWN": "Przejdź do elementów menu rozwijanego",
+      "RESOLVE_CONVERSATION": "Zamknij rozmowę",
+      "GO_TO_CONVERSATION_DASHBOARD": "Przejdź do panelu rozmów",
+      "ADD_ATTACHMENT": "Dodaj załącznik",
+      "GO_TO_CONTACTS_DASHBOARD": "Przejdź do panelu kontaktów",
+      "TOGGLE_SIDEBAR": "Przełącz panel boczny",
+      "GO_TO_REPORTS_SIDEBAR": "Przejdź do panelu raportów",
+      "MOVE_TO_NEXT_TAB": "Przejdź do następnej karty na liście rozmów",
+      "GO_TO_SETTINGS": "Przejdź do ustawień",
+      "SWITCH_TO_PRIVATE_NOTE": "Przełącz do prywatnej notatki",
+      "SWITCH_TO_REPLY": "Przełącz do odpowiedzi",
+      "TOGGLE_SNOOZE_DROPDOWN": "Przełącz menu rozwijane drzemki"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

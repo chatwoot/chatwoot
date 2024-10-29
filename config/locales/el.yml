@@ -1,0 +1,275 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+el:
+  hello: "Χαίρε Κόσμε"
+  messages:
+    reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
+    reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
+    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+  errors:
+    validations:
+      presence: δεν πρέπει να είναι κενό
+    webhook:
+      invalid: Μη έγκυρα συμβάντα
+    signup:
+      disposable_email: Δεν επιτρέπονται προσωρινά emails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      invalid_email: Έχετε καταχωρήσει ακατάλληλο email
+      email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
+      failed: Η εγγραφή απέτυχε
+    data_import:
+      data_type:
+        invalid: Μη έγκυρος τύπος δεδομένων
+    contacts:
+      import:
+        failed: Το αρχείο είναι κενό
+      export:
+        success: We will notify you once contacts export file is ready to view.
+      email:
+        invalid: Ακατάλληλο email
+      phone_number:
+        invalid: πρέπει να είναι σε μορφή e164
+    categories:
+      locale:
+        unique: πρέπει να είναι μοναδικό στην κατηγορία και την πύλη
+    dyte:
+      invalid_message_type: "Μη έγκυρος τύπος μηνύματος. Δεν επιτρέπεται η ενέργεια"
+    slack:
+      invalid_channel_id: "Invalid slack channel. Please try again"
+    inboxes:
+      imap:
+        socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
+        no_response_error: Παρακαλούμε ελέγξτε τα διαπιστευτήρια IMAP και προσπαθήστε ξανά.
+        host_unreachable_error: Μη προσβάσιμος διακομιστής, ελέγξτε τη διεύθυνση IMAP, τη θύρα IMAP και προσπαθήστε ξανά.
+        connection_timed_out_error: Λήξη χρονικού ορίου σύνδεσης για %{address}:%{port}
+        connection_closed_error: Η σύνδεση έκλεισε.
+      validations:
+        name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
+    custom_filters:
+      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+  reports:
+    period: Περίοδος αναφοράς %{since} έως %{until}
+    utc_warning: The report generated is in UTC timezone
+    agent_csv:
+      agent_name: Όνομα Πράκτορα
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Αριθμός Αναλύσεων
+      avg_customer_waiting_time: Avg customer waiting time
+    inbox_csv:
+      inbox_name: Όνομα Κιβωτίου
+      inbox_type: Τύπος κιβωτίου εισερχόμενων
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    label_csv:
+      label_title: Ετικέτα
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+    team_csv:
+      team_name: Όνομα ομάδας
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Αριθμός Αναλύσεων
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_traffic_csv:
+      timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Ομάδα
+      inbox: Εισερχόμενα
+      labels: Ετικέτες
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
+    default_group_by: ημέρα
+    csat:
+      headers:
+        contact_name: Όνομα Επαφής
+        contact_email_address: Διεύθυνση Email Επαφής
+        contact_phone_number: Αριθμός Τηλεφώνου Επαφής
+        link_to_the_conversation: Σύνδεσμος για την συνομιλία
+        agent_name: Όνομα Πράκτορα
+        rating: Αξιολόγηση
+        feedback: Σχόλιο ανατροφοδότησης
+        recorded_at: Ημερομηνία καταγραφής
+  notifications:
+    notification_title:
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
+  conversations:
+    messages:
+      instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
+      instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
+      deleted: Το μήνυμα διαγράφηκε
+      delivery_status:
+        error_code: "Error code: %{error_code}"
+    activity:
+      status:
+        resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
+        contact_resolved: "Η συνομιλία επιλύθηκε από τον %{contact_name}"
+        open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
+        pending: "Η συνομιλία επισημάνθηκε ως εκκρεμής από τον %{user_name}"
+        snoozed: "Η συνομιλία σημάνθηκε ως \"καθυστερημένη\" (snoozed) από τον %{user_name}"
+        auto_resolved: "Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας"
+        system_auto_open: System reopened the conversation due to a new incoming message.
+      priority:
+        added: '%{user_name} set the priority to %{new_priority}'
+        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
+        removed: '%{user_name} removed the priority'
+      assignee:
+        self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"
+        assigned: "Ανατέθηκε στον %{assignee_name} από τον %{user_name}"
+        removed: "Η συνομιλία σημάνθηκε ως μη ανατεθειμένη από τον %{user_name}"
+      team:
+        assigned: "Ανατέθηκε στον %{team_name} από τον %{user_name}"
+        assigned_with_assignee: "Ανατέθηκε στον %{assignee_name} μέσω %{team_name} από %{user_name}"
+        removed: "Από-ανατέθηκε στον %{team_name} από %{user_name}"
+      labels:
+        added: "Ο %{user_name} πρόσθεσε ετικέτες %{labels}"
+        removed: "Ο %{user_name} αφαίρεσε τις ετικέτες %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
+      muted: "Ο χρήστης %{user_name} σίγασε την συνομιλία"
+      unmuted: "Ο χρήστης %{user_name} επανάφερε από την σίγαση την συνομιλία"
+    templates:
+      greeting_message_body: "Στον λογαριασμό %{account_name} τυπικά έχετε απάντηση σε μερικές ώρες."
+      ways_to_reach_you_message_body: "Δώστε στην ομάδα ένα τρόπο να φτάσει σε σας."
+      email_input_box_message_body: "Ειδοποιηθείτε με email"
+      csat_input_message_body: "Παρακαλώ αξιολογήστε τη συνομιλία"
+    reply:
+      email:
+        header:
+          from_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} από %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} από %{business_name} <%{from_email}>"
+          professional_name: "%{business_name} <%{from_email}>"
+      channel_email:
+        header:
+          reply_with_name: "%{assignee_name} από %{inbox_name} <%{from_email}>"
+          reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
+      email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
+      transcript_subject: "Μεταγραφή Συνομιλίας"
+    survey:
+      response: "Παρακαλώ αξιολογήστε αυτήν την συνομιλία, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
+  integration_apps:
+    dashboard_apps:
+      name: "Εφαρμογές Dashboard"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+    dyte:
+      name: "Dyte"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      meeting_name: "Ό πράκτορας %{agent_name} ξεκίνησε μια συνάντηση"
+    slack:
+      name: "Slack"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+    google_translate:
+      name: "Google Translate"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+    openai:
+      name: "OpenAI"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+  public_portal:
+    search:
+      search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
+      empty_placeholder: Δεν βρέθηκαν αποτελέσματα.
+      loading_placeholder: Αναζήτηση...
+      results_title: Αποτελέσματα Αναζήτησης
+    toc_header: 'On this page'
+    hero:
+      sub_title: Αναζητήστε τα άρθρα εδώ ή περιηγηθείτε στις κατηγορίες παρακάτω.
+    common:
+      home: Αρχική
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all
+      article: article
+      articles: άρθρα
+      author: συγγραφέας
+      authors: authors
+      other: other
+      others: others
+      by: By
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Website
+      appearance:
+        system: System
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Uncategorized
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
+  slack_unfurl:
+    fields:
+      name: Όνομα
+      email: Email
+      phone_number: Phone
+      company_name: Εταιρία
+      inbox_name: Εισερχόμενα
+      inbox_type: Inbox Type
+    button: Άνοιγμα συνομιλίας
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

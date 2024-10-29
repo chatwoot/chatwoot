@@ -1,0 +1,9 @@
+<% if field.array? %>
+  <% field.data.each do |sub_field| %>
+    <div> 
+      <%= sub_field.to_s %>
+    </div>
+  <% end %>
+<% else %>
+  <%= field.to_s %>
+<% end %>

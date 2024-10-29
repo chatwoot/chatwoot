@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Kampania",
+    "SIDEBAR_TXT": "Proactive messages allow customers to send messages to their contacts, leading to more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete existing campaigns by clicking on the Edit or Delete button.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Utwórz kampanię jednorazową",
+      "ONGOING": "Utwórz kampanię trwającą"
+    },
+    "ADD": {
+      "TITLE": "Stwórz kampanię",
+      "DESC": "Proactive messages allow customers to send messages to their contacts, leading to more conversations.",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "CREATE_BUTTON_TEXT": "Stwórz",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tytuł",
+          "PLACEHOLDER": "Wprowadź tytuł kampanii",
+          "ERROR": "Tytuł jest wymagany"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Zaplanowany czas",
+          "PLACEHOLDER": "Wybierz czas",
+          "CONFIRM": "Potwierdź",
+          "ERROR": "Zaplanowany czas jest wymagany"
+        },
+        "AUDIENCE": {
+          "LABEL": "Grupa docelowa",
+          "PLACEHOLDER": "Wybierz etykiety klienta",
+          "ERROR": "Grupa docelowa jest wymagana"
+        },
+        "INBOX": {
+          "LABEL": "Wybierz skrzynkę",
+          "PLACEHOLDER": "Wybierz skrzynkę",
+          "ERROR": "Skrzynka jest wymagana"
+        },
+        "MESSAGE": {
+          "LABEL": "Wiadomość",
+          "PLACEHOLDER": "Wprowadź treść wiadomości dla kampanii",
+          "ERROR": "Wiadomość jest wymagana"
+        },
+        "SENT_BY": {
+          "LABEL": "Wysłane przez",
+          "PLACEHOLDER": "Wybierz nadawcę kampanii",
+          "ERROR": "Nadawca jest wymagany"
+        },
+        "END_POINT": {
+          "LABEL": "Adres URL",
+          "PLACEHOLDER": "Wprowadź adres URL",
+          "ERROR": "Wprowadź poprawny adres URL"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Czas na stronie (w sekundach)",
+          "PLACEHOLDER": "Wprowadź czas",
+          "ERROR": "Czas na stronie jest wymagany"
+        },
+        "ENABLED": "Włącz kampanię",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Wyzwalaj tylko w godzinach pracy",
+        "SUBMIT": "Dodaj kampanię"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampania została pomyślnie utworzona",
+        "ERROR_MESSAGE": "Wystąpił błąd. Spróbuj ponownie."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy na pewno chcesz usunąć?",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampania została pomyślnie usunięta",
+        "ERROR_MESSAGE": "Nie udało się usunąć kampanii. Spróbuj ponownie później."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edytuj kampanię",
+      "UPDATE_BUTTON_TEXT": "Aktualizuj",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampania została pomyślnie zaktualizowana",
+        "ERROR_MESSAGE": "Wystąpił błąd. Spróbuj ponownie"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Wczytywanie kampanii...",
+      "404": "Brak stworzonych kampanii dla tej skrzynki odbiorczej.",
+      "TABLE_HEADER": {
+        "TITLE": "Tytuł",
+        "MESSAGE": "Wiadomość",
+        "INBOX": "Skrzynka odbiorcza",
+        "STATUS": "Status",
+        "SENDER": "Nadawca",
+        "URL": "Adres URL",
+        "SCHEDULED_AT": "Zaplanowany czas",
+        "TIME_ON_PAGE": "Czas na stronie",
+        "CREATED_AT": "Utworzono"
+      },
+      "BUTTONS": {
+        "ADD": "Dodaj",
+        "EDIT": "Edytuj",
+        "DELETE": "Usuń"
+      },
+      "STATUS": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone",
+        "COMPLETED": "Zakończone",
+        "ACTIVE": "Aktywne"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Kampanie jednorazowe",
+      "404": "Brak stworzonych kampanii jednorazowych",
+      "INBOXES_NOT_FOUND": "Proszę utworzyć skrzynkę SMS i zacząć dodawać kampanie"
+    },
+    "ONGOING": {
+      "HEADER": "Kampanie bieżące",
+      "404": "Nie utworzono żadnych bieżących kampanii",
+      "INBOXES_NOT_FOUND": "Utwórz skrzynkę odbiorczą witryny i zacznij dodawać kampanie"
+    }
+  }
+}

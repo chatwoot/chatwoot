@@ -1,0 +1,84 @@
+@import 'shared/assets/stylesheets/animations';
+@import 'shared/assets/stylesheets/colors';
+
+@import 'reset';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'variables';
+@import 'buttons';
+@import 'mixins';
+@import 'forms';
+@import 'utilities';
+@import 'shared/assets/fonts/widget_fonts';
+@import 'views/conversation';
+
+html,
+body {
+  font-family: $font-family;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+.is-mobile {
+  display: block;
+
+  .actions {
+    .close-button {
+      display: block !important;
+    }
+
+    .new-window--button {
+      display: none !important;
+    }
+  }
+}
+
+.is-bubble-hidden {
+  .actions {
+    .close-button {
+      display: block !important;
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.message-content {
+  ul {
+    list-style: disc;
+    padding-left: $space-slab;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: $space-normal;
+  }
+}
+
+.is-flat-design {
+  .chat-bubble {
+    border-radius: 0 !important;
+    box-shadow: none;
+  }
+
+  button {
+    border-radius: 0 !important;
+  }
+
+  input {
+    border-radius: 0;
+  }
+
+  .chat-message--input {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    &.is-focused {
+      box-shadow: none !important;
+    }
+  }
+}

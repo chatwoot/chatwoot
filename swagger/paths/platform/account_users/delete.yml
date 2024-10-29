@@ -1,0 +1,27 @@
+tags:
+  - Account Users
+operationId: delete-an-account-user
+summary: Delete an Account User
+description: Delete an Account User
+security:
+  - platformAppApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - user_id
+      properties: 
+        user_id:
+          type: integer
+          description: The ID of the user
+
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The account does not exist

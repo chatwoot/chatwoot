@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profileinstellungen",
+    "TITLE": "Profileinstellungen",
+    "BTN_TEXT": "Profil aktualisieren",
+    "DELETE_AVATAR": "Avatar löschen",
+    "AVATAR_DELETE_SUCCESS": "Avatar wurde erfolgreich gelöscht",
+    "AVATAR_DELETE_FAILED": "Beim Löschen des Avatars ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "UPDATE_SUCCESS": "Ihr Profil wurde erfolgreich aktualisiert",
+    "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
+    "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
+    "FORM": {
+      "PICTURE": "Profilbild",
+      "AVATAR": "Profilbild",
+      "ERROR": "Bitte korrigieren Sie Formularfehler",
+      "REMOVE_IMAGE": "Entfernen",
+      "UPLOAD_IMAGE": "Bild hochladen",
+      "UPDATE_IMAGE": "Bild aktualisieren",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey zum Senden von Nachrichten",
+        "NOTE": "Sie können einen Hotkey (entweder Enter oder Cmd/Strg+Enter) basierend auf Ihrer Schreibpräferenz auswählen.",
+        "UPDATE_SUCCESS": "Ihre Einstellungen wurden erfolgreich aktualisiert",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Eingabe (↵)",
+            "CONTENT": "Senden Sie Nachrichten, indem Sie die Eingabetaste drücken, anstatt auf die Schaltfläche \"Senden\" zu klicken."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Strg + Enter (⌘ + ↵)",
+            "CONTENT": "Senden Sie Nachrichten, indem Sie Cmd/Strg + Eingabetaste drücken, anstatt auf die Schaltfläche „Senden“ zu klicken."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Persönliche Nachrichtensignatur",
+        "NOTE": "Erstellen Sie eine einzigartige Nachrichtensignatur, die am Ende jeder Nachricht angezeigt wird, die Sie aus einem beliebigen Posteingang senden. Sie können auch ein Inline-Bild einfügen, das in Live-Chat-, E-Mail- und API-Postfächern unterstützt wird.",
+        "BTN_TEXT": "Nachrichten-Signatur speichern",
+        "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
+        "API_SUCCESS": "Signatur erfolgreich gespeichert",
+        "IMAGE_UPLOAD_ERROR": "Bild konnte nicht hochgeladen werden! Versuchen Sie es erneut",
+        "IMAGE_UPLOAD_SUCCESS": "Bild erfolgreich hinzugefügt. Bitte klicken Sie auf Speichern, um die Signatur zu speichern",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Bildgröße sollte kleiner als {size}MB sein"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Nachrichten-Signatur",
+        "ERROR": "Nachrichten-Signatur darf nicht leer sein",
+        "PLACEHOLDER": "Füge hier Deine persönliche Nachrichtensignatur ein."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Passwort",
+        "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt.",
+        "BTN_TEXT": "Passwort ändern"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Zugangstoken",
+        "NOTE": "Dieses Token kann verwendet werden, wenn Sie eine API-basierte Integration erstellen",
+        "COPY": "Kopieren"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio-Benachrichtigungen",
+        "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
+        "ALERT_TYPES": {
+          "NONE": "Keine",
+          "MINE": "Zugewiesen",
+          "ALL": "Alle"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Ereignisse für Konversationen zu alarmieren:",
+          "NONE": "Keine",
+          "ASSIGNED": "Zugewiesene Unterhaltungen",
+          "ALL_CONVERSATIONS": "Alle Konversationen"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Alarmton:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Alarmbedingungen:",
+          "CONDITION_ONE": "Audio-Alarm nur dann senden, wenn das Browserfenster nicht aktiv ist",
+          "CONDITION_TWO": "Sende Benachrichtigungen alle 30 Sekunden, bis alle zugewiesenen Unterhaltungen gelesen werden"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-Mail Benachrichtigungen",
+        "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
+        "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
+        "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
+        "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-Mail-Benachrichtigungen senden, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "SLA_MISSED_FIRST_RESPONSE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die erste Antwort-SLA verpasst",
+        "SLA_MISSED_NEXT_RESPONSE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die nächste Antwort-SLA verpasst",
+        "SLA_MISSED_RESOLUTION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die Lösung-SLA verpasst"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Benachrichtigungseinstellungen",
+        "TYPE_TITLE": "Benachrichtigungsart",
+        "EMAIL": "E-Mail",
+        "PUSH": "Push-Benachrichtigung",
+        "TYPES": {
+          "CONVERSATION_CREATED": "Eine neue Konversation wurde erstellt",
+          "CONVERSATION_ASSIGNED": "Eine Konversation wurde Ihnen zugewiesen",
+          "CONVERSATION_MENTION": "Sie wurden in einer Konversation erwähnt",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Eine neue Nachricht wurde in einer zugewiesenen Konversation erstellt",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Eine neue Nachricht wurde in einer Konversation erstellt, an der Sie teilnehmen",
+          "SLA_MISSED_FIRST_RESPONSE": "Eine Konversation verpasst die erste Antwort-SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "Eine Konversation verpasst die nächste Antwort-SLA",
+          "SLA_MISSED_RESOLUTION": "Eine Konversation verpasst die Lösungs-SLA"
+        },
+        "BROWSER_PERMISSION": "Aktivieren Sie Push-Benachrichtigungen für Ihren Browser, damit Sie diese empfangen können"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
+        "UPDATE_ERROR": "Beim Aktualisieren der Einstellungen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push-Benachrichtigungen",
+        "NOTE": "Aktualisieren Sie hier Ihre Push-Benachrichtigungseinstellungen",
+        "CONVERSATION_ASSIGNMENT": "Push-Benachrichtigungen senden, wenn mir ein Gespräch zugewiesen wird",
+        "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
+        "CONVERSATION_MENTION": "Senden Sie Push-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
+        "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren",
+        "SLA_MISSED_FIRST_RESPONSE": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die erste Antwort-SLA verpasst",
+        "SLA_MISSED_NEXT_RESPONSE": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die nächste Antwort-SLA verpasst",
+        "SLA_MISSED_RESOLUTION": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die Lösungs-SLA verpasst"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilbild"
+      },
+      "NAME": {
+        "LABEL": "Ihr vollständiger Name",
+        "ERROR": "Bitte geben Sie einen gültigen Namen ein",
+        "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Anzeigename",
+        "ERROR": "Bitte geben Sie einen gültigen Anzeigenamen ein",
+        "PLACEHOLDER": "Bitte geben Sie einen Anzeigenamen ein, dieser wird in Unterhaltungen angezeigt"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Verfügbarkeit",
+        "STATUSES_LIST": [
+          "Online",
+          "Beschäftigt",
+          "Offline"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Verfügbarkeit wurde erfolgreich gesetzt",
+        "SET_AVAILABILITY_ERROR": "Verfügbarkeit konnte nicht gesetzt werden, bitte versuchen Sie es erneut"
+      },
+      "EMAIL": {
+        "LABEL": "Deine Emailadresse",
+        "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+        "PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein, diese wird in Gesprächen angezeigt"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Aktuelles Passwort",
+        "ERROR": "Bitte geben Sie das aktuelle Passwort ein",
+        "PLACEHOLDER": "Bitte geben Sie das aktuelle Passwort ein"
+      },
+      "PASSWORD": {
+        "LABEL": "Passwort zurücksetzen",
+        "ERROR": "Bitte geben Sie ein Passwort mit einer Länge von 6 oder mehr ein",
+        "PLACEHOLDER": "Bitte geben Sie ein neues Passwort ein"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bestätige neues Passwort",
+        "ERROR": "Bestätigen Sie, dass das Passwort mit dem Passwort übereinstimmen sollte",
+        "PLACEHOLDER": "Bitte geben Sie Ihr Passwort erneut ein"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Ändern",
+    "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
+    "CONTACT_SUPPORT": "Support kontaktieren",
+    "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
+    "PROFILE_SETTINGS": "Profileinstellungen",
+    "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
+    "APPEARANCE": "Aussehen ändern",
+    "SUPER_ADMIN_CONSOLE": "Super-Admin Konsole",
+    "LOGOUT": "Ausloggen"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
+    "TRAIL_BUTTON": "Jetzt kaufen",
+    "DELETED_USER": "Gelöschter Benutzer",
+    "EMAIL_VERIFICATION_PENDING": "Es scheint, dass Sie Ihre E-Mail-Adresse noch nicht verifiziert haben. Bitte überprüfen Sie Ihren Posteingang auf die Verifizierungs-E-Mail.",
+    "RESEND_VERIFICATION_MAIL": "Verifizierungs-E-Mail erneut senden",
+    "EMAIL_VERIFICATION_SENT": "Verifizierungs-E-Mail wurde versendet. Bitte überprüfen Sie Ihren Posteingang.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Konto gesperrt",
+      "MESSAGE": "Ihr Account wurde gesperrt. Wenden Sie sich für weitere Informationen bitte an das Support-Team."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopieren",
+      "CODEPEN": "In CodePen öffnen",
+      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mehr zeigen",
+      "SHOW_LESS": "Weniger zeigen"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Herunterladen",
+      "UPLOADING": "Wird hochgeladen...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Diese Geschichte ist nicht mehr verfügbar."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Auf Karte ansehen"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Abschicken"
+    }
+  },
+  "CONFIRM_EMAIL": "Überprüfen...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Posteingang hinzufügen"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
+    "SWITCH": "Wechseln",
+    "INBOX_VIEW": "Posteingangsansicht",
+    "CONVERSATIONS": "Gespräche",
+    "INBOX": "Posteingang",
+    "ALL_CONVERSATIONS": "Alle Konversationen",
+    "MENTIONED_CONVERSATIONS": "Erwähnungen",
+    "PARTICIPATING_CONVERSATIONS": "Beteiligt",
+    "UNATTENDED_CONVERSATIONS": "Unbeaufsichtigt",
+    "REPORTS": "Berichte",
+    "SETTINGS": "Einstellungen",
+    "CONTACTS": "Kontakte",
+    "CAPTAIN": "Kapitän",
+    "HOME": "Hauptseite",
+    "AGENTS": "Agenten",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audit-Protokolle",
+    "INBOXES": "Posteingänge",
+    "NOTIFICATIONS": "Push-Benachrichtigungen",
+    "CANNED_RESPONSES": "Vorgefertigte Antworten",
+    "INTEGRATIONS": "Integrationen",
+    "PROFILE_SETTINGS": "Profileinstellungen",
+    "ACCOUNT_SETTINGS": "Kontoeinstellungen",
+    "APPLICATIONS": "Anwendungen",
+    "LABELS": "Labels",
+    "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
+    "AUTOMATION": "Automatisierung",
+    "MACROS": "Makros",
+    "TEAMS": "Teams",
+    "BILLING": "Rechnungen",
+    "CUSTOM_VIEWS_FOLDER": "Ordner",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmente",
+    "ALL_CONTACTS": "Alle Kontakte",
+    "TAGGED_WITH": "Markiert mit",
+    "NEW_LABEL": "Neues Label",
+    "NEW_TEAM": "Neues Team",
+    "NEW_INBOX": "Neuer Posteingang",
+    "REPORTS_CONVERSATION": "Gespräche",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Kampagnen",
+    "ONGOING": "Im Gange",
+    "ONE_OFF": "Einmalig",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Agenten",
+    "REPORTS_LABEL": "Labels",
+    "REPORTS_INBOX": "Posteingang",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Übersicht",
+    "REAUTHORIZE": "Ihre Posteingangsverbindung ist abgelaufen. Bitte erneut verbinden,\n um weiterhin Nachrichten empfangen und senden zu können",
+    "HELP_CENTER": {
+      "TITLE": "Hilfezentrum",
+      "ALL_ARTICLES": "Alle Artikel",
+      "MY_ARTICLES": "Meine Artikel",
+      "DRAFT": "Entwürfe",
+      "ARCHIVED": "Archiviert",
+      "CATEGORY": "Kategorie",
+      "SETTINGS": "Einstellungen",
+      "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Automatisch offline markieren",
+      "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden."
+    },
+    "DOCS": "Dokumente lesen"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Rechnungen",
+    "CURRENT_PLAN": {
+      "TITLE": "Derzeitiger Plan",
+      "PLAN_NOTE": "Sie haben derzeit den Tarif **{plan}** mit **{quantity}** Lizenzen abonniert"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Abonnement verwalten",
+      "DESCRIPTION": "Zeigen Sie Ihre vorherigen Rechnungen an, bearbeiten Sie Ihre Rechnungsdaten oder kündigen Sie Ihr Abonnement.",
+      "BUTTON_TXT": "Gehen Sie zum Abrechnungsportal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Brauchen Sie Hilfe?",
+      "DESCRIPTION": "Haben Sie Probleme bei der Abrechnung? Wir sind hier um zu helfen.",
+      "BUTTON_TXT": "Chatten Sie mit uns"
+    },
+    "NO_BILLING_USER": "Ihr Rechnungskonto wird konfiguriert. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
+    "NEW_ACCOUNT": "Neuer Account",
+    "SELECTOR_SUBTITLE": "Neuen Account erstellen",
+    "API": {
+      "SUCCESS_MESSAGE": "Benutzerkonto erfolgreich erstellt",
+      "EXIST_MESSAGE": "Benutzerkonto existiert bereits",
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Firmenname",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Abschicken"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Alle Verknüpfungen anzeigen",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Unterhaltung öffnen",
+      "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",
+      "NAVIGATE_DROPDOWN": "Dropdown-Elemente navigieren",
+      "RESOLVE_CONVERSATION": "Unterhaltung als gelöst kennzeichnen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
+      "ADD_ATTACHMENT": "Anhang hinzufügen",
+      "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
+      "TOGGLE_SIDEBAR": "Seitenleiste umschalten",
+      "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
+      "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
+      "GO_TO_SETTINGS": "Zu den Einstellungen",
+      "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
+      "SWITCH_TO_REPLY": "Zur Antwort wechseln",
+      "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

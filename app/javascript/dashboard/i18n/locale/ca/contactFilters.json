@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtra els contactes",
+    "SUBTITLE": "Afegeix filtres a continuació i prem \"Envia\" per filtrar els contactes.",
+    "EDIT_CUSTOM_SEGMENT": "Edita segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Afegeix o elimina filtres i actualitza el teu segment.",
+    "ADD_NEW_FILTER": "Afegeix filtre",
+    "CLEAR_ALL_FILTERS": "Esborra tots els filtres",
+    "FILTER_DELETE_ERROR": "Hauries de tenir almenys un filtre per desar",
+    "SUBMIT_BUTTON_LABEL": "Envia",
+    "UPDATE_BUTTON_LABEL": "Actualitza el segment",
+    "CANCEL_BUTTON_LABEL": "Cancel·la",
+    "CLEAR_BUTTON_LABEL": "Esborra els filtres",
+    "EMPTY_VALUE_ERROR": "El valor és necessari",
+    "SEGMENT_LABEL": "Nom del segment",
+    "SEGMENT_QUERY_LABEL": "Consulta de segments",
+    "TOOLTIP_LABEL": "Filtra els contactes",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "I",
+      "OR": "O"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Igual a",
+      "not_equal_to": "No és igual a",
+      "contains": "Conté",
+      "does_not_contain": "No conté",
+      "is_present": "És present",
+      "is_not_present": "No és present",
+      "is_greater_than": "És més gran que",
+      "is_lesser_than": "És més petit que",
+      "days_before": "És x dies abans"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "El valor és necessari"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nom",
+      "EMAIL": "Correu electrònic",
+      "PHONE_NUMBER": "Número de telèfon",
+      "IDENTIFIER": "Identificador",
+      "CITY": "Ciutat",
+      "COUNTRY": "País",
+      "CUSTOM_ATTRIBUTE_LIST": "Llista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Llista",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Casella de selecció",
+      "CREATED_AT": "Creat per",
+      "LAST_ACTIVITY": "Darrera activitat",
+      "REFERER_LINK": "Enllaç de referència",
+      "BLOCKED": "Blocat"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtres estàndard",
+      "ADDITIONAL_FILTERS": "Filtres addicionals",
+      "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
+    }
+  }
+}

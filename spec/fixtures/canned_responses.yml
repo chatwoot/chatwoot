@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 1
+  short_code: MyString
+  context: MyText
+
+two:
+  account_id: 1
+  short_code: MyString
+  context: MyText

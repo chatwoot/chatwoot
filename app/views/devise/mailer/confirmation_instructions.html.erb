@@ -1,0 +1,29 @@
+<p>Hi <%= @resource.name %>,</p>
+
+<% account_user = @resource&.account_users&.first %>
+
+<% if account_user&.inviter.present? && @resource.unconfirmed_email.blank? %>
+  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>.</p>
+<% end %>
+
+<% if @resource.confirmed? %>
+  <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
+<% else %>
+  <% if account_user&.inviter.blank? %>
+  <p>
+    Welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
+  </p>
+  <% end %>
+  <p>Please take a moment and click the link below and activate your account.</p>
+<% end %>
+
+
+<% if @resource.unconfirmed_email.present? %>
+  <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
+<% elsif @resource.confirmed? %>
+  <p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
+<% elsif account_user&.inviter.present? %>
+  <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
+<% else %>
+  <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
+<% end %>

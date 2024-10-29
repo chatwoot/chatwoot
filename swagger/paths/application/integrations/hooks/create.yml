@@ -1,0 +1,19 @@
+tags:
+  - Integrations
+operationId: create-an-integration-hook
+summary: Create an integration hook
+description: Create an integration hook
+parameters:
+  - $ref: '#/parameters/account_id'
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/integrations_hook_create_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/integrations_hook'
+  401:
+    description: Unauthorized

@@ -1,0 +1,14 @@
+tags:
+  - Conversations
+operationId: get-details-of-a-conversation
+summary: Conversation Details
+description: Get all details regarding a conversation with all messages in the conversation
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/conversation_show'
+  404:
+    description: Conversation not found
+  403:
+    description: Access denied
