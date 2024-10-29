@@ -14,6 +14,11 @@
       "CONFIRM": "تایید"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "نویسنده در دسترس نیست"
+    }
+  },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
   }
