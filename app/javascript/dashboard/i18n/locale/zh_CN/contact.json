@@ -79,7 +79,7 @@
     "BUTTON_LABEL": "导出",
     "TITLE": "导出联系人",
     "DESC": "导出联系人到 CSV 文件。",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+    "SUCCESS_MESSAGE": "导出正在进行。当导出文件准备好下载时，您将收到电子邮件通知。",
     "ERROR_MESSAGE": "出现错误，请重试",
     "CONFIRM": {
       "TITLE": "导出联系人",
@@ -371,7 +371,7 @@
       "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将拷贝到 <strong>{parentContactName}</strong>。"
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": "错误消息"
     },
     "FORM": {
       "SUBMIT": " 合并联系人",
