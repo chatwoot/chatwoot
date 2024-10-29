@@ -93,7 +93,7 @@ const handleAction = ({ action, value }) => {
             </span>
           </div>
           <div
-            v-on-clickaway="() => toggleDropdown(false)"
+            v-on-clickaway="toggleDropdown(false)"
             class="relative group"
           >
             <Button
@@ -101,7 +101,7 @@ const handleAction = ({ action, value }) => {
               color="slate"
               size="xs"
               class="rounded-md group-hover:bg-n-alpha-2"
-              @click="toggleDropdown(!showDropdownMenu)"
+              @click="toggleDropdown()"
             />
 
             <DropdownMenu

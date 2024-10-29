@@ -140,7 +140,7 @@ const handleClick = id => {
             {{ statusText }}
           </span>
           <div
-            v-on-clickaway="() => toggleDropdown(false)"
+            v-on-clickaway="toggleDropdown(false)"
             class="relative flex items-center group"
           >
             <Button
@@ -148,7 +148,7 @@ const handleClick = id => {
               color="slate"
               size="xs"
               class="rounded-md group-hover:bg-n-alpha-2"
-              @click="toggleDropdown(!showActionsDropdown)"
+              @click="toggleDropdown()"
             />
             <DropdownMenu
               v-if="showActionsDropdown"
