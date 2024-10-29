@@ -3,8 +3,6 @@ import { ref, computed, watch, nextTick } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 
-import Button from 'dashboard/components-next/button/Button.vue';
-
 const props = defineProps({
   options: {
     type: Array,
@@ -17,8 +15,8 @@ const props = defineProps({
     default: '',
   },
   modelValue: {
-    type: [String, Number],
-    default: '',
+    type: Array,
+    default: () => [],
   },
   disabled: {
     type: Boolean,
@@ -46,7 +44,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const { t } = useI18n();
 
-const selectedValue = ref(props.modelValue);
+const selectedValues = ref(props.modelValue);
 const open = ref(false);
 const search = ref('');
 const searchInput = ref(null);
@@ -55,40 +53,60 @@ const comboboxRef = ref(null);
 const filteredOptions = computed(() => {
   const searchTerm = search.value.toLowerCase();
   return props.options.filter(option =>
-    option.label.toLowerCase().includes(searchTerm)
+    option.label?.toLowerCase().includes(searchTerm)
   );
 });
+
 const selectPlaceholder = computed(() => {
   return props.placeholder || t('COMBOBOX.PLACEHOLDER');
 });
-const selectedLabel = computed(() => {
-  const selected = props.options.find(
-    option => option.value === selectedValue.value
-  );
-  return selected?.label ?? selectPlaceholder.value;
+
+const selectedTags = computed(() => {
+  return selectedValues.value.map(value => {
+    const option = props.options.find(opt => opt.value === value);
+    return option || { value, label: value };
+  });
 });
 
-const selectOption = option => {
-  selectedValue.value = option.value;
-  emit('update:modelValue', option.value);
-  open.value = false;
-  search.value = '';
+const toggleOption = option => {
+  const index = selectedValues.value.indexOf(option.value);
+  if (index === -1) {
+    selectedValues.value.push(option.value);
+  } else {
+    selectedValues.value.splice(index, 1);
+  }
+  emit('update:modelValue', selectedValues.value);
 };
+
+const removeTag = value => {
+  const index = selectedValues.value.indexOf(value);
+  if (index !== -1) {
+    selectedValues.value.splice(index, 1);
+    emit('update:modelValue', selectedValues.value);
+  }
+};
+
 const toggleDropdown = () => {
   if (props.disabled) return;
   open.value = !open.value;
   if (open.value) {
     search.value = '';
-    nextTick(() => searchInput.value.focus());
+    nextTick(() => searchInput.value?.focus());
   }
 };
 
 watch(
   () => props.modelValue,
   newValue => {
-    selectedValue.value = newValue;
+    selectedValues.value = newValue;
   }
 );
+
+defineExpose({
+  toggleDropdown,
+  open,
+  disabled: props.disabled,
+});
 </script>
 
 <template>
@@ -101,16 +119,37 @@ watch(
     }"
   >
     <OnClickOutside @trigger="open = false">
-      <Button
-        variant="outline"
-        :color="hasError ? 'ruby' : 'slate'"
-        :label="selectedLabel"
-        trailing-icon
-        :disabled="disabled"
-        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
-        :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+      <div
+        class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-white dark:bg-slate-900 min-h-[42px]"
+        :class="{
+          'border-n-slate-7': open,
+          'border-n-ruby-8': hasError,
+          'border-n-slate-6': !hasError,
+        }"
         @click="toggleDropdown"
-      />
+      >
+        <div
+          v-for="tag in selectedTags"
+          :key="tag.value"
+          class="flex items-center justify-center max-w-full gap-1 px-2 py-0.5 rounded-lg bg-n-alpha-2"
+          @click.stop
+        >
+          <span class="flex-grow min-w-0 text-sm truncate text-n-slate-12">
+            {{ tag.label }}
+          </span>
+          <span
+            class="flex-shrink-0 cursor-pointer i-lucide-x size-3 text-n-slate-11"
+            @click="removeTag(tag.value)"
+          />
+        </div>
+        <span
+          v-if="selectedTags.length === 0"
+          class="flex items-center text-sm text-n-slate-11"
+        >
+          {{ selectPlaceholder }}
+        </span>
+      </div>
+
       <div
         v-show="open"
         class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
@@ -128,24 +167,28 @@ watch(
         <ul
           class="py-1 mb-0 overflow-auto max-h-60"
           role="listbox"
-          :aria-activedescendant="selectedValue"
+          :aria-multiselectable="true"
         >
           <li
             v-for="option in filteredOptions"
             :key="option.value"
-            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
+            class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
             :class="{
-              'bg-n-alpha-2': option.value === selectedValue,
+              'bg-n-alpha-2': selectedValues.includes(option.value),
             }"
             role="option"
-            :aria-selected="option.value === selectedValue"
-            @click="selectOption(option)"
+            :aria-selected="selectedValues.includes(option.value)"
+            @click="toggleOption(option)"
           >
-            <span :class="{ 'font-medium': option.value === selectedValue }">
+            <span
+              :class="{
+                'font-medium': selectedValues.includes(option.value),
+              }"
+            >
               {{ option.label }}
             </span>
             <span
-              v-if="option.value === selectedValue"
+              v-if="selectedValues.includes(option.value)"
               class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
             />
           </li>

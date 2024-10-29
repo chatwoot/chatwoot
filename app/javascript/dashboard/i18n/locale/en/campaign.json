@@ -121,6 +121,78 @@
       "HEADER": "Ongoing campaigns",
       "404": "There are no ongoing campaigns created",
       "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+    },
+
+    "ONGOING_CAMPAIGNS_PAGE": {
+      "HEADER_TITLE": "Ongoing campaigns",
+      "NEW_CAMPAIGN": "Create ongoing campaign",
+      "CARD": {
+        "STATUS": {
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Sent by",
+          "BOT": "Bot",
+          "FROM": "From",
+          "URL": "URL :"
+        }
+      }
+    },
+    "ONE_OFF_CAMPAIGNS_PAGE": {
+      "HEADER_TITLE": "One off campaigns",
+      "NEW_CAMPAIGN": "Create one off campaign",
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completed",
+          "ACTIVE": "Active"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "On"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create a campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "MESSAGE": {
+            "LABEL": "Message",
+            "PLACEHOLDER": "Please enter the message of campaign",
+            "ERROR": "Message is required"
+          },
+          "INBOX": {
+            "LABEL": "Select Inbox",
+            "PLACEHOLDER": "Select Inbox",
+            "ERROR": "Inbox is required"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      },
+      "EDIT": {}
     }
   }
 }

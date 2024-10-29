@@ -58,6 +58,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  message: {
+    type: String,
+    default: '',
+  },
+  messageType: {
+    type: String,
+    default: 'info',
+    validator: value => ['info', 'error', 'success'].includes(value),
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -66,6 +75,17 @@ const textareaRef = ref(null);
 const isFocused = ref(false);
 
 const characterCount = computed(() => props.modelValue.length);
+
+const messageClass = computed(() => {
+  switch (props.messageType) {
+    case 'error':
+      return 'text-n-ruby-9 dark:text-n-ruby-9';
+    case 'success':
+      return 'text-green-500 dark:text-green-400';
+    default:
+      return 'text-n-slate-11 dark:text-n-slate-11';
+  }
+});
 
 // TODO - use "field-sizing: content" and "height: auto" in future for auto height, when available.
 const adjustHeight = () => {
@@ -123,14 +143,17 @@ onMounted(() => {
       {{ label }}
     </label>
     <div
-      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out bg-white border rounded-lg border-n-weak dark:border-n-weak dark:bg-slate-900"
+      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out bg-white border rounded-lg dark:bg-slate-900"
       :class="[
         customTextAreaWrapperClass,
         {
           'cursor-not-allowed opacity-50 !bg-slate-25 dark:!bg-slate-800 disabled:border-n-weak dark:disabled:border-n-weak':
             disabled,
           'border-n-brand dark:border-n-brand': isFocused,
-          'hover:border-n-slate-6 dark:hover:border-n-slate-6': !isFocused,
+          'hover:border-n-slate-6 dark:hover:border-n-slate-6 border-n-weak dark:border-n-weak':
+            !isFocused && messageType !== 'error',
+          'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9':
+            messageType === 'error',
         },
       ]"
     >
@@ -166,5 +189,12 @@ onMounted(() => {
         </span>
       </div>
     </div>
+    <p
+      v-if="message"
+      class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+      :class="messageClass"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>
