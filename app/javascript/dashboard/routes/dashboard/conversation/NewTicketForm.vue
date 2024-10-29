@@ -35,7 +35,7 @@
             />
           </template>
         </multiselect>
-        <span v-if="$v.newTicket.inbox.$error" class="message text-red-400">
+        <span v-if="$v.newTicket.inbox.$error" class="text-xs message text-red-400">
           Inbox is required
         </span>
       </div>
@@ -55,7 +55,7 @@
               <div><small>{{ suggestion.phone_number }}</small></div>
             </li>
           </ul>
-          <span v-if="$v.newTicket.email.$error" class="message text-red-400">
+          <span v-if="$v.newTicket.email.$error" class="text-xs message text-red-400">
             {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
           </span>
         </label>
@@ -67,7 +67,7 @@
         <label class="mb-2">
           Contact Name
           <input type="text" v-model="newTicket.name" @input="$v.newTicket.name.$touch"/>
-          <span v-if="$v.newTicket.name.$error" class="message text-red-400">
+          <span v-if="$v.newTicket.name.$error" class="text-xs message text-red-400">
             Name is required
           </span>
         </label>
@@ -152,7 +152,7 @@
       <label class="mb-2">
         Subject
         <input type="text" v-model="newTicket.subject" @input="$v.newTicket.subject.$touch"/>
-        <span v-if="$v.newTicket.subject.$error" class="message text-red-400">
+        <span v-if="$v.newTicket.subject.$error" class="text-xs message text-red-400">
           Subject is required
         </span>
       </label>
@@ -203,7 +203,7 @@
           />
         </div>
 
-        <span v-if="$v.newTicket.note.$error" class="text-red-400 message p-2">
+        <span v-if="$v.newTicket.note.$error" class="text-xs text-red-400 message p-2">
           {{ privateNote ? 'Note' : 'Message'}} is required
         </span>
       </div>
@@ -217,14 +217,14 @@
         size="small"
         @click="createWithResponse"
       >
-        Create with response
+        Create with Response
       </woot-button>
       <woot-button
         size="small"
         color-scheme="success"
         @click="createAndSolve"
       >
-        Create and solve
+        Create and Solve
       </woot-button>
     </div>
   </div>
@@ -349,6 +349,7 @@
         return {
           issue_type: this.newTicket.issue_type,
           contact_type: this.contactType,
+          response_needed: this.newTicket.response_needed,
         }
       },
       noteButtonClass() {
