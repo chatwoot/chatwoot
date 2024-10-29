@@ -13,9 +13,7 @@ const props = defineProps({
     required: true,
   },
 });
-const { accountId } = useAccount();
 
-let app = null;
 let router = null;
 
 watch(
@@ -29,8 +27,8 @@ watch(
 );
 
 function buildApp() {
-  router = makeRouter(`app/accounts/${accountId.value}/captain/`);
-  app = setupApp('#captain', {
+  router = makeRouter();
+  setupApp('#captain', {
     router,
     fetchFn: async (source, options) => {
       const parsedSource = new URL(source);
@@ -60,8 +58,8 @@ function buildApp() {
       };
     },
   });
-  window.router = router;
-  window.app = app;
+
+  router.push({ name: props.page });
 }
 
 onMounted(async () => {
