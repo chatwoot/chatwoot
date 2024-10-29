@@ -27,7 +27,7 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def contact_types?
+  def conversation_contact_types?
     @account_user.administrator?
   end
 end

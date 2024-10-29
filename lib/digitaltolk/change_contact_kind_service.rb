@@ -33,7 +33,7 @@ class Digitaltolk::ChangeContactKindService
     return if @contact_kind_string.blank?
 
     key = if @contact_kind_string.downcase.in?(KIND_LABELS.values)
-            @contact_kind_string = @contact_kind_string.downcase
+            @contact_kind_string
           else
             [@contact_kind_string.downcase, 'contact'].join('_')
           end
