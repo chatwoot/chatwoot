@@ -532,20 +532,20 @@
           "BUTTON_LABEL": "Jauns raksts"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "Jūs neesat uzrakstījis nevienu rakstu",
+          "SUBTITLE": "Visi raksti, kurus jūs uzrakstījāt, tiek attēloti šeit lai ātri tiem varētu piekļūt."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
+          "TITLE": "Projektos nav rakstu",
           "SUBTITLE": "Draft articles will appear here"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
+          "TITLE": "Nav publicētu rakstu",
           "SUBTITLE": "Published articles will appear here"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "Arhīvā nav rakstu",
+          "SUBTITLE": "Arhivēti raksti netiek parādīti portālā. Jūs varat to izmantot, lai atzīmētu novecojušas vai neaktuālas lapas"
         },
         "CATEGORY": {
           "TITLE": "There are no articles in this category",
