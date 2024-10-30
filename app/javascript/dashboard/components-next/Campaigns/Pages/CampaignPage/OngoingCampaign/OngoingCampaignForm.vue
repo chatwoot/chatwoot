@@ -8,9 +8,9 @@ import { useAlert } from 'dashboard/composables';
 import { URLPattern } from 'urlpattern-polyfill';
 
 import Input from 'dashboard/components-next/input/Input.vue';
-import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 const props = defineProps({
   mode: {
@@ -208,13 +208,12 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       :message-type="formErrors.title ? 'error' : 'info'"
     />
 
-    <TextArea
+    <Editor
       v-model="state.message"
       :label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.LABEL')"
       :placeholder="
         t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.PLACEHOLDER')
       "
-      show-character-count
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
     />

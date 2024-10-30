@@ -105,11 +105,15 @@ const handleInput = event => {
 };
 
 const handleFocus = () => {
-  isFocused.value = true;
+  if (!props.disabled) {
+    isFocused.value = true;
+  }
 };
 
 const handleBlur = () => {
-  isFocused.value = false;
+  if (!props.disabled) {
+    isFocused.value = false;
+  }
 };
 
 // Watch for changes in modelValue to adjust height
