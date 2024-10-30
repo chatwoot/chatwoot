@@ -134,7 +134,7 @@
         "CAMPAIGN_DETAILS": {
           "SENT_BY": "Sent by",
           "BOT": "Bot",
-          "FROM": "From",
+          "FROM": "from",
           "URL": "URL :"
         }
       },
@@ -208,7 +208,7 @@
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
-          "ON": "On"
+          "ON": "on"
         }
       },
       "CREATE": {

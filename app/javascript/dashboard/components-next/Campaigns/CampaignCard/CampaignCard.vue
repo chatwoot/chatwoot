@@ -3,21 +3,21 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { messageStamp } from 'shared/helpers/timeHelper';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
 
 const props = defineProps({
   title: {
     type: String,
-    required: true,
+    default: '',
   },
   message: {
     type: String,
-    required: true,
+    default: '',
   },
   isOngoingType: {
     type: Boolean,
@@ -25,15 +25,15 @@ const props = defineProps({
   },
   isEnabled: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   status: {
     type: String,
-    required: true,
+    default: '',
   },
   triggerRules: {
     type: Object,
-    required: true,
+    default: null,
   },
   sender: {
     type: Object,
@@ -41,7 +41,7 @@ const props = defineProps({
   },
   inbox: {
     type: Object,
-    required: true,
+    default: null,
   },
   scheduledAt: {
     type: Number,
@@ -53,38 +53,35 @@ const emit = defineEmits(['edit', 'delete']);
 
 const { t } = useI18n();
 
+const STATUS_COMPLETED = 'completed';
+
 const { formatMessage } = useMessageFormatter();
 
-const senderName = computed(() => {
-  return (
+const senderName = computed(
+  () =>
     props.sender?.name ||
     t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.BOT')
-  );
-});
+);
 
-const senderThumbnailSrc = computed(() => {
-  return props.sender?.thumbnail;
-});
+const senderThumbnailSrc = computed(() => props.sender?.thumbnail);
 
-const inboxName = computed(() => {
-  return props.inbox?.name || '';
-});
+const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
   const { phone_number: phoneNumber, channel_type: type } = props.inbox;
-  return getInboxClassByType(type, phoneNumber);
+  return getInboxIconByType(type, phoneNumber);
 });
 
-const triggerURL = computed(() => {
-  return props.triggerRules?.url || '';
-});
+const triggerURL = computed(() => props.triggerRules?.url || '');
 
-const statusTextColor = computed(() => {
-  if (props.isOngoingType) {
-    return props.isEnabled ? '!text-n-teal-11' : '!text-n-slate-12';
-  }
-  return props.status !== 'completed' ? '!text-n-teal-11' : '!text-n-slate-12';
-});
+const statusTextColor = computed(() => ({
+  'text-n-teal-11': props.isOngoingType
+    ? props.isEnabled
+    : props.status !== STATUS_COMPLETED,
+  'text-n-slate-12': props.isOngoingType
+    ? !props.isEnabled
+    : props.status === STATUS_COMPLETED,
+}));
 
 const campaignStatus = computed(() => {
   if (props.isOngoingType) {
@@ -93,7 +90,7 @@ const campaignStatus = computed(() => {
       : t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.STATUS.DISABLED');
   }
 
-  return props.status === 'completed'
+  return props.status === STATUS_COMPLETED
     ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.STATUS.COMPLETED')
     : t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.STATUS.ACTIVE');
 });
@@ -107,28 +104,30 @@ const campaignStatus = computed(() => {
           <span class="text-base font-medium text-n-slate-12 line-clamp-1">
             {{ title }}
           </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
-            :label="campaignStatus"
+          <span
+            class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
             :class="statusTextColor"
-          />
+          >
+            {{ campaignStatus }}
+          </span>
         </div>
         <div
           v-dompurify-html="formatMessage(message)"
           class="text-sm text-n-slate-11 line-clamp-1 [&>p]:mb-0 h-6"
         />
-        <div
-          v-if="isOngoingType"
-          class="flex items-center w-full h-6 gap-2 overflow-hidden"
-        >
-          <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
+        <div class="flex items-center w-full h-6 gap-2 overflow-hidden">
+          <span
+            v-if="isOngoingType"
+            class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap"
+          >
             {{
               t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.SENT_BY')
             }}
           </span>
-          <div class="flex items-center gap-1.5 flex-shrink-0">
+          <div
+            v-if="isOngoingType"
+            class="flex items-center gap-1.5 flex-shrink-0"
+          >
             <Thumbnail
               :author="sender || { name: senderName }"
               :name="senderName"
@@ -138,26 +137,18 @@ const campaignStatus = computed(() => {
               {{ senderName }}
             </span>
           </div>
-          <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
+          <span
+            v-if="isOngoingType"
+            class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap"
+          >
             {{
               t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.FROM')
             }}
           </span>
-          <div class="flex items-center gap-1.5 flex-shrink-0">
-            <FluentIcon :icon="inboxIcon" :size="12" class="text-n-slate-12" />
-            <span class="text-sm font-medium text-n-slate-12">
-              {{ inboxName }}
-            </span>
-          </div>
-          <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
-            {{ t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.URL') }}
-          </span>
-          <span class="flex-1 text-sm font-medium truncate text-n-blue">
-            {{ triggerURL }}
-          </span>
-        </div>
-        <div v-else class="flex items-center w-full h-6 gap-2 overflow-hidden">
-          <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
+          <span
+            v-else
+            class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap"
+          >
             {{
               t(
                 'CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.SENT_FROM'
@@ -165,15 +156,36 @@ const campaignStatus = computed(() => {
             }}
           </span>
           <div class="flex items-center gap-1.5 flex-shrink-0">
-            <FluentIcon :icon="inboxIcon" :size="12" class="text-n-slate-12" />
+            <Icon
+              :icon="inboxIcon"
+              class="flex-shrink-0 text-n-slate-12 size-3"
+            />
             <span class="text-sm font-medium text-n-slate-12">
               {{ inboxName }}
             </span>
           </div>
-          <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
+          <span
+            v-if="isOngoingType"
+            class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap"
+          >
+            {{ t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.URL') }}
+          </span>
+          <span
+            v-if="isOngoingType"
+            class="flex-1 text-sm font-medium truncate text-n-blue-text"
+          >
+            {{ triggerURL }}
+          </span>
+          <span
+            v-if="!isOngoingType"
+            class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap"
+          >
             {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.ON') }}
           </span>
-          <span class="flex-1 text-sm font-medium truncate text-n-slate-12">
+          <span
+            v-if="!isOngoingType"
+            class="flex-1 text-sm font-medium truncate text-n-slate-12"
+          >
             {{ messageStamp(new Date(scheduledAt), 'LLL d, h:mm a') }}
           </span>
         </div>
