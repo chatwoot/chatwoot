@@ -1,6 +1,6 @@
 class Webhooks::InstagramEventsJob < MutexApplicationJob
   queue_as :default
-  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
+  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 8
 
   include HTTParty
 
@@ -13,7 +13,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     @entries = entries
 
     key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: sender_id, ig_account_id: ig_account_id)
-    with_lock(key, 20.seconds) do
+    with_lock(key, 30.seconds) do
       process_entries(entries)
     end
   end

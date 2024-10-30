@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_18_040646) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_30_042538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -439,7 +439,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_18_040646) do
     t.bigint "conversation_id", null: false
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
-    t.bigint "assignee_id", null: false
+    t.bigint "assignee_id"
     t.bigint "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

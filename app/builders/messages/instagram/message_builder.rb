@@ -210,56 +210,22 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @message.save_story_info(story_reply_attributes)
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def build_conversation
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
 
-    previous_messages = fetch_previous_messages
+    previous_conversation = find_previous_conversation
 
     new_conversation = Conversation.create!(conversation_params.merge(
                                               contact_inbox_id: @contact_inbox.id,
                                               additional_attributes: { type: 'instagram_direct_message' }
                                             ))
 
-    previous_messages.each do |message_attributes|
-      new_message = new_conversation.messages.create!(message_attributes.except('id'))
-
-      # duplicate the attachments if present
-      previous_message_attachments = Attachment.where(message_id: message_attributes['id'])
-
-      previous_message_attachments.each do |attachment|
-        # getting the active storage attachment
-        attachment_active_storage = ActiveStorage::Attachment.where(record_id: attachment.id)
-
-        if attachment_active_storage.exists?
-          attachment_active_storage.each do |active_storage_attachment|
-            # finding the blob for that active storage attachment
-            original_blob = ActiveStorage::Blob.find_by(id: active_storage_attachment.blob_id)
-
-            next unless original_blob
-
-            new_attachment = new_message.attachments.create!(attachment.attributes.except('id', 'message_id'))
-
-            ActiveStorage::Attachment.create!(
-              name: active_storage_attachment.name,
-              record_type: active_storage_attachment.record_type,
-              record_id: new_attachment.id,
-              blob_id: original_blob.id,
-              created_at: Time.zone.now
-            )
-          end
-        else
-          new_message.attachments.create!(attachment.attributes.except('id', 'message_id'))
-        end
-      end
-    end
+    ConversationImport.perform_later(new_conversation.id, previous_conversation.id) if previous_conversation.present?
 
     new_conversation.messages.create!(private_message_params("Conversation with #{contact.name.capitalize} started",
                                                              new_conversation))
     new_conversation
   end
-
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def private_message_params(content, new_conversation)
     { account_id: new_conversation.account_id,
@@ -271,18 +237,8 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       content_attributes: { external_created_at: message_timestamp - 1 } }
   end
 
-  def fetch_previous_messages
-    previous_conversation = Conversation.where(conversation_params).order(created_at: :desc).first
-
-    return [] if previous_conversation.blank?
-
-    previous_conversation.messages
-                         .reject { |msg| msg.private && msg.content.include?('Conversation with') }
-                         .map do |message|
-      message.attributes.except('conversation_id').merge(
-        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true, disable_notifications: true)
-      )
-    end
+  def find_previous_conversation
+    Conversation.where(conversation_params).order(created_at: :desc).first
   end
 
   def conversation_params

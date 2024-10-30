@@ -44,8 +44,23 @@ module AssignmentHandler
     user_name = Current.user.name if Current.user.present?
     if saved_change_to_team_id?
       create_team_change_activity(user_name)
+      log_assignment_change
     elsif saved_change_to_assignee_id?
       create_assignee_change_activity(user_name)
+      log_assignment_change
     end
+  end
+
+  def log_assignment_change
+    ConversationAssignment.create!(
+      account_id: account_id,
+      inbox_id: inbox_id,
+      conversation_id: id,
+      assignee_id: assignee_id,
+      team_id: team_id
+    )
+
+    # Clear first_reply_created_at when assignee changes
+    update(first_reply_created_at: nil)
   end
 end
