@@ -66,6 +66,7 @@ export default {
           password: this.password,
           password_confirmation: this.passwordConfirmation,
           current_password: this.currentPassword,
+          displayName: this.currentUser.display_name,
         });
       } catch (error) {
         alertMessage =

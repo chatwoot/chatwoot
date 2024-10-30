@@ -72,7 +72,8 @@ class Api::V1::ProfilesController < Api::BaseController
     params.require(:profile).permit(
       :current_password,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :display_name
     )
   end
 end
