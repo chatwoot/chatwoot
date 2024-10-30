@@ -59,7 +59,7 @@ function buildApp() {
         json: () => {
           return response.data;
         },
-        ok: response.status === 200,
+        ok: response.status >= 200 && response.status < 300,
         status: response.status,
         headers: response.headers,
       };
