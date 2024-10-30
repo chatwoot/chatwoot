@@ -487,7 +487,7 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="p-1 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
+      class="p-1 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
     >
       <SidebarProfileMenu
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"
