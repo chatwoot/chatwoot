@@ -50,7 +50,18 @@ export const MAXIMUM_FILE_UPLOAD_SIZE_FOR_WHATSAPP = {
   '.ogg': 16,
 };
 
+export const MAXIMUM_FILE_UPLOAD_SIZE_FOR_FACEBOOK = {
+  '.png': 8,
+  '.jpeg': 8,
+  '.gif': 8,
+  '.mp4': 25,
+  '.m4a': 25,
+  '.wav': 25,
+  '.mov': 25,
+};
 export const ALLOWED_FILE_TYPES = '.png,.jpeg,.mp4,.pdf,.mp3,.m4a';
+export const ALLOWED_FILE_TYPES_FOR_FACEBOOK =
+  '.png,.jpeg,.gif,.mp4,.m4a,.wav,.mov';
 // 'image/*,' +
 // 'audio/*,' +
 // 'video/*,' +

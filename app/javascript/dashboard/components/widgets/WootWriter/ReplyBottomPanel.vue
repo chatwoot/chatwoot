@@ -47,7 +47,7 @@
         size="small"
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
-      />
+      />-->
       <woot-button
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
@@ -57,7 +57,7 @@
         variant="smooth"
         size="small"
         @click="toggleAudioRecorder"
-      />-->
+      />
       <woot-button
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
@@ -154,6 +154,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
+  ALLOWED_FILE_TYPES_FOR_FACEBOOK,
   ALLOWED_FILE_TYPES_FOR_LINE,
 } from 'shared/constants/messages';
 // import from '../VideoCallButton.vue';
@@ -289,14 +290,7 @@ export default {
         navigator.userAgent
       );
 
-      return (
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.VOICE_RECORDER
-        ) &&
-        this.showAudioRecorder &&
-        !isSafari
-      );
+      return this.showAudioRecorder && !isSafari;
     },
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
@@ -307,6 +301,9 @@ export default {
       }
       if (this.isALineChannel) {
         return ALLOWED_FILE_TYPES_FOR_LINE;
+      }
+      if (this.isAFacebookInbox) {
+        return ALLOWED_FILE_TYPES_FOR_FACEBOOK;
       }
       return ALLOWED_FILE_TYPES;
     },

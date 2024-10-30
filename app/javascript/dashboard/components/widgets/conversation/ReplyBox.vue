@@ -503,13 +503,13 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isATelegramChannel) {
-        return AUDIO_FORMATS.MP3;
+      // if (this.isAWhatsAppChannel || this.isATelegramChannel) {
+      //   return AUDIO_FORMATS.MP3;
+      // }
+      if (this.isAFacebookInbox) {
+        return AUDIO_FORMATS.WAV;
       }
-      if (this.isAPIInbox) {
-        return AUDIO_FORMATS.OGG;
-      }
-      return AUDIO_FORMATS.WAV;
+      return AUDIO_FORMATS.MP3;
     },
     messageVariables() {
       const variables = getMessageVariables({
