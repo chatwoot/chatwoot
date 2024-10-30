@@ -77,7 +77,7 @@ const handleInput = event => {
     <label
       v-if="label"
       :for="id"
-      class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50"
+      class="mb-0.5 text-sm font-medium text-n-slate-12"
     >
       {{ label }}
     </label>
@@ -91,7 +91,7 @@ const handleInput = event => {
       :placeholder="placeholder"
       :disabled="disabled"
       :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
-      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg focus:border-n-brand dark:focus:border-n-brand bg-white dark:bg-slate-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
+      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg focus:border-n-brand dark:focus:border-n-brand bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-11 dark:placeholder:text-n-slate-11 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
       @input="handleInput"
       @blur="emit('blur')"
     />

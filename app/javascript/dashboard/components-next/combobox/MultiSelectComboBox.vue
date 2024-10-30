@@ -121,7 +121,7 @@ defineExpose({
   >
     <OnClickOutside @trigger="open = false">
       <div
-        class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-white dark:bg-slate-900 min-h-[42px]"
+        class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-n-alpha-black2 min-h-[42px]"
         :class="{
           'border-n-slate-7': open,
           'border-n-ruby-8': hasError,
@@ -132,7 +132,7 @@ defineExpose({
         <div
           v-for="tag in selectedTags"
           :key="tag.value"
-          class="flex items-center justify-center max-w-full gap-1 px-2 py-0.5 rounded-lg bg-n-alpha-2"
+          class="flex items-center justify-center max-w-full gap-1 px-2 py-0.5 rounded-lg bg-n-alpha-black1"
           @click.stop
         >
           <span class="flex-grow min-w-0 text-sm truncate text-n-slate-12">

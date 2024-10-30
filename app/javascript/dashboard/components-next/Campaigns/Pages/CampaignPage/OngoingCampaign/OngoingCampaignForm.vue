@@ -226,7 +226,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     />
 
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-11">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -237,7 +237,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :placeholder="
           t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.PLACEHOLDER')
         "
-        class="[&>div>button]:dark:bg-slate-900"
+        class="[&>div>button]:bg-n-alpha-black2"
       />
       <p
         v-if="formErrors.inbox"
@@ -248,7 +248,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     </div>
 
     <div class="flex flex-col gap-1">
-      <label for="sentBy" class="mb-0.5 text-sm font-medium text-n-slate-11">
+      <label for="sentBy" class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.SENT_BY.LABEL') }}
       </label>
       <ComboBox
@@ -260,7 +260,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :placeholder="
           t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.SENT_BY.PLACEHOLDER')
         "
-        class="[&>div>button]:dark:bg-slate-900"
+        class="[&>div>button]:bg-n-alpha-black2"
       />
       <p
         v-if="formErrors.sender"
@@ -297,7 +297,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     />
 
     <fieldset class="flex flex-col gap-2.5">
-      <legend class="mb-2.5 text-sm font-medium text-n-slate-11">
+      <legend class="mb-2.5 text-sm font-medium text-n-slate-12">
         {{
           t(
             'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.OTHER_PREFERENCES.TITLE'
@@ -307,7 +307,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
 
       <label class="flex items-center gap-2">
         <input v-model="state.enabled" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-11">
+        <span class="text-sm font-medium text-n-slate-12">
           {{
             t(
               'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.OTHER_PREFERENCES.ENABLED'
@@ -318,7 +318,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
 
       <label class="flex items-center gap-2">
         <input v-model="state.triggerOnlyDuringBusinessHours" type="checkbox" />
-        <span class="text-sm font-medium text-n-slate-11">
+        <span class="text-sm font-medium text-n-slate-12">
           {{
             t(
               'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'

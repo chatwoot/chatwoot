@@ -192,7 +192,7 @@ defineExpose({ state, isSubmitDisabled });
           "
           :message="nameError"
           :message-type="nameError ? 'error' : 'info'"
-          custom-input-class="!h-10 ltr:!pl-12 rtl:!pr-12 !bg-slate-25 dark:!bg-slate-900"
+          custom-input-class="!h-10 ltr:!pl-12 rtl:!pr-12"
         >
           <template #prefix>
             <OnClickOutside @trigger="isEmojiPickerOpen = false">
@@ -223,7 +223,7 @@ defineExpose({ state, isSubmitDisabled });
         :disabled="isEditMode"
         :message="slugError ? slugError : slugHelpText"
         :message-type="slugError ? 'error' : 'info'"
-        custom-input-class="!h-10 !bg-slate-25 dark:!bg-slate-900 "
+        custom-input-class="!h-10"
       />
       <TextArea
         v-model="state.description"
@@ -236,7 +236,6 @@ defineExpose({ state, isSubmitDisabled });
           )
         "
         show-character-count
-        custom-text-area-wrapper-class="!bg-slate-25 dark:!bg-slate-900"
       />
       <div
         v-if="showActionButtons"

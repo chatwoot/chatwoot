@@ -144,7 +144,7 @@ const handleSubmit = async () => {
     />
 
     <div class="flex flex-col gap-1">
-      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-11">
+      <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
@@ -155,7 +155,7 @@ const handleSubmit = async () => {
         :placeholder="
           t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.PLACEHOLDER')
         "
-        class="[&>div>button]:dark:bg-slate-900"
+        class="[&>div>button]:bg-n-alpha-black2"
       />
       <p
         v-if="formErrors.inbox"
@@ -166,7 +166,7 @@ const handleSubmit = async () => {
     </div>
 
     <div class="flex flex-col gap-1">
-      <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-11">
+      <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.LABEL') }}
       </label>
       <MultiSelectComboBox
@@ -177,6 +177,7 @@ const handleSubmit = async () => {
           t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.PLACEHOLDER')
         "
         :has-error="!!formErrors.audience"
+        class="[&>div>button]:bg-n-alpha-black2"
       />
       <p
         v-if="formErrors.audience"
