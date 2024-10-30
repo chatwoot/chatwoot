@@ -82,12 +82,12 @@ const closeDNSConfigurationDialog = () => {
         <div class="flex items-center justify-end w-full">
           <Button
             v-if="customDomainAddress"
+            color="slate"
             :label="
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
               )
             "
-            variant="secondary"
             @click="addCustomDomainDialogRef.dialogRef.open()"
           />
           <Button
@@ -97,7 +97,7 @@ const closeDNSConfigurationDialog = () => {
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.ADD_BUTTON'
               )
             "
-            variant="secondary"
+            color="slate"
             @click="addCustomDomainDialogRef.dialogRef.open()"
           />
         </div>
