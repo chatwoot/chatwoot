@@ -11,6 +11,7 @@ import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage
 import OngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignDialog.vue';
 import EditOngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/EditOngoingCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
+import OngoingCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/OngoingCampaignEmptyState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -26,6 +27,10 @@ const [showOngoingCampaignDialog, toggleOngoingCampaignDialog] = useToggle();
 
 const ongoingCampaigns = computed(() =>
   getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONGOING)
+);
+
+const hasNoOngoingCampaigns = computed(
+  () => ongoingCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
 const handleEdit = campaign => {
@@ -59,11 +64,17 @@ const handleDelete = campaign => {
         <Spinner />
       </div>
       <CampaignList
-        v-else
+        v-else-if="!hasNoOngoingCampaigns"
         :campaigns="ongoingCampaigns"
         is-ongoing-type
         @edit="handleEdit"
         @delete="handleDelete"
+      />
+      <OngoingCampaignEmptyState
+        v-else
+        :title="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EMPTY_STATE.TITLE')"
+        :subtitle="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EMPTY_STATE.SUBTITLE')"
+        class="pt-14"
       />
     </template>
     <EditOngoingCampaignDialog

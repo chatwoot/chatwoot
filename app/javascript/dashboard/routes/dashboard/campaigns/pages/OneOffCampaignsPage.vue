@@ -10,6 +10,7 @@ import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.v
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import OneOffCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OneOffCampaign/OneOffCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
+import OneOffCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/OneOffCampaignEmptyState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -24,6 +25,10 @@ const confirmDeleteCampaignDialogRef = ref(null);
 
 const oneOffCampaigns = computed(() =>
   getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONE_OFF)
+);
+
+const hasNoOneOffCampaigns = computed(
+  () => oneOffCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
 const handleDelete = campaign => {
@@ -53,9 +58,15 @@ const handleDelete = campaign => {
         <Spinner />
       </div>
       <CampaignList
-        v-else
+        v-else-if="!hasNoOneOffCampaigns"
         :campaigns="oneOffCampaigns"
         @delete="handleDelete"
+      />
+      <OneOffCampaignEmptyState
+        v-else
+        :title="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.EMPTY_STATE.TITLE')"
+        :subtitle="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.EMPTY_STATE.SUBTITLE')"
+        class="pt-14"
       />
     </template>
     <ConfirmDeleteCampaignDialog

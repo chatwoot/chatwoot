@@ -138,6 +138,10 @@
           "URL": "URL :"
         }
       },
+      "EMPTY_STATE": {
+        "TITLE": "No ongoing campaigns created",
+        "SUBTITLE": "Create an ongoing campaign by clicking on the Create ongoing campaign button"
+      },
       "CREATE": {
         "TITLE": "Create ongoing campaign",
         "CANCEL_BUTTON_TEXT": "Cancel",
@@ -201,6 +205,10 @@
     "ONE_OFF_CAMPAIGNS_PAGE": {
       "HEADER_TITLE": "One off campaigns",
       "NEW_CAMPAIGN": "Create one off campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No one off campaigns created",
+        "SUBTITLE": "Create an one off campaign by clicking on the Create one off campaign button"
+      },
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completed",
