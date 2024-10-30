@@ -264,7 +264,6 @@ const menuItems = computed(() => {
       name: 'Campaigns',
       label: t('SIDEBAR.CAMPAIGNS'),
       icon: 'i-lucide-megaphone',
-      to: accountScopedRoute('ongoing_campaigns'),
       children: [
         {
           name: 'Ongoing',
@@ -282,9 +281,6 @@ const menuItems = computed(() => {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',
-      to: accountScopedRoute('portals_index', {
-        navigationPath: 'portals_articles_index',
-      }),
       children: [
         {
           name: 'Articles',
