@@ -353,7 +353,7 @@ export default {
     },
 
     toggleWaTemplate(template) {
-      this.whatsappTemplate = template.id;
+      this.whatsappTemplate = template?.id;
       this.$v.whatsappTemplate.$touch();
     },
 
