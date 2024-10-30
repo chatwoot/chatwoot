@@ -59,9 +59,8 @@ const onPortalCreate = ({ slug: portalSlug, locale }) => {
     </template>
     <template #actions>
       <Button
-        variant="default"
         :label="$t('HELP_CENTER.NEW_PAGE.CREATE_PORTAL_BUTTON')"
-        icon="add"
+        icon="i-lucide-plus"
         @click="openDialog"
       />
       <CreatePortalDialog

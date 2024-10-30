@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col absolute w-[400px] bg-n-alpha-3 backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
+    class="flex flex-col absolute w-[400px] bg-n-alpha-3 outline outline-1 outline-n-container backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
   >
     <div class="flex items-center justify-between">
       <h3>
@@ -63,10 +63,10 @@ onMounted(() => {
         }}
       </h3>
       <Button
-        icon="dismiss"
+        icon="i-lucide-x"
         size="sm"
         variant="ghost"
-        class="w-8 hover:text-n-slate-11"
+        class="hover:text-n-slate-11"
         @click="emit('close')"
       />
     </div>
@@ -89,7 +89,7 @@ onMounted(() => {
                 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_DESCRIPTION_PLACEHOLDER'
               )
             "
-            class="w-[224px]"
+            class="w-[220px]"
             custom-text-area-wrapper-class="!p-0 !border-0 !rounded-none !bg-transparent transition-none"
             custom-text-area-class="max-h-[150px]"
             auto-height
