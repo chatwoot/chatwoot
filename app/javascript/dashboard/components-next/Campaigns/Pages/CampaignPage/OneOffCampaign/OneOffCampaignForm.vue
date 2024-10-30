@@ -9,7 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
-import MultiSelectComboBox from 'dashboard/components-next/combobox/MultiSelectComboBox.vue';
+import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -169,7 +169,7 @@ const handleSubmit = async () => {
       <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.LABEL') }}
       </label>
-      <MultiSelectComboBox
+      <TagMultiSelectComboBox
         v-model="state.selectedAudience"
         :options="audienceList"
         :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.LABEL')"
