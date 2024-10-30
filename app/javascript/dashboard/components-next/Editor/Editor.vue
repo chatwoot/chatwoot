@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
   modelValue: {
@@ -61,7 +61,9 @@ const messageClass = computed(() => {
 });
 
 const handleInput = value => {
-  emit('update:modelValue', value);
+  if (!props.disabled) {
+    emit('update:modelValue', value);
+  }
 };
 
 const handleFocus = () => {
@@ -94,7 +96,7 @@ watch(
       {{ label }}
     </label>
     <div
-      class="w-full transition-all duration-500 ease-in-out border rounded-lg editor-wrapper bg-n-alpha-black2"
+      class="flex flex-col w-full gap-2 px-3 py-3 transition-all duration-500 ease-in-out border rounded-lg editor-wrapper bg-n-alpha-black2"
       :class="[
         {
           'cursor-not-allowed opacity-50 pointer-events-none !bg-n-alpha-black2 disabled:border-n-weak dark:disabled:border-n-weak':
@@ -107,7 +109,7 @@ watch(
         },
       ]"
     >
-      <WootMessageEditor
+      <WootEditor
         :model-value="modelValue"
         :placeholder="placeholder"
         :focus-on-mount="focusOnMount"
@@ -118,7 +120,7 @@ watch(
       />
       <div
         v-if="showCharacterCount"
-        class="flex items-center justify-end h-4 px-3 mt-1 mb-3 bottom-3 ltr:right-3 rtl:left-3"
+        class="flex items-center justify-end h-4 ltr:right-3 rtl:left-3"
       >
         <span class="text-xs tabular-nums text-n-slate-10">
           {{ characterCount }} / {{ maxLength }}
@@ -139,18 +141,30 @@ watch(
 .editor-wrapper {
   ::v-deep {
     .ProseMirror-menubar-wrapper {
+      @apply gap-2 !important;
+
       .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-4  !important;
+        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5  !important;
+
+        .ProseMirror-menuitem {
+          @apply h-5 !important;
+        }
 
         .ProseMirror-icon {
           @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
         }
       }
       .ProseMirror.ProseMirror-woot-style {
-        @apply px-3 !important;
+        p {
+          @apply first:mt-0 !important;
+        }
 
-        .empty-node::before {
-          @apply text-n-slate-11 dark:text-n-slate-11 !important;
+        .empty-node {
+          @apply m-0 !important;
+
+          &::before {
+            @apply text-n-slate-11 dark:text-n-slate-11 !important;
+          }
         }
       }
     }
