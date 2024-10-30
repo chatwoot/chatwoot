@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, watch } from 'vue';
+import { nextTick, onMounted, watch, computed } from 'vue';
 import IntegrationsAPI from 'dashboard/api/integrations';
 import {
   makeRouter,
@@ -13,13 +13,21 @@ const props = defineProps({
   },
 });
 
+const routeMap = {
+  documents: '/app/accounts/[account_id]/documents/',
+  playground: '/app/accounts/[account_id]/playground/',
+  responses: '/app/accounts/[account_id]/responses/',
+};
+
+const resolvedRoute = computed(() => routeMap[props.page]);
+
 let router = null;
 
 watch(
   () => props.page,
   () => {
     if (router) {
-      router.push({ name: props.page });
+      router.push({ name: resolvedRoute.value });
     }
   },
   { immediate: true }
@@ -58,7 +66,7 @@ function buildApp() {
     },
   });
 
-  router.push({ name: props.page });
+  router.push({ name: resolvedRoute.value });
 }
 
 onMounted(async () => {
