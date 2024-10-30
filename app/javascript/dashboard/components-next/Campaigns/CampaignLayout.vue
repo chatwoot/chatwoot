@@ -24,7 +24,7 @@ const handleButtonClick = () => {
     <header class="sticky top-0 z-10 px-6 lg:px-0">
       <div class="w-full max-w-[900px] mx-auto">
         <div class="flex items-center justify-between w-full h-20 gap-2">
-          <span class="text-xl font-medium text-slate-900 dark:text-white">
+          <span class="text-xl font-medium text-n-slate-12">
             {{ headerTitle }}
           </span>
           <div

@@ -21,6 +21,8 @@ const dialogRef = ref(null);
 const selectedCampaignTitle = computed(() => props.selectedCampaign?.title);
 
 const deleteCampaign = async id => {
+  if (!id) return;
+
   try {
     await store.dispatch('campaigns/delete', id);
     useAlert(t('CAMPAIGN.DELETE.API.SUCCESS_MESSAGE'));
@@ -29,9 +31,9 @@ const deleteCampaign = async id => {
   }
 };
 
-const handleDialogConfirm = () => {
-  deleteCampaign(props.selectedCampaign.id);
-  dialogRef.value.close();
+const handleDialogConfirm = async () => {
+  await deleteCampaign(props.selectedCampaign.id);
+  dialogRef.value?.close();
 };
 
 defineExpose({ dialogRef });

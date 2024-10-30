@@ -21,13 +21,15 @@ const formState = {
   inboxes: useMapGetter('inboxes/getSMSInboxes'),
 };
 
-const state = reactive({
+const initialState = {
   title: '',
   message: '',
   inboxId: null,
   scheduledAt: null,
   selectedAudience: [],
-});
+};
+
+const state = reactive({ ...initialState });
 
 const rules = {
   title: { required, minLength: minLength(1) },
@@ -42,79 +44,66 @@ const v$ = useVuelidate(rules, state);
 const isCreating = computed(() => formState.uiFlags.value.isCreating);
 
 const currentDateTime = computed(() => {
+  // Added to disable the scheduled at field from being set to the current time
   const now = new Date();
-  return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, 16);
+  const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  return localTime.toISOString().slice(0, 16);
 });
 
-const audienceList = computed(
-  () =>
-    formState.labels.value?.map(({ id, title }) => ({
-      value: id,
-      label: title,
-    })) ?? []
+const mapToOptions = (items, valueKey, labelKey) =>
+  items?.map(item => ({
+    value: item[valueKey],
+    label: item[labelKey],
+  })) ?? [];
+
+const audienceList = computed(() =>
+  mapToOptions(formState.labels.value, 'id', 'title')
 );
 
-const inboxOptions = computed(
-  () =>
-    formState.inboxes.value?.map(({ id, name }) => ({
-      value: id,
-      label: name,
-    })) ?? []
+const inboxOptions = computed(() =>
+  mapToOptions(formState.inboxes.value, 'id', 'name')
 );
+
+const getErrorMessage = (field, errorKey) => {
+  const baseKey = 'CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM';
+  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
+};
 
 const formErrors = computed(() => ({
-  title: v$.value.title.$error
-    ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.ERROR')
-    : '',
-  message: v$.value.message.$error
-    ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.ERROR')
-    : '',
-  inbox: v$.value.inboxId.$error
-    ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.ERROR')
-    : '',
-  scheduledAt: v$.value.scheduledAt.$error
-    ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.SCHEDULED_AT.ERROR')
-    : '',
-  audience: v$.value.selectedAudience.$error
-    ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.ERROR')
-    : '',
+  title: getErrorMessage('title', 'TITLE'),
+  message: getErrorMessage('message', 'MESSAGE'),
+  inbox: getErrorMessage('inboxId', 'INBOX'),
+  scheduledAt: getErrorMessage('scheduledAt', 'SCHEDULED_AT'),
+  audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
 }));
 
 const isSubmitDisabled = computed(() => v$.value.$invalid);
 
-const formatToUTCString = localDateTime => {
-  if (!localDateTime) return null;
-  return new Date(localDateTime).toISOString();
-};
+const formatToUTCString = localDateTime =>
+  localDateTime ? new Date(localDateTime).toISOString() : null;
 
 const resetState = () => {
-  state.title = '';
-  state.message = '';
-  state.inboxId = null;
-  state.scheduledAt = null;
-  state.selectedAudience = [];
+  Object.assign(state, initialState);
 };
 
 const handleCancel = () => emit('cancel');
 
+const prepareCampaignDetails = () => ({
+  title: state.title,
+  message: state.message,
+  inbox_id: state.inboxId,
+  scheduled_at: formatToUTCString(state.scheduledAt),
+  audience: state.selectedAudience?.map(id => ({
+    id,
+    type: 'Label',
+  })),
+});
+
 const handleSubmit = async () => {
-  const isFormCorrect = await v$.value.$validate();
-  if (!isFormCorrect) return;
+  const isFormValid = await v$.value.$validate();
+  if (!isFormValid) return;
 
-  const campaignDetails = {
-    title: state.title,
-    message: state.message,
-    inbox_id: state.inboxId,
-    scheduled_at: formatToUTCString(state.scheduledAt),
-    audience: state.selectedAudience.map(({ value }) => ({
-      id: value,
-      type: 'Label',
-    })),
-  };
-
-  emit('submit', campaignDetails);
+  emit('submit', prepareCampaignDetails());
   resetState();
   handleCancel();
 };
