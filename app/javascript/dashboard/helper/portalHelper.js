@@ -31,7 +31,7 @@ export const getArticleStatus = status => {
 export const HELP_CENTER_MENU_ITEMS = [
   {
     label: 'Articles',
-    icon: 'book',
+    icon: 'i-lucide-book',
     action: 'portals_articles_index',
     value: [
       'portals_articles_index',
@@ -41,7 +41,7 @@ export const HELP_CENTER_MENU_ITEMS = [
   },
   {
     label: 'Categories',
-    icon: 'folder',
+    icon: 'i-lucide-folder',
     action: 'portals_categories_index',
     value: [
       'portals_categories_index',
@@ -51,13 +51,13 @@ export const HELP_CENTER_MENU_ITEMS = [
   },
   {
     label: 'Locales',
-    icon: 'translate',
+    icon: 'i-lucide-languages',
     action: 'portals_locales_index',
     value: ['portals_locales_index'],
   },
   {
     label: 'Settings',
-    icon: 'settings',
+    icon: 'i-lucide-settings',
     action: 'portals_settings_index',
     value: ['portals_settings_index'],
   },
@@ -74,25 +74,25 @@ export const ARTICLE_MENU_ITEMS = {
     label: 'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.DROPDOWN_MENU.PUBLISH',
     value: ARTICLE_STATUSES.PUBLISHED,
     action: 'publish',
-    icon: 'checkmark',
+    icon: 'i-lucide-check',
   },
   draft: {
     label: 'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.DROPDOWN_MENU.DRAFT',
     value: ARTICLE_STATUSES.DRAFT,
     action: 'draft',
-    icon: 'draft',
+    icon: 'i-lucide-pencil-line',
   },
   archive: {
     label: 'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.DROPDOWN_MENU.ARCHIVE',
     value: ARTICLE_STATUSES.ARCHIVED,
     action: 'archive',
-    icon: 'archive',
+    icon: 'i-lucide-archive-restore',
   },
   delete: {
     label: 'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.DROPDOWN_MENU.DELETE',
     value: 'delete',
     action: 'delete',
-    icon: 'delete',
+    icon: 'i-lucide-trash',
   },
 };
 
@@ -135,13 +135,13 @@ export const LOCALE_MENU_ITEMS = [
     label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.MAKE_DEFAULT',
     action: 'change-default',
     value: 'default',
-    icon: 'star-emphasis',
+    icon: 'i-lucide-star',
   },
   {
     label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.DELETE',
     action: 'delete',
     value: 'delete',
-    icon: 'delete',
+    icon: 'i-lucide-trash',
   },
 ];
 

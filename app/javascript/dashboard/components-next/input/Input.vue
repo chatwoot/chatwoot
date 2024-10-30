@@ -69,7 +69,7 @@ const handleInput = event => {
 </script>
 
 <template>
-  <div class="relative flex flex-col gap-1">
+  <div class="relative flex flex-col min-w-0 gap-1">
     <label
       v-if="label"
       :for="id"
@@ -92,7 +92,7 @@ const handleInput = event => {
     />
     <p
       v-if="message"
-      class="mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+      class="min-w-0 mt-1 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
       :class="messageClass"
     >
       {{ message }}

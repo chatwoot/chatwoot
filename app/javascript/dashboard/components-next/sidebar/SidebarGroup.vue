@@ -28,11 +28,12 @@ const {
 
 const parentEl = ref(null);
 
-const locateLastChild = () => {
-  parentEl.value?.querySelectorAll('.child-item').forEach((child, index) => {
-    if (index === parentEl.value.querySelectorAll('.child-item').length - 1) {
-      child.classList.add('last-child-item');
-    }
+const locateLastChild = async () => {
+  const children = parentEl.value?.querySelectorAll('.child-item');
+  if (!children) return;
+
+  children.forEach((child, index) => {
+    child.classList.toggle('last-child-item', index === children.length - 1);
   });
 };
 
@@ -103,7 +104,7 @@ const toggleTrigger = () => {
   setExpandedItem(props.name);
 };
 
-watch(expandedItem, locateLastChild, {
+watch([expandedItem, accessibleItems], locateLastChild, {
   immediate: true,
 });
 </script>
