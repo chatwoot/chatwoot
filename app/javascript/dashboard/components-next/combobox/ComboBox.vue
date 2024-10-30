@@ -104,7 +104,7 @@ watch(
     <OnClickOutside @trigger="open = false">
       <Button
         variant="outline"
-        :color="hasError ? 'ruby' : 'slate'"
+        :color="hasError ? 'ruby' : open ? 'blue' : 'slate'"
         :label="selectedLabel"
         trailing-icon
         :disabled="disabled"

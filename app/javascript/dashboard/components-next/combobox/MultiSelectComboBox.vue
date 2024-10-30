@@ -121,11 +121,12 @@ defineExpose({
   >
     <OnClickOutside @trigger="open = false">
       <div
-        class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-n-alpha-black2 min-h-[42px]"
+        class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-n-alpha-black2 min-h-[42px] transition-all duration-500 ease-in-out"
         :class="{
-          'border-n-slate-7': open,
           'border-n-ruby-8': hasError,
-          'border-n-slate-6': !hasError,
+          'border-n-strong hover:border-n-strong dark:hover:border-n-slate-6':
+            !hasError && !open,
+          'border-n-brand': open,
         }"
         @click="toggleDropdown"
       >

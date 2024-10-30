@@ -48,7 +48,7 @@ const STYLE_CONFIG = {
       solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
         'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
-      outline: 'text-n-blue-text hover:bg-n-brand/10 outline-n-blue-border',
+      outline: 'text-n-blue-text outline-n-blue-border',
       link: 'text-n-brand hover:underline outline-transparent',
     },
     ruby: {
