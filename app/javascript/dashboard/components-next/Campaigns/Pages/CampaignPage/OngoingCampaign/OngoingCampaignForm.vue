@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, ref, watch, onMounted } from 'vue';
+import { reactive, computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
