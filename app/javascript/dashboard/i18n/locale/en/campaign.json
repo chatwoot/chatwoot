@@ -12,7 +12,7 @@
           "SENT_BY": "Sent by",
           "BOT": "Bot",
           "FROM": "from",
-          "URL": "URL :"
+          "URL": "URL:"
         }
       },
       "EMPTY_STATE": {
@@ -89,7 +89,7 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completed",
-          "ACTIVE": "Active"
+          "SCHEDULED": "Scheduled"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
