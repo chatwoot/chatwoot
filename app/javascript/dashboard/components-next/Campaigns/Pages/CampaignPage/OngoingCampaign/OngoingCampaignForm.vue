@@ -231,14 +231,9 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :placeholder="
           t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.PLACEHOLDER')
         "
+        :message="formErrors.inbox"
         class="[&>div>button]:bg-n-alpha-black2"
       />
-      <p
-        v-if="formErrors.inbox"
-        class="min-w-0 mt-1 mb-0 text-xs truncate text-n-ruby-9"
-      >
-        {{ formErrors.inbox }}
-      </p>
     </div>
 
     <div class="flex flex-col gap-1">
@@ -255,13 +250,8 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
           t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.SENT_BY.PLACEHOLDER')
         "
         class="[&>div>button]:bg-n-alpha-black2"
+        :message="formErrors.sender"
       />
-      <p
-        v-if="formErrors.sender"
-        class="min-w-0 mt-1 mb-0 text-xs truncate text-n-ruby-9"
-      >
-        {{ formErrors.sender }}
-      </p>
     </div>
 
     <Input
