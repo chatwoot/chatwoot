@@ -53,29 +53,26 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 
+const urlValidators = {
+  shouldBeAValidURLPattern: value => {
+    try {
+      // eslint-disable-next-line
+      new URLPattern(value);
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  shouldStartWithHTTP: value =>
+    value ? value.startsWith('https://') || value.startsWith('http://') : false,
+};
+
 const validationRules = {
   title: { required, minLength: minLength(1) },
   message: { required, minLength: minLength(1) },
   inboxId: { required },
   senderId: { required },
-  endPoint: {
-    required,
-    shouldBeAValidURLPattern(value) {
-      try {
-        // eslint-disable-next-line
-        new URLPattern(value);
-        return true;
-      } catch {
-        return false;
-      }
-    },
-    shouldStartWithHTTP(value) {
-      if (value) {
-        return value.startsWith('https://') || value.startsWith('http://');
-      }
-      return false;
-    },
-  },
+  endPoint: { required, ...urlValidators },
   timeOnPage: { required },
 };
 
@@ -84,42 +81,38 @@ const v$ = useVuelidate(validationRules, state);
 const isCreating = computed(() => formState.uiFlags.value.isCreating);
 const isSubmitDisabled = computed(() => v$.value.$invalid);
 
-const inboxOptions = computed(
-  () =>
-    formState.inboxes.value?.map(({ id, name }) => ({
-      value: id,
-      label: name,
-    })) ?? []
+const mapToOptions = (items, valueKey, labelKey) =>
+  items?.map(item => ({
+    value: item[valueKey],
+    label: item[labelKey],
+  })) ?? [];
+
+const inboxOptions = computed(() =>
+  mapToOptions(formState.inboxes.value, 'id', 'name')
 );
 
 const sendersAndBotList = computed(() => [
   { value: 0, label: 'Bot' },
-  ...senderList.value.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  })),
+  ...mapToOptions(senderList.value, 'id', 'name'),
 ]);
 
+const getErrorMessage = (field, errorKey) => {
+  const baseKey = 'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM';
+  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
+};
+
 const formErrors = computed(() => ({
-  title: v$.value.title.$error
-    ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.ERROR')
-    : '',
-  message: v$.value.message.$error
-    ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.ERROR')
-    : '',
-  inbox: v$.value.inboxId.$error
-    ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.ERROR')
-    : '',
-  endPoint: v$.value.endPoint.$error
-    ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.END_POINT.ERROR')
-    : '',
-  timeOnPage: v$.value.timeOnPage.$error
-    ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.TIME_ON_PAGE.ERROR')
-    : '',
-  sender: v$.value.senderId.$error
-    ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.SENT_BY.ERROR')
-    : '',
+  title: getErrorMessage('title', 'TITLE'),
+  message: getErrorMessage('message', 'MESSAGE'),
+  inbox: getErrorMessage('inboxId', 'INBOX'),
+  endPoint: getErrorMessage('endPoint', 'END_POINT'),
+  timeOnPage: getErrorMessage('timeOnPage', 'TIME_ON_PAGE'),
+  sender: getErrorMessage('senderId', 'SENT_BY'),
 }));
+
+const resetState = () => Object.assign(state, initialState);
+
+const handleCancel = () => emit('cancel');
 
 const handleInboxChange = async inboxId => {
   if (!inboxId) {
@@ -128,17 +121,14 @@ const handleInboxChange = async inboxId => {
   }
 
   try {
-    const { data: { payload } = {} } = await store.dispatch(
-      'inboxMembers/get',
-      { inboxId }
-    );
-    senderList.value = payload ?? [];
+    const response = await store.dispatch('inboxMembers/get', { inboxId });
+    senderList.value = response?.data?.payload ?? [];
   } catch (error) {
     senderList.value = [];
-    const errorMessage =
+    useAlert(
       error?.response?.message ??
-      t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.API.ERROR_MESSAGE');
-    useAlert(errorMessage);
+        t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.API.ERROR_MESSAGE')
+    );
   }
 };
 
@@ -156,49 +146,53 @@ const prepareCampaignDetails = () => ({
 });
 
 const handleSubmit = async () => {
-  const isFormCorrect = await v$.value.$validate();
-  if (!isFormCorrect) return;
+  const isFormValid = await v$.value.$validate();
+  if (!isFormValid) return;
 
   emit('submit', prepareCampaignDetails());
+  if (props.mode === 'create') {
+    resetState();
+    handleCancel();
+  }
 };
 
-watch(
-  () => state.inboxId,
-  newInboxId => {
-    handleInboxChange(newInboxId);
-  },
-  { immediate: true }
-);
+const updateStateFromCampaign = campaign => {
+  if (!campaign) return;
+
+  const {
+    title,
+    message,
+    inbox: { id: inboxId },
+    sender,
+    enabled,
+    trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
+    trigger_rules: { url: endPoint, time_on_page: timeOnPage },
+  } = campaign;
+
+  Object.assign(state, {
+    title,
+    message,
+    inboxId,
+    senderId: sender?.id ?? 0,
+    enabled,
+    triggerOnlyDuringBusinessHours,
+    endPoint,
+    timeOnPage,
+  });
+};
+
+watch(() => state.inboxId, handleInboxChange, { immediate: true });
 
 watch(
   () => props.selectedCampaign,
-  newSelectedCampaign => {
-    if (props.mode === 'edit' && newSelectedCampaign) {
-      const {
-        title,
-        message,
-        inbox: { id: inboxId },
-        sender,
-        enabled,
-        trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
-        trigger_rules: { url: endPoint, time_on_page: timeOnPage },
-      } = newSelectedCampaign;
-      Object.assign(state, {
-        title,
-        message,
-        inboxId,
-        senderId: (sender && sender.id) || 0,
-        enabled,
-        triggerOnlyDuringBusinessHours,
-        endPoint,
-        timeOnPage,
-      });
+  newCampaign => {
+    if (props.mode === 'edit' && newCampaign) {
+      updateStateFromCampaign(newCampaign);
     }
   },
   { immediate: true }
 );
 
-// Expose the formRef to the parent component
 defineExpose({ prepareCampaignDetails, isSubmitDisabled });
 </script>
 
@@ -338,7 +332,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         color="slate"
         :label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.BUTTONS.CANCEL')"
         class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
-        @click="emit('cancel')"
+        @click="handleCancel"
       />
       <Button
         type="submit"

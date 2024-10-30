@@ -153,7 +153,7 @@ onMounted(() => {
           'hover:border-n-slate-6 dark:hover:border-n-slate-6 border-n-weak dark:border-n-weak':
             !isFocused && messageType !== 'error',
           'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9':
-            messageType === 'error',
+            messageType === 'error' && !isFocused,
         },
       ]"
     >
