@@ -1,6 +1,5 @@
 <script setup>
 import { nextTick, onMounted, watch } from 'vue';
-import { useAccount } from 'dashboard/composables/useAccount';
 import IntegrationsAPI from 'dashboard/api/integrations';
 import {
   makeRouter,
@@ -45,7 +44,7 @@ function buildApp() {
       const response = await IntegrationsAPI.requestCaptain({
         method: options.method ?? 'GET',
         route: path,
-        body: options.body,
+        body: options.body ? JSON.parse(options.body) : null,
       });
 
       return {

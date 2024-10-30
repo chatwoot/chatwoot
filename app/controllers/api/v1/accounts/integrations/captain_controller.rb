@@ -10,18 +10,27 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
     # rid of it, so the request path has to include it
     url = URI.join(base_url, request_path).to_s
 
+    # permit all
+    params[:body].permit! if params[:body].present?
+
     # make the request to the Captain service
     # also add the access token and email to header use X-User-Email and X-User-Token
-    response = HTTParty.send(params[:method].downcase, url, body: params[:body], headers: {
-                               'X-User-Email' => hook.settings['account_email'],
-                               'X-User-Token' => hook.settings['access_token']
-                             })
+    response = HTTParty.send(params[:method].downcase, url, body: params[:body].to_json, headers: headers)
 
     response.headers.each { |key, value| headers[key] = value }
     render plain: response.body, status: response.code
   end
 
   private
+
+  def headers
+    {
+      'X-User-Email' => hook.settings['account_email'],
+      'X-User-Token' => hook.settings['access_token'],
+      'Content-Type' => 'application/json',
+      'Accept' => '*/*'
+    }
+  end
 
   def request_path
     paths = if params[:route] === '/sessions/profile'
@@ -38,7 +47,7 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   end
 
   def validate_method
-    return if params[:method].present? && %w[get post put delete].include?(params[:method].downcase)
+    return if params[:method].present? && %w[get post put patch delete options head].include?(params[:method].downcase)
 
     render json: { error: 'Invalid or missing HTTP method' }, status: :unprocessable_entity
   end
