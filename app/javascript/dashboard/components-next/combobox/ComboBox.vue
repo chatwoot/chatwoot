@@ -134,7 +134,7 @@ watch(
           <li
             v-for="option in filteredOptions"
             :key="option.value"
-            class="flex items-center justify-between !text-n-slate-12 w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
+            class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
             :class="{
               'bg-n-alpha-2': option.value === selectedValue,
             }"
@@ -142,7 +142,10 @@ watch(
             :aria-selected="option.value === selectedValue"
             @click="selectOption(option)"
           >
-            <span :class="{ 'font-medium': option.value === selectedValue }">
+            <span
+              :class="{ 'font-medium': option.value === selectedValue }"
+              class="text-n-slate-12"
+            >
               {{ option.label }}
             </span>
             <span

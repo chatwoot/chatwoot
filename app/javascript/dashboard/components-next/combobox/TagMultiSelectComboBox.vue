@@ -186,6 +186,7 @@ defineExpose({
               :class="{
                 'font-medium': selectedValues.includes(option.value),
               }"
+              class="text-n-slate-12"
             >
               {{ option.label }}
             </span>
