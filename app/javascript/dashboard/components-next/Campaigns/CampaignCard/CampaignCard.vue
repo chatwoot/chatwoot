@@ -64,13 +64,13 @@ const statusTextColor = computed(() => ({
 const campaignStatus = computed(() => {
   if (props.isOngoingType) {
     return props.isEnabled
-      ? t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.STATUS.ENABLED')
-      : t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CARD.STATUS.DISABLED');
+      ? t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.ENABLED')
+      : t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.DISABLED');
   }
 
   return props.status === STATUS_COMPLETED
-    ? t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.STATUS.COMPLETED')
-    : t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.STATUS.SCHEDULED');
+    ? t('CAMPAIGN.SMS.CARD.STATUS.COMPLETED')
+    : t('CAMPAIGN.SMS.CARD.STATUS.SCHEDULED');
 });
 
 const inboxName = computed(() => props.inbox?.name || '');

@@ -45,8 +45,8 @@ const handleDelete = campaign => {
 
 <template>
   <CampaignLayout
-    :header-title="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.HEADER_TITLE')"
-    :button-label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.NEW_CAMPAIGN')"
+    :header-title="t('CAMPAIGN.LIVE_CHAT.HEADER_TITLE')"
+    :button-label="t('CAMPAIGN.LIVE_CHAT.NEW_CAMPAIGN')"
     @click="toggleOngoingCampaignDialog()"
     @close="toggleOngoingCampaignDialog(false)"
   >
@@ -72,8 +72,8 @@ const handleDelete = campaign => {
       />
       <OngoingCampaignEmptyState
         v-else
-        :title="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EMPTY_STATE.TITLE')"
-        :subtitle="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.EMPTY_STATE.SUBTITLE')"
+        :title="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.TITLE')"
+        :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"
         class="pt-14"
       />
     </template>

@@ -65,7 +65,7 @@ const inboxOptions = computed(() =>
 );
 
 const getErrorMessage = (field, errorKey) => {
-  const baseKey = 'CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM';
+  const baseKey = 'CAMPAIGN.SMS.CREATE.FORM';
   return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
 };
 
@@ -113,20 +113,18 @@ const handleSubmit = async () => {
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <Input
       v-model="state.title"
-      :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.LABEL')"
-      :placeholder="
-        t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.PLACEHOLDER')
-      "
+      :label="t('CAMPAIGN.SMS.CREATE.FORM.TITLE.LABEL')"
+      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.TITLE.PLACEHOLDER')
+        "
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
 
     <TextArea
       v-model="state.message"
-      :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="
-        t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.PLACEHOLDER')
-      "
+      :label="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.LABEL')"
+      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.PLACEHOLDER')
+        "
       show-character-count
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
@@ -134,16 +132,15 @@ const handleSubmit = async () => {
 
     <div class="flex flex-col gap-1">
       <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.LABEL') }}
+        {{ t('CAMPAIGN.SMS.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
         id="inbox"
         v-model="state.inboxId"
         :options="inboxOptions"
         :has-error="!!formErrors.inbox"
-        :placeholder="
-          t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.PLACEHOLDER')
-        "
+        :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.INBOX.PLACEHOLDER')
+          "
         :message="formErrors.inbox"
         class="[&>div>button]:bg-n-alpha-black2"
       />
@@ -151,15 +148,14 @@ const handleSubmit = async () => {
 
     <div class="flex flex-col gap-1">
       <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.LABEL') }}
+        {{ t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL') }}
       </label>
       <TagMultiSelectComboBox
         v-model="state.selectedAudience"
         :options="audienceList"
-        :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.LABEL')"
-        :placeholder="
-          t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.AUDIENCE.PLACEHOLDER')
-        "
+        :label="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL')"
+        :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.PLACEHOLDER')
+          "
         :has-error="!!formErrors.audience"
         :message="formErrors.audience"
         class="[&>div>button]:bg-n-alpha-black2"
@@ -168,16 +164,14 @@ const handleSubmit = async () => {
 
     <Input
       v-model="state.scheduledAt"
-      :label="
-        t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.SCHEDULED_AT.LABEL')
-      "
+      :label="t('CAMPAIGN.SMS.CREATE.FORM.SCHEDULED_AT.LABEL')
+        "
       type="datetime-local"
       :min="currentDateTime"
-      :placeholder="
-        t(
-          'CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER'
-        )
-      "
+      :placeholder="t(
+        'CAMPAIGN.SMS.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER'
+      )
+        "
       :message="formErrors.scheduledAt"
       :message-type="formErrors.scheduledAt ? 'error' : 'info'"
     />
@@ -186,12 +180,12 @@ const handleSubmit = async () => {
       <Button
         variant="faded"
         color="slate"
-        :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.BUTTONS.CANCEL')"
+        :label="t('CAMPAIGN.SMS.CREATE.FORM.BUTTONS.CANCEL')"
         class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
-        :label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.BUTTONS.CREATE')"
+        :label="t('CAMPAIGN.SMS.CREATE.FORM.BUTTONS.CREATE')"
         class="w-full"
         type="submit"
         :is-loading="isCreating"

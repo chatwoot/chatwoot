@@ -266,14 +266,14 @@ const menuItems = computed(() => {
       icon: 'i-lucide-megaphone',
       children: [
         {
-          name: 'Ongoing',
-          label: t('SIDEBAR.ONGOING'),
-          to: accountScopedRoute('campaigns_ongoing_index'),
+          name: 'Live chat',
+          label: t('SIDEBAR.LIVE_CHAT'),
+          to: accountScopedRoute('campaigns_livechat_index'),
         },
         {
-          name: 'One-off',
-          label: t('SIDEBAR.ONE_OFF'),
-          to: accountScopedRoute('campaigns_one_off_index'),
+          name: 'SMS',
+          label: t('SIDEBAR.SMS'),
+          to: accountScopedRoute('campaigns_sms_index'),
         },
       ],
     },
@@ -439,7 +439,7 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pt-2 pb-1"
+    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">

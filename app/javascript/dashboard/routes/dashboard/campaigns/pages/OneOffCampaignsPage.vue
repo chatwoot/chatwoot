@@ -39,8 +39,8 @@ const handleDelete = campaign => {
 
 <template>
   <CampaignLayout
-    :header-title="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.HEADER_TITLE')"
-    :button-label="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.NEW_CAMPAIGN')"
+    :header-title="t('CAMPAIGN.SMS.HEADER_TITLE')"
+    :button-label="t('CAMPAIGN.SMS.NEW_CAMPAIGN')"
     @click="toggleOneOffCampaignDialog()"
     @close="toggleOneOffCampaignDialog(false)"
   >
@@ -64,8 +64,8 @@ const handleDelete = campaign => {
       />
       <OneOffCampaignEmptyState
         v-else
-        :title="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.EMPTY_STATE.TITLE')"
-        :subtitle="t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.EMPTY_STATE.SUBTITLE')"
+        :title="t('CAMPAIGN.SMS.EMPTY_STATE.TITLE')"
+        :subtitle="t('CAMPAIGN.SMS.EMPTY_STATE.SUBTITLE')"
         class="pt-14"
       />
     </template>

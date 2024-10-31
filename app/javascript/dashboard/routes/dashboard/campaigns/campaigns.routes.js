@@ -1,9 +1,8 @@
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 
 import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
-
-const OngoingCampaignsPage = () => import('./pages/OngoingCampaignsPage.vue');
-const OneOffCampaignsPage = () => import('./pages/OneOffCampaignsPage.vue');
+import OngoingCampaignsPage from './pages/OngoingCampaignsPage.vue';
+import OneOffCampaignsPage from './pages/OneOffCampaignsPage.vue';
 
 const campaignsRoutes = {
   routes: [
@@ -23,11 +22,31 @@ const campaignsRoutes = {
           meta: {
             permissions: ['administrator'],
           },
-          component: OngoingCampaignsPage,
+          redirect: to => {
+            return { name: 'campaigns_livechat_index', params: to.params };
+          },
         },
         {
           path: 'one_off',
           name: 'campaigns_one_off_index',
+          meta: {
+            permissions: ['administrator'],
+          },
+          redirect: to => {
+            return { name: 'campaigns_sms_index', params: to.params };
+          },
+        },
+        {
+          path: 'live_chat',
+          name: 'campaigns_livechat_index',
+          meta: {
+            permissions: ['administrator'],
+          },
+          component: OngoingCampaignsPage,
+        },
+        {
+          path: 'sms',
+          name: 'campaigns_sms_index',
           meta: {
             permissions: ['administrator'],
           },

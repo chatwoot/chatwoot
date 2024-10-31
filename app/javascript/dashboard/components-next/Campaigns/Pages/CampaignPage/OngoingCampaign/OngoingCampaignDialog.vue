@@ -22,12 +22,12 @@ const addCampaign = async campaignDetails => {
     });
 
     useAlert(
-      t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.API.SUCCESS_MESSAGE')
+      t('CAMPAIGN.SMS.CREATE.FORM.API.SUCCESS_MESSAGE')
     );
   } catch (error) {
     const errorMessage =
       error?.response?.message ||
-      t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CREATE.FORM.API.ERROR_MESSAGE');
+      t('CAMPAIGN.SMS.CREATE.FORM.API.ERROR_MESSAGE');
     useAlert(errorMessage);
   }
 };
@@ -45,7 +45,7 @@ const handleSubmit = campaignDetails => {
     class="w-[400px] z-50 min-w-0 absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] p-6 rounded-xl border border-slate-50 dark:border-slate-900 shadow-md flex flex-col gap-6 max-h-[85vh] overflow-y-auto"
   >
     <h3 class="text-base font-medium text-slate-900 dark:text-slate-50">
-      {{ t(`CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.TITLE`) }}
+      {{ t(`CAMPAIGN.LIVE_CHAT.CREATE.TITLE`) }}
     </h3>
     <OngoingCampaignForm
       mode="create"

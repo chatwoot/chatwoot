@@ -23,7 +23,7 @@ const { t } = useI18n();
 
 <template>
   <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
-    {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.SENT_FROM') }}
+    {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.SENT_FROM') }}
   </span>
   <div class="flex items-center gap-1.5 flex-shrink-0">
     <Icon :icon="inboxIcon" class="flex-shrink-0 text-n-slate-12 size-3" />
@@ -33,7 +33,7 @@ const { t } = useI18n();
   </div>
 
   <span class="flex-shrink-0 text-sm text-n-slate-11 whitespace-nowrap">
-    {{ t('CAMPAIGN.ONE_OFF_CAMPAIGNS_PAGE.CARD.CAMPAIGN_DETAILS.ON') }}
+    {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.ON') }}
   </span>
   <span class="flex-1 text-sm font-medium truncate text-n-slate-12">
     {{ messageStamp(new Date(scheduledAt), 'LLL d, h:mm a') }}

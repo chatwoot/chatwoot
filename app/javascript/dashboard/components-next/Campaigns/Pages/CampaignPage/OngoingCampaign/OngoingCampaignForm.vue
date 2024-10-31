@@ -97,7 +97,7 @@ const sendersAndBotList = computed(() => [
 ]);
 
 const getErrorMessage = (field, errorKey) => {
-  const baseKey = 'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM';
+  const baseKey = 'CAMPAIGN.LIVE_CHAT.CREATE.FORM';
   return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
 };
 
@@ -127,7 +127,7 @@ const handleInboxChange = async inboxId => {
     senderList.value = [];
     useAlert(
       error?.response?.message ??
-        t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.API.ERROR_MESSAGE')
+      t('CAMPAIGN.LIVE_CHAT.CREATE.API.ERROR_MESSAGE')
     );
   }
 };
@@ -200,36 +200,33 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <Input
       v-model="state.title"
-      :label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.LABEL')"
-      :placeholder="
-        t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.TITLE.PLACEHOLDER')
-      "
+      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.LABEL')"
+      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.PLACEHOLDER')
+        "
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
 
     <Editor
       v-model="state.message"
-      :label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="
-        t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.MESSAGE.PLACEHOLDER')
-      "
+      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL')"
+      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')
+        "
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
     />
 
     <div class="flex flex-col gap-1">
       <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.LABEL') }}
+        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.LABEL') }}
       </label>
       <ComboBox
         id="inbox"
         v-model="state.inboxId"
         :options="inboxOptions"
         :has-error="!!formErrors.inbox"
-        :placeholder="
-          t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.INBOX.PLACEHOLDER')
-        "
+        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.PLACEHOLDER')
+          "
         :message="formErrors.inbox"
         class="[&>div>button]:bg-n-alpha-black2"
       />
@@ -237,7 +234,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
 
     <div class="flex flex-col gap-1">
       <label for="sentBy" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.SENT_BY.LABEL') }}
+        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.LABEL') }}
       </label>
       <ComboBox
         id="sentBy"
@@ -245,9 +242,8 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :options="sendersAndBotList"
         :has-error="!!formErrors.sender"
         :disabled="!state.inboxId"
-        :placeholder="
-          t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.SENT_BY.PLACEHOLDER')
-        "
+        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.PLACEHOLDER')
+          "
         class="[&>div>button]:bg-n-alpha-black2"
         :message="formErrors.sender"
       />
@@ -256,10 +252,9 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     <Input
       v-model="state.endPoint"
       type="url"
-      :label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.END_POINT.LABEL')"
-      :placeholder="
-        t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.END_POINT.PLACEHOLDER')
-      "
+      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.LABEL')"
+      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.PLACEHOLDER')
+        "
       :message="formErrors.endPoint"
       :message-type="formErrors.endPoint ? 'error' : 'info'"
     />
@@ -267,14 +262,12 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     <Input
       v-model="state.timeOnPage"
       type="number"
-      :label="
-        t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.TIME_ON_PAGE.LABEL')
-      "
-      :placeholder="
-        t(
-          'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.TIME_ON_PAGE.PLACEHOLDER'
-        )
-      "
+      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.LABEL')
+        "
+      :placeholder="t(
+        'CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.PLACEHOLDER'
+      )
+        "
       :message="formErrors.timeOnPage"
       :message-type="formErrors.timeOnPage ? 'error' : 'info'"
     />
@@ -283,7 +276,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       <legend class="mb-2.5 text-sm font-medium text-n-slate-12">
         {{
           t(
-            'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.OTHER_PREFERENCES.TITLE'
+            'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TITLE'
           )
         }}
       </legend>
@@ -293,7 +286,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         <span class="text-sm font-medium text-n-slate-12">
           {{
             t(
-              'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.OTHER_PREFERENCES.ENABLED'
+              'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ENABLED'
             )
           }}
         </span>
@@ -304,7 +297,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         <span class="text-sm font-medium text-n-slate-12">
           {{
             t(
-              'CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'
+              'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TRIGGER_ONLY_BUSINESS_HOURS'
             )
           }}
         </span>
@@ -319,17 +312,16 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         type="button"
         variant="faded"
         color="slate"
-        :label="t('CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.BUTTONS.CANCEL')"
+        :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.CANCEL')"
         class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
         type="submit"
-        :label="
-          t(
-            `CAMPAIGN.ONGOING_CAMPAIGNS_PAGE.CREATE.FORM.BUTTONS.${mode.toUpperCase()}`
-          )
-        "
+        :label="t(
+          `CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.${mode.toUpperCase()}`
+        )
+          "
         class="w-full"
         :is-loading="isCreating"
         :disabled="isCreating || isSubmitDisabled"
