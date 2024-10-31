@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ newTicket.phoneNumber }}
-    {{ newTicket.phoneCode }}
     <div class="flex flex-row">
       <div class="w-full">
         <label>
