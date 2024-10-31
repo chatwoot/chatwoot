@@ -77,7 +77,7 @@ const onImgLoad = () => {
     class="flex items-center justify-center rounded-full bg-n-slate-3 dark:bg-n-slate-4"
     :style="{ width: `${size}px`, height: `${size}px` }"
   >
-    <div v-if="author">
+    <div v-if="author" class="flex items-center justify-center">
       <img
         v-if="shouldShowImage"
         :src="src"

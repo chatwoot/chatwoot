@@ -48,14 +48,14 @@ const STYLE_CONFIG = {
       solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
         'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
-      outline: 'text-n-blue-text hover:bg-n-brand/10 outline-n-blue-border',
+      outline: 'text-n-blue-text outline-n-blue-border',
       link: 'text-n-brand hover:underline outline-transparent',
     },
     ruby: {
       solid: 'bg-n-ruby-9 text-white hover:bg-n-ruby-10 outline-transparent',
       faded:
-        'bg-n-ruby-9/10 text-n-slate-12 hover:bg-n-ruby-9/20 outline-transparent',
-      outline: 'text-n-ruby-11 hover:bg-n-ruby-9/10 outline-n-ruby-9',
+        'bg-n-ruby-9/10 text-n-ruby-11 hover:bg-n-ruby-9/20 outline-transparent',
+      outline: 'text-n-ruby-11 hover:bg-n-ruby-9/10 outline-n-ruby-8',
       link: 'text-n-ruby-9 hover:underline outline-transparent',
     },
     amber: {
