@@ -527,7 +527,7 @@
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
+          "TITLE": "Escreva um artigo",
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
