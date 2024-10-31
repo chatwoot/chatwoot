@@ -32,7 +32,7 @@
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Vinsamlega skráðu gilt URL"
         },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
