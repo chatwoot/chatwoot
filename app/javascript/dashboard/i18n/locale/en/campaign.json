@@ -16,8 +16,8 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No ongoing campaigns created",
-        "SUBTITLE": "Create an ongoing campaign by clicking on the Create ongoing campaign button"
+        "TITLE": "No ongoing campaigns are available",
+        "SUBTITLE": "Connect with your customers through a new campaign. Click ‘Create Campaign’ to get started."
       },
       "CREATE": {
         "TITLE": "Create ongoing campaign",
@@ -83,7 +83,7 @@
       "HEADER_TITLE": "One off campaigns",
       "NEW_CAMPAIGN": "Create one off campaign",
       "EMPTY_STATE": {
-        "TITLE": "No one off campaigns created",
+        "TITLE": "No one off campaigns are available",
         "SUBTITLE": "Create an one off campaign by clicking on the Create one off campaign button"
       },
       "CARD": {

@@ -14,12 +14,12 @@ const campaignsRoutes = {
         {
           path: '',
           redirect: to => {
-            return { name: 'ongoing_campaigns', params: to.params };
+            return { name: 'campaigns_ongoing_index', params: to.params };
           },
         },
         {
           path: 'ongoing',
-          name: 'ongoing_campaigns',
+          name: 'campaigns_ongoing_index',
           meta: {
             permissions: ['administrator'],
           },
@@ -27,7 +27,7 @@ const campaignsRoutes = {
         },
         {
           path: 'one_off',
-          name: 'one_off_campaigns',
+          name: 'campaigns_one_off_index',
           meta: {
             permissions: ['administrator'],
           },

@@ -268,12 +268,12 @@ const menuItems = computed(() => {
         {
           name: 'Ongoing',
           label: t('SIDEBAR.ONGOING'),
-          to: accountScopedRoute('ongoing_campaigns'),
+          to: accountScopedRoute('campaigns_ongoing_index'),
         },
         {
           name: 'One-off',
           label: t('SIDEBAR.ONE_OFF'),
-          to: accountScopedRoute('one_off_campaigns'),
+          to: accountScopedRoute('campaigns_one_off_index'),
         },
       ],
     },
