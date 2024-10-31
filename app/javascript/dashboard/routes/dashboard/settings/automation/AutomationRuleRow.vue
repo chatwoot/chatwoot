@@ -1,4 +1,5 @@
 <script setup>
+import { getCurrentInstance } from 'vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
 
 const props = defineProps({
@@ -14,9 +15,10 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle', 'edit', 'delete', 'clone']);
 
-const readableDate = date => messageStamp(new Date(date), 'LLL d, yyyy');
+const locale = getCurrentInstance()?.proxy.$root.$i18n.locale;
+const readableDate = date => messageStamp(new Date(date), 'standard', locale);
 const readableDateWithTime = date =>
-  messageStamp(new Date(date), 'LLL d, yyyy hh:mm a');
+  messageStamp(new Date(date), 'fullDateTime', locale);
 
 const toggle = () => {
   const { id, name, active } = props.automation;

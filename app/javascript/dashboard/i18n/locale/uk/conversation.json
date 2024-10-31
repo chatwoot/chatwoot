@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Оригінальний текст",
     "TRANSLATED_CONTENT": "Переклад",
     "NO_TRANSLATIONS_AVAILABLE": "Немає доступних перекладів"
+  },
+  "TYPING": {
+    "SINGLE": "{user} is typing",
+    "DOUBLE": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }

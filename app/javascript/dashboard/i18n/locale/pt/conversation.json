@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Conteúdo original",
     "TRANSLATED_CONTENT": "Conteúdo traduzido",
     "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
+  },
+  "TYPING": {
+    "SINGLE": "{user} is typing",
+    "DOUBLE": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }

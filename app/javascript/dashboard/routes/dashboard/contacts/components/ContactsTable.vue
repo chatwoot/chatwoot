@@ -1,4 +1,5 @@
 <script setup>
+import { getCurrentInstance } from 'vue';
 import { h, ref, computed, defineEmits } from 'vue';
 import {
   useVueTable,
@@ -7,7 +8,6 @@ import {
 } from '@tanstack/vue-table';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useI18n } from 'vue-i18n';
-
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 
@@ -36,6 +36,7 @@ const props = defineProps({
 
 const emit = defineEmits(['onSortChange']);
 const { t } = useI18n();
+const locale = getCurrentInstance()?.proxy.$root.$i18n.locale;
 
 const tableData = computed(() => {
   if (props.isLoading) {
@@ -48,11 +49,14 @@ const tableData = computed(() => {
     const additional = item.additional_attributes || {};
     const { last_activity_at: lastActivityAt } = item;
     const { created_at: createdAt } = item;
+
     return {
       ...item,
       profiles: additional.social_profiles || {},
-      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : null,
-      created_at: createdAt ? dynamicTime(createdAt) : null,
+      last_activity_at: lastActivityAt
+        ? dynamicTime(lastActivityAt, locale)
+        : null,
+      created_at: createdAt ? dynamicTime(createdAt, locale) : null,
     };
   });
 });

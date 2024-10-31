@@ -1,4 +1,5 @@
 <script setup>
+import { getCurrentInstance } from 'vue';
 import { defineEmits, computed, h } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
@@ -34,6 +35,7 @@ const { t } = useI18n();
 // const isRTL = useMapGetter('accounts/isRTL');
 const csatResponses = useMapGetter('csat/getCSATResponses');
 const metrics = useMapGetter('csat/getMetrics');
+const locale = getCurrentInstance()?.proxy.$root.$i18n.locale;
 
 const tableData = computed(() => {
   return csatResponses.value.map(response => ({
@@ -42,8 +44,8 @@ const tableData = computed(() => {
     rating: response.rating,
     feedbackText: response.feedback_message || '---',
     conversationId: response.conversation_id,
-    createdAgo: dynamicTime(response.created_at),
-    createdAt: messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
+    createdAgo: dynamicTime(response.created_at, locale),
+    createdAt: messageStamp(response.created_at, 'fullDateTime', locale),
   }));
 });
 
