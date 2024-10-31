@@ -11,7 +11,7 @@ import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage
 import OngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignDialog.vue';
 import EditOngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/EditOngoingCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
-import OngoingCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/OngoingCampaignEmptyState.vue';
+import LiveChatCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/LiveChatCampaignEmptyState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -70,7 +70,7 @@ const handleDelete = campaign => {
       @edit="handleEdit"
       @delete="handleDelete"
     />
-    <OngoingCampaignEmptyState
+    <LiveChatCampaignEmptyState
       v-else
       :title="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.TITLE')"
       :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"

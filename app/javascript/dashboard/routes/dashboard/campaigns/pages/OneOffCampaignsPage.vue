@@ -10,7 +10,7 @@ import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.v
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import OneOffCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OneOffCampaign/OneOffCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
-import OneOffCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/OneOffCampaignEmptyState.vue';
+import SMSCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/SMSCampaignEmptyState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -61,7 +61,7 @@ const handleDelete = campaign => {
       :campaigns="oneOffCampaigns"
       @delete="handleDelete"
     />
-    <OneOffCampaignEmptyState
+    <SMSCampaignEmptyState
       v-else
       :title="t('CAMPAIGN.SMS.EMPTY_STATE.TITLE')"
       :subtitle="t('CAMPAIGN.SMS.EMPTY_STATE.SUBTITLE')"
