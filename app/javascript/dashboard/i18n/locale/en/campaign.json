@@ -140,7 +140,11 @@
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
-      "CONFIRM": "Delete"
+      "CONFIRM": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "There was an error. Please try again."
+      }
     }
   }
 }

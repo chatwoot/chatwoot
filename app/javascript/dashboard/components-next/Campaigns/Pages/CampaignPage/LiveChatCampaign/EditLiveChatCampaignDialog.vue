@@ -5,7 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import OngoingCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignForm.vue';
+import LiveChatCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/LiveChatCampaignForm.vue';
 
 const props = defineProps({
   selectedCampaign: {
@@ -18,13 +18,13 @@ const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
-const ongoingCampaignFormRef = ref(null);
+const liveChatCampaignFormRef = ref(null);
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isUpdatingCampaign = computed(() => uiFlags.value.isUpdating);
 
 const isInvalidForm = computed(
-  () => ongoingCampaignFormRef.value?.isSubmitDisabled
+  () => liveChatCampaignFormRef.value?.isSubmitDisabled
 );
 
 const selectedCampaignId = computed(() => props.selectedCampaign.id);
@@ -47,7 +47,7 @@ const updateCampaign = async campaignDetails => {
 };
 
 const handleSubmit = () => {
-  updateCampaign(ongoingCampaignFormRef.value.prepareCampaignDetails());
+  updateCampaign(liveChatCampaignFormRef.value.prepareCampaignDetails());
 };
 
 defineExpose({ dialogRef });
@@ -64,8 +64,8 @@ defineExpose({ dialogRef });
     @confirm="handleSubmit"
   >
     <template #form>
-      <OngoingCampaignForm
-        ref="ongoingCampaignFormRef"
+      <LiveChatCampaignForm
+        ref="liveChatCampaignFormRef"
         mode="edit"
         :selected-campaign="selectedCampaign"
         :show-action-buttons="false"

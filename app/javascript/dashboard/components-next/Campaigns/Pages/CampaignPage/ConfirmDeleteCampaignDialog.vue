@@ -23,9 +23,9 @@ const deleteCampaign = async id => {
 
   try {
     await store.dispatch('campaigns/delete', id);
-    useAlert(t('CAMPAIGN.DELETE.API.SUCCESS_MESSAGE'));
+    useAlert(t('CAMPAIGN.CONFIRM_DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(t('CAMPAIGN.DELETE.API.ERROR_MESSAGE'));
+    useAlert(t('CAMPAIGN.CONFIRM_DELETE.API.ERROR_MESSAGE'));
   }
 };
 

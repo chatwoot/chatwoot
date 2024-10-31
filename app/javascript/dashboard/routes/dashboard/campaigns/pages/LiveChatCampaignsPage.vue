@@ -8,34 +8,34 @@ import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
-import OngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignDialog.vue';
-import EditOngoingCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/EditOngoingCampaignDialog.vue';
+import LiveChatCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/LiveChatCampaignDialog.vue';
+import EditLiveChatCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/EditLiveChatCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import LiveChatCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/LiveChatCampaignEmptyState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
 
-const editOngoingCampaignDialogRef = ref(null);
+const editLiveChatCampaignDialogRef = ref(null);
 const confirmDeleteCampaignDialogRef = ref(null);
 const selectedCampaign = ref(null);
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
-const [showOngoingCampaignDialog, toggleOngoingCampaignDialog] = useToggle();
+const [showLiveChatCampaignDialog, toggleLiveChatCampaignDialog] = useToggle();
 
-const ongoingCampaigns = computed(() =>
+const liveChatCampaigns = computed(() =>
   getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONGOING)
 );
 
-const hasNoOngoingCampaigns = computed(
-  () => ongoingCampaigns.value?.length === 0 && !isFetchingCampaigns.value
+const hasNoLiveChatCampaigns = computed(
+  () => liveChatCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
 const handleEdit = campaign => {
   selectedCampaign.value = campaign;
-  editOngoingCampaignDialogRef.value.dialogRef.open();
+  editLiveChatCampaignDialogRef.value.dialogRef.open();
 };
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
@@ -47,13 +47,13 @@ const handleDelete = campaign => {
   <CampaignLayout
     :header-title="t('CAMPAIGN.LIVE_CHAT.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.LIVE_CHAT.NEW_CAMPAIGN')"
-    @click="toggleOngoingCampaignDialog()"
-    @close="toggleOngoingCampaignDialog(false)"
+    @click="toggleLiveChatCampaignDialog()"
+    @close="toggleLiveChatCampaignDialog(false)"
   >
     <template #action>
-      <OngoingCampaignDialog
-        v-if="showOngoingCampaignDialog"
-        @close="toggleOngoingCampaignDialog(false)"
+      <LiveChatCampaignDialog
+        v-if="showLiveChatCampaignDialog"
+        @close="toggleLiveChatCampaignDialog(false)"
       />
     </template>
 
@@ -64,8 +64,8 @@ const handleDelete = campaign => {
       <Spinner />
     </div>
     <CampaignList
-      v-else-if="!hasNoOngoingCampaigns"
-      :campaigns="ongoingCampaigns"
+      v-else-if="!hasNoLiveChatCampaigns"
+      :campaigns="liveChatCampaigns"
       is-live-chat-type
       @edit="handleEdit"
       @delete="handleDelete"
@@ -76,8 +76,8 @@ const handleDelete = campaign => {
       :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"
       class="pt-14"
     />
-    <EditOngoingCampaignDialog
-      ref="editOngoingCampaignDialogRef"
+    <EditLiveChatCampaignDialog
+      ref="editLiveChatCampaignDialogRef"
       :selected-campaign="selectedCampaign"
     />
     <ConfirmDeleteCampaignDialog

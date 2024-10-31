@@ -5,7 +5,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import { CAMPAIGNS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events.js';
 
-import OngoingCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OngoingCampaign/OngoingCampaignForm.vue';
+import LiveChatCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/LiveChatCampaignForm.vue';
 
 const emit = defineEmits(['close']);
 
@@ -45,7 +45,7 @@ const handleSubmit = campaignDetails => {
     <h3 class="text-base font-medium text-slate-900 dark:text-slate-50">
       {{ t(`CAMPAIGN.LIVE_CHAT.CREATE.TITLE`) }}
     </h3>
-    <OngoingCampaignForm
+    <LiveChatCampaignForm
       mode="create"
       @submit="handleSubmit"
       @cancel="handleClose"
