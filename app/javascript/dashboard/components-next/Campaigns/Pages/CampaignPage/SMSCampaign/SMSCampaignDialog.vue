@@ -5,7 +5,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import { CAMPAIGNS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events.js';
 
-import OneOffCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OneOffCampaign/OneOffCampaignForm.vue';
+import SMSCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/SMSCampaign/SMSCampaignForm.vue';
 
 const emit = defineEmits(['close']);
 
@@ -44,6 +44,6 @@ const handleClose = () => emit('close');
     <h3 class="text-base font-medium text-slate-900 dark:text-slate-50">
       {{ t(`CAMPAIGN.SMS.CREATE.TITLE`) }}
     </h3>
-    <OneOffCampaignForm @submit="handleSubmit" @cancel="handleClose" />
+    <SMSCampaignForm @submit="handleSubmit" @cancel="handleClose" />
   </div>
 </template>

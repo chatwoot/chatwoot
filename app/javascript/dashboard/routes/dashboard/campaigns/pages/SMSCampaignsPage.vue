@@ -8,7 +8,7 @@ import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
-import OneOffCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/OneOffCampaign/OneOffCampaignDialog.vue';
+import SMSCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/SMSCampaign/SMSCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import SMSCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/SMSCampaignEmptyState.vue';
 
@@ -16,19 +16,19 @@ const { t } = useI18n();
 const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
-const [showOneOffCampaignDialog, toggleOneOffCampaignDialog] = useToggle();
+const [showSMSCampaignDialog, toggleSMSCampaignDialog] = useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
 const confirmDeleteCampaignDialogRef = ref(null);
 
-const oneOffCampaigns = computed(() =>
+const SMSCampaigns = computed(() =>
   getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.ONE_OFF)
 );
 
-const hasNoOneOffCampaigns = computed(
-  () => oneOffCampaigns.value?.length === 0 && !isFetchingCampaigns.value
+const hasNoSMSCampaigns = computed(
+  () => SMSCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
 const handleDelete = campaign => {
@@ -41,13 +41,13 @@ const handleDelete = campaign => {
   <CampaignLayout
     :header-title="t('CAMPAIGN.SMS.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.SMS.NEW_CAMPAIGN')"
-    @click="toggleOneOffCampaignDialog()"
-    @close="toggleOneOffCampaignDialog(false)"
+    @click="toggleSMSCampaignDialog()"
+    @close="toggleSMSCampaignDialog(false)"
   >
     <template #action>
-      <OneOffCampaignDialog
-        v-if="showOneOffCampaignDialog"
-        @close="toggleOneOffCampaignDialog(false)"
+      <SMSCampaignDialog
+        v-if="showSMSCampaignDialog"
+        @close="toggleSMSCampaignDialog(false)"
       />
     </template>
     <div
@@ -57,8 +57,8 @@ const handleDelete = campaign => {
       <Spinner />
     </div>
     <CampaignList
-      v-else-if="!hasNoOneOffCampaigns"
-      :campaigns="oneOffCampaigns"
+      v-else-if="!hasNoSMSCampaigns"
+      :campaigns="SMSCampaigns"
       @delete="handleDelete"
     />
     <SMSCampaignEmptyState
