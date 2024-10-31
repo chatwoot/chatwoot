@@ -38,13 +38,7 @@ export default {
     }
     return false;
   },
-  profileUpdate({
-    password,
-    password_confirmation,
-    displayName,
-    avatar,
-    ...profileAttributes
-  }) {
+  profileUpdate({ displayName, avatar, ...profileAttributes }) {
     const formData = new FormData();
     Object.keys(profileAttributes).forEach(key => {
       const hasValue = profileAttributes[key] === undefined;
@@ -53,14 +47,19 @@ export default {
       }
     });
     formData.append('profile[display_name]', displayName || '');
-    if (password && password_confirmation) {
-      formData.append('profile[password]', password);
-      formData.append('profile[password_confirmation]', password_confirmation);
-    }
     if (avatar) {
       formData.append('profile[avatar]', avatar);
     }
     return axios.put(endPoints('profileUpdate').url, formData);
+  },
+
+  profilePasswordUpdate({ current_password, password, password_confirmation }) {
+    const formData = new FormData();
+
+    formData.append('profile[current_password]', current_password);
+    formData.append('profile[password]', password);
+    formData.append('profile[password_confirmation]', password_confirmation);
+    return axios.put(endPoints('updatePassword').url, formData);
   },
 
   updateUISettings({ uiSettings }) {

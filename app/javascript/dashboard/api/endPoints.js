@@ -51,6 +51,10 @@ const endPoints = {
   resendConfirmation: {
     url: '/api/v1/profile/resend_confirmation',
   },
+
+  updatePassword: {
+    url: '/api/v1/profile/update_password',
+  },
 };
 
 export default page => {

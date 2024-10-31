@@ -62,11 +62,10 @@ export default {
       }
       let alertMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       try {
-        await this.$store.dispatch('updateProfile', {
+        await this.$store.dispatch('updatePassword', {
           password: this.password,
           password_confirmation: this.passwordConfirmation,
           current_password: this.currentPassword,
-          displayName: this.currentUser.display_name,
         });
       } catch (error) {
         alertMessage =

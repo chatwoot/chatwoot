@@ -281,6 +281,7 @@ Rails.application.routes.draw do
           post :auto_offline
           put :set_active_account
           post :resend_confirmation
+          put :update_password
         end
       end
 
