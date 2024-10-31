@@ -157,24 +157,24 @@ defineExpose({ state, isSubmitDisabled });
 <template>
   <div class="flex flex-col gap-4">
     <div
-      class="flex items-center justify-start gap-8 px-4 py-2 border rounded-lg border-slate-50 dark:border-slate-700/50"
+      class="flex items-center justify-start gap-8 px-4 py-2 border rounded-lg border-n-strong"
     >
       <div class="flex flex-col items-start w-full gap-2 py-2">
-        <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
+        <span class="text-sm font-medium text-n-slate-11">
           {{ t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.PORTAL') }}
         </span>
-        <span class="text-sm text-slate-800 dark:text-slate-100">
+        <span class="text-sm text-n-slate-12">
           {{ portalName }}
         </span>
       </div>
-      <div class="justify-start w-px h-10 bg-slate-50 dark:bg-slate-700/50" />
+      <div class="justify-start w-px h-10 bg-n-strong" />
       <div class="flex flex-col w-full gap-2 py-2">
-        <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
+        <span class="text-sm font-medium text-n-slate-11">
           {{ t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.HEADER.LOCALE') }}
         </span>
         <span
           :title="`${activeLocaleName} (${activeLocaleCode})`"
-          class="text-sm line-clamp-1 text-slate-800 dark:text-slate-100"
+          class="text-sm line-clamp-1 text-n-slate-12"
         >
           {{ `${activeLocaleName} (${activeLocaleCode})` }}
         </span>
@@ -192,7 +192,7 @@ defineExpose({ state, isSubmitDisabled });
           "
           :message="nameError"
           :message-type="nameError ? 'error' : 'info'"
-          custom-input-class="!h-10 ltr:!pl-12 rtl:!pr-12 !bg-slate-25 dark:!bg-slate-900"
+          custom-input-class="!h-10 ltr:!pl-12 rtl:!pr-12"
         >
           <template #prefix>
             <OnClickOutside @trigger="isEmojiPickerOpen = false">
@@ -223,7 +223,7 @@ defineExpose({ state, isSubmitDisabled });
         :disabled="isEditMode"
         :message="slugError ? slugError : slugHelpText"
         :message-type="slugError ? 'error' : 'info'"
-        custom-input-class="!h-10 !bg-slate-25 dark:!bg-slate-900 "
+        custom-input-class="!h-10"
       />
       <TextArea
         v-model="state.description"
@@ -236,7 +236,6 @@ defineExpose({ state, isSubmitDisabled });
           )
         "
         show-character-count
-        custom-text-area-wrapper-class="!bg-slate-25 dark:!bg-slate-900"
       />
       <div
         v-if="showActionButtons"

@@ -67,7 +67,7 @@ const togglePortalSwitcher = () => {
         >
           <span
             v-if="activePortalName"
-            class="text-xl font-medium text-slate-900 dark:text-white"
+            class="text-xl font-medium text-n-slate-12"
           >
             {{ activePortalName }}
           </span>

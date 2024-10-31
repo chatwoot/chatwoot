@@ -34,7 +34,7 @@ defineProps({
               {{ title }}
             </h2>
             <p
-              class="max-w-lg text-base text-center text-slate-600 dark:text-slate-300 font-interDisplay tracking-[0.3px]"
+              class="max-w-xl text-base text-center text-slate-600 dark:text-slate-300 font-interDisplay tracking-[0.3px]"
             >
               {{ subtitle }}
             </p>

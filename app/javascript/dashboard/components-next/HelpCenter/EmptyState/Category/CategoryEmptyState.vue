@@ -18,7 +18,7 @@ defineProps({
 <template>
   <EmptyStateLayout :title="title" :subtitle="subtitle">
     <template #empty-state-item>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4 p-px">
         <div class="space-y-4">
           <CategoryCard
             v-for="category in categoryContent"
