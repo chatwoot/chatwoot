@@ -4,10 +4,11 @@
 #
 #  id           :bigint           not null, primary key
 #  phone_number :string           not null
+#  route_type   :integer          default("group"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :integer          not null
-#  number_id    :string           not null
+#  group_id     :text
 #  queue_id     :string           not null
 #
 # Indexes
@@ -23,8 +24,9 @@ class Channel::StringeePhoneCall < ApplicationRecord
   validates :account_id, presence: true
   validates :phone_number, presence: true
   validates :phone_number, uniqueness: true
-  validates :number_id, presence: true
   validates :queue_id, presence: true
+
+  enum route_type: { by_group: 0, from_list: 1 }
 
   def name
     'PhoneCall'

@@ -26,19 +26,46 @@
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
         <label :class="{ error: $v.phoneNumber.$error }">
-          {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONENUMBER.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONE_NUMBER.LABEL') }}
           <input
             v-model.trim="phoneNumber"
             type="text"
             :placeholder="
-              $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONENUMBER.PLACEHOLDER')
+              $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONE_NUMBER.PLACEHOLDER')
             "
             @blur="$v.phoneNumber.$touch"
           />
         </label>
-        <p class="help-text">
-          {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONENUMBER.SUBTITLE') }}
-        </p>
+      </div>
+
+      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+        <span class="text-sm notification-label">
+          {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.ROUTE_TYPE.TITLE') }}
+        </span>
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            id="by_group"
+            v-model="routeType"
+            class="notification--checkbox"
+            type="radio"
+            value="by_group"
+          />
+          <label for="by_group">
+            {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.ROUTE_TYPE.GROUP') }}
+          </label>
+        </div>
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            id="from_list"
+            v-model="routeType"
+            class="notification--checkbox"
+            type="radio"
+            value="from_list"
+          />
+          <label for="from_list">
+            {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.ROUTE_TYPE.LIST') }}
+          </label>
+        </div>
       </div>
 
       <div class="w-full">
@@ -67,6 +94,7 @@ export default {
     return {
       channelName: '',
       phoneNumber: '',
+      routeType: 'by_group',
     };
   },
   computed: {
@@ -91,6 +119,7 @@ export default {
           {
             inbox_name: this.channelName,
             phone_number: this.phoneNumber,
+            route_type: this.routeType,
           }
         );
 

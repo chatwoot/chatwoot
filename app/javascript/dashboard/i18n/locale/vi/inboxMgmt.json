@@ -292,10 +292,14 @@
           "PLACEHOLDER": "Vui lòng nhập tên kênh",
           "ERROR": "Trường này là bắt buộc"
         },
-        "PHONENUMBER": {
+        "PHONE_NUMBER": {
           "LABEL": "Số điện thoại",
-          "SUBTITLE": "Nhập số điện thoại hotline mà bạn muốn tích hợp vào kênh tổng đài điện thoại này.",
           "PLACEHOLDER": "Số điện thoại (hotline)"
+        },
+        "ROUTE_TYPE": {
+          "TITLE": "Chọn cách phân phối cuộc gọi:",
+          "GROUP": "Phân phối tự động theo nhóm của Stringee (nếu có điện thoại IP bên ngoài)",
+          "LIST": "Phân phối theo cách tự động phân công người phụ trách kênh của CRM"
         },
         "SUBMIT_BUTTON": "Tạo kênh PhoneCall",
         "SAVE": {

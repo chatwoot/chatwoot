@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_23_041753) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_30_163821) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -349,9 +349,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_23_041753) do
     t.integer "account_id", null: false
     t.string "phone_number", null: false
     t.string "queue_id", null: false
-    t.string "number_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "group_id"
+    t.integer "route_type", default: 0, null: false
     t.index ["phone_number", "account_id"], name: "index_channel_stringee_on_phone_number_and_account_id", unique: true
     t.index ["phone_number"], name: "index_channel_stringee_on_phone_number", unique: true
   end

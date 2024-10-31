@@ -17,12 +17,13 @@ class Stringee::DeliveryStatusService
 
   def set_assignee
     stringee_user_id = incoming? ? params[:to][:number] : params[:request_from_user_id]
-    agent = User.from_email(stringee_user_id.sub('_', '@'))
+    agent = User.where('email LIKE ?', "#{stringee_user_id}@%").first
     return unless agent
 
-    @conversation.assignee_id = agent.id
+    @conversation.assignee_id = agent.id if @conversation.assignee_id.blank?
     @conversation.save!
-    ::AutoAssignment::StringeeAssignmentService.new(inbox: @conversation.inbox).pop_push_to_right_queue(agent.id)
+
+    ::AutoAssignment::StringeeAssignmentService.new(inbox: @conversation.inbox).pop_push_to_right_queue(agent.id) if inbox.channel.from_list?
   end
 
   def message_content

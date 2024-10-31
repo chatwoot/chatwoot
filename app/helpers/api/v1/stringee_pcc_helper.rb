@@ -1,10 +1,10 @@
-module Api::V1::StringeePccHelper
-  def create_queue(name)
-    response = create_queue_post(name)
+module Api::V1::StringeePccHelper # rubocop:disable Metrics/ModuleLength
+  def create_queue(name, route_type)
+    response = create_queue_post(name, route_type)
     result = response.parsed_response
     return result['queueID'] if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.error("Queue created result: #{result['message']}")
+    Rails.logger.error("Queue created failure: #{result['message']}")
   end
 
   def delete_queue(queue_id)
@@ -15,26 +15,78 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.warn("Queue deleted result: #{result['message']}")
+    Rails.logger.warn("Queue deleted failure: #{result['message']}")
   end
 
-  def add_number(phone_number, nick_name, queue_id)
-    response = add_number_post(phone_number, nick_name, queue_id)
+  def add_group(group_name)
+    response = add_group_post(group_name)
     result = response.parsed_response
-    return result['numberID'] if response.code == 200 && result['r'].to_i.zero?
+    return result['groupID'] if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.warn("Number added result: #{result['message']}")
+    Rails.logger.warn("Group added failure: #{result['message']}")
   end
 
-  def remove_number(number_id)
+  def add_group_to_queue(queue_id, group_id)
+    body =
+      {
+        queue_id: queue_id,
+        group_id: group_id,
+        primary_group: 1
+      }
+    response = HTTParty.post(
+      URI.parse('https://icc-api.stringee.com/v1/routing-call-to-groups'),
+      headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token },
+      body: body.to_json
+    )
+    result = response.parsed_response
+    return if response.code == 200 && result['r'].to_i.zero?
+
+    Rails.logger.warn("Add group to queue failure: #{result['message']}")
+  end
+
+  def add_agent_to_group(group_id, agent_id)
+    body =
+      {
+        group_id: group_id,
+        agent_id: agent_id
+      }
+    response = HTTParty.post(
+      URI.parse('https://icc-api.stringee.com/v1/manage-agents-in-group'),
+      headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token },
+      body: body.to_json
+    )
+    result = response.parsed_response
+    return if response.code == 200 && result['r'].to_i.zero?
+
+    Rails.logger.warn("Add agent to group failure: #{result['message']}")
+  end
+
+  def delete_agent_from_group(group_id, agent_id)
+    body =
+      {
+        group_id: group_id,
+        agent_id: agent_id
+      }
     response = HTTParty.delete(
-      URI.parse("https://icc-api.stringee.com/v1/number/#{number_id}"),
+      URI.parse('https://icc-api.stringee.com/v1/manage-agents-in-group'),
+      headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token },
+      body: body.to_json
+    )
+    result = response.parsed_response
+    return if response.code == 200 && result['r'].to_i.zero?
+
+    Rails.logger.warn("Delete agent to group failure: #{result['message']}")
+  end
+
+  def remove_group(group_id)
+    response = HTTParty.delete(
+      URI.parse("https://icc-api.stringee.com/v1/group/#{group_id}"),
       headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token }
     )
     result = response.parsed_response
     return if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.warn("Number removed result: #{result['message']}")
+    Rails.logger.warn("Group removed failure: #{result['message']}")
   end
 
   def create_agent(name, user_id)
@@ -42,7 +94,7 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return result['agentID'] if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.warn("Agent created result: #{result['message']}")
+    Rails.logger.warn("Agent created failure: #{result['message']}")
   end
 
   def delete_agent(agent_id)
@@ -53,36 +105,28 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.warn("Agent deleted result: #{result['message']}")
+    Rails.logger.warn("Agent deleted failure: #{result['message']}")
   end
 
   private
 
-  def create_queue_post(name)
+  def create_queue_post(name, route_type)
+    body = { name: name }
+    body[:get_list_agents_url] = "#{ENV.fetch('FRONTEND_URL')}/webhooks/stringee/agents" if route_type == 'from_list'
+
     HTTParty.post(
       'https://icc-api.stringee.com/v1/queue',
       headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token },
-      body: { name: name, get_list_agents_url: "#{ENV.fetch('FRONTEND_URL')}/webhooks/stringee/agents" }.to_json
+      body: body.to_json
     )
   end
 
-  def add_number_post(phone_number, nick_name, queue_id)
+  def add_group_post(group_name)
     HTTParty.post(
-      'https://icc-api.stringee.com/v1/number',
+      'https://icc-api.stringee.com/v1/group',
       headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token },
-      body: number_body(phone_number, nick_name, queue_id).to_json
+      body: { name: group_name }.to_json
     )
-  end
-
-  def number_body(phone_number, nick_name, queue_id)
-    {
-      number: phone_number,
-      nickname: nick_name,
-      allow_outbound_calls: true,
-      enable_ivr: false,
-      queue_id: queue_id,
-      record_outbound_calls: true
-    }
   end
 
   def create_agent_post(name, user_id)
