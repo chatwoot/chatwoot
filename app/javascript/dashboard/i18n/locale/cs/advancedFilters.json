@@ -52,7 +52,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Number",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created at",
+      "CREATED_AT": "Vytvořeno",
       "LAST_ACTIVITY": "Last activity"
     },
     "ERRORS": {
