@@ -5,8 +5,8 @@ describe('#getters', () => {
   it('get ongoing campaigns', () => {
     const state = { records: campaigns };
     expect(getters.getCampaigns(state)('ongoing')).toEqual([
-      campaigns[2],
       campaigns[0],
+      campaigns[2],
     ]);
   });
 
