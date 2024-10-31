@@ -6,7 +6,7 @@ defineProps({
     type: Array,
     required: true,
   },
-  isOngoingType: {
+  isLiveChatType: {
     type: Boolean,
     default: false,
   },
@@ -31,7 +31,7 @@ const handleDelete = campaign => emit('delete', campaign);
       :sender="campaign.sender"
       :inbox="campaign.inbox"
       :scheduled-at="campaign.scheduled_at"
-      :is-ongoing-type="isOngoingType"
+      :is-live-chat-type="isLiveChatType"
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"
     />

@@ -66,7 +66,7 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoOngoingCampaigns"
       :campaigns="ongoingCampaigns"
-      is-ongoing-type
+      is-live-chat-type
       @edit="handleEdit"
       @delete="handleDelete"
     />

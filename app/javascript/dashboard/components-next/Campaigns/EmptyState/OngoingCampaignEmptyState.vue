@@ -31,7 +31,7 @@ defineProps({
           :sender="campaign.sender"
           :inbox="campaign.inbox"
           :scheduled-at="campaign.scheduled_at"
-          is-ongoing-type
+          is-live-chat-type
         />
       </div>
     </template>

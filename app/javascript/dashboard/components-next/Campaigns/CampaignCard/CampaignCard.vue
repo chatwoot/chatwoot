@@ -6,8 +6,8 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import OngoingCardDetails from './OngoingCardDetails.vue';
-import OneOffCampaignDetails from './OneOffCampaignDetails.vue';
+import LiveChatCampaignDetails from './LiveChatCampaignDetails.vue';
+import SMSCampaignDetails from './SMSCampaignDetails.vue';
 
 const props = defineProps({
   title: {
@@ -18,7 +18,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  isOngoingType: {
+  isLiveChatType: {
     type: Boolean,
     default: false,
   },
@@ -53,7 +53,7 @@ const STATUS_COMPLETED = 'completed';
 const { formatMessage } = useMessageFormatter();
 
 const isActive = computed(() =>
-  props.isOngoingType ? props.isEnabled : props.status !== STATUS_COMPLETED
+  props.isLiveChatType ? props.isEnabled : props.status !== STATUS_COMPLETED
 );
 
 const statusTextColor = computed(() => ({
@@ -62,7 +62,7 @@ const statusTextColor = computed(() => ({
 }));
 
 const campaignStatus = computed(() => {
-  if (props.isOngoingType) {
+  if (props.isLiveChatType) {
     return props.isEnabled
       ? t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.ENABLED')
       : t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.DISABLED');
@@ -103,13 +103,13 @@ const inboxIcon = computed(() => {
           class="text-sm text-n-slate-11 line-clamp-1 [&>p]:mb-0 h-6"
         />
         <div class="flex items-center w-full h-6 gap-2 overflow-hidden">
-          <OngoingCardDetails
-            v-if="isOngoingType"
+          <LiveChatCampaignDetails
+            v-if="isLiveChatType"
             :sender="sender"
             :inbox-name="inboxName"
             :inbox-icon="inboxIcon"
           />
-          <OneOffCampaignDetails
+          <SMSCampaignDetails
             v-else
             :inbox-name="inboxName"
             :inbox-icon="inboxIcon"
@@ -121,7 +121,7 @@ const inboxIcon = computed(() => {
     <template #footer>
       <div class="flex items-center justify-end w-20 gap-2">
         <Button
-          v-if="isOngoingType"
+          v-if="isLiveChatType"
           variant="faded"
           size="sm"
           color="slate"
