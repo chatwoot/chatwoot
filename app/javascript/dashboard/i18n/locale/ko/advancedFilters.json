@@ -52,7 +52,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "숫자",
       "CUSTOM_ATTRIBUTE_LINK": "링크",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
-      "CREATED_AT": "Created at",
+      "CREATED_AT": "에 만들어짐",
       "LAST_ACTIVITY": "최근 활동"
     },
     "ERRORS": {
