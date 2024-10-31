@@ -127,7 +127,7 @@ const handleInboxChange = async inboxId => {
     senderList.value = [];
     useAlert(
       error?.response?.message ??
-        t('CAMPAIGN.LIVE_CHAT.CREATE.API.ERROR_MESSAGE')
+        t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE')
     );
   }
 };
@@ -181,7 +181,15 @@ const updateStateFromCampaign = campaign => {
   });
 };
 
-watch(() => state.inboxId, handleInboxChange, { immediate: true });
+watch(
+  () => state.inboxId,
+  newInboxId => {
+    if (newInboxId) {
+      handleInboxChange(newInboxId);
+    }
+  },
+  { immediate: true }
+);
 
 watch(
   () => props.selectedCampaign,
