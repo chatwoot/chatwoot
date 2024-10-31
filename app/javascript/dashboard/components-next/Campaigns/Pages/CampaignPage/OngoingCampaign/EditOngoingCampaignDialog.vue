@@ -62,6 +62,7 @@ defineExpose({ dialogRef });
     :title="t('CAMPAIGN.LIVE_CHAT.EDIT.TITLE')"
     :is-loading="isUpdatingCampaign"
     :disable-confirm-button="isUpdatingCampaign || isInvalidForm"
+    overflow-y-auto
     @confirm="handleSubmit"
   >
     <template #form>

@@ -127,7 +127,7 @@ const handleInboxChange = async inboxId => {
     senderList.value = [];
     useAlert(
       error?.response?.message ??
-      t('CAMPAIGN.LIVE_CHAT.CREATE.API.ERROR_MESSAGE')
+        t('CAMPAIGN.LIVE_CHAT.CREATE.API.ERROR_MESSAGE')
     );
   }
 };
@@ -201,8 +201,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     <Input
       v-model="state.title"
       :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.PLACEHOLDER')
-        "
+      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.PLACEHOLDER')"
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
@@ -210,8 +209,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     <Editor
       v-model="state.message"
       :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')
-        "
+      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')"
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
     />
@@ -225,10 +223,9 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         v-model="state.inboxId"
         :options="inboxOptions"
         :has-error="!!formErrors.inbox"
-        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.PLACEHOLDER')
-          "
+        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
       />
     </div>
 
@@ -242,9 +239,8 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         :options="sendersAndBotList"
         :has-error="!!formErrors.sender"
         :disabled="!state.inboxId"
-        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.PLACEHOLDER')
-          "
-        class="[&>div>button]:bg-n-alpha-black2"
+        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.SENT_BY.PLACEHOLDER')"
+        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
         :message="formErrors.sender"
       />
     </div>
@@ -253,8 +249,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       v-model="state.endPoint"
       type="url"
       :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.PLACEHOLDER')
-        "
+      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.END_POINT.PLACEHOLDER')"
       :message="formErrors.endPoint"
       :message-type="formErrors.endPoint ? 'error' : 'info'"
     />
@@ -262,33 +257,23 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
     <Input
       v-model="state.timeOnPage"
       type="number"
-      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.LABEL')
-        "
-      :placeholder="t(
-        'CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.PLACEHOLDER'
-      )
-        "
+      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.LABEL')"
+      :placeholder="
+        t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.TIME_ON_PAGE.PLACEHOLDER')
+      "
       :message="formErrors.timeOnPage"
       :message-type="formErrors.timeOnPage ? 'error' : 'info'"
     />
 
     <fieldset class="flex flex-col gap-2.5">
       <legend class="mb-2.5 text-sm font-medium text-n-slate-12">
-        {{
-          t(
-            'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TITLE'
-          )
-        }}
+        {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.TITLE') }}
       </legend>
 
       <label class="flex items-center gap-2">
         <input v-model="state.enabled" type="checkbox" />
         <span class="text-sm font-medium text-n-slate-12">
-          {{
-            t(
-              'CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ENABLED'
-            )
-          }}
+          {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.OTHER_PREFERENCES.ENABLED') }}
         </span>
       </label>
 
@@ -318,10 +303,9 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       />
       <Button
         type="submit"
-        :label="t(
-          `CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.${mode.toUpperCase()}`
-        )
-          "
+        :label="
+          t(`CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.${mode.toUpperCase()}`)
+        "
         class="w-full"
         :is-loading="isCreating"
         :disabled="isCreating || isSubmitDisabled"

@@ -87,7 +87,7 @@ const inboxIcon = computed(() => {
       <div class="flex flex-col items-start gap-2">
         <div class="flex justify-between gap-3 w-fit">
           <span
-            class="text-base font-medium text-n-slate-12 line-clamp-1 capitalize"
+            class="text-base font-medium capitalize text-n-slate-12 line-clamp-1"
           >
             {{ title }}
           </span>
@@ -111,7 +111,6 @@ const inboxIcon = computed(() => {
           />
           <OneOffCampaignDetails
             v-else
-            :sender="sender"
             :inbox-name="inboxName"
             :inbox-icon="inboxIcon"
             :scheduled-at="scheduledAt"

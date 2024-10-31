@@ -43,11 +43,7 @@ defineExpose({ dialogRef });
   <Dialog
     ref="dialogRef"
     type="alert"
-    :title="
-      t('CAMPAIGN.CONFIRM_DELETE.TITLE', {
-        title: selectedCampaignTitle,
-      })
-    "
+    :title="t('CAMPAIGN.CONFIRM_DELETE.TITLE')"
     :description="t('CAMPAIGN.CONFIRM_DELETE.DESCRIPTION')"
     :confirm-button-label="t('CAMPAIGN.CONFIRM_DELETE.CONFIRM')"
     @confirm="handleDialogConfirm"

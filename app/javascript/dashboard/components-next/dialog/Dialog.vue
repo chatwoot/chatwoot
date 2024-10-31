@@ -44,6 +44,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  overflowYAuto: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['confirm', 'close']);
@@ -73,7 +77,8 @@ defineExpose({ open, close });
   <Teleport to="body">
     <dialog
       ref="dialogRef"
-      class="w-full max-w-lg overflow-visible transition-all duration-300 ease-in-out shadow-xl rounded-xl"
+      class="w-full max-w-lg transition-all duration-300 ease-in-out shadow-xl rounded-xl"
+      :class="overflowYAuto ? 'overflow-y-auto' : 'overflow-visible'"
       :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >

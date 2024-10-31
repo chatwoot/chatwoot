@@ -114,8 +114,7 @@ const handleSubmit = async () => {
     <Input
       v-model="state.title"
       :label="t('CAMPAIGN.SMS.CREATE.FORM.TITLE.LABEL')"
-      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.TITLE.PLACEHOLDER')
-        "
+      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.TITLE.PLACEHOLDER')"
       :message="formErrors.title"
       :message-type="formErrors.title ? 'error' : 'info'"
     />
@@ -123,8 +122,7 @@ const handleSubmit = async () => {
     <TextArea
       v-model="state.message"
       :label="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.PLACEHOLDER')
-        "
+      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.MESSAGE.PLACEHOLDER')"
       show-character-count
       :message="formErrors.message"
       :message-type="formErrors.message ? 'error' : 'info'"
@@ -139,10 +137,9 @@ const handleSubmit = async () => {
         v-model="state.inboxId"
         :options="inboxOptions"
         :has-error="!!formErrors.inbox"
-        :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.INBOX.PLACEHOLDER')
-          "
+        :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
-        class="[&>div>button]:bg-n-alpha-black2"
+        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
       />
     </div>
 
@@ -154,8 +151,7 @@ const handleSubmit = async () => {
         v-model="state.selectedAudience"
         :options="audienceList"
         :label="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.LABEL')"
-        :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.PLACEHOLDER')
-          "
+        :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.AUDIENCE.PLACEHOLDER')"
         :has-error="!!formErrors.audience"
         :message="formErrors.audience"
         class="[&>div>button]:bg-n-alpha-black2"
@@ -164,14 +160,10 @@ const handleSubmit = async () => {
 
     <Input
       v-model="state.scheduledAt"
-      :label="t('CAMPAIGN.SMS.CREATE.FORM.SCHEDULED_AT.LABEL')
-        "
+      :label="t('CAMPAIGN.SMS.CREATE.FORM.SCHEDULED_AT.LABEL')"
       type="datetime-local"
       :min="currentDateTime"
-      :placeholder="t(
-        'CAMPAIGN.SMS.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER'
-      )
-        "
+      :placeholder="t('CAMPAIGN.SMS.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER')"
       :message="formErrors.scheduledAt"
       :message-type="formErrors.scheduledAt ? 'error' : 'info'"
     />

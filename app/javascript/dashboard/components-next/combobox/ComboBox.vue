@@ -111,6 +111,7 @@ watch(
         trailing-icon
         :disabled="disabled"
         class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
+        :class="{ focused: open }"
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"
       />

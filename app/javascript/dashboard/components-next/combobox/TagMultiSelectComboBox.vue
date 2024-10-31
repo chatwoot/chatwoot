@@ -126,7 +126,7 @@ defineExpose({
         class="flex flex-wrap w-full gap-2 px-3 py-2.5 border rounded-lg cursor-pointer bg-n-alpha-black2 min-h-[42px] transition-all duration-500 ease-in-out"
         :class="{
           'border-n-ruby-8': hasError,
-          'border-n-strong hover:border-n-strong dark:hover:border-n-slate-6':
+          'border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6':
             !hasError && !open,
           'border-n-brand': open,
           'cursor-not-allowed pointer-events-none opacity-50': disabled,
