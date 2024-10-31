@@ -1,4 +1,9 @@
-import { getInboxClassByType, getInboxWarningIconClass } from '../inbox';
+import {
+  INBOX_TYPES,
+  getInboxClassByType,
+  getInboxIconByType,
+  getInboxWarningIconClass,
+} from '../inbox';
 
 describe('#Inbox Helpers', () => {
   describe('getInboxClassByType', () => {
@@ -32,6 +37,74 @@ describe('#Inbox Helpers', () => {
     });
     it('should return correct class for Email', () => {
       expect(getInboxClassByType('Channel::Email')).toEqual('mail');
+    });
+  });
+
+  describe('getInboxIconByType', () => {
+    it('returns correct icon for web widget', () => {
+      expect(getInboxIconByType(INBOX_TYPES.WEB)).toBe('i-ri-global-fill');
+    });
+
+    it('returns correct icon for Facebook', () => {
+      expect(getInboxIconByType(INBOX_TYPES.FB)).toBe('i-ri-messenger-fill');
+    });
+
+    it('returns correct icon for Twitter', () => {
+      expect(getInboxIconByType(INBOX_TYPES.TWITTER)).toBe(
+        'i-ri-twitter-x-fill'
+      );
+    });
+
+    describe('Twilio cases', () => {
+      it('returns WhatsApp icon for Twilio WhatsApp number', () => {
+        expect(
+          getInboxIconByType(INBOX_TYPES.TWILIO, 'whatsapp:+1234567890')
+        ).toBe('i-ri-whatsapp-fill');
+      });
+
+      it('returns SMS icon for regular Twilio number', () => {
+        expect(getInboxIconByType(INBOX_TYPES.TWILIO, '+1234567890')).toBe(
+          'i-ri-chat-1-fill'
+        );
+      });
+
+      it('returns SMS icon when phone number is undefined', () => {
+        expect(getInboxIconByType(INBOX_TYPES.TWILIO, undefined)).toBe(
+          'i-ri-chat-1-fill'
+        );
+      });
+    });
+
+    it('returns correct icon for WhatsApp', () => {
+      expect(getInboxIconByType(INBOX_TYPES.WHATSAPP)).toBe(
+        'i-ri-whatsapp-fill'
+      );
+    });
+
+    it('returns correct icon for API', () => {
+      expect(getInboxIconByType(INBOX_TYPES.API)).toBe('i-ri-cloudy-fill');
+    });
+
+    it('returns correct icon for Email', () => {
+      expect(getInboxIconByType(INBOX_TYPES.EMAIL)).toBe('i-ri-mail-fill');
+    });
+
+    it('returns correct icon for Telegram', () => {
+      expect(getInboxIconByType(INBOX_TYPES.TELEGRAM)).toBe(
+        'i-ri-telegram-fill'
+      );
+    });
+
+    it('returns correct icon for Line', () => {
+      expect(getInboxIconByType(INBOX_TYPES.LINE)).toBe('i-ri-line-fill');
+    });
+
+    it('returns default icon for unknown type', () => {
+      expect(getInboxIconByType('UNKNOWN_TYPE')).toBe('i-ri-chat-1-fill');
+    });
+
+    it('returns default icon for undefined type', () => {
+      expect(getInboxIconByType(undefined)).toBe('i-ri-chat-1-fill');
     });
   });
 

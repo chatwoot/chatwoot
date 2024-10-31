@@ -6,6 +6,7 @@ import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
+import campaignsRoutes from './campaigns/campaigns.routes';
 
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -35,6 +36,7 @@ export default {
         ...searchRoutes,
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
+        ...campaignsRoutes.routes,
       ],
     },
     {
