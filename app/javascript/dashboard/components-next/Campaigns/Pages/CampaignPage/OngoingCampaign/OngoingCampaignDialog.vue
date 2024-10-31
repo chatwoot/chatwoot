@@ -21,9 +21,7 @@ const addCampaign = async campaignDetails => {
       type: CAMPAIGN_TYPES.ONGOING,
     });
 
-    useAlert(
-      t('CAMPAIGN.SMS.CREATE.FORM.API.SUCCESS_MESSAGE')
-    );
+    useAlert(t('CAMPAIGN.SMS.CREATE.FORM.API.SUCCESS_MESSAGE'));
   } catch (error) {
     const errorMessage =
       error?.response?.message ||

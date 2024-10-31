@@ -36,9 +36,7 @@ const updateCampaign = async campaignDetails => {
       ...campaignDetails,
     });
 
-    useAlert(
-      t('CAMPAIGN.LIVE_CHAT.EDIT.FORM.API.SUCCESS_MESSAGE')
-    );
+    useAlert(t('CAMPAIGN.LIVE_CHAT.EDIT.FORM.API.SUCCESS_MESSAGE'));
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =

@@ -50,25 +50,23 @@ const handleDelete = campaign => {
         @close="toggleOneOffCampaignDialog(false)"
       />
     </template>
-    <template #content>
-      <div
-        v-if="isFetchingCampaigns"
-        class="flex items-center justify-center py-10 text-n-slate-11"
-      >
-        <Spinner />
-      </div>
-      <CampaignList
-        v-else-if="!hasNoOneOffCampaigns"
-        :campaigns="oneOffCampaigns"
-        @delete="handleDelete"
-      />
-      <OneOffCampaignEmptyState
-        v-else
-        :title="t('CAMPAIGN.SMS.EMPTY_STATE.TITLE')"
-        :subtitle="t('CAMPAIGN.SMS.EMPTY_STATE.SUBTITLE')"
-        class="pt-14"
-      />
-    </template>
+    <div
+      v-if="isFetchingCampaigns"
+      class="flex items-center justify-center py-10 text-n-slate-11"
+    >
+      <Spinner />
+    </div>
+    <CampaignList
+      v-else-if="!hasNoOneOffCampaigns"
+      :campaigns="oneOffCampaigns"
+      @delete="handleDelete"
+    />
+    <OneOffCampaignEmptyState
+      v-else
+      :title="t('CAMPAIGN.SMS.EMPTY_STATE.TITLE')"
+      :subtitle="t('CAMPAIGN.SMS.EMPTY_STATE.SUBTITLE')"
+      class="pt-14"
+    />
     <ConfirmDeleteCampaignDialog
       ref="confirmDeleteCampaignDialogRef"
       :selected-campaign="selectedCampaign"

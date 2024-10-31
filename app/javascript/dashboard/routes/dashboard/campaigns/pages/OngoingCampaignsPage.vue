@@ -56,27 +56,26 @@ const handleDelete = campaign => {
         @close="toggleOngoingCampaignDialog(false)"
       />
     </template>
-    <template #content>
-      <div
-        v-if="isFetchingCampaigns"
-        class="flex items-center justify-center py-10 text-n-slate-11"
-      >
-        <Spinner />
-      </div>
-      <CampaignList
-        v-else-if="!hasNoOngoingCampaigns"
-        :campaigns="ongoingCampaigns"
-        is-ongoing-type
-        @edit="handleEdit"
-        @delete="handleDelete"
-      />
-      <OngoingCampaignEmptyState
-        v-else
-        :title="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.TITLE')"
-        :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"
-        class="pt-14"
-      />
-    </template>
+
+    <div
+      v-if="isFetchingCampaigns"
+      class="flex items-center justify-center py-10 text-n-slate-11"
+    >
+      <Spinner />
+    </div>
+    <CampaignList
+      v-else-if="!hasNoOngoingCampaigns"
+      :campaigns="ongoingCampaigns"
+      is-ongoing-type
+      @edit="handleEdit"
+      @delete="handleDelete"
+    />
+    <OngoingCampaignEmptyState
+      v-else
+      :title="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.TITLE')"
+      :subtitle="t('CAMPAIGN.LIVE_CHAT.EMPTY_STATE.SUBTITLE')"
+      class="pt-14"
+    />
     <EditOngoingCampaignDialog
       ref="editOngoingCampaignDialogRef"
       :selected-campaign="selectedCampaign"

@@ -45,10 +45,8 @@ const handleButtonClick = () => {
     </header>
     <main class="flex-1 px-6 overflow-y-auto lg:px-0">
       <div class="w-full max-w-[900px] mx-auto py-4">
-        <slot name="content" />
+        <slot name="default" />
       </div>
     </main>
-    <!-- Do not remove this slot. It can be used to add dialogs. -->
-    <slot />
   </section>
 </template>

@@ -18,8 +18,6 @@ const store = useStore();
 
 const dialogRef = ref(null);
 
-const selectedCampaignTitle = computed(() => props.selectedCampaign?.title);
-
 const deleteCampaign = async id => {
   if (!id) return;
 
