@@ -1,8 +1,8 @@
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 
 import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
-import OngoingCampaignsPage from './pages/OngoingCampaignsPage.vue';
-import OneOffCampaignsPage from './pages/OneOffCampaignsPage.vue';
+import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
+import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
 
 const campaignsRoutes = {
   routes: [
@@ -42,7 +42,7 @@ const campaignsRoutes = {
           meta: {
             permissions: ['administrator'],
           },
-          component: OngoingCampaignsPage,
+          component: LiveChatCampaignsPage,
         },
         {
           path: 'sms',
@@ -50,7 +50,7 @@ const campaignsRoutes = {
           meta: {
             permissions: ['administrator'],
           },
-          component: OneOffCampaignsPage,
+          component: SMSCampaignsPage,
         },
       ],
     },
