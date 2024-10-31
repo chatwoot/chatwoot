@@ -33,7 +33,7 @@ const handleButtonClick = () => {
           >
             <Button
               :label="buttonLabel"
-              icon="add"
+              icon="i-lucide-plus"
               size="sm"
               class="group-hover/campaign-button:brightness-110"
               @click="handleButtonClick"
