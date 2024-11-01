@@ -71,6 +71,13 @@ class ActionService
     end
   end
 
+  def update_contact_stage(stage_ids = [])
+    contact = @conversation.contact
+    return unless !stage_ids[0].nil? && stage_belongs_to_account?(stage_ids) && contact.present?
+
+    contact.update!(stage_id: stage_ids.first)
+  end
+
   private
 
   def agent_belongs_to_inbox?(agent_ids)
@@ -82,6 +89,10 @@ class ActionService
 
   def team_belongs_to_account?(team_ids)
     @account.team_ids.include?(team_ids[0])
+  end
+
+  def stage_belongs_to_account?(stage_ids)
+    @account.stage_ids.include?(stage_ids[0])
   end
 
   def conversation_a_tweet?

@@ -34,13 +34,17 @@ class AutomationRule < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def conditions_attributes
-    %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
-       mail_subject phone_number priority conversation_language]
+    # To serve for the 'conditions' validator of this model
+    %w[content email country_code status message_type browser_language assignee_id team_id referer
+       city company inbox_id mail_subject phone_number priority conversation_language
+       stage_id product_id name initial_channel_type po_value po_date created_at last_activity_at]
   end
 
   def actions_attributes
+    # To serve for the 'actions' validator of this model
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
-       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript send_private_note].freeze
+       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript send_private_note
+       update_contact_stage].freeze
   end
 
   def file_base_data

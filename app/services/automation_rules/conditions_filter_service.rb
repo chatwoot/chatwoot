@@ -3,12 +3,13 @@ require 'json'
 class AutomationRules::ConditionsFilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
-  def initialize(rule, conversation = nil, options = {})
+  def initialize(rule, event_object, options = {})
     super([], nil)
-    # assign rule, conversation and account to instance variables
+    # Assign rule, event_object_type, event_object and account to instance variables
     @rule = rule
-    @conversation = conversation
-    @account = conversation.account
+    @event_object = event_object.reload
+    @event_object_type = get_type_of(event_object)
+    @account = event_object.account
 
     # setup filters from json file
     file = File.read('./lib/filters/filter_keys.yml')
@@ -39,7 +40,8 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   rescue StandardError => e
     Rails.logger.error "Error in AutomationRules::ConditionsFilterService: #{e.message}"
-    Rails.logger.info "AutomationRules::ConditionsFilterService failed while processing rule #{@rule.id} for conversation #{@conversation.id}"
+    Rails.logger.info 'AutomationRules::ConditionsFilterService failed while ' \
+                      "processing rule #{@rule.id} for #{@event_object_type} #{@event_object.id}"
     false
   end
 
@@ -61,10 +63,11 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def apply_filter(query_hash, current_index)
-    conversation_filter = @conversation_filters[query_hash['attribute_key']]
-    contact_filter = @contact_filters[query_hash['attribute_key']]
-    message_filter = @message_filters[query_hash['attribute_key']]
+    current_filter = find_current_filter(attribute_key: query_hash['attribute_key'])
+    conversation_filter, contact_filter, message_filter =
+      current_filter.values_at(:conversation_filters, :contact_filter, :message_filter)
 
+    # Calculate @query_string variable instance if present
     if conversation_filter
       @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
     elsif contact_filter
@@ -72,8 +75,24 @@ class AutomationRules::ConditionsFilterService < FilterService
     elsif message_filter
       @query_string += message_query_string(message_filter, query_hash.with_indifferent_access, current_index)
     elsif custom_attribute(query_hash['attribute_key'], @account, query_hash['custom_attribute_type'])
-      # send table name according to attribute key right now we are supporting contact based custom attribute filter
       @query_string += custom_attribute_query(query_hash.with_indifferent_access, query_hash['custom_attribute_type'], current_index)
+    end
+  end
+
+  def find_current_filter(attribute_key:)
+    case @event_object_type
+    when :conversation
+      conversation_filter = @event_object_type == :message
+      message_filter = @message_filters[attribute_key] if conversation_filter.blank?
+      { conversation_filter: conversation_filter, message_filter: message_filter }
+    when :contact
+      contact_filter = @contact_filters[attribute_key]
+      { contact_filter: contact_filter }
+    when :message
+      message_filter = @message_filters[attribute_key]
+      { message_filter: message_filter }
+    else
+      {}
     end
   end
 
@@ -160,13 +179,31 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   private
 
+  def get_type_of(event_object)
+    if event_object.instance_of?(Conversation)
+      :conversation
+    elsif event_object.instance_of?(Contact)
+      :contact
+    elsif event_object.instance_of?(Message)
+      :message
+    else
+      raise "Unsupported operation for this event_object type: #{@event_object.class.name}"
+    end
+  end
+
   def base_relation
-    records = Conversation.where(id: @conversation.id).joins(
-      'LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id'
-    ).joins(
-      'LEFT OUTER JOIN messages on messages.conversation_id = conversations.id'
-    )
-    records = records.where(messages: { id: @options[:message].id }) if @options[:message].present?
-    records
+    case @event_object_type
+    when :conversation
+      Conversation.where(id: @event_object.id)
+                  .joins('LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id')
+    when :message
+      conversation = @event_object.send(:conversation)
+      Conversation.where(id: conversation.id)
+                  .joins('LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id')
+                  .joins('LEFT OUTER JOIN messages on messages.conversation_id = conversations.id')
+                  .where(messages: { id: @event_object.id })
+    when :contact
+      Contact.where(id: @event_object.id).joins('LEFT OUTER JOIN products on contacts.product_id = products.id')
+    end
   end
 end

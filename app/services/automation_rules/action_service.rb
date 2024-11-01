@@ -31,7 +31,7 @@ class AutomationRules::ActionService < ActionService
 
     return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blobs }
+    params = { content: nil, private: false, attachments: blobs.map(&:signed_id) }
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 

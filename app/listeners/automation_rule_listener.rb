@@ -63,9 +63,42 @@ class AutomationRuleListener < BaseListener
     rules = current_account_rules('message_created', account)
 
     rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation,
-                                                                        { message: message, changed_attributes: changed_attributes }).perform
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message, { changed_attributes: changed_attributes }).perform
       ::AutomationRules::ActionService.new(rule, account, message.conversation).perform if conditions_match.present?
+    end
+  end
+
+  def contact_created(event)
+    return if performed_by_automation?(event)
+
+    contact = event.data[:contact]
+    account = contact.account
+    changed_attributes = event.data[:changed_attributes]
+
+    return unless rule_present?('contact_created', account)
+
+    rules = current_account_rules('contact_created', account)
+
+    rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, contact, { changed_attributes: changed_attributes }).perform
+      AutomationRules::ContactActionService.new(rule, account, contact).perform if conditions_match.present?
+    end
+  end
+
+  def contact_updated(event)
+    return if performed_by_automation?(event)
+
+    contact = event.data[:contact]
+    account = contact.account
+    changed_attributes = event.data[:changed_attributes]
+
+    return unless rule_present?('contact_updated', account)
+
+    rules = current_account_rules('contact_updated', account)
+
+    rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, contact, { changed_attributes: changed_attributes }).perform
+      AutomationRules::ContactActionService.new(rule, account, contact).perform if conditions_match.present?
     end
   end
 

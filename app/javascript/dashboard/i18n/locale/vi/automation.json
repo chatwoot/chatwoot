@@ -116,9 +116,11 @@
     },
     "EVENTS_TEXT": {
       "conversation_created": "Hội thoại được tạo",
-      "conversation_updated": "Hội thoại cập nhật",
+      "conversation_updated": "Hội thoại được cập nhật",
       "conversation_opened": "Hội thoại được mở",
-      "message_created": "Tin nhắn được tạo"
+      "message_created": "Tin nhắn được tạo",
+      "contact_created": "Khách hàng được tạo",
+      "contact_updated": "Khách hàng được cập nhật"
     },
     "ACTIONS_TEXT": {
       "ASSIGN_AGENT": "Phân công người phụ trách",
@@ -135,7 +137,8 @@
       "CHANGE_PRIORITY": "Cập nhật độ ưu tiên",
       "ADD_SLA": "Thêm SLA",
       "ADD_LABEL": "Gán nhãn phân loại",
-      "REMOVE_LABEL": "Gỡ nhãn phân loại"
+      "REMOVE_LABEL": "Gỡ nhãn phân loại",
+      "UPDATE_CONTACT_STAGE": "Chuyển giai đoạn"
     }
   }
 }

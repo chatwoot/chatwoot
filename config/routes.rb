@@ -451,6 +451,7 @@ Rails.application.routes.draw do
   resource :app, only: [:index] do
     resources :accounts do
       resources :conversations, only: [:show]
+      resources :contacts, only: [:show]
     end
   end
 

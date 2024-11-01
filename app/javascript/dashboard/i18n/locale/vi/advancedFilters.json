@@ -57,7 +57,11 @@
       "PHONE_NUMBER": "Số điện thoại",
       "EMAIL": "Địa chỉ email",
       "MESSAGE_TYPE": "Loại tin nhắn",
-      "MESSAGE_CONTENT": "Nội dung tin nhắn"
+      "MESSAGE_CONTENT": "Nội dung tin nhắn",
+      "STAGE": "Giai đoạn",
+      "PRODUCT": "Sản phẩm dịch vụ",
+      "PO_VALUE": "Giá trị mua hàng",
+      "PO_DATE": "Ngày mua hàng"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Thông tin hội thoại",

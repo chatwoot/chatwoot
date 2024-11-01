@@ -1,3 +1,7 @@
+// This file contains the mixin methods which we use for the following
+//  1. Automation Rule Add Form Modal (app/javascript/dashboard/routes/dashboard/settings/automation/AddAutomationRule.vue)
+//  2. Automation Rule Edit Form Modal (app/javascript/dashboard/routes/dashboard/settings/automation/EditAutomationRule.vue)
+
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import {
@@ -17,6 +21,10 @@ import {
   generateCustomAttributes,
 } from 'dashboard/helper/automationHelper';
 import { mapGetters } from 'vuex';
+import {
+  AUTOMATIONS,
+  AUTOMATION_CONTACT_EVENTS,
+} from 'dashboard/routes/dashboard/settings/automation/constants';
 
 export default {
   computed: {
@@ -28,6 +36,8 @@ export default {
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
       slaPolicies: 'sla/getSLA',
+      stages: 'stages/getEnabledStages',
+      products: 'products/getProducts',
     }),
     booleanFilterOptions() {
       return [
@@ -61,25 +71,136 @@ export default {
   methods: {
     getFileName,
     onEventChange() {
+      // This method will be called if the 'event' dropdown is changed
       this.automation.conditions = getDefaultConditions(
         this.automation.event_name
       );
       this.automation.actions = getDefaultActions();
+      // Update filterGroups (data instance) for the condition dropdowns
+      this.conditionGroups = this.getAttributeGroups(
+        this.automation.event_name
+      );
+      // Conditions would be shown by groups instead of single items
+      this.isGroupedConditionAttributes = AUTOMATION_CONTACT_EVENTS.includes(
+        this.automation.event_name
+      );
     },
     getAttributes(key) {
+      // This method is to get conditions (options for condition dropdown) by event key
+      if (AUTOMATION_CONTACT_EVENTS.includes(key))
+        // They would be shown by groups instead of single items
+        return [];
+
       return this.automationTypes[key].conditions;
     },
+    getAttributeGroups(key) {
+      // This method is to get conditions (options for grouped condition dropdown) by event key
+      // Format
+      // - []
+      //  - Object
+      //    - name (group_name):
+      //      i18n translation of "CONTACTS_FILTER.GROUPS.[...]" : supported ["STANDARD_FILTERS", "CUSTOM_ATTRIBUTES", "PRODUCT_CUSTOM_ATTRIBUTES (only for contact events)"]
+      //    - attributes (group children items): []
+      //      - Object
+      //        - key (condition attribute_key)
+      //        - name (condition attribute_name)
+      if (!AUTOMATION_CONTACT_EVENTS.includes(key))
+        // They would be shown by groups instead of single items
+        return [];
+
+      // Get standard attributes of this event from constants
+      const initialAutomationTypes = JSON.parse(JSON.stringify(AUTOMATIONS));
+      const standardAttributes = initialAutomationTypes[key].conditions;
+      const standardAttributeGroup = {
+        name: this.$t('CONTACTS_FILTER.GROUPS.STANDARD_FILTERS'),
+        attributes: standardAttributes.map(attr => {
+          return {
+            key: attr.key,
+            name: this.$t(
+              `CONTACTS_FILTER.ATTRIBUTES.${attr.attributeI18nKey}`
+            ),
+          };
+        }),
+      };
+
+      // Get all custom attributes of 'Contact' model
+      const allContactCustomAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'contact_attribute'
+        );
+
+      // Format to adapt for dropdown's property
+      const contactCustomAttributesFormatted = {
+        name: this.$t('CONTACTS_FILTER.GROUPS.CUSTOM_ATTRIBUTES'),
+        attributes: allContactCustomAttributes.map(attr => {
+          return {
+            key: attr.attribute_key,
+            name: attr.attribute_display_name,
+          };
+        }),
+      };
+
+      // Get all custom attributes of 'Product' model
+      const allProductCustomAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'product_attribute'
+        );
+
+      // Format to adapt for dropdown's property
+      const productCustomAttributesFormatted = {
+        name: this.$t('CONTACTS_FILTER.GROUPS.PRODUCT_CUSTOM_ATTRIBUTES'),
+        attributes: allProductCustomAttributes.map(attr => {
+          return {
+            key: attr.attribute_key,
+            name: attr.attribute_display_name,
+          };
+        }),
+      };
+
+      // Update automationTypes
+      this.populateToAutomationType(
+        allContactCustomAttributes,
+        'contact_attribute'
+      );
+      this.populateToAutomationType(
+        allProductCustomAttributes,
+        'product_attribute'
+      );
+
+      return [
+        standardAttributeGroup,
+        contactCustomAttributesFormatted,
+        productCustomAttributesFormatted,
+      ];
+    },
+    populateToAutomationType(
+      rawExtraAttributes = [],
+      type = 'contact_attribute'
+    ) {
+      // Append additional data to automationTypes (with initial data was parsed from 'AUTOMATION' constant)
+      // This is needed for resetFilter() method, submitting payload, ...
+      if (rawExtraAttributes.length) {
+        let conditions = generateCustomAttributeTypes(rawExtraAttributes, type);
+        this.automationTypes.contact_created.conditions.push(...conditions);
+        this.automationTypes.contact_updated.conditions.push(...conditions);
+      }
+    },
     getInputType(key) {
+      // This method helps get type of user input into 'condition' section
+      // Supported: date | multi_select | search_select | plain_text(default)
       const customAttribute = isACustomAttribute(this.allCustomAttributes, key);
+
       if (customAttribute) {
         return getCustomAttributeInputType(
           customAttribute.attribute_display_type
         );
       }
       const type = this.getAutomationType(key);
-      return type.inputType;
+      return type?.inputType;
     },
     getOperators(key) {
+      // This method helps get type of operation dropdown into 'condition' section
+      // It has been used for <filter-input-box/> component
       if (this.mode === 'edit') {
         const customAttribute = isACustomAttribute(
           this.allCustomAttributes,
@@ -90,7 +211,7 @@ export default {
         }
       }
       const type = this.getAutomationType(key);
-      return type.filterOperators;
+      return type?.filterOperators;
     },
     getAutomationType(key) {
       return this.automationTypes[this.automation.event_name].conditions.find(
@@ -98,12 +219,14 @@ export default {
       );
     },
     getCustomAttributeType(key) {
+      // It has been used for <filter-input-box/> component
       const type = this.automationTypes[
         this.automation.event_name
-      ].conditions.find(i => i.key === key).customAttributeType;
+      ].conditions.find(i => i.key === key)?.customAttributeType;
       return type;
     },
     getConditionDropdownValues(type) {
+      // This method helps get options for the dropdown of user input (into 'condition' section)
       const {
         agents,
         allCustomAttributes: customAttributes,
@@ -113,6 +236,8 @@ export default {
         inboxes,
         statusFilterOptions,
         teams,
+        stages,
+        products,
       } = this;
       return getConditionOptions({
         agents,
@@ -123,6 +248,8 @@ export default {
         inboxes,
         statusFilterOptions,
         teams,
+        stages,
+        products,
         languages,
         countries,
         type,
@@ -168,6 +295,9 @@ export default {
       return !(type === 'is_present' || type === 'is_not_present');
     },
     showActionInput(action) {
+      // This method helps decide whether the user input component
+      // into the 'action' section should be shown.
+      // It has been used for <automation-action-input/> component
       if (
         action === 'send_email_to_team' ||
         action === 'send_message' ||
@@ -199,7 +329,11 @@ export default {
             condition.attribute_key
           );
         }
-        if (inputType === 'plain_text' || inputType === 'date') {
+        if (
+          inputType === 'plain_text' ||
+          inputType === 'date' ||
+          inputType === 'number'
+        ) {
           return {
             ...condition,
             values: condition.values[0],
@@ -255,6 +389,7 @@ export default {
       return actions;
     },
     formatAutomation(automation) {
+      // This method helps format the automation object for <edit-automation-rule/> component
       this.automation = {
         ...automation,
         conditions: this.manifestConditions(automation),
@@ -262,17 +397,21 @@ export default {
       };
     },
     getActionDropdownValues(type) {
-      const { agents, labels, teams, slaPolicies } = this;
+      // This method helps get options for the dropdown of user input (into 'action' section)
+      // It has been used for <automation-action-input/> component
+      const { agents, labels, teams, slaPolicies, stages } = this;
       return getActionOptions({
         agents,
         labels,
         teams,
         slaPolicies,
+        stages,
         languages,
         type,
       });
     },
     manifestCustomAttributes() {
+      // TODO: This should be grouped
       const conversationCustomAttributesRaw = this.$store.getters[
         'attributes/getAttributesByModel'
       ]('conversation_attribute');
@@ -281,20 +420,24 @@ export default {
         this.$store.getters['attributes/getAttributesByModel'](
           'contact_attribute'
         );
+
       const conversationCustomAttributeTypes = generateCustomAttributeTypes(
         conversationCustomAttributesRaw,
         'conversation_attribute'
       );
+
       const contactCustomAttributeTypes = generateCustomAttributeTypes(
         contactCustomAttributesRaw,
         'contact_attribute'
       );
+
       let manifestedCustomAttributes = generateCustomAttributes(
         conversationCustomAttributeTypes,
         contactCustomAttributeTypes,
         this.$t('AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'),
         this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL')
       );
+
       this.automationTypes.message_created.conditions.push(
         ...manifestedCustomAttributes
       );

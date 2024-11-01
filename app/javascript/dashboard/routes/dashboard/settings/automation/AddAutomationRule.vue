@@ -3,6 +3,7 @@
     <woot-modal-header :header-title="$t('AUTOMATION.ADD.TITLE')" />
     <div class="flex flex-col modal-content">
       <div class="w-full">
+        <!--  AUTOMATION NAME -->
         <woot-input
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
@@ -16,6 +17,8 @@
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
           @blur="$v.automation.name.$touch"
         />
+
+        <!--  AUTOMATION DESCRIPTION -->
         <woot-input
           v-model="automation.description"
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
@@ -29,7 +32,9 @@
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
           @blur="$v.automation.description.$touch"
         />
+
         <div class="event_wrapper">
+          <!--  AUTOMATION EVENT -->
           <label :class="{ error: $v.automation.event_name.$error }">
             {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
             <select v-model="automation.event_name" @change="onEventChange()">
@@ -49,6 +54,7 @@
             {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
           </p>
         </div>
+
         <!-- // Conditions Start -->
         <section>
           <label>
@@ -61,6 +67,8 @@
               v-for="(condition, i) in automation.conditions"
               :key="i"
               v-model="automation.conditions[i]"
+              :filter-groups="conditionGroups"
+              :grouped-filters="isGroupedConditionAttributes"
               :filter-attributes="getAttributes(automation.event_name)"
               :input-type="getInputType(automation.conditions[i].attribute_key)"
               :operators="getOperators(automation.conditions[i].attribute_key)"
@@ -70,6 +78,9 @@
                 )
               "
               :show-query-operator="i !== automation.conditions.length - 1"
+              :show-user-input="
+                showUserInput(automation.conditions[i].filter_operator)
+              "
               :custom-attribute-type="
                 getCustomAttributeType(automation.conditions[i].attribute_key)
               "
@@ -91,6 +102,7 @@
           </div>
         </section>
         <!-- // Conditions End -->
+
         <!-- // Actions Start -->
         <section>
           <label>
@@ -128,6 +140,7 @@
           </div>
         </section>
         <!-- // Actions End -->
+
         <div class="w-full">
           <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <woot-button class="button clear" @click.prevent="onClose">
@@ -151,11 +164,7 @@ import automationValidationsMixin from 'dashboard/mixins/automations/validations
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 
-import {
-  AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
-  AUTOMATIONS,
-} from './constants';
+import { AUTOMATION_RULE_EVENTS, AUTOMATIONS } from './constants';
 export default {
   components: {
     filterInputBox,
@@ -175,6 +184,8 @@ export default {
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
+      conditionGroups: [],
+      isGroupedConditionAttributes: false,
       show: true,
       automation: {
         name: null,
@@ -215,10 +226,14 @@ export default {
       return false;
     },
     automationActionTypes() {
+      // This method helps get options for the dropdown of action type (into 'action' section)
+      // It has been used for <automation-action-input/> component
       const isSLAEnabled = this.isFeatureEnabled('sla');
       return isSLAEnabled
-        ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
+        ? this.automationTypes[this.automation.event_name].actions
+        : this.automationTypes[this.automation.event_name].actions.filter(
+            action => action.key !== 'add_sla'
+          );
     },
   },
   mounted() {
@@ -229,12 +244,19 @@ export default {
     this.$store.dispatch('teams/get');
     this.$store.dispatch('labels/get');
     this.$store.dispatch('campaigns/get');
+    this.$store.dispatch('stages/get');
+    this.$store.dispatch('products/get', { page: 0 });
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.manifestCustomAttributes();
   },
   methods: {
     isFeatureEnabled(flag) {
       return this.isFeatureEnabledonAccount(this.accountId, flag);
+    },
+    showUserInput(operatorType) {
+      return !(
+        operatorType === 'is_present' || operatorType === 'is_not_present'
+      );
     },
   },
 };

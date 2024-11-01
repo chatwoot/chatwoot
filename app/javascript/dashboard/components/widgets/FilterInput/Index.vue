@@ -6,6 +6,8 @@
       :class="getInputErrorClass(v.values.$dirty, v.values.$error)"
     >
       <div class="flex">
+        <!-- ATTRIBUTE KEY DROPDOWN -->
+        <!-- IF: SHOWN BY GROUPS -->
         <select
           v-if="groupedFilters"
           v-model="attributeKey"
@@ -22,10 +24,16 @@
               :key="attribute.key"
               :value="attribute.key"
             >
-              {{ attribute.name }}
+              {{
+                attribute.attributeI18nKey
+                  ? $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`)
+                  : attribute.name
+              }}
             </option>
           </optgroup>
         </select>
+
+        <!-- ELSE: SHOWN BY SINGLE SELECTIONS -->
         <select
           v-else
           v-model="attributeKey"
@@ -46,6 +54,7 @@
           </option>
         </select>
 
+        <!-- OPERATION DROPDOWN -->
         <select
           v-model="filterOperator"
           class="bg-white dark:bg-slate-900 max-w-[20%] mb-0 mr-1 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
@@ -59,7 +68,9 @@
           </option>
         </select>
 
+        <!-- USER INPUT -->
         <div v-if="showUserInput" class="filter__answer--wrap mr-1 flex-grow">
+          <!-- TYPE: MULTI SELECT -->
           <div
             v-if="inputType === 'multi_select'"
             class="multiselect-wrap--small"
@@ -78,6 +89,7 @@
               :allow-empty="false"
             />
           </div>
+          <!-- TYPE: SEARCH SELECT -->
           <div
             v-else-if="inputType === 'search_select'"
             class="multiselect-wrap--small"
@@ -96,6 +108,7 @@
               :option-height="104"
             />
           </div>
+          <!-- TYPE: DATE -->
           <div v-else-if="inputType === 'date'" class="multiselect-wrap--small">
             <input
               v-model="values"
@@ -104,10 +117,11 @@
               class="mb-0 datepicker"
             />
           </div>
+          <!-- DEFAULT -->
           <input
             v-else
             v-model="values"
-            type="text"
+            :type="inputType === 'number' ? 'number' : 'text'"
             class="mb-0"
             placeholder="Enter value"
           />
@@ -119,6 +133,7 @@
           @click="removeFilter"
         />
       </div>
+
       <p v-if="v.values.$dirty && v.values.$error" class="filter-error">
         {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
       </p>
@@ -258,7 +273,8 @@ export default {
       handler(value) {
         if (
           value === 'conversation_attribute' ||
-          value === 'contact_attribute'
+          value === 'contact_attribute' ||
+          value === 'product_attribute'
         ) {
           // eslint-disable-next-line vue/no-mutating-props
           this.value.custom_attribute_type = this.customAttributeType;
