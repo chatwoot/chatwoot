@@ -120,12 +120,12 @@ export default {
     columns() {
       return [
         {
-          field: 'order_number',
-          key: 'order_number',
-          title: this.$t('ORDERS_PAGE.LIST.TABLE_HEADER.ORDER_NUMBER'),
+          field: 'customer',
+          key: 'customer',
+          title: this.$t('ORDERS_PAGE.LIST.TABLE_HEADER.CUSTOMER'),
           fixed: 'left',
           align: this.isRTLView ? 'right' : 'left',
-          sortBy: this.sortConfig.order_number || '',
+          sortBy: this.sortConfig.contact?.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
             <woot-button
@@ -134,9 +134,11 @@ export default {
             >
               <div class="row--user-block">
                 <div class="user-block">
-                  <h6 class="overflow-hidden text-base whitespace-nowrap text-ellipsis">
-                    {row.order_number}
-                  </h6>
+                  <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
+                    <h6 class="overflow-hidden text-base whitespace-nowrap text-ellipsis">
+                      {row.contact?.name}
+                    </h6>
+                  </div>
                   <button class="button clear small link view-details--button">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/integrations-view/${row.id}`}
@@ -150,28 +152,7 @@ export default {
             </woot-button>
           ),
         },
-        {
-          field: 'customer',
-          key: 'customer',
-          title: this.$t('ORDERS_PAGE.LIST.TABLE_HEADER.CUSTOMER'),
-          align: this.isRTLView ? 'right' : 'left',
-          sortBy: this.sortConfig.contact?.name || '',
-          width: 240,
-          renderBodyCell: ({ row }) => {
-            if (row.contact?.active)
-              return (
-                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
-                  <a
-                    rel="noopener noreferrer nofollow"
-                    href={`/app/accounts/${this.$route.params.accountId}/contacts/${row.contact.id}`}
-                  >
-                    {row.contact?.name}
-                  </a>
-                </div>
-              );
-            return '---';
-          },
-        },
+
         {
           field: 'status',
           key: 'status',

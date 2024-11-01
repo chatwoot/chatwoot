@@ -38,6 +38,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    suggestedContactId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -52,7 +56,7 @@ export default {
   },
 
   mounted() {
-    this.onContactSearch(this.primaryContact.name);
+    this.onContactSearch(this.suggestedContactId);
   },
 
   methods: {
