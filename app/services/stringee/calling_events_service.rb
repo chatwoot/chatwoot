@@ -43,13 +43,22 @@ class Stringee::CallingEventsService
     I18n.t("conversations.messages.stringee.#{call_type}")
   end
 
+  def message_sender
+    return @contact if incoming?
+
+    stringee_user_id = params[:request_from_user_id]
+    return nil if stringee_user_id.blank?
+
+    User.where('email LIKE ?', "#{stringee_user_id}@%").first
+  end
+
   def message_params
     {
       content: message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: incoming? ? :incoming : :outgoing,
-      sender: @contact,
+      sender: message_sender,
       source_id: params[:call_id]
     }
   end
