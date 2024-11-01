@@ -96,16 +96,6 @@
           @click="toggleConversationModal"
         />
         <woot-button
-          v-if="contact.phone_number && stringeeAccessToken"
-          v-tooltip="$t('CALL_CONTACT.TITLE')"
-          title="$t('CALL_CONTACT.BUTTON_LABEL')"
-          icon="call"
-          variant="smooth"
-          size="small"
-          color-scheme="success"
-          @click="confirmCalling"
-        />
-        <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="edit"
@@ -134,6 +124,52 @@
           :disabled="uiFlags.isDeleting"
           @click="toggleDeleteModal"
         />
+        <div
+          v-if="
+            stringeeAccessToken &&
+            (contact.phone_number || contact.secondary_phone_number)
+          "
+          class="button-group ml-auto"
+        >
+          <woot-button
+            v-tooltip="$t('CALL_CONTACT.TITLE')"
+            icon="call"
+            variant="smooth"
+            size="small"
+            color-scheme="success"
+            @click="confirmCalling(contact.phone_number)"
+          >
+            {{ $t('CALL_CONTACT.BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button
+            v-if="contact.secondary_phone_number"
+            variant="smooth"
+            size="small"
+            color-scheme="success"
+            icon="chevron-down"
+            emoji="🔽"
+            @click="openDropdown"
+          />
+          <div
+            v-if="showCallingDropdown"
+            v-on-clickaway="closeDropdown"
+            class="dropdown-pane dropdown-pane--open"
+          >
+            <woot-dropdown-menu>
+              <woot-dropdown-item>
+                <woot-button
+                  variant="smooth"
+                  color-scheme="secondary"
+                  size="small"
+                  icon="call"
+                  @click="confirmCalling(contact.secondary_phone_number)"
+                >
+                  {{ $t('CALL_CONTACT.BUTTON_LABEL_2') }}
+                </woot-button>
+              </woot-dropdown-item>
+            </woot-dropdown-menu>
+          </div>
+        </div>
       </div>
       <edit-contact
         v-if="showEditModal"
@@ -234,6 +270,7 @@ export default {
       showConversationModal: false,
       showMergeModal: false,
       showDeleteModal: false,
+      showCallingDropdown: false,
       stringeeAccessToken: Cookies.get('stringee_access_token'),
     };
   },
@@ -277,6 +314,12 @@ export default {
     },
   },
   methods: {
+    closeDropdown() {
+      this.showCallingDropdown = false;
+    },
+    openDropdown() {
+      this.showCallingDropdown = true;
+    },
     async handleMakeCall(phoneNumber) {
       const response = await stringeeChannel.numberToCall();
       const fromNumber = response.data.number;
@@ -316,12 +359,12 @@ export default {
         return '';
       }
     },
-    async confirmCalling() {
+    async confirmCalling(phoneNumber) {
       const ok = await this.$refs.confirmCallingDialog.showConfirmation();
 
       if (ok) {
-        const phoneNumber = this.contact.phone_number.split(' - ');
-        this.handleMakeCall(phoneNumber[0]);
+        const number = phoneNumber.split(' - ');
+        this.handleMakeCall(number[0]);
       }
     },
     async deleteContact({ id }) {
@@ -360,3 +403,20 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.button-group {
+  position: relative;
+}
+
+.dropdown-pane {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.25rem;
+  z-index: 10;
+
+  .dropdown-menu__item {
+    @apply mb-0;
+  }
+}
+</style>

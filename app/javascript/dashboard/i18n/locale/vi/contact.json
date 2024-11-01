@@ -146,6 +146,7 @@
   },
   "CALL_CONTACT": {
     "BUTTON_LABEL": "Gọi điện",
+    "BUTTON_LABEL_2": "Gọi số phụ",
     "TITLE": "Gọi điện cho khách hàng",
     "CONFIRM": {
       "TITLE": "Xác nhận gọi điện",
