@@ -12,7 +12,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     inboxes = Current.account.inboxes.where(channel_type: 'Channel::StringeePhoneCall')
     inboxes_with_access = []
     inboxes.each do |inbox|
-      inboxes_with_access << inbox if inbox.agents.ids.include?(user_id)
+      inboxes_with_access << inbox if inbox.agents.ids.include?(Current.user.id)
     end
     if inboxes_with_access.any?
       render json: { number: inboxes_with_access.first.channel.phone_number }
