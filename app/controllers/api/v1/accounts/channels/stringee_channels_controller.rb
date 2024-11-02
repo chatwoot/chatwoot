@@ -67,7 +67,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
   private
 
   def add_agent_to_stringee(user_id)
-    return if user_in_stringee_channel(user_id)
+    return if user_in_another_stringee_channel(user_id)
 
     user = User.find(user_id)
     agent_id = create_agent(user.name, user.stringee_user_id)
@@ -81,7 +81,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
   end
 
   def remove_agent_from_stringee(user_id)
-    return if user_in_stringee_channel(user_id)
+    return if user_in_another_stringee_channel(user_id)
 
     user = User.find(user_id)
     agent_id = user.custom_attributes['agent_id']
@@ -95,9 +95,12 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     user.save!
   end
 
-  def user_in_stringee_channel(user_id)
+  def user_in_another_stringee_channel(user_id)
     other_stringee_channels = Current.account.inboxes.where(channel_type: 'Channel::StringeePhoneCall').where.not(id: @inbox.id)
-    other_stringee_channels.joins(:inbox_members).exists?(inbox_members: { user_id: user_id })
+    other_stringee_channels.each do |inbox|
+      return true if inbox.agents.ids.include?(user_id)
+    end
+    false
   end
 
   def agent_from_params

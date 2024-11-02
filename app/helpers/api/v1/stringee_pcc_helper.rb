@@ -113,6 +113,7 @@ module Api::V1::StringeePccHelper # rubocop:disable Metrics/ModuleLength
   def create_queue_post(name, route_type)
     body = { name: name }
     body[:get_list_agents_url] = "#{ENV.fetch('FRONTEND_URL')}/webhooks/stringee/agents" if route_type == 'from_list'
+    body[:cond_routing] = 2 if route_type == 'by_group'
 
     HTTParty.post(
       'https://icc-api.stringee.com/v1/queue',
