@@ -1,4 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/conversation'
-  - $ref: '../contact/conversation.yml'
