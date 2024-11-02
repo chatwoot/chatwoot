@@ -63,7 +63,7 @@ export default {
       popoutChatWindow(
         origin,
         websiteToken,
-        this.$i18n.locale,
+        this.$root.$i18n.locale,
         authToken
       );
     },

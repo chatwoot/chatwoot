@@ -15,10 +15,10 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle', 'edit', 'delete', 'clone']);
 
-const locale = getCurrentInstance()?.proxy.$i18n.locale;
-const readableDate = date => messageStamp(new Date(date), false, locale);
+const locale = getCurrentInstance()?.proxy.$root.$i18n.locale;
+const readableDate = date => messageStamp(new Date(date), 'standard', locale);
 const readableDateWithTime = date =>
-  messageStamp(new Date(date), true, locale);
+  messageStamp(new Date(date), 'fullDateTime', locale);
 
 const toggle = () => {
   const { id, name, active } = props.automation;

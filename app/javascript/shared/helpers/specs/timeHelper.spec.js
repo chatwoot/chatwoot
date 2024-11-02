@@ -19,7 +19,7 @@ afterEach(() => {
 
 describe('#messageStamp', () => {
   it('returns correct value', () => {
-    expect(messageStamp(1612971343, 'en')).toEqual('3:35 PM');
+    expect(messageStamp(1612971343)).toEqual('3:35 PM');
     expect(messageStamp(1612971343, 'LLL d, h:mm a')).toEqual(
       'Feb 10, 3:35 PM'
     );
@@ -38,7 +38,7 @@ describe('#messageTimestamp', () => {
 describe('#dynamicTime', () => {
   it('returns correct value', () => {
     Date.now = vi.fn(() => new Date(Date.UTC(2023, 1, 14)).valueOf());
-    expect(dynamicTime(1612971343, 'en')).toEqual('about 2 years ago');
+    expect(dynamicTime(1612971343)).toEqual('about 2 years ago');
   });
 });
 

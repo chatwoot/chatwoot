@@ -81,7 +81,7 @@ export default {
       return messageTimestamp(
         this.createdAt,
         'fullDateTime',
-        this.$i18n.locale
+        this.$root.$i18n.locale
       );
     },
     screenName() {

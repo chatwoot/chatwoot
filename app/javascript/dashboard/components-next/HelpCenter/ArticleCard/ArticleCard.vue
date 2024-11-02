@@ -109,7 +109,7 @@ const authorThumbnailSrc = computed(() => {
 });
 
 const lastUpdatedAt = computed(() => {
-  return dynamicTime(props.updatedAt, this.$i18n.locale);
+  return dynamicTime(props.updatedAt);
 });
 
 const handleArticleAction = ({ action, value }) => {

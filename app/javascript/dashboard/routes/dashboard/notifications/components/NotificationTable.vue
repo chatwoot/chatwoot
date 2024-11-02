@@ -112,7 +112,7 @@ export default {
                 {{
                   dynamicTime(
                     notificationItem.last_activity_at,
-                    $i18n.locale
+                    $root.$i18n.locale
                   )
                 }}
               </span>

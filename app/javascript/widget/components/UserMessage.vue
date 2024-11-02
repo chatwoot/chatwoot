@@ -57,7 +57,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return messageStamp(createdAt, true, this.$i18n.locale);
+      return messageStamp(createdAt);
     },
     isFailed() {
       const { status = '' } = this.message;

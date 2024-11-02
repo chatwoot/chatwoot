@@ -67,7 +67,7 @@ export default {
       return shortTimestamp(
         this.notificationItem?.last_activity_at,
         true,
-        this.$i18n.locale
+        this.$root.$i18n.locale
       );
     },
     menuItems() {
