@@ -335,10 +335,5 @@
     "ORIGINAL_CONTENT": "תוכן מקורי",
     "TRANSLATED_CONTENT": "תוכן מתורגם",
     "NO_TRANSLATIONS_AVAILABLE": "אין תרגומים זמינים לתוכן זה"
-  },
-  "TYPING": {
-    "SINGLE": "{user} is typing",
-    "DOUBLE": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }

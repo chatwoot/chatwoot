@@ -35,7 +35,7 @@ const { t } = useI18n();
 // const isRTL = useMapGetter('accounts/isRTL');
 const csatResponses = useMapGetter('csat/getCSATResponses');
 const metrics = useMapGetter('csat/getMetrics');
-const locale = getCurrentInstance()?.proxy.$root.$i18n.locale;
+const locale = getCurrentInstance()?.proxy.$i18n.locale;
 
 const tableData = computed(() => {
   return csatResponses.value.map(response => ({
@@ -45,7 +45,7 @@ const tableData = computed(() => {
     feedbackText: response.feedback_message || '---',
     conversationId: response.conversation_id,
     createdAgo: dynamicTime(response.created_at, locale),
-    createdAt: messageStamp(response.created_at, 'fullDateTime', locale),
+    createdAt: messageStamp(response.created_at, true, locale),
   }));
 });
 

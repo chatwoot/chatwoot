@@ -1,6 +1,6 @@
 export const buildSearchParamsWithLocale = search => {
   // [TODO] for now this works, but we will need to find a way to get the locale from the root component
-  const locale = window.WOOT_WIDGET.$root.$i18n.locale;
+  const locale = window.WOOT_WIDGET.$i18n.locale;
   const params = new URLSearchParams(search);
   params.append('locale', locale);
 

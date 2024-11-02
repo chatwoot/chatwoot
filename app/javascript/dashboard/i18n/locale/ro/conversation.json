@@ -335,10 +335,5 @@
     "ORIGINAL_CONTENT": "Conținut original",
     "TRANSLATED_CONTENT": "Conținut tradus",
     "NO_TRANSLATIONS_AVAILABLE": "Nu sunt disponibile traduceri pentru acest conținut"
-  },
-  "TYPING": {
-    "SINGLE": "{user} is typing",
-    "DOUBLE": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }

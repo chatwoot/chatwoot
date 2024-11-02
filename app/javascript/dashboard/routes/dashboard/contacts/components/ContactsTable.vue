@@ -36,7 +36,7 @@ const props = defineProps({
 
 const emit = defineEmits(['onSortChange']);
 const { t } = useI18n();
-const locale = getCurrentInstance()?.proxy.$root.$i18n.locale;
+const locale = getCurrentInstance()?.proxy.$i18n.locale;
 
 const tableData = computed(() => {
   if (props.isLoading) {

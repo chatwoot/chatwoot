@@ -111,8 +111,8 @@ const colorScheme = computed(() => {
         {{
           messageStamp(
             new Date(campaign.scheduled_at),
-            'fullDateTime',
-            $root.$i18n.locale
+            true,
+            $i18n.locale
           )
         }}
       </div>

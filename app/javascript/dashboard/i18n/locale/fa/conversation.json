@@ -335,10 +335,5 @@
     "ORIGINAL_CONTENT": "محتوای اصلی",
     "TRANSLATED_CONTENT": "مطالب ترجمه شده",
     "NO_TRANSLATIONS_AVAILABLE": "هیچ ترجمه‌ای برای این مطلب موجود نیست"
-  },
-  "TYPING": {
-    "SINGLE": "{user} is typing",
-    "DOUBLE": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }

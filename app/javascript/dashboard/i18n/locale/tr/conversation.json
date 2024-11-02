@@ -335,10 +335,5 @@
     "ORIGINAL_CONTENT": "Orijinal İçerik",
     "TRANSLATED_CONTENT": "Çevrilen İçerik",
     "NO_TRANSLATIONS_AVAILABLE": "Bu için çeviri mevcut değil"
-  },
-  "TYPING": {
-    "SINGLE": "{user} is typing",
-    "DOUBLE": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and ${rest} others are typing"
   }
 }

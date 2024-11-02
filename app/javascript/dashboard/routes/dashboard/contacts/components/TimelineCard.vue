@@ -24,7 +24,7 @@ export default {
 
   computed: {
     readableTime() {
-      return dynamicTime(this.timeStamp, this.$root.$i18n.locale);
+      return dynamicTime(this.timeStamp, this.$i18n.locale);
     },
   },
 

@@ -202,7 +202,7 @@ export default {
               v-tooltip.left="
                 `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
                   contact.created_at,
-                  $root.$i18n.locale
+                  $i18n.locale
                 )}`
               "
               icon="info"

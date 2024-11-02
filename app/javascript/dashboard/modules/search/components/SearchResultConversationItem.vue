@@ -49,7 +49,7 @@ export default {
       );
     },
     createdAtTime() {
-      return dynamicTime(this.createdAt, this.$root.$i18n.locale);
+      return dynamicTime(this.createdAt, this.$i18n.locale);
     },
   },
 };
