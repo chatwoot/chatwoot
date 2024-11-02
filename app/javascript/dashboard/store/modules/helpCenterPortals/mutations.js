@@ -12,6 +12,7 @@ export const types = {
   REMOVE_PORTAL_ENTRY: 'removePortalEntry',
   REMOVE_PORTAL_ID: 'removePortalId',
   SET_HELP_PORTAL_UI_FLAG: 'setHelpCenterUIFlag',
+  SET_PORTAL_SWITCHING_FLAG: 'setPortalSwitchingFlag',
 };
 
 export const mutations = {
@@ -104,5 +105,9 @@ export const mutations = {
         ...uiFlags,
       },
     };
+  },
+
+  [types.SET_PORTAL_SWITCHING_FLAG]($state, { isSwitching }) {
+    $state.uiFlags.isSwitching = isSwitching;
   },
 };

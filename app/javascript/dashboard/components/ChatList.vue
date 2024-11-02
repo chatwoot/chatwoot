@@ -90,7 +90,6 @@ const chatsOnView = ref([]);
 const foldersQuery = ref({});
 const showAddFoldersModal = ref(false);
 const showDeleteFoldersModal = ref(false);
-const selectedInboxes = ref([]);
 const isContextMenuOpen = ref(false);
 const appliedFilter = ref([]);
 const advancedFilterTypes = ref(
@@ -109,7 +108,7 @@ const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
 const appliedFilters = useMapGetter('getAppliedConversationFilters');
-const folders = useMapGetter('customViews/getCustomViews');
+const folders = useMapGetter('customViews/getConversationCustomViews');
 const agentList = useMapGetter('agents/getAgents');
 const teamsList = useMapGetter('teams/getTeams');
 const inboxesList = useMapGetter('inboxes/getInboxes');
@@ -122,6 +121,7 @@ const getTeamFn = useMapGetter('teams/getTeam');
 useChatListKeyboardEvents(conversationListRef);
 const {
   selectedConversations,
+  selectedInboxes,
   selectConversation,
   deSelectConversation,
   selectAllConversations,

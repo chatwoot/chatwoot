@@ -3,7 +3,7 @@
     "TITLE": "Iniciar sesión en Chatwoot",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "Email por ejemplo: alguien@ejemplo.com",
+      "PLACEHOLDER": "Email por ejemplo: alguien{'@'}ejemplo.com",
       "ERROR": "Por favor, introduzca una dirección de correo válida"
     },
     "PASSWORD": {

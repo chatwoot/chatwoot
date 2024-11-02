@@ -3,7 +3,7 @@
     "TITLE": "Log ind på Chatwoot",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "E-mail, fx: navn@eksempel.dk",
+      "PLACEHOLDER": "E-mail, fx: navn{'@'}eksempel.dk",
       "ERROR": "Indtast venligst en gyldig e-mailadresse"
     },
     "PASSWORD": {
