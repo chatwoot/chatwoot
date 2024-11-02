@@ -29,17 +29,16 @@ export const getTypingUsersText = (users = []) => {
   const count = users.length;
   if (count === 1) {
     const [user] = users;
-    return `${user.name} is typing`;
+    return ['TYPING.SINGLE', { user: user.name }];
   }
 
   if (count === 2) {
     const [first, second] = users;
-    return `${first.name} and ${second.name} are typing`;
+    return ['TYPING.DOUBLE', { user: first.name, secondUser: second.name }];
   }
 
   const [user] = users;
-  const rest = users.length - 1;
-  return `${user.name} and ${rest} others are typing`;
+  return ['TYPING.MULTIPLE', { user: user.name, rest: users.length - 1 }];
 };
 
 export const createPendingMessage = data => {
