@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmă ștergerea",
-          "MESSAGE": "Sunteți sigur de a șterge webhook? (%{webhookURL})",
+          "MESSAGE": "Sunteți sigur de a șterge webhook? ({webhookURL})",
           "YES": "Da, șterge ",
           "NO": "Nu, păstreaza"
         }
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Da, ștergeți acest lucru",
         "CONFIRM_NO": "Nu, păstreaza",
         "TITLE": "Confirmă ștergerea",
-        "MESSAGE": "Sunteți sigur că ștergeți aplicația - %{appName}?",
+        "MESSAGE": "Sunteți sigur că ștergeți aplicația - {appName}?",
         "API_SUCCESS": "Aplicația Tablou de bord ștearsă cu succes",
         "API_ERROR": "Nu am putut șterge aplicația. Încercați din nou mai târziu"
       }
@@ -235,7 +235,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioritate",
         "ASSIGNEE": "Assignee",
         "LABELS": "Etichete",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Created at {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

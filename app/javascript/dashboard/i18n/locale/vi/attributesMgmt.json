@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Không thể xoá thuộc tính tuỳ chỉnh. Thử lại."
       },
       "CONFIRM": {
-        "TITLE": "Bạn có chắc muốn xoá - %{attributeName}",
+        "TITLE": "Bạn có chắc muốn xoá - {attributeName}",
         "PLACE_HOLDER": "Vui lòng điền {attributeName} để xác nhận",
         "MESSAGE": "Xoá sẽ loại bỏ thuộc tính tuỳ chỉnh",
         "YES": "Xoá ",
@@ -92,12 +92,7 @@
       "CONTACT": "Liên lạc"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Kiểu",
-        "Khoá"
-      ],
+      "TABLE_HEADER": ["Tên", "Mô tả", "Kiểu", "Khoá"],
       "BUTTONS": {
         "EDIT": "Chỉnh sửa",
         "DELETE": "Xoá"

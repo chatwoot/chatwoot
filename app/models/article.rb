@@ -48,6 +48,7 @@ class Article < ApplicationRecord
 
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
+  before_validation :ensure_locale_in_article
 
   validates :account_id, presence: true
   validates :author_id, presence: true
@@ -56,7 +57,6 @@ class Article < ApplicationRecord
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
-  before_create :add_locale_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
 
   enum status: { draft: 0, published: 1, archived: 2 }
@@ -143,11 +143,11 @@ class Article < ApplicationRecord
     update_article_position_in_category
   end
 
-  def add_locale_to_article
+  def ensure_locale_in_article
     self.locale = if category.present?
                     category.locale
                   else
-                    portal.default_locale
+                    locale.presence || portal.default_locale
                   end
   end
 

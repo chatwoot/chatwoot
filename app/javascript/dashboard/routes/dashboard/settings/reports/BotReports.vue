@@ -1,5 +1,5 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import BotMetrics from './components/BotMetrics.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
@@ -74,7 +74,7 @@ export default {
       this.businessHours = businessHours;
       this.fetchAllData();
 
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterValue: { from, to, groupBy, businessHours },
         reportType: 'bots',
       });
@@ -89,7 +89,7 @@ export default {
       :show-agents-filter="false"
       show-group-by-filter
       :show-business-hours-switch="false"
-      @filterChange="onFilterChange"
+      @filter-change="onFilterChange"
     />
 
     <BotMetrics :filters="requestPayload" />

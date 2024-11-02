@@ -1,0 +1,25 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
+    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_STATE": "No results found.",
+    "SEARCH_PLACEHOLDER": "Search..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Author is not available"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
+  }
+}

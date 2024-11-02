@@ -1,6 +1,6 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-const ConversationView = () => import('./ConversationView.vue');
+import ConversationView from './ConversationView.vue';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',

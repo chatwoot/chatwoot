@@ -47,7 +47,7 @@ const primaryMenuItems = accountId => [
     label: 'CAMPAIGNS',
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'ongoing_campaigns',
+    toStateName: 'campaigns_ongoing_index',
   },
   {
     icon: 'library',
@@ -55,8 +55,8 @@ const primaryMenuItems = accountId => [
     label: 'HELP_CENTER.TITLE',
     featureFlag: FEATURE_FLAGS.HELP_CENTER,
     alwaysVisibleOnChatwootInstances: true,
-    toState: frontendURL(`accounts/${accountId}/portals`),
-    toStateName: 'default_portal_articles',
+    toState: frontendURL(`accounts/${accountId}/portals/portal_articles_index`),
+    toStateName: 'portals_index',
   },
   {
     icon: 'settings',

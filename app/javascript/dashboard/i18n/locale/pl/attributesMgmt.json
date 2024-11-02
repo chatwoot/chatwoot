@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Nie udało się usunąć atrybutu niestandardowego. Spróbuj ponownie."
       },
       "CONFIRM": {
-        "TITLE": "Czy na pewno chcesz usunąć - %{attributeName}",
+        "TITLE": "Czy na pewno chcesz usunąć - {attributeName}",
         "PLACE_HOLDER": "Proszę wpisać {attributeName}, aby potwierdzić",
         "MESSAGE": "Usunięcie spowoduje usunięcie atrybutu niestandardowego",
         "YES": "Usuń ",

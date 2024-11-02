@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Oversigt",
-      "DELETE_WARNING": "Kontakt af <strong>%{primaryContactName}</strong> vil blive slettet.",
-      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>%{primaryContactName}</strong> vil blive kopieret til <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt af <strong>{primaryContactName}</strong> vil blive slettet.",
+      "ATTRIBUTE_WARNING": "Kontaktoplysninger på <strong>{primaryContactName}</strong> vil blive kopieret til <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FEJL_MEDDELELSE"

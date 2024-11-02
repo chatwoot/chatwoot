@@ -4,6 +4,7 @@ export default {
   components: {
     MenuItem,
   },
+  emits: ['optionClick'],
   data() {
     return {
       menuItems: [
@@ -39,7 +40,7 @@ export default {
         v-for="item in menuItems"
         :key="item.key"
         :label="item.label"
-        @click="onClick(item.key)"
+        @click.stop="onClick(item.key)"
       />
     </div>
   </div>

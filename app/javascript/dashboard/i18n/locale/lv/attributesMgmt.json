@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Nevarēja izdzēst pielāgoto īpašību. Mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Vai tiešām vēlaties dzēst - %{attributeName}",
+        "TITLE": "Vai tiešām vēlaties dzēst - {attributeName}",
         "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {attributeName}",
         "MESSAGE": "Dzēšana noņems pielāgoto īpašību",
         "YES": "Dzēst ",
