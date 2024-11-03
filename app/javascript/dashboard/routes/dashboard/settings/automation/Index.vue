@@ -11,6 +11,7 @@ import AutomationRuleRow from './AutomationRuleRow.vue';
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+const locale = getCurrentInstance()?.proxy.$i18n.locale;
 const confirmDialog = ref(null);
 
 const loading = ref({});

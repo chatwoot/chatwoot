@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     readableTime() {
-      return dynamicTime(this.createdAt);
+      return dynamicTime(this.createdAt, this.$i18n.locale);
     },
     noteAuthor() {
       return this.user || {};

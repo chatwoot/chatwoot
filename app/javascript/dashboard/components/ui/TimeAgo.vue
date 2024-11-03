@@ -56,11 +56,12 @@ export default {
       const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
       return !isNotActive
         ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
-            this.lastActivityAtTimeAgo
+            this.lastActivityAtTimeAgo,
+            this.$i18n.locale
           }`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
-          )} ${dateFormat(this.lastActivityTimestamp)}`;
+          )} ${dateFormat(this.lastActivityTimestamp, this.$i18n.locale)}`;
     },
     tooltipText() {
       return `${this.createdAt}

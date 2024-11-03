@@ -64,8 +64,11 @@ export default {
       );
     },
     lastActivityAt() {
-      const time = dynamicTime(this.notificationItem?.last_activity_at);
-      return shortTimestamp(time, true);
+      return shortTimestamp(
+        this.notificationItem?.last_activity_at,
+        true,
+        this.$i18n.locale
+      );
     },
     menuItems() {
       const items = [

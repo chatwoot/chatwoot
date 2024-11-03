@@ -46,6 +46,8 @@ const props = defineProps({
 
 const emit = defineEmits(['edit', 'delete']);
 
+const locale = getCurrentInstance()?.proxy.$i18n.locale;
+
 const { t } = useI18n();
 
 const STATUS_COMPLETED = 'completed';

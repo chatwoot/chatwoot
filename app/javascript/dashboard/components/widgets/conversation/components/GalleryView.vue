@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
@@ -48,10 +49,12 @@ const hasMoreThanOneAttachment = computed(
   () => props.allAttachments.length > 1
 );
 
+const { locale } = useI18n();
+
 const readableTime = computed(() => {
   const { created_at: createdAt } = activeAttachment.value;
   if (!createdAt) return '';
-  return messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
+  return messageTimestamp(createdAt, locale.value) || '';
 });
 
 const isImage = computed(

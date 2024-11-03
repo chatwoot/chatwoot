@@ -35,7 +35,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['onSortChange']);
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const tableData = computed(() => {
   if (props.isLoading) {
@@ -51,8 +51,8 @@ const tableData = computed(() => {
     return {
       ...item,
       profiles: additional.social_profiles || {},
-      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt) : null,
-      created_at: createdAt ? dynamicTime(createdAt) : null,
+      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt, locale.value) : null,
+      created_at: createdAt ? dynamicTime(createdAt, locale.value) : null,
     };
   });
 });

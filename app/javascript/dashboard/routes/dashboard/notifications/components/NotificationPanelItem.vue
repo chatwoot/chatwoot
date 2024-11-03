@@ -96,7 +96,7 @@ export default {
           <span
             class="flex mt-1 font-semibold text-slate-500 dark:text-slate-400 text-xxs"
           >
-            {{ dynamicTime(notificationItem.last_activity_at) }}
+            {{ dynamicTime(notificationItem.last_activity_at, $i18n.locale) }}
           </span>
         </div>
       </div>
