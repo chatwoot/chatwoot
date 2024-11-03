@@ -51,7 +51,9 @@ const tableData = computed(() => {
     return {
       ...item,
       profiles: additional.social_profiles || {},
-      last_activity_at: lastActivityAt ? dynamicTime(lastActivityAt, locale.value) : null,
+      last_activity_at: lastActivityAt
+        ? dynamicTime(lastActivityAt, locale.value)
+        : null,
       created_at: createdAt ? dynamicTime(createdAt, locale.value) : null,
     };
   });

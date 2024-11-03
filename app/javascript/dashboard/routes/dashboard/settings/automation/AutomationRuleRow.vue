@@ -1,5 +1,6 @@
 <script setup>
 import { messageStamp } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   automation: {
@@ -14,9 +15,11 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle', 'edit', 'delete', 'clone']);
 
-const readableDate = date => messageStamp(new Date(date), false, locale);
+const { locale } = useI18n();
+
+const readableDate = date => messageStamp(new Date(date), false, locale.value);
 const readableDateWithTime = date =>
-  messageStamp(new Date(date), true, locale);
+  messageStamp(new Date(date), true, locale.value);
 
 const toggle = () => {
   const { id, name, active } = props.automation;

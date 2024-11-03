@@ -113,12 +113,7 @@ const tableHeaders = computed(() => {
                 {{ generateLogText(auditLogItem) }}
               </td>
               <td class="py-4 pr-4 break-all whitespace-nowrap">
-                {{
-                  messageTimestamp(
-                    auditLogItem.created_at,
-                    $i18n.locale
-                  )
-                }}
+                {{ messageTimestamp(auditLogItem.created_at, $i18n.locale) }}
               </td>
               <td class="py-4 w-[8.75rem]">
                 {{ auditLogItem.remote_address }}

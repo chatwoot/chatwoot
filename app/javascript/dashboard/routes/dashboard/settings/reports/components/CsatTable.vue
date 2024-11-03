@@ -30,8 +30,8 @@ const { pageIndex } = defineProps({
 });
 
 const emit = defineEmits(['pageChange']);
-const { t } = useI18n();
-const locale = getCurrentInstance()?.proxy.$i18n.locale;
+const { t, locale } = useI18n();
+
 // const isRTL = useMapGetter('accounts/isRTL');
 const csatResponses = useMapGetter('csat/getCSATResponses');
 const metrics = useMapGetter('csat/getMetrics');
@@ -43,8 +43,8 @@ const tableData = computed(() => {
     rating: response.rating,
     feedbackText: response.feedback_message || '---',
     conversationId: response.conversation_id,
-    createdAgo: dynamicTime(response.created_at),
-    createdAt: messageStamp(response.created_at, true, locale),
+    createdAgo: dynamicTime(response.created_at, locale.value),
+    createdAt: messageStamp(response.created_at, true, locale.value),
   }));
 });
 

@@ -27,17 +27,24 @@ export default {
   },
   data() {
     return {
-      lastActivityAtTimeAgo: dynamicTime(this.lastActivityTimestamp),
-      createdAtTimeAgo: dynamicTime(this.createdAtTimestamp),
+      lastActivityAtTimeAgo: dynamicTime(
+        this.lastActivityTimestamp,
+        this.$i18n.locale
+      ),
+      createdAtTimeAgo: dynamicTime(this.createdAtTimestamp, this.$i18n.locale),
       timer: null,
     };
   },
   computed: {
     lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
+      return shortTimestamp(
+        this.lastActivityTimestamp,
+        false,
+        this.$i18n.locale
+      );
     },
     createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
+      return shortTimestamp(this.createdAtTimestamp, false, this.$i18n.locale);
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
@@ -47,7 +54,8 @@ export default {
             this.createdAtTimeAgo
           }`
         : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${dateFormat(
-            this.createdAtTimestamp
+            this.createdAtTimestamp,
+            this.$i18n.locale
           )}`;
     },
     lastActivity() {
@@ -57,7 +65,6 @@ export default {
       return !isNotActive
         ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
             this.lastActivityAtTimeAgo,
-            this.$i18n.locale
           }`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
@@ -70,10 +77,16 @@ export default {
   },
   watch: {
     lastActivityTimestamp() {
-      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
+      this.lastActivityAtTimeAgo = dynamicTime(
+        this.lastActivityTimestamp,
+        this.$i18n.locale
+      );
     },
     createdAtTimestamp() {
-      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+      this.createdAtTimeAgo = dynamicTime(
+        this.createdAtTimestamp,
+        this.$i18n.locale
+      );
     },
   },
   mounted() {
@@ -87,8 +100,14 @@ export default {
   methods: {
     createTimer() {
       this.timer = setTimeout(() => {
-        this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
-        this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+        this.lastActivityAtTimeAgo = dynamicTime(
+          this.lastActivityTimestamp,
+          this.$i18n.locale
+        );
+        this.createdAtTimeAgo = dynamicTime(
+          this.createdAtTimestamp,
+          this.$i18n.locale
+        );
         this.createTimer();
       }, this.refreshTime());
     },
