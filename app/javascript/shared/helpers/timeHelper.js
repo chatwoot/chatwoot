@@ -21,7 +21,8 @@ export const messageStamp = (time, fullDateTime = false, locale = 'en') => {
   const unixTime = fromUnixTime(time);
   let options;
   options = {
-    timeStyle: 'medium',
+    dateStyle: 'short',
+    timeStyle: 'short',
   };
   if (fullDateTime) {
     options = {
@@ -29,7 +30,7 @@ export const messageStamp = (time, fullDateTime = false, locale = 'en') => {
       timeStyle: 'medium',
     };
   }
-  return new Intl.DateTimeFormat(locale, options).format(unixTime);
+  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(unixTime);
 };
 
 /**
