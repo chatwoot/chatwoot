@@ -84,6 +84,7 @@ class Stringee::CallingEventsService
   def contact_attributes
     number = incoming? ? params[:from][:number] : params[:to][:number]
     number.prepend('+') unless number.start_with?('+')
+    number = number.sub('+0', '+84')
     {
       name: number,
       phone_number: number

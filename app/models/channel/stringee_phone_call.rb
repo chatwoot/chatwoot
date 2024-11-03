@@ -4,7 +4,7 @@
 #
 #  id           :bigint           not null, primary key
 #  phone_number :string           not null
-#  route_type   :integer          default("group"), not null
+#  route_type   :integer          default("by_group"), not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :integer          not null
