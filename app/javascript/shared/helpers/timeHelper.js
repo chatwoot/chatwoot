@@ -30,7 +30,9 @@ export const messageStamp = (time, fullDateTime = false, locale = 'en') => {
       timeStyle: 'medium',
     };
   }
-  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(unixTime);
+  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(
+    unixTime
+  );
 };
 
 /**
