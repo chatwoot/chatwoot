@@ -63,9 +63,7 @@ export default {
         Date.now() - this.lastActivityTimestamp * 1000;
       const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
       return !isNotActive
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
-            this.lastActivityAtTimeAgo,
-          }`
+        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${this.lastActivityAtTimeAgo}`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
           )} ${dateFormat(this.lastActivityTimestamp, this.$i18n.locale)}`;
