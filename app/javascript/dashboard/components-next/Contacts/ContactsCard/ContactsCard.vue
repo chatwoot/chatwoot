@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
 
@@ -21,6 +22,8 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle']);
 
+const router = useRouter();
+
 const { t } = useI18n();
 const store = useStore();
 
@@ -39,6 +42,16 @@ const handleFormUpdate = debounce(
   400,
   false
 );
+
+const onClickViewDetails = () => {
+  store.dispatch('contacts/show', { id: props.id });
+  router.push({
+    name: 'contacts_dashboard_edit_index',
+    params: {
+      contactId: props.id,
+    },
+  });
+};
 </script>
 
 <template>
@@ -64,15 +77,16 @@ const handleFormUpdate = debounce(
             <span v-if="email" class="text-sm text-n-slate-11">{{
               email
             }}</span>
-            <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
+            <div v-if="email" class="w-px h-3 bg-n-slate-6" />
             <span v-if="phoneNumber" class="text-sm text-n-slate-11">{{
               phoneNumber
             }}</span>
-            <div v-if="phoneNumber || email" class="w-px h-3 bg-n-slate-6" />
+            <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
             <Button
               :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
               variant="link"
               size="xs"
+              @click="onClickViewDetails"
             />
           </div>
         </div>
@@ -103,7 +117,7 @@ const handleFormUpdate = debounce(
           v-show="isExpanded"
           class="w-full overflow-visible transition-all duration-200"
         >
-          <div class="border-t border-n-strong">
+          <div class="p-6 border-t border-n-strong">
             <ContactsForm
               :contact-data="{
                 id,

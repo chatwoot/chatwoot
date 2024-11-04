@@ -4,12 +4,15 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 
 import ContactsLayout from 'dashboard/components-next/Contacts/ContactsLayout.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const store = useStore();
 
 const contacts = useMapGetter('contacts/getContacts');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const meta = useMapGetter('contacts/getMeta');
+
+const isFetchingList = computed(() => uiFlags.value.isFetching);
 
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
@@ -38,7 +41,13 @@ const updateCurrentPage = page => {
       :total-items="totalItems"
       @update:current-page="updateCurrentPage"
     >
-      <ContactsList :contacts="contacts" />
+      <div
+        v-if="isFetchingList"
+        class="flex items-center justify-center py-10 text-n-slate-11"
+      >
+        <Spinner />
+      </div>
+      <ContactsList v-else :contacts="contacts" />
     </ContactsLayout>
   </div>
 </template>

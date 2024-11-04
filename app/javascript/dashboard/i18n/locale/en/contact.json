@@ -391,7 +391,10 @@
     "HEADER": {
       "TITLE": "Contacts",
       "SEARCH_PLACEHOLDER": "Search...",
-      "MESSAGE_BUTTON": "Message"
+      "MESSAGE_BUTTON": "Message",
+      "BREADCRUMB": {
+        "CONTACTS": "Contacts"
+      }
     },
     "CARD": {
       "OF": "of",
@@ -443,6 +446,20 @@
           "TWITTER": {
             "PLACEHOLDER": "Add Twitter"
           }
+        }
+      }
+    },
+    "DETAILS": {
+      "TAG_BUTTON": "tag",
+      "MERGE_CONTACT": "Merge contact",
+      "DELETE_CONTACT": "Delete contact",
+      "DELETE_DIALOG": {
+        "TITLE": "Confirm Deletion",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "Yes, Delete",
+        "API": {
+          "SUCCESS_MESSAGE": "Contact deleted successfully",
+          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
         }
       }
     }

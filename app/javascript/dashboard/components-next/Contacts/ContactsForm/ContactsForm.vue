@@ -11,6 +11,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isDetailsView: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update']);
@@ -18,8 +22,8 @@ const emit = defineEmits(['update']);
 const { t } = useI18n();
 
 const FORM_CONFIG = {
-  FIRST_NAME: { field: 'name' },
-  LAST_NAME: { field: 'name' },
+  FIRST_NAME: { field: 'firstName' },
+  LAST_NAME: { field: 'lastName' },
   EMAIL_ADDRESS: { field: 'email' },
   PHONE_NUMBER: { field: 'phone_number' },
   CITY: { field: 'additional_attributes.city' },
@@ -40,6 +44,8 @@ const defaultState = {
   id: 0,
   name: '',
   email: '',
+  firstName: '',
+  lastName: '',
   phone_number: '',
   additional_attributes: {
     description: '',
@@ -60,9 +66,14 @@ const defaultState = {
 const state = reactive({ ...defaultState });
 
 const updateState = () => {
+  const [firstName = '', lastName = ''] = (props.contactData.name || '').split(
+    ' '
+  );
   Object.assign(state, {
     id: props.contactData.id,
     name: props.contactData.name,
+    firstName,
+    lastName,
     email: props.contactData.email,
     phone_number: props.contactData.phoneNumber,
     additional_attributes: {
@@ -109,6 +120,9 @@ const getFormBinding = key => {
     // Example 1 (nested): field = 'contact.name' returns state.contact.name = "John Doe"
     // Example 2 (root): field = 'email' returns state.email = "john@example.com"
     get: () => {
+      if (field === 'firstName' || field === 'lastName') {
+        return state[field];
+      }
       const [base, nested] = field.split('.');
       return nested ? state[base][nested] : state[base];
     },
@@ -117,11 +131,17 @@ const getFormBinding = key => {
     // Example 1 (nested): field = 'contact.name', value = "Jane Doe" → state.contact.name = "Jane Doe"
     // Example 2 (root): field = 'email', value = "jane@example.com" → state.email = "jane@example.com"
     set: value => {
-      const [base, nested] = field.split('.');
-      if (nested) {
-        state[base][nested] = value;
+      if (field === 'firstName' || field === 'lastName') {
+        state[field] = value;
+        // Combine first and last name into the name field
+        state.name = `${state.firstName} ${state.lastName}`.trim();
       } else {
-        state[base] = value;
+        const [base, nested] = field.split('.');
+        if (nested) {
+          state[base][nested] = value;
+        } else {
+          state[base] = value;
+        }
       }
       emit('update', state);
     },
@@ -132,8 +152,8 @@ watch(() => props.contactData, updateState, { immediate: true, deep: true });
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div class="flex flex-col items-start gap-2 px-6 py-5">
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-col items-start gap-2">
       <span class="py-1 text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
       </span>
@@ -144,20 +164,26 @@ watch(() => props.contactData, updateState, { immediate: true, deep: true });
             v-model="state.additional_attributes.country"
             :options="countryOptions"
             :placeholder="item.placeholder"
-            class="[&>div>button]:bg-n-alpha-black2 [&>div>button]:!outline-transparent [&>div>button]:h-8"
+            class="[&>div>button]:h-8"
+            :class="{
+              '[&>div>button]:bg-n-alpha-black2 [&>div>button]:!outline-transparent':
+                !isDetailsView,
+            }"
             @update:model-value="emit('update', state)"
           />
           <Input
             v-else
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
-            custom-input-class="!border-transparent h-8 !py-1"
+            :custom-input-class="`h-8 !pt-1 !pb-1 ${
+              !isDetailsView && '!border-transparent'
+            }`"
             class="w-full"
           />
         </template>
       </div>
     </div>
-    <div class="flex flex-col items-start gap-2 px-6 pb-5">
+    <div class="flex flex-col items-start gap-2">
       <span class="py-1 text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}
       </span>
