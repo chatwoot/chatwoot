@@ -3,7 +3,7 @@ import { useToggle } from '@vueuse/core';
 import { provideDropdownContext } from './provider.js';
 
 const emit = defineEmits(['close']);
-const [isOpen, toggle] = useToggle(false);
+const [isOpen, toggle] = useToggle(true);
 
 const closeMenu = () => {
   if (isOpen.value) {

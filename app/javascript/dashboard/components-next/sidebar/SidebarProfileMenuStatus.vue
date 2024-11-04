@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, h } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
@@ -7,8 +7,11 @@ import { useI18n } from 'vue-i18n';
 
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
-import DropdownSeparator from 'next/dropdown-menu/base/DropdownSeparator.vue';
+import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
+import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
+// import DropdownSeparator from 'next/dropdown-menu/base/DropdownSeparator.vue';
 import Icon from 'next/icon/Icon.vue';
+import Button from 'next/button/Button.vue';
 
 const { t } = useI18n();
 const store = useStore();
@@ -25,12 +28,20 @@ const statusList = computed(() => {
   ];
 });
 
+const statusColors = ['bg-n-teal-9', 'bg-n-amber-9', 'bg-n-slate-9'];
+
 const availabilityStatuses = computed(() => {
   return statusList.value.map((statusLabel, index) => ({
     label: statusLabel,
     value: AVAILABILITY_STATUS_KEYS[index],
+    color: statusColors[index],
+    icon: h('span', { class: [statusColors[index], 'size-[12px] rounded'] }),
     active: currentUserAvailability.value === AVAILABILITY_STATUS_KEYS[index],
   }));
+});
+
+const activeStatus = computed(() => {
+  return availabilityStatuses.value.find(status => status.active);
 });
 
 function changeAvailabilityStatus(availability) {
@@ -53,33 +64,41 @@ function updateAutoOffline(autoOffline) {
 </script>
 
 <template>
-  <DropdownSection :title="t('SIDEBAR.SET_AVAILABILITY_TITLE')">
-    <DropdownItem
-      v-for="status in availabilityStatuses"
-      :key="status.value"
-      :label="status.label"
-      :class="{
-        'pointer-events-none bg-n-amber-10/10': status.active,
-        'bg-n-teal-3': status.active && status.value === 'online',
-        'bg-n-amber-3': status.active && status.value === 'busy',
-        'bg-n-slate-3': status.active && status.value === 'offline',
-      }"
-      @click="changeAvailabilityStatus(status.value)"
-    >
-      <template #icon>
-        <div
-          class="rounded-full w-2.5 h-2.5"
-          :class="{
-            'bg-n-teal-10': status.value === 'online',
-            'bg-n-amber-10': status.value === 'busy',
-            'bg-n-slate-10': status.value === 'offline',
-          }"
-        />
-      </template>
-    </DropdownItem>
-  </DropdownSection>
-  <DropdownSeparator />
   <DropdownSection>
+    <DropdownItem>
+      <div class="flex-grow flex items-center gap-1">
+        {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
+      </div>
+      <DropdownContainer>
+        <template #trigger="{ toggle }">
+          <Button
+            size="xs"
+            color="slate"
+            variant="faded"
+            class="min-w-[96px]"
+            icon="i-lucide-chevron-down"
+            trailing-icon
+            @click="toggle"
+          >
+            <div class="flex gap-1 items-center flex-grow">
+              <div class="p-1 flex-shrink-0">
+                <div class="size-2 rounded-sm" :class="activeStatus.color" />
+              </div>
+              <span>{{ activeStatus.label }}</span>
+            </div>
+          </Button>
+        </template>
+        <DropdownBody class="min-w-32">
+          <DropdownItem
+            v-for="status in availabilityStatuses"
+            :key="status.value"
+            :label="status.label"
+            :icon="status.icon"
+            @click="changeAvailabilityStatus(status.value)"
+          />
+        </DropdownBody>
+      </DropdownContainer>
+    </DropdownItem>
     <DropdownItem>
       <div class="flex-grow flex items-center gap-1">
         {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
