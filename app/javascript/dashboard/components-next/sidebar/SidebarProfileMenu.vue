@@ -54,10 +54,18 @@ const menuItems = computed(() => {
     {
       show: true,
       label: t('SIDEBAR_ITEMS.APPEARANCE'),
-      icon: 'i-lucide-swatch-book',
+      icon: 'i-lucide-palette',
       click: () => {
         const ninja = document.querySelector('ninja-keys');
         ninja.open({ parent: 'appearance_settings' });
+      },
+    },
+    {
+      show: true,
+      label: t('SIDEBAR_ITEMS.DOCS'),
+      icon: 'i-lucide-book',
+      click: () => {
+        window.open('https://www.chatwoot.com/hc/user-guide/en', '_blank');
       },
     },
     {
@@ -70,7 +78,7 @@ const menuItems = computed(() => {
     {
       show: true,
       label: t('SIDEBAR_ITEMS.LOGOUT'),
-      icon: 'i-lucide-log-out',
+      icon: 'i-lucide-power',
       click: Auth.logout,
     },
   ];
