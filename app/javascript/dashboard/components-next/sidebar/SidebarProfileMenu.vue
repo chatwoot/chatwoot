@@ -92,7 +92,6 @@ const allowedMenuItems = computed(() => {
 <template>
   <DropdownContainer
     class="relative z-20 w-full min-w-0"
-    initial-open
     @close="emit('close')"
   >
     <template #trigger="{ toggle, isOpen }">
