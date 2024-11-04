@@ -172,6 +172,12 @@ const menuItems = computed(() => {
       name: 'Contacts',
       label: t('SIDEBAR.CONTACTS'),
       icon: 'i-lucide-contact',
+      to: accountScopedRoute('contacts_dashboard_index'),
+    },
+    {
+      name: 'Contacts',
+      label: t('SIDEBAR.CONTACTS'),
+      icon: 'i-lucide-contact',
       children: [
         {
           name: 'All Contacts',
