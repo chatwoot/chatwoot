@@ -44,6 +44,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  overflowYAuto: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['confirm', 'close']);
@@ -73,7 +77,8 @@ defineExpose({ open, close });
   <Teleport to="body">
     <dialog
       ref="dialogRef"
-      class="w-full max-w-lg overflow-visible transition-all duration-300 ease-in-out shadow-xl rounded-xl"
+      class="w-full max-w-lg transition-all duration-300 ease-in-out shadow-xl rounded-xl"
+      :class="overflowYAuto ? 'overflow-y-auto' : 'overflow-visible'"
       :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >
@@ -99,14 +104,15 @@ defineExpose({ open, close });
           <div class="flex items-center justify-between w-full gap-3">
             <Button
               v-if="showCancelButton"
-              variant="ghost"
+              variant="faded"
+              color="slate"
               :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
-              class="w-full bg-n-alpha-2 hover:bg-n-alpha-3"
+              class="w-full"
               @click="close"
             />
             <Button
               v-if="showConfirmButton"
-              :variant="type === 'edit' ? 'default' : 'destructive'"
+              :color="type === 'edit' ? 'blue' : 'ruby'"
               :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
               class="w-full"
               :is-loading="isLoading"

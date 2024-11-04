@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { OnClickOutside } from '@vueuse/components';
+import { computed } from 'vue';
+import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import {
@@ -9,11 +9,11 @@ import {
   ARTICLE_STATUSES,
 } from 'dashboard/helper/portalHelper';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 const props = defineProps({
   id: {
@@ -30,7 +30,7 @@ const props = defineProps({
   },
   author: {
     type: Object,
-    required: true,
+    default: null,
   },
   category: {
     type: Object,
@@ -50,7 +50,7 @@ const emit = defineEmits(['openArticle', 'articleAction']);
 
 const { t } = useI18n();
 
-const isOpen = ref(false);
+const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const articleMenuItems = computed(() => {
   const commonItems = Object.entries(ARTICLE_MENU_ITEMS).reduce(
@@ -72,11 +72,11 @@ const articleMenuItems = computed(() => {
 const statusTextColor = computed(() => {
   switch (props.status) {
     case 'archived':
-      return '!text-n-slate-12';
+      return 'text-n-slate-12';
     case 'draft':
-      return '!text-n-amber-11';
+      return 'text-n-amber-11';
     default:
-      return '!text-n-teal-11';
+      return 'text-n-teal-11';
   }
 });
 
@@ -113,7 +113,7 @@ const lastUpdatedAt = computed(() => {
 });
 
 const handleArticleAction = ({ action, value }) => {
-  isOpen.value = false;
+  toggleDropdown(false);
   emit('articleAction', { action, value, id: props.id });
 };
 
@@ -127,28 +127,36 @@ const handleClick = id => {
     <template #header>
       <div class="flex justify-between gap-1">
         <span
-          class="text-base cursor-pointer hover:underline text-n-slate-12 line-clamp-1"
+          class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12 line-clamp-1"
           @click="handleClick(id)"
         >
           {{ title }}
         </span>
-        <div class="relative group" @click.stop>
-          <OnClickOutside @trigger="isOpen = false">
+        <div class="flex items-center gap-2">
+          <span
+            class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
+            :class="statusTextColor"
+          >
+            {{ statusText }}
+          </span>
+          <div
+            v-on-clickaway="() => toggleDropdown(false)"
+            class="relative flex items-center group"
+          >
             <Button
-              variant="ghost"
-              size="sm"
-              class="text-xs font-medium bg-n-alpha-2 hover:bg-n-alpha-1 !h-6 rounded-md border-0 !px-2 !py-0.5"
-              :label="statusText"
-              :class="statusTextColor"
-              @click="isOpen = !isOpen"
+              icon="i-lucide-ellipsis-vertical"
+              color="slate"
+              size="xs"
+              class="rounded-md group-hover:bg-n-alpha-2"
+              @click="toggleDropdown()"
             />
             <DropdownMenu
-              v-if="isOpen"
+              v-if="showActionsDropdown"
               :menu-items="articleMenuItems"
               class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
               @action="handleArticleAction($event)"
             />
-          </OnClickOutside>
+          </div>
         </div>
       </div>
     </template>
@@ -157,7 +165,6 @@ const handleClick = id => {
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
             <Thumbnail
-              v-if="author"
               :author="author"
               :name="authorName"
               :src="authorThumbnailSrc"
@@ -172,7 +179,7 @@ const handleClick = id => {
           <div
             class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
           >
-            <FluentIcon icon="eye-show" size="18" />
+            <Icon icon="i-lucide-eye" class="size-4" />
             <span class="text-sm">
               {{
                 t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {

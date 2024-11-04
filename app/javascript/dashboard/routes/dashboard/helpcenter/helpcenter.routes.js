@@ -2,8 +2,8 @@ import { getPortalRoute } from './helpers/routeHelper';
 
 import HelpCenterPageRouteView from './pages/HelpCenterPageRouteView.vue';
 
-const PortalsIndex = () => import('./pages/PortalsIndexPage.vue');
-const PortalsNew = () => import('./pages/PortalsNewPage.vue');
+import PortalsIndex from './pages/PortalsIndexPage.vue';
+import PortalsNew from './pages/PortalsNewPage.vue';
 
 const PortalsArticlesIndexPage = () =>
   import('./pages/PortalsArticlesIndexPage.vue');
@@ -31,7 +31,7 @@ const portalRoutes = [
     component: PortalsArticlesIndexPage,
   },
   {
-    path: getPortalRoute(':portalSlug/:locale/articles/new'),
+    path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/new'),
     name: 'portals_articles_new',
     meta: {
       permissions: ['administrator', 'agent', 'knowledge_base_manage'],

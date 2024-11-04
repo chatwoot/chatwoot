@@ -74,13 +74,13 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     ports:
-      - "5173:5173" # Vite dev server
+      - "3036:3036" # Vite dev server
     environment:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/vite.sh
-    command: pnpm run dev
+    command: bin/vite dev
 
   postgres:
     image: postgres:12
