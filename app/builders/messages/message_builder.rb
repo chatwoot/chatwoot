@@ -80,8 +80,8 @@ class Messages::MessageBuilder
   def process_emails
     return unless @conversation.inbox&.inbox_type == 'Email'
 
-    cc_emails = process_email_string(@params[:cc_emails])
-    bcc_emails = process_email_string(@params[:bcc_emails])
+    cc_emails = process_carbon_copy_emails(@params[:cc_emails])
+    bcc_emails = process_carbon_copy_emails(@params[:bcc_emails])
     to_emails = process_email_string(@params[:to_emails])
 
     all_email_addresses = cc_emails + bcc_emails + to_emails
@@ -90,6 +90,18 @@ class Messages::MessageBuilder
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
     @message.content_attributes[:to_emails] = to_emails
+  end
+
+  def process_carbon_copy_emails(email_string)
+    remove_email_inbox_email_in_cc_bcc(process_email_string(email_string))
+  end
+
+  def remove_email_inbox_email_in_cc_bcc(email_array)
+    email_array.reject { |email| inboxes_emails.include?(email.downcase) }
+  end
+
+  def inboxes_emails
+    @conversation.account.email_channels.pluck(:email)
   end
 
   def process_email_string(email_string)

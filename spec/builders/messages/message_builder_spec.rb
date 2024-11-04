@@ -179,6 +179,16 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
         expect(message.content_attributes[:bcc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
       end
+
+      it 'removes inbox email from cc_emails and bcc_emails' do
+        cc_emails = "#{channel_email.email},test1@test.com"
+        bcc_emails = "#{channel_email.email},test2@test.com"
+        params = ActionController::Parameters.new({ cc_emails: cc_emails, bcc_emails: bcc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+        expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['test2@test.com']
+      end
     end
   end
 end
