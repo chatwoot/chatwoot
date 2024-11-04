@@ -1,10 +1,7 @@
 <script setup>
 import { nextTick, onMounted, watch, computed } from 'vue';
 import IntegrationsAPI from 'dashboard/api/integrations';
-import {
-  makeRouter,
-  setupApp,
-} from '@chatwoot/captain-dashboard/dist/captain.es.js';
+import { makeRouter, setupApp } from '@chatwoot/captain';
 
 const props = defineProps({
   page: {
@@ -80,5 +77,5 @@ onMounted(async () => {
 </template>
 
 <style>
-@import '@chatwoot/captain-dashboard/dist/style.css';
+@import '@chatwoot/captain/dist/style.css';
 </style>
