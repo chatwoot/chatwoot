@@ -14,8 +14,12 @@ self.addEventListener('push', event => {
 });
 
 self.addEventListener('notificationclick', event => {
+  if (event.action === 'answer') {
+    console.log('Trả lời cuộc gọi');
+  } else if (event.action === 'decline') {
+    console.log('Từ chối cuộc gọi');
+  } else {
   let notification = event.notification;
-
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(windowClients => {
       let matchingWindowClients = windowClients.filter(

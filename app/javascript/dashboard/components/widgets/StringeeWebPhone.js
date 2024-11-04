@@ -1,6 +1,10 @@
 import Cookies from 'js-cookie';
 import agents from '../../api/agents';
 import conversations from '../../api/conversations';
+import {
+  hasPushPermissions,
+  requestPushPermissions,
+} from '../../helper/pushHelper';
 
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
@@ -48,6 +52,23 @@ export default function initStringeeWebPhone(
       // Do nothing to bypass the default confirmation to leave site in browser
     };
     try {
+      if (hasPushPermissions()) {
+        const notificationOptions = {
+          body: `Bạn có cuộc gọi đến từ ${incomingcall.fromNumber}`,
+          actions: [
+            { action: 'answer', title: 'Trả lời' },
+            { action: 'decline', title: 'Từ chối' },
+          ],
+          // icon: 'path/to/icon.png',
+        };
+
+        navigator.serviceWorker.ready.then(registration => {
+          registration.showNotification('Cuộc gọi đến', notificationOptions);
+        });
+      } else {
+        requestPushPermissions();
+      }
+
       const response = await conversations.findByMessage(incomingcall.callId);
       const displayId = response.data.display_id;
       const accountId = window.location.pathname.split('/')[3];
