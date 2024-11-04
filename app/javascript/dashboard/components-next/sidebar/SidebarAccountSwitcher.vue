@@ -102,7 +102,8 @@ const emitNewAccount = () => {
         </div>
         <div v-if="globalConfig.createNewAccountFromDashboard" class="px-2">
           <ButtonNext
-            variant="secondary"
+            color="slate"
+            variant="faded"
             class="w-full"
             size="sm"
             @click="emitNewAccount"
