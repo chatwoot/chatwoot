@@ -84,7 +84,7 @@ const pageInfo = computed(() => {
         <span class="px-3 tabular-nums py-0.5 bg-n-alpha-black2 rounded-md">
           {{ currentPage }}
         </span>
-        <span>{{ pageInfo }}</span>
+        <span class="truncate">{{ pageInfo }}</span>
       </div>
       <Button
         icon="i-lucide-chevron-right"
