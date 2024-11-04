@@ -164,7 +164,7 @@ const menuItems = computed(() => {
     },
     {
       name: 'Captain',
-      icon: 'i-lucide-bot',
+      icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
       children: [
         {
