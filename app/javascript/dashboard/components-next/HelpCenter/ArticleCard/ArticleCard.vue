@@ -125,7 +125,7 @@ const handleClick = id => {
 <template>
   <CardLayout>
     <template #header>
-      <div class="flex justify-between gap-1">
+      <div class="flex justify-between w-full gap-1">
         <span
           class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12 line-clamp-1"
           @click="handleClick(id)"
@@ -161,7 +161,7 @@ const handleClick = id => {
       </div>
     </template>
     <template #footer>
-      <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center justify-between w-full gap-4">
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
             <Thumbnail
@@ -169,7 +169,7 @@ const handleClick = id => {
               :name="authorName"
               :src="authorThumbnailSrc"
             />
-            <span class="text-sm text-n-slate-11">
+            <span class="text-sm truncate text-n-slate-11">
               {{ authorName }}
             </span>
           </div>

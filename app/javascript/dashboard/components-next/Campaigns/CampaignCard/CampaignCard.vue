@@ -82,9 +82,11 @@ const inboxIcon = computed(() => {
 </script>
 
 <template>
-  <CardLayout class="flex flex-row justify-between flex-1 gap-8" layout="row">
+  <CardLayout layout="row">
     <template #header>
-      <div class="flex flex-col items-start gap-2">
+      <div
+        class="flex flex-col items-start justify-between flex-1 min-w-0 gap-2"
+      >
         <div class="flex justify-between gap-3 w-fit">
           <span
             class="text-base font-medium capitalize text-n-slate-12 line-clamp-1"
