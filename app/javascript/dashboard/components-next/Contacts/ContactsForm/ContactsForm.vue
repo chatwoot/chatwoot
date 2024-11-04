@@ -168,6 +168,8 @@ watch(() => props.contactData, updateState, { immediate: true, deep: true });
             :class="{
               '[&>div>button]:bg-n-alpha-black2 [&>div>button]:!outline-transparent':
                 !isDetailsView,
+              '[&>div>button]:!outline-n-weak [&>div>button]:hover:!outline-n-strong [&>div>button]:!bg-n-alpha-black2':
+                isDetailsView,
             }"
             @update:model-value="emit('update', state)"
           />
@@ -191,7 +193,11 @@ watch(() => props.contactData, updateState, { immediate: true, deep: true });
         <div
           v-for="item in socialProfilesForm"
           :key="item.key"
-          class="flex items-center h-8 gap-2 px-2 rounded-lg bg-n-slate-2 dark:bg-n-solid-3"
+          class="flex items-center h-8 gap-2 px-2 rounded-lg"
+          :class="{
+            'bg-n-alpha-2 dark:bg-n-solid-2': isDetailsView,
+            'bg-n-alpha-2 dark:bg-n-solid-3': !isDetailsView,
+          }"
         >
           <Icon
             :icon="item.icon"
