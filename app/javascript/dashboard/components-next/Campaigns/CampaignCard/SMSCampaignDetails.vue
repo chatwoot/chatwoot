@@ -1,6 +1,6 @@
 <script setup>
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { messageStamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 import { useI18n } from 'vue-i18n';
 defineProps({
@@ -19,6 +19,7 @@ defineProps({
 });
 
 const { t } = useI18n();
+const { localeMessageStamp } = useLocaleDateFormatter();
 </script>
 
 <template>
@@ -36,6 +37,6 @@ const { t } = useI18n();
     {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.ON') }}
   </span>
   <span class="flex-1 text-sm font-medium truncate text-n-slate-12">
-    {{ messageStamp(new Date(scheduledAt), true, $i18n.locale) }}
+    {{ localeMessageStamp(new Date(scheduledAt), true) }}
   </span>
 </template>

@@ -4,10 +4,12 @@ import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { shortTimestamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
+
+const { localeShortTimestamp } = useLocaleDateFormatter();
 
 export default {
   components: {
@@ -64,10 +66,9 @@ export default {
       );
     },
     lastActivityAt() {
-      return shortTimestamp(
+      return localeShortTimestamp(
         this.notificationItem?.last_activity_at,
-        true,
-        this.$i18n.locale
+        true
       );
     },
     menuItems() {

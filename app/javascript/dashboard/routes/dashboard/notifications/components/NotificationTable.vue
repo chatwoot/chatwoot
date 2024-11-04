@@ -2,8 +2,10 @@
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { mapGetters } from 'vuex';
+
+const { localeDynamicTime } = useLocaleDateFormatter();
 
 export default {
   components: {
@@ -42,7 +44,7 @@ export default {
     },
   },
   methods: {
-    dynamicTime,
+    localeDynamicTime,
   },
 };
 </script>
@@ -109,9 +111,7 @@ export default {
           <td>
             <div class="text-right timestamp--column">
               <span class="notification--created-at">
-                {{
-                  dynamicTime(notificationItem.last_activity_at, $i18n.locale)
-                }}
+                {{ localeDynamicTime(notificationItem.last_activity_at) }}
               </span>
             </div>
           </td>

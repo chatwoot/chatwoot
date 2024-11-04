@@ -2,10 +2,10 @@
 import { defineEmits, computed, h } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 // [TODO] Instead of converting the values to their reprentation when building the tableData
 // We should do the change in the cell
-import { messageStamp, dynamicTime } from 'shared/helpers/timeHelper';
 
 // components
 import Table from 'dashboard/components/table/Table.vue';
@@ -30,8 +30,8 @@ const { pageIndex } = defineProps({
 });
 
 const emit = defineEmits(['pageChange']);
-const { t, locale } = useI18n();
-
+const { t } = useI18n();
+const { localeMessageStamp, localeDynamicTime } = useLocaleDateFormatter();
 // const isRTL = useMapGetter('accounts/isRTL');
 const csatResponses = useMapGetter('csat/getCSATResponses');
 const metrics = useMapGetter('csat/getMetrics');
@@ -43,8 +43,8 @@ const tableData = computed(() => {
     rating: response.rating,
     feedbackText: response.feedback_message || '---',
     conversationId: response.conversation_id,
-    createdAgo: dynamicTime(response.created_at, locale.value),
-    createdAt: messageStamp(response.created_at, true, locale.value),
+    createdAgo: localeDynamicTime(response.created_at),
+    createdAt: localeMessageStamp(response.created_at, true),
   }));
 });
 

@@ -2,9 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { messageTimestamp } from 'shared/helpers/timeHelper';
-import { useI18n } from 'vue-i18n';
-
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 const props = defineProps({
@@ -19,6 +17,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
+
+const { localeMessageTimestamp } = useLocaleDateFormatter();
+
 const show = defineModel('show', { type: Boolean, default: false });
 
 const getters = useStoreGetters();
@@ -49,12 +50,10 @@ const hasMoreThanOneAttachment = computed(
   () => props.allAttachments.length > 1
 );
 
-const { locale } = useI18n();
-
 const readableTime = computed(() => {
   const { created_at: createdAt } = activeAttachment.value;
   if (!createdAt) return '';
-  return messageTimestamp(createdAt, locale.value) || '';
+  return localeMessageTimestamp(createdAt) || '';
 });
 
 const isImage = computed(

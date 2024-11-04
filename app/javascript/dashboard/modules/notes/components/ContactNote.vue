@@ -1,7 +1,9 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+
+const { localeDynamicTime } = useLocaleDateFormatter();
 
 export default {
   components: {
@@ -39,7 +41,7 @@ export default {
   },
   computed: {
     readableTime() {
-      return dynamicTime(this.createdAt, this.$i18n.locale);
+      return localeDynamicTime(this.createdAt);
     },
     noteAuthor() {
       return this.user || {};

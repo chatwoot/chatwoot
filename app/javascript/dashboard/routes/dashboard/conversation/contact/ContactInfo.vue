@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -17,6 +17,8 @@ import {
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
 import { emitter } from 'shared/helpers/mitt';
+
+const { localeDynamicTime } = useLocaleDateFormatter();
 
 export default {
   components: {
@@ -99,7 +101,7 @@ export default {
     },
   },
   methods: {
-    dynamicTime,
+    localeDynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -200,9 +202,8 @@ export default {
             <fluent-icon
               v-if="contact.created_at"
               v-tooltip.left="
-                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
-                  contact.created_at,
-                  $i18n.locale
+                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${localeDynamicTime(
+                  contact.created_at
                 )}`
               "
               icon="info"

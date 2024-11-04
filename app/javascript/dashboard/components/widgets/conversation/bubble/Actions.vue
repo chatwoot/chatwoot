@@ -1,7 +1,9 @@
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { messageTimestamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+
+const { localeMessageTimestamp } = useLocaleDateFormatter();
 
 export default {
   mixins: [inboxMixin],
@@ -78,7 +80,7 @@ export default {
       return MESSAGE_STATUS.SENT === this.messageStatus;
     },
     readableTime() {
-      return messageTimestamp(this.createdAt, this.$i18n.locale);
+      return localeMessageTimestamp(this.createdAt);
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
