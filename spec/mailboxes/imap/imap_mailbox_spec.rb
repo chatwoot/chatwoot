@@ -30,6 +30,19 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email with has empty text content' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('attachments_without_text.eml') }
+
+      it 'creates a converstation and a message properly' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        expect(conversation.contact.email).to eq(inbound_mail.mail.from.first)
+        expect(conversation.messages.last.attachments.count).to be 2
+      end
+    end
+
     context 'when the email has 15 or more attachments' do
       let(:inbound_mail) { create_inbound_email_from_fixture('multiple_attachments.eml') }
 
