@@ -67,17 +67,17 @@ const togglePortalSwitcher = () => {
         >
           <span
             v-if="activePortalName"
-            class="text-xl font-medium text-slate-900 dark:text-white"
+            class="text-xl font-medium text-n-slate-12"
           >
             {{ activePortalName }}
           </span>
           <div v-if="activePortalName" class="relative group">
             <OnClickOutside @trigger="showPortalSwitcher = false">
               <Button
-                icon="chevron-lucide-down"
+                icon="i-lucide-chevron-down"
                 variant="ghost"
-                icon-lib="lucide"
-                class="!w-6 !h-6 group-hover:bg-n-solid-2 !p-0.5 rounded-md"
+                size="xs"
+                class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3"
                 @click="togglePortalSwitcher"
               />
 

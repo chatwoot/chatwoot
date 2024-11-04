@@ -137,7 +137,6 @@ const handleTabChange = value => {
 <template>
   <div class="flex flex-col items-start w-full gap-2 lg:flex-row">
     <TabBar
-      class="bg-n-solid-1"
       :tabs="tabs"
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"
@@ -149,10 +148,9 @@ const handleTabChange = value => {
             <Button
               :label="activeLocaleName"
               size="sm"
-              icon-position="right"
-              icon="chevron-lucide-down"
-              icon-lib="lucide"
-              variant="secondary"
+              icon="i-lucide-chevron-down"
+              color="slate"
+              trailing-icon
               @click="isLocaleMenuOpen = !isLocaleMenuOpen"
             />
 
@@ -168,11 +166,10 @@ const handleTabChange = value => {
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
             <Button
               :label="activeCategoryName"
+              icon="i-lucide-chevron-down"
               size="sm"
-              icon-position="right"
-              icon="chevron-lucide-down"
-              icon-lib="lucide"
-              variant="secondary"
+              color="slate"
+              trailing-icon
               class="max-w-48"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
             />
@@ -188,7 +185,7 @@ const handleTabChange = value => {
       </div>
       <Button
         :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
-        icon="add"
+        icon="i-lucide-plus"
         size="sm"
         @click="handleNewArticle"
       />

@@ -266,14 +266,14 @@ const menuItems = computed(() => {
       icon: 'i-lucide-megaphone',
       children: [
         {
-          name: 'Ongoing',
-          label: t('SIDEBAR.ONGOING'),
-          to: accountScopedRoute('ongoing_campaigns'),
+          name: 'Live chat',
+          label: t('SIDEBAR.LIVE_CHAT'),
+          to: accountScopedRoute('campaigns_livechat_index'),
         },
         {
-          name: 'One-off',
-          label: t('SIDEBAR.ONE_OFF'),
-          to: accountScopedRoute('one_off'),
+          name: 'SMS',
+          label: t('SIDEBAR.SMS'),
+          to: accountScopedRoute('campaigns_sms_index'),
         },
       ],
     },
@@ -281,9 +281,6 @@ const menuItems = computed(() => {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),
       icon: 'i-lucide-library-big',
-      to: accountScopedRoute('portals_index', {
-        navigationPath: 'portals_articles_index',
-      }),
       children: [
         {
           name: 'Articles',
@@ -442,7 +439,7 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pt-2 pb-1"
+    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
@@ -490,7 +487,7 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="p-1 border-t border-n-strong shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
+      class="p-1 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
     >
       <SidebarProfileMenu
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"

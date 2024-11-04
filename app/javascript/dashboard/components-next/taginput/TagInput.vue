@@ -2,7 +2,6 @@
 import { ref, computed, watch } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
 const props = defineProps({
@@ -71,10 +70,8 @@ watch(
         <span class="flex-grow min-w-0 text-sm truncate text-n-slate-12">
           {{ tag }}
         </span>
-        <FluentIcon
-          icon="dismiss"
-          size="20"
-          class="flex-shrink-0 p-1 cursor-pointer text-n-slate-11"
+        <span
+          class="flex-shrink-0 cursor-pointer i-lucide-x size-3.5 text-n-slate-11"
           @click.stop="removeTag(index)"
         />
       </div>

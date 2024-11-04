@@ -32,7 +32,7 @@ const shouldRenderComponent = computed(() => {
       :title="label"
       class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group"
       :class="{
-        'text-n-blue bg-n-alpha-2 active': active,
+        'n-blue-text bg-n-alpha-2 active': active,
       }"
     >
       <component
@@ -49,44 +49,3 @@ const shouldRenderComponent = computed(() => {
     </component>
   </Policy>
 </template>
-
-<style scoped>
-.child-item::before {
-  content: '';
-  position: absolute;
-  width: 0.125rem;
-  /* 0.5px */
-  height: 100%;
-}
-
-.child-item:first-child::before {
-  border-radius: 4px 4px 0 0;
-}
-
-.last-child-item::before {
-  height: 20%;
-}
-
-.last-child-item::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 12px;
-  bottom: calc(50% - 2px);
-  border-bottom-width: 0.125rem;
-  border-left-width: 0.125rem;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-radius: 0 0 0 4px;
-  left: 0;
-}
-
-.app-rtl--wrapper .last-child-item::after {
-  right: 0;
-  border-bottom-width: 0.125rem;
-  border-right-width: 0.125rem;
-  border-left-width: 0px;
-  border-top-width: 0px;
-  border-radius: 0 0 4px 0px;
-}
-</style>

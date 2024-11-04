@@ -56,10 +56,10 @@ const emitNewAccount = () => {
     </button>
     <div v-if="showDropdown" v-on-clickaway="close" class="absolute top-8 z-50">
       <div
-        class="w-72 text-sm block bg-n-solid-1 border border-n-weak rounded-xl shadow-sm"
+        class="min-w-72 max-w-96 text-sm bg-n-solid-1 border border-n-weak rounded-xl shadow-sm py-4 px-2 flex flex-col gap-2"
       >
         <div
-          class="px-4 pt-3 pb-2 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
+          class="px-4 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
         >
           {{ t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
         </div>
@@ -73,12 +73,19 @@ const emitNewAccount = () => {
           >
             <div
               :for="account.name"
-              class="text-left rtl:text-right flex gap-2"
+              class="text-left rtl:text-right flex gap-2 items-center"
             >
-              <span class="text-n-slate-12">
+              <span
+                class="text-n-slate-12 max-w-36 truncate min-w-0"
+                :title="account.name"
+              >
                 {{ account.name }}
               </span>
-              <span class="text-n-slate-11 capitalize">
+              <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+              <span
+                class="text-n-slate-11 max-w-24 truncate capitalize"
+                :title="account.name"
+              >
                 {{
                   account.custom_role_id
                     ? account.custom_role.name
@@ -93,9 +100,8 @@ const emitNewAccount = () => {
             />
           </button>
         </div>
-        <div class="px-2 mt-2 pb-2">
+        <div v-if="globalConfig.createNewAccountFromDashboard" class="px-2">
           <ButtonNext
-            v-if="globalConfig.createNewAccountFromDashboard"
             variant="secondary"
             class="w-full"
             size="sm"
