@@ -1,25 +1,25 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "Prikaz {startItem} - {endItem} od {totalItems} elementov",
+    "CURRENT_PAGE_INFO": "{currentPage} od {totalPages} strani"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_STATE": "No results found.",
-    "SEARCH_PLACEHOLDER": "Search..."
+    "PLACEHOLDER": "Izberite možnost ...",
+    "EMPTY_STATE": "Ni rezultatov.",
+    "SEARCH_PLACEHOLDER": "Iskanje ..."
   },
   "DIALOG": {
     "BUTTONS": {
-      "CANCEL": "Cancel",
-      "CONFIRM": "Confirm"
+      "CANCEL": "Prekliči",
+      "CONFIRM": "Potrdi"
     }
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Author is not available"
+      "NOT_AVAILABLE": "Avtor ni na voljo"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "Drobtina"
   }
 }
