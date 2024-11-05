@@ -89,7 +89,7 @@
       "CANCEL": "Cancel"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Prioriteta",
       "OPTIONS": {
         "NONE": "None",
         "URGENT": "Urgent",
@@ -143,14 +143,14 @@
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "CLICK_HERE": "Click here to update",
-      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
+      "WHATSAPP_TEMPLATES": "Predloge za WhatsApp"
     },
     "REPLYBOX": {
       "REPLY": "Reply",
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
       "CREATE": "Add Note",
-      "INSERT_READ_MORE": "Read more",
+      "INSERT_READ_MORE": "Preberite več",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Show rich text editor",
@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
