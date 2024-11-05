@@ -2,7 +2,7 @@
 import { defineProps, defineEmits } from 'vue';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 defineProps({
   menuItems: {
@@ -41,12 +41,12 @@ const handleAction = (action, value) => {
       :disabled="item.disabled"
       @click="handleAction(item.action, item.value)"
     >
-      <Thumbnail
+      <Avatar
         v-if="item.thumbnail"
-        :author="item.thumbnail"
         :name="item.thumbnail.name"
-        :size="thumbnailSize"
         :src="item.thumbnail.src"
+        :size="thumbnailSize"
+        rounded-full
       />
       <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
       <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>

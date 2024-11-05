@@ -8,7 +8,7 @@ import { debounce } from '@chatwoot/utils';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   id: { type: Number, required: true },
@@ -26,11 +26,6 @@ const router = useRouter();
 
 const { t } = useI18n();
 const store = useStore();
-
-const author = computed(() => ({
-  name: props.name,
-  thumbnail: props.thumbnail,
-}));
 
 const updateContact = async updatedData => {
   await store.dispatch('contacts/update', updatedData);
@@ -58,7 +53,7 @@ const onClickViewDetails = () => {
   <CardLayout :key="id" layout="row">
     <template #header>
       <div class="flex items-center justify-between gap-4">
-        <Thumbnail :author="author" :name="name" :src="thumbnail" :size="48" />
+        <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
         <div class="flex flex-col gap-1">
           <div class="flex items-center gap-2">
             <span class="text-sm font-medium truncate text-n-slate-12">{{

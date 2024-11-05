@@ -7,7 +7,7 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/Button/Button.vue';
 
@@ -84,23 +84,24 @@ const onDelete = noteId => {
         class="flex flex-col gap-2 px-6 py-2 border-b border-n-strong group/note"
       >
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-1.5 py-2.5">
-            <Thumbnail
-              :author="note.user || { name: note.user.name }"
+          <div class="flex items-center gap-1.5 py-2.5 min-w-0">
+            <Avatar
               :name="note.user.name"
               :src="note.user.thumbnail"
+              :size="16"
+              rounded-full
             />
-            <span
-              class="inline-flex items-center gap-1 text-sm text-n-slate-11"
-            >
-              <span class="text-sm font-medium text-n-slate-11">
-                {{ getWrittenBy(note) }}
+            <div class="min-w-0 truncate">
+              <span
+                class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+              >
+                <span class="font-medium">{{ getWrittenBy(note) }}</span>
+                {{ $t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
+                <span class="font-medium">{{
+                  dynamicTime(note.createdAt)
+                }}</span>
               </span>
-              {{ $t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-              <span class="text-sm font-medium text-n-slate-11">
-                {{ dynamicTime(note.createdAt) }}
-              </span>
-            </span>
+            </div>
           </div>
           <Button
             variant="faded"
