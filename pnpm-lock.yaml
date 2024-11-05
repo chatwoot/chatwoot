@@ -17,8 +17,8 @@ importers:
         specifier: ^1.2.7
         version: 1.2.7
       '@chatwoot/captain':
-        specifier: 0.0.3-alpha.1
-        version: 0.0.3-alpha.1(tailwindcss@3.4.13)(typescript@5.6.2)
+        specifier: 0.0.3-alpha.2
+        version: 0.0.3-alpha.2(tailwindcss@3.4.13)(typescript@5.6.2)
       '@chatwoot/ninja-keys':
         specifier: 1.2.3
         version: 1.2.3
@@ -386,8 +386,8 @@ packages:
   '@breezystack/lamejs@1.2.7':
     resolution: {integrity: sha512-6wc7ck65ctA75Hq7FYHTtTvGnYs6msgdxiSUICQ+A01nVOWg6rqouZB8IdyteRlfpYYiFovkf67dIeOgWIUzTA==}
 
-  '@chatwoot/captain@0.0.3-alpha.1':
-    resolution: {integrity: sha512-ztCNEK8bPxZogdjwi0uPamRQB5n2lpsQDGGam5LqHjF9FZf4tuml2NnYw4tEqCu8ScTI4Zd2fIHb889AhFcGfQ==}
+  '@chatwoot/captain@0.0.3-alpha.2':
+    resolution: {integrity: sha512-2eA4aa3RAivgVAz9kRUsLLYpL7kI1Ey7inC3EgDODyDezBqryxt73GHtUA2WECfHJBGu0cuhOre9adQOdi0sNA==}
 
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
@@ -5166,7 +5166,7 @@ snapshots:
 
   '@breezystack/lamejs@1.2.7': {}
 
-  '@chatwoot/captain@0.0.3-alpha.1(tailwindcss@3.4.13)(typescript@5.6.2)':
+  '@chatwoot/captain@0.0.3-alpha.2(tailwindcss@3.4.13)(typescript@5.6.2)':
     dependencies:
       '@sentry/vue': 8.31.0(vue@3.5.12(typescript@5.6.2))
       '@tanstack/vue-table': 8.20.5(vue@3.5.12(typescript@5.6.2))

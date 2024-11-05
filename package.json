@@ -31,7 +31,7 @@
   ],
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
-    "@chatwoot/captain": "0.0.3-alpha.1",
+    "@chatwoot/captain": "0.0.3-alpha.2",
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.1.1-next",
     "@chatwoot/utils": "^0.0.25",
