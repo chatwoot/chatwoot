@@ -9,6 +9,7 @@ import {
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 export default function initStringeeWebPhone(
+  vueInstance,
   user_id,
   access_token,
   fromNumbers
@@ -84,22 +85,21 @@ export default function initStringeeWebPhone(
       const response = await conversations.findByMessage(incomingcall.callId);
       const displayId = response.data.display_id;
       const accountId = window.location.pathname.split('/')[3];
-      const url = `/app/accounts/${accountId}/conversations/${displayId}`;
-      if (!window.location.href.endsWith(url)) window.location.href = url;
+      const path = `/app/accounts/${accountId}/conversations/${displayId}`;
+      if (vueInstance.$route.path !== path) {
+        vueInstance.$router.push({ path });
+      }
 
+      const url = `${window.location.origin}${path}`;
       if (hasPushPermissions()) {
-        sendNotification(
-          response.data.contact_name,
-          response.data.avatar,
-          window.location.href
-        );
+        sendNotification(response.data.contact_name, response.data.avatar, url);
       } else {
         requestPushPermissions({
           onSuccess: () =>
             sendNotification(
               response.data.contact_name,
               response.data.avatar,
-              window.location.href
+              url
             ),
         });
       }

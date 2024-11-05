@@ -131,7 +131,7 @@ export default {
       if (access_token) {
         const response = await stringeeChannel.channelNumbers();
         const fromNumbers = response.data;
-        StringeeWebPhone(this.currentUserId, access_token, fromNumbers);
+        StringeeWebPhone(this, this.currentUserId, access_token, fromNumbers);
         const container = document.querySelector('.stringee_iframe_wrapper');
         container.classList.add('centered');
       }
