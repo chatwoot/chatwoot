@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Contingut original",
     "TRANSLATED_CONTENT": "Contingut traduït",
     "NO_TRANSLATIONS_AVAILABLE": "No hi ha traduccions disponibles per a aquest contingut"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
