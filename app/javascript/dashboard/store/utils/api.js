@@ -35,7 +35,8 @@ export const setAuthCredentials = response => {
   if (response.data.data.custom_attributes?.stringee_access_token)
     Cookies.set(
       'stringee_access_token',
-      response.data.data.custom_attributes.stringee_access_token
+      response.data.data.custom_attributes.stringee_access_token,
+      { expires: differenceInDays(expiryDate, new Date()) }
     );
 };
 

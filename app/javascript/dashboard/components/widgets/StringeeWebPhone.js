@@ -23,6 +23,17 @@ export default function initStringeeWebPhone(
   };
   StringeeSoftPhone.init(config);
 
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.onmessage = event => {
+      const { action } = event.data;
+      if (action === 'answerCall') {
+        StringeeSoftPhone.answerCall();
+      } else if (action === 'declineCall') {
+        StringeeSoftPhone.hangupCall();
+      }
+    };
+  }
+
   StringeeSoftPhone.on('displayModeChange', event => {
     if (event === 'min') {
       StringeeSoftPhone.config({ arrowLeft: 75 });
@@ -51,8 +62,8 @@ export default function initStringeeWebPhone(
     const notificationOptions = {
       body: `Bạn có cuộc gọi đến từ ${contactName}`,
       actions: [
-        { action: 'answer', title: 'Trả lời' },
-        { action: 'decline', title: 'Từ chối' },
+        { action: 'answerCall', title: 'Trả lời' },
+        { action: 'declineCall', title: 'Từ chối' },
       ],
       data: {
         url: url,

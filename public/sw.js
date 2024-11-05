@@ -15,31 +15,35 @@ self.addEventListener('push', event => {
 });
 
 self.addEventListener('notificationclick', event => {
-  if (event.action === 'answer') {
-    console.log('Trả lời cuộc gọi');
-    StringeeSoftPhone.answerCall();
-  } else if (event.action === 'decline') {
-    console.log('Từ chối cuộc gọi');
-    StringeeSoftPhone.hangupCall();
-  } else {
-    let notification = event.notification;
+  if (event.action === 'answerCall' || event.action === 'declineCall') {
     event.waitUntil(
-      clients.matchAll({ type: 'window' }).then(windowClients => {
-        let matchingWindowClients = windowClients.filter(
-          client => client.url === notification.data.url
-        );
-
-        if (matchingWindowClients.length) {
-          let firstWindow = matchingWindowClients[0];
-          if (firstWindow && 'focus' in firstWindow) {
-            firstWindow.focus();
-            return;
-          }
-        }
-        if (clients.openWindow) {
-          clients.openWindow(notification.data.url);
-        }
+      clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({
+            action: event.action,
+          });
+        });
       })
     );
   }
+
+  let notification = event.notification;
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(windowClients => {
+      let matchingWindowClients = windowClients.filter(
+        client => client.url === notification.data.url
+      );
+
+      if (matchingWindowClients.length) {
+        let firstWindow = matchingWindowClients[0];
+        if (firstWindow && 'focus' in firstWindow) {
+          firstWindow.focus();
+          return;
+        }
+      }
+      if (clients.openWindow) {
+        clients.openWindow(notification.data.url);
+      }
+    })
+  );
 });
