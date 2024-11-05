@@ -5,7 +5,7 @@ import {
   createColumnHelper,
   getCoreRowModel,
 } from '@tanstack/vue-table';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { useI18n } from 'vue-i18n';
 
 import Spinner from 'shared/components/Spinner.vue';

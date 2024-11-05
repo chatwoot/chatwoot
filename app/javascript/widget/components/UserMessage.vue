@@ -5,7 +5,7 @@ import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';

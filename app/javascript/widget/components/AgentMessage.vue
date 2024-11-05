@@ -2,7 +2,7 @@
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';

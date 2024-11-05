@@ -3,7 +3,7 @@ const MINUTE_IN_MILLI_SECONDS = 60000;
 const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
 const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   name: 'TimeAgo',

@@ -1,6 +1,6 @@
 <script>
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 
 export default {

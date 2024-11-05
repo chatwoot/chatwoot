@@ -1,6 +1,6 @@
 <!-- Unused file deprecated -->
 <script>
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   props: {

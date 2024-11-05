@@ -4,7 +4,7 @@ import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';

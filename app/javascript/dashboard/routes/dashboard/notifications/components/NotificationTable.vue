@@ -2,7 +2,7 @@
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { mapGetters } from 'vuex';
 
 export default {

@@ -1,7 +1,7 @@
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   mixins: [inboxMixin],

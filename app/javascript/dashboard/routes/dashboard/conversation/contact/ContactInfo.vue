@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';

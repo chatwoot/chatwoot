@@ -1,6 +1,6 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   components: {
