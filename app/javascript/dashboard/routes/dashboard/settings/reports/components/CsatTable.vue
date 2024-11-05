@@ -31,7 +31,7 @@ const { pageIndex } = defineProps({
 
 const emit = defineEmits(['pageChange']);
 const { t } = useI18n();
-const { localeMessageStamp, localeDynamicTime } = useLocaleDateFormatter();
+const { localeDateFormat, localeDynamicTime } = useLocaleDateFormatter();
 // const isRTL = useMapGetter('accounts/isRTL');
 const csatResponses = useMapGetter('csat/getCSATResponses');
 const metrics = useMapGetter('csat/getMetrics');
