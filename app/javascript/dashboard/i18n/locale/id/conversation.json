@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Konten Asli",
     "TRANSLATED_CONTENT": "Konten Terjemahan",
     "NO_TRANSLATIONS_AVAILABLE": "Tidak ada terjemahan yang tersedia untuk konten ini"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
