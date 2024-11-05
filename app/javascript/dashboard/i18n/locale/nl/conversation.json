@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Oorspronkelijke inhoud",
     "TRANSLATED_CONTENT": "Vertaalde inhoud",
     "NO_TRANSLATIONS_AVAILABLE": "Geen vertalingen beschikbaar voor deze inhoud"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
