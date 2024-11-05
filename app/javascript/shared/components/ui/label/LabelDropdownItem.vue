@@ -14,10 +14,11 @@ export default {
       default: false,
     },
   },
+  emits: ['selectLabel'],
 
   methods: {
     onClick() {
-      this.$emit('click', this.title);
+      this.$emit('selectLabel', this.title);
     },
   },
 };
@@ -37,7 +38,7 @@ export default {
             <span class="label-text" :title="title">{{ title }}</span>
           </div>
           <div>
-            <i v-if="selected" class="icon ion-checkmark-round" />
+            <i v-if="selected" class="i-lucide-circle-check" />
           </div>
         </div>
       </woot-button>

@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Searching...",
       "INSERT_ARTICLE": "Insert",
@@ -190,26 +190,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Help center information",
-            "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Help center information",
+            "BODY": "Basic information about portal"
           },
-          {
-            "title": "Help center customization",
-            "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          "CUSTOMIZATION": {
+            "TITLE": "Help center customization",
+            "BODY": "Customize portal"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "You're all set!",
-            "FINISH": "Finish"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "You're all set!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Back",
           "BASIC_SETTINGS_PAGE": {
@@ -250,13 +244,13 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: %{exampleURL}",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
           "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: %{exampleURL}",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
@@ -483,6 +477,10 @@
         }
       }
     },
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale"
+    }
   }
 }

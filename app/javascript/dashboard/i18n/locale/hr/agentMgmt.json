@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Radnje",
       "VERIFIED": "Potvrđen",
-      "VERIFICATION_PENDING": "Potvrda na čekanju"
+      "VERIFICATION_PENDING": "Potvrda na čekanju",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Dodaj agenta u svoj tim",

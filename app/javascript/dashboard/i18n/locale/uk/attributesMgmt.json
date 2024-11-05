@@ -3,7 +3,8 @@
     "HEADER": "Свої атрибути",
     "HEADER_BTN_TXT": "Додати свій атрибут",
     "LOADING": "Отримання користувацьких атрибутів",
-    "SIDEBAR_TXT": "<p><b>Користувацькі Атрибути</b> <p>Користувацький атрибут відстежує факти про ваших контактів/розмову — наприклад, план підписки або коли вони замовили перший товар і т. д. <br /><br />Для створення Користувацького атрибуту, просто натисніть на <b>Додати Користувацький атрибут.</b> Ви також можете редагувати або видаляти існуючі користувацькі атрибути, натиснувши на кнопку Редагувати або Видалити.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Додати свій атрибут",
       "SUBMIT": "Створити",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Не вдалося видалити користувацький атрибут. Повторіть спробу."
       },
       "CONFIRM": {
-        "TITLE": "Ви дійсно бажаєте видалити - %{attributeName}",
+        "TITLE": "Ви дійсно бажаєте видалити - {attributeName}",
         "PLACE_HOLDER": "Будь ласка, введіть {attributeName} щоб підтвердити",
         "MESSAGE": "Ця дія видалить користувацький атрибут",
         "YES": "Видалити ",
@@ -91,12 +92,7 @@
       "CONTACT": "Контакт"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ім'я",
-        "Опис",
-        "Тип",
-        "Ключ"
-      ],
+      "TABLE_HEADER": ["Ім'я", "Опис", "Тип", "Ключ"],
       "BUTTONS": {
         "EDIT": "Редагувати",
         "DELETE": "Видалити"

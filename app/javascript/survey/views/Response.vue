@@ -129,13 +129,13 @@ export default {
 <template>
   <div
     v-if="isLoading"
-    class="flex items-center justify-center flex-1 h-full bg-black-25"
+    class="flex items-center justify-center flex-1 h-full min-h-screen bg-black-25"
   >
     <Spinner size="" />
   </div>
   <div
     v-else
-    class="flex items-center justify-center w-full h-full overflow-auto bg-slate-50"
+    class="flex items-center justify-center w-full h-full min-h-screen overflow-auto bg-slate-50"
   >
     <div
       class="flex flex-col w-full h-full bg-white rounded-lg shadow-lg lg:w-2/5 lg:h-auto"
@@ -162,14 +162,14 @@ export default {
         </label>
         <Rating
           :selected-rating="selectedRating"
-          @selectRating="selectRating"
+          @select-rating="selectRating"
         />
         <Feedback
           v-if="enableFeedbackForm"
           :is-updating="isUpdating"
           :is-button-disabled="isButtonDisabled"
           :selected-rating="selectedRating"
-          @sendFeedback="sendFeedback"
+          @send-feedback="sendFeedback"
         />
       </div>
       <div class="mb-3">
@@ -180,7 +180,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .logo {
   max-height: $space-larger;

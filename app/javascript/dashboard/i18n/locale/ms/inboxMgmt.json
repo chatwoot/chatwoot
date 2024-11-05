@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -745,6 +746,18 @@
       "MICROSOFT": "Microsoft",
       "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Channel"
     }
   }
 }

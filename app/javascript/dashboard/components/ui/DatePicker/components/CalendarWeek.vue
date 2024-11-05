@@ -139,7 +139,7 @@ const dayClasses = day => ({
       "
       @prev="onClickPrev"
       @next="onClickNext"
-      @setView="setViewMode"
+      @set-view="setViewMode"
     />
     <CalendarWeekLabel />
     <div

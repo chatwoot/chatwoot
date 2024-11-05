@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "啥都没有",
         "INPUT_PLACEHOLDER": "选择优先级",
         "NO_RESULTS": "没有检索到相关信息",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "无法更改优先级。请重试。"
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "分配一个团队",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "对话 ID %{conversationId} 已分配给 \"%{agentName}\"",
+          "SUCCESFUL": "对话 ID {conversationId} 已分配给 \"{agentName}\"",
           "FAILED": "无法分配客服，请再试。"
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "将标签 #%{labelName} 分配给对话 ID %{conversationId}",
+          "SUCCESFUL": "将标签 #{labelName} 分配给对话 ID {conversationId}",
           "FAILED": "无法分配标签。请再试。"
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "将团队 \"%{team}\" 分配给对话 ID %{conversationId}",
+          "SUCCESFUL": "将团队 \"{team}\" 分配给对话 ID {conversationId}",
           "FAILED": "无法分配团队。请重试。"
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "您好 👋, 欢迎来到 %{installationName}!",
-    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 %{installationName}。 这里有几件您可以在 %{installationName} 做的事情，让体验变得愉快。",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "您好 👋, 欢迎来到 {installationName}!",
+    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 {installationName}。 这里有几件您可以在 {installationName} 做的事情，让体验变得愉快。",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
       "TITLE": "您的所有对话都在一个地方",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "对话参与者",
     "NO_RECORDS_FOUND": "没有检索到相关信息",
     "ADD_PARTICIPANTS": "选择参与者",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} 其他人",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} 其他",
-    "TOTAL_PARTICIPANTS_TEXT": "有%{count}人参与。",
-    "TOTAL_PARTICIPANT_TEXT": "有%{count}人参与。",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} 其他人",
+    "REMANING_PARTICIPANT_TEXT": "+{count} 其他",
+    "TOTAL_PARTICIPANTS_TEXT": "有{count}人参与。",
+    "TOTAL_PARTICIPANT_TEXT": "有{count}人参与。",
     "NO_PARTICIPANTS_TEXT": "没有人参与！",
     "WATCH_CONVERSATION": "加入对话",
     "YOU_ARE_WATCHING": "你正在参与",

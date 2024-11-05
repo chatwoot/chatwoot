@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "خلاصہ",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
-      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{parentContactName}</strong> پر کاپی کی جائیں گی۔."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>{parentContactName}</strong> پر کاپی کی جائیں گی۔."
     },
     "SEARCH": {
       "ERROR": "خامی کا پیغام"

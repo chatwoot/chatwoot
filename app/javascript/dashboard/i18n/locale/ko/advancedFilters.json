@@ -55,6 +55,9 @@
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "값이 필요합니다."
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "Additional filters",

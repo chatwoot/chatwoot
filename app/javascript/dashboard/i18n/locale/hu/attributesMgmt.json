@@ -3,7 +3,8 @@
     "HEADER": "Egyedi atribútumok",
     "HEADER_BTN_TXT": "Adj meg egyedi tulajdonságot",
     "LOADING": "Vonzó egyedi tulajdonság",
-    "SIDEBAR_TXT": "<p><b>Egyéni tulajdonságok</b> <p>Egy egyéni tulajdonság nyomon követi a kapcsolataival/beszélgetéseivel kapcsolatos tényeket – például az előfizetési csomagot, vagy amikor megrendelték az első terméket stb. <br /><br />Egyéni tulajdonság létrehozásához kattintson az <b>Egyéni tulajdonság hozzáadása</b> lehetőségre. Meglévő egyéni tulajdonság szerkesztése vagy törlése is lehetséges, ha a Törlés gombra kattintasz.",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Adj meg egyedi tulajdonságot",
       "SUBMIT": "Létrehozás",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Egyéni Tulajdonság törlése sikertelen. Próbáld újra."
       },
       "CONFIRM": {
-        "TITLE": "Biztosan törölni akarod: %{attributeName}",
+        "TITLE": "Biztosan törölni akarod: {attributeName}",
         "PLACE_HOLDER": "Kérlek gépeld a megerősítéshez",
         "MESSAGE": "A törlés eltávolítja az egyéni tulajdonságot",
         "YES": "Törlés ",

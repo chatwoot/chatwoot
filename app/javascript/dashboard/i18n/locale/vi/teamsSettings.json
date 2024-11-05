@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Thêm đại lý vào nhóm",
-        "TITLE": "Thêm đại lý vào nhóm - %{teamName}",
+        "TITLE": "Thêm đại lý vào nhóm - {teamName}",
         "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Cập nhật đại lý trong nhóm",
-        "TITLE": "Thêm đại lý vào nhóm - %{teamName}",
+        "TITLE": "Thêm đại lý vào nhóm - {teamName}",
         "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Tất cả các đại lý được thêm vào sẽ nhận được thông báo khi có cuộc trò chuyện được phân công cho nhóm này."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Thêm đại lý vào nhóm của bạn...",
       "SELECT": "chọn",
       "SELECT_ALL": "chọn tất cả đại lý",
-      "SELECTED_COUNT": "%{selected} trên %{total} đại lý được chọn."
+      "SELECTED_COUNT": "{selected} trên {total} đại lý được chọn."
     },
     "ADD": {
-      "TITLE": "Thêm đại lý vào nhóm - %{teamName}",
+      "TITLE": "Thêm đại lý vào nhóm - {teamName}",
       "DESC": "Thêm Đại lý vào nhóm mới tạo của bạn. Điều này cho phép bạn cộng tác như một nhóm trong các cuộc trò chuyện, nhận thông báo về các sự kiện mới trong cùng một cuộc trò chuyện.",
       "SELECT": "chọn",
       "SELECT_ALL": "chọn tất cả đại lý",
-      "SELECTED_COUNT": "%{selected} trên %{total} đại lý được chọn.",
+      "SELECTED_COUNT": "{selected} trên {total} đại lý được chọn.",
       "BUTTON_TEXT": "Thêm các nhà cung cấp",
       "AGENT_VALIDATION_ERROR": "Chọn ít nhật một tổng đài viên."
     },

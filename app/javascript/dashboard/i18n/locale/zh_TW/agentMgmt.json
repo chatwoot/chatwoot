@@ -18,7 +18,8 @@
       "STATUS": "狀態",
       "ACTIONS": "操作",
       "VERIFIED": "已認證",
-      "VERIFICATION_PENDING": "待驗證"
+      "VERIFICATION_PENDING": "待驗證",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "新增客服到你的團隊",

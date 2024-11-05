@@ -16,6 +16,7 @@ import {
   isAInboxViewRoute,
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -44,6 +45,7 @@ export default {
       default: 'chevron-right',
     },
   },
+  emits: ['togglePanel', 'panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
     return {
@@ -83,9 +85,13 @@ export default {
       const {
         social_profiles: socialProfiles,
         screen_name: twitterScreenName,
+        social_telegram_user_name: telegramUsername,
       } = this.additionalAttributes;
-
-      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
+      return {
+        twitter: twitterScreenName,
+        telegram: telegramUsername,
+        ...(socialProfiles || {}),
+      };
     },
     // Delete Modal
     confirmDeleteMessage() {
@@ -94,9 +100,6 @@ export default {
   },
   methods: {
     dynamicTime,
-    toggleMergeModal() {
-      this.showMergeModal = !this.showMergeModal;
-    },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
@@ -105,7 +108,7 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
-      this.$emitter.emit(
+      emitter.emit(
         BUS_EVENTS.NEW_CONVERSATION_MODAL,
         this.showConversationModal
       );
@@ -157,8 +160,11 @@ export default {
         );
       }
     },
+    closeMergeModal() {
+      this.showMergeModal = false;
+    },
     openMergeModal() {
-      this.toggleMergeModal();
+      this.showMergeModal = true;
     },
   },
 };
@@ -315,12 +321,12 @@ export default {
         v-if="showMergeModal"
         :primary-contact="contact"
         :show="showMergeModal"
-        @close="toggleMergeModal"
+        @close="closeMergeModal"
       />
     </div>
     <woot-delete-modal
       v-if="showDeleteModal"
-      :show.sync="showDeleteModal"
+      v-model:show="showDeleteModal"
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"

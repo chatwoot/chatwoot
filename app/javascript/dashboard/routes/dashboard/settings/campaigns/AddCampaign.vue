@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import { useCampaign } from 'shared/composables/useCampaign';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
@@ -14,6 +14,7 @@ export default {
     WootDateTimePicker,
     WootMessageEditor,
   },
+  emits: ['onClose'],
   setup() {
     const { campaignType, isOngoingType, isOneOffType } = useCampaign();
     return { v$: useVuelidate(), campaignType, isOngoingType, isOneOffType };
@@ -109,7 +110,7 @@ export default {
     },
   },
   mounted() {
-    this.$track(CAMPAIGNS_EVENTS.OPEN_NEW_CAMPAIGN_MODAL, {
+    useTrack(CAMPAIGNS_EVENTS.OPEN_NEW_CAMPAIGN_MODAL, {
       type: this.campaignType,
     });
   },
@@ -179,7 +180,7 @@ export default {
         await this.$store.dispatch('campaigns/create', campaignDetails);
 
         // tracking this here instead of the store to track the type of campaign
-        this.$track(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
+        useTrack(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
           type: this.campaignType,
         });
 

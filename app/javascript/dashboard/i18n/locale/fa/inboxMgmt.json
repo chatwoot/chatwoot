@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "صندوق‌های ورودی",
-    "SIDEBAR_TXT": "<p><b>صندوق ورودی</b></p>\n <p> وقتی چت ووت به یک وب سایت یا یک صفحه فیس بوک متصل شود به آن <b>صندوق ورودی</b> می‌گوید. شما در حساب  چت ووت خود می‌توانید بی‌نهایت صندوق ورودی داشته باشید. </p><p> روی دکمه <b>اضافه کردن صندوق ورودی</b> کلیک کنید تا به یک وب سایت یا یک صفحه فیس بوک وصل شوید. </p><p> در داشبورد، می‌توانید گفتگوهای همه صندوق‌های ورودی را یکجا ببینید و در تب «گفتگوها» به آن‌ها پاسخ بدهید. </p><p> همچنین می‌توانید با کلیک کردن روی اسم صندوق ورودی از قسمت سمت چپ، فقط گفتگوهای همان صندوق را ببینید. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "برای شروع روی دکمه Sign in with Microsoft کلیک کنید. شما به صفحه ورود به ایمیل هدایت خواهید شد. هنگامی که مجوزهای درخواستی را پذیرفتید، به مرحله ایجاد صندوق ورودی هدایت می شوید.",
         "EMAIL_PLACEHOLDER": "آدرس ایمیل را وارد کنید",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "برای افزودن حساب مایکروسافت خود به عنوان کانال، باید با کلیک بر روی \"ورود به سیستم با مایکروسافت\" اکانت مایکروسافت خود را احراز هویت کنید.",
         "ERROR_MESSAGE": "هنگام اتصال به مایکروسافت خطایی روی داد، لطفاً دوباره امتحان کنید"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "آدرس ایمیل را وارد کنید",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "در حال احراز هویت با فیس بوک...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "اشکالی پیش آمد.. لطفا دوباره سعی کنید...",
       "ERROR_FB_UNAUTHORIZED": "شما اجازه انجام این کار را ندارید. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "لطفا مطمئن شوید که با کنترل کامل به صفحه فیس بوک دسترسی دارید. اینجا می‌توانید درباره نقش‌های فیسبوک بیشتر بخوانید <a href=\" https://www.facebook.com/help/187316341316631\">راهنما</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "مایکروسافت",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "سایر ارائه دهندگان"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "وب سایت",
+      "TWITTER_PROFILE": "توییتر",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "ایمیل",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "کانال API"
     }
   }
 }

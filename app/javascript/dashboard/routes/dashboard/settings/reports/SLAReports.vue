@@ -78,7 +78,7 @@ export default {
 
 <template>
   <div class="flex flex-col flex-1 gap-6 px-4 pt-4 overflow-auto">
-    <SLAReportFilters @filterChange="onFilterChange" />
+    <SLAReportFilters @filter-change="onFilterChange" />
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -99,7 +99,7 @@ export default {
         :is-loading="uiFlags.isFetching"
         :current-page="Number(slaMeta.currentPage)"
         :total-count="Number(slaMeta.count)"
-        @pageChange="onPageChange"
+        @page-change="onPageChange"
       />
     </div>
   </div>

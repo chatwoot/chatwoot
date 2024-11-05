@@ -17,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Dodajte agente timu",
-        "TITLE": "Dodajte agente timu - %{teamName}",
+        "TITLE": "Dodajte agente timu - {teamName}",
         "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima."
       },
       "WIZARD": [
@@ -46,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Uredi agente u timu",
-        "TITLE": "Dodajte agente timu - %{teamName}",
+        "TITLE": "Dodajte agente timu - {teamName}",
         "DESC": "Dodajte agente vašem novokreiranom timu. Svi dodati agenti će biti obavešteni kada je razgovor dodeljen ovom timu."
       },
       "WIZARD": [
@@ -77,14 +77,14 @@
       "ADD_AGENTS": "Dodaju se agenti vašem timu...",
       "SELECT": "izaberi",
       "SELECT_ALL": "izaberi sve agente",
-      "SELECTED_COUNT": "%{selected} od %{total} agenata je izabrano."
+      "SELECTED_COUNT": "{selected} od {total} agenata je izabrano."
     },
     "ADD": {
-      "TITLE": "Dodajte agente timu - %{teamName}",
+      "TITLE": "Dodajte agente timu - {teamName}",
       "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima.",
       "SELECT": "izaberi",
       "SELECT_ALL": "izaberi sve agente",
-      "SELECTED_COUNT": "%{selected} od %{total} agenata je izabrano.",
+      "SELECTED_COUNT": "{selected} od {total} agenata je izabrano.",
       "BUTTON_TEXT": "Dodaj agente",
       "AGENT_VALIDATION_ERROR": "Izaberite barem jednog agenta."
     },

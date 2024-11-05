@@ -76,8 +76,8 @@ export default {
         :key="portal.id"
         :portal="portal"
         :status="portalStatus"
-        @addLocale="addLocale"
-        @openSite="openPortal"
+        @add-locale="addLocale"
+        @open-site="openPortal"
       />
       <div
         v-if="isFetching"
@@ -92,7 +92,7 @@ export default {
       />
     </div>
     <woot-modal
-      :show.sync="isAddLocaleModalOpen"
+      v-model:show="isAddLocaleModalOpen"
       :on-close="closeAddLocaleModal"
     >
       <AddLocale

@@ -3,7 +3,8 @@
     "HEADER": "Attributs personnalisés",
     "HEADER_BTN_TXT": "Ajouter un attribut personnalisé",
     "LOADING": "Récupération des attributs personnalisés",
-    "SIDEBAR_TXT": "<p><b>Attributs personnalisés</b> <p>Un attribut personnalisé suit les faits concernant vos contacts/conversation — comme le plan d'abonnement, ou quand ils ont commandé le premier objet, etc. <br /><br />Pour créer un attribut personnalisé, cliquez simplement sur le<b>Ajouter un attribut personnalisé.</b> Vous pouvez également modifier ou supprimer un attribut personnalisé existant en cliquant sur le bouton Modifier ou Supprimer.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Ajouter un attribut personnalisé",
       "SUBMIT": "Créer",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Impossible de supprimer l'attribut personnalisé. Veuillez réessayer."
       },
       "CONFIRM": {
-        "TITLE": "Voulez-vous vraiment supprimer - %{attributeName}",
+        "TITLE": "Voulez-vous vraiment supprimer - {attributeName}",
         "PLACE_HOLDER": "Veuillez taper {attributeName} pour confirmer",
         "MESSAGE": "La suppression supprimera l'attribut personnalisé",
         "YES": "Supprimer ",

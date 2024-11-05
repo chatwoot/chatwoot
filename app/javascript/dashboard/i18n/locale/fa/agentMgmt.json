@@ -18,7 +18,8 @@
       "STATUS": "وضعیت",
       "ACTIONS": "عملیات",
       "VERIFIED": "تایید شده",
-      "VERIFICATION_PENDING": "در انتظار تایید"
+      "VERIFICATION_PENDING": "در انتظار تایید",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "اضافه کردن ایجنت به تیم",

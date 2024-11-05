@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Hộp thư đến",
-    "SIDEBAR_TXT": "<p><b>Hộp thư đến</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Chatwoot, nó được gọi là <b>Hộp thư đến</b>. Bạn có thể có hộp thư đến không giới hạn trong tài khoản Chatwoot của mình. </p><p> Click vào <b>Thêm hộp thư đến</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các hộp thư đến của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc trò chuyện`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một hộp thư đến bằng cách nhấp vào tên hộp thư đến trên ngăn bên trái của trang tổng quan. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Xác thực bạn bằng Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Kênh API"
     }
   }
 }

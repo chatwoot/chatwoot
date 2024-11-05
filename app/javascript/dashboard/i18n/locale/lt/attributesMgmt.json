@@ -3,7 +3,8 @@
     "HEADER": "Personalizuoti Požymiai",
     "HEADER_BTN_TXT": "Pridėti personalizuotą požymį",
     "LOADING": "Gaunami personalizuoti požymiai",
-    "SIDEBAR_TXT": "<p><b>Personalizuoti požymiai</b> <p>Personalizuotas požymis seka faktus apie jūsų kontaktus/pokalbį, pvz., prenumeratos planą, kada jie užsakė pirmąją prekę ir pan. <br /><br />Kuriant personalizuotą požymį, tiesiog spustelėkite <b>Pridėti personalizuotą požymį.</b> Taip pat galite redaguoti arba ištrinti esamą personalizuotą požymį spustelėdami mygtuką Redaguoti arba Naikinti.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Pridėti personalizuotą požymį",
       "SUBMIT": "Sukurti",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Nepavyko ištrinti personalizuoto požymio. Pabandykite dar kartą vėliau."
       },
       "CONFIRM": {
-        "TITLE": "Ar tikrai norite ištrinti – %{attributeName}",
+        "TITLE": "Ar tikrai norite ištrinti – {attributeName}",
         "PLACE_HOLDER": "Įveskite {attributeName}, kad patvirtintumėte",
         "MESSAGE": "Ištrynus bus pašalintas personalizuotas požymis",
         "YES": "Ištrinti ",

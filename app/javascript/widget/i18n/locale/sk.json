@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefónne číslo je povinné",
         "DIAL_CODE_VALID_ERROR": "Vyberte kód krajiny",
         "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "Žiadne výsledky neboli nájdené"
+        "DROPDOWN_EMPTY": "Žiadne výsledky neboli nájdené",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Správa",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte konverzáciu",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "zdieľal/a url"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

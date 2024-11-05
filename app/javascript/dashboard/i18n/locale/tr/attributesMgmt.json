@@ -3,7 +3,8 @@
     "HEADER": "Özel Nitelikler",
     "HEADER_BTN_TXT": "Nitelik Ekle",
     "LOADING": "Özel Nitelikler getiriliyor",
-    "SIDEBAR_TXT": "<p><b>Özel Nitelikler</b> <p>Bir özel nitelik, kişilerinizle veya konuşmalarınızla ilgili gerçekleri takip eder - abonelik planı gibi veya ilk öğeyi ne zaman sipariş ettikleri gibi. <br /><br />Bir Özel Nitelik oluşturmak için sadece <b>Özel Nitelik Ekle</b> düğmesine tıklayın. Var olan bir Özel Niteliği düzenlemek veya silmek için Düzenle veya Sil düğmesine tıklayabilirsiniz.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Nitelik Ekle",
       "SUBMIT": "Oluştur",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Özel nitelik silinemedi. Tekrar deneyin."
       },
       "CONFIRM": {
-        "TITLE": "Silmek istediğinizden emin misiniz - %{attributeName}",
+        "TITLE": "Silmek istediğinizden emin misiniz - {attributeName}",
         "PLACE_HOLDER": "{attributeName}'ı onaylamak için lütfen yazın",
         "MESSAGE": "Silme işlemi özel niteliği kaldıracaktır",
         "YES": "Sil ",
@@ -91,12 +92,7 @@
       "CONTACT": "İletişim"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ad",
-        "Açıklama",
-        "Tip",
-        "Anahtar"
-      ],
+      "TABLE_HEADER": ["Ad", "Açıklama", "Tip", "Anahtar"],
       "BUTTONS": {
         "EDIT": "Düzenle",
         "DELETE": "Sil"

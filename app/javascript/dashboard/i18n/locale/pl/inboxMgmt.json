@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Zarządzanie skrzynkami",
-    "SIDEBAR_TXT": "<p><b>Skrzynka odbiorcza</b></p> <p>Gdy podłączysz stronę internetową lub stronę na Facebooku do Chatwoot, nazywana jest <b>skrzynką odbiorczą</b>. Możesz mieć nieograniczoną liczbę skrzynek odbiorczych na swoim koncie Chatwoot.</p><p>Kliknij <b>Dodaj skrzynkę odbiorczą</b>, aby połączyć swoją stronę internetową lub stronę na Facebooku.</p><p>W panelu możesz zobaczyć wszystkie rozmowy ze wszystkich swoich skrzynek odbiorczych w jednym miejscu i odpowiadać na nie w zakładce „Konwersacje”.</p><p>Możesz również zobaczyć rozmowy specyficzne dla danej skrzynki odbiorczej, klikając na nazwę skrzynki odbiorczej w lewym panelu nawigacyjnym.</p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Kliknij przycisk Zaloguj się za pomocą Microsoft, aby rozpocząć. Nastąpi przekierowanie do strony logowania przez e-mail. Po zaakceptowaniu wymaganych uprawnień zostaniesz przekierowany z powrotem do etapu tworzenia skrzynki odbiorczej.",
         "EMAIL_PLACEHOLDER": "Wprowadź adres e-mail",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Aby dodać swoje konto Microsoft jako kanał, musisz uwierzytelnić swoje konto Microsoft, klikając \"Zaloguj się za pomocą Microsoft\" ",
         "ERROR_MESSAGE": "Wystąpił błąd połączenia z Microsoft, spróbuj ponownie"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Wprowadź adres e-mail",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Uwierzytelnianie za pomocą Facebooka...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Coś poszło nie tak. Proszę odświeżyć stronę...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Inni dostawcy"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Kanał API"
     }
   }
 }

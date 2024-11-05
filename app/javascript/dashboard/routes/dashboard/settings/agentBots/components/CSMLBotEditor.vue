@@ -11,6 +11,7 @@ export default {
       default: () => {},
     },
   },
+  emits: ['submit'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -45,7 +46,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <div class="flex flex-row">
       <div class="w-[68%]">
         <div class="h-[calc(100vh-56px)] relative">

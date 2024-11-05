@@ -55,6 +55,9 @@
       "CREATED_AT": "Oprettet den",
       "LAST_ACTIVITY": "Last activity"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Værdi er påkrævet"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "Additional filters",

@@ -12,6 +12,7 @@ export default {
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
   },
+  emits: ['update'],
   data() {
     return {
       isEditing: false,

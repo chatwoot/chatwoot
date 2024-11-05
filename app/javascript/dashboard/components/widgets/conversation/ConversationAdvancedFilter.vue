@@ -9,6 +9,7 @@ import { useFilter } from 'shared/composables/useFilter';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
+import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
@@ -36,6 +37,7 @@ export default {
       default: false,
     },
   },
+  emits: ['applyFilter', 'updateFolder'],
   setup() {
     const { setFilterAttributes } = useFilter({
       filteri18nKey: 'FILTER',
@@ -141,8 +143,27 @@ export default {
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type?.filterOperators;
     },
+    statusFilterItems() {
+      return {
+        open: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+        },
+        resolved: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+        },
+        pending: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+        },
+        snoozed: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+        },
+        all: {
+          TEXT: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
+        },
+      };
+    },
     getDropdownValues(type) {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      const statusFilters = this.statusFilterItems();
       const allCustomAttributes = this.$store.getters[
         'attributes/getAttributesByModel'
       ](this.attributeModel);
@@ -268,7 +289,7 @@ export default {
           JSON.parse(JSON.stringify(this.appliedFilters))
         );
         this.$emit('applyFilter', this.appliedFilters);
-        this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
+        useTrack(CONVERSATION_EVENTS.APPLY_FILTER, {
           applied_filters: this.appliedFilters.map(filter => ({
             key: filter.attribute_key,
             operator: filter.filter_operator,
@@ -343,8 +364,8 @@ export default {
               ? $t(`CONTACTS_FILTER.ERRORS.VALUE_REQUIRED`)
               : ''
           "
-          @resetFilter="resetFilter(i, appliedFilters[i])"
-          @removeFilter="removeFilter(i)"
+          @reset-filter="resetFilter(i, appliedFilters[i])"
+          @remove-filter="removeFilter(i)"
         />
         <div class="mt-4">
           <woot-button

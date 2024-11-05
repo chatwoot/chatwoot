@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "E-mail professionnel",
-      "PLACEHOLDER": "Entrez votre adresse e-mail professionnelle. Ex. : bruce@wayne.enterprises",
+      "PLACEHOLDER": "Entrez votre adresse e-mail professionnelle. Ex. : bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Veuillez entrer une adresse e-mail professionnelle valide"
     },
     "PASSWORD": {

@@ -2,8 +2,8 @@
   "LOGIN": {
     "TITLE": "Entrar no Chatwoot",
     "EMAIL": {
-      "LABEL": "e-mail",
-      "PLACEHOLDER": "exemplo@nomedaempresa.pt",
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "exemplo{'@'}nomedaempresa.pt",
       "ERROR": "Por favor, insira um endereço de e-mail válido"
     },
     "PASSWORD": {
@@ -11,16 +11,16 @@
       "PLACEHOLDER": "Palavra-passe"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login bem sucedido",
+      "SUCCESS_MESSAGE": "Login bem-sucedido",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente.",
-      "UNAUTH": "Nome de utilizador ou senha incorretos. Por favor, tente novamente."
+      "UNAUTH": "E-mail ou palavra-passe incorretos. Por favor, tente novamente."
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Entrar com o Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Use o endereço de e-mail da empresa para fazer login",
-      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de e-mail."
+      "GOOGLE_LOGIN": "Iniciar sessão com o Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Por favor, use o endereço de e-mail da empresa para iniciar sessão",
+      "NO_ACCOUNT_FOUND": "Não conseguimos encontrar uma conta com o seu endereço de e-mail."
     },
-    "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
+    "FORGOT_PASSWORD": "Esqueceu-se da sua palavra-passe?",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",
     "SUBMIT": "Iniciar sessão"
   }

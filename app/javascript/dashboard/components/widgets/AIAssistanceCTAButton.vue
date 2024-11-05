@@ -1,8 +1,10 @@
 <script>
 export default {
+  emits: ['open'],
+
   methods: {
     onClick() {
-      this.$emit('click');
+      this.$emit('open');
     },
   },
 };

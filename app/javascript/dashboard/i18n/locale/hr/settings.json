@@ -277,6 +277,7 @@
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Postavi sebe kao",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pregled",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
@@ -300,7 +301,7 @@
     "TITLE": "Naplata",
     "CURRENT_PLAN": {
       "TITLE": "Trenutni plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Upravljanje pretplatom",

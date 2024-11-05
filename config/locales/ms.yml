@@ -29,6 +29,7 @@ ms:
       invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -261,10 +262,14 @@ ms:
     button: Open conversation
   time_units:
     days:
+      one: "%{count} day"
       other: "%{count} days"
     hours:
+      one: "%{count} hour"
       other: "%{count} hours"
     minutes:
+      one: "%{count} minute"
       other: "%{count} minutes"
     seconds:
+      one: "%{count} second"
       other: "%{count} seconds"

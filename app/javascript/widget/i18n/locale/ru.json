@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Требуется указать номер телефона",
         "DIAL_CODE_VALID_ERROR": "Пожалуйста выберите код страны",
         "VALID_ERROR": "Пожалуйста, введите действительный номер телефона",
-        "DROPDOWN_EMPTY": "Результаты не найдены"
+        "DROPDOWN_EMPTY": "Результаты не найдены",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Сообщение",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Искать эмодзи",
-    "NOT_FOUND": "По Вашему запросу не было найдено эмодзи"
+    "NOT_FOUND": "По Вашему запросу не было найдено эмодзи",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Оцените разговор",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "поделился ссылкой"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Ответить:"
   }
 }

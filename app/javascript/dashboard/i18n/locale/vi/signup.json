@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Email công việc",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce@wayne.enterprises",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Vui lòng nhập địa chỉ email công việc hợp lệ."
     },
     "PASSWORD": {

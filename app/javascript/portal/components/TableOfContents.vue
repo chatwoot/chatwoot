@@ -24,7 +24,7 @@ export default {
     this.initializeIntersectionObserver();
     window.addEventListener('hashchange', this.onURLHashChange);
   },
-  beforeDestroy() {
+  unmounted() {
     window.removeEventListener('hashchange', this.onURLHashChange);
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();

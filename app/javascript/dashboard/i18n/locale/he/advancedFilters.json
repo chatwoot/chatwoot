@@ -55,6 +55,9 @@
       "CREATED_AT": "נוצר בזמן",
       "LAST_ACTIVITY": "פעילות אחרונה"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "חובה ערך"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
       "ADDITIONAL_FILTERS": "פילטרים נוספים",
