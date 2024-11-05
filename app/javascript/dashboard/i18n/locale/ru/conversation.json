@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Оригинальное содержимое",
     "TRANSLATED_CONTENT": "Перевод",
     "NO_TRANSLATIONS_AVAILABLE": "Для этого содержимого нет доступных переводов"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
