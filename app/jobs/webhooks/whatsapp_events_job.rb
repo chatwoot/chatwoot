@@ -11,6 +11,8 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
+
+    forward_webhook_to_additional_endpoints(params)
   end
 
   private
@@ -44,5 +46,22 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+  end
+
+  def forward_webhook_to_additional_endpoints(params)
+    additional_endpoints = ENV['WHATSAPP_WEBHOOK_URLS']&.split(',')&.map(&:strip)
+    return if additional_endpoints.blank?
+
+    additional_endpoints.each do |endpoint|
+      begin
+        HTTParty.post(
+          endpoint,
+          body: params.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+      rescue StandardError => e
+        Rails.logger.error "Error forwarding WhatsApp webhook to #{endpoint}: #{e.message}"
+      end
+    end
   end
 end
