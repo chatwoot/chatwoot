@@ -337,8 +337,8 @@
     "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
   },
   "TYPING": {
-    "SINGLE": "{user} está digitando",
-    "DOUBLE": "{user} e {secondUser} estão digitando",
-    "MULTIPLE": "{user} e ${rest} outros estão digitando"
+    "ONE": "{user} está digitando",
+    "TWO": "{user} e {secondUser} estão digitando",
+    "MULTIPLE": "{user} e {count} outros estão digitando"
   }
 }

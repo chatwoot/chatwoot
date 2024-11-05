@@ -27,18 +27,20 @@ export const isJSONValid = value => {
 
 export const getTypingUsersText = (users = []) => {
   const count = users.length;
+  const [firstUser, secondUser] = users;
+
   if (count === 1) {
-    const [user] = users;
-    return ['TYPING.SINGLE', { user: user.name }];
+    return ['TYPING.ONE', { user: firstUser.name }];
   }
 
   if (count === 2) {
-    const [first, second] = users;
-    return ['TYPING.DOUBLE', { user: first.name, secondUser: second.name }];
+    return [
+      'TYPING.TWO',
+      { user: firstUser.name, secondUser: secondUser.name },
+    ];
   }
 
-  const [user] = users;
-  return ['TYPING.MULTIPLE', { user: user.name, rest: users.length - 1 }];
+  return ['g.MULTIPLE', { user: firstUser.name, count: count - 1 }];
 };
 
 export const createPendingMessage = data => {
