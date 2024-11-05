@@ -40,7 +40,7 @@ export const getTypingUsersText = (users = []) => {
     ];
   }
 
-  return ['g.MULTIPLE', { user: firstUser.name, count: count - 1 }];
+  return ['TYPING.MULTIPLE', { user: firstUser.name, count: count - 1 }];
 };
 
 export const createPendingMessage = data => {
