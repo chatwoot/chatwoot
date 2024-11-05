@@ -2,38 +2,10 @@ import {
   isSameYear,
   fromUnixTime,
   formatDistanceToNow,
+  formatDistanceToNowStrict,
   isSameDay,
 } from 'date-fns';
 import * as locales from 'date-fns/locale';
-
-const selectedLocaleToDateFns = (locale = 'en') => {
-  return locales[locale.replace('_', '')];
-};
-
-/**
- * Formats a Unix timestamp into a human-readable time format.
- * @param {number} time - Unix timestamp.
- * @param {boolean} [fullDateTime=true] - Desired format of the time.
- * @param {string} [locale='en'] - Desired locale and region.
- * @returns {string} Formatted time string.
- */
-export const messageStamp = (time, fullDateTime = false, locale = 'en') => {
-  const unixTime = fromUnixTime(time);
-  let options;
-  options = {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  };
-  if (fullDateTime) {
-    options = {
-      dateStyle: 'medium',
-      timeStyle: 'medium',
-    };
-  }
-  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(
-    unixTime
-  );
-};
 
 /**
  * Provides a formatted timestamp, adjusting the format based on the current year.
@@ -41,18 +13,18 @@ export const messageStamp = (time, fullDateTime = false, locale = 'en') => {
  * @param {string} [locale='en'] - Desired locale and region.
  * @returns {string} Formatted date string.
  */
-export const messageTimestamp = (time, locale = 'en') => {
+export const messageDateFormat = (time, locale = 'en') => {
   const messageTime = fromUnixTime(time);
   const now = new Date();
   let options;
   if (isSameYear(messageTime, now)) {
     options = {
       dateStyle: 'medium',
-      timeStyle: 'medium',
+      timeStyle: 'short',
     };
     if (isSameDay(messageTime, now)) {
       options = {
-        timeStyle: 'medium',
+        timeStyle: 'short',
       };
     }
   } else {
@@ -60,9 +32,40 @@ export const messageTimestamp = (time, locale = 'en') => {
       dateStyle: 'medium',
     };
   }
-
   return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(
     messageTime
+  );
+};
+
+/**
+ * Formats a Unix timestamp into a specified date format.
+ * @param {number} time - Unix timestamp.
+ * @param {string} [locale='en'] - Desired locale and region.
+ * @returns {string} Formatted date string.
+ */
+export const dateFormat = (time, formatStyle = 'dateM', locale = 'en') => {
+  const unixTime = fromUnixTime(time);
+  const options = {};
+  switch (formatStyle) {
+    case 'dateS':
+      options.dateStyle = 'short';
+      break;
+    case 'dateM':
+      options.dateStyle = 'medium';
+      break;
+    case 'dateM_timeS':
+      options.dateStyle = 'medium';
+      options.timeStyle = 'short';
+      break;
+    case 'dateM_timeM':
+      options.dateStyle = 'medium';
+      options.timeStyle = 'medium';
+      break;
+    default:
+      options.dateStyle = 'medium';
+  }
+  return new Intl.DateTimeFormat(locale.replace('_', '-'), options).format(
+    unixTime
   );
 };
 
@@ -72,25 +75,12 @@ export const messageTimestamp = (time, locale = 'en') => {
  * @param {string} [locale='en'] - Desired locale and region.
  * @returns {string} Relative time string.
  */
-export const dynamicTime = (time, locale) => {
+export const dynamicTime = (time, locale = 'en') => {
   const unixTime = fromUnixTime(time);
   return formatDistanceToNow(unixTime, {
     addSuffix: true,
-    locale: selectedLocaleToDateFns(locale),
+    locale: locales[locale.replace('_', '')],
   });
-};
-
-/**
- * Formats a Unix timestamp into a specified date format.
- * @param {number} time - Unix timestamp.
- * @param {string} [locale='en'] - Desired locale and region.
- * @returns {string} Formatted date string.
- */
-export const dateFormat = (time, locale = 'en') => {
-  const unixTime = fromUnixTime(time);
-  return new Intl.DateTimeFormat(locale.replace('_', '-'), {
-    dateStyle: 'medium',
-  }).format(unixTime);
 };
 
 /**
@@ -102,8 +92,14 @@ export const dateFormat = (time, locale = 'en') => {
  */
 export const shortTimestamp = (time, withAgo = false, locale = 'en') => {
   const unixTime = fromUnixTime(time);
-  return formatDistanceToNow(unixTime, {
+  if (Date.now() / 1000 - time < 60) {
+    return formatDistanceToNow(unixTime, {
+      addSuffix: withAgo,
+      locale: locales[locale.replace('_', '')],
+    });
+  }
+  return formatDistanceToNowStrict(unixTime, {
     addSuffix: withAgo,
-    locale: selectedLocaleToDateFns(locale),
+    locale: locales[locale.replace('_', '')],
   });
 };

@@ -41,10 +41,10 @@ export default {
   },
   setup() {
     const { getThemeClass } = useDarkMode();
-    const { localeMessageStamp } = useLocaleDateFormatter();
+    const { localeDateFormat } = useLocaleDateFormatter();
     return {
       getThemeClass,
-      localeMessageStamp,
+      localeDateFormat,
     };
   },
   data() {
@@ -66,7 +66,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.localeMessageStamp(createdAt, true);
+      return this.localeDateFormat(createdAt, 'dateM_timeM');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;

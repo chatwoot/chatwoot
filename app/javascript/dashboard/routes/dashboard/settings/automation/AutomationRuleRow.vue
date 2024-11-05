@@ -14,10 +14,11 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle', 'edit', 'delete', 'clone']);
 
-const { localeMessageStamp } = useLocaleDateFormatter();
+const { localeDateFormat } = useLocaleDateFormatter();
 
-const readableDate = date => localeMessageStamp(new Date(date), false);
-const readableDateWithTime = date => localeMessageStamp(new Date(date), true);
+const readableDate = date => localeDateFormat(new Date(date), 'dateM');
+const readableDateWithTime = date =>
+  localeDateFormat(new Date(date), 'dateM_timeM');
 
 const toggle = () => {
   const { id, name, active } = props.automation;

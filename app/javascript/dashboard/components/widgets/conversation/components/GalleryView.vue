@@ -18,7 +18,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
-const { localeMessageTimestamp } = useLocaleDateFormatter();
+const { localeMessageDateFormat } = useLocaleDateFormatter();
 
 const show = defineModel('show', { type: Boolean, default: false });
 
@@ -53,7 +53,7 @@ const hasMoreThanOneAttachment = computed(
 const readableTime = computed(() => {
   const { created_at: createdAt } = activeAttachment.value;
   if (!createdAt) return '';
-  return localeMessageTimestamp(createdAt) || '';
+  return localeMessageDateFormat(createdAt) || '';
 });
 
 const isImage = computed(

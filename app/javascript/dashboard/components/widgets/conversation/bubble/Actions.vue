@@ -56,8 +56,8 @@ export default {
     },
   },
   setup() {
-    const { localeMessageTimestamp } = useLocaleDateFormatter();
-    return { localeMessageTimestamp };
+    const { localeMessageDateFormat } = useLocaleDateFormatter();
+    return { localeMessageDateFormat };
   },
   computed: {
     inbox() {
@@ -82,7 +82,7 @@ export default {
       return MESSAGE_STATUS.SENT === this.messageStatus;
     },
     readableTime() {
-      return this.localeMessageTimestamp(this.createdAt);
+      return this.localeMessageDateFormat(this.createdAt);
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =

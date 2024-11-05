@@ -19,7 +19,7 @@ defineProps({
 });
 
 const { t } = useI18n();
-const { localeMessageStamp } = useLocaleDateFormatter();
+const { localeDateFormat } = useLocaleDateFormatter();
 </script>
 
 <template>
@@ -37,6 +37,6 @@ const { localeMessageStamp } = useLocaleDateFormatter();
     {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.ON') }}
   </span>
   <span class="flex-1 text-sm font-medium truncate text-n-slate-12">
-    {{ localeMessageStamp(new Date(scheduledAt), true) }}
+    {{ localeDateFormat(new Date(scheduledAt), 'dateM_timeS') }}
   </span>
 </template>

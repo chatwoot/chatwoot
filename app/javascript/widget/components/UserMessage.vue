@@ -37,8 +37,8 @@ export default {
     },
   },
   setup() {
-    const { localeMessageStamp } = useLocaleDateFormatter();
-    return { localeMessageStamp };
+    const { localeDateFormat } = useLocaleDateFormatter();
+    return { localeDateFormat };
   },
   data() {
     return {
@@ -61,7 +61,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.localeMessageStamp(createdAt, false);
+      return this.localeDateFormat(createdAt, 'dateM_timeM');
     },
     isFailed() {
       const { status = '' } = this.message;
