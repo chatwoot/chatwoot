@@ -167,7 +167,7 @@ const updateCurrentPage = page => {
 
     <div
       v-if="slots.sidebar"
-      class="overflow-y-auto justify-end min-w-[200px] w-full max-w-[440px] border-l border-n-weak bg-n-solid-2"
+      class="overflow-y-auto justify-end min-w-[200px] w-full py-6 max-w-[440px] border-l border-n-weak bg-n-solid-2"
     >
       <slot name="sidebar" />
     </div>
