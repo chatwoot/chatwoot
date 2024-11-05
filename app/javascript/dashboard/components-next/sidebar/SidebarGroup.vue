@@ -101,7 +101,7 @@ const toggleTrigger = () => {
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
-    class="text-sm cursor-pointer select-none gap-1 grid"
+    class="grid gap-1 text-sm cursor-pointer select-none"
   >
     <SidebarGroupHeader
       :icon
@@ -117,7 +117,7 @@ const toggleTrigger = () => {
     <ul
       v-if="hasChildren"
       v-show="isExpanded || hasActiveChild"
-      class="list-none m-0 grid sidebar-group-children"
+      class="grid m-0 list-none sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
         <SidebarSubGroup
