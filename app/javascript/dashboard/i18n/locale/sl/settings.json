@@ -51,7 +51,7 @@
         "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
+        "TITLE": "Geslo",
         "NOTE": "Updating your password would reset your logins in multiple devices.",
         "BTN_TEXT": "Change password"
       },
@@ -98,7 +98,7 @@
       "NOTIFICATIONS": {
         "TITLE": "Notification preferences",
         "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
+        "EMAIL": "E-pošta",
         "PUSH": "Push notification",
         "TYPES": {
           "CONVERSATION_CREATED": "A new conversation is created",
@@ -243,7 +243,7 @@
     "CAPTAIN": "Captain",
     "HOME": "Home",
     "AGENTS": "Agents",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "Boti",
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
