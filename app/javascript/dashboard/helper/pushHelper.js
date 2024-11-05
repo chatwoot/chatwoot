@@ -14,7 +14,7 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
   }
 
   navigator.serviceWorker
-    .register('/sw.js?v=2')
+    .register('/sw.js')
     .then(registration => callback(registration))
     .catch(registrationError => {
       // eslint-disable-next-line

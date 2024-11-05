@@ -1,6 +1,22 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-restricted-globals, no-console */
 /* globals clients */
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+});
+
 self.addEventListener('push', event => {
   let notification = event.data && event.data.json();
 
