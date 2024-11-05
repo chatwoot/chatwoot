@@ -168,8 +168,7 @@ watch(
       :style="avatarStyles"
     >
       <!-- Avatar Content -->
-      <component
-        :is="src && isImageValid ? 'img' : 'div'"
+      <img
         v-if="src && isImageValid"
         :src="src"
         :alt="name"
