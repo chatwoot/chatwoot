@@ -1,8 +1,6 @@
 <!-- Unused file deprecated -->
 <script>
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
-
-const { localeDynamicTime } = useLocaleDateFormatter();
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   props: {
@@ -24,10 +22,13 @@ export default {
     },
   },
   emits: ['more'],
-
+  setup() {
+    const { localeDynamicTime } = useLocaleDateFormatter();
+    return { localeDynamicTime };
+  },
   computed: {
     readableTime() {
-      return localeDynamicTime(this.timeStamp);
+      return this.localeDynamicTime(this.timeStamp);
     },
   },
 

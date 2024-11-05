@@ -2,7 +2,7 @@
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
@@ -15,8 +15,6 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
-
-const { localeMessageStamp } = useLocaleDateFormatter();
 
 export default {
   name: 'AgentMessage',
@@ -43,8 +41,10 @@ export default {
   },
   setup() {
     const { getThemeClass } = useDarkMode();
+    const { localeMessageStamp } = useLocaleDateFormatter();
     return {
       getThemeClass,
+      localeMessageStamp,
     };
   },
   data() {
@@ -66,7 +66,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return localeMessageStamp(createdAt, true);
+      return this.localeMessageStamp(createdAt, true);
     },
     messageType() {
       const { message_type: type = 1 } = this.message;

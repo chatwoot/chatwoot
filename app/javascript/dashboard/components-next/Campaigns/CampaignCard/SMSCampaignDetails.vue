@@ -1,6 +1,6 @@
 <script setup>
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 
 import { useI18n } from 'vue-i18n';
 defineProps({

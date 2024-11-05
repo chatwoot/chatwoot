@@ -1,6 +1,6 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';

@@ -1,5 +1,5 @@
 <script setup>
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 
 const props = defineProps({
   automation: {

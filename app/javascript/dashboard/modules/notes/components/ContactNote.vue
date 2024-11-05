@@ -1,9 +1,7 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
-
-const { localeDynamicTime } = useLocaleDateFormatter();
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   components: {
@@ -30,8 +28,10 @@ export default {
   emits: ['delete'],
   setup() {
     const { formatMessage } = useMessageFormatter();
+    const { localeDynamicTime } = useLocaleDateFormatter();
     return {
       formatMessage,
+      localeDynamicTime,
     };
   },
   data() {
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     readableTime() {
-      return localeDynamicTime(this.createdAt);
+      return this.localeDynamicTime(this.createdAt);
     },
     noteAuthor() {
       return this.user || {};

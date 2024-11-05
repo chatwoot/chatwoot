@@ -1,9 +1,7 @@
 <script>
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
-
-const { localeDynamicTime } = useLocaleDateFormatter();
 
 export default {
   components: {
@@ -39,6 +37,10 @@ export default {
       default: 0,
     },
   },
+  setup() {
+    const { localeDynamicTime } = useLocaleDateFormatter();
+    return { localeDynamicTime };
+  },
   computed: {
     navigateTo() {
       const params = {};
@@ -51,7 +53,7 @@ export default {
       );
     },
     createdAtTime() {
-      return localeDynamicTime(this.createdAt);
+      return this.localeDynamicTime(this.createdAt);
     },
   },
 };

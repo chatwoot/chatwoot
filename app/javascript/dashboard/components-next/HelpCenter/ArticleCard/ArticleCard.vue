@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 import {
   ARTICLE_MENU_ITEMS,
   ARTICLE_MENU_OPTIONS,

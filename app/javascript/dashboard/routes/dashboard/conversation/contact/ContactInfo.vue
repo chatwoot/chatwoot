@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -17,8 +17,6 @@ import {
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
 import { emitter } from 'shared/helpers/mitt';
-
-const { localeDynamicTime } = useLocaleDateFormatter();
 
 export default {
   components: {
@@ -50,8 +48,10 @@ export default {
   emits: ['togglePanel', 'panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
+    const { localeDynamicTime } = useLocaleDateFormatter();
     return {
       isAdmin,
+      localeDynamicTime,
     };
   },
   data() {
@@ -101,7 +101,6 @@ export default {
     },
   },
   methods: {
-    localeDynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },

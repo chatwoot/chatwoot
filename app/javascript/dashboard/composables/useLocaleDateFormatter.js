@@ -7,7 +7,7 @@ import {
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
 
-export default function useLocaleDateFormatter() {
+export function useLocaleDateFormatter() {
   const { locale } = useI18n();
 
   const localeDynamicTime = (...args) => dynamicTime(...args, locale.value);

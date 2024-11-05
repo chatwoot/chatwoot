@@ -2,7 +2,7 @@
 import { defineEmits, computed, h } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 
 // [TODO] Instead of converting the values to their reprentation when building the tableData
 // We should do the change in the cell

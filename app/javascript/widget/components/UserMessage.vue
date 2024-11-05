@@ -5,15 +5,13 @@ import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { mapGetters } from 'vuex';
-
-const { localeMessageStamp } = useLocaleDateFormatter();
 
 export default {
   name: 'UserMessage',
@@ -38,6 +36,10 @@ export default {
       default: () => {},
     },
   },
+  setup() {
+    const { localeMessageStamp } = useLocaleDateFormatter();
+    return { localeMessageStamp };
+  },
   data() {
     return {
       hasImageError: false,
@@ -59,7 +61,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return localeMessageStamp(createdAt, false);
+      return this.localeMessageStamp(createdAt, false);
     },
     isFailed() {
       const { status = '' } = this.message;

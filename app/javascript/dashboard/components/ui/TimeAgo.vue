@@ -3,10 +3,7 @@ const MINUTE_IN_MILLI_SECONDS = 60000;
 const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
 const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
-import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
-
-const { localeDynamicTime, localeDateFormat, localeShortTimestamp } =
-  useLocaleDateFormatter();
+import { useLocaleDateFormatter } from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   name: 'TimeAgo',
@@ -24,19 +21,24 @@ export default {
       default: '',
     },
   },
+  setup() {
+    const { localeDynamicTime, localeDateFormat, localeShortTimestamp } =
+      useLocaleDateFormatter();
+    return { localeDynamicTime, localeDateFormat, localeShortTimestamp };
+  },
   data() {
     return {
-      lastActivityAtTimeAgo: localeDynamicTime(this.lastActivityTimestamp),
-      createdAtTimeAgo: localeDynamicTime(this.createdAtTimestamp),
+      lastActivityAtTimeAgo: this.localeDynamicTime(this.lastActivityTimestamp),
+      createdAtTimeAgo: this.localeDynamicTime(this.createdAtTimestamp),
       timer: null,
     };
   },
   computed: {
     lastActivityTime() {
-      return localeShortTimestamp(this.lastActivityTimestamp, false);
+      return this.localeShortTimestamp(this.lastActivityTimestamp, false);
     },
     createdAtTime() {
-      return localeShortTimestamp(this.createdAtTimestamp, false);
+      return this.localeShortTimestamp(this.createdAtTimestamp, false);
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
@@ -45,7 +47,7 @@ export default {
         ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${
             this.createdAtTimeAgo
           }`
-        : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${localeDateFormat(
+        : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${this.localeDateFormat(
             this.createdAtTimestamp
           )}`;
     },
@@ -57,7 +59,7 @@ export default {
         ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${this.lastActivityAtTimeAgo}`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
-          )} ${localeDateFormat(this.lastActivityTimestamp)}`;
+          )} ${this.localeDateFormat(this.lastActivityTimestamp)}`;
     },
     tooltipText() {
       return `${this.createdAt}
@@ -66,12 +68,12 @@ export default {
   },
   watch: {
     lastActivityTimestamp() {
-      this.lastActivityAtTimeAgo = localeDynamicTime(
+      this.lastActivityAtTimeAgo = this.localeDynamicTime(
         this.lastActivityTimestamp
       );
     },
     createdAtTimestamp() {
-      this.createdAtTimeAgo = localeDynamicTime(this.createdAtTimestamp);
+      this.createdAtTimeAgo = this.localeDynamicTime(this.createdAtTimestamp);
     },
   },
   mounted() {
@@ -85,10 +87,10 @@ export default {
   methods: {
     createTimer() {
       this.timer = setTimeout(() => {
-        this.lastActivityAtTimeAgo = localeDynamicTime(
+        this.lastActivityAtTimeAgo = this.localeDynamicTime(
           this.lastActivityTimestamp
         );
-        this.createdAtTimeAgo = localeDynamicTime(this.createdAtTimestamp);
+        this.createdAtTimeAgo = this.localeDynamicTime(this.createdAtTimestamp);
         this.createTimer();
       }, this.refreshTime());
     },
