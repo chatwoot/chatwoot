@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Eredeti szöveg",
     "TRANSLATED_CONTENT": "Fordított szöveg",
     "NO_TRANSLATIONS_AVAILABLE": "Nem elérhető fordítás ehhez a tartalomhoz"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
   }
 }
