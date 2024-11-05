@@ -9,7 +9,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import Button from 'dashboard/components-next/Button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const store = useStore();
