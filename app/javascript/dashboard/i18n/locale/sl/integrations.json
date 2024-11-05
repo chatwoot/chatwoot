@@ -262,7 +262,7 @@
             "SEARCH": "Search assignee"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
+            "LABEL": "Prioriteta",
             "PLACEHOLDER": "Select priority",
             "SEARCH": "Search priority"
           },
@@ -291,7 +291,7 @@
       },
       "ISSUE": {
         "STATUS": "Status",
-        "PRIORITY": "Priority",
+        "PRIORITY": "Prioriteta",
         "ASSIGNEE": "Prejemnik",
         "LABELS": "Labels",
         "CREATED_AT": "Created at {createdAt}"
