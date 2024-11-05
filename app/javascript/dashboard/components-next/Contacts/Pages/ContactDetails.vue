@@ -72,7 +72,7 @@ const openConfirmDeleteContactDialog = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start gap-8">
+  <div class="flex flex-col items-start gap-8 pb-6">
     <div class="flex flex-col items-start gap-3">
       <EditableAvatar
         :src="selectedContact.thumbnail"
@@ -83,7 +83,13 @@ const openConfirmDeleteContactDialog = () => {
           {{ selectedContact.name }}
         </h3>
         <span class="text-sm text-n-slate-11">
-          {{ createdAt }} • {{ lastActivityAt }}
+          {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
+          •
+          {{
+            $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
+              date: lastActivityAt,
+            })
+          }}
         </span>
       </div>
       <ContactLabels :contact-id="selectedContact.id" />
@@ -94,12 +100,16 @@ const openConfirmDeleteContactDialog = () => {
       @update="handleFormUpdate"
     />
     <div
-      class="flex items-end justify-end w-full gap-4 border-t h-14 border-n-strong"
+      class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
     >
-      <Button
-        color="slate"
-        :label="t('CONTACTS_LAYOUT.DETAILS.MERGE_CONTACT')"
-      />
+      <div class="flex flex-col gap-2">
+        <h6 class="text-base font-medium text-n-slate-12">
+          {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
+        </h6>
+        <span class="text-sm text-n-slate-11">
+          {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
+        </span>
+      </div>
       <Button
         :label="t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT')"
         color="ruby"

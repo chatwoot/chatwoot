@@ -451,7 +451,9 @@
     },
     "DETAILS": {
       "TAG_BUTTON": "tag",
-      "MERGE_CONTACT": "Merge contact",
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Delete contact",
       "DELETE_DIALOG": {
         "TITLE": "Confirm Deletion",
@@ -461,6 +463,20 @@
           "SUCCESS_MESSAGE": "Contact deleted successfully",
           "ERROR_MESSAGE": "Could not delete contact. Please try again later."
         }
+      }
+    },
+    "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notes",
+        "MERGE": "Merge"
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Add a note",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note"
       }
     }
   }

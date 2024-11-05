@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, useSlots } from 'vue';
 
 import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
@@ -44,6 +44,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const slots = useSlots();
 
 const isFocused = ref(false);
 
@@ -119,12 +121,16 @@ watch(
         @blur="handleBlur"
       />
       <div
-        v-if="showCharacterCount"
+        v-if="showCharacterCount || slots.actions"
         class="flex items-center justify-end h-4 ltr:right-3 rtl:left-3"
       >
-        <span class="text-xs tabular-nums text-n-slate-10">
+        <span
+          v-if="showCharacterCount && !slots.actions"
+          class="text-xs tabular-nums text-n-slate-10"
+        >
           {{ characterCount }} / {{ maxLength }}
         </span>
+        <slot v-else name="actions" />
       </div>
     </div>
     <p
@@ -144,7 +150,7 @@ watch(
       @apply gap-2 !important;
 
       .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5  !important;
+        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 !top-0 !relative !important;
 
         .ProseMirror-menuitem {
           @apply h-5 !important;
@@ -163,7 +169,7 @@ watch(
           @apply m-0 !important;
 
           &::before {
-            @apply text-n-slate-11 dark:text-n-slate-11 !important;
+            @apply text-n-slate-10 dark:text-n-slate-10 !important;
           }
         }
       }
