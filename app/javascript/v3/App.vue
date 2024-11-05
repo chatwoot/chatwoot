@@ -31,7 +31,7 @@ export default {
       };
     },
     setLocale(locale) {
-      this.$i18n.locale = locale;
+      this.$i18n.locale = locale.replace('-', '_');
     },
   },
 };
