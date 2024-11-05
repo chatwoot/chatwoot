@@ -56,7 +56,7 @@
       "TITLE": "Article Settings",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
+          "LABEL": "Kategorija",
           "TITLE": "Select category",
           "PLACEHOLDER": "Select category",
           "NO_RESULT": "No category found",
@@ -318,7 +318,7 @@
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Title",
-        "CATEGORY": "Category",
+        "CATEGORY": "Kategorija",
         "READ_COUNT": "Views",
         "STATUS": "Status",
         "LAST_EDITED": "Last edited"
