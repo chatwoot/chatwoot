@@ -125,7 +125,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     message = Message.find_by(source_id: source_id)
 
     if message
-      render json: { display_id: message.conversation.display_id }
+      render json: { display_id: message.conversation.display_id, contact_name: message.sender.name, contact_avatar: message.sender.avatar_url }
     else
       render json: { display_id: nil }, status: :not_found
     end

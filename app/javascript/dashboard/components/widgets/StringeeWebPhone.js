@@ -47,34 +47,51 @@ export default function initStringeeWebPhone(
       StringeeSoftPhone.config({ showMode: 'none' });
   });
 
+  function sendNotification(contactName, avatar, url) {
+    const notificationOptions = {
+      body: `Bạn có cuộc gọi đến từ ${contactName}`,
+      actions: [
+        { action: 'answer', title: 'Trả lời' },
+        { action: 'decline', title: 'Từ chối' },
+      ],
+      data: {
+        url: url,
+      },
+      icon: avatar || '/assets/images/dashboard/channels/phone_calling.png',
+    };
+
+    navigator.serviceWorker.ready.then(registration => {
+      registration.showNotification('Cuộc gọi đến', notificationOptions);
+    });
+  }
+
   StringeeSoftPhone.on('incomingCall', async incomingcall => {
     window.onbeforeunload = () => {
       // Do nothing to bypass the default confirmation to leave site in browser
     };
     try {
-      if (hasPushPermissions()) {
-        const notificationOptions = {
-          body: `Bạn có cuộc gọi đến từ ${incomingcall.fromNumber}`,
-          actions: [
-            { action: 'answer', title: 'Trả lời' },
-            { action: 'decline', title: 'Từ chối' },
-          ],
-          // icon: 'path/to/icon.png',
-        };
-
-        navigator.serviceWorker.ready.then(registration => {
-          registration.showNotification('Cuộc gọi đến', notificationOptions);
-        });
-      } else {
-        requestPushPermissions();
-      }
-
       const response = await conversations.findByMessage(incomingcall.callId);
       const displayId = response.data.display_id;
       const accountId = window.location.pathname.split('/')[3];
-
       const url = `/app/accounts/${accountId}/conversations/${displayId}`;
       if (!window.location.href.endsWith(url)) window.location.href = url;
+
+      if (hasPushPermissions()) {
+        sendNotification(
+          response.data.contact_name,
+          response.data.avatar,
+          window.location.href
+        );
+      } else {
+        requestPushPermissions({
+          onSuccess: () =>
+            sendNotification(
+              response.data.contact_name,
+              response.data.avatar,
+              window.location.href
+            ),
+        });
+      }
     } catch (error) {
       console.error('Error opening contact page:', error);
     }
