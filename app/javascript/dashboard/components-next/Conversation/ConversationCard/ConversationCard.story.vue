@@ -331,28 +331,6 @@ const conversationWithMeta = {
   ],
 };
 
-const slaPolicyWithNRT = computed(() => ({
-  waiting_since: 1730894368,
-  created_at: 1730894287,
-  timestamp: 1730894384,
-  first_reply_created_at: 1730894306,
-  sla_policy_id: 4,
-  applied_sla: {
-    id: 146,
-    sla_id: 4,
-    sla_status: 'active',
-    created_at: 1730894307,
-    updated_at: 1730894307,
-    sla_description: 'Enterprise sla Friendly promises for great service!',
-    sla_name: 'Enterprise SLA',
-    sla_first_response_time_threshold: 600,
-    sla_next_response_time_threshold: 1200,
-    sla_only_during_business_hours: false,
-    sla_resolution_time_threshold: 3600,
-  },
-  sla_events: [],
-}));
-
 const contactForConversationWithoutMeta = computed(() => ({
   availability_status: null,
   email: 'candice@chatwoot.com',
@@ -487,7 +465,6 @@ const accountLabels = computed(() => [
           :conversation="{
             ...conversationWithMeta,
             unreadCount: 2,
-            ...slaPolicyWithNRT,
           }"
           :contact="contactForConversationWithMeta"
           :state-inbox="webWidgetInbox"
