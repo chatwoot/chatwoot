@@ -9,6 +9,8 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDetails.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
+// import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
@@ -63,9 +65,15 @@ const fetchContactNotes = () => {
   if (contactId) store.dispatch('contactNotes/get', { contactId });
 };
 
+const fetchContactConversations = () => {
+  const { contactId } = route.params;
+  if (contactId) store.dispatch('contactConversations/get', contactId);
+};
+
 onMounted(() => {
   fetchActiveContact();
   fetchContactNotes();
+  fetchContactConversations();
 });
 </script>
 
@@ -101,6 +109,7 @@ onMounted(() => {
           />
         </div>
         <ContactNotes v-if="activeTab === 'notes'" />
+        <!-- <ContactHistory v-if="activeTab === 'history'" /> -->
       </template>
     </ContactsLayout>
   </div>

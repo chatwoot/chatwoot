@@ -18,7 +18,10 @@ const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
 
 const fetchContacts = page => {
-  store.dispatch('contacts/get', { page });
+  store.dispatch('contacts/get', {
+    page,
+    sortAttr: '-last_activity_at',
+  });
 };
 
 onMounted(() => {

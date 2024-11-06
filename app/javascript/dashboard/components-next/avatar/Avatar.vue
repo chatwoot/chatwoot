@@ -116,10 +116,15 @@ const avatarStyles = computed(() => ({
   '--dark-text': getColorsByNameLength.value.darkText,
 }));
 
-const badgeStyles = computed(() => ({
-  top: `${props.size - 10}px`,
-  left: `${props.size - 10}px`,
-}));
+const badgeStyles = computed(() => {
+  const badgeSize = Math.max(props.size * 0.35, 8); // 35% of avatar size, minimum 8px
+  return {
+    width: `${badgeSize}px`,
+    height: `${badgeSize}px`,
+    top: `${props.size - badgeSize / 1.1}px`,
+    left: `${props.size - badgeSize / 1.1}px`,
+  };
+});
 
 const iconStyles = computed(() => ({
   fontSize: `${props.size / 1.6}px`,
@@ -147,7 +152,7 @@ watch(
     <slot name="badge" :size="size">
       <div
         v-if="status"
-        class="rounded-full w-2.5 h-2.5 absolute z-20"
+        class="absolute z-20 border rounded-full border-n-slate-3"
         :style="badgeStyles"
         :class="STATUS_CLASSES[status]"
       />
