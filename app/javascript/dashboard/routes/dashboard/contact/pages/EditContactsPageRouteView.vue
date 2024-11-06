@@ -9,7 +9,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDetails.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
-// import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -109,7 +109,7 @@ onMounted(() => {
           />
         </div>
         <ContactNotes v-if="activeTab === 'notes'" />
-        <!-- <ContactHistory v-if="activeTab === 'history'" /> -->
+        <ContactHistory v-if="activeTab === 'history'" />
       </template>
     </ContactsLayout>
   </div>
