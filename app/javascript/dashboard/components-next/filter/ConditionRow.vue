@@ -1,61 +1,104 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
+import Icon from 'next/icon/Icon.vue';
+import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
+import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
+import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
-const { values } = defineProps({
+const props = defineProps({
   attributeKey: { type: String, required: true },
-  // attributeModel: { type: String, required: true },
-  filterOperator: { type: String, required: true },
   values: { type: [String, Number, Array], required: true },
+  isFirst: { type: Boolean, default: false },
+  // attributeModel: { type: String, required: true },
   // customAttributeType: { type: String, default: '' },
-  queryOperator: {
-    type: String,
-    required: true,
-    validator: value => ['and', 'or'].includes(value),
-  },
 });
 
+const filterOperator = defineModel('filterOperator', {
+  type: String,
+  required: true,
+});
+
+const queryOperator = defineModel('queryOperator', {
+  type: String,
+  required: true,
+  validator: value => ['and', 'or'].includes(value),
+});
+
+const toggleQueryOperator = () => {
+  queryOperator.value = queryOperator.value === 'and' ? 'or' : 'and';
+};
+
+const updateFilterOperator = value => {
+  filterOperator.value = value;
+};
+
 const queryOperatorIcon = {
-  and: 'i-woot-match-and',
-  or: 'i-woot-match-or',
+  and: 'i-lucide-ampersands',
+  or: 'i-woot-logic-or',
+};
+
+const FILTER_OPS = {
+  EQUAL_TO: 'equalTo',
+  NOT_EQUAL_TO: 'notEqualTo',
+  IS_PRESENT: 'isPresent',
+  IS_NOT_PRESENT: 'isNotPresent',
+  CONTAINS: 'contains',
+  DOES_NOT_CONTAIN: 'doesNotContain',
+  IS_GREATER_THAN: 'isGreaterThan',
+  IS_LESS_THAN: 'isLessThan',
+  DAYS_BEFORE: 'daysBefore',
 };
 
 const filterOperatorIcon = {
-  equalTo: '=',
-  notEqualTo: '≠',
-  isPresent: '∈',
-  isNotPresent: '∉',
-  contains: '⊇',
-  doesNotContain: '⊅',
-  isGreaterThan: '>',
-  isLessThan: '<',
-  daysBefore: '-n days',
+  [FILTER_OPS.EQUAL_TO]: 'i-ph-equals-bold',
+  [FILTER_OPS.NOT_EQUAL_TO]: 'i-ph-not-equals-bold',
+  [FILTER_OPS.IS_PRESENT]: 'i-ph-member-of-bold',
+  [FILTER_OPS.IS_NOT_PRESENT]: 'i-ph-not-member-of-bold',
+  [FILTER_OPS.CONTAINS]: 'i-ph-superset-of-bold',
+  [FILTER_OPS.DOES_NOT_CONTAIN]: 'i-ph-not-superset-of-bold',
+  [FILTER_OPS.IS_GREATER_THAN]: 'i-ph-greater-than-bold',
+  [FILTER_OPS.IS_LESS_THAN]: 'i-ph-less-than-bold',
+  [FILTER_OPS.DAYS_BEFORE]: 'i-ph-calendar-minus-bold',
 };
 
 const filterOperatorLabel = {
-  equalTo: 'equal to',
-  notEqualTo: 'not equal to',
-  isPresent: 'is present',
-  isNotPresent: 'is not present',
-  contains: 'contains',
-  doesNotContain: 'does not contain',
-  isGreaterThan: 'is greater than',
-  isLessThan: 'is less than',
-  daysBefore: 'days before',
+  [FILTER_OPS.EQUAL_TO]: 'equal to',
+  [FILTER_OPS.NOT_EQUAL_TO]: 'not equal to',
+  [FILTER_OPS.IS_PRESENT]: 'is present',
+  [FILTER_OPS.IS_NOT_PRESENT]: 'is not present',
+  [FILTER_OPS.CONTAINS]: 'contains',
+  [FILTER_OPS.DOES_NOT_CONTAIN]: 'does not contain',
+  [FILTER_OPS.IS_GREATER_THAN]: 'is greater than',
+  [FILTER_OPS.IS_LESS_THAN]: 'is less than',
+  [FILTER_OPS.DAYS_BEFORE]: 'days before',
 };
 
+const filterDropdownOptions = Object.keys(FILTER_OPS).map(key => ({
+  label: filterOperatorLabel[FILTER_OPS[key]],
+  value: FILTER_OPS[key],
+  icon: filterOperatorIcon[FILTER_OPS[key]],
+}));
+
 const valueToShow = computed(() => {
-  if (Array.isArray(values)) {
-    return values.map(v => v.name).join(', ');
+  if (Array.isArray(props.values)) {
+    return props.values.map(v => v.name).join(', ');
   }
 
-  return values;
+  return props.values;
 });
 </script>
 
 <template>
-  <div class="mb-4 rounded-md flex items-center gap-2">
-    <Button sm faded slate :icon="queryOperatorIcon[queryOperator]" />
+  <div class="flex items-center gap-2 mb-4 rounded-md">
+    <Button
+      sm
+      faded
+      slate
+      :class="{ 'invisible pointer-events-none': isFirst }"
+      :icon="queryOperatorIcon[queryOperator]"
+      @click="toggleQueryOperator"
+    />
     <Button
       sm
       faded
@@ -66,15 +109,41 @@ const valueToShow = computed(() => {
     >
       {{ attributeKey }}
     </Button>
-    <Button sm ghost slate>
-      <div class="leading-5">
-        <span class="text-n-blue-text text-lg leading-none">
-          {{ filterOperatorIcon[filterOperator] }}
-        </span>
-        {{ filterOperatorLabel[filterOperator] }}
-      </div>
-    </Button>
-    <Button sm faded slate>
+    <DropdownContainer>
+      <template #trigger="{ toggle }">
+        <Button
+          sm
+          ghost
+          slate
+          :icon="filterOperatorIcon[filterOperator]"
+          @click="toggle"
+        >
+          <template #icon>
+            <Icon
+              :icon="filterOperatorIcon[filterOperator]"
+              class="text-n-blue-text"
+            />
+          </template>
+          <div class="leading-5 text-n-slate-10">
+            {{ filterOperatorLabel[filterOperator] }}
+          </div>
+        </Button>
+      </template>
+      <DropdownBody class="top-0 w-64 z-[909999]">
+        <DropdownItem
+          v-for="option in filterDropdownOptions"
+          :key="option.value"
+          :label="option.label"
+          :icon="option.icon"
+          @click="updateFilterOperator(option.value)"
+        >
+          <template #icon>
+            <Icon :icon="option.icon" class="text-n-blue-text" />
+          </template>
+        </DropdownItem>
+      </DropdownBody>
+    </DropdownContainer>
+    <Button v-if="valueToShow" sm faded slate>
       {{ valueToShow }}
     </Button>
     <Button sm solid slate icon="i-lucide-x" />

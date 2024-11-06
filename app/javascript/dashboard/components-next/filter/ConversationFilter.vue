@@ -14,7 +14,15 @@ const filters = defineModel({
     <div class="mt-1 mb-3 font-medium text-base tracking-tight leading-6">
       {{ 'Filters' }}
     </div>
-    <ConditionRow v-for="filter in filters" :key="filter.id" v-bind="filter" />
+    <ConditionRow
+      v-for="(filter, index) in filters"
+      :key="filter.id"
+      v-model:attribute-key="filter.attributeKey"
+      v-model:filter-operator="filter.filterOperator"
+      v-model:query-operator="filter.queryOperator"
+      v-model:values="filter.values"
+      :is-first="index === 0"
+    />
 
     <div class="flex gap-2 justify-between">
       <Button sm ghost blue> Cancel </Button>
