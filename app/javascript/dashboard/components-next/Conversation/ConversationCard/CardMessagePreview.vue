@@ -19,11 +19,11 @@ const lastNonActivityMessageContent = computed(() => {
 });
 
 const assignee = computed(() => {
-  const { meta = {} } = props.conversation;
+  const { meta: { assignee: agent = {} } = {} } = props.conversation;
   return {
-    name: meta?.assignee?.name || meta?.assignee?.available_name,
-    thumbnail: meta?.assignee?.thumbnail,
-    status: meta?.assignee?.availability_status,
+    name: agent.name ?? agent.available_name,
+    thumbnail: agent.thumbnail,
+    status: agent.availability_status,
   };
 });
 
