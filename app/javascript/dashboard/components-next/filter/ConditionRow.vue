@@ -1,10 +1,7 @@
 <script setup>
-import { computed, defineModel } from 'vue';
+import { computed, defineModel, h } from 'vue';
 import Button from 'next/button/Button.vue';
-import Icon from 'next/icon/Icon.vue';
-import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
-import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
-import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
+import FilterSelect from './FilterSelect.vue';
 
 const props = defineProps({
   attributeKey: { type: String, required: true },
@@ -27,10 +24,6 @@ const queryOperator = defineModel('queryOperator', {
 
 const toggleQueryOperator = () => {
   queryOperator.value = queryOperator.value === 'and' ? 'or' : 'and';
-};
-
-const updateFilterOperator = value => {
-  filterOperator.value = value;
 };
 
 const queryOperatorIcon = {
@@ -77,7 +70,11 @@ const filterOperatorLabel = {
 const filterDropdownOptions = Object.keys(FILTER_OPS).map(key => ({
   label: filterOperatorLabel[FILTER_OPS[key]],
   value: FILTER_OPS[key],
-  icon: filterOperatorIcon[FILTER_OPS[key]],
+  icon: h('span', { class: 'flex items-center' }, [
+    h('span', {
+      class: `text-n-blue-text ${filterOperatorIcon[FILTER_OPS[key]]}`,
+    }),
+  ]),
 }));
 
 const valueToShow = computed(() => {
@@ -109,40 +106,7 @@ const valueToShow = computed(() => {
     >
       {{ attributeKey }}
     </Button>
-    <DropdownContainer>
-      <template #trigger="{ toggle }">
-        <Button
-          sm
-          ghost
-          slate
-          :icon="filterOperatorIcon[filterOperator]"
-          @click="toggle"
-        >
-          <template #icon>
-            <Icon
-              :icon="filterOperatorIcon[filterOperator]"
-              class="text-n-blue-text"
-            />
-          </template>
-          <div class="leading-5 text-n-slate-10">
-            {{ filterOperatorLabel[filterOperator] }}
-          </div>
-        </Button>
-      </template>
-      <DropdownBody class="top-0 w-64 z-[909999]">
-        <DropdownItem
-          v-for="option in filterDropdownOptions"
-          :key="option.value"
-          :label="option.label"
-          :icon="option.icon"
-          @click="updateFilterOperator(option.value)"
-        >
-          <template #icon>
-            <Icon :icon="option.icon" class="text-n-blue-text" />
-          </template>
-        </DropdownItem>
-      </DropdownBody>
-    </DropdownContainer>
+    <FilterSelect v-model="filterOperator" :options="filterDropdownOptions" />
     <Button v-if="valueToShow" sm faded slate>
       {{ valueToShow }}
     </Button>
