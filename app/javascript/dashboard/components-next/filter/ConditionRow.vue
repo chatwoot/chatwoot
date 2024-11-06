@@ -68,10 +68,9 @@ const filterDropdownOptions = Object.keys(FILTER_OPS).map(key => ({
   ]),
 }));
 
-const queryDropdownOptions = [
-  { label: 'And', value: 'and', icon: 'i-lucide-ampersands' },
-  { label: 'Or', value: 'or', icon: 'i-woot-logic-or' },
-];
+const toggleQueryOperator = () => {
+  queryOperator.value = queryOperator.value === 'and' ? 'or' : 'and';
+};
 
 const valueToShow = computed(() => {
   if (Array.isArray(props.values)) {
@@ -84,11 +83,14 @@ const valueToShow = computed(() => {
 
 <template>
   <div class="flex items-center gap-2 mb-4 rounded-md">
-    <FilterSelect
-      v-model="queryOperator"
+    <Button
+      sm
+      faded
+      slate
+      class="text-xs font-mono tracking-wider min-w-12"
       :class="{ 'invisible pointer-events-none': isFirst }"
-      :options="queryDropdownOptions"
-      hide-label
+      :label="queryOperator === 'and' ? 'AND' : 'OR'"
+      @click="toggleQueryOperator"
     />
     <Button
       sm
