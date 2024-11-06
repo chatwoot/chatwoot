@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useSlots, ref } from 'vue';
+import { computed, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -54,8 +54,6 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 const slots = useSlots();
-
-const searchValue = ref('');
 
 const selectedContactName = computed(() => {
   return props.selectedContact?.name;
@@ -117,7 +115,6 @@ const updateCurrentPage = page => {
             <div class="flex items-center gap-2">
               <div v-if="!isDetailView" class="flex items-center gap-2">
                 <Input
-                  v-model="searchValue"
                   :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
                   :custom-input-class="['h-8 ltr:!pl-8 rtl:!pr-8']"
                   @input="emit('search', $event.target.value)"
