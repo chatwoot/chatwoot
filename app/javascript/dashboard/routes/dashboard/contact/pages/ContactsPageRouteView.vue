@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { debounce } from '@chatwoot/utils';
 
 import ContactsLayout from 'dashboard/components-next/Contacts/ContactsLayout.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
@@ -12,6 +13,8 @@ const contacts = useMapGetter('contacts/getContacts');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const meta = useMapGetter('contacts/getMeta');
 
+const searchValue = ref('');
+
 const isFetchingList = computed(() => uiFlags.value.isFetching);
 
 const currentPage = computed(() => Number(meta.value?.currentPage));
@@ -22,6 +25,27 @@ const fetchContacts = page => {
     page,
     sortAttr: '-last_activity_at',
   });
+};
+
+const debouncedSearch = debounce(
+  value => {
+    searchValue.value = value;
+    if (!value) {
+      fetchContacts(1);
+    } else {
+      store.dispatch('contacts/search', {
+        search: encodeURIComponent(value),
+        page: 1,
+        sortAttr: '-last_activity_at',
+      });
+    }
+  },
+  300,
+  false
+);
+
+const searchContacts = value => {
+  debouncedSearch(value);
 };
 
 onMounted(() => {
@@ -42,7 +66,9 @@ const updateCurrentPage = page => {
       :button-label="$t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
       :current-page="currentPage"
       :total-items="totalItems"
+      :show-pagination-footer="!isFetchingList && searchValue === ''"
       @update:current-page="updateCurrentPage"
+      @search="searchContacts"
     >
       <div
         v-if="isFetchingList"
