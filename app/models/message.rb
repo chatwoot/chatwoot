@@ -93,7 +93,9 @@ class Message < ApplicationRecord
     input_csat: 9,
     integrations: 10,
     sticker: 11,
-    input_connect_with_team: 12
+    input_connect_with_team: 12,
+    cal_event: 13,
+    cal_event_confirmation: 14
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types

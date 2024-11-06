@@ -295,6 +295,19 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       }
+    },
+    "ONEHASH_CAL": {
+      "DELETE": "Remove",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration?"
+      }
+    },
+    "ADD": {
+      "API": {
+        "SUCCESS_MESSAGE": "Integration added  successfully",
+        "ERROR_MESSAGE": "Could not connect to  Server, Please try again later"
+      }
     }
   }
 }
