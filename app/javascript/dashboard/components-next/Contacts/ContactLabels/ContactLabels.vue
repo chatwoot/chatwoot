@@ -30,15 +30,17 @@ const savedLabels = computed(() => {
 });
 
 const labelMenuItems = computed(() => {
-  return allLabels.value.map(label => ({
-    label: label.title,
-    value: label.id,
-    thumbnail: { name: label.title, color: label.color },
-    isSelected: savedLabels.value.some(
-      savedLabel => savedLabel.id === label.id
-    ),
-    action: 'addLabel',
-  }));
+  return allLabels.value
+    ?.map(label => ({
+      label: label.title,
+      value: label.id,
+      thumbnail: { name: label.title, color: label.color },
+      isSelected: savedLabels.value.some(
+        savedLabel => savedLabel.id === label.id
+      ),
+      action: 'addLabel',
+    }))
+    .toSorted((a, b) => Number(a.isSelected) - Number(b.isSelected));
 });
 
 const fetchLabels = async contactId => {
