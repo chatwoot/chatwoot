@@ -14,14 +14,20 @@
     Welcome to <%= global_config['BRAND_NAME'] || 'OneHash Chat' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
   </p>
   <% end %>
-  <p>Please take a moment and click the link below and activate your account.</p>
+  <% unless @resource.custom_attributes['user_on_keycloak'].present? %>
+    <p>Please take a moment and use the credentials to activate your account using the below link.</p>
+    <p>Email: <%= @resource.email %></p>
+    <p>Password: <%= @resource.custom_attributes['keycloak_temp_password'] %></p>
+  <% else %>
+    <p>Click the link below to login to your account.</p>
+  <% end %>
 <% end %>
 
 
 <% if @resource.unconfirmed_email.present? %>
-  <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
+  <p><%= link_to 'Go to account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
 <% elsif @resource.confirmed? %>
-  <p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
+  <p><%= link_to 'Go to account', frontend_url('auth/sign_in') %></p>
 <% elsif account_user&.inviter.present? %>
   <% keycloakUri = ENV.fetch('KEYCLOAK_URL', nil) %>
   <% redirectUri = ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>
@@ -39,7 +45,7 @@
       scope: scope
   ) %>
 
-  <p><%= link_to 'Confirm my account', "#{root_url}?#{query_string}" %></p>
+  <p><%= link_to 'Go to account', "#{root_url}?#{query_string}" %></p>
 <% else %>
-  <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
+  <p><%= link_to 'Go to account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
 <% end %>
