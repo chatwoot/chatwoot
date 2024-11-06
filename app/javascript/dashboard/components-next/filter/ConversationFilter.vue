@@ -11,6 +11,17 @@ const filters = defineModel({
 const removeFilter = index => {
   filters.value.splice(index, 1);
 };
+
+const addFilter = () => {
+  filters.value.push({
+    attributeKey: '',
+    filterOperator: 'equalTo',
+    values: '',
+    queryOperator: 'AND',
+    attributeModel: 'standard',
+    customAttribute_type: '',
+  });
+};
 </script>
 
 <template>
@@ -29,7 +40,7 @@ const removeFilter = index => {
         :is-first="index === 0"
         @remove="removeFilter(index)"
       />
-      <Button sm slate faded> Add new filter </Button>
+      <Button sm slate faded @click="addFilter"> Add new filter </Button>
     </div>
 
     <div class="flex gap-2 justify-between mt-6">
