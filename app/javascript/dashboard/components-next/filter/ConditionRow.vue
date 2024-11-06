@@ -84,7 +84,7 @@ const valueToShow = computed(() => {
 </script>
 
 <template>
-  <div class="flex items-center gap-2 mb-4 rounded-md">
+  <div class="flex items-center gap-2 rounded-md">
     <Button
       sm
       faded
