@@ -10,6 +10,7 @@ import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDeta
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -18,11 +19,17 @@ const router = useRouter();
 const contact = useMapGetter('contacts/getContact');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 
-const activeTab = ref('notes');
+const activeTab = ref('merge');
+const contactMergeRef = ref(null);
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
+const isMergingContact = computed(() => uiFlags.value.isMerging);
 
 const selectedContact = computed(() => contact.value(route.params.contactId));
+
+const showSpinner = computed(
+  () => isFetchingItem.value || isMergingContact.value
+);
 
 const { t } = useI18n();
 
@@ -89,7 +96,7 @@ onMounted(() => {
       @go-to-contacts-list="goToContactsList"
     >
       <div
-        v-if="isFetchingItem"
+        v-if="showSpinner"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
@@ -110,6 +117,12 @@ onMounted(() => {
         </div>
         <ContactNotes v-if="activeTab === 'notes'" />
         <ContactHistory v-if="activeTab === 'history'" />
+        <ContactMerge
+          v-if="activeTab === 'merge'"
+          ref="contactMergeRef"
+          :selected-contact="selectedContact"
+          @go-to-contacts-list="goToContactsList"
+        />
       </template>
     </ContactsLayout>
   </div>

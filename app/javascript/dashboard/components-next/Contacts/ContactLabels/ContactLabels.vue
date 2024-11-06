@@ -9,7 +9,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 const props = defineProps({
   contactId: {
     type: [String, Number],
-    required: true,
+    default: null,
   },
 });
 

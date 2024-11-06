@@ -121,10 +121,10 @@ const getFormBinding = key => {
     // Example 2 (root): field = 'email' returns state.email = "john@example.com"
     get: () => {
       if (field === 'firstName' || field === 'lastName') {
-        return state[field];
+        return state[field]?.toString() || '';
       }
       const [base, nested] = field.split('.');
-      return nested ? state[base][nested] : state[base];
+      return (nested ? state[base][nested] : state[base])?.toString() || '';
     },
 
     // Set value in state and emit update

@@ -43,7 +43,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'search']);
 
 const { t } = useI18n();
 
@@ -125,6 +125,7 @@ watch(
         :empty-state="emptyState"
         :selected-values="selectedValue"
         @update:search-value="search = $event"
+        @search="emit('search', $event)"
         @select="selectOption"
       />
 
