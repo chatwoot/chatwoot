@@ -14,8 +14,8 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
 
-  findByMessage(sourceId) {
-    return axios.get(`${this.url}/find_by_message?source_id=${sourceId}`);
+  findByMessage(params) {
+    return axios.post(`${this.url}/find_by_message`, params);
   }
 }
 

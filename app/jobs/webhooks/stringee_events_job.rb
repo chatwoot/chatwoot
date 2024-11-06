@@ -26,7 +26,7 @@ class Webhooks::StringeeEventsJob < ApplicationJob
   def process_event_params(channel, params)
     if delivery_event?(params)
       Stringee::DeliveryStatusService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform
-    else
+    elsif !incoming?(params)
       Stringee::CallingEventsService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform
     end
   end

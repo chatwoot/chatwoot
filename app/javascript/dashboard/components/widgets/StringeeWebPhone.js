@@ -82,7 +82,14 @@ export default function initStringeeWebPhone(
       // Do nothing to bypass the default confirmation to leave site in browser
     };
     try {
-      const response = await conversations.findByMessage(incomingcall.callId);
+      const params = {
+        from: { number: incomingcall.fromNumber },
+        to: { number: incomingcall.toAlias },
+        call_id: incomingcall.callId,
+        callCreatedReason: 'EXTERNAL_CALL_IN',
+      };
+
+      const response = await conversations.findByMessage(params);
       const displayId = response.data.display_id;
       const accountId = window.location.pathname.split('/')[3];
       const path = `/app/accounts/${accountId}/conversations/${displayId}`;

@@ -100,7 +100,7 @@ Rails.application.routes.draw do
               get :meta
               get :search
               post :filter
-              get :find_by_message
+              post :find_by_message
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy] do

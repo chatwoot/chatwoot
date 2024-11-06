@@ -121,7 +121,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def find_by_message
-    source_id = params[:source_id].strip
+    incoming_call_message
+    source_id = params[:call_id].strip
     message = Message.find_by(source_id: source_id)
 
     if message
@@ -132,6 +133,17 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def incoming_call_message
+    number = params[:to][:number]
+    number.prepend('+') unless number.start_with?('+')
+    number = number.sub('+0', '+84')
+
+    channel = Channel::StringeePhoneCall.find_by(phone_number: number)
+    return if channel.blank?
+
+    Stringee::CallingEventsService.new(inbox: channel.inbox, params: params).perform
+  end
 
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
