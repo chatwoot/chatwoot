@@ -8,6 +8,10 @@
     "EMPTY_STATE": "No results found.",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "No results found."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Cancel",
