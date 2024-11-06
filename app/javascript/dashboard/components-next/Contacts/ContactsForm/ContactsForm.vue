@@ -1,6 +1,9 @@
 <script setup>
 import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { required, email, minLength } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+
 import countries from 'shared/constants/countries.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -65,6 +68,13 @@ const defaultState = {
 
 const state = reactive({ ...defaultState });
 
+const validationRules = {
+  firstName: { required, minLength: minLength(2) },
+  email: { required, email },
+};
+
+const v$ = useVuelidate(validationRules, state);
+
 const updateState = () => {
   const [firstName = '', lastName = ''] = (props.contactData.name || '').split(
     ' '
@@ -108,6 +118,15 @@ const socialProfilesForm = computed(() =>
   }))
 );
 
+const isValidationField = key => {
+  const field = FORM_CONFIG[key]?.field;
+  return ['firstName', 'email'].includes(field);
+};
+
+const getValidationKey = key => {
+  return FORM_CONFIG[key]?.field;
+};
+
 // Creates a computed property for form field binding based on FORM_CONFIG
 const getFormBinding = key => {
   // Get field path from config
@@ -130,7 +149,7 @@ const getFormBinding = key => {
     // Set value in state and emit update
     // Example 1 (nested): field = 'contact.name', value = "Jane Doe" → state.contact.name = "Jane Doe"
     // Example 2 (root): field = 'email', value = "jane@example.com" → state.email = "jane@example.com"
-    set: value => {
+    set: async value => {
       if (field === 'firstName' || field === 'lastName') {
         state[field] = value;
         // Combine first and last name into the name field
@@ -143,7 +162,11 @@ const getFormBinding = key => {
           state[base] = value;
         }
       }
-      emit('update', state);
+
+      const isFormValid = await v$.value.$validate();
+      if (isFormValid) {
+        emit('update', state);
+      }
     },
   });
 };
@@ -177,10 +200,24 @@ watch(() => props.contactData, updateState, { immediate: true, deep: true });
             v-else
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
+            :message-type="
+              isValidationField(item.key) &&
+              v$[getValidationKey(item.key)]?.$error
+                ? 'error'
+                : 'info'
+            "
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView && '!border-transparent'
+              !isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
             }`"
             class="w-full"
+            @input="
+              isValidationField(item.key) &&
+                v$[getValidationKey(item.key)].$touch()
+            "
+            @blur="
+              isValidationField(item.key) &&
+                v$[getValidationKey(item.key)].$touch()
+            "
           />
         </template>
       </div>
