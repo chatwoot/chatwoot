@@ -1,4 +1,4 @@
-import computed from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 
@@ -9,7 +9,6 @@ export function useConversationFilterContext() {
     equalityOperators,
     presenceOperators,
     containmentOperators,
-    comparisonOperators,
     dateOperators,
   } = useOperators();
 
@@ -106,14 +105,6 @@ export function useConversationFilterContext() {
       attributeKey: 'last_activity_at',
       attributeName: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
       inputType: 'date',
-      dataType: 'text',
-      filterOperators: dateOperators,
-      attributeModel: 'standard',
-    },
-    {
-      attributeKey: 'referer',
-      attributeName: t('FILTER.ATTRIBUTES.REFERER_LINK'),
-      inputType: 'plainText',
       dataType: 'text',
       filterOperators: dateOperators,
       attributeModel: 'standard',
