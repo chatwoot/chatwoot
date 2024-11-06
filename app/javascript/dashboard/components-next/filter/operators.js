@@ -31,7 +31,7 @@ export function useOperators() {
   const { t } = useI18n();
 
   const operators = computed(() => {
-    Object.values(FILTER_OPS).reduce((acc, value) => {
+    return Object.values(FILTER_OPS).reduce((acc, value) => {
       acc[value] = {
         value,
         label: t(`FILTER.OPERATOR_LABELS.${value}`),

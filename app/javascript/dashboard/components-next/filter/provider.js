@@ -18,7 +18,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.STATUS'),
       inputType: 'multiSelect',
       dataType: 'text',
-      filterOperators: equalityOperators,
+      filterOperators: equalityOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -26,7 +26,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       inputType: 'searchSelect',
       dataType: 'text',
-      filterOperators: presenceOperators,
+      filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -34,7 +34,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       inputType: 'searchSelect',
       dataType: 'text',
-      filterOperators: presenceOperators,
+      filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -42,7 +42,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       inputType: 'searchSelect',
       dataType: 'number',
-      filterOperators: presenceOperators,
+      filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -50,7 +50,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       inputType: 'plainText',
       dataType: 'Number',
-      filterOperators: containmentOperators,
+      filterOperators: containmentOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -58,7 +58,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       inputType: 'searchSelect',
       dataType: 'Number',
-      filterOperators: presenceOperators,
+      filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -66,7 +66,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.LABELS'),
       inputType: 'multiSelect',
       dataType: 'text',
-      filterOperators: presenceOperators,
+      filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -74,7 +74,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       inputType: 'searchSelect',
       dataType: 'text',
-      filterOperators: equalityOperators,
+      filterOperators: equalityOperators.value,
       attributeModel: 'additional',
     },
     {
@@ -82,7 +82,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       inputType: 'searchSelect',
       dataType: 'text',
-      filterOperators: equalityOperators,
+      filterOperators: equalityOperators.value,
       attributeModel: 'additional',
     },
     {
@@ -90,7 +90,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.REFERER_LINK'),
       inputType: 'plainText',
       dataType: 'text',
-      filterOperators: containmentOperators,
+      filterOperators: containmentOperators.value,
       attributeModel: 'additional',
     },
     {
@@ -98,7 +98,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.CREATED_AT'),
       inputType: 'date',
       dataType: 'text',
-      filterOperators: dateOperators,
+      filterOperators: dateOperators.value,
       attributeModel: 'standard',
     },
     {
@@ -106,7 +106,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
       inputType: 'date',
       dataType: 'text',
-      filterOperators: dateOperators,
+      filterOperators: dateOperators.value,
       attributeModel: 'standard',
     },
   ]);
