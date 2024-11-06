@@ -121,9 +121,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def find_by_message
-    incoming_call_message
     source_id = params[:call_id].strip
     message = Message.find_by(source_id: source_id)
+    if message.blank?
+      incoming_call_message
+      message = Message.find_by(source_id: source_id)
+    end
 
     if message
       render json: { display_id: message.conversation.display_id, contact_name: message.sender.name, contact_avatar: message.sender.avatar_url }
