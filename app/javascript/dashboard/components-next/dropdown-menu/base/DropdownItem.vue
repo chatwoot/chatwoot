@@ -10,6 +10,7 @@ const props = defineProps({
   click: { type: Function, default: null },
   preserveOpen: { type: Boolean, default: false },
 });
+const emit = defineEmits(['click']);
 
 defineOptions({
   inheritAttrs: false,
@@ -25,10 +26,9 @@ const componentIs = computed(() => {
 });
 
 const triggerClick = () => {
-  if (props.click) {
-    props.click();
-    if (!props.preserveOpen) closeMenu();
-  }
+  emit('click');
+  if (props.click) props.click();
+  if (!props.preserveOpen) closeMenu();
 };
 </script>
 
