@@ -7,6 +7,10 @@ const filters = defineModel({
   type: Array,
   default: [],
 });
+
+const removeFilter = index => {
+  filters.value.splice(index, 1);
+};
 </script>
 
 <template>
@@ -22,6 +26,7 @@ const filters = defineModel({
       v-model:query-operator="filter.queryOperator"
       v-model:values="filter.values"
       :is-first="index === 0"
+      @remove="removeFilter(index)"
     />
 
     <div class="flex gap-2 justify-between">
