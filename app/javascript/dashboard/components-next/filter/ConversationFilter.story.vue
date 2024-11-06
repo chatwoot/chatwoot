@@ -39,13 +39,12 @@ const filter = ref([
 
 <template>
   <Story title="Components/ConversationFilter">
-    <div class="w-full p-5">
-      <ConversationFilter v-model="filter" />
-    </div>
+    <div class="grid grid-cols-2 gap-5 p-5">
+      <div>
+        <ConversationFilter v-model="filter" />
+      </div>
 
-    <div class="p-5">
-      <h3>Current Filters</h3>
-      <pre class="p-5 h-96 overflow-scroll bg-white rounded-xl shadow mt-2">{{
+      <pre class="bg-white rounded-xl border border-n-weak p-6">{{
         filter
       }}</pre>
     </div>
