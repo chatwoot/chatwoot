@@ -17,6 +17,7 @@ class AgentBuilder
     ActiveRecord::Base.transaction do
       @user = find_or_create_user
       create_account_user
+      create_user_on_keycloak
     end
     @user
   end
@@ -50,5 +51,83 @@ class AgentBuilder
       availability: availability,
       auto_offline: auto_offline
     }.compact))
+  end
+
+  def get_keycloak_admin_accesss_token
+    realm = ENV.fetch('KEYCLOAK_REALM', nil)
+    keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
+    token_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/token").to_s
+    client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
+    client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
+
+    token_response = HTTParty.post(
+      token_url, {
+        body: {
+          grant_type: 'client_credentials',
+          client_id: client_id,
+          client_secret: client_secret
+        },
+        headers: {
+          'Content-Type' => 'application/x-www-form-urlencoded'
+        }
+      }
+    )
+
+    return nil unless token_response.success?
+
+    token_response.parsed_response['access_token']
+  end
+
+  def create_user_on_keycloak
+    access_token = get_keycloak_admin_accesss_token
+    return unless access_token
+
+    realm = ENV.fetch('KEYCLOAK_REALM', nil)
+    keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
+    user_url = URI.join(keycloak_url, "admin/realms/#{realm}/users").to_s
+    temp_password = generate_temp_password
+    user_response = HTTParty.post(
+      user_url, {
+        body: {
+          email: email,
+          enabled: true,
+          emailVerified: true,
+          credentials: [
+            {
+              type: 'password',
+              value: temp_password,
+              temporary: true
+            }
+          ]
+        }.to_json,
+        headers: {
+          'Content-Type' => 'application/json',
+          'Authorization' => "Bearer #{access_token}"
+        }
+      }
+    )
+
+    if user_response.success?
+      @user.custom_attributes['keycloak_temp_password'] = temp_password
+      @user.save!
+    else
+      @user.custom_attributes['user_on_keycloak'] = true
+      @user.save!
+    end
+  end
+
+  def generate_temp_password
+    special_characters = ['@', '#', '$', '%', '&', '*', '!', '^', '+', '-', '_']
+
+    haiku_part = Haikunator.haikunate
+    base_password = haiku_part.gsub(/[^A-Za-z]/, '')
+    base_password += SecureRandom.random_number(10).to_s
+    base_password += ('A'..'Z').to_a.sample
+    base_password += special_characters.sample
+    password = base_password.chars.shuffle.join
+
+    password += SecureRandom.hex(1) while password.length < 12
+
+    password.chars.shuffle.join
   end
 end
