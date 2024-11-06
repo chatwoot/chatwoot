@@ -112,6 +112,10 @@ export default {
       type: String,
       required: true,
     },
+    calendarEvents: {
+      type: Array,
+      default: () => [],
+    },
   },
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -342,6 +346,16 @@ export default {
         size="small"
         :title="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <woot-button
+        v-if="calendarEvents && calendarEvents.length > 0"
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.SEND_CALENDAR')"
+        icon="calendar"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('CONVERSATION.FOOTER.SEND_CALENDAR')"
+        @click="$emit('showAvailableCalendars')"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
