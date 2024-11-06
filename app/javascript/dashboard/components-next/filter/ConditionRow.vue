@@ -22,15 +22,6 @@ const queryOperator = defineModel('queryOperator', {
   validator: value => ['and', 'or'].includes(value),
 });
 
-const toggleQueryOperator = () => {
-  queryOperator.value = queryOperator.value === 'and' ? 'or' : 'and';
-};
-
-const queryOperatorIcon = {
-  and: 'i-lucide-ampersands',
-  or: 'i-woot-logic-or',
-};
-
 const FILTER_OPS = {
   EQUAL_TO: 'equalTo',
   NOT_EQUAL_TO: 'notEqualTo',
@@ -71,11 +62,16 @@ const filterDropdownOptions = Object.keys(FILTER_OPS).map(key => ({
   label: filterOperatorLabel[FILTER_OPS[key]],
   value: FILTER_OPS[key],
   icon: h('span', { class: 'flex items-center' }, [
-    h('span', {
+    h('i', {
       class: `text-n-blue-text ${filterOperatorIcon[FILTER_OPS[key]]}`,
     }),
   ]),
 }));
+
+const queryDropdownOptions = [
+  { label: 'And', value: 'and', icon: 'i-lucide-ampersands' },
+  { label: 'Or', value: 'or', icon: 'i-woot-logic-or' },
+];
 
 const valueToShow = computed(() => {
   if (Array.isArray(props.values)) {
@@ -88,13 +84,11 @@ const valueToShow = computed(() => {
 
 <template>
   <div class="flex items-center gap-2 mb-4 rounded-md">
-    <Button
-      sm
-      faded
-      slate
+    <FilterSelect
+      v-model="queryOperator"
       :class="{ 'invisible pointer-events-none': isFirst }"
-      :icon="queryOperatorIcon[queryOperator]"
-      @click="toggleQueryOperator"
+      :options="queryDropdownOptions"
+      hide-label
     />
     <Button
       sm
@@ -106,7 +100,11 @@ const valueToShow = computed(() => {
     >
       {{ attributeKey }}
     </Button>
-    <FilterSelect v-model="filterOperator" :options="filterDropdownOptions" />
+    <FilterSelect
+      v-model="filterOperator"
+      variant="ghost"
+      :options="filterDropdownOptions"
+    />
     <Button v-if="valueToShow" sm faded slate>
       {{ valueToShow }}
     </Button>

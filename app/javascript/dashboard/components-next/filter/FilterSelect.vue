@@ -12,6 +12,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  hideLabel: {
+    type: Boolean,
+    default: false,
+  },
+  variant: {
+    type: String,
+    default: 'faded',
+  },
 });
 
 const selected = defineModel({
@@ -27,11 +35,19 @@ const selectedOption = computed(() =>
 <template>
   <DropdownContainer>
     <template #trigger="{ toggle }">
-      <Button sm ghost slate :icon="selectedOption.icon" @click="toggle">
-        {{ selectedOption.label }}
-      </Button>
+      <slot name="trigger" :toggle="toggle">
+        <Button
+          sm
+          slate
+          :variant
+          :icon="selectedOption.icon ?? 'chevron-down'"
+          :trailing-icon="selectedOption.icon ? false : true"
+          :label="hideLabel ? null : selectedOption.label"
+          @click="toggle"
+        />
+      </slot>
     </template>
-    <DropdownBody class="top-0 w-64 z-[909999]">
+    <DropdownBody class="top-0 min-w-48 z-[909999]">
       <DropdownItem
         v-for="option in options"
         :key="option.value"
