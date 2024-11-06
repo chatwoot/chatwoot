@@ -719,7 +719,7 @@
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+        "IN_A_FEW_MINUTES": "Zakonisht përgjigjemi brenda pak minutash",
         "IN_A_FEW_HOURS": "Typically replies in a few hours",
         "IN_A_DAY": "Typically replies in a day"
       },
@@ -730,7 +730,7 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "OFFLINE": "Nuk jemi online për momentin"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
