@@ -1,6 +1,7 @@
 <script setup>
 import { nextTick, onMounted, watch, computed } from 'vue';
 import IntegrationsAPI from 'dashboard/api/integrations';
+import { useStoreGetters } from 'dashboard/composables/store';
 import { makeRouter, setupApp } from '@chatwoot/captain';
 
 const props = defineProps({
@@ -9,6 +10,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const getters = useStoreGetters();
 
 const routeMap = {
   documents: '/app/accounts/[account_id]/documents/',
@@ -66,14 +69,34 @@ function buildApp() {
   router.push({ name: resolvedRoute.value });
 }
 
+const captainIntegration = computed(() =>
+  getters['integrations/getIntegration'].value('captain', null)
+);
+
 onMounted(async () => {
   await nextTick();
-  buildApp();
+  if (captainIntegration.value && captainIntegration.value.enabled) {
+    buildApp();
+  }
 });
 </script>
 
 <template>
-  <div id="captain" class="w-full" />
+  <div v-if="!captainIntegration">
+    {{ $t('INTEGRATION_SETTINGS.CAPTAIN.DISABLED') }}
+  </div>
+  <div
+    v-else-if="!captainIntegration.enabled"
+    class="flex-1 flex flex-col gap-2 items-center justify-center"
+  >
+    <div>{{ $t('INTEGRATION_SETTINGS.CAPTAIN.DISABLED') }}</div>
+    <router-link :to="{ name: 'settings_applications' }">
+      <woot-button class="clear link">
+        {{ $t('INTEGRATION_SETTINGS.CAPTAIN.CLICK_HERE_TO_CONFIGURE') }}
+      </woot-button>
+    </router-link>
+  </div>
+  <div v-else id="captain" class="w-full" />
 </template>
 
 <style>
