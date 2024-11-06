@@ -11,6 +11,8 @@ const props = defineProps({
   // customAttributeType: { type: String, default: '' },
 });
 
+const emit = defineEmits(['remove']);
+
 const filterOperator = defineModel('filterOperator', {
   type: String,
   required: true,
@@ -110,6 +112,6 @@ const valueToShow = computed(() => {
     <Button v-if="valueToShow" sm faded slate>
       {{ valueToShow }}
     </Button>
-    <Button sm solid slate icon="i-lucide-x" />
+    <Button sm solid slate icon="i-lucide-x" @click="emit('remove')" />
   </div>
 </template>
