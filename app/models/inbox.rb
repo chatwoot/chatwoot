@@ -124,6 +124,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def evolution?
+    channel_type == 'Channel::Evolution'
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
@@ -192,7 +196,7 @@ class Inbox < ApplicationRecord
   end
 
   def check_channel_type?
-    ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+    ['Channel::Email', 'Channel::Api', 'Channel::WebWidget', 'Channel::Evolution'].include?(channel_type)
   end
 end
 

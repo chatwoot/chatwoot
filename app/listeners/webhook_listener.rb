@@ -94,7 +94,7 @@ class WebhookListener < BaseListener
   end
 
   def deliver_api_inbox_webhooks(payload, inbox)
-    return unless inbox.channel_type == 'Channel::Api'
+    return unless inbox.channel_type == 'Channel::Api' || inbox.channel_type == 'Channel::Evolution'
     return if inbox.channel.webhook_url.blank?
 
     WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)

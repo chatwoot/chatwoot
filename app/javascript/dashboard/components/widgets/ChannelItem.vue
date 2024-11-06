@@ -40,6 +40,7 @@ export default {
         'sms',
         'telegram',
         'line',
+        'evolution',
       ].includes(key);
     },
   },

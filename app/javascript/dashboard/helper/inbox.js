@@ -9,6 +9,7 @@ export const INBOX_TYPES = {
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
+  EVOLUTION: 'Channel::Evolution',
 };
 
 const INBOX_ICON_MAP = {
@@ -17,6 +18,7 @@ const INBOX_ICON_MAP = {
   [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-fill',
   [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-fill',
   [INBOX_TYPES.API]: 'i-ri-cloudy-fill',
+  [INBOX_TYPES.EVOLUTION]: 'i-ri-cloudy-fill',
   [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
@@ -60,6 +62,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
     case INBOX_TYPES.API:
       return 'api';
 
+    case INBOX_TYPES.EVOLUTION:
+      return 'evolution';
+
     case INBOX_TYPES.EMAIL:
       return 'email';
 
@@ -94,6 +99,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'brand-whatsapp';
 
     case INBOX_TYPES.API:
+      return 'cloud';
+
+    case INBOX_TYPES.EVOLUTION:
       return 'cloud';
 
     case INBOX_TYPES.EMAIL:

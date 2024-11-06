@@ -180,6 +180,37 @@ export default {
       </div>
     </SettingsSection>
   </div>
+  <div v-else-if="isEvolutionInbox" class="mx-8">
+    <SettingsSection
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
+    >
+      <woot-code :script="inbox.inbox_identifier" />
+    </SettingsSection>
+
+    <SettingsSection
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
+    >
+      <woot-code :script="inbox.hmac_token" />
+    </SettingsSection>
+    <SettingsSection
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
+    >
+      <div class="flex items-center gap-2">
+        <input
+          id="hmacMandatory"
+          v-model="hmacMandatory"
+          type="checkbox"
+          @change="handleHmacFlag"
+        />
+        <label for="hmacMandatory">
+          {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+        </label>
+      </div>
+    </SettingsSection>
+  </div>
   <div v-else-if="isAnEmailChannel">
     <div class="mx-8">
       <SettingsSection

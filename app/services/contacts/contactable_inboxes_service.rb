@@ -20,6 +20,8 @@ class Contacts::ContactableInboxesService
       email_contactable_inbox(inbox)
     when 'Channel::Api'
       api_contactable_inbox(inbox)
+    when 'Channel::Evolution'
+      evolution_contactable_inbox(inbox)
     when 'Channel::WebWidget'
       website_contactable_inbox(inbox)
     end
@@ -32,6 +34,13 @@ class Contacts::ContactableInboxesService
     return if latest_contact_inbox.conversations.present?
 
     { source_id: latest_contact_inbox.source_id, inbox: inbox }
+  end
+
+  def evolution_contactable_inbox(inbox)
+    latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
+    source_id = latest_contact_inbox&.source_id || SecureRandom.uuid
+
+    { source_id: source_id, inbox: inbox }
   end
 
   def api_contactable_inbox(inbox)

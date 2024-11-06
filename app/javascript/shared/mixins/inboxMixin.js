@@ -42,6 +42,9 @@ export default {
     isAPIInbox() {
       return this.channelType === INBOX_TYPES.API;
     },
+    isEvolutionInbox() {
+      return this.channelType === INBOX_TYPES.EVOLUTION;
+    },
     isATwitterInbox() {
       return this.channelType === INBOX_TYPES.TWITTER;
     },

@@ -92,7 +92,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis:alpine
@@ -110,6 +110,17 @@ services:
       - 1025:1025
       - 8025:8025
 
+  evolution-api:
+    container_name: evolution_api
+    image: atendai/evolution-api:v2.1.1
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - evolution_instances:/evolution/instances
+
 volumes:
   postgres:
   redis:
@@ -117,3 +128,4 @@ volumes:
   node_modules:
   cache:
   bundle:
+  evolution_instances:

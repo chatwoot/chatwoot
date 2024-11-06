@@ -28,6 +28,7 @@ const i18nMap = {
   'Channel::Telegram': 'TELEGRAM',
   'Channel::Line': 'LINE',
   'Channel::Api': 'API',
+  'Channel::Evolution': 'EVOLUTION',
 };
 
 const twilioChannelName = () => {
@@ -40,6 +41,11 @@ const twilioChannelName = () => {
 const readableChannelName = computed(() => {
   if (props.channelType === 'Channel::Api') {
     return globalConfig.value.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
+  }
+  if (props.channelType === 'Channel::Evolution') {
+    return (
+      globalConfig.value.apiChannelName || t('INBOX_MGMT.CHANNELS.EVOLUTION')
+    );
   }
   if (props.channelType === 'Channel::TwilioSms') {
     return twilioChannelName();

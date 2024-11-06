@@ -10,19 +10,478 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_31_224155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "DeviceMessage", ["ios", "android", "web", "unknown", "desktop"]
+  create_enum "DifyBotType", ["chatBot", "textGenerator", "agent", "workflow"]
+  create_enum "InstanceConnectionStatus", ["open", "close", "connecting"]
+  create_enum "OpenaiBotType", ["assistant", "chatCompletion"]
+  create_enum "SessionStatus", ["opened", "closed", "paused"]
+  create_enum "TriggerOperator", ["contains", "equals", "startsWith", "endsWith", "regex"]
+  create_enum "TriggerType", ["all", "keyword", "none", "advanced"]
+
+  create_table "Chat", id: :text, force: :cascade do |t|
+    t.string "remoteJid", limit: 100, null: false
+    t.jsonb "labels"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil
+    t.text "instanceId", null: false
+    t.string "name", limit: 100
+  end
+
+  create_table "Chatwoot", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: true
+    t.string "accountId", limit: 100
+    t.string "token", limit: 100
+    t.string "url", limit: 500
+    t.string "nameInbox", limit: 100
+    t.boolean "signMsg", default: false
+    t.string "signDelimiter", limit: 100
+    t.string "number", limit: 100
+    t.boolean "reopenConversation", default: false
+    t.boolean "conversationPending", default: false
+    t.boolean "mergeBrazilContacts", default: false
+    t.boolean "importContacts", default: false
+    t.boolean "importMessages", default: false
+    t.integer "daysLimitImportMessages"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.string "logo", limit: 500
+    t.string "organization", limit: 100
+    t.jsonb "ignoreJids"
+    t.index ["instanceId"], name: "Chatwoot_instanceId_key", unique: true
+  end
+
+  create_table "Contact", id: :text, force: :cascade do |t|
+    t.string "remoteJid", limit: 100, null: false
+    t.string "pushName", limit: 100
+    t.string "profilePicUrl", limit: 500
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil
+    t.text "instanceId", null: false
+    t.index ["remoteJid", "instanceId"], name: "Contact_remoteJid_instanceId_key", unique: true
+  end
+
+  create_table "Dify", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
+    t.enum "botType", null: false, enum_type: ""DifyBotType""
+    t.string "apiUrl", limit: 255
+    t.string "apiKey", limit: 255
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.enum "triggerType", enum_type: ""TriggerType""
+    t.enum "triggerOperator", enum_type: ""TriggerOperator""
+    t.text "triggerValue"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.string "description", limit: 255
+  end
+
+  create_table "DifySetting", id: :text, force: :cascade do |t|
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.string "difyIdFallback", limit: 100
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "DifySetting_instanceId_key", unique: true
+  end
+
+  create_table "EvolutionBot", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
+    t.string "description", limit: 255
+    t.string "apiUrl", limit: 255
+    t.string "apiKey", limit: 255
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.enum "triggerType", enum_type: ""TriggerType""
+    t.enum "triggerOperator", enum_type: ""TriggerOperator""
+    t.text "triggerValue"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+  end
+
+  create_table "EvolutionBotSetting", id: :text, force: :cascade do |t|
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.string "botIdFallback", limit: 100
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "EvolutionBotSetting_instanceId_key", unique: true
+  end
+
+  create_table "Flowise", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
+    t.string "description", limit: 255
+    t.string "apiUrl", limit: 255
+    t.string "apiKey", limit: 255
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.enum "triggerType", enum_type: ""TriggerType""
+    t.enum "triggerOperator", enum_type: ""TriggerOperator""
+    t.text "triggerValue"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+  end
+
+  create_table "FlowiseSetting", id: :text, force: :cascade do |t|
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.string "flowiseIdFallback", limit: 100
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "FlowiseSetting_instanceId_key", unique: true
+  end
+
+  create_table "Instance", id: :text, force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+    t.enum "connectionStatus", default: "open", null: false, enum_type: ""InstanceConnectionStatus""
+    t.string "ownerJid", limit: 100
+    t.string "profilePicUrl", limit: 500
+    t.string "integration", limit: 100
+    t.string "number", limit: 100
+    t.string "token", limit: 255
+    t.string "clientName", limit: 100
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil
+    t.string "profileName", limit: 100
+    t.string "businessId", limit: 100
+    t.datetime "disconnectionAt", precision: nil
+    t.jsonb "disconnectionObject"
+    t.integer "disconnectionReasonCode"
+    t.index ["name"], name: "Instance_name_key", unique: true
+  end
+
+  create_table "IntegrationSession", id: :text, force: :cascade do |t|
+    t.string "sessionId", limit: 255, null: false
+    t.string "remoteJid", limit: 100, null: false
+    t.text "pushName"
+    t.enum "status", null: false, enum_type: ""SessionStatus""
+    t.boolean "awaitUser", default: false, null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.jsonb "parameters"
+    t.jsonb "context"
+    t.text "botId"
+    t.string "type", limit: 100
+  end
+
+  create_table "IsOnWhatsapp", id: :text, force: :cascade do |t|
+    t.string "remoteJid", limit: 100, null: false
+    t.text "jidOptions", null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updatedAt", precision: nil, null: false
+    t.index ["remoteJid"], name: "IsOnWhatsapp_remoteJid_key", unique: true
+  end
+
+  create_table "Label", id: :text, force: :cascade do |t|
+    t.string "labelId", limit: 100
+    t.string "name", limit: 100, null: false
+    t.string "color", limit: 100, null: false
+    t.string "predefinedId", limit: 100
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.index ["labelId", "instanceId"], name: "Label_labelId_instanceId_key", unique: true
+  end
+
+  create_table "Media", id: :text, force: :cascade do |t|
+    t.string "fileName", limit: 500, null: false
+    t.string "type", limit: 100, null: false
+    t.string "mimetype", limit: 100, null: false
+    t.date "createdAt", default: -> { "CURRENT_TIMESTAMP" }
+    t.text "messageId", null: false
+    t.text "instanceId", null: false
+    t.index ["fileName"], name: "Media_fileName_key", unique: true
+    t.index ["messageId"], name: "Media_messageId_key", unique: true
+  end
+
+  create_table "Message", id: :text, force: :cascade do |t|
+    t.jsonb "key", null: false
+    t.string "pushName", limit: 100
+    t.string "participant", limit: 100
+    t.string "messageType", limit: 100, null: false
+    t.jsonb "message", null: false
+    t.jsonb "contextInfo"
+    t.enum "source", null: false, enum_type: ""DeviceMessage""
+    t.integer "messageTimestamp", null: false
+    t.integer "chatwootMessageId"
+    t.integer "chatwootInboxId"
+    t.integer "chatwootConversationId"
+    t.string "chatwootContactInboxSourceId", limit: 100
+    t.boolean "chatwootIsRead"
+    t.text "instanceId", null: false
+    t.string "webhookUrl", limit: 500
+    t.text "sessionId"
+  end
+
+  create_table "MessageUpdate", id: :text, force: :cascade do |t|
+    t.string "keyId", limit: 100, null: false
+    t.string "remoteJid", limit: 100, null: false
+    t.boolean "fromMe", null: false
+    t.string "participant", limit: 100
+    t.jsonb "pollUpdates"
+    t.string "status", limit: 30, null: false
+    t.text "messageId", null: false
+    t.text "instanceId", null: false
+  end
+
+  create_table "OpenaiBot", id: :text, force: :cascade do |t|
+    t.string "assistantId", limit: 255
+    t.string "model", limit: 100
+    t.jsonb "systemMessages"
+    t.jsonb "assistantMessages"
+    t.jsonb "userMessages"
+    t.integer "maxTokens"
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.enum "triggerType", enum_type: ""TriggerType""
+    t.enum "triggerOperator", enum_type: ""TriggerOperator""
+    t.text "triggerValue"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "openaiCredsId", null: false
+    t.text "instanceId", null: false
+    t.boolean "enabled", default: true, null: false
+    t.enum "botType", null: false, enum_type: ""OpenaiBotType""
+    t.string "description", limit: 255
+    t.string "functionUrl", limit: 500
+  end
+
+  create_table "OpenaiCreds", id: :text, force: :cascade do |t|
+    t.string "apiKey", limit: 255
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.string "name", limit: 255
+    t.index ["apiKey"], name: "OpenaiCreds_apiKey_key", unique: true
+    t.index ["name"], name: "OpenaiCreds_name_key", unique: true
+  end
+
+  create_table "OpenaiSetting", id: :text, force: :cascade do |t|
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "openaiCredsId", null: false
+    t.string "openaiIdFallback", limit: 100
+    t.text "instanceId", null: false
+    t.boolean "speechToText", default: false
+    t.index ["instanceId"], name: "OpenaiSetting_instanceId_key", unique: true
+    t.index ["openaiCredsId"], name: "OpenaiSetting_openaiCredsId_key", unique: true
+  end
+
+  create_table "Proxy", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: false, null: false
+    t.string "host", limit: 100, null: false
+    t.string "port", limit: 100, null: false
+    t.string "protocol", limit: 100, null: false
+    t.string "username", limit: 100, null: false
+    t.string "password", limit: 100, null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "Proxy_instanceId_key", unique: true
+  end
+
+  create_table "Rabbitmq", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: false, null: false
+    t.jsonb "events", null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "Rabbitmq_instanceId_key", unique: true
+  end
+
+  create_table "Session", id: :text, force: :cascade do |t|
+    t.text "sessionId", null: false
+    t.text "creds"
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["sessionId"], name: "Session_sessionId_key", unique: true
+  end
+
+  create_table "Setting", id: :text, force: :cascade do |t|
+    t.boolean "rejectCall", default: false, null: false
+    t.string "msgCall", limit: 100
+    t.boolean "groupsIgnore", default: false, null: false
+    t.boolean "alwaysOnline", default: false, null: false
+    t.boolean "readMessages", default: false, null: false
+    t.boolean "readStatus", default: false, null: false
+    t.boolean "syncFullHistory", default: false, null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "Setting_instanceId_key", unique: true
+  end
+
+  create_table "Sqs", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: false, null: false
+    t.jsonb "events", null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "Sqs_instanceId_key", unique: true
+  end
+
+  create_table "Template", id: :text, force: :cascade do |t|
+    t.string "templateId", limit: 255, null: false
+    t.string "name", limit: 255, null: false
+    t.jsonb "template", null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.string "webhookUrl", limit: 500
+    t.index ["name"], name: "Template_name_key", unique: true
+    t.index ["templateId"], name: "Template_templateId_key", unique: true
+  end
+
+  create_table "Typebot", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
+    t.string "url", limit: 500, null: false
+    t.string "typebot", limit: 100, null: false
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil
+    t.enum "triggerType", enum_type: ""TriggerType""
+    t.enum "triggerOperator", enum_type: ""TriggerOperator""
+    t.text "triggerValue"
+    t.text "instanceId", null: false
+    t.integer "debounceTime"
+    t.jsonb "ignoreJids"
+    t.string "description", limit: 255
+  end
+
+  create_table "TypebotSetting", id: :text, force: :cascade do |t|
+    t.integer "expire", default: 0
+    t.string "keywordFinish", limit: 100
+    t.integer "delayMessage"
+    t.string "unknownMessage", limit: 100
+    t.boolean "listeningFromMe", default: false
+    t.boolean "stopBotFromMe", default: false
+    t.boolean "keepOpen", default: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.integer "debounceTime"
+    t.string "typebotIdFallback", limit: 100
+    t.jsonb "ignoreJids"
+    t.index ["instanceId"], name: "TypebotSetting_instanceId_key", unique: true
+  end
+
+  create_table "Webhook", id: :text, force: :cascade do |t|
+    t.string "url", limit: 500, null: false
+    t.boolean "enabled", default: true
+    t.jsonb "events"
+    t.boolean "webhookByEvents", default: false
+    t.boolean "webhookBase64", default: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.jsonb "headers"
+    t.index ["instanceId"], name: "Webhook_instanceId_key", unique: true
+  end
+
+  create_table "Websocket", id: :text, force: :cascade do |t|
+    t.boolean "enabled", default: false, null: false
+    t.jsonb "events", null: false
+    t.datetime "createdAt", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updatedAt", precision: nil, null: false
+    t.text "instanceId", null: false
+    t.index ["instanceId"], name: "Websocket_instanceId_key", unique: true
+  end
+
+  create_table "_prisma_migrations", id: { type: :string, limit: 36 }, force: :cascade do |t|
+    t.string "checksum", limit: 64, null: false
+    t.timestamptz "finished_at"
+    t.string "migration_name", limit: 255, null: false
+    t.text "logs"
+    t.timestamptz "rolled_back_at"
+    t.timestamptz "started_at", default: -> { "now()" }, null: false
+    t.integer "applied_steps_count", default: 0, null: false
+  end
+
   create_table "access_tokens", force: :cascade do |t|
     t.string "owner_type"
     t.bigint "owner_id"
     t.string "token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
   end
@@ -32,8 +491,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "user_id"
     t.integer "role", default: 0
     t.bigint "inviter_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.datetime "active_at", precision: nil
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
@@ -63,8 +522,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
     t.string "message_checksum", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
@@ -100,8 +559,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "inbox_id"
     t.integer "agent_bot_id"
     t.integer "status", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "account_id"
   end
 
@@ -109,8 +568,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "name"
     t.string "description"
     t.string "outgoing_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "account_id"
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
@@ -140,8 +599,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.text "content"
     t.integer "status"
     t.integer "views"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "author_id"
     t.bigint "associated_article_id"
     t.jsonb "meta", default: {}
@@ -197,8 +656,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "event_name", null: false
     t.jsonb "conditions", default: "{}", null: false
     t.jsonb "actions", default: "{}", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "active", default: true, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
@@ -213,8 +672,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
     t.jsonb "trigger_rules", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "campaign_type", default: 0, null: false
     t.integer "campaign_status", default: 0, null: false
     t.jsonb "audience", default: []
@@ -241,8 +700,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "name"
     t.text "description"
     t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "locale", default: "en"
     t.string "slug", null: false
     t.bigint "parent_category_id"
@@ -258,8 +717,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
   create_table "channel_api", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "webhook_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "identifier"
     t.string "hmac_token"
     t.boolean "hmac_mandatory", default: false
@@ -272,8 +731,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "account_id", null: false
     t.string "email", null: false
     t.string "forward_to_email", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "imap_enabled", default: false
     t.string "imap_address", default: ""
     t.integer "imap_port", default: 0
@@ -296,6 +755,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
 
+  create_table "channel_evolution", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "webhook_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "identifier"
+    t.string "hmac_token"
+    t.string "qr_code"
+    t.string "instance_id"
+    t.boolean "hmac_mandatory", default: false
+    t.jsonb "additional_attributes", default: {}
+    t.index ["hmac_token"], name: "index_channel_evolution_on_hmac_token", unique: true
+    t.index ["identifier"], name: "index_channel_evolution_on_identifier", unique: true
+  end
+
   create_table "channel_facebook_pages", id: :serial, force: :cascade do |t|
     t.string "page_id", null: false
     t.string "user_access_token", null: false
@@ -313,8 +787,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "line_channel_id", null: false
     t.string "line_channel_secret", null: false
     t.string "line_channel_token", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
   end
 
@@ -323,8 +797,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "phone_number", null: false
     t.string "provider", default: "default"
     t.jsonb "provider_config", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
@@ -332,8 +806,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "bot_name"
     t.integer "account_id", null: false
     t.string "bot_token", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
@@ -342,8 +816,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "auth_token", null: false
     t.string "account_sid", null: false
     t.integer "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "medium", default: 0
     t.string "messaging_service_sid"
     t.string "api_key_sid"
@@ -357,8 +831,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "twitter_access_token", null: false
     t.string "twitter_access_token_secret", null: false
     t.integer "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "tweets_enabled", default: true
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
   end
@@ -388,8 +862,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "phone_number", null: false
     t.string "provider", default: "default"
     t.jsonb "provider_config", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
@@ -399,8 +873,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "contact_id"
     t.bigint "inbox_id"
     t.string "source_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "hmac_verified", default: false
     t.string "pubsub_token"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
@@ -443,8 +917,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "account_id", null: false
     t.bigint "user_id", null: false
     t.bigint "conversation_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_conversation_participants_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
     t.index ["user_id", "conversation_id"], name: "index_conversation_participants_on_user_id_and_conversation_id", unique: true
@@ -503,8 +977,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.text "feedback_message"
     t.bigint "contact_id", null: false
     t.bigint "assigned_agent_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
@@ -519,8 +993,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "default_value"
     t.integer "attribute_model", default: 0
     t.bigint "account_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.string "regex_pattern"
@@ -535,8 +1009,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.jsonb "query", default: "{}", null: false
     t.bigint "account_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_custom_filters_on_account_id"
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
   end
@@ -556,8 +1030,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.jsonb "content", default: []
     t.bigint "account_id", null: false
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_dashboard_apps_on_account_id"
     t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
@@ -569,8 +1043,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.text "processing_errors"
     t.integer "total_records"
     t.integer "processed_records"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_data_imports_on_account_id"
   end
 
@@ -580,8 +1054,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "account_id"
     t.integer "template_type", default: 1
     t.integer "locale", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
@@ -589,8 +1063,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "account_id", null: false
     t.integer "category_id", null: false
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -632,8 +1106,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
   create_table "installation_configs", force: :cascade do |t|
     t.string "name", null: false
     t.jsonb "serialized_value", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "locked", default: true, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
     t.index ["name"], name: "index_installation_configs_on_name", unique: true
@@ -647,8 +1121,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "hook_type", default: 0
     t.string "reference_id"
     t.string "access_token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "settings", default: {}
   end
 
@@ -658,8 +1132,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "color", default: "#1f93ff", null: false
     t.boolean "show_on_sidebar"
     t.bigint "account_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_labels_on_account_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
@@ -671,8 +1145,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
     t.jsonb "actions", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
   end
 
@@ -681,8 +1155,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "conversation_id", null: false
     t.bigint "account_id", null: false
     t.datetime "mentioned_at", precision: nil, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_mentions_on_account_id"
     t.index ["conversation_id"], name: "index_mentions_on_conversation_id"
     t.index ["user_id", "conversation_id"], name: "index_mentions_on_user_id_and_conversation_id", unique: true
@@ -726,8 +1200,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "account_id", null: false
     t.bigint "contact_id", null: false
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_notes_on_account_id"
     t.index ["contact_id"], name: "index_notes_on_contact_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
@@ -737,8 +1211,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "account_id"
     t.integer "user_id"
     t.integer "email_flags", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "push_flags", default: 0, null: false
     t.index ["account_id", "user_id"], name: "by_account_user", unique: true
   end
@@ -747,8 +1221,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "user_id", null: false
     t.integer "subscription_type", null: false
     t.jsonb "subscription_attributes", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "identifier"
     t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
     t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
@@ -763,8 +1237,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "secondary_actor_type"
     t.bigint "secondary_actor_id"
     t.datetime "read_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.datetime "snoozed_until"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
     t.jsonb "meta", default: {}
@@ -779,8 +1253,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
     t.bigint "permissible_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["permissible_type", "permissible_id"], name: "index_platform_app_permissibles_on_permissibles"
     t.index ["platform_app_id", "permissible_id", "permissible_type"], name: "unique_permissibles_index", unique: true
     t.index ["platform_app_id"], name: "index_platform_app_permissibles_on_platform_app_id"
@@ -788,15 +1262,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
 
   create_table "platform_apps", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "portal_members", force: :cascade do |t|
     t.bigint "portal_id"
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
     t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
   end
@@ -810,8 +1284,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.string "homepage_link"
     t.string "page_title"
     t.text "header_text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
@@ -831,8 +1305,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["category_id", "related_category_id"], name: "index_related_categories_on_category_id_and_related_category_id", unique: true
     t.index ["related_category_id", "category_id"], name: "index_related_categories_on_related_category_id_and_category_id", unique: true
   end
@@ -844,8 +1318,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "inbox_id"
     t.integer "user_id"
     t.integer "conversation_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.float "value_in_business_hours"
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
@@ -917,8 +1391,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
   create_table "team_members", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["team_id", "user_id"], name: "index_team_members_on_team_id_and_user_id", unique: true
     t.index ["team_id"], name: "index_team_members_on_team_id"
     t.index ["user_id"], name: "index_team_members_on_user_id"
@@ -929,8 +1403,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.text "description"
     t.boolean "allow_auto_assign", default: true
     t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
@@ -981,8 +1455,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "account_id"
     t.integer "inbox_id"
     t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
@@ -997,43 +1471,51 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
     t.integer "open_minutes"
     t.integer "close_hour"
     t.integer "close_minutes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "open_all_day", default: false
     t.index ["account_id"], name: "index_working_hours_on_account_id"
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "Chat", "Instance", column: "instanceId", name: "Chat_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Chatwoot", "Instance", column: "instanceId", name: "Chatwoot_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Contact", "Instance", column: "instanceId", name: "Contact_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Dify", "Instance", column: "instanceId", name: "Dify_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "DifySetting", "Dify", column: "difyIdFallback", name: "DifySetting_difyIdFallback_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "DifySetting", "Instance", column: "instanceId", name: "DifySetting_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "EvolutionBot", "Instance", column: "instanceId", name: "EvolutionBot_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "EvolutionBotSetting", "EvolutionBot", column: "botIdFallback", name: "EvolutionBotSetting_botIdFallback_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "EvolutionBotSetting", "Instance", column: "instanceId", name: "EvolutionBotSetting_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Flowise", "Instance", column: "instanceId", name: "Flowise_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "FlowiseSetting", "Flowise", column: "flowiseIdFallback", name: "FlowiseSetting_flowiseIdFallback_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "FlowiseSetting", "Instance", column: "instanceId", name: "FlowiseSetting_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "IntegrationSession", "Instance", column: "instanceId", name: "IntegrationSession_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Label", "Instance", column: "instanceId", name: "Label_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Media", "Instance", column: "instanceId", name: "Media_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Media", "Message", column: "messageId", name: "Media_messageId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Message", "Instance", column: "instanceId", name: "Message_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Message", "IntegrationSession", column: "sessionId", name: "Message_sessionId_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "MessageUpdate", "Instance", column: "instanceId", name: "MessageUpdate_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "MessageUpdate", "Message", column: "messageId", name: "MessageUpdate_messageId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "OpenaiBot", "Instance", column: "instanceId", name: "OpenaiBot_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "OpenaiBot", "OpenaiCreds", column: "openaiCredsId", name: "OpenaiBot_openaiCredsId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "OpenaiCreds", "Instance", column: "instanceId", name: "OpenaiCreds_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "OpenaiSetting", "Instance", column: "instanceId", name: "OpenaiSetting_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "OpenaiSetting", "OpenaiBot", column: "openaiIdFallback", name: "OpenaiSetting_openaiIdFallback_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "OpenaiSetting", "OpenaiCreds", column: "openaiCredsId", name: "OpenaiSetting_openaiCredsId_fkey", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "Proxy", "Instance", column: "instanceId", name: "Proxy_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Rabbitmq", "Instance", column: "instanceId", name: "Rabbitmq_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Session", "Instance", column: "sessionId", name: "Session_sessionId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Setting", "Instance", column: "instanceId", name: "Setting_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Sqs", "Instance", column: "instanceId", name: "Sqs_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Template", "Instance", column: "instanceId", name: "Template_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Typebot", "Instance", column: "instanceId", name: "Typebot_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "TypebotSetting", "Instance", column: "instanceId", name: "TypebotSetting_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "TypebotSetting", "Typebot", column: "typebotIdFallback", name: "TypebotSetting_typebotIdFallback_fkey", on_update: :cascade, on_delete: :nullify
+  add_foreign_key "Webhook", "Instance", column: "instanceId", name: "Webhook_instanceId_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "Websocket", "Instance", column: "instanceId", name: "Websocket_instanceId_fkey", on_update: :cascade, on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
-  create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
-      on("accounts").
-      after(:insert).
-      for_each(:row) do
-    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
-  end
-
-  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("conversations").
-      before(:insert).
-      for_each(:row) do
-    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
-  end
-
-  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
-      on("accounts").
-      name("camp_dpid_before_insert").
-      after(:insert).
-      for_each(:row) do
-    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
-  end
-
-  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("campaigns").
-      before(:insert).
-      for_each(:row) do
-    "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
-  end
-
 end
