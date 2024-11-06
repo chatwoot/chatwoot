@@ -1,23 +1,8 @@
 class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::BaseController
-  before_action :check_admin_authorization?
   before_action :hook
-  before_action :validate_method, only: :proxy
 
   def proxy
-    base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
-
-    # even if the base_url has /api URL.join will get
-    # rid of it, so the request path has to include it
-    url = URI.join(base_url, request_path).to_s
-
-    # permit all
-    params[:body].permit! if params[:body].present?
-
-    # make the request to the Captain service
-    # also add the access token and email to header use X-User-Email and X-User-Token
-    response = HTTParty.send(params[:method].downcase, url, body: params[:body].to_json, headers: headers)
-
-    response.headers.each { |key, value| headers[key] = value }
+    response = HTTParty.send(request_method, request_url, body: permitted_params[:body].to_json, headers: headers)
     render plain: response.body, status: response.code
   end
 
@@ -33,22 +18,31 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   end
 
   def request_path
-    paths = if params[:route] === '/sessions/profile'
-              %w[api sessions profile]
-            else
-              ['api', 'accounts', hook.settings['account_id'], params[:route]]
-            end
+    if params[:route] == '/sessions/profile'
+      'api/sessions/profile'
+    else
+      "api/accounts/#{hook.settings['account_id']}/#{params[:route]}"
+    end
+  end
 
-    File.join(*paths)
+  def request_url
+    base_url = InstallationConfig.find_by(name: 'CAPTAIN_API_URL').value
+    URI.join(base_url, request_path).to_s
   end
 
   def hook
     @hook ||= Current.account.hooks.find_by!(app_id: 'captain')
   end
 
-  def validate_method
-    return if params[:method].present? && %w[get post put patch delete options head].include?(params[:method].downcase)
+  def request_method
+    method = permitted_params[:method].downcase
+    unless %w[get post put patch delete options head].include?(method)
+      raise 'Invalid or missing HTTP method'
+    end
+    method
+  end
 
-    render json: { error: 'Invalid or missing HTTP method' }, status: :unprocessable_entity
+  def permitted_params
+    params.permit(:method, :route, body: {})
   end
 end
