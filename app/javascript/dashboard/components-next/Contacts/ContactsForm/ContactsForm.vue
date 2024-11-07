@@ -12,9 +12,13 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 const props = defineProps({
   contactData: {
     type: Object,
-    required: true,
+    default: null,
   },
   isDetailsView: {
+    type: Boolean,
+    default: false,
+  },
+  isNewContact: {
     type: Boolean,
     default: false,
   },
@@ -76,6 +80,7 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const updateState = () => {
+  if (props.isNewContact) return;
   const {
     id,
     name = '',

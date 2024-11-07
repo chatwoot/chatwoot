@@ -2,6 +2,7 @@
 import { computed, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
@@ -121,12 +122,12 @@ const updateCurrentPage = page => {
               :items="breadcrumbItems"
               @click="handleBreadcrumbClick"
             />
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-4">
               <div v-if="!isDetailView" class="flex items-center gap-2">
                 <Input
                   :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
                   :custom-input-class="[
-                    'h-10 [&:not(.focus)]:!border-transparent bg-n-solid-1 ltr:!pl-8 rtl:!pr-8',
+                    'h-8 [&:not(.focus)]:!border-transparent bg-n-solid-1 ltr:!pl-8 !py-1 rtl:!pr-8',
                   ]"
                   @input="emit('search', $event.target.value)"
                 >
@@ -139,15 +140,15 @@ const updateCurrentPage = page => {
                 </Input>
               </div>
               <ContactActions
-                :button-label="buttonLabel"
                 :is-detail-view="isDetailView"
                 :active-sort="activeSort"
                 :active-ordering="activeOrdering"
                 @filter="emit('filter')"
                 @update:sort="emit('sort', $event)"
                 @more="emit('more')"
-                @message="emit('message')"
               />
+              <div class="w-px h-4 bg-n-strong" />
+              <Button :label="buttonLabel" size="sm" @click="emit('message')" />
             </div>
           </div>
         </div>

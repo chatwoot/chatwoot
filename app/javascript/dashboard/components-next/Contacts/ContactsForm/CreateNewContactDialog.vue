@@ -1,0 +1,60 @@
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
+
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
+
+const { t } = useI18n();
+const store = useStore();
+
+const dialogRef = ref(null);
+const contact = ref(null);
+
+const uiFlags = useMapGetter('contacts/getUIFlags');
+const isCreatingContact = computed(() => uiFlags.value.isCreating);
+
+const createNewContact = contactItem => {
+  contact.value = contactItem;
+};
+
+const handleDialogConfirm = async () => {
+  if (!contact.value) return;
+  await store.dispatch('contacts/create', contact.value);
+  dialogRef.value.close();
+};
+
+const closeDialog = () => {
+  dialogRef.value.close();
+};
+
+defineExpose({ dialogRef });
+</script>
+
+<template>
+  <Dialog ref="dialogRef" max-width="max-w-3xl" @confirm="handleDialogConfirm">
+    <template #form>
+      <ContactsForm is-new-contact @update="createNewContact" />
+    </template>
+    <template #actions>
+      <div class="flex items-center justify-between w-full gap-3">
+        <Button
+          :label="t('DIALOG.BUTTONS.CANCEL')"
+          variant="link"
+          class="h-10 hover:no-underline hover:text-n-brand"
+          @click="closeDialog"
+        />
+        <Button
+          :label="
+            t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SAVE_CONTACT')
+          "
+          color="blue"
+          :is-loading="isCreatingContact"
+          @click="handleDialogConfirm"
+        />
+      </div>
+    </template>
+  </Dialog>
+</template>

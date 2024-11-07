@@ -1,12 +1,9 @@
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
 import ContactSortMenu from './ContactSortMenu.vue';
+import ContactMoreActions from './ContactMoreActions.vue';
 
 defineProps({
-  buttonLabel: {
-    type: String,
-    default: '',
-  },
   isDetailView: {
     type: Boolean,
     default: false,
@@ -21,7 +18,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['filter', 'more', 'message', 'update:sort']);
+const emit = defineEmits(['filter', 'more', 'update:sort']);
 </script>
 
 <template>
@@ -30,6 +27,7 @@ const emit = defineEmits(['filter', 'more', 'message', 'update:sort']);
       v-if="!isDetailView"
       icon="i-lucide-list-filter"
       color="slate"
+      size="sm"
       variant="ghost"
       @click="emit('filter')"
     />
@@ -39,13 +37,6 @@ const emit = defineEmits(['filter', 'more', 'message', 'update:sort']);
       :active-ordering="activeOrdering"
       @update:sort="emit('update:sort', $event)"
     />
-    <Button
-      v-if="!isDetailView"
-      icon="i-lucide-ellipsis-vertical"
-      color="slate"
-      variant="ghost"
-      @click="emit('more')"
-    />
-    <Button :label="buttonLabel" size="sm" @click="emit('message')" />
+    <ContactMoreActions v-if="!isDetailView" />
   </div>
 </template>

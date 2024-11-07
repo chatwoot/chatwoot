@@ -92,6 +92,7 @@ const handleOrderChange = value => {
     <Button
       icon="i-lucide-arrow-down-up"
       color="slate"
+      size="sm"
       variant="ghost"
       :class="isMenuOpen ? 'bg-n-alpha-2' : ''"
       @click="isMenuOpen = !isMenuOpen"

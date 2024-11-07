@@ -396,6 +396,12 @@
         "CONTACTS": "Contacts"
       },
       "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
         "SORT_BY": {
           "LABEL": "Sort by",
           "OPTIONS": {
