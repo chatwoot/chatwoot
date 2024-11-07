@@ -19,6 +19,15 @@ const slaStatus = ref({
   icon: null,
 });
 
+// TODO: Remove this once we update the helper from utils
+// https://github.com/chatwoot/utils/blob/main/src/sla.ts#L73
+const convertObjectCamelCaseToSnakeCase = object => {
+  return Object.keys(object).reduce((acc, key) => {
+    acc[key.replace(/([A-Z])/g, '_$1').toLowerCase()] = object[key];
+    return acc;
+  }, {});
+};
+
 const appliedSLA = computed(() => props.conversation?.appliedSla);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
@@ -28,7 +37,7 @@ const slaStatusText = computed(() => {
 
 const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
-    appliedSla: appliedSLA.value,
+    appliedSla: convertObjectCamelCaseToSnakeCase(appliedSLA.value),
     chat: props.conversation,
   });
 };
