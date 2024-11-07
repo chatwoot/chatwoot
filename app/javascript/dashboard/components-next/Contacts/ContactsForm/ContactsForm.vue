@@ -76,23 +76,37 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const updateState = () => {
-  const [firstName = '', lastName = ''] = (props.contactData.name || '').split(
-    ' '
-  );
+  const {
+    id,
+    name = '',
+    email: emailAddress,
+    phoneNumber,
+    additionalAttributes: {
+      description,
+      companyName,
+      countryCode,
+      country,
+      city,
+      socialProfiles = {},
+    } = {},
+  } = props.contactData || {};
+
+  const [firstName = '', lastName = ''] = name.split(' ');
+
   Object.assign(state, {
-    id: props.contactData.id,
-    name: props.contactData.name,
+    id,
+    name,
     firstName,
     lastName,
-    email: props.contactData.email,
-    phone_number: props.contactData.phoneNumber,
+    email: emailAddress,
+    phone_number: phoneNumber,
     additional_attributes: {
-      ...state.additional_attributes,
-      ...props.contactData.additionalAttributes,
-      social_profiles: {
-        ...state.additional_attributes.social_profiles,
-        ...props.contactData.additionalAttributes?.social_profiles,
-      },
+      description,
+      company_name: companyName,
+      country_code: countryCode,
+      country,
+      city,
+      social_profiles: socialProfiles,
     },
   });
 };
@@ -165,7 +179,8 @@ const getFormBinding = key => {
 
       const isFormValid = await v$.value.$validate();
       if (isFormValid) {
-        emit('update', state);
+        const { firstName, lastName, ...stateWithoutNames } = state;
+        emit('update', stateWithoutNames);
       }
     },
   });

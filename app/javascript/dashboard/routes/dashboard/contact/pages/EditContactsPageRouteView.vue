@@ -11,15 +11,16 @@ import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
 import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
+// import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
 
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const contact = useMapGetter('contacts/getContact');
+const contact = useMapGetter('contacts/getContactById');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 
-const activeTab = ref('merge');
+const activeTab = ref('attributes');
 const contactMergeRef = ref(null);
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
@@ -77,10 +78,15 @@ const fetchContactConversations = () => {
   if (contactId) store.dispatch('contactConversations/get', contactId);
 };
 
+const fetchAttributes = () => {
+  store.dispatch('attributes/get');
+};
+
 onMounted(() => {
   fetchActiveContact();
   fetchContactNotes();
   fetchContactConversations();
+  fetchAttributes();
 });
 </script>
 
@@ -102,7 +108,7 @@ onMounted(() => {
         <Spinner />
       </div>
       <ContactDetails
-        v-else
+        v-else-if="selectedContact"
         :selected-contact="selectedContact"
         @go-to-contacts-list="goToContactsList"
       />
@@ -115,6 +121,10 @@ onMounted(() => {
             @tab-changed="handleTabChange"
           />
         </div>
+        <!-- <ContactCustomAttributes
+          v-if="activeTab === 'attributes'"
+          :selected-contact="selectedContact"
+        /> -->
         <ContactNotes v-if="activeTab === 'notes'" />
         <ContactHistory v-if="activeTab === 'history'" />
         <ContactMerge

@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
 
 defineProps({
@@ -26,8 +27,8 @@ const toggleExpanded = id => {
       :name="contact.name"
       :email="contact.email"
       :thumbnail="contact.thumbnail"
-      :phone-number="contact.phone_number"
-      :additional-attributes="contact.additional_attributes"
+      :phone-number="contact.phoneNumber"
+      :additional-attributes="contact.additionalAttributes"
       :is-expanded="expandedCardId === contact.id"
       @toggle="toggleExpanded(contact.id)"
     />

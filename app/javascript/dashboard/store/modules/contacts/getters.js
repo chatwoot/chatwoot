@@ -4,6 +4,12 @@ export const getters = {
   getContacts($state) {
     return $state.sortOrder.map(contactId => $state.records[contactId]);
   },
+  getContactsList($state) {
+    const contacts = $state.sortOrder.map(
+      contactId => $state.records[contactId]
+    );
+    return camelcaseKeys(contacts, { deep: true });
+  },
   getUIFlags($state) {
     return $state.uiFlags;
   },
@@ -13,7 +19,7 @@ export const getters = {
   },
   getContactById: $state => id => {
     const contact = $state.records[id];
-    return camelcaseKeys(contact || {});
+    return camelcaseKeys(contact || {}, { deep: true });
   },
   getMeta: $state => {
     return $state.meta;

@@ -9,7 +9,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const store = useStore();
 
-const contacts = useMapGetter('contacts/getContacts');
+const contacts = useMapGetter('contacts/getContactsList');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const meta = useMapGetter('contacts/getMeta');
 

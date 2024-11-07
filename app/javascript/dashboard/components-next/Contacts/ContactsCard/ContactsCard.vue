@@ -58,12 +58,12 @@ const onClickViewDetails = () => {
             <span class="text-sm font-medium truncate text-n-slate-12">{{
               name
             }}</span>
-            <template v-if="additionalAttributes?.company_name">
+            <template v-if="additionalAttributes?.companyName">
               <span class="text-sm text-n-slate-11">{{
                 t('CONTACTS_LAYOUT.CARD.OF')
               }}</span>
               <span class="text-sm font-medium truncate text-n-slate-12">
-                {{ additionalAttributes.company_name }}
+                {{ additionalAttributes.companyName }}
               </span>
             </template>
           </div>

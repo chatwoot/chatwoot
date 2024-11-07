@@ -28,27 +28,18 @@ const confirmDeleteContactDialogRef = ref(null);
 const selectedContactData = computed(() => {
   if (!props.selectedContact) return {};
 
-  const {
-    phone_number: phoneNumber = {},
-    additional_attributes: additionalAttributes = {},
-  } = props.selectedContact;
-
-  return {
-    ...props.selectedContact,
-    phoneNumber,
-    additionalAttributes,
-  };
+  return props.selectedContact;
 });
 
 const createdAt = computed(() => {
-  return props.selectedContact?.created_at
-    ? dynamicTime(props.selectedContact.created_at)
+  return props.selectedContact?.createdAt
+    ? dynamicTime(props.selectedContact.createdAt)
     : '';
 });
 
 const lastActivityAt = computed(() => {
-  return props.selectedContact?.last_activity_at
-    ? dynamicTime(props.selectedContact.last_activity_at)
+  return props.selectedContact?.lastActivityAt
+    ? dynamicTime(props.selectedContact.lastActivityAt)
     : '';
 });
 

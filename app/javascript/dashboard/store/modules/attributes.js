@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import AttributeAPI from '../../api/attributes';
+import camelcaseKeys from 'camelcase-keys';
 
 export const state = {
   records: [],
@@ -23,6 +24,12 @@ export const getters = {
     return _state.records.filter(
       record => record.attribute_model === attributeModel
     );
+  },
+  getAttributesByModelType: _state => attributeModel => {
+    const records = _state.records.filter(
+      record => record.attribute_model === attributeModel
+    );
+    return camelcaseKeys(records, { deep: true });
   },
 };
 
