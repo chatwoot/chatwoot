@@ -417,7 +417,7 @@
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
-          "FROM": "from",
+          "FROM": "form",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
@@ -720,12 +720,12 @@
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Zakonisht përgjigjemi brenda pak minutash",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_HOURS": "Zakonisht përgjigjemi brenda disa orësh",
+        "IN_A_DAY": "Zakonisht përgjigjemi brenda një dite"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "Hap Bisedën",
+        "CHAT_INPUT_PLACEHOLDER": "Shkruani mesazhin tuaj"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
