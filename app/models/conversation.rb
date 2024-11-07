@@ -136,7 +136,7 @@ class Conversation < ApplicationRecord
   end
 
   def last_conversation_plan
-    conversation_plans&.order(created_at: :desc)&.last
+    conversation_plans&.order(snoozed_until: :desc)&.first
   end
 
   def last_message_in_messaging_window?(time)
