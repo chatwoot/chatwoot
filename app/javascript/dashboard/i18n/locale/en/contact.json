@@ -394,6 +394,28 @@
       "MESSAGE_BUTTON": "Message",
       "BREADCRUMB": {
         "CONTACTS": "Contacts"
+      },
+      "ACTIONS": {
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "NAME": "Name",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Phone number",
+            "COMPANY": "Company",
+            "COUNTRY": "Country",
+            "CITY": "City",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Created at"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
       }
     },
     "CARD": {

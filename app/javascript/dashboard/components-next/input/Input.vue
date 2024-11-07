@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 const props = defineProps({
   modelValue: {
     type: [String, Number],
@@ -44,7 +44,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'input']);
+const emit = defineEmits(['update:modelValue', 'blur', 'input', 'focus']);
+
+const isFocused = ref(false);
 
 const messageClass = computed(() => {
   switch (props.messageType) {
@@ -70,6 +72,16 @@ const handleInput = event => {
   emit('update:modelValue', event.target.value);
   emit('input', event);
 };
+
+const handleFocus = event => {
+  emit('focus', event);
+  isFocused.value = true;
+};
+
+const handleBlur = event => {
+  emit('blur', event);
+  isFocused.value = false;
+};
 </script>
 
 <template>
@@ -89,7 +101,10 @@ const handleInput = event => {
       :class="[
         customInputClass,
         inputBorderClass,
-        { error: messageType === 'error' },
+        {
+          error: messageType === 'error',
+          focus: isFocused,
+        },
       ]"
       :type="type"
       :placeholder="placeholder"
@@ -97,7 +112,8 @@ const handleInput = event => {
       :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
       class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
       @input="handleInput"
-      @blur="emit('blur')"
+      @focus="handleFocus"
+      @blur="handleBlur"
     />
     <p
       v-if="message"

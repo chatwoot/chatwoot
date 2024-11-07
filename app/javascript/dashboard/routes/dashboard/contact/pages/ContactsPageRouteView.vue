@@ -1,13 +1,18 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import ContactsLayout from 'dashboard/components-next/Contacts/ContactsLayout.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
+const DEFAULT_SORT_FIELD = 'last_activity_at';
+const DEBOUNCE_DELAY = 300;
+
 const store = useStore();
+const { updateUISettings, uiSettings } = useUISettings();
 
 const contacts = useMapGetter('contacts/getContactsList');
 const uiFlags = useMapGetter('contacts/getUIFlags');
@@ -15,32 +20,52 @@ const meta = useMapGetter('contacts/getMeta');
 
 const searchValue = ref('');
 
+const parseSortSettings = (sortString = '') => {
+  const hasDescending = sortString.startsWith('-');
+  const sortField = hasDescending ? sortString.slice(1) : sortString;
+  return {
+    sort: sortField || DEFAULT_SORT_FIELD,
+    order: hasDescending ? '-' : '',
+  };
+};
+
+const { contacts_sort_by: contactSortBy = '' } = uiSettings.value ?? {};
+const { sort: initialSort, order: initialOrder } =
+  parseSortSettings(contactSortBy);
+
+const activeSort = ref(initialSort);
+const activeOrdering = ref(initialOrder);
+
 const isFetchingList = computed(() => uiFlags.value.isFetching);
 
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
 
+const buildSortAttr = (order, sort) => `${order}${sort}`;
+
 const fetchContacts = page => {
+  const sortAttr = buildSortAttr(activeOrdering.value, activeSort.value);
   store.dispatch('contacts/get', {
     page,
-    sortAttr: '-last_activity_at',
+    sortAttr,
   });
 };
 
 const debouncedSearch = debounce(
   value => {
     searchValue.value = value;
+    const sortAttr = buildSortAttr(activeOrdering.value, activeSort.value);
     if (!value) {
       fetchContacts(1);
     } else {
       store.dispatch('contacts/search', {
         search: encodeURIComponent(value),
         page: 1,
-        sortAttr: '-last_activity_at',
+        sortAttr,
       });
     }
   },
-  300,
+  DEBOUNCE_DELAY,
   false
 );
 
@@ -48,13 +73,35 @@ const searchContacts = value => {
   debouncedSearch(value);
 };
 
-onMounted(() => {
-  fetchContacts(1);
+const handleSort = async ({ sort, order }) => {
+  activeSort.value = sort;
+  activeOrdering.value = order;
+
+  const sortString = buildSortAttr(order, sort);
+  await updateUISettings({
+    contacts_sort_by: sortString,
+  });
+
+  await fetchContacts(1);
+};
+
+watch(
+  () => uiSettings.value?.contacts_sort_by,
+  newSortBy => {
+    if (newSortBy) {
+      const { sort, order } = parseSortSettings(newSortBy);
+      activeSort.value = sort;
+      activeOrdering.value = order;
+    }
+  },
+  { immediate: true }
+);
+
+onMounted(async () => {
+  await fetchContacts(1);
 });
 
-const updateCurrentPage = page => {
-  fetchContacts(page);
-};
+const updateCurrentPage = page => fetchContacts(page);
 </script>
 
 <template>
@@ -67,8 +114,11 @@ const updateCurrentPage = page => {
       :current-page="currentPage"
       :total-items="totalItems"
       :show-pagination-footer="!isFetchingList && searchValue === ''"
+      :active-sort="activeSort"
+      :active-ordering="activeOrdering"
       @update:current-page="updateCurrentPage"
       @search="searchContacts"
+      @sort="handleSort"
     >
       <div
         v-if="isFetchingList"

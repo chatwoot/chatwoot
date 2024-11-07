@@ -2,11 +2,11 @@
 import { computed, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
+import ContactActions from 'dashboard/components-next/Contacts/ContactHeader/ContactActions.vue';
 
 const props = defineProps({
   headerTitle: {
@@ -41,6 +41,14 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  activeSort: {
+    type: String,
+    default: '',
+  },
+  activeOrdering: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits([
@@ -50,6 +58,7 @@ const emit = defineEmits([
   'update:currentPage',
   'goToContactsList',
   'search',
+  'sort',
 ]);
 
 const { t } = useI18n();
@@ -116,7 +125,9 @@ const updateCurrentPage = page => {
               <div v-if="!isDetailView" class="flex items-center gap-2">
                 <Input
                   :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
-                  :custom-input-class="['h-8 ltr:!pl-8 rtl:!pr-8']"
+                  :custom-input-class="[
+                    'h-10 [&:not(.focus)]:!border-transparent bg-n-solid-1 ltr:!pl-8 rtl:!pr-8',
+                  ]"
                   @input="emit('search', $event.target.value)"
                 >
                   <template #prefix>
@@ -127,21 +138,16 @@ const updateCurrentPage = page => {
                   </template>
                 </Input>
               </div>
-              <Button
-                v-if="!isDetailView"
-                icon="i-lucide-list-filter"
-                size="sm"
-                color="slate"
-                @click="emit('filter')"
+              <ContactActions
+                :button-label="buttonLabel"
+                :is-detail-view="isDetailView"
+                :active-sort="activeSort"
+                :active-ordering="activeOrdering"
+                @filter="emit('filter')"
+                @update:sort="emit('sort', $event)"
+                @more="emit('more')"
+                @message="emit('message')"
               />
-              <Button
-                v-if="!isDetailView"
-                icon="i-lucide-ellipsis-vertical"
-                size="sm"
-                color="slate"
-                @click="emit('more')"
-              />
-              <Button :label="buttonLabel" size="sm" @click="emit('message')" />
             </div>
           </div>
         </div>
