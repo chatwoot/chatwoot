@@ -1,3 +1,5 @@
+import camelcaseKeys from 'camelcase-keys';
+
 export const getters = {
   getContacts($state) {
     return $state.sortOrder.map(contactId => $state.records[contactId]);
@@ -8,6 +10,10 @@ export const getters = {
   getContact: $state => id => {
     const contact = $state.records[id];
     return contact || {};
+  },
+  getContactById: $state => id => {
+    const contact = $state.records[id];
+    return camelcaseKeys(contact || {});
   },
   getMeta: $state => {
     return $state.meta;

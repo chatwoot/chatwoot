@@ -33,14 +33,16 @@ const currentContact = computed(() => props.contact);
 const currentContactName = computed(() => currentContact.value?.name);
 const currentContactThumbnail = computed(() => currentContact.value?.thumbnail);
 const currentContactStatus = computed(
-  () => currentContact.value?.availability_status
+  () => currentContact.value?.availabilityStatus
 );
 
 const inbox = computed(() => props.stateInbox);
 
+const inboxName = computed(() => inbox.value?.name);
+
 const inboxIcon = computed(() => {
-  const { phone_number: phoneNumber, channel_type: type } = inbox.value;
-  return getInboxIconByType(type, phoneNumber);
+  const { phoneNumber, channelType } = inbox.value;
+  return getInboxIconByType(channelType, phoneNumber);
 });
 
 const lastActivityAt = computed(() => {
@@ -73,6 +75,7 @@ const showMessagePreviewWithoutMeta = computed(() => {
         <div class="flex items-center gap-2">
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
+            v-tooltip.left="inboxName"
             class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
           >
             <Icon

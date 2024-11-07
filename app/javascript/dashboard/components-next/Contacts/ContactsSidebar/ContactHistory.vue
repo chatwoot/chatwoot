@@ -11,8 +11,8 @@ const route = useRoute();
 const conversations = useMapGetter(
   'contactConversations/getAllConversationsByContactId'
 );
-const contacts = useMapGetter('contacts/getContact');
-const stateInbox = useMapGetter('inboxes/getInbox');
+const contactsById = useMapGetter('contacts/getContactById');
+const stateInbox = useMapGetter('inboxes/getInboxById');
 const accountLabels = useMapGetter('labels/getLabels');
 
 const accountLabelsValue = computed(() => accountLabels.value);
@@ -42,7 +42,7 @@ const contactConversations = computed(() =>
         v-if="conversation"
         :key="conversation.id"
         :conversation="conversation"
-        :contact="contacts(conversation.meta.sender.id)"
+        :contact="contactsById(conversation.meta.sender.id)"
         :state-inbox="stateInbox(conversation.inboxId)"
         :account-labels="accountLabelsValue"
       />

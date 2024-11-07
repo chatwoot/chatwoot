@@ -77,7 +77,7 @@ export const getters = {
   },
   getAllConversationsByContactId: $state => id => {
     const records = $state.records[Number(id)] || [];
-    return camelcaseKeys(records);
+    return camelcaseKeys(records, { deep: true });
   },
 };
 
