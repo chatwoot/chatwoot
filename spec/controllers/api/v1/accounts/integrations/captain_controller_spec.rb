@@ -5,11 +5,11 @@ RSpec.describe 'Captain Integrations API', type: :request do
   let!(:agent) { create(:user, account: account, role: :agent) }
   let!(:hook) do
     create(:integrations_hook, account: account, app_id: 'captain', settings: {
-      access_token: SecureRandom.hex,
-      account_email: Faker::Internet.email,
-      assistant_id: '1',
-      account_id: '1'
-    })
+             access_token: SecureRandom.hex,
+             account_email: Faker::Internet.email,
+             assistant_id: '1',
+             account_id: '1'
+           })
   end
   let(:captain_api_url) { 'https://captain.example.com/' }
 
@@ -36,10 +36,10 @@ RSpec.describe 'Captain Integrations API', type: :request do
         it 'proxies the request to Captain API' do
           stub_request(:get, "#{captain_api_url}api/accounts/#{hook.settings['account_id']}/#{route}")
             .with(headers: {
-              'X-User-Email' => hook.settings['account_email'],
-              'X-User-Token' => hook.settings['access_token'],
-              'Content-Type' => 'application/json'
-            })
+                    'X-User-Email' => hook.settings['account_email'],
+                    'X-User-Token' => hook.settings['access_token'],
+                    'Content-Type' => 'application/json'
+                  })
             .to_return(status: 200, body: 'Success', headers: {})
 
           post proxy_api_v1_account_integrations_captain_url(account_id: account.id),
@@ -54,12 +54,11 @@ RSpec.describe 'Captain Integrations API', type: :request do
 
       context 'when HTTP method is invalid' do
         it 'returns unprocessable entity' do
-          
           post proxy_api_v1_account_integrations_captain_url(account_id: account.id),
                params: { method: 'invalid', route: 'some_route', body: { some: 'data' } },
                headers: agent.create_new_auth_token,
                as: :json
-         
+
           expect(response).to have_http_status(:internal_server_error)
         end
       end

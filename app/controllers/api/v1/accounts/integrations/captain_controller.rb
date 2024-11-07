@@ -36,9 +36,8 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
 
   def request_method
     method = permitted_params[:method].downcase
-    unless %w[get post put patch delete options head].include?(method)
-      raise 'Invalid or missing HTTP method'
-    end
+    raise 'Invalid or missing HTTP method' unless %w[get post put patch delete options head].include?(method)
+
     method
   end
 
