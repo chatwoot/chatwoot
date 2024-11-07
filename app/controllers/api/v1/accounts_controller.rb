@@ -76,6 +76,10 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def delete_messages_with_source_id
+    if params[:source_id].blank? || params[:id].blank?
+      render json: { error: 'Source ID and Account ID are required' }, status: :bad_request
+      return
+    end
     messages = Message.where(account_id: params[:id], source_id: params[:source_id])
     if messages.empty?
       render json: { error: 'Message not found' }, status: :not_found
