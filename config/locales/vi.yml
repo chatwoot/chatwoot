@@ -134,8 +134,8 @@ vi:
         incoming_calling: "Đang có một cuộc gọi đến..."
         outgoing_calling: "Đang thực hiện cuộc gọi đi..."
         missed_call: "Cuộc gọi nhỡ trong %{duration} giây."
-        incoming_call: "Cuộc gọi đến trong %{answer_duration} giây."
-        outgoing_call: "Cuộc gọi đi trong %{answer_duration} giây."
+        incoming_call: "Cuộc gọi đến trong %{answer_duration}."
+        outgoing_call: "Cuộc gọi đi trong %{answer_duration}."
       deleted: Tin nhắn đã bị xoá
       delivery_status:
         error_code: "Error code: %{error_code}"

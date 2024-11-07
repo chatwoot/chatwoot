@@ -2,7 +2,7 @@ class Stringee::DeliveryStatusService
   pattr_initialize [:inbox!, :params!]
 
   def perform
-    @message = inbox.messages.find_by(source_id: params[:call_id])
+    build_message
     return unless @message
 
     @conversation = @message.conversation
@@ -14,6 +14,14 @@ class Stringee::DeliveryStatusService
   end
 
   private
+
+  def build_message
+    @message = inbox.messages.find_by(source_id: params[:call_id])
+    return if @message.present?
+
+    Stringee::CallingEventsService.new(inbox: inbox, params: params).perform
+    @message = inbox.messages.find_by(source_id: source_id)
+  end
 
   def set_assignee
     stringee_user_id = incoming? ? params[:to][:number] : params[:request_from_user_id]
@@ -31,8 +39,15 @@ class Stringee::DeliveryStatusService
       I18n.t('conversations.messages.stringee.missed_call', duration: params[:duration].to_s)
     else
       call_type = incoming? ? 'incoming_call' : 'outgoing_call'
-      I18n.t("conversations.messages.stringee.#{call_type}", answer_duration: params[:answerDuration].to_s)
+      formatted_duration = format_duration(params[:answerDuration].to_i)
+      I18n.t("conversations.messages.stringee.#{call_type}", answer_duration: formatted_duration)
     end
+  end
+
+  def format_duration(seconds)
+    minutes = seconds / 60
+    remaining_seconds = seconds % 60
+    "#{minutes} phút #{remaining_seconds} giây"
   end
 
   def message_additional_attributes

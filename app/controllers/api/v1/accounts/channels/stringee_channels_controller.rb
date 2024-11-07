@@ -56,6 +56,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     # get the list of user_ids from params
     # the missing ones are the agents which are to be deleted from StringeePCC
     # the new ones are the agents which are to be added to StringeePCC
+    fetch_other_agents
     ActiveRecord::Base.transaction do
       agents_to_be_added_ids.each { |user_id| add_agent_to_stringee(user_id) }
       agents_to_be_removed_ids.each { |user_id| remove_agent_from_stringee(user_id) }
@@ -67,7 +68,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
   private
 
   def add_agent_to_stringee(user_id)
-    return if user_in_another_stringee_channel(user_id)
+    return if @other_agent_ids.include?(user_id)
 
     user = User.find(user_id)
     agent_id = create_agent(user.name, user.stringee_user_id)
@@ -81,7 +82,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
   end
 
   def remove_agent_from_stringee(user_id)
-    return if user_in_another_stringee_channel(user_id)
+    return if @other_agent_ids.include?(user_id)
 
     user = User.find(user_id)
     agent_id = user.custom_attributes['agent_id']
@@ -93,14 +94,6 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     user.custom_attributes.delete('agent_id')
     user.custom_attributes.delete('stringee_access_token')
     user.save!
-  end
-
-  def user_in_another_stringee_channel(user_id)
-    other_stringee_channels = Current.account.inboxes.where(channel_type: 'Channel::StringeePhoneCall').where.not(id: @inbox.id)
-    other_stringee_channels.each do |inbox|
-      return true if inbox.agents.ids.include?(user_id)
-    end
-    false
   end
 
   def agent_from_params
@@ -122,6 +115,11 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
 
   def current_agents_ids
     @current_agents_ids = @inbox.agents.pluck(:id)
+  end
+
+  def fetch_other_agents
+    other_stringee_channels = Current.account.inboxes.where(channel_type: 'Channel::StringeePhoneCall').where.not(id: @inbox.id)
+    @other_agent_ids = other_stringee_channels.flat_map { |stringee| stringee.agents.ids }
   end
 
   def fetch_inbox
