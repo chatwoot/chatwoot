@@ -172,7 +172,59 @@ const menuItems = computed(() => {
       name: 'Contacts',
       label: t('SIDEBAR.CONTACTS'),
       icon: 'i-lucide-contact',
-      to: accountScopedRoute('contacts_dashboard_index'),
+      activeOn: ['contacts_dashboard_index', 'contacts_dashboard_edit_index'],
+      children: [
+        {
+          name: 'All Contacts',
+          label: t('SIDEBAR.ALL_CONTACTS'),
+          to: accountScopedRoute('contacts_dashboard_index'),
+          activeOn: [
+            'contacts_dashboard_index',
+            'contacts_dashboard_edit_index',
+          ],
+        },
+        {
+          name: 'Segments',
+          icon: 'i-lucide-group',
+          label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
+
+          children: contactCustomViews.value.map(view => ({
+            name: `${view.name}-${view.id}`,
+            label: view.name,
+            to: accountScopedRoute('contacts_dashboard_segments_index', {
+              segmentId: view.id,
+            }),
+            activeOn: [
+              'contacts_dashboard_segments_index',
+              'contacts_dashboard_segments_edit_index',
+            ],
+          })),
+        },
+        {
+          name: 'Tagged With',
+          icon: 'i-lucide-tag',
+          label: t('SIDEBAR.TAGGED_WITH'),
+          activeOn: [
+            'contacts_dashboard_labels_index',
+            'contacts_dashboard_labels_edit_index',
+          ],
+          children: labels.value.map(label => ({
+            name: `${label.title}-${label.id}`,
+            label: label.title,
+            icon: h('span', {
+              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+              style: { backgroundColor: label.color },
+            }),
+            to: accountScopedRoute('contacts_dashboard_labels_index', {
+              label: label.title,
+            }),
+            activeOn: [
+              'contacts_dashboard_labels_index',
+              'contacts_dashboard_labels_edit_index',
+            ],
+          })),
+        },
+      ],
     },
     {
       name: 'Contacts',

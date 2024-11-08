@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-defineProps({
+const props = defineProps({
   options: {
     type: Array,
     required: true,
@@ -20,6 +20,8 @@ defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const isOpen = ref(false);
+
+const labelValue = computed(() => props.label);
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
@@ -44,7 +46,7 @@ const handleSelect = value => {
       variant="faded"
       class="!w-fit"
       :class="{ 'dark:!bg-n-alpha-2 !bg-n-slate-9/20': isOpen }"
-      :label="label"
+      :label="labelValue"
       @click="toggleMenu"
     />
     <div

@@ -52,9 +52,25 @@ const activeTabIndex = computed(() => {
   return CONTACT_TABS_OPTIONS.findIndex(v => v.value === activeTab.value);
 });
 
+const ROUTE_CONFIG = {
+  segments: ['segmentId', 'contacts_dashboard_segments_index'],
+  labels: ['label', 'contacts_dashboard_labels_index'],
+  default: [null, 'contacts_dashboard_index'],
+};
+
 const goToContactsList = () => {
+  const routeType =
+    Object.keys(ROUTE_CONFIG).find(
+      type => route.params[ROUTE_CONFIG[type][0]]
+    ) || 'default';
+
+  const [paramKey, routeName] = ROUTE_CONFIG[routeType];
+
   router.push({
-    name: 'contacts_dashboard_index',
+    name: routeName,
+    ...(paramKey && {
+      params: { [paramKey]: route.params[paramKey] },
+    }),
   });
 };
 

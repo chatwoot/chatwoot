@@ -21,6 +21,42 @@ const contactsRoutes = {
         permissions: ['administrator', 'agent', 'contact_manage'],
       },
     },
+    {
+      path: frontendURL('accounts/:accountId/contacts-new/segments/:segmentId'),
+      component: ContactsPageRouteView,
+      name: 'contacts_dashboard_segments_index',
+      meta: {
+        permissions: ['administrator', 'agent', 'contact_manage'],
+      },
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/contacts-new/:contactId/segments/:segmentId'
+      ),
+      component: EditContactsPageRouteView,
+      name: 'contacts_dashboard_segments_edit_index',
+      meta: {
+        permissions: ['administrator', 'agent', 'contact_manage'],
+      },
+    },
+    {
+      path: frontendURL('accounts/:accountId/contacts-new/labels/:label'),
+      component: ContactsPageRouteView,
+      name: 'contacts_dashboard_labels_index',
+      meta: {
+        permissions: ['administrator', 'agent', 'contact_manage'],
+      },
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/contacts-new/:contactId/labels/:label'
+      ),
+      component: EditContactsPageRouteView,
+      name: 'contacts_dashboard_labels_edit_index',
+      meta: {
+        permissions: ['administrator', 'agent', 'contact_manage'],
+      },
+    },
   ],
 };
 

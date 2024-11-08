@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
 
@@ -22,6 +22,7 @@ const props = defineProps({
 const emit = defineEmits(['toggle']);
 
 const router = useRouter();
+const route = useRoute();
 
 const { t } = useI18n();
 const store = useStore();
@@ -37,14 +38,26 @@ const handleFormUpdate = debounce(
   false
 );
 
-const onClickViewDetails = () => {
-  store.dispatch('contacts/show', { id: props.id });
-  router.push({
-    name: 'contacts_dashboard_edit_index',
-    params: {
-      contactId: props.id,
-    },
-  });
+const ROUTE_MAPPINGS = {
+  contacts_dashboard_labels_index: 'contacts_dashboard_labels_edit_index',
+  contacts_dashboard_segments_index: 'contacts_dashboard_segments_edit_index',
+};
+
+const onClickViewDetails = async () => {
+  await store.dispatch('contacts/show', { id: props.id });
+
+  const dynamicRouteName =
+    ROUTE_MAPPINGS[route.name] || 'contacts_dashboard_edit_index';
+
+  const params = { contactId: props.id };
+
+  if (route.name.includes('segments')) {
+    params.segmentId = route.params.segmentId;
+  } else if (route.name.includes('labels')) {
+    params.label = route.params.label;
+  }
+
+  await router.push({ name: dynamicRouteName, params });
 };
 </script>
 
