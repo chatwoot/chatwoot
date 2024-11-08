@@ -19,7 +19,7 @@ const props = defineProps({
   colorScheme: {
     type: String,
     default: 'primary',
-    validator: value => ['primary', 'secondary', 'danger'].includes(value),
+    validator: value => ['cyan', 'cyan', 'cyan'].includes(value),
   },
   trailingIcon: {
     type: Boolean,
@@ -31,21 +31,21 @@ const attrs = useAttrs();
 
 const baseClasses = {
   outline: 'outline outline-1 -outline-offset-1',
-  ghost: 'hover:text-600 active:text-600 focus:outline focus:outline-offset-1',
+  ghost: 'hover:bg-[#0097b2] active:bg-[#0097b2] focus:outline focus:outline-offset-1',
   solid:
-    'hover:bg-700 active:bg-700 focus:outline focus:outline-offset-1 focus:outline-2',
+    'hover:bg-[#0097b2] active:bg-[#0097b2] focus:outline focus:outline-offset-1 focus:outline-2',
 };
 
 const colorClass = computed(() => {
   if (attrs.disabled) {
-    return 'bg-ash-200 text-ash-600 cursor-not-allowed';
+    return 'bg-[#0097b2] bg-[#0097b2]cursor-not-allowed';
   }
 
   const styleMap = {
     primary: {
-      outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600`,
-      ghost: `${baseClasses.ghost} focus:outline-primary-400`,
-      solid: `${baseClasses.solid} bg-primary-600 text-white focus:outline-primary-400`,
+      outline: `${baseClasses.outline} outline-[#0097b2] hover:text-[#007a91] active:text-[#007a91]`,
+      ghost: `${baseClasses.ghost} focus:outline-[#0097b2]`,
+      solid: `${baseClasses.solid} bg-[#0097b2] text-white focus:outline-[#007a91]`,
     },
     secondary: {
       outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-900 active:text-ash-900 `,
@@ -57,6 +57,11 @@ const colorClass = computed(() => {
       ghost: `${baseClasses.ghost} focus:outline-ruby-400`,
       solid: `${baseClasses.solid} bg-ruby-600 text-white focus:outline-ruby-400`,
     },
+    cyan: {
+    outline: `${baseClasses.outline} outline-[#0097b2] hover:text-[#007a91] active:text-[#007a91]`,
+    ghost: `${baseClasses.ghost} focus:outline-[#0097b2]`,
+    solid: `${baseClasses.solid} bg-[#0097b2] text-white focus:outline-[#007a91]`,
+  },
   };
 
   const schemeStyles = styleMap[props.colorScheme];
@@ -78,6 +83,7 @@ const buttonClasses = computed(() => [colorClass.value, sizeClass.value]);
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"
     :class="buttonClasses"
     v-bind="$attrs"
+  
   >
     <fluent-icon
       v-if="icon && !trailingIcon"

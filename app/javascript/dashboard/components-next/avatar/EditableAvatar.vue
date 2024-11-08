@@ -73,7 +73,7 @@ const handleDismiss = event => {
     >
       <Icon
         icon="i-lucide-building-2"
-        class="text-n-brand/50"
+        class="text-[#0097b2]"
         :style="{ width: `${iconSize}`, height: `${iconSize}` }"
       />
     </div>

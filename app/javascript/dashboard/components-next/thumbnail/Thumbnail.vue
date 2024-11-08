@@ -100,7 +100,7 @@ const onImgLoad = () => {
         >
           <span
             v-if="iconName"
-            :class="`${iconName} text-n-brand/70`"
+            :class="`${iconName} text-[#0097b2]`"
             :style="{ width: `${iconSize}px`, height: `${iconSize}px` }"
           />
         </div>
@@ -111,7 +111,7 @@ const onImgLoad = () => {
       v-tooltip.top-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
       class="flex items-center justify-center w-4 h-4 rounded-full bg-n-slate-3 dark:bg-n-slate-4"
     >
-      <span class="i-lucide-user size-2.5 text-n-brand" />
+      <span class="i-lucide-user size-2.5 text-[#0097b2]" />
     </div>
   </div>
 </template>

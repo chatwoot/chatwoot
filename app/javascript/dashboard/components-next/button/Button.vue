@@ -17,7 +17,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: 'blue',
+    default: 'cyan',
     validator: value =>
       ['blue', 'ruby', 'amber', 'slate', 'teal'].includes(value),
   },
@@ -79,6 +79,13 @@ const STYLE_CONFIG = {
         'bg-n-teal-9/10 text-n-slate-12 hover:bg-n-teal-9/20 outline-transparent',
       outline: 'text-n-teal-11 hover:bg-n-teal-9/10 outline-n-teal-9',
       link: 'text-n-teal-9 hover:underline outline-transparent',
+    },
+    cyan: {
+      solid: 'bg-[#0097b2] text-white hover:bg-[#008ca1] outline-transparent',
+      faded:
+        'bg-[#0097b2]/10 text-[#004d56] hover:bg-[#0097b2]/20 outline-transparent',
+      outline: 'text-[#0097b2] hover:bg-[#0097b2]/10 outline-[#007a91]',
+      link: 'text-[#0097b2] hover:underline outline-transparent',
     },
   },
   sizes: {
