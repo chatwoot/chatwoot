@@ -28,7 +28,7 @@ export default {
     },
     installationName: {
       type: String,
-      default: '',
+      default: 'Atendefy',
     },
     accountId: {
       type: Number,

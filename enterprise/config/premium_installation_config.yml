@@ -1,6 +1,6 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Atendefy'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
@@ -8,15 +8,13 @@
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: ''
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: ''
 - name: BRAND_NAME
-  value: 'Chatwoot'
-- name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'Atendefy'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: ''
 - name: DISPLAY_MANIFEST
   value: true
 # ------- End of Branding Related Config ------- #

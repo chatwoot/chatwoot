@@ -15,8 +15,8 @@ const {
   LOGO_THUMBNAIL: logoThumbnail,
   LOGO: logo,
   LOGO_DARK: logoDark,
-  PRIVACY_URL: privacyURL,
-  TERMS_URL: termsURL,
+
+  
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
@@ -37,20 +37,19 @@ const state = {
   displayManifest,
   gitSha,
   hCaptchaSiteKey,
-  installationName,
+  installationName: 'Atendefy',
   logo,
   logoDark,
   logoThumbnail,
-  privacyURL,
-  termsURL,
+
   widgetBrandURL,
 };
 
 export const getters = {
   get: $state => $state,
   isOnChatwootCloud: $state => $state.deploymentEnv === 'cloud',
-  isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
-  isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
+  isACustomBrandedInstance: $state => $state.installationName !== 'Atendefy',
+  isAChatwootInstance: $state => $state.installationName === 'Atendefy',
 };
 
 export const actions = {};

@@ -67,10 +67,10 @@ export default {
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     termsLink() {
-      return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
+      return this.$t('')
+        .replace('', this.globalConfig.termsURL)
         .replace(
-          'https://www.chatwoot.com/privacy-policy',
+          '',
           this.globalConfig.privacyURL
         );
     },
