@@ -34,11 +34,22 @@ class SearchService
   end
 
   def filter_messages
-    @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
-                               .where('messages.content ILIKE :search', search: "%#{search_query}%")
-                               .where('created_at >= ?', 3.months.ago)
-                               .reorder('created_at DESC')
-                               .limit(10)
+    @messages = if SearchConfig.enabled?
+                  Message.search(
+                    search_query, where: {
+                      inbox_id: accessable_inbox_ids,
+                      account_id: current_account.id
+                    }, order: { created_at: :desc }, limit: 20
+                  )
+                else
+                  current_account
+                    .messages
+                    .where(inbox_id: accessable_inbox_ids)
+                    .where('messages.content ILIKE :search', search: "%#{search_query}%")
+                    .where('created_at >= ?', 3.months.ago)
+                    .reorder('created_at DESC')
+                    .limit(10)
+                end
   end
 
   def filter_contacts

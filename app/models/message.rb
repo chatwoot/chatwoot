@@ -38,6 +38,10 @@
 #
 
 class Message < ApplicationRecord
+  searchkick batch_size: 10_000 if SearchConfig.enabled?
+
+  scope :search_import, -> { includes(:inbox, :conversation, :sender) }
+
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15

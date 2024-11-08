@@ -175,6 +175,9 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
+gem 'opensearch-ruby'
+gem 'searchkick'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
