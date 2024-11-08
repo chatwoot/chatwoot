@@ -4,8 +4,6 @@ class Stringee::CallingEventsService
   def perform
     set_contact
     set_conversation
-    return if @conversation.messages.any?(source_id: params[:call_id])
-
     @message = @conversation.messages.create!(message_params)
     @message.save!
   end
