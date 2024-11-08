@@ -402,6 +402,18 @@
           "IMPORT_CONTACT": "Import contacts",
           "SAVE_CONTACT": "Save contact"
         },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Import contacts through a CSV file.",
+          "DOWNLOAD_LABEL": "Download a sample csv.",
+          "LABEL": "CSV File:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Change",
+          "CANCEL": "Cancel",
+          "IMPORT": "Import",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "There was an error, please try again"
+        },
         "SORT_BY": {
           "LABEL": "Sort by",
           "OPTIONS": {

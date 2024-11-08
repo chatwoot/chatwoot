@@ -18,7 +18,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['filter', 'more', 'update:sort']);
+const emit = defineEmits(['filter', 'update:sort']);
 </script>
 
 <template>
