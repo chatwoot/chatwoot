@@ -266,7 +266,19 @@ export default {
 
       return contact;
     },
+    setTeamFromProductCusAtt() {
+      if (!this.product.custom_attributes?.branch) return;
+
+      const branch = this.product.custom_attributes.branch;
+      this.teams.forEach(team => {
+        if (team.name === branch || team.name.includes(`_${branch}`)) {
+          this.team = team;
+          this.assignee = null;
+        }
+      });
+    },
     onProductSelected() {
+      this.setTeamFromProductCusAtt();
       this.poValue = this.product.price;
       this.inputChanged();
     },
