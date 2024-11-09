@@ -65,7 +65,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   def apply_filter(query_hash, current_index)
     current_filter = find_current_filter(attribute_key: query_hash['attribute_key'])
     conversation_filter, contact_filter, message_filter =
-      current_filter.values_at(:conversation_filters, :contact_filter, :message_filter)
+      current_filter.values_at(:conversation_filter, :contact_filter, :message_filter)
 
     # Calculate @query_string variable instance if present
     if conversation_filter
@@ -82,7 +82,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   def find_current_filter(attribute_key:)
     case @event_object_type
     when :conversation
-      conversation_filter = @event_object_type == :message
+      conversation_filter = @conversation_filters[attribute_key]
       message_filter = @message_filters[attribute_key] if conversation_filter.blank?
       { conversation_filter: conversation_filter, message_filter: message_filter }
     when :contact
