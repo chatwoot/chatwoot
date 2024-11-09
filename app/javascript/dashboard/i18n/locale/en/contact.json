@@ -510,6 +510,16 @@
           "SUCCESS_MESSAGE": "Contact deleted successfully",
           "ERROR_MESSAGE": "Could not delete contact. Please try again later."
         }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
       }
     },
     "SIDEBAR": {

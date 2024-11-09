@@ -192,6 +192,11 @@ const getFormBinding = key => {
 };
 
 watch(() => props.contactData, updateState, { immediate: true, deep: true });
+
+// Expose state to parent component for avatar upload
+defineExpose({
+  state,
+});
 </script>
 
 <template>
