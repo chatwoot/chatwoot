@@ -28,10 +28,22 @@ class Stringee::DeliveryStatusService
     agent = User.where('email LIKE ?', "#{stringee_user_id}@%").first
     return unless agent
 
-    @conversation.assignee_id = agent.id if @conversation.assignee_id.blank?
-    @conversation.save!
+    if @conversation.assignee_id.blank?
+      @conversation.assignee = agent
+      @conversation.save!
+      if initial_conversation?
+        contact = @conversation.contact
+        contact.assignee = agent
+        contact.save!
+      end
+    end
 
     ::AutoAssignment::StringeeAssignmentService.new(inbox: @conversation.inbox).pop_push_to_right_queue(agent.id) if inbox.channel.from_list?
+  end
+
+  def initial_conversation?
+    contact = @conversation.contact
+    @conversation.id == contact.initial_conversation&.id
   end
 
   def message_content
