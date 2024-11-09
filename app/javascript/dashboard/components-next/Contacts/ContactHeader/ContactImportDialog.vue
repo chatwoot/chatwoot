@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { ref, computed } from 'vue';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -10,6 +10,9 @@ import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const store = useStore();
+
+const uiFlags = useMapGetter('contacts/getUIFlags');
+const isImportingContact = computed(() => uiFlags.value.isImporting);
 
 const dialogRef = ref(null);
 const fileInput = ref(null);
@@ -69,6 +72,8 @@ defineExpose({ dialogRef });
     :confirm-button-label="
       t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.IMPORT')
     "
+    :is-loading="isImportingContact"
+    :disable-confirm-button="isImportingContact"
     @confirm="uploadFile"
   >
     <template #description>

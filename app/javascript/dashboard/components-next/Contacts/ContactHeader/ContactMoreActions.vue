@@ -6,6 +6,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import CreateNewContactDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateNewContactDialog.vue';
 import ContactImportDialog from 'dashboard/components-next/Contacts/ContactHeader/ContactImportDialog.vue';
+import ContactExportDialog from 'dashboard/components-next/Contacts/ContactHeader/ContactExportDialog.vue';
 
 const { t } = useI18n();
 
@@ -33,12 +34,15 @@ const contactMenuItems = [
 const showActionsDropdown = ref(false);
 const createNewContactDialogRef = ref(null);
 const contactImportDialogRef = ref(null);
+const contactExportDialogRef = ref(null);
 
 const handleContactAction = ({ action }) => {
   if (action === 'add') {
     createNewContactDialogRef.value?.dialogRef.open();
   } else if (action === 'import') {
     contactImportDialogRef.value?.dialogRef.open();
+  } else if (action === 'export') {
+    contactExportDialogRef.value?.dialogRef.open();
   }
 };
 </script>
@@ -62,4 +66,5 @@ const handleContactAction = ({ action }) => {
   </div>
   <CreateNewContactDialog ref="createNewContactDialogRef" />
   <ContactImportDialog ref="contactImportDialogRef" />
+  <ContactExportDialog ref="contactExportDialogRef" />
 </template>

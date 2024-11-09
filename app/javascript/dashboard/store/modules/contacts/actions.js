@@ -126,12 +126,12 @@ export const actions = {
   },
 
   import: async ({ commit }, file) => {
-    commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });
+    commit(types.SET_CONTACT_UI_FLAG, { isImporting: true });
     try {
       await ContactAPI.importContacts(file);
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isImporting: false });
     } catch (error) {
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isImporting: false });
       if (error.response?.data?.message) {
         throw new ExceptionWithMessage(error.response.data.message);
       }
@@ -139,12 +139,13 @@ export const actions = {
   },
 
   export: async ({ commit }, { payload, label }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isExporting: true });
     try {
       await ContactAPI.exportContacts({ payload, label });
 
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isExporting: false });
     } catch (error) {
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isExporting: false });
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
       } else {
