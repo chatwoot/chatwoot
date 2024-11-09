@@ -142,9 +142,7 @@ watch(activeSegment, () => {
 });
 
 onMounted(async () => {
-  if (activeSegmentId.value) {
-    await fetchSavedFilteredContact(activeSegment.value.query);
-  } else {
+  if (!activeSegmentId.value) {
     await fetchContacts();
   }
 });

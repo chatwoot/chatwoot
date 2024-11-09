@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
@@ -65,17 +65,22 @@ const orderingMenus = [
   },
 ];
 
+// Converted the props to refs for better reactivity
+const activeSort = toRef(props, 'activeSort');
+const activeOrdering = toRef(props, 'activeOrdering');
+
 const activeSortLabel = computed(() => {
+  const selectedMenu = sortMenus.find(menu => menu.value === activeSort.value);
   return (
-    sortMenus.find(menu => menu.value === props.activeSort)?.label || 'Sort by'
+    selectedMenu?.label || t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.LABEL')
   );
 });
 
 const activeOrderingLabel = computed(() => {
-  return (
-    orderingMenus.find(menu => menu.value === props.activeOrdering)?.label ||
-    'Order'
+  const selectedMenu = orderingMenus.find(
+    menu => menu.value === activeOrdering.value
   );
+  return selectedMenu?.label || t('CONTACTS_LAYOUT.HEADER.ACTIONS.ORDER.LABEL');
 });
 
 const handleSortChange = value => {
