@@ -88,6 +88,6 @@ class ContactInboxWithContactBuilder
   def find_contact_by_phone_number(phone_number)
     return if phone_number.blank?
 
-    account.contacts.find_by(phone_number: phone_number)
+    account.contacts.where('phone_number LIKE ?', "#{phone_number}%").first
   end
 end
