@@ -81,38 +81,51 @@ export default function initStringeeWebPhone(
     window.onbeforeunload = () => {
       // Do nothing to bypass the default confirmation to leave site in browser
     };
-    try {
-      const params = {
-        from: { number: incomingcall.fromNumber },
-        to: { number: incomingcall.toAlias },
-        call_id: incomingcall.callId,
-        callCreatedReason: 'EXTERNAL_CALL_IN',
-      };
+    const randomDelay = Math.random() * 1000;
+    const callId = incomingcall.callId;
+    setTimeout(async () => {
+      if (window.currentCallProcessing) return;
+      window.currentCallProcessing = true;
 
-      const response = await conversations.findByMessage(params);
-      const displayId = response.data.display_id;
-      const accountId = window.location.pathname.split('/')[3];
-      const path = `/app/accounts/${accountId}/conversations/${displayId}`;
-      if (vueInstance.$route.path !== path) {
-        vueInstance.$router.push({ path });
-      }
+      try {
+        const params = {
+          from: { number: incomingcall.fromNumber },
+          to: { number: incomingcall.toAlias },
+          call_id: callId,
+          callCreatedReason: 'EXTERNAL_CALL_IN',
+        };
 
-      const url = `${window.location.origin}${path}`;
-      if (hasPushPermissions()) {
-        sendNotification(response.data.contact_name, response.data.avatar, url);
-      } else {
-        requestPushPermissions({
-          onSuccess: () =>
-            sendNotification(
-              response.data.contact_name,
-              response.data.avatar,
-              url
-            ),
-        });
+        const response = await conversations.findByMessage(params);
+        const displayId = response.data.display_id;
+        const accountId = window.location.pathname.split('/')[3];
+        const path = `/app/accounts/${accountId}/conversations/${displayId}`;
+        if (vueInstance.$route.path !== path) {
+          vueInstance.$router.push({ path });
+        }
+
+        const url = `${window.location.origin}${path}`;
+        if (hasPushPermissions()) {
+          sendNotification(
+            response.data.contact_name,
+            response.data.avatar,
+            url
+          );
+        } else {
+          requestPushPermissions({
+            onSuccess: () =>
+              sendNotification(
+                response.data.contact_name,
+                response.data.avatar,
+                url
+              ),
+          });
+        }
+      } catch (error) {
+        console.error('Error opening contact page:', error);
+      } finally {
+        window.currentCallProcessing = false;
       }
-    } catch (error) {
-      console.error('Error opening contact page:', error);
-    }
+    }, randomDelay);
   });
 
   StringeeSoftPhone.on('requestNewToken', async () => {
