@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
-      <metric-card :header="$t('TRAFFIC_REPORTS.HEADER')">
+      <metric-card :header="$t('TRAFFIC_REPORTS.HEADER')" :is-live="false">
         <template #control>
           <woot-button
             icon="arrow-download"
@@ -51,9 +51,10 @@ export default {
   mounted() {
     this.fetchHeatmapData();
 
-    bus.$on('fetch_traffic_reports', () => {
-      this.fetchHeatmapData();
-    });
+    // Disable Live Reports
+    // bus.$on('fetch_traffic_reports', () => {
+    //   this.fetchHeatmapData();
+    // });
   },
   methods: {
     downloadHeatmapData() {

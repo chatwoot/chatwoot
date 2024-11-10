@@ -16,6 +16,7 @@
           :loading-message="
             $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
           "
+          :is-live="false"
         >
           <div
             v-for="(metric, name, index) in conversationMetrics"
@@ -30,7 +31,10 @@
         </metric-card>
       </div>
       <div class="flex-1 w-full max-w-full md:w-[35%] md:max-w-[35%]">
-        <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
+        <metric-card
+          :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')"
+          :is-live="false"
+        >
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
@@ -45,7 +49,10 @@
       </div>
     </div>
     <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
-      <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
+      <metric-card
+        :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')"
+        :is-live="false"
+      >
         <agent-table
           :agents="agents"
           :agent-metrics="agentConversationMetric"
@@ -112,9 +119,10 @@ export default {
     this.$store.dispatch('agents/get');
     this.fetchAllData();
 
-    bus.$on('fetch_overview_reports', () => {
-      this.fetchAllData();
-    });
+    // Disable Live Reports
+    // bus.$on('fetch_overview_reports', () => {
+    //   this.fetchAllData();
+    // });
   },
   methods: {
     fetchAllData() {
