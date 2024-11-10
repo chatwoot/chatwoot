@@ -20,7 +20,7 @@
     <router-link
       v-else
       v-tooltip="{
-        content: $t(`SIDEBAR.${menuItem.toolTip}`),
+        content: $t(`SIDEBAR.${menuItem.toolTip || menuItem.label}`),
         delay: { show: 1000, hide: 0 },
         hideOnClick: true,
       }"
