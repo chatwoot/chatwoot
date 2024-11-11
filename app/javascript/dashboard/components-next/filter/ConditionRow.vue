@@ -76,6 +76,6 @@ const currentOperator = computed(() => {
     <template v-if="currentOperator.hasInput">
       <MultiSelect v-model="values" />
     </template>
-    <Button sm solid slate icon="i-lucide-x" @click="emit('remove')" />
+    <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
   </div>
 </template>
