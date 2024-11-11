@@ -59,8 +59,6 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
-import camelcaseKeys from 'camelcase-keys';
-import snakeCaseKeys from 'snakecase-keys';
 
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
@@ -101,13 +99,6 @@ const advancedFilterTypes = ref(
     attributeName: t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
   }))
 );
-
-const appliedFilterNext = computed({
-  get: () => camelcaseKeys(appliedFilter.value),
-  set: val => {
-    appliedFilter.value = snakeCaseKeys(val);
-  },
-});
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getAllConversations');
@@ -888,7 +879,8 @@ watch(conversationFilters, (newVal, oldVal) => {
     >
       <ConversationFilter
         v-if="showAdvancedFilters"
-        v-model="appliedFilterNext"
+        v-model="appliedFilterNextRef"
+        @update:model-value="console.log"
       />
       <ConversationAdvancedFilter
         v-if="showAdvancedFilters"
