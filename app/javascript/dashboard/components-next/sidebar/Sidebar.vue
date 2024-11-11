@@ -509,8 +509,6 @@ const menuItems = computed(() => {
     },
   ];
 });
-
-console.log(menuItems.value);
 </script>
 
 <template>
