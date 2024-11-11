@@ -27,8 +27,8 @@ const selected = defineModel({
   required: true,
 });
 
-const selectedOption = computed(() =>
-  props.options.find(o => o.value === selected.value)
+const selectedOption = computed(
+  () => props.options.find(o => o.value === selected.value) || {}
 );
 </script>
 
