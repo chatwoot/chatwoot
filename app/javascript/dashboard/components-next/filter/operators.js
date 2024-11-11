@@ -15,16 +15,16 @@ import { useI18n } from 'vue-i18n';
  * @property {string} STARTS_WITH - Starts with check
  */
 const FILTER_OPS = {
-  EQUAL_TO: 'equalTo',
-  NOT_EQUAL_TO: 'notEqualTo',
-  IS_PRESENT: 'isPresent',
-  IS_NOT_PRESENT: 'isNotPresent',
+  EQUAL_TO: 'equal_to',
+  NOT_EQUAL_TO: 'not_equal_to',
+  IS_PRESENT: 'is_present',
+  IS_NOT_PRESENT: 'is_not_present',
   CONTAINS: 'contains',
-  DOES_NOT_CONTAIN: 'doesNotContain',
-  IS_GREATER_THAN: 'isGreaterThan',
-  IS_LESS_THAN: 'isLessThan',
-  DAYS_BEFORE: 'daysBefore',
-  STARTS_WITH: 'startsWith',
+  DOES_NOT_CONTAIN: 'does_not_contain',
+  IS_GREATER_THAN: 'is_greater_than',
+  IS_LESS_THAN: 'is_less_than',
+  DAYS_BEFORE: 'days_before',
+  STARTS_WITH: 'starts_with',
 };
 
 /**
