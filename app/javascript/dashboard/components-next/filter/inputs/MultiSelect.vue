@@ -17,11 +17,16 @@ const selected = defineModel({
   required: true,
 });
 
-const toggleOption = valueToToggle => {
-  if (selected.value.includes(valueToToggle)) {
-    selected.value = selected.value.filter(value => value !== valueToToggle);
+const toggleOption = optionToToggle => {
+  const selectedValues = selected.value.map(value => value.name);
+  const valueToToggle = optionToToggle.name;
+
+  if (selectedValues.includes(valueToToggle)) {
+    selected.value = selected.value.filter(
+      value => value.name !== valueToToggle
+    );
   } else {
-    selected.value = [...selected.value, valueToToggle];
+    selected.value = [...selected.value, optionToToggle];
   }
 };
 </script>
@@ -48,7 +53,7 @@ const toggleOption = valueToToggle => {
         :key="option.value"
         :label="option.label"
         :icon="option.icon"
-        @click="toggleOption(option.value)"
+        @click="toggleOption(option)"
       />
     </DropdownBody>
   </DropdownContainer>
