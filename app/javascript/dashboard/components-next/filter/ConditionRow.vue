@@ -5,7 +5,7 @@ import FilterSelect from './FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
 import { useConversationFilterContext } from './provider.js';
 
-const props = defineProps({
+defineProps({
   isFirst: { type: Boolean, default: false },
   // attributeModel: { type: String, required: true },
   // customAttributeType: { type: String, default: '' },
@@ -74,7 +74,7 @@ const currentOperator = computed(() => {
       :options="currentFilter.filter_operators"
     />
     <template v-if="currentOperator.hasInput">
-      <MultiSelect v-model="values" />
+      <MultiSelect v-model="values" :options="currentFilter.options" />
     </template>
     <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
   </div>

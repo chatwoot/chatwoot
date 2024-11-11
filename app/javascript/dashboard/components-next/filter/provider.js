@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
@@ -40,6 +40,8 @@ export function useConversationFilterContext() {
   const conversationAttributes = useMapGetter(
     'attributes/getConversationAttributes'
   );
+
+  const labels = useMapGetter('labels/getLabels');
 
   const {
     equalityOperators,
@@ -91,6 +93,12 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.STATUS'),
       label: t('FILTER.ATTRIBUTES.STATUS'),
       input_type: 'multiSelect',
+      options: ['open', 'resolved', 'pending', 'snoozed', 'all'].map(id => {
+        return {
+          id,
+          name: t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${id}.TEXT`),
+        };
+      }),
       data_type: 'text',
       filter_operators: equalityOperators.value,
       attribute_model: 'standard',
@@ -151,6 +159,20 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.LABELS'),
       label: t('FILTER.ATTRIBUTES.LABELS'),
       input_type: 'multiSelect',
+      options: labels.value.map(label => {
+        return {
+          id: label.title,
+          name: label.title,
+          icon: h('span', {
+            class: `rounded-full`,
+            style: {
+              backgroundColor: label.color,
+              height: '6px',
+              width: '6px',
+            },
+          }),
+        };
+      }),
       data_type: 'text',
       filter_operators: presenceOperators.value,
       attribute_model: 'standard',

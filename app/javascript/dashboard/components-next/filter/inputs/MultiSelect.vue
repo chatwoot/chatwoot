@@ -1,11 +1,11 @@
 <script setup>
-import { defineModel } from 'vue';
+import { defineModel, computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
-defineProps({
+const { options } = defineProps({
   options: {
     type: Array,
     required: true,
@@ -17,7 +17,28 @@ const selected = defineModel({
   required: true,
 });
 
+const hasItems = computed(() => {
+  if (!selected.value) return false;
+  if (!Array.isArray(selected.value)) return false;
+  if (selected.value.length === 0) return false;
+
+  return true;
+});
+
+const selectedItems = computed(() => {
+  // Options has additional properties, so we need to use them directly
+  if (!hasItems.value) return [];
+
+  const selectedNames = selected.value.map(value => value.name);
+  return options.filter(option => selectedNames.includes(option.name));
+});
+
 const toggleOption = optionToToggle => {
+  if (!hasItems.value) {
+    selected.value = [optionToToggle];
+    return;
+  }
+
   const selectedValues = selected.value.map(value => value.name);
   const valueToToggle = optionToToggle.name;
 
@@ -36,11 +57,12 @@ const toggleOption = optionToToggle => {
     <template #trigger="{ toggle }">
       <div class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center">
         <div
-          v-for="item in selected"
+          v-for="item in selectedItems"
           :key="item.name"
-          class="px-3 border-r border-n-weak text-n-slate-12 text-sm"
+          class="px-3 border-r border-n-weak text-n-slate-12 text-sm flex gap-2 items-center"
         >
-          {{ item.name }}
+          <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
+          <span>{{ item.name }}</span>
         </div>
         <button class="flex items-center border-none px-3" @click="toggle">
           <Icon icon="i-lucide-plus" />
@@ -50,8 +72,8 @@ const toggleOption = optionToToggle => {
     <DropdownBody class="top-0 min-w-48 z-[999]">
       <DropdownItem
         v-for="option in options"
-        :key="option.value"
-        :label="option.label"
+        :key="option.id"
+        :label="option.name"
         :icon="option.icon"
         @click="toggleOption(option)"
       />
