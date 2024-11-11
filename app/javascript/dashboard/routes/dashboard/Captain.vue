@@ -33,7 +33,7 @@ watch(
   { immediate: true }
 );
 
-function buildApp() {
+const buildApp = () => {
   router = makeRouter();
   setupApp('#captain', {
     router,
@@ -67,18 +67,21 @@ function buildApp() {
   });
 
   router.push({ name: resolvedRoute.value });
-}
+};
 
 const captainIntegration = computed(() =>
   getters['integrations/getIntegration'].value('captain', null)
 );
 
-onMounted(async () => {
-  await nextTick();
-  if (captainIntegration.value && captainIntegration.value.enabled) {
-    buildApp();
-  }
-});
+watch(
+  () => captainIntegration.value,
+  (newValue, prevValue) => {
+    if (!prevValue && newValue) {
+      nextTick(() => buildApp());
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
