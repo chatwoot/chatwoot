@@ -1,7 +1,7 @@
 <script setup>
+import { defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
-import { defineModel } from 'vue';
 
 const filters = defineModel({
   type: Array,

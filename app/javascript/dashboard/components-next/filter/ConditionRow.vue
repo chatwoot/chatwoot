@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel, h } from 'vue';
+import { computed, defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
 import { useConversationFilterContext } from './provider.js';
@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['remove']);
 const { operators } = useOperators();
-const { filterTypes, fitlerGroups } = useConversationFilterContext();
+const { filterTypes } = useConversationFilterContext();
 
 const attributeKey = defineModel('attributeKey', {
   type: String,
@@ -58,7 +58,7 @@ const valueToShow = computed(() => {
     />
     <FilterSelect
       v-model="attributeKey"
-      variant="ghost"
+      variant="faded"
       :options="filterTypes"
     />
     <FilterSelect
