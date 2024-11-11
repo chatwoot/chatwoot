@@ -1,6 +1,19 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/**
+ * @typedef {Object} FilterOperations
+ * @property {string} EQUAL_TO - Equals comparison
+ * @property {string} NOT_EQUAL_TO - Not equals comparison
+ * @property {string} IS_PRESENT - Present check
+ * @property {string} IS_NOT_PRESENT - Not present check
+ * @property {string} CONTAINS - Contains check
+ * @property {string} DOES_NOT_CONTAIN - Does not contain check
+ * @property {string} IS_GREATER_THAN - Greater than comparison
+ * @property {string} IS_LESS_THAN - Less than comparison
+ * @property {string} DAYS_BEFORE - Days before check
+ * @property {string} STARTS_WITH - Starts with check
+ */
 const FILTER_OPS = {
   EQUAL_TO: 'equalTo',
   NOT_EQUAL_TO: 'notEqualTo',
@@ -14,6 +27,9 @@ const FILTER_OPS = {
   STARTS_WITH: 'startsWith',
 };
 
+/**
+ * @type {Object.<string, string>}
+ */
 const filterOperatorIcon = {
   [FILTER_OPS.EQUAL_TO]: 'i-ph-equals-bold',
   [FILTER_OPS.NOT_EQUAL_TO]: 'i-ph-not-equals-bold',
@@ -27,9 +43,16 @@ const filterOperatorIcon = {
   [FILTER_OPS.STARTS_WITH]: 'i-ph-caret-line-right-bold',
 };
 
+/**
+ * Hook to access filter operators
+ * @returns {Object} Object containing filter operators and helper functions
+ */
 export function useOperators() {
   const { t } = useI18n();
 
+  /**
+   * @type {import('vue').ComputedRef<Object.<string, {value: string, label: string, icon: string}>>}
+   */
   const operators = computed(() => {
     return Object.values(FILTER_OPS).reduce((acc, value) => {
       acc[value] = {
@@ -41,13 +64,17 @@ export function useOperators() {
     }, {});
   });
 
-  // Legacy: Operator types 1
+  /**
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   */
   const equalityOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
   ]);
 
-  // Legacy: Operator types 2
+  /**
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   */
   const presenceOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -55,7 +82,9 @@ export function useOperators() {
     operators.value[FILTER_OPS.IS_NOT_PRESENT],
   ]);
 
-  // Legacy: Operator types 3
+  /**
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   */
   const containmentOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -63,7 +92,9 @@ export function useOperators() {
     operators.value[FILTER_OPS.DOES_NOT_CONTAIN],
   ]);
 
-  // Legacy: Operator types 4
+  /**
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   */
   const comparisonOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -73,13 +104,20 @@ export function useOperators() {
     operators.value[FILTER_OPS.IS_LESS_THAN],
   ]);
 
-  // Legacy: Operator types 5
+  /**
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   */
   const dateOperators = computed(() => [
     operators.value[FILTER_OPS.IS_GREATER_THAN],
     operators.value[FILTER_OPS.IS_LESS_THAN],
     operators.value[FILTER_OPS.DAYS_BEFORE],
   ]);
 
+  /**
+   * Get operator types based on key
+   * @param {string} key - Type of operator to get
+   * @returns {Array<{value: string, label: string, icon: string}>}
+   */
   const getOperatorTypes = key => {
     switch (key) {
       case 'list':
