@@ -2,6 +2,9 @@
 import { defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
+import { useConversationFilterContext } from './provider.js';
+
+const { filterTypes } = useConversationFilterContext();
 
 const filters = defineModel({
   type: Array,
@@ -14,12 +17,8 @@ const removeFilter = index => {
 
 const addFilter = () => {
   filters.value.push({
-    attributeKey: '',
-    filterOperator: 'equalTo',
-    values: '',
-    queryOperator: 'AND',
-    attributeModel: 'standard',
-    customAttribute_type: '',
+    ...filterTypes.value[0],
+    filterOperator: 'equal_to',
   });
 };
 </script>
