@@ -10,6 +10,10 @@ import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import ContactActions from 'dashboard/components-next/Contacts/ContactHeader/ContactActions.vue';
 
 const props = defineProps({
+  searchValue: {
+    type: String,
+    default: '',
+  },
   headerTitle: {
     type: String,
     default: '',
@@ -49,6 +53,10 @@ const props = defineProps({
   activeOrdering: {
     type: String,
     default: '',
+  },
+  isEmptyState: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -123,8 +131,12 @@ const updateCurrentPage = page => {
               @click="handleBreadcrumbClick"
             />
             <div class="flex items-center gap-4">
-              <div v-if="!isDetailView" class="flex items-center gap-2">
+              <div
+                v-if="!isDetailView && !isEmptyState"
+                class="flex items-center gap-2"
+              >
                 <Input
+                  :model-value="searchValue"
                   :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
                   :custom-input-class="[
                     'h-8 [&:not(.focus)]:!border-transparent bg-n-solid-1 ltr:!pl-8 !py-1 rtl:!pr-8',
@@ -140,6 +152,7 @@ const updateCurrentPage = page => {
                 </Input>
               </div>
               <ContactActions
+                :is-empty-state="isEmptyState"
                 :is-detail-view="isDetailView"
                 :active-sort="activeSort"
                 :active-ordering="activeOrdering"

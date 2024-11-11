@@ -8,6 +8,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import ContactsLayout from 'dashboard/components-next/Contacts/ContactsLayout.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
+import ContactEmptyState from 'dashboard/components-next/Contacts/EmptyState/ContactEmptyState.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
@@ -55,6 +56,8 @@ const activeSegment = computed(() =>
     : undefined
 );
 
+const hasContacts = computed(() => contacts.value.length > 0);
+
 const headerTitle = computed(() => {
   if (activeSegmentId.value) {
     return activeSegment.value.name;
@@ -86,7 +89,7 @@ const fetchSavedFilteredContact = async (payload, page = 1) => {
   }
 };
 
-const searchContacts = debounce(async value => {
+const searchContacts = debounce(async (value, page = 1) => {
   searchValue.value = value;
   if (!value) {
     if (activeSegmentId.value) {
@@ -99,7 +102,7 @@ const searchContacts = debounce(async value => {
 
   await store.dispatch('contacts/search', {
     search: encodeURIComponent(value),
-    page: 1,
+    page,
     sortAttr: buildSortAttr(),
     label: activeLabel.value,
   });
@@ -132,6 +135,10 @@ watch(
 );
 
 const handlePageChange = async page => {
+  if (searchValue.value) {
+    await searchContacts(searchValue.value, page);
+    return;
+  }
   if (activeSegmentId.value) {
     await fetchSavedFilteredContact(activeSegment.value.query, page);
   } else {
@@ -165,13 +172,15 @@ onMounted(async () => {
     class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
   >
     <ContactsLayout
+      :search-value="searchValue"
       :header-title="headerTitle"
       :button-label="$t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
       :current-page="currentPage"
       :total-items="totalItems"
-      :show-pagination-footer="!isFetchingList && searchValue === ''"
+      :show-pagination-footer="!isFetchingList && hasContacts"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
+      :is-empty-state="!hasContacts && searchValue === ''"
       @update:current-page="handlePageChange"
       @search="searchContacts"
       @sort="handleSort"
@@ -182,7 +191,27 @@ onMounted(async () => {
       >
         <Spinner />
       </div>
-      <ContactsList v-else :contacts="contacts" />
+
+      <template v-else>
+        <div
+          v-if="searchValue && !hasContacts"
+          class="flex items-center justify-center py-10"
+        >
+          <span class="text-base text-n-slate-11">
+            {{ $t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE') }}
+          </span>
+        </div>
+
+        <ContactEmptyState
+          v-else-if="!searchValue && !hasContacts"
+          class="pt-14"
+          :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
+          :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
+          :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
+        />
+
+        <ContactsList v-else :contacts="contacts" />
+      </template>
     </ContactsLayout>
   </div>
 </template>

@@ -132,7 +132,7 @@ const iconStyles = computed(() => ({
 }));
 
 const initialsStyles = computed(() => ({
-  fontSize: `${props.size / 1.8}px`,
+  fontSize: `${props.size / 2}px`,
 }));
 
 const invalidateCurrentImage = () => {

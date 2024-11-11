@@ -16,6 +16,10 @@ defineProps({
     type: String,
     default: '',
   },
+  isEmptyState: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['filter', 'update:sort']);
@@ -24,7 +28,7 @@ const emit = defineEmits(['filter', 'update:sort']);
 <template>
   <div class="flex items-center gap-2">
     <Button
-      v-if="!isDetailView"
+      v-if="!isDetailView && !isEmptyState"
       icon="i-lucide-list-filter"
       color="slate"
       size="sm"
@@ -32,7 +36,7 @@ const emit = defineEmits(['filter', 'update:sort']);
       @click="emit('filter')"
     />
     <ContactSortMenu
-      v-if="!isDetailView"
+      v-if="!isDetailView && !isEmptyState"
       :active-sort="activeSort"
       :active-ordering="activeOrdering"
       @update:sort="emit('update:sort', $event)"

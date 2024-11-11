@@ -580,6 +580,12 @@
           "DELETE_ERROR": "Unable to delete attribute. Please try again later"
         }
       }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "Your contacts list is empty",
+      "SUBTITLE": "Start building your customer relationships by adding contacts or importing them from your existing database.",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "No contacts found"
     }
   }
 }
