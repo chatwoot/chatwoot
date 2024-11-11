@@ -128,8 +128,9 @@ const handleInputUpdate = async () => {
         type="date"
         class="w-full [&>p]:absolute [&>p]:mt-0.5 [&>p]:top-8 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
         :message="
-          hasError &&
-          t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.VALIDATIONS.INVALID_DATE')
+          hasError
+            ? t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.VALIDATIONS.INVALID_DATE')
+            : ''
         "
         :message-type="hasError ? 'error' : 'info'"
         autofocus
