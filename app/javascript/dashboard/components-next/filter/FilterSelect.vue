@@ -51,7 +51,7 @@ const updateSelected = newValue => {
         />
       </slot>
     </template>
-    <DropdownBody class="top-0 min-w-48 z-[909999]">
+    <DropdownBody class="top-0 min-w-48 z-[999]">
       <DropdownItem
         v-for="option in options"
         :key="option.value"
