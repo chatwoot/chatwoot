@@ -395,6 +395,10 @@ const actions = {
     commit(types.CHANGE_CHAT_STATUS_FILTER, data);
   },
 
+  setConversationReadStatusFilter({ commit }, data) {
+    commit(types.CHANGE_CONVERSATION_READ_STATUS_FILTER, data);
+  },
+
   setChatSortFilter({ commit }, data) {
     commit(types.CHANGE_CHAT_SORT_FILTER, data);
   },

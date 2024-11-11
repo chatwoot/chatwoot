@@ -26,6 +26,17 @@
           @onChangeFilter="onChangeFilter"
         />
       </div>
+      <div class="items-center flex justify-between mt-4">
+        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">
+          {{ 'Read State' }}
+        </span>
+        <filter-item
+          type="readState"
+          :selected-value="conversationReadStatus"
+          :items="conversationReadStatusItems"
+          @onChangeFilter="onChangeFilter"
+        />
+      </div>
       <div class="items-center flex justify-between last:mt-4">
         <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
@@ -57,6 +68,17 @@ export default {
     return {
       showActionsDropdown: false,
       chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
+      conversationReadStatusItems: {
+        all: {
+          TEXT: 'All',
+        },
+        unread: {
+          TEXT: 'Unread',
+        },
+        read: {
+          TEXT: 'Read',
+        },
+      },
       chatSortItems: this.$t('CHAT_LIST.SORT_ORDER_ITEMS'),
     };
   },
@@ -64,9 +86,16 @@ export default {
     ...mapGetters({
       chatStatusFilter: 'getChatStatusFilter',
       chatSortFilter: 'getChatSortFilter',
+      conversationReadStatusFilter: 'getConversationReadStatusFilter',
     }),
     chatStatus() {
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
+    },
+    conversationReadStatus() {
+      return (
+        this.conversationReadStatusFilter ||
+        wootConstants.CONVERSATION_READ_STATUS_TYPE.ALL
+      );
     },
     sortFilter() {
       return (

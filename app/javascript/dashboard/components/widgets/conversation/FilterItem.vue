@@ -5,7 +5,11 @@
     @change="onTabChange()"
   >
     <option v-for="(value, status) in items" :key="status" :value="status">
-      {{ $t(`${pathPrefix}.${status}.TEXT`) }}
+      {{
+        pathPrefix
+          ? $t(`${pathPrefix}.${status}.TEXT`)
+          : `${items[status].TEXT}`
+      }}
     </option>
   </select>
 </template>
@@ -26,7 +30,7 @@ export default {
     },
     pathPrefix: {
       type: String,
-      required: true,
+      default: '',
     },
   },
   data() {
@@ -38,6 +42,11 @@ export default {
     onTabChange() {
       if (this.type === 'status') {
         this.$store.dispatch('setChatStatusFilter', this.activeValue);
+      } else if (this.type === 'readState') {
+        this.$store.dispatch(
+          'setConversationReadStatusFilter',
+          this.activeValue
+        );
       } else {
         this.$store.dispatch('setChatSortFilter', this.activeValue);
       }

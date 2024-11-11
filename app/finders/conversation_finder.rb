@@ -67,6 +67,7 @@ class ConversationFinder
     filter_by_labels
     filter_by_query
     filter_by_source_id
+    filter_by_conversation_read_status
   end
 
   def set_inboxes
@@ -136,6 +137,26 @@ class ConversationFinder
     return unless @team
 
     @conversations = @conversations.where(team: @team)
+  end
+
+  def filter_by_conversation_read_status
+    return unless params[:conversation_read_status]
+
+    return if params[:conversation_read_status] == 'all'
+
+    if params[:conversation_read_status] == 'unread'
+      @conversations = @conversations.joins(:messages)
+                                     .where(messages: { message_type: 0 }) # incoming messages
+                                     .where('messages.created_at > conversations.agent_last_seen_at OR conversations.agent_last_seen_at IS NULL')
+                                     .distinct
+    elsif params[:conversation_read_status] == 'read'
+      @conversations = @conversations.where.not(id:
+        @conversations.joins(:messages)
+                     .where(messages: { message_type: 0 })
+                     .where('messages.created_at > conversations.agent_last_seen_at OR conversations.agent_last_seen_at IS NULL')
+                     .select(:id)
+                     .distinct)
+    end
   end
 
   def filter_by_labels

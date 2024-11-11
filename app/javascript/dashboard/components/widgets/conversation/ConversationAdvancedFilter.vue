@@ -7,14 +7,14 @@
     </woot-modal-header>
     <div class="p-8">
       <div v-if="isFolderView">
-        <label class="input-label" :class="{ error: !activeFolderNewName }">
+        <label class="input-label" :class="{ error: isInvalidFolderName }">
           {{ $t('FILTER.FOLDER_LABEL') }}
           <input
             v-model="activeFolderNewName"
             type="text"
             class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
           />
-          <span v-if="!activeFolderNewName" class="message">
+          <span v-if="isInvalidFolderName" class="message">
             {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
           </span>
         </label>
@@ -64,7 +64,7 @@
           </woot-button>
           <woot-button
             v-if="isFolderView"
-            :disabled="!activeFolderNewName"
+            :disabled="isInvalidFolderName"
             @click="updateSavedCustomViews"
           >
             {{ $t('FILTER.UPDATE_BUTTON_LABEL') }}
@@ -165,6 +165,9 @@ export default {
         ? this.$t('FILTER.SUBTITLE')
         : this.$t('FILTER.CUSTOM_VIEWS_SUBTITLE');
     },
+    isInvalidFolderName() {
+      return !this.activeFolderNewName?.trim();
+    },
   },
   mounted() {
     this.setFilterAttributes();
@@ -230,7 +233,16 @@ export default {
       return type?.filterOperators;
     },
     getDropdownValues(type) {
+      // console.log('type', type);
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      const readStateFilters = {
+        unread: {
+          TEXT: 'Unread',
+        },
+        read: {
+          TEXT: 'Read',
+        },
+      };
       const allCustomAttributes = this.$store.getters[
         'attributes/getAttributesByModel'
       ](this.attributeModel);
@@ -290,6 +302,15 @@ export default {
           return this.$store.getters['inboxes/getInboxes'];
         case 'team_id':
           return this.$store.getters['teams/getTeams'];
+        case 'read_state':
+          return [
+            ...Object.keys(readStateFilters).map(state => {
+              return {
+                id: state,
+                name: readStateFilters[state].TEXT,
+              };
+            }),
+          ];
         case 'campaign_id':
           return this.$store.getters['campaigns/getAllCampaigns'].map(i => {
             return {
@@ -363,6 +384,8 @@ export default {
       });
     },
     updateSavedCustomViews() {
+      this.$v.$touch();
+      if (this.$v.$invalid) return;
       this.$emit('updateFolder', this.appliedFilters, this.activeFolderNewName);
     },
     resetFilter(index, currentFilter) {

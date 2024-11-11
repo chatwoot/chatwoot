@@ -42,6 +42,7 @@ class FilterService
     end
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def filter_values(query_hash)
     case query_hash['attribute_key']
     when 'status'
@@ -52,10 +53,15 @@ class FilterService
       query_hash['values'].map { |x| Message.message_types[x.to_sym] }
     when 'content'
       downcase_array_values(query_hash['values'])
+    when 'read_state'
+      return nil if query_hash['values'].include?('all')
+
+      downcase_array_values(query_hash['values'])
     else
       case_insensitive_values(query_hash)
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def downcase_array_values(values)
     values.map(&:downcase)
@@ -200,7 +206,11 @@ class FilterService
 
   def query_builder(model_filters)
     @params[:payload].each_with_index do |query_hash, current_index|
-      @query_string += " #{build_condition_query(model_filters, query_hash, current_index).strip}"
+      @query_string += if query_hash['attribute_key'] == 'read_state'
+                         " #{build_read_state_query(query_hash).strip}"
+                       else
+                         " #{build_condition_query(model_filters, query_hash, current_index).strip}"
+                       end
     end
     base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end

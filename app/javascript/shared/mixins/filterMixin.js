@@ -21,9 +21,11 @@ export default {
           attributes: group.attributes.map(attribute => {
             return {
               key: attribute.key,
-              name: this.$t(
-                `${this.filtersFori18n}.ATTRIBUTES.${attribute.i18nKey}`
-              ),
+              name:
+                attribute.value ||
+                this.$t(
+                  `${this.filtersFori18n}.ATTRIBUTES.${attribute.i18nKey}`
+                ),
             };
           }),
         };

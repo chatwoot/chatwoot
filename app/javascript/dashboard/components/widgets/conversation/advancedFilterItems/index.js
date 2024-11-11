@@ -46,6 +46,13 @@ const filterTypes = [
     filterOperators: OPERATOR_TYPES_3,
     attributeModel: 'standard',
   },
+  {
+    attributeKey: 'read_state',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
   // {
   //   attributeKey: 'campaign_id',
   //   attributeI18nKey: 'CAMPAIGN_NAME',
@@ -136,6 +143,11 @@ export const filterAttributeGroups = [
       {
         key: 'display_id',
         i18nKey: 'CONVERSATION_IDENTIFIER',
+      },
+      {
+        key: 'read_state',
+        i18nKey: 'READ_STATE',
+        value: 'Read State',
       },
       // {
       //   key: 'campaign_id',

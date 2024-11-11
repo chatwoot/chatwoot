@@ -27,6 +27,46 @@ module FilterHelper
     condition_query
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
+  def build_read_state_query(query_hash)
+    return '' if query_hash['values'].include?('all')
+
+    filter_operator = query_hash[:filter_operator]
+
+    conditions = []
+
+    if (query_hash['values'].include?('unread') && filter_operator == 'equal_to') ||
+       (query_hash['values'].include?('read') && filter_operator == 'not_equal_to')
+      conditions << "EXISTS (
+        SELECT 1 FROM messages
+        WHERE messages.conversation_id = conversations.id
+        AND messages.message_type = 0
+        AND (messages.created_at > conversations.agent_last_seen_at
+          OR conversations.agent_last_seen_at IS NULL)
+      )"
+    end
+
+    if (query_hash['values'].include?('read') && filter_operator == 'equal_to') ||
+       (query_hash['values'].include?('unread') && filter_operator == 'not_equal_to')
+      conditions << "NOT EXISTS (
+        SELECT 1 FROM messages
+        WHERE messages.conversation_id = conversations.id
+        AND messages.message_type = 0
+        AND (messages.created_at > conversations.agent_last_seen_at
+        OR conversations.agent_last_seen_at IS NULL)
+      )"
+    end
+
+    return '' if conditions.empty?
+
+    "(#{conditions.join(' OR ')}) #{query_hash[:query_operator]}"
+  end
+
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
   def build_condition_query_string(current_filter, query_hash, current_index)
     filter_operator_value = filter_operation(query_hash, current_index)
 

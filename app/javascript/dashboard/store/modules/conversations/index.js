@@ -12,6 +12,7 @@ const state = {
   allConversations: [],
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
+  conversationReadStatusFilter: wootConstants.CONVERSATION_READ_STATUS_TYPE.ALL,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
   currentInbox: null,
   selectedChatId: null,
@@ -260,6 +261,10 @@ export const mutations = {
   },
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {
     _state.chatStatusFilter = data;
+  },
+
+  [types.CHANGE_CONVERSATION_READ_STATUS_FILTER](_state, data) {
+    _state.conversationReadStatusFilter = data;
   },
 
   [types.CHANGE_CHAT_SORT_FILTER](_state, data) {

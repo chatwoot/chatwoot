@@ -93,6 +93,8 @@ const getters = {
     ).length;
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
+  getConversationReadStatusFilter: ({ conversationReadStatusFilter }) =>
+    conversationReadStatusFilter,
   getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConversationById: _state => conversationId => {
