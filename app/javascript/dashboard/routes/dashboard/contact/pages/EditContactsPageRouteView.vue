@@ -137,18 +137,26 @@ onMounted(() => {
             @tab-changed="handleTabChange"
           />
         </div>
-        <ContactCustomAttributes
-          v-if="activeTab === 'attributes'"
-          :selected-contact="selectedContact"
-        />
-        <ContactNotes v-if="activeTab === 'notes'" />
-        <ContactHistory v-if="activeTab === 'history'" />
-        <ContactMerge
-          v-if="activeTab === 'merge'"
-          ref="contactMergeRef"
-          :selected-contact="selectedContact"
-          @go-to-contacts-list="goToContactsList"
-        />
+        <div
+          v-if="isFetchingItem"
+          class="flex items-center justify-center py-10 text-n-slate-11"
+        >
+          <Spinner />
+        </div>
+        <template v-else>
+          <ContactCustomAttributes
+            v-if="activeTab === 'attributes'"
+            :selected-contact="selectedContact"
+          />
+          <ContactNotes v-if="activeTab === 'notes'" />
+          <ContactHistory v-if="activeTab === 'history'" />
+          <ContactMerge
+            v-if="activeTab === 'merge'"
+            ref="contactMergeRef"
+            :selected-contact="selectedContact"
+            @go-to-contacts-list="goToContactsList"
+          />
+        </template>
       </template>
     </ContactsLayout>
   </div>
