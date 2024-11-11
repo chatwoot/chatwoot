@@ -2,9 +2,6 @@
 import { defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
-import { useConversationFilterContext } from './provider.js';
-
-const { filterTypes } = useConversationFilterContext();
 
 const filters = defineModel({
   type: Array,
@@ -17,8 +14,10 @@ const removeFilter = index => {
 
 const addFilter = () => {
   filters.value.push({
-    ...filterTypes.value[0],
+    attribute_key: 'status',
     filter_operator: 'equal_to',
+    values: '',
+    query_operator: 'and',
   });
 };
 </script>
@@ -43,7 +42,7 @@ const addFilter = () => {
 
     <div class="flex gap-2 justify-between mt-6">
       <Button sm ghost blue @click="addFilter">
-        {{ t('FILTER.ADD_NEW_FILTER') }}
+        {{ $t('FILTER.ADD_NEW_FILTER') }}
       </Button>
       <div class="flex gap-2">
         <Button sm faded slate> Clear all </Button>
