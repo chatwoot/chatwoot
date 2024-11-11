@@ -3,7 +3,6 @@ import { computed, defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
 import { useConversationFilterContext } from './provider.js';
-import { useOperators } from './operators.js';
 
 const props = defineProps({
   values: { type: [String, Number, Array], required: true },
@@ -13,7 +12,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['remove']);
-const { operators } = useOperators();
 const { filterTypes } = useConversationFilterContext();
 
 const attributeKey = defineModel('attributeKey', {
@@ -35,6 +33,12 @@ const queryOperator = defineModel('queryOperator', {
 const toggleQueryOperator = () => {
   queryOperator.value = queryOperator.value === 'and' ? 'or' : 'and';
 };
+
+const currentFilter = computed(() => {
+  return filterTypes.value.find(filterObj => {
+    return filterObj.attributeKey === attributeKey.value;
+  });
+});
 
 const valueToShow = computed(() => {
   if (Array.isArray(props.values)) {
@@ -64,7 +68,7 @@ const valueToShow = computed(() => {
     <FilterSelect
       v-model="filterOperator"
       variant="ghost"
-      :options="Object.values(operators)"
+      :options="currentFilter.filterOperators"
     />
     <Button v-if="valueToShow" sm faded slate>
       {{ valueToShow }}
