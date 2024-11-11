@@ -5,6 +5,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -47,6 +48,14 @@ const onDelete = noteId => {
   const { contactId } = route.params;
   store.dispatch('contactNotes/delete', { noteId, contactId });
 };
+
+const keyboardEvents = {
+  '$mod+Enter': {
+    action: () => onAdd(state.message),
+    allowOnFocusedInput: true,
+  },
+};
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
@@ -54,6 +63,7 @@ const onDelete = noteId => {
     <Editor
       v-model="state.message"
       :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.PLACEHOLDER')"
+      focus-on-mount
       class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 px-6"
     >
       <template #actions>

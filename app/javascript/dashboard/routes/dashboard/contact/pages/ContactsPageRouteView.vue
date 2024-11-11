@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, computed, ref, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -14,6 +15,7 @@ const DEBOUNCE_DELAY = 300;
 
 const store = useStore();
 const route = useRoute();
+const { t } = useI18n();
 
 const { updateUISettings, uiSettings } = useUISettings();
 
@@ -52,6 +54,16 @@ const activeSegment = computed(() =>
     ? segments.value.find(view => view.id === Number(activeSegmentId.value))
     : undefined
 );
+
+const headerTitle = computed(() => {
+  if (activeSegmentId.value) {
+    return activeSegment.value.name;
+  }
+  if (activeLabel.value) {
+    return `#${activeLabel.value}`;
+  }
+  return t('CONTACTS_LAYOUT.HEADER.TITLE');
+});
 
 const buildSortAttr = () =>
   `${sortState.activeOrdering}${sortState.activeSort}`;
@@ -153,7 +165,7 @@ onMounted(async () => {
     class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
   >
     <ContactsLayout
-      :header-title="$t('CONTACTS_LAYOUT.HEADER.TITLE')"
+      :header-title="headerTitle"
       :button-label="$t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
       :current-page="currentPage"
       :total-items="totalItems"

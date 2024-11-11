@@ -83,7 +83,7 @@ const handleBlur = () => {
 watch(
   () => props.modelValue,
   newValue => {
-    if (props.maxLength && props.showCharacterCount) {
+    if (props.maxLength && props.showCharacterCount && !slots.actions) {
       if (characterCount.value >= props.maxLength) {
         emit('update:modelValue', newValue.slice(0, props.maxLength));
       }

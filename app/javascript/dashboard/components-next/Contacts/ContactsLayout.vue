@@ -147,7 +147,7 @@ const updateCurrentPage = page => {
                 @update:sort="emit('sort', $event)"
                 @more="emit('more')"
               />
-              <div class="w-px h-4 bg-n-strong" />
+              <div v-if="!isDetailView" class="w-px h-4 bg-n-strong" />
               <Button :label="buttonLabel" size="sm" @click="emit('message')" />
             </div>
           </div>
