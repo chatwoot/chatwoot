@@ -40,7 +40,7 @@ const selectedOption = computed(
           sm
           slate
           :variant
-          :icon="selectedOption.icon ?? 'chevron-down'"
+          :icon="selectedOption.icon ?? 'i-lucide-chevron-down'"
           :trailing-icon="selectedOption.icon ? false : true"
           :label="hideLabel ? null : selectedOption.label"
           @click="toggle"
