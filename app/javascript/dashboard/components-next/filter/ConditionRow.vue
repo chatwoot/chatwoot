@@ -2,10 +2,10 @@
 import { computed, defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
+import MultiSelect from './inputs/MultiSelect.vue';
 import { useConversationFilterContext } from './provider.js';
 
 const props = defineProps({
-  values: { type: [String, Number, Array], required: true },
   isFirst: { type: Boolean, default: false },
   // attributeModel: { type: String, required: true },
   // customAttributeType: { type: String, default: '' },
@@ -16,6 +16,11 @@ const { filterTypes } = useConversationFilterContext();
 
 const attributeKey = defineModel('attributeKey', {
   type: String,
+  required: true,
+});
+
+const values = defineModel('values', {
+  type: [String, Number, Array],
   required: true,
 });
 
@@ -45,14 +50,6 @@ const currentOperator = computed(() => {
     return operator.value === filterOperator.value;
   });
 });
-
-const valueToShow = computed(() => {
-  if (Array.isArray(props.values)) {
-    return props.values.map(v => v.name).join(', ');
-  }
-
-  return props.values;
-});
 </script>
 
 <template>
@@ -77,9 +74,7 @@ const valueToShow = computed(() => {
       :options="currentFilter.filter_operators"
     />
     <template v-if="currentOperator.hasInput">
-      <Button v-if="valueToShow" sm faded slate>
-        {{ valueToShow }}
-      </Button>
+      <MultiSelect v-model="values" />
     </template>
     <Button sm solid slate icon="i-lucide-x" @click="emit('remove')" />
   </div>
