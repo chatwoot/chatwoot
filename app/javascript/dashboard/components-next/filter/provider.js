@@ -26,12 +26,12 @@ const customAttributeInputType = key => {
 /**
  * Composable that provides conversation filtering context
  * @returns {{ filterTypes: import('vue').ComputedRef<Array<{
- *   attributeKey: string,
- *   attributeName: string,
- *   inputType: 'multiSelect'|'searchSelect'|'plainText'|'date',
- *   dataType: 'text'|'number',
- *   filterOperators: Array<string>,
- *   attributeModel: 'standard'|'additional'|'customAttributes'
+ *   attribute_key: string,
+ *   attribute_name: string,
+ *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date',
+ *   data_type: 'text'|'number',
+ *   filter_operators: Array<string>,
+ *   attribute_model: 'standard'|'additional'|'customAttributes'
  * }>> }} Object containing filter types configuration
  */
 export function useConversationFilterContext() {
@@ -52,23 +52,23 @@ export function useConversationFilterContext() {
   /**
    * Computed property that generates custom filter types based on conversation attributes
    * @type {import('vue').ComputedRef<Array<{
-   *   attributeKey: string,
-   *   attributeName: string,
-   *   inputType: ReturnType<typeof customAttributeInputType>,
-   *   filterOperators: Array<string>,
-   *   attributeModel: 'customAttributes'
+   *   attribute_key: string,
+   *   attribute_name: string,
+   *   input_type: ReturnType<typeof customAttributeInputType>,
+   *   filter_operators: Array<string>,
+   *   attribute_model: 'customAttributes'
    * }>>}
    */
   const customFilterTypes = computed(() => {
     return conversationAttributes.value.map(attr => {
       return {
-        attributeKey: attr.attributeKey,
+        attribute_key: attr.attributeKey,
         value: attr.attributeKey,
-        attributeName: attr.attributeDisplayName,
+        attribute_name: attr.attributeDisplayName,
         label: attr.attributeDisplayName,
-        inputType: customAttributeInputType(attr.attributeDisplayType),
-        filterOperators: getOperatorTypes(attr.attributeDisplayType),
-        attributeModel: 'customAttributes',
+        input_type: customAttributeInputType(attr.attributeDisplayType),
+        filter_operators: getOperatorTypes(attr.attributeDisplayType),
+        attribute_model: 'customAttributes',
       };
     });
   });
@@ -76,134 +76,134 @@ export function useConversationFilterContext() {
   /**
    * Computed property that combines standard and custom filter types
    * @type {import('vue').ComputedRef<Array<{
-   *   attributeKey: string,
-   *   attributeName: string,
-   *   inputType: 'multiSelect'|'searchSelect'|'plainText'|'date',
-   *   dataType: 'text'|'number',
-   *   filterOperators: Array<string>,
-   *   attributeModel: 'standard'|'additional'|'customAttributes'
+   *   attribute_key: string,
+   *   attribute_name: string,
+   *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date',
+   *   data_type: 'text'|'number',
+   *   filter_operators: Array<string>,
+   *   attribute_model: 'standard'|'additional'|'customAttributes'
    * }>>}
    */
   const filterTypes = computed(() => [
     {
-      attributeKey: 'status',
+      attribute_key: 'status',
       value: 'status',
-      attributeName: t('FILTER.ATTRIBUTES.STATUS'),
+      attribute_name: t('FILTER.ATTRIBUTES.STATUS'),
       label: t('FILTER.ATTRIBUTES.STATUS'),
-      inputType: 'multiSelect',
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'standard',
+      input_type: 'multiSelect',
+      data_type: 'text',
+      filter_operators: equalityOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'assignee_id',
+      attribute_key: 'assignee_id',
       value: 'assignee_id',
-      attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
+      attribute_name: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       label: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
-      inputType: 'searchSelect',
-      dataType: 'text',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
+      input_type: 'searchSelect',
+      data_type: 'text',
+      filter_operators: presenceOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'inbox_id',
+      attribute_key: 'inbox_id',
       value: 'inbox_id',
-      attributeName: t('FILTER.ATTRIBUTES.INBOX_NAME'),
+      attribute_name: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       label: t('FILTER.ATTRIBUTES.INBOX_NAME'),
-      inputType: 'searchSelect',
-      dataType: 'text',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
+      input_type: 'searchSelect',
+      data_type: 'text',
+      filter_operators: presenceOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'team_id',
+      attribute_key: 'team_id',
       value: 'team_id',
-      attributeName: t('FILTER.ATTRIBUTES.TEAM_NAME'),
+      attribute_name: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       label: t('FILTER.ATTRIBUTES.TEAM_NAME'),
-      inputType: 'searchSelect',
-      dataType: 'number',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
+      input_type: 'searchSelect',
+      data_type: 'number',
+      filter_operators: presenceOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'display_id',
+      attribute_key: 'display_id',
       value: 'display_id',
-      attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
+      attribute_name: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       label: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
-      inputType: 'plainText',
+      input_type: 'plainText',
       datatype: 'number',
-      filterOperators: containmentOperators.value,
-      attributeModel: 'standard',
+      filter_operators: containmentOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'campaign_id',
+      attribute_key: 'campaign_id',
       value: 'campaign_id',
-      attributeName: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
+      attribute_name: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       label: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
-      inputType: 'searchSelect',
+      input_type: 'searchSelect',
       datatype: 'number',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
+      filter_operators: presenceOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'labels',
+      attribute_key: 'labels',
       value: 'labels',
-      attributeName: t('FILTER.ATTRIBUTES.LABELS'),
+      attribute_name: t('FILTER.ATTRIBUTES.LABELS'),
       label: t('FILTER.ATTRIBUTES.LABELS'),
-      inputType: 'multiSelect',
-      dataType: 'text',
-      filterOperators: presenceOperators.value,
-      attributeModel: 'standard',
+      input_type: 'multiSelect',
+      data_type: 'text',
+      filter_operators: presenceOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'browser_language',
+      attribute_key: 'browser_language',
       value: 'browser_language',
-      attributeName: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
+      attribute_name: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       label: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
-      inputType: 'searchSelect',
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'additional',
+      input_type: 'searchSelect',
+      data_type: 'text',
+      filter_operators: equalityOperators.value,
+      attribute_model: 'additional',
     },
     {
-      attributeKey: 'country_code',
+      attribute_key: 'country_code',
       value: 'country_code',
-      attributeName: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
+      attribute_name: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       label: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
-      inputType: 'searchSelect',
-      dataType: 'text',
-      filterOperators: equalityOperators.value,
-      attributeModel: 'additional',
+      input_type: 'searchSelect',
+      data_type: 'text',
+      filter_operators: equalityOperators.value,
+      attribute_model: 'additional',
     },
     {
-      attributeKey: 'referer',
+      attribute_key: 'referer',
       value: 'referer',
-      attributeName: t('FILTER.ATTRIBUTES.REFERER_LINK'),
+      attribute_name: t('FILTER.ATTRIBUTES.REFERER_LINK'),
       label: t('FILTER.ATTRIBUTES.REFERER_LINK'),
-      inputType: 'plainText',
-      dataType: 'text',
-      filterOperators: containmentOperators.value,
-      attributeModel: 'additional',
+      input_type: 'plainText',
+      data_type: 'text',
+      filter_operators: containmentOperators.value,
+      attribute_model: 'additional',
     },
     {
-      attributeKey: 'created_at',
+      attribute_key: 'created_at',
       value: 'created_at',
-      attributeName: t('FILTER.ATTRIBUTES.CREATED_AT'),
+      attribute_name: t('FILTER.ATTRIBUTES.CREATED_AT'),
       label: t('FILTER.ATTRIBUTES.CREATED_AT'),
-      inputType: 'date',
-      dataType: 'text',
-      filterOperators: dateOperators.value,
-      attributeModel: 'standard',
+      input_type: 'date',
+      data_type: 'text',
+      filter_operators: dateOperators.value,
+      attribute_model: 'standard',
     },
     {
-      attributeKey: 'last_activity_at',
+      attribute_key: 'last_activity_at',
       value: 'last_activity_at',
-      attributeName: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
+      attribute_name: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
       label: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
-      inputType: 'date',
-      dataType: 'text',
-      filterOperators: dateOperators.value,
-      attributeModel: 'standard',
+      input_type: 'date',
+      data_type: 'text',
+      filter_operators: dateOperators.value,
+      attribute_model: 'standard',
     },
     ...customFilterTypes.value,
   ]);
@@ -213,19 +213,19 @@ export function useConversationFilterContext() {
       {
         name: t(`FILTER.GROUPS.STANDARD_FILTERS`),
         attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'standard'
+          filter => filter.attribute_model === 'standard'
         ),
       },
       {
         name: t(`FILTER.GROUPS.ADDITIONAL_FILTERS`),
         attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'additional'
+          filter => filter.attribute_model === 'additional'
         ),
       },
       {
         name: t(`FILTER.GROUPS.CUSTOM_ATTRIBUTES`),
         attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'customAttributes'
+          filter => filter.attribute_model === 'customAttributes'
         ),
       },
     ];

@@ -18,7 +18,7 @@ const removeFilter = index => {
 const addFilter = () => {
   filters.value.push({
     ...filterTypes.value[0],
-    filterOperator: 'equal_to',
+    filter_operator: 'equal_to',
   });
 };
 </script>
@@ -32,9 +32,9 @@ const addFilter = () => {
       <ConditionRow
         v-for="(filter, index) in filters"
         :key="filter.id"
-        v-model:attribute-key="filter.attributeKey"
-        v-model:filter-operator="filter.filterOperator"
-        v-model:query-operator="filter.queryOperator"
+        v-model:attribute-key="filter.attribute_key"
+        v-model:filter-operator="filter.filter_operator"
+        v-model:query-operator="filter.query_operator"
         v-model:values="filter.values"
         :is-first="index === 0"
         @remove="removeFilter(index)"

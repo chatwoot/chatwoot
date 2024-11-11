@@ -36,7 +36,7 @@ const toggleQueryOperator = () => {
 
 const currentFilter = computed(() => {
   return filterTypes.value.find(filterObj => {
-    return filterObj.attributeKey === attributeKey.value;
+    return filterObj.attribute_key === attributeKey.value;
   });
 });
 
@@ -68,7 +68,7 @@ const valueToShow = computed(() => {
     <FilterSelect
       v-model="filterOperator"
       variant="ghost"
-      :options="currentFilter.filterOperators"
+      :options="currentFilter.filter_operators"
     />
     <Button v-if="valueToShow" sm faded slate>
       {{ valueToShow }}

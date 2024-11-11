@@ -879,7 +879,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     >
       <ConversationFilter
         v-if="showAdvancedFilters"
-        v-model="appliedFilterNextRef"
+        v-model="appliedFilter"
         @update:model-value="console.log"
       />
       <ConversationAdvancedFilter
