@@ -63,9 +63,9 @@ export function useConversationFilterContext() {
     return conversationAttributes.value.map(attr => {
       return {
         attributeKey: attr.attributeKey,
-        attributeName: t(
-          `CUSTOM_ATTRIBUTE_${attr.attributeDisplayType.toUpperCase()}`
-        ),
+        value: attr.attributeKey,
+        attributeName: attr.attributeDisplayName,
+        label: attr.attributeDisplayName,
         inputType: customAttributeInputType(attr.attributeDisplayType),
         filterOperators: getOperatorTypes(attr.attributeDisplayType),
         attributeModel: 'customAttributes',
@@ -87,7 +87,9 @@ export function useConversationFilterContext() {
   const filterTypes = computed(() => [
     {
       attributeKey: 'status',
+      value: 'status',
       attributeName: t('FILTER.ATTRIBUTES.STATUS'),
+      label: t('FILTER.ATTRIBUTES.STATUS'),
       inputType: 'multiSelect',
       dataType: 'text',
       filterOperators: equalityOperators.value,
@@ -95,7 +97,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'assignee_id',
+      value: 'assignee_id',
       attributeName: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
+      label: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       inputType: 'searchSelect',
       dataType: 'text',
       filterOperators: presenceOperators.value,
@@ -103,7 +107,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'inbox_id',
+      value: 'inbox_id',
       attributeName: t('FILTER.ATTRIBUTES.INBOX_NAME'),
+      label: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       inputType: 'searchSelect',
       dataType: 'text',
       filterOperators: presenceOperators.value,
@@ -111,7 +117,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'team_id',
+      value: 'team_id',
       attributeName: t('FILTER.ATTRIBUTES.TEAM_NAME'),
+      label: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       inputType: 'searchSelect',
       dataType: 'number',
       filterOperators: presenceOperators.value,
@@ -119,7 +127,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'display_id',
+      value: 'display_id',
       attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
+      label: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       inputType: 'plainText',
       dataType: 'Number',
       filterOperators: containmentOperators.value,
@@ -127,7 +137,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'campaign_id',
+      value: 'campaign_id',
       attributeName: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
+      label: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       inputType: 'searchSelect',
       dataType: 'Number',
       filterOperators: presenceOperators.value,
@@ -135,7 +147,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'labels',
+      value: 'labels',
       attributeName: t('FILTER.ATTRIBUTES.LABELS'),
+      label: t('FILTER.ATTRIBUTES.LABELS'),
       inputType: 'multiSelect',
       dataType: 'text',
       filterOperators: presenceOperators.value,
@@ -143,7 +157,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'browser_language',
+      value: 'browser_language',
       attributeName: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
+      label: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       inputType: 'searchSelect',
       dataType: 'text',
       filterOperators: equalityOperators.value,
@@ -151,7 +167,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'country_code',
+      value: 'country_code',
       attributeName: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
+      label: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       inputType: 'searchSelect',
       dataType: 'text',
       filterOperators: equalityOperators.value,
@@ -159,7 +177,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'referer',
+      value: 'referer',
       attributeName: t('FILTER.ATTRIBUTES.REFERER_LINK'),
+      label: t('FILTER.ATTRIBUTES.REFERER_LINK'),
       inputType: 'plainText',
       dataType: 'text',
       filterOperators: containmentOperators.value,
@@ -167,7 +187,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'created_at',
+      value: 'created_at',
       attributeName: t('FILTER.ATTRIBUTES.CREATED_AT'),
+      label: t('FILTER.ATTRIBUTES.CREATED_AT'),
       inputType: 'date',
       dataType: 'text',
       filterOperators: dateOperators.value,
@@ -175,7 +197,9 @@ export function useConversationFilterContext() {
     },
     {
       attributeKey: 'last_activity_at',
+      value: 'last_activity_at',
       attributeName: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
+      label: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
       inputType: 'date',
       dataType: 'text',
       filterOperators: dateOperators.value,
@@ -184,5 +208,28 @@ export function useConversationFilterContext() {
     ...customFilterTypes.value,
   ]);
 
-  return { filterTypes };
+  const fitlerGroups = computed(() => {
+    return [
+      {
+        name: t(`FILTER.GROUPS.STANDARD_FILTERS`),
+        attributes: filterTypes.value.filter(
+          filter => filter.attributeModel === 'standard'
+        ),
+      },
+      {
+        name: t(`FILTER.GROUPS.ADDITIONAL_FILTERS`),
+        attributes: filterTypes.value.filter(
+          filter => filter.attributeModel === 'additional'
+        ),
+      },
+      {
+        name: t(`FILTER.GROUPS.CUSTOM_ATTRIBUTES`),
+        attributes: filterTypes.value.filter(
+          filter => filter.attributeModel === 'customAttributes'
+        ),
+      },
+    ];
+  });
+
+  return { filterTypes, fitlerGroups };
 }
