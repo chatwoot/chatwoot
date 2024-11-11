@@ -41,11 +41,13 @@ export function useOperators() {
     }, {});
   });
 
+  // Legacy: Operator types 1
   const equalityOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
   ]);
 
+  // Legacy: Operator types 2
   const presenceOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -53,6 +55,7 @@ export function useOperators() {
     operators.value[FILTER_OPS.IS_NOT_PRESENT],
   ]);
 
+  // Legacy: Operator types 3
   const containmentOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -60,6 +63,7 @@ export function useOperators() {
     operators.value[FILTER_OPS.DOES_NOT_CONTAIN],
   ]);
 
+  // Legacy: Operator types 4
   const comparisonOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -69,11 +73,31 @@ export function useOperators() {
     operators.value[FILTER_OPS.IS_LESS_THAN],
   ]);
 
+  // Legacy: Operator types 5
   const dateOperators = computed(() => [
     operators.value[FILTER_OPS.IS_GREATER_THAN],
     operators.value[FILTER_OPS.IS_LESS_THAN],
     operators.value[FILTER_OPS.DAYS_BEFORE],
   ]);
+
+  const getOperatorTypes = key => {
+    switch (key) {
+      case 'list':
+        return equalityOperators.value;
+      case 'text':
+        return containmentOperators.value;
+      case 'number':
+        return equalityOperators.value;
+      case 'link':
+        return equalityOperators.value;
+      case 'date':
+        return comparisonOperators.value;
+      case 'checkbox':
+        return equalityOperators.value;
+      default:
+        return equalityOperators.value;
+    }
+  };
 
   return {
     operators,
@@ -82,5 +106,6 @@ export function useOperators() {
     containmentOperators,
     comparisonOperators,
     dateOperators,
+    getOperatorTypes,
   };
 }
