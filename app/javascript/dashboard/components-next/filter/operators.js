@@ -27,6 +27,7 @@ const FILTER_OPS = {
   STARTS_WITH: 'starts_with',
 };
 
+const NO_INPUT_OPTS = [FILTER_OPS.IS_PRESENT, FILTER_OPS.IS_NOT_PRESENT];
 /**
  * @type {Object.<string, string>}
  */
@@ -51,13 +52,14 @@ export function useOperators() {
   const { t } = useI18n();
 
   /**
-   * @type {import('vue').ComputedRef<Object.<string, {value: string, label: string, icon: string}>>}
+   * @type {import('vue').ComputedRef<Object.<string, {value: string, label: string, icon: string, hasInput: boolean}>>}
    */
   const operators = computed(() => {
     return Object.values(FILTER_OPS).reduce((acc, value) => {
       acc[value] = {
         value,
         label: t(`FILTER.OPERATOR_LABELS.${value}`),
+        hasInput: !NO_INPUT_OPTS.includes(value),
         icon: h('span', { class: 'flex items-center' }, [
           h('i', {
             class: `text-n-blue-text ${filterOperatorIcon[value]}`,

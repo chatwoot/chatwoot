@@ -40,6 +40,12 @@ const currentFilter = computed(() => {
   });
 });
 
+const currentOperator = computed(() => {
+  return currentFilter.value.filter_operators.find(operator => {
+    return operator.value === filterOperator.value;
+  });
+});
+
 const valueToShow = computed(() => {
   if (Array.isArray(props.values)) {
     return props.values.map(v => v.name).join(', ');
@@ -70,9 +76,11 @@ const valueToShow = computed(() => {
       variant="ghost"
       :options="currentFilter.filter_operators"
     />
-    <Button v-if="valueToShow" sm faded slate>
-      {{ valueToShow }}
-    </Button>
+    <template v-if="currentOperator.hasInput">
+      <Button v-if="valueToShow" sm faded slate>
+        {{ valueToShow }}
+      </Button>
+    </template>
     <Button sm solid slate icon="i-lucide-x" @click="emit('remove')" />
   </div>
 </template>

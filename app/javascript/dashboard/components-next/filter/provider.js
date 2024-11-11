@@ -30,7 +30,7 @@ const customAttributeInputType = key => {
  *   attribute_name: string,
  *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date',
  *   data_type: 'text'|'number',
- *   filter_operators: Array<string>,
+ *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
  *   attribute_model: 'standard'|'additional'|'customAttributes'
  * }>> }} Object containing filter types configuration
  */
@@ -55,7 +55,7 @@ export function useConversationFilterContext() {
    *   attribute_key: string,
    *   attribute_name: string,
    *   input_type: ReturnType<typeof customAttributeInputType>,
-   *   filter_operators: Array<string>,
+   *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
    *   attribute_model: 'customAttributes'
    * }>>}
    */
@@ -80,7 +80,7 @@ export function useConversationFilterContext() {
    *   attribute_name: string,
    *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date',
    *   data_type: 'text'|'number',
-   *   filter_operators: Array<string>,
+   *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
    *   attribute_model: 'standard'|'additional'|'customAttributes'
    * }>>}
    */
