@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -58,7 +58,11 @@ export function useOperators() {
       acc[value] = {
         value,
         label: t(`FILTER.OPERATOR_LABELS.${value}`),
-        icon: filterOperatorIcon[value],
+        icon: h('span', { class: 'flex items-center' }, [
+          h('i', {
+            class: `text-n-blue-text ${filterOperatorIcon[value]}`,
+          }),
+        ]),
       };
       return acc;
     }, {});
