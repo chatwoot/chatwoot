@@ -1,16 +1,51 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
+import { useMapGetter } from 'dashboard/composables/store.js';
+
+const customAttributeInputType = key => {
+  switch (key) {
+    case 'date':
+      return 'date';
+    case 'text':
+      return 'plainText';
+    case 'list':
+      return 'searchSelect';
+    case 'checkbox':
+      return 'searchSelect';
+    default:
+      return 'plainText';
+  }
+};
 
 export function useConversationFilterContext() {
   const { t } = useI18n();
+
+  const conversationAttributes = useMapGetter(
+    'attributes/getConversationAttributes'
+  );
 
   const {
     equalityOperators,
     presenceOperators,
     containmentOperators,
     dateOperators,
+    getOperatorTypes,
   } = useOperators();
+
+  const customFilterTypes = computed(() => {
+    return conversationAttributes.value.map(attr => {
+      return {
+        attributeKey: attr.attributeKey,
+        attributeName: t(
+          `CUSTOM_ATTRIBUTE_${attr.attributeDisplayType.toUpperCase()}`
+        ),
+        inputType: customAttributeInputType(attr.attributeDisplayType),
+        filterOperators: getOperatorTypes(attr.attributeDisplayType),
+        attributeModel: 'customAttributes',
+      };
+    });
+  });
 
   const filterTypes = computed(() => [
     {
@@ -109,6 +144,7 @@ export function useConversationFilterContext() {
       filterOperators: dateOperators.value,
       attributeModel: 'standard',
     },
+    ...customFilterTypes.value,
   ]);
 
   return { filterTypes };
