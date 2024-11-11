@@ -23,13 +23,17 @@ const props = defineProps({
 });
 
 const selected = defineModel({
-  type: Object,
+  type: [String, Number],
   required: true,
 });
 
-const selectedOption = computed(
-  () => props.options.find(o => o.value === selected.value) || {}
-);
+const selectedOption = computed(() => {
+  return props.options.find(o => o.value === selected.value) || {};
+});
+
+const updateSelected = newValue => {
+  selected.value = newValue;
+};
 </script>
 
 <template>
@@ -53,7 +57,7 @@ const selectedOption = computed(
         :key="option.value"
         :label="option.label"
         :icon="option.icon"
-        @click="() => (selected = option.value)"
+        @click="updateSelected(option.value)"
       />
     </DropdownBody>
   </DropdownContainer>
