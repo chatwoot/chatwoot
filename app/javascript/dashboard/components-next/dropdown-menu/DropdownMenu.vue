@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, defineEmits, computed } from 'vue';
+import { defineProps, ref, defineEmits, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -45,6 +45,12 @@ const filteredMenuItems = computed(() => {
 const handleAction = (action, value) => {
   emit('action', { action, value });
 };
+
+onMounted(() => {
+  if (searchInput.value && props.showSearch) {
+    searchInput.value.focus();
+  }
+});
 </script>
 
 <template>
@@ -60,7 +66,7 @@ const handleAction = (action, value) => {
         :placeholder="
           searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
         "
-        class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-xl bg-n-solid-1 text-n-slate-12"
+        class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
       />
     </div>
     <button

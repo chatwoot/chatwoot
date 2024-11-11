@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, nextTick } from 'vue';
 const props = defineProps({
   modelValue: {
     type: [String, Number],
@@ -42,11 +42,22 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  autofocus: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:modelValue', 'blur', 'input', 'focus']);
+const emit = defineEmits([
+  'update:modelValue',
+  'blur',
+  'input',
+  'focus',
+  'enter',
+]);
 
 const isFocused = ref(false);
+const inputRef = ref(null);
 
 const messageClass = computed(() => {
   switch (props.messageType) {
@@ -82,6 +93,18 @@ const handleBlur = event => {
   emit('blur', event);
   isFocused.value = false;
 };
+
+const handleEnter = event => {
+  emit('enter', event);
+};
+
+onMounted(() => {
+  if (props.autofocus) {
+    nextTick(() => {
+      inputRef.value?.focus();
+    });
+  }
+});
 </script>
 
 <template>
@@ -97,6 +120,7 @@ const handleBlur = event => {
     <slot name="prefix" />
     <input
       :id="id"
+      ref="inputRef"
       :value="modelValue"
       :class="[
         customInputClass,
@@ -114,6 +138,7 @@ const handleBlur = event => {
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keyup.enter="handleEnter"
     />
     <p
       v-if="message"

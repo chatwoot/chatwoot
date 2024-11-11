@@ -109,8 +109,8 @@ const handleAvatarDelete = async () => {
   <div class="flex flex-col items-start gap-8 pb-6">
     <div class="flex flex-col items-start gap-3">
       <Avatar
-        :src="avatarSrc"
-        :name="selectedContact.name"
+        :src="avatarSrc || ''"
+        :name="selectedContact.name || ''"
         :size="72"
         allow-upload
         @upload="handleAvatarUpload"

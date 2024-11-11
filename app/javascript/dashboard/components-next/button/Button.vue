@@ -6,7 +6,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   label: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   variant: {
@@ -47,7 +47,7 @@ const STYLE_CONFIG = {
     blue: {
       solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
+        'bg-n-brand/10 text-n-blue-text hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text outline-n-blue-border',
       link: 'text-n-blue-text hover:underline outline-transparent',
     },
