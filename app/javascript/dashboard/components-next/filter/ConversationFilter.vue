@@ -39,11 +39,12 @@ const addFilter = () => {
         :is-first="index === 0"
         @remove="removeFilter(index)"
       />
-      <Button sm slate faded @click="addFilter"> Add new filter </Button>
     </div>
 
     <div class="flex gap-2 justify-between mt-6">
-      <Button sm ghost blue> Cancel </Button>
+      <Button sm ghost blue @click="addFilter">
+        {{ t('FILTER.ADD_NEW_FILTER') }}
+      </Button>
       <div class="flex gap-2">
         <Button sm faded slate> Clear all </Button>
         <Button sm solid blue> Apply filter </Button>
