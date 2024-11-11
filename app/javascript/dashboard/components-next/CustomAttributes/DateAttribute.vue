@@ -3,6 +3,8 @@
 import { ref, computed } from 'vue';
 import { parseISO } from 'date-fns';
 import { useI18n } from 'vue-i18n';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -24,16 +26,14 @@ const { t } = useI18n();
 const isEditingValue = ref(false);
 const editedValue = ref(props.attribute.value || '');
 
-const defaultDateValue = computed({
-  get() {
-    const existingDate = editedValue.value ?? props.attribute.value;
-    if (existingDate) return new Date(existingDate).toISOString().slice(0, 10);
-    return isEditingValue.value ? new Date().toISOString().slice(0, 10) : '';
+const rules = {
+  editedValue: {
+    required,
+    isDate: value => new Date(value).toISOString(),
   },
-  set(value) {
-    editedValue.value = value ? new Date(value).toISOString() : value;
-  },
-});
+};
+
+const v$ = useVuelidate(rules, { editedValue });
 
 const formattedDate = computed(() => {
   return props.attribute.value
@@ -41,16 +41,35 @@ const formattedDate = computed(() => {
     : t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT');
 });
 
+const hasError = computed(() => v$.value.$errors.length > 0);
+
+const defaultDateValue = computed({
+  get() {
+    const existingDate = editedValue.value ?? props.attribute.value;
+    if (existingDate) return new Date(existingDate).toISOString().slice(0, 10);
+    return isEditingValue.value && !hasError.value
+      ? new Date().toISOString().slice(0, 10)
+      : '';
+  },
+  set(value) {
+    editedValue.value = value ? new Date(value).toISOString() : value;
+  },
+});
+
 const toggleEditValue = value => {
   isEditingValue.value =
     typeof value === 'boolean' ? value : !isEditingValue.value;
 
   if (isEditingValue.value && !editedValue.value) {
+    v$.value.$reset();
     editedValue.value = new Date().toISOString();
   }
 };
 
 const handleInputUpdate = async () => {
+  const isValid = await v$.value.$validate();
+  if (!isValid) return;
+
   emit('update', parseISO(editedValue.value));
   isEditingValue.value = false;
 };
@@ -107,16 +126,21 @@ const handleInputUpdate = async () => {
       <Input
         v-model="defaultDateValue"
         type="date"
-        class="w-full"
+        class="w-full [&>p]:absolute [&>p]:mt-0.5 [&>p]:top-8 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
+        :message="
+          hasError &&
+          t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.VALIDATIONS.INVALID_DATE')
+        "
+        :message-type="hasError ? 'error' : 'info'"
         autofocus
-        custom-input-class="h-8 rounded-r-none !border-n-brand"
+        custom-input-class="h-8 ltr:rounded-r-none rtl:rounded-l-none"
         @keyup.enter="handleInputUpdate"
       />
       <Button
         icon="i-lucide-check"
-        color="blue"
+        :color="hasError ? 'ruby' : 'blue'"
         size="sm"
-        class="flex-shrink-0 rounded-l-none"
+        class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none"
         @click="handleInputUpdate"
       />
     </div>

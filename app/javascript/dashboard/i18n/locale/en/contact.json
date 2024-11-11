@@ -568,7 +568,8 @@
           "INVALID_NUMBER": "Invalid number",
           "REQUIRED": "Valid value is required",
           "INVALID_INPUT": "Invalid input",
-          "INVALID_URL": "Invalid URL"
+          "INVALID_URL": "Invalid URL",
+          "INVALID_DATE": "Invalid date"
         },
         "NO_ATTRIBUTES": "No attributes found",
         "EMPTY_STATE": "No unused attributes found",
