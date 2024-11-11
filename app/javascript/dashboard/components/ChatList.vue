@@ -29,6 +29,7 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import IntersectionObserver from './IntersectionObserver.vue';
+import ConversationFilter from 'next/filter/ConversationFilter.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -58,6 +59,8 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
+import camelcaseKeys from 'camelcase-keys';
+import snakeCaseKeys from 'snakecase-keys';
 
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
@@ -98,6 +101,13 @@ const advancedFilterTypes = ref(
     attributeName: t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
   }))
 );
+
+const appliedFilterNext = computed({
+  get: () => camelcaseKeys(appliedFilter.value),
+  set: val => {
+    appliedFilter.value = snakeCaseKeys(val);
+  },
+});
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getAllConversations');
@@ -876,6 +886,10 @@ watch(conversationFilters, (newVal, oldVal) => {
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
+      <ConversationFilter
+        v-if="showAdvancedFilters"
+        v-model="appliedFilterNext"
+      />
       <ConversationAdvancedFilter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
