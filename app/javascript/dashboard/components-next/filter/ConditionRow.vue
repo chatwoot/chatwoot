@@ -46,9 +46,14 @@ const currentFilter = computed(() => {
 });
 
 const currentOperator = computed(() => {
-  return currentFilter.value.filter_operators.find(operator => {
-    return operator.value === filterOperator.value;
-  });
+  const operatorFromOptions = currentFilter.value.filter_operators.find(
+    operator => {
+      return operator.value === filterOperator.value;
+    }
+  );
+
+  if (!operatorFromOptions) return currentFilter.value.filter_operators[0];
+  return operatorFromOptions;
 });
 </script>
 
