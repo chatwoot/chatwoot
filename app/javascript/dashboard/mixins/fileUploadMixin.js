@@ -14,7 +14,8 @@ export default {
   methods: {
     onFileUpload(file) {
       if (!file) return;
-      const fileExtension = `.${file.name.split('.').pop().toLowerCase()}}`;
+      
+      const fileExtension = `.${file.name.split('.').pop()}`.toLowerCase();
 
       if (this.channelType !== INBOX_TYPES.FB) {
         if (!ALLOWED_FILE_TYPES.includes(fileExtension)) {
