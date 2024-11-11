@@ -57,6 +57,9 @@ const activeSegment = computed(() =>
 );
 
 const hasContacts = computed(() => contacts.value.length > 0);
+const isContactIndexView = computed(
+  () => route.name === 'contacts_dashboard_index'
+);
 
 const headerTitle = computed(() => {
   if (activeSegmentId.value) {
@@ -180,7 +183,7 @@ onMounted(async () => {
       :show-pagination-footer="!isFetchingList && hasContacts"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
-      :is-empty-state="!hasContacts && searchValue === ''"
+      :is-empty-state="!searchValue && !hasContacts && isContactIndexView"
       @update:current-page="handlePageChange"
       @search="searchContacts"
       @sort="handleSort"
@@ -193,22 +196,26 @@ onMounted(async () => {
       </div>
 
       <template v-else>
-        <div
-          v-if="searchValue && !hasContacts"
-          class="flex items-center justify-center py-10"
-        >
-          <span class="text-base text-n-slate-11">
-            {{ $t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE') }}
-          </span>
-        </div>
-
         <ContactEmptyState
-          v-else-if="!searchValue && !hasContacts"
+          v-if="!searchValue && !hasContacts && isContactIndexView"
           class="pt-14"
           :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
           :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
           :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
         />
+
+        <div
+          v-else-if="(searchValue || !isContactIndexView) && !hasContacts"
+          class="flex items-center justify-center py-10"
+        >
+          <span class="text-base text-n-slate-11">
+            {{
+              searchValue
+                ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
+                : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
+            }}
+          </span>
+        </div>
 
         <ContactsList v-else :contacts="contacts" />
       </template>
