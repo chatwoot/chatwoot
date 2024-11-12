@@ -1,5 +1,5 @@
 <script setup>
-import { defineModel } from 'vue';
+import { defineModel, useTemplateRef, onMounted } from 'vue';
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
 
@@ -20,6 +20,12 @@ const addFilter = () => {
     query_operator: 'and',
   });
 };
+
+const conditionRefs = useTemplateRef('conditions');
+
+function validateAndSubmit() {
+  conditionRefs.value.map(condition => condition.validate()).every(Boolean);
+}
 </script>
 
 <template>
@@ -31,6 +37,7 @@ const addFilter = () => {
       <template v-for="(filter, index) in filters" :key="filter.id">
         <ConditionRow
           v-if="index === 0"
+          ref="conditions"
           v-model:attribute-key="filter.attribute_key"
           v-model:filter-operator="filter.filter_operator"
           v-model:values="filter.values"
@@ -39,6 +46,7 @@ const addFilter = () => {
         />
         <ConditionRow
           v-else
+          ref="conditions"
           v-model:attribute-key="filter.attribute_key"
           v-model:filter-operator="filter.filter_operator"
           v-model:query-operator="filters[index - 1].query_operator"
@@ -54,7 +62,7 @@ const addFilter = () => {
       </Button>
       <div class="flex gap-2">
         <Button sm faded slate> Clear all </Button>
-        <Button sm solid blue> Apply filter </Button>
+        <Button sm solid blue @click="validateAndSubmit"> Apply filter </Button>
       </div>
     </div>
   </div>

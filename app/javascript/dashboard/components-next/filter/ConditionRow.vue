@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel, h, watch } from 'vue';
+import { computed, defineModel, h, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
@@ -7,6 +7,7 @@ import MultiSelect from './inputs/MultiSelect.vue';
 import SingleSelect from './inputs/SingleSelect.vue';
 
 import { useConversationFilterContext } from './provider.js';
+import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 defineProps({
   isFirst: { type: Boolean, default: false },
@@ -17,6 +18,7 @@ defineProps({
 const emit = defineEmits(['remove']);
 const { t } = useI18n();
 const { filterTypes } = useConversationFilterContext();
+const showErrors = ref(false);
 
 const attributeKey = defineModel('attributeKey', {
   type: String,
@@ -80,10 +82,33 @@ const booleanOptions = computed(() => [
   { id: false, name: t('FILTER.ATTRIBUTE_LABELS.FALSE') },
 ]);
 
+const validationError = computed(() => {
+  return validateSingleFilter({
+    attribute_key: attributeKey.value,
+    filter_operator: filterOperator.value,
+    values: values.value,
+  });
+});
+
+const isValid = computed(() => {
+  return !validationError.value;
+});
+
 watch(attributeKey, () => {
   filterOperator.value = currentFilter.value.filter_operators[0].value;
   values.value = '';
 });
+
+watch([attributeKey, values, filterOperator], () => {
+  showErrors.value = false;
+});
+
+const validate = () => {
+  showErrors.value = true;
+  return isValid.value;
+};
+
+defineExpose({ validate });
 </script>
 
 <template>
@@ -132,5 +157,6 @@ watch(attributeKey, () => {
       />
     </template>
     <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
+    <template v-if="showErrors">{{ validationError }}</template>
   </div>
 </template>
