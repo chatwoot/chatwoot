@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
+import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
@@ -61,13 +62,15 @@ const updateSelected = newValue => {
       </slot>
     </template>
     <DropdownBody class="top-0 min-w-48 z-[999]">
-      <DropdownItem
-        v-for="option in options"
-        :key="option.value"
-        :label="option.label"
-        :icon="option.icon"
-        @click="updateSelected(option.value)"
-      />
+      <DropdownSection class="max-h-80 overflow-scroll">
+        <DropdownItem
+          v-for="option in options"
+          :key="option.value"
+          :label="option.label"
+          :icon="option.icon"
+          @click="updateSelected(option.value)"
+        />
+      </DropdownSection>
     </DropdownBody>
   </DropdownContainer>
 </template>
