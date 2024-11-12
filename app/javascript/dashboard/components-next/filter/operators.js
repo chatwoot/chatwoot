@@ -60,11 +60,9 @@ export function useOperators() {
         value,
         label: t(`FILTER.OPERATOR_LABELS.${value}`),
         hasInput: !NO_INPUT_OPTS.includes(value),
-        icon: h('span', { class: 'flex items-center' }, [
-          h('i', {
-            class: `text-n-blue-text ${filterOperatorIcon[value]}`,
-          }),
-        ]),
+        icon: h('span', {
+          class: `${filterOperatorIcon[value]} !text-n-blue-text`,
+        }),
       };
       return acc;
     }, {});
