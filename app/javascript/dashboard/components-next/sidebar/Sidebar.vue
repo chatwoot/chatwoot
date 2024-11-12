@@ -225,10 +225,6 @@ const menuItems = computed(() => {
           name: 'Contacts',
           label: t('SIDEBAR.CONTACTS'),
           icon: 'i-lucide-contact',
-          activeOn: [
-            'contacts_dashboard_index',
-            'contacts_dashboard_edit_index',
-          ],
           children: [
             {
               name: 'All Contacts',
@@ -243,7 +239,6 @@ const menuItems = computed(() => {
               name: 'Segments',
               icon: 'i-lucide-group',
               label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
-
               children: contactCustomViews.value.map(view => ({
                 name: `${view.name}-${view.id}`,
                 label: view.name,
@@ -260,10 +255,6 @@ const menuItems = computed(() => {
               name: 'Tagged With',
               icon: 'i-lucide-tag',
               label: t('SIDEBAR.TAGGED_WITH'),
-              activeOn: [
-                'contacts_dashboard_labels_index',
-                'contacts_dashboard_labels_edit_index',
-              ],
               children: labels.value.map(label => ({
                 name: `${label.title}-${label.id}`,
                 label: label.title,
@@ -396,18 +387,6 @@ const menuItems = computed(() => {
             navigationPath: 'portals_settings_index',
           }),
         },
-      ],
-      activeOn: [
-        'portals_new',
-        'portals_index',
-        'portals_articles_index',
-        'portals_articles_new',
-        'portals_articles_edit',
-        'portals_categories_index',
-        'portals_categories_articles_index',
-        'portals_categories_articles_edit',
-        'portals_locales_index',
-        'portals_settings_index',
       ],
     },
     {

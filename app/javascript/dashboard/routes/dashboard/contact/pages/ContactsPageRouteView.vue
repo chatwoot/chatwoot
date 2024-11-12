@@ -166,6 +166,8 @@ watch(activeSegment, () => {
 onMounted(async () => {
   if (!activeSegmentId.value) {
     await fetchContacts();
+  } else if (activeSegment.value && activeSegmentId.value) {
+    fetchSavedFilteredContact(activeSegment.value.query);
   }
 });
 </script>
