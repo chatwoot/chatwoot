@@ -2,6 +2,7 @@
 import { defineModel, computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
+import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
@@ -69,22 +70,24 @@ const toggleOption = optionToToggle => {
       </div>
     </template>
     <DropdownBody class="top-0 min-w-48 z-[999]">
-      <DropdownItem
-        v-for="option in options"
-        :key="option.id"
-        :icon="option.icon"
-        preserve-open
-        @click="toggleOption(option)"
-      >
-        <template #label>
-          {{ option.name }}
-          <Icon
-            v-if="selectedIds.includes(option.id)"
-            icon="i-lucide-check"
-            class="bg-n-blue-text pointer-events-none"
-          />
-        </template>
-      </DropdownItem>
+      <DropdownSection class="max-h-80 overflow-scroll">
+        <DropdownItem
+          v-for="option in options"
+          :key="option.id"
+          :icon="option.icon"
+          preserve-open
+          @click="toggleOption(option)"
+        >
+          <template #label>
+            {{ option.name }}
+            <Icon
+              v-if="selectedIds.includes(option.id)"
+              icon="i-lucide-check"
+              class="bg-n-blue-text pointer-events-none"
+            />
+          </template>
+        </DropdownItem>
+      </DropdownSection>
     </DropdownBody>
   </DropdownContainer>
 </template>
