@@ -14,6 +14,10 @@ const { options } = defineProps({
     type: Array,
     required: true,
   },
+  disableSearch: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
@@ -67,7 +71,7 @@ const toggleSelected = newValue => {
       />
     </template>
     <DropdownBody class="top-0 min-w-56 z-[999]">
-      <div class="relative">
+      <div v-if="!disableSearch" class="relative">
         <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
         <input
           v-model="searchTerm"

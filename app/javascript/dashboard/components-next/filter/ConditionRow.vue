@@ -4,8 +4,8 @@ import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
-import SearchSelect from './inputs/SearchSelect.vue';
-import PlainText from './inputs/PlainText.vue';
+import SingleSelect from './inputs/SingleSelect.vue';
+
 import { useConversationFilterContext } from './provider.js';
 
 defineProps({
@@ -60,6 +60,11 @@ const queryOperatorOptions = computed(() => {
   ];
 });
 
+const booleanOptions = computed(() => [
+  { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
+  { id: false, name: t('FILTER.ATTRIBUTE_LABELS.FALSE') },
+]);
+
 const currentOperator = computed(() => {
   const operatorFromOptions = currentFilter.value.filter_operators.find(
     operator => {
@@ -98,14 +103,23 @@ const currentOperator = computed(() => {
         v-model="values"
         :options="currentFilter.options"
       />
-      <SearchSelect
+      <SingleSelect
         v-else-if="currentFilter.input_type === 'searchSelect'"
         v-model="values"
         :options="currentFilter.options"
       />
-      <PlainText
-        v-else-if="currentFilter.input_type === 'plainText'"
+      <SingleSelect
+        v-else-if="currentFilter.input_type === 'booleanSelect'"
         v-model="values"
+        disable-search
+        :options="booleanOptions"
+      />
+      <input
+        v-else
+        v-model="values"
+        :type="currentFilter.input_type === 'date' ? 'date' : 'text'"
+        class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base"
+        :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
       />
     </template>
     <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
