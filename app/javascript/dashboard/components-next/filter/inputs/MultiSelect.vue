@@ -25,12 +25,15 @@ const hasItems = computed(() => {
   return true;
 });
 
+const selectedIds = computed(() => {
+  if (!hasItems.value) return [];
+  return selected.value.map(value => value.id);
+});
+
 const selectedItems = computed(() => {
   // Options has additional properties, so we need to use them directly
   if (!hasItems.value) return [];
-
-  const selectedNames = selected.value.map(value => value.name);
-  return options.filter(option => selectedNames.includes(option.name));
+  return options.filter(option => selectedIds.value.includes(option.id));
 });
 
 const toggleOption = optionToToggle => {
@@ -39,13 +42,9 @@ const toggleOption = optionToToggle => {
     return;
   }
 
-  const selectedValues = selected.value.map(value => value.name);
-  const valueToToggle = optionToToggle.name;
-
-  if (selectedValues.includes(valueToToggle)) {
-    selected.value = selected.value.filter(
-      value => value.name !== valueToToggle
-    );
+  const idToToggle = optionToToggle.id;
+  if (selectedIds.value.includes(idToToggle)) {
+    selected.value = selected.value.filter(value => value.id !== idToToggle);
   } else {
     selected.value = [...selected.value, optionToToggle];
   }
@@ -73,10 +72,19 @@ const toggleOption = optionToToggle => {
       <DropdownItem
         v-for="option in options"
         :key="option.id"
-        :label="option.name"
         :icon="option.icon"
+        preserve-open
         @click="toggleOption(option)"
-      />
+      >
+        <template #label>
+          {{ option.name }}
+          <Icon
+            v-if="selectedIds.includes(option.id)"
+            icon="i-lucide-check"
+            class="bg-n-blue-text pointer-events-none"
+          />
+        </template>
+      </DropdownItem>
     </DropdownBody>
   </DropdownContainer>
 </template>
