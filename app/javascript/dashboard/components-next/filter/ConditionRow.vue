@@ -11,8 +11,6 @@ import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 defineProps({
   isFirst: { type: Boolean, default: false },
-  // attributeModel: { type: String, required: true },
-  // customAttributeType: { type: String, default: '' },
 });
 
 const emit = defineEmits(['remove']);
