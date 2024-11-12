@@ -37,7 +37,6 @@ const emit = defineEmits(['update:modelValue']);
 
 const { t } = useI18n();
 
-const phoneInputRef = ref(null);
 const hasInputFocused = ref(false);
 const showDropdown = ref(false);
 const searchQuery = ref('');
@@ -179,7 +178,6 @@ watch(
       :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
     >
       <Input
-        ref="phoneInputRef"
         :model-value="phoneNumber"
         type="tel"
         :placeholder="placeholder"
@@ -201,7 +199,7 @@ watch(
               "
               trailing-icon
               :disabled="disabled"
-              class="!h-[30px] top-1 !px-2 outline-0 !rounded-[8px] border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+              class="!h-[30px] top-1 !px-2 outline-0 !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
               @click="toggleCountryDropdown"
             >
               <span

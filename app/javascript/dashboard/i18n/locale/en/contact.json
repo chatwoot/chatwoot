@@ -443,6 +443,9 @@
         }
       }
     },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "View details",
