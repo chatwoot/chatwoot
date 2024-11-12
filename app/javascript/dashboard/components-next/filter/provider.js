@@ -9,7 +9,7 @@ import languages from 'dashboard/components/widgets/conversation/advancedFilterI
 /**
  * Determines the input type for a custom attribute based on its key
  * @param {string} key - The attribute display type key
- * @returns {'date'|'plainText'|'searchSelect'} The corresponding input type
+ * @returns {'date'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
  */
 const customAttributeInputType = key => {
   switch (key) {
@@ -20,7 +20,7 @@ const customAttributeInputType = key => {
     case 'list':
       return 'searchSelect';
     case 'checkbox':
-      return 'searchSelect';
+      return 'booleanSelect';
     default:
       return 'plainText';
   }
@@ -31,7 +31,7 @@ const customAttributeInputType = key => {
  * @returns {{ filterTypes: import('vue').ComputedRef<Array<{
  *   attribute_key: string,
  *   attribute_name: string,
- *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date',
+ *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date'|'booleanSelect',
  *   data_type: 'text'|'number',
  *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
  *   attribute_model: 'standard'|'additional'|'customAttributes'
@@ -87,7 +87,7 @@ export function useConversationFilterContext() {
    * @type {import('vue').ComputedRef<Array<{
    *   attribute_key: string,
    *   attribute_name: string,
-   *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date',
+   *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date'|'booleanSelect',
    *   data_type: 'text'|'number',
    *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
    *   attribute_model: 'standard'|'additional'|'customAttributes'
