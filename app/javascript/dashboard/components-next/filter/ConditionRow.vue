@@ -45,6 +45,21 @@ const currentFilter = computed(() => {
   });
 });
 
+const currentOperator = computed(() => {
+  const operatorFromOptions = currentFilter.value.filter_operators.find(
+    operator => {
+      return operator.value === filterOperator.value;
+    }
+  );
+
+  if (!operatorFromOptions) return currentFilter.value.filter_operators[0];
+  return operatorFromOptions;
+});
+
+const inputType = computed(() => {
+  return currentOperator.value.inputOverride ?? currentFilter.value.input_type;
+});
+
 const queryOperatorOptions = computed(() => {
   return [
     {
@@ -64,17 +79,6 @@ const booleanOptions = computed(() => [
   { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
   { id: false, name: t('FILTER.ATTRIBUTE_LABELS.FALSE') },
 ]);
-
-const currentOperator = computed(() => {
-  const operatorFromOptions = currentFilter.value.filter_operators.find(
-    operator => {
-      return operator.value === filterOperator.value;
-    }
-  );
-
-  if (!operatorFromOptions) return currentFilter.value.filter_operators[0];
-  return operatorFromOptions;
-});
 </script>
 
 <template>
@@ -99,17 +103,17 @@ const currentOperator = computed(() => {
     />
     <template v-if="currentOperator.hasInput">
       <MultiSelect
-        v-if="currentFilter.input_type === 'multiSelect'"
+        v-if="inputType === 'multiSelect'"
         v-model="values"
         :options="currentFilter.options"
       />
       <SingleSelect
-        v-else-if="currentFilter.input_type === 'searchSelect'"
+        v-else-if="inputType === 'searchSelect'"
         v-model="values"
         :options="currentFilter.options"
       />
       <SingleSelect
-        v-else-if="currentFilter.input_type === 'booleanSelect'"
+        v-else-if="inputType === 'booleanSelect'"
         v-model="values"
         disable-search
         :options="booleanOptions"
@@ -117,7 +121,7 @@ const currentOperator = computed(() => {
       <input
         v-else
         v-model="values"
-        :type="currentFilter.input_type === 'date' ? 'date' : 'text'"
+        :type="inputType === 'date' ? 'date' : 'text'"
         class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base"
         :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
       />

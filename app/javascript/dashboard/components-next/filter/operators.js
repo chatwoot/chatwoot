@@ -28,6 +28,11 @@ const FILTER_OPS = {
 };
 
 const NO_INPUT_OPTS = [FILTER_OPS.IS_PRESENT, FILTER_OPS.IS_NOT_PRESENT];
+
+const OPS_INPUT_OVERRIDE = {
+  [FILTER_OPS.DAYS_BEFORE]: 'plainText',
+};
+
 /**
  * @type {Object.<string, string>}
  */
@@ -52,7 +57,7 @@ export function useOperators() {
   const { t } = useI18n();
 
   /**
-   * @type {import('vue').ComputedRef<Object.<string, {value: string, label: string, icon: string, hasInput: boolean}>>}
+   * @type {import('vue').ComputedRef<Object.<string, {value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>>}
    */
   const operators = computed(() => {
     return Object.values(FILTER_OPS).reduce((acc, value) => {
@@ -60,6 +65,7 @@ export function useOperators() {
         value,
         label: t(`FILTER.OPERATOR_LABELS.${value}`),
         hasInput: !NO_INPUT_OPTS.includes(value),
+        inputOverride: OPS_INPUT_OVERRIDE[value] || null,
         icon: h('span', {
           class: `${filterOperatorIcon[value]} !text-n-blue-text`,
         }),
@@ -69,7 +75,7 @@ export function useOperators() {
   });
 
   /**
-   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>>}
    */
   const equalityOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
@@ -77,7 +83,7 @@ export function useOperators() {
   ]);
 
   /**
-   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>>}
    */
   const presenceOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
@@ -87,7 +93,7 @@ export function useOperators() {
   ]);
 
   /**
-   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>>}
    */
   const containmentOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
@@ -97,7 +103,7 @@ export function useOperators() {
   ]);
 
   /**
-   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>>}
    */
   const comparisonOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
@@ -109,7 +115,7 @@ export function useOperators() {
   ]);
 
   /**
-   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string}>>}
+   * @type {import('vue').ComputedRef<Array<{value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>>}
    */
   const dateOperators = computed(() => [
     operators.value[FILTER_OPS.IS_GREATER_THAN],
@@ -120,7 +126,7 @@ export function useOperators() {
   /**
    * Get operator types based on key
    * @param {string} key - Type of operator to get
-   * @returns {Array<{value: string, label: string, icon: string}>}
+   * @returns {Array<{value: string, label: string, icon: string, inputOverride: string | null, hasInput: boolean}>}
    */
   const getOperatorTypes = key => {
     switch (key) {
