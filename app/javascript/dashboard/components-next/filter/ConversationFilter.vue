@@ -28,16 +28,24 @@ const addFilter = () => {
       {{ 'Filters' }}
     </div>
     <div class="grid gap-4">
-      <ConditionRow
-        v-for="(filter, index) in filters"
-        :key="filter.id"
-        v-model:attribute-key="filter.attribute_key"
-        v-model:filter-operator="filter.filter_operator"
-        v-model:query-operator="filter.query_operator"
-        v-model:values="filter.values"
-        :is-first="index === 0"
-        @remove="removeFilter(index)"
-      />
+      <template v-for="(filter, index) in filters" :key="filter.id">
+        <ConditionRow
+          v-if="index === 0"
+          v-model:attribute-key="filter.attribute_key"
+          v-model:filter-operator="filter.filter_operator"
+          v-model:values="filter.values"
+          is-first
+          @remove="removeFilter(index)"
+        />
+        <ConditionRow
+          v-else
+          v-model:attribute-key="filter.attribute_key"
+          v-model:filter-operator="filter.filter_operator"
+          v-model:query-operator="filters[index - 1].query_operator"
+          v-model:values="filter.values"
+          @remove="removeFilter(index)"
+        />
+      </template>
     </div>
 
     <div class="flex gap-2 justify-between mt-6">
