@@ -872,16 +872,18 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
       </DynamicScroller>
     </div>
+    <ConversationFilter
+      v-if="showAdvancedFilters"
+      v-model="appliedFilter"
+      @update:model-value="console.log"
+      @close="closeAdvanceFiltersModal"
+    />
     <woot-modal
+      v-if="false"
       v-model:show="showAdvancedFilters"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
-      <ConversationFilter
-        v-if="showAdvancedFilters"
-        v-model="appliedFilter"
-        @update:model-value="console.log"
-      />
       <ConversationAdvancedFilter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"

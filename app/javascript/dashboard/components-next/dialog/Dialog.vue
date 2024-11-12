@@ -101,25 +101,27 @@ defineExpose({ open, close });
           <slot name="form">
             <!-- Form content will be injected here -->
           </slot>
-          <div class="flex items-center justify-between w-full gap-3">
-            <Button
-              v-if="showCancelButton"
-              variant="faded"
-              color="slate"
-              :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
-              class="w-full"
-              @click="close"
-            />
-            <Button
-              v-if="showConfirmButton"
-              :color="type === 'edit' ? 'blue' : 'ruby'"
-              :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
-              class="w-full"
-              :is-loading="isLoading"
-              :disabled="disableConfirmButton || isLoading"
-              @click="confirm"
-            />
-          </div>
+          <slot name="footer">
+            <div class="flex items-center justify-between w-full gap-3">
+              <Button
+                v-if="showCancelButton"
+                variant="faded"
+                color="slate"
+                :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
+                class="w-full"
+                @click="close"
+              />
+              <Button
+                v-if="showConfirmButton"
+                :color="type === 'edit' ? 'blue' : 'ruby'"
+                :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
+                class="w-full"
+                :is-loading="isLoading"
+                :disabled="disableConfirmButton || isLoading"
+                @click="confirm"
+              />
+            </div>
+          </slot>
         </div>
       </OnClickOutside>
     </dialog>
