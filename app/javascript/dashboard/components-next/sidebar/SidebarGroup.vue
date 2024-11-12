@@ -122,7 +122,9 @@ const toggleTrigger = () => {
       <template v-for="child in children" :key="child.name">
         <SidebarSubGroup
           v-if="child.children"
-          v-bind="child"
+          :label="child.label"
+          :icon="child.icon"
+          :children="child.children"
           :is-expanded="isExpanded"
           :active-child="activeChild"
         />

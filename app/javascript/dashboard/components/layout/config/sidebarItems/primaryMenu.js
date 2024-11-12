@@ -22,7 +22,7 @@ const primaryMenuItems = accountId => [
     key: 'captain',
     label: 'CAPTAIN',
     featureFlag: FEATURE_FLAGS.CAPTAIN,
-    toState: frontendURL(`accounts/${accountId}/captain`),
+    toState: frontendURL(`accounts/${accountId}/captain/documents`),
     toStateName: 'captain',
   },
   {
