@@ -2,6 +2,7 @@ import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { useChannelIcon } from 'next/icon/provider';
 
 /**
  * Determines the input type for a custom attribute based on its key
@@ -43,6 +44,9 @@ export function useConversationFilterContext() {
 
   const labels = useMapGetter('labels/getLabels');
   const agents = useMapGetter('agents/getAgents');
+  const contacts = useMapGetter('contacts/getContacts');
+  const inboxes = useMapGetter('inboxes/getInboxes');
+  const teams = useMapGetter('teams/getTeams');
 
   const {
     equalityOperators,
@@ -127,6 +131,12 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       label: t('FILTER.ATTRIBUTES.INBOX_NAME'),
       input_type: 'searchSelect',
+      options: inboxes.value.map(inbox => {
+        return {
+          ...inbox,
+          icon: useChannelIcon(inbox).value,
+        };
+      }),
       data_type: 'text',
       filter_operators: presenceOperators.value,
       attribute_model: 'standard',
