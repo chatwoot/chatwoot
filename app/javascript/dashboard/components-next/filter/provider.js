@@ -42,6 +42,7 @@ export function useConversationFilterContext() {
   );
 
   const labels = useMapGetter('labels/getLabels');
+  const agents = useMapGetter('agents/getAgents');
 
   const {
     equalityOperators,
@@ -109,6 +110,13 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       label: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
       input_type: 'searchSelect',
+      options: agents.value.map(agent => {
+        return {
+          id: agent.id,
+          name: agent.name,
+          // TODO: add avatar using the Icon component, it can render any function that returns a VNode
+        };
+      }),
       data_type: 'text',
       filter_operators: presenceOperators.value,
       attribute_model: 'standard',

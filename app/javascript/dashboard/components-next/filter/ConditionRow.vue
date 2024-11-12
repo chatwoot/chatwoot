@@ -3,6 +3,7 @@ import { computed, defineModel } from 'vue';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
+import SearchSelect from './inputs/SearchSelect.vue';
 import { useConversationFilterContext } from './provider.js';
 
 defineProps({
@@ -79,7 +80,16 @@ const currentOperator = computed(() => {
       :options="currentFilter.filter_operators"
     />
     <template v-if="currentOperator.hasInput">
-      <MultiSelect v-model="values" :options="currentFilter.options" />
+      <MultiSelect
+        v-if="currentFilter.input_type === 'multiSelect'"
+        v-model="values"
+        :options="currentFilter.options"
+      />
+      <SearchSelect
+        v-else-if="currentFilter.input_type === 'searchSelect'"
+        v-model="values"
+        :options="currentFilter.options"
+      />
     </template>
     <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
   </div>
