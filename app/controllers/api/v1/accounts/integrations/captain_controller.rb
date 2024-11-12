@@ -18,11 +18,11 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   end
 
   def request_path
-    if params[:route] == '/sessions/profile'
-      'api/sessions/profile'
-    else
-      "api/accounts/#{hook.settings['account_id']}/#{params[:route]}"
-    end
+    request_route = with_leading_hash_on_route(params[:route])
+
+    return 'api/sessions/profile' if request_route == '/sessions/profile'
+
+    "api/accounts/#{hook.settings['account_id']}#{request_route}"
   end
 
   def request_url
@@ -39,6 +39,12 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
     raise 'Invalid or missing HTTP method' unless %w[get post put patch delete options head].include?(method)
 
     method
+  end
+
+  def with_leading_hash_on_route(request_route)
+    return '' if request_route.blank?
+
+    request_route.start_with?('/') ? request_route : "/#{request_route}"
   end
 
   def permitted_params
