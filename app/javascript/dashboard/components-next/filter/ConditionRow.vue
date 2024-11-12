@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel, h } from 'vue';
+import { computed, defineModel, h, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
@@ -79,6 +79,11 @@ const booleanOptions = computed(() => [
   { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
   { id: false, name: t('FILTER.ATTRIBUTE_LABELS.FALSE') },
 ]);
+
+watch(attributeKey, () => {
+  filterOperator.value = currentFilter.value.filter_operators[0].value;
+  values.value = '';
+});
 </script>
 
 <template>
