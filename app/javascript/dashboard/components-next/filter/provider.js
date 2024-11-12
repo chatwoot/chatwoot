@@ -3,6 +3,8 @@ import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
+import countries from 'shared/constants/countries.js';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 /**
  * Determines the input type for a custom attribute based on its key
@@ -44,9 +46,9 @@ export function useConversationFilterContext() {
 
   const labels = useMapGetter('labels/getLabels');
   const agents = useMapGetter('agents/getAgents');
-  const contacts = useMapGetter('contacts/getContacts');
   const inboxes = useMapGetter('inboxes/getInboxes');
   const teams = useMapGetter('teams/getTeams');
+  const campaigns = useMapGetter('campaigns/getAllCampaigns');
 
   const {
     equalityOperators,
@@ -147,6 +149,7 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       label: t('FILTER.ATTRIBUTES.TEAM_NAME'),
       input_type: 'searchSelect',
+      options: teams.value,
       data_type: 'number',
       filter_operators: presenceOperators.value,
       attribute_model: 'standard',
@@ -167,6 +170,10 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       label: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
       input_type: 'searchSelect',
+      options: campaigns.value.map(campaign => ({
+        id: campaign.id,
+        name: campaign.title,
+      })),
       datatype: 'number',
       filter_operators: presenceOperators.value,
       attribute_model: 'standard',
@@ -201,6 +208,7 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       label: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
       input_type: 'searchSelect',
+      options: languages,
       data_type: 'text',
       filter_operators: equalityOperators.value,
       attribute_model: 'additional',
@@ -211,6 +219,7 @@ export function useConversationFilterContext() {
       attribute_name: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       label: t('FILTER.ATTRIBUTES.COUNTRY_NAME'),
       input_type: 'searchSelect',
+      options: countries,
       data_type: 'text',
       filter_operators: equalityOperators.value,
       attribute_model: 'additional',
