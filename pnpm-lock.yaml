@@ -17,8 +17,8 @@ importers:
         specifier: ^1.2.7
         version: 1.2.7
       '@chatwoot/captain':
-        specifier: 0.0.3-alpha.3
-        version: 0.0.3-alpha.3(tailwindcss@3.4.13)(typescript@5.6.2)
+        specifier: 0.0.3-alpha.4
+        version: 0.0.3-alpha.4(tailwindcss@3.4.13)(typescript@5.6.2)
       '@chatwoot/ninja-keys':
         specifier: 1.2.3
         version: 1.2.3
@@ -386,8 +386,8 @@ packages:
   '@breezystack/lamejs@1.2.7':
     resolution: {integrity: sha512-6wc7ck65ctA75Hq7FYHTtTvGnYs6msgdxiSUICQ+A01nVOWg6rqouZB8IdyteRlfpYYiFovkf67dIeOgWIUzTA==}
 
-  '@chatwoot/captain@0.0.3-alpha.3':
-    resolution: {integrity: sha512-4PL8FK67BwOpGuSkrpQRR2W+g9IQAY339e1uuXQ8TwQ4v8YdJ2S2YExlhs3hDM3Kv/2UuNRNZJ7FQ76szos1Bw==}
+  '@chatwoot/captain@0.0.3-alpha.4':
+    resolution: {integrity: sha512-moUPBbwKGaS5Yxvxzb60vaM0bLkUiqxG8SI9Tyh1ELnKKg7ZMdvIpQDKYBabucoIq8Oje0gH6B/tuWGVaaEYJQ==}
 
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
@@ -1683,8 +1683,8 @@ packages:
     engines: {node: '>=0.10.0', npm: '>2.7.0'}
     os: [aix, darwin, freebsd, linux, macos, openbsd, sunos, win32, windows]
 
-  '@swc/helpers@0.5.13':
-    resolution: {integrity: sha512-UoKGxQ3r5kYI9dALKJapMmuK+1zWM/H17Z1+iwnNmzcJRnfFuevZs375TA5rW31pu4BS4NoSy1fRsexDXfWn5w==}
+  '@swc/helpers@0.5.15':
+    resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
   '@tailwindcss/typography@0.5.15':
     resolution: {integrity: sha512-AqhlCXl+8grUz8uqExv5OTtgpjuVIwFTSXTrh8y9/pw6q2ek7fJ+Y8ZEVw7EB2DCcuCOtEjf9w3+J3rzts01uA==}
@@ -1695,8 +1695,8 @@ packages:
     resolution: {integrity: sha512-P9dF7XbibHph2PFRz8gfBKEXEY/HJPOhym8CHmjF8y3q5mWpKx9xtZapXQUWCgkqvsK0R46Azuz+VaxD4Xl+Tg==}
     engines: {node: '>=12'}
 
-  '@tanstack/virtual-core@3.10.8':
-    resolution: {integrity: sha512-PBu00mtt95jbKFi6Llk9aik8bnR3tR/oQP1o3TSi+iG//+Q2RTIzCEgKkHG8BB86kxMNW6O8wku+Lmi+QFR6jA==}
+  '@tanstack/virtual-core@3.10.9':
+    resolution: {integrity: sha512-kBknKOKzmeR7lN+vSadaKWXaLS0SZZG+oqpQ/k80Q6g9REn6zRHS/ZYdrIzHnpHgy/eWs00SujveUN/GJT2qTw==}
 
   '@tanstack/vue-table@8.20.5':
     resolution: {integrity: sha512-2xixT3BEgSDw+jOSqPt6ylO/eutDI107t2WdFMVYIZZ45UmTHLySqNriNs0+dMaKR56K5z3t+97P6VuVnI2L+Q==}
@@ -1704,8 +1704,8 @@ packages:
     peerDependencies:
       vue: '>=3.2'
 
-  '@tanstack/vue-virtual@3.10.8':
-    resolution: {integrity: sha512-DB5QA8c/LfqOqIUCpSs3RdOTVroRRdqeHMqBkYrcashSZtOzIv8xbiqHgg7RYxDfkH5F3Y+e0MkuuyGNDVB0BQ==}
+  '@tanstack/vue-virtual@3.10.9':
+    resolution: {integrity: sha512-KU2quiwJQpA0sdflpXw24bhW+x8PG+FlrSJK3Ilobim671HNn4ztLVWUCEz3Inei4dLYq+GW1MK9X6i6ZeirkQ==}
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
@@ -4194,8 +4194,8 @@ packages:
     resolution: {integrity: sha512-AAFUA5O1d83pIHEhJwWCq/RQcRukCkn/NSm2QsTEMle5f2hP0ChI2+3Xb051PZCkLryI/Ir1MVKviT2FIloaTQ==}
     engines: {node: '>=12'}
 
-  radix-vue@1.9.8:
-    resolution: {integrity: sha512-4GvWHDhvyfo/Dih5BveUni/iZqENQ6iXXyVjRBewhFdEfnwE/Jl6NBNhcwrNi+XWjiJBJOY4B2ObQ/c7s+KsJA==}
+  radix-vue@1.9.9:
+    resolution: {integrity: sha512-DuL2o7jxNjzlSP5Ko+kJgrW5db+jC3RlnYQIs3WITTqgzfdeP7hXjcqIUveY1f0uXRpOAN3OAd5MZ/SpRyQzQQ==}
     peerDependencies:
       vue: '>= 3.2.0'
 
@@ -4639,6 +4639,9 @@ packages:
 
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
+
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   turbolinks@5.2.0:
     resolution: {integrity: sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==}
@@ -5166,7 +5169,7 @@ snapshots:
 
   '@breezystack/lamejs@1.2.7': {}
 
-  '@chatwoot/captain@0.0.3-alpha.3(tailwindcss@3.4.13)(typescript@5.6.2)':
+  '@chatwoot/captain@0.0.3-alpha.4(tailwindcss@3.4.13)(typescript@5.6.2)':
     dependencies:
       '@sentry/vue': 8.31.0(vue@3.5.12(typescript@5.6.2))
       '@tanstack/vue-table': 8.20.5(vue@3.5.12(typescript@5.6.2))
@@ -5177,7 +5180,7 @@ snapshots:
       date-fns: 3.6.0
       lucide-vue-next: 0.394.0(vue@3.5.12(typescript@5.6.2))
       pinia: 2.2.6(typescript@5.6.2)(vue@3.5.12(typescript@5.6.2))
-      radix-vue: 1.9.8(vue@3.5.12(typescript@5.6.2))
+      radix-vue: 1.9.9(vue@3.5.12(typescript@5.6.2))
       secure-ls: 2.0.0
       tailwind-merge: 2.5.4
       tailwindcss-animate: 1.0.7(tailwindcss@3.4.13)
@@ -5724,11 +5727,11 @@ snapshots:
 
   '@internationalized/date@3.5.6':
     dependencies:
-      '@swc/helpers': 0.5.13
+      '@swc/helpers': 0.5.15
 
   '@internationalized/number@3.5.4':
     dependencies:
-      '@swc/helpers': 0.5.13
+      '@swc/helpers': 0.5.15
 
   '@intlify/core-base@9.14.0':
     dependencies:
@@ -6635,9 +6638,9 @@ snapshots:
       '@stdlib/utils-constructor-name': 0.0.8
       '@stdlib/utils-global': 0.0.7
 
-  '@swc/helpers@0.5.13':
+  '@swc/helpers@0.5.15':
     dependencies:
-      tslib: 2.7.0
+      tslib: 2.8.1
 
   '@tailwindcss/typography@0.5.15(tailwindcss@3.4.13)':
     dependencies:
@@ -6649,16 +6652,16 @@ snapshots:
 
   '@tanstack/table-core@8.20.5': {}
 
-  '@tanstack/virtual-core@3.10.8': {}
+  '@tanstack/virtual-core@3.10.9': {}
 
   '@tanstack/vue-table@8.20.5(vue@3.5.12(typescript@5.6.2))':
     dependencies:
       '@tanstack/table-core': 8.20.5
       vue: 3.5.12(typescript@5.6.2)
 
-  '@tanstack/vue-virtual@3.10.8(vue@3.5.12(typescript@5.6.2))':
+  '@tanstack/vue-virtual@3.10.9(vue@3.5.12(typescript@5.6.2))':
     dependencies:
-      '@tanstack/virtual-core': 3.10.8
+      '@tanstack/virtual-core': 3.10.9
       vue: 3.5.12(typescript@5.6.2)
 
   '@tootallnate/once@2.0.0': {}
@@ -9549,13 +9552,13 @@ snapshots:
 
   quick-lru@6.1.2: {}
 
-  radix-vue@1.9.8(vue@3.5.12(typescript@5.6.2)):
+  radix-vue@1.9.9(vue@3.5.12(typescript@5.6.2)):
     dependencies:
       '@floating-ui/dom': 1.6.12
       '@floating-ui/vue': 1.1.5(vue@3.5.12(typescript@5.6.2))
       '@internationalized/date': 3.5.6
       '@internationalized/number': 3.5.4
-      '@tanstack/vue-virtual': 3.10.8(vue@3.5.12(typescript@5.6.2))
+      '@tanstack/vue-virtual': 3.10.9(vue@3.5.12(typescript@5.6.2))
       '@vueuse/core': 10.11.1(vue@3.5.12(typescript@5.6.2))
       '@vueuse/shared': 10.11.1(vue@3.5.12(typescript@5.6.2))
       aria-hidden: 1.2.4
@@ -10064,6 +10067,8 @@ snapshots:
   tslib@2.6.2: {}
 
   tslib@2.7.0: {}
+
+  tslib@2.8.1: {}
 
   turbolinks@5.2.0: {}
 
