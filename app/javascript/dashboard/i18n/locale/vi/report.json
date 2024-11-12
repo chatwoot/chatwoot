@@ -139,6 +139,7 @@
       }
     ],
     "BUSINESS_HOURS": "Giờ làm việc",
+    "TEAM_FILTER_LABEL": "Chọn nhóm làm việc",
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Không tìm thấy kết quả"

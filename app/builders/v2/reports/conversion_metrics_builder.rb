@@ -29,7 +29,11 @@ class V2::Reports::ConversionMetricsBuilder
   def team_conversion_metrics
     return [] if @won_stage.blank?
 
-    teams = Team.where(account_id: account.id).page(params[:page]).per(RESULTS_PER_PAGE)
+    teams = if filter_by_team?
+              Team.where(account_id: account.id, id: @params[:team_id]).page(params[:page]).per(RESULTS_PER_PAGE)
+            else
+              Team.where(account_id: account.id).page(params[:page]).per(RESULTS_PER_PAGE)
+            end
 
     teams.each_with_object([]) do |team, arr|
       arr << {
@@ -60,10 +64,20 @@ class V2::Reports::ConversionMetricsBuilder
     end
   end
 
-  def agent_conversion_metrics
+  def team
+    return unless filter_by_team?
+
+    @team ||= account.teams.find(params[:team_id])
+  end
+
+  def agent_conversion_metrics # rubocop:disable Metrics/AbcSize
     return [] if @won_stage.blank?
 
-    account_users = @account.account_users.page(params[:page]).per(RESULTS_PER_PAGE)
+    account_users = if filter_by_team?
+                      @account.account_users.joins(:team_members).where(team_members: { team_id: team.id }).page(params[:page]).per(RESULTS_PER_PAGE)
+                    else
+                      @account.account_users.page(params[:page]).per(RESULTS_PER_PAGE)
+                    end
 
     account_users.each_with_object([]) do |account_user, arr|
       @user = account_user.user
@@ -78,10 +92,15 @@ class V2::Reports::ConversionMetricsBuilder
     end
   end
 
-  def inbox_conversion_metrics
+  def inbox_conversion_metrics # rubocop:disable Metrics/AbcSize
     return [] if @won_stage.blank?
 
-    inboxes = @account.inboxes.page(params[:page]).per(RESULTS_PER_PAGE)
+    inboxes = if filter_by_team?
+                @account.inboxes.includes([:channel]).joins(:member_teams).where(team_id: team.id).distinct
+                        .or(@account.inboxes.includes([:channel]).joins(:member_teams).where(member_teams: { id: team.id }).distinct)
+              else
+                @account.inboxes.page(params[:page]).per(RESULTS_PER_PAGE)
+              end
 
     inboxes.each_with_object([]) do |inbox, arr|
       arr << {
@@ -102,5 +121,9 @@ class V2::Reports::ConversionMetricsBuilder
     }
     metric[:ratio] = (metric[:total_count].zero? ? 0 : (metric[:won_count] / metric[:total_count] * 100)).round
     metric
+  end
+
+  def filter_by_team?
+    @params[:team_id].present?
   end
 end

@@ -16,6 +16,7 @@ class ReportsAPI extends ApiClient {
     id,
     groupBy,
     businessHours,
+    team,
   }) {
     return axios.get(`${this.url}`, {
       params: {
@@ -27,18 +28,28 @@ class ReportsAPI extends ApiClient {
         group_by: groupBy,
         business_hours: businessHours,
         timezone_offset: getTimeOffset(),
+        team_id: team?.id,
       },
     });
   }
 
   // eslint-disable-next-line default-param-last
-  getSummary(since, until, type = 'account', id, groupBy, businessHours) {
+  getSummary(
+    since,
+    until,
+    id,
+    teamId,
+    groupBy,
+    businessHours,
+    type = 'account'
+  ) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
         until,
         type,
         id,
+        team_id: teamId,
         group_by: groupBy,
         business_hours: businessHours,
         timezone_offset: getTimeOffset(),
@@ -51,6 +62,7 @@ class ReportsAPI extends ApiClient {
     page = 1,
     from: since,
     to: until,
+    teamId,
   }) {
     return axios.get(`${this.url}/conversations`, {
       params: {
@@ -58,17 +70,25 @@ class ReportsAPI extends ApiClient {
         page,
         since,
         until,
+        team_id: teamId,
       },
     });
   }
 
-  getContactMetric({ type = 'account', page = 1, from: since, to: until }) {
+  getContactMetric({
+    type = 'account',
+    page = 1,
+    from: since,
+    to: until,
+    teamId,
+  }) {
     return axios.get(`${this.url}/contacts`, {
       params: {
         type,
         page,
         since,
         until,
+        team_id: teamId,
       },
     });
   }
@@ -142,6 +162,7 @@ class ReportsAPI extends ApiClient {
     to: until,
     page = 1,
     criteria_type = 'inbox',
+    teamId,
   }) {
     return axios.get(`${this.url}/conversions`, {
       params: {
@@ -149,6 +170,7 @@ class ReportsAPI extends ApiClient {
         until,
         page,
         criteria_type,
+        team_id: teamId,
       },
     });
   }

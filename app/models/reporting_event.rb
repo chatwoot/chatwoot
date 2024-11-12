@@ -35,4 +35,7 @@ class ReportingEvent < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :inbox, optional: true
   belongs_to :conversation, optional: true
+  # Assignee 's Information
+  has_many :team_members, through: :user
+  has_many :teams, through: :team_members
 end

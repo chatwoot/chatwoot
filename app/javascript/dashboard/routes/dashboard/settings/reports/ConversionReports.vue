@@ -5,6 +5,7 @@
         :show-agents-filter="false"
         :show-group-by-filter="false"
         :show-business-hours-switch="false"
+        :show-team-filter="true"
         @filter-change="onFilterChange"
       />
     </div>
@@ -113,6 +114,7 @@ export default {
       inboxPageIndex: 1,
       from: 0,
       to: 0,
+      team: null,
     };
   },
   computed: {
@@ -151,7 +153,7 @@ export default {
       });
     },
     getRequestPayload(criteriaKey) {
-      const { from, to } = this;
+      const { from, to, team } = this;
       const getPageIndex = key => {
         switch (key) {
           case 'TEAM':
@@ -169,6 +171,7 @@ export default {
       return {
         from,
         to,
+        team,
         page: getPageIndex(criteriaKey),
       };
     },
@@ -188,13 +191,13 @@ export default {
       this.inboxPageIndex = pageIndex;
       this.fetchTablesData(['INBOX']);
     },
-    onFilterChange({ from, to }) {
+    onFilterChange({ from, to, selectedTeam }) {
       this.from = from;
       this.to = to;
+      this.team = selectedTeam;
       this.fetchTablesData();
-
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to },
+        filterValue: { from, to, selectedTeam },
         reportType: 'conversion',
       });
     },

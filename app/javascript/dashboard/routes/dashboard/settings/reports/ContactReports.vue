@@ -3,6 +3,7 @@
     <div class="p-2">
       <report-filter-selector
         :show-business-hours-switch="false"
+        :show-team-filter="true"
         @filter-change="onFilterChange"
       />
     </div>
@@ -58,9 +59,9 @@
         :is-live="false"
       >
         <agent-table
-          :agents="agents"
+          :agents="tableAgents"
           :stages="stages"
-          :agent-metrics="agentContactMetric"
+          :agent-metrics="tableAgentContactMetric"
           :page-index="pageIndex"
           :is-loading="uiFlags.isFetchingAgentContactMetric"
           @page-change="onPageNumberChange"
@@ -88,6 +89,7 @@ export default {
       pageIndex: 1,
       from: 0,
       to: 0,
+      team: null,
     };
   },
   computed: {
@@ -98,11 +100,25 @@ export default {
       agentContactMetric: 'getAgentContactMetric',
       uiFlags: 'getContactUIFlags',
     }),
+    tableAgentContactMetric() {
+      // Compact records
+      return this.agentContactMetric.filter(
+        rowData =>
+          rowData.metric && !Object.values(rowData.metric).every(v => v === 0)
+      );
+    },
+    tableAgents() {
+      const displayAgentIds = this.tableAgentContactMetric.map(
+        rowData => rowData.id
+      );
+      // Compact records
+      return this.agents.filter(agent => displayAgentIds.includes(agent.id));
+    },
     contactMetrics() {
       let metric = {};
       Object.keys(this.accountContactMetric).forEach(key => {
         const stage = this.stages.find(item => item.code === key);
-        if (!stage?.allow_disabled) {
+        if (stage && !stage?.allow_disabled) {
           const metricName = stage.name;
           metric[metricName] = this.accountContactMetric[key];
         }
@@ -113,32 +129,22 @@ export default {
       if (!this.stages || this.stages.length === 0) return null;
 
       let metric = {};
-      let total = 0;
-      let qualifiedToWon = 0;
 
-      const qualified = this.stages.find(i => i.code === 'Qualified');
-      Object.keys(this.accountContactMetric).forEach(key => {
-        total += this.accountContactMetric[key];
-        const stage = this.stages.find(i => i.code === key);
-        if (stage.id >= qualified.id)
-          qualifiedToWon += this.accountContactMetric[key];
-      });
+      const { wonFromNew, wonFromCare, totalFromNew, totalFromCare } =
+        this.accountContactMetric;
 
       const newToWonName = `${this.stages.find(i => i.code === 'New').name} ->
         ${this.stages.find(i => i.code === 'Won').name}`;
       metric[newToWonName] =
-        total === 0
-          ? 0
-          : Math.round((this.accountContactMetric.Won / total) * 100);
+        totalFromNew === 0 ? 0 : Math.round((wonFromNew / totalFromNew) * 100);
 
-      const qualifiedToWonName = `${
-        this.stages.find(i => i.code === 'Qualified').name
-      } ->
-        ${this.stages.find(i => i.code === 'Won').name}`;
-      metric[qualifiedToWonName] =
-        qualifiedToWon === 0
+      const careToWonName = `${
+        this.stages.find(i => i.code === 'Care').name
+      } -> ${this.stages.find(i => i.code === 'Won').name}`;
+      metric[careToWonName] =
+        totalFromCare === 0
           ? 0
-          : Math.round((this.accountContactMetric.Won / qualifiedToWon) * 100);
+          : Math.round((wonFromCare / totalFromCare) * 100);
 
       return metric;
     },
@@ -158,6 +164,7 @@ export default {
         type: 'account',
         from: this.from,
         to: this.to,
+        team: this.team,
       });
     },
     fetchAgentContactMetric() {
@@ -166,19 +173,21 @@ export default {
         page: this.pageIndex,
         from: this.from,
         to: this.to,
+        team: this.team,
       });
     },
     onPageNumberChange(pageIndex) {
       this.pageIndex = pageIndex;
       this.fetchAgentContactMetric();
     },
-    onFilterChange({ from, to }) {
+    onFilterChange({ from, to, selectedTeam }) {
       this.from = from;
       this.to = to;
+      this.team = selectedTeam;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to },
+        filterValue: { from, to, selectedTeam },
         reportType: 'conversion',
       });
     },

@@ -151,7 +151,12 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def team
-    @team ||= account.teams.find(params[:id])
+    @team ||=
+      if params[:type].equal?(:team)
+        account.teams.find(params[:id])
+      elsif params[:team_id].present?
+        account.teams.find(params[:team_id])
+      end
   end
 
   def get_grouped_values(object_scope)
@@ -181,7 +186,12 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def live_conversations
-    @open_conversations = scope.conversations.where(account_id: @account.id, created_at: range).open
+    @open_conversations = if filter_by_team?
+                            open_conversations_by_team
+                          else
+                            scope.conversations.where(account_id: @account.id, created_at: range).open
+                          end
+
     metric = {
       open: @open_conversations.count,
       unattended: @open_conversations.unattended.count
@@ -191,16 +201,108 @@ class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
     metric
   end
 
-  def contacts_by_stage
-    stages = Stage.where(account_id: @account.id)
+  def open_conversations_by_team
+    scope.conversations
+         .joins(:assignee_team_members)
+         .where(account_id: account.id, created_at: range, team_members: { team_id: team.id }).open
+         .or(
+           scope.conversations.joins(:assignee_team_members).where(account_id: account.id, created_at: range,
+                                                                   team_id: team.id).open
+         )
+  end
 
+  # rubocop:disable Metrics/AbcSize
+  def contacts_by_stage
     result = {}
+
+    stages = Stage.where(account_id: @account.id).order(:id)
     stages.each do |stage|
       result[stage.code] =
         @user ? stage.contacts.where(assignee_id: @user.id, last_stage_changed_at: range).count : stage.contacts.where(created_at: range).count
     end
+
+    # Based on contact_transaction, we count contact_transactions if = 1 is won by new customers,
+    # if > 1 is won by old customers
+    won_fr_new_count, won_fr_care_count = won_count_from_contacts.values_at(:won_fr_new_count, :won_fr_care_count)
+    result[:wonFromNew] = won_fr_new_count
+    result[:wonFromCare] = won_fr_care_count
+
+    # For the new total, we sum the stages with the type deal or both, and the old ones are retention or both
+    fr_new_all_contacts, fr_care_all_contacts =
+      total_of_won_from_contacts.values_at(:fr_new_all_contacts, :fr_care_all_contacts)
+
+    # Results need to except the 'Won' contacts from non-relevant source
+    result[:totalFromNew] = fr_new_all_contacts.count - result[:wonFromCare]
+    result[:totalFromCare] = fr_care_all_contacts.count - result[:wonFromNew]
+
     result
   end
+  # rubocop:enable Metrics/AbcSize
+
+  def won_count_from_contacts
+    @won_stage = Stage.find_by(code: 'Won')
+    query_string, filter_values = contacts_by_stage_query_hash.values_at(:query_string, :filter_values)
+    # @base_relation gets contacts by 'Won' stage with filter conditions
+    @base_relation = @won_stage.contacts.where(query_string, filter_values.with_indifferent_access)
+
+    # Based on contact_transaction, we count contact_transactions if = 1 is won by new customers,
+    # if > 1 is won by old customers
+    @won_fr_new_contacts = @base_relation.joins(:contact_transactions).group('contacts.id').having('COUNT(contact_transactions.id) = 1')
+    @won_fr_care_contacts = @base_relation.joins(:contact_transactions).group('contacts.id').having('COUNT(contact_transactions.id) > 1')
+
+    {
+      won_fr_new_count: @won_fr_new_contacts.count.values.sum,
+      won_fr_care_count: @won_fr_care_contacts.count.values.sum
+    }
+  end
+
+  def total_of_won_from_contacts
+    query_string, filter_values = contacts_by_stage_query_hash.values_at(:query_string, :filter_values)
+    # Get the stages relevant to contacts just messaged at first time
+    fr_new_stages = Stage.where(stage_type: %i[deals both]).enabled
+    # Get the stages relevant to contacts we are taking care of
+    fr_care_stages = Stage.where(stage_type: %i[retention both]).enabled
+
+    {
+      fr_new_all_contacts: Contact.joins(:stage)
+                                  .where(query_string, filter_values.with_indifferent_access)
+                                  .where(stage: { id: fr_new_stages.ids }),
+      fr_care_all_contacts: Contact.joins(:stage)
+                                   .where(query_string, filter_values.with_indifferent_access)
+                                   .where(stage: { id: fr_care_stages.ids })
+    }
+  end
+
+  # rubocop:disable Metrics/AbcSize
+  def contacts_by_stage_query_hash # rubocop:disable Metrics/MethodLength
+    @query_string = ''
+    @filter_values = {}
+
+    if @user.present?
+      @query_string += 'contacts.assignee_id = (:value_0)'
+      @filter_values['value_0'] = @user.id
+      if range.present?
+        @query_string += ' AND contacts.last_stage_changed_at > (:value_1) AND contacts.last_stage_changed_at < (:value_2)'
+        @filter_values['value_1'] = parse_date_time(params[:since])
+        @filter_values['value_2'] = parse_date_time(params[:until])
+      end
+    elsif range.present?
+      @query_string += ' contacts.created_at > (:value_1) AND contacts.created_at < (:value_2)'
+      @filter_values['value_1'] = parse_date_time(params[:since])
+      @filter_values['value_2'] = parse_date_time(params[:until])
+    end
+
+    if filter_by_team?
+      @query_string += ' AND contacts.team_id = (:value_3)'
+      @filter_values['value_3'] = team.id
+    end
+
+    {
+      query_string: @query_string,
+      filter_values: @filter_values
+    }
+  end
+  # rubocop:enable Metrics/AbcSize
 
   def agent_contacts
     account_users = @account.account_users.page(params[:page]).per(RESULTS_PER_PAGE)

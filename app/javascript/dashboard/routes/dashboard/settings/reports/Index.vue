@@ -11,6 +11,7 @@
     <report-filter-selector
       :show-agents-filter="false"
       :show-group-by-filter="true"
+      :show-team-filter="true"
       @filter-change="onFilterChange"
     />
     <report-container :group-by="groupBy" />
@@ -51,6 +52,7 @@ export default {
       to: 0,
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
+      team: null,
     };
   },
   computed: {
@@ -92,13 +94,14 @@ export default {
       });
     },
     getRequestPayload() {
-      const { from, to, groupBy, businessHours } = this;
+      const { from, to, groupBy, businessHours, team } = this;
 
       return {
         from,
         to,
         groupBy: groupBy?.period,
         businessHours,
+        team,
       };
     },
     downloadAgentReports() {
@@ -109,15 +112,16 @@ export default {
       )}.csv`;
       this.$store.dispatch('downloadAgentReports', { from, to, fileName });
     },
-    onFilterChange({ from, to, groupBy, businessHours }) {
+    onFilterChange({ from, to, groupBy, businessHours, selectedTeam }) {
       this.from = from;
       this.to = to;
       this.groupBy = groupBy;
       this.businessHours = businessHours;
+      this.team = selectedTeam;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to, groupBy, businessHours },
+        filterValue: { from, to, groupBy, businessHours, selectedTeam },
         reportType: 'conversations',
       });
     },

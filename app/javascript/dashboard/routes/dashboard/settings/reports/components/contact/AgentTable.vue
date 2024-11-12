@@ -79,7 +79,8 @@ export default {
           data[stage.code] = agent.metric[stage.code] || 0;
           total += data[stage.code];
         });
-        data.conversionRate = Math.round((data.Won / total) * 100);
+        data.conversionRate =
+          total === 0 ? 0 : Math.round((data.Won / total) * 100);
         return data;
       });
     },

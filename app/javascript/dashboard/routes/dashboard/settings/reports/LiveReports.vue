@@ -3,6 +3,7 @@
     <div class="p-2">
       <report-filter-selector
         :show-business-hours-switch="false"
+        :show-team-filter="true"
         @filter-change="onFilterChange"
       />
     </div>
@@ -84,6 +85,7 @@ export default {
       pageIndex: 1,
       from: 0,
       to: 0,
+      team: null,
     };
   },
   computed: {
@@ -134,6 +136,7 @@ export default {
         type: 'account',
         from: this.from,
         to: this.to,
+        team: this.team,
       });
     },
     fetchAgentConversationMetric() {
@@ -142,19 +145,21 @@ export default {
         page: this.pageIndex,
         from: this.from,
         to: this.to,
+        team: this.team,
       });
     },
     onPageNumberChange(pageIndex) {
       this.pageIndex = pageIndex;
       this.fetchAgentConversationMetric();
     },
-    onFilterChange({ from, to }) {
+    onFilterChange({ from, to, selectedTeam }) {
       this.from = from;
       this.to = to;
+      this.team = selectedTeam;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to },
+        filterValue: { from, to, selectedTeam },
         reportType: 'conversion',
       });
     },

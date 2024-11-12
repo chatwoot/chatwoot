@@ -120,6 +120,24 @@
           @input="changeFilterSelection"
         />
       </div>
+      <div
+        v-if="['inbox', 'label'].includes(type)"
+        class="mx-1 md:w-[240px] w-full multiselect-wrap--small"
+      >
+        <p class="text-xs mb-2 font-medium">
+          {{ $t('REPORT.TEAM_FILTER_LABEL') }}
+        </p>
+        <multiselect
+          v-model="currentTeamSelection"
+          track-by="name"
+          label="name"
+          :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
+          :options="teams"
+          :option-height="24"
+          :show-labels="false"
+          @input="changeTeamSelection"
+        />
+      </div>
       <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
         <p class="text-xs mb-2 font-medium">
           {{ $t('REPORT.DURATION_FILTER_LABEL') }}
@@ -180,6 +198,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
@@ -217,6 +236,7 @@ export default {
     return {
       currentSelectedFilter: null,
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
+      currentTeamSelection: null,
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
@@ -224,6 +244,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ teams: 'teams/getTeams' }),
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
@@ -306,6 +327,11 @@ export default {
     changeDateSelection(selectedRange) {
       this.currentDateRangeSelection = selectedRange;
       this.onDateRangeChange();
+    },
+    changeTeamSelection() {
+      this.$emit('team-change', {
+        team: this.currentTeamSelection,
+      });
     },
     changeFilterSelection() {
       this.$emit('filter-change', this.currentSelectedFilter);

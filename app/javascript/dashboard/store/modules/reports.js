@@ -173,6 +173,7 @@ export const actions = {
       reportObj.to,
       reportObj.type,
       reportObj.id,
+      reportObj.team?.id,
       reportObj.groupBy,
       reportObj.businessHours
     )
@@ -203,6 +204,7 @@ export const actions = {
       type: reportObj.type,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(accountConversationMetric => {
         commit(
@@ -222,6 +224,7 @@ export const actions = {
       page: reportObj.page,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(agentConversationMetric => {
         commit(
@@ -240,6 +243,7 @@ export const actions = {
       type: reportObj.type,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(accountContactMetric => {
         commit(
@@ -259,6 +263,7 @@ export const actions = {
       page: reportObj.page,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(agentContactMetric => {
         commit(types.default.SET_AGENT_CONTACT_METRIC, agentContactMetric.data);
@@ -276,6 +281,7 @@ export const actions = {
       criteria_type: reportObj.criteria_type,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(metric => {
         commit(types.default.SET_TEAM_CONVERSION_METRIC, metric.data);
@@ -293,6 +299,7 @@ export const actions = {
       criteria_type: reportObj.criteria_type,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(metric => {
         commit(types.default.SET_DATA_SOURCE_CONVERSION_METRIC, metric.data);
@@ -316,6 +323,7 @@ export const actions = {
       criteria_type: reportObj.criteria_type,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(metric => {
         commit(types.default.SET_AGENT_CONVERSION_METRIC, metric.data);
@@ -333,6 +341,7 @@ export const actions = {
       criteria_type: reportObj.criteria_type,
       from: reportObj.from,
       to: reportObj.to,
+      teamId: reportObj.team?.id,
     })
       .then(metric => {
         commit(types.default.SET_INBOX_CONVERSION_METRIC, metric.data);

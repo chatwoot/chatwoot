@@ -15,6 +15,7 @@
       :group-by-filter-items-list="groupByfilterItemsList"
       :selected-group-by-filter="selectedGroupByFilter"
       @date-range-change="onDateRangeChange"
+      @team-change="onTeamChange"
       @filter-change="onFilterChange"
       @group-by-filter-change="onGroupByFilterChange"
       @business-hours-toggle="onBusinessHoursToggle"
@@ -74,6 +75,7 @@ export default {
       groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: null,
       businessHours: false,
+      team: null,
     };
   },
   computed: {
@@ -95,6 +97,7 @@ export default {
           id: this.selectedFilter.id,
           groupBy: groupBy.period,
           businessHours,
+          team: this.team,
         });
         this.fetchChartData();
       }
@@ -160,6 +163,10 @@ export default {
         this.selectedGroupByFilter = this.groupByfilterItemsList[0];
         this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
       }
+      this.fetchAllData();
+    },
+    onTeamChange({ team }) {
+      this.team = team;
       this.fetchAllData();
     },
     onFilterChange(payload) {

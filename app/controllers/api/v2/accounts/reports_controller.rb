@@ -107,6 +107,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     {
       type: params[:type].to_sym,
       id: params[:id],
+      team_id: params[:team_id], # team_id should get null on several pages like team reports,...
       group_by: params[:group_by],
       business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
     }
@@ -143,7 +144,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       user_id: params[:user_id],
       page: params[:page].presence || 1,
       since: params[:since],
-      until: params[:until]
+      until: params[:until],
+      team_id: params[:team_id]
     }
   end
 
@@ -158,7 +160,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       criteria_type: params[:criteria_type].to_sym || :inbox,
       page: params[:page].presence || 1,
       since: params[:since],
-      until: params[:until]
+      until: params[:until],
+      team_id: params[:team_id]
     }
   end
 

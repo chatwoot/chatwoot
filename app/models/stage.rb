@@ -29,6 +29,8 @@ class Stage < ApplicationRecord
   enum stage_type: { deals: 0, retention: 1, both: 2 }
   enum status: { ongoing: 0, ended: 1 }
 
+  scope :enabled, -> { where(disabled: false) }
+
   STAGE_TYPE_MAPPING = {
     'deals' => 0,
     'retention' => 1,
