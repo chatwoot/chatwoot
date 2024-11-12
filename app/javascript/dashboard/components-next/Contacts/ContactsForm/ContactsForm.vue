@@ -8,6 +8,7 @@ import countries from 'shared/constants/countries.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
 
 const props = defineProps({
   contactData: {
@@ -219,6 +220,12 @@ defineExpose({
               '[&>div>button]:!outline-n-weak [&>div>button]:hover:!outline-n-strong [&>div>button]:!bg-n-alpha-black2':
                 isDetailsView,
             }"
+            @update:model-value="emit('update', state)"
+          />
+          <PhoneNumberInput
+            v-else-if="item.key === 'PHONE_NUMBER'"
+            v-model="getFormBinding(item.key).value"
+            :placeholder="item.placeholder"
             @update:model-value="emit('update', state)"
           />
           <Input

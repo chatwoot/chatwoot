@@ -42,8 +42,9 @@ const filteredMenuItems = computed(() => {
   );
 });
 
-const handleAction = (action, value) => {
-  emit('action', { action, value });
+const handleAction = item => {
+  const { action, value, ...rest } = item;
+  emit('action', { action, value, ...rest });
 };
 
 onMounted(() => {
@@ -79,7 +80,8 @@ onMounted(() => {
         'text-n-slate-12': item.action !== 'delete',
       }"
       :disabled="item.disabled"
-      @click="handleAction(item.action, item.value)"
+      @click="handleAction(item)"
+      @keydown.enter="handleAction(item)"
     >
       <slot name="thumbnail" :item="item">
         <Avatar
