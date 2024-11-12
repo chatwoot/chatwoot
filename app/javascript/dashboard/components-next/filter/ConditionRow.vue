@@ -1,5 +1,6 @@
 <script setup>
-import { computed, defineModel } from 'vue';
+import { computed, defineModel, h } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
@@ -14,6 +15,7 @@ defineProps({
 });
 
 const emit = defineEmits(['remove']);
+const { t } = useI18n();
 const { filterTypes } = useConversationFilterContext();
 
 const attributeKey = defineModel('attributeKey', {
@@ -37,14 +39,25 @@ const queryOperator = defineModel('queryOperator', {
   validator: value => ['and', 'or'].includes(value),
 });
 
-const toggleQueryOperator = () => {
-  queryOperator.value = queryOperator.value === 'and' ? 'or' : 'and';
-};
-
 const currentFilter = computed(() => {
   return filterTypes.value.find(filterObj => {
     return filterObj.attribute_key === attributeKey.value;
   });
+});
+
+const queryOperatorOptions = computed(() => {
+  return [
+    {
+      label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
+      value: 'and',
+      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-text' }),
+    },
+    {
+      label: t(`FILTER.QUERY_DROPDOWN_LABELS.OR`),
+      value: 'or',
+      icon: h('span', { class: 'i-woot-logic-or !text-n-blue-text' }),
+    },
+  ];
 });
 
 const currentOperator = computed(() => {
@@ -61,14 +74,13 @@ const currentOperator = computed(() => {
 
 <template>
   <div class="flex items-center gap-2 rounded-md">
-    <Button
+    <FilterSelect
       v-if="!isFirst"
-      sm
-      faded
-      slate
-      class="text-xs font-mono tracking-wider min-w-12"
-      :label="queryOperator === 'and' ? 'AND' : 'OR'"
-      @click="toggleQueryOperator"
+      v-model="queryOperator"
+      variant="faded"
+      hide-icon
+      class="text-sm"
+      :options="queryOperatorOptions"
     />
     <FilterSelect
       v-model="attributeKey"

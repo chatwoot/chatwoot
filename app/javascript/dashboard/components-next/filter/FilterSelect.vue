@@ -16,6 +16,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideIcon: {
+    type: Boolean,
+    default: false,
+  },
   variant: {
     type: String,
     default: 'faded',
@@ -31,6 +35,11 @@ const selectedOption = computed(() => {
   return props.options.find(o => o.value === selected.value) || {};
 });
 
+const iconToRender = computed(() => {
+  if (props.hideIcon) return null;
+  return selectedOption.value.icon || 'i-lucide-chevron-down';
+});
+
 const updateSelected = newValue => {
   selected.value = newValue;
 };
@@ -44,7 +53,7 @@ const updateSelected = newValue => {
           sm
           slate
           :variant
-          :icon="selectedOption.icon ?? 'i-lucide-chevron-down'"
+          :icon="iconToRender"
           :trailing-icon="selectedOption.icon ? false : true"
           :label="hideLabel ? null : selectedOption.label"
           @click="toggle"
