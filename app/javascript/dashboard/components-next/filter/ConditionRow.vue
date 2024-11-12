@@ -4,6 +4,7 @@ import Button from 'next/button/Button.vue';
 import FilterSelect from './FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
 import SearchSelect from './inputs/SearchSelect.vue';
+import PlainText from './inputs/PlainText.vue';
 import { useConversationFilterContext } from './provider.js';
 
 defineProps({
@@ -89,6 +90,10 @@ const currentOperator = computed(() => {
         v-else-if="currentFilter.input_type === 'searchSelect'"
         v-model="values"
         :options="currentFilter.options"
+      />
+      <PlainText
+        v-else-if="currentFilter.input_type === 'plainText'"
+        v-model="values"
       />
     </template>
     <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
