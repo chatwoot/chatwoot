@@ -108,7 +108,7 @@ defineExpose({ open, close });
           <slot name="form">
             <!-- Form content will be injected here -->
           </slot>
-          <slot name="actions">
+          <slot name="footer">
             <div class="flex items-center justify-between w-full gap-3">
               <Button
                 v-if="showCancelButton"

@@ -38,7 +38,7 @@ defineExpose({ dialogRef });
     <template #form>
       <ContactsForm is-new-contact @update="createNewContact" />
     </template>
-    <template #actions>
+    <template #footer>
       <div class="flex items-center justify-between w-full gap-3">
         <Button
           :label="t('DIALOG.BUTTONS.CANCEL')"
