@@ -78,6 +78,7 @@ const filteredUnusedAttributes = computed(() => {
 });
 
 const unusedAttributesCount = computed(() => unusedAttributes.value?.length);
+const hasNoUnusedAttributes = computed(() => unusedAttributesCount.value === 0);
 </script>
 
 <template>
@@ -90,7 +91,7 @@ const unusedAttributesCount = computed(() => unusedAttributes.value?.length);
         :attribute="attribute"
       />
     </div>
-    <div class="flex items-center gap-3">
+    <div v-if="!hasNoUnusedAttributes" class="flex items-center gap-3">
       <div class="flex-1 h-[1px] bg-n-slate-5" />
       <span class="text-sm font-medium text-n-slate-10">{{
         t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.UNUSED_ATTRIBUTES', {
@@ -99,7 +100,7 @@ const unusedAttributesCount = computed(() => unusedAttributes.value?.length);
       }}</span>
       <div class="flex-1 h-[1px] bg-n-slate-5" />
     </div>
-    <div class="relative">
+    <div v-if="!hasNoUnusedAttributes" class="relative">
       <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
       <input
         v-model="searchQuery"
@@ -110,16 +111,12 @@ const unusedAttributesCount = computed(() => unusedAttributes.value?.length);
         class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-xl bg-n-solid-1 text-n-slate-12"
       />
     </div>
-    <div v-if="filteredUnusedAttributes.length === 0">
+    <div v-if="filteredUnusedAttributes.length === 0 && !hasNoUnusedAttributes">
       <p class="text-sm text-n-slate-11">
-        {{
-          unusedAttributesCount === 0
-            ? t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.EMPTY_STATE')
-            : t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.NO_ATTRIBUTES')
-        }}
+        {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.EMPTY_STATE') }}
       </p>
     </div>
-    <div class="flex flex-col gap-2">
+    <div v-if="!hasNoUnusedAttributes" class="flex flex-col gap-2">
       <ContactCustomAttributeItem
         v-for="attribute in filteredUnusedAttributes"
         :key="attribute.id"

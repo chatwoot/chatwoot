@@ -572,7 +572,6 @@
           "INVALID_DATE": "Invalid date"
         },
         "NO_ATTRIBUTES": "No attributes found",
-        "EMPTY_STATE": "No unused attributes found",
         "API": {
           "SUCCESS_MESSAGE": "Attribute updated successfully",
           "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",

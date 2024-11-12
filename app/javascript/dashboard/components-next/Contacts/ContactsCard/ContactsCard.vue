@@ -120,10 +120,7 @@ const onClickViewDetails = async () => {
         leave-from-class="opacity-100 max-h-[360px]"
         leave-to-class="overflow-hidden opacity-0 max-h-0"
       >
-        <div
-          v-show="isExpanded"
-          class="w-full overflow-visible transition-all duration-200"
-        >
+        <div v-show="isExpanded" class="w-full">
           <div class="p-6 border-t border-n-strong">
             <ContactsForm
               :contact-data="{
