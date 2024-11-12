@@ -66,7 +66,7 @@ const toggleSelected = newValue => {
         @click="toggle"
       />
     </template>
-    <DropdownBody class="top-0 min-w-48 z-[999]">
+    <DropdownBody class="top-0 min-w-56 z-[999]">
       <div class="relative">
         <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
         <input
