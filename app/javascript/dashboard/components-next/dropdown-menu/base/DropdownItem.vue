@@ -8,6 +8,7 @@ const props = defineProps({
   icon: { type: [String, Object, Function], default: '' },
   link: { type: String, default: '' },
   click: { type: Function, default: null },
+  disabled: { type: Boolean, default: false },
   preserveOpen: { type: Boolean, default: false },
 });
 const emit = defineEmits(['click']);
@@ -37,9 +38,11 @@ const triggerClick = () => {
     <component
       :is="componentIs"
       v-bind="$attrs"
-      class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full"
+      class="flex text-left rtl:text-right items-center p-2 reset-base text-sm w-full"
       :class="{
         'hover:bg-n-alpha-1 rounded-lg w-full gap-3': !$slots.default,
+        'pointer-events-none text-n-slate-11': props.disabled,
+        'text-n-slate-12': !props.disabled,
       }"
       :href="props.link || null"
       @click="triggerClick"
