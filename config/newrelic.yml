@@ -20,6 +20,12 @@ common: &default_settings
     sampling:
       rate: 0.1               # Sample 10% of traces instead of 100%
 
+  # Source: https://docs.newrelic.com/docs/apm/agents/ruby-agent/configuration/ruby-agent-configuration/#attributes
+  attributes:
+    exclude:
+      - request.headers.*      # Exclude request headers from traces
+      - response.headers.*     # Exclude response headers from traces
+
   # To disable the agent regardless of other settings, uncomment the following:
   agent_enabled: <%= ENV['NEW_RELIC_LICENSE_KEY'].present? && ENV.fetch('NEW_RELIC_AGENT_ENABLED', true)  %>
 
