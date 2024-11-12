@@ -20,6 +20,10 @@ const attributes = useMapGetter('attributes/getAttributesByModelType');
 
 const contactAttributes = computed(() => attributes.value('contact_attribute'));
 
+const hasContactAttributes = computed(
+  () => contactAttributes.value?.length > 0
+);
+
 // Convert attribute key value from snake_case to camelCase
 const toCamelCase = str =>
   str.toLowerCase().replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
@@ -79,11 +83,12 @@ const filteredUnusedAttributes = computed(() => {
 
 const unusedAttributesCount = computed(() => unusedAttributes.value?.length);
 const hasNoUnusedAttributes = computed(() => unusedAttributesCount.value === 0);
+const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 px-6 py-6">
-    <div class="flex flex-col gap-2">
+  <div v-if="hasContactAttributes" class="flex flex-col gap-6 px-6 py-6">
+    <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
       <ContactCustomAttributeItem
         v-for="attribute in usedAttributes"
         :key="attribute.id"
@@ -129,4 +134,7 @@ const hasNoUnusedAttributes = computed(() => unusedAttributesCount.value === 0);
       </div>
     </div>
   </div>
+  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+    {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.EMPTY_STATE') }}
+  </p>
 </template>

@@ -536,7 +536,11 @@
         "PLACEHOLDER": "Add a note",
         "WROTE": "wrote",
         "YOU": "You",
-        "SAVE": "Save note"
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "There are no previous conversations associated to this contact"
       },
       "MERGE": {
         "TITLE": "Merge contact",
@@ -561,6 +565,7 @@
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
         "YES": "Yes",
         "NO": "No",
         "TRIGGER": {

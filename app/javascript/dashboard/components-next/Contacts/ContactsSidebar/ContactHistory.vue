@@ -2,10 +2,12 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ConversationCard from 'dashboard/components-next/Conversation/ConversationCard/ConversationCard.vue';
 
+const { t } = useI18n();
 const route = useRoute();
 
 const conversations = useMapGetter(
@@ -32,7 +34,7 @@ const contactConversations = computed(() =>
   >
     <Spinner />
   </div>
-  <div v-else class="flex flex-col py-6">
+  <div v-else-if="contactConversations.length > 0" class="flex flex-col py-6">
     <div
       v-for="conversation in contactConversations"
       :key="conversation.id"
@@ -48,4 +50,7 @@ const contactConversations = computed(() =>
       />
     </div>
   </div>
+  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+    {{ t('CONTACTS_LAYOUT.SIDEBAR.HISTORY.EMPTY_STATE') }}
+  </p>
 </template>

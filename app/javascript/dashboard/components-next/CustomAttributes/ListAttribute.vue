@@ -42,7 +42,7 @@ const handleAttributeAction = async action => {
 
 <template>
   <div
-    class="flex items-center w-full gap-2"
+    class="flex items-center w-full min-w-0 gap-2"
     :class="{
       'justify-start': isEditingView,
       'justify-end': !isEditingView,
@@ -53,11 +53,11 @@ const handleAttributeAction = async action => {
       class="relative flex items-center"
     >
       <span
-        class="text-sm"
+        class="min-w-0 text-sm"
         :class="{
           'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
             !isEditingView,
-          'text-n-slate-12': isEditingView,
+          'text-n-slate-12 truncate flex-1': isEditingView,
         }"
         @click="toggleAttributeListDropdown(!props.isEditingView)"
       >

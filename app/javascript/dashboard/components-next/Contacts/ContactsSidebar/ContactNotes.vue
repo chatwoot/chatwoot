@@ -87,7 +87,7 @@ useKeyboardEvents(keyboardEvents);
     >
       <Spinner />
     </div>
-    <div v-else>
+    <div v-else-if="notes.length > 0">
       <div
         v-for="note in notes"
         :key="note.id"
@@ -128,5 +128,8 @@ useKeyboardEvents(keyboardEvents);
         />
       </div>
     </div>
+    <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
+      {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.EMPTY_STATE') }}
+    </p>
   </div>
 </template>
