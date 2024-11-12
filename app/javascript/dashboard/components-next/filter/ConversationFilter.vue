@@ -1,5 +1,6 @@
 <script setup>
 import { defineModel, useTemplateRef } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -13,6 +14,7 @@ const filters = defineModel({
   default: [],
 });
 
+const { t } = useI18n();
 const store = useStore();
 const removeFilter = index => {
   filters.value.splice(index, 1);
@@ -83,8 +85,12 @@ function validateAndSubmit() {
         {{ $t('FILTER.ADD_NEW_FILTER') }}
       </Button>
       <div class="flex gap-2">
-        <Button sm faded slate> Clear all </Button>
-        <Button sm solid blue @click="validateAndSubmit"> Apply filter </Button>
+        <Button sm faded slate @click="filters = []">
+          {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
+        </Button>
+        <Button sm solid blue @click="validateAndSubmit">
+          {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
+        </Button>
       </div>
     </div>
   </div>
