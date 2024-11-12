@@ -27,6 +27,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showBorder: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -88,8 +92,13 @@ const activeCountry = computed(() =>
 );
 
 const inputBorderClass = computed(() => {
+  const errorClass =
+    'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9 disabled:border-n-ruby-8 dark:disabled:border-n-ruby-8';
+  if (!props.showBorder) {
+    return hasError.value ? errorClass : 'border-transparent';
+  }
   if (hasError.value) {
-    return 'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9 disabled:border-n-ruby-8 dark:disabled:border-n-ruby-8';
+    return errorClass;
   }
   return hasInputFocused.value
     ? 'border-n-brand dark:border-n-brand'
