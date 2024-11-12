@@ -32,7 +32,7 @@ common: &default_settings
       # If `true`, the agent captures log records emitted by this application
       enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED', true) == "false" ? false : true %>
       # Defines the maximum number of log records to buffer in memory at a time.
-      max_samples_stored: 30000
+      max_samples_stored: 10000
     metrics:
       # If `true`, the agent captures metrics related to logging for this application.
       enabled: true
@@ -41,6 +41,16 @@ common: &default_settings
       # This requires a log forwarder to send your log files to New Relic.
       # This should not be used when forwarding is enabled.
       enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_DECORATING_ENABLED', false) %>
+
+  # Transaction Tracer settings
+  # Source: https://docs.newrelic.com/docs/apm/agents/ruby-agent/configuration/ruby-agent-configuration/#transaction_tracer
+  transaction_tracer:
+    enabled: true                 # default: true
+    transaction_threshold: 4.0    # default 2s to 4s - only trace slower transactions
+    record_sql: obfuscated        # Keep default - helps with security
+    stack_trace_threshold: 4.0    # Increase from 0.5s to 4s - reduce stack traces
+    explain_enabled: false        # Disable SQL explain plans (default: true)
+    explain_threshold: 5.0        # Increase from 0.5s to 5s, only relevant if explain_enabled is true
 
 
 # Environment-specific settings are in this section.
@@ -58,6 +68,7 @@ test:
 staging:
   <<: *default_settings
   app_name: <%= ENV.fetch('NEW_RELIC_APP_NAME', 'Chatwoot')  %> (Staging)
+  monitor_mode: false
 
 production:
   <<: *default_settings
