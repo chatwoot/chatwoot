@@ -100,28 +100,33 @@ const hasNoUnusedAttributes = computed(() => unusedAttributesCount.value === 0);
       }}</span>
       <div class="flex-1 h-[1px] bg-n-slate-5" />
     </div>
-    <div v-if="!hasNoUnusedAttributes" class="relative">
-      <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
-      <input
-        v-model="searchQuery"
-        type="search"
-        :placeholder="
-          t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
-        "
-        class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-xl bg-n-solid-1 text-n-slate-12"
-      />
-    </div>
-    <div v-if="filteredUnusedAttributes.length === 0 && !hasNoUnusedAttributes">
-      <p class="text-sm text-n-slate-11">
-        {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.EMPTY_STATE') }}
-      </p>
-    </div>
-    <div v-if="!hasNoUnusedAttributes" class="flex flex-col gap-2">
-      <ContactCustomAttributeItem
-        v-for="attribute in filteredUnusedAttributes"
-        :key="attribute.id"
-        :attribute="attribute"
-      />
+    <div class="flex flex-col gap-3">
+      <div v-if="!hasNoUnusedAttributes" class="relative">
+        <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
+        <input
+          v-model="searchQuery"
+          type="search"
+          :placeholder="
+            t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
+          "
+          class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+        />
+      </div>
+      <div
+        v-if="filteredUnusedAttributes.length === 0 && !hasNoUnusedAttributes"
+        class="flex items-center justify-start h-11"
+      >
+        <p class="text-sm text-n-slate-11">
+          {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.NO_ATTRIBUTES') }}
+        </p>
+      </div>
+      <div v-if="!hasNoUnusedAttributes" class="flex flex-col gap-2">
+        <ContactCustomAttributeItem
+          v-for="attribute in filteredUnusedAttributes"
+          :key="attribute.id"
+          :attribute="attribute"
+        />
+      </div>
     </div>
   </div>
 </template>
