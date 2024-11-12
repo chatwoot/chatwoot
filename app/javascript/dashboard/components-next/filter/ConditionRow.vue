@@ -90,10 +90,6 @@ const validationError = computed(() => {
   });
 });
 
-const isValid = computed(() => {
-  return !validationError.value;
-});
-
 watch(attributeKey, () => {
   filterOperator.value = currentFilter.value.filter_operators[0].value;
   values.value = '';
@@ -105,58 +101,67 @@ watch([attributeKey, values, filterOperator], () => {
 
 const validate = () => {
   showErrors.value = true;
-  return isValid.value;
+  return !validationError.value;
 };
 
 defineExpose({ validate });
 </script>
 
 <template>
-  <div class="flex items-center gap-2 rounded-md">
-    <FilterSelect
-      v-if="!isFirst"
-      v-model="queryOperator"
-      variant="faded"
-      hide-icon
-      class="text-sm"
-      :options="queryOperatorOptions"
-    />
-    <FilterSelect
-      v-model="attributeKey"
-      variant="faded"
-      :options="filterTypes"
-    />
-    <FilterSelect
-      v-model="filterOperator"
-      variant="ghost"
-      :options="currentFilter.filter_operators"
-    />
-    <template v-if="currentOperator.hasInput">
-      <MultiSelect
-        v-if="inputType === 'multiSelect'"
-        v-model="values"
-        :options="currentFilter.options"
+  <li class="list-none">
+    <div
+      class="flex items-center gap-2 rounded-md"
+      :class="{
+        'animate-wiggle': showErrors && validationError,
+      }"
+    >
+      <FilterSelect
+        v-if="!isFirst"
+        v-model="queryOperator"
+        variant="faded"
+        hide-icon
+        class="text-sm"
+        :options="queryOperatorOptions"
       />
-      <SingleSelect
-        v-else-if="inputType === 'searchSelect'"
-        v-model="values"
-        :options="currentFilter.options"
+      <FilterSelect
+        v-model="attributeKey"
+        variant="faded"
+        :options="filterTypes"
       />
-      <SingleSelect
-        v-else-if="inputType === 'booleanSelect'"
-        v-model="values"
-        disable-search
-        :options="booleanOptions"
+      <FilterSelect
+        v-model="filterOperator"
+        variant="ghost"
+        :options="currentFilter.filter_operators"
       />
-      <input
-        v-else
-        v-model="values"
-        :type="inputType === 'date' ? 'date' : 'text'"
-        class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base"
-        :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
-      />
-    </template>
-    <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
-    <template v-if="showErrors">{{ validationError }}</template>
-  </div>
+      <template v-if="currentOperator.hasInput">
+        <MultiSelect
+          v-if="inputType === 'multiSelect'"
+          v-model="values"
+          :options="currentFilter.options"
+        />
+        <SingleSelect
+          v-else-if="inputType === 'searchSelect'"
+          v-model="values"
+          :options="currentFilter.options"
+        />
+        <SingleSelect
+          v-else-if="inputType === 'booleanSelect'"
+          v-model="values"
+          disable-search
+          :options="booleanOptions"
+        />
+        <input
+          v-else
+          v-model="values"
+          :type="inputType === 'date' ? 'date' : 'text'"
+          class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base"
+          :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+        />
+      </template>
+      <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
+    </div>
+    <span v-if="showErrors && validationError" class="text-sm text-n-ruby-11">
+      {{ t(`FILTER.ERRORS.${validationError}`) }}
+    </span>
+  </li>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { defineModel, useTemplateRef, onMounted } from 'vue';
+import { defineModel, useTemplateRef } from 'vue';
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
 
@@ -33,7 +33,7 @@ function validateAndSubmit() {
     <div class="mt-1 mb-3 font-medium text-base tracking-tight leading-6">
       {{ 'Filters' }}
     </div>
-    <div class="grid gap-4">
+    <ul class="grid gap-4 list-none">
       <template v-for="(filter, index) in filters" :key="filter.id">
         <ConditionRow
           v-if="index === 0"
@@ -54,7 +54,7 @@ function validateAndSubmit() {
           @remove="removeFilter(index)"
         />
       </template>
-    </div>
+    </ul>
 
     <div class="flex gap-2 justify-between mt-6">
       <Button sm ghost blue @click="addFilter">
