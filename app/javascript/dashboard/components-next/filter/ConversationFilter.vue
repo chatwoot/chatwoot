@@ -1,13 +1,19 @@
 <script setup>
 import { defineModel, useTemplateRef } from 'vue';
+import { useTrack } from 'dashboard/composables';
+import { useStore } from 'dashboard/composables/store';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
 
+const emit = defineEmits(['applyFilter']);
 const filters = defineModel({
   type: Array,
   default: [],
 });
 
+const store = useStore();
 const removeFilter = index => {
   filters.value.splice(index, 1);
 };
@@ -24,7 +30,23 @@ const addFilter = () => {
 const conditionRefs = useTemplateRef('conditions');
 
 function validateAndSubmit() {
-  conditionRefs.value.map(condition => condition.validate()).every(Boolean);
+  const isValid = conditionRefs.value
+    .map(condition => condition.validate())
+    .every(Boolean);
+  if (!isValid) return;
+
+  store.dispatch(
+    'setConversationFilters',
+    JSON.parse(JSON.stringify(filters.value))
+  );
+  emit('applyFilter', filters.value);
+  useTrack(CONVERSATION_EVENTS.APPLY_FILTER, {
+    applied_filters: filters.value.map(filter => ({
+      key: filter.attribute_key,
+      operator: filter.filter_operator,
+      query_operator: filter.query_operator,
+    })),
+  });
 }
 </script>
 
