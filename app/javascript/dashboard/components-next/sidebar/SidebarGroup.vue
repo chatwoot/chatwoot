@@ -157,13 +157,19 @@ const toggleTrigger = () => {
 
 /* This selects the last child in a group */
 /* https://codepen.io/scmmishra/pen/yLmKNLW */
-.sidebar-group-children>.child-item:last-child::before,
-.sidebar-group-children>*:last-child>*:last-child>.child-item:last-child::before {
+.sidebar-group-children > .child-item:last-child::before,
+.sidebar-group-children
+  > *:last-child
+  > *:last-child
+  > .child-item:last-child::before {
   height: 20%;
 }
 
-.sidebar-group-children>.child-item:last-child::after,
-.sidebar-group-children>*:last-child>*:last-child>.child-item:last-child::after {
+.sidebar-group-children > .child-item:last-child::after,
+.sidebar-group-children
+  > *:last-child
+  > *:last-child
+  > .child-item:last-child::after {
   content: '';
   position: absolute;
   width: 10px;
@@ -177,8 +183,12 @@ const toggleTrigger = () => {
   left: 0;
 }
 
-.app-rtl--wrapper .sidebar-group-children>.child-item:last-child::after,
-.app-rtl--wrapper .sidebar-group-children>*:last-child>*:last-child>.child-item:last-child::after {
+.app-rtl--wrapper .sidebar-group-children > .child-item:last-child::after,
+.app-rtl--wrapper
+  .sidebar-group-children
+  > *:last-child
+  > *:last-child
+  > .child-item:last-child::after {
   right: 0;
   border-bottom-width: 0.125rem;
   border-right-width: 0.125rem;

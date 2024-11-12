@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, watch, computed } from 'vue';
+import { nextTick, watch, computed } from 'vue';
 import IntegrationsAPI from 'dashboard/api/integrations';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { makeRouter, setupApp } from '@chatwoot/captain';
