@@ -199,7 +199,7 @@ watch(
               "
               trailing-icon
               :disabled="disabled"
-              class="!h-[30px] top-1 !px-2 outline-0 !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+              class="!h-[30px] top-1 !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
               @click="toggleCountryDropdown"
             >
               <span
