@@ -17,6 +17,8 @@ common: &default_settings
 
   distributed_tracing:
     enabled: true
+    sampling:
+      rate: 0.1               # Sample 10% of traces instead of 100%
 
   # To disable the agent regardless of other settings, uncomment the following:
   agent_enabled: <%= ENV['NEW_RELIC_LICENSE_KEY'].present? && ENV.fetch('NEW_RELIC_AGENT_ENABLED', true)  %>
