@@ -351,7 +351,7 @@
     "DRAFT_ARTICLE": {
       "API": {
         "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "SUCCESS": "המאמר נשמר כטיוטה בהצלחה"
       }
     },
     "DELETE_ARTICLE": {
