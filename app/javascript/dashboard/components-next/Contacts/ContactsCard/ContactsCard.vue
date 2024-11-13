@@ -57,7 +57,7 @@ const onClickViewDetails = async () => {
     params.label = route.params.label;
   }
 
-  await router.push({ name: dynamicRouteName, params });
+  await router.push({ name: dynamicRouteName, params, query: route.query });
 };
 </script>
 

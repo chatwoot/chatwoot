@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, computed, ref, reactive, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
@@ -16,16 +16,19 @@ const DEBOUNCE_DELAY = 300;
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 
 const { updateUISettings, uiSettings } = useUISettings();
 
 const contacts = useMapGetter('contacts/getContactsList');
 const uiFlags = useMapGetter('contacts/getUIFlags');
+const customViewsUiFlags = useMapGetter('customViews/getUIFlags');
 const segments = useMapGetter('customViews/getContactCustomViews');
 const meta = useMapGetter('contacts/getMeta');
 
-const searchValue = ref('');
+const searchQuery = computed(() => route.query?.search);
+const searchValue = ref(searchQuery.value || '');
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -47,7 +50,9 @@ const sortState = reactive({
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
-const isFetchingList = computed(() => uiFlags.value.isFetching);
+const isFetchingList = computed(
+  () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
+);
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
 const activeSegment = computed(() =>
@@ -63,7 +68,7 @@ const isContactIndexView = computed(
 
 const headerTitle = computed(() => {
   if (activeSegmentId.value) {
-    return activeSegment.value.name;
+    return activeSegment.value?.name;
   }
   if (activeLabel.value) {
     return `#${activeLabel.value}`;
@@ -71,58 +76,79 @@ const headerTitle = computed(() => {
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
 });
 
+const pageNumber = computed(() => Number(route.query?.page) || 1);
+
+const updatePageParam = (page, search = '') => {
+  const query = {
+    ...route.query,
+    page: page.toString(),
+    ...(search ? { search } : {}),
+  };
+
+  if (!search) {
+    delete query.search;
+  }
+
+  router.replace({ query });
+};
+
 const buildSortAttr = () =>
   `${sortState.activeOrdering}${sortState.activeSort}`;
 
+const getCommonFetchParams = (page = 1) => ({
+  page,
+  sortAttr: buildSortAttr(),
+  label: activeLabel.value,
+});
+
 const fetchContacts = async (page = 1) => {
-  await store.dispatch('contacts/get', {
-    page,
-    sortAttr: buildSortAttr(),
-    label: activeLabel.value,
-  });
+  await store.dispatch('contacts/get', getCommonFetchParams(page));
+  updatePageParam(page);
 };
 
 const fetchSavedFilteredContact = async (payload, page = 1) => {
-  if (activeSegmentId.value) {
-    await store.dispatch('contacts/filter', {
-      queryPayload: payload,
-      page,
-      sortAttr: buildSortAttr(),
-    });
-  }
+  if (!activeSegmentId.value) return;
+
+  await store.dispatch('contacts/filter', {
+    ...getCommonFetchParams(page),
+    queryPayload: payload,
+  });
+  updatePageParam(page);
 };
 
 const searchContacts = debounce(async (value, page = 1) => {
   searchValue.value = value;
+
   if (!value) {
-    if (activeSegmentId.value) {
-      await fetchSavedFilteredContact(activeSegment.value.query);
-    } else {
-      await fetchContacts();
-    }
+    updatePageParam(page);
+    await (activeSegmentId.value
+      ? fetchSavedFilteredContact(activeSegment.value?.query)
+      : fetchContacts());
     return;
   }
 
   await store.dispatch('contacts/search', {
+    ...getCommonFetchParams(page),
     search: encodeURIComponent(value),
-    page,
-    sortAttr: buildSortAttr(),
-    label: activeLabel.value,
   });
+  updatePageParam(page, value);
 }, DEBOUNCE_DELAY);
 
 const handleSort = async ({ sort, order }) => {
-  sortState.activeSort = sort;
-  sortState.activeOrdering = order;
+  Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
   await updateUISettings({
     contacts_sort_by: buildSortAttr(),
   });
-  if (activeSegmentId.value) {
-    await fetchSavedFilteredContact(activeSegment.value.query);
-  } else {
-    await fetchContacts();
+
+  if (searchQuery.value) {
+    await searchContacts(searchValue.value, pageNumber.value);
+    return;
   }
+
+  await (activeSegmentId.value
+    ? fetchSavedFilteredContact(activeSegment.value?.query, pageNumber.value)
+    : fetchContacts(pageNumber.value));
 };
 
 watch(
@@ -138,7 +164,7 @@ watch(
 );
 
 const handlePageChange = async page => {
-  if (searchValue.value) {
+  if (searchQuery.value) {
     await searchContacts(searchValue.value, page);
     return;
   }
@@ -147,27 +173,41 @@ const handlePageChange = async page => {
   } else {
     await fetchContacts(page);
   }
+  updatePageParam(page);
 };
 
 watch(activeLabel, () => {
+  if (searchQuery.value) return;
+
+  searchValue.value = '';
   if (!activeSegmentId.value) {
     fetchContacts();
   }
 });
 
 watch(activeSegment, () => {
+  if (searchQuery.value) return;
+
+  searchValue.value = '';
   if (activeSegment.value && activeSegmentId.value) {
-    fetchSavedFilteredContact(activeSegment.value.query);
+    fetchSavedFilteredContact(activeSegment.value.query, pageNumber.value);
   } else if (!activeLabel.value) {
-    fetchContacts();
+    fetchContacts(pageNumber.value);
   }
 });
 
 onMounted(async () => {
+  if (searchQuery.value) {
+    await searchContacts(searchQuery.value, pageNumber.value);
+    return;
+  }
   if (!activeSegmentId.value) {
-    await fetchContacts();
+    await fetchContacts(pageNumber.value);
   } else if (activeSegment.value && activeSegmentId.value) {
-    fetchSavedFilteredContact(activeSegment.value.query);
+    await fetchSavedFilteredContact(
+      activeSegment.value.query,
+      pageNumber.value
+    );
   }
 });
 </script>
@@ -185,7 +225,7 @@ onMounted(async () => {
       :show-pagination-footer="!isFetchingList && hasContacts"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
-      :is-empty-state="!searchValue && !hasContacts && isContactIndexView"
+      :is-empty-state="!searchQuery && !hasContacts && isContactIndexView"
       @update:current-page="handlePageChange"
       @search="searchContacts"
       @sort="handleSort"
@@ -199,7 +239,7 @@ onMounted(async () => {
 
       <template v-else>
         <ContactEmptyState
-          v-if="!searchValue && !hasContacts && isContactIndexView"
+          v-if="!searchQuery && !hasContacts && isContactIndexView"
           class="pt-14"
           :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
           :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
@@ -207,12 +247,12 @@ onMounted(async () => {
         />
 
         <div
-          v-else-if="(searchValue || !isContactIndexView) && !hasContacts"
+          v-else-if="(searchQuery || !isContactIndexView) && !hasContacts"
           class="flex items-center justify-center py-10"
         >
           <span class="text-base text-n-slate-11">
             {{
-              searchValue
+              searchQuery
                 ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
                 : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
             }}

@@ -71,6 +71,7 @@ const goToContactsList = () => {
     ...(paramKey && {
       params: { [paramKey]: route.params[paramKey] },
     }),
+    query: route.query,
   });
 };
 
