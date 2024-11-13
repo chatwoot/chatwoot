@@ -875,7 +875,8 @@ watch(conversationFilters, (newVal, oldVal) => {
     <ConversationFilter
       v-if="showAdvancedFilters"
       v-model="appliedFilter"
-      @update:model-value="console.log"
+      :folder-name="activeFolderName"
+      :is-folder-view="hasActiveFolders"
       @close="closeAdvanceFiltersModal"
     />
     <woot-modal

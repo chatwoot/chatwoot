@@ -1,5 +1,12 @@
 <script setup>
-import { defineModel, useTemplateRef, onMounted, onBeforeUnmount } from 'vue';
+import {
+  defineModel,
+  useTemplateRef,
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  ref,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
@@ -9,11 +16,23 @@ import Button from 'next/button/Button.vue';
 import Dialog from 'next/dialog/Dialog.vue';
 import ConditionRow from './ConditionRow.vue';
 
+const props = defineProps({
+  isFolderView: {
+    type: Boolean,
+    default: false,
+  },
+  folderName: {
+    type: String,
+    default: '',
+  },
+});
+
 const emit = defineEmits(['applyFilter', 'close']);
 const filters = defineModel({
   type: Array,
   default: [],
 });
+const folderNameLocal = ref(props.folderName);
 
 const { t } = useI18n();
 const store = useStore();
@@ -61,11 +80,29 @@ onBeforeUnmount(() => {
   dialogRef.value.close();
   emit('close');
 });
+
+const filterModalHeaderTitle = computed(() => {
+  return !props.isFolderView
+    ? t('FILTER.TITLE')
+    : t('FILTER.EDIT_CUSTOM_FILTER');
+});
 </script>
 
 <template>
-  <Dialog ref="dialog" :title="t('FILTER.TITLE')" @close="emit('close')">
+  <Dialog ref="dialog" :title="filterModalHeaderTitle" @close="emit('close')">
     <template #form>
+      <div v-if="props.isFolderView" class="">
+        <label class="border-b border-n-weak pb-6">
+          <div class="text-n-slate-11 text-sm mb-2">
+            {{ t('FILTER.FOLDER_LABEL') }}
+          </div>
+          <input
+            v-model="folderNameLocal"
+            class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
+            :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+          />
+        </label>
+      </div>
       <ul class="grid gap-4 list-none">
         <template v-for="(filter, index) in filters" :key="filter.id">
           <ConditionRow
