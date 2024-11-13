@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -72,6 +73,7 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 const slots = useSlots();
+const route = useRoute();
 
 const selectedContactName = computed(() => {
   return props.selectedContact?.name;
@@ -94,6 +96,10 @@ const breadcrumbItems = computed(() => {
 
 const hasSidebar = computed(() => {
   return slots.sidebar && props.isDetailView;
+});
+
+const isNotSegmentView = computed(() => {
+  return route.name !== 'contacts_dashboard_segments_index';
 });
 
 const handleBreadcrumbClick = () => {
@@ -132,11 +138,12 @@ const updateCurrentPage = page => {
             />
             <div class="flex items-center gap-4">
               <div
-                v-if="!isDetailView && !isEmptyState"
+                v-if="!isDetailView && !isEmptyState && isNotSegmentView"
                 class="flex items-center gap-2"
               >
                 <Input
                   :model-value="searchValue"
+                  type="search"
                   :placeholder="$t('CONTACTS_LAYOUT.HEADER.SEARCH_PLACEHOLDER')"
                   :custom-input-class="[
                     'h-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1 ltr:!pl-8 !py-1 rtl:!pr-8',

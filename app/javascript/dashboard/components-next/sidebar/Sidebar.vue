@@ -245,7 +245,14 @@ const menuItems = computed(() => {
             {
               name: 'All Contacts',
               label: t('SIDEBAR.ALL_CONTACTS'),
-              to: accountScopedRoute('contacts_dashboard_index'),
+              to: accountScopedRoute(
+                'contacts_dashboard_index',
+                {},
+                {
+                  page: 1,
+                  search: undefined,
+                }
+              ),
               activeOn: [
                 'contacts_dashboard_index',
                 'contacts_dashboard_edit_index',
@@ -258,9 +265,15 @@ const menuItems = computed(() => {
               children: contactCustomViews.value.map(view => ({
                 name: `${view.name}-${view.id}`,
                 label: view.name,
-                to: accountScopedRoute('contacts_dashboard_segments_index', {
-                  segmentId: view.id,
-                }),
+                to: accountScopedRoute(
+                  'contacts_dashboard_segments_index',
+                  {
+                    segmentId: view.id,
+                  },
+                  {
+                    page: 1,
+                  }
+                ),
                 activeOn: [
                   'contacts_dashboard_segments_index',
                   'contacts_dashboard_segments_edit_index',
@@ -278,9 +291,16 @@ const menuItems = computed(() => {
                   class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
                   style: { backgroundColor: label.color },
                 }),
-                to: accountScopedRoute('contacts_dashboard_labels_index', {
-                  label: label.title,
-                }),
+                to: accountScopedRoute(
+                  'contacts_dashboard_labels_index',
+                  {
+                    label: label.title,
+                  },
+                  {
+                    page: 1,
+                    search: undefined,
+                  }
+                ),
                 activeOn: [
                   'contacts_dashboard_labels_index',
                   'contacts_dashboard_labels_edit_index',

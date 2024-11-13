@@ -29,6 +29,7 @@ const meta = useMapGetter('contacts/getMeta');
 
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
+const pageNumber = computed(() => Number(route.query?.page) || 1);
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -63,10 +64,13 @@ const activeSegment = computed(() =>
 
 const hasContacts = computed(() => contacts.value.length > 0);
 const isContactIndexView = computed(
-  () => route.name === 'contacts_dashboard_index'
+  () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
 
 const headerTitle = computed(() => {
+  if (searchQuery.value) {
+    return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
+  }
   if (activeSegmentId.value) {
     return activeSegment.value?.name;
   }
@@ -76,9 +80,7 @@ const headerTitle = computed(() => {
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
 });
 
-const pageNumber = computed(() => Number(route.query?.page) || 1);
-
-const updatePageParam = (page, search = '') => {
+const updatePageParam = (page, search = searchValue.value) => {
   const query = {
     ...route.query,
     page: page.toString(),
@@ -121,17 +123,15 @@ const searchContacts = debounce(async (value, page = 1) => {
 
   if (!value) {
     updatePageParam(page);
-    await (activeSegmentId.value
-      ? fetchSavedFilteredContact(activeSegment.value?.query)
-      : fetchContacts());
+    await fetchContacts(page);
     return;
   }
 
+  updatePageParam(page, value);
   await store.dispatch('contacts/search', {
     ...getCommonFetchParams(page),
     search: encodeURIComponent(value),
   });
-  updatePageParam(page, value);
 }, DEBOUNCE_DELAY);
 
 const handleSort = async ({ sort, order }) => {
@@ -163,19 +163,6 @@ watch(
   { immediate: true }
 );
 
-const handlePageChange = async page => {
-  if (searchQuery.value) {
-    await searchContacts(searchValue.value, page);
-    return;
-  }
-  if (activeSegmentId.value) {
-    await fetchSavedFilteredContact(activeSegment.value.query, page);
-  } else {
-    await fetchContacts(page);
-  }
-  updatePageParam(page);
-};
-
 watch(activeLabel, () => {
   if (searchQuery.value) return;
 
@@ -196,12 +183,35 @@ watch(activeSegment, () => {
   }
 });
 
-onMounted(async () => {
+watch(pageNumber, async page => {
+  if (isFetchingList.value) return;
+
   if (searchQuery.value) {
-    await searchContacts(searchQuery.value, pageNumber.value);
+    await searchContacts(searchQuery.value, page);
     return;
   }
+  if (activeSegmentId.value) {
+    await fetchSavedFilteredContact(activeSegment.value.query, page);
+  } else {
+    await fetchContacts(page);
+  }
+});
+
+watch(searchQuery, value => {
+  if (isFetchingList.value) return;
+  searchValue.value = value || '';
+  // Reset the view if there is search query when we click on the sidebar group
+  if (value === undefined) {
+    fetchContacts();
+  }
+});
+
+onMounted(async () => {
   if (!activeSegmentId.value) {
+    if (searchQuery.value) {
+      await searchContacts(searchQuery.value, pageNumber.value);
+      return;
+    }
     await fetchContacts(pageNumber.value);
   } else if (activeSegment.value && activeSegmentId.value) {
     await fetchSavedFilteredContact(
@@ -226,7 +236,7 @@ onMounted(async () => {
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
       :is-empty-state="!searchQuery && !hasContacts && isContactIndexView"
-      @update:current-page="handlePageChange"
+      @update:current-page="page => updatePageParam(page, searchValue)"
       @search="searchContacts"
       @sort="handleSort"
     >
