@@ -196,42 +196,43 @@
             :enable-variables="true"  
             :enable-canned-responses="false"
             :placeholder="messagePlaceHolder"
-            @blur="$v.newTicket.note.$touch"
+            :signature="signatureToApply"
+            :allow-signature="true"
+            :update-selection-with="updateEditorSelectionWith"
+            @focus="onFocus"
             ref="messageEditor"
           />
         </div>
-
+        <div v-if="hasAttachments" class="attachment-preview-box p-2" @paste="onPaste">
+          <attachment-preview
+            class="flex-col mt-4"
+            :attachments="attachedFiles"
+            @remove-attachment="removeAttachment"
+          />
+        </div>
+        <message-signature-missing-alert
+          v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
+        />
         <span v-if="$v.newTicket.note.$error" class="text-xs text-red-400 message p-2">
           {{ privateNote ? 'Note' : 'Message'}} is required
         </span>
       </div>
-    </div>
-
-    <div class="left-wrap">
-      <!-- file upload here -->
-    </div>
-    <div class="float-right mt-5">
-      <woot-button
-        size="small"
-        @click="createWithResponse"
-      >
-        Create with Response
-      </woot-button>
-      <woot-button
-        size="small"
-        color-scheme="success"
-        @click="createAndSolve"
-      >
-        Create and Solve
-      </woot-button>
+      <bottom-panel 
+        wrapClass="bottom-box"
+        :is-private="privateNote"
+        @add-emoji="addEmoji"
+        @create-with-response="createWithResponse"
+        @create-and-solve="createAndSolve"
+        @attach-file="attachFile"
+        @toggle-signature="toggleMessageSignature"
+      />
     </div>
   </div>
 </template>
 
 <script>
-  import FileUpload from 'vue-upload-component';
-  import * as ActiveStorage from 'activestorage';
   import { mapGetters } from 'vuex';
+  import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
   import LabelSelector from 'dashboard/components/widgets/LabelSelector.vue';
   import { getInboxSource } from 'dashboard/helper/inbox';
   import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
@@ -240,21 +241,32 @@
   import { required, email } from 'vuelidate/lib/validators';
   import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
   import alertMixin from 'shared/mixins/alertMixin';
+  import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+  import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert.vue';
   import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
   import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
   import {
     ALLOWED_FILE_TYPES,
   } from 'shared/constants/messages';
+  import BottomPanel from './BottomPanel.vue';
+  import {
+    appendSignature,
+    removeSignature,
+    replaceSignature,
+    extractTextFromMarkdown,
+  } from 'dashboard/helper/editorHelper';
 
   export default {
-    mixins: [alertMixin],
+    mixins: [alertMixin, uiSettingsMixin],
     components: {
+      AttachmentPreview,
+      BottomPanel,
       LabelSelector,
       InboxDropdownItem,
-      WootMessageEditor,
+      MessageSignatureMissingAlert,
       MultiselectDropdown,
       ReplyEmailHead,
-      FileUpload,
+      WootMessageEditor,
     },
     props: {
       headerTitle: {
@@ -269,45 +281,23 @@
         privateNote: true,
         bccEmails: '',
         ccEmails: '',
-        debounceTimeout: null,
         contactSuggestions: [],
-        contactKinds: [
-        {
-          id: 0,
-          name: "None",
-        },
-        {
-          id: 1,
-          name: "Tolk",
-        },
-        {
-          id: 2,
-          name: "Kund",
-        },
-        {
-          id: 3,
-          name: "Översättare",
-        },
-        {
-          id: 4,
-          name: "Anställd",
-        },
-        {
-          id: 5,
-          name: "Övrigt",
-        },
-        ]
+        debounceTimeout: null,
+        attachedFiles: [],
+        isFocused: false,
+        updateEditorSelectionWith: '',
       };
     },
     computed: {
       ...mapGetters({
         newTicket: 'getNewTicket',
         allLabels: 'labels/getLabels',
+        currentAccountId: 'getCurrentAccountId',
+        globalConfig: 'globalConfig/get',
         inboxes: 'inboxes/getInboxes',
+        messageSignature: 'getMessageSignature',
         teamsList: 'teams/getTeams',
-        currentAccountId: 'getCurrentAccountId'
       }),
-
       emailInboxes() {
         return this.inboxes.filter(inbox => inbox.channel_type === 'Channel::Email');
       },
@@ -338,11 +328,9 @@
       contactType(){
         return this.contactKinds.find(kind => kind.id === this.newTicket.contact_kind)?.name;
       },
-
       issueType(){
         return this.newTicket.issue_type;
       },
-
       customAttributes(){
         return {
           issue_type: this.newTicket.issue_type,
@@ -360,7 +348,6 @@
           'is-active': !this.privateNote,
         };
       },
-
       messagePlaceHolder() {
         if (this.privateNote) {
           return 'Add a note';
@@ -368,13 +355,54 @@
           return 'Add a message';
         }
       },
-
       allowedFileTypes() {
         return ALLOWED_FILE_TYPES;
       },
-
+      hasAttachments() {
+        return this.attachedFiles.length;
+      },
+      isSignatureEnabledForInbox() {
+        return !this.privateNote && this.sendWithSignature;
+      },
+      sendWithSignature() {
+        return this.fetchSignatureFlagFromUiSettings('Channel::Email');
+      },
+      isSignatureAvailable() {
+        return !!this.signatureToApply;
+      },
+      signatureToApply() {
+        return extractTextFromMarkdown(this.messageSignature);
+      },
+      contactKinds(){
+        return [
+          {
+            id: 0,
+            name: this.$t("TICKET.CONTACT_TYPES.NONE"),
+          },
+          {
+            id: 1,
+            name: this.$t("TICKET.CONTACT_TYPES.INTERPRETER"),
+          },
+          {
+            id: 2,
+            name: this.$t("TICKET.CONTACT_TYPES.CUSTOMER"),
+          },
+          {
+            id: 3,
+            name: this.$t("TICKET.CONTACT_TYPES.TRANSLATOR"),
+          },
+          {
+            id: 4,
+            name: this.$t("TICKET.CONTACT_TYPES.EMPLOYEE"),
+          },
+          {
+            id: 5,
+            name: this.$t("TICKET.CONTACT_TYPES.OTHERS"),
+          },
+        ]
+      },
       newTicketData(){
-        return {
+        let ticketData =  {
           'contact_kind': this.newTicket.contact_kind,
           'email': this.newTicket.email, 
           'inbox_id': this.newTicket.inbox?.id,
@@ -393,24 +421,31 @@
           'private': this.privateNote,
           'status': this.newTicket.status,
         }
+
+        if (this.hasAttachments) {
+          ticketData['files'] = []; 
+          this.attachedFiles.forEach(attachment => {
+            if (this.globalConfig.directUploadsEnabled) {
+              ticketData['files'].push(attachment.blobSignedId);
+            } else {
+              ticketData['files'].push(attachment.resource.file);
+            }
+          })
+        }
+
+        return ticketData;
       }
-    },
-    mounted(){
-      ActiveStorage.start();
     },
     methods: {
       onConversationLoad() {
         this.fetchConversationIfUnavailable();
       },
-
       addLabel(value) {
         this.assignedLabels.push(value);
       },
-
       removeLabel(value) {
         this.assignedLabels = this.assignedLabels.filter(label => label.title !== value);
       },
-
       computedInboxSource(inbox) {
         if (!inbox.channel_type) return '';
         const classByType = getInboxSource(
@@ -420,12 +455,10 @@
         );
         return classByType;
       },
-
       onPhoneNumberInputChange(value, code) {
         this.newTicket.phoneCode = code;
         this.phoneNumber = value;
       },
-
       setPhoneCode(code) {
         if (this.newTicket && !!this.newTicket.phoneNumber && this.parsePhoneNumber) {
           const dialCode = this.parsePhoneNumber.countryCallingCode;
@@ -449,18 +482,28 @@
           this.assignedTeam = selectedItemTeam;
         }
       },
+      addEmoji(emoji) {
+        this.updateEditorSelectionWith = emoji;
+      },
+      insertIntoTextEditor(text, selectionStart, selectionEnd) {
+        const message = this.newTicket.note;
+        
+        const newMessage =
+          message.slice(0, selectionStart) +
+          text +
+          message.slice(selectionEnd, message.length);
 
+        this.newTicket.note = newMessage;
+      },
       createWithResponse(){
         this.newTicket.status = 'open';
         this.newTicket.response_needed = true;
         this.submitForm();
       },
-
       createAndSolve(){
         this.newTicket.status = 'resolved'
         this.submitForm();
       },
-
       submitForm(){
         this.$v.$touch();
 
@@ -481,12 +524,10 @@
           })
         }
       },
-
       getValidationErrors() {
         const errors = {};
         return errors;
       },
-      
       checkEmailDebounced(newEmail){
         clearTimeout(this.debounceTimeout);
 
@@ -502,7 +543,6 @@
           this.checkEmailInBackend(newEmail);
         }, 300);
       },
-
       selectSuggestion(suggestion){
         this.newTicket.email = suggestion.email;
         this.newTicket.name = suggestion.name;
@@ -515,7 +555,6 @@
 
         this.contactSuggestions = [];
       },
-
       async checkEmailInBackend(newEmail){
         try {
           const response = await this.$store.dispatch('contacts/suggest', newEmail)
@@ -524,7 +563,6 @@
           this.contactSuggestions = [];
         }
       },
-
       clearTicket(){
         this.$store.dispatch('clearTicket')
         this.$emit('close-panel')
@@ -535,20 +573,54 @@
           params: { conversation_id: id },
         });
       },
+      onFocus(){
+        this.isFocused = true;
+      },
       clearContactTypeLabels(){
         this.assignedLabels = this.assignedLabels.filter((label) => !label.title.includes('_contact'))
       },
-
       clearIssueTypeLabels(){
         this.assignedLabels = this.assignedLabels.filter((label) => !['feedback', 'question', '2nd-line-support'].includes(label.title))
       },
-
       handleMessageClick() {
         this.privateNote = false;
       },
-
       handleNoteClick() {
         this.privateNote = true;
+      },
+      attachFile({ blob, file }) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: null,
+            resource: blob || file,
+            isPrivate: this.privateNote,
+            thumb: reader.result,
+            blobSignedId: blob ? blob.signed_id : undefined,
+            isRecordedAudio: file?.isRecordedAudio || false,
+          });
+        };
+      },
+      removeAttachment(attachments) {
+        this.attachedFiles = attachments;
+      },
+      onPaste(e) {
+        const data = e.clipboardData.files;
+        if (!data.length || !data[0]) {
+          return;
+        }
+        data.forEach(file => {
+          const { name, type, size } = file;
+          this.onFileUpload({ name, type, size, file: file });
+        });
+      },
+      toggleMessageSignature(hide) {
+        if (hide) {
+          this.newTicket.note = removeSignature(this.newTicket.note, this.signatureToApply);
+        } else {
+          this.newTicket.note = appendSignature(this.newTicket.note, this.signatureToApply);
+        }
       },
     },
     validations: {
@@ -594,7 +666,6 @@
           this.assignedLabels.push(label)
         }
       },
-
       issueType(){
         let label_title = '';
         switch(this.issueType){

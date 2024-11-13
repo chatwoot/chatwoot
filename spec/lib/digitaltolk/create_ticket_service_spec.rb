@@ -58,6 +58,12 @@ describe Digitaltolk::CreateTicketService do
       end
     end
 
+    context 'with true private note as string' do
+      let(:private_note) { 'true' }
+
+      it { expect { subject.perform }.to change(Message.where(private: true), :count).by(1) }
+    end
+
     context 'with invalid phone' do
       let(:private_note) { false }
       let(:params) { ActionController::Parameters.new(base_params.merge(phone: '+639 (123) 12341')) }

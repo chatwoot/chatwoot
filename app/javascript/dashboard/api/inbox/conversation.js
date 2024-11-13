@@ -89,7 +89,45 @@ class ConversationApi extends ApiClient {
   }
 
   saveTicket(ticket) {
-    return axios.post(`${this.url}/create_ticket`, ticket);
+    let payload;
+
+    if (ticket && ticket.files && ticket.files.length > 0) {
+      payload = new FormData();
+
+      for (let key in ticket) {
+        switch (key) {
+          case 'files':
+            ticket.files.forEach(file => {
+              payload.append('attachments[]', file);
+            });
+            break;
+          case 'custom_attributes':
+            if (!!ticket[key]) {
+              payload.append(key, JSON.stringify(ticket[key]));
+            }
+            break;
+          case 'labels':
+            const labels = ticket[key];
+            if (!!labels && labels.length) {
+              labels.forEach(label => {
+                payload.append('labels[]', label);
+              });
+            }
+            break;
+          default:
+            payload.append(key, ticket[key] || '');
+            break;
+        }
+      }
+    } else {
+      payload = ticket
+    }
+
+    return axios({
+      method: 'post',
+      url: `${this.url}/create_ticket`,
+      data: payload,
+    })
   }
 
   markMessageRead({ id }) {

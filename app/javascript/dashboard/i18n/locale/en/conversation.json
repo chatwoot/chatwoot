@@ -352,6 +352,18 @@
   "TICKET": {
     "NEW": {
       "TITLE": "Create a ticket"
+    },
+    "CREATE": {
+      "WITH_RESPONSE": "Create with Response",
+      "AND_SOLVE": "Create and Solve"
+    },
+    "CONTACT_TYPES": {
+      "NONE": "None",
+      "INTERPRETER": "Interpreter",
+      "CUSTOMER": "Customer",
+      "TRANSLATOR": "Translator",
+      "EMPLOYEE": "Employee",
+      "OTHERS": "Others"
     }
   }
 }

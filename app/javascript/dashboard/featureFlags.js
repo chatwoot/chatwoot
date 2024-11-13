@@ -34,4 +34,5 @@ export const FEATURE_FLAGS = {
   SMART_ACTIONS: 'smart_actions',
   REQUIRED_CONTACT_TYPE: 'required_contact_type',
   TICKETS: 'tickets',
+  PRE_RELEASE_FEATURE: 'pre_release_feature',
 };

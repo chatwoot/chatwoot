@@ -102,7 +102,7 @@ class Digitaltolk::CreateTicketService
   def conversation_params
     {
       team_id: service_params[:team_id],
-      custom_attributes: service_params[:custom_attributes].permit!.to_h.symbolize_keys,
+      custom_attributes: custom_attributes,
       status: service_params[:status],
       additional_attributes: {
         ticket: true,
@@ -111,12 +111,24 @@ class Digitaltolk::CreateTicketService
     }
   end
 
+  def custom_attributes
+    attrs = service_params[:custom_attributes]
+    return {} if attrs.blank?
+
+    if attrs.is_a?(String)
+      JSON.parse(attrs)
+    else
+      attrs.permit!
+    end.to_h.symbolize_keys
+  end
+
   def message_params
     {
-      private: service_params[:private],
+      private: private_note?,
       content: service_params[:note],
       cc_emails: service_params[:cc_emails],
-      bcc_emails: service_params[:bcc_emails]
+      bcc_emails: service_params[:bcc_emails],
+      attachments: params[:attachments]
     }
   end
 
@@ -130,5 +142,9 @@ class Digitaltolk::CreateTicketService
 
   def service_params
     params.permit!
+  end
+
+  def private_note?
+    !!service_params[:private]
   end
 end

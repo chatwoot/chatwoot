@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import NewTicketForm from './NewTicketForm.vue'
+import NewTicketForm from 'dashboard/components/widgets/conversation/ticket/NewTicketForm.vue';
 
 export default {
   components: {
@@ -41,36 +41,32 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
   },
-  mounted() {
-    
-  },
   methods: {
     closeUponClickAway(event) {
       if (event.target.classList.contains('modal-mask')) {
         this.closePanel()
       }
     },
-
     closePanel() {
       this.$emit('close');
     },
-
     submitForm() {
       this.$refs.ticketForm.submitForm()
     },
-
     onEnableSubmit() {
       this.disableSubmit = false
     },
-
     onDisableSubmit() {
       this.disableSubmit = true
     }
   },
 };
 </script>
-<style>
+<style scoped>
   .new-ticket-container .ProseMirror-menubar{
     margin-left: 5px;
   }
-  </style>
+  .modal-mask{
+    z-index: 10 !important;
+  }
+</style>

@@ -331,5 +331,22 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TICKET": {
+    "NEW": {
+      "TITLE": "Create a ticket"
+    },
+    "CREATE": {
+      "WITH_RESPONSE": "Create with Response",
+      "AND_SOLVE": "Create and Solve"
+    },
+    "CONTACT_TYPES": {
+      "NONE": "None",
+      "INTERPRETER": "Tolk",
+      "CUSTOMER": "Kund",
+      "TRANSLATOR": "Översättare",
+      "EMPLOYEE": "Anställd",
+      "OTHERS": "Övrigt"
+    }
   }
 }
