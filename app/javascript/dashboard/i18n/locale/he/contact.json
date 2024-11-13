@@ -72,7 +72,7 @@
       "SUBMIT": "ייבוא",
       "CANCEL": "ביטול"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "תקבלו התראה במייל כשהייבוא יסתיים.",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
   "EXPORT_CONTACTS": {
@@ -82,11 +82,11 @@
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב",
     "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
+      "TITLE": "ייצוא אנשי קשר",
+      "MESSAGE": "אתם בטוחים שברצונכם לייצא את כל אנשי הקשר?",
+      "FILTERED_MESSAGE": "אתם בטוחים שברצונכם לייצא את כל אנשי הקשר המסוננים?",
+      "YES": "כן, ייצא",
+      "NO": "לא, ביטול"
     }
   },
   "DELETE_NOTE": {
@@ -138,7 +138,7 @@
         "LABEL": "מספר טלפון",
         "HELP": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555 [+][קוד מדינה][אזור חיוג][מספר טלפון מקומי]",
         "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "נא בחר קוד מדינה מהרשימה",
         "DUPLICATE": "מספר טלפון זה נמצאת בשימוש עבור איש קשר אחר."
       },
       "LOCATION": {
@@ -199,7 +199,7 @@
       },
       "INBOX": {
         "LABEL": "תיבת הדואר הנכנס",
-        "PLACEHOLDER": "Choose source inbox",
+        "PLACEHOLDER": "בחר תיבת מקור",
         "ERROR": "בחר תיבת דואר נכנס"
       },
       "SUBJECT": {
@@ -213,8 +213,8 @@
         "ERROR": "ההודעה לא יכולה להיות ריקה"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "בחר קבצים",
+        "HELP_TEXT": "גרור ושחרר קבצים כאן או בחר קבצים מצורפים"
       },
       "SUBMIT": "שלח הודעה",
       "CANCEL": "ביטול",
