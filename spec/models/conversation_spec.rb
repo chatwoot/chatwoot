@@ -525,6 +525,7 @@ RSpec.describe Conversation do
         id: conversation.display_id,
         messages: [],
         labels: [],
+        last_activity_at: conversation.last_activity_at.to_i,
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
@@ -879,6 +880,41 @@ RSpec.describe Conversation do
       conversation.update(label_list: %w[customer-support enterprise paid-customer])
 
       expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
+    end
+  end
+
+  describe '#last_activity_at' do
+    let(:conversation) { create(:conversation) }
+    let(:message_params) do
+      {
+        conversation: conversation,
+        account: conversation.account,
+        inbox: conversation.inbox,
+        sender: conversation.assignee
+      }
+    end
+
+    context 'when a new conversation is created' do
+      it 'sets last_activity_at to the created_at time' do
+        expect(conversation.last_activity_at).to eq(conversation.created_at)
+      end
+    end
+
+    context 'when a new message is added' do
+      it 'updates the last_activity_at to the new message\'s created_at time' do
+        message = create(:message, created_at: 1.hour.from_now, **message_params)
+        conversation.reload
+        expect(conversation.last_activity_at).to be_within(1.second).of(message.created_at)
+      end
+    end
+
+    context 'when multiple messages are added' do
+      it 'sets last_activity_at to the most recent message\'s created_at time' do
+        create(:message, created_at: 2.hours.ago, **message_params)
+        latest_message = create(:message, created_at: 1.hour.from_now, **message_params)
+        conversation.reload
+        expect(conversation.last_activity_at).to be_within(1.second).of(latest_message.created_at)
+      end
     end
   end
 end
