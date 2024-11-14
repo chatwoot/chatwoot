@@ -38,7 +38,7 @@ const contactConversations = computed(() =>
     <div
       v-for="conversation in contactConversations"
       :key="conversation.id"
-      class="px-3 border-b border-n-strong"
+      class="border-b border-n-strong"
     >
       <ConversationCard
         v-if="conversation"
@@ -47,6 +47,7 @@ const contactConversations = computed(() =>
         :contact="contactsById(conversation.meta.sender.id)"
         :state-inbox="stateInbox(conversation.inboxId)"
         :account-labels="accountLabelsValue"
+        class="px-6 !rounded-none dark:hover:bg-n-alpha-3 hover:bg-n-alpha-1"
       />
     </div>
   </div>
