@@ -11,7 +11,8 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def log_params
-    Rails.logger.info("update_presence: #{params.inspect}")
+    inbox_id = ContactInbox.find_by(pubsub_token: params[:pubsub_token])&.inbox_id
+    Rails.logger.info("update_presence: #{params.inspect}, inbox_id: #{inbox_id}")
   end
 
   def update_presence
