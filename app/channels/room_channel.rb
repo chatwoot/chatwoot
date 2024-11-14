@@ -2,12 +2,16 @@ class RoomChannel < ApplicationCable::Channel
   def subscribed
     # TODO: should we only do ensure stream  if current account is present?
     # for now going ahead with guard clauses in update_subscription and broadcast_presence
-
+    log_params
     ensure_stream
     current_user
     current_account
     update_subscription
     broadcast_presence
+  end
+
+  def log_params
+    Rails.logger.info("update_presence: #{params.inspect}")
   end
 
   def update_presence
