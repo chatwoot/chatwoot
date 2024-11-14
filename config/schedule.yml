@@ -28,22 +28,22 @@ remove_stale_contact_inboxes_job.rb:
   queue: scheduled_jobs
 
 # executed daily at 0330 UTC
-zeroharm_daily_conversation_report_job:
-  cron: '30 3 * * *'
-  class: 'ZeroharmDailyConversationReportJob'
+daily_conversation_report_with_order_ids_job:
+  cron: '30 1 * * *'
+  class: 'DailyConversationReportWithOrderIdsJob'
   queue: scheduled_jobs
 
 daily_conversation_report_job:
-  cron: '30 3 * * *'
+  cron: '30 1 * * *'
   class: 'DailyConversationReportJob'
   queue: scheduled_jobs
 
 label_report_job:
-  cron: '30 3 * * *'
+  cron: '30 1 * * *'
   class: 'LabelReportJob'
   queue: scheduled_jobs
 
 agent_report_job:
-  cron: '30 3 * * *'
+  cron: '30 1 * * *'
   class: 'AgentReportJob'
   queue: scheduled_jobs

@@ -3,11 +3,11 @@ require 'json'
 require 'net/http'
 require 'csv'
 
-class ZeroharmDailyConversationReportJob < ApplicationJob
+class DailyConversationReportWithOrderIdsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
-    account_ids = [785] # enabled for zeroharm
+    account_ids = [579] # enabled for headway
     current_date = Date.current
 
     account_ids.each do |account_id|
@@ -46,6 +46,8 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
           contacts.created_at AS customer_created_at,
           inboxes.name AS inbox_name,
           REPLACE(contacts.phone_number, '+', '') AS customer_phone_number,
+          contacts.email AS customer_email,
+          contacts.additional_attributes->>'social_instagram_user_name' AS customer_instagram,
           contacts.name AS customer_name,
           users.name AS agent_name,
           CASE
@@ -117,15 +119,13 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
   def generate_csv(results)
     CSV.generate(headers: true) do |csv|
       csv << [
-        'Conversation ID', 'Conversation Created At', 'Contact Created At', 'Inbox Name',
-        'Customer Phone Number', 'Customer Name', 'Agent Name', 'Conversation Status',
-        'First Response Time (minutes)', 'Resolution Time (minutes)', 'Labels', 'Order ID'
+        'Conversation ID', 'Inbox Name', 'Customer Phone Number', 'Customer Email', 'Customer Instagram',
+        'Customer Name', 'Labels', 'Order ID', 'Conversation Created At', 'Contact Created At'
       ]
       results.each do |row|
         csv << [
-          row['conversation_display_id'], row['conversation_created_at'], row['customer_created_at'], row['inbox_name'],
-          row['customer_phone_number'], row['customer_name'], row['agent_name'], row['conversation_status'],
-          row['first_response_time_minutes'], row['resolution_time_minutes'], row['labels'], row['order_id']
+          row['conversation_display_id'], row['inbox_name'], row['customer_phone_number'], row['customer_email'],
+          row['customer_instagram'], row['customer_name'], row['labels'], row['order_id'], row['conversation_created_at'], row['customer_created_at']
         ]
       end
     end
