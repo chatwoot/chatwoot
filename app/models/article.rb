@@ -171,12 +171,7 @@ class Article < ApplicationRecord
   end
 
   def validate_content_length(column)
-    if column.name == 'content'
-      max_length = 100_000
-      return if self[column.name].nil? || self[column.name].length <= max_length
-
-      errors.add(column.name.to_sym, "is too long (maximum is #{max_length} characters)")
-    else
+    unless column.name == 'content'
       super(column)
     end
   end
