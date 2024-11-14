@@ -15,6 +15,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def update_presence
+    log_params
     update_subscription
     broadcast_presence
   end
