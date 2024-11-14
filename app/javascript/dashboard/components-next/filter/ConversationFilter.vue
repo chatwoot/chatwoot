@@ -26,7 +26,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['applyFilter', 'close']);
+const emit = defineEmits(['applyFilter', 'updateFolder', 'close']);
 const filters = defineModel({
   type: Array,
   default: [],
@@ -50,6 +50,15 @@ const addFilter = () => {
 };
 
 const conditionRefs = useTemplateRef('conditions');
+
+function updateSavedCustomViews() {
+  const isValid = conditionRefs.value
+    .map(condition => condition.validate())
+    .every(Boolean);
+  if (!isValid) return;
+
+  emit('updateFolder', filters.value, folderNameLocal.value);
+}
 
 function validateAndSubmit() {
   const isValid = conditionRefs.value
@@ -88,9 +97,10 @@ useKeyboardEvents({ Escape: { action: closeIfOpen } });
 
 <template>
   <div
+    id="conversation-filter-modal"
     v-on-clickaway="closeIfOpen"
     popover
-    class="bg-n-alpha-3 grid gap-6 border border-n-weak p-6 rounded-xl overflow-visible w-[680px]"
+    class="bg-n-alpha-3 grid gap-6 border border-n-weak p-6 rounded-xl overflow-visible w-[680px] backdrop-blur-3xl"
   >
     <h3 class="text-base font-medium leading-6 text-n-slate-12">
       {{ filterModalHeaderTitle }}
@@ -137,7 +147,17 @@ useKeyboardEvents({ Escape: { action: closeIfOpen } });
         <Button sm faded slate @click="filters = []">
           {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
         </Button>
-        <Button sm solid blue @click="validateAndSubmit">
+        <Button
+          v-if="isFolderView"
+          sm
+          solid
+          blue
+          :disabled="!folderNameLocal"
+          @click="updateSavedCustomViews"
+        >
+          {{ t('FILTER.UPDATE_BUTTON_LABEL') }}
+        </Button>
+        <Button v-else sm solid blue @click="validateAndSubmit">
           {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
         </Button>
       </div>

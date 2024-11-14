@@ -494,7 +494,7 @@ function initializeFolderToFilterModal(newActiveFolder) {
     values: Array.isArray(filter.values)
       ? generateValuesForEditCustomViews(filter, setParamsForEditFolderModal())
       : [],
-    query_operator: filter.query_operator,
+    query_operator: filter.query_operator ?? 'and',
     custom_attribute_type: filter.custom_attribute_type,
   }));
 
@@ -877,6 +877,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       v-model="appliedFilter"
       :folder-name="activeFolderName"
       :is-folder-view="hasActiveFolders"
+      @update-folder="onUpdateSavedFilter"
       @close="closeAdvanceFiltersModal"
     />
     <woot-modal
