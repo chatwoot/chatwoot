@@ -45,7 +45,7 @@ const triggerClick = () => {
         'text-n-slate-12': !props.disabled,
       }"
       :href="props.link || null"
-      @click="triggerClick"
+      @click.stop="triggerClick"
     >
       <slot>
         <slot name="icon">
