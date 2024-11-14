@@ -77,7 +77,11 @@ const goToContactsList = () => {
 
 const fetchActiveContact = async () => {
   if (route.params.contactId) {
-    store.dispatch('contacts/show', { id: route.params.contactId });
+    await store.dispatch('contacts/show', { id: route.params.contactId });
+    await store.dispatch(
+      'contacts/fetchContactableInbox',
+      route.params.contactId
+    );
   }
 };
 
@@ -112,7 +116,7 @@ onMounted(() => {
     class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
   >
     <ContactsLayout
-      :button-label="$t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
+      :button-label="t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
       :selected-contact="selectedContact"
       is-detail-view
       :show-pagination-footer="false"

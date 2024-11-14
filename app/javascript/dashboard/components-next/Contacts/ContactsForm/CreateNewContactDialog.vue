@@ -43,7 +43,7 @@ defineExpose({ dialogRef });
         <Button
           :label="t('DIALOG.BUTTONS.CANCEL')"
           variant="link"
-          class="h-10 hover:no-underline hover:text-n-brand"
+          class="h-10 hover:!no-underline hover:text-n-brand"
           @click="closeDialog"
         />
         <Button

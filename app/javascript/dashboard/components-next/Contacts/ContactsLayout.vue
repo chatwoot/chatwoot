@@ -9,6 +9,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import ContactActions from 'dashboard/components-next/Contacts/ContactHeader/ContactActions.vue';
+import ComposeConversation from 'dashboard/components-next/Contacts/ContactsForm/ComposeConversation.vue';
 
 const props = defineProps({
   searchValue: {
@@ -168,7 +169,11 @@ const updateCurrentPage = page => {
                 @more="emit('more')"
               />
               <div v-if="!isDetailView" class="w-px h-4 bg-n-strong" />
-              <Button :label="buttonLabel" size="sm" @click="emit('message')" />
+              <ComposeConversation>
+                <template #trigger="{ toggle }">
+                  <Button :label="buttonLabel" size="sm" @click="toggle" />
+                </template>
+              </ComposeConversation>
             </div>
           </div>
         </div>
