@@ -182,8 +182,8 @@ group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
   # for heroku autoscaling
-  gem "judoscale-rails"
-  gem "judoscale-sidekiq"
+  gem "judoscale-rails", require: false
+  gem "judoscale-sidekiq", require: false
 end
 
 group :development do
