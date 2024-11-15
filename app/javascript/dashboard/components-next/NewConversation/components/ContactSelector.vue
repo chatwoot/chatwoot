@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -35,6 +36,10 @@ const props = defineProps({
   showInboxesDropdown: {
     type: Boolean,
     required: true,
+  },
+  hasErrors: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -96,6 +101,11 @@ const selectedContactLabel = computed(() => {
         :disabled="contactableInboxesList?.length > 0 && showInboxesDropdown"
         type="email"
         class="flex-1 min-h-7"
+        :class="
+          hasErrors
+            ? '[&_input]:placeholder:!text-n-ruby-9 [&_input]:dark:placeholder:!text-n-ruby-9'
+            : ''
+        "
         @focus="emit('updateDropdown', 'contacts', true)"
         @input="emit('searchContacts', $event)"
         @on-click-outside="emit('updateDropdown', 'contacts', false)"

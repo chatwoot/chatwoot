@@ -32,11 +32,15 @@ const props = defineProps({
   },
   showBccInput: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   isLoading: {
     type: Boolean,
-    required: true,
+    default: false,
+  },
+  hasErrors: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -88,6 +92,11 @@ const handleBccUpdate = value => {
         placeholder="Enter your email subject here"
         label="Subject :"
         focus-on-mount
+        :custom-input-class="
+          hasErrors
+            ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
+            : ''
+        "
         @update:model-value="emit('update:subject', $event)"
       />
     </div>

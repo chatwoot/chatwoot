@@ -15,21 +15,21 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  // isTwilioInbox: {
-  //   type: Boolean,
-  //   required: true,
-  // },
-  // isApiInbox: {
-  //   type: Boolean,
-  //   required: true,
-  // },
   messageTemplates: {
-    type: Object,
-    default: () => {},
+    type: Array,
+    default: () => [],
   },
   channelType: {
     type: String,
     required: true,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  disableSendButton: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -141,6 +141,8 @@ const onClickInsertEmoji = emoji => {
         label="Send (↵)"
         size="sm"
         class="!text-xs font-medium"
+        :disabled="isLoading || disableSendButton"
+        :is-loading="isLoading"
         @click="emit('sendMessage')"
       />
     </div>

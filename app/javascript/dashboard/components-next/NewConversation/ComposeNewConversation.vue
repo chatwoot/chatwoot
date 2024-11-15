@@ -4,14 +4,22 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
-import camelcaseKeys from 'camelcase-keys';
+import { useVuelidate } from '@vuelidate/core';
+import { required, requiredIf } from '@vuelidate/validators';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
 } from 'dashboard/helper/editorHelper';
+import {
+  buildContactableInboxesList,
+  createNewContact,
+  fetchContactableInboxes,
+  prepareNewMessagePayload,
+  prepareWhatsAppMessagePayload,
+  processContactableInboxes,
+} from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
-import ContactAPI from 'dashboard/api/contacts';
 import ContactSelector from './components/ContactSelector.vue';
 import InboxSelector from './components/InboxSelector.vue';
 import EmailOptions from './components/EmailOptions.vue';
@@ -46,7 +54,14 @@ const isCreatingContact = ref(false);
 
 const contactById = useMapGetter('contacts/getContactById');
 const currentUser = useMapGetter('getCurrentUser');
+const globalConfig = useMapGetter('globalConfig/get');
+const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const activeContact = computed(() => contactById.value(props.contactId));
+const directUploadsEnabled = computed(
+  () => globalConfig.value.directUploadsEnabled
+);
+
+const isCreating = computed(() => uiFlags.value.isCreating);
 
 const selectedContact = ref(null);
 const targetInbox = ref(null);
@@ -56,116 +71,65 @@ const state = reactive({
   subject: '',
   ccEmails: '',
   bccEmails: '',
+  attachedFiles: [],
 });
 
 const showBccInput = ref(false);
 
-const isEmailInbox = computed(() => {
-  return targetInbox.value?.channelType === INBOX_TYPES.EMAIL;
-});
+const inboxTypes = computed(() => ({
+  isEmail: targetInbox.value?.channelType === INBOX_TYPES.EMAIL,
+  isTwilio: targetInbox.value?.channelType === INBOX_TYPES.TWILIO,
+  isWhatsapp: targetInbox.value?.channelType === INBOX_TYPES.WHATSAPP,
+  isWebWidget: targetInbox.value?.channelType === INBOX_TYPES.WEB,
+  isApi: targetInbox.value?.channelType === INBOX_TYPES.API,
+  isEmailOrWebWidget:
+    targetInbox.value?.channelType === INBOX_TYPES.EMAIL ||
+    targetInbox.value?.channelType === INBOX_TYPES.WEB,
+}));
 
-const isTwilioInbox = computed(() => {
-  return targetInbox.value?.channelType === INBOX_TYPES.TWILIO;
-});
+const whatsappMessageTemplates = computed(() =>
+  Object.keys(targetInbox.value?.messageTemplates || {}).length
+    ? targetInbox.value.messageTemplates
+    : []
+);
 
-const isWhatsappInbox = computed(() => {
-  return targetInbox.value?.channelType === INBOX_TYPES.WHATSAPP;
-});
+const inboxChannelType = computed(() => targetInbox.value?.channelType || '');
 
-const isWebWidgetInbox = computed(() => {
-  return targetInbox.value?.channelType === INBOX_TYPES.WEB;
-});
+const validationRules = computed(() => ({
+  selectedContact: { required },
+  targetInbox: { required },
+  message: { required: requiredIf(!inboxTypes.value.isWhatsapp) },
+  subject: { required: requiredIf(inboxTypes.value.isEmail) },
+}));
 
-const isApiInbox = computed(() => {
-  return targetInbox.value?.channelType === INBOX_TYPES.API;
-});
+const v$ = useVuelidate(validationRules, state);
 
-const isEmailOrWebWidgetInbox = computed(() => {
-  return isEmailInbox.value || isWebWidgetInbox.value;
-});
-
-const whatsappMessageTemplates = computed(() => {
-  return targetInbox.value?.messageTemplates;
-});
-
-const inboxChannelType = computed(() => {
-  return targetInbox.value?.channelType || '';
-});
+const validationStates = computed(() => ({
+  isContactInvalid:
+    v$.value.selectedContact.$dirty && v$.value.selectedContact.$invalid,
+  isInboxInvalid: v$.value.targetInbox.$dirty && v$.value.targetInbox.$invalid,
+  isSubjectInvalid: v$.value.subject.$dirty && v$.value.subject.$invalid,
+  isMessageInvalid: v$.value.message.$dirty && v$.value.message.$invalid,
+}));
 
 const newMessagePayload = () => {
-  const payload = {
-    inboxId: targetInbox.value.id,
-    sourceId: targetInbox.value.sourceId,
-    contactId: Number(selectedContact.value.id),
-    message: { content: state.message },
-    assigneeId: currentUser.value.id,
-  };
-
-  //     if (this.attachedFiles && this.attachedFiles.length) {
-  //         payload.files = [];
-  //   setAttachmentPayload(payload);
-  // }
-
-  if (state.subject) {
-    payload.mailSubject = state.subject;
-  }
-
-  if (state.ccEmails) {
-    payload.message.cc_emails = state.ccEmails;
-  }
-
-  if (state.bccEmails) {
-    payload.message.bcc_emails = state.bccEmails;
-  }
-  return payload;
-};
-
-const generateLabelForContactableInboxesList = ({
-  name,
-  email,
-  channelType,
-  phoneNumber,
-}) => {
-  if (channelType === INBOX_TYPES.EMAIL) {
-    return `${name} (${email})`;
-  }
-  if (
-    channelType === INBOX_TYPES.TWILIO ||
-    channelType === INBOX_TYPES.WHATSAPP
-  ) {
-    return `${name} (${phoneNumber})`;
-  }
-  if (channelType === INBOX_TYPES.API) {
-    return `${name} (API)`;
-  }
-  return name;
+  const { message, subject, ccEmails, bccEmails, attachedFiles } = state;
+  return prepareNewMessagePayload({
+    targetInbox: targetInbox.value,
+    selectedContact: selectedContact.value,
+    message,
+    subject,
+    ccEmails,
+    bccEmails,
+    currentUser: currentUser.value,
+    attachedFiles,
+    directUploadsEnabled: directUploadsEnabled.value,
+  });
 };
 
 const contactableInboxesList = computed(() => {
-  return selectedContact.value?.contactInboxes?.map(
-    ({ name, id, email, channelType, phoneNumber, ...rest }) => ({
-      id,
-      label: generateLabelForContactableInboxesList({
-        name,
-        email,
-        channelType,
-        phoneNumber,
-      }),
-      action: 'inbox',
-      value: id,
-      name,
-      email,
-      phoneNumber,
-      channelType,
-      ...rest,
-    })
-  );
+  return buildContactableInboxesList(selectedContact.value?.contactInboxes);
 });
-
-const getCapitalizedNameFromEmail = email => {
-  const name = email.match(/^([^@]*)@/)?.[1] || email.split('@')[0];
-  return name.charAt(0).toUpperCase() + name.slice(1);
-};
 
 const handleContactSearch = value => {
   emit('searchContacts', value);
@@ -197,56 +161,31 @@ const searchBccEmails = value => {
 
 const setSelectedContact = async ({ value, action, ...rest }) => {
   try {
+    v$.value.$reset();
     let contact;
 
     if (action === 'create') {
       isCreatingContact.value = true;
-      const payload = {
-        name: getCapitalizedNameFromEmail(value),
-        email: value,
-      };
-
       try {
-        const {
-          data: {
-            payload: { contact: newContact },
-          },
-        } = await ContactAPI.create(payload);
-        contact = camelcaseKeys(newContact, {
-          deep: true,
-        });
+        contact = await createNewContact(value);
+        isCreatingContact.value = false;
       } catch (error) {
         isCreatingContact.value = false;
         return;
       }
-
-      selectedContact.value = contact;
-      isCreatingContact.value = false;
     } else {
       contact = rest;
-      selectedContact.value = contact;
     }
-
+    selectedContact.value = contact;
     showContactsDropdown.value = false;
 
     // Only proceed with fetching inboxes if we have a contact
     if (contact?.id) {
-      const {
-        data: { payload: inboxes = [] },
-      } = await ContactAPI.getContactableInboxes(contact.id);
-
-      const contactableInboxes = inboxes.map(inbox => ({
-        ...inbox.inbox,
-        sourceId: inbox.source_id,
-      }));
-
-      selectedContact.value.contactInboxes = camelcaseKeys(contactableInboxes, {
-        deep: true,
-      });
+      const contactableInboxes = await fetchContactableInboxes(contact.id);
+      selectedContact.value.contactInboxes = contactableInboxes;
       showInboxesDropdown.value = true;
     }
   } catch (error) {
-    // console.error('Error in setSelectedContact:', error);
     // Reset states in case of error
     isCreatingContact.value = false;
     showContactsDropdown.value = false;
@@ -254,10 +193,16 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
 };
 
 const handleInboxAction = ({ value, action, ...rest }) => {
+  v$.value.$reset();
   targetInbox.value = {
     ...rest,
   };
   showInboxesDropdown.value = false;
+};
+
+const removeTargetInbox = value => {
+  v$.value.$reset();
+  targetInbox.value = value;
 };
 
 const clearSelectedContact = () => {
@@ -278,10 +223,14 @@ const handleRemoveSignature = signature => {
 };
 
 const clearForm = () => {
-  state.message = '';
-  state.subject = '';
-  state.ccEmails = '';
-  state.bccEmails = '';
+  Object.assign(state, {
+    message: '',
+    subject: '',
+    ccEmails: '',
+    bccEmails: '',
+    attachedFiles: [],
+  });
+  v$.value.$reset();
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
@@ -298,15 +247,18 @@ const createConversation = async ({ payload, isFromWhatsApp }) => {
     emit('success');
     useAlert(t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
   } catch (error) {
-    if (error instanceof ExceptionWithMessage) {
-      useAlert(error.data);
-    } else {
-      useAlert(t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
-    }
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : t('NEW_CONVERSATION.FORM.ERROR_MESSAGE')
+    );
   }
 };
 
 const handleSendMessage = async () => {
+  const isValid = await v$.value.$validate();
+  if (!isValid) return;
+
   await createConversation({
     payload: newMessagePayload(),
     isFromWhatsApp: false,
@@ -315,20 +267,18 @@ const handleSendMessage = async () => {
   clearForm();
 };
 
-const prepareWhatsAppMessagePayload = ({ message, templateParams }) => {
-  const payload = {
-    inboxId: targetInbox.value.id,
-    sourceId: targetInbox.value.sourceId,
-    contactId: selectedContact.value.id,
-    message: { content: message, template_params: templateParams },
-    assigneeId: currentUser.value.id,
-  };
-  return payload;
-};
-
-const handleSendWhatsappMessage = async payload => {
-  const whatsappPayload = prepareWhatsAppMessagePayload(payload);
-  await createConversation({ payload: whatsappPayload, isFromWhatsApp: true });
+const handleSendWhatsappMessage = async ({ message, templateParams }) => {
+  const whatsappMessagePayload = prepareWhatsAppMessagePayload({
+    targetInbox: targetInbox.value,
+    selectedContact: selectedContact.value,
+    message,
+    templateParams,
+    currentUser: currentUser.value,
+  });
+  await createConversation({
+    payload: whatsappMessagePayload,
+    isFromWhatsApp: true,
+  });
   emit('discard');
 };
 
@@ -338,10 +288,9 @@ watch(
     if (activeContact.value && props.contactId) {
       selectedContact.value = {
         ...activeContact.value,
-        contactInboxes: activeContact.value?.contactInboxes.map(inbox => ({
-          ...inbox.inbox,
-          sourceId: inbox.sourceId,
-        })),
+        contactInboxes: processContactableInboxes(
+          activeContact.value?.contactInboxes
+        ),
       };
     }
   },
@@ -363,6 +312,7 @@ watch(
         :contact-id="contactId"
         :contactable-inboxes-list="contactableInboxesList"
         :show-inboxes-dropdown="showInboxesDropdown"
+        :has-errors="validationStates.isContactInvalid"
         @search-contacts="handleContactSearch"
         @set-selected-contact="setSelectedContact"
         @clear-selected-contact="clearSelectedContact"
@@ -374,13 +324,14 @@ watch(
         :selected-contact="selectedContact"
         :show-inboxes-dropdown="showInboxesDropdown"
         :contactable-inboxes-list="contactableInboxesList"
-        @update-inbox="targetInbox = $event"
+        :has-errors="validationStates.isInboxInvalid"
+        @update-inbox="removeTargetInbox"
         @toggle-dropdown="showInboxesDropdown = $event"
         @handle-inbox-action="handleInboxAction"
       />
 
       <EmailOptions
-        v-if="isEmailInbox"
+        v-if="inboxTypes.isEmail"
         v-model:cc-emails="state.ccEmails"
         v-model:bcc-emails="state.bccEmails"
         v-model:subject="state.subject"
@@ -389,6 +340,7 @@ watch(
         :show-bcc-emails-dropdown="showBccEmailsDropdown"
         :show-bcc-input="showBccInput"
         :is-loading="isLoading"
+        :has-errors="validationStates.isSubjectInvalid"
         @search-cc-emails="searchCcEmails"
         @search-bcc-emails="searchBccEmails"
         @toggle-bcc="toggleBccInput"
@@ -396,19 +348,22 @@ watch(
       />
 
       <MessageEditor
-        v-if="!isWhatsappInbox"
+        v-if="!inboxTypes.isWhatsapp"
         v-model="state.message"
-        :is-email-or-web-widget-inbox="isEmailOrWebWidgetInbox"
+        :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
+        :has-errors="validationStates.isMessageInvalid"
       />
     </div>
 
     <ActionButtons
-      :is-whatsapp-inbox="isWhatsappInbox"
-      :is-email-or-web-widget-inbox="isEmailOrWebWidgetInbox"
-      :is-twilio-inbox="isTwilioInbox"
-      :is-api-inbox="isApiInbox"
+      :is-whatsapp-inbox="inboxTypes.isWhatsapp"
+      :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
+      :is-twilio-inbox="inboxTypes.isTwilio"
+      :is-api-inbox="inboxTypes.isApi"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
+      :is-loading="isCreating"
+      :disable-send-button="isCreating"
       @discard="$emit('discard')"
       @send-message="handleSendMessage"
       @send-whatsapp-message="handleSendWhatsappMessage"

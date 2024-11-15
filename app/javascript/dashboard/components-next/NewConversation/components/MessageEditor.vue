@@ -11,6 +11,10 @@ defineProps({
     type: Boolean,
     required: true,
   },
+  hasErrors: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -22,6 +26,11 @@ const emit = defineEmits(['update:modelValue']);
       :model-value="modelValue"
       placeholder="Write your message here..."
       class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[200px]"
+      :class="
+        hasErrors
+          ? '[&_.empty-node]:before:!text-n-ruby-9 [&_.empty-node]:dark:before:!text-n-ruby-9'
+          : ''
+      "
       :show-character-count="false"
       @update:model-value="emit('update:modelValue', $event)"
     />
@@ -32,6 +41,11 @@ const emit = defineEmits(['update:modelValue']);
       placeholder="Write your message here..."
       class="!px-0 [&>div]:!px-4 [&>div]:!border-transparent [&>div]:!bg-transparent"
       auto-height
+      :custom-text-area-class="
+        hasErrors
+          ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
+          : ''
+      "
       @update:model-value="emit('update:modelValue', $event)"
     />
   </div>

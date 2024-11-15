@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { generateLabelForContactableInboxesList } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -21,6 +22,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  hasErrors: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -28,24 +33,6 @@ const emit = defineEmits([
   'toggleDropdown',
   'handleInboxAction',
 ]);
-
-const generateLabelForContactableInboxesList = ({
-  name,
-  email,
-  channelType,
-  phoneNumber,
-}) => {
-  if (channelType === 'EMAIL') {
-    return `${name} (${email})`;
-  }
-  if (channelType === 'TWILIO' || channelType === 'WHATSAPP') {
-    return `${name} (${phoneNumber})`;
-  }
-  if (channelType === 'API') {
-    return `${name} (API)`;
-  }
-  return name;
-};
 
 const targetInboxLabel = computed(() => {
   return generateLabelForContactableInboxesList(props.targetInbox);
@@ -84,7 +71,7 @@ const targetInboxLabel = computed(() => {
         label="Show inboxes"
         variant="link"
         size="sm"
-        color="slate"
+        :color="hasErrors ? 'ruby' : 'slate'"
         :disabled="!selectedContact"
         class="hover:!no-underline"
         @click="emit('toggleDropdown', !showInboxesDropdown)"
