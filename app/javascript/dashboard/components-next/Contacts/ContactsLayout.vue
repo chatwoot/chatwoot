@@ -65,7 +65,6 @@ const props = defineProps({
 const emit = defineEmits([
   'filter',
   'more',
-  'message',
   'update:currentPage',
   'goToContactsList',
   'search',
