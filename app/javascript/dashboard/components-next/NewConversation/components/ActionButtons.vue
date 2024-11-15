@@ -3,6 +3,9 @@ import { defineAsyncComponent, ref, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useFileUpload } from 'dashboard/composables/useFileUpload';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import FileUpload from 'vue-upload-component';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
@@ -10,11 +13,15 @@ import WhatsAppOptions from './WhatsAppOptions.vue';
 const props = defineProps({
   isWhatsappInbox: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   isEmailOrWebWidgetInbox: {
     type: Boolean,
-    required: true,
+    default: false,
+  },
+  isTwilioSmsInbox: {
+    type: Boolean,
+    default: false,
   },
   messageTemplates: {
     type: Array,
@@ -22,7 +29,7 @@ const props = defineProps({
   },
   channelType: {
     type: String,
-    required: true,
+    default: '',
   },
   isLoading: {
     type: Boolean,
@@ -41,11 +48,14 @@ const emit = defineEmits([
   'insertEmoji',
   'addSignature',
   'removeSignature',
+  'attachFile',
 ]);
 
 const { t } = useI18n();
 
+const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
+const attachedFiles = ref([]);
 
 const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
@@ -83,6 +93,27 @@ const toggleMessageSignature = () => {
 const onClickInsertEmoji = emoji => {
   emit('insertEmoji', emoji);
 };
+
+const { onFileUpload } = useFileUpload({
+  isATwilioSMSChannel: props.isTwilioSmsInbox,
+  attachFile: ({ blob, file }) => {
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file.file);
+    reader.onloadend = () => {
+      const newFile = {
+        resource: blob || file,
+        isPrivate: false,
+        thumb: reader.result,
+        blobSignedId: blob?.signed_id,
+      };
+
+      attachedFiles.value = [...attachedFiles.value, newFile];
+      emit('attachFile', attachedFiles.value);
+    };
+  },
+});
 </script>
 
 <template>
@@ -113,13 +144,32 @@ const onClickInsertEmoji = emoji => {
           :on-click="onClickInsertEmoji"
         />
       </div>
-      <Button
+      <FileUpload
         v-if="isEmailOrWebWidgetInbox"
-        icon="i-lucide-plus"
-        color="slate"
-        size="sm"
-        class="!w-10"
-      />
+        ref="uploadAttachment"
+        input-id="composeNewConversationAttachment"
+        :size="4096 * 4096"
+        :accept="ALLOWED_FILE_TYPES"
+        multiple
+        :drop-directory="false"
+        :data="{
+          direct_upload_url: '/rails/active_storage/direct_uploads',
+          direct_upload: true,
+        }"
+        @input-file="onFileUpload"
+      >
+        <Button
+          icon="i-lucide-plus"
+          color="slate"
+          size="sm"
+          class="!w-10 relative"
+        >
+          <span
+            v-if="attachedFiles.length > 0"
+            class="absolute top-0 right-0 rounded-full size-2.5 bg-n-brand"
+          />
+        </Button>
+      </FileUpload>
       <Button
         v-if="isEmailOrWebWidgetInbox"
         icon="i-lucide-type"

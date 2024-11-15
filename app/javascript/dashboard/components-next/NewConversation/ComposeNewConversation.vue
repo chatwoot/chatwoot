@@ -85,6 +85,9 @@ const inboxTypes = computed(() => ({
   isEmailOrWebWidget:
     targetInbox.value?.channelType === INBOX_TYPES.EMAIL ||
     targetInbox.value?.channelType === INBOX_TYPES.WEB,
+  isTwilioSMS:
+    targetInbox.value?.channelType === INBOX_TYPES.TWILIO &&
+    targetInbox.value?.medium === 'sms',
 }));
 
 const whatsappMessageTemplates = computed(() =>
@@ -102,7 +105,12 @@ const validationRules = computed(() => ({
   subject: { required: requiredIf(inboxTypes.value.isEmail) },
 }));
 
-const v$ = useVuelidate(validationRules, state);
+const v$ = useVuelidate(validationRules, {
+  selectedContact,
+  targetInbox,
+  message: computed(() => state.message),
+  subject: computed(() => state.subject),
+});
 
 const validationStates = computed(() => ({
   isContactInvalid:
@@ -222,6 +230,10 @@ const handleRemoveSignature = signature => {
   state.message = removeSignature(state.message, signature);
 };
 
+const handleAttachFile = files => {
+  state.attachedFiles = files;
+};
+
 const clearForm = () => {
   Object.assign(state, {
     message: '',
@@ -300,76 +312,74 @@ watch(
 
 <template>
   <div
-    class="divide-y divide-n-strong absolute right-0 w-[670px] mt-2 overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="absolute right-0 w-[670px] mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
   >
-    <div class="flex flex-col divide-y divide-n-strong">
-      <ContactSelector
-        :contacts="contacts"
-        :selected-contact="selectedContact"
-        :show-contacts-dropdown="showContactsDropdown"
-        :is-loading="isLoading"
-        :is-creating-contact="isCreatingContact"
-        :contact-id="contactId"
-        :contactable-inboxes-list="contactableInboxesList"
-        :show-inboxes-dropdown="showInboxesDropdown"
-        :has-errors="validationStates.isContactInvalid"
-        @search-contacts="handleContactSearch"
-        @set-selected-contact="setSelectedContact"
-        @clear-selected-contact="clearSelectedContact"
-        @update-dropdown="handleDropdownUpdate"
-      />
+    <ContactSelector
+      :contacts="contacts"
+      :selected-contact="selectedContact"
+      :show-contacts-dropdown="showContactsDropdown"
+      :is-loading="isLoading"
+      :is-creating-contact="isCreatingContact"
+      :contact-id="contactId"
+      :contactable-inboxes-list="contactableInboxesList"
+      :show-inboxes-dropdown="showInboxesDropdown"
+      :has-errors="validationStates.isContactInvalid"
+      @search-contacts="handleContactSearch"
+      @set-selected-contact="setSelectedContact"
+      @clear-selected-contact="clearSelectedContact"
+      @update-dropdown="handleDropdownUpdate"
+    />
 
-      <InboxSelector
-        :target-inbox="targetInbox"
-        :selected-contact="selectedContact"
-        :show-inboxes-dropdown="showInboxesDropdown"
-        :contactable-inboxes-list="contactableInboxesList"
-        :has-errors="validationStates.isInboxInvalid"
-        @update-inbox="removeTargetInbox"
-        @toggle-dropdown="showInboxesDropdown = $event"
-        @handle-inbox-action="handleInboxAction"
-      />
+    <InboxSelector
+      :target-inbox="targetInbox"
+      :selected-contact="selectedContact"
+      :show-inboxes-dropdown="showInboxesDropdown"
+      :contactable-inboxes-list="contactableInboxesList"
+      :has-errors="validationStates.isInboxInvalid"
+      @update-inbox="removeTargetInbox"
+      @toggle-dropdown="showInboxesDropdown = $event"
+      @handle-inbox-action="handleInboxAction"
+    />
 
-      <EmailOptions
-        v-if="inboxTypes.isEmail"
-        v-model:cc-emails="state.ccEmails"
-        v-model:bcc-emails="state.bccEmails"
-        v-model:subject="state.subject"
-        :contacts="contacts"
-        :show-cc-emails-dropdown="showCcEmailsDropdown"
-        :show-bcc-emails-dropdown="showBccEmailsDropdown"
-        :show-bcc-input="showBccInput"
-        :is-loading="isLoading"
-        :has-errors="validationStates.isSubjectInvalid"
-        @search-cc-emails="searchCcEmails"
-        @search-bcc-emails="searchBccEmails"
-        @toggle-bcc="toggleBccInput"
-        @update-dropdown="handleDropdownUpdate"
-      />
+    <EmailOptions
+      v-if="inboxTypes.isEmail"
+      v-model:cc-emails="state.ccEmails"
+      v-model:bcc-emails="state.bccEmails"
+      v-model:subject="state.subject"
+      :contacts="contacts"
+      :show-cc-emails-dropdown="showCcEmailsDropdown"
+      :show-bcc-emails-dropdown="showBccEmailsDropdown"
+      :show-bcc-input="showBccInput"
+      :is-loading="isLoading"
+      :has-errors="validationStates.isSubjectInvalid"
+      @search-cc-emails="searchCcEmails"
+      @search-bcc-emails="searchBccEmails"
+      @toggle-bcc="toggleBccInput"
+      @update-dropdown="handleDropdownUpdate"
+    />
 
-      <MessageEditor
-        v-if="!inboxTypes.isWhatsapp"
-        v-model="state.message"
-        :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
-        :has-errors="validationStates.isMessageInvalid"
-      />
-    </div>
+    <MessageEditor
+      v-if="!inboxTypes.isWhatsapp"
+      v-model="state.message"
+      :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
+      :has-errors="validationStates.isMessageInvalid"
+    />
 
     <ActionButtons
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
-      :is-twilio-inbox="inboxTypes.isTwilio"
-      :is-api-inbox="inboxTypes.isApi"
+      :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
       :is-loading="isCreating"
       :disable-send-button="isCreating"
-      @discard="$emit('discard')"
-      @send-message="handleSendMessage"
-      @send-whatsapp-message="handleSendWhatsappMessage"
       @insert-emoji="onClickInsertEmoji"
       @add-signature="handleAddSignature"
       @remove-signature="handleRemoveSignature"
+      @attach-file="handleAttachFile"
+      @discard="$emit('discard')"
+      @send-message="handleSendMessage"
+      @send-whatsapp-message="handleSendWhatsappMessage"
     />
   </div>
 </template>
