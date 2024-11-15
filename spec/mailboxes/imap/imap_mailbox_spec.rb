@@ -43,6 +43,22 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email has attachments with no filename' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('attachments_without_filename.eml') }
+
+      it 'creates a conversation and a message with properly named attachments' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        last_message = conversation.messages.last
+        expect(last_message.attachments.count).to be 2
+
+        filenames = last_message.attachments.map(&:file).map { |file| file.blob.filename.to_s }
+        expect(filenames.all? { |filename| filename.present? && filename.start_with?('attachment_') }).to be true
+      end
+    end
+
     context 'when the email has 15 or more attachments' do
       let(:inbound_mail) { create_inbound_email_from_fixture('multiple_attachments.eml') }
 
