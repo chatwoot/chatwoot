@@ -30,7 +30,11 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def scope_for_incoming_messages_count
-    scope.messages.where(account_id: account.id, created_at: range).incoming.unscope(:order)
+    scope.conversations
+      .where(account_id: account.id)
+      .joins(:messages)
+      .where(messages: { created_at: range, message_type: 0 })
+      .unscope(:order)
   end
 
   def scope_for_outgoing_messages_count
