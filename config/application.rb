@@ -29,8 +29,8 @@ end
 
 # heroku autoscaling
 if ENV.fetch('JUDOSCALE_URL', false).present?
-  require "judoscale-rails"
-  require "judoscale-sidekiq"
+  require 'judoscale-rails'
+  require 'judoscale-sidekiq'
 end
 
 module Chatwoot
