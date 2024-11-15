@@ -131,7 +131,32 @@ export const prepareWhatsAppMessagePayload = ({
   };
 };
 
+export const generateContactQuery = ({ query }) => {
+  return {
+    payload: [
+      {
+        attribute_key: 'email',
+        filter_operator: 'contains',
+        values: [query],
+        attribute_model: 'standard',
+        custom_attribute_type: '',
+      },
+    ],
+  };
+};
+
 // API Calls
+export const searchContacts = async query => {
+  const {
+    data: { payload },
+  } = await ContactAPI.filter(
+    undefined,
+    'name',
+    generateContactQuery({ query })
+  );
+  return camelcaseKeys(payload, { deep: true });
+};
+
 export const createNewContact = async email => {
   const payload = {
     name: getCapitalizedNameFromEmail(email),

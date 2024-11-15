@@ -1,13 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-// import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
-import camelcaseKeys from 'camelcase-keys';
-
-import ContactAPI from 'dashboard/api/contacts';
 import { debounce } from '@chatwoot/utils';
+import { searchContacts } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
 import ComposeNewConversation from 'dashboard/components-next/NewConversation/ComposeNewConversation.vue';
 
@@ -20,36 +17,15 @@ const showComposeNewConversation = ref(false);
 
 const contactId = computed(() => route.params.contactId || null);
 
-const generateContactQuery = ({ query }) => {
-  return {
-    payload: [
-      {
-        attribute_key: 'email',
-        filter_operator: 'contains',
-        values: [query],
-        attribute_model: 'standard',
-        custom_attribute_type: '',
-      },
-    ],
-  };
-};
-
 const onContactSearch = debounce(
   async query => {
     isSearching.value = true;
     contacts.value = [];
     try {
-      const {
-        data: { payload },
-      } = await ContactAPI.filter(
-        undefined,
-        'name',
-        generateContactQuery({ query })
-      );
-      contacts.value = camelcaseKeys(payload, { deep: true });
+      contacts.value = await searchContacts(query);
       isSearching.value = false;
     } catch (error) {
-      useAlert(t('CONTACTS_LAYOUT.SIDEBAR.MERGE.SEARCH_ERROR_MESSAGE'));
+      useAlert(t('COMPOSE_NEW_CONVERSATION.CONTACT_SEARCH.ERROR_MESSAGE'));
     } finally {
       isSearching.value = false;
     }

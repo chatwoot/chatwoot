@@ -201,7 +201,127 @@ describe('composeConversationHelper', () => {
     });
   });
 
+  describe('generateContactQuery', () => {
+    it('generates correct query structure for contact search', () => {
+      const query = 'test@example.com';
+      const expected = {
+        payload: [
+          {
+            attribute_key: 'email',
+            filter_operator: 'contains',
+            values: [query],
+            attribute_model: 'standard',
+            custom_attribute_type: '',
+          },
+        ],
+      };
+
+      expect(helpers.generateContactQuery({ query })).toEqual(expected);
+    });
+
+    it('handles empty query', () => {
+      const expected = {
+        payload: [
+          {
+            attribute_key: 'email',
+            filter_operator: 'contains',
+            values: [''],
+            attribute_model: 'standard',
+            custom_attribute_type: '',
+          },
+        ],
+      };
+
+      expect(helpers.generateContactQuery({ query: '' })).toEqual(expected);
+    });
+  });
+
   describe('API calls', () => {
+    describe('searchContacts', () => {
+      it('searches contacts and returns camelCase results', async () => {
+        const mockPayload = [
+          {
+            id: 1,
+            name: 'John Doe',
+            email: 'john@example.com',
+            phone_number: '+1234567890',
+            created_at: '2023-01-01',
+          },
+        ];
+
+        ContactAPI.filter.mockResolvedValue({
+          data: { payload: mockPayload },
+        });
+
+        const result = await helpers.searchContacts('john');
+
+        expect(result).toEqual([
+          {
+            id: 1,
+            name: 'John Doe',
+            email: 'john@example.com',
+            phoneNumber: '+1234567890',
+            createdAt: '2023-01-01',
+          },
+        ]);
+
+        expect(ContactAPI.filter).toHaveBeenCalledWith(
+          undefined,
+          'name',
+          helpers.generateContactQuery({ query: 'john' })
+        );
+      });
+
+      it('handles empty search results', async () => {
+        ContactAPI.filter.mockResolvedValue({
+          data: { payload: [] },
+        });
+
+        const result = await helpers.searchContacts('nonexistent');
+        expect(result).toEqual([]);
+      });
+
+      it('transforms nested objects to camelCase', async () => {
+        const mockPayload = [
+          {
+            id: 1,
+            contact_inboxes: [
+              {
+                inbox_id: 1,
+                source_id: 'source1',
+                created_at: '2023-01-01',
+              },
+            ],
+            custom_attributes: {
+              custom_field_name: 'value',
+            },
+          },
+        ];
+
+        ContactAPI.filter.mockResolvedValue({
+          data: { payload: mockPayload },
+        });
+
+        const result = await helpers.searchContacts('test');
+
+        expect(result).toEqual([
+          {
+            id: 1,
+            contactInboxes: [
+              {
+                inboxId: 1,
+                sourceId: 'source1',
+                createdAt: '2023-01-01',
+              },
+            ],
+            customAttributes: {
+              customFieldName: 'value',
+            },
+          },
+        ]);
+      });
+    });
+
     describe('createNewContact', () => {
       it('creates new contact with capitalized name', async () => {
         const mockContact = { id: 1, name: 'John', email: 'john@example.com' };
