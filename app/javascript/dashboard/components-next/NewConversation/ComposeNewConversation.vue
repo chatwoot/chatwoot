@@ -25,6 +25,7 @@ import InboxSelector from './components/InboxSelector.vue';
 import EmailOptions from './components/EmailOptions.vue';
 import MessageEditor from './components/MessageEditor.vue';
 import ActionButtons from './components/ActionButtons.vue';
+import InboxEmptyState from './components/InboxEmptyState.vue';
 
 const props = defineProps({
   contacts: {
@@ -51,8 +52,10 @@ const showInboxesDropdown = ref(false);
 const showCcEmailsDropdown = ref(false);
 const showBccEmailsDropdown = ref(false);
 const isCreatingContact = ref(false);
+const isFetchingInboxes = ref(false);
 
 const contactById = useMapGetter('contacts/getContactById');
+const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
@@ -139,6 +142,15 @@ const contactableInboxesList = computed(() => {
   return buildContactableInboxesList(selectedContact.value?.contactInboxes);
 });
 
+const showNoInboxAlert = computed(() => {
+  return (
+    selectedContact.value &&
+    contactableInboxesList.value.length === 0 &&
+    !contactsUiFlags.value.isFetchingInboxes &&
+    !isFetchingInboxes.value
+  );
+});
+
 const handleContactSearch = value => {
   emit('searchContacts', value);
 };
@@ -189,9 +201,11 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
 
     // Only proceed with fetching inboxes if we have a contact
     if (contact?.id) {
+      isFetchingInboxes.value = true;
       const contactableInboxes = await fetchContactableInboxes(contact.id);
       selectedContact.value.contactInboxes = contactableInboxes;
       showInboxesDropdown.value = true;
+      isFetchingInboxes.value = false;
     }
   } catch (error) {
     // Reset states in case of error
@@ -329,8 +343,9 @@ watch(
       @clear-selected-contact="clearSelectedContact"
       @update-dropdown="handleDropdownUpdate"
     />
-
+    <InboxEmptyState v-if="showNoInboxAlert" />
     <InboxSelector
+      v-else
       :target-inbox="targetInbox"
       :selected-contact="selectedContact"
       :show-inboxes-dropdown="showInboxesDropdown"
@@ -359,7 +374,7 @@ watch(
     />
 
     <MessageEditor
-      v-if="!inboxTypes.isWhatsapp"
+      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
       v-model="state.message"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
@@ -373,6 +388,7 @@ watch(
       :channel-type="inboxChannelType"
       :is-loading="isCreating"
       :disable-send-button="isCreating"
+      :has-no-inbox="showNoInboxAlert"
       @insert-emoji="onClickInsertEmoji"
       @add-signature="handleAddSignature"
       @remove-signature="handleRemoveSignature"

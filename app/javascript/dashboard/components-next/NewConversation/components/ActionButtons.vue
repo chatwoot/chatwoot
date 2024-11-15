@@ -39,6 +39,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasNoInbox: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -127,7 +131,7 @@ const { onFileUpload } = useFileUpload({
         @send-message="emit('sendWhatsappMessage', $event)"
       />
       <div
-        v-if="!isWhatsappInbox"
+        v-if="!isWhatsappInbox && !hasNoInbox"
         v-on-clickaway="() => (isEmojiPickerOpen = false)"
         class="relative"
       >

@@ -607,6 +607,7 @@
       "GO_TO_CONVERSATION": "View",
       "SUCCESS_MESSAGE": "Conversation created successfully",
       "ERROR_MESSAGE": "Could not create conversation. Please try again later.",
+      "NO_INBOX_ALERT": "Couldn't find an inbox to initiate a new conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "To :",
         "TAG_INPUT_PLACEHOLDER": "Search or enter email and press Enter",
