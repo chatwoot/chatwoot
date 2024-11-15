@@ -11,17 +11,13 @@ defineProps({
     type: Boolean,
     required: true,
   },
-  isWhatsappInbox: {
-    type: Boolean,
-    required: true,
-  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-  <div v-if="isEmailOrWebWidgetInbox" class="flex-1 h-full">
+  <div v-if="isEmailOrWebWidgetInbox" class="flex-1 h-full min-h-[200px]">
     <Editor
       :model-value="modelValue"
       placeholder="Write your message here..."
@@ -30,7 +26,7 @@ const emit = defineEmits(['update:modelValue']);
       @update:model-value="emit('update:modelValue', $event)"
     />
   </div>
-  <div v-else-if="!isWhatsappInbox" class="flex-1 h-full">
+  <div v-else class="flex-1 h-full min-h-[200px]">
     <TextArea
       :model-value="modelValue"
       placeholder="Write your message here..."

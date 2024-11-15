@@ -17,19 +17,14 @@ const emit = defineEmits(['sendMessage', 'back']);
 
 const processedParams = ref({});
 
+const templateName = computed(() => {
+  return props.template?.name || '';
+});
+
 const templateString = computed(() => {
   return props.template?.components?.find(
     component => component.type === 'BODY'
   ).text;
-});
-
-const allKeysRequired = value => {
-  const keys = Object.keys(value);
-  return keys.every(key => value[key]);
-};
-
-const variables = computed(() => {
-  return templateString.value.match(/{{([^}]+)}}/g);
 });
 
 const processVariable = str => {
@@ -43,15 +38,35 @@ const processedString = computed(() => {
   });
 });
 
-const v$ = useVuelidate(
-  {
-    processedParams: {
-      requiredIfKeysPresent: requiredIf(variables),
-      allKeysRequired,
-    },
-  },
-  { processedParams }
-);
+const processedStringWithVariableHighlight = computed(() => {
+  const variables = templateString.value.match(/{{([^}]+)}}/g) || [];
+
+  return variables.reduce((result, variable) => {
+    const variableKey = processVariable(variable);
+    const value = processedParams.value[variableKey] || variable;
+    return result.replace(
+      variable,
+      `<span class="break-all text-n-slate-12">${value}</span>`
+    );
+  }, templateString.value);
+});
+
+const rules = computed(() => {
+  const paramRules = {};
+  Object.keys(processedParams.value).forEach(key => {
+    paramRules[key] = { required: requiredIf(true) };
+  });
+  return {
+    processedParams: paramRules,
+  };
+});
+
+const v$ = useVuelidate(rules, { processedParams });
+
+const getFieldErrorType = key => {
+  if (!v$.value.processedParams[key]?.$error) return 'info';
+  return 'error';
+};
 
 const generateVariables = () => {
   const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
@@ -64,9 +79,9 @@ const generateVariables = () => {
   }, {});
 };
 
-const sendMessage = () => {
-  v$.value.$touch();
-  if (v$.value.$invalid) return;
+const sendMessage = async () => {
+  const isValid = await v$.value.$validate();
+  if (!isValid) return;
 
   const payload = {
     message: processedString.value,
@@ -88,15 +103,18 @@ onMounted(() => {
 
 <template>
   <div
-    class="absolute top-full mt-1.5 left-0 flex flex-col gap-4 px-4 pt-6 pb-5 items-start w-[460px] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
+    class="absolute top-full mt-1.5 max-h-[500px] overflow-y-auto left-0 flex flex-col gap-4 px-4 pt-6 pb-5 items-start w-[460px] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
   >
     <span class="text-sm text-n-slate-12">
-      {{ `WhatsApp template: ${template.name}` }}
+      {{ `WhatsApp template: ${templateName}` }}
     </span>
-    <p class="mb-0 text-sm text-n-slate-11">{{ processedString }}</p>
+    <p
+      class="mb-0 text-sm text-n-slate-11"
+      v-html="processedStringWithVariableHighlight"
+    />
 
     <span
-      v-if="processedParams.length"
+      v-if="Object.keys(processedParams).length"
       class="text-sm font-medium text-n-slate-12"
     >
       {{ 'Variables' }}
@@ -105,16 +123,26 @@ onMounted(() => {
     <div
       v-for="(variable, key) in processedParams"
       :key="key"
-      class="flex flex-col w-full gap-4"
+      class="flex items-center w-full gap-2"
     >
-      <span class="w-8 h-8 text-sm text-left text-n-slate-12">{{ key }}</span>
-      <Input v-model="processedParams[key]" custom-input-class="!h-8" />
+      <span
+        class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
+      >
+        {{ key }}
+      </span>
+      <Input
+        v-model="processedParams[key]"
+        custom-input-class="!h-8 w-full !bg-transparent"
+        class="w-full"
+        :message-type="getFieldErrorType(key)"
+      />
     </div>
 
     <div class="flex items-end justify-between w-full gap-3 h-14">
       <Button
         label="Go back"
         color="slate"
+        variant="faded"
         class="w-full font-medium"
         @click="emit('back')"
       />

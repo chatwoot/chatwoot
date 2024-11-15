@@ -6,8 +6,8 @@ import WhatsappTemplateParser from './WhatsappTemplateParser.vue';
 
 const props = defineProps({
   messageTemplates: {
-    type: Object,
-    default: () => {},
+    type: Array,
+    default: () => [],
   },
 });
 
@@ -22,10 +22,16 @@ const selectedTemplate = ref(null);
 const showTemplatesMenu = ref(false);
 
 const whatsAppTemplateMessages = computed(() => {
-  return props.messageTemplates
-    .filter(template => template.status.toLowerCase() === 'approved')
+  // Add null check and ensure it's an array
+  const templates = Array.isArray(props.messageTemplates)
+    ? props.messageTemplates
+    : [];
+
+  // TODO: Remove the last filter when we support all formats
+  return templates
+    .filter(template => template?.status?.toLowerCase() === 'approved')
     .filter(template => {
-      return template.components.every(component => {
+      return template?.components?.every(component => {
         return !formatsToRemove.includes(component.format);
       });
     });
@@ -75,7 +81,7 @@ const handleSendMessage = template => {
     />
     <div
       v-if="showTemplatesMenu"
-      class="absolute top-full mt-1.5 left-0 flex flex-col gap-2 p-4 items-center w-[350px] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
+      class="absolute top-full mt-1.5 max-h-96 overflow-y-auto left-0 flex flex-col gap-2 p-4 items-center w-[350px] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
     >
       <div class="relative w-full">
         <span class="absolute i-lucide-search size-3.5 top-2 left-3" />

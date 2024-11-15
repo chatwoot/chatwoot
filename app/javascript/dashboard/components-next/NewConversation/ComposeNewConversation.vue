@@ -396,9 +396,9 @@ watch(
       />
 
       <MessageEditor
+        v-if="!isWhatsappInbox"
         v-model="state.message"
         :is-email-or-web-widget-inbox="isEmailOrWebWidgetInbox"
-        :is-whatsapp-inbox="isWhatsappInbox"
       />
     </div>
 
