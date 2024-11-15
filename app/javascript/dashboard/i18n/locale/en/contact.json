@@ -602,6 +602,47 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Could not search for contacts. Please try again later."
+    },
+    "FORM": {
+      "GO_TO_CONVERSATION": "View",
+      "SUCCESS_MESSAGE": "Conversation created successfully",
+      "ERROR_MESSAGE": "Could not create conversation. Please try again later.",
+      "CONTACT_SELECTOR": {
+        "LABEL": "To :",
+        "TAG_INPUT_PLACEHOLDER": "Search or enter email and press Enter",
+        "CONTACT_CREATING": "Creating contact..."
+      },
+      "INBOX_SELECTOR": {
+        "LABEL": "Via inbox :",
+        "BUTTON": "Show inboxes"
+      },
+      "EMAIL_OPTIONS": {
+        "SUBJECT_LABEL": "Subject :",
+        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+        "CC_LABEL": "Cc :",
+        "CC_PLACEHOLDER": "Search or enter email and press Enter",
+        "BCC_LABEL": "Bcc :",
+        "BCC_PLACEHOLDER": "Search or enter email and press Enter",
+        "BCC_BUTTON": "Bcc"
+      },
+      "MESSAGE_EDITOR": {
+        "PLACEHOLDER": "Write your message here..."
+      },
+      "WHATSAPP_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+          "VARIABLES": "Variables",
+          "BACK": "Go back",
+          "SEND_MESSAGE": "Send message"
+        }
+      },
+      "ACTION_BUTTONS": {
+        "DISCARD": "Discard",
+        "SEND": "Send (↵)"
+      }
     }
   }
 }

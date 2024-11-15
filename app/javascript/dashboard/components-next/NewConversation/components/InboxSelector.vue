@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { generateLabelForContactableInboxesList } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -34,6 +35,8 @@ const emit = defineEmits([
   'handleInboxAction',
 ]);
 
+const { t } = useI18n();
+
 const targetInboxLabel = computed(() => {
   return generateLabelForContactableInboxesList(props.targetInbox);
 });
@@ -44,7 +47,7 @@ const targetInboxLabel = computed(() => {
     class="flex items-center flex-1 w-full gap-3 px-4 py-3 overflow-y-visible"
   >
     <label class="mb-0.5 text-sm font-medium text-n-slate-11 whitespace-nowrap">
-      {{ 'Via inbox :' }}
+      {{ t('COMPOSE_NEW_CONVERSATION.FORM.INBOX_SELECTOR.LABEL') }}
     </label>
     <div
       v-if="targetInbox"
@@ -68,7 +71,7 @@ const targetInboxLabel = computed(() => {
       class="relative flex items-center h-7"
     >
       <Button
-        label="Show inboxes"
+        :label="t('COMPOSE_NEW_CONVERSATION.FORM.INBOX_SELECTOR.BUTTON')"
         variant="link"
         size="sm"
         :color="hasErrors ? 'ruby' : 'slate'"

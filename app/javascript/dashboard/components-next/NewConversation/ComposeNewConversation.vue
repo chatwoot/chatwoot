@@ -242,15 +242,15 @@ const createConversation = async ({ payload, isFromWhatsApp }) => {
     const action = {
       type: 'link',
       to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
-      message: t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+      message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
     };
     emit('success');
-    useAlert(t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
+    useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
   } catch (error) {
     useAlert(
       error instanceof ExceptionWithMessage
         ? error.data
-        : t('NEW_CONVERSATION.FORM.ERROR_MESSAGE')
+        : t('COMPOSE_NEW_CONVERSATION.FORM.ERROR_MESSAGE')
     );
   }
 };

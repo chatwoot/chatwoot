@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsappTemplateParser from './WhatsappTemplateParser.vue';
@@ -12,6 +13,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['sendMessage']);
+
+const { t } = useI18n();
 
 // TODO: Remove this when we support all formats
 const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
@@ -72,7 +75,7 @@ const handleSendMessage = template => {
   <div class="relative">
     <Button
       icon="i-ri-whatsapp-line"
-      label="Select template"
+      :label="t('COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.LABEL')"
       color="slate"
       size="sm"
       :disabled="selectedTemplate"
@@ -88,7 +91,11 @@ const handleSendMessage = template => {
         <input
           v-model="searchQuery"
           type="search"
-          placeholder="Search templates"
+          :placeholder="
+            t(
+              'COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.SEARCH_PLACEHOLDER'
+            )
+          "
           class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
         />
       </div>
@@ -105,7 +112,7 @@ const handleSendMessage = template => {
       </div>
       <template v-if="filteredTemplates.length === 0">
         <p class="w-full pt-2 text-sm text-n-slate-11">
-          {{ 'No templates found' }}
+          {{ t('COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.EMPTY_STATE') }}
         </p>
       </template>
     </div>

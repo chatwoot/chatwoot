@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -50,6 +51,8 @@ const emit = defineEmits([
   'updateDropdown',
 ]);
 
+const { t } = useI18n();
+
 const contactsList = computed(() => {
   return props.contacts?.map(({ name, id, thumbnail, email, ...rest }) => ({
     id,
@@ -72,7 +75,7 @@ const selectedContactLabel = computed(() => {
   <div class="relative flex-1 px-4 py-3 overflow-y-visible">
     <div class="flex items-baseline w-full gap-3 min-h-7">
       <label class="text-sm font-medium text-n-slate-11 whitespace-nowrap">
-        {{ 'To :' }}
+        {{ t('COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.LABEL') }}
       </label>
 
       <div
@@ -80,7 +83,13 @@ const selectedContactLabel = computed(() => {
         class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-3 min-h-7"
       >
         <span class="text-sm truncate text-n-slate-12">
-          {{ isCreatingContact ? 'Creating contact...' : selectedContactLabel }}
+          {{
+            isCreatingContact
+              ? t(
+                  'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.CONTACT_CREATING'
+                )
+              : selectedContactLabel
+          }}
         </span>
         <Button
           variant="ghost"
@@ -93,7 +102,11 @@ const selectedContactLabel = computed(() => {
       </div>
       <TagInput
         v-else
-        placeholder="Search or enter email and press Enter"
+        :placeholder="
+          t(
+            'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.TAG_INPUT_PLACEHOLDER'
+          )
+        "
         mode="single"
         :menu-items="contactsList"
         :show-dropdown="showContactsDropdown"

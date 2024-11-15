@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -54,6 +55,8 @@ const emit = defineEmits([
   'updateDropdown',
 ]);
 
+const { t } = useI18n();
+
 // Convert string to array for TagInput
 const ccEmailsArray = computed(() =>
   props.ccEmails ? props.ccEmails.split(',').map(email => email.trim()) : []
@@ -89,8 +92,10 @@ const handleBccUpdate = value => {
     <div class="flex items-baseline flex-1 w-full h-8 gap-3 px-4 py-3">
       <InlineInput
         :model-value="subject"
-        placeholder="Enter your email subject here"
-        label="Subject :"
+        :placeholder="
+          t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.SUBJECT_PLACEHOLDER')
+        "
+        :label="t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.SUBJECT_LABEL')"
         focus-on-mount
         :custom-input-class="
           hasErrors
@@ -104,12 +109,14 @@ const handleBccUpdate = value => {
       <label
         class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
       >
-        {{ 'Cc :' }}
+        {{ t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.CC_LABEL') }}
       </label>
       <div class="flex items-center w-full gap-3 min-h-7">
         <TagInput
           :model-value="ccEmailsArray"
-          placeholder="Search or enter email and press Enter"
+          :placeholder="
+            t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.CC_PLACEHOLDER')
+          "
           :menu-items="contactEmailsList"
           :show-dropdown="showCcEmailsDropdown"
           :is-loading="isLoading"
@@ -121,7 +128,7 @@ const handleBccUpdate = value => {
           @update:model-value="handleCcUpdate"
         />
         <Button
-          label="Bcc"
+          :label="t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.BCC_BUTTON')"
           variant="ghost"
           size="sm"
           color="slate"
@@ -137,11 +144,13 @@ const handleBccUpdate = value => {
       <label
         class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
       >
-        {{ 'Bcc :' }}
+        {{ t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.BCC_LABEL') }}
       </label>
       <TagInput
         :model-value="bccEmailsArray"
-        placeholder="Search or enter email and press Enter"
+        :placeholder="
+          t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.BCC_PLACEHOLDER')
+        "
         :menu-items="contactEmailsList"
         :show-dropdown="showBccEmailsDropdown"
         :is-loading="isLoading"

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
@@ -41,6 +41,10 @@ const toggle = () => {
 const closeCompose = () => {
   showComposeNewConversation.value = false;
 };
+
+onMounted(() => {
+  onContactSearch('');
+});
 </script>
 
 <template>

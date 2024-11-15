@@ -2,6 +2,7 @@
 import { computed, ref, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
+import { useI18n } from 'vue-i18n';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -14,6 +15,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['sendMessage', 'back']);
+
+const { t } = useI18n();
 
 const processedParams = ref({});
 
@@ -106,7 +109,12 @@ onMounted(() => {
     class="absolute top-full mt-1.5 max-h-[500px] overflow-y-auto left-0 flex flex-col gap-4 px-4 pt-6 pb-5 items-start w-[460px] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
   >
     <span class="text-sm text-n-slate-12">
-      {{ `WhatsApp template: ${templateName}` }}
+      {{
+        t(
+          'COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.TEMPLATE_PARSER.TEMPLATE_NAME',
+          { templateName: templateName }
+        )
+      }}
     </span>
     <p
       class="mb-0 text-sm text-n-slate-11"
@@ -117,7 +125,11 @@ onMounted(() => {
       v-if="Object.keys(processedParams).length"
       class="text-sm font-medium text-n-slate-12"
     >
-      {{ 'Variables' }}
+      {{
+        t(
+          'COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.TEMPLATE_PARSER.VARIABLES'
+        )
+      }}
     </span>
 
     <div
@@ -140,14 +152,22 @@ onMounted(() => {
 
     <div class="flex items-end justify-between w-full gap-3 h-14">
       <Button
-        label="Go back"
+        :label="
+          t(
+            'COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.TEMPLATE_PARSER.BACK'
+          )
+        "
         color="slate"
         variant="faded"
         class="w-full font-medium"
         @click="emit('back')"
       />
       <Button
-        label="Send message"
+        :label="
+          t(
+            'COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.TEMPLATE_PARSER.SEND_MESSAGE'
+          )
+        "
         class="w-full font-medium"
         @click="sendMessage"
       />

@@ -1,4 +1,6 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
+
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
@@ -18,13 +20,17 @@ defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div v-if="isEmailOrWebWidgetInbox" class="flex-1 h-full min-h-[200px]">
     <Editor
       :model-value="modelValue"
-      placeholder="Write your message here..."
+      :placeholder="
+        t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
+      "
       class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[200px]"
       :class="
         hasErrors
@@ -38,7 +44,9 @@ const emit = defineEmits(['update:modelValue']);
   <div v-else class="flex-1 h-full min-h-[200px]">
     <TextArea
       :model-value="modelValue"
-      placeholder="Write your message here..."
+      :placeholder="
+        t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
+      "
       class="!px-0 [&>div]:!px-4 [&>div]:!border-transparent [&>div]:!bg-transparent"
       auto-height
       :custom-text-area-class="

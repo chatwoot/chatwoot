@@ -1,6 +1,7 @@
 <script setup>
 import { defineAsyncComponent, ref, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -41,6 +42,8 @@ const emit = defineEmits([
   'addSignature',
   'removeSignature',
 ]);
+
+const { t } = useI18n();
 
 const isEmojiPickerOpen = ref(false);
 
@@ -129,7 +132,7 @@ const onClickInsertEmoji = emoji => {
 
     <div class="flex items-center gap-2">
       <Button
-        label="Discard"
+        :label="t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.DISCARD')"
         variant="faded"
         color="slate"
         size="sm"
@@ -138,7 +141,7 @@ const onClickInsertEmoji = emoji => {
       />
       <Button
         v-if="!isWhatsappInbox"
-        label="Send (↵)"
+        :label="t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.SEND')"
         size="sm"
         class="!text-xs font-medium"
         :disabled="isLoading || disableSendButton"
