@@ -13,6 +13,8 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import AppContainer from './Dashboard.vue';
 import Captain from './Captain.vue';
 import Suspended from './suspended/Index.vue';
+import mohsenPage from './newPage/mohsenPage.vue'; // کامپوننت جدید
+
 
 export default {
   routes: [
@@ -30,6 +32,14 @@ export default {
           },
           props: true,
         },
+        {
+          path: frontendURL('accounts/:accountId/newPage'),
+          name: 'newPage',
+          component: mohsenPage,
+          meta: {
+            permissions: ['operator'],
+        },
+      },
         ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,
