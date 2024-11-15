@@ -54,11 +54,32 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
     additional_endpoints.each do |endpoint|
       begin
-        HTTParty.post(
+        # Validate URL format
+        uri = URI.parse(endpoint)
+        raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+
+        # Make the request with timeout and specific error handling
+        response = HTTParty.post(
           endpoint,
           body: params.to_json,
-          headers: { 'Content-Type' => 'application/json' }
+          headers: { 
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'Chatwoot-Webhook-Forwarder'
+          },
+          timeout: 10,
+          verify: true  # Verify SSL certificates
         )
+
+        unless response.success?
+          Rails.logger.error "Failed to forward WhatsApp webhook to #{endpoint}. Status: #{response.code}"
+        end
+
+      rescue URI::InvalidURIError
+        Rails.logger.error "Invalid webhook URL: #{endpoint}"
+      rescue HTTParty::TimeoutError
+        Rails.logger.error "Timeout forwarding WhatsApp webhook to #{endpoint}"
+      rescue HTTParty::ResponseError => e
+        Rails.logger.error "HTTP error forwarding WhatsApp webhook to #{endpoint}: #{e.message}"
       rescue StandardError => e
         Rails.logger.error "Error forwarding WhatsApp webhook to #{endpoint}: #{e.message}"
       end
