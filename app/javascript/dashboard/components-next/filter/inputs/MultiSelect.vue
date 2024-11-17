@@ -51,10 +51,15 @@ const selectedVisibleItems = computed(() => {
   return selectedItems.value.slice(0, maxChips);
 });
 
-const pendingItems = computed(() => {
+const remainingItems = computed(() => {
   if (!hasItems.value) return [];
   if (selectedItems.value.length === maxChips + 1) return [];
   return selectedItems.value.slice(maxChips);
+});
+
+const remainingTooltip = computed(() => {
+  if (!hasItems.value) return '';
+  return remainingItems.value.map(item => item.name).join(', ');
 });
 
 const toggleOption = optionToToggle => {
@@ -88,11 +93,12 @@ const toggleOption = optionToToggle => {
           <span class="truncate">{{ item.name }}</span>
         </div>
         <div
-          v-if="pendingItems.length > 0"
+          v-if="remainingItems.length > 0"
+          v-tooltip.top="remainingTooltip"
           class="px-3 border-r border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px]"
         >
           <span class="truncate">{{
-            t('COMBOBOX.MORE', { count: pendingItems.length })
+            t('COMBOBOX.MORE', { count: remainingItems.length })
           }}</span>
         </div>
         <div class="flex items-center border-none px-3">
