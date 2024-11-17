@@ -62,9 +62,12 @@ export function useConversationFilterContext() {
    * Computed property that generates custom filter types based on conversation attributes
    * @type {import('vue').ComputedRef<Array<{
    *   attribute_key: string,
+   *   value: string,
    *   attribute_name: string,
+   *   label: string,
    *   input_type: ReturnType<typeof customAttributeInputType>,
    *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
+   *   options: Array<{id: string, name: string}>,
    *   attribute_model: 'customAttributes'
    * }>>}
    */
@@ -90,10 +93,12 @@ export function useConversationFilterContext() {
    * Computed property that combines standard and custom filter types
    * @type {import('vue').ComputedRef<Array<{
    *   attribute_key: string,
+   *   value: string,
    *   attribute_name: string,
-   *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date'|'booleanSelect',
-   *   data_type: 'text'|'number',
+   *   label: string,
+   *   input_type: ReturnType<typeof customAttributeInputType>,
    *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
+   *   options: Array<{id: string, name: string}>,
    *   attribute_model: 'standard'|'additional'|'customAttributes'
    * }>>}
    */
