@@ -101,8 +101,14 @@ const toggleOption = optionToToggle => {
             t('COMBOBOX.MORE', { count: remainingItems.length })
           }}</span>
         </div>
-        <div class="flex items-center border-none px-3">
+        <div
+          class="flex items-center border-none px-3 gap-2"
+          :class="{ 'text-n-slate-11': !selectedItems.length }"
+        >
           <Icon icon="i-lucide-plus" />
+          <span v-if="!selectedItems.length">
+            {{ t('COMBOBOX.PLACEHOLDER') }}
+          </span>
         </div>
       </button>
     </template>
