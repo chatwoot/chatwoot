@@ -35,7 +35,8 @@ const filterOperator = defineModel('filterOperator', {
 
 const queryOperator = defineModel('queryOperator', {
   type: String,
-  required: true,
+  required: false,
+  default: 'and',
   validator: value => ['and', 'or'].includes(value),
 });
 
