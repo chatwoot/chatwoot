@@ -7,6 +7,40 @@ import countries from 'shared/constants/countries.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 /**
+ * @typedef {Object} FilterOption
+ * @property {string|number} id
+ * @property {string} name
+ * @property {import('vue').VNode} [icon]
+ */
+
+/**
+ * @typedef {Object} FilterOperator
+ * @property {string} value
+ * @property {string} label
+ * @property {string} icon
+ * @property {boolean} hasInput
+ */
+
+/**
+ * @typedef {Object} FilterType
+ * @property {string} attribute_key - The attribute key
+ * @property {string} value - This is a proxy for the attribute key used in FilterSelect
+ * @property {string} attribute_name - The attribute name used to display on the UI
+ * @property {string} label - This is a proxy for the attribute name used in FilterSelect
+ * @property {'multiSelect'|'searchSelect'|'plainText'|'date'|'booleanSelect'} input_type - The input type for the attribute
+ * @property {FilterOption[]} [options] - The options available for the attribute if it is a multiSelect or singleSelect type
+ * @property {'text'|'number'} data_type
+ * @property {FilterOperator[]} filter_operators - The operators available for the attribute
+ * @property {'standard'|'additional'|'customAttributes'} attribute_model
+ */
+
+/**
+ * @typedef {Object} FilterGroup
+ * @property {string} name
+ * @property {FilterType[]} attributes
+ */
+
+/**
  * Determines the input type for a custom attribute based on its key
  * @param {string} key - The attribute display type key
  * @returns {'date'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
@@ -28,14 +62,7 @@ const customAttributeInputType = key => {
 
 /**
  * Composable that provides conversation filtering context
- * @returns {{ filterTypes: import('vue').ComputedRef<Array<{
- *   attribute_key: string,
- *   attribute_name: string,
- *   input_type: 'multiSelect'|'searchSelect'|'plainText'|'date'|'booleanSelect',
- *   data_type: 'text'|'number',
- *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
- *   attribute_model: 'standard'|'additional'|'customAttributes'
- * }>> }} Object containing filter types configuration
+ * @returns {{ filterTypes: import('vue').ComputedRef<FilterType[]>, fitlerGroups: import('vue').ComputedRef<FilterGroup[]> }}
  */
 export function useConversationFilterContext() {
   const { t } = useI18n();
@@ -59,17 +86,7 @@ export function useConversationFilterContext() {
   } = useOperators();
 
   /**
-   * Computed property that generates custom filter types based on conversation attributes
-   * @type {import('vue').ComputedRef<Array<{
-   *   attribute_key: string,
-   *   value: string,
-   *   attribute_name: string,
-   *   label: string,
-   *   input_type: ReturnType<typeof customAttributeInputType>,
-   *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
-   *   options: Array<{id: string, name: string}>,
-   *   attribute_model: 'customAttributes'
-   * }>>}
+   * @type {import('vue').ComputedRef<FilterType[]>}
    */
   const customFilterTypes = computed(() => {
     return conversationAttributes.value.map(attr => {
@@ -90,17 +107,7 @@ export function useConversationFilterContext() {
   });
 
   /**
-   * Computed property that combines standard and custom filter types
-   * @type {import('vue').ComputedRef<Array<{
-   *   attribute_key: string,
-   *   value: string,
-   *   attribute_name: string,
-   *   label: string,
-   *   input_type: ReturnType<typeof customAttributeInputType>,
-   *   filter_operators: Array<{value: string, label: string, icon: string, hasInput: boolean}>,
-   *   options: Array<{id: string, name: string}>,
-   *   attribute_model: 'standard'|'additional'|'customAttributes'
-   * }>>}
+   * @type {import('vue').ComputedRef<FilterType[]>}
    */
   const filterTypes = computed(() => [
     {
@@ -129,7 +136,6 @@ export function useConversationFilterContext() {
         return {
           id: agent.id,
           name: agent.name,
-          // TODO: add avatar using the Icon component, it can render any function that returns a VNode
         };
       }),
       data_type: 'text',
