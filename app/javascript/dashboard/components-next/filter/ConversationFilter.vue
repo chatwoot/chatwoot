@@ -49,6 +49,17 @@ const addFilter = () => {
   });
 };
 
+const resetFilter = () => {
+  filters.value = [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: '',
+      query_operator: 'and',
+    },
+  ];
+};
+
 const conditionRefs = useTemplateRef('conditions');
 
 function updateSavedCustomViews() {
@@ -144,7 +155,7 @@ useKeyboardEvents({ Escape: { action: closeIfOpen } });
         {{ $t('FILTER.ADD_NEW_FILTER') }}
       </Button>
       <div class="flex gap-2">
-        <Button sm faded slate @click="filters = []">
+        <Button sm faded slate @click="resetFilter">
           {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
         </Button>
         <Button
