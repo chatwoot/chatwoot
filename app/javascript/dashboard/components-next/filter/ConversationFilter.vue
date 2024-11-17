@@ -100,7 +100,7 @@ useKeyboardEvents({ Escape: { action: closeIfOpen } });
     id="conversation-filter-modal"
     v-on-clickaway="closeIfOpen"
     popover
-    class="bg-n-alpha-3 grid gap-6 border border-n-weak p-6 rounded-xl overflow-visible w-[720px] backdrop-blur-3xl"
+    class="bg-n-alpha-3 grid gap-6 border border-n-weak p-6 rounded-xl overflow-visible w-[720px] backdrop-blur-3xl z-50"
   >
     <h3 class="text-base font-medium leading-6 text-n-slate-12">
       {{ filterModalHeaderTitle }}
