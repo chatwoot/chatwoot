@@ -77,6 +77,10 @@ export function useConversationFilterContext() {
         label: attr.attributeDisplayName,
         input_type: customAttributeInputType(attr.attributeDisplayType),
         filter_operators: getOperatorTypes(attr.attributeDisplayType),
+        options:
+          attr.attributeDisplayType === 'list'
+            ? attr.attributeValues.map(item => ({ id: item, name: item }))
+            : [],
         attribute_model: 'customAttributes',
       };
     });
