@@ -1,18 +1,24 @@
 <script setup>
 import { defineModel, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
-const { options } = defineProps({
+const { options, maxChips } = defineProps({
   options: {
     type: Array,
     required: true,
   },
+  maxChips: {
+    type: Number,
+    default: 3,
+  },
 });
 
+const { t } = useI18n();
 const selected = defineModel({
   type: [Array],
   required: true,
@@ -37,6 +43,20 @@ const selectedItems = computed(() => {
   return options.filter(option => selectedIds.value.includes(option.id));
 });
 
+const selectedVisibleItems = computed(() => {
+  if (!hasItems.value) return [];
+  // avoid showing "+1 more" coz it takes up space anway, might as well show it
+  if (selectedItems.value.length === maxChips + 1) return selectedItems.value;
+  // if we have more than maxChips then show only maxChips
+  return selectedItems.value.slice(0, maxChips);
+});
+
+const pendingItems = computed(() => {
+  if (!hasItems.value) return [];
+  if (selectedItems.value.length === maxChips + 1) return [];
+  return selectedItems.value.slice(maxChips);
+});
+
 const toggleOption = optionToToggle => {
   if (!hasItems.value) {
     selected.value = [optionToToggle];
@@ -55,19 +75,30 @@ const toggleOption = optionToToggle => {
 <template>
   <DropdownContainer>
     <template #trigger="{ toggle }">
-      <div class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center">
+      <button
+        class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0"
+        @click="toggle"
+      >
         <div
-          v-for="item in selectedItems"
+          v-for="item in selectedVisibleItems"
           :key="item.name"
-          class="px-3 border-r border-n-weak text-n-slate-12 text-sm flex gap-2 items-center"
+          class="px-3 border-r border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px]"
         >
           <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
-          <span>{{ item.name }}</span>
+          <span class="truncate">{{ item.name }}</span>
         </div>
-        <button class="flex items-center border-none px-3" @click="toggle">
+        <div
+          v-if="pendingItems.length > 0"
+          class="px-3 border-r border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px]"
+        >
+          <span class="truncate">{{
+            t('COMBOBOX.MORE', { count: pendingItems.length })
+          }}</span>
+        </div>
+        <div class="flex items-center border-none px-3">
           <Icon icon="i-lucide-plus" />
-        </button>
-      </div>
+        </div>
+      </button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-[999]">
       <DropdownSection class="max-h-80 overflow-scroll">
