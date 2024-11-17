@@ -157,7 +157,13 @@ defineExpose({ validate });
           :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
       </template>
-      <Button sm solid slate icon="i-lucide-trash" @click="emit('remove')" />
+      <Button
+        sm
+        solid
+        slate
+        icon="i-lucide-trash"
+        @click.stop="emit('remove')"
+      />
     </div>
     <span v-if="showErrors && validationError" class="text-sm text-n-ruby-11">
       {{ t(`FILTER.ERRORS.${validationError}`) }}
