@@ -60,15 +60,12 @@ const toggleSelected = newValue => {
         :label="selectedItem.name"
         @click="toggle"
       />
-      <Button
-        v-else
-        sm
-        slate
-        faded
-        icon="i-lucide-plus"
-        label="Select"
-        @click="toggle"
-      />
+      <Button v-else sm slate faded @click="toggle">
+        <template #icon>
+          <Icon icon="i-lucide-plus" class="text-n-slate-11" />
+        </template>
+        <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
+      </Button>
     </template>
     <DropdownBody class="top-0 min-w-56 z-[999]">
       <div v-if="!disableSearch" class="relative">

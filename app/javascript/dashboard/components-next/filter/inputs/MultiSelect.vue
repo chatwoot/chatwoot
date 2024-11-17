@@ -2,6 +2,7 @@
 import { defineModel, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
+import Button from 'next/button/Button.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
@@ -81,6 +82,7 @@ const toggleOption = optionToToggle => {
   <DropdownContainer>
     <template #trigger="{ toggle }">
       <button
+        v-if="hasItems"
         class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0"
         @click="toggle"
       >
@@ -101,16 +103,16 @@ const toggleOption = optionToToggle => {
             t('COMBOBOX.MORE', { count: remainingItems.length })
           }}</span>
         </div>
-        <div
-          class="flex items-center border-none px-3 gap-2"
-          :class="{ 'text-n-slate-11': !selectedItems.length }"
-        >
+        <div class="flex items-center border-none px-3 gap-2">
           <Icon icon="i-lucide-plus" />
-          <span v-if="!selectedItems.length">
-            {{ t('COMBOBOX.PLACEHOLDER') }}
-          </span>
         </div>
       </button>
+      <Button v-else sm slate faded @click="toggle">
+        <template #icon>
+          <Icon icon="i-lucide-plus" class="text-n-slate-11" />
+        </template>
+        <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
+      </Button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-[999]">
       <DropdownSection class="max-h-80 overflow-scroll">
