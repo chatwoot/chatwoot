@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Icon from 'next/icon/Icon.vue';
 import { useDropdownContext } from './provider.js';
 
 const props = defineProps({
@@ -38,7 +38,7 @@ const triggerClick = () => {
     <component
       :is="componentIs"
       v-bind="$attrs"
-      class="flex text-left rtl:text-right items-center p-2 reset-base text-sm w-full"
+      class="flex items-center w-full p-2 text-sm text-left rtl:text-right reset-base"
       :class="{
         'hover:bg-n-alpha-1 rounded-lg w-full gap-3': !$slots.default,
         'pointer-events-none text-n-slate-11': props.disabled,

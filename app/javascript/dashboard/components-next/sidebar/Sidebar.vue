@@ -164,9 +164,25 @@ const menuItems = computed(() => {
     },
     {
       name: 'Captain',
-      icon: 'i-lucide-bot',
+      icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
-      to: accountScopedRoute('captain'),
+      children: [
+        {
+          name: 'Documents',
+          label: 'Documents',
+          to: accountScopedRoute('captain', { page: 'documents' }),
+        },
+        {
+          name: 'Responses',
+          label: 'Responses',
+          to: accountScopedRoute('captain', { page: 'responses' }),
+        },
+        {
+          name: 'Playground',
+          label: 'Playground',
+          to: accountScopedRoute('captain', { page: 'playground' }),
+        },
+      ],
     },
     {
       name: 'Contacts',

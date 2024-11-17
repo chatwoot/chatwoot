@@ -35,7 +35,7 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
-const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
+const saveArticle = debounce(value => emit('saveArticle', value), 600, false);
 
 const articleTitle = computed({
   get: () => props.article.title,
