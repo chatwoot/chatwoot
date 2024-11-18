@@ -231,10 +231,6 @@ class Conversation < ApplicationRecord
     Redis::Alfred.delete(draft_message_key)
   end
 
-  def send_with_quoted_thread?
-    custom_attributes['send_quoted_thread']
-  end
-
   def dispatch_conversation_updated_event(previous_changes = nil)
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end

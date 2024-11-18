@@ -158,7 +158,6 @@ RSpec.describe ConversationReplyMailer do
         let!(:prev_message) { create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Prev Message') }
 
         it do
-          allow(conversation).to receive(:send_with_quoted_thread?).and_return(true)
           expect(mail.decoded).to include prev_message.content
         end
       end
