@@ -31,19 +31,6 @@ const folderNameLocal = ref(props.folderName);
 const { t } = useI18n();
 const store = useStore();
 
-const removeFilter = index => {
-  filters.value.splice(index, 1);
-};
-
-const addFilter = () => {
-  filters.value.push({
-    attribute_key: 'status',
-    filter_operator: 'equal_to',
-    values: '',
-    query_operator: 'and',
-  });
-};
-
 const resetFilter = () => {
   filters.value = [
     {
@@ -53,6 +40,23 @@ const resetFilter = () => {
       query_operator: 'and',
     },
   ];
+};
+
+const removeFilter = index => {
+  if (filters.value.length === 1) {
+    resetFilter();
+  } else {
+    filters.value.splice(index, 1);
+  }
+};
+
+const addFilter = () => {
+  filters.value.push({
+    attribute_key: 'status',
+    filter_operator: 'equal_to',
+    values: '',
+    query_operator: 'and',
+  });
 };
 
 const conditionsRef = useTemplateRef('conditionsRef');
