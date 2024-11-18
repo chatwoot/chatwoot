@@ -63,13 +63,21 @@ const remainingTooltip = computed(() => {
   return remainingItems.value.map(item => item.name).join(', ');
 });
 
-const toggleOption = optionToToggle => {
+const toggleOption = option => {
+  // Ensure that the `icon` prop is not included, icon is a VNode which has circular references
+  // This causes an error when creating a clone using JSON.parse(JSON.stringify())
+  const optionToToggle = {
+    id: option.id,
+    name: option.name,
+  };
+
+  const idToToggle = optionToToggle.id;
+
   if (!hasItems.value) {
     selected.value = [optionToToggle];
     return;
   }
 
-  const idToToggle = optionToToggle.id;
   if (selectedIds.value.includes(idToToggle)) {
     selected.value = selected.value.filter(value => value.id !== idToToggle);
   } else {

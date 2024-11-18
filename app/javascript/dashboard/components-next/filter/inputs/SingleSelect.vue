@@ -39,11 +39,18 @@ const selectedItem = computed(() => {
   return options.find(option => option.id === selected.value.id);
 });
 
-const toggleSelected = newValue => {
-  if (selected.value.id === newValue.id) {
+const toggleSelected = option => {
+  // Ensure that the `icon` prop is not included, icon is a VNode which has circular references
+  // This causes an error when creating a clone using JSON.parse(JSON.stringify())
+  const optionToToggle = {
+    id: option.id,
+    name: option.name,
+  };
+
+  if (selected.value.id === optionToToggle.id) {
     selected.value = {};
   } else {
-    selected.value = newValue;
+    selected.value = optionToToggle;
   }
 };
 </script>
