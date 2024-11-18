@@ -83,7 +83,6 @@ const toggleSelected = newValue => {
             v-for="option in searchResults"
             :key="option.id"
             :icon="option.icon"
-            preserve-open
             @click="toggleSelected(option)"
           >
             <template #label>
