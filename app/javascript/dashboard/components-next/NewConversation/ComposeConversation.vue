@@ -49,36 +49,37 @@ const onContactSearch = debounce(
 );
 
 const handleSelectedContact = async ({ value, action, ...rest }) => {
-  try {
-    let contact;
+  let contact;
 
-    if (action === 'create') {
-      isCreatingContact.value = true;
-      try {
-        contact = await createNewContact(value);
-        isCreatingContact.value = false;
-      } catch (error) {
-        isCreatingContact.value = false;
-        return;
-      }
-    } else {
-      contact = rest;
+  if (action === 'create') {
+    isCreatingContact.value = true;
+    try {
+      contact = await createNewContact(value);
+      isCreatingContact.value = false;
+    } catch (error) {
+      isCreatingContact.value = false;
+      return;
     }
-    selectedContact.value = contact;
+  } else {
+    contact = rest;
+  }
+  selectedContact.value = contact;
 
-    if (contact?.id) {
-      isFetchingInboxes.value = true;
+  if (contact?.id) {
+    isFetchingInboxes.value = true;
+    try {
       const contactableInboxes = await fetchContactableInboxes(contact.id);
       selectedContact.value.contactInboxes = contactableInboxes;
       isFetchingInboxes.value = false;
+    } catch (error) {
+      isFetchingInboxes.value = false;
     }
-  } catch (error) {
-    isCreatingContact.value = false;
   }
 };
 
 const handleTargetInbox = inbox => {
   targetInbox.value = inbox;
+  onContactSearch('');
 };
 
 const clearSelectedContact = () => {

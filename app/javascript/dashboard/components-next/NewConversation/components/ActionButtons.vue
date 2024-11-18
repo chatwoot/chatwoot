@@ -176,7 +176,7 @@ const { onFileUpload } = useFileUpload({
       </FileUpload>
       <Button
         v-if="isEmailOrWebWidgetInbox"
-        icon="i-lucide-type"
+        icon="i-lucide-signature"
         color="slate"
         size="sm"
         class="!w-10"
