@@ -77,6 +77,7 @@ export const actions = {
 
     try {
       await articlesAPI.updateArticle({ portalSlug, articleId, articleObj });
+      return articleId;
     } catch (error) {
       return throwErrorMessage(error);
     } finally {
