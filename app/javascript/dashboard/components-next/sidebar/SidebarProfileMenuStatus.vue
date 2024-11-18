@@ -81,7 +81,7 @@ function updateAutoOffline(autoOffline) {
               trailing-icon
               @click="toggle"
             >
-              <div class="flex gap-1 items-center flex-grow text-xs">
+              <div class="flex gap-1 items-center flex-grow text-sm">
                 <div class="p-1 flex-shrink-0">
                   <div class="size-2 rounded-sm" :class="activeStatus.color" />
                 </div>
