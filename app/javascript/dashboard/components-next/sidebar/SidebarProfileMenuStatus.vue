@@ -66,7 +66,7 @@ function updateAutoOffline(autoOffline) {
 
 <template>
   <DropdownSection>
-    <div class="grid gap-1">
+    <div class="grid gap-0">
       <DropdownItem>
         <div class="flex-grow flex items-center gap-1">
           {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
