@@ -21,7 +21,7 @@ const { options, maxChips } = defineProps({
 
 const { t } = useI18n();
 const selected = defineModel({
-  type: [Array],
+  type: [Array, String],
   required: true,
 });
 
