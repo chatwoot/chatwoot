@@ -9,7 +9,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import ContactActions from 'dashboard/components-next/Contacts/ContactHeader/ContactActions.vue';
-import ComposeConversation from 'dashboard/components-next/Contacts/ContactsForm/ComposeConversation.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
   searchValue: {

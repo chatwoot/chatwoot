@@ -26,6 +26,7 @@ const props = defineProps({
     validator: value => ['single', 'multiple'].includes(value),
   },
   focusOnMount: { type: Boolean, default: false },
+  allowCreate: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -99,6 +100,16 @@ const filteredMenuItems = computed(() => {
   return availableMenuItems;
 });
 
+const emitDataOnAdd = emailValue => {
+  const matchingMenuItem = props.menuItems.find(
+    item => item.email === emailValue
+  );
+
+  return matchingMenuItem
+    ? emit('add', { email: emailValue, ...matchingMenuItem })
+    : emit('add', { value: emailValue, action: 'create' });
+};
+
 const addTag = async () => {
   const trimmedTag = newTag.value.trim();
   if (!trimmedTag) return;
@@ -108,7 +119,10 @@ const addTag = async () => {
     return;
   }
 
-  if (props.type === 'email' && !(await v$.value.$validate())) return;
+  if (props.type === 'email' && props.allowCreate) {
+    if (!(await v$.value.$validate())) return;
+    emitDataOnAdd(trimmedTag);
+  }
 
   tags.value.push(trimmedTag);
   newTag.value = '';
@@ -123,23 +137,18 @@ const removeTag = index => {
 };
 
 const handleDropdownAction = async ({ email: emailAddress, ...rest }) => {
-  if (!emailAddress) {
-    emit('add', { email: emailAddress, ...rest });
-    return;
-  }
-
   if (props.mode === MODE.SINGLE && tags.value.length >= 1) return;
 
-  if (props.type === 'email') {
+  if (props.type === 'email' && props.showDropdown) {
     newTag.value = emailAddress;
     if (!(await v$.value.$validate())) return;
+    emit('add', { email: emailAddress, ...rest });
   }
 
   tags.value.push(emailAddress);
   newTag.value = '';
   emit('update:modelValue', tags.value);
   tagInputRef.value?.focus();
-  emit('add', { email: emailAddress, ...rest });
 };
 
 const handleFocus = () => {

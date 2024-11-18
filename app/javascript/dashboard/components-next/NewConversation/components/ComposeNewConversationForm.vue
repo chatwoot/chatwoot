@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, ref, computed } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -13,19 +13,16 @@ import {
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
-  createNewContact,
-  fetchContactableInboxes,
   prepareNewMessagePayload,
   prepareWhatsAppMessagePayload,
-  processContactableInboxes,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
-import ContactSelector from './components/ContactSelector.vue';
-import InboxSelector from './components/InboxSelector.vue';
-import EmailOptions from './components/EmailOptions.vue';
-import MessageEditor from './components/MessageEditor.vue';
-import ActionButtons from './components/ActionButtons.vue';
-import InboxEmptyState from './components/InboxEmptyState.vue';
+import ContactSelector from './ContactSelector.vue';
+import InboxSelector from './InboxSelector.vue';
+import EmailOptions from './EmailOptions.vue';
+import MessageEditor from './MessageEditor.vue';
+import ActionButtons from './ActionButtons.vue';
+import InboxEmptyState from './InboxEmptyState.vue';
 
 const props = defineProps({
   contacts: {
@@ -36,13 +33,36 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  selectedContact: {
+    type: Object,
+    default: null,
+  },
+  targetInbox: {
+    type: Object,
+    default: null,
+  },
+  isCreatingContact: {
+    type: Boolean,
+    default: false,
+  },
+  isFetchingInboxes: {
+    type: Boolean,
+    default: false,
+  },
   isLoading: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['searchContacts', 'discard', 'success']);
+const emit = defineEmits([
+  'searchContacts',
+  'discard',
+  'success',
+  'updateSelectedContact',
+  'updateTargetInbox',
+  'clearSelectedContact',
+]);
 
 const store = useStore();
 const { t } = useI18n();
@@ -51,23 +71,16 @@ const showContactsDropdown = ref(false);
 const showInboxesDropdown = ref(false);
 const showCcEmailsDropdown = ref(false);
 const showBccEmailsDropdown = ref(false);
-const isCreatingContact = ref(false);
-const isFetchingInboxes = ref(false);
 
-const contactById = useMapGetter('contacts/getContactById');
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const currentUser = useMapGetter('getCurrentUser');
 const globalConfig = useMapGetter('globalConfig/get');
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
-const activeContact = computed(() => contactById.value(props.contactId));
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
 );
 
 const isCreating = computed(() => uiFlags.value.isCreating);
-
-const selectedContact = ref(null);
-const targetInbox = ref(null);
 
 const state = reactive({
   message: '',
@@ -80,26 +93,26 @@ const state = reactive({
 const showBccInput = ref(false);
 
 const inboxTypes = computed(() => ({
-  isEmail: targetInbox.value?.channelType === INBOX_TYPES.EMAIL,
-  isTwilio: targetInbox.value?.channelType === INBOX_TYPES.TWILIO,
-  isWhatsapp: targetInbox.value?.channelType === INBOX_TYPES.WHATSAPP,
-  isWebWidget: targetInbox.value?.channelType === INBOX_TYPES.WEB,
-  isApi: targetInbox.value?.channelType === INBOX_TYPES.API,
+  isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
+  isTwilio: props.targetInbox?.channelType === INBOX_TYPES.TWILIO,
+  isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
+  isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
+  isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
   isEmailOrWebWidget:
-    targetInbox.value?.channelType === INBOX_TYPES.EMAIL ||
-    targetInbox.value?.channelType === INBOX_TYPES.WEB,
+    props.targetInbox?.channelType === INBOX_TYPES.EMAIL ||
+    props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isTwilioSMS:
-    targetInbox.value?.channelType === INBOX_TYPES.TWILIO &&
-    targetInbox.value?.medium === 'sms',
+    props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
+    props.targetInbox?.medium === 'sms',
 }));
 
 const whatsappMessageTemplates = computed(() =>
-  Object.keys(targetInbox.value?.messageTemplates || {}).length
-    ? targetInbox.value.messageTemplates
+  Object.keys(props.targetInbox?.messageTemplates || {}).length
+    ? props.targetInbox.messageTemplates
     : []
 );
 
-const inboxChannelType = computed(() => targetInbox.value?.channelType || '');
+const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 
 const validationRules = computed(() => ({
   selectedContact: { required },
@@ -109,8 +122,8 @@ const validationRules = computed(() => ({
 }));
 
 const v$ = useVuelidate(validationRules, {
-  selectedContact,
-  targetInbox,
+  selectedContact: computed(() => props.selectedContact),
+  targetInbox: computed(() => props.targetInbox),
   message: computed(() => state.message),
   subject: computed(() => state.subject),
 });
@@ -126,8 +139,8 @@ const validationStates = computed(() => ({
 const newMessagePayload = () => {
   const { message, subject, ccEmails, bccEmails, attachedFiles } = state;
   return prepareNewMessagePayload({
-    targetInbox: targetInbox.value,
-    selectedContact: selectedContact.value,
+    targetInbox: props.targetInbox,
+    selectedContact: props.selectedContact,
     message,
     subject,
     ccEmails,
@@ -139,15 +152,15 @@ const newMessagePayload = () => {
 };
 
 const contactableInboxesList = computed(() => {
-  return buildContactableInboxesList(selectedContact.value?.contactInboxes);
+  return buildContactableInboxesList(props.selectedContact?.contactInboxes);
 });
 
 const showNoInboxAlert = computed(() => {
   return (
-    selectedContact.value &&
+    props.selectedContact &&
     contactableInboxesList.value.length === 0 &&
     !contactsUiFlags.value.isFetchingInboxes &&
-    !isFetchingInboxes.value
+    !props.isFetchingInboxes
   );
 });
 
@@ -180,56 +193,25 @@ const searchBccEmails = value => {
 };
 
 const setSelectedContact = async ({ value, action, ...rest }) => {
-  try {
-    v$.value.$reset();
-    let contact;
-
-    if (action === 'create') {
-      isCreatingContact.value = true;
-      try {
-        contact = await createNewContact(value);
-        isCreatingContact.value = false;
-      } catch (error) {
-        isCreatingContact.value = false;
-        return;
-      }
-    } else {
-      contact = rest;
-    }
-    selectedContact.value = contact;
-    showContactsDropdown.value = false;
-
-    // Only proceed with fetching inboxes if we have a contact
-    if (contact?.id) {
-      isFetchingInboxes.value = true;
-      const contactableInboxes = await fetchContactableInboxes(contact.id);
-      selectedContact.value.contactInboxes = contactableInboxes;
-      showInboxesDropdown.value = true;
-      isFetchingInboxes.value = false;
-    }
-  } catch (error) {
-    // Reset states in case of error
-    isCreatingContact.value = false;
-    showContactsDropdown.value = false;
-  }
+  v$.value.$reset();
+  emit('updateSelectedContact', { value, action, ...rest });
+  showContactsDropdown.value = false;
+  showInboxesDropdown.value = true;
 };
 
 const handleInboxAction = ({ value, action, ...rest }) => {
   v$.value.$reset();
-  targetInbox.value = {
-    ...rest,
-  };
+  emit('updateTargetInbox', { ...rest });
   showInboxesDropdown.value = false;
 };
 
 const removeTargetInbox = value => {
   v$.value.$reset();
-  targetInbox.value = value;
+  emit('updateTargetInbox', value);
 };
 
 const clearSelectedContact = () => {
-  selectedContact.value = null;
-  targetInbox.value = null;
+  emit('clearSelectedContact');
 };
 
 const onClickInsertEmoji = emoji => {
@@ -295,8 +277,8 @@ const handleSendMessage = async () => {
 
 const handleSendWhatsappMessage = async ({ message, templateParams }) => {
   const whatsappMessagePayload = prepareWhatsAppMessagePayload({
-    targetInbox: targetInbox.value,
-    selectedContact: selectedContact.value,
+    targetInbox: props.targetInbox,
+    selectedContact: props.selectedContact,
     message,
     templateParams,
     currentUser: currentUser.value,
@@ -307,21 +289,6 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
   });
   emit('discard');
 };
-
-watch(
-  activeContact,
-  () => {
-    if (activeContact.value && props.contactId) {
-      selectedContact.value = {
-        ...activeContact.value,
-        contactInboxes: processContactableInboxes(
-          activeContact.value?.contactInboxes
-        ),
-      };
-    }
-  },
-  { immediate: true, deep: true }
-);
 </script>
 
 <template>

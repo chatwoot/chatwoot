@@ -112,6 +112,7 @@ const selectedContactLabel = computed(() => {
         :show-dropdown="showContactsDropdown"
         :is-loading="isLoading"
         :disabled="contactableInboxesList?.length > 0 && showInboxesDropdown"
+        allow-create
         type="email"
         class="flex-1 min-h-7"
         :class="
