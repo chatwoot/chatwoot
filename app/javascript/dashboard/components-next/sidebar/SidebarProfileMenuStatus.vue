@@ -5,11 +5,12 @@ import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
-import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
-import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
-import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
-import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
-// import DropdownSeparator from 'next/dropdown-menu/base/DropdownSeparator.vue';
+import {
+  DropdownContainer,
+  DropdownBody,
+  DropdownSection,
+  DropdownItem,
+} from 'next/dropdown-menu/base';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 

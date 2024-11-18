@@ -5,10 +5,12 @@ import { useI18n } from 'vue-i18n';
 import ButtonNext from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
 
-import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
-import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
-import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
-import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
+import {
+  DropdownContainer,
+  DropdownBody,
+  DropdownSection,
+  DropdownItem,
+} from 'next/dropdown-menu/base';
 
 const emit = defineEmits(['showCreateAccountModal']);
 

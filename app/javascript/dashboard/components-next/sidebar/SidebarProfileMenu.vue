@@ -7,10 +7,12 @@ import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 
-import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
-import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
-import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
-import DropdownSeparator from 'next/dropdown-menu/base/DropdownSeparator.vue';
+import {
+  DropdownContainer,
+  DropdownBody,
+  DropdownSeparator,
+  DropdownItem,
+} from 'next/dropdown-menu/base';
 
 const emit = defineEmits(['close', 'openKeyShortcutModal']);
 
