@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import {
   searchContacts,
   createNewContact,
@@ -115,6 +116,17 @@ watch(
 onMounted(() => {
   onContactSearch('');
 });
+
+const keyboardEvents = {
+  Escape: {
+    action: () => {
+      if (showComposeNewConversation.value) {
+        showComposeNewConversation.value = false;
+      }
+    },
+  },
+};
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>

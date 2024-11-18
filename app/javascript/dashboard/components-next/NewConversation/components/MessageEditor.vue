@@ -17,6 +17,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  hasAttachments: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -25,7 +29,11 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div v-if="isEmailOrWebWidgetInbox" class="flex-1 h-full min-h-[200px]">
+  <div
+    v-if="isEmailOrWebWidgetInbox"
+    class="flex-1 h-full"
+    :class="!hasAttachments && 'min-h-[200px]'"
+  >
     <Editor
       :model-value="modelValue"
       :placeholder="
@@ -41,7 +49,7 @@ const { t } = useI18n();
       @update:model-value="emit('update:modelValue', $event)"
     />
   </div>
-  <div v-else class="flex-1 h-full min-h-[200px]">
+  <div v-else class="flex-1 h-full" :class="!hasAttachments && 'min-h-[200px]'">
     <TextArea
       :model-value="modelValue"
       :placeholder="

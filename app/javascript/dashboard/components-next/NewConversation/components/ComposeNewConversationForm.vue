@@ -23,6 +23,7 @@ import EmailOptions from './EmailOptions.vue';
 import MessageEditor from './MessageEditor.vue';
 import ActionButtons from './ActionButtons.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
+import AttachmentPreviews from './AttachmentPreviews.vue';
 
 const props = defineProps({
   contacts: {
@@ -203,15 +204,18 @@ const handleInboxAction = ({ value, action, ...rest }) => {
   v$.value.$reset();
   emit('updateTargetInbox', { ...rest });
   showInboxesDropdown.value = false;
+  state.attachedFiles = [];
 };
 
 const removeTargetInbox = value => {
   v$.value.$reset();
   emit('updateTargetInbox', value);
+  state.attachedFiles = [];
 };
 
 const clearSelectedContact = () => {
   emit('clearSelectedContact');
+  state.attachedFiles = [];
 };
 
 const onClickInsertEmoji = emoji => {
@@ -345,9 +349,17 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       v-model="state.message"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
+      :has-attachments="state.attachedFiles.length > 0"
+    />
+
+    <AttachmentPreviews
+      v-if="state.attachedFiles.length > 0"
+      :attachments="state.attachedFiles"
+      @update:attachments="state.attachedFiles = $event"
     />
 
     <ActionButtons
+      :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"

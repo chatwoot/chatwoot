@@ -19,3 +19,19 @@ export const checkFileSizeLimit = (file, maximumUploadLimit) => {
   const fileSizeInMB = fileSizeInMegaBytes(fileSize);
   return fileSizeInMB <= maximumUploadLimit;
 };
+
+export const fileNameWithEllipsis = (file, maxLength = 26, ellipsis = '…') => {
+  const fullName = file?.filename ?? file?.name ?? 'Untitled';
+
+  const dotIndex = fullName.lastIndexOf('.');
+  if (dotIndex === -1) return fullName;
+
+  const [name, extension] = [
+    fullName.slice(0, dotIndex),
+    fullName.slice(dotIndex),
+  ];
+
+  if (name.length <= maxLength) return fullName;
+
+  return `${name.slice(0, maxLength)}${ellipsis}${extension}`;
+};

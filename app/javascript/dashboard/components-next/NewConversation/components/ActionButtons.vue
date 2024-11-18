@@ -5,12 +5,17 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
 
 const props = defineProps({
+  attachedFiles: {
+    type: Array,
+    default: () => [],
+  },
   isWhatsappInbox: {
     type: Boolean,
     default: false,
@@ -59,7 +64,6 @@ const { t } = useI18n();
 
 const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
-const attachedFiles = ref([]);
 
 const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
@@ -112,12 +116,17 @@ const { onFileUpload } = useFileUpload({
         thumb: reader.result,
         blobSignedId: blob?.signed_id,
       };
-
-      attachedFiles.value = [...attachedFiles.value, newFile];
-      emit('attachFile', attachedFiles.value);
+      emit('attachFile', [...props.attachedFiles, newFile]);
     };
   },
 });
+
+const keyboardEvents = {
+  Enter: {
+    action: () => !props.isWhatsappInbox && emit('sendMessage'),
+  },
+};
+useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
@@ -167,12 +176,7 @@ const { onFileUpload } = useFileUpload({
           color="slate"
           size="sm"
           class="!w-10 relative"
-        >
-          <span
-            v-if="attachedFiles.length > 0"
-            class="absolute top-0 right-0 rounded-full size-2.5 bg-n-brand"
-          />
-        </Button>
+        />
       </FileUpload>
       <Button
         v-if="isEmailOrWebWidgetInbox"
