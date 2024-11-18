@@ -112,8 +112,7 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
-
-  after_commit :log_status_change, if: :saved_change_to_status?
+  after_commit :log_status_change, if: -> { saved_change_to_status? || saved_change_to_id? }
 
   delegate :auto_resolve_duration, to: :account
 
