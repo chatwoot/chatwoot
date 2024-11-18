@@ -22,7 +22,6 @@ import {
 // https://tanstack.com/virtual/latest/docs/framework/vue/examples/variable
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import ChatListHeader from './ChatListHeader.vue';
-import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
@@ -501,12 +500,19 @@ function initializeFolderToFilterModal(newActiveFolder) {
   appliedFilter.value = [...appliedFilter.value, ...newFilters];
 }
 
+function initalizeAppliedFiltersToModal() {
+  appliedFilter.value = [...appliedFilters.value];
+}
+
 function onToggleAdvanceFiltersModal() {
   if (!hasAppliedFilters.value && !hasActiveFolders.value) {
     initializeExistingFilterToModal();
   }
   if (hasActiveFolders.value) {
     initializeFolderToFilterModal(activeFolder.value);
+  }
+  if (hasAppliedFilters.value) {
+    initalizeAppliedFiltersToModal();
   }
 
   showAdvancedFilters.value = true;
@@ -877,26 +883,10 @@ watch(conversationFilters, (newVal, oldVal) => {
       v-model="appliedFilter"
       :folder-name="activeFolderName"
       :is-folder-view="hasActiveFolders"
+      @apply-filter="onApplyFilter"
       @update-folder="onUpdateSavedFilter"
       @close="closeAdvanceFiltersModal"
     />
-    <woot-modal
-      v-if="false"
-      v-model:show="showAdvancedFilters"
-      :on-close="closeAdvanceFiltersModal"
-      size="medium"
-    >
-      <ConversationAdvancedFilter
-        v-if="showAdvancedFilters"
-        :initial-filter-types="advancedFilterTypes"
-        :initial-applied-filters="appliedFilter"
-        :active-folder-name="activeFolderName"
-        :on-close="closeAdvanceFiltersModal"
-        :is-folder-view="hasActiveFolders"
-        @apply-filter="onApplyFilter"
-        @update-folder="onUpdateSavedFilter"
-      />
-    </woot-modal>
   </div>
 </template>
 
