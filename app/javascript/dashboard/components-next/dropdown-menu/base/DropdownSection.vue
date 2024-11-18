@@ -15,7 +15,7 @@ defineProps({
     >
       {{ title }}
     </div>
-    <ul class="gap-3 grid reset-base list-none px-2">
+    <ul class="gap-2 grid reset-base list-none px-2">
       <slot />
     </ul>
   </div>
