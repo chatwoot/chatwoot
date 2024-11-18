@@ -69,6 +69,24 @@ export const actions = {
     }
   },
 
+  updateAsync: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
+    commit(types.UPDATE_ARTICLE_FLAG, {
+      uiFlags: { isUpdating: true },
+      articleId,
+    });
+
+    try {
+      await articlesAPI.updateArticle({ portalSlug, articleId, articleObj });
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(types.UPDATE_ARTICLE_FLAG, {
+        uiFlags: { isUpdating: false },
+        articleId,
+      });
+    }
+  },
+
   update: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
       uiFlags: {

@@ -27,6 +27,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'saveArticle',
+  'saveArticleAsync',
   'goBack',
   'setAuthor',
   'setCategory',
@@ -35,11 +36,24 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
-const saveArticle = debounce(value => emit('saveArticle', value), 600, false);
+// this will only send the data to the backend
+// but will not update the local state preventing unnecessary re-renders
+// since the data is already saved and we keep the editor text as the source of truth
+const saveArticleAsync = debounce(
+  value => emit('saveArticleAsync', value),
+  400,
+  false
+);
+
+// 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
+// so we can save the data to the backend and retrieve the updated data
+// this will update the local state with response data
+const saveArticle = debounce(value => emit('saveArticle', value), 2500, false);
 
 const articleTitle = computed({
   get: () => props.article.title,
   set: value => {
+    saveArticleAsync({ title: value });
     saveArticle({ title: value });
   },
 });
@@ -47,6 +61,7 @@ const articleTitle = computed({
 const articleContent = computed({
   get: () => props.article.content,
   set: content => {
+    saveArticleAsync({ content });
     saveArticle({ content });
   },
 });
