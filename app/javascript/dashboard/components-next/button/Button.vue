@@ -26,7 +26,7 @@ const props = defineProps({
     validator: value =>
       ['xs', 'sm', 'md', 'lg'].includes(value) || value === null,
   },
-  icon: { type: String, default: '' },
+  icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },
 });
