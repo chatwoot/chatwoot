@@ -80,7 +80,7 @@ const selectedContactLabel = computed(() => {
 
       <div
         v-if="selectedContact"
-        class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-3 min-h-7"
+        class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-3 min-h-7 min-w-0"
       >
         <span class="text-sm truncate text-n-slate-12">
           {{
