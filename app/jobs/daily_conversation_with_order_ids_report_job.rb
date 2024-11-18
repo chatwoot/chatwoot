@@ -3,7 +3,7 @@ require 'json'
 require 'net/http'
 require 'csv'
 
-class DailyConversationReportWithOrderIdsJob < ApplicationJob
+class DailyConversationWithOrderIdsReportJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
