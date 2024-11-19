@@ -117,7 +117,7 @@ const onDiscard = () => {
     title="Components/Compose/ComposeNewConversationForm"
     :layout="{ type: 'grid', width: '800px' }"
   >
-    <Variant title="Default State">
+    <Variant title="With all props">
       <div class="h-[600px] w-full relative">
         <ComposeNewConversationForm
           :contacts="contacts"
@@ -128,6 +128,31 @@ const onDiscard = () => {
           :target-inbox="targetInbox"
           :is-creating-contact="false"
           is-fetching-inboxes
+          is-direct-uploads-enabled
+          :contact-conversations-ui-flags="{ isCreating: false }"
+          :contacts-ui-flags="{ isFetching: false }"
+          class="!top-0"
+          @search-contacts="onSearchContacts"
+          @update-selected-contact="onUpdateSelectedContact"
+          @update-target-inbox="onUpdateTargetInbox"
+          @clear-selected-contact="onClearSelectedContact"
+          @create-conversation="onCreateConversation"
+          @discard="onDiscard"
+        />
+      </div>
+    </Variant>
+
+    <Variant title="With no target inbox">
+      <div class="h-[200px] w-full relative">
+        <ComposeNewConversationForm
+          :contacts="contacts"
+          contact-id=""
+          :is-loading="false"
+          :current-user="currentUser"
+          :selected-contact="{ ...selectedContact, contactInboxes: [] }"
+          :target-inbox="null"
+          :is-creating-contact="false"
+          :is-fetching-inboxes="false"
           is-direct-uploads-enabled
           :contact-conversations-ui-flags="{ isCreating: false }"
           :contacts-ui-flags="{ isFetching: false }"
