@@ -3,8 +3,8 @@ import {
   ROLES,
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const CannedHome = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import CannedHome from './Index.vue';
 
 export default {
   routes: [

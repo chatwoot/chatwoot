@@ -46,6 +46,14 @@
   @apply hidden;
 }
 
+.n-blue-border {
+  @apply border-n-blue-border;
+}
+
+.n-blue-text {
+  @apply text-n-blue-text;
+}
+
 // scss-lint:disable PropertySortOrder
 @layer base {
   /* NEXT COLORS START */
@@ -103,24 +111,25 @@
     --teal-11: 0 133 115;
     --teal-12: 13 61 56;
 
-    --background-color: 248 248 248;
-    --solid-1: 255 255 255;
-    --solid-2: 252 252 252;
-    --solid-3: 255 255 255;
-    --solid-active: 250 251 251;
-    --white-alpha: 255 255 255 0.1;
-    --border-weak: 231 231 231;
+    --background-color: 253 253 253;
+    --text-blue: 8 109 224;
+    --border-container: 236 236 236;
     --border-strong: 235 235 235;
-    --amber-solid: 252 232 193;
-    --blue-solid: 218 236 255;
-    --blue: 39 129 246;
+    --border-weak: 234 234 234;
+    --solid-1: 255 255 255;
+    --solid-2: 255 255 255;
+    --solid-3: 255 255 255;
+    --solid-active: 255 255 255;
+    --solid-amber: 252 232 193;
+    --solid-blue: 218 236 255;
 
-    /* alpha is added by default */
-    --alpha-1: 36, 38, 48, 0.06;
-    --alpha-2: 130, 134, 150, 0.12;
-    --alpha-3: 255, 255, 255, 0.9;
+    --alpha-1: 67, 67, 67, 0.06;
+    --alpha-2: 201, 202, 207, 0.15;
+    --alpha-3: 255, 255, 255, 0.96;
     --black-alpha-1: 0, 0, 0, 0.12;
     --black-alpha-2: 0, 0, 0, 0.04;
+    --border-blue: 39, 129, 246, 0.5;
+    --white-alpha: 255, 255, 255, 0.1;
   }
 
   body.dark {
@@ -178,22 +187,23 @@
     --teal-12: 173 240 221;
 
     --background-color: 18 18 19;
+    --border-strong: 52 52 52;
+    --border-weak: 38 38 42;
     --solid-1: 23 23 26;
     --solid-2: 29 30 36;
-    --solid-3: 36 38 48;
-    --solid-active: 51 53 64;
-    --border-weak: 34 34 37;
-    --border-strong: 46 47 49;
-    --amber-solid: 42 37 30;
-    --blue-solid: 16 49 91;
-    --blue: 126 182 255;
+    --solid-3: 44 45 54;
+    --solid-active: 53 57 66;
+    --solid-amber: 42 37 30;
+    --solid-blue: 16 49 91;
+    --text-blue: 126 182 255;
 
-    /* alpha is added by default */
-    --alpha-1: 35, 37, 45, 0.8;
-    --alpha-2: 130, 134, 150, 0.15;
-    --alpha-3: 32, 33, 37, 0.9;
+    --alpha-1: 36, 36, 36, 0.8;
+    --alpha-2: 139, 147, 182, 0.15;
+    --alpha-3: 36, 38, 45, 0.9;
     --black-alpha-1: 0, 0, 0, 0.3;
     --black-alpha-2: 0, 0, 0, 0.2;
+    --border-blue: 39, 129, 246, 0.5;
+    --border-container: 236, 236, 236, 0;
     --white-alpha: 255, 255, 255, 0.1;
   }
   /* NEXT COLORS END */
@@ -538,5 +548,17 @@
     --color-orange-700: 255 128 31;
     --color-orange-800: 255 160 87;
     --color-orange-900: 255 224 194;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }

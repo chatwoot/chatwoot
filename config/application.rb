@@ -27,6 +27,12 @@ if ENV.fetch('SENTRY_DSN', false).present?
   require 'sentry-sidekiq'
 end
 
+# heroku autoscaling
+if ENV.fetch('JUDOSCALE_URL', false).present?
+  require 'judoscale-rails'
+  require 'judoscale-sidekiq'
+end
+
 module Chatwoot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
