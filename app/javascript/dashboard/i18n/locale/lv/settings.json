@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Mainīt",
-    "CHANGE_ACCOUNTS": "Pārslēgt Kontu",
-    "CONTACT_SUPPORT": "Sazināties ar Atbalsta Dienestu",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
-    "PROFILE_SETTINGS": "Profila Iestatījumi",
-    "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
-    "APPEARANCE": "Mainīt Izskatu",
-    "SUPER_ADMIN_CONSOLE": "Superadministratora Konsole",
-    "LOGOUT": "Izrakstīties"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "izmēģinājuma dienas atlikušas.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Iesūtne",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
+    "SET_YOUR_AVAILABILITY": "Iestatīt savu pieejamību",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Pielāgotas lomas",
     "BETA": "Beta",
