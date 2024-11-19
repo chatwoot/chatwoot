@@ -3,7 +3,6 @@ import { useTemplateRef, onBeforeUnmount, onMounted, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import Button from 'next/button/Button.vue';
@@ -104,7 +103,6 @@ const filterModalHeaderTitle = computed(() => {
 
 onMounted(() => dialogRef.value.open());
 onBeforeUnmount(closeModal);
-useKeyboardEvents({ Escape: { action: closeModal } });
 </script>
 
 <template>
