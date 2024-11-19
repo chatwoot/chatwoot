@@ -72,7 +72,7 @@ const maxWidthClass = computed(() => {
     sm: 'max-w-sm',
   };
 
-  return classesMap[props.width];
+  return classesMap[props.width] ?? 'max-w-md';
 });
 
 const open = () => {
