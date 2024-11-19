@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Изменить",
-    "CHANGE_ACCOUNTS": "Сменить Аккаунт",
-    "CONTACT_SUPPORT": "Связаться с поддержкой",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
-    "PROFILE_SETTINGS": "Настройки профиля",
-    "KEYBOARD_SHORTCUTS": "Клавиши быстрого доступа",
-    "APPEARANCE": "Изменить внешний вид",
-    "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
-    "LOGOUT": "Выйти"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Электронная почта",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Установить себя",
+    "SET_YOUR_AVAILABILITY": "Настройте ваши рабочие часы",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Бета",
