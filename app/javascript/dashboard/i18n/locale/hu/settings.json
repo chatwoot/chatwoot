@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
-    "CHANGE_ACCOUNTS": "Fiókváltás",
-    "CONTACT_SUPPORT": "Lépj kapcsolatba az ügfyélszolgálattal!",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
-    "PROFILE_SETTINGS": "Profilbeállítások",
-    "KEYBOARD_SHORTCUTS": "Rövid billentyűparancsok",
-    "APPEARANCE": "Megjelenés módosítása",
-    "SUPER_ADMIN_CONSOLE": "Szuper felügyeleti konzol",
-    "LOGOUT": "Kilépés"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "nap van hátra a próbaidőszakból.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Fiók",
     "REPORTS_TEAM": "Csapat",
     "SET_AVAILABILITY_TITLE": "Ugrás a Beszélgetések Irányítópultjához",
+    "SET_YOUR_AVAILABILITY": "Elérhetőség beállítása",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Béta",
