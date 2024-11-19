@@ -34,8 +34,8 @@ const portalLink = computed(() => {
   );
 });
 
-const saveArticle = async ({ ...values }, async = false) => {
-  const actionToDispatch = async ? 'articles/updateAsync' : 'articles/update';
+const saveArticle = async ({ ...values }, isAsync = false) => {
+  const actionToDispatch = isAsync ? 'articles/updateAsync' : 'articles/update';
   isUpdating.value = true;
   try {
     await store.dispatch(actionToDispatch, {
