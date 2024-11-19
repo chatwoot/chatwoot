@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Durumu Değiştir",
-    "CHANGE_ACCOUNTS": "Hesapları Değiştir",
-    "CONTACT_SUPPORT": "Destek İle İletişime Geç",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
-    "PROFILE_SETTINGS": "Profil ayarları",
-    "KEYBOARD_SHORTCUTS": "Klavye Kısayolları",
-    "APPEARANCE": "Görünüm",
-    "SUPER_ADMIN_CONSOLE": "Süper Yönetici Konsolu",
-    "LOGOUT": "Çıkış Yap"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "gün deneme kaldı.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
+    "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
