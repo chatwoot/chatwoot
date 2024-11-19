@@ -174,6 +174,7 @@ useKeyboardEvents(keyboardEvents);
           direct_upload_url: '/rails/active_storage/direct_uploads',
           direct_upload: true,
         }"
+        class="p-px"
         @input-file="onFileUpload"
       >
         <Button
