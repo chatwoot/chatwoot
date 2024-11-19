@@ -247,7 +247,7 @@ export default {
     <transition-group
       name="menu-list"
       tag="ul"
-      class="pt-2 mb-0 ml-0 list-none"
+      class="pt-2 reset-base list-none"
     >
       <SecondaryNavItem
         v-for="menuItem in accessibleMenuItems"
