@@ -79,7 +79,17 @@ const selectedContactLabel = computed(() => {
       </label>
 
       <div
-        v-if="selectedContact"
+        v-if="isCreatingContact"
+        class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-3 min-h-7 min-w-0"
+      >
+        <span class="text-sm truncate text-n-slate-12">
+          {{
+            t('COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.CONTACT_CREATING')
+          }}
+        </span>
+      </div>
+      <div
+        v-else-if="selectedContact"
         class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-3 min-h-7 min-w-0"
       >
         <span class="text-sm truncate text-n-slate-12">

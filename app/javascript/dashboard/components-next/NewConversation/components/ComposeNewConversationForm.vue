@@ -1,9 +1,5 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useAlert } from 'dashboard/composables';
-import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -26,62 +22,34 @@ import InboxEmptyState from './InboxEmptyState.vue';
 import AttachmentPreviews from './AttachmentPreviews.vue';
 
 const props = defineProps({
-  contacts: {
-    type: Array,
-    default: () => [],
-  },
-  contactId: {
-    type: String,
-    default: null,
-  },
-  selectedContact: {
-    type: Object,
-    default: null,
-  },
-  targetInbox: {
-    type: Object,
-    default: null,
-  },
-  isCreatingContact: {
-    type: Boolean,
-    default: false,
-  },
-  isFetchingInboxes: {
-    type: Boolean,
-    default: false,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
+  contacts: { type: Array, default: () => [] },
+  contactId: { type: String, default: null },
+  selectedContact: { type: Object, default: null },
+  targetInbox: { type: Object, default: null },
+  currentUser: { type: Object, default: null },
+  isCreatingContact: { type: Boolean, default: false },
+  isFetchingInboxes: { type: Boolean, default: false },
+  isLoading: { type: Boolean, default: false },
+  isDirectUploadsEnabled: { type: Boolean, default: false },
+  contactConversationsUiFlags: { type: Object, default: null },
+  contactsUiFlags: { type: Object, default: null },
 });
 
 const emit = defineEmits([
   'searchContacts',
   'discard',
-  'success',
   'updateSelectedContact',
   'updateTargetInbox',
   'clearSelectedContact',
+  'createConversation',
 ]);
-
-const store = useStore();
-const { t } = useI18n();
 
 const showContactsDropdown = ref(false);
 const showInboxesDropdown = ref(false);
 const showCcEmailsDropdown = ref(false);
 const showBccEmailsDropdown = ref(false);
 
-const contactsUiFlags = useMapGetter('contacts/getUIFlags');
-const currentUser = useMapGetter('getCurrentUser');
-const globalConfig = useMapGetter('globalConfig/get');
-const uiFlags = useMapGetter('contactConversations/getUIFlags');
-const directUploadsEnabled = computed(
-  () => globalConfig.value.directUploadsEnabled
-);
-
-const isCreating = computed(() => uiFlags.value.isCreating);
+const isCreating = computed(() => props.contactConversationsUiFlags.isCreating);
 
 const state = reactive({
   message: '',
@@ -146,9 +114,9 @@ const newMessagePayload = () => {
     subject,
     ccEmails,
     bccEmails,
-    currentUser: currentUser.value,
+    currentUser: props.currentUser,
     attachedFiles,
-    directUploadsEnabled: directUploadsEnabled.value,
+    directUploadsEnabled: props.isDirectUploadsEnabled,
   });
 };
 
@@ -160,8 +128,17 @@ const showNoInboxAlert = computed(() => {
   return (
     props.selectedContact &&
     contactableInboxesList.value.length === 0 &&
-    !contactsUiFlags.value.isFetchingInboxes &&
+    !props.contactsUiFlags.isFetchingInboxes &&
     !props.isFetchingInboxes
+  );
+});
+
+const isAnyDropdownActive = computed(() => {
+  return (
+    showContactsDropdown.value ||
+    showInboxesDropdown.value ||
+    showCcEmailsDropdown.value ||
+    showBccEmailsDropdown.value
   );
 });
 
@@ -245,38 +222,21 @@ const clearForm = () => {
   v$.value.$reset();
 };
 
-const createConversation = async ({ payload, isFromWhatsApp }) => {
-  try {
-    const data = await store.dispatch('contactConversations/create', {
-      params: payload,
-      isFromWhatsApp,
-    });
-    const action = {
-      type: 'link',
-      to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
-      message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
-    };
-    emit('success');
-    useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
-  } catch (error) {
-    useAlert(
-      error instanceof ExceptionWithMessage
-        ? error.data
-        : t('COMPOSE_NEW_CONVERSATION.FORM.ERROR_MESSAGE')
-    );
-  }
-};
-
 const handleSendMessage = async () => {
   const isValid = await v$.value.$validate();
   if (!isValid) return;
 
-  await createConversation({
-    payload: newMessagePayload(),
-    isFromWhatsApp: false,
-  });
-  emit('discard');
-  clearForm();
+  try {
+    const success = await emit('createConversation', {
+      payload: newMessagePayload(),
+      isFromWhatsApp: false,
+    });
+    if (success) {
+      clearForm();
+    }
+  } catch (error) {
+    // Form will not be cleared if conversation creation fails
+  }
 };
 
 const handleSendWhatsappMessage = async ({ message, templateParams }) => {
@@ -285,13 +245,12 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     selectedContact: props.selectedContact,
     message,
     templateParams,
-    currentUser: currentUser.value,
+    currentUser: props.currentUser,
   });
-  await createConversation({
+  await emit('createConversation', {
     payload: whatsappMessagePayload,
     isFromWhatsApp: true,
   });
-  emit('discard');
 };
 </script>
 
@@ -368,6 +327,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :is-loading="isCreating"
       :disable-send-button="isCreating"
       :has-no-inbox="showNoInboxAlert"
+      :is-dropdown-active="isAnyDropdownActive"
       @insert-emoji="onClickInsertEmoji"
       @add-signature="handleAddSignature"
       @remove-signature="handleRemoveSignature"

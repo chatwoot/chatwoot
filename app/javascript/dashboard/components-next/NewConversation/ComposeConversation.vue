@@ -1,9 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { debounce } from '@chatwoot/utils';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import {
@@ -16,6 +17,7 @@ import {
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
 
 const route = useRoute();
+const store = useStore();
 const { t } = useI18n();
 
 const contacts = ref([]);
@@ -29,6 +31,13 @@ const isSearching = ref(false);
 const showComposeNewConversation = ref(false);
 
 const contactById = useMapGetter('contacts/getContactById');
+const contactsUiFlags = useMapGetter('contacts/getUIFlags');
+const currentUser = useMapGetter('getCurrentUser');
+const globalConfig = useMapGetter('globalConfig/get');
+const directUploadsEnabled = computed(
+  () => globalConfig.value.directUploadsEnabled
+);
+const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const contactId = computed(() => route.params.contactId || null);
 const activeContact = computed(() => contactById.value(contactId.value));
 
@@ -94,6 +103,30 @@ const closeCompose = () => {
   targetInbox.value = null;
 };
 
+const createConversation = async ({ payload, isFromWhatsApp }) => {
+  try {
+    const data = await store.dispatch('contactConversations/create', {
+      params: payload,
+      isFromWhatsApp,
+    });
+    const action = {
+      type: 'link',
+      to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
+      message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+    };
+    closeCompose();
+    useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
+    return true; // Return success
+  } catch (error) {
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : t('COMPOSE_NEW_CONVERSATION.FORM.ERROR_MESSAGE')
+    );
+    return false; // Return failure
+  }
+};
+
 const toggle = () => {
   showComposeNewConversation.value = !showComposeNewConversation.value;
 };
@@ -142,14 +175,19 @@ useKeyboardEvents(keyboardEvents);
       :contacts="contacts"
       :contact-id="contactId"
       :is-loading="isSearching"
+      :current-user="currentUser"
       :selected-contact="selectedContact"
       :target-inbox="targetInbox"
       :is-creating-contact="isCreatingContact"
       :is-fetching-inboxes="isFetchingInboxes"
+      :is-direct-uploads-enabled="directUploadsEnabled"
+      :contact-conversations-ui-flags="uiFlags"
+      :contacts-ui-flags="contactsUiFlags"
       @search-contacts="onContactSearch"
       @update-selected-contact="handleSelectedContact"
       @update-target-inbox="handleTargetInbox"
       @clear-selected-contact="clearSelectedContact"
+      @create-conversation="createConversation"
       @discard="closeCompose"
     />
   </div>

@@ -48,6 +48,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isDropdownActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -123,7 +127,8 @@ const { onFileUpload } = useFileUpload({
 
 const keyboardEvents = {
   Enter: {
-    action: () => !props.isWhatsappInbox && emit('sendMessage'),
+    action: () =>
+      !props.isWhatsappInbox && !props.isDropdownActive && emit('sendMessage'),
   },
 };
 useKeyboardEvents(keyboardEvents);
