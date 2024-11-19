@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Schimba",
-    "CHANGE_ACCOUNTS": "Comută contul",
-    "CONTACT_SUPPORT": "Contact Suport",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
-    "PROFILE_SETTINGS": "Setări profil",
-    "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Consola",
-    "LOGOUT": "Deconectare"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "zile de încercare rămase.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Echipa",
     "SET_AVAILABILITY_TITLE": "Setați-vă ca",
+    "SET_YOUR_AVAILABILITY": "Setați-vă disponibilitatea",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
