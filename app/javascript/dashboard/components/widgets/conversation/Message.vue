@@ -444,7 +444,7 @@ export default {
   <li
     v-if="shouldRenderMessage"
     :id="`message${data.id}`"
-    class="group"
+    class="group/context-menu"
     :class="[alignBubble]"
   >
     <div :class="wrapClass">
@@ -568,10 +568,7 @@ export default {
         </a>
       </div>
     </div>
-    <div
-      v-if="shouldShowContextMenu"
-      class="invisible context-menu-wrap group-hover:visible"
-    >
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"

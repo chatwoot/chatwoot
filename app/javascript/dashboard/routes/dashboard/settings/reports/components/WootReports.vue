@@ -6,16 +6,6 @@ import { GROUP_BY_FILTER } from '../constants';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
-const REPORTS_KEYS = {
-  CONVERSATIONS: 'conversations_count',
-  INCOMING_MESSAGES: 'incoming_messages_count',
-  OUTGOING_MESSAGES: 'outgoing_messages_count',
-  FIRST_RESPONSE_TIME: 'avg_first_response_time',
-  RESOLUTION_TIME: 'avg_resolution_time',
-  RESOLUTION_COUNT: 'resolutions_count',
-  REPLY_TIME: 'reply_time',
-};
-
 const GROUP_BY_OPTIONS = {
   DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
   WEEK: [
@@ -72,6 +62,22 @@ export default {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
     },
+    isAgentType() {
+      return this.type === 'agent';
+    },
+    reportKeys() {
+      return {
+        CONVERSATIONS: 'conversations_count',
+        ...(!this.isAgentType && {
+          INCOMING_MESSAGES: 'incoming_messages_count',
+        }),
+        OUTGOING_MESSAGES: 'outgoing_messages_count',
+        FIRST_RESPONSE_TIME: 'avg_first_response_time',
+        RESOLUTION_TIME: 'avg_resolution_time',
+        RESOLUTION_COUNT: 'resolutions_count',
+        REPLY_TIME: 'reply_time',
+      };
+    },
   },
   mounted() {
     this.$store.dispatch(this.actionKey);
@@ -92,19 +98,11 @@ export default {
       }
     },
     fetchChartData() {
-      [
-        'CONVERSATIONS',
-        'INCOMING_MESSAGES',
-        'OUTGOING_MESSAGES',
-        'FIRST_RESPONSE_TIME',
-        'RESOLUTION_TIME',
-        'RESOLUTION_COUNT',
-        'REPLY_TIME',
-      ].forEach(async key => {
+      Object.keys(this.reportKeys).forEach(async key => {
         try {
           const { from, to, groupBy, businessHours } = this;
           this.$store.dispatch('fetchAccountReport', {
-            metric: REPORTS_KEYS[key],
+            metric: this.reportKeys[key],
             from,
             to,
             type: this.type,
@@ -220,6 +218,10 @@ export default {
       @group-by-filter-change="onGroupByFilterChange"
       @business-hours-toggle="onBusinessHoursToggle"
     />
-    <ReportContainer v-if="filterItemsList.length" :group-by="groupBy" />
+    <ReportContainer
+      v-if="filterItemsList.length"
+      :group-by="groupBy"
+      :report-keys="reportKeys"
+    />
   </div>
 </template>

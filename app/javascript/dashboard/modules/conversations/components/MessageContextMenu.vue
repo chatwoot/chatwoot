@@ -187,6 +187,7 @@ export default {
       color-scheme="secondary"
       variant="clear"
       size="small"
+      class="invisible group-hover/context-menu:visible"
       @click="handleOpen"
     />
     <ContextMenu

@@ -1,15 +1,16 @@
 import { frontendURL } from '../../../../helper/URLHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-const SettingsContent = () => import('../Wrapper.vue');
-const Index = () => import('./Index.vue');
-const AgentReports = () => import('./AgentReports.vue');
-const LabelReports = () => import('./LabelReports.vue');
-const InboxReports = () => import('./InboxReports.vue');
-const TeamReports = () => import('./TeamReports.vue');
-const CsatResponses = () => import('./CsatResponses.vue');
-const BotReports = () => import('./BotReports.vue');
-const LiveReports = () => import('./LiveReports.vue');
-const SLAReports = () => import('./SLAReports.vue');
+import SettingsContent from '../Wrapper.vue';
+import Index from './Index.vue';
+import AgentReports from './AgentReports.vue';
+import LabelReports from './LabelReports.vue';
+import InboxReports from './InboxReports.vue';
+import TeamReports from './TeamReports.vue';
+import CsatResponses from './CsatResponses.vue';
+import BotReports from './BotReports.vue';
+import LiveReports from './LiveReports.vue';
+import SLAReports from './SLAReports.vue';
 
 export default {
   routes: [
@@ -90,6 +91,7 @@ export default {
           name: 'bot_reports',
           meta: {
             permissions: ['administrator', 'report_manage'],
+            featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
           },
           component: BotReports,
         },
@@ -184,6 +186,7 @@ export default {
           name: 'sla_reports',
           meta: {
             permissions: ['administrator', 'report_manage'],
+            featureFlag: FEATURE_FLAGS.SLA,
           },
           component: SLAReports,
         },

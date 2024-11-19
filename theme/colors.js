@@ -347,7 +347,6 @@ export const colors = {
 
     black: '#000000',
     brand: '#2781F6',
-    blue: 'rgb(var(--blue) / <alpha-value>)',
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
@@ -361,11 +360,14 @@ export const colors = {
       1: 'rgba(var(--alpha-1))',
       2: 'rgba(var(--alpha-2))',
       3: 'rgba(var(--alpha-3))',
-      black1: 'rgba(var(--alpha-black1))',
-      black2: 'rgba(var(--alpha-black2))',
-      white: 'rgba(var(--alpha-white))',
+      black1: 'rgba(var(--black-alpha-1))',
+      black2: 'rgba(var(--black-alpha-2))',
+      white: 'rgba(var(--white-alpha))',
     },
     weak: 'rgb(var(--border-weak) / <alpha-value>)',
+    container: 'rgba(var(--border-container))',
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
+    'blue-border': 'rgba(var(--border-blue))',
+    'blue-text': 'rgba(var(--text-blue))',
   },
 };
