@@ -73,13 +73,6 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
         unless response.success?
           Rails.logger.error "Failed to forward WhatsApp webhook to #{endpoint}. Status: #{response.code}"
         end
-
-      rescue URI::InvalidURIError
-        Rails.logger.error "Invalid webhook URL: #{endpoint}"
-      rescue HTTParty::TimeoutError
-        Rails.logger.error "Timeout forwarding WhatsApp webhook to #{endpoint}"
-      rescue HTTParty::ResponseError => e
-        Rails.logger.error "HTTP error forwarding WhatsApp webhook to #{endpoint}: #{e.message}"
       rescue StandardError => e
         Rails.logger.error "Error forwarding WhatsApp webhook to #{endpoint}: #{e.message}"
       end
