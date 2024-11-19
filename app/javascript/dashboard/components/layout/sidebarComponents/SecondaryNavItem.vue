@@ -242,7 +242,7 @@ export default {
       </span>
     </router-link>
 
-    <ul v-if="hasSubMenu" class="mb-0 ml-0 list-none">
+    <ul v-if="hasSubMenu" class="reset-base list-none">
       <SecondaryChildNavItem
         v-for="child in menuItem.children"
         :key="child.id"
