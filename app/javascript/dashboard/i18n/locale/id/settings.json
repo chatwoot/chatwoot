@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
-    "CHANGE_ACCOUNTS": "Ganti Akun",
-    "CONTACT_SUPPORT": "Hubungi Dukungan",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
-    "PROFILE_SETTINGS": "Pengaturan Profil",
-    "KEYBOARD_SHORTCUTS": "Pintasan Keyboard",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Konsol Super Admin",
-    "LOGOUT": "Keluar"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Kotak Masuk",
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Atur diri anda sebagai",
+    "SET_YOUR_AVAILABILITY": "Atur ketersediaan Anda",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
