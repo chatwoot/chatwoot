@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "변경",
-    "CHANGE_ACCOUNTS": "계정 전환",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
-    "PROFILE_SETTINGS": "프로필 설정",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "로그아웃"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "일 평가판이 남아 있습니다.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "받은 메시지함",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_YOUR_AVAILABILITY": "영업시간 설정",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
