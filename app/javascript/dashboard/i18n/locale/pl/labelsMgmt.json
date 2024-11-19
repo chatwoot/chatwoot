@@ -1,67 +1,84 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Etykiety",
+    "HEADER_BTN_TXT": "Dodaj etykietę",
+    "LOADING": "Pobieranie etykiet",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Brak etykiet na tym koncie.",
+      "TITLE": "Zarządzaj etykietami",
+      "DESC": "Etykiety pozwalają na grupowanie rozmów razem.",
       "TABLE_HEADER": [
-        "Nazwisko",
-        "Description",
-        "Color"
+        "Nazwa",
+        "Opis",
+        "Kolor"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Nazwa etykiety",
+        "PLACEHOLDER": "Nazwa etykiety",
+        "REQUIRED_ERROR": "Nazwa etykiety jest wymagana",
+        "MINIMUM_LENGTH_ERROR": "Wymagana długość wynosi minimum 2",
+        "VALID_ERROR": "Dozwolone są tylko litery, cyfry, myślnik i podkreślenie"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Opis",
+        "PLACEHOLDER": "Opis etykiety"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Kolor"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Pokaż etykietę na panelu bocznym"
       },
       "EDIT": "Edytuj",
-      "CREATE": "Create",
+      "CREATE": "Stwórz",
       "DELETE": "Usuń",
       "CANCEL": "Anuluj"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Odrzuć",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Dodaj etykietę",
+      "DESC": "Etykiety pozwalają na grupowanie rozmów razem.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etykieta dodana pomyślnie",
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Edytuj etykietę",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etykieta została pomyślnie zaktualizowana",
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etykieta została usunięta",
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       },
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
         "MESSAGE": "Czy na pewno chcesz usunąć ",
         "YES": "Tak, usuń ",
-        "NO": "No, Keep "
+        "NO": "Nie, zachowaj "
       }
     }
   }

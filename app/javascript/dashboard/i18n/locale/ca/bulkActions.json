@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} converses seleccionades",
+    "AGENT_SELECT_LABEL": "Seleccionar Agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Estas segur d'assignar {conversationCount} {conversationLabel} a",
+    "UNASSIGN_CONFIRMATION_LABEL": "Estàs segur de desassignar {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Torna",
+    "ASSIGN_LABEL": "Assignar",
+    "YES": "Si",
+    "SEARCH_INPUT_PLACEHOLDER": "Cercar",
+    "ASSIGN_AGENT_TOOLTIP": "Assigna un agent",
+    "ASSIGN_TEAM_TOOLTIP": "Assigna un equip",
+    "ASSIGN_SUCCESFUL": "Les converses s'han assignat correctament.",
+    "ASSIGN_FAILED": "No s'han pogut assignar les converses. Torna-ho a provar.",
+    "RESOLVE_SUCCESFUL": "Les converses s'han resolt correctament.",
+    "RESOLVE_FAILED": "No s'han pogut resoldre les converses. Torna-ho a provar.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Les converses visibles en aquesta pàgina només estan seleccionades.",
+    "AGENT_LIST_LOADING": "S'estan carregant els agents",
+    "UPDATE": {
+      "CHANGE_STATUS": "Canvia l'estat",
+      "SNOOZE_UNTIL": "Posposat",
+      "UPDATE_SUCCESFUL": "L'estat de les converses s'ha actualitzat correctament.",
+      "UPDATE_FAILED": "No s'han pogut actualitzar les converses. Torna-ho a provar."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assignar etiquetes",
+      "NO_LABELS_FOUND": "No s'han trobat etiquetes per a",
+      "ASSIGN_SELECTED_LABELS": "Assigna les etiquetes seleccionades",
+      "ASSIGN_SUCCESFUL": "L'etiqueta s'ha assignat correctament.",
+      "ASSIGN_FAILED": "No s'han pogut assignar les etiquetes. Torna-ho a provar."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Selecciona equip",
+      "NONE": "Ningú",
+      "NO_TEAMS_AVAILABLE": "Encara no hi ha cap equip afegit a aquest compte.",
+      "ASSIGN_SELECTED_TEAMS": "Assigna l'equip seleccionat.",
+      "ASSIGN_SUCCESFUL": "Equips assignats correctament.",
+      "ASSIGN_FAILED": "No s'han pogut assignar els equips. Torna-ho a provar."
+    }
+  }
+}

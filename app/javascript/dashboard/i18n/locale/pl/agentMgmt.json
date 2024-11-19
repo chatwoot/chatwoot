@@ -3,7 +3,8 @@
     "HEADER": "Agenci",
     "HEADER_BTN_TXT": "Dodaj agenta",
     "LOADING": "Pobieranie listy agentów",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
@@ -12,12 +13,13 @@
       "404": "Nie ma agentów powiązanych z tym kontem",
       "TITLE": "Zarządzaj agentami w zespole",
       "DESC": "Możesz dodać/usunąć agentów do/w zespole.",
-      "NAME": "Nazwisko",
+      "NAME": "Imię",
       "EMAIL": "EMAIL",
       "STATUS": "Status",
       "ACTIONS": "Akcje",
       "VERIFIED": "Zweryfikowano",
-      "VERIFICATION_PENDING": "Weryfikacja oczekuje"
+      "VERIFICATION_PENDING": "Weryfikacja oczekuje",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Dodaj agenta do swojego zespołu",
@@ -42,37 +44,42 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent dodany pomyślnie",
         "EXIST_MESSAGE": "Email agenta jest już w użyciu, spróbuj innego adresu e-mail",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Agent usunięty pomyślnie",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "Agent został pomyślnie usunięty",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       },
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
-        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "MESSAGE": "Czy jesteś pewien, że chcesz usunąć ",
         "YES": "Tak, usuń ",
-        "NO": "No, Keep "
+        "NO": "Nie, zachowaj "
       }
     },
     "EDIT": {
       "TITLE": "Edytuj agenta",
       "FORM": {
         "NAME": {
-          "LABEL": "Nazwa agenta",
-          "PLACEHOLDER": "Wprowadź nazwę agenta"
+          "LABEL": "Imię agenta",
+          "PLACEHOLDER": "Proszę wprowadzić imię agenta"
         },
         "AGENT_TYPE": {
-          "LABEL": "Typ agenta",
-          "PLACEHOLDER": "Wybierz typ",
-          "ERROR": "Typ agenta jest wymagany"
+          "LABEL": "Rola",
+          "PLACEHOLDER": "Proszę wybrać rolę",
+          "ERROR": "Rola jest wymagana"
         },
         "EMAIL": {
           "LABEL": "Adres e-mail",
-          "PLACEHOLDER": "Wprowadź adres e-mail agenta"
+          "PLACEHOLDER": "Proszę wprowadzić adres e-mail agenta"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Dostępność",
+          "PLACEHOLDER": "Proszę wybrać status dostępności",
+          "ERROR": "Dostępność jest wymagana"
         },
         "SUBMIT": "Edytuj agenta"
       },
@@ -80,17 +87,35 @@
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "API": {
         "SUCCESS_MESSAGE": "Agent został pomyślnie zaktualizowany",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Resetuj hasło",
+        "ADMIN_RESET_BUTTON": "Zresetuj hasło",
         "ADMIN_SUCCESS_MESSAGE": "E-mail z instrukcjami resetowania hasła został wysłany do agenta",
-        "SUCCESS_MESSAGE": "Pomyślnie zresetowano hasło agenta",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "Hasło agenta zostało pomyślnie zresetowane",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Nie znaleziono żadnych agentów."
+      "NO_RESULTS": "Nie znaleziono wyników."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Brak",
+      "TITLE": {
+        "AGENT": "Wybierz konsultanta",
+        "TEAM": "Wybierz zespół"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Nie znaleziono agentów",
+          "TEAM": "Nie znaleziono zespołów"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Szukaj agentów",
+          "TEAM": "Szukaj zespołów",
+          "INPUT": "Szukaj agentów"
+        }
+      }
     }
   }
 }

@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "S'està carregant l'editor...",
+    "HEADER_BTN_TXT": "Afegir configuració del bot",
+    "SIDEBAR_TXT": "<p><b>Bots d'Agent</b> <p>Bots d'Agent són com els membres més fabulosos del teu equip. Poden gestionar les coses petites, de manera que us podeu centrar en les coses importants. Prova-ls.</p> <p> Pots gestionar els teus bots des d'aquesta pàgina o crear-ne de nous mitjançant el botó \"Afegeix una configuració de bot\".</p> <p> Obre el <a href=\"https:/ /www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Manual de robots d'agent</a> en una altra pestanya per a un cop de mà.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Nom del bot",
+        "PLACEHOLDER": "Anomena el teu bot.",
+        "ERROR": "El nom del bot és obligatori."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció del bot",
+        "PLACEHOLDER": "Què fa aquest bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Introdueix la configuració del bot CSML més amunt.",
+        "API_ERROR": "La vostra configuració CSML no és vàlida. Arregla-ho i torna-ho a provar."
+      },
+      "SUBMIT": "Valida i desa"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selecciona un bot d'agent",
+      "DESC": "Assigna un bot d'agent a la teva safata d'entrada. Poden gestionar les converses inicials i transferir-les a un agent en directe quan sigui necessari.",
+      "SUBMIT": "Actualitza",
+      "DISCONNECT": "Desconnecta el bot",
+      "SUCCESS_MESSAGE": "S'ha actualitzat correctament el bot de l'agent.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "S'ha desconnectat correctament el bot de l'agent.",
+      "ERROR_MESSAGE": "No s'ha pogut actualitzar el bot de l'agent. Torneu-ho a provar.",
+      "DISCONNECTED_ERROR_MESSAGE": "No s'ha pogut desconnectar el bot de l'agent. Torneu-ho a provar.",
+      "SELECT_PLACEHOLDER": "Selecciona el bot"
+    },
+    "ADD": {
+      "TITLE": "Configura el nou bot",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot afegit correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut afegir el bot. Torneu-ho a provar més endavant."
+      }
+    },
+    "LIST": {
+      "404": "No s'han trobat bots. Pots crear un bot fent clic al botó \"Configura un bot nou\" ↗",
+      "LOADING": "S'estan obtenint bots...",
+      "TYPE": "Tipus de bot"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborrar",
+      "TITLE": "Suprimeix el bot",
+      "SUBMIT": "Esborrar",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "DESCRIPTION": "Estàs segur que vols suprimir aquest bot? Aquesta acció és irreversible.",
+      "API": {
+        "SUCCESS_MESSAGE": "S'ha esborrat el bot correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut eliminar el bot. Torneu-ho a provar més endavant."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Edita",
+      "LOADING": "S'estan obtenint bots...",
+      "TITLE": "Edita el bot",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot actualitzat correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar el bot. Torneu-ho a provar."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
+    }
+  }
+}

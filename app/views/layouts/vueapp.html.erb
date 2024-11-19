@@ -4,7 +4,7 @@
     <title>
       <%= @global_config['INSTALLATION_NAME'] %>
     </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
     <% if @global_config['DISPLAY_MANIFEST'] %>
       <meta name="msapplication-TileColor" content="#1f93ff">
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
@@ -23,9 +23,9 @@
       <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
       <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-      <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+      <link class="favicon" rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+      <link class="favicon" rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+      <link class="favicon" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
       <link rel="manifest" href="/manifest.json">
     <% end %>
     <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
@@ -33,49 +33,45 @@
     <script>
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
-        fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
-        signupEnabled: '<%= ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) %>',
-        <% if ENV['VAPID_PUBLIC_KEY'] %>
-        vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>),
+        helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
+        fbAppId: '<%= @global_config['FB_APP_ID'] %>',
+        googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
+        googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
+        fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
+        signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
+        isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
+        <% if @global_config['IS_ENTERPRISE'] %>
+        enterprisePlanName: '<%= @global_config['INSTALLATION_PRICING_PLAN'] %>',
+        <% end %>
+        <% if @global_config['VAPID_PUBLIC_KEY'] %>
+        vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(@global_config['VAPID_PUBLIC_KEY']).bytes %>),
         <% end %>
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
+        helpUrls: <%= feature_help_urls.to_json.html_safe %>,
         selectedLocale: '<%= I18n.locale %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
-        is_safari: '<%= browser.safari? %>'
       }
-      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '')%>'
+      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_FRONTEND_DSN', '') || ENV.fetch('SENTRY_DSN', '') %>'
     </script>
-    <%= javascript_pack_tag 'application' %>
-    <%= stylesheet_pack_tag 'application' %>
+    <% if @global_config['ANALYTICS_TOKEN'].present? %>
+    <script>
+      window.analyticsConfig = {
+        token: '<%= @global_config['ANALYTICS_TOKEN'] %>',
+      }
+    </script>
+    <% end %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag @application_pack %>
   </head>
-  <body>
+  <body class="text-slate-600">
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
-    <% @global_config['CHATWOOT_INBOX_TOKEN'] %>
-    <% if @global_config['CHATWOOT_INBOX_TOKEN'] %>
-    <script>
-      window.chatwootSettings = {
-        hideMessageBubble: true,
-        position: 'left',
-      };
-      (function(d,t) {
-        var BASE_URL="";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+"/packs/js/sdk.js";
-        s.parentNode.insertBefore(g,s);
-        s.async=!0;
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '<%= @global_config['CHATWOOT_INBOX_TOKEN'] %>',
-            baseUrl: BASE_URL,
-          });
-        }
-      })(document,"script");
-    </script>
+    <% if @dashboard_scripts.present? %>
+      <%= @dashboard_scripts.html_safe %>
     <% end %>
   </body>
 </html>

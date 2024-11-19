@@ -11,8 +11,13 @@ const state = {
   uiFlags: {
     isFetching: false,
     isFetchingItem: false,
+    isFetchingInboxes: false,
     isUpdating: false,
+    isMerging: false,
+    isDeleting: false,
   },
+  sortOrder: [],
+  appliedFilters: [],
 };
 
 export default {

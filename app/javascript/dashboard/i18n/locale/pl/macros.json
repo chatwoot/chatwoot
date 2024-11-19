@@ -1,0 +1,88 @@
+{
+  "MACROS": {
+    "HEADER": "Makra",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Dodaj nowe makro",
+    "HEADER_BTN_TXT_SAVE": "Zapisz makro",
+    "LOADING": "Pobieranie makr",
+    "ERROR": "Wystąpił błąd. Spróbuj ponownie",
+    "ORDER_INFO": "Makra będą uruchamiane w kolejności, w jakiej dodajesz czynności. Możesz zmieniać ich kolejność, przeciągając je za uchwyt obok każdego węzła.",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nazwa makra",
+          "PLACEHOLDER": "Wprowadź nazwę makra",
+          "ERROR": "Wymagana jest nazwa makra"
+        },
+        "ACTIONS": {
+          "LABEL": "Akcje"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro pomyślnie dodane",
+        "ERROR_MESSAGE": "Nie można utworzyć makra. Spróbuj ponownie później"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nazwa",
+        "Utworzone przez",
+        "Ostatnio zaktualizowane przez",
+        "Widoczność"
+      ],
+      "404": "Nie znaleziono makr"
+    },
+    "DELETE": {
+      "TOOLTIP": "Usuń makro",
+      "CONFIRM": {
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Tak, usuń",
+        "NO": "Nie"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makro pomyślnie usunięte",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania makra. Spróbuj ponownie później"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "Edytuj makro",
+      "API": {
+        "SUCCESS_MESSAGE": "Makro pomyślnie zaktualizowane",
+        "ERROR_MESSAGE": "Nie można zaktualizować makra. Spróbuj ponownie później"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "Rozpocznij przepływ",
+      "END_FLOW": "Zakończ przepływ",
+      "LOADING": "Pobieranie makra",
+      "ADD_BTN_TOOLTIP": "Dodaj nową czynność",
+      "DELETE_BTN_TOOLTIP": "Usuń czynność",
+      "VISIBILITY": {
+        "LABEL": "Widoczność makra",
+        "GLOBAL": {
+          "LABEL": "Publiczne",
+          "DESCRIPTION": "To makro jest publicznie dostępne dla wszystkich agentów na tym koncie."
+        },
+        "PERSONAL": {
+          "LABEL": "Prywatne",
+          "DESCRIPTION": "To makro będzie prywatne i nie będzie dostępne dla innych."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Wykonaj",
+      "PREVIEW": "Podgląd makra",
+      "EXECUTED_SUCCESSFULLY": "Makro pomyślnie wykonane"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Wartość jest wymagana",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    }
+  }
+}

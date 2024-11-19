@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} konuşma seçildi",
+    "AGENT_SELECT_LABEL": "Temsilci seçin",
+    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanacak. Emin misiniz?",
+    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanmamış yapılacak. Emin misiniz?",
+    "GO_BACK_LABEL": "Geri git",
+    "ASSIGN_LABEL": "Atama yap",
+    "YES": "Evet",
+    "SEARCH_INPUT_PLACEHOLDER": "Ara",
+    "ASSIGN_AGENT_TOOLTIP": "Temsilci ata",
+    "ASSIGN_TEAM_TOOLTIP": "Takım ata",
+    "ASSIGN_SUCCESFUL": "Görüşmeler başarıyla atandı.",
+    "ASSIGN_FAILED": "Görüşmeler atanırken bir hata oluştu. Lütfen tekrar deneyin.",
+    "RESOLVE_SUCCESFUL": "Görüşmeler başarıyla çözüldü.",
+    "RESOLVE_FAILED": "Görüşmeler çözülürken bir hata oluştu. Lütfen tekrar deneyin.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Bu sayfada yalnızca seçili konuşmalar gösterilmektedir.",
+    "AGENT_LIST_LOADING": "Temsilciler Yükleniyor",
+    "UPDATE": {
+      "CHANGE_STATUS": "Durumu değiştir",
+      "SNOOZE_UNTIL": "Sustur",
+      "UPDATE_SUCCESFUL": "Konuşma durumu başarıyla güncellendi.",
+      "UPDATE_FAILED": "Görüşmeler güncellenirken bir hata oluştu. Lütfen tekrar deneyin."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Etiket atama",
+      "NO_LABELS_FOUND": "İçin etiket bulunamadı",
+      "ASSIGN_SELECTED_LABELS": "Seçili etiketleri atama",
+      "ASSIGN_SUCCESFUL": "Etiketler başarıyla atandı.",
+      "ASSIGN_FAILED": "Etiketler atanırken bir hata oluştu. Lütfen tekrar deneyin."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Takım seçin",
+      "NONE": "Hiçbiri",
+      "NO_TEAMS_AVAILABLE": "Bu hesaba henüz eklenmiş takımlar yok.",
+      "ASSIGN_SELECTED_TEAMS": "Seçili takımları atama",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Takımlar atanırken bir hata oluştu. Lütfen tekrar deneyin."
+    }
+  }
+}

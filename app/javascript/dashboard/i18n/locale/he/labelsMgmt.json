@@ -1,0 +1,85 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "תוויות",
+    "HEADER_BTN_TXT": "הוסף תווית",
+    "LOADING": "מביא תוויות",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
+    "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
+    "LIST": {
+      "404": "אין תוויות זמינות בחשבון זה.",
+      "TITLE": "נהל תוויות",
+      "DESC": "תוויות מאפשרות לך לקבץ את השיחות יחד.",
+      "TABLE_HEADER": [
+        "שם",
+        "תיאור",
+        "צֶבַע"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "שם התווית",
+        "PLACEHOLDER": "שם התווית",
+        "REQUIRED_ERROR": "נדרש שם תווית",
+        "MINIMUM_LENGTH_ERROR": "נדרש אורך מינימלי 2",
+        "VALID_ERROR": "רק אלפבית, מספרים, מקף וקו תחתון מותרים"
+      },
+      "DESCRIPTION": {
+        "LABEL": "תיאור",
+        "PLACEHOLDER": "תיאור תווית"
+      },
+      "COLOR": {
+        "LABEL": "צבע"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "הצג תווית בסרגל הצד"
+      },
+      "EDIT": "ערוך",
+      "CREATE": "צור",
+      "DELETE": "מחק",
+      "CANCEL": "ביטול"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "סגור",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
+    "ADD": {
+      "TITLE": "הוסף תווית",
+      "DESC": "תוויות מאפשרות לך לקבץ את השיחות יחד.",
+      "API": {
+        "SUCCESS_MESSAGE": "תווית נוספה בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      }
+    },
+    "EDIT": {
+      "TITLE": "ערוך תווית",
+      "API": {
+        "SUCCESS_MESSAGE": "התווית עודכנה בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "API": {
+        "SUCCESS_MESSAGE": "התווית נמחקה בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      },
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      }
+    }
+  }
+}

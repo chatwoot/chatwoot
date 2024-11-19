@@ -1,43 +1,60 @@
 class ApplicationMailbox < ActionMailbox::Base
+  include MailboxHelper
+
   # Last part is the regex for the UUID
   # Eg: email should be something like : reply+6bdc3f4d-0bec-4515-a284-5d916fdde489@domain.com
-  REPLY_EMAIL_USERNAME_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i.freeze
+  REPLY_EMAIL_UUID_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
+  CONVERSATION_MESSAGE_ID_PATTERN = %r{conversation/([a-zA-Z0-9-]*?)/messages/(\d+?)@(\w+\.\w+)}
 
-  def self.reply_mail?
-    proc do |inbound_mail_obj|
-      is_a_reply_email = false
-      inbound_mail_obj.mail.to.each do |email|
-        username = email.split('@')[0]
-        match_result = username.match(REPLY_EMAIL_USERNAME_PATTERN)
-        if match_result
-          is_a_reply_email = true
-          break
-        end
+  # routes as a reply to existing conversations
+  routing(
+    ->(inbound_mail) { reply_uuid_mail?(inbound_mail) || in_reply_to_mail?(inbound_mail) } => :reply
+  )
+
+  # routes as a new conversation in email channel
+  routing(
+    ->(inbound_mail) { EmailChannelFinder.new(inbound_mail.mail).perform.present? } => :support
+  )
+
+  # catchall
+  routing(all: :default)
+
+  class << self
+    # checks if follow this pattern then send it to reply_mailbox
+    # <account/#{@account.id}/conversation/#{@conversation.uuid}@#{@account.inbound_email_domain}>
+    def in_reply_to_mail?(inbound_mail)
+      in_reply_to = inbound_mail.mail.in_reply_to
+
+      in_reply_to.present? && (
+        in_reply_to_matches?(in_reply_to) || Message.exists?(source_id: in_reply_to)
+      )
+    end
+
+    def in_reply_to_matches?(in_reply_to)
+      Array.wrap(in_reply_to).any? { _1.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
+    end
+
+    # checks if follow this pattern  send it to reply_mailbox
+    # reply+<conversation-uuid>@<mailer-domain.com>
+    def reply_uuid_mail?(inbound_mail)
+      validate_to_address(inbound_mail)
+
+      inbound_mail.mail.to&.any? do |email|
+        conversation_uuid = email.split('@')[0]
+        conversation_uuid.match?(REPLY_EMAIL_UUID_PATTERN)
       end
-      is_a_reply_email
+    end
+
+    # if mail.to returns a string, then it is a malformed `to` header
+    # valid `to` header will be of type Mail::AddressContainer
+    # validate if the to address is of type string
+    def validate_to_address(inbound_mail)
+      to_address_class = inbound_mail.mail.to&.class
+
+      return if to_address_class == Mail::AddressContainer
+
+      Rails.logger.error "Email to address header is malformed `#{inbound_mail.mail.to}`"
+      raise StandardError, "Invalid email to address header #{inbound_mail.mail.to}"
     end
   end
-
-  def self.support_mail?
-    proc do |inbound_mail_obj|
-      is_a_support_email = false
-      inbound_mail_obj.mail.to.each do |email|
-        channel = Channel::Email.find_by(email: email)
-        if channel.present?
-          is_a_support_email = true
-          break
-        end
-      end
-      is_a_support_email
-    end
-  end
-
-  def self.catch_all_mail?
-    proc { |_mail| true }
-  end
-
-  # routing should be defined below the referenced procs
-  routing(reply_mail? => :reply)
-  routing(support_mail? => :support)
-  routing(catch_all_mail? => :default)
 end

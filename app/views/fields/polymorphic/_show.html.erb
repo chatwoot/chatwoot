@@ -1,0 +1,28 @@
+<%#
+# Polymorphic Show Partial
+
+This partial renders a polymorphic relationship,
+to be displayed on a resource's show page.
+
+By default, the relationship is rendered as a link to the associated object.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Polymorphic][1].
+  A wrapper around the polymorphic belongs_to relationship
+  pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Polymorphic
+%>
+
+<% if field.data %>
+  <% if existing_action?(field.data.class, :show) %>
+    <%= link_to(
+      field.display_associated_resource,
+      [namespace, field.data],
+    ) %>
+  <% else %>
+    <%= field.display_associated_resource %>
+  <% end %>
+<% end %>

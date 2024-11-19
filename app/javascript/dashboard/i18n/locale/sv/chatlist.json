@@ -7,79 +7,125 @@
       "404": "Det finns inga aktiva konversationer i denna grupp."
     },
     "TAB_HEADING": "Konversationer",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
     "SEARCH": {
-      "INPUT": "Sök efter människor, chattar, sparade svar .."
+      "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Öppna",
-        "KEY": "openCount"
+    "FILTER_ALL": "Alla",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mina",
+      "unassigned": "Otilldelade",
+      "all": "Alla"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Öppna"
       },
-      {
-        "NAME": "Löst",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Löst"
+      },
+      "pending": {
+        "TEXT": "Väntande"
+      },
+      "snoozed": {
+        "TEXT": "Pausad"
+      },
+      "all": {
+        "TEXT": "Alla"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mina",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Visa",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Skapad",
+        "OLDEST": "Skapad den:"
       },
-      {
-        "NAME": "Otilldelade",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alla",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Senaste aktivitet:",
+        "ACTIVE": "Senaste aktivitet"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Öppna",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      {
-        "TEXT": "Lösta",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildmeddelande"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Ljudmeddelande"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videomeddelande"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Bifogad fil"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Plats"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delat en webbadress"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Senaste meddelandet"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Mottaget via e-post",
     "VIEW_TWEET_IN_TWITTER": "Visa tweet i Twitter",
     "REPLY_TO_TWEET": "Svara på detta tweet",
-    "NO_MESSAGES": "Inga meddelanden"
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Skickades framgångsrikt",
+    "READ": "Read successfully",
+    "DELIVERED": "Delivered successfully",
+    "NO_MESSAGES": "Inga meddelanden",
+    "NO_CONTENT": "Inget innehåll tillgängligt",
+    "HIDE_QUOTED_TEXT": "Dölj citerad text",
+    "SHOW_QUOTED_TEXT": "Visa citerad text",
+    "MESSAGE_READ": "Read"
   }
 }

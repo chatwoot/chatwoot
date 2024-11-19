@@ -1,0 +1,6 @@
+
+type: object
+properties:
+  submitted_values:
+    type: object
+    description: Replies to the Bot Message Types

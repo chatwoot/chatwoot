@@ -7,79 +7,125 @@
       "404": "W tej grupie nie ma aktywnych konwersacji."
     },
     "TAB_HEADING": "Rozmowy",
+    "MENTION_HEADING": "Wzmianki",
+    "UNATTENDED_HEADING": "Nieobsługiwane",
     "SEARCH": {
       "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Otwórz",
-        "KEY": "openCount"
+    "FILTER_ALL": "Wszystkie",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Moje",
+      "unassigned": "Nieprzypisane",
+      "all": "Wszystkie"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Otwarte"
       },
-      {
-        "NAME": "Rozwiązano",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Rozwiązane"
+      },
+      "pending": {
+        "TEXT": "Oczekujące"
+      },
+      "snoozed": {
+        "TEXT": "Uśpij"
+      },
+      "all": {
+        "TEXT": "Wszystkie"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Kopalnia",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Widok",
+    "SORT_TOOLTIP_LABEL": "Sortuj rozmowy",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Sortuj według"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Utworzono",
+        "OLDEST": "Data utworzenia:"
       },
-      {
-        "NAME": "Nieprzypisane",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Wszystkie",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Ostatnia aktywność:",
+        "ACTIVE": "Ostatnia aktywność"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Otwórz",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      {
-        "TEXT": "Rozwiązano",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
-        "CONTENT": "Wiadomość obrazkowa"
+        "CONTENT": "Wiadomość z obrazkiem"
       },
       "audio": {
-        "ICON": "ion-volume-high",
-        "CONTENT": "Wiadomość audio"
+        "CONTENT": "Wiadomość dźwiękowa"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Wiadomość wideo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Załącznik pliku"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Lokalizacja"
       },
       "fallback": {
-        "ICON": "ion-link",
-        "CONTENT": "udostępnił adres url"
+        "CONTENT": "udostępnił adres URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages"
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sortuj rozmowy",
+      "DROPDOWN_TITLE": "Sortuj według",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Ostatnia aktywność o",
+          "LABEL": "Ostatnia aktywność"
+        },
+        "CREATED_AT": {
+          "NAME": "Data utworzenia",
+          "LABEL": "Data utworzenia"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Ostatnia wiadomość użytkownika o",
+          "LABEL": "Ostatnia wiadomość"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Otrzymano przez e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Zobacz tweeta na Twitterze",
+    "REPLY_TO_TWEET": "Odpowiedz na tweeta",
+    "LINK_TO_STORY": "Przejdź do historii na Instagramie",
+    "SENT": "Wysłano pomyślnie",
+    "READ": "Przeczytano pomyślnie",
+    "DELIVERED": "Dostarczono pomyślnie",
+    "NO_MESSAGES": "Brak wiadomości",
+    "NO_CONTENT": "Brak treści",
+    "HIDE_QUOTED_TEXT": "Ukryj cytat",
+    "SHOW_QUOTED_TEXT": "Pokaż cytat",
+    "MESSAGE_READ": "Przeczytane"
   }
 }

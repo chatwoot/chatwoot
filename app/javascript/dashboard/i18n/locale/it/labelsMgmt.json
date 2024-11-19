@@ -1,67 +1,84 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Etichette",
+    "HEADER_BTN_TXT": "Aggiungi etichetta",
+    "LOADING": "Recupero etichette",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Non ci sono etichette disponibili in questo account.",
+      "TITLE": "Gestisci etichette",
+      "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
       "TABLE_HEADER": [
-        "nome",
-        "Description",
-        "Color"
+        "Nome",
+        "Descrizione",
+        "Colore"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Nome etichetta",
+        "PLACEHOLDER": "Nome etichetta",
+        "REQUIRED_ERROR": "Nome etichetta obbligatorio",
+        "MINIMUM_LENGTH_ERROR": "È richiesta una lunghezza minima di 2",
+        "VALID_ERROR": "Sono ammessi solo lettere, numeri, trattino e sottolineatura"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Descrizione",
+        "PLACEHOLDER": "Descrizione etichetta"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Colore"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Mostra etichetta nella barra laterale"
       },
       "EDIT": "Modifica",
-      "CREATE": "Create",
-      "DELETE": "Cancellare",
-      "CANCEL": "annulla"
+      "CREATE": "Crea",
+      "DELETE": "Elimina",
+      "CANCEL": "Annulla"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Aggiungi etichetta",
+      "DESC": "Le etichette consentono di raggruppare le conversazioni insieme.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etichetta aggiunta correttamente",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Modifica etichetta",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Campagna aggiornata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etichetta eliminata con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore, riprova"
       },
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       }
     }
   }

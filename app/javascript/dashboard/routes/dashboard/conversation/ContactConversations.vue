@@ -1,41 +1,11 @@
-<template>
-  <div class="contact-conversation--panel">
-    <contact-details-item
-      :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
-      icon="ion-chatboxes"
-      emoji="💬"
-    />
-    <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
-      <div v-if="!previousConversations.length" class="no-label-message">
-        <span>
-          {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
-        </span>
-      </div>
-      <div v-else class="contact-conversation--list">
-        <conversation-card
-          v-for="conversation in previousConversations"
-          :key="conversation.id"
-          :chat="conversation"
-          :hide-inbox-name="true"
-          :hide-thumbnail="true"
-          class="compact"
-        />
-      </div>
-    </div>
-    <spinner v-else></spinner>
-  </div>
-</template>
-
 <script>
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
-import ContactDetailsItem from './ContactDetailsItem.vue';
 
 export default {
   components: {
     ConversationCard,
-    ContactDetailsItem,
     Spinner,
   },
   props: {
@@ -76,23 +46,41 @@ export default {
 };
 </script>
 
+<template>
+  <div class="contact-conversation--panel">
+    <div v-if="!uiFlags.isFetching" class="contact-conversation__wrap">
+      <div
+        v-if="!previousConversations.length"
+        class="no-label-message px-4 p-3"
+      >
+        <span>
+          {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
+        </span>
+      </div>
+      <div v-else class="contact-conversation--list">
+        <ConversationCard
+          v-for="conversation in previousConversations"
+          :key="conversation.id"
+          :chat="conversation"
+          :hide-inbox-name="false"
+          hide-thumbnail
+          class="compact"
+        />
+      </div>
+    </div>
+    <Spinner v-else />
+  </div>
+</template>
+
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
-.contact-conversation--panel {
-  padding: 0 var(--space-slab) var(--space-two);
-}
-
-.contact-conversation__wrap {
-  margin-left: var(--space-medium);
-}
-
 .no-label-message {
-  color: var(--b-500);
+  @apply text-slate-500 dark:text-slate-400 mb-4;
 }
 
-.conv-details--item {
-  padding-bottom: 0;
+::v-deep .conversation {
+  @apply pr-0;
+  .conversation--details {
+    @apply pl-2;
+  }
 }
 </style>

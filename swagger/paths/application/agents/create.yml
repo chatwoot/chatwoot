@@ -1,0 +1,43 @@
+tags:
+  - Agents
+operationId: add-new-agent-to-account
+summary: Add a New Agent
+description: Add a new Agent to Account
+security:
+  - userApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - name
+        - email
+        - role
+      properties:
+        name:
+          type: string
+          description: Full Name of the agent
+        email:
+          type: string
+          description: Email of the Agent
+        role:
+          type: string
+          enum: ['agent', 'administrator']
+          description: Whether its administrator or agent
+        availability_status:
+          type: string
+          enum: ['available', 'busy', 'offline']
+          description: The availability setting of the agent.
+        auto_offline:
+          type: boolean
+          description: Whether the availability status of agent is configured to go offline automatically when away.
+responses:
+  200:
+    description: Success
+    schema:
+        description: 'Newly Created Agent'
+        $ref: '#/definitions/agent'
+  403:
+    description: Access denied

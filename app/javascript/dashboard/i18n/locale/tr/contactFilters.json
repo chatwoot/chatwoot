@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Kişileri Filtrele",
+    "SUBTITLE": "Filtreleri aşağıya ekleyin ve kişileri filtrelemek için 'Gönder' butonuna basın.",
+    "EDIT_CUSTOM_SEGMENT": "Segmenti Düzenle",
+    "CUSTOM_VIEWS_SUBTITLE": "Filtreler ekleyin veya kaldırın ve segmentinizi güncelleyin.",
+    "ADD_NEW_FILTER": "Filtre Ekle",
+    "CLEAR_ALL_FILTERS": "Filtreleri Temizle",
+    "FILTER_DELETE_ERROR": "Kaydetmek için en az bir filtre ekleyin",
+    "SUBMIT_BUTTON_LABEL": "Yolla",
+    "UPDATE_BUTTON_LABEL": "Segmenti Düzenle",
+    "CANCEL_BUTTON_LABEL": "İptal Et",
+    "CLEAR_BUTTON_LABEL": "Filtreleri Temizle",
+    "EMPTY_VALUE_ERROR": "Değer gereklidir",
+    "SEGMENT_LABEL": "Segment Adı",
+    "SEGMENT_QUERY_LABEL": "Segment Sorgusu",
+    "TOOLTIP_LABEL": "Kişileri filtrele",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "VE",
+      "OR": "YA DA"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Eşit",
+      "not_equal_to": "Eşit değil",
+      "contains": "İçerir",
+      "does_not_contain": "İçermez",
+      "is_present": "Şu an",
+      "is_not_present": "Şu an değil",
+      "is_greater_than": "Şundan büyük",
+      "is_lesser_than": "Şundan az",
+      "days_before": "x gün önce"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Değer gereklidir"
+    },
+    "ATTRIBUTES": {
+      "NAME": "İsim",
+      "EMAIL": "E-Posta",
+      "PHONE_NUMBER": "Telefon numarası",
+      "IDENTIFIER": "Doğrulayıcı",
+      "CITY": "Şehir",
+      "COUNTRY": "Ülke",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Yazı",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Sayı",
+      "CUSTOM_ATTRIBUTE_LINK": "Bağlantı",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
+      "CREATED_AT": "Oluşturma",
+      "LAST_ACTIVITY": "Son aktivite",
+      "REFERER_LINK": "Yönlendiren bağlantısı",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standart Filtreler",
+      "ADDITIONAL_FILTERS": "Gelişmiş Filtreler",
+      "CUSTOM_ATTRIBUTES": "Özel Nitelikler"
+    }
+  }
+}

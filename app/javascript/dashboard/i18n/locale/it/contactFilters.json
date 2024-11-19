@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtra contatti",
+    "SUBTITLE": "Aggiungi filtri qui sotto e premi 'Invia' per filtrare i contatti.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "Aggiungi filtro",
+    "CLEAR_ALL_FILTERS": "Cancella tutti i filtri",
+    "FILTER_DELETE_ERROR": "Dovresti avere almeno un filtro da salvare",
+    "SUBMIT_BUTTON_LABEL": "Invia",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "Annulla",
+    "CLEAR_BUTTON_LABEL": "Cancella filtri",
+    "EMPTY_VALUE_ERROR": "Il valore è obbligatorio",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filtra contatti",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "E",
+      "OR": "O"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Uguale a",
+      "not_equal_to": "Non uguale a",
+      "contains": "Contiene",
+      "does_not_contain": "Non contiene",
+      "is_present": "È presente",
+      "is_not_present": "Non è presente",
+      "is_greater_than": "È maggiore di",
+      "is_lesser_than": "È minore di",
+      "days_before": "È x giorni prima"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Il valore è obbligatorio"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nome",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Numero di telefono",
+      "IDENTIFIER": "Identificatore",
+      "CITY": "Città",
+      "COUNTRY": "Paese",
+      "CUSTOM_ATTRIBUTE_LIST": "Elenco",
+      "CUSTOM_ATTRIBUTE_TEXT": "Testo",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numero",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Creato il",
+      "LAST_ACTIVITY": "Ultima attività",
+      "REFERER_LINK": "Link di riferimento",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtri standard",
+      "ADDITIONAL_FILTERS": "Filtri addizionali",
+      "CUSTOM_ATTRIBUTES": "Attributi personalizzati"
+    }
+  }
+}

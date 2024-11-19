@@ -1,28 +1,15 @@
-Raven.configure do |config|
-  config.dsn = ENV['SENTRY_DSN']
-  config.environments = %w[staging production]
-end
+if ENV['SENTRY_DSN'].present?
+  Sentry.init do |config|
+    config.dsn = ENV['SENTRY_DSN']
+    config.enabled_environments = %w[staging production]
 
-module QueryTrace
-  def self.enable!
-    ::ActiveRecord::LogSubscriber.send(:include, self)
-  end
+    # To activate performance monitoring, set one of these options.
+    # We recommend adjusting the value in production:
+    config.traces_sample_rate = 0.1 if ENV['ENABLE_SENTRY_TRANSACTIONS']
 
-  def self.append_features(klass)
-    super
-    klass.class_eval do
-      unless method_defined?(:log_info_without_trace)
-        alias_method :log_info_without_trace, :sql
-        alias_method :sql, :log_info_with_trace
-      end
-    end
-  end
+    config.excluded_exceptions += ['Rack::Timeout::RequestTimeoutException']
 
-  def log_info_with_trace(event)
-    log_info_without_trace(event)
-    trace_log = Rails.backtrace_cleaner.clean(caller).first
-    logger.debug("   \\_ \e[33mCalled from:\e[0m #{trace_log}") if trace_log && event.payload[:name] != 'SCHEMA'
+    # to track post data in sentry
+    config.send_default_pii = true unless ENV['DISABLE_SENTRY_PII']
   end
 end
-
-QueryTrace.enable! unless Rails.env.production?

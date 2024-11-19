@@ -7,79 +7,125 @@
       "404": "Nu sunt conversații active în acest grup."
     },
     "TAB_HEADING": "Conversații",
+    "MENTION_HEADING": "Mențiuni",
+    "UNATTENDED_HEADING": "Neasistat",
     "SEARCH": {
       "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Deschide",
-        "KEY": "openCount"
+    "FILTER_ALL": "Toate",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Ale mele",
+      "unassigned": "Neatribuit",
+      "all": "Toate"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Deschide"
       },
-      {
-        "NAME": "Rezolvat",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Rezolvat"
+      },
+      "pending": {
+        "TEXT": "În aşteptare"
+      },
+      "snoozed": {
+        "TEXT": "Amânat"
+      },
+      "all": {
+        "TEXT": "Toate"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Ale mele",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Vizualizare",
+    "SORT_TOOLTIP_LABEL": "Sortarea conversațiilor",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Ordonat după"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creat",
+        "OLDEST": "Creat la:"
       },
-      {
-        "NAME": "Neatribuit",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Toate",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Ultima activitate:",
+        "ACTIVE": "Ultima activitate"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Deschide",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      {
-        "TEXT": "Rezolvat",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "icon",
         "CONTENT": "Mesaj imagine"
       },
       "audio": {
-        "ICON": "icon volum mare",
         "CONTENT": "Mesaj audio"
       },
       "video": {
-        "ICON": "Icon ios videocam",
         "CONTENT": "Mesaj video"
       },
       "file": {
-        "ICON": "icon document",
         "CONTENT": "Fişier ataşat"
       },
       "location": {
-        "ICON": "icon ios-location",
         "CONTENT": "Locaţie"
       },
       "fallback": {
-        "ICON": "icon link",
         "CONTENT": "a partajat un URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages"
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sortarea conversației",
+      "DROPDOWN_TITLE": "Sortați după",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Ultima activitate la",
+          "LABEL": "Ultima activitate"
+        },
+        "CREATED_AT": {
+          "NAME": "Creat la",
+          "LABEL": "Creat la"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Ultimul mesaj de utilizator la",
+          "LABEL": "Ultimul mesaj"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Primit prin e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Vezi tweet pe Twitter",
+    "REPLY_TO_TWEET": "Răspunde la acest tweet",
+    "LINK_TO_STORY": "Accesați povestea Instagram",
+    "SENT": "Trimis cu succes",
+    "READ": "Citit cu succes",
+    "DELIVERED": "Livrat cu succes",
+    "NO_MESSAGES": "Niciun mesaj",
+    "NO_CONTENT": "Nici un conținut disponibil",
+    "HIDE_QUOTED_TEXT": "Ascunde textul citat",
+    "SHOW_QUOTED_TEXT": "Arată textul citat",
+    "MESSAGE_READ": "Citește"
   }
 }

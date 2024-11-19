@@ -13,8 +13,10 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
 
   before do
     create(:inbox_member, user: agent, inbox: inbox_1)
-    2.times.each { create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1) }
-    2.times.each { create(:conversation, account: account, inbox: inbox_2, contact: contact, contact_inbox: contact_inbox_2) }
+    2.times.each do
+      create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1)
+      create(:conversation, account: account, inbox: inbox_2, contact: contact, contact_inbox: contact_inbox_2)
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts/:id/conversations' do
@@ -31,7 +33,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
+          json_response = response.parsed_body
 
           expect(json_response['payload'].length).to eq 4
         end
@@ -42,7 +44,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: agent.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
+          json_response = response.parsed_body
 
           expect(json_response['payload'].length).to eq 2
         end
@@ -53,7 +55,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: unknown.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          json_response = JSON.parse(response.body)
+          json_response = response.parsed_body
 
           expect(json_response['payload'].length).to eq 0
         end

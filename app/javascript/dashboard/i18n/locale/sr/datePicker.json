@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Primeni",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Poslednjih 7 dana",
+      "LAST_30_DAYS": "Poslednjih 30 dana",
+      "LAST_3_MONTHS": "Poslednja 3 meseca",
+      "LAST_6_MONTHS": "Poslednjih 6 meseci",
+      "LAST_YEAR": "Poslednja godina",
+      "CUSTOM_RANGE": "Prilagođen opseg vremena"
+    }
+  }
+}

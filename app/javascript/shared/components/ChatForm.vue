@@ -1,51 +1,8 @@
-<template>
-  <div class="form chat-bubble agent">
-    <form @submit.prevent="onSubmit">
-      <div v-for="item in items" :key="item.key" class="form-block">
-        <label>{{ item.label }}</label>
-        <input
-          v-if="item.type === 'email' || item.type === 'text'"
-          v-model="formValues[item.name]"
-          :type="item.type"
-          :name="item.name"
-          :placeholder="item.placeholder"
-          :disabled="!!submittedValues.length"
-        />
-        <textarea
-          v-else-if="item.type === 'text_area'"
-          v-model="formValues[item.name]"
-          :name="item.name"
-          :placeholder="item.placeholder"
-          :disabled="!!submittedValues.length"
-        />
-        <select
-          v-else-if="item.type === 'select'"
-          v-model="formValues[item.name]"
-        >
-          <option
-            v-for="option in item.options"
-            :key="option.key"
-            :value="option.value"
-          >
-            {{ option.label }}
-          </option>
-        </select>
-      </div>
-      <button
-        v-if="!submittedValues.length"
-        class="button block"
-        type="submit"
-        :disabled="!isFormValid"
-        :style="{ background: widgetColor, borderColor: widgetColor }"
-      >
-        {{ buttonLabel || $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
-      </button>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
+import { useDarkMode } from 'widget/composables/useDarkMode';
+
 export default {
   props: {
     buttonLabel: {
@@ -61,15 +18,28 @@ export default {
       default: () => [],
     },
   },
+  emits: ['submit'],
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
+  },
   data() {
     return {
       formValues: {},
+      hasSubmitted: false,
     };
   },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+    inputColor() {
+      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
+        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
+    },
     isFormValid() {
       return this.items.reduce((acc, { name }) => {
         return !!this.formValues[name] && acc;
@@ -84,6 +54,9 @@ export default {
     }
   },
   methods: {
+    onSubmitClick() {
+      this.hasSubmitted = true;
+    },
     onSubmit() {
       if (!this.isFormValid) {
         return;
@@ -108,8 +81,94 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    class="form chat-bubble agent"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
+  >
+    <form @submit.prevent="onSubmit">
+      <div
+        v-for="item in items"
+        :key="item.key"
+        class="form-block"
+        :class="{
+          'has-submitted': hasSubmitted,
+        }"
+      >
+        <label :class="getThemeClass('text-black-900', 'dark:text-slate-50')">{{
+          item.label
+        }}</label>
+        <input
+          v-if="item.type === 'email'"
+          v-model="formValues[item.name]"
+          :class="inputColor"
+          :type="item.type"
+          :pattern="item.regex"
+          :title="item.title"
+          :required="item.required && 'required'"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
+        <input
+          v-else-if="item.type === 'text'"
+          v-model="formValues[item.name]"
+          :class="inputColor"
+          :required="item.required && 'required'"
+          :pattern="item.pattern"
+          :title="item.title"
+          :type="item.type"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
+        <textarea
+          v-else-if="item.type === 'text_area'"
+          v-model="formValues[item.name]"
+          :class="inputColor"
+          :required="item.required && 'required'"
+          :title="item.title"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
+        <select
+          v-else-if="item.type === 'select'"
+          v-model="formValues[item.name]"
+          :class="inputColor"
+          :required="item.required && 'required'"
+        >
+          <option
+            v-for="option in item.options"
+            :key="option.key"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+        <span class="error-message">
+          {{ item.pattern_error || $t('CHAT_FORM.INVALID.FIELD') }}
+        </span>
+      </div>
+      <button
+        v-if="!submittedValues.length"
+        class="button block"
+        type="submit"
+        :style="{
+          background: widgetColor,
+          borderColor: widgetColor,
+          color: textColor,
+        }"
+        @click="onSubmitClick"
+      >
+        {{ buttonLabel || $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
+      </button>
+    </form>
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .form {
   padding: $space-normal;
@@ -155,7 +214,6 @@ export default {
     appearance: none;
     border: 1px solid $color-border;
     border-radius: $space-smaller;
-    background-color: $color-white;
     font-family: inherit;
     font-size: $space-normal;
     font-weight: normal;
@@ -170,6 +228,30 @@ export default {
 
   .button {
     font-size: $font-size-default;
+  }
+
+  .error-message {
+    display: none;
+    margin-top: $space-smaller;
+    color: $color-error;
+  }
+
+  .has-submitted {
+    input:invalid {
+      border: 1px solid $color-error;
+    }
+
+    input:invalid + .error-message {
+      display: block;
+    }
+
+    textarea:invalid {
+      border: 1px solid $color-error;
+    }
+
+    textarea:invalid + .error-message {
+      display: block;
+    }
   }
 }
 </style>

@@ -25,16 +25,16 @@ uk:
       password_change:
         subject: "Пароль змінено"
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: "Не вдалося вас авторизувати з %{kind} , тому що \"%{reason}\"."
+      success: "Успішна аутентифікація з %{kind} аккаунта."
     passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
-      updated: "Your password has been changed successfully. You are now signed in."
-      updated_not_active: "Your password has been changed successfully."
+      no_token: "Ви не можете отримати доступ до цієї сторінки без переходу з листа для зміни пароля. Якщо ви переходите з електронного листа для зміни паролю, переконайтеся, що використали повну URL-адресу."
+      send_instructions: "За декілька хвилин ви отримаєте лист із вказівками щодо відновлення пароля."
+      send_paranoid_instructions: "Якщо ваша адреса електронної пошти наявна в нашій базі даних, то за декілька хвилин ви отримаєте посилання на відновлення паролю на вашу електронну адресу."
+      updated: "Ваш пароль змінено. Ви увійшли в систему."
+      updated_not_active: "Ваш пароль було успішно змінено."
     registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      destroyed: "До побачення! Ваш обліковий запис було успішно видалено. Сподіваємось незабаром побачитись з вами знову."
       signed_up: "Ласкаво просимо! Ви успішно зареєструвалися."
       signed_up_but_inactive: "Ви успішно зареєструвалися, але не можете увійти в систему, тому що ваш обліковий запис ще не активовано."
       signed_up_but_locked: "Ви успішно зареєструвались. Але ми не можемо надати вам доступ до системи через те, що ваш обліковий запис заблоковано."
@@ -53,11 +53,11 @@ uk:
     messages:
       already_confirmed: "вже було підтверджено, будь ласка спробуйте увійти в систему"
       confirmation_period_expired: "потребує підтвердження протягом %{period}, будь ласка, подайте новий запит"
-      expired: "has expired, please request a new one"
+      expired: "вже закінчився термін дії. Будь ласка, зробіть новий запит"
       not_found: "не знайдено"
       not_locked: "не було заблоковано"
       not_saved:
-        one: "1 error prohibited this %{resource} from being saved:"
-        few: "%{count} errors prohibited this %{resource} from being saved:"
-        many: "%{count} errors prohibited this %{resource} from being saved:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+        one: "1 помилка не дозволяє зберегти цей %{resource}:"
+        few: "Збереженню цього %{resource} заважало %{count} помилок:"
+        many: "Збереженню цього %{resource} заважало %{count} помилок:"
+        other: "Збереженню цього %{resource} заважало %{count} помилок:"

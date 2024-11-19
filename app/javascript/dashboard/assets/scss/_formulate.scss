@@ -1,0 +1,38 @@
+@import 'dashboard/assets/scss/variables';
+
+.formulate-input {
+  .formulate-input-errors {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .formulate-input-error {
+    color: var(--r-400);
+    display: block;
+    font-size: var(--font-size-small);
+    font-weight: $font-weight-normal;
+    margin-bottom: $space-one;
+    width: 100%;
+  }
+}
+
+.integration-hooks {
+  .formulate-input[data-type='checkbox'] {
+    .formulate-input-wrapper {
+      @apply flex;
+
+      .formulate-input-element {
+        @apply pr-2;
+
+        input {
+          @apply mb-0;
+        }
+      }
+    }
+
+    .formulate-input-element-decorator {
+      @apply hidden;
+    }
+  }
+}

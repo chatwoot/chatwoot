@@ -14,16 +14,23 @@
 
 window.chatwootSettings = {
   hideMessageBubble: false,
-  position: 'left',
+  // showUnreadMessagesDialog: false,
+  // baseDomain: '.loca.lt',
+  position: '<%= @widget_position %>',
   locale: 'en',
-  type: 'expanded_bubble',
-  showPopoutButton: true,
+  useBrowserLanguage: true,
+  type: '<%= @widget_type %>',
+  // showPopoutButton: true,
+  widgetStyle: '<%= @widget_style %>',
+  darkMode: '<%= @dark_mode %>',
 };
 
 (function(d,t) {
   var BASE_URL = '';
   var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
   g.src= BASE_URL + "/packs/js/sdk.js";
+  g.defer = true;
+  g.async = true;
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
     window.chatwootSDK.run({
@@ -34,13 +41,28 @@ window.chatwootSettings = {
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-  console.log(window.$chatwoot);
+  console.log('chatwoot:ready', window.$chatwoot);
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
       email: 'jane@example.com',
-      name: 'Jane Doe'
+      name: 'Jane Doe',
+      phone_number: ''
     });
   }
+})
+
+window.addEventListener('chatwoot:error', function(e) {
+  console.log('chatwoot:error', e.detail)
+})
+
+
+window.addEventListener('chatwoot:on-message', function(e) {
+  console.log('chatwoot:on-message', e.detail)
+})
+
+
+window.addEventListener('chatwoot:on-start-conversation', function(e) {
+  console.log('chatwoot:on-start-conversation', e.detail)
 })
 </script>

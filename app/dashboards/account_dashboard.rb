@@ -7,16 +7,27 @@ class AccountDashboard < Administrate::BaseDashboard
   # Each different type represents an Administrate::Field object,
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
+
+  enterprise_attribute_types = if ChatwootApp.enterprise?
+                                 {
+                                   limits: Enterprise::AccountLimitsField,
+                                   all_features: Enterprise::AccountFeaturesField
+                                 }
+                               else
+                                 {}
+                               end
+
   ATTRIBUTE_TYPES = {
-    id: Field::Number,
-    name: Field::String,
+    id: Field::Number.with_options(searchable: true),
+    name: Field::String.with_options(searchable: true),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     users: CountField,
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
+    status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     account_users: Field::HasMany
-  }.freeze
+  }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
   # an array of attributes that will be displayed on the model's index page.
@@ -29,27 +40,32 @@ class AccountDashboard < Administrate::BaseDashboard
     locale
     users
     conversations
+    status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = %i[
+  enterprise_show_page_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
+  SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
     created_at
     updated_at
     locale
+    status
     conversations
     account_users
-  ].freeze
+  ] + enterprise_show_page_attributes).freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = %i[
+  enterprise_form_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
+  FORM_ATTRIBUTES = (%i[
     name
     locale
-  ].freeze
+    status
+  ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS
   # a hash that defines filters that can be used while searching via the search
@@ -68,5 +84,12 @@ class AccountDashboard < Administrate::BaseDashboard
   #
   def display_resource(account)
     "##{account.id} #{account.name}"
+  end
+
+  # We do not use the action parameter but we still need to define it
+  # to prevent an error from being raised (wrong number of arguments)
+  # Reference: https://github.com/thoughtbot/administrate/pull/2356/files#diff-4e220b661b88f9a19ac527c50d6f1577ef6ab7b0bed2bfdf048e22e6bfa74a05R204
+  def permitted_attributes(action)
+    super + [limits: {}]
   end
 end

@@ -4,82 +4,128 @@
     "LOAD_MORE_CONVERSATIONS": "Laden Sie weitere Gespräche",
     "EOF": "Alle Gespräche geladen 🎉",
     "LIST": {
-      "404": "In dieser Gruppe gibt es keine aktiven Gespräche."
+      "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
     "TAB_HEADING": "Gespräche",
+    "MENTION_HEADING": "Erwähnungen",
+    "UNATTENDED_HEADING": "Unbeaufsichtigt",
     "SEARCH": {
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Offen",
-        "KEY": "openCount"
+    "FILTER_ALL": "Alle",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meine",
+      "unassigned": "Nicht zugewiesen",
+      "all": "Alle"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Öffnen"
       },
-      {
-        "NAME": "Gelöst",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Gelöst"
+      },
+      "pending": {
+        "TEXT": "Ausstehend"
+      },
+      "snoozed": {
+        "TEXT": "Erinnern"
+      },
+      "all": {
+        "TEXT": "Alle"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Meine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Anzeigen",
+    "SORT_TOOLTIP_LABEL": "Konversationen sortieren",
+    "CHAT_SORT": {
+      "STATUS": "Status",
+      "ORDER_BY": "Sortieren nach"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Erstellt",
+        "OLDEST": "Erstellt am:"
       },
-      {
-        "NAME": "Nicht zugewiesen",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Letzte Aktivität:",
+        "ACTIVE": "Letzte Aktivität"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Offen",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Letzte Aktivität: Älteste zuerst"
       },
-      {
-        "TEXT": "Gelöst",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Letzte Aktivität: Neueste zuerst"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Erstellt am: Neueste zuerst"
+      },
+      "created_at_asc": {
+        "TEXT": "Erstellt am: Älteste zuerst"
+      },
+      "priority_desc": {
+        "TEXT": "Priorität: Höchste zuerst"
+      },
+      "priority_asc": {
+        "TEXT": "Priorität: Niedrigste zuerst"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Ausstehende Antwort: Längste zuerst"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Ausstehende Antwort: Kürzeste zuerst"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildnachricht"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Audio-Nachricht"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videonachricht"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Dateianhang"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Ort"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "hat eine URL geteilt"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Konversationen sortieren",
+      "DROPDOWN_TITLE": "Sortieren nach",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Letzte Aktivität am",
+          "LABEL": "Letzte Aktivität"
+        },
+        "CREATED_AT": {
+          "NAME": "Erstellt am",
+          "LABEL": "Erstellt am"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Letzte Benutzernachricht am",
+          "LABEL": "Letzte Nachricht"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",
     "VIEW_TWEET_IN_TWITTER": "Tweet auf Twitter anzeigen",
     "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
-    "NO_MESSAGES": "No Messages"
+    "LINK_TO_STORY": "Zur Instagram-Geschichte",
+    "SENT": "Erfolgreich gesendet",
+    "READ": "Erfolgreich gelesen",
+    "DELIVERED": "Erfolgreich versendet",
+    "NO_MESSAGES": "Keine Nachrichten",
+    "NO_CONTENT": "Kein Inhalt verfügbar",
+    "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
+    "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
+    "MESSAGE_READ": "Lesen"
   }
 }

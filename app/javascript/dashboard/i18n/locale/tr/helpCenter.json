@@ -1,0 +1,488 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filtrele",
+      "SORT": "Sırala",
+      "LOCALE": "Yerel",
+      "SETTINGS_BUTTON": "Ayarlar",
+      "NEW_BUTTON": "Yeni Makale",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Yayınlandı",
+        "DRAFT": "Taslak",
+        "ARCHIVED": "Arşivlendi"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Tüm Makaleler",
+        "MINE": "Benim Makalelerim",
+        "DRAFT": "Taslak Makaleler",
+        "ARCHIVED": "Arşivlenmiş Makaleler"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Dil seçin",
+        "PLACEHOLDER": "Dil seçin",
+        "NO_RESULT": "Dil bulunamadı",
+        "SEARCH_PLACEHOLDER": "Dil ara"
+      }
+    },
+    "EDIT_HEADER": {
+      "ALL_ARTICLES": "Tüm Makaleler",
+      "PUBLISH_BUTTON": "Yayınla",
+      "MOVE_TO_ARCHIVE_BUTTON": "Arşive Taşı",
+      "PREVIEW": "Önizleme",
+      "ADD_TRANSLATION": "Çeviri Ekle",
+      "OPEN_SIDEBAR": "Kenar Çubuğunu Aç",
+      "CLOSE_SIDEBAR": "Kenar Çubuğunu Kapat",
+      "SAVING": "Kaydediliyor...",
+      "SAVED": "Kaydedildi"
+    },
+    "ARTICLE_EDITOR": {
+      "IMAGE_UPLOAD": {
+        "TITLE": "Resim Yükleniyor",
+        "UPLOADING": "Yükleniyor...",
+        "SUCCESS": "Resim başarıyla yüklendi",
+        "ERROR": "Resim yüklenirken hata oluştu",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
+        "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
+        "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
+      }
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Makale Ayarları",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategori",
+          "TITLE": "Kategori Seç",
+          "PLACEHOLDER": "Kategori Seç",
+          "NO_RESULT": "Hiçbir kategori bulunamadı",
+          "SEARCH_PLACEHOLDER": "Kategori Ara"
+        },
+        "AUTHOR": {
+          "LABEL": "Yazar",
+          "TITLE": "Yazar Seç",
+          "PLACEHOLDER": "Yazar Seç",
+          "NO_RESULT": "Hiçbir yazar bulunamadı",
+          "SEARCH_PLACEHOLDER": "Yazar Ara"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta Başlık",
+          "PLACEHOLDER": "Bir meta başlık ekleyin"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta Açıklama",
+          "PLACEHOLDER": "Daha iyi SEO sonuçları için meta açıklamanızı ekleyin..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta Etiketleri",
+          "PLACEHOLDER": "Virgülle ayrılmış meta etiketleri ekleyin..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Makaleyi Arşivle",
+        "DELETE": "Makaleyi Sil"
+      }
+    },
+    "ARTICLE_SEARCH_RESULT": {
+      "UNCATEGORIZED": "Kategorize Edilmemiş",
+      "SEARCH_RESULTS": "{query} için arama sonuçları",
+      "EMPTY_TEXT": "Cevaplarına eklemek için makale arayın.",
+      "SEARCH_LOADER": "Aranıyor...",
+      "INSERT_ARTICLE": "Ekle",
+      "NO_RESULT": "Hiçbir makale bulunamadı",
+      "COPY_LINK": "Makale bağlantısını panoya kopyala",
+      "OPEN_LINK": "Makaleyi yeni sekmede aç",
+      "PREVIEW_LINK": "Makaleyi Önizle"
+    },
+    "PORTAL": {
+      "HEADER": "Portallar",
+      "DEFAULT": "Varsayılan",
+      "NEW_BUTTON": "Yeni Portal",
+      "ACTIVE_BADGE": "aktif",
+      "CHOOSE_LOCALE_LABEL": "Bir yerel seçin",
+      "LOADING_MESSAGE": "Portallar yükleniyor...",
+      "ARTICLES_LABEL": "makaleler",
+      "NO_PORTALS_MESSAGE": "Kullanılabilir portal yok",
+      "ADD_NEW_LOCALE": "Yeni bir yerel ekleyin",
+      "POPOVER": {
+        "TITLE": "Portallar",
+        "PORTAL_SETTINGS": "Portal Ayarları",
+        "SUBTITLE": "Birden çok portalınız var ve her bir portal için farklı yerelleriniz olabilir.",
+        "CANCEL_BUTTON_LABEL": "İptal Et",
+        "CHOOSE_LOCALE_BUTTON": "Yerel Seç"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "makaleler",
+            "ADD": "Yerel ekle",
+            "VISIT": "Siteyi ziyaret et",
+            "SETTINGS": "Ayarlar",
+            "DELETE": "Sil"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portal Konfigürasyonları",
+            "ITEMS": {
+              "NAME": "İsim",
+              "DOMAIN": "Özel domain",
+              "SLUG": "Slug",
+              "TITLE": "Portal başlığı",
+              "THEME": "Tema rengi",
+              "SUB_TEXT": "Portal alt metni"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Kullanılabilir yereller",
+            "TABLE": {
+              "NAME": "Yerel adı",
+              "CODE": "Yerel kod",
+              "ARTICLE_COUNT": "Makale sayısı",
+              "CATEGORIES": "Kategori sayısı",
+              "SWAP": "Değiştir",
+              "DELETE": "Sil",
+              "DEFAULT_LOCALE": "Varsayılan"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Portali Sil",
+          "MESSAGE": "Bu portalı silmek istediğinizden emin misiniz",
+          "YES": "Evet, portalı sil",
+          "NO": "Hayır, portal kalsın",
+          "API": {
+            "DELETE_SUCCESS": "Portal başarıyla silindi",
+            "DELETE_ERROR": "Portal silinirken hata oluştu"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Portalı Düzenle",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Temel Bilgiler"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portal özelleştirme"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Kategoriler"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Yereller"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Şu yereldeki Kategoriler",
+          "NEW_CATEGORY": "Yeni kategori",
+          "TABLE": {
+            "NAME": "İsim",
+            "DESCRIPTION": "Açıklama",
+            "LOCALE": "Yerel",
+            "ARTICLE_COUNT": "Makale sayısı",
+            "ACTION_BUTTON": {
+              "EDIT": "Kategori düzenle",
+              "DELETE": "Kategori sil"
+            },
+            "EMPTY_TEXT": "Hiç kategori bulunamadı"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Temel ayarları güncelle"
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": [
+          {
+            "title": "Yardım Merkezi Bilgileri",
+            "route": "new_portal_information",
+            "body": "Portalin temel bilgileri",
+            "CREATE_BASIC_SETTING_BUTTON": "Portal temel ayarlarını oluştur"
+          },
+          {
+            "title": "Yardım Merkezi Özelleştirme",
+            "route": "portal_customization",
+            "body": "Portali özelleştir",
+            "UPDATE_PORTAL_BUTTON": "Portal ayarlarını güncelle"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "Her şey hazır!",
+            "FINISH": "Son"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Geri",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Portal Oluştur",
+            "TITLE": "Yardım Merkezi Bilgileri",
+            "CREATE_BASIC_SETTING_BUTTON": "Portal temel ayarlarını oluştur"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal özelleştirme",
+            "TITLE": "Yardım Merkezi Özelleştirme",
+            "UPDATE_PORTAL_BUTTON": "Portal ayarlarını güncelle"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 Her şey ayarlandı!",
+            "MESSAGE": "Bu oluşturulan portalı şimdi tüm portal sayfanızda görebilirsiniz.",
+            "FINISH": "Tüm portallar sayfasına git"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Logo yükle",
+          "HELP_TEXT": "Bu logo portal başlığında görüntülenecektir.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo başarıyla yüklendi",
+          "IMAGE_UPLOAD_ERROR": "Logo başarıyla silindi",
+          "IMAGE_DELETE_ERROR": "Logo silinirken hata oluştu"
+        },
+        "NAME": {
+          "LABEL": "İsim",
+          "PLACEHOLDER": "Portal adı",
+          "HELP_TEXT": "İsim, herkese açık portalda dahili olarak kullanılacaktır.",
+          "ERROR": "İsim gereklidir"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "URL'ler için portal slug",
+          "ERROR": "Slug gereklidir"
+        },
+        "DOMAIN": {
+          "LABEL": "Özel Domain",
+          "PLACEHOLDER": "Portal özel domain",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Geçerli bir domain URL girin"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Ana Sayfa Bağlantısı",
+          "PLACEHOLDER": "Portal ana sayfa bağlantısı",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Geçerli bir ana sayfa URL girin"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Portal tema rengi",
+          "HELP_TEXT": "Bu renk portal için tema rengi olarak gösterilecektir."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Sayfa Başlığı",
+          "PLACEHOLDER": "Portal sayfa başlığı",
+          "HELP_TEXT": "Sayfa başlığı herkese açık portalda kullanılacaktır.",
+          "ERROR": "Sayfa başlığı gereklidir"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Başlık Metni",
+          "PLACEHOLDER": "Portal başlık metni",
+          "HELP_TEXT": "Portal başlık metni herkese açık portalda kullanılacaktır.",
+          "ERROR": "Portal başlık metni gereklidir"
+        },
+        "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal başarıyla oluşturuldu.",
+          "ERROR_MESSAGE_FOR_BASIC": "Portal oluşturulamadı. Lütfen tekrar deneyin.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal başarıyla güncellendi.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Portal güncellenemedi. Lütfen tekrar deneyin."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Yeni bir yerel dil ekle",
+        "SUB_TITLE": "Bu, kullanılabilir çeviri listesine yeni bir yerel dil ekler.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Yerel Dil",
+          "PLACEHOLDER": "Bir dil seçin",
+          "ERROR": "Yerel dil gereklidir"
+        },
+        "BUTTONS": {
+          "CREATE": "Yerel dil oluştur",
+          "CANCEL": "İptal Et"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
+          "ERROR_MESSAGE": "Yerel dil eklenemedi. Lütfen tekrar deneyin."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Varsayılan yerel dil başarıyla güncellendi",
+          "ERROR_MESSAGE": "Varsayılan yerel dil güncellenemedi. Lütfen tekrar deneyin."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Yerel dil başarıyla portaldan kaldırıldı",
+          "ERROR_MESSAGE": "Yerel dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Makaleler yükleniyor...",
+      "404": "Arama kriterlerinize uygun makale bulunamadı 🔍",
+      "NO_ARTICLES": "Uygun makale bulunmamaktadır",
+      "HEADERS": {
+        "TITLE": "Başlık",
+        "CATEGORY": "Kategori",
+        "READ_COUNT": "Views",
+        "STATUS": "Durum",
+        "LAST_EDITED": "Son düzenleme"
+      },
+      "COLUMNS": {
+        "BY": "tarafından",
+        "AUTHOR_NOT_AVAILABLE": "Yazar uygun değil"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "LOADING": "Makale yükleniyor...",
+      "TITLE_PLACEHOLDER": "Makale başlığı buraya yazılır",
+      "CONTENT_PLACEHOLDER": "Makalenizi buraya yazın",
+      "API": {
+        "ERROR": "Makale kaydedilirken hata oluştu"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Makale yayımlanırken hata oluştu",
+        "SUCCESS": "Makale başarıyla yayımlandı"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Makale arşivlenirken hata oluştu",
+        "SUCCESS": "Makale başarıyla arşivlendi"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Silmeyi onayla",
+          "MESSAGE": "Makaleyi silmek istediğinizden emin misiniz?",
+          "YES": "Evet, Sil",
+          "NO": "Hayır, kalsın"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Makale başarıyla silindi",
+        "ERROR_MESSAGE": "Makale silinirken hata oluştu"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Lütfen makale başlığını ve içeriğini ekleyin, ardından ayarları güncelleyebilirsiniz"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Makaleleri arayın"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Kategori oluştur",
+        "SUB_TITLE": "Kategori, makaleleri kategorize etmek için genel portalda kullanılacaktır.",
+        "PORTAL": "Portal",
+        "LOCALE": "Yerel",
+        "NAME": {
+          "LABEL": "İsim",
+          "PLACEHOLDER": "Kategori adı",
+          "HELP_TEXT": "Kategori adı ve simgesi, makaleleri kategorize etmek için genel portalda kullanılacaktır.",
+          "ERROR": "İsim gereklidir"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "URL'ler için kategori slug'ı",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug gereklidir"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Kategori hakkında kısa bir açıklama yapın.",
+          "ERROR": "Açıklama zorunludur"
+        },
+        "BUTTONS": {
+          "CREATE": "Kategori oluştur",
+          "CANCEL": "İptal Et"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategori başarıyla oluşturuldu",
+          "ERROR_MESSAGE": "Kategori oluşturulamıyor"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Kategori düzenle",
+        "SUB_TITLE": "Bir kategoriyi düzenlemek, kategoriyi genel portalda güncelleyecektir.",
+        "PORTAL": "Portal",
+        "LOCALE": "Yerel",
+        "NAME": {
+          "LABEL": "İsim",
+          "PLACEHOLDER": "Kategori adı",
+          "HELP_TEXT": "Kategori adı ve simgesi, makaleleri kategorize etmek için genel portalda kullanılacaktır.",
+          "ERROR": "İsim gereklidir"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "URL'ler için kategori slug'ı",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug gereklidir"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Kategori hakkında kısa bir açıklama yapın.",
+          "ERROR": "Açıklama zorunludur"
+        },
+        "BUTTONS": {
+          "CREATE": "Kategoriyi güncelle",
+          "CANCEL": "İptal Et"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategori başarıyla güncellendi",
+          "ERROR_MESSAGE": "Kategori güncellenemiyor"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Kategori başarıyla silindi",
+          "ERROR_MESSAGE": "Kategori silinemiyor"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Makaleleri Ara",
+      "PLACEHOLDER": "Makaleleri arayın",
+      "NO_RESULT": "Hiçbir sonuç bulunamadı",
+      "SEARCHING": "Aranıyor...",
+      "SEARCH_BUTTON": "Ara",
+      "INSERT_ARTICLE": "Bağlantı ekle",
+      "IFRAME_ERROR": "URL boş veya geçersiz. İçerik görüntülenemiyor.",
+      "OPEN_ARTICLE_SEARCH": "Yardım Merkezi'nden makale ekle",
+      "SUCCESS_ARTICLE_INSERTED": "Makale başarıyla eklendi",
+      "PREVIEW_LINK": "Bağlantıyı Önizle",
+      "CANCEL": "Kapat",
+      "BACK": "Geri",
+      "BACK_RESULTS": "Sonuçlara Geri Dön"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Yardım Merkezi",
+      "DESCRIPTION": "Kullanıcı dostu self-servis portalları oluşturun. Kullanıcılarınıza 7/24 erişim sağlayın. Bu özelliği etkinleştirmek için aboneliğinizi yükseltin.",
+      "SELF_HOSTED_DESCRIPTION": "Kullanıcı dostu self-servis portalları oluşturun. Kullanıcılarınıza 7/24 erişim sağlayın. Lütfen bu özelliği etkinleştirmek için yöneticinizle iletişime geçin.",
+      "BUTTON": {
+        "LEARN_MORE": "Daha Fazla",
+        "UPGRADE": "Yükselt"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Çoklu portallar",
+          "DESCRIPTION": "Aynı hesabı kullanarak farklı ürünler için birden çok yardım merkezi portalı oluşturun."
+        },
+        "LOCALES": {
+          "TITLE": "Yerel destek",
+          "DESCRIPTION": "Portalı kendi dilinizde yerelleştirin. Tüm yerel ayarları destekliyoruz ve her makale için çeviri yapmanıza izin veriyoruz."
+        },
+        "SEO": {
+          "TITLE": "SEO dostu tasarım",
+          "DESCRIPTION": "Meta etiketlerinizi özelleştirerek SEO dostu sayfalarla arama motorlarındaki görünürlüğünüzü artırın."
+        },
+        "API": {
+          "TITLE": "Tam API desteği",
+          "DESCRIPTION": "API'larımızı kullanarak portali başsız bir CMS olarak üçüncü taraf ön yüz çerçeveleriyle kullanın."
+        }
+      }
+    },
+    "LOADING": "Loading..."
+  }
+}

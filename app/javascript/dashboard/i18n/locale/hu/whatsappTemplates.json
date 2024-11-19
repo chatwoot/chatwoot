@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Whatsapp sablonok",
+            "SUBTITLE": "Válaszd ki a Whatsapp sablont",
+            "TEMPLATE_SELECTED_SUBTITLE": "Feldolgozás: {templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Sablon keresése",
+            "NO_TEMPLATES_FOUND": "Nem található sablon erre:",
+            "LABELS": {
+                "LANGUAGE": "Nyelv",
+                "TEMPLATE_BODY": "Sablon törzse",
+                "CATEGORY": "Kategória"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Változók",
+            "VARIABLE_PLACEHOLDER": "Add meg a {variable} értékét",
+            "GO_BACK_LABEL": "Vissza",
+            "SEND_MESSAGE_LABEL": "Üzenet küldése",
+            "FORM_ERROR_MESSAGE": "Kérlek add meg az összes változó értékét küldés előtt"
+        }
+    }
+}

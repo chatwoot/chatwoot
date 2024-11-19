@@ -1,223 +1,129 @@
-<template>
-  <div
-    v-if="!conversationSize && isFetchingList"
-    class="flex flex-1 items-center h-full bg-black-25 justify-center"
-  >
-    <spinner size="" />
-  </div>
-  <div v-else class="home">
-    <div
-      class="header-wrap bg-white"
-      :class="{ expanded: !isHeaderCollapsed, collapsed: isHeaderCollapsed }"
-    >
-      <transition
-        enter-active-class="transition-all delay-200 duration-300 ease"
-        leave-active-class="transition-all duration-200 ease-in"
-        enter-class="opacity-0 transform"
-        enter-to-class="opacity-100 transform"
-        leave-class="opacity-100 transform"
-        leave-to-class="opacity-0 transform"
-      >
-        <chat-header-expanded
-          v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="showPopoutButton"
-        />
-        <chat-header
-          v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="showPopoutButton"
-          :available-agents="availableAgents"
-        />
-      </transition>
-    </div>
-    <div class="flex flex-1 overflow-auto">
-      <conversation-wrap
-        v-if="currentView === 'messageView'"
-        :grouped-messages="groupedMessages"
-      />
-      <pre-chat-form
-        v-if="currentView === 'preChatFormView'"
-        :options="preChatFormOptions"
-      />
-    </div>
-    <div class="footer-wrap">
-      <transition
-        enter-active-class="transition-all delay-300 duration-300 ease"
-        leave-active-class="transition-all duration-200 ease-in"
-        enter-class="opacity-0 transform"
-        enter-to-class="opacity-100 transform translate-y-0"
-        leave-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform "
-      >
-        <div
-          v-if="showInputTextArea && currentView === 'messageView'"
-          class="input-wrap"
-        >
-          <chat-footer />
-        </div>
-        <team-availability
-          v-if="currentView === 'cardView'"
-          :available-agents="availableAgents"
-          @start-conversation="startConversation"
-        />
-      </transition>
-      <branding></branding>
-    </div>
-  </div>
-</template>
-
 <script>
-import Branding from 'widget/components/Branding.vue';
-import ChatFooter from 'widget/components/ChatFooter.vue';
-import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
-import ChatHeader from 'widget/components/ChatHeader.vue';
-import ConversationWrap from 'widget/components/ConversationWrap.vue';
-import configMixin from '../mixins/configMixin';
-import TeamAvailability from 'widget/components/TeamAvailability';
-import Spinner from 'shared/components/Spinner.vue';
+import TeamAvailability from 'widget/components/TeamAvailability.vue';
+import ArticleHero from 'widget/components/ArticleHero.vue';
+import ArticleCardSkeletonLoader from 'widget/components/ArticleCardSkeletonLoader.vue';
+
 import { mapGetters } from 'vuex';
-import PreChatForm from '../components/PreChat/Form';
+import { useDarkMode } from 'widget/composables/useDarkMode';
+import routerMixin from 'widget/mixins/routerMixin';
+import configMixin from 'widget/mixins/configMixin';
+
 export default {
   name: 'Home',
   components: {
-    Branding,
-    ChatFooter,
-    ChatHeader,
-    ChatHeaderExpanded,
-    ConversationWrap,
-    PreChatForm,
-    Spinner,
+    ArticleHero,
     TeamAvailability,
+    ArticleCardSkeletonLoader,
   },
-  mixins: [configMixin],
-  props: {
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return { isOnCollapsedView: false };
+  mixins: [configMixin, routerMixin],
+  setup() {
+    const { prefersDarkMode } = useDarkMode();
+    return { prefersDarkMode };
   },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       conversationSize: 'conversation/getConversationSize',
-      groupedMessages: 'conversation/getGroupedConversation',
-      isFetchingList: 'conversation/getIsFetchingList',
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      popularArticles: 'article/popularArticles',
+      articleUiFlags: 'article/uiFlags',
     }),
-    currentView() {
-      if (this.isHeaderCollapsed) {
-        if (this.conversationSize) {
-          return 'messageView';
-        }
-        if (this.preChatFormEnabled) {
-          return 'preChatFormView';
-        }
-        return 'messageView';
-      }
-      return 'cardView';
+    widgetLocale() {
+      return this.$i18n.locale || 'en';
     },
-    isOpen() {
-      return this.conversationAttributes.status === 'open';
+    portal() {
+      return window.chatwootWebChannel.portal;
     },
-    showInputTextArea() {
-      if (this.hideInputForBotConversations) {
-        if (this.isOpen) {
-          return true;
-        }
-        return false;
-      }
-      return true;
-    },
-    isHeaderCollapsed() {
-      if (!this.hasIntroText || this.conversationSize) {
-        return true;
-      }
-
-      return this.isOnCollapsedView;
-    },
-    hasIntroText() {
+    showArticles() {
       return (
-        this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
+        this.portal &&
+        !this.articleUiFlags.isFetching &&
+        this.popularArticles.length
       );
     },
+    defaultLocale() {
+      const widgetLocale = this.widgetLocale;
+      const { allowed_locales: allowedLocales, default_locale: defaultLocale } =
+        this.portal.config;
+
+      // IMPORTANT: Variation strict locale matching, Follow iso_639_1_code
+      // If the exact match of a locale is available in the list of portal locales, return it
+      // Else return the default locale. Eg: `es` will not work if `es_ES` is available in the list
+      if (allowedLocales.includes(widgetLocale)) {
+        return widgetLocale;
+      }
+      return defaultLocale;
+    },
+  },
+  mounted() {
+    if (this.portal && this.popularArticles.length === 0) {
+      const locale = this.defaultLocale;
+      this.$store.dispatch('article/fetch', {
+        slug: this.portal.slug,
+        locale,
+      });
+    }
   },
   methods: {
     startConversation() {
-      this.isOnCollapsedView = !this.isOnCollapsedView;
+      if (this.preChatFormEnabled && !this.conversationSize) {
+        return this.replaceRoute('prechat-form');
+      }
+      return this.replaceRoute('messages');
+    },
+    openArticleInArticleViewer(link) {
+      let linkToOpen = `${link}?show_plain_layout=true`;
+      const isDark = this.prefersDarkMode;
+      if (isDark) {
+        linkToOpen = `${linkToOpen}&theme=dark`;
+      }
+      this.$router.push({
+        name: 'article-viewer',
+        query: { link: linkToOpen },
+      });
+    },
+    viewAllArticles() {
+      const locale = this.defaultLocale;
+      const {
+        portal: { slug },
+      } = window.chatwootWebChannel;
+      this.openArticleInArticleViewer(`/hc/${slug}/${locale}`);
     },
   },
 };
 </script>
 
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables';
-@import '~widget/assets/scss/mixins';
-
-.home {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  background: $color-background;
-
-  .header-wrap {
-    border-radius: $space-normal $space-normal 0 0;
-    flex-shrink: 0;
-    transition: max-height 300ms;
-    z-index: 99;
-    @include shadow-large;
-
-    &.expanded {
-      max-height: 16rem;
-    }
-
-    &.collapsed {
-      max-height: 4.5rem;
-    }
-
-    @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
-      border-radius: 0;
-    }
-  }
-
-  .footer-wrap {
-    flex-shrink: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: -$space-normal;
-      left: 0;
-      width: 100%;
-      height: $space-normal;
-      opacity: 0.1;
-      background: linear-gradient(
-        to top,
-        $color-background,
-        rgba($color-background, 0)
-      );
-    }
-  }
-
-  .input-wrap {
-    padding: 0 $space-normal;
-  }
-}
-</style>
+<template>
+  <div
+    class="z-50 flex flex-col flex-1 w-full rounded-md"
+    :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
+  >
+    <div class="w-full px-4 pt-4">
+      <TeamAvailability
+        :available-agents="availableAgents"
+        :has-conversation="!!conversationSize"
+        :unread-count="unreadMessageCount"
+        @start-conversation="startConversation"
+      />
+    </div>
+    <div v-if="showArticles" class="w-full px-4 py-2">
+      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+        <ArticleHero
+          v-if="
+            !articleUiFlags.isFetching &&
+            !articleUiFlags.isError &&
+            popularArticles.length
+          "
+          :articles="popularArticles"
+          @view="openArticleInArticleViewer"
+          @view-all="viewAllArticles"
+        />
+      </div>
+    </div>
+    <div v-if="articleUiFlags.isFetching" class="w-full px-4 py-2">
+      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+        <ArticleCardSkeletonLoader />
+      </div>
+    </div>
+  </div>
+</template>

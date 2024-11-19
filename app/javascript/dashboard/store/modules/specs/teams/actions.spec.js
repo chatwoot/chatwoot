@@ -10,14 +10,26 @@ import {
 } from '../../teams/types';
 import teamsList from './fixtures';
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: teamsList[1] });
+      const mockedGet = vi.fn(url => {
+        if (url === '/api/v1/teams') {
+          return Promise.resolve({ data: teamsList[1] });
+        }
+        if (url === '/api/v1/accounts//cache_keys') {
+          return Promise.resolve({ data: { cache_keys: { teams: 0 } } });
+        }
+        // Return default value or throw an error for unexpected requests
+        return Promise.reject(new Error('Unexpected request: ' + url));
+      });
+
+      axios.get = mockedGet;
+
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         [SET_TEAM_UI_FLAG, { isFetching: true }],
@@ -60,7 +72,7 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: { payload: teamsList[1] } });
+      axios.patch.mockResolvedValue({ data: teamsList[1] });
       await actions.update({ commit }, teamsList[1]);
 
       expect(commit.mock.calls).toEqual([

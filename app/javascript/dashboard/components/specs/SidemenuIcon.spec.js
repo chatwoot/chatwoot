@@ -1,10 +1,31 @@
-import { mount } from '@vue/test-utils';
-import SidemenuIcon from '../SidemenuIcon';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
+import SidemenuIcon from '../SidemenuIcon.vue';
+
+const store = createStore({
+  modules: {
+    auth: {
+      namespaced: false,
+      getters: {
+        getCurrentAccountId: () => 1,
+      },
+    },
+    accounts: {
+      namespaced: true,
+      getters: {
+        isFeatureEnabledonAccount: () => () => false,
+      },
+    },
+  },
+});
 
 describe('SidemenuIcon', () => {
   test('matches snapshot', () => {
-    const wrapper = mount(SidemenuIcon);
-    expect(wrapper.isVueInstance()).toBeTruthy();
+    const wrapper = shallowMount(SidemenuIcon, {
+      stubs: { WootButton: { template: '<button><slot /></button>' } },
+      global: { plugins: [store] },
+    });
+    expect(wrapper.vm).toBeTruthy();
     expect(wrapper.element).toMatchSnapshot();
   });
 });

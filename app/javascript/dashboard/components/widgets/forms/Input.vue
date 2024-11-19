@@ -1,28 +1,15 @@
-<template>
-  <label>
-    <span v-if="label">{{ label }}</span>
-    <input
-      :value="value"
-      :type="type"
-      :placeholder="placeholder"
-      @input="onChange"
-      @blur="onBlur"
-    />
-    <p v-if="helpText" class="help-text"></p>
-    <span v-if="error" class="message">
-      {{ error }}
-    </span>
-  </label>
-</template>
-
 <script>
+/**
+ * @deprecated This component is deprecated and will be removed in the next major version.
+ * Please use v3/components/Form/Input.vue instead
+ */
 export default {
   props: {
     label: {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -42,10 +29,26 @@ export default {
       type: String,
       default: '',
     },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    styles: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  emits: ['update:modelValue', 'input', 'blur'],
+  mounted() {
+    // eslint-disable-next-line
+    console.warn(
+      '[DEPRECATED] <WootInput> has be deprecated and will be removed soon. Please use v3/components/Form/Input.vue instead'
+    );
   },
   methods: {
     onChange(e) {
       this.$emit('input', e.target.value);
+      this.$emit('update:modelValue', e.target.value);
     },
     onBlur(e) {
       this.$emit('blur', e.target.value);
@@ -53,3 +56,34 @@ export default {
   },
 };
 </script>
+
+<template>
+  <label class="input-container">
+    <span v-if="label">{{ label }}</span>
+    <input
+      class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
+      :value="modelValue"
+      :type="type"
+      :placeholder="placeholder"
+      :readonly="readonly"
+      :style="styles"
+      @input="onChange"
+      @blur="onBlur"
+    />
+    <p v-if="helpText" class="help-text">{{ helpText }}</p>
+    <span v-if="error" class="message">
+      {{ error }}
+    </span>
+    <slot name="masked" />
+  </label>
+</template>
+
+<style scoped lang="scss">
+.help-text {
+  @apply mt-0.5 text-xs not-italic text-slate-600 dark:text-slate-400;
+}
+
+.message {
+  margin-top: 0 !important;
+}
+</style>

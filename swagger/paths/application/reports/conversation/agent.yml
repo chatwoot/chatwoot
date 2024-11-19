@@ -1,0 +1,18 @@
+tags:
+  - Reports
+operationId: get-agent-conversation-metrics
+summary: Agent Conversation Metrics
+description: Get conversation metrics for Agent
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of agent based conversation metrics'
+      items:
+        $ref: '#/definitions/agent_conversation_metrics'
+        
+  404:
+    description: reports not found
+  403:
+    description: Access denied

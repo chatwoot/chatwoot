@@ -5,6 +5,8 @@ properties:
     description: ID of the conversation
   messages:
     type: array
+    items:
+      $ref: '#/definitions/message'
   account_id:
     type: number
     description: Account Id
@@ -13,7 +15,7 @@ properties:
     description: ID of the inbox
   status:
     type: string
-    enum: ['open', 'resolved', 'bot']
+    enum: ['open', 'resolved', 'pending']
     description: The status of the conversation
   timestamp:
     type: string
@@ -21,10 +23,14 @@ properties:
   contact_last_seen_at:
     type: string
   agent_last_seen_at:
-    type: agent_last_seen_at
+    type: string
   unread_count:
     type: number
     description: The number of unread messages
   additional_attributes:
     type: object
     description: The object containing additional attributes related to the conversation
+  custom_attributes:
+    type: object
+    description: The object to save custom attributes for conversation, accepts custom attributes key and value
+    example: { attribute_key: attribute_value, priority_conversation_number: 3 }

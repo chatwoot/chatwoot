@@ -16,11 +16,9 @@
 #  unique_permissibles_index                           (platform_app_id,permissible_id,permissible_type) UNIQUE
 #
 class PlatformAppPermissible < ApplicationRecord
-  include AccessTokenable
-
   validates :platform_app, presence: true
   validates :platform_app_id, uniqueness: { scope: [:permissible_id, :permissible_type] }
 
   belongs_to :platform_app
-  belongs_to :permissible, polymorphic: true, dependent: :destroy
+  belongs_to :permissible, polymorphic: true
 end

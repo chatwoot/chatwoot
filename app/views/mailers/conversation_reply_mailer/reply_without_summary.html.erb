@@ -1,7 +1,7 @@
 <% @messages.each do |message| %>
   <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
     <% if message.content %>
-      <%= CommonMarker.render_html(message.content).html_safe %>
+      <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
     <% end %>
     <% if message.attachments %>
       <% message.attachments.each do |attachment| %>

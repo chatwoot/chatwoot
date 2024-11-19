@@ -2,47 +2,70 @@
 
 class Integrations::Facebook::MessageParser
   def initialize(response_json)
-    @response = response_json
+    @response = JSON.parse(response_json)
+    @messaging = @response['messaging'] || @response['standby']
   end
 
   def sender_id
-    @response.sender['id']
+    @messaging.dig('sender', 'id')
   end
 
   def recipient_id
-    @response.recipient['id']
+    @messaging.dig('recipient', 'id')
   end
 
   def time_stamp
-    @response.sent_at
+    @messaging['timestamp']
   end
 
   def content
-    @response.text
+    @messaging.dig('message', 'text')
   end
 
   def sequence
-    @response.seq
+    @messaging.dig('message', 'seq')
   end
 
   def attachments
-    @response.attachments
+    @messaging.dig('message', 'attachments')
   end
 
   def identifier
-    @response.id
+    @messaging.dig('message', 'mid')
+  end
+
+  def delivery
+    @messaging['delivery']
+  end
+
+  def read
+    @messaging['read']
+  end
+
+  def read_watermark
+    read&.dig('watermark')
+  end
+
+  def delivery_watermark
+    delivery&.dig('watermark')
   end
 
   def echo?
-    @response.echo?
+    @messaging.dig('message', 'is_echo')
   end
 
+  # TODO : i don't think the payload contains app_id. if not remove
   def app_id
-    @response.app_id
+    @messaging.dig('message', 'app_id')
   end
 
+  # TODO : does this work ?
   def sent_from_chatwoot_app?
-    app_id && app_id == ENV['FB_APP_ID'].to_i
+    app_id && app_id == GlobalConfigService.load('FB_APP_ID', '').to_i
+  end
+
+  def in_reply_to_external_id
+    @messaging.dig('message', 'reply_to', 'mid')
   end
 end
 

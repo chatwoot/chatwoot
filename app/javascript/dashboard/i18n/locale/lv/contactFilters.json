@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtrēt Kontaktpersonas",
+    "SUBTITLE": "Pievienojiet filtrus un noklikšķiniet uz 'Iesniegt', lai filtrētu kontaktpersonas.",
+    "EDIT_CUSTOM_SEGMENT": "Rediģēt Segmentu",
+    "CUSTOM_VIEWS_SUBTITLE": "Pievienot vai noņemt filtrus un atjaunināt segmentu.",
+    "ADD_NEW_FILTER": "Pievienot Filtru",
+    "CLEAR_ALL_FILTERS": "Atcelt Visus Filtrus",
+    "FILTER_DELETE_ERROR": "Lai saglabātu, Jums ir jābūt vismaz vienam filtram",
+    "SUBMIT_BUTTON_LABEL": "Iesniegt",
+    "UPDATE_BUTTON_LABEL": "Atjaunināt Segmentu",
+    "CANCEL_BUTTON_LABEL": "Atcelt",
+    "CLEAR_BUTTON_LABEL": "Atcelt Filtrus",
+    "EMPTY_VALUE_ERROR": "Nepieciešama vērtība",
+    "SEGMENT_LABEL": "Segmenta Nosaukums",
+    "SEGMENT_QUERY_LABEL": "Segmenta Vaicājums",
+    "TOOLTIP_LABEL": "Filtrēt kontaktpersonas",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "UN",
+      "OR": "VAI"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Vienāds ar",
+      "not_equal_to": "Nav vienāds ar",
+      "contains": "Satur",
+      "does_not_contain": "Nesatur",
+      "is_present": "Iekļauj sevī",
+      "is_not_present": "Neiekļauj sevī",
+      "is_greater_than": "Ir lielāks par",
+      "is_lesser_than": "Ir mazāks par",
+      "days_before": "Ir x dienas pirms"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nepieciešama vērtība"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nosaukums",
+      "EMAIL": "E-pasts",
+      "PHONE_NUMBER": "Tālruņa numurs",
+      "IDENTIFIER": "Identifikators",
+      "CITY": "Pilsēta",
+      "COUNTRY": "Valsts",
+      "CUSTOM_ATTRIBUTE_LIST": "Saraksts",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teksts",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numurs",
+      "CUSTOM_ATTRIBUTE_LINK": "Saite",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Izvēles rūtiņa",
+      "CREATED_AT": "Izveidots",
+      "LAST_ACTIVITY": "Pēdējās Darbības",
+      "REFERER_LINK": "Atsauces sniedzēja saite",
+      "BLOCKED": "Bloķēts"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standarta Filtri",
+      "ADDITIONAL_FILTERS": "Papildu Filtri",
+      "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības"
+    }
+  }
+}

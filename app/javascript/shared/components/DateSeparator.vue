@@ -1,17 +1,17 @@
-<template>
-  <div class="date--separator">
-    {{ formattedDate }}
-  </div>
-</template>
-
 <script>
 import { formatDate } from 'shared/helpers/DateHelper';
+import { useDarkMode } from 'widget/composables/useDarkMode';
+
 export default {
   props: {
     date: {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
   computed: {
     formattedDate() {
@@ -25,12 +25,20 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    class="date--separator"
+    :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
+  >
+    {{ formattedDate }}
+  </div>
+</template>
+
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables';
+@import 'widget/assets/scss/variables';
 
 .date--separator {
   font-size: $font-size-default;
-  color: $color-body;
   height: 50px;
   line-height: 50px;
   position: relative;

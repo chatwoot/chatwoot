@@ -1,45 +1,41 @@
 class ConversationReplyMailer < ApplicationMailer
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  include ConversationReplyMailerHelper
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
-  def reply_with_summary(conversation, message_queued_time)
+  def reply_with_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
-    new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
+    recap_messages = @conversation.messages.chat.where('id < ?', last_queued_id).last(10)
+    new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
     @messages = recap_messages + new_messages
-    @messages = @messages.select(&:reportable?)
-
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email
-         })
+    @messages = @messages.select(&:email_reply_summarizable?)
+    prepare_mail(true)
   end
 
-  def reply_without_summary(conversation, message_queued_time)
+  def reply_without_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
+    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
+    @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
-    mail({
-           to: @contact&.email,
-           from: from_email_with_name,
-           reply_to: reply_email,
-           subject: mail_subject,
-           message_id: custom_message_id,
-           in_reply_to: in_reply_to_email
-         })
+    prepare_mail(false)
+  end
+
+  def email_reply(message)
+    return unless smtp_config_set_or_development?
+
+    init_conversation_attributes(message.conversation)
+    @message = message
+    reply_mail_object = prepare_mail(true)
+    message.update(source_id: reply_mail_object.message_id)
   end
 
   def conversation_transcript(conversation, to_email)
@@ -47,8 +43,11 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(conversation)
 
-    @messages = @conversation.messages.chat.select(&:reportable?)
+    @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
 
+    Rails.logger.info("Email sent from #{from_email_with_name} \
+      to #{to_email} with subject #{@conversation.display_id} \
+      #{I18n.t('conversations.reply.transcript_subject')} ")
     mail({
            to: to_email,
            from: from_email_with_name,
@@ -64,6 +63,7 @@ class ConversationReplyMailer < ApplicationMailer
     @contact = @conversation.contact
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
+    @channel = @inbox.channel
   end
 
   def should_use_conversation_email_address?
@@ -82,49 +82,77 @@ class ConversationReplyMailer < ApplicationMailer
     @conversation.messages.chat.where.not(message_type: :incoming)&.last
   end
 
-  def assignee_name
-    @assignee_name ||= @agent&.available_name || 'Notifications'
+  def sender_name(sender_email)
+    if @inbox.friendly?
+      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
+                                                               from_email: sender_email)
+    else
+      I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
+    end
+  end
+
+  def current_message
+    @message || @conversation.messages.outgoing.last
+  end
+
+  def custom_sender_name
+    current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
+  end
+
+  def business_name
+    @inbox.business_name || @inbox.name
+  end
+
+  def from_email
+    should_use_conversation_email_address? ? parse_email(@account.support_email) : parse_email(inbox_from_email_address)
   end
 
   def mail_subject
-    return "Re: #{incoming_mail_subject}" if incoming_mail_subject
+    subject = @conversation.additional_attributes['mail_subject']
+    return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
 
-    subject_line = I18n.t('conversations.reply.email_subject')
-    "[##{@conversation.display_id}] #{subject_line}"
-  end
-
-  def incoming_mail_subject
-    @incoming_mail_subject ||= @conversation.additional_attributes['mail_subject']
+    chat_count = @conversation.messages.chat.count
+    if chat_count > 1
+      "Re: #{subject}"
+    else
+      subject
+    end
   end
 
   def reply_email
     if should_use_conversation_email_address?
-      "#{assignee_name} <reply+#{@conversation.uuid}@#{current_domain}>"
+      sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
       @inbox.email_address || @agent&.email
     end
   end
 
   def from_email_with_name
-    if should_use_conversation_email_address?
-      "#{assignee_name} <#{account_support_email}>"
-    else
-      "#{assignee_name} <#{from_email_address}>"
-    end
+    sender_name(from_email)
   end
 
-  def from_email_address
+  def channel_email_with_name
+    sender_name(@channel.email)
+  end
+
+  def parse_email(email_string)
+    Mail::Address.new(email_string).address
+  end
+
+  def inbox_from_email_address
     return @inbox.email_address if @inbox.email_address
 
-    ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+    @account.support_email
   end
 
   def custom_message_id
-    "<conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{current_domain}>"
+    last_message = @message || @messages&.last
+
+    "<conversation/#{@conversation.uuid}/messages/#{last_message&.id}@#{channel_email_domain}>"
   end
 
   def in_reply_to_email
-    conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
+    conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{channel_email_domain}>"
   end
 
   def conversation_reply_email_id
@@ -137,28 +165,36 @@ class ConversationReplyMailer < ApplicationMailer
     nil
   end
 
+  def cc_bcc_emails
+    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+
+    return [] unless content_attributes
+    return [] unless content_attributes[:cc_emails] || content_attributes[:bcc_emails]
+
+    [content_attributes[:cc_emails], content_attributes[:bcc_emails]]
+  end
+
+  def to_emails_from_content_attributes
+    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+
+    return [] unless content_attributes
+    return [] unless content_attributes[:to_emails]
+
+    content_attributes[:to_emails]
+  end
+
+  def to_emails
+    # if there is no to_emails from content_attributes, send it to @contact&.email
+    to_emails_from_content_attributes.presence || [@contact&.email]
+  end
+
   def inbound_email_enabled?
-    @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && current_domain.present? && account_support_email.present?
-  end
-
-  def current_domain
-    @current_domain ||= begin
-      @account.domain ||
-        ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false) ||
-        GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN']
-    end
-  end
-
-  def account_support_email
-    @account_support_email ||= begin
-      @account.support_email ||
-        GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
-        ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-    end
+    @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
+                                                                                      .present? && @account.support_email.present?
   end
 
   def choose_layout
-    return false if action_name == 'reply_without_summary'
+    return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
 
     'mailer/base'
   end

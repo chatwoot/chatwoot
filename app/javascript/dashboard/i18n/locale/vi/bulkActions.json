@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} cuộc hội thoại đã được chọn",
+    "AGENT_SELECT_LABEL": "Chọn thành viên",
+    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định {conversationCount} {conversationLabel} tới",
+    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Trở về",
+    "ASSIGN_LABEL": "Gán",
+    "YES": "Có",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm",
+    "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
+    "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
+    "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Cuộc hội thoại đã được giải quyết thành công.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Chỉ những cuộc hội thoại hiển thị trên trang này mới có thể được chọn.",
+    "AGENT_LIST_LOADING": "Đang tải điện thoại viên",
+    "UPDATE": {
+      "CHANGE_STATUS": "Thay đổi trạng thái",
+      "SNOOZE_UNTIL": "Báo lại",
+      "UPDATE_SUCCESFUL": "Đã cập nhật trạng thái cuộc hội thoại thành công.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "Không tìm thấy nhãn nào cho",
+      "ASSIGN_SELECTED_LABELS": "Gán các nhãn đã chọn",
+      "ASSIGN_SUCCESFUL": "Các nhãn được gán thành công.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Chọn nhóm",
+      "NONE": "Không có",
+      "NO_TEAMS_AVAILABLE": "Chưa có nhóm nào được thêm vào tài khoản này.",
+      "ASSIGN_SELECTED_TEAMS": "Chỉ định nhóm đã chọn.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

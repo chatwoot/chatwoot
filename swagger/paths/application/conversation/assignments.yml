@@ -1,0 +1,30 @@
+tags:
+  - Conversation Assignment
+operationId: assign-a-conversation
+summary: Assign Conversation
+description: Assign a conversation to an agent or a team
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        assignee_id:
+          type: number
+          description: Id of the assignee user
+        team_id:
+          type: number
+          description: Id of the team. If the assignee_id is present, this param would be ignored
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/user'
+  404:
+    description: Conversation not found
+  401:
+    description: Unauthorized

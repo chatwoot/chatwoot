@@ -1,0 +1,339 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
+    "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
+    "404": "מצטערים, לא מצאנו את השיחה המבוקשת, נא לנסות שוב",
+    "SWITCH_VIEW_LAYOUT": "החלף תצוגה",
+    "DASHBOARD_APP_TAB_MESSAGES": "הודעות",
+    "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
+    "NO_MESSAGE_1": "או - או! נראה שאין הודעות מלקוחות בתיבת הדואר הנכנס שלך.",
+    "NO_MESSAGE_2": " לשלוח הודעה לעמוד שלך!",
+    "NO_INBOX_1": "שלום! נראה שעדיין לא הוספת תיבות דואר נכנס.",
+    "NO_INBOX_2": " להתחיל",
+    "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
+    "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
+    "SEARCH": {
+      "TITLE": "חפש הודעות",
+      "RESULT_TITLE": "תוצאות חיפוש",
+      "LOADING_MESSAGE": "מחיקת נתונים...",
+      "PLACEHOLDER": "הקלד כל טקסט כדי לחפש הודעות",
+      "NO_MATCHING_RESULTS": "לא נמצאו תוצאות."
+    },
+    "UNREAD_MESSAGES": "הודעות שלא נקראו",
+    "UNREAD_MESSAGE": "הודעות שלא נקראו",
+    "CLICK_HERE": "לחץ כאן",
+    "LOADING_INBOXES": "טוען תיבות דואר נכנס",
+    "LOADING_CONVERSATIONS": "טוען שיחות",
+    "CANNOT_REPLY": "לא ניתן להשיב עקב",
+    "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
+    "ASSIGN_TO_ME": "שייך לעצמך",
+    "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "REPLYING_TO": "אתה משיב ל:",
+    "REMOVE_SELECTION": "הסר בחירה",
+    "DOWNLOAD": "הורד",
+    "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
+    "SAVE_CONTACT": "שמור",
+    "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
+    "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
+    "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
+    "NO_RESPONSE": "אין תגובה",
+    "RATING_TITLE": "דירוג",
+    "FEEDBACK_TITLE": "משוב",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "CARD": {
+      "SHOW_LABELS": "הצג תויות",
+      "HIDE_LABELS": "הסתר תוויות"
+    },
+    "HEADER": {
+      "RESOLVE_ACTION": "פתרון",
+      "REOPEN_ACTION": "פתח מחדש",
+      "OPEN_ACTION": "פתח",
+      "OPEN": "עוד",
+      "CLOSE": "סגור",
+      "DETAILS": "פרטים",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
+      "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
+      "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "סמן כממתין",
+      "SNOOZE_UNTIL": "נודניק",
+      "SNOOZE": {
+        "TITLE": "השהה עד",
+        "NEXT_REPLY": "תגובה הבאה",
+        "TOMORROW": "מחר",
+        "NEXT_WEEK": "שבוע הבא"
+      }
+    },
+    "CUSTOM_SNOOZE": {
+      "TITLE": "השהה עד",
+      "APPLY": "נודניק",
+      "CANCEL": "ביטול"
+    },
+    "PRIORITY": {
+      "TITLE": "Priority",
+      "OPTIONS": {
+        "NONE": "כלום",
+        "URGENT": "Urgent",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "CHANGE_PRIORITY": {
+        "SELECT_PLACEHOLDER": "כלום",
+        "INPUT_PLACEHOLDER": "Select priority",
+        "NO_RESULTS": "לא נמצאו תוצאות",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
+        "FAILED": "Couldn't change priority. Please try again."
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "סמן כממתין",
+      "RESOLVED": "סמן כפתור",
+      "MARK_AS_UNREAD": "סמן כלא נקרא",
+      "REOPEN": "פתח מחדש את השיחה",
+      "SNOOZE": {
+        "TITLE": "נודניק",
+        "NEXT_REPLY": "עד תגובה הבאה",
+        "TOMORROW": "עד מחר",
+        "NEXT_WEEK": "עד שבוע הבא"
+      },
+      "ASSIGN_AGENT": "שייך סוכן",
+      "ASSIGN_LABEL": "ההקצה תווית",
+      "AGENTS_LOADING": "טוען סוכנים...",
+      "ASSIGN_TEAM": "שייך צוות",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "מזהה שיחה {conversationId} קושר ל {agentName}",
+          "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "התוית {labelName} קושרה למזהה שיחה {conversationId}",
+          "FAILED": "לא ניתן לקשר שורה. אנא נסו שנית"
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "הצוות {team} קושר לשיחה מספר {conversationId}",
+          "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "חתימת הודעה",
+      "ENABLE_SIGN_TOOLTIP": "אפשר חתימה",
+      "DISABLE_SIGN_TOOLTIP": "נטרל חתימה",
+      "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
+      "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
+      "CLICK_HERE": "לחץ כאן כדי לעדכן",
+      "WHATSAPP_TEMPLATES": "תבניות וואטסאפ"
+    },
+    "REPLYBOX": {
+      "REPLY": "הגב",
+      "PRIVATE_NOTE": "הערה פרטית",
+      "SEND": "שלח",
+      "CREATE": "הוסף הערה",
+      "INSERT_READ_MORE": "קרא עוד",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
+      "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
+      "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
+      "TIP_ATTACH_ICON": "הוסף קבצים",
+      "TIP_AUDIORECORDER_ICON": "הקלט אודיו",
+      "TIP_AUDIORECORDER_PERMISSION": "אפשר גישה לאודיו",
+      "TIP_AUDIORECORDER_ERROR": "לא יכול לפתוח אודיו",
+      "DRAG_DROP": "גרור ושחרר כאן להוספת קובץ מצורף",
+      "START_AUDIO_RECORDING": "התחל הקלטת אודיו",
+      "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
+      "": "",
+      "EMAIL_HEAD": {
+        "TO": "TO",
+        "ADD_BCC": "הוסף bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
+          "ERROR": "בבקשה הכנס כתוכת אימייל"
+        },
+        "BCC": {
+          "LABEL": "BBC",
+          "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
+          "ERROR": "בבקשה הכנס כתוכת אימייל"
+        }
+      },
+      "UNDEFINED_VARIABLES": {
+        "TITLE": "משתנים בלתי מזוהים",
+        "MESSAGE": "יש לך {undefinedVariablesCount} משתנים בלתי מזוהים בהודעה {undefinedVariables}. תרצה לשלוח את ההודעה בכל זאת?",
+        "CONFIRM": {
+          "YES": "שלח",
+          "CANCEL": "ביטול"
+        }
+      }
+    },
+    "VISIBLE_TO_AGENTS": "פתקים פרטיים: רק אתה והצוות שלך יכולים לראות",
+    "CHANGE_STATUS": "סטטוס השיחה השתנה",
+    "CHANGE_STATUS_FAILED": "סטטוס השיחה השתנה לנכשלה",
+    "CHANGE_AGENT": "שיוך שיחה השתנתה",
+    "CHANGE_AGENT_FAILED": "שינוי קישור נכשל",
+    "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
+    "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
+    "CHANGE_TEAM": "שיחת קבוצה השתנתה",
+    "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
+    "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
+    "SENT_BY": "נשלח על ידי:",
+    "BOT": "בוט",
+    "SEND_FAILED": "לא ניתן לשלוח הודעה! נסה שוב",
+    "TRY_AGAIN": "נסה שוב",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "בחר סוכן",
+      "REMOVE": "הסר",
+      "ASSIGN": "שייך"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "העתק",
+      "REPLY_TO": "Reply to this message",
+      "DELETE": "מחק",
+      "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
+      "TRANSLATE": "תרגום",
+      "COPY_PERMALINK": "העתק קישור להודעה",
+      "LINK_COPIED": "קישור להודעה הועתק ללוח",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "בטוחים שאתם רוצים למחוק את ההודעה הזו?",
+        "MESSAGE": "לא ניתן לבטל פעולה זו",
+        "DELETE": "מחק",
+        "CANCEL": "ביטול"
+      }
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "שלח תמליל של השיחה",
+    "DESC": "שלח את תמליל השיחה למייל ספציפי",
+    "SUBMIT": "שלח",
+    "CANCEL": "ביטול",
+    "SEND_EMAIL_SUCCESS": "תמליל השיחה נשלח בהצלחה",
+    "SEND_EMAIL_ERROR": "היתה שגיאה, בקשה נסה שוב",
+    "FORM": {
+      "SEND_TO_CONTACT": "שלח תמליל ללקוח",
+      "SEND_TO_AGENT": "שלח תמליל לסוכן המשוייך לשיחה",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "שלח תמליל לאימייל אחר",
+      "EMAIL": {
+        "PLACEHOLDER": "הכנס כתובת אימייל",
+        "ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "היי 👋, ברוך הבא ל{installationName}!",
+    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ {installationName}. הינה כמה דברים שאתה יכול לעשות עם {installationName} לחוויה טובה.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "READ_LATEST_UPDATES": "תקרא את העדכונים אחרונים",
+    "ALL_CONVERSATION": {
+      "TITLE": "כל השיחות שלך במקום אחד",
+      "DESCRIPTION": "צפה בכל השיחות שלך עם הלקוחות בדאשבורד אחד. אתה יכול לסנן את השיחות לפי הערוץ, התווית והסטטוס.",
+      "NEW_LINK": "לחץ כאן כדי ליצור תיבה"
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "הזמן את חברי הצוות שלך",
+      "DESCRIPTION": "מאחר ואתם מוכנים לדבר עם הלקוח, הביאו את חברי הצוות שלכם לעזור לכם. תוכלו להזמין חברי צוות על ידי הוספה של כתובת הדוא\"ל שלהם לרשימת הסוכנים.",
+      "NEW_LINK": "לחץ כאן כדי להזמין חבר צוות"
+    },
+    "LABELS": {
+      "TITLE": "ארגן שיחות עם תוויות",
+      "DESCRIPTION": "תוויות מספקות דרך קלה יותר לסווג את השיחה שלך. צור כמה תוויות כמו #support-enquiry, #billing-question וכו', כדי שתוכל להשתמש בהן בשיחה מאוחר יותר.",
+      "NEW_LINK": "לחץ כאן כדי ליצור תגיות"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "סוכן מוקצה",
+    "SELF_ASSIGN": "קשר אלי",
+    "TEAM_LABEL": "צוות משוייך",
+    "SELECT": {
+      "PLACEHOLDER": "כלום"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "פרטי איש קשר",
+      "CONVERSATION_ACTIONS": "פעולות בשיחה",
+      "CONVERSATION_LABELS": "תוויות שיחה",
+      "CONVERSATION_INFO": "מידע על שיחה",
+      "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
+      "PREVIOUS_CONVERSATION": "שיחות קודמות",
+      "MACROS": "מאקרו"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "צור תכונה",
+    "NO_RECORDS_FOUND": "לא נמצאו מאפיינים",
+    "UPDATE": {
+      "SUCCESS": "המאפיין עודכן בהצלחה",
+      "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
+    },
+    "ADD": {
+      "TITLE": "הוסף",
+      "SUCCESS": "מאפיין נוסף בהצלחה",
+      "ERROR": "לא ניתן היה ליצור מאפיין, אנא נסה שוב מאוחר יותר"
+    },
+    "DELETE": {
+      "SUCCESS": "המאפיין נמחק בהצלחה",
+      "ERROR": "לא ניתן למחוק מאפיין. בבקשה נסה שוב מאוחר יותר"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "הוסף מאפיין",
+      "PLACEHOLDER": "חפש מאפיין",
+      "NO_RESULT": "לא נמצאו מאפיינים"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "מאת",
+    "TO": "אל",
+    "BCC": "עותק מוסתר",
+    "CC": "עותק",
+    "SUBJECT": "נושא"
+  },
+  "CONVERSATION_PARTICIPANTS": {
+    "SIDEBAR_MENU_TITLE": "משתתף",
+    "SIDEBAR_TITLE": "משתתפים בשיחה",
+    "NO_RECORDS_FOUND": "לא נמצאו תוצאות",
+    "ADD_PARTICIPANTS": "בחר משתתפים",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
+    "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!.",
+    "WATCH_CONVERSATION": "הצטרף לשיחה",
+    "YOU_ARE_WATCHING": "אתה משתתף",
+    "API": {
+      "ERROR_MESSAGE": "לא ניתן היה לעדכן, נסה שוב!",
+      "SUCCESS_MESSAGE": "המשתתפים עודכנו!"
+    }
+  },
+  "TRANSLATE_MODAL": {
+    "TITLE": "הצג תוכן מתורגם",
+    "DESC": "תוכל לראות את התוכן המתורגם בכל שפה.",
+    "ORIGINAL_CONTENT": "תוכן מקורי",
+    "TRANSLATED_CONTENT": "תוכן מתורגם",
+    "NO_TRANSLATIONS_AVAILABLE": "אין תרגומים זמינים לתוכן זה"
+  }
+}

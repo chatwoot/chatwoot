@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "機器人",
+    "LOADING_EDITOR": "正在載入編輯器...",
+    "HEADER_BTN_TXT": "新增機器人設定",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "機器人名稱",
+        "PLACEHOLDER": "命名你的機器人",
+        "ERROR": "機器人名稱為必填."
+      },
+      "DESCRIPTION": {
+        "LABEL": "機器人描述",
+        "PLACEHOLDER": "這個機器人的作用是什麼"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "請在上方輸入你的CSML機器人設定",
+        "API_ERROR": "你的CSML設定是無效的. 請修正後再試."
+      },
+      "SUBMIT": "驗證並儲存"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "選擇一個客服機器人",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "更新",
+      "DISCONNECT": "取消機器人連結",
+      "SUCCESS_MESSAGE": "成功更新客服機器人.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "成功解除客服機器人連結.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "選擇機器人"
+    },
+    "ADD": {
+      "TITLE": "設定新的機器人",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "SUCCESS_MESSAGE": "機器人新增成功.",
+        "ERROR_MESSAGE": "無法新增機器人，請稍後再試."
+      }
+    },
+    "LIST": {
+      "404": "查無機器人，你可以點擊「設定新的機器人」按鈕設定一個機器人",
+      "LOADING": "正在取得機器人...",
+      "TYPE": "機器人類型"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "TITLE": "刪除機器人",
+      "SUBMIT": "刪除",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible.",
+      "API": {
+        "SUCCESS_MESSAGE": "機器人刪除成功.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "編輯",
+      "LOADING": "正在取得機器人...",
+      "TITLE": "編輯機器人",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "API": {
+        "SUCCESS_MESSAGE": "機器人更新成功.",
+        "ERROR_MESSAGE": "無法更新機器人，請稍後再試"
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook 機器人",
+      "CSML": "CSML 機器人"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Kontaktok szűrése",
+    "SUBTITLE": "Adj meg szűrőket, majd kattints \"Mentés\" gombra a kontaktok szűréséhez.",
+    "EDIT_CUSTOM_SEGMENT": "Szegmens szerkesztése",
+    "CUSTOM_VIEWS_SUBTITLE": "Adj hozzá vagy törölj szűrőket a szegmens frissítéséhez.",
+    "ADD_NEW_FILTER": "Szűrő hozzáadása",
+    "CLEAR_ALL_FILTERS": "Szűrők eltávolítása",
+    "FILTER_DELETE_ERROR": "Kötelező legalább egy szűrőt megadni a mentéshez",
+    "SUBMIT_BUTTON_LABEL": "Elküldés",
+    "UPDATE_BUTTON_LABEL": "Szegmens frissítése",
+    "CANCEL_BUTTON_LABEL": "Mégse",
+    "CLEAR_BUTTON_LABEL": "Szűrők törlése",
+    "EMPTY_VALUE_ERROR": "Kötelező megadni",
+    "SEGMENT_LABEL": "Szegmens neve",
+    "SEGMENT_QUERY_LABEL": "Szegmens lekérdezése",
+    "TOOLTIP_LABEL": "Kontaktok szűrése",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ÉS",
+      "OR": "VAGY"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Egyenlő",
+      "not_equal_to": "Nem egyenlő",
+      "contains": "Tartalmaz",
+      "does_not_contain": "Nem tartalmaz",
+      "is_present": "Jelen van",
+      "is_not_present": "Nincs jelen",
+      "is_greater_than": "Nagyobb",
+      "is_lesser_than": "Kisebb mint",
+      "days_before": "x nappal előtte"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Kötelező megadni"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Név",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Telefonszám",
+      "IDENTIFIER": "Azonosító",
+      "CITY": "Város",
+      "COUNTRY": "Ország",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Szöveg",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Szám",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Jelölőnégyzet",
+      "CREATED_AT": "Létrehozva",
+      "LAST_ACTIVITY": "Utolsó aktivitás",
+      "REFERER_LINK": "Hivatkozás link",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Alap szűrők",
+      "ADDITIONAL_FILTERS": "Extra szűrők",
+      "CUSTOM_ATTRIBUTES": "Egyedi atribútumok"
+    }
+  }
+}

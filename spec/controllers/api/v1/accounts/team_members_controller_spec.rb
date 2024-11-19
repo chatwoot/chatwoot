@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Team Members API', type: :request do
   let(:account) { create(:account) }
+  let(:account_2) { create(:account) }
   let!(:team) { create(:team, account: account) }
 
   describe 'GET /api/v1/accounts/{account.id}/teams/{team_id}/team_members' do
@@ -23,7 +24,7 @@ RSpec.describe 'Team Members API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body).first['id']).to eq(agent.id)
+        expect(response.parsed_body.first['id']).to eq(agent.id)
       end
     end
   end
@@ -55,6 +56,8 @@ RSpec.describe 'Team Members API', type: :request do
       it 'add a new team members when its administrator' do
         user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
         params = { user_ids: user_ids }
+        # have a team member added already
+        create(:team_member, team: team, user: User.find(user_ids.first))
 
         post "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
              params: params,
@@ -62,8 +65,8 @@ RSpec.describe 'Team Members API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
-        expect(json_response.count).to eq(user_ids.count)
+        json_response = response.parsed_body
+        expect(json_response.count).to eq(user_ids.count - 1)
       end
     end
   end
@@ -93,15 +96,16 @@ RSpec.describe 'Team Members API', type: :request do
 
       it 'destroys the team members when its administrator' do
         user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
-        params = { user_ids: user_ids }
+        user_ids.each { |id| create(:team_member, team: team, user: User.find(id)) }
+        params = { user_ids: user_ids.first(3) }
 
-        delete "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+        delete "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
                params: params,
                headers: administrator.create_new_auth_token,
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(team.team_members.count).to eq(0)
+        expect(team.team_members.count).to eq(2)
       end
     end
   end
@@ -117,6 +121,7 @@ RSpec.describe 'Team Members API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent_2) { create(:user, account: account_2, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
       it 'return unauthorized for agent' do
@@ -139,8 +144,21 @@ RSpec.describe 'Team Members API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response.count).to eq(user_ids.count)
+      end
+
+      it 'ignores the user ids when its not a valid account user id' do
+        params = { user_ids: [agent_2.id] }
+
+        patch "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
+              params: params,
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        json_response = response.parsed_body
+        expect(json_response['error']).to eq('Invalid User IDs')
       end
     end
   end

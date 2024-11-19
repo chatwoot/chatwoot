@@ -1,53 +1,80 @@
-import marked from 'marked';
-import DOMPurify from 'dompurify';
-import { escapeHtml } from './HTMLSanitizer';
+import mila from 'markdown-it-link-attributes';
+import mentionPlugin from './markdownIt/link';
+import MarkdownIt from 'markdown-it';
+const setImageHeight = inlineToken => {
+  const imgSrc = inlineToken.attrGet('src');
+  if (!imgSrc) return;
+  const url = new URL(imgSrc);
+  const height = url.searchParams.get('cw_image_height');
+  if (!height) return;
+  inlineToken.attrSet('style', `height: ${height};`);
+};
+
+const processInlineToken = blockToken => {
+  blockToken.children.forEach(inlineToken => {
+    if (inlineToken.type === 'image') {
+      setImageHeight(inlineToken);
+    }
+  });
+};
+
+const imgResizeManager = md => {
+  // Custom rule for image resize in markdown
+  // If the image url has a query param cw_image_height, then add a style attribute to the image
+  md.core.ruler.after('inline', 'add-image-height', state => {
+    state.tokens.forEach(blockToken => {
+      if (blockToken.type === 'inline') {
+        processInlineToken(blockToken);
+      }
+    });
+  });
+};
+
+const md = MarkdownIt({
+  html: false,
+  xhtmlOut: true,
+  breaks: true,
+  langPrefix: 'language-',
+  linkify: true,
+  typographer: true,
+  quotes: '\u201c\u201d\u2018\u2019',
+  maxNesting: 20,
+})
+  .use(mentionPlugin)
+  .use(imgResizeManager)
+  .use(mila, {
+    attrs: {
+      class: 'link',
+      rel: 'noreferrer noopener nofollow',
+      target: '_blank',
+    },
+  });
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
-const TWITTER_USERNAME_REPLACEMENT =
-  '$1<a href="http://twitter.com/$2" target="_blank" rel="noreferrer nofollow noopener">@$2</a>';
-
+const TWITTER_USERNAME_REPLACEMENT = '$1[@$2](http://twitter.com/$2)';
 const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
-const TWITTER_HASH_REPLACEMENT =
-  '$1<a href="https://twitter.com/hashtag/$2" target="_blank" rel="noreferrer nofollow noopener">#$2</a>';
-
-const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/(.+)/gm;
+const TWITTER_HASH_REPLACEMENT = '$1[#$2](https://twitter.com/hashtag/$2)';
 
 class MessageFormatter {
-  constructor(message, isATweet = false) {
-    this.message = DOMPurify.sanitize(escapeHtml(message || ''));
+  constructor(message, isATweet = false, isAPrivateNote = false) {
+    this.message = message || '';
+    this.isAPrivateNote = isAPrivateNote;
     this.isATweet = isATweet;
-    this.marked = marked;
-
-    const renderer = {
-      heading(text) {
-        return `<strong>${text}</strong>`;
-      },
-      link(url, title, text) {
-        const mentionRegex = new RegExp(USER_MENTIONS_REGEX);
-        if (url.match(mentionRegex)) {
-          return `<span class="prosemirror-mention-node">${text}</span>`;
-        }
-        return `<a rel="noreferrer noopener nofollow" href="${url}" class="link" title="${title ||
-          ''}" target="_blank">${text}</a>`;
-      },
-    };
-    this.marked.use({ renderer });
   }
 
   formatMessage() {
-    if (this.isATweet) {
-      const withUserName = this.message.replace(
+    let updatedMessage = this.message;
+    if (this.isATweet && !this.isAPrivateNote) {
+      updatedMessage = updatedMessage.replace(
         TWITTER_USERNAME_REGEX,
         TWITTER_USERNAME_REPLACEMENT
       );
-      const withHash = withUserName.replace(
+      updatedMessage = updatedMessage.replace(
         TWITTER_HASH_REGEX,
         TWITTER_HASH_REPLACEMENT
       );
-      const markedDownOutput = marked(withHash);
-      return markedDownOutput;
     }
-    return marked(this.message);
+    return md.render(updatedMessage);
   }
 
   get formattedMessage() {

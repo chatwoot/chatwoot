@@ -1,61 +1,78 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "ป้ายกำกับ",
+    "HEADER_BTN_TXT": "เพิ่มป้ายกำกับ",
+    "LOADING": "กำลังโหลดป้ายกำกับ",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "ไม่มีรายการที่ตรงกับเนื้อหานี้",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "ไม่มีป้ายกำกับในบัญชีนี้",
+      "TITLE": "จัดการป้ายกำกับ",
+      "DESC": "ป้ายกำกับช่วยให้คุณจัดกลุ่มการสนทนาได้",
       "TABLE_HEADER": [
         "ชื่อ",
-        "Description",
-        "Color"
+        "คำอธิบาย",
+        "สี"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "ชื่อป้ายกำกับ",
+        "PLACEHOLDER": "ชื่อป้ายกำกับ",
+        "REQUIRED_ERROR": "โปรดใส่ชื่อป้ายกำกับ",
+        "MINIMUM_LENGTH_ERROR": "ชื่อป้ายกำกับต้องยาวอย่างน้อย 2 ตัวอักษร",
+        "VALID_ERROR": "ชื่อป้ายกำกับต้องเป็นตัวอักษรภาษาอังกฤษ ตัวเลข ขีดกลาง'-' และ ขีดล่าง'_' เท่านั้น"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "คำอธิบาย",
+        "PLACEHOLDER": "คำอธิบายป้ายกำกับ"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "สี"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "แสดงป้ายกำกับบนเมนูข้าง"
       },
       "EDIT": "เเก้ไข",
-      "CREATE": "Create",
+      "CREATE": "สร้าง",
       "DELETE": "ลบ",
       "CANCEL": "ยกเลิก"
     },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
+    },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "เพิ่มป้ายกำกับ",
+      "DESC": "ป้ายกำกับช่วยให้คุณจัดกลุ่มการสนทนาได้",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "เพิ่มป้ายกำกับสำเร็จแล้ว",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "แก้ไขป้ายกำกับ",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "อัปเดตป้ายกำกับสำเร็จแล้ว",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ลบป้ายกำกับสำเร็จแล้ว",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
       },
       "CONFIRM": {
         "TITLE": "ยืนยันการลบ",

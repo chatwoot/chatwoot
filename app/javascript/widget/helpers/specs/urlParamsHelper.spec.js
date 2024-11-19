@@ -6,7 +6,7 @@ import {
 
 describe('#buildSearchParamsWithLocale', () => {
   it('returns correct search params', () => {
-    let windowSpy = jest.spyOn(window, 'window', 'get');
+    let windowSpy = vi.spyOn(window, 'window', 'get');
     windowSpy.mockImplementation(() => ({
       WOOT_WIDGET: {
         $root: {
@@ -31,7 +31,7 @@ describe('#getLocale', () => {
     expect(getLocale('?test=1&cw_conv=2&website_token=3&locale=fr')).toEqual(
       'fr'
     );
-    expect(getLocale('')).toEqual(undefined);
+    expect(getLocale('')).toEqual(null);
   });
 });
 

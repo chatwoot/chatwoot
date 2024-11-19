@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Sæki samtöl",
+    "LOAD_MORE_CONVERSATIONS": "Sækja fleiri spjöll",
+    "EOF": "Öll spjöll eru hlaðin🎉",
+    "LIST": {
+      "404": "Það eru engin virk spjöll í þessum hóp."
+    },
+    "TAB_HEADING": "Samtöl",
+    "MENTION_HEADING": "Mentions",
+    "UNATTENDED_HEADING": "Unattended",
+    "SEARCH": {
+      "INPUT": "Leita að Fólki, Spjöllum, Vistuðum Svörum .."
+    },
+    "FILTER_ALL": "Allt",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mitt",
+      "unassigned": "Óúthlutað",
+      "all": "Allt"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Opin"
+      },
+      "resolved": {
+        "TEXT": "Leyst"
+      },
+      "pending": {
+        "TEXT": "Í bið"
+      },
+      "snoozed": {
+        "TEXT": "Blundað"
+      },
+      "all": {
+        "TEXT": "Allt"
+      }
+    },
+    "VIEW_FILTER": "Skoða",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "Staða",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Skráð",
+        "OLDEST": "Created at:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Myndaskilaboð"
+      },
+      "audio": {
+        "CONTENT": "Hljóðskilaboð"
+      },
+      "video": {
+        "CONTENT": "Myndbandsskilaboð"
+      },
+      "file": {
+        "CONTENT": "File Attachment"
+      },
+      "location": {
+        "CONTENT": "Staðsetning"
+      },
+      "fallback": {
+        "CONTENT": "hefur deilt vefslóð"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "Sort by",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "Created at",
+          "LABEL": "Created at"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Móttekið í tölvupósti",
+    "VIEW_TWEET_IN_TWITTER": "Opna tíst á Twitter",
+    "REPLY_TO_TWEET": "Svara þessu tísti",
+    "LINK_TO_STORY": "Opna instagram sögu",
+    "SENT": "Sent",
+    "READ": "Lesið",
+    "DELIVERED": "Afhent",
+    "NO_MESSAGES": "Engin skilaboð",
+    "NO_CONTENT": "Ekkert efni fannst",
+    "HIDE_QUOTED_TEXT": "Fela tilvitnaðan texta",
+    "SHOW_QUOTED_TEXT": "Sýna tilvitnaðan texta",
+    "MESSAGE_READ": "Lesið"
+  }
+}

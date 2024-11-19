@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filter Kontak",
+    "SUBTITLE": "Tambahkan filter di bawah ini dan tekan 'Kirim' untuk menyaring kontak.",
+    "EDIT_CUSTOM_SEGMENT": "Sunting Segmen",
+    "CUSTOM_VIEWS_SUBTITLE": "Tambahkan atau hapus filter dan perbarui segmen Anda.",
+    "ADD_NEW_FILTER": "Tambahkan Filter Baru",
+    "CLEAR_ALL_FILTERS": "Hapus Semua Filter",
+    "FILTER_DELETE_ERROR": "Anda harus memiliki setidaknya satu filter yang disimpan",
+    "SUBMIT_BUTTON_LABEL": "Kirim",
+    "UPDATE_BUTTON_LABEL": "Perbarui Segmen",
+    "CANCEL_BUTTON_LABEL": "Batalkan",
+    "CLEAR_BUTTON_LABEL": "Hapus Filter",
+    "EMPTY_VALUE_ERROR": "Nilai dibutuhkan",
+    "SEGMENT_LABEL": "Nama Segmen",
+    "SEGMENT_QUERY_LABEL": "Kueri Segmen",
+    "TOOLTIP_LABEL": "Filter kontak",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "DAN",
+      "OR": "ATAU"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Sama dengan",
+      "not_equal_to": "Tidak sama dengan",
+      "contains": "Berisi",
+      "does_not_contain": "Tidak berisi",
+      "is_present": "Ada",
+      "is_not_present": "Tidak ada",
+      "is_greater_than": "Lebih besar dari",
+      "is_lesser_than": "Lebih kecil dari",
+      "days_before": "X hari sebelum"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai dibutuhkan"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nama",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Nomor Telepon",
+      "IDENTIFIER": "Pengenal",
+      "CITY": "Kota",
+      "COUNTRY": "Negara",
+      "CUSTOM_ATTRIBUTE_LIST": "Daftar Kustom",
+      "CUSTOM_ATTRIBUTE_TEXT": "Teks Kustom",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nomor Kustom",
+      "CUSTOM_ATTRIBUTE_LINK": "Tautan Kustom",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Centang Kustom",
+      "CREATED_AT": "Dibuat pada",
+      "LAST_ACTIVITY": "Aktivitas Terakhir",
+      "REFERER_LINK": "Tautan Referrer",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filter Standar",
+      "ADDITIONAL_FILTERS": "Filter Tambahan",
+      "CUSTOM_ATTRIBUTES": "Atribut Kustom"
+    }
+  }
+}

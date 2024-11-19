@@ -26,11 +26,12 @@ class ConfigLoader
     reconcile_feature_config
   end
 
-  private
-
   def general_configs
+    @config_path ||= Rails.root.join('config')
     @general_configs ||= YAML.safe_load(File.read("#{@config_path}/installation_config.yml")).freeze
   end
+
+  private
 
   def account_features
     @account_features ||= YAML.safe_load(File.read("#{@config_path}/features.yml")).freeze
@@ -59,7 +60,7 @@ class ConfigLoader
   end
 
   def save_as_new_config(latest)
-    config = InstallationConfig.find_or_create_by(name: latest[:name])
+    config = InstallationConfig.find_or_initialize_by(name: latest[:name])
     config.value = latest[:value]
     config.locked = latest[:locked]
     config.save!

@@ -1,150 +1,84 @@
+<script setup>
+import { computed } from 'vue';
+import { formatBytes } from 'shared/helpers/FileHelper';
+
+const props = defineProps({
+  attachments: {
+    type: Array,
+    default: () => [],
+  },
+});
+
+const emit = defineEmits(['removeAttachment']);
+
+const nonRecordedAudioAttachments = computed(() => {
+  return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
+});
+
+const recordedAudioAttachments = computed(() =>
+  props.attachments.filter(attachment => attachment.isRecordedAudio)
+);
+
+const onRemoveAttachment = itemIndex => {
+  emit(
+    'removeAttachment',
+    nonRecordedAudioAttachments.value
+      .filter((_, index) => index !== itemIndex)
+      .concat(recordedAudioAttachments.value)
+  );
+};
+
+const formatFileSize = file => {
+  const size = file.byte_size || file.size;
+  return formatBytes(size, 0);
+};
+
+const isTypeImage = file => {
+  const type = file.content_type || file.type;
+  return type.includes('image');
+};
+
+const fileName = file => {
+  return file.filename || file.name;
+};
+</script>
+
 <template>
-  <div>
+  <div class="flex overflow-auto max-h-[12.5rem]">
     <div
-      v-for="(attachment, index) in attachments"
+      v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
-      class="preview-item"
+      class="preview-item flex items-center p-1 bg-slate-50 dark:bg-slate-800 gap-1 rounded-md w-[15rem] mb-1"
     >
-      <div class="thumb-wrap">
+      <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
-          v-if="isTypeImage(attachment.resource.type)"
-          class="image-thumb"
+          v-if="isTypeImage(attachment.resource)"
+          class="object-cover w-6 h-6 rounded-sm"
           :src="attachment.thumb"
         />
-        <span v-else class="attachment-thumb">
+        <span v-else class="relative w-6 h-6 text-lg text-left -top-px">
           📄
         </span>
       </div>
-      <div class="file-name-wrap">
-        <span class="item">
-          {{ attachment.resource.name }}
-        </span>
-      </div>
-      <div class="file-size-wrap">
-        <span class="item">
-          {{ formatFileSize(attachment.resource.size) }}
-        </span>
-      </div>
-      <div class="remove-file-wrap">
-        <button
-          class="remove--attachment"
-          @click="() => onRemoveAttachment(index)"
+      <div class="max-w-3/5 min-w-[50%] overflow-hidden text-ellipsis">
+        <span
+          class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
         >
-          <i class="ion-android-close"></i>
-        </button>
+          {{ fileName(attachment.resource) }}
+        </span>
+      </div>
+      <div class="w-[30%] justify-center">
+        <span class="overflow-hidden text-xs text-ellipsis whitespace-nowrap">
+          {{ formatFileSize(attachment.resource) }}
+        </span>
+      </div>
+      <div class="flex items-center justify-center">
+        <woot-button
+          class="!w-6 !h-6 text-sm rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 clear secondary"
+          icon="dismiss"
+          @click="onRemoveAttachment(index)"
+        />
       </div>
     </div>
   </div>
 </template>
-<script>
-import { formatBytes } from 'dashboard/helper/files';
-
-export default {
-  props: {
-    attachments: {
-      type: Array,
-      default: () => [],
-    },
-    removeAttachment: {
-      type: Function,
-      default: () => {},
-    },
-  },
-  methods: {
-    onRemoveAttachment(index) {
-      this.removeAttachment(index);
-    },
-    formatFileSize(size) {
-      return formatBytes(size, 0);
-    },
-    isTypeImage(type) {
-      return type.includes('image');
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-.preview-item {
-  display: flex;
-  padding: var(--space-slab) 0 0;
-  background: var(--color-background-light);
-  background: transparent;
-}
-
-.thumb-wrap {
-  max-width: var(--space-jumbo);
-  flex-shrink: 0;
-  width: var(--space-medium);
-  display: flex;
-  align-items: center;
-}
-
-.image-thumb {
-  width: var(--space-medium);
-  height: var(--space-medium);
-  object-fit: cover;
-  border-radius: var(--border-radius-small);
-}
-
-.attachment-thumb {
-  width: var(--space-medium);
-  height: var(--space-medium);
-  font-size: var(--font-size-medium);
-  text-align: center;
-  position: relative;
-  top: -1px;
-  text-align: left;
-}
-
-.file-name-wrap,
-.file-size-wrap {
-  display: flex;
-  align-items: center;
-  padding: 0 var(--space-smaller);
-
-  > .item {
-    margin: 0;
-    font-size: var(--font-size-mini);
-    font-weight: var(--font-weight-medium);
-  }
-}
-
-.preview-header {
-  padding: var(--space-slab) var(--space-slab) 0 var(--space-slab);
-}
-
-.file-name-wrap {
-  max-width: 50%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  .item {
-    height: var(--space-normal);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-.file-size-wrap {
-  width: 20%;
-  justify-content: center;
-}
-
-.remove-file-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.remove--attachment {
-  width: var(--space-medium);
-  height: var(--space-medium);
-  border-radius: var(--space-medium);
-  font-size: var(--font-size-small);
-  cursor: pointer;
-
-  &:hover {
-    background: var(--color-background);
-  }
-}
-</style>

@@ -7,79 +7,125 @@
       "404": "В этой группе нет активных диалогов."
     },
     "TAB_HEADING": "Диалоги",
+    "MENTION_HEADING": "Упоминания",
+    "UNATTENDED_HEADING": "Неотвеченные",
     "SEARCH": {
       "INPUT": "Искать людей, чаты, сохраненные ответы .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Открыть",
-        "KEY": "openCount"
+    "FILTER_ALL": "Все",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Мои",
+      "unassigned": "Неназначен",
+      "all": "Все"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Открыт"
       },
-      {
-        "NAME": "Закрыт",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Закрыт"
+      },
+      "pending": {
+        "TEXT": "В ожидании"
+      },
+      "snoozed": {
+        "TEXT": "Отложено"
+      },
+      "all": {
+        "TEXT": "Все"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Мой",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Просмотр",
+    "SORT_TOOLTIP_LABEL": "Сортировать сообщения",
+    "CHAT_SORT": {
+      "STATUS": "Статус",
+      "ORDER_BY": "Сортировать по"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Создан",
+        "OLDEST": "Дата создания:"
       },
-      {
-        "NAME": "Неназначенный",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Все",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Последние действия:",
+        "ACTIVE": "Последние действия"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Открытые",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Последняя активность: сначала старые"
       },
-      {
-        "TEXT": "Закрытые",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Последняя активность: сначала новые"
       },
-      {
-        "TEXT": "Бот",
-        "VALUE": "бот"
+      "created_at_desc": {
+        "TEXT": "Создано: сначала новые"
+      },
+      "created_at_asc": {
+        "TEXT": "Создано: сначала старые"
+      },
+      "priority_desc": {
+        "TEXT": "Приоритет: сначала высокие"
+      },
+      "priority_asc": {
+        "TEXT": "Приоритет: сначала низкие"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Ожидающие ответа: сначала старые"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Ожидающие ответа: сначала новые"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Изображение"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Аудиосообщение"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Видео"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Прикрепленный файл"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Местоположение"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "поделился ссылкой"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Получено по электронной почте",
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Сортировать разговор",
+      "DROPDOWN_TITLE": "Сортировать по",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Последняя активность",
+          "LABEL": "Последние действия"
+        },
+        "CREATED_AT": {
+          "NAME": "Дата создания",
+          "LABEL": "Дата создания"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Последнее сообщение пользователя",
+          "LABEL": "Последнее сообщение"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Получено по email",
     "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
     "REPLY_TO_TWEET": "Ответить на этот твит",
-    "NO_MESSAGES": "No Messages"
+    "LINK_TO_STORY": "Перейти к истории Instagram",
+    "SENT": "Успешно отправлено",
+    "READ": "Успешно прочитано",
+    "DELIVERED": "Доставлено успешно",
+    "NO_MESSAGES": "Нет сообщений",
+    "NO_CONTENT": "Содержимое отсутствует",
+    "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",
+    "SHOW_QUOTED_TEXT": "Показать цитируемый текст",
+    "MESSAGE_READ": "Прочитано"
   }
 }

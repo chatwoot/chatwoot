@@ -77,4 +77,56 @@ describe('#getters', () => {
       isDeleting: false,
     });
   });
+
+  it('getAgentStatus', () => {
+    const state = {
+      records: [
+        {
+          id: 1,
+          name: 'Agent 1',
+          email: 'agent1@chatwoot.com',
+          confirmed: true,
+          availability_status: 'online',
+        },
+        {
+          id: 2,
+          name: 'Agent 2',
+          email: 'agent2@chatwoot.com',
+          confirmed: false,
+          availability_status: 'offline',
+        },
+      ],
+    };
+    expect(getters.getAgentStatus(state)).toEqual({
+      online: 1,
+      busy: 0,
+      offline: 1,
+    });
+  });
+
+  it('getAgentStatus', () => {
+    const state = {
+      records: [
+        {
+          id: 1,
+          name: 'Agent 1',
+          email: 'agent1@chatwoot.com',
+          confirmed: true,
+          availability_status: 'online',
+        },
+        {
+          id: 2,
+          name: 'Agent 2',
+          email: 'agent2@chatwoot.com',
+          confirmed: false,
+          availability_status: 'offline',
+        },
+      ],
+    };
+    expect(getters.getAgentStatus(state)).toEqual({
+      online: 1,
+      busy: 0,
+      offline: 1,
+    });
+  });
 });

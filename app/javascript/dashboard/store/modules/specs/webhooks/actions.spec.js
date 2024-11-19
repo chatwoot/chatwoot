@@ -3,9 +3,9 @@ import { actions } from '../../webhooks';
 import * as types from '../../../mutation-types';
 import webhooks from './fixtures';
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
@@ -48,6 +48,30 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: true }],
         [types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false }],
+      ]);
+    });
+  });
+
+  describe('#update', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.patch.mockResolvedValue({
+        data: { payload: { webhook: webhooks[1] } },
+      });
+      await actions.update({ commit }, webhooks[1]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: true }],
+        [types.default.UPDATE_WEBHOOK, webhooks[1]],
+        [types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.put.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.update({ commit }, webhooks[0])).rejects.toThrow(
+        Error
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: true }],
+        [types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: false }],
       ]);
     });
   });

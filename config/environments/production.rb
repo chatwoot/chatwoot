@@ -21,6 +21,9 @@ Rails.application.configure do
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_SERVE_STATIC_FILES', true))
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{1.year.to_i}"
+  }
   # Compress JavaScripts and CSS.
   # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
@@ -38,13 +41,6 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
-
-  # Mount Action Cable outside main process or domain
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = 'wss://example.com/cable'
-  if ENV['FRONTEND_URL'].present?
-    config.action_cable.allowed_request_origins = [ENV['FRONTEND_URL'], %r{https?://#{URI.parse(ENV['FRONTEND_URL']).host}(:[0-9]+)?}]
-  end
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
@@ -76,7 +72,7 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
-  
+
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', true))
     logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
@@ -98,17 +94,6 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  # Chatwoot production settings
-  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
-  config.action_mailer.smtp_settings = {
-    address: ENV['SMTP_ADDRESS'],
-    port: ENV['SMTP_PORT'] || 587,
-    user_name: ENV['SMTP_USERNAME'],
-    password: ENV['SMTP_PASSWORD'],
-    authentication: :login,
-    enable_starttls_auto: true
-  }
-
   # Set this to appropriate ingress service for which the options are :
   # :relay for Exim, Postfix, Qmail
   # :mailgun for Mailgun
@@ -118,13 +103,4 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
-
-  # font cors issue with CDN
-  # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '/packs/*', headers: :any, methods: [:get, :options]
-    end
-  end
 end

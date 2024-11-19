@@ -3,7 +3,8 @@
     "HEADER": "Medewerkers",
     "HEADER_BTN_TXT": "Medewerker toevoegen",
     "LOADING": "Ophalen van medewerkerslijst",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Beheerder",
       "AGENT": "Medewerker"
@@ -17,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Acties",
       "VERIFIED": "Geverifieerd",
-      "VERIFICATION_PENDING": "Verificatie in behandeling"
+      "VERIFICATION_PENDING": "Verificatie in behandeling",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Voeg medewerker toe aan je team",
@@ -55,7 +57,7 @@
         "TITLE": "Verwijderen bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "No, Keep "
+        "NO": "Nee, Behouden "
       }
     },
     "EDIT": {
@@ -74,6 +76,11 @@
           "LABEL": "Uw e-mailadres",
           "PLACEHOLDER": "Voer een e-mailadres in van de medewerker"
         },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Beschikbaarheid",
+          "PLACEHOLDER": "Selecteer een beschikbaarheidsstatus",
+          "ERROR": "Beschikbaarheid is vereist"
+        },
         "SUBMIT": "Bewerk medewerker"
       },
       "BUTTON_TEXT": "Bewerken",
@@ -90,7 +97,25 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Geen medewerkers gevonden."
+      "NO_RESULTS": "Geen resultaten gevonden."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "Geen",
+      "TITLE": {
+        "AGENT": "Selecteer agent",
+        "TEAM": "Selecteer team"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "Geen medewerkers gevonden",
+          "TEAM": "Geen teams gevonden"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Zoek agenten",
+          "TEAM": "Teams zoeken",
+          "INPUT": "Zoeken naar agents"
+        }
+      }
     }
   }
 }

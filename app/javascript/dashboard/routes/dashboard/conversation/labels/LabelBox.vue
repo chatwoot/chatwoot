@@ -1,174 +1,158 @@
+<script>
+import { ref } from 'vue';
+import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import Spinner from 'shared/components/Spinner.vue';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
+
+export default {
+  components: {
+    Spinner,
+    LabelDropdown,
+    AddLabel,
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+
+    const {
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    } = useConversationLabels();
+
+    const showSearchDropdownLabel = ref(false);
+
+    const toggleLabels = () => {
+      showSearchDropdownLabel.value = !showSearchDropdownLabel.value;
+    };
+
+    const closeDropdownLabel = () => {
+      showSearchDropdownLabel.value = false;
+    };
+
+    const keyboardEvents = {
+      KeyL: {
+        action: e => {
+          e.preventDefault();
+          toggleLabels();
+        },
+      },
+      Escape: {
+        action: () => {
+          if (showSearchDropdownLabel.value) {
+            toggleLabels();
+          }
+        },
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+    return {
+      isAdmin,
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+      showSearchDropdownLabel,
+      closeDropdownLabel,
+      toggleLabels,
+    };
+  },
+  data() {
+    return {
+      selectedLabels: [],
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      conversationUiFlags: 'conversationLabels/getUIFlags',
+    }),
+  },
+};
+</script>
+
 <template>
-  <div class="contact-conversation--panel sidebar-labels-wrap">
+  <div class="sidebar-labels-wrap">
     <div
       v-if="!conversationUiFlags.isFetching"
       class="contact-conversation--list"
     >
-      <contact-details-item
-        :title="$t('CONTACT_PANEL.LABELS.TITLE')"
-        icon="ion-pricetags"
-        emoji="🏷️"
-        :show-edit="true"
-        @edit="onEdit"
-      />
-      <div class="label-wrap">
+      <div
+        v-on-clickaway="closeDropdownLabel"
+        class="label-wrap"
+        @keyup.esc="closeDropdownLabel"
+      >
+        <AddLabel @add="toggleLabels" />
         <woot-label
           v-for="label in activeLabels"
           :key="label.id"
           :title="label.title"
           :description="label.description"
-          :bg-color="label.color"
+          show-close
+          :color="label.color"
+          variant="smooth"
+          class="max-w-[calc(100%-0.5rem)]"
+          @remove="removeLabelFromConversation"
         />
-        <div v-if="!activeLabels.length" class="no-label-message">
-          <span>{{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}</span>
+
+        <div class="dropdown-wrap">
+          <div
+            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+            class="dropdown-pane"
+          >
+            <LabelDropdown
+              v-if="showSearchDropdownLabel"
+              :account-labels="accountLabels"
+              :selected-labels="savedLabels"
+              :allow-creation="isAdmin"
+              @add="addLabelToConversation"
+              @remove="removeLabelFromConversation"
+            />
+          </div>
         </div>
       </div>
-      <add-label-to-conversation
-        v-if="isEditing"
-        :conversation-id="conversationId"
-        :account-labels="accountLabels"
-        :saved-labels="savedLabels"
-        :show.sync="isEditing"
-        :on-close="closeEditModal"
-        :update-labels="onUpdateLabels"
-      />
     </div>
-    <spinner v-else></spinner>
+    <Spinner v-else />
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import AddLabelToConversation from './AddLabelToConversation';
-import ContactDetailsItem from '../ContactDetailsItem';
-import Spinner from 'shared/components/Spinner';
-
-export default {
-  components: {
-    AddLabelToConversation,
-    ContactDetailsItem,
-    Spinner,
-  },
-  props: {
-    conversationId: {
-      type: [String, Number],
-      required: true,
-    },
-  },
-  data() {
-    return {
-      isEditing: false,
-      selectedLabels: [],
-    };
-  },
-  computed: {
-    savedLabels() {
-      return this.$store.getters['conversationLabels/getConversationLabels'](
-        this.conversationId
-      );
-    },
-    ...mapGetters({
-      conversationUiFlags: 'contactConversations/getUIFlags',
-      labelUiFlags: 'conversationLabels/getUIFlags',
-      accountLabels: 'labels/getLabels',
-    }),
-    activeLabels() {
-      return this.accountLabels.filter(({ title }) =>
-        this.savedLabels.includes(title)
-      );
-    },
-  },
-  watch: {
-    conversationId(newConversationId, prevConversationId) {
-      if (newConversationId && newConversationId !== prevConversationId) {
-        this.fetchLabels(newConversationId);
-      }
-    },
-  },
-  mounted() {
-    const { conversationId } = this;
-    this.fetchLabels(conversationId);
-  },
-  methods: {
-    async onUpdateLabels(selectedLabels) {
-      try {
-        await this.$store.dispatch('conversationLabels/update', {
-          conversationId: this.conversationId,
-          labels: selectedLabels,
-        });
-      } catch (error) {
-        // Ignore error
-      }
-    },
-    onEdit() {
-      this.isEditing = true;
-    },
-    closeEditModal() {
-      bus.$emit('fetch_conversation_stats');
-      this.isEditing = false;
-    },
-    async fetchLabels(conversationId) {
-      if (!conversationId) {
-        return;
-      }
-      this.$store.dispatch('conversationLabels/get', conversationId);
-    },
-  },
-};
-</script>
-
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
+.sidebar-labels-wrap {
+  margin-bottom: 0;
+}
+.contact-conversation--list {
+  width: 100%;
 
-.contact-conversation--panel {
-  padding: var(--space-medium) var(--space-slab) var(--space-two);
-}
+  .label-wrap {
+    line-height: var(--space-medium);
+    position: relative;
 
-.contact-conversation--list .conv-details--item {
-  padding-bottom: 0;
-}
-.conversation--label {
-  color: $color-white;
-  margin-right: $space-small;
-  font-size: $font-size-small;
-  padding: $space-smaller;
-}
-.label-wrap {
-  margin-left: var(--space-medium);
-}
-.no-label-message {
-  color: var(--b-500);
-}
+    .dropdown-wrap {
+      display: flex;
+      left: -1px;
+      margin-right: var(--space-medium);
+      position: absolute;
+      top: var(--space-medium);
+      width: 100%;
 
-.select-tags {
-  .multiselect {
-    &:hover {
-      cursor: pointer;
+      .dropdown-pane {
+        width: 100%;
+        box-sizing: border-box;
+      }
     }
-    transition: $transition-ease-in;
-    margin-bottom: 0;
   }
 }
 
-.button {
-  margin-top: $space-small;
-  margin-left: auto;
-}
-
-.no-results-wrap {
-  padding: 0 $space-small;
-}
-
-.no-results {
-  margin: $space-normal 0 0 0;
-  color: $color-gray;
-  font-weight: $font-weight-normal;
-}
-
 .error {
-  color: $alert-color;
-  font-size: $font-size-mini;
-  font-weight: $font-weight-medium;
+  color: var(--r-500);
+  font-size: var(--font-size-mini);
+  font-weight: var(--font-weight-medium);
 }
 </style>

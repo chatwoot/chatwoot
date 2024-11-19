@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "טוען שיחות",
+    "LOAD_MORE_CONVERSATIONS": "טען עוד שיחות",
+    "EOF": "כל השיחות נטענו 🎉",
+    "LIST": {
+      "404": "אין שיחות פעילות בקבוצה הזו."
+    },
+    "TAB_HEADING": "שיחות",
+    "MENTION_HEADING": "תיוגים",
+    "UNATTENDED_HEADING": "לא מתוכנן",
+    "SEARCH": {
+      "INPUT": "חפש אנשים, שיחות, תגובות שמורות .."
+    },
+    "FILTER_ALL": "הכל",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "שלי",
+      "unassigned": "לא הוקצתה",
+      "all": "הכל"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "פתח"
+      },
+      "resolved": {
+        "TEXT": "נפתרה"
+      },
+      "pending": {
+        "TEXT": "ממתין ל"
+      },
+      "snoozed": {
+        "TEXT": "נימנום"
+      },
+      "all": {
+        "TEXT": "הכל"
+      }
+    },
+    "VIEW_FILTER": "צפה",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "CHAT_SORT": {
+      "STATUS": "מצב",
+      "ORDER_BY": "Order by"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "נוצר",
+        "OLDEST": "נוצר בזמן:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "הודעת תמונה"
+      },
+      "audio": {
+        "CONTENT": "הודעות קוליות"
+      },
+      "video": {
+        "CONTENT": "הודעות וידאו"
+      },
+      "file": {
+        "CONTENT": "קובץ מצורף"
+      },
+      "location": {
+        "CONTENT": "מיקום"
+      },
+      "fallback": {
+        "CONTENT": "שיתף קישור"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Sort conversation",
+      "DROPDOWN_TITLE": "מיין לפי",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
+        },
+        "CREATED_AT": {
+          "NAME": "נוצר בזמן",
+          "LABEL": "נוצר בזמן"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
+    "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר",
+    "REPLY_TO_TWEET": "הגב לציוץ זה",
+    "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
+    "SENT": "נשלח בהצלחה",
+    "READ": "נקרא בהצלחה",
+    "DELIVERED": "התקבל בהצלחה",
+    "NO_MESSAGES": "אין הודעות",
+    "NO_CONTENT": "אין תוכן זמין",
+    "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
+    "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
+    "MESSAGE_READ": "נקרא"
+  }
+}

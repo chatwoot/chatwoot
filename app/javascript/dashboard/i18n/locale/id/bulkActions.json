@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} percakapan dipilih",
+    "AGENT_SELECT_LABEL": "Pilih Agen",
+    "ASSIGN_CONFIRMATION_LABEL": "Apakah Anda yakin ingin menugaskan {conversationCount} {conversationLabel} kepada",
+    "UNASSIGN_CONFIRMATION_LABEL": "Apakah Anda yakin ingin melepaskan penugasan dari {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Kembali",
+    "ASSIGN_LABEL": "Tugaskan",
+    "YES": "Ya",
+    "SEARCH_INPUT_PLACEHOLDER": "Cari",
+    "ASSIGN_AGENT_TOOLTIP": "Tugaskan agen",
+    "ASSIGN_TEAM_TOOLTIP": "Tugaskan tim",
+    "ASSIGN_SUCCESFUL": "Percakapan berhasil ditugaskan.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Percakapan berhasil diselesaikan.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Percakapan yang terlihat di halaman ini hanya yang dipilih.",
+    "AGENT_LIST_LOADING": "Sedang memuat agen",
+    "UPDATE": {
+      "CHANGE_STATUS": "Ubah status",
+      "SNOOZE_UNTIL": "Tunda",
+      "UPDATE_SUCCESFUL": "Status percakapan berhasil diperbarui.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "Tidak ada label ditemukan untuk",
+      "ASSIGN_SELECTED_LABELS": "Tugaskan label terpilih",
+      "ASSIGN_SUCCESFUL": "Label berhasil ditugaskan.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Pilih tim",
+      "NONE": "Tidak ada",
+      "NO_TEAMS_AVAILABLE": "Belum ada tim yang ditambahkan ke akun ini.",
+      "ASSIGN_SELECTED_TEAMS": "Tugaskan tim terpilih.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

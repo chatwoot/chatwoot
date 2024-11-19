@@ -1,20 +1,7 @@
-<template>
-  <header class="header-expanded bg-white py-8 px-6 relative box-border w-full">
-    <div class="flex justify-between items-start">
-      <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
-      <header-actions :show-popout-button="showPopoutButton" />
-    </div>
-    <h2
-      class="text-slate-900 mt-6 text-4xl mb-3 font-normal"
-      v-html="introHeading"
-    />
-    <p class="text-lg text-black-700 leading-normal" v-html="introBody" />
-  </header>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
+import { useDarkMode } from 'widget/composables/useDarkMode';
+
 export default {
   name: 'ChatHeaderExpanded',
   components: {
@@ -38,21 +25,41 @@ export default {
       default: false,
     },
   },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
   },
 };
 </script>
 
-<style scoped lang="scss">
-@import '~widget/assets/scss/mixins.scss';
-
-.header-expanded {
-  .logo {
-    width: 56px;
-    height: 56px;
-  }
-}
-</style>
+<template>
+  <header
+    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
+  >
+    <div
+      class="flex items-start"
+      :class="[avatarUrl ? 'justify-between' : 'justify-end']"
+    >
+      <img
+        v-if="avatarUrl"
+        class="h-12 rounded-full"
+        :src="avatarUrl"
+        alt="Avatar"
+      />
+      <HeaderActions
+        :show-popout-button="showPopoutButton"
+        :show-end-conversation-button="false"
+      />
+    </div>
+    <h2
+      v-dompurify-html="introHeading"
+      class="mt-4 text-2xl mb-1.5 font-medium"
+      :class="getThemeClass('text-slate-900', 'dark:text-slate-50')"
+    />
+    <p
+      v-dompurify-html="introBody"
+      class="text-base leading-normal"
+      :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
+    />
+  </header>
+</template>

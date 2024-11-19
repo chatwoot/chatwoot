@@ -2,26 +2,32 @@
   "REGISTER": {
     "TRY_WOOT": "تسجيل حساب",
     "TITLE": "تسجيل",
+    "TESTIMONIAL_HEADER": "إن كل ما يلزم هو خطوة واحدة للمضي قدما",
+    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
     "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "اسم الحساب",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Sign up with Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Company name",
+      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
+      "ERROR": "Company name is too short"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "الاسم الكامل",
+      "PLACEHOLDER": "أدخل اسمك الكامل. مثال: بروس وين",
+      "ERROR": "الاسم الكامل قصير جداً"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "البريد الإلكتروني للعمل",
+      "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور",
-      "ERROR": "كلمة المرور قصيرة جداً"
+      "ERROR": "كلمة المرور قصيرة جداً",
+      "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "تأكيد كلمة المرور",
@@ -33,6 +39,6 @@
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "SUBMIT": "إرسال",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "هل لديك حساب مسبق؟"
   }
 }

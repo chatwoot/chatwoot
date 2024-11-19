@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Ohodnoťte svou konverzaci",
+    "PLACEHOLDER": "Řekněte nám více...",
+    "RATINGS": {
+      "POOR": "😞 Poor",
+      "FAIR": "😑 Fair",
+      "AVERAGE": "😐 Average",
+      "GOOD": "😀 Good",
+      "EXCELLENT": "😍 Excellent"
+    }
+  }
+}

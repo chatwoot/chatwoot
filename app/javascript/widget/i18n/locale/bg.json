@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Изтегляне",
+      "UPLOADING": "Качване..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Изпращане"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Send message again",
+      "ERROR_MESSAGE": "Couldn't send, try again"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "На линия сме",
+    "OFFLINE": "В момента не сме на линия"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Обикновено отговаряме до няколко минути",
+    "IN_A_FEW_HOURS": "Обикновено отговаряме до няколко часа",
+    "IN_A_DAY": "Обикновено отговаряме до един ден",
+    "BACK_IN": "We will be back online"
+  },
+  "DAY_NAMES": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
+  "START_CONVERSATION": "Започнете разговор",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
+  "YOU": "You",
+  "START_NEW_CONVERSATION": "Започнете нов разговор",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Вижте новите съобщения",
+    "CLOSE_MESSAGES_BUTTON": "Затвори",
+    "COMPANY_FROM": "от",
+    "BOT": "Бот"
+  },
+  "BUBBLE": {
+    "LABEL": "Чатете с нас"
+  },
+  "POWERED_BY": "Осъществено от Chatwoot",
+  "EMAIL_PLACEHOLDER": "Моля, въведете имейла адреса си",
+  "CHAT_PLACEHOLDER": "Напишете вашето съобщение",
+  "TODAY": "Днес",
+  "YESTERDAY": "Вчера",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Пълно име",
+        "PLACEHOLDER": "Моля, въведете пълното си име",
+        "REQUIRED_ERROR": "Пълното име е задължително"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Имейл адрес",
+        "PLACEHOLDER": "Моля, въведете имейл адреса си",
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Please enter a valid email address"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Телефон",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "Няма намерени резултати",
+        "DROPDOWN_SEARCH": "Search country"
+      },
+      "MESSAGE": {
+        "LABEL": "Съобщение",
+        "PLACEHOLDER": "Моля, въведете вашето съобщение",
+        "ERROR": "Съобщението е прекалено кратко"
+      }
+    },
+    "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес",
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required",
+    "REGEX_ERROR": "Please provide a valid input"
+  },
+  "FILE_SIZE_LIMIT": "Файлът надхвърля {MAXIMUM_FILE_UPLOAD_SIZE} лимит",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Невалидно поле"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search",
+    "ARIA_LABEL": "Emoji picker"
+  },
+  "CSAT": {
+    "TITLE": "Оценете този разговор",
+    "SUBMITTED_TITLE": "Благодарим ви, че оценихте разговора",
+    "PLACEHOLDER": "Разкажете ни повече..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Поискайте копие от разговора",
+    "SEND_EMAIL_SUCCESS": "Копието от разговора бе изпратено успешно",
+    "SEND_EMAIL_ERROR": "Възникна грешка, моля опитайте отново"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Съобщение със снимка"
+    },
+    "audio": {
+      "CONTENT": "Аудио съобщение"
+    },
+    "video": {
+      "CONTENT": "Видео съобщение"
+    },
+    "file": {
+      "CONTENT": "Прикачен файл"
+    },
+    "location": {
+      "CONTENT": "Локация"
+    },
+    "fallback": {
+      "CONTENT": "сподели линк"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
+  }
+}

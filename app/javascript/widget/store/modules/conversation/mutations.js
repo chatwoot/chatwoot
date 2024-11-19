@@ -1,19 +1,19 @@
-import Vue from 'vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { findUndeliveredMessage } from './helpers';
 
 export const mutations = {
   clearConversations($state) {
-    Vue.set($state, 'conversations', {});
+    $state.conversations = {};
   },
   pushMessageToConversation($state, message) {
     const { id, status, message_type: type } = message;
+
     const messagesInbox = $state.conversations;
     const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
     const isTemporaryMessage = status === 'in_progress';
 
     if (!isMessageIncoming || isTemporaryMessage) {
-      Vue.set(messagesInbox, id, message);
+      messagesInbox[id] = message;
       return;
     }
 
@@ -22,10 +22,13 @@ export const mutations = {
       message
     );
     if (!messageInConversation) {
-      Vue.set(messagesInbox, id, message);
+      messagesInbox[id] = message;
     } else {
-      Vue.delete(messagesInbox, messageInConversation.id);
-      Vue.set(messagesInbox, id, message);
+      // [VITE] instead of leaving undefined behind, we remove it completely
+      // remove the temporary message and replace it with the new message
+      // messagesInbox[messageInConversation.id] = undefined;
+      delete messagesInbox[messageInConversation.id];
+      messagesInbox[id] = message;
     }
   },
 
@@ -36,8 +39,11 @@ export const mutations = {
     const messageInConversation = messagesInbox[tempId];
 
     if (messageInConversation) {
-      Vue.delete(messagesInbox, tempId);
-      Vue.set(messagesInbox, id, { ...message });
+      // [VITE] instead of leaving undefined behind, we remove it completely
+      // remove the temporary message and replace it with the new message
+      // messagesInbox[tempId] = undefined;
+      delete messagesInbox[tempId];
+      messagesInbox[id] = { ...message };
     }
   },
 
@@ -58,7 +64,13 @@ export const mutations = {
       return;
     }
 
-    payload.map(message => Vue.set($state.conversations, message.id, message));
+    payload.forEach(message => {
+      $state.conversations[message.id] = message;
+    });
+  },
+
+  setMissingMessagesInConversation($state, payload) {
+    $state.conversation = payload;
   },
 
   updateMessage($state, { id, content_attributes }) {
@@ -71,12 +83,34 @@ export const mutations = {
     };
   },
 
+  updateMessageMeta($state, { id, meta }) {
+    const message = $state.conversations[id];
+    if (!message) return;
+
+    const newMeta = message.meta ? { ...message.meta, ...meta } : { ...meta };
+    message.meta = { ...newMeta };
+  },
+
+  deleteMessage($state, id) {
+    delete $state.conversations[id];
+    // [VITE] In Vue 3 proxy objects, we can't delete properties by setting them to undefined
+    // Instead, we have to use the delete operator
+    // $state.conversations[id] = undefined;
+  },
+
   toggleAgentTypingStatus($state, { status }) {
-    const isTyping = status === 'on';
-    $state.uiFlags.isAgentTyping = isTyping;
+    $state.uiFlags.isAgentTyping = status === 'on';
   },
 
   setMetaUserLastSeenAt($state, lastSeen) {
     $state.meta.userLastSeenAt = lastSeen;
+  },
+
+  setLastMessageId($state) {
+    const { conversations } = $state;
+    const lastMessage = Object.values(conversations).pop();
+    if (!lastMessage) return;
+    const { id } = lastMessage;
+    $state.lastMessageId = id;
   },
 };

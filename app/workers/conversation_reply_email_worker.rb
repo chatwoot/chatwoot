@@ -3,14 +3,14 @@ class ConversationReplyEmailWorker
   include Sidekiq::Worker
   sidekiq_options queue: :mailers
 
-  def perform(conversation_id, queued_time)
+  def perform(conversation_id, last_queued_id)
     @conversation = Conversation.find(conversation_id)
 
     # send the email
-    if @conversation.messages.incoming&.last&.content_type == 'incoming_email' || email_inbox?
-      ConversationReplyMailer.reply_without_summary(@conversation, queued_time).deliver_later
+    if @conversation.messages.incoming&.last&.content_type == 'incoming_email'
+      ConversationReplyMailer.with(account: @conversation.account).reply_without_summary(@conversation, last_queued_id).deliver_later
     else
-      ConversationReplyMailer.reply_with_summary(@conversation, queued_time).deliver_later
+      ConversationReplyMailer.with(account: @conversation.account).reply_with_summary(@conversation, last_queued_id).deliver_later
     end
 
     # delete the redis set from the first new message on the conversation

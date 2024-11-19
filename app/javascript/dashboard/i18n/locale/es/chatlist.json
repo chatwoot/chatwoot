@@ -7,79 +7,125 @@
       "404": "No hay conversaciones activas en este grupo."
     },
     "TAB_HEADING": "Conversaciones",
+    "MENTION_HEADING": "Menciones",
+    "UNATTENDED_HEADING": "Desatendido",
     "SEARCH": {
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Abrir",
-        "KEY": "openCount"
+    "FILTER_ALL": "Todos",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mías",
+      "unassigned": "Sin asignar",
+      "all": "Todos"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Abrir"
       },
-      {
-        "NAME": "Resuelto",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Resueltas"
+      },
+      "pending": {
+        "TEXT": "Pendientes"
+      },
+      "snoozed": {
+        "TEXT": "Postpuestas"
+      },
+      "all": {
+        "TEXT": "Todos"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mina",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Ver",
+    "SORT_TOOLTIP_LABEL": "Ordenar conversaciones",
+    "CHAT_SORT": {
+      "STATUS": "Estado",
+      "ORDER_BY": "Ordenar por"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creado",
+        "OLDEST": "Creado el:"
       },
-      {
-        "NAME": "Sin asignar",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Todos",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última actividad:",
+        "ACTIVE": "Última actividad"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Abrir",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última actividad: Más antigua primero"
       },
-      {
-        "TEXT": "Resuelto",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Última actividad: Más reciente primero"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Creado el: Más Nuevo primero"
+      },
+      "created_at_asc": {
+        "TEXT": "Creado el: Más antiguo primero"
+      },
+      "priority_desc": {
+        "TEXT": "Prioridad: el más alto primero"
+      },
+      "priority_asc": {
+        "TEXT": "Prioridad: el más bajo primero"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Respuesta pendiente: la más larga primero"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Respuesta pendiente: la más corta primero"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensaje de imagen"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensaje de audio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensaje de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Archivo adjunto"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Ubicación"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ha compartido una url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Recibido por email",
-    "VIEW_TWEET_IN_TWITTER": "Ver tweet en Twitter",
-    "REPLY_TO_TWEET": "Responder a este tweet",
-    "NO_MESSAGES": "No Messages"
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Ordenar conversación",
+      "DROPDOWN_TITLE": "Ordenar por",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Última actividad el",
+          "LABEL": "Última actividad"
+        },
+        "CREATED_AT": {
+          "NAME": "Creado el",
+          "LABEL": "Creado el"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Último mensaje de usuario el",
+          "LABEL": "Último mensaje"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
+    "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
+    "REPLY_TO_TWEET": "Responder a éste trino",
+    "LINK_TO_STORY": "Ir a la historia de Instagram",
+    "SENT": "Enviado con éxito",
+    "READ": "Leido correctamente",
+    "DELIVERED": "Entregado con éxito",
+    "NO_MESSAGES": "No hay mensajes",
+    "NO_CONTENT": "No hay contenido disponible",
+    "HIDE_QUOTED_TEXT": "Ocultar texto citado",
+    "SHOW_QUOTED_TEXT": "Mostrar texto citado",
+    "MESSAGE_READ": "Leído"
   }
 }

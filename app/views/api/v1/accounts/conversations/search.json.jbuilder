@@ -5,13 +5,6 @@ json.meta do
 end
 json.payload do
   json.array! @conversations do |conversation|
-    json.id conversation.display_id
-    json.messages do
-      json.array! conversation.messages do |message|
-        json.content message.content
-        json.created_at message.created_at.to_i
-      end
-    end
-    json.account_id conversation.account_id
+    json.partial! 'api/v1/models/conversation', formats: [:json], conversation: conversation
   end
 end

@@ -1,54 +1,29 @@
-<template>
-  <section class="app-content columns">
-    <chat-list
-      :conversation-inbox="inboxId"
-      :label="label"
-      :active-team="activeTeam"
-      @conversation-load="onConversationLoad"
-    >
-      <button class="search--button" @click="onSearch">
-        <i class="ion-ios-search-strong search--icon" />
-        <div class="text-truncate">
-          {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
-        </div>
-      </button>
-      <search
-        v-if="showSearchModal"
-        :show="showSearchModal"
-        :on-close="closeSearch"
-      />
-    </chat-list>
-    <conversation-box
-      :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      @contact-panel-toggle="onToggleContactPanel"
-    >
-    </conversation-box>
-    <contact-panel
-      v-if="isContactPanelOpen"
-      :conversation-id="conversationId"
-      :on-toggle="onToggleContactPanel"
-    />
-  </section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-
-import ChatList from '../../../components/ChatList';
-import ContactPanel from './ContactPanel';
-import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
-import Search from './search/Search.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import ChatList from '../../../components/ChatList.vue';
+import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
+import PopOverSearch from './search/PopOverSearch.vue';
+import wootConstants from 'dashboard/constants/globals';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
     ChatList,
-    ContactPanel,
     ConversationBox,
-    Search,
+    PopOverSearch,
+    CmdBarConversationSnooze,
   },
-  mixins: [uiSettingsMixin],
+  beforeRouteLeave(to, from, next) {
+    // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
+    // and resolves timing issues during navigation with conversation view and other screens
+    if (this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+    next(); // Continue with navigation
+  },
   props: {
     inboxId: {
       type: [String, Number],
@@ -66,6 +41,22 @@ export default {
       type: String,
       default: '',
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
+    foldersId: {
+      type: [String, Number],
+      default: 0,
+    },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {
@@ -77,21 +68,43 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
+    showConversationList() {
+      return this.isOnExpandedLayout ? !this.conversationId : true;
+    },
+    showMessageView() {
+      return this.conversationId ? true : !this.isOnExpandedLayout;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const { conversation_display_type: conversationDisplayType = CONDENSED } =
+        this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
+    },
     isContactPanelOpen() {
       if (this.currentChat.id) {
-        const {
-          is_contact_sidebar_open: isContactSidebarOpen,
-        } = this.uiSettings;
+        const { is_contact_sidebar_open: isContactSidebarOpen } =
+          this.uiSettings;
         return isContactSidebarOpen;
       }
       return false;
     },
-    activeTeam() {
-      if (this.teamId) {
-        return this.$store.getters['teams/getTeam'](this.teamId);
-      }
-      return {};
+  },
+  watch: {
+    conversationId() {
+      this.fetchConversationIfUnavailable();
     },
+  },
+
+  created() {
+    // Clear selected state early if no conversation is selected
+    // This prevents child components from accessing stale data
+    // and resolves timing issues during navigation
+    // with conversation view and other screens
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
   },
 
   mounted() {
@@ -111,6 +124,21 @@ export default {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
     },
+    toggleConversationLayout() {
+      const { LAYOUT_TYPES } = wootConstants;
+      const {
+        conversation_display_type:
+          conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+      } = this.uiSettings;
+      const newViewType =
+        conversationDisplayType === LAYOUT_TYPES.CONDENSED
+          ? LAYOUT_TYPES.EXPANDED
+          : LAYOUT_TYPES.CONDENSED;
+      this.updateUISettings({
+        conversation_display_type: newViewType,
+        previously_used_conversation_display_type: newViewType,
+      });
+    },
     fetchConversationIfUnavailable() {
       if (!this.conversationId) {
         return;
@@ -127,13 +155,24 @@ export default {
     },
     setActiveChat() {
       if (this.conversationId) {
-        const chat = this.findConversation();
-        if (!chat) {
+        const selectedConversation = this.findConversation();
+        // If conversation doesn't exist or selected conversation is same as the active
+        // conversation, don't set active conversation.
+        if (
+          !selectedConversation ||
+          selectedConversation.id === this.currentChat.id
+        ) {
           return;
         }
-        this.$store.dispatch('setActiveChat', chat).then(() => {
-          bus.$emit('scrollToMessage');
-        });
+        const { messageId } = this.$route.query;
+        this.$store
+          .dispatch('setActiveChat', {
+            data: selectedConversation,
+            after: messageId,
+          })
+          .then(() => {
+            emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+          });
       } else {
         this.$store.dispatch('clearSelectedState');
       }
@@ -152,29 +191,39 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="bg-white conversation-page dark:bg-slate-900">
+    <ChatList
+      :show-conversation-list="showConversationList"
+      :conversation-inbox="inboxId"
+      :label="label"
+      :team-id="teamId"
+      :conversation-type="conversationType"
+      :folders-id="foldersId"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @conversation-load="onConversationLoad"
+    >
+      <PopOverSearch
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
+      />
+    </ChatList>
+    <ConversationBox
+      v-if="showMessageView"
+      :inbox-id="inboxId"
+      :is-contact-panel-open="isContactPanelOpen"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @contact-panel-toggle="onToggleContactPanel"
+    />
+    <CmdBarConversationSnooze />
+  </section>
+</template>
+
 <style lang="scss" scoped>
-.search--button {
-  align-items: center;
-  border: 0;
-  color: var(--s-400);
-  cursor: pointer;
+.conversation-page {
   display: flex;
-  font-size: var(--font-size-small);
-  font-weight: 400;
-  padding: var(--space-normal) var(--space-normal) var(--space-slab);
-  text-align: left;
-  line-height: var(--font-size-large);
-
-  &:hover {
-    .search--icon {
-      color: var(--w-500);
-    }
-  }
-}
-
-.search--icon {
-  color: var(--s-600);
-  font-size: var(--font-size-large);
-  padding-right: var(--space-small);
+  width: 100%;
+  height: 100%;
 }
 </style>

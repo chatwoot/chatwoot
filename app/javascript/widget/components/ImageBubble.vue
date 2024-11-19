@@ -1,3 +1,19 @@
+<script>
+export default {
+  props: {
+    url: { type: String, default: '' },
+    thumb: { type: String, default: '' },
+    readableTime: { type: String, default: '' },
+  },
+  emits: ['error'],
+  methods: {
+    onImgError() {
+      this.$emit('error');
+    },
+  },
+};
+</script>
+
 <template>
   <a
     :href="url"
@@ -6,19 +22,14 @@
     class="image"
   >
     <div class="wrap">
-      <img :src="thumb" alt="Picture message" />
+      <img :src="thumb" alt="Picture message" @error="onImgError" />
       <span class="time">{{ readableTime }}</span>
     </div>
   </a>
 </template>
 
-<script>
-export default {
-  props: ['url', 'thumb', 'readableTime'],
-};
-</script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .image {
   display: block;

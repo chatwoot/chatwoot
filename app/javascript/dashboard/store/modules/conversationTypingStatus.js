@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import * as types from '../mutation-types';
 import ConversationAPI from '../../api/inbox/conversation';
 const state = {
@@ -12,9 +11,9 @@ export const getters = {
 };
 
 export const actions = {
-  toggleTyping: async (_, { status, conversationId }) => {
+  toggleTyping: async (_, { status, conversationId, isPrivate }) => {
     try {
-      await ConversationAPI.toggleTyping({ status, conversationId });
+      await ConversationAPI.toggleTyping({ status, conversationId, isPrivate });
     } catch (error) {
       // Handle error
     }
@@ -43,7 +42,10 @@ export const mutations = {
       record => record.id === user.id && record.type === user.type
     ).length;
     if (!hasUserRecordAlready) {
-      Vue.set($state.records, conversationId, [...records, user]);
+      $state.records = {
+        ...$state.records,
+        [conversationId]: [...records, user],
+      };
     }
   },
   [types.default.REMOVE_USER_TYPING_FROM_CONVERSATION]: (
@@ -54,7 +56,10 @@ export const mutations = {
     const updatedRecords = records.filter(
       record => record.id !== user.id || record.type !== user.type
     );
-    Vue.set($state.records, conversationId, updatedRecords);
+    $state.records = {
+      ...$state.records,
+      [conversationId]: updatedRecords,
+    };
   },
 };
 

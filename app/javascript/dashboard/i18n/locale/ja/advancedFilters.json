@@ -1,0 +1,107 @@
+{
+  "FILTER": {
+    "TITLE": "会話をフィルターする",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
+    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBMIT_BUTTON_LABEL": "フィルターを適用",
+    "UPDATE_BUTTON_LABEL": "Update folder",
+    "CANCEL_BUTTON_LABEL": "キャンセル",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
+    "FOLDER_LABEL": "Folder Name",
+    "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "値は必須です.",
+    "TOOLTIP_LABEL": "会話をフィルターする",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "AND",
+      "OR": "OR"
+    },
+    "INPUT_PLACEHOLDER": "Enter value",
+    "OPERATOR_LABELS": {
+      "equal_to": "等しい",
+      "not_equal_to": "等しくない",
+      "contains": "含む",
+      "does_not_contain": "含まない",
+      "is_present": "存在する",
+      "is_not_present": "存在しない",
+      "is_greater_than": "より大きい",
+      "is_less_than": "より小さい",
+      "days_before": "x日前",
+      "starts_with": "Starts with"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "状況",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Team name",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
+      "LABELS": "ラベル",
+      "BROWSER_LANGUAGE": "Browser language",
+      "PRIORITY": "Priority",
+      "COUNTRY_NAME": "Country name",
+      "REFERER_LINK": "参照者のリンク",
+      "CUSTOM_ATTRIBUTE_LIST": "リスト",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "値は必須です"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "名前が必須です.",
+        "SAVE_BUTTON": "フィルターの保存",
+        "CANCEL_BUTTON": "キャンセル",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "フォルダが正常に作成されました.",
+          "ERROR_MESSAGE": "フォルダの作成中にエラーが発生しました."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully.",
+          "ERROR_MESSAGE": "Error while creating segment."
+        }
+      },
+      "EDIT": {
+        "EDIT_BUTTON": "Edit folder"
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirm deletion",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting folder."
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting segment."
+        }
+      }
+    }
+  }
+}

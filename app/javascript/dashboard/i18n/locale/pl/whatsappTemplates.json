@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Szablony WhatsApp",
+            "SUBTITLE": "Wybierz szablon WhatsApp, który chcesz wysłać",
+            "TEMPLATE_SELECTED_SUBTITLE": "Przetwarzanie {templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Wyszukaj szablony",
+            "NO_TEMPLATES_FOUND": "Nie znaleziono szablonów dla",
+            "LABELS": {
+                "LANGUAGE": "Język",
+                "TEMPLATE_BODY": "Treść szablonu",
+                "CATEGORY": "Kategoria"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Zmienne",
+            "VARIABLE_PLACEHOLDER": "Wprowadź wartość {variable}",
+            "GO_BACK_LABEL": "Powrót",
+            "SEND_MESSAGE_LABEL": "Wyślij wiadomość",
+            "FORM_ERROR_MESSAGE": "Proszę wypełnić wszystkie zmienne przed wysłaniem"
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Ge feedback om den konversation du hade med {inboxName}.",
+    "RATING": {
+      "LABEL": "Betygsätt din konversation",
+      "SUCCESS_MESSAGE": "Tack för att du lämnat in omdömet"
+    },
+    "FEEDBACK": {
+      "LABEL": "Har du några tankar du vill dela med dig av?",
+      "PLACEHOLDER": "Dina synpunkter (frivilligt)",
+      "BUTTON_TEXT": "Skicka synpunkter"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Undersökningen har uppdaterats",
+      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+    }
+  },
+  "POWERED_BY": "Drivs av Chatwoot"
+}

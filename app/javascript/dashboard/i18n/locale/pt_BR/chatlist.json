@@ -7,79 +7,125 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "TAB_HEADING": "Conversas",
+    "MENTION_HEADING": "Menções",
+    "UNATTENDED_HEADING": "Não Atendidas",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Abertas",
-        "KEY": "openCount"
+    "FILTER_ALL": "Todos",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minha",
+      "unassigned": "Não atribuída",
+      "all": "Todos"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Abertas"
       },
-      {
-        "NAME": "Resolvida",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Resolvida"
+      },
+      "pending": {
+        "TEXT": "Pendente"
+      },
+      "snoozed": {
+        "TEXT": "Adiado"
+      },
+      "all": {
+        "TEXT": "Todos"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minha",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Visualizar",
+    "SORT_TOOLTIP_LABEL": "Classificar conversas",
+    "CHAT_SORT": {
+      "STATUS": "Situação",
+      "ORDER_BY": "Ordenar por"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Criado",
+        "OLDEST": "Criado em:"
       },
-      {
-        "NAME": "Não atribuída",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Todos",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última atividade:",
+        "ACTIVE": "Última atividade"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Abertas",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última atividade: Mais antigas primeiro"
       },
-      {
-        "TEXT": "Resolvidas",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Última atividade: Recentes primeiro"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Criado em: Recentes primeiro"
+      },
+      "created_at_asc": {
+        "TEXT": "Criado em: Antigos primeiro"
+      },
+      "priority_desc": {
+        "TEXT": "Prioridade: Altas primeiro"
+      },
+      "priority_asc": {
+        "TEXT": "Prioridade: Baixas primeiro"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Resposta pendente: Longas primeiro"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Resposta pendente: Curtas primeiro"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensagem de imagem"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensagem de áudio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensagem de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Arquivo anexo"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Localização"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "compartilhou uma URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Classificar conversas",
+      "DROPDOWN_TITLE": "Ordenar por",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Última atividade em",
+          "LABEL": "Última atividade"
+        },
+        "CREATED_AT": {
+          "NAME": "Criado em",
+          "LABEL": "Criado em"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Última mensagem de usuário em",
+          "LABEL": "Última mensagem"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver tweet no Twitter",
     "REPLY_TO_TWEET": "Responder a este tweet",
-    "NO_MESSAGES": "No Messages"
+    "LINK_TO_STORY": "Vá para o Story do Instagram",
+    "SENT": "Enviado com sucesso",
+    "READ": "Lido com sucesso",
+    "DELIVERED": "Entregue com sucesso",
+    "NO_MESSAGES": "Nova Mensagem",
+    "NO_CONTENT": "Nenhum conteúdo disponível",
+    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
+    "MESSAGE_READ": "Lida"
   }
 }

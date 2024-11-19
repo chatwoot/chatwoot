@@ -1,44 +1,84 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
+import EmailTranscriptModal from './EmailTranscriptModal.vue';
+import ResolveAction from '../../buttons/ResolveAction.vue';
+import {
+  CMD_MUTE_CONVERSATION,
+  CMD_SEND_TRANSCRIPT,
+  CMD_UNMUTE_CONVERSATION,
+} from 'dashboard/helper/commandbar/events';
+
+export default {
+  components: {
+    EmailTranscriptModal,
+    ResolveAction,
+  },
+  data() {
+    return {
+      showEmailActionsModal: false,
+    };
+  },
+  computed: {
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
+  },
+  mounted() {
+    emitter.on(CMD_MUTE_CONVERSATION, this.mute);
+    emitter.on(CMD_UNMUTE_CONVERSATION, this.unmute);
+    emitter.on(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  },
+  unmounted() {
+    emitter.off(CMD_MUTE_CONVERSATION, this.mute);
+    emitter.off(CMD_UNMUTE_CONVERSATION, this.unmute);
+    emitter.off(CMD_SEND_TRANSCRIPT, this.toggleEmailActionsModal);
+  },
+  methods: {
+    mute() {
+      this.$store.dispatch('muteConversation', this.currentChat.id);
+      useAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
+    },
+    unmute() {
+      this.$store.dispatch('unmuteConversation', this.currentChat.id);
+      useAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
+    },
+    toggleEmailActionsModal() {
+      this.showEmailActionsModal = !this.showEmailActionsModal;
+    },
+  },
+};
+</script>
+
 <template>
-  <div class="flex-container actions--container">
-    <resolve-action
+  <div class="relative flex items-center gap-2 actions--container">
+    <woot-button
+      v-if="!currentChat.muted"
+      v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-mute"
+      @click="mute"
+    />
+    <woot-button
+      v-else
+      v-tooltip.left="$t('CONTACT_PANEL.UNMUTE_CONTACT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="speaker-1"
+      @click="unmute"
+    />
+    <woot-button
+      v-tooltip="$t('CONTACT_PANEL.SEND_TRANSCRIPT')"
+      variant="clear"
+      color-scheme="secondary"
+      icon="share"
+      @click="toggleEmailActionsModal"
+    />
+    <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
     />
-    <woot-button
-      class="clear more--button"
-      icon="ion-android-more-vertical"
-      @click="toggleConversationActions"
-    />
-    <div
-      v-if="showConversationActions"
-      v-on-clickaway="hideConversationActions"
-      class="dropdown-pane"
-      :class="{ 'dropdown-pane--open': showConversationActions }"
-    >
-      <button
-        v-if="!currentChat.muted"
-        class="button small clear row alert small-6 action--button"
-        @click="mute"
-      >
-        <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
-      </button>
-
-      <button
-        v-else
-        class="button small clear row alert small-6 action--button"
-        @click="unmute"
-      >
-        <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
-      </button>
-
-      <button
-        class="button small clear row small-6 action--button"
-        @click="toggleEmailActionsModal"
-      >
-        {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
-      </button>
-    </div>
-    <email-transcript-modal
+    <EmailTranscriptModal
       v-if="showEmailActionsModal"
       :show="showEmailActionsModal"
       :current-chat="currentChat"
@@ -46,114 +86,17 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
-import alertMixin from 'shared/mixins/alertMixin';
-import EmailTranscriptModal from './EmailTranscriptModal';
-import ResolveAction from '../../buttons/ResolveAction';
 
-export default {
-  components: {
-    EmailTranscriptModal,
-    ResolveAction,
-  },
-  mixins: [alertMixin, clickaway],
-  data() {
-    return {
-      showConversationActions: false,
-      showEmailActionsModal: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
-  },
-  methods: {
-    mute() {
-      this.$store.dispatch('muteConversation', this.currentChat.id);
-      this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
-      this.toggleConversationActions();
-    },
-    unmute() {
-      this.$store.dispatch('unmuteConversation', this.currentChat.id);
-      this.showAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
-      this.toggleConversationActions();
-    },
-    toggleEmailActionsModal() {
-      this.showEmailActionsModal = !this.showEmailActionsModal;
-      this.hideConversationActions();
-    },
-    toggleConversationActions() {
-      this.showConversationActions = !this.showConversationActions;
-    },
-    hideConversationActions() {
-      this.showConversationActions = false;
-    },
-  },
-};
-</script>
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/mixins';
-
 .more--button {
-  align-items: center;
-  display: flex;
-  margin-left: var(--space-small);
-  padding: var(--space-small);
-
-  &.clear.more--button {
-    color: var(--color-body);
-  }
-
-  &:hover {
-    color: var(--w-800);
-  }
-}
-
-.actions--container {
-  position: relative;
+  @apply items-center flex ml-2 rtl:ml-0 rtl:mr-2;
 }
 
 .dropdown-pane {
-  @include elegant-card;
-  @include border-light;
-  right: -12px;
-  top: 48px;
-  width: auto;
-
-  &::before {
-    @include arrow(top, var(--color-border-light), 14px);
-    top: -14px;
-    position: absolute;
-    right: 6px;
-  }
-
-  &::after {
-    @include arrow(top, white, var(--space-slab));
-    top: -12px;
-    position: absolute;
-    right: var(--space-small);
-  }
+  @apply -right-2 top-12;
 }
 
-.dropdown-pane--open {
-  display: block;
-  visibility: visible;
-}
-
-.action--button {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  white-space: nowrap;
-  padding: var(--space-small) var(--space-smaller);
-  font-size: var(--font-size-small);
-
-  .icon {
-    margin-right: var(--space-smaller);
-    min-width: var(--space-normal);
-  }
+.icon {
+  @apply mr-1 rtl:mr-0 rtl:ml-1 min-w-[1rem];
 }
 </style>

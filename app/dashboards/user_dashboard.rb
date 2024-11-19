@@ -9,8 +9,13 @@ class UserDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     account_users: Field::HasMany,
-    id: Field::Number,
+    id: Field::Number.with_options(searchable: true),
     avatar_url: AvatarField,
+    avatar: Field::ActiveStorage.with_options(
+      destroy_url: proc do |_namespace, _resource, attachment|
+        [:avatar_super_admin_user, { attachment_id: attachment.id }]
+      end
+    ),
     provider: Field::String,
     uid: Field::String,
     password: Field::Password,
@@ -23,14 +28,16 @@ class UserDashboard < Administrate::BaseDashboard
     confirmed_at: Field::DateTime,
     confirmation_sent_at: Field::DateTime,
     unconfirmed_email: Field::String,
-    name: Field::String,
+    name: Field::String.with_options(searchable: true),
     display_name: Field::String,
-    email: Field::String,
+    email: Field::String.with_options(searchable: true),
     tokens: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     pubsub_token: Field::String,
-    accounts: CountField
+    type: Field::Select.with_options(collection: [nil, 'SuperAdmin']),
+    accounts: CountField,
+    access_token: Field::HasOne
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -44,6 +51,7 @@ class UserDashboard < Administrate::BaseDashboard
     name
     email
     accounts
+    type
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -53,11 +61,14 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_url
     unconfirmed_email
     name
+    type
     display_name
     email
     created_at
     updated_at
+    confirmed_at
     account_users
+    access_token
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -65,9 +76,12 @@ class UserDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     name
+    avatar
     display_name
     email
     password
+    confirmed_at
+    type
   ].freeze
 
   # COLLECTION_FILTERS

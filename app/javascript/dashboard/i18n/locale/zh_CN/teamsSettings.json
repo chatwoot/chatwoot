@@ -1,0 +1,128 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "创建新团队",
+    "HEADER": "团队",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
+    "LIST": {
+      "404": "There are no teams created on this account.",
+      "EDIT_TEAM": "编辑团队",
+      "NONE": "啥都没有"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "创建新团队",
+        "DESC": "给你的新团队添加个标题并描述你的团队信息"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "添加客服至您的团队",
+        "TITLE": "添加客服至您的团队 - {teamName}",
+        "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。"
+      },
+      "WIZARD": [
+        {
+          "title": "创建",
+          "route": "settings_teams_new",
+          "body": "创建一个新的团队客服。"
+        },
+        {
+          "title": "添加客服代理",
+          "route": "settings_teams_add_agents",
+          "body": "添加客服至您的团队."
+        },
+        {
+          "title": "完成",
+          "route": "settings_teams_finish",
+          "body": "你已设定状态为离开"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "编辑您的团队详情",
+        "DESC": "编辑您的团队的标题和描述。",
+        "BUTTON_TEXT": "更新团队"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "团队中更新客服",
+        "TITLE": "添加客服至您的团队 - {teamName}",
+        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+      },
+      "WIZARD": [
+        {
+          "title": "团队详细信息",
+          "route": "settings_teams_edit",
+          "body": "更改名称、描述和其他详细信息。"
+        },
+        {
+          "title": "编辑客服",
+          "route": "settings_teams_edit_members",
+          "body": "在您的团队中编辑客服。"
+        },
+        {
+          "title": "完成",
+          "route": "settings_teams_edit_finish",
+          "body": "你已设定状态为离开"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "无法保存团队详细信息，请重试。"
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "电子邮件",
+      "BUTTON_TEXT": "添加客服代理",
+      "ADD_AGENTS": "正在向收件箱添加客服...",
+      "SELECT": "选择",
+      "SELECT_ALL": "选择全部客服",
+      "SELECTED_COUNT": "{selected} out of {total} agents selected."
+    },
+    "ADD": {
+      "TITLE": "添加客服至您的团队 - {teamName}",
+      "DESC": "添加客服到您新创建的团队。这让您能够作为一个团队在对话中进行合作，在同一对话中获得新事件的通知。",
+      "SELECT": "选择",
+      "SELECT_ALL": "选择全部客服",
+      "SELECTED_COUNT": "{selected} out of {total} agents selected.",
+      "BUTTON_TEXT": "添加客服代理",
+      "AGENT_VALIDATION_ERROR": "至少选择一个客服。"
+    },
+    "FINISH": {
+      "TITLE": "您的团队已准备好了！",
+      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "BUTTON_TEXT": "完成"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "API": {
+        "SUCCESS_MESSAGE": "团队删除成功.",
+        "ERROR_MESSAGE": "无法删除团队，请重试！"
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure you want to delete the team?",
+        "PLACE_HOLDER": "请输入 {teamName} 以确认",
+        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "YES": "删除 ",
+        "NO": "取消"
+      }
+    },
+    "SETTINGS": "设置",
+    "FORM": {
+      "UPDATE": "更新团队",
+      "CREATE": "Create team",
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
+      },
+      "SUBMIT_CREATE": "Create team"
+    }
+  }
+}

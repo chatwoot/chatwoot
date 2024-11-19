@@ -1,24 +1,3 @@
-<template>
-  <div class="file message-text__wrap" @click="openLink">
-    <div class="icon-wrap">
-      <i class="ion-document-text"></i>
-    </div>
-    <div class="meta">
-      <h5 class="text-block-title">
-        {{ decodeURI(fileName) }}
-      </h5>
-      <a
-        class="download clear button small"
-        rel="noreferrer noopener nofollow"
-        target="_blank"
-        :href="url"
-      >
-        {{ $t('CONVERSATION.DOWNLOAD') }}
-      </a>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -29,21 +8,45 @@ export default {
   },
   computed: {
     fileName() {
-      const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
-      return filename;
+      if (this.url) {
+        const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
+        return filename || this.$t('CONVERSATION.UNKNOWN_FILE_TYPE');
+      }
+      return this.$t('CONVERSATION.UNKNOWN_FILE_TYPE');
     },
   },
   methods: {
     openLink() {
       const win = window.open(this.url, '_blank', 'noopener');
-      win.focus();
+      if (win) win.focus();
     },
   },
 };
 </script>
 
+<template>
+  <div class="file message-text__wrap">
+    <div class="icon-wrap">
+      <fluent-icon icon="document" class="file--icon" size="32" />
+    </div>
+    <div class="meta">
+      <h5 class="attachment-name text-slate-700 dark:text-slate-400">
+        {{ decodeURI(fileName) }}
+      </h5>
+      <a
+        class="download clear link button small"
+        rel="noreferrer noopener nofollow"
+        target="_blank"
+        :href="url"
+      >
+        {{ $t('CONVERSATION.DOWNLOAD') }}
+      </a>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .file {
   display: flex;
@@ -59,7 +62,7 @@ export default {
     margin-right: $space-slab;
   }
 
-  .text-block-title {
+  .attachment-name {
     margin: 0;
     color: $color-white;
     font-weight: $font-weight-bold;

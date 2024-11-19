@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Dragi korisniče 👋, odvojite nekoliko trenutaka i podijelite dojam razogovora koji ste imali s {inboxName}.",
+    "RATING": {
+      "LABEL": "Ocijeni svoj razgovor",
+      "SUCCESS_MESSAGE": "Hvala Vam na ocjeni"
+    },
+    "FEEDBACK": {
+      "LABEL": "Želite li podijeliti neki komentar?",
+      "PLACEHOLDER": "Vaš komentar (opcionalno)",
+      "BUTTON_TEXT": "Unesi komentar"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Anketa uspješno ažurirana",
+      "ERROR_MESSAGE": "Neuspješno spajanje na Woot Server, Molimo pokušajte kasnije"
+    }
+  },
+  "POWERED_BY": "Powered by Chatwoot"
+}

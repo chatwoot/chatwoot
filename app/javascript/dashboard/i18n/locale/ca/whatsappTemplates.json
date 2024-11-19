@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Plantilles de Whatsapp",
+            "SUBTITLE": "Selecciona la plantilla de whatsapp que vols enviar",
+            "TEMPLATE_SELECTED_SUBTITLE": "Procés {templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Cerca plantilles",
+            "NO_TEMPLATES_FOUND": "No s'han trobat plantilles per a",
+            "LABELS": {
+                "LANGUAGE": "Idioma",
+                "TEMPLATE_BODY": "Cos de la plantilla",
+                "CATEGORY": "Categoria"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "Introdueix el valor {variable}",
+            "GO_BACK_LABEL": "Torna enrere",
+            "SEND_MESSAGE_LABEL": "Envia missatge",
+            "FORM_ERROR_MESSAGE": "Omple totes les variables abans d'enviar-les"
+        }
+    }
+}

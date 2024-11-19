@@ -1,79 +1,25 @@
+<script>
+export default {
+  props: {
+    title: { type: String, required: true },
+    value: { type: [String, Number], default: '' },
+    compact: { type: Boolean, default: false },
+  },
+};
+</script>
+
 <template>
-  <div class="conv-details--item">
-    <h4 class="conv-details--item__label text-block-title">
-      <div class="title--icon">
-        <emoji-or-icon :icon="icon" :emoji="emoji" />
+  <div class="overflow-auto" :class="compact ? 'py-0 px-0' : 'py-3 px-4'">
+    <div class="items-center flex justify-between mb-1.5">
+      <span class="text-sm font-medium text-slate-800 dark:text-slate-100">
         {{ title }}
-      </div>
-      <button
-        v-if="showEdit"
-        class="button clear small edit-button"
-        @click="onEdit"
-      >
-        {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
-      </button>
-    </h4>
-    <div v-if="value" class="conv-details--item__value">
+      </span>
+      <slot name="button" />
+    </div>
+    <div v-if="value" class="break-words">
       <slot>
         {{ value }}
       </slot>
     </div>
   </div>
 </template>
-
-<script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
-
-export default {
-  components: {
-    EmojiOrIcon,
-  },
-  props: {
-    title: { type: String, required: true },
-    icon: { type: String, default: '' },
-    emoji: { type: String, default: '' },
-    value: { type: [String, Number], default: '' },
-    showEdit: { type: Boolean, default: false },
-  },
-  methods: {
-    onEdit() {
-      this.$emit('edit');
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
-.conv-details--item {
-  padding-bottom: var(--space-normal);
-
-  .conv-details--item__label {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: var(--space-smaller);
-
-    .edit-button {
-      padding: 0;
-    }
-  }
-
-  .conv-details--item__value {
-    word-break: break-all;
-    margin-left: var(--space-medium);
-  }
-
-  .title--icon .icon--emoji,
-  .title--icon .icon--font {
-    margin-right: var(--space-small);
-  }
-
-  .title--icon {
-    display: flex;
-    align-items: center;
-  }
-}
-</style>

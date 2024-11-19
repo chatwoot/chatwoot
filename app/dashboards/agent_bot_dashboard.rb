@@ -10,13 +10,18 @@ class AgentBotDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     access_token: Field::HasOne,
     avatar_url: AvatarField,
+    avatar: Field::ActiveStorage.with_options(
+      destroy_url: proc do |_namespace, _resource, attachment|
+        [:avatar_super_admin_agent_bot, { attachment_id: attachment.id }]
+      end
+    ),
     id: Field::Number,
     name: Field::String,
+    account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),
     description: Field::String,
     outgoing_url: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
-    hide_input_for_bot_conversations: Field::Boolean
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,6 +32,7 @@ class AgentBotDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     avatar_url
+    account
     name
     outgoing_url
   ].freeze
@@ -36,10 +42,11 @@ class AgentBotDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     avatar_url
+    account
     name
     description
     outgoing_url
-    hide_input_for_bot_conversations
+    access_token
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -47,9 +54,10 @@ class AgentBotDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     name
+    avatar
+    account
     description
     outgoing_url
-    hide_input_for_bot_conversations
   ].freeze
 
   # COLLECTION_FILTERS

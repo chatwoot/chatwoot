@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import TeamsAPI from '../../api/teams';
 
 export const SET_TEAM_MEMBERS_UI_FLAG = 'SET_TEAM_MEMBERS_UI_FLAG';
@@ -46,6 +45,20 @@ export const actions = {
       commit(SET_TEAM_MEMBERS_UI_FLAG, { isCreating: false });
     }
   },
+  update: async ({ commit }, { agentsList, teamId }) => {
+    commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await TeamsAPI.updateAgents({
+        agentsList,
+        teamId,
+      });
+      commit(ADD_AGENTS_TO_TEAM, response);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -56,7 +69,10 @@ export const mutations = {
     };
   },
   [ADD_AGENTS_TO_TEAM]($state, { data, teamId }) {
-    Vue.set($state.records, teamId, data);
+    $state.records = {
+      ...$state.records,
+      [teamId]: data,
+    };
   },
 };
 

@@ -1,0 +1,95 @@
+<header class="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-slate-900">
+  <nav class="flex max-w-5xl px-4 mx-auto md:px-8" aria-label="Top">
+    <div class="flex items-center w-full py-5 overflow-hidden">
+      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, @is_plain_layout_enabled) %>" class="flex items-center h-10 text-lg font-semibold text-slate-900 dark:text-white">
+        <% if @portal.logo.present? %>
+          <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 mr-2" />
+        <% end %>
+        <%= @portal.name %>
+      </a>
+    </div>
+
+    <%# Go to homepage link section %>
+    <div class="flex items-center justify-between gap-2 sm:gap-5">
+      <% if @portal.homepage_link %>
+        <div class="hidden px-1 py-2 ml-8 cursor-pointer border-l-1 border-slate-50 dark:border-slate-800 md:block">
+          <div class="flex-grow flex-shrink-0">
+            <a id="header-action-button" target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium whitespace-nowrap text-slate-800 dark:text-slate-100 stroke-slate-700 dark:stroke-slate-200">
+              <%= render partial: 'icons/redirect' %>
+              <%= I18n.t('public_portal.header.go_to_homepage') %>
+            </a>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Appearance toggle section %>
+      <div class="relative flex-grow flex-shrink-0 px-1 py-2 cursor-pointer">
+        <button id="toggle-appearance" class="flex justify-between min-w-[76px] flex-row items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 gap-1" type="button">
+          <div data-theme="system" class="flex-row items-center gap-1 theme-button <%= @theme_from_params == 'system' ? 'flex' : 'hidden' %>">
+            <%= render partial: 'icons/monitor' %>
+            <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
+          </div>
+          <div data-theme="light" class="flex-row items-center gap-1 theme-button <%= @theme_from_params == 'light' ? 'flex' : 'hidden' %>">
+            <%= render partial: 'icons/sun' %>
+            <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
+          </div>
+          <div data-theme="dark" class="flex-row items-center gap-1 theme-button <%= @theme_from_params == 'dark' ? 'flex' : 'hidden' %>">
+            <%= render partial: 'icons/moon' %>
+            <span class="text-sm font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
+          </div>
+          <div class="flex items-center px-1 pointer-events-none">
+            <%= render partial: 'icons/chevron-down' %>
+          </div>
+        </button>
+        <%# Appearance dropdown section %>
+        <div id="appearance-dropdown" data-current-theme="<%= @theme_from_params %>" class="absolute flex-col w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 right-1 border-slate-100 dark:border-slate-800" aria-hidden="true" style="display: none;" data-dropdown="appearance-dropdown">
+          <button id="toggle-theme-button" data-theme="system" class="flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+            <div class="flex flex-row items-center gap-1">
+              <%= render partial: 'icons/monitor' %>
+              <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
+            </div>
+            <span class="check-mark-icon system-theme">
+              <%= render partial: 'icons/check-mark' %>
+            </span>
+          </button>
+          <button id="toggle-theme-button" data-theme="light" class="flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+            <div class="flex flex-row items-center gap-1">
+              <%= render partial: 'icons/sun' %>
+              <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
+            </div>
+            <span class="check-mark-icon light-theme">
+              <%= render partial: 'icons/check-mark' %>
+            </span>
+          </button>
+          <button id="toggle-theme-button" data-theme="dark" class="flex flex-row items-center justify-between gap-1 px-2 py-2 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+            <div class="flex flex-row items-center gap-1">
+              <%= render partial: 'icons/moon' %>
+              <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
+            </div>
+            <span class="check-mark-icon dark-theme">
+              <%= render partial: 'icons/check-mark' %>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <%# Locale switcher section %>
+      <% if @portal.config["allowed_locales"].length > 1 %>
+        <div id="header-action-button" class="flex items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+          <div class="flex items-center gap-1 px-1 py-2 cursor-pointer">
+            <%= render partial: 'icons/globe' %>
+            <select
+              data-portal-slug="<%= @portal.slug %>"
+              class="w-24 overflow-hidden text-sm font-medium leading-tight bg-white appearance-none cursor-pointer dark:bg-slate-900 text-ellipsis whitespace-nowrap focus:outline-none focus:shadow-outline locale-switcher"
+            >
+              <% @portal.config["allowed_locales"].each do |locale| %>
+                <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+              <% end %>
+            </select>
+            <%= render partial: 'icons/chevron-down' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </nav>
+</header>

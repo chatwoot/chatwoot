@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Bots",
+    "LOADING_EDITOR": "Loading editor...",
+    "HEADER_BTN_TXT": "Add bot configuration",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Name your bot.",
+        "ERROR": "Το Όνομα Bot είναι απαραίτητο."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Bot description",
+        "PLACEHOLDER": "Τι κάνει αυτό το bot?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Παρακαλώ εισάγετε την διαμόρφωση του CSML bot παραπάνω.",
+        "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
+      },
+      "SUBMIT": "Επαλήθευση και αποθήκευση"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Επιλέξτε ενός Agent Bot",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "SUBMIT": "Ενημέρωση",
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Επιτυχής ενημέρωση του agent bot.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
+    },
+    "ADD": {
+      "TITLE": "Ρύθμιση νέου bot",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "API": {
+        "SUCCESS_MESSAGE": "Το bot προστέθηκε επιτυχώς.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+      }
+    },
+    "LIST": {
+      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
+      "LOADING": "Fetching bots...",
+      "TYPE": "Bot type"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Διαγραφή",
+      "TITLE": "Delete bot",
+      "SUBMIT": "Διαγραφή",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "DESCRIPTION": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το bot? Αυτή η ενέργεια είναι μη αναστρέψιμη.",
+      "API": {
+        "SUCCESS_MESSAGE": "Το bot διαγράφηκε επιτυχώς.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Επεξεργασία",
+      "LOADING": "Fetching bots...",
+      "TITLE": "Edit bot",
+      "CANCEL_BUTTON_TEXT": "Άκυρο",
+      "API": {
+        "SUCCESS_MESSAGE": "Το bot ενημερώθηκε επιτυχώς.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
+    }
+  }
+}

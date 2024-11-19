@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 export const set = (state, data) => {
   state.records = data;
 };
@@ -20,7 +18,7 @@ export const setSingleRecord = (state, data) => {
 export const update = (state, data) => {
   state.records.forEach((element, index) => {
     if (element.id === data.id) {
-      Vue.set(state.records, index, data);
+      state.records[index] = data;
     }
   });
 };
@@ -29,7 +27,7 @@ export const update = (state, data) => {
 export const updateAttributes = (state, data) => {
   state.records.forEach((element, index) => {
     if (element.id === data.id) {
-      Vue.set(state.records, index, { ...state.records[index], ...data });
+      state.records[index] = { ...state.records[index], ...data };
     }
   });
 };
@@ -37,12 +35,18 @@ export const updateAttributes = (state, data) => {
 export const updatePresence = (state, data) => {
   state.records.forEach((element, index) => {
     const availabilityStatus = data[element.id];
-    if (availabilityStatus) {
-      Vue.set(state.records[index], 'availability_status', availabilityStatus);
-    } else {
-      Vue.delete(state.records[index], 'availability_status');
-    }
+    state.records[index].availability_status = availabilityStatus || 'offline';
   });
+};
+
+export const updateSingleRecordPresence = (
+  records,
+  { id, availabilityStatus }
+) => {
+  const [selectedRecord] = records.filter(record => record.id === Number(id));
+  if (selectedRecord) {
+    selectedRecord.availability_status = availabilityStatus;
+  }
 };
 
 export const destroy = (state, id) => {

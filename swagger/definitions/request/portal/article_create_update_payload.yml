@@ -1,0 +1,34 @@
+type: object
+properties:
+  content:
+    type: string
+    description: The text content.
+  meta:
+    type: object
+    description: Use for search
+    example: { tags: ['article_name'],  title: 'article title', description: 'article description' }
+  position:
+    type: integer
+    description: article position in category
+  status:
+    type: integer
+    example: ['draft', 'published', 'archived']
+  title:
+    type: string
+  slug:
+    type: string
+  views:
+    type: integer
+  portal_id:
+    type: integer
+  account_id:
+    type: integer
+  author_id:
+    type: integer
+  category_id:
+    type: integer
+  folder_id:
+    type: integer
+  associated_article_id:
+    type: integer
+    description: To associate similar articles to each other, e.g to provide the link for the reference.

@@ -1,6 +1,6 @@
 export const getters = {
   getContacts($state) {
-    return Object.values($state.records);
+    return $state.sortOrder.map(contactId => $state.records[contactId]);
   },
   getUIFlags($state) {
     return $state.uiFlags;
@@ -11,5 +11,8 @@ export const getters = {
   },
   getMeta: $state => {
     return $state.meta;
+  },
+  getAppliedContactFilters: _state => {
+    return _state.appliedFilters;
   },
 };

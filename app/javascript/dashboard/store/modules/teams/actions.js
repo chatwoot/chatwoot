@@ -22,10 +22,21 @@ export const actions = {
       commit(SET_TEAM_UI_FLAG, { isCreating: false });
     }
   },
+  revalidate: async ({ commit }, { newKey }) => {
+    try {
+      const isExistingKeyValid = await TeamsAPI.validateCacheKey(newKey);
+      if (!isExistingKeyValid) {
+        const response = await TeamsAPI.refetchAndCommit(newKey);
+        commit(SET_TEAMS, response.data);
+      }
+    } catch (error) {
+      // Ignore error
+    }
+  },
   get: async ({ commit }) => {
     commit(SET_TEAM_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await TeamsAPI.get();
+      const { data } = await TeamsAPI.get(true);
       commit(CLEAR_TEAMS);
       commit(SET_TEAMS, data);
     } catch (error) {
@@ -56,7 +67,7 @@ export const actions = {
     commit(SET_TEAM_UI_FLAG, { isUpdating: true });
     try {
       const response = await TeamsAPI.update(id, updateObj);
-      commit(EDIT_TEAM, response.data.payload);
+      commit(EDIT_TEAM, response.data);
     } catch (error) {
       throw new Error(error);
     } finally {

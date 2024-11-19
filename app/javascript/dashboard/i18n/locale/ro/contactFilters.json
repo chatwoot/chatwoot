@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtrarea persoanelor de contact",
+    "SUBTITLE": "Adăugați filtre mai jos și apăsați pe \"Aplicați filtre\" pentru a filtra conversațiile.",
+    "EDIT_CUSTOM_SEGMENT": "Modifică segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Adăugați sau eliminați filtrele și actualizați segmentul.",
+    "ADD_NEW_FILTER": "Adăugare filtru",
+    "CLEAR_ALL_FILTERS": "Şterge toate filtrele",
+    "FILTER_DELETE_ERROR": "Ar trebui să aveți atleast un filtru pentru a salva",
+    "SUBMIT_BUTTON_LABEL": "Trimite",
+    "UPDATE_BUTTON_LABEL": "Actualizare Segment",
+    "CANCEL_BUTTON_LABEL": "Renunță",
+    "CLEAR_BUTTON_LABEL": "Elimină filtre",
+    "EMPTY_VALUE_ERROR": "Este necesară o valoare validă",
+    "SEGMENT_LABEL": "Nume Segment",
+    "SEGMENT_QUERY_LABEL": "Interogare Segment",
+    "TOOLTIP_LABEL": "Filtrarea persoanelor de contact",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ȘI",
+      "OR": "SAU"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Egal cu",
+      "not_equal_to": "Nu este egal cu",
+      "contains": "Conține",
+      "does_not_contain": "Nu conține",
+      "is_present": "Este prezent",
+      "is_not_present": "Nu este prezent",
+      "is_greater_than": "Este mai mare decât",
+      "is_lesser_than": "Este mai mică decât",
+      "days_before": "Este x zile înainte"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Este necesară o valoare validă"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nume",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Număr de telefon",
+      "IDENTIFIER": "Identificator",
+      "CITY": "Oraș",
+      "COUNTRY": "Țară",
+      "CUSTOM_ATTRIBUTE_LIST": "Listă",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Număr",
+      "CUSTOM_ATTRIBUTE_LINK": "Legătură",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
+      "CREATED_AT": "Creat la",
+      "LAST_ACTIVITY": "Ultima activitate",
+      "REFERER_LINK": "Link de referință",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtre standard",
+      "ADDITIONAL_FILTERS": "Filtre suplimentare",
+      "CUSTOM_ATTRIBUTES": "Editează atribut personalizat"
+    }
+  }
+}

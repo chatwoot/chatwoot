@@ -1,19 +1,20 @@
-class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts::BaseController
-  before_action :ensure_contact
+class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts::Contacts::BaseController
+  include HmacConcern
   before_action :ensure_inbox, only: [:create]
 
   def create
-    source_id = params[:source_id] || SecureRandom.uuid
-    @contact_inbox = ContactInbox.create!(contact: @contact, inbox: @inbox, source_id: source_id)
+    @contact_inbox = ContactInboxBuilder.new(
+      contact: @contact,
+      inbox: @inbox,
+      source_id: params[:source_id],
+      hmac_verified: hmac_verified?
+    ).perform
   end
 
   private
 
   def ensure_inbox
     @inbox = Current.account.inboxes.find(params[:inbox_id])
-  end
-
-  def ensure_contact
-    @contact = Current.account.contacts.find(params[:contact_id])
+    authorize @inbox, :show?
   end
 end

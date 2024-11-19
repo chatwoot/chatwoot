@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "تطبيق",
+    "CLEAR_BUTTON": "مسح",
+    "DATE_RANGE_INPUT": {
+      "START": "تاريخ البدء",
+      "END": "تاريخ الانتهاء"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "نطاق التاريخ",
+      "LAST_7_DAYS": "آخر 7 أيام",
+      "LAST_30_DAYS": "آخر 30 يوماً",
+      "LAST_3_MONTHS": "آخر 3 أشهر",
+      "LAST_6_MONTHS": "آخر 6 أشهر",
+      "LAST_YEAR": "العام الماضي",
+      "CUSTOM_RANGE": "تحديد نطاق التاريخ"
+    }
+  }
+}

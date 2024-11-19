@@ -3,8 +3,9 @@
     "HEADER": "Etiketter",
     "HEADER_BTN_TXT": "Tilføj etiket",
     "LOADING": "Henter etiketter",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
-    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>Etiketter hjælper dig med at kategorisere samtaler og prioritere dem. Du kan tildele etiket til en samtale fra dit sidepanel. <br /><br />Etiketter er bundet til kontoen og kan bruges til at oprette brugerdefinerede arbejdsgange i din organisation. Du kan tildele brugerdefineret farve til en etiket, det gør det lettere at identificere etiketten. Du vil være i stand til at vise etiketten på sidepanelet for nemt at filtrere samtalerne.</p>",
     "LIST": {
       "404": "Der er ingen tilgængelige etiketter på denne konto.",
       "TITLE": "Administrer etiketter",
@@ -19,7 +20,9 @@
       "NAME": {
         "LABEL": "Etiket Navn",
         "PLACEHOLDER": "Etiket Navn",
-        "ERROR": "Etiketnavn er påkrævet"
+        "REQUIRED_ERROR": "Etiketnavn er påkrævet",
+        "MINIMUM_LENGTH_ERROR": "Mindste længde 2 er påkrævet",
+        "VALID_ERROR": "Kun alfabeter, tal, bindestreger og understregning er tilladt"
       },
       "DESCRIPTION": {
         "LABEL": "Beskrivelse",
@@ -35,6 +38,20 @@
       "CREATE": "Opret",
       "DELETE": "Slet",
       "CANCEL": "Annuller"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Tilføj etiket",

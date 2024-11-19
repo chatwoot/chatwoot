@@ -1,38 +1,44 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Załóż konto",
+    "TRY_WOOT": "Utwórz konto",
     "TITLE": "Rejestracja",
-    "TERMS_ACCEPT": "Rejestrując się, akceptujesz naszą <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politykę prywatności</a>",
-    "ACCOUNT_NAME": {
-      "LABEL": "Nazwa konta",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+    "TESTIMONIAL_HEADER": "Wszystko czego potrzebujesz to jeden krok do przodu",
+    "TESTIMONIAL_CONTENT": "Jesteś tylko jeden krok od zaangażowania swoich klientów, zatrzymania ich i znalezienia nowych.",
+    "TERMS_ACCEPT": "Tworząc konto, zgadzasz się na nasze <a href=\"https://www.chatwoot.com/terms\">Warunki korzystania</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">Politykę prywatności</a>",
+    "OAUTH": {
+      "GOOGLE_SIGNUP": "Zarejestruj się za pomocą Google"
+    },
+    "COMPANY_NAME": {
+      "LABEL": "Nazwa firmy",
+      "PLACEHOLDER": "Wprowadź nazwę swojej firmy, np. Wayne Enterprises",
+      "ERROR": "Nazwa firmy jest zbyt krótka"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Imię i nazwisko",
+      "PLACEHOLDER": "Wprowadź swoje imię i nazwisko, np. Bruce Wayne",
+      "ERROR": "Imię i nazwisko są zbyt krótkie"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "E-mail służbowy",
+      "PLACEHOLDER": "Podaj swój służbowy adres e-mail, np. bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Wprowadź poprawny adres e-mail służbowy"
     },
     "PASSWORD": {
       "LABEL": "Hasło",
       "PLACEHOLDER": "Hasło",
-      "ERROR": "Hasło jest zbyt krótkie"
+      "ERROR": "Hasło jest zbyt krótkie",
+      "IS_INVALID_PASSWORD": "Hasło powinno zawierać co najmniej 1 wielką literę, 1 małą literę, 1 cyfrę i 1 znak specjalny"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potwierdź hasło",
       "PLACEHOLDER": "Potwierdź hasło",
-      "ERROR": "Hasło nie zgadza się"
+      "ERROR": "Hasła nie zgadzają się"
     },
     "API": {
       "SUCCESS_MESSAGE": "Rejestracja powiodła się",
-      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie później"
     },
-    "SUBMIT": "Prześlij",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "Utwórz konto",
+    "HAVE_AN_ACCOUNT": "Masz już konto?"
   }
 }

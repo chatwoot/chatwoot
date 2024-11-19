@@ -1,0 +1,73 @@
+{
+  "AGENT_BOTS": {
+    "HEADER": "Robôs",
+    "LOADING_EDITOR": "Carregando Editor...",
+    "HEADER_BTN_TXT": "Adicionar configuração do robô",
+    "SIDEBAR_TXT": "<p><b>Bots Agentes</b></p> <p>Bots Agentes são como os melhores membros da sua equipe. Eles podem lidar com coisas pequenas, para que você possa se concentrar no que realmente importa. Experimente-os.</p> <p>Você pode gerenciar seus bots desta página ou criar novos usando o botão 'Adicionar configuração de bot'.</p> <p>Abra o <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"_blank\">Manual do Bot Agente</a> em outra aba para obter ajuda.</p>",
+    "CSML_BOT_EDITOR": {
+      "NAME": {
+        "LABEL": "Nome do Robô",
+        "PLACEHOLDER": "Nomeie seu Robô.",
+        "ERROR": "O nome do bot é obrigatório."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição do Robô",
+        "PLACEHOLDER": "O que esse robô faz?"
+      },
+      "BOT_CONFIG": {
+        "ERROR": "Por favor, insira a configuração CSML do bot acima.",
+        "API_ERROR": "Sua configuração CSML é inválida. Por favor, corrija e tente novamente."
+      },
+      "SUBMIT": "Validar e salvar"
+    },
+    "BOT_CONFIGURATION": {
+      "TITLE": "Selecione um robô de agente",
+      "DESC": "Atribua um Agente Robô à sua caixa de entrada. Eles podem lidar com as conversas iniciais e transferi-las para um agente humano quando necessário.",
+      "SUBMIT": "Atualizar",
+      "DISCONNECT": "Desconectar Robô",
+      "SUCCESS_MESSAGE": "Agente de bot atualizado com sucesso.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Bot desconectado com sucesso.",
+      "ERROR_MESSAGE": "Não foi possível atualizar o agente robô. Por favor, tente novamente mais tarde.",
+      "DISCONNECTED_ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde.",
+      "SELECT_PLACEHOLDER": "Selecionar Robô"
+    },
+    "ADD": {
+      "TITLE": "Configurar novo robô",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível adicionar o agente robô! Por favor, tente novamente mais tarde."
+      }
+    },
+    "LIST": {
+      "404": "Nenhum robô encontrado. Você pode criar um robô clicando no botão 'Configurar novo robô' ↗",
+      "LOADING": "Buscando robôs...",
+      "TYPE": "Tipo de Robô"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "TITLE": "Deletar robô",
+      "SUBMIT": "Excluir",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "DESCRIPTION": "Tem certeza que deseja excluir este bot? Esta ação é irreversível.",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o robô. Por favor, tente novamente."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Alterar",
+      "LOADING": "Buscando robôs...",
+      "TITLE": "Editar Robô",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "SUCCESS_MESSAGE": "Bot atualizado com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
+      }
+    },
+    "TYPES": {
+      "WEBHOOK": "Webhook robô",
+      "CSML": "CSML robô"
+    }
+  }
+}

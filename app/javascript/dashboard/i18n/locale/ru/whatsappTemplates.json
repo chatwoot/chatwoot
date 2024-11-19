@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Шаблоны Whatsapp",
+            "SUBTITLE": "Выберите шаблон whatsapp, который вы хотите отправить",
+            "TEMPLATE_SELECTED_SUBTITLE": "Обработка {templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Найти шаблоны",
+            "NO_TEMPLATES_FOUND": "Не найдено шаблонов для",
+            "LABELS": {
+                "LANGUAGE": "Язык",
+                "TEMPLATE_BODY": "Тело шаблона",
+                "CATEGORY": "Категория"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Переменные",
+            "VARIABLE_PLACEHOLDER": "Введите значение {variable}",
+            "GO_BACK_LABEL": "Вернуться",
+            "SEND_MESSAGE_LABEL": "Отправить сообщение",
+            "FORM_ERROR_MESSAGE": "Пожалуйста, заполните все переменные перед отправкой"
+        }
+    }
+}

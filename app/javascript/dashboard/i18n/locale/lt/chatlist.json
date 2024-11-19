@@ -1,0 +1,131 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Pokalbiai parsiunčiami",
+    "LOAD_MORE_CONVERSATIONS": "Parsiųsti daugiau pokalbių",
+    "EOF": "Visi poklabiai parsiųsti",
+    "LIST": {
+      "404": "Šioje grupėje nėra aktyvių pokalbių."
+    },
+    "TAB_HEADING": "Pokalbiai",
+    "MENTION_HEADING": "Paminėjimai",
+    "UNATTENDED_HEADING": "Be priežiūros",
+    "SEARCH": {
+      "INPUT": "Ieškoti Žmonių, Pokalbių, Išsaugotų Atsakymų.."
+    },
+    "FILTER_ALL": "Visi",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mano",
+      "unassigned": "Ne priskirtas",
+      "all": "Visi"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Atidaryti"
+      },
+      "resolved": {
+        "TEXT": "Išspręsta"
+      },
+      "pending": {
+        "TEXT": "Laukiama"
+      },
+      "snoozed": {
+        "TEXT": "Atidėta"
+      },
+      "all": {
+        "TEXT": "Visi"
+      }
+    },
+    "VIEW_FILTER": "Paržiūra",
+    "SORT_TOOLTIP_LABEL": "Rūšiuoti pokalbius",
+    "CHAT_SORT": {
+      "STATUS": "Būsena",
+      "ORDER_BY": "Rūšiuoti pagal"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Sukurta",
+        "OLDEST": "Sukurta:"
+      },
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Paskutiniai veiksmai:",
+        "ACTIVE": "Paskutiniai veiksmai"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Paskutinė veikla: nuo seniausio"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "Paskutinė veikla: nuo naujausio"
+      },
+      "created_at_desc": {
+        "TEXT": "Sukurta: nuo naujausio"
+      },
+      "created_at_asc": {
+        "TEXT": "Sukurta: nuo seniausio"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritetas: nuo aukščiausio"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritetas: nuo žemiausio"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Laukia atsakymo: nuo ilgiausio"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Laukia atsakymo: nuo trumpiausio"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Vaizdinė žinutė"
+      },
+      "audio": {
+        "CONTENT": "Garso žinutė"
+      },
+      "video": {
+        "CONTENT": "Video žinutė"
+      },
+      "file": {
+        "CONTENT": "Failas pridėtas"
+      },
+      "location": {
+        "CONTENT": "Vieta"
+      },
+      "fallback": {
+        "CONTENT": "pasidalino URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Rūšiuoti pokalbį",
+      "DROPDOWN_TITLE": "Rūšiuoti pagal",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Paskutiniai veiksmai",
+          "LABEL": "Paskutiniai veiksmai"
+        },
+        "CREATED_AT": {
+          "NAME": "Sukurta",
+          "LABEL": "Sukurta"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Paskutinė vartotojo žinutė",
+          "LABEL": "Paskutinė žinutė"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Gauta el. paštu",
+    "VIEW_TWEET_IN_TWITTER": "Pažiūrėti Twitter tweetus",
+    "REPLY_TO_TWEET": "Atsakyti į šitą tweetą",
+    "LINK_TO_STORY": "Eikite į Instagram istoriją",
+    "SENT": "Išsiųsta sėkmingai",
+    "READ": "Perskaityta sėkmingai",
+    "DELIVERED": "Pristatyta sėkmingai",
+    "NO_MESSAGES": "Nėra Pranešimų",
+    "NO_CONTENT": "Nėra turinio",
+    "HIDE_QUOTED_TEXT": "Slėpti cituojamą tekstą",
+    "SHOW_QUOTED_TEXT": "Rodyti cituojamą tekstą",
+    "MESSAGE_READ": "Skaityti"
+  }
+}

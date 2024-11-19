@@ -1,0 +1,53 @@
+parameters:
+  - $ref: '#/parameters/account_id'
+
+get:
+  tags:
+    - Conversations
+  operationId: conversationListMeta
+  description: Get open, unassigned and all Conversation counts
+  summary: Get Conversation Counts
+  parameters:
+    - name: status
+      in: query
+      type: string
+      enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
+      default: 'open'
+      description: Filter by conversation status.
+    - name: q
+      in: query
+      type: string
+      description: Filters conversations with messages containing the search term
+    - name: inbox_id
+      in: query
+      type: integer
+    - name: team_id
+      in: query
+      type: integer
+    - name: labels
+      in: query
+      type: array
+      items:
+        type: string
+
+  responses:
+    200:
+      description: Success
+      schema:
+        type: object
+        properties:
+          meta:
+            type: object
+            properties:
+              mine_count:
+                type: number
+              unassigned_count:
+                type: number
+              assigned_count:
+                type: number
+              all_count:
+                type: number
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'

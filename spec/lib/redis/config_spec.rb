@@ -1,32 +1,22 @@
 require 'rails_helper'
 
-describe ::Redis::Config do
+describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      allow(ENV).to receive(:fetch).with('REDIS_URL', 'redis://127.0.0.1:6379').and_return(redis_url)
-      allow(ENV).to receive(:fetch).with('REDIS_PASSWORD', nil).and_return(redis_pasword)
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINELS', nil).and_return('')
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINEL_MASTER_NAME', 'mymaster').and_return('')
-      described_class.config
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
+        described_class.config
+      end
     end
 
     it 'checks for app redis config' do
       app_config = described_class.app
-      expect(app_config.keys).to match_array([:url, :password])
+      expect(app_config.keys).to contain_exactly(:url, :password, :timeout, :reconnect_attempts, :ssl_params)
       expect(app_config[:url]).to eq(redis_url)
       expect(app_config[:password]).to eq(redis_pasword)
-    end
-
-    it 'checks for sidekiq redis config' do
-      sidekiq_config = described_class.sidekiq
-      expect(sidekiq_config.keys).to match_array([:url, :password, :size])
-      expect(sidekiq_config[:url]).to eq redis_url
-      expect(sidekiq_config[:password]).to eq redis_pasword
-      expect(sidekiq_config[:size]).to eq described_class::SIDEKIQ_SIZE
     end
   end
 
@@ -46,22 +36,67 @@ describe ::Redis::Config do
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      allow(ENV).to receive(:fetch).with('REDIS_URL', 'redis://127.0.0.1:6379').and_return(redis_url)
-      allow(ENV).to receive(:fetch).with('REDIS_PASSWORD', nil).and_return(redis_pasword)
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINELS', nil).and_return(redis_sentinels)
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINEL_MASTER_NAME', 'mymaster').and_return(redis_master_name)
-      described_class.config
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+                        REDIS_SENTINEL_MASTER_NAME: redis_master_name do
+        described_class.config
+      end
+    end
+
+    after do
+      # ensuring the redis config is unset and won't affect other tests
+      described_class.instance_variable_set(:@config, nil)
     end
 
     it 'checks for app redis config' do
-      expect(described_class.app.keys).to match_array([:url, :password, :sentinels])
+      expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
     end
 
-    it 'checks for sidekiq redis config' do
-      expect(described_class.sidekiq.keys).to match_array([:url, :password, :sentinels, :size])
-      expect(described_class.sidekiq[:size]).to eq described_class::SIDEKIQ_SIZE
+    context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD empty string' do
+      let(:redis_sentinel_password) { '' }
+
+      before do
+        described_class.instance_variable_set(:@config, nil)
+        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+                          REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
+          described_class.config
+        end
+      end
+
+      after do
+        # ensuring the redis config is unset and won't affect other tests
+        described_class.instance_variable_set(:@config, nil)
+      end
+
+      it 'checks for app redis config and sentinel passwords will be empty' do
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
+        expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.except(:password) })
+      end
+    end
+
+    context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD' do
+      let(:redis_sentinel_password) { 'sentinel_password' }
+
+      before do
+        described_class.instance_variable_set(:@config, nil)
+        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+                          REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
+          described_class.config
+        end
+      end
+
+      after do
+        # ensuring the redis config is unset and won't affect other tests
+        described_class.instance_variable_set(:@config, nil)
+      end
+
+      it 'checks for app redis config and redis password is replaced in sentinel config' do
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
+        expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.merge(password: redis_sentinel_password) })
+      end
     end
   end
 end

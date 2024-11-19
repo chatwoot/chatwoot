@@ -1,0 +1,359 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profila Iestatījumi",
+    "TITLE": "Profila Iestatījumi",
+    "BTN_TEXT": "Atjaunināt Profilu",
+    "DELETE_AVATAR": "Dzēst Avatāru",
+    "AVATAR_DELETE_SUCCESS": "Avatārs ir veiksmīgi izdzēsts",
+    "AVATAR_DELETE_FAILED": "Avatāra dzēšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "UPDATE_SUCCESS": "Jūsu profils ir veiksmīgi atjaunināts",
+    "PASSWORD_UPDATE_SUCCESS": "Jūsu parole ir veiksmīgi nomainīta",
+    "AFTER_EMAIL_CHANGED": "Jūsu profils ir veiksmīgi atjaunināts. Lūdzu, atkārtoti pierakstieties, jo Jūsu akreditācijas dati ir mainīti",
+    "FORM": {
+      "PICTURE": "Profila Attēls",
+      "AVATAR": "Profila Attēls",
+      "ERROR": "Lūdzu, izlabojiet veidlapas kļūdas",
+      "REMOVE_IMAGE": "Noņemt",
+      "UPLOAD_IMAGE": "Augšupielādēt attēlu",
+      "UPDATE_IMAGE": "Atjaunināt attēlu",
+      "PROFILE_SECTION": {
+        "TITLE": "Profils",
+        "NOTE": "Jūsu e -pasta adrese ir jūsu identitāte, un to izmanto lai pierakstītos."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "Karstais taustiņš ziņojumu sūtīšanai",
+        "NOTE": "Jūs varat izvēlēties karsto taustiņu (vai nu Enter, vai Cmd/Ctrl+Enter), pamatojoties uz Jūsu rakstības ieradumiem.",
+        "UPDATE_SUCCESS": "Jūsu iestatījumi ir veiksmīgi atjaunināti",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Sūtīt ziņojumus, nospiežot taustiņu Enter, nevis noklikšķinot uz pogas Sūtīt."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Sūtīt ziņojumus, nospiežot taustiņu Cmd/Ctrl + Enter, nevis noklikšķinot uz pogas Sūtīt."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personīgais ziņojuma paraksts",
+        "NOTE": "Izveidot unikālu ziņojuma parakstu, kas parādās katra ziņojuma beigās, kuru sūtāt no jebkuras iesūtnes. Varat arī iekļaut attēlu, kas tiek atbalstīts tiešraidē, e-pastā un API iesūtnēs.",
+        "BTN_TEXT": "Saglabāt ziņojuma parakstu",
+        "API_ERROR": "Nevarēja saglabāt parakstu! Lūdzu, mēģiniet vēlreiz",
+        "API_SUCCESS": "Paraksts ir veiksmīgi saglabāts",
+        "IMAGE_UPLOAD_ERROR": "Nevarēja augšupielādēt attēlu! Lūdzu, mēģiniet vēlreiz",
+        "IMAGE_UPLOAD_SUCCESS": "Attēls ir veiksmīgi pievienots. Lūdzu, noklikšķiniet uz saglabāt, lai saglabātu parakstu",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Attēla izmēram ir jābūt mazākam par {size}MB"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Ziņojuma Paraksts",
+        "ERROR": "Ziņojuma Paraksts nevar būt tukšs",
+        "PLACEHOLDER": "Ievietojiet savu personīgo ziņojumu parakstu šeit."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Parole",
+        "NOTE": "Paroles atjaunināšana varētu atiestatīt jūsu pierakstīšanos vairākās ierīcēs.",
+        "BTN_TEXT": "Mainīt paroli"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Piekļuves Token",
+        "NOTE": "Šo token var izmantot, ja veidojat uz API balstītu integrāciju",
+        "COPY": "Kopēt"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Paziņojumi",
+        "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
+        "ALERT_TYPES": {
+          "NONE": "Nav",
+          "MINE": "Piešķirts",
+          "ALL": "Visi"
+        },
+        "ALERT_TYPE": {
+          "TITLE": "Brīdinājuma notikumi sarunām:",
+          "NONE": "Nav",
+          "ASSIGNED": "Piešķirtās Sarunas",
+          "ALL_CONVERSATIONS": "Visas Sarunas"
+        },
+        "DEFAULT_TONE": {
+          "TITLE": "Brīdinājumu signāls:"
+        },
+        "CONDITIONS": {
+          "TITLE": "Brīdinājumu nosacījumi:",
+          "CONDITION_ONE": "Sūtīt audio brīdinājumus tikai tad, ja pārlūkprogrammas logs nav aktīvs",
+          "CONDITION_TWO": "Sūtīt brīdinājumus ik pēc 30 sekundēm, līdz visas piešķirtās sarunas ir izlasītas"
+        }
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-pasta Ziņojumi",
+        "NOTE": "Atjauniniet savas e -pasta paziņojumu preferences šeit",
+        "CONVERSATION_ASSIGNMENT": "Nosūtīt e -pasta paziņojumus, kad man tiek piešķirta saruna",
+        "CONVERSATION_CREATION": "Nosūtīt e -pasta paziņojumus, kad tiek izveidota jauna saruna",
+        "CONVERSATION_MENTION": "Nosūtīt e -pasta paziņojumus, kad tiekat pieminēts sarunā",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt e-pasta paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
+        "SLA_MISSED_FIRST_RESPONSE": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts pirmās atbildes SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts nākamās atbildes SLA",
+        "SLA_MISSED_RESOLUTION": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Paziņojumu preferences",
+        "TYPE_TITLE": "Paziņojuma veids",
+        "EMAIL": "E-pasts",
+        "PUSH": "Push paziņojums",
+        "TYPES": {
+          "CONVERSATION_CREATED": "Tiek izveidota jauna saruna",
+          "CONVERSATION_ASSIGNED": "Jums ir piešķirta saruna",
+          "CONVERSATION_MENTION": "Jūs esat pieminēts sarunā",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Piešķirtajā sarunā ir izveidots jauns ziņojums",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Dalības sarunā ir izveidots jauns ziņojums",
+          "SLA_MISSED_FIRST_RESPONSE": "Sarunā ir nokavēts pirmās atbildes SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "Sarunā ir nokavēts nākamās atbildes SLA",
+          "SLA_MISSED_RESOLUTION": "Sarunā ir nokavēts atrisināšanas SLA"
+        },
+        "BROWSER_PERMISSION": "Iespējojiet push paziņojumus savā pārlūkprogrammā, lai varētu tos saņemt"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Jūsu paziņojumu preferences ir veiksmīgi atjauninātas",
+        "UPDATE_ERROR": "Preferenču atjaunināšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Paziņojumi",
+        "NOTE": "Atjauniniet savas Push paziņojumu preferences šeit",
+        "CONVERSATION_ASSIGNMENT": "Nosūtīt push paziņojumus, kad man tiek piešķirta saruna",
+        "CONVERSATION_CREATION": "Nosūtīt push paziņojumus, kad tiek izveidota jauna saruna",
+        "CONVERSATION_MENTION": "Nosūtīt push paziņojumus, kad tiekat pieminēts sarunā",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt push paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt push paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
+        "HAS_ENABLED_PUSH": "Jūs esat iespējojis push šajā pārlūkprogrammā.",
+        "REQUEST_PUSH": "Iespējot push paziņojumus",
+        "SLA_MISSED_FIRST_RESPONSE": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts pirmās atbildes SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts nākamās atbildes SLA",
+        "SLA_MISSED_RESOLUTION": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profila Attēls"
+      },
+      "NAME": {
+        "LABEL": "Jūsu pilnais vārds",
+        "ERROR": "Lūdzu, ievadiet derīgu pilnu vārdu",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu pilno vārdu"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Parādāmais vārds",
+        "ERROR": "Lūdzu, ievadiet derīgu parādāmo vārdu",
+        "PLACEHOLDER": "Lūdzu, ievadiet parādāmo vārdu, tas tiks parādīts sarunās"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Pieejamība",
+        "STATUSES_LIST": [
+          "Tiešsaistē",
+          "Aizņemts",
+          "Bezsaistē"
+        ],
+        "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
+        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
+      },
+      "EMAIL": {
+        "LABEL": "Jūsu e-pasta adrese",
+        "ERROR": "Lūdzu, ievadiet derīgu e-pasta adresi",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu e-pasta adresi, tā tiks parādīta sarunās"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Pašreizējā parole",
+        "ERROR": "Lūdzu, ievadiet pašreizējo paroli",
+        "PLACEHOLDER": "Lūdzu, ievadiet pašreizējo paroli"
+      },
+      "PASSWORD": {
+        "LABEL": "Jauna parole",
+        "ERROR": "Lūdzu, ievadiet paroli, kuras garums ir 6 vai vairāk simboli",
+        "PLACEHOLDER": "Lūdzu, ievadiet jauno paroli"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Apstipriniet jauno paroli",
+        "ERROR": "Apstiprinājuma parolei ir jāsakrīt ar paroli",
+        "PLACEHOLDER": "Lūdzu, vēlreiz ievadiet savu jauno paroli"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Mainīt",
+    "CHANGE_ACCOUNTS": "Pārslēgt Kontu",
+    "CONTACT_SUPPORT": "Sazināties ar Atbalsta Dienestu",
+    "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
+    "PROFILE_SETTINGS": "Profila Iestatījumi",
+    "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
+    "APPEARANCE": "Mainīt Izskatu",
+    "SUPER_ADMIN_CONSOLE": "Superadministratora Konsole",
+    "LOGOUT": "Izrakstīties"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "izmēģinājuma dienas atlikušas.",
+    "TRAIL_BUTTON": "Pirkt Tagad",
+    "DELETED_USER": "Dzēsts Lietotājs",
+    "EMAIL_VERIFICATION_PENDING": "Izskatās, ka Jūs vēl neesat verificējis savu e-pasta adresi. Lūdzu, izlasiet savā iesūtnē verifikācijas e-pasta ziņojumu.",
+    "RESEND_VERIFICATION_MAIL": "Sūtīt verifikācijas e-pastu atkārtoti",
+    "EMAIL_VERIFICATION_SENT": "Verifikācijas e-pasts ir nosūtīts. Lūdzu, pārbaudiet savu iesūtni.",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Konts Iesaldēts",
+      "MESSAGE": "Jūsu konts ir iesaldēts. Lai iegūtu papildu informāciju, lūdzu, sazinieties ar atbalsta komandu."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopēt",
+      "CODEPEN": "Atvērt programmā CodePen",
+      "COPY_SUCCESSFUL": "Kopēts starpliktuvē"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Parādīt Vairāk",
+      "SHOW_LESS": "Parādīt Mazāk"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Lejupielādēt",
+      "UPLOADING": "Notiek augšupielāde...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "Šis stāsts vairs nav pieejams."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Skatīt kartē"
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Iesniegt"
+    }
+  },
+  "CONFIRM_EMAIL": "Notiek pārbaude...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Pievienot Iesūtni"
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
+    "SWITCH": "Pārslēgt",
+    "INBOX_VIEW": "Iesūtnes Skats",
+    "CONVERSATIONS": "Sarunas",
+    "INBOX": "Iesūtne",
+    "ALL_CONVERSATIONS": "Visas Sarunas",
+    "MENTIONED_CONVERSATIONS": "Pieminēšanas",
+    "PARTICIPATING_CONVERSATIONS": "Piedalās",
+    "UNATTENDED_CONVERSATIONS": "Bez uzraudzības",
+    "REPORTS": "Pārskati",
+    "SETTINGS": "Iestatījumi",
+    "CONTACTS": "Kontaktpersonas",
+    "CAPTAIN": "Captain",
+    "HOME": "Sākums",
+    "AGENTS": "Aģenti",
+    "AGENT_BOTS": "Bots",
+    "AUDIT_LOGS": "Audita Žurnāli",
+    "INBOXES": "Iesūtnes",
+    "NOTIFICATIONS": "Paziņojumi",
+    "CANNED_RESPONSES": "Sagatavotās Atbildes",
+    "INTEGRATIONS": "Integrācijas",
+    "PROFILE_SETTINGS": "Profila Iestatījumi",
+    "ACCOUNT_SETTINGS": "Konta Iestatījumi",
+    "APPLICATIONS": "Lietojumprogrammas",
+    "LABELS": "Etiķetes",
+    "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības",
+    "AUTOMATION": "Automatizācija",
+    "MACROS": "Macros",
+    "TEAMS": "Komandas",
+    "BILLING": "Norēķini",
+    "CUSTOM_VIEWS_FOLDER": "Mapes",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
+    "ALL_CONTACTS": "Visi Kontakti",
+    "TAGGED_WITH": "Marķēts ar",
+    "NEW_LABEL": "Jauna etiķete",
+    "NEW_TEAM": "Jauna komanda",
+    "NEW_INBOX": "Jauna iesūtne",
+    "REPORTS_CONVERSATION": "Sarunas",
+    "CSAT": "CSAT",
+    "CAMPAIGNS": "Kampaņas",
+    "ONGOING": "Notiekošs",
+    "ONE_OFF": "Vienreizējs",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
+    "REPORTS_AGENT": "Aģenti",
+    "REPORTS_LABEL": "Etiķetes",
+    "REPORTS_INBOX": "Iesūtne",
+    "REPORTS_TEAM": "Komanda",
+    "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Pielāgotas lomas",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Pārskats",
+    "REAUTHORIZE": "Jūsu iesūtnes savienojuma termiņš ir beidzies. Lūdzu, pievienojiet vēlreiz\n lai turpinātu saņemt un sūtīt ziņas",
+    "HELP_CENTER": {
+      "TITLE": "Palīdzības centrs",
+      "ALL_ARTICLES": "Visi Raksti",
+      "MY_ARTICLES": "Mani Raksti",
+      "DRAFT": "Melnraksts",
+      "ARCHIVED": "Arhivēts",
+      "CATEGORY": "Kategorija",
+      "SETTINGS": "Iestatījumi",
+      "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
+    },
+    "SET_AUTO_OFFLINE": {
+      "TEXT": "Automātiski atzīmēt bezsaistē",
+      "INFO_TEXT": "Ļaut sistēmai, kad neizmantojat lietotni vai informācijas paneli, automātiski atzīmēt Jūs bezsaistē."
+    },
+    "DOCS": "Lasīt dokumentus"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Norēķini",
+    "CURRENT_PLAN": {
+      "TITLE": "Pašreizējais Norēķinu Plāns",
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Pārvaldīt savu abonementu",
+      "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
+      "BUTTON_TXT": "Doties uz norēķinu portālu"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Nepieciešama palīdzība?",
+      "DESCRIPTION": "Vai Jūs saskārāties ar kādām problēmām norēķinu laikā? Mēs esam šeit, lai palīdzētu.",
+      "BUTTON_TXT": "Tērzēt ar mums"
+    },
+    "NO_BILLING_USER": "Jūsu norēķinu konts tiek konfigurēts. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Ak, vai! Mēs nevarējām atrast nevienu chatwoot kontu. Lūdzu, izveidojiet jaunu kontu, lai turpinātu.",
+    "NEW_ACCOUNT": "Jauns Konts",
+    "SELECTOR_SUBTITLE": "Izveidot jaunu kontu",
+    "API": {
+      "SUCCESS_MESSAGE": "Konts ir veiksmīgi izveidots",
+      "EXIST_MESSAGE": "Konts jau pastāv",
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Uzņēmuma Nosaukums",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Iesniegt"
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TOGGLE_MODAL": "Skatīt visus īsinājumtaustiņus",
+    "TITLE": {
+      "OPEN_CONVERSATION": "Atvērt sarunu",
+      "RESOLVE_AND_NEXT": "Atrisināt un pāriet uz nākamo",
+      "NAVIGATE_DROPDOWN": "Pārvietoties starp nolaižamā saraksta vienumiem",
+      "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
+      "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
+      "ADD_ATTACHMENT": "Pievienot Pielikumu",
+      "GO_TO_CONTACTS_DASHBOARD": "Doties uz Kontaktu Informācijas Paneli",
+      "TOGGLE_SIDEBAR": "Pārslēgt Sānjoslu",
+      "GO_TO_REPORTS_SIDEBAR": "Doties uz Pārskatu sānjoslu",
+      "MOVE_TO_NEXT_TAB": "Pāriet uz sarunu saraksta nākamo cilni",
+      "GO_TO_SETTINGS": "Doties uz Iestatījumiem",
+      "SWITCH_TO_PRIVATE_NOTE": "Pārslēgties uz Privāto Piezīmi",
+      "SWITCH_TO_REPLY": "Pārslēgties uz Atbildi",
+      "TOGGLE_SNOOZE_DROPDOWN": "Pārslēgt atlikšanas nolaižamo izvēlni"
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
+      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "FORWARD_SLASH_KEY": "/"
+    }
+  }
+}

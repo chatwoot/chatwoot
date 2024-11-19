@@ -1,4 +1,19 @@
+require 'net/imap'
+
 module ExceptionList
-  URI_EXCEPTIONS = [Errno::ETIMEDOUT, Errno::ECONNREFUSED, URI::InvalidURIError, Net::OpenTimeout, SocketError].freeze
-  REST_CLIENT_EXCEPTIONS = [RestClient::NotFound, RestClient::GatewayTimeout, RestClient::BadRequest, RestClient::MethodNotAllowed].freeze
+  REST_CLIENT_EXCEPTIONS = [RestClient::NotFound, RestClient::GatewayTimeout, RestClient::BadRequest,
+                            RestClient::MethodNotAllowed, RestClient::Forbidden, RestClient::InternalServerError,
+                            RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout,
+                            RestClient::TemporaryRedirect, RestClient::SSLCertificateNotVerified, RestClient::PaymentRequired,
+                            RestClient::BadGateway, RestClient::Unauthorized, RestClient::PayloadTooLarge,
+                            RestClient::MovedPermanently, RestClient::ServiceUnavailable, Errno::ECONNREFUSED, SocketError].freeze
+  SMTP_EXCEPTIONS = [
+    Net::SMTPSyntaxError
+  ].freeze
+
+  IMAP_EXCEPTIONS = [
+    Errno::ECONNREFUSED, Net::OpenTimeout,
+    Errno::ECONNRESET, Errno::ENETUNREACH, Net::IMAP::ByeResponseError,
+    SocketError
+  ].freeze
 end

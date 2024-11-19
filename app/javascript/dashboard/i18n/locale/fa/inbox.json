@@ -1,0 +1,64 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "صندوق ورودی",
+      "DISPLAY_DROPDOWN": "نمایش",
+      "LOADING": "در حال بارگیری اعلان ها",
+      "404": "هیچ اعلان فعالی در این گروه نیست.",
+      "NO_NOTIFICATIONS": "اعلانی وجود ندارد",
+      "NOTE": "آگاه‌سازی‌ها از همه صندوق‌های ورودی مشترک",
+      "NO_MESSAGES_AVAILABLE": "اوه! قادر به دریافت پیام ها نیستم",
+      "SNOOZED_UNTIL": "به تعویق افتاده تا",
+      "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "به تعویق انداختن آگاه‌سازی",
+      "DELETE": "حذف آگاه‌سازی",
+      "BACK": "بازگشت"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "به نام شما در یک گفتگو اشاره شده است",
+      "CONVERSATION_CREATION": "گفتگو ایجاد شد",
+      "CONVERSATION_ASSIGNMENT": "یک گفتگو به شما اختصاص داده شده",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "پیام جدید در یک گفتگوی اختصاص داده شده",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "پیام جدید در گفتگویی که در آن شرکت داشته اید",
+      "SLA_MISSED_FIRST_RESPONSE": "سیاست SLA مربوط به اولین پاسخ در گفتگوی نقض شده",
+      "SLA_MISSED_NEXT_RESPONSE": "سیاست SLA مربوط به پاسخ بعدی در گفتگوی نقض شده",
+      "SLA_MISSED_RESOLUTION": "سیاست SLA مربوط به زمان حل موضوع در گفتگوی نقض شده"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "ثبت به عنوان خوانده شده",
+      "MARK_AS_UNREAD": "علامت گذاری به عنوان خوانده نشده",
+      "SNOOZE": "به تعویق انداختن",
+      "DELETE": "حذف",
+      "MARK_ALL_READ": "همه را به عنوان خوانده شده علامت بزن",
+      "DELETE_ALL": "حذف همه",
+      "DELETE_ALL_READ": "حذف همه خوانده شده"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "ترتیب",
+      "DISPLAY": "نمایش :",
+      "SORT_OPTIONS": {
+        "NEWEST": "جدیدترین",
+        "OLDEST": "قدیمی ترین",
+        "PRIORITY": "اولویت"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "به تعویق افتاد",
+        "READ": "خوانده شده",
+        "LABELS": "برچسب‌ها",
+        "CONVERSATION_ID": "شناسه گفتگو"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "ثبت اعلان به عنوان خوانده شده",
+      "MARK_AS_UNREAD": "ثبت اعلان به عنوان خوانده نشده",
+      "SNOOZE": "اعلان به تعویق افتاده",
+      "DELETE": "اعلان حدف شده",
+      "MARK_ALL_READ": "ثبت همه اعلان ها به عنوان خوانده شده",
+      "DELETE_ALL": "حذف همه اعلان ها",
+      "DELETE_ALL_READ": "حذف همه اعلان های خوانده شده"
+    }
+  }
+}

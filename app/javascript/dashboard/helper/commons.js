@@ -13,21 +13,34 @@ export default () => {
   }
 };
 
+export const isEmptyObject = obj =>
+  Object.keys(obj).length === 0 && obj.constructor === Object;
+
+export const isJSONValid = value => {
+  try {
+    JSON.parse(value);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 export const getTypingUsersText = (users = []) => {
   const count = users.length;
+  const [firstUser, secondUser] = users;
+
   if (count === 1) {
-    const [user] = users;
-    return `${user.name} is typing`;
+    return ['TYPING.ONE', { user: firstUser.name }];
   }
 
   if (count === 2) {
-    const [first, second] = users;
-    return `${first.name} and ${second.name} are typing`;
+    return [
+      'TYPING.TWO',
+      { user: firstUser.name, secondUser: secondUser.name },
+    ];
   }
 
-  const [user] = users;
-  const rest = users.length - 1;
-  return `${user.name} and ${rest} others are typing`;
+  return ['TYPING.MULTIPLE', { user: firstUser.name, count: count - 1 }];
 };
 
 export const createPendingMessage = data => {
@@ -48,4 +61,25 @@ export const createPendingMessage = data => {
   };
 
   return pendingMessage;
+};
+
+export const convertToAttributeSlug = text => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '_');
+};
+
+export const convertToCategorySlug = text => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '-');
+};
+
+export const convertToPortalSlug = text => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '-');
 };

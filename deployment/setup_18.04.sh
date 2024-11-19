@@ -17,12 +17,12 @@ apt install -y \
     libssl-dev libyaml-dev libreadline-dev gnupg2 nginx redis-server \
     redis-tools postgresql postgresql-contrib certbot \
     python-certbot-nginx nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
-    libgmp-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
+    libgmp-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev sudo
 
 adduser --disabled-login --gecos "" chatwoot
 
 sudo -i -u chatwoot bash << EOF
-gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+gpg --keyserver hkp://keyserver.ubuntu.com  --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 curl -sSL https://get.rvm.io | bash -s stable
 EOF
 
@@ -43,8 +43,8 @@ RAILS_ENV=production
 sudo -i -u chatwoot << EOF
 rvm --version
 rvm autolibs disable
-rvm install "ruby-2.7.2"
-rvm use 2.7.2 --default
+rvm install "ruby-3.0.4"
+rvm use 3.0.4 --default
 
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
@@ -63,6 +63,7 @@ sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
 sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
 sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
 sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
+echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
 RAILS_ENV=production bundle exec rake db:create
 RAILS_ENV=production bundle exec rake db:reset

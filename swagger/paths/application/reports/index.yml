@@ -1,0 +1,22 @@
+tags:
+  - Reports
+operationId: list-all-conversation-statistics
+summary: Get Account reports
+description: Get Account reports for a specific type, metric and date range
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of date based conversation statistics'
+      items:
+        type: object
+        properties:
+          value:
+            type: string
+          timestamp:
+            type: number
+  404:
+    description: reports not found
+  403:
+    description: Access denied

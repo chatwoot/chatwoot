@@ -43,4 +43,23 @@ export default [
     website_token: 'randomid125',
     enable_auto_assignment: true,
   },
+  {
+    id: 5,
+    channel_id: 5,
+    name: 'Test Widget 5',
+    channel_type: 'Channel::TwilioSms',
+    avatar_url: null,
+    medium: 'sms',
+    page_id: null,
+    widget_color: '#68BC00',
+    website_token: 'randomid125',
+    enable_auto_assignment: true,
+  },
+  {
+    id: 6,
+    channel_id: 6,
+    name: 'Test Widget 6',
+    channel_type: 'Channel::Sms',
+    provider: 'default',
+  },
 ];

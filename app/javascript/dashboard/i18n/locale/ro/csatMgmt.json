@@ -1,0 +1,13 @@
+{
+  "CSAT": {
+    "TITLE": "Evaluează conversația ta",
+    "PLACEHOLDER": "Spune-ne mai mult...",
+    "RATINGS": {
+      "POOR": "😞 Slab",
+      "FAIR": "😑 Începător",
+      "AVERAGE": "😐 Mediu",
+      "GOOD": "😀 Bun",
+      "EXCELLENT": "😍 Excelent"
+    }
+  }
+}

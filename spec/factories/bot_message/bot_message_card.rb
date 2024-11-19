@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :bot_message_card, class: Hash do
     title { Faker::Book.name }
     description { Faker::Movie.quote }
-    media_url { 'https://via.placeholder.com/250x250.png' }
+    media_url { 'https://chatwoot-assets.local/sample.png' }
     actions do
       [{
         text: 'Select',

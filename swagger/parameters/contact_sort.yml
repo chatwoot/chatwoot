@@ -1,0 +1,14 @@
+in: query
+name: sort
+type: string
+enum:
+  - name
+  - email
+  - phone_number
+  - last_activity_at
+  - -name
+  - -email
+  - -phone_number
+  - -last_activity_at
+required: false
+description: The attribute by which list should be sorted

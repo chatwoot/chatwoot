@@ -1,0 +1,20 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the team
+  name:
+    type: string
+    description: The name of the team
+  description:
+    type: string
+    description: The description about the team
+  allow_auto_assign:
+    type: boolean
+    description: If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team
+  account_id:
+    type: number
+    description: The ID of the account with the team is a part of
+  is_member:
+    type: boolean
+    description: This field shows whether the current user is a part of the team

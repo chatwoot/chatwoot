@@ -59,4 +59,4 @@ ro:
       not_saved:
         one: "O eroare a împiedicat salvarea acestui %{resource}:"
         few: "%{count} erori au împiedicat salvarea acestui %{resource}:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+        other: "%{count} erori au interzis salvarea acestui %{resource}:"

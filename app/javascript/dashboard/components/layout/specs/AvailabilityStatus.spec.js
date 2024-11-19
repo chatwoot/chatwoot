@@ -1,82 +1,71 @@
-import AvailabilityStatus from '../AvailabilityStatus';
-import { createLocalVue, mount } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueI18n from 'vue-i18n';
-
-import i18n from 'dashboard/i18n';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueI18n);
-
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
+import { mount } from '@vue/test-utils';
+import { createStore } from 'vuex';
+import AvailabilityStatus from '../AvailabilityStatus.vue';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider.vue';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 describe('AvailabilityStatus', () => {
-  const currentUser = { availability_status: 'online' };
+  const currentAvailability = 'online';
+  const currentAccountId = '1';
+  const currentUserAutoOffline = false;
   let store = null;
   let actions = null;
-  let modules = null;
-  let availabilityStatus = null;
 
   beforeEach(() => {
     actions = {
-      updateAvailability: jest.fn(() => {
-        return Promise.resolve();
-      }),
+      updateAvailability: vi.fn(() => Promise.resolve()),
     };
 
-    modules = {
-      auth: {
-        getters: {
-          getCurrentUser: () => currentUser,
+    store = createStore({
+      modules: {
+        auth: {
+          namespaced: false,
+          getters: {
+            getCurrentUserAvailability: () => currentAvailability,
+            getCurrentAccountId: () => currentAccountId,
+            getCurrentUserAutoOffline: () => currentUserAutoOffline,
+          },
         },
       },
-    };
-
-    store = new Vuex.Store({
       actions,
-      modules,
     });
-
-    availabilityStatus = mount(AvailabilityStatus, {
-      store,
-      localVue,
-      i18n: i18nConfig,
-    });
-  });
-
-  it('shows current user status', () => {
-    const statusViewTitle = availabilityStatus.find('.status-view--title');
-
-    expect(statusViewTitle.text()).toBe('Online');
-  });
-
-  it('opens the menu when user clicks "change"', async () => {
-    expect(availabilityStatus.find('.dropdown-pane').exists()).toBe(false);
-
-    await availabilityStatus
-      .find('.status-change--change-button')
-      .trigger('click');
-
-    expect(availabilityStatus.find('.dropdown-pane').exists()).toBe(true);
   });
 
   it('dispatches an action when user changes status', async () => {
-    await availabilityStatus
-      .find('.status-change--change-button')
-      .trigger('click');
+    const wrapper = mount(AvailabilityStatus, {
+      global: {
+        plugins: [store],
+        components: {
+          WootButton,
+          WootDropdownItem,
+          WootDropdownMenu,
+          WootDropdownHeader,
+          WootDropdownDivider,
+          FluentIcon,
+        },
+        stubs: {
+          WootSwitch: { template: '<button />' },
+        },
+      },
+    });
 
-    await availabilityStatus
-      .find('.status-change li:last-child button')
-      .trigger('click');
+    // Ensure that the dropdown menu is opened
+    await wrapper.vm.openStatusMenu();
 
-    expect(actions.updateAvailability).toBeCalledWith(
-      expect.any(Object),
-      { availability: 'offline' },
-      undefined
-    );
+    // Simulate the user clicking the 3rd button (offline status)
+    const buttons = wrapper.findAll('.status-change--dropdown-button');
+    expect(buttons.length).toBeGreaterThan(0); // Ensure buttons exist
+
+    await buttons[2].trigger('click');
+
+    expect(actions.updateAvailability).toHaveBeenCalledTimes(1);
+    expect(actions.updateAvailability.mock.calls[0][1]).toEqual({
+      availability: 'offline',
+      account_id: currentAccountId,
+    });
   });
 });

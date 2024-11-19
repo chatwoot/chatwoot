@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversations sélectionnées",
+    "AGENT_SELECT_LABEL": "Sélectionner un agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {conversationCount} {conversationLabel} à",
+    "UNASSIGN_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir retirer l'affectation de {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Retour",
+    "ASSIGN_LABEL": "Assigner",
+    "YES": "Oui",
+    "SEARCH_INPUT_PLACEHOLDER": "Rechercher",
+    "ASSIGN_AGENT_TOOLTIP": "Assigner un agent",
+    "ASSIGN_TEAM_TOOLTIP": "Assigner une équipe",
+    "ASSIGN_SUCCESFUL": "Conversations assignées avec succès.",
+    "ASSIGN_FAILED": "Échec de l'attribution des conversations, veuillez réessayer.",
+    "RESOLVE_SUCCESFUL": "Conversations résolues avec succès.",
+    "RESOLVE_FAILED": "Impossible de résoudre les conversations, veuillez réessayer.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Sont uniquement sélectionnées les conversations visibles sur cette page.",
+    "AGENT_LIST_LOADING": "Chargement des agents",
+    "UPDATE": {
+      "CHANGE_STATUS": "Changer le statut",
+      "SNOOZE_UNTIL": "Reporter",
+      "UPDATE_SUCCESFUL": "Le statut de la conversation a été mis à jour avec succès.",
+      "UPDATE_FAILED": "Impossible de mettre à jour les conversations, veuillez réessayer."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assigner une étiquette",
+      "NO_LABELS_FOUND": "Aucune étiquette trouvée pour",
+      "ASSIGN_SELECTED_LABELS": "Assigner les étiquettes sélectionnées",
+      "ASSIGN_SUCCESFUL": "Étiquettes attribuées avec succès.",
+      "ASSIGN_FAILED": "Impossible d'attribuer les étiquettes, veuillez réessayer."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Sélectionner une équipe",
+      "NONE": "Aucun",
+      "NO_TEAMS_AVAILABLE": "Aucune équipe n'a encore été ajoutée à ce compte.",
+      "ASSIGN_SELECTED_TEAMS": "Assigner à l'équipe sélectionnée.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Impossible d'assigner l'équipe, veuillez réessayer."
+    }
+  }
+}

@@ -1,61 +1,11 @@
-<template>
-  <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
-      @click="downloadAgentReports"
-    >
-      <i class="icon ion-android-download"></i>
-      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
-    </button>
-    <div class="small-3 pull-right">
-      <multiselect
-        v-model="currentDateRangeSelection"
-        track-by="name"
-        label="name"
-        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        :options="dateRange"
-        :searchable="false"
-        :allow-empty="true"
-        @select="changeDateSelection"
-      />
-    </div>
-    <div class="row">
-      <woot-report-stats-card
-        v-for="(metric, index) in metrics"
-        :key="metric.NAME"
-        :desc="metric.DESC"
-        :heading="metric.NAME"
-        :index="index"
-        :on-click="changeSelection"
-        :point="accountSummary[metric.KEY]"
-        :selected="index === currentSelection"
-      />
-    </div>
-    <div class="report-bar">
-      <woot-loading-state
-        v-if="accountReport.isFetching"
-        :message="$t('REPORT.LOADING_CHART')"
-      />
-      <div v-else class="chart-container">
-        <woot-bar v-if="accountReport.data.length" :collection="collection" />
-        <span v-else class="empty-state">
-          {{ $t('REPORT.NO_ENOUGH_DATA') }}
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
-import startOfDay from 'date-fns/startOfDay';
-import subDays from 'date-fns/subDays';
-import getUnixTime from 'date-fns/getUnixTime';
+import { useAlert, useTrack } from 'dashboard/composables';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
+import ReportFilterSelector from './components/FilterSelector.vue';
+import { GROUP_BY_FILTER } from './constants';
+import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import ReportContainer from './ReportContainer.vue';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -64,104 +14,104 @@ const REPORTS_KEYS = {
   FIRST_RESPONSE_TIME: 'avg_first_response_time',
   RESOLUTION_TIME: 'avg_resolution_time',
   RESOLUTION_COUNT: 'resolutions_count',
+  REPLY_TIME: 'reply_time',
 };
 
 export default {
+  name: 'ConversationReports',
+  components: {
+    ReportFilterSelector,
+    ReportContainer,
+  },
   data() {
     return {
-      currentSelection: 0,
-      currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
-      dateRange: this.$t('REPORT.DATE_RANGE'),
+      from: 0,
+      to: 0,
+      groupBy: GROUP_BY_FILTER[1],
+      businessHours: false,
     };
   },
-  computed: {
-    ...mapGetters({
-      accountSummary: 'getAccountSummary',
-      accountReport: 'getAccountReports',
-    }),
-    to() {
-      return getUnixTime(startOfDay(new Date()));
+  methods: {
+    fetchAllData() {
+      this.fetchAccountSummary();
+      this.fetchChartData();
     },
-    from() {
-      const diff = this.currentDateRangeSelection.id ? 29 : 6;
-      const fromDate = subDays(new Date(), diff);
-      return getUnixTime(startOfDay(fromDate));
-    },
-    collection() {
-      if (this.accountReport.isFetching) {
-        return {};
+    fetchAccountSummary() {
+      try {
+        this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+      } catch {
+        useAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
-      if (!this.accountReport.data.length) return {};
-      const labels = this.accountReport.data.map(element =>
-        format(fromUnixTime(element.timestamp), 'dd/MMM')
-      );
-      const data = this.accountReport.data.map(element => element.value);
-      return {
-        labels,
-        datasets: [
-          {
-            label: this.metrics[this.currentSelection].NAME,
-            backgroundColor: '#1f93ff',
-            data,
-          },
-        ],
-      };
     },
-    metrics() {
-      const reportKeys = [
+    fetchChartData() {
+      [
         'CONVERSATIONS',
         'INCOMING_MESSAGES',
         'OUTGOING_MESSAGES',
         'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
         'RESOLUTION_COUNT',
-      ];
-      return reportKeys.map(key => ({
-        NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
-        KEY: REPORTS_KEYS[key],
-        DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
-      }));
-    },
-  },
-  mounted() {
-    this.fetchAllData();
-  },
-  methods: {
-    fetchAllData() {
-      const { from, to } = this;
-      this.$store.dispatch('fetchAccountSummary', {
-        from,
-        to,
-      });
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
-        from,
-        to,
+        'REPLY_TIME',
+      ].forEach(async key => {
+        try {
+          await this.$store.dispatch('fetchAccountReport', {
+            metric: REPORTS_KEYS[key],
+            ...this.getRequestPayload(),
+          });
+        } catch {
+          useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+        }
       });
     },
-    changeDateSelection(selectedRange) {
-      this.currentDateRangeSelection = selectedRange;
-      this.fetchAllData();
-    },
-    changeSelection(index) {
-      this.currentSelection = index;
-      this.fetchChartData();
-    },
-    fetchChartData() {
-      const { from, to } = this;
-      this.$store.dispatch('fetchAccountReport', {
-        metric: this.metrics[this.currentSelection].KEY,
+    getRequestPayload() {
+      const { from, to, groupBy, businessHours } = this;
+
+      return {
         from,
         to,
-      });
+        groupBy: groupBy?.period,
+        businessHours,
+      };
     },
     downloadAgentReports() {
       const { from, to } = this;
-      this.$store.dispatch('downloadAgentReports', {
-        from,
-        to,
+      const fileName = `agent-report-${format(
+        fromUnixTime(to),
+        'dd-MM-yyyy'
+      )}.csv`;
+      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+    },
+    onFilterChange({ from, to, groupBy, businessHours }) {
+      this.from = from;
+      this.to = to;
+      this.groupBy = groupBy;
+      this.businessHours = businessHours;
+      this.fetchAllData();
+
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+        filterValue: { from, to, groupBy, businessHours },
+        reportType: 'conversations',
       });
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-4 overflow-auto">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="arrow-download"
+      @click="downloadAgentReports"
+    >
+      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+    </woot-button>
+    <ReportFilterSelector
+      :show-agents-filter="false"
+      show-group-by-filter
+      @filter-change="onFilterChange"
+    />
+    <ReportContainer :group-by="groupBy" />
+  </div>
+</template>

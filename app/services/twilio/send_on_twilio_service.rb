@@ -6,22 +6,24 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def perform_reply
-    twilio_message = client.messages.create(message_params)
-    message.update!(source_id: twilio_message.sid)
+    begin
+      twilio_message = channel.send_message(**message_params)
+    rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
+      message.update!(status: :failed, external_error: e.message)
+    end
+    message.update!(source_id: twilio_message.sid) if twilio_message
   end
 
   def message_params
-    params = {
+    {
       body: message.content,
-      from: channel.phone_number,
-      to: contact_inbox.source_id
+      to: contact_inbox.source_id,
+      media_url: attachments
     }
-    params[:media_url] = attachments if channel.whatsapp? && message.attachments.present?
-    params
   end
 
   def attachments
-    message.attachments.map(&:file_url)
+    message.attachments.map(&:download_url)
   end
 
   def inbox
@@ -34,9 +36,5 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
 
   def outgoing_message?
     message.outgoing? || message.template?
-  end
-
-  def client
-    ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
   end
 end

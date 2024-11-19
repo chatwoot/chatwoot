@@ -6,7 +6,6 @@
 @import 'utilities/text-color';
 
 @import 'selectize';
-@import 'datetime_picker';
 
 @import 'library/clearfix';
 @import 'library/data-label';
@@ -26,7 +25,8 @@
 @import 'components/flashes';
 @import 'components/form-actions';
 @import 'components/main-content';
-@import 'components/navigation';
 @import 'components/pagination';
 @import 'components/search';
 @import 'components/reports';
+
+@import 'custom_styles';

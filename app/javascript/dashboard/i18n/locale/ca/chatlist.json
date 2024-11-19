@@ -7,79 +7,125 @@
       "404": "No hi ha converses actives en aquest grup."
     },
     "TAB_HEADING": "Converses",
+    "MENTION_HEADING": "Mencions",
+    "UNATTENDED_HEADING": "Sense assistència",
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Obrir",
-        "KEY": "openCount"
+    "FILTER_ALL": "Totes",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meves",
+      "unassigned": "Sense assignar",
+      "all": "Totes"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Obrir"
       },
-      {
-        "NAME": "Resoltes",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Resoltes"
+      },
+      "pending": {
+        "TEXT": "Pendent"
+      },
+      "snoozed": {
+        "TEXT": "Posposat"
+      },
+      "all": {
+        "TEXT": "Totes"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Meves",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Veure",
+    "SORT_TOOLTIP_LABEL": "Ordena les converses",
+    "CHAT_SORT": {
+      "STATUS": "Estat",
+      "ORDER_BY": "Ordena per"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Creat",
+        "OLDEST": "Creat per:"
       },
-      {
-        "NAME": "Sense assignar",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Totes",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Darrera activitat:",
+        "ACTIVE": "Darrera activitat"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Obertes",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última activitat: Més antic primer"
       },
-      {
-        "TEXT": "Resoltes",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Última activitat: La més nova primer"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Creat a: El més nou primer"
+      },
+      "created_at_asc": {
+        "TEXT": "Creat a: el més antic primer"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritat: primer el més alt"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritat: primer el més baix"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Resposta pendent: el més llarg primer"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Resposta pendent: el més curt primer"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Missatge d'imatge"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Missatge d'àudio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Missatge de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Fitxer adjunt"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Ubicació"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "ha compartit una URL"
+      }
+    },
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Ordena la conversa",
+      "DROPDOWN_TITLE": "Ordenat per",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Darrera activitat a les",
+          "LABEL": "Darrera activitat"
+        },
+        "CREATED_AT": {
+          "NAME": "Creat per",
+          "LABEL": "Creat per"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Últim missatge de l'usuari a les",
+          "LABEL": "Últim missatge"
+        }
       }
     },
     "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
     "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
     "REPLY_TO_TWEET": "Respon a aquest tuit",
-    "NO_MESSAGES": "Cap Missatge"
+    "LINK_TO_STORY": "Ves a la història d'instagram",
+    "SENT": "Enviat correctament",
+    "READ": "Llegit correctament",
+    "DELIVERED": "S'ha lliurat correctament",
+    "NO_MESSAGES": "Cap Missatge",
+    "NO_CONTENT": "No hi ha contingut disponible",
+    "HIDE_QUOTED_TEXT": "Amaga text entre cometes",
+    "SHOW_QUOTED_TEXT": "Mostra text entre cometes",
+    "MESSAGE_READ": "Llegir"
   }
 }

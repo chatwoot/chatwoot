@@ -1,0 +1,33 @@
+type: object
+properties:
+  id:
+    type: integer
+  content:
+    type: string
+    description: The text content.
+  meta:
+    type: object
+  position:
+    type: integer
+  status:
+    type: integer
+    enum: ['draft', 'published', 'archived']
+  title:
+    type: string
+  slug:
+    type: string
+  views:
+    type: integer
+  portal_id:
+    type: integer
+  account_id:
+    type: integer
+  author_id:
+    type: integer
+  category_id:
+    type: integer
+  folder_id:
+    type: integer
+  associated_article_id:
+    type: integer
+    description: To associate similar articles to each other, e.g to provide the link for the reference.

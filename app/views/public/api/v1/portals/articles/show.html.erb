@@ -1,0 +1,38 @@
+<% content_for :head do %>
+  <title><%= @article.title %> | <%= @portal.name %></title>
+  <% if @article.meta["title"].present? %>
+    <meta name="title" content="<%= @article.meta["title"] %>">
+  <% end %>
+  <% if @article.meta["description"].present? %>
+    <meta name="description" content="<%= @article.meta["description"] %>">
+  <% end %>
+  <% if @article.meta["tags"].present? %>
+    <meta name="tags" content="<%= @article.meta["tags"].join(',') %>">
+  <% end %>
+<% end %>
+
+<% if !@is_plain_layout_enabled %>
+<div id="portal-bg" class="bg-white dark:bg-slate-900 shadow-inner">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
+    <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col">
+      <%= render "public/api/v1/portals/articles/article_header", article: @article %>
+    </div>
+  </div>
+</div>
+<% else %>
+<div class="max-w-5xl mx-auto space-y-4 w-full px-4 md:px-8 <%= @is_plain_layout_enabled ? 'py-4' : 'py-8' %>">
+  <%= render "public/api/v1/portals/articles/article_header", article: @article %>
+</div>
+<% end %>
+
+<div class="flex max-w-5xl w-full px-4 md:px-8 mx-auto">
+  <article id="cw-article-content" class="article-content flex-grow flex-2 mx-auto text-slate-800 dark:text-slate-50 text-lg max-w-3xl prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-0 prose-h3:text-lg prose-code:[&>p]:p-1 prose-code:[&>p]:rounded-sm prose-code:[&>p]:bg-black-100 dark:prose-code:[&>p]:bg-black-600 prose-code:after:content-none prose-code:before:content-none prose dark:prose-invert break-words w-full <%= @is_plain_layout_enabled ? 'py-4' : 'pt-8 pb-12' %>">
+    <%= @parsed_content %>
+  </article>
+  <div class="flex-1" id="cw-hc-toc"></div>
+</div>
+<style>
+  .article-content li > p {
+    margin: 0;
+  }
+</style>

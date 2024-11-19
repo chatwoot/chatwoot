@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filter Contacts",
+    "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "ADD_NEW_FILTER": "Add Filter",
+    "CLEAR_ALL_FILTERS": "Clear All Filters",
+    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "SUBMIT_BUTTON_LABEL": "சமர்பிக்கவும்",
+    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "CANCEL_BUTTON_LABEL": "ரத்துசெய்",
+    "CLEAR_BUTTON_LABEL": "Clear Filters",
+    "EMPTY_VALUE_ERROR": "Value is required",
+    "SEGMENT_LABEL": "Segment Name",
+    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "TOOLTIP_LABEL": "Filter contacts",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "AND",
+      "OR": "OR"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Equal to",
+      "not_equal_to": "Not equal to",
+      "contains": "Contains",
+      "does_not_contain": "Does not contain",
+      "is_present": "Is present",
+      "is_not_present": "Is not present",
+      "is_greater_than": "Is greater than",
+      "is_lesser_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Value is required"
+    },
+    "ATTRIBUTES": {
+      "NAME": "பெயர்",
+      "EMAIL": "இமெயில்",
+      "PHONE_NUMBER": "தொலைபேசி எண்",
+      "IDENTIFIER": "Identifier",
+      "CITY": "City",
+      "COUNTRY": "Country",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "Last Activity",
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Custom Attributes"
+    }
+  }
+}

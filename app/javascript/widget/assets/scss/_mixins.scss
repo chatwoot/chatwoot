@@ -1,8 +1,8 @@
 // scss-lint:disable PseudoElement SpaceBeforeBrace VendorPrefix
 $shadow-color-1: rgba(50, 50, 93, 0.08);
 $shadow-color-2: rgba(0, 0, 0, 0.07);
-$shadow-color-3: rgba(50, 50, 93, .08);
-$shadow-color-4: rgba(0, 0, 0, .05);
+$shadow-color-3: rgba(50, 50, 93, 0.08);
+$shadow-color-4: rgba(0, 0, 0, 0.05);
 
 $color-shadow-medium: rgba(50, 50, 93, 0.08);
 $color-shadow-light: rgba(50, 50, 93, 0.04);
@@ -10,7 +10,8 @@ $color-shadow-large: rgba(50, 50, 93, 0.25);
 $color-shadow-outline: rgba(66, 153, 225, 0.5);
 
 @mixin normal-shadow {
-  box-shadow: 0 $space-small $space-normal $shadow-color-1, 0 $space-smaller $space-slab $shadow-color-2;
+  box-shadow: 0 $space-small $space-normal $shadow-color-1,
+    0 $space-smaller $space-slab $shadow-color-2;
 }
 
 @mixin light-shadow {
@@ -19,19 +20,19 @@ $color-shadow-outline: rgba(66, 153, 225, 0.5);
 
 @mixin placeholder {
   &::-webkit-input-placeholder {
-    @content
+    @content;
   }
 
   &:-moz-placeholder {
-    @content
+    @content;
   }
 
   &::-moz-placeholder {
-    @content
+    @content;
   }
 
   &:-ms-input-placeholder {
-    @content
+    @content;
   }
 }
 
@@ -40,24 +41,20 @@ $color-shadow-outline: rgba(66, 153, 225, 0.5);
     0 1px 5px 1px $color-shadow-light;
 }
 
-
 @mixin shadow-medium {
   box-shadow: 0 4px 24px 4px $color-shadow-medium,
     0 2px 16px 2px $color-shadow-light;
 }
-
 
 @mixin shadow-large {
   box-shadow: 0 10px 15px -16px $color-shadow-medium,
     0 4px 6px -8px $color-shadow-light;
 }
 
-
 @mixin shadow-big {
   box-shadow: 0 20px 25px -20px $color-shadow-medium,
     0 10px 10px -10px $color-shadow-light;
 }
-
 
 @mixin shadow-mega {
   box-shadow: 0 25px 50px -12px $color-shadow-big;
@@ -73,4 +70,9 @@ $color-shadow-outline: rgba(66, 153, 225, 0.5);
 
 @mixin shadow-none {
   box-shadow: none;
+}
+
+@mixin button-size {
+  min-height: $space-large;
+  min-width: $space-large;
 }

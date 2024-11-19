@@ -1,10 +1,9 @@
 export default {
   computed: {
-    hideInputForBotConversations() {
-      return window.chatwootWebChannel.hideInputForBotConversations;
-    },
     useInboxAvatarForBot() {
-      return window.chatwootWidgetDefaults.useInboxAvatarForBot;
+      return this.channelConfig.enabledFeatures.includes(
+        'use_inbox_avatar_for_bot'
+      );
     },
     hasAConnectedAgentBot() {
       return !!window.chatwootWebChannel.hasAConnectedAgentBot;
@@ -21,30 +20,28 @@ export default {
     hasAttachmentsEnabled() {
       return this.channelConfig.enabledFeatures.includes('attachments');
     },
-    replyTime() {
-      return window.chatwootWebChannel.replyTime;
+    hasEndConversationEnabled() {
+      return this.channelConfig.enabledFeatures.includes('end_conversation');
     },
     preChatFormEnabled() {
       return window.chatwootWebChannel.preChatFormEnabled;
     },
     preChatFormOptions() {
+      let preChatMessage = '';
       const options = window.chatwootWebChannel.preChatFormOptions || {};
+      preChatMessage = options.pre_chat_message;
+      const { pre_chat_fields: preChatFields = [] } = options;
       return {
-        requireEmail: options.require_email,
-        preChatMessage: options.pre_chat_message,
+        preChatMessage,
+        preChatFields,
       };
     },
-    replyTimeStatus() {
-      switch (this.replyTime) {
-        case 'in_a_few_minutes':
-          return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');
-        case 'in_a_few_hours':
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-        case 'in_a_day':
-          return this.$t('REPLY_TIME.IN_A_DAY');
-        default:
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-      }
+    shouldShowPreChatForm() {
+      const { preChatFields } = this.preChatFormOptions;
+      // Check if at least one enabled field in pre-chat fields
+      const hasEnabledFields =
+        preChatFields.filter(field => field.enabled).length > 0;
+      return this.preChatFormEnabled && hasEnabledFields;
     },
   },
 };

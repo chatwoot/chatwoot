@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtruj kontakty",
+    "SUBTITLE": "Dodaj filtry poniżej i kliknij „Prześlij”, aby filtrować kontakty.",
+    "EDIT_CUSTOM_SEGMENT": "Edytuj segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Dodaj lub usuń filtry i zaktualizuj swój segment.",
+    "ADD_NEW_FILTER": "Dodaj filtr",
+    "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
+    "FILTER_DELETE_ERROR": "Musisz mieć co najmniej jeden filtr do zapisu",
+    "SUBMIT_BUTTON_LABEL": "Prześlij",
+    "UPDATE_BUTTON_LABEL": "Aktualizuj segment",
+    "CANCEL_BUTTON_LABEL": "Anuluj",
+    "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
+    "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
+    "SEGMENT_LABEL": "Nazwa segmentu",
+    "SEGMENT_QUERY_LABEL": "Zapytanie segmentowe",
+    "TOOLTIP_LABEL": "Filtruj kontakty",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "i",
+      "OR": "lub"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Równa się",
+      "not_equal_to": "Nie równa się",
+      "contains": "Zawiera",
+      "does_not_contain": "Nie zawiera",
+      "is_present": "Istnieje",
+      "is_not_present": "Nie istnieje",
+      "is_greater_than": "Jest większe niż",
+      "is_lesser_than": "Jest mniejsze niż",
+      "days_before": "Jest x dni przed"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wartość jest wymagana"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nazwa",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Numer telefonu",
+      "IDENTIFIER": "Identyfikator",
+      "CITY": "Miasto",
+      "COUNTRY": "Kraj",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista niestandardowa",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst niestandardowy",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numer niestandardowy",
+      "CUSTOM_ATTRIBUTE_LINK": "Link niestandardowy",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole wyboru niestandardowe",
+      "CREATED_AT": "Utworzono",
+      "LAST_ACTIVITY": "Ostatnia aktywność",
+      "REFERER_LINK": "Link referencyjny",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtry standardowe",
+      "ADDITIONAL_FILTERS": "Dodatkowe filtry",
+      "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
+    }
+  }
+}

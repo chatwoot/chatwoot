@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtrer les Contacts",
+    "SUBTITLE": "Ajouter des filtres ci-dessous et appuyez sur « Soumettre » pour filtrer les contacts.",
+    "EDIT_CUSTOM_SEGMENT": "Modifier le segment",
+    "CUSTOM_VIEWS_SUBTITLE": "Ajoutez ou supprimez des filtres et mettez votre segment à jour.",
+    "ADD_NEW_FILTER": "Ajouter un filtre",
+    "CLEAR_ALL_FILTERS": "Effacer Tous les Filtres",
+    "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
+    "SUBMIT_BUTTON_LABEL": "Envoyer",
+    "UPDATE_BUTTON_LABEL": "Mettre à jour le segment",
+    "CANCEL_BUTTON_LABEL": "Annuler",
+    "CLEAR_BUTTON_LABEL": "Effacer les filtres",
+    "EMPTY_VALUE_ERROR": "La valeur est requise",
+    "SEGMENT_LABEL": "Nom du segment",
+    "SEGMENT_QUERY_LABEL": "Requête de segment",
+    "TOOLTIP_LABEL": "Filtrer les contacts",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "ET",
+      "OR": "OU"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Égal à",
+      "not_equal_to": "Pas égal à",
+      "contains": "Contient",
+      "does_not_contain": "Ne contient pas",
+      "is_present": "Est présent",
+      "is_not_present": "N'est pas présent",
+      "is_greater_than": "Est plus grand que",
+      "is_lesser_than": "Est inférieur à",
+      "days_before": "Est x jours avant"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "La valeur est requise"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Nom",
+      "EMAIL": "Courriel",
+      "PHONE_NUMBER": "Numéro de téléphone",
+      "IDENTIFIER": "Identifiant",
+      "CITY": "Ville",
+      "COUNTRY": "Pays",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texte",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nombre",
+      "CUSTOM_ATTRIBUTE_LINK": "Lien",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Case à cocher",
+      "CREATED_AT": "Créé le",
+      "LAST_ACTIVITY": "Dernière activité",
+      "REFERER_LINK": "Lien de référence",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtres standards",
+      "ADDITIONAL_FILTERS": "Filtres supplémentaires",
+      "CUSTOM_ATTRIBUTES": "Attributs personnalisés"
+    }
+  }
+}

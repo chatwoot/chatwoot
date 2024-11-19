@@ -1,0 +1,42 @@
+tags:
+  - Agents
+operationId: update-agent-in-account
+summary: Update Agent in Account
+description: Update an Agent in Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the agent to be updated.
+  - name: data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          enum: ['agent', 'administrator']
+          description: Whether its administrator or agent
+        availability:
+          type: string
+          enum: ['available', 'busy', 'offline']
+          description: The availability setting of the agent.
+        auto_offline:
+          type: boolean
+          description: Whether the availability status of agent is configured to go offline automatically when away.
+responses:
+  200:
+    description: Success
+    schema:
+        description: 'The updated agent'
+        $ref: '#/definitions/agent'
+  404:
+    description: Agent not found
+  403:
+    description: Access denied

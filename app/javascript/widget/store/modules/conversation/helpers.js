@@ -1,15 +1,15 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 
 import getUuid from '../../../helpers/uuid';
-export const createTemporaryMessage = ({ attachments, content }) => {
+export const createTemporaryMessage = ({ attachments, content, replyTo }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
     content,
     attachments,
     status: 'in_progress',
+    replyTo,
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
   };
@@ -30,7 +30,7 @@ const shouldShowAvatar = (message, nextMessage) => {
 
 export const groupConversationBySender = conversationsForADate =>
   conversationsForADate.map((message, index) => {
-    let showAvatar = false;
+    let showAvatar;
     const isLastMessage = index === conversationsForADate.length - 1;
     if (isASubmittedFormMessage(message)) {
       showAvatar = false;
@@ -48,11 +48,8 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
     message => message.content === content && message.status === 'in_progress'
   );
 
-export const onNewMessageCreated = data => {
-  const { message_type: messageType } = data;
-  const isIncomingMessage = messageType === MESSAGE_TYPE.OUTGOING;
-
-  if (isIncomingMessage) {
-    playNotificationAudio();
-  }
+export const getNonDeletedMessages = ({ messages }) => {
+  return messages.filter(
+    item => !(item.content_attributes && item.content_attributes.deleted)
+  );
 };

@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Campanii",
+    "SIDEBAR_TXT": "Mesajele proactive permit clientului să trimită mesaje de ieșire către contactele lor, ceea ce ar declanșa mai multe conversații. Faceţi clic pe <b>Adăugare campanie</b> pentru a crea o nouă campanie. De asemenea, puteți edita sau șterge o campanie existentă făcând clic pe butonul Editare sau șterge.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Crează o singură campanie",
+      "ONGOING": "Creați o campanie în desfășurare"
+    },
+    "ADD": {
+      "TITLE": "Creează o campanie",
+      "DESC": "Mesajele proactive permit clientului să trimită mesaje către contactele lor, ceea ce ar declanșa mai multe conversații.",
+      "CANCEL_BUTTON_TEXT": "Renunță",
+      "CREATE_BUTTON_TEXT": "Creeaza",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Titlu",
+          "PLACEHOLDER": "Vă rugăm să introduceţi titlul campaniei",
+          "ERROR": "Titlul este necesar"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Timp programat",
+          "PLACEHOLDER": "Vă rugăm să selectaţi un tip",
+          "CONFIRM": "Confirmă",
+          "ERROR": "Timpul programat este necesar"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audienţă",
+          "PLACEHOLDER": "Selectați etichetele clienților",
+          "ERROR": "Audienţa este necesară"
+        },
+        "INBOX": {
+          "LABEL": "Selectați Inbox",
+          "PLACEHOLDER": "Selectați Inbox",
+          "ERROR": "Inbox-ul este necesar"
+        },
+        "MESSAGE": {
+          "LABEL": "Mesaj",
+          "PLACEHOLDER": "Vă rugăm să introduceți mesajul campaniei",
+          "ERROR": "Este necesar un mesaj"
+        },
+        "SENT_BY": {
+          "LABEL": "Trimis de",
+          "PLACEHOLDER": "Vă rugăm să selectaţi conţinutul campaniei",
+          "ERROR": "Expeditorul este necesar"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Vă rugăm să introduceți adresa URL",
+          "ERROR": "Te rog introdu un URL valid"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Timp pe pagina (secunde)",
+          "PLACEHOLDER": "Vă rugăm să introduceţi timpul",
+          "ERROR": "Timpul pe pagină este necesar"
+        },
+        "ENABLED": "Activați campania",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Declanşator doar în timpul orelor de lucru",
+        "SUBMIT": "Adaugă Campanie"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campanie creată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare. Te rugăm să încerci din nou."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți?",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campanie ștearsă cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut șterge campania. Vă rugăm să încercați din nou mai târziu."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editare campanie",
+      "UPDATE_BUTTON_TEXT": "Actualizare",
+      "API": {
+        "SUCCESS_MESSAGE": "Campanie actualizată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Se încarcă campaniile...",
+      "404": "Nu sunt campanii create pentru acest inbox.",
+      "TABLE_HEADER": {
+        "TITLE": "Titlu",
+        "MESSAGE": "Mesaj",
+        "INBOX": "Primite",
+        "STATUS": "Status",
+        "SENDER": "Expeditor",
+        "URL": "URL",
+        "SCHEDULED_AT": "Timp programat",
+        "TIME_ON_PAGE": "Timp (secunde)",
+        "CREATED_AT": "Creat la"
+      },
+      "BUTTONS": {
+        "ADD": "Adaugă",
+        "EDIT": "Editare",
+        "DELETE": "Şterge"
+      },
+      "STATUS": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat",
+        "COMPLETED": "Finalizată",
+        "ACTIVE": "Activ"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Campanii unice",
+      "404": "Nu există o singură campanie creată",
+      "INBOXES_NOT_FOUND": "Vă rugăm să creați un inbox sms și să începeți să adăugați campanii"
+    },
+    "ONGOING": {
+      "HEADER": "Campanii în curs de desfășurare",
+      "404": "Nu există campanii în curs de desfășurare create",
+      "INBOXES_NOT_FOUND": "Vă rugăm să creați un inbox de site web și să începeți să adăugați campanii"
+    }
+  }
+}

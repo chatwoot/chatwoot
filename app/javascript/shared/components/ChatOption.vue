@@ -1,17 +1,6 @@
-<template>
-  <li
-    class="option"
-    :class="{ 'is-selected': isSelected }"
-    :style="{ borderColor: widgetColor }"
-  >
-    <button class="option-button button" @click="onClick">
-      <span :style="{ color: widgetColor }">{{ action.title }}</span>
-    </button>
-  </li>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+
 export default {
   components: {},
   props: {
@@ -24,6 +13,7 @@ export default {
       default: false,
     },
   },
+  emits: ['optionSelect'],
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
@@ -31,28 +21,44 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('click', this.action);
+      this.$emit('optionSelect', this.action);
     },
   },
 };
 </script>
 
+<template>
+  <li
+    class="option"
+    :class="{ 'is-selected': isSelected }"
+    :style="{ borderColor: widgetColor }"
+  >
+    <button class="option-button button" @click="onClick">
+      <span :style="{ color: widgetColor }">{{ action.title }}</span>
+    </button>
+  </li>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .option {
-  border: 1px solid $color-woot;
   border-radius: $space-jumbo;
+  border: 1px solid $color-woot;
   float: left;
   margin: $space-smaller;
+  max-width: 100%;
 
   .option-button {
     background: transparent;
     border-radius: $space-large;
     border: 0;
-    color: $color-woot;
     cursor: pointer;
+    height: auto;
+    line-height: 1.5;
+    min-height: $space-two * 2;
     text-align: left;
+    white-space: normal;
 
     span {
       display: inline-block;

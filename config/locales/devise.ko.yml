@@ -2,22 +2,22 @@
 ko:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: "귀하의 이메일 주소가 성공적으로 확인되었습니다."
+      send_instructions: "몇 분 안에 이메일 주소를 인증하는 방법에 대한 지침이 발송될 것입니다."
+      send_paranoid_instructions: "귀하의 이메일 주소가 당사 데이터베이스에 있는 경우 몇 분 안에 이메일 주소를 인증하는 방법에 대한 지침이 포함된 이메일이 발송될 것입니다."
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
+      already_authenticated: "이미 가입하셨습니다."
+      inactive: "귀하의 계정이 아직 활성화되지 않았습니다."
       invalid: "Invalid %{authentication_keys}/password or account is not verified yet."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      locked: "계정이 잠금 상태입니다."
+      last_attempt: "계정이 잠기기 전에 남은 마지막 시도입니다."
+      not_found_in_database: "잘못된 %{authentication_keys} 또는 잘못된 비밀번호입니다."
+      timeout: "세션이 만료되었습니다. 다시 가입해 주십시오."
+      unauthenticated: "계속하기 전에 로그인하거나 가입해야 합니다."
+      unconfirmed: "계속하기 전에 이메일 주소를 확인해 주십시오."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation Instructions"
+        subject: "확인 절차"
       reset_password_instructions:
         subject: "Reset password instructions"
       unlock_instructions:
@@ -28,14 +28,14 @@ ko:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
     passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      no_token: "비밀번호 재설정 이메일을 받지 않으셨다면 이 페이지에 액세스할 수 없습니다. 비밀번호 재설정 이메일에서 온 경우 전체 URL을 사용했는지 확인하십시오."
+      send_instructions: "몇 분 안에 비밀번호 초기화 방법에 대한 지침이 귀하의 이메일로 발송될 것입니다."
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password has been changed successfully. You are now signed in."
       updated_not_active: "Your password has been changed successfully."
     registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
-      signed_up: "Welcome! You have signed up successfully."
+      destroyed: "잘 가요! 계정이 성공적으로 취소되었습니다.\n곧 다시 뵙기를 바래요!"
+      signed_up: "환영합니다! 성공적으로 가입하셨습니다."
       signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
       signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
       signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."

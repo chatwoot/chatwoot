@@ -1,5 +1,20 @@
+// scss-lint:disable SpaceAfterPropertyColon
+@import 'shared/assets/fonts/inter';
+
+// Inter,
 html,
 body {
+  font-family:
+    'Inter',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif !important;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
@@ -9,75 +24,25 @@ body {
 }
 
 .app-wrapper {
-  @include full-height;
-  width: 100%;
-}
+  @apply h-screen flex-grow-0 min-h-0 w-full;
 
-.app-root {
-  @include flex;
-  flex-direction: column;
-}
-
-.app-content {
-  @include flex;
-  @include full-height;
-  overflow: hidden;
-}
-
-.view-box {
-  @include full-height;
-  @include margin(0);
-  @include space-between-column;
-
-  height: 100vh;
-}
-
-.view-panel {
-  @include margin($zero);
-  @include padding($space-normal);
-
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.content-box {
-  @include padding($space-normal);
-
-  overflow: auto;
-}
-
-.back-button {
-  @include flex;
-
-  align-items: center;
-  color: $color-woot;
-  cursor: pointer;
-  font-size: $font-size-default;
-  font-weight: $font-weight-normal;
-  margin-right: $space-normal;
-
-  &::before {
-    font-size: $font-size-large;
-    margin-right: $space-small;
-    vertical-align: text-bottom;
+  .button--fixed-top {
+    @apply fixed ltr:right-2 rtl:left-2 top-2 flex flex-row;
   }
 }
 
-.button-spinner {
-  float: right;
-}
+.banner + .app-wrapper {
+  // Reduce the height of the dashboard to make room for the banner.
+  // And causing the top right green-action button to be pushed down when scrolling.
+  @apply h-[calc(100%-48px)];
 
-.no-items-error-message {
-  @include flex;
-  @include full-height;
+  .button--fixed-top {
+    @apply top-14;
+  }
 
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-
-  img {
-    @include padding($space-one);
-
-    max-width: $space-mega;
+  .off-canvas-content {
+    .button--fixed-top {
+      @apply top-2;
+    }
   }
 }

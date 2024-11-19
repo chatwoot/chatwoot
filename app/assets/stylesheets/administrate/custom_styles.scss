@@ -1,0 +1,24 @@
+// custom styles for the dashboard
+
+.feature-cell {
+  background: $color-extra-light-blue;
+  border-radius: 10px;
+  float: left;
+  margin-left: 8px;
+  margin-top: 6px;
+  padding: 4px 12px;
+
+  .icon-container {
+    margin-right: 2px;
+
+  }
+
+  .value-container {
+    margin-left: 6px;
+  }
+}
+
+
+.feature-container {
+  max-width: 100rem;
+}

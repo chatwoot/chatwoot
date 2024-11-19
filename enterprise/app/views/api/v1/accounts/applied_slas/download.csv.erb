@@ -1,0 +1,26 @@
+<% headers = [
+  I18n.t('reports.sla_csv.conversation_id'),
+  I18n.t('reports.sla_csv.sla_policy_breached'),
+  I18n.t('reports.sla_csv.assignee'),
+  I18n.t('reports.sla_csv.team'),
+  I18n.t('reports.sla_csv.inbox'),
+  I18n.t('reports.sla_csv.labels'),
+  I18n.t('reports.sla_csv.conversation_link'),
+  I18n.t('reports.sla_csv.breached_events')
+] %>
+<%= CSV.generate_line headers %>
+
+<% @missed_applied_slas.each do |sla| %>
+  <% missed_events = sla.sla_events.map(&:event_type).join(', ') %>
+  <% conversation = sla.conversation %>
+  <%= CSV.generate_line([
+    conversation.display_id,
+    sla.sla_policy.name,
+    conversation.assignee&.name,
+    conversation.team&.name,
+    conversation.inbox&.name,
+    conversation.cached_label_list,
+    app_account_conversation_url(account_id: conversation.account_id, id: conversation.display_id),
+    missed_events
+  ]) %>
+<% end %>

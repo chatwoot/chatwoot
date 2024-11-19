@@ -1,6 +1,3 @@
-<template>
-  <span class="spinner" :class="size"></span>
-</template>
 <script>
 export default {
   props: {
@@ -8,11 +5,37 @@ export default {
       type: String,
       default: 'small',
     },
+    colorScheme: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    colorSchemeClasses() {
+      if (this.colorScheme === 'primary') {
+        return 'before:!border-t-woot-500';
+      }
+
+      if (this.colorScheme === 'warning') {
+        return 'before:!border-t-yellow-500';
+      }
+
+      if (this.colorScheme === 'success') {
+        return 'before:!border-t-success-500';
+      }
+
+      return this.colorScheme;
+    },
   },
 };
 </script>
+
+<template>
+  <span class="spinner" :class="`${size} ${colorSchemeClasses}`" />
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables';
+@import 'widget/assets/scss/variables.scss';
 
 @mixin color-spinner() {
   @keyframes spinner {
@@ -32,8 +55,8 @@ export default {
     margin-top: -$space-one;
     margin-left: -$space-one;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-top-color: lighten($color-woot, 10%);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-top-color: rgba(255, 255, 255, 0.3);
     animation: spinner 0.9s linear infinite;
   }
 }
@@ -83,6 +106,11 @@ export default {
       height: $space-one;
       margin-top: -$space-small + $space-micro;
     }
+  }
+
+  &.dark::before {
+    border-color: rgba(0, 0, 0, 0.7);
+    border-top-color: rgba(0, 0, 0, 0.2);
   }
 }
 </style>

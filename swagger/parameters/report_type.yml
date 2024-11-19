@@ -1,0 +1,11 @@
+in: query
+name: type
+type: string
+enum:
+  - account
+  - agent
+  - inbox
+  - label
+  - team
+required: true
+description: Type of report

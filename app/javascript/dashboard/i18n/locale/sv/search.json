@@ -1,0 +1,26 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Alla",
+      "CONTACTS": "Kontakter",
+      "CONVERSATIONS": "Konversationer",
+      "MESSAGES": "Meddelanden"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakter",
+      "CONVERSATIONS": "Konversationer",
+      "MESSAGES": "Meddelanden"
+    },
+    "SEARCHING_DATA": "Searching",
+    "EMPTY_STATE": "Ingen {item} hittades med orden '{query}'",
+    "EMPTY_STATE_FULL": "Inga resultat hittades med orden '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ att fokusera",
+    "INPUT_PLACEHOLDER": "Skriv 3 eller fler tecken för att söka",
+    "EMPTY_STATE_DEFAULT": "Sök via konversations-id, e-post, telefonnummer, meddelanden, för bättre sökresultat. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Läs mer",
+    "WROTE": "skrev:",
+    "FROM": "från",
+    "EMAIL": "e-post"
+  }
+}

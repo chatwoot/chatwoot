@@ -1,86 +1,55 @@
-<template>
-  <div
-    class="agent-message-wrap"
-    :class="{ 'has-response': hasRecordedResponse || isASubmittedForm }"
-  >
-    <div v-if="!isASubmittedForm" class="agent-message">
-      <div class="avatar-wrap">
-        <thumbnail
-          v-if="message.showAvatar || hasRecordedResponse"
-          :src="avatarUrl"
-          size="24px"
-          :username="agentName"
-        />
-      </div>
-      <div class="message-wrap">
-        <AgentMessageBubble
-          v-if="shouldDisplayAgentMessage"
-          :content-type="contentType"
-          :message-content-attributes="messageContentAttributes"
-          :message-id="message.id"
-          :message-type="messageType"
-          :message="message.content"
-        />
-        <div
-          v-if="hasAttachments"
-          class="chat-bubble has-attachment agent"
-          :class="wrapClass"
-        >
-          <div v-for="attachment in message.attachments" :key="attachment.id">
-            <file-bubble
-              v-if="attachment.file_type !== 'image'"
-              :url="attachment.data_url"
-            />
-            <image-bubble
-              v-else
-              :url="attachment.data_url"
-              :thumb="attachment.thumb_url"
-              :readable-time="readableTime"
-            />
-          </div>
-        </div>
-        <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
-          {{ agentName }}
-        </p>
-      </div>
-    </div>
-
-    <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
-    <div v-if="isASubmittedForm">
-      <UserMessage
-        v-for="submittedValue in submittedFormValues"
-        :key="submittedValue.id"
-        :message="submittedValue"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
-import UserMessage from 'widget/components/UserMessage';
-import AgentMessageBubble from 'widget/components/AgentMessageBubble';
-import timeMixin from 'dashboard/mixins/time';
-import ImageBubble from 'widget/components/ImageBubble';
-import FileBubble from 'widget/components/FileBubble';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import UserMessage from 'widget/components/UserMessage.vue';
+import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
+import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
+import { messageStamp } from 'shared/helpers/timeHelper';
+import ImageBubble from 'widget/components/ImageBubble.vue';
+import VideoBubble from 'widget/components/VideoBubble.vue';
+import FileBubble from 'widget/components/FileBubble.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
+import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
+import { useDarkMode } from 'widget/composables/useDarkMode';
+import ReplyToChip from 'widget/components/ReplyToChip.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
+
 export default {
   name: 'AgentMessage',
   components: {
     AgentMessageBubble,
     ImageBubble,
+    VideoBubble,
     Thumbnail,
     UserMessage,
     FileBubble,
+    MessageReplyButton,
+    ReplyToChip,
   },
-  mixins: [timeMixin, configMixin],
+  mixins: [configMixin, messageMixin],
   props: {
     message: {
       type: Object,
       default: () => {},
     },
+    replyTo: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return {
+      getThemeClass,
+    };
+  },
+  data() {
+    return {
+      hasImageError: false,
+      hasVideoError: false,
+    };
   },
   computed: {
     shouldDisplayAgentMessage() {
@@ -91,17 +60,11 @@ export default {
       ) {
         return false;
       }
-      if (!this.message.content) return false;
-      return true;
-    },
-    hasAttachments() {
-      return !!(
-        this.message.attachments && this.message.attachments.length > 0
-      );
+      return this.message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.messageStamp(createdAt);
+      return messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;
@@ -111,25 +74,21 @@ export default {
       const { content_type: type = '' } = this.message;
       return type;
     },
-    messageContentAttributes() {
-      const { content_attributes: attribute = {} } = this.message;
-      return attribute;
-    },
     agentName() {
-      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
-      }
       if (this.message.sender) {
         return this.message.sender.available_name || this.message.sender.name;
       }
-      return 'Bot';
+
+      if (this.useInboxAvatarForBot) {
+        return this.channelConfig.websiteName;
+      }
+
+      return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
-      // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : BotImage;
+        : '/assets/images/chatwoot_bot.png';
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return displayImage;
@@ -143,7 +102,7 @@ export default {
       return (
         this.messageContentAttributes.submitted_email ||
         (this.messageContentAttributes.submitted_values &&
-          this.contentType !== 'form')
+          !['form', 'input_csat'].includes(this.contentType))
       );
     },
     responseMessage() {
@@ -153,9 +112,8 @@ export default {
 
       if (this.messageContentAttributes.submitted_values) {
         if (this.contentType === 'input_select') {
-          const [
-            selectionOption = {},
-          ] = this.messageContentAttributes.submitted_values;
+          const [selectionOption = {}] =
+            this.messageContentAttributes.submitted_values;
           return { content: selectionOption.title || selectionOption.value };
         }
       }
@@ -177,81 +135,120 @@ export default {
         'has-text': this.shouldDisplayAgentMessage,
       };
     },
+    hasReplyTo() {
+      return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
+    },
+  },
+  watch: {
+    message() {
+      this.hasImageError = false;
+      this.hasVideoError = false;
+    },
+  },
+  mounted() {
+    this.hasImageError = false;
+    this.hasVideoError = false;
+  },
+  methods: {
+    onImageLoadError() {
+      this.hasImageError = true;
+    },
+    onVideoLoadError() {
+      this.hasVideoError = true;
+    },
+    toggleReply() {
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
+    },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
+<template>
+  <div
+    class="agent-message-wrap group"
+    :class="{
+      'has-response': hasRecordedResponse || isASubmittedForm,
+    }"
+  >
+    <div v-if="!isASubmittedForm" class="agent-message">
+      <div class="avatar-wrap">
+        <Thumbnail
+          v-if="message.showAvatar || hasRecordedResponse"
+          :src="avatarUrl"
+          size="24px"
+          :username="agentName"
+        />
+      </div>
+      <div class="message-wrap">
+        <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
+          <ReplyToChip :reply-to="replyTo" />
+        </div>
+        <div class="flex gap-1">
+          <div class="space-y-2">
+            <AgentMessageBubble
+              v-if="shouldDisplayAgentMessage"
+              :content-type="contentType"
+              :message-content-attributes="messageContentAttributes"
+              :message-id="message.id"
+              :message-type="messageType"
+              :message="message.content"
+            />
+            <div
+              v-if="hasAttachments"
+              class="space-y-2 chat-bubble has-attachment agent"
+              :class="
+                (wrapClass, getThemeClass('bg-white', 'dark:bg-slate-700'))
+              "
+            >
+              <div
+                v-for="attachment in message.attachments"
+                :key="attachment.id"
+              >
+                <ImageBubble
+                  v-if="attachment.file_type === 'image' && !hasImageError"
+                  :url="attachment.data_url"
+                  :thumb="attachment.data_url"
+                  :readable-time="readableTime"
+                  @error="onImageLoadError"
+                />
 
-.conversation-wrap {
-  .agent-message {
-    align-items: flex-end;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin: 0 0 $space-micro $space-small;
-    max-width: 88%;
+                <VideoBubble
+                  v-if="attachment.file_type === 'video' && !hasVideoError"
+                  :url="attachment.data_url"
+                  :readable-time="readableTime"
+                  @error="onVideoLoadError"
+                />
 
-    .avatar-wrap {
-      height: $space-medium;
-      width: $space-medium;
-      flex-shrink: 0;
+                <audio v-else-if="attachment.file_type === 'audio'" controls>
+                  <source :src="attachment.data_url" />
+                </audio>
+                <FileBubble v-else :url="attachment.data_url" />
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col justify-end">
+            <MessageReplyButton
+              class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
+              @click="toggleReply"
+            />
+          </div>
+        </div>
+        <p
+          v-if="message.showAvatar || hasRecordedResponse"
+          v-dompurify-html="agentName"
+          class="agent-name"
+          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
+        />
+      </div>
+    </div>
 
-      .user-thumbnail-box {
-        margin-top: -$space-large;
-      }
-    }
-
-    .message-wrap {
-      flex-grow: 1;
-      flex-shrink: 0;
-      margin-left: $space-small;
-      max-width: 90%;
-    }
-  }
-
-  .agent-name {
-    color: $color-body;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    margin: $space-small 0;
-    padding-left: $space-micro;
-  }
-
-  .has-attachment {
-    padding: 0;
-    overflow: hidden;
-
-    &.has-text {
-      margin-top: $space-smaller;
-    }
-  }
-
-  .agent-message-wrap {
-    + .agent-message-wrap {
-      margin-top: $space-micro;
-
-      .agent-message .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-
-    + .user-message-wrap {
-      margin-top: $space-normal;
-    }
-
-    &.has-response + .user-message-wrap {
-      margin-top: $space-micro;
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-
-    &.has-response + .agent-message-wrap {
-      margin-top: $space-normal;
-    }
-  }
-}
-</style>
+    <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
+    <div v-if="isASubmittedForm">
+      <UserMessage
+        v-for="submittedValue in submittedFormValues"
+        :key="submittedValue.id"
+        :message="submittedValue"
+      />
+    </div>
+  </div>
+</template>

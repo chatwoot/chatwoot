@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Campaigns",
+    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Create a one off campaign",
+      "ONGOING": "Create a ongoing campaign"
+    },
+    "ADD": {
+      "TITLE": "Create a campaign",
+      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "CANCEL_BUTTON_TEXT": "取消",
+      "CREATE_BUTTON_TEXT": "建立",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "標題",
+          "PLACEHOLDER": "Please enter the title of campaign",
+          "ERROR": "標題為必填"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Scheduled time",
+          "PLACEHOLDER": "請選擇時間",
+          "CONFIRM": "確定",
+          "ERROR": "Scheduled time is required"
+        },
+        "AUDIENCE": {
+          "LABEL": "Audience",
+          "PLACEHOLDER": "Select the customer labels",
+          "ERROR": "Audience is required"
+        },
+        "INBOX": {
+          "LABEL": "選擇收件匣",
+          "PLACEHOLDER": "選擇收件匣",
+          "ERROR": "Inbox is required"
+        },
+        "MESSAGE": {
+          "LABEL": "訊息",
+          "PLACEHOLDER": "Please enter the message of campaign",
+          "ERROR": "訊息為必填"
+        },
+        "SENT_BY": {
+          "LABEL": "發送者：",
+          "PLACEHOLDER": "Please select the the content of campaign",
+          "ERROR": "發送者為必填"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "請輸入 URL",
+          "ERROR": "請輸入一個有效的 URL"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Time on page(Seconds)",
+          "PLACEHOLDER": "請輸入時間",
+          "ERROR": "Time on page is required"
+        },
+        "ENABLED": "Enable campaign",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "SUBMIT": "Add Campaign"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign created successfully",
+        "ERROR_MESSAGE": "出現錯誤，請重試。"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除嗎？",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit campaign",
+      "UPDATE_BUTTON_TEXT": "更新",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "ERROR_MESSAGE": "出現錯誤，請重試"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading campaigns...",
+      "404": "There are no campaigns created for this inbox.",
+      "TABLE_HEADER": {
+        "TITLE": "標題",
+        "MESSAGE": "訊息",
+        "INBOX": "收件匣",
+        "STATUS": "狀態",
+        "SENDER": "發送者",
+        "URL": "URL",
+        "SCHEDULED_AT": "Scheduled time",
+        "TIME_ON_PAGE": "時間（秒）",
+        "CREATED_AT": "建立於"
+      },
+      "BUTTONS": {
+        "ADD": "新增",
+        "EDIT": "編輯",
+        "DELETE": "刪除"
+      },
+      "STATUS": {
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用",
+        "COMPLETED": "已完成",
+        "ACTIVE": "Active"
+      },
+      "SENDER": {
+        "BOT": "機器人"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "One off campaigns",
+      "404": "There are no one off campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+    },
+    "ONGOING": {
+      "HEADER": "Ongoing campaigns",
+      "404": "There are no ongoing campaigns created",
+      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+    }
+  }
+}

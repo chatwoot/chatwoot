@@ -1,34 +1,21 @@
-<template>
-  <div class="column content-box">
-    <div class="row">
-      <div class="small-12 columns integrations-wrap">
-        <div class="row integrations">
-          <div v-if="integrationLoaded" class="small-12 columns integration">
-            <integration
-              :integration-id="integration.id"
-              :integration-logo="integration.logo"
-              :integration-name="integration.name"
-              :integration-description="integration.description"
-              :integration-enabled="integration.enabled"
-              :integration-action="integrationAction()"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
 <script>
-import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import Integration from './Integration';
+import Integration from './Integration.vue';
+import IntegrationHelpText from './IntegrationHelpText.vue';
 
 export default {
   components: {
     Integration,
+    IntegrationHelpText,
   },
   mixins: [globalConfigMixin],
-  props: ['integrationId', 'code'],
+
+  props: {
+    integrationId: {
+      type: [String, Number],
+      required: true,
+    },
+  },
   data() {
     return {
       integrationLoaded: false,
@@ -40,14 +27,9 @@ export default {
         this.integrationId
       );
     },
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
-    }),
   },
   mounted() {
-    this.intializeSlackIntegration();
+    this.fetchIntegrations();
   },
   methods: {
     integrationAction() {
@@ -56,15 +38,40 @@ export default {
       }
       return this.integration.action;
     },
-    async intializeSlackIntegration() {
+    async fetchIntegrations() {
       await this.$store.dispatch('integrations/get', this.integrationId);
-      if (this.code) {
-        await this.$store.dispatch('integrations/connectSlack', this.code);
-        // we are clearing code from the path as subsequent request would throw error
-        this.$router.replace(this.$route.path);
-      }
       this.integrationLoaded = true;
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex-grow flex-shrink p-4 overflow-auto">
+    <div class="flex flex-col">
+      <div class="flex flex-col">
+        <div>
+          <div
+            v-if="integrationLoaded"
+            class="p-4 mb-4 bg-white border border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
+          >
+            <Integration
+              :integration-id="integration.id"
+              :integration-logo="integration.logo"
+              :integration-name="integration.name"
+              :integration-description="integration.description"
+              :integration-enabled="integration.enabled"
+              :integration-action="integrationAction()"
+            />
+          </div>
+          <div
+            v-if="integration.enabled"
+            class="p-4 mb-4 bg-white border border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
+          >
+            <IntegrationHelpText />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

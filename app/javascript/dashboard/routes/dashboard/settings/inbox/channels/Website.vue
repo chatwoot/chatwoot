@@ -1,6 +1,81 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import router from '../../../../index';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+
+export default {
+  components: {
+    PageHeader,
+    GreetingsEditor,
+  },
+  data() {
+    return {
+      inboxName: '',
+      channelWebsiteUrl: '',
+      channelWidgetColor: '#009CE0',
+      channelWelcomeTitle: '',
+      channelWelcomeTagline: '',
+      greetingEnabled: false,
+      greetingMessage: '',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+    }),
+    textAreaChannels() {
+      if (
+        this.isATwilioChannel ||
+        this.isATwitterInbox ||
+        this.isAFacebookInbox
+      )
+        return true;
+      return false;
+    },
+  },
+  methods: {
+    async createChannel() {
+      try {
+        const website = await this.$store.dispatch(
+          'inboxes/createWebsiteChannel',
+          {
+            name: this.inboxName,
+            greeting_enabled: this.greetingEnabled,
+            greeting_message: this.greetingMessage,
+            channel: {
+              type: 'web_widget',
+              website_url: this.channelWebsiteUrl,
+              widget_color: this.channelWidgetColor,
+              welcome_title: this.channelWelcomeTitle,
+              welcome_tagline: this.channelWelcomeTagline,
+            },
+          }
+        );
+        router.replace({
+          name: 'settings_inboxes_add_agents',
+          params: {
+            page: 'new',
+            inbox_id: website.id,
+          },
+        });
+      } catch (error) {
+        useAlert(
+          error.message ||
+            this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.API.ERROR_MESSAGE')
+        );
+      }
+    },
+  },
+};
+</script>
+
 <template>
-  <div class="wizard-body small-9 columns">
-    <page-header
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
     />
@@ -10,26 +85,24 @@
     />
     <form
       v-if="!uiFlags.isCreating"
-      class="row"
+      class="flex flex-wrap mx-0"
       @submit.prevent="createChannel"
     >
-      <div class="medium-12 columns">
+      <div class="w-full">
         <label>
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL') }}
           <input
-            v-model.trim="inboxName"
+            v-model="inboxName"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER')"
           />
         </label>
       </div>
-      <div class="medium-12 columns">
+      <div class="w-full">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL') }}
           <input
-            v-model.trim="channelWebsiteUrl"
+            v-model="channelWebsiteUrl"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
@@ -38,18 +111,18 @@
         </label>
       </div>
 
-      <div class="medium-12 columns">
+      <div class="w-full">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="channelWidgetColor" />
         </label>
       </div>
 
-      <div class="medium-12 columns">
+      <div class="w-full">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL') }}
           <input
-            v-model.trim="channelWelcomeTitle"
+            v-model="channelWelcomeTitle"
             type="text"
             :placeholder="
               $t(
@@ -59,13 +132,13 @@
           />
         </label>
       </div>
-      <div class="medium-12 columns">
+      <div class="w-full">
         <label>
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
           }}
           <input
-            v-model.trim="channelWelcomeTagline"
+            v-model="channelWelcomeTagline"
             type="text"
             :placeholder="
               $t(
@@ -75,7 +148,7 @@
           />
         </label>
       </div>
-      <label class="medium-12 columns">
+      <label class="w-full">
         {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL') }}
         <select v-model="greetingEnabled">
           <option :value="true">
@@ -101,25 +174,22 @@
           }}
         </p>
       </label>
-      <div v-if="greetingEnabled" class="medium-12 columns">
-        <label>
-          {{
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
-          }}
-          <input
-            v-model.trim="greetingMessage"
-            type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-              )
-            "
-          />
-        </label>
-      </div>
-
-      <div class="modal-footer">
-        <div class="medium-12 columns">
+      <GreetingsEditor
+        v-if="greetingEnabled"
+        v-model="greetingMessage"
+        class="w-full"
+        :label="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+        "
+        :placeholder="
+          $t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+          )
+        "
+        :richtext="!textAreaChannels"
+      />
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+        <div class="w-full">
           <woot-submit-button
             :loading="uiFlags.isCreating"
             :disabled="!channelWebsiteUrl || !inboxName"
@@ -130,57 +200,3 @@
     </form>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-
-export default {
-  components: {
-    PageHeader,
-  },
-  data() {
-    return {
-      inboxName: '',
-      channelWebsiteUrl: '',
-      channelWidgetColor: '#009CE0',
-      channelWelcomeTitle: '',
-      channelWelcomeTagline: '',
-      greetingEnabled: false,
-      greetingMessage: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-    }),
-  },
-  methods: {
-    async createChannel() {
-      const website = await this.$store.dispatch(
-        'inboxes/createWebsiteChannel',
-        {
-          name: this.inboxName,
-          greeting_enabled: this.greetingEnabled,
-          greeting_message: this.greetingMessage,
-          channel: {
-            type: 'web_widget',
-            website_url: this.channelWebsiteUrl,
-            widget_color: this.channelWidgetColor,
-            welcome_title: this.channelWelcomeTitle,
-            welcome_tagline: this.channelWelcomeTagline,
-          },
-        }
-      );
-      router.replace({
-        name: 'settings_inboxes_add_agents',
-        params: {
-          page: 'new',
-          inbox_id: website.id,
-        },
-      });
-    },
-  },
-};
-</script>

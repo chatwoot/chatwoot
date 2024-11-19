@@ -1,0 +1,88 @@
+{
+  "MACROS": {
+    "HEADER": "宏",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "添加一个新宏文件",
+    "HEADER_BTN_TXT_SAVE": "保存宏文件",
+    "LOADING": "获取宏中",
+    "ERROR": "出错了。请重试",
+    "ORDER_INFO": "宏将按照您添加操作的顺序运行。您可以通过拖动每个节点旁边的手柄来重新排列它们。",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "宏名称",
+          "PLACEHOLDER": "为您的宏输入名称",
+          "ERROR": "创建宏需要名称"
+        },
+        "ACTIONS": {
+          "LABEL": "操作"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "宏添加成功",
+        "ERROR_MESSAGE": "无法创建宏，请稍后再试。"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "姓名：",
+        "创建者",
+        "最后更新者",
+        "可视性"
+      ],
+      "404": "未找到宏"
+    },
+    "DELETE": {
+      "TOOLTIP": "删除宏文件",
+      "CONFIRM": {
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是，删除",
+        "NO": "否"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "宏添加成功",
+        "ERROR_MESSAGE": "删除宏时出错。请稍后再试"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "编辑宏文件",
+      "API": {
+        "SUCCESS_MESSAGE": "宏观已成功更新",
+        "ERROR_MESSAGE": "无法更新宏，请稍后再试"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "启动流",
+      "END_FLOW": "结束流",
+      "LOADING": "正在获取宏文件",
+      "ADD_BTN_TOOLTIP": "添加新操作",
+      "DELETE_BTN_TOOLTIP": "删除",
+      "VISIBILITY": {
+        "LABEL": "宏可见性",
+        "GLOBAL": {
+          "LABEL": "公开的",
+          "DESCRIPTION": "此宏对此帐户中的所有代理公开可用"
+        },
+        "PERSONAL": {
+          "LABEL": "私人的",
+          "DESCRIPTION": "这个宏将私有化，其他人无法使用。"
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "执行",
+      "PREVIEW": "预览宏...",
+      "EXECUTED_SUCCESSFULLY": "宏成功执行"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "必须填写值",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    }
+  }
+}

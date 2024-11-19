@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Фильтровать контакты",
+    "SUBTITLE": "Добавьте фильтры и нажмите 'Отправить' для фильтрации контактов.",
+    "EDIT_CUSTOM_SEGMENT": "Редактировать сегмент",
+    "CUSTOM_VIEWS_SUBTITLE": "Добавляйте или удаляйте фильтры и обновляйте свой сегмент.",
+    "ADD_NEW_FILTER": "Добавить фильтр",
+    "CLEAR_ALL_FILTERS": "Очистить фильтры",
+    "FILTER_DELETE_ERROR": "У вас должен быть по крайней мере один фильтр для сохранения",
+    "SUBMIT_BUTTON_LABEL": "Отправить",
+    "UPDATE_BUTTON_LABEL": "Обновить сегмент",
+    "CANCEL_BUTTON_LABEL": "Отменить",
+    "CLEAR_BUTTON_LABEL": "Очистить фильтры",
+    "EMPTY_VALUE_ERROR": "Необходимо указать значение",
+    "SEGMENT_LABEL": "Имя сегмента",
+    "SEGMENT_QUERY_LABEL": "Запрос сегмента",
+    "TOOLTIP_LABEL": "Фильтровать контакты",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "И",
+      "OR": "ИЛИ"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Равно",
+      "not_equal_to": "Не равно",
+      "contains": "Содержит",
+      "does_not_contain": "Не содержит",
+      "is_present": "Присутствует",
+      "is_not_present": "Отсутствует",
+      "is_greater_than": "Больше чем",
+      "is_lesser_than": "Меньше чем",
+      "days_before": "x дней до"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необходимо указать значение"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Имя",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Номер телефона",
+      "IDENTIFIER": "Идентификатор",
+      "CITY": "Город",
+      "COUNTRY": "Страна",
+      "CUSTOM_ATTRIBUTE_LIST": "Список",
+      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Число",
+      "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
+      "CREATED_AT": "Дата создания",
+      "LAST_ACTIVITY": "Последние действия",
+      "REFERER_LINK": "Реферальная ссылка",
+      "BLOCKED": "Заблокирован"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Стандартные фильтры",
+      "ADDITIONAL_FILTERS": "Дополнительные фильтры",
+      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
+    }
+  }
+}

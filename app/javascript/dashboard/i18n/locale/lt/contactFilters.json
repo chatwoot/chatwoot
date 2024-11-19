@@ -1,0 +1,59 @@
+{
+  "CONTACTS_FILTER": {
+    "TITLE": "Filtruoti Kontaktus",
+    "SUBTITLE": "Toliau pridėkite filtrus ir paspauskite \"Pateikti\", kad filtruotumėte kontaktus.",
+    "EDIT_CUSTOM_SEGMENT": "Redaguoti segmentą",
+    "CUSTOM_VIEWS_SUBTITLE": "Pridėkite arba pašalinkite filtrus ir atnaujinkite segmentą.",
+    "ADD_NEW_FILTER": "Pridėti Filtrą",
+    "CLEAR_ALL_FILTERS": "Išvalyti visus filtrus",
+    "FILTER_DELETE_ERROR": "Turėtumėte turėti bent vieną filtrą, kad galėtumėte išsaugoti",
+    "SUBMIT_BUTTON_LABEL": "Pateikti",
+    "UPDATE_BUTTON_LABEL": "Atnaujinti segmentą",
+    "CANCEL_BUTTON_LABEL": "Atšaukti",
+    "CLEAR_BUTTON_LABEL": "Išvalyti filtrus",
+    "EMPTY_VALUE_ERROR": "Reikalinga vertė",
+    "SEGMENT_LABEL": "Segmento Pavadinimas",
+    "SEGMENT_QUERY_LABEL": "Segmento užklausa",
+    "TOOLTIP_LABEL": "Filtruoti kontaktus",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "IR",
+      "OR": "AR"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Lygu",
+      "not_equal_to": "Nelygu",
+      "contains": "Sudėtyje yra",
+      "does_not_contain": "Sudėtyje nėra",
+      "is_present": "Pateikiamas",
+      "is_not_present": "Nepateikiamas",
+      "is_greater_than": "Yra didensni nei",
+      "is_lesser_than": "Yra mažesnis nei",
+      "days_before": "Yra prieš x dienų"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Reikalinga vertė"
+    },
+    "ATTRIBUTES": {
+      "NAME": "Vardas",
+      "EMAIL": "El. paštas",
+      "PHONE_NUMBER": "Telefono numeris",
+      "IDENTIFIER": "Identifikatorius",
+      "CITY": "Miestas",
+      "COUNTRY": "Šalis",
+      "CUSTOM_ATTRIBUTE_LIST": "Sąrašas",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekstas",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numeris",
+      "CUSTOM_ATTRIBUTE_LINK": "Nuoroda",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Žymimasis langelis",
+      "CREATED_AT": "Sukūrimo data",
+      "LAST_ACTIVITY": "Paskutiniai veiksmai",
+      "REFERER_LINK": "Rekomendacijos nuoroda",
+      "BLOCKED": "Blocked"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standartinis Filtras",
+      "ADDITIONAL_FILTERS": "Papildomas Filtras",
+      "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai"
+    }
+  }
+}

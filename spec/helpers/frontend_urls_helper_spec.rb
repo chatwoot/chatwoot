@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe FrontendUrlsHelper, type: :helper do
+describe FrontendUrlsHelper do
   describe '#frontend_url' do
     context 'without query params' do
       it 'creates path correctly' do

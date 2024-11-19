@@ -1,32 +1,32 @@
 import { getters } from '../../integrations';
 
 describe('#getters', () => {
-  it('getIntegrations', () => {
+  it('getAppIntegrations', () => {
     const state = {
       records: [
         {
-          id: 1,
-          name: 'test1',
+          id: 'dyte',
+          name: 'dyte',
           logo: 'test',
           enabled: true,
         },
         {
-          id: 2,
+          id: 'dialogflow',
           name: 'test2',
           logo: 'test',
           enabled: true,
         },
       ],
     };
-    expect(getters.getIntegrations(state)).toEqual([
+    expect(getters.getAppIntegrations(state)).toEqual([
       {
-        id: 1,
-        name: 'test1',
+        id: 'dyte',
+        name: 'dyte',
         logo: 'test',
         enabled: true,
       },
       {
-        id: 2,
+        id: 'dialogflow',
         name: 'test2',
         logo: 'test',
         enabled: true,

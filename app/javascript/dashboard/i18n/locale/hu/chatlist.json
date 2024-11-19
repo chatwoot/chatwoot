@@ -1,85 +1,131 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Beszélgetések betöltése",
+    "LOAD_MORE_CONVERSATIONS": "További beszélgetések betöltése",
+    "EOF": "Minden beszélgetés betöltve 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Nincs aktív üzenetváltás ebben a csoportban."
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "Beszélgetések",
+    "MENTION_HEADING": "Megemlítések",
+    "UNATTENDED_HEADING": "Figyelmen kívül hagyott",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Open",
-        "KEY": "openCount"
+    "FILTER_ALL": "Mind",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Enyém",
+      "unassigned": "Gazdátlan",
+      "all": "Mind"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Megnyitás"
       },
-      {
-        "NAME": "Resolved",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Megoldva"
+      },
+      "pending": {
+        "TEXT": "Függőben lévő"
+      },
+      "snoozed": {
+        "TEXT": "Elnémított"
+      },
+      "all": {
+        "TEXT": "Mind"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
+    },
+    "VIEW_FILTER": "Megtekintés",
+    "SORT_TOOLTIP_LABEL": "Beszélgetések rendezése",
+    "CHAT_SORT": {
+      "STATUS": "Státusz",
+      "ORDER_BY": "Rendezés"
+    },
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Létrehozva",
+        "OLDEST": "Létrehozva:"
       },
-      {
-        "NAME": "Unassigned",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "All",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Utolsó aktivitás:",
+        "ACTIVE": "Utolsó aktivitás"
       }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Open",
-        "VALUE": "open"
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Utolsó tevékenység: Legrégebbi először"
       },
-      {
-        "TEXT": "Resolved",
-        "VALUE": "resolved"
+      "last_activity_at_desc": {
+        "TEXT": "Utolsó tevékenység: Legújabb először"
       },
-      {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+      "created_at_desc": {
+        "TEXT": "Készült: Legújabb először"
+      },
+      "created_at_asc": {
+        "TEXT": "Készült: Legrégebbi először"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritás: Először a legfontosabb"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritás: Legkevésbé fontos először"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Függőben lévő válasz: Leghosszabb először"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Függőben lévő válasz: Legrövidebb először"
       }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
-        "CONTENT": "Picture message"
+        "CONTENT": "Képüzenet"
       },
       "audio": {
-        "ICON": "ion-volume-high",
-        "CONTENT": "Audio message"
+        "CONTENT": "Hangüzenet"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
-        "CONTENT": "Video message"
+        "CONTENT": "Videoüzenet"
       },
       "file": {
-        "ICON": "ion-document",
-        "CONTENT": "File Attachment"
+        "CONTENT": "Csatolt file"
       },
       "location": {
-        "ICON": "ion-ios-location",
-        "CONTENT": "Location"
+        "CONTENT": "Hely"
       },
       "fallback": {
-        "ICON": "ion-link",
-        "CONTENT": "has shared a url"
+        "CONTENT": "megosztott URL-t tartalmaz"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages"
+    "CHAT_SORT_BY_FILTER": {
+      "TITLE": "Beszélgetés rendezése",
+      "DROPDOWN_TITLE": "Rendezés",
+      "ITEMS": {
+        "LATEST": {
+          "NAME": "Utolsó aktivitás",
+          "LABEL": "Utolsó aktivitás"
+        },
+        "CREATED_AT": {
+          "NAME": "Létrehozva",
+          "LABEL": "Létrehozva"
+        },
+        "LAST_USER_MESSAGE_AT": {
+          "NAME": "Utolsó felhasználói üzenet",
+          "LABEL": "Utolsó üzenet"
+        }
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
+    "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
+    "REPLY_TO_TWEET": "Válasz",
+    "LINK_TO_STORY": "Instagram story megnyitása",
+    "SENT": "Sikeresen elküldve",
+    "READ": "Olvasott",
+    "DELIVERED": "Elküldve",
+    "NO_MESSAGES": "Nincs üzenet",
+    "NO_CONTENT": "Nincs elérhető tartalom",
+    "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
+    "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
+    "MESSAGE_READ": "Olvasott"
   }
 }

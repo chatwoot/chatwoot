@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} gesprekken geselecteerd",
+    "AGENT_SELECT_LABEL": "Selecteer agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u {conversationCount} {conversationLabel} wilt toewijzen aan",
+    "UNASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u {conversationCount} {conversationLabel} wilt ontkoppelen?",
+    "GO_BACK_LABEL": "Ga terug",
+    "ASSIGN_LABEL": "Toewijzen",
+    "YES": "Ja",
+    "SEARCH_INPUT_PLACEHOLDER": "Zoeken",
+    "ASSIGN_AGENT_TOOLTIP": "Agent toewijzen",
+    "ASSIGN_TEAM_TOOLTIP": "Team toewijzen",
+    "ASSIGN_SUCCESFUL": "Gesprekken succesvol toegewezen.",
+    "ASSIGN_FAILED": "Toewijzen van gesprekken mislukt, probeer het opnieuw.",
+    "RESOLVE_SUCCESFUL": "Gesprekken succesvol opgehaald.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Gesprekken die op deze pagina zichtbaar zijn, zijn alleen geselecteerd.",
+    "AGENT_LIST_LOADING": "Agents worden geladen",
+    "UPDATE": {
+      "CHANGE_STATUS": "Status wijzigen",
+      "SNOOZE_UNTIL": "Sluimeren",
+      "UPDATE_SUCCESFUL": "Gespreksstatus succesvol bijgewerkt.",
+      "UPDATE_FAILED": "Update van gesprekken mislukt, probeer het opnieuw."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Labels toewijzen",
+      "NO_LABELS_FOUND": "Geen labels gevonden voor",
+      "ASSIGN_SELECTED_LABELS": "Geselecteerde labels toewijzen",
+      "ASSIGN_SUCCESFUL": "Labels met succes toegewezen.",
+      "ASSIGN_FAILED": "Toewijzen van labels mislukt, probeer het opnieuw."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Selecteer team",
+      "NONE": "Geen",
+      "NO_TEAMS_AVAILABLE": "Er zijn nog geen teams toegevoegd aan dit account.",
+      "ASSIGN_SELECTED_TEAMS": "Geselecteerde team toewijzen.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Toewijzen team mislukt, probeer het opnieuw."
+    }
+  }
+}

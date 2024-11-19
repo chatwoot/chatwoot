@@ -29,6 +29,8 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
   end
 
   def screen_name
+    return "@#{reply_to_message.inbox.name}" if reply_to_message.outgoing?
+
     "@#{reply_to_message.sender&.additional_attributes.try(:[], 'screen_name') || ''}"
   end
 
@@ -56,7 +58,7 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
       tweet_data = response.body
       message.update!(source_id: tweet_data['id_str'])
     else
-      Rails.logger.info "TWITTER_TWEET_REPLY_ERROR #{response.body}"
+      Rails.logger.error "TWITTER_TWEET_REPLY_ERROR #{response.body}"
     end
   end
 end

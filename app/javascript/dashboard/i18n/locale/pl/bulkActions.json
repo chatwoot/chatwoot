@@ -1,0 +1,41 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "{conversationCount} wybranych rozmów",
+    "AGENT_SELECT_LABEL": "Wybierz konsultanta",
+    "ASSIGN_CONFIRMATION_LABEL": "Czy na pewno chcesz przypisać {conversationCount} {conversationLabel} do",
+    "UNASSIGN_CONFIRMATION_LABEL": "Czy na pewno chcesz odwołać przypisanie {conversationCount} {conversationLabel}?",
+    "GO_BACK_LABEL": "Powróć",
+    "ASSIGN_LABEL": "Przypisz",
+    "YES": "Tak",
+    "SEARCH_INPUT_PLACEHOLDER": "Szukaj",
+    "ASSIGN_AGENT_TOOLTIP": "Przypisz Agenta",
+    "ASSIGN_TEAM_TOOLTIP": "Przypisz zespół",
+    "ASSIGN_SUCCESFUL": "Rozmowy zostały pomyślnie przypisane.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Rozmowy zostały pomyślnie zakończone.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Zaznaczone rozmowy widoczne na tej stronie.",
+    "AGENT_LIST_LOADING": "Ładowanie agentów",
+    "UPDATE": {
+      "CHANGE_STATUS": "Zmień status",
+      "SNOOZE_UNTIL": "Uśpij",
+      "UPDATE_SUCCESFUL": "Status rozmowy został pomyślnie zaktualizowany.",
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign labels",
+      "NO_LABELS_FOUND": "Nie znaleziono etykiet dla",
+      "ASSIGN_SELECTED_LABELS": "Przypisz wybrane etykiety",
+      "ASSIGN_SUCCESFUL": "Etykiety zostały pomyślnie przypisane.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Wybierz zespół",
+      "NONE": "Brak",
+      "NO_TEAMS_AVAILABLE": "Na tym koncie nie dodano jeszcze żadnych zespołów.",
+      "ASSIGN_SELECTED_TEAMS": "Przypisz wybrany zespół.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    }
+  }
+}

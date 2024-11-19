@@ -1,113 +1,79 @@
-<template>
-  <div class="wizard-body small-9 columns">
-    <page-header
-      :header-title="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.DESC')"
-    />
-    <form class="row" @submit.prevent="createChannel()">
-      <div class="medium-8 columns">
-        <label :class="{ error: $v.channelName.$error }">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.LABEL') }}
-          <input
-            v-model.trim="channelName"
-            type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
-            @blur="$v.channelName.$touch"
-          />
-          <span v-if="$v.channelName.$error" class="message">{{
-            $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.ERROR')
-          }}</span>
-        </label>
-      </div>
+<script setup>
+import { ref, computed } from 'vue';
+import ForwardToOption from './emailChannels/ForwardToOption.vue';
+import Microsoft from './emailChannels/Microsoft.vue';
+import Google from './emailChannels/Google.vue';
+import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 
-      <div class="medium-8 columns">
-        <label :class="{ error: $v.email.$error }">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.LABEL') }}
-          <input
-            v-model.trim="email"
-            type="text"
-            :placeholder="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.PLACEHOLDER')"
-            @blur="$v.email.$touch"
-          />
-        </label>
-        <p class="help-text">
-          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.SUBTITLE') }}
-        </p>
-      </div>
+import { useStoreGetters } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
 
-      <div class="medium-12 columns">
-        <woot-submit-button
-          :loading="uiFlags.isCreating"
-          :button-text="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SUBMIT_BUTTON')"
-        />
-      </div>
-    </form>
-  </div>
-</template>
+const provider = ref('');
 
-<script>
-import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
-import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
+const getters = useStoreGetters();
+const { t } = useI18n();
 
-const validEmail = (value = '') => value.includes('@');
+const globalConfig = getters['globalConfig/get'];
+const isAChatwootInstance = getters['globalConfig/isAChatwootInstance'];
 
-export default {
-  components: {
-    PageHeader,
-  },
-  mixins: [alertMixin],
-  data() {
-    return {
-      channelName: '',
-      email: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-    }),
-  },
-  validations: {
-    channelName: { required },
-    email: { required, validEmail },
-  },
-  methods: {
-    async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-
-      try {
-        const emailChannel = await this.$store.dispatch(
-          'inboxes/createChannel',
-          {
-            name: this.channelName,
-            channel: {
-              type: 'email',
-              email: this.email,
-            },
-          }
-        );
-
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: emailChannel.id,
-          },
-        });
-      } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
-        );
-      }
+const emailProviderList = computed(() => {
+  return [
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.MICROSOFT'),
+      isEnabled: !!globalConfig.value.azureAppId,
+      key: 'microsoft',
+      src: '/assets/images/dashboard/channels/microsoft.png',
     },
-  },
-};
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE'),
+      isEnabled: !!window.chatwootConfig.googleOAuthClientId,
+      key: 'google',
+      src: '/assets/images/dashboard/channels/google.png',
+    },
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS'),
+      isEnabled: true,
+      key: 'other_provider',
+      src: '/assets/images/dashboard/channels/email.png',
+    },
+  ].filter(providerConfig => {
+    if (isAChatwootInstance.value) {
+      return true;
+    }
+    return providerConfig.isEnabled;
+  });
+});
+
+function onClick(emailProvider) {
+  if (emailProvider.isEnabled) {
+    provider.value = emailProvider.key;
+  }
+}
 </script>
+
+<template>
+  <div
+    v-if="!provider"
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full md:w-full max-w-full md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <PageHeader
+      class="max-w-4xl"
+      :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
+      :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
+    />
+    <div class="grid max-w-3xl grid-cols-4 mx-0 mt-6">
+      <ChannelSelector
+        v-for="emailProvider in emailProviderList"
+        :key="emailProvider.key"
+        :class="{ inactive: !emailProvider.isEnabled }"
+        :title="emailProvider.title"
+        :src="emailProvider.src"
+        @click="() => onClick(emailProvider)"
+      />
+    </div>
+  </div>
+  <Microsoft v-else-if="provider === 'microsoft'" />
+  <Google v-else-if="provider === 'google'" />
+  <ForwardToOption v-else-if="provider === 'other_provider'" />
+</template>

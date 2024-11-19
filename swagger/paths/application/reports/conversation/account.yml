@@ -1,0 +1,23 @@
+tags:
+  - Reports
+operationId: get-account-conversation-metrics
+summary: Account Conversation Metrics
+description: Get conversation metrics for Account
+responses:
+  200:
+    description: Success
+    schema:
+      type: object
+      description: 'Object of account conversation metrics'
+      properties:
+        open:
+          type: number
+        unattended:
+          type: number
+        unassigned:
+          type: number
+        
+  404:
+    description: reports not found
+  403:
+    description: Access denied

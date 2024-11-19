@@ -1,96 +1,85 @@
-<template>
-  <aside class="sidebar animated shrink columns">
-    <div class="logo">
-      <router-link :to="dashboardPath" replace>
-        <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
-      </router-link>
-    </div>
-
-    <div class="main-nav">
-      <transition-group name="menu-list" tag="ul" class="menu vertical">
-        <sidebar-item
-          v-for="item in accessibleMenuItems"
-          :key="item.toState"
-          :menu-item="item"
-        />
-        <sidebar-item
-          v-if="shouldShowTeams"
-          :key="teamSection.toState"
-          :menu-item="teamSection"
-        />
-        <sidebar-item
-          v-if="shouldShowInboxes"
-          :key="inboxSection.toState"
-          :menu-item="inboxSection"
-        />
-        <sidebar-item
-          v-if="shouldShowInboxes"
-          :key="labelSection.toState"
-          :menu-item="labelSection"
-        />
-      </transition-group>
-    </div>
-
-    <div class="bottom-nav">
-      <availability-status />
-    </div>
-
-    <div class="bottom-nav app-context-menu" @click="toggleOptions">
-      <agent-details @show-options="toggleOptions" />
-      <notification-bell />
-      <span class="current-user--options icon ion-android-more-vertical" />
-      <options-menu
-        :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @close="toggleOptions"
-      />
-    </div>
-
-    <account-selector
-      :show-account-modal="showAccountModal"
-      @close-account-modal="toggleAccountModal"
-      @show-create-account-modal="openCreateAccountModal"
-    />
-
-    <add-account-modal
-      :show="showCreateAccountModal"
-      @close-account-create-modal="closeCreateAccountModal"
-    />
-  </aside>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { getSidebarItems } from './config/default-sidebar';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useRoute, useRouter } from 'vue-router';
 
-import adminMixin from '../../mixins/isAdmin';
-import SidebarItem from './SidebarItem';
-import AvailabilityStatus from './AvailabilityStatus';
-import { frontendURL } from '../../helper/URLHelper';
-import { getSidebarItems } from '../../i18n/default-sidebar';
-import alertMixin from 'shared/mixins/alertMixin';
-import NotificationBell from './sidebarComponents/NotificationBell';
-import AgentDetails from './sidebarComponents/AgentDetails.vue';
-import OptionsMenu from './sidebarComponents/OptionsMenu.vue';
-import AccountSelector from './sidebarComponents/AccountSelector.vue';
-import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
+import PrimarySidebar from './sidebarComponents/Primary.vue';
+import SecondarySidebar from './sidebarComponents/Secondary.vue';
+import { routesWithPermissions } from '../../routes';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from '../../helper/permissionsHelper';
 
 export default {
   components: {
-    AgentDetails,
-    SidebarItem,
-    AvailabilityStatus,
-    NotificationBell,
-    OptionsMenu,
-    AccountSelector,
-    AddAccountModal,
+    PrimarySidebar,
+    SecondarySidebar,
   },
-  mixins: [adminMixin, alertMixin],
+  props: {
+    showSecondarySidebar: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  emits: [
+    'toggleAccountModal',
+    'showAddLabelPopup',
+    'openNotificationPanel',
+    'closeKeyShortcutModal',
+    'openKeyShortcutModal',
+  ],
+  setup(props, { emit }) {
+    const route = useRoute();
+    const router = useRouter();
+    const { accountId } = useAccount();
+
+    const toggleKeyShortcutModal = () => {
+      emit('openKeyShortcutModal');
+    };
+    const closeKeyShortcutModal = () => {
+      emit('closeKeyShortcutModal');
+    };
+    const isCurrentRouteSameAsNavigation = routeName => {
+      return route.name === routeName;
+    };
+    const navigateToRoute = routeName => {
+      if (!isCurrentRouteSameAsNavigation(routeName)) {
+        router.push({ name: routeName });
+      }
+    };
+    const keyboardEvents = {
+      '$mod+Slash': {
+        action: toggleKeyShortcutModal,
+      },
+      '$mod+Escape': {
+        action: closeKeyShortcutModal,
+      },
+      'Alt+KeyC': {
+        action: () => navigateToRoute('home'),
+      },
+      'Alt+KeyV': {
+        action: () => navigateToRoute('contacts_dashboard'),
+      },
+      'Alt+KeyR': {
+        action: () => navigateToRoute('account_overview_reports'),
+      },
+      'Alt+KeyS': {
+        action: () => navigateToRoute('agent_list'),
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+
+    return {
+      toggleKeyShortcutModal,
+      accountId,
+    };
+  },
   data() {
     return {
       showOptionsMenu: false,
-      showAccountModal: false,
-      showCreateAccountModal: false,
     };
   },
 
@@ -99,107 +88,101 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
-      accountId: 'getCurrentAccountId',
-      currentRole: 'getCurrentRole',
-      accountLabels: 'labels/getLabelsOnSidebar',
+      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
-
-    sidemenuItems() {
+    activeCustomView() {
+      if (this.activePrimaryMenu.key === 'contacts') {
+        return 'contact';
+      }
+      if (this.activePrimaryMenu.key === 'conversations') {
+        return 'conversation';
+      }
+      return '';
+    },
+    customViews() {
+      if (!this.activeCustomView) {
+        return [];
+      }
+      return this.$store.getters['customViews/getCustomViewsByFilterType'](
+        this.activeCustomView
+      );
+    },
+    isConversationOrContactActive() {
+      return (
+        this.activePrimaryMenu.key === 'contacts' ||
+        this.activePrimaryMenu.key === 'conversations'
+      );
+    },
+    sideMenuConfig() {
       return getSidebarItems(this.accountId);
     },
-    accessibleMenuItems() {
-      // get all keys in menuGroup
-      const groupKey = Object.keys(this.sidemenuItems);
+    primaryMenuItems() {
+      const userPermissions = getUserPermissions(
+        this.currentUser,
+        this.accountId
+      );
+      const menuItems = this.sideMenuConfig.primaryMenu;
+      return menuItems.filter(menuItem => {
+        const isAvailableForTheUser = hasPermissions(
+          routesWithPermissions[menuItem.toStateName],
+          userPermissions
+        );
 
-      let menuItems = [];
-      // Iterate over menuGroup to find the correct group
-      for (let i = 0; i < groupKey.length; i += 1) {
-        const groupItem = this.sidemenuItems[groupKey[i]];
-        // Check if current route is included
-        const isRouteIncluded = groupItem.routes.includes(this.currentRoute);
-        if (isRouteIncluded) {
-          menuItems = Object.values(groupItem.menuItems);
+        if (!isAvailableForTheUser) {
+          return false;
         }
-      }
+        if (
+          menuItem.alwaysVisibleOnChatwootInstances &&
+          !this.isACustomBrandedInstance
+        ) {
+          return true;
+        }
+        if (menuItem.featureFlag) {
+          return this.isFeatureEnabledonAccount(
+            this.accountId,
+            menuItem.featureFlag
+          );
+        }
+        return true;
+      });
+    },
+    activeSecondaryMenu() {
+      const { secondaryMenu } = this.sideMenuConfig;
+      const { name: currentRoute } = this.$route;
 
-      return this.filterMenuItemsByRole(menuItems);
+      const activeSecondaryMenu =
+        secondaryMenu.find(menuItem =>
+          menuItem.routes.includes(currentRoute)
+        ) || {};
+      return activeSecondaryMenu;
     },
-    currentRoute() {
-      return this.$store.state.route.name;
+    activePrimaryMenu() {
+      const activePrimaryMenu =
+        this.primaryMenuItems.find(
+          menuItem => menuItem.key === this.activeSecondaryMenu.parentNav
+        ) || {};
+      return activePrimaryMenu;
     },
-    shouldShowInboxes() {
-      return this.sidemenuItems.common.routes.includes(this.currentRoute);
+    hasSecondaryMenu() {
+      return (
+        this.activeSecondaryMenu.menuItems &&
+        this.activeSecondaryMenu.menuItems.length
+      );
     },
-    shouldShowTeams() {
-      return this.shouldShowInboxes && this.teams.length;
-    },
-    inboxSection() {
-      return {
-        icon: 'ion-folder',
-        label: 'INBOXES',
-        hasSubMenu: true,
-        newLink: true,
-        key: 'inbox',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
-        toStateName: 'settings_inbox_list',
-        children: this.inboxes.map(inbox => ({
-          id: inbox.id,
-          label: inbox.name,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
-          type: inbox.channel_type,
-          phoneNumber: inbox.phone_number,
-        })),
-      };
-    },
-    labelSection() {
-      return {
-        icon: 'ion-pound',
-        label: 'LABELS',
-        hasSubMenu: true,
-        key: 'label',
-        cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
-        toStateName: 'labels_list',
-        children: this.accountLabels.map(label => ({
-          id: label.id,
-          label: label.title,
-          color: label.color,
-          truncateLabel: true,
-          toState: frontendURL(
-            `accounts/${this.accountId}/label/${label.title}`
-          ),
-        })),
-      };
-    },
-    teamSection() {
-      return {
-        icon: 'ion-ios-people',
-        label: 'TEAMS',
-        hasSubMenu: true,
-        newLink: true,
-        key: 'team',
-        cssClass: 'menu-title align-justify teams-sidebar-menu',
-        toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
-        toStateName: 'teams_list',
-        children: this.teams.map(team => ({
-          id: team.id,
-          label: team.name,
-          truncateLabel: true,
-          toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
-        })),
-      };
-    },
-    dashboardPath() {
-      return frontendURL(`accounts/${this.accountId}/dashboard`);
+    hasSecondarySidebar() {
+      // if it is explicitly stated to show and it has secondary menu items to show
+      // showSecondarySidebar corresponds to the UI settings, indicating if the user has toggled it
+      return this.showSecondarySidebar && this.hasSecondaryMenu;
     },
   },
+
   watch: {
-    currentUser(newUserInfo, oldUserInfo) {
-      if (!oldUserInfo.email && newUserInfo.email) {
-        this.setChatwootUser();
-      }
+    activeCustomView() {
+      this.fetchCustomViews();
     },
   },
   mounted() {
@@ -207,134 +190,57 @@ export default {
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
-    this.setChatwootUser();
+    this.$store.dispatch('attributes/get');
+    this.fetchCustomViews();
   },
+
   methods: {
+    fetchCustomViews() {
+      if (this.isConversationOrContactActive) {
+        this.$store.dispatch('customViews/get', this.activeCustomView);
+      }
+    },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
-    setChatwootUser() {
-      if (!this.currentUser.email || !this.globalConfig.chatwootInboxToken) {
-        return;
-      }
-      window.$chatwoot.setUser(this.currentUser.email, {
-        name: this.currentUser.name,
-        email: this.currentUser.email,
-        avatar_url: this.currentUser.avatar_url,
-        identifier_hash: this.currentUser.hmac_identifier,
-      });
-    },
-    filterMenuItemsByRole(menuItems) {
-      if (!this.currentRole) {
-        return [];
-      }
-      return menuItems.filter(
-        menuItem =>
-          window.roleWiseRoutes[this.currentRole].indexOf(
-            menuItem.toStateName
-          ) > -1
-      );
-    },
-    toggleOptions() {
-      this.showOptionsMenu = !this.showOptionsMenu;
-    },
     toggleAccountModal() {
-      this.showAccountModal = !this.showAccountModal;
+      this.$emit('toggleAccountModal');
     },
-    openCreateAccountModal() {
-      this.showAccountModal = false;
-      this.showCreateAccountModal = true;
+    showAddLabelPopup() {
+      this.$emit('showAddLabelPopup');
     },
-    closeCreateAccountModal() {
-      this.showCreateAccountModal = false;
+    openNotificationPanel() {
+      this.$emit('openNotificationPanel');
     },
   },
 };
 </script>
 
-<style lang="scss">
-@import '~dashboard/assets/scss/variables';
-
-.account-selector--modal {
-  .modal-container {
-    width: 40rem;
-  }
-
-  .page-top-bar {
-    padding-bottom: $space-two;
-  }
-}
-
-.change-accounts--button.button {
-  font-weight: $font-weight-normal;
-  font-size: $font-size-small;
-  padding: $space-small $space-one;
-}
-
-.dropdown-pane {
-  li {
-    a {
-      padding: $space-small $space-one !important;
-    }
-  }
-}
-
-.account-selector {
-  cursor: pointer;
-  padding: $space-small $space-large;
-
-  .ion-ios-checkmark {
-    font-size: $font-size-big;
-
-    & + .account--details {
-      padding-left: $space-normal;
-    }
-  }
-
-  .account--details {
-    padding-left: $space-large + $space-smaller;
-  }
-
-  &:last-child {
-    margin-bottom: $space-large;
-  }
-
-  a {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-
-    .account--name {
-      cursor: pointer;
-      font-size: $font-size-medium;
-      font-weight: $font-weight-medium;
-      line-height: 1;
-    }
-
-    .account--role {
-      cursor: pointer;
-      font-size: $font-size-mini;
-      text-transform: capitalize;
-    }
-  }
-}
-
-.app-context-menu {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  height: 6rem;
-}
-
-.current-user--options {
-  font-size: $font-size-big;
-  margin-bottom: auto;
-  margin-left: auto;
-  margin-top: auto;
-}
-
-.teams-sidebar-menu + .nested.vertical.menu {
-  padding-left: calc(var(--space-medium) - var(--space-one));
-}
-</style>
+<template>
+  <aside class="flex h-full">
+    <PrimarySidebar
+      :logo-source="globalConfig.logoThumbnail"
+      :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
+      :account-id="accountId"
+      :menu-items="primaryMenuItems"
+      :active-menu-item="activePrimaryMenu.key"
+      @toggle-accounts="toggleAccountModal"
+      @open-key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
+    />
+    <SecondarySidebar
+      v-if="hasSecondarySidebar"
+      :account-id="accountId"
+      :inboxes="inboxes"
+      :labels="labels"
+      :teams="teams"
+      :custom-views="customViews"
+      :menu-config="activeSecondaryMenu"
+      :current-user="currentUser"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
+      @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
+    />
+  </aside>
+</template>
