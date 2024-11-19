@@ -96,6 +96,7 @@ function updateAutoOffline(autoOffline) {
               :key="status.value"
               :label="status.label"
               :icon="status.icon"
+              class="cursor-pointer"
               @click="changeAvailabilityStatus(status.value)"
             />
           </DropdownBody>
