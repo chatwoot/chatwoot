@@ -96,7 +96,7 @@ button {
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon+.button__content {
+  .icon + .button__content {
     @apply w-auto;
   }
 
