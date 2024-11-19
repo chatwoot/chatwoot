@@ -112,7 +112,6 @@ useKeyboardEvents({ Escape: { action: closeModal } });
     ref="dialogRef"
     :title="filterModalHeaderTitle"
     width="3xl"
-    class="transition-all duration-300 ease-in-out overflow-visible"
     @close="() => emit('close')"
   >
     <template #form>
