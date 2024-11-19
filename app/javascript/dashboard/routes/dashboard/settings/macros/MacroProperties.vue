@@ -56,12 +56,12 @@ export default {
             v-if="macroVisibility === 'global'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-woot-500 dark:text-woot-500 top-2 right-2"
+            class="absolute text-n-brand top-2 right-2"
           />
-          <p class="block m-0 text-sm font-medium mb-1">
+          <p class="block m-0 text-sm text-n-slate-12 font-medium mb-1">
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL') }}
           </p>
-          <p class="text-sm text-slate-500 dark:text-slate-200">
+          <p class="text-sm text-n-slate-11 mb-0">
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.DESCRIPTION') }}
           </p>
         </button>
@@ -74,12 +74,12 @@ export default {
             v-if="macroVisibility === 'personal'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-woot-500 dark:text-woot-500 top-2 right-2"
+            class="absolute text-n-brand top-2 right-2"
           />
-          <p class="block m-0 text-sm font-medium mb-1">
+          <p class="block m-0 text-sm text-n-slate-12 font-medium mb-1">
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL') }}
           </p>
-          <p class="text-sm text-slate-500 dark:text-slate-200">
+          <p class="text-sm text-n-slate-11 mb-0">
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.DESCRIPTION') }}
           </p>
         </button>

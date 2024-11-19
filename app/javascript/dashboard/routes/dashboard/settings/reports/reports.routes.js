@@ -19,7 +19,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'OVERVIEW_REPORTS.HEADER',
-        icon: 'arrow-trending-lines',
         keepAlive: false,
       },
       children: [
@@ -44,7 +43,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'REPORT.HEADER',
-        icon: 'chat',
         keepAlive: false,
       },
       children: [
@@ -63,7 +61,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CSAT_REPORTS.HEADER',
-        icon: 'emoji',
         keepAlive: false,
       },
       children: [
@@ -82,7 +79,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'BOT_REPORTS.HEADER',
-        icon: 'bot',
         keepAlive: false,
       },
       children: [
@@ -102,7 +98,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AGENT_REPORTS.HEADER',
-        icon: 'people',
         keepAlive: false,
       },
       children: [
@@ -121,7 +116,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'LABEL_REPORTS.HEADER',
-        icon: 'tag',
         keepAlive: false,
       },
       children: [
@@ -140,7 +134,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'INBOX_REPORTS.HEADER',
-        icon: 'mail-inbox-all',
         keepAlive: false,
       },
       children: [
@@ -159,7 +152,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'TEAM_REPORTS.HEADER',
-        icon: 'people-team',
       },
       children: [
         {
@@ -177,7 +169,6 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'SLA_REPORTS.HEADER',
-        icon: 'document-list-clock',
         keepAlive: false,
       },
       children: [

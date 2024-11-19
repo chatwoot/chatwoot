@@ -8,9 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div
-    class="flex flex-col w-full h-full m-0 p-6 sm:py-8 lg:px-16 overflow-auto bg-n-background"
-  >
+  <div class="flex flex-col w-full h-full m-0 overflow-auto bg-n-background">
     <div class="flex items-start w-full max-w-6xl mx-auto">
       <router-view v-slot="{ Component }">
         <keep-alive v-if="keepAlive">

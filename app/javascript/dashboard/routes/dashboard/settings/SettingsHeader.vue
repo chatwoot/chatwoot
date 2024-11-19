@@ -69,6 +69,7 @@ export default {
         {{ headerTitle }}
       </span>
     </h1>
+    <slot name="action-button" />
     <router-link
       v-if="showNewButton && isAdmin"
       :to="buttonRoute"

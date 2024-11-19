@@ -64,7 +64,7 @@ const openInNewTab = url => {
           </div>
         </div>
         <h1
-          class="text-2xl font-semibold tracking-[0.3px] text-slate-900 dark:text-slate-25"
+          class="text-xl font-interDisplay font-semibold tracking-[0.3px] text-slate-900 dark:text-slate-25"
         >
           {{ title }}
         </h1>
@@ -74,9 +74,9 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col gap-3 text-slate-600 dark:text-slate-300 w-full">
+    <div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 w-full">
       <p
-        class="mb-0 text-base font-normal line-clamp-5 sm:line-clamp-none max-w-3xl tracking-[-0.1px]"
+        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl leading-5"
       >
         <slot name="description">{{ description }}</slot>
       </p>
@@ -86,14 +86,14 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="sm:inline-flex hidden gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium hover:underline"
+          class="sm:inline-flex hidden gap-1 w-fit items-center text-n-brand text-sm font-medium hover:underline"
         >
           {{ linkText }}
           <fluent-icon
             size="16"
             icon="chevron-right"
             type="outline"
-            class="flex-shrink-0 text-woot-500 dark:text-woot-500"
+            class="flex-shrink-0 text-n-brand"
           />
         </a>
       </CustomBrandPolicyWrapper>
@@ -107,7 +107,7 @@ const openInNewTab = url => {
           v-if="helpURL && linkText"
           color-scheme="secondary"
           icon="arrow-outwards"
-          class="flex-row-reverse rounded-md min-w-0 !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
+          class="flex-row-reverse rounded-md text-sm min-w-0 !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
           @click="openInNewTab(helpURL)"
         >
           {{ linkText }}

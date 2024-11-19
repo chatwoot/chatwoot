@@ -25,15 +25,15 @@ export default {
 
 <template>
   <div
-    class="metric-card mb-2 p flex flex-col m-2 px-6 py-5 overflow-hidden flex-grow text-slate-700 dark:text-slate-100 min-h-[10rem] shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
+    class="metric-card flex flex-col px-6 py-5 overflow-hidden flex-grow text-slate-700 dark:text-slate-100 min-h-[8rem] shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
   >
     <div
-      class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
+      class="card-header grid w-full mb-4 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
     >
       <slot name="header">
         <div class="flex items-center gap-0.5 flex-row">
           <h5
-            class="mb-0 text-slate-800 dark:text-slate-100 font-medium text-xl"
+            class="mb-0 text-slate-800 dark:text-slate-100 font-medium text-lg"
           >
             {{ header }}
           </h5>

@@ -8,6 +8,7 @@ import { MACRO_ACTION_TYPES } from './constants';
 import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import { useMacros } from 'dashboard/composables/useMacros';
+import SettingsHeader from '../SettingsHeader.vue';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -122,19 +123,23 @@ const saveMacro = async macroData => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col flex-1 pb-10 max-w-[960px] mx-auto w-full overflow-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
-  >
-    <woot-loading-state
-      v-if="uiFlags.isFetchingItem"
-      :message="t('MACROS.EDITOR.LOADING')"
-    />
-    <MacroForm
-      v-if="macro && !uiFlags.isFetchingItem"
-      :macro-data="macro"
-      @update:macro-data="macro = $event"
-      @submit="saveMacro"
-    />
+  <div class="overflow-auto flex-1 px-4 lg:px-0">
+    <SettingsHeader :header-title="t('MACROS.HEADER')" show-back-button />
+    <div
+      class="max-w-[960px] mx-auto w-full overflow-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
+    >
+      <woot-loading-state
+        v-if="uiFlags.isFetchingItem"
+        :message="t('MACROS.EDITOR.LOADING')"
+      />
+
+      <MacroForm
+        v-if="macro && !uiFlags.isFetchingItem"
+        :macro-data="macro"
+        @update:macro-data="macro = $event"
+        @submit="saveMacro"
+      />
+    </div>
   </div>
 </template>
 
@@ -143,20 +148,16 @@ const saveMacro = async macroData => {
 
 @layer components {
   .macro-gradient-radial {
-    background-image: radial-gradient(
-        ellipse at center,
+    background-image: radial-gradient(ellipse at center,
         transparent 0%,
-        #fdfdfd 80%
-      ),
+        #fdfdfd 80%),
       radial-gradient(#cbe5ff 1.2px, transparent 0);
   }
 
   .macro-dark-gradient-radial {
-    background-image: radial-gradient(
-        circle at center,
+    background-image: radial-gradient(circle at center,
         transparent 0%,
-        #121213 70%
-      ),
+        #121213 70%),
       radial-gradient(#293f51 1.2px, transparent 0);
   }
 

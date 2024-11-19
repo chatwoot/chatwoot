@@ -150,8 +150,8 @@ const confirmDeletion = () => {
       >
         <template #actions>
           <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+            class="inline-flex items-center justify-center min-w-0 gap-2 transition-all duration-200 ease-in-out border-0 rounded-lg outline-1 outline disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50 !bg-n-brand text-white hover:brightness-110 outline-transparent px-3 !text-sm"
+            icon="add"
             @click="openAddPopup"
           >
             {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}

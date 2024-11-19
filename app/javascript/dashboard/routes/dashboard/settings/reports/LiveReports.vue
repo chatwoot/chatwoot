@@ -124,50 +124,51 @@ export default {
 
 <template>
   <div class="flex-1 overflow-auto">
-    <div class="max-w-[960px] mx-auto w-full">
-      <div class="flex flex-col items-center md:flex-row">
-        <div
-          class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
-        >
+    <div class="max-w-[960px] mx-auto w-full gap-3 flex flex-col p-1 pb-16">
+      <div class="flex flex-col items-center md:flex-row gap-3">
+        <div class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%]">
           <MetricCard
             :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
             :is-loading="uiFlags.isFetchingAccountConversationMetric"
-            :loading-message="
-              $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
-            "
+            :loading-message="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
+              "
           >
-            <div
-              v-for="(metric, name, index) in conversationMetrics"
-              :key="index"
-              class="flex-1 min-w-0 pb-2"
-            >
-              <h3 class="text-base text-slate-700 dark:text-slate-100">
-                {{ name }}
-              </h3>
-              <p class="text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1">
-                {{ metric }}
-              </p>
+            <div class="grid grid-cols-2 auto-cols-auto xl:grid-cols-4 w-full">
+              <div
+                v-for="(metric, name, index) in conversationMetrics"
+                :key="index"
+                class="w-full"
+              >
+                <h3 class="text-base text-n-slate-11">
+                  {{ name }}
+                </h3>
+                <p class="text-n-slate-12 text-3xl mb-0 mt-1">
+                  {{ metric }}
+                </p>
+              </div>
             </div>
           </MetricCard>
         </div>
         <div class="flex-1 w-full max-w-full md:w-[35%] md:max-w-[35%]">
           <MetricCard :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
-            <div
-              v-for="(metric, name, index) in agentStatusMetrics"
-              :key="index"
-              class="flex-1 min-w-0 pb-2"
-            >
-              <h3 class="text-base text-slate-700 dark:text-slate-100">
-                {{ name }}
-              </h3>
-              <p class="text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1">
-                {{ metric }}
-              </p>
+            <div class="grid grid-cols-2 auto-cols-auto xl:grid-cols-4 w-full">
+              <div
+                v-for="(metric, name, index) in agentStatusMetrics"
+                :key="index"
+                class="w-full"
+              >
+                <h3 class="text-base text-n-slate-11">
+                  {{ name }}
+                </h3>
+                <p class="text-n-slate-12 text-3xl mb-0 mt-1">
+                  {{ metric }}
+                </p>
+              </div>
             </div>
           </MetricCard>
         </div>
       </div>
-      <div class="flex flex-row flex-wrap max-w-full ml-auto mr-auto">
+      <div class="flex flex-row w-full max-w-full ml-auto mr-auto">
         <MetricCard
           :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
         >
@@ -188,7 +189,7 @@ export default {
           />
         </MetricCard>
       </div>
-      <div class="flex flex-row flex-wrap max-w-full ml-auto mr-auto">
+      <div class="flex flex-row w-full max-w-full ml-auto mr-auto">
         <MetricCard :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
           <AgentTable
             :agents="agents"

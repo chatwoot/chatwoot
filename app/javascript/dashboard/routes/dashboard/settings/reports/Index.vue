@@ -101,8 +101,7 @@ export default {
   <div class="flex-1 p-1 overflow-auto">
     <div class="max-w-[960px] w-full mx-auto mb-10">
       <woot-button
-        color-scheme="success"
-        class-names="button--fixed-top"
+        color-scheme="primary"
         icon="arrow-download"
         @click="downloadAgentReports"
       >
