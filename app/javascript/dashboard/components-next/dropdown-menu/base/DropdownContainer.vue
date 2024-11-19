@@ -1,23 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { useToggle } from '@vueuse/core';
 import { provideDropdownContext } from './provider.js';
 
 const emit = defineEmits(['close']);
-
-const isOpen = ref(false);
+const [isOpen, toggle] = useToggle(false);
 
 const closeMenu = () => {
   if (isOpen.value) {
     emit('close');
-    isOpen.value = false;
-  }
-};
-
-const toggle = newState => {
-  if (newState !== undefined) {
-    isOpen.value = newState;
-  } else {
-    isOpen.value = !isOpen.value;
+    toggle(false);
   }
 };
 
@@ -29,9 +20,9 @@ provideDropdownContext({
 </script>
 
 <template>
-  <div class="relative space-y-2">
+  <div class="relative z-20 space-y-2">
     <slot name="trigger" :is-open :toggle="() => toggle()" />
-    <div v-if="isOpen" v-on-clickaway="closeMenu" class="absolute z-20">
+    <div v-if="isOpen" v-on-clickaway="closeMenu" class="absolute">
       <slot />
     </div>
   </div>

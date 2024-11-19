@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import Icon from 'next/icon/Icon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useDropdownContext } from './provider.js';
 
 const props = defineProps({
@@ -8,10 +8,8 @@ const props = defineProps({
   icon: { type: [String, Object, Function], default: '' },
   link: { type: String, default: '' },
   click: { type: Function, default: null },
-  disabled: { type: Boolean, default: false },
   preserveOpen: { type: Boolean, default: false },
 });
-const emit = defineEmits(['click']);
 
 defineOptions({
   inheritAttrs: false,
@@ -27,9 +25,10 @@ const componentIs = computed(() => {
 });
 
 const triggerClick = () => {
-  emit('click');
-  if (props.click) props.click();
-  if (!props.preserveOpen) closeMenu();
+  if (props.click) {
+    props.click();
+    if (!props.preserveOpen) closeMenu();
+  }
 };
 </script>
 
@@ -38,14 +37,12 @@ const triggerClick = () => {
     <component
       :is="componentIs"
       v-bind="$attrs"
-      class="flex items-center w-full p-2 text-sm text-left rtl:text-right reset-base"
+      class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full border-0"
       :class="{
         'hover:bg-n-alpha-1 rounded-lg w-full gap-3': !$slots.default,
-        'pointer-events-none text-n-slate-11': props.disabled,
-        'text-n-slate-12': !props.disabled,
       }"
       :href="props.link || null"
-      @click.stop="triggerClick"
+      @click="triggerClick"
     >
       <slot>
         <slot name="icon">

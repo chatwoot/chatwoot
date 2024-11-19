@@ -5,11 +5,12 @@ import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 
-import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
-import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
-import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
-import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
-// import DropdownSeparator from 'next/dropdown-menu/base/DropdownSeparator.vue';
+import {
+  DropdownContainer,
+  DropdownBody,
+  DropdownSection,
+  DropdownItem,
+} from 'next/dropdown-menu/base';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 
@@ -65,54 +66,57 @@ function updateAutoOffline(autoOffline) {
 
 <template>
   <DropdownSection>
-    <DropdownItem>
-      <div class="flex-grow flex items-center gap-1">
-        {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
-      </div>
-      <DropdownContainer>
-        <template #trigger="{ toggle }">
-          <Button
-            size="xs"
-            color="slate"
-            variant="faded"
-            class="min-w-[96px]"
-            icon="i-lucide-chevron-down"
-            trailing-icon
-            @click="toggle"
-          >
-            <div class="flex gap-1 items-center flex-grow">
-              <div class="p-1 flex-shrink-0">
-                <div class="size-2 rounded-sm" :class="activeStatus.color" />
+    <div class="grid gap-0">
+      <DropdownItem>
+        <div class="flex-grow flex items-center gap-1">
+          {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
+        </div>
+        <DropdownContainer>
+          <template #trigger="{ toggle }">
+            <Button
+              size="sm"
+              color="slate"
+              variant="faded"
+              class="min-w-[96px]"
+              icon="i-lucide-chevron-down"
+              trailing-icon
+              @click="toggle"
+            >
+              <div class="flex gap-1 items-center flex-grow text-sm">
+                <div class="p-1 flex-shrink-0">
+                  <div class="size-2 rounded-sm" :class="activeStatus.color" />
+                </div>
+                <span>{{ activeStatus.label }}</span>
               </div>
-              <span>{{ activeStatus.label }}</span>
-            </div>
-          </Button>
-        </template>
-        <DropdownBody class="min-w-32">
-          <DropdownItem
-            v-for="status in availabilityStatuses"
-            :key="status.value"
-            :label="status.label"
-            :icon="status.icon"
-            @click="changeAvailabilityStatus(status.value)"
+            </Button>
+          </template>
+          <DropdownBody class="min-w-32">
+            <DropdownItem
+              v-for="status in availabilityStatuses"
+              :key="status.value"
+              :label="status.label"
+              :icon="status.icon"
+              class="cursor-pointer"
+              @click="changeAvailabilityStatus(status.value)"
+            />
+          </DropdownBody>
+        </DropdownContainer>
+      </DropdownItem>
+      <DropdownItem>
+        <div class="flex-grow flex items-center gap-1">
+          {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
+          <Icon
+            v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
+            icon="i-lucide-info"
+            class="size-4 text-n-slate-10"
           />
-        </DropdownBody>
-      </DropdownContainer>
-    </DropdownItem>
-    <DropdownItem>
-      <div class="flex-grow flex items-center gap-1">
-        {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
-        <Icon
-          v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
-          icon="i-lucide-info"
-          class="size-4 text-n-slate-10"
+        </div>
+        <woot-switch
+          class="flex-shrink-0"
+          :model-value="currentUserAutoOffline"
+          @input="updateAutoOffline"
         />
-      </div>
-      <woot-switch
-        class="flex-shrink-0"
-        :model-value="currentUserAutoOffline"
-        @input="updateAutoOffline"
-      />
-    </DropdownItem>
+      </DropdownItem>
+    </div>
   </DropdownSection>
 </template>
