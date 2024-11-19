@@ -397,6 +397,13 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
+    judoscale-rails (1.8.2)
+      judoscale-ruby (= 1.8.2)
+      railties
+    judoscale-ruby (1.8.2)
+    judoscale-sidekiq (1.8.2)
+      judoscale-ruby (= 1.8.2)
+      sidekiq (>= 5.0)
     jwt (2.8.1)
       base64
     kaminari (1.2.2)
@@ -633,8 +640,7 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.9)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -764,7 +770,6 @@ GEM
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
     stripe (8.5.0)
-    strscan (3.1.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
     thor (1.3.1)
@@ -893,6 +898,8 @@ DEPENDENCIES
   jbuilder
   json_refs
   json_schemer
+  judoscale-rails
+  judoscale-sidekiq
   jwt
   kaminari
   koala
