@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
-    "CHANGE_ACCOUNTS": "Trocar de conta",
-    "CONTACT_SUPPORT": "Contactar Suporte",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
-    "PROFILE_SETTINGS": "Configurações do perfil",
-    "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
-    "APPEARANCE": "Alterar Aspeto",
-    "SUPER_ADMIN_CONSOLE": "Área de Super Administrador",
-    "LOGOUT": "Desconectar"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Equipa",
     "SET_AVAILABILITY_TITLE": "Defina-se como",
+    "SET_YOUR_AVAILABILITY": "Definir disponibilidade",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
