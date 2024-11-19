@@ -112,7 +112,8 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
-  after_commit :log_status_change, if: -> { saved_change_to_status? || saved_change_to_id? }
+  after_create_commit :log_initial_status
+  after_commit :log_status_change, if: -> { saved_change_to_status? }
 
   delegate :auto_resolve_duration, to: :account
 
@@ -208,7 +209,18 @@ class Conversation < ApplicationRecord
 
   private
 
+  def log_initial_status
+    Rails.logger.info("Logging initial status for conversation #{id}")
+    ConversationStatus.create!(
+      account_id: account_id,
+      inbox_id: inbox_id,
+      conversation_id: id,
+      status: status
+    )
+  end
+
   def log_status_change
+    Rails.logger.info("Logging status change for conversation #{id}")
     ConversationStatus.create!(
       account_id: account_id,
       inbox_id: inbox_id,
