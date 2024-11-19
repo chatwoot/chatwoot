@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Змінити",
-    "CHANGE_ACCOUNTS": "Змінити обліковий запис",
-    "CONTACT_SUPPORT": "Звернутися зі службою підтримки",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
-    "PROFILE_SETTINGS": "Налаштування облікового запису",
-    "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
-    "APPEARANCE": "Змінити зовнішній вигляд",
-    "SUPER_ADMIN_CONSOLE": "Консоль адміна",
-    "LOGOUT": "Вийти"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "Канал",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
+    "SET_YOUR_AVAILABILITY": "Встановіть доступність",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
