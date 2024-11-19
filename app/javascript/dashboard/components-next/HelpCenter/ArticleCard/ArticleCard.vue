@@ -13,7 +13,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   id: {
@@ -101,7 +101,7 @@ const categoryName = computed(() => {
 });
 
 const authorName = computed(() => {
-  return props.author?.name || props.author?.availableName || '-';
+  return props.author?.name || props.author?.availableName || '';
 });
 
 const authorThumbnailSrc = computed(() => {
@@ -125,7 +125,7 @@ const handleClick = id => {
 <template>
   <CardLayout>
     <template #header>
-      <div class="flex justify-between gap-1">
+      <div class="flex justify-between w-full gap-1">
         <span
           class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12 line-clamp-1"
           @click="handleClick(id)"
@@ -161,16 +161,17 @@ const handleClick = id => {
       </div>
     </template>
     <template #footer>
-      <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center justify-between w-full gap-4">
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-1">
-            <Thumbnail
-              :author="author"
+            <Avatar
               :name="authorName"
               :src="authorThumbnailSrc"
+              :size="16"
+              rounded-full
             />
-            <span class="text-sm text-n-slate-11">
-              {{ authorName }}
+            <span class="text-sm truncate text-n-slate-11">
+              {{ authorName || '-' }}
             </span>
           </div>
           <span class="block text-sm whitespace-nowrap text-n-slate-11">

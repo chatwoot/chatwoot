@@ -33,7 +33,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:searchValue', 'select']);
+const emit = defineEmits(['update:searchValue', 'select', 'search']);
 
 const { t } = useI18n();
 
@@ -44,6 +44,11 @@ const isSelected = option => {
     return props.selectedValues.includes(option.value);
   }
   return option.value === props.selectedValues;
+};
+
+const onInputSearch = event => {
+  emit('update:searchValue', event.target.value);
+  emit('search', event.target.value);
 };
 
 defineExpose({
@@ -64,7 +69,7 @@ defineExpose({
         type="search"
         :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
         class="w-full py-2 pl-10 pr-2 text-sm border-none rounded-t-md bg-n-solid-1 text-slate-900 dark:text-slate-50"
-        @input="emit('update:searchValue', $event.target.value)"
+        @input="onInputSearch"
       />
     </div>
     <ul

@@ -80,7 +80,7 @@ const handleAction = ({ action, value }) => {
 <template>
   <CardLayout>
     <template #header>
-      <div class="flex gap-2">
+      <div class="flex w-full gap-2">
         <div class="flex justify-between w-full gap-2">
           <div class="flex items-center justify-start w-full min-w-0 gap-2">
             <span
