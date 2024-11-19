@@ -177,14 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "שינוי",
-    "CHANGE_ACCOUNTS": "החלף חשבון",
-    "CONTACT_SUPPORT": "צור קשר עם תמיכה",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_WORKSPACE": "Switch workspace",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
-    "PROFILE_SETTINGS": "הגדרות פרופיל",
-    "KEYBOARD_SHORTCUTS": "קיצורי דרך במקלדת",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "מסוף סופר אדמין",
-    "LOGOUT": "התנתק"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "שנותרו ימי ניסיון.",
@@ -279,6 +281,7 @@
     "REPORTS_INBOX": "תיבת הדואר הנכנס",
     "REPORTS_TEAM": "צוות",
     "SET_AVAILABILITY_TITLE": "הגדר את עצמך בתור",
+    "SET_YOUR_AVAILABILITY": "הגדר את הזמינות שלך",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "בטא",
