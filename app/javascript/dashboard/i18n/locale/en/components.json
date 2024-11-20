@@ -18,6 +18,11 @@
       "CONFIRM": "Confirm"
     }
   },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+  },
   "THUMBNAIL": {
     "AUTHOR": {
       "NOT_AVAILABLE": "Author is not available"
