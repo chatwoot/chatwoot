@@ -82,6 +82,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
       <template v-if="hasActiveFolders">
         <div class="relative">
           <woot-button
+            id="toggleConversationFilterButton"
             v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
             size="tiny"
             variant="smooth"
@@ -105,6 +106,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
       </template>
       <div v-else class="relative">
         <woot-button
+          id="toggleConversationFilterButton"
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="smooth"
           color-scheme="secondary"
