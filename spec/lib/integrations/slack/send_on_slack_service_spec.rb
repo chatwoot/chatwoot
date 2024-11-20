@@ -190,7 +190,7 @@ describe Integrations::Slack::SendOnSlackService do
           unfurl_links: true
         ).and_return(slack_message)
 
-        attachment = message.attachments.new(account_id: message.account_id, file_type: :fallback)
+        message.attachments.new(account_id: message.account_id, file_type: :fallback)
 
         expect(slack_client).not_to receive(:files_upload)
 
