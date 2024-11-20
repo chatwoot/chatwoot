@@ -63,55 +63,49 @@ const onClickViewDetails = async () => {
 
 <template>
   <CardLayout :key="id" layout="row">
-    <template #header>
-      <div class="flex items-center justify-between gap-4">
-        <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
-        <div class="flex flex-col gap-1">
-          <div class="flex items-center gap-2">
-            <span class="text-sm font-medium truncate text-n-slate-12">{{
-              name
+    <div class="flex items-center justify-between gap-4">
+      <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-medium truncate text-n-slate-12">{{
+            name
+          }}</span>
+          <template v-if="additionalAttributes?.companyName">
+            <span class="text-sm text-n-slate-11">{{
+              t('CONTACTS_LAYOUT.CARD.OF')
             }}</span>
-            <template v-if="additionalAttributes?.companyName">
-              <span class="text-sm text-n-slate-11">{{
-                t('CONTACTS_LAYOUT.CARD.OF')
-              }}</span>
-              <span class="text-sm font-medium truncate text-n-slate-12">
-                {{ additionalAttributes.companyName }}
-              </span>
-            </template>
-          </div>
-          <div class="flex items-center gap-3">
-            <span v-if="email" class="text-sm text-n-slate-11">{{
-              email
-            }}</span>
-            <div v-if="email" class="w-px h-3 bg-n-slate-6" />
-            <span v-if="phoneNumber" class="text-sm text-n-slate-11">{{
-              phoneNumber
-            }}</span>
-            <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
-            <Button
-              :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
-              variant="link"
-              size="xs"
-              @click="onClickViewDetails"
-            />
-          </div>
+            <span class="text-sm font-medium truncate text-n-slate-12">
+              {{ additionalAttributes.companyName }}
+            </span>
+          </template>
+        </div>
+        <div class="flex items-center gap-3">
+          <span v-if="email" class="text-sm text-n-slate-11">{{ email }}</span>
+          <div v-if="email" class="w-px h-3 bg-n-slate-6" />
+          <span v-if="phoneNumber" class="text-sm text-n-slate-11">{{
+            phoneNumber
+          }}</span>
+          <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
+          <Button
+            :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
+            variant="link"
+            size="xs"
+            @click="onClickViewDetails"
+          />
         </div>
       </div>
-    </template>
+    </div>
 
-    <template #footer>
-      <Button
-        icon="i-lucide-chevron-down"
-        variant="ghost"
-        color="slate"
-        size="xs"
-        :class="{ 'rotate-180': isExpanded }"
-        @click="emit('toggle')"
-      />
-    </template>
+    <Button
+      icon="i-lucide-chevron-down"
+      variant="ghost"
+      color="slate"
+      size="xs"
+      :class="{ 'rotate-180': isExpanded }"
+      @click="emit('toggle')"
+    />
 
-    <template #expanded>
+    <template #after>
       <transition
         enter-active-class="overflow-hidden transition-all duration-300 ease-out"
         leave-active-class="overflow-hidden transition-all duration-300 ease-in"
