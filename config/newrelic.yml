@@ -71,12 +71,12 @@ development:
 test:
   <<: *default_settings
   # It doesn't make sense to report to New Relic from automated test runs.
-  monitor_mode: false
+  monitor_mode: <%= ENV.fetch('NEW_RELIC_MONITORING_ENABLED', false) %>
 
 staging:
   <<: *default_settings
   app_name: <%= ENV.fetch('NEW_RELIC_APP_NAME', 'Chatwoot')  %> (Staging)
-  monitor_mode: false
+  monitor_mode: <%= ENV.fetch('NEW_RELIC_MONITORING_ENABLED', false) %>
 
 production:
   <<: *default_settings
