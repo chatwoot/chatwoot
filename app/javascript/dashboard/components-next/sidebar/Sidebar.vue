@@ -140,7 +140,12 @@ const menuItems = computed(() => {
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
             to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
-            component: leafProps => h(ChannelLeaf, { ...leafProps, inbox }),
+            component: leafProps =>
+              h(ChannelLeaf, {
+                label: leafProps.label,
+                active: leafProps.active,
+                inbox,
+              }),
           })),
         },
         {
@@ -164,9 +169,25 @@ const menuItems = computed(() => {
     },
     {
       name: 'Captain',
-      icon: 'i-lucide-bot',
+      icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
-      to: accountScopedRoute('captain'),
+      children: [
+        {
+          name: 'Documents',
+          label: 'Documents',
+          to: accountScopedRoute('captain', { page: 'documents' }),
+        },
+        {
+          name: 'Responses',
+          label: 'Responses',
+          to: accountScopedRoute('captain', { page: 'responses' }),
+        },
+        {
+          name: 'Playground',
+          label: 'Playground',
+          to: accountScopedRoute('captain', { page: 'playground' }),
+        },
+      ],
     },
     {
       name: 'Contacts',

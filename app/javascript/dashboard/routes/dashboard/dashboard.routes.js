@@ -21,13 +21,14 @@ export default {
       component: AppContainer,
       children: [
         {
-          path: frontendURL('accounts/:accountId/captain'),
+          path: frontendURL('accounts/:accountId/captain/:page'),
           name: 'captain',
           component: Captain,
           meta: {
             permissions: ['administrator', 'agent'],
             featureFlag: FEATURE_FLAGS.CAPTAIN,
           },
+          props: true,
         },
         ...inboxRoutes,
         ...conversation.routes,
