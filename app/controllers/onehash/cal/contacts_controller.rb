@@ -1,4 +1,4 @@
-class Onehash::Api::ContactsController < Onehash::IntegrationController
+class Onehash::Cal::ContactsController < Onehash::IntegrationController
   before_action :validate_params, only: [:create]
 
   def index

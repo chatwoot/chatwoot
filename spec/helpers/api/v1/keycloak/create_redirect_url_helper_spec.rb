@@ -10,6 +10,6 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe Api::V1::Keycloak::CreateRedirectUrlHelper, type: :helper do
+RSpec.describe Api::V1::Keycloak::CreateRedirectUrlHelper do
   pending "add some examples to (or delete) #{__FILE__}"
 end

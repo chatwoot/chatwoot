@@ -38,7 +38,7 @@ class IntegrationsAPI extends ApiClient {
   }
 
   addOneHashIntegration(integrationId) {
-    return axios.post(`${this.baseUrl()}/integrations/${integrationId}`);
+    return axios.get(`${this.baseUrl()}/integrations/${integrationId}`);
   }
 }
 

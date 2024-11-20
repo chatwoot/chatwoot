@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
+import ContactBookings from './ContactBookings.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
 
@@ -15,6 +16,7 @@ export default {
   components: {
     AccordionItem,
     ContactConversations,
+    ContactBookings,
     ContactInfo,
     ConversationInfo,
     CustomAttributes,
@@ -241,6 +243,18 @@ export default {
                 :contact-id="contact.id"
                 :conversation-id="conversationId"
               />
+            </AccordionItem>
+          </div>
+          <div v-else-if="element.name === 'previous_bookings'">
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_BOOKINGS')"
+              :is-open="isContactSidebarItemOpen('is_contact_booking_open')"
+              compact
+              @click="
+                value => toggleSidebarUIState('is_contact_booking_open', value)
+              "
+            >
+              <ContactBookings :contact-id="contact.id" />
             </AccordionItem>
           </div>
           <woot-feature-toggle
