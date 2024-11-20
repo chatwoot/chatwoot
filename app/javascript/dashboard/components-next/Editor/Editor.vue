@@ -163,7 +163,7 @@ watch(
           @apply m-0 !important;
 
           &::before {
-            @apply text-n-slate-11 dark:text-n-slate-11 !important;
+            @apply text-n-slate-11 dark:text-n-slate-11;
           }
         }
       }

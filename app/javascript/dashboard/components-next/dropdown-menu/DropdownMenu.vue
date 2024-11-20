@@ -20,8 +20,9 @@ defineProps({
 
 const emit = defineEmits(['action']);
 
-const handleAction = (action, value) => {
-  emit('action', { action, value });
+const handleAction = item => {
+  const { action, value, ...rest } = item;
+  emit('action', { action, value, ...rest });
 };
 </script>
 
@@ -39,7 +40,7 @@ const handleAction = (action, value) => {
         'text-n-slate-12': item.action !== 'delete',
       }"
       :disabled="item.disabled"
-      @click="handleAction(item.action, item.value)"
+      @click="handleAction(item)"
     >
       <Thumbnail
         v-if="item.thumbnail"

@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { ref, onMounted, nextTick } from 'vue';
+
+const props = defineProps({
   modelValue: {
     type: [String, Number],
     default: '',
@@ -32,13 +34,40 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  focusOnMount: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:modelValue', 'enterPress']);
+const emit = defineEmits(['update:modelValue', 'enterPress', 'input', 'blur']);
+
+const inlineInputRef = ref(null);
 
 const onEnterPress = () => {
   emit('enterPress');
 };
+
+const handleInput = event => {
+  emit('input', event.target.value);
+  emit('update:modelValue', event.target.value);
+};
+
+const handleBlur = event => {
+  emit('blur', event.target.value);
+};
+
+onMounted(() => {
+  nextTick(() => {
+    if (props.focusOnMount) {
+      inlineInputRef.value?.focus();
+    }
+  });
+});
+
+defineExpose({
+  focus: () => inlineInputRef.value?.focus(),
+});
 </script>
 
 <template>
@@ -49,7 +78,7 @@ const onEnterPress = () => {
       v-if="label"
       :for="id"
       :class="customLabelClass"
-      class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50"
+      class="mb-0.5 text-sm font-medium text-n-slate-11"
     >
       {{ label }}
     </label>
@@ -57,13 +86,15 @@ const onEnterPress = () => {
     <slot name="prefix" />
     <input
       :id="id"
+      ref="inlineInputRef"
       :value="modelValue"
       :type="type"
       :placeholder="placeholder"
       :disabled="disabled"
       :class="customInputClass"
-      class="flex w-full reset-base text-sm h-6 !mb-0 border-0 rounded-lg bg-transparent dark:bg-transparent placeholder:text-slate-200 dark:placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 text-slate-900 dark:text-white transition-all duration-500 ease-in-out"
-      @input="$emit('update:modelValue', $event.target.value)"
+      class="flex w-full reset-base text-sm h-6 !mb-0 border-0 rounded-none bg-transparent dark:bg-transparent placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 dark:text-n-slate-12 transition-all duration-500 ease-in-out"
+      @input="handleInput"
+      @blur="handleBlur"
       @keydown.enter.prevent="onEnterPress"
     />
   </div>

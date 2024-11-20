@@ -4,6 +4,8 @@ import i18nMessages from 'dashboard/i18n';
 import { createI18n } from 'vue-i18n';
 import { vResizeObserver } from '@vueuse/components';
 import store from 'dashboard/store';
+import { directive as onClickaway } from 'vue3-click-away';
+import FloatingVue from 'floating-vue';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -14,5 +16,12 @@ const i18n = createI18n({
 export const setupVue3 = defineSetupVue3(({ app }) => {
   app.use(store);
   app.use(i18n);
+  app.use(FloatingVue, {
+    instantMove: true,
+    arrowOverflow: false,
+    disposeTimeout: 5000000,
+  });
+
   app.directive('resize', vResizeObserver);
+  app.directive('on-clickaway', onClickaway);
 });
