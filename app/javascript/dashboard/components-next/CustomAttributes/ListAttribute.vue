@@ -72,8 +72,8 @@ const handleAttributeAction = async action => {
         show-search
         class="w-48 mt-2 top-full"
         :class="{
-          'right-0': !isEditingView,
-          'left-0': isEditingView,
+          'ltr:right-0 rtl:left-0': !isEditingView,
+          'ltr:left-0 rtl:right-0': isEditingView,
         }"
         @action="handleAttributeAction($event)"
       />

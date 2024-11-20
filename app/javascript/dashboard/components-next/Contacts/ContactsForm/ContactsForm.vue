@@ -81,7 +81,7 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const updateState = () => {
-  if (props.isNewContact) return;
+  if (props.isNewContact) return; // Added to prevent state update for new contact form
   const {
     id,
     name = '',

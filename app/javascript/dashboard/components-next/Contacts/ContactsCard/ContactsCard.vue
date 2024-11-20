@@ -1,8 +1,5 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
-import { useStore } from 'dashboard/composables/store';
-import { debounce } from '@chatwoot/utils';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
@@ -19,43 +16,16 @@ const props = defineProps({
   isExpanded: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['toggle']);
-
-const router = useRouter();
-const route = useRoute();
+const emit = defineEmits(['toggle', 'updateContact', 'showContact']);
 
 const { t } = useI18n();
-const store = useStore();
 
-const updateContact = async updatedData => {
-  await store.dispatch('contacts/update', updatedData);
-  await store.dispatch('contacts/fetchContactableInbox', props.id);
-};
-
-const handleFormUpdate = debounce(
-  updatedData => updateContact(updatedData),
-  400,
-  false
-);
-
-const ROUTE_MAPPINGS = {
-  contacts_dashboard_labels_index: 'contacts_dashboard_labels_edit_index',
-  contacts_dashboard_segments_index: 'contacts_dashboard_segments_edit_index',
+const handleFormUpdate = updatedData => {
+  emit('updateContact', { id: props.id, updatedData });
 };
 
 const onClickViewDetails = async () => {
-  const dynamicRouteName =
-    ROUTE_MAPPINGS[route.name] || 'contacts_dashboard_edit_index';
-
-  const params = { contactId: props.id };
-
-  if (route.name.includes('segments')) {
-    params.segmentId = route.params.segmentId;
-  } else if (route.name.includes('labels')) {
-    params.label = route.params.label;
-  }
-
-  await router.push({ name: dynamicRouteName, params, query: route.query });
+  emit('showContact', props.id);
 };
 </script>
 
