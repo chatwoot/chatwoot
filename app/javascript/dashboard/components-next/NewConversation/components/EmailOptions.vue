@@ -7,53 +7,24 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
 const props = defineProps({
-  subject: {
-    type: String,
-    required: true,
-  },
-  ccEmails: {
-    type: String,
-    required: true,
-  },
-  bccEmails: {
-    type: String,
-    required: true,
-  },
-  contacts: {
-    type: Array,
-    required: true,
-  },
-  showCcEmailsDropdown: {
-    type: Boolean,
-    required: true,
-  },
-  showBccEmailsDropdown: {
-    type: Boolean,
-    required: true,
-  },
-  showBccInput: {
-    type: Boolean,
-    default: false,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
-  hasErrors: {
-    type: Boolean,
-    default: false,
-  },
+  contacts: { type: Array, required: true },
+  showCcEmailsDropdown: { type: Boolean, required: false },
+  showBccEmailsDropdown: { type: Boolean, required: false },
+  showBccInput: { type: Boolean, default: false },
+  isLoading: { type: Boolean, default: false },
+  hasErrors: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
-  'update:ccEmails',
-  'update:bccEmails',
-  'update:subject',
   'searchCcEmails',
   'searchBccEmails',
   'toggleBcc',
   'updateDropdown',
 ]);
+
+const subject = defineModel('subject', { type: String, default: '' });
+const ccEmails = defineModel('ccEmails', { type: String, default: '' });
+const bccEmails = defineModel('bccEmails', { type: String, default: '' });
 
 const { t } = useI18n();
 
@@ -79,11 +50,11 @@ const contactEmailsList = computed(() => {
 
 // Handle updates from TagInput and convert array back to string
 const handleCcUpdate = value => {
-  emit('update:ccEmails', value.join(','));
+  ccEmails.value = value.join(',');
 };
 
 const handleBccUpdate = value => {
-  emit('update:bccEmails', value.join(','));
+  bccEmails.value = value.join(',');
 };
 </script>
 
@@ -91,7 +62,7 @@ const handleBccUpdate = value => {
   <div class="flex flex-col divide-y divide-n-strong">
     <div class="flex items-baseline flex-1 w-full h-8 gap-3 px-4 py-3">
       <InlineInput
-        :model-value="subject"
+        v-model="subject"
         :placeholder="
           t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.SUBJECT_PLACEHOLDER')
         "
@@ -102,7 +73,6 @@ const handleBccUpdate = value => {
             ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
             : ''
         "
-        @update:model-value="emit('update:subject', $event)"
       />
     </div>
     <div class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8">
