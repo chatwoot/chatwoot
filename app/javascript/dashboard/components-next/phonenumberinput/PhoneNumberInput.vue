@@ -15,10 +15,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
   placeholder: {
     type: String,
     default: '',
@@ -33,16 +29,18 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const modelValue = defineModel({
+  type: [String, Number],
+  default: '',
+});
 
 const { t } = useI18n();
 
-const hasInputFocused = ref(false);
 const showDropdown = ref(false);
 const searchQuery = ref('');
 const activeCountryCode = ref(getActiveCountryCode());
 const activeDialCode = ref(getActiveDialCode());
-const phoneNumber = ref(props.modelValue);
+const phoneNumber = ref('');
 
 const rules = {
   phoneNumber: {
@@ -99,9 +97,7 @@ const inputBorderClass = computed(() => {
   if (hasError.value) {
     return errorClass;
   }
-  return hasInputFocused.value
-    ? 'border-n-brand dark:border-n-brand'
-    : 'border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak';
+  return 'has-[:focus]:border-n-brand dark:has-[:focus]:border-n-brand border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak';
 });
 
 const phoneNumberError = computed(() => {
@@ -111,27 +107,9 @@ const phoneNumberError = computed(() => {
     : v$.value.phoneNumber.$invalid && t('PHONE_INPUT.ERROR');
 });
 
-const emitPhoneNumber = () => {
-  const emitValue = phoneNumber.value
-    ? `${activeDialCode.value}${phoneNumber.value}`
-    : '';
-  emit('update:modelValue', emitValue);
-};
-
-const onChange = async value => {
-  phoneNumber.value = value;
-  await v$.value.$touch();
-  if (!v$.value.$invalid) {
-    emitPhoneNumber();
-  }
-};
-
-const onBlur = () => {
-  hasInputFocused.value = false;
-};
-
-const onFocus = () => {
-  hasInputFocused.value = true;
+const emitPhoneNumber = value => {
+  const newValue = value ? `${activeDialCode.value}${value}` : '';
+  modelValue.value = newValue;
 };
 
 const onSelectCountry = async ({ value, dialCode }) => {
@@ -142,27 +120,33 @@ const onSelectCountry = async ({ value, dialCode }) => {
   searchQuery.value = '';
   showDropdown.value = false;
   if (!v$.value.$invalid && phoneNumber.value) {
-    emitPhoneNumber();
+    emitPhoneNumber(phoneNumber.value);
   }
 };
 
 const toggleCountryDropdown = () => {
   showDropdown.value = !showDropdown.value;
-  hasInputFocused.value = showDropdown.value;
 };
 
 const closeCountryDropdown = () => {
   showDropdown.value = false;
-  hasInputFocused.value = false;
 };
 
+watch(phoneNumber, async value => {
+  await v$.value.$touch();
+  if (!v$.value.$invalid) {
+    emitPhoneNumber(value);
+  }
+});
+
 watch(
-  () => props.modelValue,
+  modelValue,
   newValue => {
     const number = parsePhoneNumber(newValue);
     if (number) {
-      activeCountryCode.value = number.country;
-      activeDialCode.value = `+${number.countryCallingCode}`;
+      if (number?.country) activeCountryCode.value = number.country;
+      if (number?.countryCallingCode)
+        activeDialCode.value = `+${number.countryCallingCode}`;
       phoneNumber.value = newValue.replace(`+${number.countryCallingCode}`, '');
     }
   },
@@ -178,15 +162,12 @@ watch(
       :class="[inputBorderClass, { 'cursor-not-allowed opacity-50': disabled }]"
     >
       <Input
-        :model-value="phoneNumber"
+        v-model="phoneNumber"
         type="tel"
         :placeholder="placeholder"
         :disabled="disabled"
         custom-input-class="!border-0 h-8 !py-0.5 !bg-transparent ltr:!pl-1 rtl:!pr-1"
         class="w-full !flex-row"
-        @update:model-value="onChange"
-        @blur="onBlur"
-        @focus="onFocus"
       >
         <template #prefix>
           <div class="flex items-center flex-shrink-0">

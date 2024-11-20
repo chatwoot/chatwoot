@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
-defineProps({
+const props = defineProps({
   type: {
     type: String,
     default: 'edit',
@@ -48,9 +48,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
-  maxWidth: {
+  width: {
     type: String,
-    default: 'max-w-lg',
+    default: 'lg',
+    validator: value => ['3xl', '2xl', 'xl', 'lg', 'md', 'sm'].includes(value),
   },
 });
 
@@ -62,6 +63,19 @@ const isRTL = useMapGetter('accounts/isRTL');
 
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
+
+const maxWidthClass = computed(() => {
+  const classesMap = {
+    '3xl': 'max-w-3xl',
+    '2xl': 'max-w-2xl',
+    xl: 'max-w-xl',
+    lg: 'max-w-lg',
+    md: 'max-w-md',
+    sm: 'max-w-sm',
+  };
+
+  return classesMap[props.width] ?? 'max-w-md';
+});
 
 const open = () => {
   dialogRef.value?.showModal();
@@ -83,7 +97,7 @@ defineExpose({ open, close });
       ref="dialogRef"
       class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
       :class="[
-        maxWidth,
+        maxWidthClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
       :dir="isRTL ? 'rtl' : 'ltr'"
@@ -105,9 +119,8 @@ defineExpose({ open, close });
               </p>
             </slot>
           </div>
-          <slot name="form">
-            <!-- Form content will be injected here -->
-          </slot>
+          <slot />
+          <!-- Dialog content will be injected here -->
           <slot name="footer">
             <div class="flex items-center justify-between w-full gap-3">
               <Button

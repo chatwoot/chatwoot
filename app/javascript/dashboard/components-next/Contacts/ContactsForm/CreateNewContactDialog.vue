@@ -34,10 +34,8 @@ defineExpose({ dialogRef });
 </script>
 
 <template>
-  <Dialog ref="dialogRef" max-width="max-w-3xl" @confirm="handleDialogConfirm">
-    <template #form>
-      <ContactsForm is-new-contact @update="createNewContact" />
-    </template>
+  <Dialog ref="dialogRef" width="3xl" @confirm="handleDialogConfirm">
+    <ContactsForm is-new-contact @update="createNewContact" />
     <template #footer>
       <div class="flex items-center justify-between w-full gap-3">
         <Button

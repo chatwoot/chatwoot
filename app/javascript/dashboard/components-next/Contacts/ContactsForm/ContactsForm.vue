@@ -227,7 +227,6 @@ defineExpose({
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
-            @update:model-value="emit('update', state)"
           />
           <Input
             v-else
