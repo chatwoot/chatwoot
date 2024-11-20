@@ -15,7 +15,7 @@ const handleClick = () => {
 
 <template>
   <div
-    class="relative flex flex-col w-full shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
+    class="flex flex-col w-full shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
   >
     <div
       class="flex w-full gap-3 px-6 py-5"
@@ -24,10 +24,9 @@ const handleClick = () => {
       "
       @click="handleClick"
     >
-      <slot name="header" />
-      <slot name="footer" />
+      <slot />
     </div>
 
-    <slot name="expanded" />
+    <slot name="after" />
   </div>
 </template>
