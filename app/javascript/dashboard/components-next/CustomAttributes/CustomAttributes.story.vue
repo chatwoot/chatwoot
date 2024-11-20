@@ -75,7 +75,7 @@ const handleDelete = type => {
         <div
           v-for="attribute in attributes"
           :key="attribute.attributeKey"
-          class="grid grid-cols-[140px,1fr] items-center gap-1 min-h-10"
+          class="grid grid-cols-[140px,1fr] group-hover/attribute items-center gap-1 min-h-10"
         >
           <div class="flex items-center justify-between truncate">
             <span class="text-sm font-medium text-n-slate-12">
@@ -99,7 +99,7 @@ const handleDelete = type => {
         <div
           v-for="attribute in attributes"
           :key="attribute.attributeKey"
-          class="grid grid-cols-[140px,1fr] items-center gap-1 min-h-10"
+          class="grid grid-cols-[140px,1fr] group-hover/attribute items-center gap-1 min-h-10"
         >
           <div class="flex items-center justify-between truncate">
             <span class="text-sm font-medium text-n-slate-12">
