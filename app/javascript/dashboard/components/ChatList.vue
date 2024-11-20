@@ -758,7 +758,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col flex-shrink-0 border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="[
       { hidden: !showConversationList },
       isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
@@ -878,15 +878,16 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
       </DynamicScroller>
     </div>
-    <ConversationFilter
-      v-if="showAdvancedFilters"
-      v-model="appliedFilter"
-      :folder-name="activeFolderName"
-      :is-folder-view="hasActiveFolders"
-      @apply-filter="onApplyFilter"
-      @update-folder="onUpdateSavedFilter"
-      @close="closeAdvanceFiltersModal"
-    />
+    <Teleport v-if="showAdvancedFilters" to="#conversationFilterTeleportTarget">
+      <ConversationFilter
+        v-model="appliedFilter"
+        :folder-name="activeFolderName"
+        :is-folder-view="hasActiveFolders"
+        @apply-filter="onApplyFilter"
+        @update-folder="onUpdateSavedFilter"
+        @close="closeAdvanceFiltersModal"
+      />
+    </Teleport>
   </div>
 </template>
 
