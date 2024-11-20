@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Mensagens"
     },
-    "EMPTY_STATE": "Não foi encontrado %{item} para a consulta '%{query}'",
-    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
+    "SEARCHING_DATA": "A pesquisar",
+    "EMPTY_STATE": "Não foi encontrado {item} para a consulta '{query}'",
+    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
     "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
     "EMPTY_STATE_DEFAULT": "Procurar por ID da conversa, email, número de telefone, mensagens para obter melhores resultados. ",

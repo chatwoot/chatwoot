@@ -9,6 +9,7 @@ import {
 } from '../../helper/scriptHelpers';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { emitter } from 'shared/helpers/mitt';
 
 Cookies.defaults = { sameSite: 'Lax' };
 
@@ -18,8 +19,8 @@ export const setLoadingStatus = (state, status) => {
 };
 
 export const setUser = user => {
-  window.bus.$emit(CHATWOOT_SET_USER, { user });
-  window.bus.$emit(ANALYTICS_IDENTITY, { user });
+  emitter.emit(CHATWOOT_SET_USER, { user });
+  emitter.emit(ANALYTICS_IDENTITY, { user });
 };
 
 export const getHeaderExpiry = response =>
@@ -70,8 +71,8 @@ export const deleteIndexedDBOnLogout = async () => {
 };
 
 export const clearCookiesOnLogout = () => {
-  window.bus.$emit(CHATWOOT_RESET);
-  window.bus.$emit(ANALYTICS_RESET);
+  emitter.emit(CHATWOOT_RESET);
+  emitter.emit(ANALYTICS_RESET);
   clearBrowserSessionCookies();
   clearLocalStorageOnLogout();
   const globalConfig = window.globalConfig || {};
@@ -95,4 +96,10 @@ export const parseAPIErrorResponse = error => {
 export const throwErrorMessage = error => {
   const errorMessage = parseAPIErrorResponse(error);
   throw new Error(errorMessage);
+};
+
+export const parseLinearAPIErrorResponse = (error, defaultMessage) => {
+  const errorData = error.response.data;
+  const errorMessage = errorData?.error?.errors?.[0]?.message || defaultMessage;
+  return errorMessage;
 };

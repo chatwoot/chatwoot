@@ -14,13 +14,13 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     message.content
   end
 
-  def get_response(session_id, message)
+  def get_response(session_id, message_content)
     if hook.settings['credentials'].blank?
       Rails.logger.warn "Account: #{hook.try(:account_id)} Hook: #{hook.id} credentials are not present." && return
     end
 
     configure_dialogflow_client_defaults
-    detect_intent(session_id, message)
+    detect_intent(session_id, message_content)
   rescue Google::Cloud::PermissionDeniedError => e
     Rails.logger.warn "DialogFlow Error: (account-#{hook.try(:account_id)}, hook-#{hook.id}) #{e.message}"
     hook.prompt_reauthorization!

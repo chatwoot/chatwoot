@@ -1,21 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <woot-modal :show.sync="show" :on-close="onCancel">
-    <div class="h-auto overflow-auto flex flex-col">
-      <woot-modal-header
-        :header-title="$t('NEW_CONVERSATION.TITLE')"
-        :header-content="$t('NEW_CONVERSATION.DESC')"
-      />
-      <conversation-form
-        :contact="contact"
-        :on-submit="onSubmit"
-        @success="onSuccess"
-        @cancel="onCancel"
-      />
-    </div>
-  </woot-modal>
-</template>
-
 <script>
 import ConversationForm from './ConversationForm.vue';
 
@@ -31,6 +13,17 @@ export default {
     contact: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  emits: ['cancel', 'update:show'],
+  computed: {
+    localShow: {
+      get() {
+        return this.show;
+      },
+      set(value) {
+        this.$emit('update:show', value);
+      },
     },
   },
   watch: {
@@ -59,3 +52,20 @@ export default {
   },
 };
 </script>
+
+<template>
+  <woot-modal v-model:show="localShow" :on-close="onCancel">
+    <div class="flex flex-col h-auto overflow-auto">
+      <woot-modal-header
+        :header-title="$t('NEW_CONVERSATION.TITLE')"
+        :header-content="$t('NEW_CONVERSATION.DESC')"
+      />
+      <ConversationForm
+        :contact="contact"
+        :on-submit="onSubmit"
+        @success="onSuccess"
+        @cancel="onCancel"
+      />
+    </div>
+  </woot-modal>
+</template>

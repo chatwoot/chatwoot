@@ -18,6 +18,7 @@
       "AND": "EN",
       "OR": "OF"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Gelijk aan",
       "not_equal_to": "Niet gelijk aan",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Selectievakje",
       "CREATED_AT": "Aangemaakt op",
       "LAST_ACTIVITY": "Laatste Activiteit"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Waarde is vereist"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standaard filters",

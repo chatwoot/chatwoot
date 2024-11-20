@@ -8,6 +8,7 @@ module Redis::RedisKeys
   CONVERSATION_MAILER_KEY = 'CONVERSATION::%<conversation_id>d'.freeze
   # Whether a conversation is muted ?
   CONVERSATION_MUTE_KEY = 'CONVERSATION::%<id>d::MUTED'.freeze
+  CONVERSATION_DRAFT_MESSAGE = 'CONVERSATION::%<id>d::DRAFT_MESSAGE'.freeze
 
   ## User Keys
   # SSO Auth Tokens
@@ -32,7 +33,7 @@ module Redis::RedisKeys
   LATEST_CHATWOOT_VERSION = 'LATEST_CHATWOOT_VERSION'.freeze
   # Check if a message create with same source-id is in progress?
   MESSAGE_SOURCE_KEY = 'MESSAGE_SOURCE_KEY::%<id>s'.freeze
-  OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
+  OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::V1::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
 
   ## Sempahores / Locks
   # We don't want to process messages from the same sender concurrently to prevent creating double conversations

@@ -2,9 +2,9 @@
   "FILTER": {
     "TITLE": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
+    "EDIT_CUSTOM_FILTER": "ഫോൾഡർ എഡിറ്റ് ചെയ്യുക",
+    "CUSTOM_VIEWS_SUBTITLE": "ഫിൽട്ടറുകൾ ചേർക്കുക അല്ലെങ്കിൽ നീക്കം ചെയ്യുന്നതിലൂടെ നിങ്ങളുടെ ഫോൾഡർ അപ്ഡേറ്റ് ചെയ്യുക.",
+    "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
     "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക",
     "UPDATE_BUTTON_LABEL": "Update folder",
@@ -18,6 +18,7 @@
       "AND": "ഒപ്പം",
       "OR": "അഥവാ"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "തുല്യമാണ്",
       "not_equal_to": "തുല്യമല്ല",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Value is required"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

@@ -1,17 +1,18 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos personalizados",
-    "HEADER_BTN_TXT": "Adicionar Atributo Personalizado",
-    "LOADING": "Obtendo atributos personalizados",
-    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia factos sobre os seus contactos/conversação - como o plano de assinatura, ou quando encomendaram o primeiro artigo, etc. <br /><br />Para criar um Atributo Personalizado, basta clicar no botão <b>Adicionar Atributo Personalizado.</b> Também pode editar ou apagar um Atributo Personalizado existente, clicando no botão Editar ou Apagar.</p>",
+    "HEADER_BTN_TXT": "Adicionar atributo personalizado",
+    "LOADING": "A obter atributos personalizados",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
-      "TITLE": "Adicionar Atributo Personalizado",
+      "TITLE": "Adicionar atributo personalizado",
       "SUBMIT": "Criar",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
-          "LABEL": "Mostrar Nome",
-          "PLACEHOLDER": "Introduzia um nome de exibição de atributo personalizado",
+          "LABEL": "Mostrar nome",
+          "PLACEHOLDER": "Introduza o nome de exibição do atributo personalizado",
           "ERROR": "Nome é obrigatório"
         },
         "DESC": {
@@ -21,7 +22,7 @@
         },
         "MODEL": {
           "LABEL": "Aplica-se a",
-          "PLACEHOLDER": "Por favor selecione um",
+          "PLACEHOLDER": "Por favor, selecione um",
           "ERROR": "Modelo é obrigatório"
         },
         "TYPE": {
@@ -29,9 +30,9 @@
           "PLACEHOLDER": "Por favor, selecione um tipo",
           "ERROR": "Tipo é obrigatório",
           "LIST": {
-            "LABEL": "Listar Valores",
-            "PLACEHOLDER": "Por favor insira um valor e pressione Enter",
-            "ERROR": "Deve possuir pelo menos um valor"
+            "LABEL": "Listar valores",
+            "PLACEHOLDER": "Por favor, insira um valor e pressione Enter",
+            "ERROR": "Deve possuir, pelo menos, um valor"
           }
         },
         "KEY": {
@@ -41,11 +42,11 @@
           "IN_VALID": "Chave inválida"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Padrão Regex",
+          "LABEL": "Padrão regex",
           "PLACEHOLDER": "Por favor, insira um padrão regex de atributo personalizado. (Opcional)"
         },
         "REGEX_CUE": {
-          "LABEL": "Sugestão Regex",
+          "LABEL": "Sugestão regex",
           "PLACEHOLDER": "Por favor, insira dica para o padrão regex. (Opcional)"
         },
         "ENABLE_REGEX": {
@@ -53,65 +54,65 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atributo Personalizado adicionado com sucesso!",
-        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado, por favor tente novamente mais tarde."
+        "SUCCESS_MESSAGE": "Atributo personalizado adicionado com sucesso!",
+        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado, por favor, tente novamente mais tarde."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "excluir",
+      "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Atributo personalizado eliminado com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível apagar o atributo personalizado. Tente novamente."
+        "SUCCESS_MESSAGE": "Atributo personalizado excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o atributo personalizado. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Tem a certeza que quer apagar a equipa - %{attributeName}",
+        "TITLE": "Tem a certeza que pretende apagar a equipa - {attributeName}",
         "PLACE_HOLDER": "Por favor, digite {attributeName} para confirmar",
         "MESSAGE": "A eliminação irá remover o atributo personalizado",
-        "YES": "excluir ",
-        "NO": "cancelar"
+        "YES": "Excluir ",
+        "NO": "Cancelar"
       }
     },
     "EDIT": {
-      "TITLE": "Editar Atributo Personalizado",
+      "TITLE": "Editar atributo personalizado",
       "UPDATE_BUTTON_TEXT": "Atualização",
       "TYPE": {
         "LIST": {
-          "LABEL": "Listar Valores",
-          "PLACEHOLDER": "Por favor insira valores e pressione Enter"
+          "LABEL": "Listar valores",
+          "PLACEHOLDER": "Por favor, insira valores e pressione Enter"
         }
       },
       "API": {
         "SUCCESS_MESSAGE": "Atributo personalizado atualizado com sucesso",
-        "ERROR_MESSAGE": "Houve um erro na actualização do atributo personalizado, por favor tente novamente"
+        "ERROR_MESSAGE": "Houve um erro na atualização do atributo personalizado, por favor, tente novamente"
       }
     },
     "TABS": {
       "HEADER": "Atributos personalizados",
       "CONVERSATION": "Conversa",
-      "CONTACT": "Contato"
+      "CONTACT": "Contacto"
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Nome:",
+        "Nome",
         "Descrição",
         "Tipo",
         "Chave"
       ],
       "BUTTONS": {
-        "EDIT": "Alterar",
-        "DELETE": "excluir"
+        "EDIT": "Editar",
+        "DELETE": "Excluir"
       },
       "EMPTY_RESULT": {
         "404": "Não há atributos personalizados criados",
         "NOT_FOUND": "Não há atributos personalizados configurados"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Padrão Regex",
+        "LABEL": "Padrão regex",
         "PLACEHOLDER": "Por favor, insira um padrão regex de atributo personalizado. (Opcional)"
       },
       "REGEX_CUE": {
-        "LABEL": "Sugestão Regex",
-        "PLACEHOLDER": "Por favor, insira dica para o padrão regex. (Opcional)"
+        "LABEL": "Sugestão regex",
+        "PLACEHOLDER": "Por favor, insira uma dica para o padrão regex. (Opcional)"
       },
       "ENABLE_REGEX": {
         "LABEL": "Ativar validação de regex"

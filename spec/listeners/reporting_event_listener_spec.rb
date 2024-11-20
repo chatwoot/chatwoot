@@ -99,7 +99,9 @@ describe ReportingEventListener do
       it 'creates first_response event with business hour value' do
         event = Events::Base.new('first.reply.created', Time.zone.now, message: new_message)
         listener.first_reply_created(event)
-        expect(account.reporting_events.where(name: 'first_response')[0]['value_in_business_hours']).to be 144_000.0
+        reporting_event = account.reporting_events.where(name: 'first_response').first
+        expect(reporting_event.value_in_business_hours).to be 144_000.0
+        expect(reporting_event.user_id).to be new_message.sender_id
       end
     end
 

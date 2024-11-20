@@ -1,3 +1,26 @@
+<script>
+export default {
+  props: {
+    heading: {
+      type: String,
+      default: '',
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    src: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex flex-col min-w-[15rem] max-h-[21.25rem] max-w-[23.75rem] rounded-md border border-solid border-slate-75 dark:border-slate-600"
@@ -13,7 +36,7 @@
           active,
       }"
     >
-      <div class="items-center flex font-medium p-1 text-sm">{{ heading }}</div>
+      <div class="flex items-center p-1 text-sm font-medium">{{ heading }}</div>
       <fluent-icon
         v-if="active"
         icon="checkmark-circle"
@@ -41,30 +64,3 @@
     <slot v-else />
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    heading: {
-      type: String,
-      default: '',
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    buttonText: {
-      type: String,
-      default: 'Active',
-    },
-    src: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

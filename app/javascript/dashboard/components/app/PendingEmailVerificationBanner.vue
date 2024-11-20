@@ -1,24 +1,10 @@
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="alert"
-    :banner-message="bannerMessage"
-    :action-button-label="actionButtonMessage"
-    action-button-icon="mail"
-    has-action-button
-    @click="resendVerificationEmail"
-  />
-</template>
-
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
-import accountMixin from 'dashboard/mixins/account';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   components: { Banner },
-  mixins: [accountMixin, alertMixin],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -36,8 +22,21 @@ export default {
   methods: {
     resendVerificationEmail() {
       this.$store.dispatch('resendConfirmation');
-      this.showAlert(this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT'));
+      useAlert(this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT'));
     },
   },
 };
 </script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <Banner
+    v-if="shouldShowBanner"
+    color-scheme="alert"
+    :banner-message="bannerMessage"
+    :action-button-label="actionButtonMessage"
+    action-button-icon="mail"
+    has-action-button
+    @primary-action="resendVerificationEmail"
+  />
+</template>

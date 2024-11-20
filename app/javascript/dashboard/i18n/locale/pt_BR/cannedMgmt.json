@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Atalhos",
+    "LEARN_MORE": "Aprenda mais sobre respostas prontas",
+    "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritas que te ajudam a responder rapidamente a uma conversa. Os agentes podem digitar o caractere ' /' seguido pelo atalho para inserir uma resposta pronta durante uma conversa. ",
     "HEADER_BTN_TXT": "Adicionar resposta pronta",
     "LOADING": "Buscando respostas prontas...",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta.",
-    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b></p> <p>As Respostas Prontas são modelos de respostas predefinidas que ajudam você a responder rapidamente a uma conversa. Para inserir uma resposta pronta durante um chat, os agentes podem digitar um código curto precedido por uma barra '/'.</p> <p>Você pode gerenciar suas respostas prontas desta página ou criar novas usando o botão \"Adicionar resposta pronta\".</p> <p>Abra o <a target=\"_blank\" ref=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Manual de Respostas Prontas</a> em outra aba para obter ajuda.</p> <p>Além disso, confira a nova <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" \n arget=\"_blank\">Biblioteca de Respostas Prontas</a>.</p>",
     "LIST": {
       "404": "Não há atalhos disponíveis nesta conta.",
       "TITLE": "Gerenciar Atalhos",

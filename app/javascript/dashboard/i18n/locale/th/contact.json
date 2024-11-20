@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
       "CONTACT_LABELS": "ป้ายกำกับผู้ติดต่อ",
-      "PREVIOUS_CONVERSATIONS": "การสนทนาก่อนหน้า"
+      "PREVIOUS_CONVERSATIONS": "การสนทนาก่อนหน้า",
+      "NO_RECORDS_FOUND": "ไม่พบข้อมูล"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "สรุปผล",
-      "DELETE_WARNING": "ผู้ติดต่อ <strong>%{primaryContactName}</strong>จะถูกลบออก",
-      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>%{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>%{parentContactName}</strong>"
+      "DELETE_WARNING": "ผู้ติดต่อ <strong>{primaryContactName}</strong>จะถูกลบออก",
+      "ATTRIBUTE_WARNING": "ข้อมูลผู้ติดต่อของ <strong>{primaryContactName}</strong> จะถูกคัดลอกไปยัง <strong>{parentContactName}</strong>"
     },
     "SEARCH": {
       "ERROR": "ข้อความผิดพลาด"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "รวมผู้ติดต่อสำเร็จเเล้ว",
       "ERROR_MESSAGE": "ไม่สามารถรวมผู้ติดต่อได้ โปรดลองใหม่อีกครั้ง!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

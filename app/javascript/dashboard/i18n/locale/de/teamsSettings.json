@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Neues Team erstellen",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> Mit <p>Teams können Sie Ihre Agenten basierend auf ihren Verantwortlichkeiten in Gruppen organisieren. <br /> Ein Agent kann mehreren Teams angehören. Sie können Konversationen einem Team zuweisen, wenn Sie zusammenarbeiten. </p>",
+    "LOADING": "Teams werden abgerufen",
+    "DESCRIPTION": "Teams ermöglichen es Ihnen, Agenten basierend auf ihren Aufgaben in Gruppen zu organisieren. Ein Agent kann mehreren Teams angehören. Bei der Zusammenarbeit können Sie Unterhaltungen bestimmten Teams zuweisen.",
+    "LEARN_MORE": "Erfahren Sie mehr über Teams",
     "LIST": {
       "404": "Es wurden noch keine Teams auf diesem Konto erstellt.",
-      "EDIT_TEAM": "Team bearbeiten"
+      "EDIT_TEAM": "Team bearbeiten",
+      "NONE": "Keine"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Agenten zum Team hinzufügen",
-        "TITLE": "Agenten zum Team hinzufügen - %{teamName}",
+        "TITLE": "Agenten zum Team hinzufügen - {teamName}",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Konversationen als Team zusammenarbeiten, erhalten Sie Benachrichtigungen über neue Ereignisse in der gleichen Konversation."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Agenten im Team aktualisieren",
-        "TITLE": "Agenten zum Team %{teamName} hinzufügen",
+        "TITLE": "Agenten zum Team {teamName} hinzufügen",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. Alle hinzugefügten Agenten werden benachrichtigt, wenn diesem Team eine Unterhaltung zugewiesen wird."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Agenten zu Ihrem Team hinzufügen...",
       "SELECT": "Auswählen",
       "SELECT_ALL": "Alle Agenten auswählen",
-      "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt."
+      "SELECTED_COUNT": "{selected} von {total} Agenten ausgewählt."
     },
     "ADD": {
-      "TITLE": "Agenten zum Team %{teamName} hinzufügen",
+      "TITLE": "Agenten zum Team {teamName} hinzufügen",
       "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Konversationen als Team zusammenarbeiten und erhalten Benachrichtigungen über neue Ereignisse in der gleichen Konversation.",
       "SELECT": "Auswählen",
       "SELECT_ALL": "Alle Agenten auswählen",
-      "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt.",
+      "SELECTED_COUNT": "{selected} von {total} Agenten ausgewählt.",
       "BUTTON_TEXT": "Agenten hinzufügen",
       "AGENT_VALIDATION_ERROR": "Wählen Sie mindestens einen Agenten aus."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Das Team konnte nicht gelöscht werden. Versuchen Sie es erneut."
       },
       "CONFIRM": {
-        "TITLE": "Sind Sie sicher, dass Sie %{teamName} löschen möchten",
+        "TITLE": "Sind Sie sicher, dass Sie das Team löschen möchten?",
         "PLACE_HOLDER": "Bitte geben Sie {teamName} zur Bestätigung ein",
         "MESSAGE": "Das Löschen des Teams wird die Teamzuordnung aus den Konversationen entfernen, die diesem Team zugewiesen wurden.",
         "YES": "Löschen ",

@@ -8,7 +8,6 @@ const props = defineProps({
   label: {
     type: String,
     required: true,
-    default: '',
   },
 });
 
@@ -27,6 +26,7 @@ const spanClass = computed(() => {
   return 'col-span-1';
 });
 </script>
+
 <template>
   <div
     class="flex items-center px-0 py-2 text-xs font-medium text-left uppercase text-slate-700 dark:text-slate-100 rtl:text-right"

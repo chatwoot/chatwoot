@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Тепер ви можете отримувати електронні листи на власний домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
+    "UPDATE_CHATWOOT": "Доступне оновлення {latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
     "LEARN_MORE": "Детальніше",
     "PAYMENT_PENDING": "Очікується ваш платіж. Будь ласка, оновіть вашу платіжну інформацію, щоб продовжити використовувати Chatwoot",
     "LIMITS_UPGRADE": "В вашому обліковому записі перевищено ліміт використання, будь ласка, поновіть ваш план, щоб продовжити використання Chatwoot",
@@ -75,12 +75,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Завантаження сповіщень...",
       "404": "Немає сповіщень",
-      "TABLE_HEADER": [
-        "Ім'я",
-        "Номер телефону",
-        "Бесіди",
-        "Останній контакт"
-      ]
+      "TABLE_HEADER": ["Ім'я", "Номер телефону", "Бесіди", "Останній контакт"]
     },
     "TYPE_LABEL": {
       "conversation_creation": "Новий діалог",
@@ -88,14 +83,16 @@
       "assigned_conversation_new_message": "Нове повідомлення",
       "participating_conversation_new_message": "Нове повідомлення",
       "conversation_mention": "Відмітка",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "sla_missed_first_response": "SLA пропущено",
+      "sla_missed_next_response": "SLA пропущено",
+      "sla_missed_resolution": "SLA пропущено"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Не в мережі"
+      "OFFLINE": "Не в мережі",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Оновити"
@@ -107,6 +104,7 @@
       "GENERAL": "Загальні",
       "REPORTS": "Звіти",
       "CONVERSATION": "Діалог",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Змінити виконавця",
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "CHANGE_TEAM": "Змінити команду",
@@ -153,7 +151,7 @@
       "UNTIL_TOMORROW": "До завтра",
       "UNTIL_NEXT_MONTH": "До наступного місяця",
       "AN_HOUR_FROM_NOW": "На годину з цього моменту",
-      "CUSTOM": "Власний...",
+      "UNTIL_CUSTOM_TIME": "Власний...",
       "CHANGE_APPEARANCE": "Змінити зовнішній вигляд",
       "LIGHT_MODE": "Світла",
       "DARK_MODE": "Темна",

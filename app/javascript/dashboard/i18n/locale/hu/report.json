@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Vevő várakozási idő",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -481,7 +481,8 @@
       "HEADER": "Beszélgetés forgalom",
       "NO_CONVERSATIONS": "Nincsennek beszélgetések",
       "CONVERSATION": "Beszélgetése százaléka",
-      "CONVERSATIONS": "Beszélgetések százalékai"
+      "CONVERSATIONS": "Beszélgetések százalékai",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Ügynökök által kezelt beszélgetések",
@@ -536,6 +537,7 @@
       "LABELS": "Cimke",
       "TEAMS": "Csapat"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

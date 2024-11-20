@@ -18,6 +18,7 @@
       "AND": "И",
       "OR": "ИЛИ"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Равно на",
       "not_equal_to": "Различно от",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Създаден в",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Изисква се стойност"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

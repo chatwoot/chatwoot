@@ -1,15 +1,45 @@
+<script>
+export default {
+  inject: ['v$'],
+  props: {
+    macroName: {
+      type: String,
+      default: '',
+    },
+    macroVisibility: {
+      type: String,
+      default: 'global',
+    },
+  },
+  emits: ['update:name', 'update:visibility', 'submit'],
+  methods: {
+    isActive(key) {
+      return this.macroVisibility === key
+        ? 'bg-woot-25 dark:bg-slate-900 border-woot-200 dark:border-woot-700'
+        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600';
+    },
+    onUpdateName(value) {
+      this.$emit('update:name', value);
+    },
+    onUpdateVisibility(value) {
+      this.$emit('update:visibility', value);
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-slate-50 dark:border-slate-800/50"
   >
     <div>
       <woot-input
-        :value="macroName"
+        :model-value="macroName"
         :label="$t('MACROS.ADD.FORM.NAME.LABEL')"
         :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
-        :error="$v.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
-        :class="{ error: $v.macro.name.$error }"
-        @input="onUpdateName($event)"
+        :error="v$.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
+        :class="{ error: v$.macro.name.$error }"
+        @update:model-value="onUpdateName"
       />
     </div>
     <div class="mt-2">
@@ -61,7 +91,7 @@
         </button>
       </div>
       <div
-        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 p-2 rounded-md"
+        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 rounded-md"
       >
         <fluent-icon icon="info" size="20" class="flex-shrink" />
         <p
@@ -83,35 +113,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  inject: ['$v'],
-  props: {
-    macroName: {
-      type: String,
-      default: '',
-    },
-    macroVisibility: {
-      type: String,
-      default: 'global',
-    },
-  },
-  methods: {
-    isActive(key) {
-      return this.macroVisibility === key
-        ? 'bg-woot-25 dark:bg-slate-900 border-woot-200 dark:border-woot-700'
-        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600';
-    },
-    onUpdateName(value) {
-      this.$emit('update:name', value);
-    },
-    onUpdateVisibility(value) {
-      this.$emit('update:visibility', value);
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 ::v-deep input[type='text'] {

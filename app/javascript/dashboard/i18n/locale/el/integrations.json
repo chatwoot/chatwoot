@@ -1,8 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Ενοποιήσεις",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Εγγεγραμμένα Συμβάντα",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Άκυρο",
         "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
@@ -66,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Επιβεβαίωση Διαγραφής",
-          "MESSAGE": "Είστε βέβαιοι να διαγράψετε το webhook? (%{webhookURL})",
+          "MESSAGE": "Είστε βέβαιοι να διαγράψετε το webhook? ({webhookURL})",
           "YES": "Ναι, Διέγραψε ",
           "NO": "Όχι, Κράτησε τον/την"
         }
@@ -104,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -169,6 +179,7 @@
       "HEADER_BTN_TXT": "Προσθήκη νέας εφαρμογής Dashboard",
       "SIDEBAR_TXT": "<p><b>Εφαρμογές Dashboard</b></p><p>Οι εφαρμογές Dashboard επιτρέπουν σε οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στο ταμπλό Chatwoot για να παρέχουν το πλαίσιο για τους πράκτορες υποστήριξης πελατών. Αυτό το χαρακτηριστικό σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που μέσα στον πίνακα ελέγχου για να παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.</p><p>Όταν ενσωματώσετε την εφαρμογή σας χρησιμοποιώντας το Dashboard στο Chatwoot, η εφαρμογή σας θα πάρει το πλαίσιο της συνομιλίας και θα επικοινωνήσει ως ένα παράθυρο εκδήλωσης. Εφαρμόστε έναν ακροατή για το γεγονός του μηνύματος στη σελίδα σας για να λάβετε το πλαίσιο.</p><p>Για να προσθέσετε μια νέα εφαρμογή ταμπλό, κάντε κλικ στο κουμπί 'Προσθήκη μιας νέας εφαρμογής Dashboard'.</p>",
       "DESCRIPTION": "Οι εφαρμογές Dashboard επιτρέπουν στους οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στον πίνακα ελέγχου για να παρέχουν το περιεχόμενο για τους πράκτορες υποστήριξης πελατών. Αυτή η λειτουργία σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που θα παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί εφαρμογές Dashboard για αυτόν το λογαριασμό",
         "LOADING": "Λήψη εφαρμογών dashboard ...",
@@ -205,9 +216,90 @@
         "CONFIRM_YES": "Ναι, Διέγραψε την",
         "CONFIRM_NO": "Όχι, Κράτησε την",
         "TITLE": "Επιβεβαίωση Διαγραφής",
-        "MESSAGE": "Είστε βέβαιοι να διαγράψετε την εφαρμογή - %{appName};",
+        "MESSAGE": "Είστε βέβαιοι να διαγράψετε την εφαρμογή - {appName};",
         "API_SUCCESS": "Η εφαρμογή dashboard διαγράφηκε επιτυχώς",
         "API_ERROR": "Δεν μπορούμε να διαγράψουμε την εφαρμογή. Παρακαλώ δοκιμάστε ξανά αργότερα"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Δημιουργία",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Σύνδεσμος",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Τίτλος",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Ο τίτλος είναι απαραίτητος"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Περιγραφή",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Ομάδα",
+            "PLACEHOLDER": "Επιλογή ομάδας",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Priority",
+            "PLACEHOLDER": "Select priority",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Ετικέτα",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Κατάσταση",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Δημιουργία",
+        "CANCEL": "Άκυρο",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Κατάσταση",
+        "PRIORITY": "Priority",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Ετικέτες",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

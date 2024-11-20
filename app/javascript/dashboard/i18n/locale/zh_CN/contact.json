@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自定义属性",
       "CONTACT_LABELS": "联系人标签",
-      "PREVIOUS_CONVERSATIONS": "上一次对话"
+      "PREVIOUS_CONVERSATIONS": "上一次对话",
+      "NO_RECORDS_FOUND": "未找到属性"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "导出联系人",
       "MESSAGE": "您确定要导出所有联系人吗？",
+      "FILTERED_MESSAGE": "您确定要导出所有指定的联系人吗？",
       "YES": "是的，导出",
       "NO": "否，取消"
     }
@@ -296,8 +298,8 @@
     "BUTTON": "添加自定义属性",
     "NOT_AVAILABLE": "此联系人没有可用的自定义属性。",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "显示全部属性",
+    "SHOW_LESS": "显示较少属性",
     "ACTIONS": {
       "COPY": "复制属性",
       "DELETE": "删除属性",
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "总结",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> 的联系信息将被删除。",
-      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> 的联系信息将拷贝到 <strong>%{parentContactName}</strong>。"
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将被删除。",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> 的联系信息将拷贝到 <strong>{parentContactName}</strong>。"
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "已成功合并联系人",
       "ERROR_MESSAGE": "无法合并联系人，请重试！"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

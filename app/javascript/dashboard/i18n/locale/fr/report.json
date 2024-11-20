@@ -23,13 +23,13 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de première réponse est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de résolution est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'attente du client",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de première réponse est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de résolution est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -234,13 +234,13 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de première réponse est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de résolution est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -301,13 +301,13 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de première réponse est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de résolution est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -368,13 +368,13 @@
         "NAME": "Délai de première réponse",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de première réponse est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de première réponse est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
         "INFO_TEXT": "Nombre total de conversations utilisées pour le calcul :",
-        "TOOLTIP_TEXT": "Le temps de résolution est %{metricValue} (basé sur %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Le temps de résolution est {metricValue} (basé sur {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic des conversations",
       "NO_CONVERSATIONS": "Aucune conversation",
-      "CONVERSATION": "Conversation %{count}",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "Conversation {count}",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations par des agents",
@@ -536,6 +537,7 @@
       "LABELS": "Étiquettes",
       "TEAMS": "Équipes"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

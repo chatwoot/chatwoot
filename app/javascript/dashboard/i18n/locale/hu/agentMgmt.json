@@ -3,7 +3,8 @@
     "HEADER": "Ügynökök",
     "HEADER_BTN_TXT": "Ügynök Hozzádása",
     "LOADING": "Ügynökök Listájának Lekérése",
-    "SIDEBAR_TXT": "<p><b>Ügynökök</b></p> <p> Egy <b>Ügynök</b> tagja a terméktámogatási csapatodnak.</p> <p>Az ügynökök láthatják és válaszolhatnak a felhasználóid üzeneteire. A lista minden jelenleg a fiókodban található ügynököt mutatja.</p><p> Kattints az <b>Ügynök hozzáadásra</b> új ügynök hozzáadásához. Az ügynök amelyet hozzáadsz e-mailt fog kapni egy megerősítő linkkel, mellyel aktiválhatják a fiókjukat, mely után hozzáférést kapnak a Chatwoot-hoz és válaszolhatnak üzenetekre. </p><p>A Chatwoot lehetőségeihez a következő szerepkörök alapján férhet hozzá.</p><p><b>Ügynökök</b> - Ezzel a szerepkörrel rendelkező ügynökök hozzáférhetnek az inboxokhoz, jelentésekhez és beszélgetésekhez. Hozzárendelhetnek beszélgetéseket más ügynökökhöz vagy saját magukhoz és lezárhatnak beszélgetéseket.</p><p> <b>Adminisztrátor</b> - Az Adminisztrátor felhasználók hozzáférhetnek minden Chatwoot funkcióhoz mely a fiókhoz tartozik, beleértve a beállításokat, illetve a normális ügynöki felhasználói jogosultságokkal is bírnak.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Adminisztrátor",
       "AGENT": "Ügynök"
@@ -17,7 +18,8 @@
       "STATUS": "Státusz",
       "ACTIONS": "Műveletek",
       "VERIFIED": "Megerősített",
-      "VERIFICATION_PENDING": "Megerősítés függőben"
+      "VERIFICATION_PENDING": "Megerősítés függőben",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Ügynök hozzáadása a csapathoz",

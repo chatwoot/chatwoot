@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
       }
     },
-    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "UPDATE_CHATWOOT": "Uppfærsla {latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
     "LEARN_MORE": "Læra meira",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Offline"
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Uppfæra"
@@ -107,6 +109,7 @@
       "GENERAL": "Almennar",
       "REPORTS": "Skýrslur",
       "CONVERSATION": "Samtal",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Breyta Teymi",
@@ -153,7 +156,7 @@
       "UNTIL_TOMORROW": "Þar til á morgun",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",

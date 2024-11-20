@@ -24,6 +24,7 @@
 #
 # Indexes
 #
+#  index_messages_on_account_created_type               (account_id,created_at,message_type)
 #  index_messages_on_account_id                         (account_id)
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin

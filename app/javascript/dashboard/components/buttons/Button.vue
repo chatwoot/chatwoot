@@ -1,18 +1,10 @@
-<template>
-  <button :type="type" class="button nice" :class="variant" @click="onClick">
-    <fluent-icon
-      v-if="!isLoading && icon"
-      class="icon"
-      :class="buttonIconClass"
-      :icon="icon"
-    />
-    <spinner v-if="isLoading" />
-    <slot />
-  </button>
-</template>
-
 <script>
+import Spinner from 'shared/components/Spinner.vue';
+
 export default {
+  components: {
+    Spinner,
+  },
   props: {
     isLoading: {
       type: Boolean,
@@ -35,10 +27,24 @@ export default {
       default: 'primary',
     },
   },
-  methods: {
-    onClick(e) {
-      this.$emit('click', e);
-    },
+  created() {
+    // eslint-disable-next-line
+    console.warn(
+      '[DEPRECATED] This component has been deprecated and will be removed soon. Please use v3/components/Form/Button.vue instead'
+    );
   },
 };
 </script>
+
+<template>
+  <button :type="type" class="button nice" :class="variant">
+    <fluent-icon
+      v-if="!isLoading && icon"
+      class="icon"
+      :class="buttonIconClass"
+      :icon="icon"
+    />
+    <Spinner v-if="isLoading" />
+    <slot />
+  </button>
+</template>

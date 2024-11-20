@@ -3,6 +3,8 @@
     "HEADER": "Audito Žurnalas",
     "HEADER_BTN_TXT": "Pridėti Audito Žurnalus",
     "LOADING": "Parsiunčiami Audito Žurnalai",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
     "SIDEBAR_TXT": "<p><b>Audito žurnalai</b> </p><p> Audito žurnalai yra įvykių ir veiksmų Chatwoot sistemoje pėdsakai. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "Sistema",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} sukūrė naują automatizavimo taisyklę (#%{id})",
-      "EDIT": "%{agentName} atnaujino automatizavimo taisyklę (#%{id})",
-      "DELETE": "%{agentName} ištrynė automatizavimo taisyklę (#%{id})"
+      "ADD": "{agentName} sukūrė naują automatizavimo taisyklę (#{id})",
+      "EDIT": "{agentName} atnaujino automatizavimo taisyklę (#{id})",
+      "DELETE": "{agentName} ištrynė automatizavimo taisyklę (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} pakvietė %{invitee} į paskyrą kaip %{role}",
+      "ADD": "{agentName} pakvietė {invitee} į paskyrą kaip {role}",
       "EDIT": {
-        "SELF": "%{agentName} pakeitė savo %{attributes} į %{values}",
-        "OTHER": "%{agentName} pakeitė %{attributes} iš %{user} į %{values}"
+        "SELF": "{agentName} pakeitė savo {attributes} į {values}",
+        "OTHER": "{agentName} pakeitė {attributes} iš {user} į {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} sukūrė naują gautų laiškų aplanką (#%{id})",
-      "EDIT": "%{agentName} atnaujino gautų laiškų aplanką (#%{id})",
-      "DELETE": "%{agentName} ištrynė gautų laiškų aplanką (#%{id})"
+      "ADD": "{agentName} sukūrė naują gautų laiškų aplanką (#{id})",
+      "EDIT": "{agentName} atnaujino gautų laiškų aplanką (#{id})",
+      "DELETE": "{agentName} ištrynė gautų laiškų aplanką (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} sukūrė naują webhook (#%{id})",
-      "EDIT": "%{agentName} atnaujino webhook (#%{id})",
-      "DELETE": "%{agentName} ištrynė webhook (#%{id})"
+      "ADD": "{agentName} sukūrė naują webhook (#{id})",
+      "EDIT": "{agentName} atnaujino webhook (#{id})",
+      "DELETE": "{agentName} ištrynė webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} prisijungęs",
-      "SIGN_OUT": "%{agentName} atsijungęs"
+      "SIGN_IN": "{agentName} prisijungęs",
+      "SIGN_OUT": "{agentName} atsijungęs"
     },
     "TEAM": {
-      "ADD": "%{agentName} sukūrė naują komandą (#%{id})",
-      "EDIT": "%{agentName} atnaujino komandą (#%{id})",
-      "DELETE": "%{agentName} ištrynė komandą (#%{id})"
+      "ADD": "{agentName} sukūrė naują komandą (#{id})",
+      "EDIT": "{agentName} atnaujino komandą (#{id})",
+      "DELETE": "{agentName} ištrynė komandą (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} sukūrė naują makrokomandą (#%{id})",
-      "EDIT": "%{agentName} atnaujino makrokomandą (#%{id})",
-      "DELETE": "%{agentName} ištrynė makrokomandą (#%{id})"
+      "ADD": "{agentName} sukūrė naują makrokomandą (#{id})",
+      "EDIT": "{agentName} atnaujino makrokomandą (#{id})",
+      "DELETE": "{agentName} ištrynė makrokomandą (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} pridėjo %{user} prie gautų laiškų aplanko(#%{inbox_id})",
-      "REMOVE": "%{agentName} ipašalino %{user} iš gautų laiškų aplanko(#%{inbox_id})"
+      "ADD": "{agentName} pridėjo {user} prie gautų laiškų aplanko(#{inbox_id})",
+      "REMOVE": "{agentName} ipašalino {user} iš gautų laiškų aplanko(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} pridėjo %{user} prie komandos(#%{team_id})",
-      "REMOVE": "%{agentName} pašalino %{user} iš komandos(#%{team_id})"
+      "ADD": "{agentName} pridėjo {user} prie komandos(#{team_id})",
+      "REMOVE": "{agentName} pašalino {user} iš komandos(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} atnaujino paskyros konfigūraciją (#%{id})"
+      "EDIT": "{agentName} atnaujino paskyros konfigūraciją (#{id})"
     }
   }
 }

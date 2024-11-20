@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Conversations",
       "MESSAGES": "Messages"
     },
-    "EMPTY_STATE": "Aucun %{item} trouvé pour la requête '%{query}'",
-    "EMPTY_STATE_FULL": "Aucun résultat pour la requête '%{query}'",
+    "SEARCHING_DATA": "Recherche en cours",
+    "EMPTY_STATE": "Aucun {item} trouvé pour la requête '{query}'",
+    "EMPTY_STATE_FULL": "Aucun résultat pour la requête '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ pour cibler",
     "INPUT_PLACEHOLDER": "Tapez 3 caractères ou plus pour lancer la recherche",
     "EMPTY_STATE_DEFAULT": "Recherche par identifiant de conversation, e-mail, numéro de téléphone, messages pour de meilleurs résultats de recherche. ",

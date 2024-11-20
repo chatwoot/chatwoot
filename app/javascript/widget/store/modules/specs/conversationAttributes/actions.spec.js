@@ -1,8 +1,8 @@
 import { actions } from '../../conversationAttributes';
 import { API } from 'widget/helpers/axios';
 
-const commit = jest.fn();
-jest.mock('widget/helpers/axios');
+const commit = vi.fn();
+vi.mock('widget/helpers/axios');
 
 describe('#actions', () => {
   describe('#get attributes', () => {

@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
-    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_microsoft_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_email_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
 
     resource :widget, only: [:show]
     namespace :survey do
@@ -73,6 +74,7 @@ Rails.application.routes.draw do
             post :execute, on: :member
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
+          resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -95,6 +97,7 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
+              resource :draft_messages, only: [:show, :update, :destroy]
             end
             member do
               post :mute
@@ -124,7 +127,7 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :import
-              get :export
+              post :export
             end
             member do
               get :contactable_inboxes
@@ -207,9 +210,18 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :google do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
+            resource :captain, controller: 'captain', only: [] do
+              collection do
+                post :proxy
+              end
+            end
             resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
                 post :process_event
@@ -224,6 +236,17 @@ Rails.application.routes.draw do
               collection do
                 post :create_a_meeting
                 post :add_participant_to_meeting
+              end
+            end
+            resource :linear, controller: 'linear', only: [] do
+              collection do
+                get :teams
+                get :team_entities
+                post :create_issue
+                post :link_issue
+                post :unlink_issue
+                get :search_issue
+                get :linked_issues
               end
             end
           end
@@ -432,6 +455,7 @@ Rails.application.routes.draw do
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
+  get 'google/callback', to: 'google/callbacks#show'
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications

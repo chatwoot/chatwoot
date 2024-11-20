@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
       "CONTACT_LABELS": "Ярлыки контактов",
-      "PREVIOUS_CONVERSATIONS": "Предыдущие диалоги"
+      "PREVIOUS_CONVERSATIONS": "Предыдущие диалоги",
+      "NO_RECORDS_FOUND": "Атрибуты не найдены"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Экспорт контактов",
       "MESSAGE": "Вы уверены, что хотите экспортировать все контакты?",
+      "FILTERED_MESSAGE": "Вы действительно хотите экспортировать все отфильтрованные контакты?",
       "YES": "Да, экспортировать",
       "NO": "Нет, отменить"
     }
@@ -296,8 +298,8 @@
     "BUTTON": "Добавить пользовательский атрибут",
     "NOT_AVAILABLE": "Для этого контакта нет пользовательских атрибутов.",
     "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Показать все атрибуты",
+    "SHOW_LESS": "Скрыть лишние атрибуты",
     "ACTIONS": {
       "COPY": "Копировать атрибут",
       "DELETE": "Удалить атрибут",
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Краткая информация",
-      "DELETE_WARNING": "Контакт <strong>%{primaryContactName}</strong> будет удален.",
-      "ATTRIBUTE_WARNING": "Контактная информация <strong>%{primaryContactName}</strong> будет скопирована в <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Контакт <strong>{primaryContactName}</strong> будет удален.",
+      "ATTRIBUTE_WARNING": "Контактная информация <strong>{primaryContactName}</strong> будет скопирована в <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Контакт успешно объединён",
       "ERROR_MESSAGE": "Невозможно объединить контакты, попробуйте еще раз!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

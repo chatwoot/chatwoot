@@ -1,3 +1,21 @@
+<script>
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+export default {
+  props: {
+    selectedChannelName: {
+      type: String,
+      required: true,
+    },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
+  },
+};
+</script>
+
 <template>
   <div
     class="flex-1 w-full p-6 bg-white rounded-md border border-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
@@ -21,15 +39,3 @@
     </div>
   </div>
 </template>
-<script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-export default {
-  mixins: [messageFormatterMixin],
-  props: {
-    selectedChannelName: {
-      type: String,
-      required: true,
-    },
-  },
-};
-</script>

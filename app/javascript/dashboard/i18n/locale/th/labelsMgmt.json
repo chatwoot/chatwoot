@@ -3,8 +3,9 @@
     "HEADER": "ป้ายกำกับ",
     "HEADER_BTN_TXT": "เพิ่มป้ายกำกับ",
     "LOADING": "กำลังโหลดป้ายกำกับ",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "ไม่มีรายการที่ตรงกับเนื้อหานี้",
-    "SIDEBAR_TXT": "<p><b>ป้ายกำกับ</b><p> ป้ายกำกับช่วยให้คุณจัดกลุ่มและลำดับความสำคัญของการสนทนา คุณสามารถติดป้ายกำกับให้กับการสนทนาได้จากหน้าต่างด้านขวา <br /><br /> ป้ายกำกับผูกกับบัญชีและสามารถใช้เพื่อสร้างระบบการทำงานในบริษัทของคุณ คุณยังสามารถปรับแต่งสีของป้ายกำกับได้ซึ่งช่วยให้มองเห็นป้ายได้ง่ายขึ้น ป้ายกำกับที่สร้างขึ้นจะแสดงบนเมนูข้าง",
     "LIST": {
       "404": "ไม่มีป้ายกำกับในบัญชีนี้",
       "TITLE": "จัดการป้ายกำกับ",
@@ -49,7 +50,8 @@
       "DISMISS": "Dismiss",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "เพิ่มป้ายกำกับ",

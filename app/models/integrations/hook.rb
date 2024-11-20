@@ -18,7 +18,9 @@ class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
+  before_validation :ensure_captain_config_present, on: :create
   before_validation :ensure_hook_type
+
   validates :account_id, presence: true
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
@@ -56,11 +58,35 @@ class Integrations::Hook < ApplicationRecord
     when 'openai'
       Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
     else
-      'No processor found'
+      { error: 'No processor found' }
     end
   end
 
   private
+
+  def ensure_captain_config_present
+    return if app_id != 'captain'
+    # Already configured, skip this
+    return if settings['access_token'].present?
+
+    ensure_captain_is_enabled
+    fetch_and_set_captain_settings
+  end
+
+  def ensure_captain_is_enabled
+    raise 'Captain is not enabled' unless Integrations::App.find(id: 'captain').active?(account)
+  end
+
+  def fetch_and_set_captain_settings
+    captain_response = ChatwootHub.get_captain_settings(account)
+    raise "Failed to get captain settings: #{captain_response.body}" unless captain_response.success?
+
+    captain_settings = JSON.parse(captain_response.body)
+    settings['account_email'] = captain_settings['account_email']
+    settings['account_id'] = captain_settings['captain_account_id'].to_s
+    settings['access_token'] = captain_settings['access_token']
+    settings['assistant_id'] = captain_settings['assistant_id'].to_s
+  end
 
   def ensure_hook_type
     self.hook_type = app.params[:hook_type] if app.present?

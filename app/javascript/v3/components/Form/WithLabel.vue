@@ -1,3 +1,30 @@
+<script>
+export default {
+  props: {
+    label: {
+      type: String,
+      default: '',
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      default: '',
+    },
+    hasError: {
+      type: Boolean,
+      default: false,
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
 <template>
   <div class="space-y-1">
     <label
@@ -30,29 +57,3 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

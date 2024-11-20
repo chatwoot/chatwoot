@@ -18,10 +18,10 @@
         "ARCHIVED": "Archivierte Artikel"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Sprache auswählen",
+        "PLACEHOLDER": "Sprache auswählen",
+        "NO_RESULT": "Keine Sprache gefunden",
+        "SEARCH_PLACEHOLDER": "Sprache suchen"
       }
     },
     "EDIT_HEADER": {
@@ -41,6 +41,7 @@
         "UPLOADING": "Hochladen...",
         "SUCCESS": "Bild erfolgreich hochgeladen",
         "ERROR": "Fehler beim Hochladen des Bildes",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Bildgröße sollte kleiner als {size}MB sein",
         "ERROR_FILE_FORMAT": "Bildformat sollte jpg, jpeg oder png sein",
         "ERROR_FILE_DIMENSIONS": "Bildgröße sollte kleiner als 2000 x 2000 sein"
@@ -82,15 +83,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "UNCATEGORIZED": "Nicht kategorisiert",
+      "SEARCH_RESULTS": "Suchergebnisse für {query}",
+      "EMPTY_TEXT": "Suche nach Artikeln, um sie in Antworten einzufügen.",
       "SEARCH_LOADER": "Suchen...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "INSERT_ARTICLE": "Einfügen",
+      "NO_RESULT": "Keine Artikel gefunden",
+      "COPY_LINK": "Artikellink in die Zwischenablage kopieren",
+      "OPEN_LINK": "Artikel in neuem Fenster öffnen",
+      "PREVIEW_LINK": "Artikelvorschau anzeigen"
     },
     "PORTAL": {
       "HEADER": "Portale",
@@ -231,9 +232,9 @@
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Logo hochladen",
           "HELP_TEXT": "Dieses Logo wird in der Kopfzeile des Portals angezeigt.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logo erfolgreich hochgeladen",
+          "IMAGE_UPLOAD_ERROR": "Logo erfolgreich gelöscht",
+          "IMAGE_DELETE_ERROR": "Fehler beim Löschen des Logos"
         },
         "NAME": {
           "LABEL": "Name",
@@ -319,13 +320,13 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategorie",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Ansichten",
         "STATUS": "Status",
         "LAST_EDITED": "Zuletzt bearbeitet"
       },
       "COLUMNS": {
         "BY": "von",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "Autor ist nicht verfügbar"
       }
     },
     "EDIT_ARTICLE": {
@@ -379,7 +380,7 @@
         "NAME": {
           "LABEL": "Name",
           "PLACEHOLDER": "Kategoriename",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Der Kategoriename und das Symbol werden im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
           "ERROR": "Name wird benötigt"
         },
         "SLUG": {
@@ -410,7 +411,7 @@
         "NAME": {
           "LABEL": "Name",
           "PLACEHOLDER": "Kategoriename",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Der Kategoriename und das Symbol werden im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
           "ERROR": "Name wird benötigt"
         },
         "SLUG": {
@@ -441,46 +442,47 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
+      "TITLE": "Artikel suchen",
+      "PLACEHOLDER": "Artikel suchen",
+      "NO_RESULT": "Keine Artikel gefunden",
       "SEARCHING": "Suchen...",
       "SEARCH_BUTTON": "Suchen",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "INSERT_ARTICLE": "Link einfügen",
+      "IFRAME_ERROR": "URL ist leer oder ungültig. Inhalt kann nicht angezeigt werden.",
+      "OPEN_ARTICLE_SEARCH": "Artikel aus dem Help Center einfügen",
+      "SUCCESS_ARTICLE_INSERTED": "Artikel erfolgreich eingefügt",
+      "PREVIEW_LINK": "Artikelvorschau anzeigen",
       "CANCEL": "Schließen",
       "BACK": "Zurück",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Zurück zu den Ergebnissen"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Hilfezentrum",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Erstellen Sie benutzerfreundliche Self Service-Portale. Helfen Sie Ihren Nutzern, auf die Artikel zuzugreifen und rund um die Uhr Unterstützung zu erhalten. Erweitern Sie Ihr Abonnement, um diese Funktion zu aktivieren.",
+      "SELF_HOSTED_DESCRIPTION": "Erstellen Sie benutzerfreundliche Self Service-Portale. Helfen Sie Ihren Nutzern, auf die Artikel zuzugreifen und rund um die Uhr Unterstützung zu erhalten. Bitte kontaktieren Sie Ihren Administrator, um diese Funktion zu aktivieren.",
       "BUTTON": {
         "LEARN_MORE": "Mehr erfahren",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Upgrade durchführen"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Mehrere Portale",
+          "DESCRIPTION": "Erstellen Sie mehrere Help Center-Portale für verschiedene Produkte mit demselben Konto."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Vollständige Unterstützung für Sprachen",
+          "DESCRIPTION": "Finden Sie das Portal in Ihrer Sprache. Wir unterstützen alle Sprachen und ermöglichen Übersetzungen für jeden Artikel."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO-freundliches Design",
+          "DESCRIPTION": "Passen Sie Ihre Meta-Tags an, um Ihre Sichtbarkeit in Suchmaschinen mit unseren SEO-freundlichen Seiten zu verbessern."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Vollständige API-Unterstützung",
+          "DESCRIPTION": "Verwenden Sie das Portal als Headless-CMS mit Drittanbieter-Front-End-Frameworks mithilfe unserer APIs."
         }
       }
-    }
+    },
+    "LOADING": "Laden..."
   }
 }

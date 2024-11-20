@@ -18,6 +18,7 @@
       "AND": "和",
       "OR": "或"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "等于",
       "not_equal_to": "不等于",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
       "CREATED_AT": "创建者",
       "LAST_ACTIVITY": "上次操作"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "必须填写值"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "常规筛选器",

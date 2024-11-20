@@ -41,6 +41,7 @@
         "UPLOADING": "מעלה...",
         "SUCCESS": "התמונה הועלתה בהצלחה",
         "ERROR": "שגיאה בעת העלאת תמונה",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "גודל התמונה צריך להיות פחות מ-{size}MB",
         "ERROR_FILE_FORMAT": "פורמט התמונה צריך להיות jpg, jpeg או png",
         "ERROR_FILE_DIMENSIONS": "מידות התמונה צריכות להיות פחות מ-2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Searching...",
       "INSERT_ARTICLE": "Insert",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

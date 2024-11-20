@@ -1,12 +1,38 @@
+<script>
+import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
+import AgentBotType from './AgentBotType.vue';
+
+export default {
+  components: { ShowMore, AgentBotType },
+  props: {
+    agentBot: {
+      type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  emits: ['edit', 'delete'],
+  computed: {
+    isACSMLTypeBot() {
+      const { bot_type: botType } = this.agentBot;
+      return botType === 'csml';
+    },
+  },
+};
+</script>
+
 <template>
   <tr class="space-x-2">
     <td class="agent-bot--details">
       <div class="agent-bot--link">
         {{ agentBot.name }}
-        (<agent-bot-type :bot-type="agentBot.bot_type" />)
+        (<AgentBotType :bot-type="agentBot.bot_type" />)
       </div>
       <div class="agent-bot--description">
-        <show-more :text="agentBot.description" :limit="120" />
+        <ShowMore :text="agentBot.description || ''" :limit="120" />
       </div>
     </td>
     <td class="flex justify-end gap-1">
@@ -30,30 +56,7 @@
     </td>
   </tr>
 </template>
-<script>
-import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
-import AgentBotType from './AgentBotType.vue';
 
-export default {
-  components: { ShowMore, AgentBotType },
-  props: {
-    agentBot: {
-      type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    isACSMLTypeBot() {
-      const { bot_type: botType } = this.agentBot;
-      return botType === 'csml';
-    },
-  },
-};
-</script>
 <style scoped lang="scss">
 .agent-bot--link {
   align-items: center;

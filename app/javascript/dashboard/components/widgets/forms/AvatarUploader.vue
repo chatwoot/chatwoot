@@ -1,3 +1,42 @@
+<script>
+export default {
+  props: {
+    label: {
+      type: String,
+      default: '',
+    },
+    src: {
+      type: String,
+      default: '',
+    },
+    usernameAvatar: {
+      type: String,
+      default: '',
+    },
+    deleteAvatar: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['onAvatarSelect', 'onAvatarDelete'],
+  watch: {},
+  methods: {
+    handleImageUpload(event) {
+      const [file] = event.target.files;
+
+      this.$emit('onAvatarSelect', {
+        file,
+        url: file ? URL.createObjectURL(file) : null,
+      });
+    },
+    onAvatarDelete() {
+      this.$refs.file.value = null;
+      this.$emit('onAvatarDelete');
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <label>
@@ -32,44 +71,6 @@
     </label>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    src: {
-      type: String,
-      default: '',
-    },
-    usernameAvatar: {
-      type: String,
-      default: '',
-    },
-    deleteAvatar: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  watch: {},
-  methods: {
-    handleImageUpload(event) {
-      const [file] = event.target.files;
-
-      this.$emit('change', {
-        file,
-        url: file ? URL.createObjectURL(file) : null,
-      });
-    },
-    onAvatarDelete() {
-      this.$refs.file.value = null;
-      this.$emit('onAvatarDelete');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .avatar-delete-btn {

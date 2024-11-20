@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversas selecionadas",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversas selecionadas",
     "AGENT_SELECT_LABEL": "Selecionar agente",
-    "ASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer atribuir %{conversationCount} %{conversationLabel} para",
-    "UNASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer remover a atribuição de %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer atribuir {conversationCount} {conversationLabel} para",
+    "UNASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer remover a atribuição de {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Voltar atrás",
     "ASSIGN_LABEL": "Atribua",
     "YES": "Sim",
+    "SEARCH_INPUT_PLACEHOLDER": "Pesquisar",
     "ASSIGN_AGENT_TOOLTIP": "Atribuir Agente",
     "ASSIGN_TEAM_TOOLTIP": "Atribuir equipe",
     "ASSIGN_SUCCESFUL": "Conversas atribuídas com sucesso.",
@@ -17,7 +18,7 @@
     "AGENT_LIST_LOADING": "Carregando agentes",
     "UPDATE": {
       "CHANGE_STATUS": "Alterar status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Adiar até a próxima resposta.",
+      "SNOOZE_UNTIL": "Adiar",
       "UPDATE_SUCCESFUL": "Status da conversa atualizado com sucesso.",
       "UPDATE_FAILED": "Falha ao atualizar conversas. Por favor, tente novamente."
     },
@@ -33,7 +34,7 @@
       "NONE": "Nenhuma",
       "NO_TEAMS_AVAILABLE": "Ainda não há equipes adicionadas a esta conta ainda.",
       "ASSIGN_SELECTED_TEAMS": "Atribuir equipe selecionada.",
-      "ASSIGN_SUCCESFUL": "Equipes atribuídos com sucesso.",
+      "ASSIGN_SUCCESFUL": "Times atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir equipe. Por favor, tente novamente."
     }
   }

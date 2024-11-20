@@ -1,12 +1,13 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
+    "CONVERSATIONS_SELECTED": "{conversationCount} cuộc hội thoại đã được chọn",
     "AGENT_SELECT_LABEL": "Chọn thành viên",
-    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định %{conversationCount} %{conversationLabel} tới",
-    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định {conversationCount} {conversationLabel} tới",
+    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
     "YES": "Có",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm",
     "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
     "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công.",
@@ -17,7 +18,7 @@
     "AGENT_LIST_LOADING": "Đang tải điện thoại viên",
     "UPDATE": {
       "CHANGE_STATUS": "Thay đổi trạng thái",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Báo lại cho đến khi có câu trả lời tiếp theo.",
+      "SNOOZE_UNTIL": "Báo lại",
       "UPDATE_SUCCESFUL": "Đã cập nhật trạng thái cuộc hội thoại thành công.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
@@ -33,7 +34,7 @@
       "NONE": "Không có",
       "NO_TEAMS_AVAILABLE": "Chưa có nhóm nào được thêm vào tài khoản này.",
       "ASSIGN_SELECTED_TEAMS": "Chỉ định nhóm đã chọn.",
-      "ASSIGN_SUCCESFUL": "Các nhóm được chỉ định thành công.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }

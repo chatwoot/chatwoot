@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "x日前"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "値は必須です"
+    },
     "ATTRIBUTES": {
       "NAME": "名前",
       "EMAIL": "Eメール",

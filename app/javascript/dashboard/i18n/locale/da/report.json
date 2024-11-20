@@ -23,13 +23,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -234,13 +234,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -301,13 +301,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -368,13 +368,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Samtaler af agenter",
@@ -536,6 +537,7 @@
       "LABELS": "Etiketter",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

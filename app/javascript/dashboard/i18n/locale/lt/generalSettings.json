@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Dabar galite gauti el. laiškus pasirinktame domene."
       }
     },
-    "UPDATE_CHATWOOT": "Yra Chatwoot naujinimas %{latestChatwootVersion}. Atnaujinkite savo versiją.",
+    "UPDATE_CHATWOOT": "Yra Chatwoot naujinimas {latestChatwootVersion}. Atnaujinkite savo versiją.",
     "LEARN_MORE": "Sužinoti daugiau",
     "PAYMENT_PENDING": "Laukiama jūsų mokėjimo. Atnaujinkite savo mokėjimo informaciją, kad galėtumėte toliau naudoti Chatwoot",
     "LIMITS_UPGRADE": "Jūsų paskyra viršijo naudojimo apribojimus, atnaujinkite savo planą, kad galėtumėte toliau naudoti Chatwoot",
@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Atsijungęs"
+      "OFFLINE": "Atsijungęs",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Atnaujinti"
@@ -107,6 +109,7 @@
       "GENERAL": "Pagrindinis",
       "REPORTS": "Ataskaitos",
       "CONVERSATION": "Pokalbis",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Pakeisti Priskirtąjį",
       "CHANGE_PRIORITY": "Pakeisti Prioritetą",
       "CHANGE_TEAM": "Pakeisti Komandą",
@@ -153,7 +156,7 @@
       "UNTIL_TOMORROW": "Iki rytojaus",
       "UNTIL_NEXT_MONTH": "Iki kito mėnesio",
       "AN_HOUR_FROM_NOW": "Iki valandos nuo dabar",
-      "CUSTOM": "Personalizuotas...",
+      "UNTIL_CUSTOM_TIME": "Personalizuotas...",
       "CHANGE_APPEARANCE": "Keisti išvaizdą",
       "LIGHT_MODE": "Šviesus",
       "DARK_MODE": "Tamsus",

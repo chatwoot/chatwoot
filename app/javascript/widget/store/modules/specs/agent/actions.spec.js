@@ -2,8 +2,8 @@ import { API } from 'widget/helpers/axios';
 import { actions } from '../../agent';
 import { agents } from './data';
 
-const commit = jest.fn();
-jest.mock('widget/helpers/axios');
+const commit = vi.fn();
+vi.mock('widget/helpers/axios');
 
 describe('#actions', () => {
   describe('#fetchAvailableAgents', () => {
@@ -27,7 +27,9 @@ describe('#actions', () => {
   });
 
   describe('#updatePresence', () => {
-    actions.updatePresence({ commit }, { 1: 'online' });
-    expect(commit.mock.calls).toEqual([['updatePresence', { 1: 'online' }]]);
+    it('commits the correct presence value', () => {
+      actions.updatePresence({ commit }, { 1: 'online' });
+      expect(commit.mock.calls).toEqual([['updatePresence', { 1: 'online' }]]);
+    });
   });
 });

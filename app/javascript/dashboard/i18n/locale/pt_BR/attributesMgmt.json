@@ -3,7 +3,8 @@
     "HEADER": "Atributos Personalizados",
     "HEADER_BTN_TXT": "Criar atributo personalizado",
     "LOADING": "Buscando atributos personalizados",
-    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia fatos sobre seus contatos/conversas — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar em <b>\"Criar atributo\"</b> Você também pode editar ou apagar um atributo já criado.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
       "SUBMIT": "Criar",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Não foi possível excluir o atributo personalizado. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Tem certeza que deseja excluir - %{attributeName}",
+        "TITLE": "Tem certeza que deseja excluir - {attributeName}",
         "PLACE_HOLDER": "Digite {attributeName} para confirmar",
         "MESSAGE": "Excluindo removerá o atributo personalizado",
         "YES": "Excluir ",

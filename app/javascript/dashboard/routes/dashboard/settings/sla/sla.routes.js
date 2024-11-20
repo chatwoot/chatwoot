@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const Index = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import Index from './Index.vue';
 
 export default {
   routes: [
@@ -13,13 +13,19 @@ export default {
         {
           path: '',
           name: 'sla_wrapper',
-          roles: ['administrator'],
-          redirect: 'list',
+          meta: {
+            permissions: ['administrator'],
+          },
+          redirect: to => {
+            return { name: 'sla_list', params: to.params };
+          },
         },
         {
           path: 'list',
           name: 'sla_list',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
           component: Index,
         },
       ],

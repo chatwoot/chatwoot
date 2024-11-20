@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
     },
-    "UPDATE_CHATWOOT": "%{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
+    "UPDATE_CHATWOOT": "{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
     "LEARN_MORE": "Daha Fazla",
     "PAYMENT_PENDING": "Ödemeniz bekliyor. Devam etmek için ödeme bilgilerinizi güncelleyin.",
     "LIMITS_UPGRADE": "Hesabınız kullanım sınırlarını aştı, lütfen Chatwoot'u kullanmaya devam etmek için planınızı yükseltin",
@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Çevrimdışı"
+      "OFFLINE": "Çevrimdışı",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Yenile"
@@ -107,6 +109,7 @@
       "GENERAL": "Genel",
       "REPORTS": "Raporlar",
       "CONVERSATION": "Konuşma",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Atananı Değiştir",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
       "CHANGE_TEAM": "Takım Değiştir",
@@ -153,7 +156,7 @@
       "UNTIL_TOMORROW": "Yarına kadar",
       "UNTIL_NEXT_MONTH": "Bir sonraki aya kadar",
       "AN_HOUR_FROM_NOW": "Bir saat sonra kadar",
-      "CUSTOM": "Özel...",
+      "UNTIL_CUSTOM_TIME": "Özel...",
       "CHANGE_APPEARANCE": "Görünümü Değiştir",
       "LIGHT_MODE": "Açık Mod",
       "DARK_MODE": "Koyu Mod",

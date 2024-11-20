@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Konuşmalar",
       "MESSAGES": "Mesajlar"
     },
-    "EMPTY_STATE": "%{query} sorgusunda hiç bir %{item} bulunamadı",
-    "EMPTY_STATE_FULL": "%{query} sorgusu için hiç bir sonuç bulunamadı",
+    "SEARCHING_DATA": "Aranıyor",
+    "EMPTY_STATE": "{query} sorgusunda hiç bir {item} bulunamadı",
+    "EMPTY_STATE_FULL": "{query} sorgusu için hiç bir sonuç bulunamadı",
     "PLACEHOLDER_KEYBINDING": "odaklanmak için / basın",
     "INPUT_PLACEHOLDER": "Aramak için 3 veya daha fazla karakter yazın",
     "EMPTY_STATE_DEFAULT": "Daha iyi arama sonuçları için konuşma id si, e-posta, telefon numarası, mesajlara göre arama yapın. ",

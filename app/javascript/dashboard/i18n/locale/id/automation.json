@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Otomatisasi",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Tambah Aturan Otomatisasi",
     "LOADING": "Mengambil aturan otomatisasi",
-    "SIDEBAR_TXT": "<p><b>Aturan Otomatisasi</b> <p>Otomatisasi dapat menggantikan dan mengotomatisasi proses yang memerlukan upaya manual. Anda dapat melakukan banyak hal dengan otomatisasi, termasuk menambahkan label dan menugaskan percakapan kepada agen terbaik. Dengan begitu, tim fokus pada hal-hal yang mereka lakukan dengan baik dan menghabiskan lebih sedikit waktu untuk tugas-tugas manual.</p>",
     "ADD": {
       "TITLE": "Tambah Aturan Otomatisasi",
       "SUBMIT": "Buat",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Anda harus memiliki setidaknya satu aksi untuk disimpan",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Masukkan pesan Anda di sini",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Pilih tim"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Pilih tim",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktifkan Aturan Otomatisasi",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Mengunggah...",
       "LABEL_UPLOADED": "Berhasil Diunggah",
       "LABEL_UPLOAD_FAILED": "Gagal Mengunggah"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Nilai dibutuhkan",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

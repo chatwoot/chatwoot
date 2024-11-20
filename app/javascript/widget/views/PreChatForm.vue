@@ -1,14 +1,10 @@
-<template>
-  <div class="flex flex-1 overflow-auto">
-    <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
-  </div>
-</template>
 <script>
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -16,7 +12,7 @@ export default {
   },
   mixins: [configMixin, routerMixin],
   mounted() {
-    bus.$on(ON_CONVERSATION_CREATED, () => {
+    emitter.on(ON_CONVERSATION_CREATED, () => {
       // Redirect to messages page after conversation is created
       this.replaceRoute('messages');
     });
@@ -32,7 +28,7 @@ export default {
       conversationCustomAttributes,
     }) {
       if (activeCampaignId) {
-        bus.$emit('execute-campaign', {
+        emitter.emit('execute-campaign', {
           campaignId: activeCampaignId,
           customAttributes: conversationCustomAttributes,
         });
@@ -62,3 +58,9 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-1 overflow-auto">
+    <PreChatForm :options="preChatFormOptions" @submit-pre-chat="onSubmit" />
+  </div>
+</template>

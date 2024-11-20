@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Rozmowy",
       "MESSAGES": "Wiadomości"
     },
-    "EMPTY_STATE": "Nie znaleziono %{item} dla zapytania '%{query}'",
-    "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '%{query}'",
+    "SEARCHING_DATA": "Wyszukiwanie",
+    "EMPTY_STATE": "Nie znaleziono {item} dla zapytania '{query}'",
+    "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ aby skupić się",
     "INPUT_PLACEHOLDER": "Wpisz co najmniej 3 znaki, aby wyszukać",
     "EMPTY_STATE_DEFAULT": "Wyszukaj według identyfikatora rozmowy, adresu e-mail, numeru telefonu lub treści wiadomości, aby uzyskać lepsze wyniki wyszukiwania.",

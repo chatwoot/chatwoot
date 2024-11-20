@@ -1,29 +1,7 @@
-<template>
-  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
-    <div class="icon-container">
-      <fluent-icon icon="search" class="icon" aria-hidden="true" />
-    </div>
-    <input
-      ref="searchInput"
-      type="search"
-      class="dark:bg-slate-900"
-      :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
-      :value="searchQuery"
-      @focus="onFocus"
-      @blur="onBlur"
-      @input="debounceSearch"
-    />
-    <woot-label
-      :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
-      :show-close="false"
-      small
-      class="helper-label"
-    />
-  </div>
-</template>
-
 <script>
 export default {
+  emits: ['search'],
+
   data() {
     return {
       searchQuery: '',
@@ -34,7 +12,7 @@ export default {
     this.$refs.searchInput.focus();
     document.addEventListener('keydown', this.handler);
   },
-  beforeDestroy() {
+  unmounted() {
     document.removeEventListener('keydown', this.handler);
   },
   methods: {
@@ -70,6 +48,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="input-container" :class="{ 'is-focused': isInputFocused }">
+    <div class="icon-container">
+      <fluent-icon icon="search" class="icon" aria-hidden="true" />
+    </div>
+    <input
+      ref="searchInput"
+      type="search"
+      class="dark:bg-slate-900"
+      :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
+      :value="searchQuery"
+      @focus="onFocus"
+      @blur="onBlur"
+      @input="debounceSearch"
+    />
+    <woot-label
+      :title="$t('SEARCH.PLACEHOLDER_KEYBINDING')"
+      :show-close="false"
+      small
+      class="helper-label"
+    />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .input-container {

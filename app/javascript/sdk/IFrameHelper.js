@@ -14,7 +14,6 @@ import {
   chatBubble,
   closeBubble,
   bubbleHolder,
-  createNotificationBubble,
   onClickChatBubble,
   onBubbleClick,
   setBubbleText,
@@ -102,6 +101,7 @@ export const IFrameHelper = {
     }
 
     addClasses(widgetHolder, holderClassName);
+    widgetHolder.id = 'cw-widget-holder';
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -187,6 +187,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
+        showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
       });
       IFrameHelper.onLoad({
@@ -342,7 +343,6 @@ export const IFrameHelper = {
 
     bubbleHolder.appendChild(chatIcon);
     bubbleHolder.appendChild(closeBubble);
-    bubbleHolder.appendChild(createNotificationBubble());
     onClickChatBubble();
   },
   toggleCloseButton: () => {

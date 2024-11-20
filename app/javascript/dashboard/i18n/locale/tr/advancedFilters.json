@@ -18,6 +18,7 @@
       "AND": "VE",
       "OR": "YA DA"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Eşit",
       "not_equal_to": "Eşit Değil",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
       "CREATED_AT": "Oluşturulma Zamanı",
       "LAST_ACTIVITY": "Son Aktivite"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Değer gereklidir"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",

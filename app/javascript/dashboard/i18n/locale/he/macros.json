@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "מאקרו",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "הוסף מאקרו חדש",
     "HEADER_BTN_TXT_SAVE": "שמור מאקרו",
     "LOADING": "מביא פקודות מאקרו",
-    "SIDEBAR_TXT": "<p><b>פקודות מאקרו</b><p>מאקרו הוא קבוצה של פעולות שמורות המסייעות לסוכני שירות לקוחות לבצע משימות בקלות. הסוכנים יכולים להגדיר קבוצה של פעולות כמו תיוג שיחה עם תווית, שליחת תמלול דוא\"ל, עדכון תכונה מותאמת אישית וכו', והם יכולים להפעיל את הפעולות הללו בלחיצה אחת. כאשר הסוכנים מפעילים את המאקרו, הפעולות יבוצעו ברצף בסדר שהן מוגדרות. מאקרו משפרים את הפרודוקטיביות ומגדילים את העקביות בפעולות. </p><p>מאקרו יכול להועיל בשתי דרכים. </p><p><b>כסוכן מסייע:</b> אם סוכן מבצע קבוצה של פעולות מספר פעמים, הוא יכול לשמור אותה כמאקרו ולבצע את כל הפעולות יחד באמצעות לחיצה אחת.</p> p><p><b>כאפשרות להצטרף לחבר צוות:</b> כל סוכן צריך לבצע בדיקות/פעולות רבות ושונות במהלך כל שיחה. הכניסה לחבר צוות תמיכה חדש תהיה קלה אם פקודות מאקרו מוגדרות מראש זמינות בחשבון. במקום לתאר כל שלב בפירוט, המנהל/ראש הצוות יכול להצביע על פקודות המאקרו המשמשות בתרחישים שונים.</p>",
     "ERROR": "משהו השתבש. אנא נסה שוב",
     "ORDER_INFO": "פקודות מאקרו יפעלו לפי הסדר שתוסיף את הפעולות שלך. תוכל לסדר אותם מחדש על ידי גרירתם על ידי הידית לצד כל צומת.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "לבצע",
       "PREVIEW": "תצוגה מקדימה מאקרו",
       "EXECUTED_SUCCESSFULLY": "המאקרו הופעל בהצלחה"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "חובה ערך",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

@@ -16,7 +16,6 @@ describe Contacts::FilterService do
     create(:inbox_member, user: second_user, inbox: inbox)
     create(:conversation, account: account, inbox: inbox, assignee: first_user, contact: en_contact)
     create(:conversation, account: account, inbox: inbox, contact: el_contact)
-    Current.account = account
 
     create(:custom_attribute_definition,
            attribute_key: 'contact_additional_information',
@@ -59,7 +58,7 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:count]).to be 1
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.name).to eq(en_contact.name)
@@ -71,7 +70,7 @@ describe Contacts::FilterService do
         blocked_contact = create(:contact, account: account, blocked: true)
         params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: ['true'],
                                query_operator: nil }.with_indifferent_access] }
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:count]).to be 1
         expect(result[:contacts].first.id).to eq(blocked_contact.id)
       end
@@ -79,7 +78,7 @@ describe Contacts::FilterService do
       it 'filter contacts by not_blocked' do
         params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: [false],
                                query_operator: nil }.with_indifferent_access] }
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         # existing contacts are not blocked
         expect(result[:count]).to be 3
       end
@@ -96,7 +95,7 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be 2
         expect(result[:contacts].first.label_list).to include('support')
         expect(result[:contacts].last.label_list).to include('support')
@@ -112,7 +111,7 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq el_contact.id
       end
@@ -127,7 +126,7 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be 2
         expect(result[:contacts].first.label_list).to include('support')
         expect(result[:contacts].last.label_list).to include('support')
@@ -143,7 +142,7 @@ describe Contacts::FilterService do
           }.with_indifferent_access
         ]
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq el_contact.id
       end
@@ -180,7 +179,7 @@ describe Contacts::FilterService do
           'test custom data'
         ).count
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be expected_count
         expect(result[:contacts].first.id).to eq(el_contact.id)
       end
@@ -197,7 +196,7 @@ describe Contacts::FilterService do
 
         expected_count = Contact.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
 
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be expected_count
         expect(result[:contacts].pluck(:id)).to include(el_contact.id)
         expect(result[:contacts].pluck(:id)).to include(cs_contact.id)
@@ -219,7 +218,7 @@ describe Contacts::FilterService do
 
       it 'filter contacts by additional_attributes' do
         params[:payload] = payload
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:count]).to be 1
         expect(result[:contacts].first.id).to eq(en_contact.id)
       end
@@ -247,7 +246,7 @@ describe Contacts::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq(cs_contact.id)
       end
@@ -273,7 +272,7 @@ describe Contacts::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.id).to eq(el_contact.id)
       end
@@ -294,7 +293,7 @@ describe Contacts::FilterService do
             query_operator: nil
           }.with_indifferent_access
         ]
-        result = filter_service.new(params, first_user).perform
+        result = filter_service.new(account, first_user, params).perform
         expected_count = Contact.where("created_at < ? AND custom_attributes->>'customer_type' = ?", Date.tomorrow, 'platinum').count
 
         expect(result[:contacts].length).to be expected_count

@@ -3,8 +3,9 @@
     "HEADER": "Labelen",
     "HEADER_BTN_TXT": "Label toevoegen",
     "LOADING": "Labels ophalen",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels helpen u om gesprekken te categoriseren en ze prioriteit te geven. Vanaf het zijpaneel kunt u het label toewijzen aan een gesprek. <br /><br />Labels zijn gekoppeld aan het account en kunnen worden gebruikt om aangepaste workflows in uw organisatie te creëren. U kunt aangepaste kleur aan een label toewijzen, het maakt het gemakkelijker om het label te identificeren. Je kunt het label op de zijbalk weergeven om de gesprekken gemakkelijk te filteren.</p>",
     "LIST": {
       "404": "Er zijn geen labels beschikbaar in dit account.",
       "TITLE": "Beheer labels",
@@ -49,7 +50,8 @@
       "DISMISS": "Negeren",
       "ADD_SELECTED_LABELS": "Voeg geselecteerde labels toe",
       "ADD_SELECTED_LABEL": "Geselecteerde label toevoegen",
-      "ADD_ALL_LABELS": "Voeg alle labels toe"
+      "ADD_ALL_LABELS": "Voeg alle labels toe",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Label toevoegen",

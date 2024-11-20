@@ -1,3 +1,23 @@
+<script>
+export default {
+  emits: ['notes', 'events', 'conversation'],
+
+  methods: {
+    onClickNotes() {
+      this.$emit('notes');
+    },
+
+    onClickEvents() {
+      this.$emit('events');
+    },
+
+    onClickConversation() {
+      this.$emit('conversation');
+    },
+  },
+};
+</script>
+
 <template>
   <div class="wrap">
     <div class="header">
@@ -36,24 +56,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    onClickNotes() {
-      this.$emit('notes');
-    },
-
-    onClickEvents() {
-      this.$emit('events');
-    },
-
-    onClickConversation() {
-      this.$emit('conversation');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .wrap {

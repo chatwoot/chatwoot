@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
       "CONTACT_LABELS": "Kişi Etiketleri",
-      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler"
+      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler",
+      "NO_RECORDS_FOUND": "Nitelik bulunamadı"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Kişileri Dışa Aktar",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Özet",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Şu: <strong>%{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>%{parentContactName}</strong> kişiye kopyalanacaktır."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> kişisi silinecek.",
+      "ATTRIBUTE_WARNING": "Şu: <strong>{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>{parentContactName}</strong> kişiye kopyalanacaktır."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kişi başarıyla birleştirildi",
       "ERROR_MESSAGE": "Kişiler birleştirilemedi, tekrar deneyin!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

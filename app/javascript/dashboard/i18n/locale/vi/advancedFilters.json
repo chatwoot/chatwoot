@@ -1,23 +1,24 @@
 {
   "FILTER": {
     "TITLE": "Lọc cuộc hội thoại",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBTITLE": "Thêm các bộ lọc của bạn bên dưới và nhấn \"Áp dụng bộ lọc\", để loại bỏ các cuộc trò chuyện lộn xộn.",
+    "EDIT_CUSTOM_FILTER": "Sửa Thư Mục",
+    "CUSTOM_VIEWS_SUBTITLE": "Thêm hoặc xóa bộ lọc và cập nhật thư mục của bạn.",
+    "ADD_NEW_FILTER": "Thêm bộ lọc",
+    "FILTER_DELETE_ERROR": "Rât tiếc, dường như chưa có sự thay đổi nào! Hãy thêm ít nhất một bộ lọc để lưu nó.",
     "SUBMIT_BUTTON_LABEL": "Áp dụng bộ lọc",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "Cập nhật thư mục",
     "CANCEL_BUTTON_LABEL": "Huỷ",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "Xóa các bộ lọc",
+    "FOLDER_LABEL": "Tên Thư Mục",
+    "FOLDER_QUERY_LABEL": "Truy vấn Thư mục",
     "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có.",
     "TOOLTIP_LABEL": "Lọc cuộc hội thoại",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "VÀ",
       "OR": "HOẶC"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Bằng",
       "not_equal_to": "Không bằng",
@@ -28,7 +29,7 @@
       "is_greater_than": "Lớn hơn",
       "is_less_than": "Nhỏ hơn",
       "days_before": "Khoảng x ngày trước",
-      "starts_with": "Starts with"
+      "starts_with": "Bắt đầu với"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Đúng",
@@ -36,15 +37,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Trạng thái",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "Tên người được phân công",
       "INBOX_NAME": "Tên kênh",
       "TEAM_NAME": "Tên nhóm",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "Định danh cuộc hội thoại",
+      "CAMPAIGN_NAME": "Tên chiến dịch",
       "LABELS": "Nhãn",
-      "BROWSER_LANGUAGE": "Browser language",
-      "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country name",
+      "BROWSER_LANGUAGE": "Ngôn ngữ của trình duyệt",
+      "PRIORITY": "Mức độ ưu tiên",
+      "COUNTRY_NAME": "Tên quốc gia",
       "REFERER_LINK": "Liên kết người giới thiệu",
       "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
       "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
@@ -52,18 +53,21 @@
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Hộp kiểm",
       "CREATED_AT": "Tạo vào lúc",
-      "LAST_ACTIVITY": "Last activity"
+      "LAST_ACTIVITY": "Hành động cuối cùng"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Giá trị bắt buộc có"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
+      "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
+      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Bạn có muốn lưu bộ lọc này không?",
         "LABEL": "Đặt tên bộ lọc này",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "Đặt tên cho bộ lọc của bạn để tham khảo sau.",
         "ERROR_MESSAGE": "Cần phải có tên.",
         "SAVE_BUTTON": "Lưu bộ lọc",
         "CANCEL_BUTTON": "Huỷ",
@@ -77,7 +81,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Sửa thư mục"
       },
       "DELETE": {
         "DELETE_BUTTON": "Xoá bộ lọc",
@@ -85,7 +89,7 @@
           "CONFIRM": {
             "TITLE": "Xác nhận xoá",
             "MESSAGE": "Bạn có chắc chắn muốn xoá bộ lọc ",
-            "YES": "Yes, delete",
+            "YES": "Có, xoá",
             "NO": "Không, giữ nó"
           }
         },

@@ -1,23 +1,24 @@
 {
   "FILTER": {
     "TITLE": "Gespräche filtern",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBTITLE": "Füge Filter unten hinzu und klicke auf „Filter anwenden“, um das Durcheinander der Chats zu beenden.",
+    "EDIT_CUSTOM_FILTER": "Ordner bearbeiten",
+    "CUSTOM_VIEWS_SUBTITLE": "Füge Filter hinzu oder entferne sie und aktualisieren deinen Ordner.",
+    "ADD_NEW_FILTER": "Filter hinzufügen",
+    "FILTER_DELETE_ERROR": "Hoppla, wir können nicht, nichts speichern! Bitte füge mindestens einen Filter hinzu, um ihn zu speichern.",
     "SUBMIT_BUTTON_LABEL": "Filter übernehmen",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "Ordner aktualisieren",
     "CANCEL_BUTTON_LABEL": "Abbrechen",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
+    "FOLDER_LABEL": "Ordnername",
+    "FOLDER_QUERY_LABEL": "Ordnerabfrage",
     "EMPTY_VALUE_ERROR": "Wert ist erforderlich.",
     "TOOLTIP_LABEL": "Gespräche filtern",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "UND",
       "OR": "ODER"
     },
+    "INPUT_PLACEHOLDER": "Wert eintragen",
     "OPERATOR_LABELS": {
       "equal_to": "Gleich",
       "not_equal_to": "Nicht gleich",
@@ -36,15 +37,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "Bearbeiter Name",
       "INBOX_NAME": "Posteingangsname",
       "TEAM_NAME": "Teamname",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "Konversation-ID",
+      "CAMPAIGN_NAME": "Kampagnenname",
       "LABELS": "Labels",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "Browsersprache",
       "PRIORITY": "Priorität",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "Landesname",
       "REFERER_LINK": "Referer-Link",
       "CUSTOM_ATTRIBUTE_LIST": "Liste",
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
@@ -54,16 +55,19 @@
       "CREATED_AT": "Erstellt am",
       "LAST_ACTIVITY": "Letzte Aktivität"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wert ist erforderlich"
+    },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Standard Filter",
+      "ADDITIONAL_FILTERS": "Zusätzliche Filter",
+      "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Möchten Sie diesen Filter speichern?",
         "LABEL": "Diesen Filter benennen",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "Benenne deinen Filter, um ihn später wiederzuerkennen.",
         "ERROR_MESSAGE": "Name wird benötigt.",
         "SAVE_BUTTON": "Filter speichern",
         "CANCEL_BUTTON": "Abbrechen",
@@ -77,7 +81,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Ordner bearbeiten"
       },
       "DELETE": {
         "DELETE_BUTTON": "Filter löschen",
@@ -85,7 +89,7 @@
           "CONFIRM": {
             "TITLE": "Löschen bestätigen",
             "MESSAGE": "Möchten Sie den Filter wirklich löschen ",
-            "YES": "Yes, delete",
+            "YES": "Ja, löschen",
             "NO": "Nein, behalte es"
           }
         },

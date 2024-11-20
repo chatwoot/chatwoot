@@ -20,7 +20,7 @@
     "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
     "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "سوف نعود إلى الإنترنت"
   },
   "DAY_NAMES": [
     "الأحد",
@@ -68,9 +68,10 @@
         "LABEL": "رقم الهاتف",
         "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
         "REQUIRED_ERROR": "رقم الهاتف مطلوب",
-        "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز البلد",
-        "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "لم يتم العثور على النتائج"
+        "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز الدولة",
+        "VALID_ERROR": "يرجى إدخال رقم هاتف صحيح",
+        "DROPDOWN_EMPTY": "لم يتم العثور على النتائج",
+        "DROPDOWN_SEARCH": "البحث عن بلد"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
@@ -81,7 +82,7 @@
     "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
     "IS_REQUIRED": "مطلوب",
     "REQUIRED": "مطلوب",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "الرجاء تقديم مدخل صحيح"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "ابحث في الايموجي",
-    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك"
+    "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "قيم محادثتك",
@@ -105,14 +107,14 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "انقر هنا للانضمام",
+      "LEAVE_THE_ROOM": "ترك المكالمة"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "المقالات الشائعة",
+    "VIEW_ALL_ARTICLES": "عرض جميع المقالات",
+    "IFRAME_LOAD_ERROR": "حدث خطأ أثناء جلب المقال، الرجاء تحديث الصفحة والمحاولة مرة أخرى."
   },
   "ATTACHMENTS": {
     "image": {
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "قام بمشاركة رابط"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "الرد على:"
   }
 }

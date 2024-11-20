@@ -1,109 +1,11 @@
-<template>
-  <div
-    role="dialog"
-    class="emoji-dialog bg-white shadow-lg dark:bg-slate-900 rounded-md border border-solid border-slate-75 dark:border-slate-800/50 box-content h-[300px] absolute right-0 -top-[95px] w-80 z-20"
-  >
-    <div class="flex flex-col">
-      <div class="emoji-search--wrap flex gap-2">
-        <input
-          ref="searchbar"
-          v-model="search"
-          type="text"
-          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark"
-          :placeholder="$t('EMOJI.PLACEHOLDER')"
-        />
-        <woot-button
-          v-if="showRemoveButton"
-          size="small"
-          variant="smooth"
-          class="dark:!bg-slate-800 dark:!hover:bg-slate-700"
-          color-scheme="secondary"
-          @click="onClick('')"
-        >
-          {{ $t('EMOJI.REMOVE') }}
-        </woot-button>
-      </div>
-      <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
-        <h5 class="emoji-category--title">
-          {{ selectedKey }}
-        </h5>
-        <div class="emoji--row">
-          <button
-            v-for="item in filterEmojisByCategory"
-            :key="item.slug"
-            v-dompurify-html="item.emoji"
-            class="emoji--item"
-            track-by="$index"
-            @click="onClick(item.emoji)"
-          />
-        </div>
-      </div>
-      <div v-else ref="emojiItem" class="emoji-item">
-        <div v-for="category in filterAllEmojisBySearch" :key="category.slug">
-          <h5 v-if="category.emojis.length > 0" class="emoji-category--title">
-            {{ category.name }}
-          </h5>
-          <div v-if="category.emojis.length > 0" class="emoji--row">
-            <button
-              v-for="item in category.emojis"
-              :key="item.slug"
-              v-dompurify-html="item.emoji"
-              class="emoji--item"
-              track-by="$index"
-              @click="onClick(item.emoji)"
-            />
-          </div>
-        </div>
-        <div v-if="hasEmptySearchResult" class="empty-message">
-          <div class="emoji-icon">
-            <fluent-icon icon="emoji" size="48" />
-          </div>
-          <span class="empty-message--text">
-            {{ $t('EMOJI.NOT_FOUND') }}
-          </span>
-        </div>
-      </div>
-
-      <div class="emoji-dialog--footer" role="menu">
-        <ul>
-          <li>
-            <button
-              class="emoji--item"
-              :class="{ active: selectedKey === 'Search' }"
-              @click="changeCategory('Search')"
-            >
-              <fluent-icon
-                icon="search"
-                size="16"
-                class="text-slate-700 dark:text-slate-100"
-              />
-            </button>
-          </li>
-          <li
-            v-for="category in categories"
-            :key="category.slug"
-            @click="changeCategory(category.name)"
-          >
-            <button
-              v-dompurify-html="getFirstEmojiByCategoryName(category.name)"
-              class="emoji--item"
-              :class="{ active: selectedKey === category.name }"
-              @click="changeCategory(category.name)"
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import emojis from './emojisGroup.json';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
 const SEARCH_KEY = 'Search';
 
 export default {
-  components: { FluentIcon },
+  components: { FluentIcon, WootButton },
   props: {
     onClick: {
       type: Function,
@@ -174,13 +76,116 @@ export default {
       return categoryItem ? categoryItem.emojis[0].emoji : '';
     },
     focusSearchInput() {
-      this.$refs.searchbar.focus();
+      this.$nextTick(() => {
+        this.$refs.searchbar.focus();
+      });
     },
   },
 };
 </script>
+
+<template>
+  <div
+    role="dialog"
+    class="emoji-dialog bg-white shadow-lg dark:bg-slate-900 rounded-md border border-solid border-slate-75 dark:border-slate-800/50 box-content h-[300px] absolute right-0 -top-[95px] w-80 z-20"
+  >
+    <div class="flex flex-col">
+      <div class="flex gap-2 emoji-search--wrap">
+        <input
+          ref="searchbar"
+          v-model="search"
+          type="text"
+          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
+          :placeholder="$t('EMOJI.PLACEHOLDER')"
+        />
+        <WootButton
+          v-if="showRemoveButton"
+          size="small"
+          variant="smooth"
+          class="dark:!bg-slate-800 dark:!hover:bg-slate-700"
+          color-scheme="secondary"
+          @click="onClick('')"
+        >
+          {{ $t('EMOJI.REMOVE') }}
+        </WootButton>
+      </div>
+      <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
+        <h5 class="emoji-category--title">
+          {{ selectedKey }}
+        </h5>
+        <div class="emoji--row">
+          <button
+            v-for="item in filterEmojisByCategory"
+            :key="item.slug"
+            v-dompurify-html="item.emoji"
+            class="emoji--item"
+            track-by="$index"
+            @click="onClick(item.emoji)"
+          />
+        </div>
+      </div>
+      <div v-else ref="emojiItem" class="emoji-item">
+        <div v-for="category in filterAllEmojisBySearch" :key="category.slug">
+          <h5 v-if="category.emojis.length > 0" class="emoji-category--title">
+            {{ category.name }}
+          </h5>
+          <div v-if="category.emojis.length > 0" class="emoji--row">
+            <button
+              v-for="item in category.emojis"
+              :key="item.slug"
+              v-dompurify-html="item.emoji"
+              class="emoji--item"
+              track-by="$index"
+              @click="onClick(item.emoji)"
+            />
+          </div>
+        </div>
+        <div v-if="hasEmptySearchResult" class="empty-message">
+          <div class="emoji-icon">
+            <FluentIcon icon="emoji" size="48" />
+          </div>
+          <span class="empty-message--text">
+            {{ $t('EMOJI.NOT_FOUND') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="emoji-dialog--footer" role="menu">
+        <ul>
+          <li>
+            <button
+              class="emoji--item"
+              :class="{ active: selectedKey === 'Search' }"
+              @click="changeCategory('Search')"
+            >
+              <FluentIcon
+                icon="search"
+                size="16"
+                class="text-slate-700 dark:text-slate-100"
+              />
+            </button>
+          </li>
+          <li
+            v-for="category in categories"
+            :key="category.slug"
+            @click="changeCategory(category.name)"
+          >
+            <button
+              v-dompurify-html="getFirstEmojiByCategoryName(category.name)"
+              class="emoji--item"
+              :class="{ active: selectedKey === category.name }"
+              @click="changeCategory(category.name)"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 @tailwind components;
+
 @layer components {
   .box-shadow-blue {
     box-shadow:
@@ -195,8 +200,9 @@ export default {
   }
 }
 </style>
+
 <style lang="scss">
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/mixins';
 
 .emoji-dialog {
   &::before {
@@ -206,6 +212,7 @@ export default {
       $color-bg-dark: #26292b;
       @include arrow(bottom, $color-bg-dark, $space-slab);
     }
+
     @media (prefers-color-scheme: light) {
       $color-bg: #ebf0f5;
       @include arrow(bottom, $color-bg, $space-slab);
@@ -241,6 +248,7 @@ export default {
   .emoji-icon {
     @apply text-slate-200 dark:text-slate-200 mb-2;
   }
+
   .empty-message--text {
     @apply text-slate-200 dark:text-slate-200 text-sm font-medium;
   }
@@ -267,6 +275,7 @@ export default {
     li .active {
       @apply bg-white dark:bg-slate-900;
     }
+
     .emoji--item {
       @apply items-center flex text-sm;
 

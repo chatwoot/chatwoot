@@ -5,7 +5,7 @@ import SLAListItem from './SLAListItem.vue';
 <template>
   <div class="w-full min-h-[12rem] relative">
     <div class="w-full space-y-3">
-      <SLA-list-item
+      <SLAListItem
         class="opacity-25 dark:opacity-20"
         :sla-name="$t('SLA.LIST.EMPTY.TITLE_1')"
         :description="$t('SLA.LIST.EMPTY.DESC_1')"
@@ -14,7 +14,7 @@ import SLAListItem from './SLAListItem.vue';
         resolution-time="24h"
         has-business-hours
       />
-      <SLA-list-item
+      <SLAListItem
         class="opacity-25 dark:opacity-20"
         :sla-name="$t('SLA.LIST.EMPTY.TITLE_2')"
         :description="$t('SLA.LIST.EMPTY.DESC_2')"

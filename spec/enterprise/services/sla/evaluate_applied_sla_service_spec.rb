@@ -21,7 +21,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
 
   describe '#perform - SLA misses' do
     context 'when first response SLA is missed' do
-      before { sla_policy.update(first_response_time_threshold: 1.hour) }
+      before { applied_sla.sla_policy.update(first_response_time_threshold: 1.hour) }
 
       it 'updates the SLA status to missed and logs a warning' do
         allow(Rails.logger).to receive(:warn)
@@ -42,7 +42,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
 
     context 'when next response SLA is missed' do
       before do
-        sla_policy.update(next_response_time_threshold: 1.hour)
+        applied_sla.sla_policy.update(next_response_time_threshold: 1.hour)
         conversation.update(first_reply_created_at: 5.hours.ago, waiting_since: 5.hours.ago)
       end
 
@@ -64,7 +64,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
     end
 
     context 'when resolution time SLA is missed' do
-      before { sla_policy.update(resolution_time_threshold: 1.hour) }
+      before { applied_sla.sla_policy.update(resolution_time_threshold: 1.hour) }
 
       it 'updates the SLA status to missed and logs a warning' do
         allow(Rails.logger).to receive(:warn)
@@ -89,7 +89,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
     context 'when resolved conversation with resolution time SLA is missed' do
       before do
         conversation.resolved!
-        sla_policy.update(resolution_time_threshold: 1.hour)
+        applied_sla.sla_policy.update(resolution_time_threshold: 1.hour)
       end
 
       it 'does not update the SLA status to missed' do
@@ -100,7 +100,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
 
     context 'when multiple SLAs are missed' do
       before do
-        sla_policy.update(first_response_time_threshold: 1.hour, next_response_time_threshold: 1.hour, resolution_time_threshold: 1.hour)
+        applied_sla.sla_policy.update(first_response_time_threshold: 1.hour, next_response_time_threshold: 1.hour, resolution_time_threshold: 1.hour)
         conversation.update(first_reply_created_at: 5.hours.ago, waiting_since: 5.hours.ago)
       end
 
@@ -119,7 +119,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
   describe '#perform - SLA hits' do
     context 'when first response SLA is hit' do
       before do
-        sla_policy.update(first_response_time_threshold: 6.hours)
+        applied_sla.sla_policy.update(first_response_time_threshold: 6.hours)
         conversation.update(first_reply_created_at: 30.minutes.ago)
       end
 
@@ -142,7 +142,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
 
     context 'when next response SLA is hit' do
       before do
-        sla_policy.update(next_response_time_threshold: 6.hours)
+        applied_sla.sla_policy.update(next_response_time_threshold: 6.hours)
         conversation.update(first_reply_created_at: 30.minutes.ago, waiting_since: nil)
       end
 
@@ -164,7 +164,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
 
     context 'when resolution time SLA is hit' do
       before do
-        sla_policy.update(resolution_time_threshold: 8.hours)
+        applied_sla.sla_policy.update(resolution_time_threshold: 8.hours)
         conversation.resolved!
       end
 
@@ -182,7 +182,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
   describe 'SLA evaluation with frt hit, multiple nrt misses and rt miss' do
     before do
       # Setup SLA Policy thresholds
-      sla_policy.update(
+      applied_sla.sla_policy.update(
         first_response_time_threshold: 2.hours, # Hit frt
         next_response_time_threshold: 1.hour, # Miss nrt multiple times
         resolution_time_threshold: 4.hours # Miss rt

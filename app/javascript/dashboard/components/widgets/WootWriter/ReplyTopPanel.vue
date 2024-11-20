@@ -1,3 +1,78 @@
+<script>
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
+
+export default {
+  name: 'ReplyTopPanel',
+  props: {
+    mode: {
+      type: String,
+      default: REPLY_EDITOR_MODES.REPLY,
+    },
+    isMessageLengthReachingThreshold: {
+      type: Boolean,
+      default: () => false,
+    },
+    charactersRemaining: {
+      type: Number,
+      default: () => 0,
+    },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['setReplyMode', 'togglePopout'],
+  setup(props, { emit }) {
+    const setReplyMode = mode => {
+      emit('setReplyMode', mode);
+    };
+    const handleReplyClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.REPLY);
+    };
+    const handleNoteClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.NOTE);
+    };
+    const keyboardEvents = {
+      'Alt+KeyP': {
+        action: () => handleNoteClick(),
+        allowOnFocusedInput: true,
+      },
+      'Alt+KeyL': {
+        action: () => handleReplyClick(),
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+
+    return {
+      handleReplyClick,
+      handleNoteClick,
+    };
+  },
+  computed: {
+    replyButtonClass() {
+      return {
+        'is-active': this.mode === REPLY_EDITOR_MODES.REPLY,
+      };
+    },
+    noteButtonClass() {
+      return {
+        'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
+      };
+    },
+    charLengthClass() {
+      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
+    },
+    characterLengthWarning() {
+      return this.charactersRemaining < 0
+        ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
+        : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex justify-between bg-black-50 dark:bg-slate-800">
     <div class="button-group">
@@ -33,7 +108,7 @@
       icon="dismiss"
       color-scheme="secondary"
       class-names="popout-button"
-      @click="$emit('click')"
+      @click="$emit('togglePopout')"
     />
     <woot-button
       v-else
@@ -41,81 +116,10 @@
       icon="resize-large"
       color-scheme="secondary"
       class-names="popout-button"
-      @click="$emit('click')"
+      @click="$emit('togglePopout')"
     />
   </div>
 </template>
-
-<script>
-import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-export default {
-  name: 'ReplyTopPanel',
-  mixins: [keyboardEventListenerMixins],
-  props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
-    },
-    setReplyMode: {
-      type: Function,
-      default: () => {},
-    },
-    isMessageLengthReachingThreshold: {
-      type: Boolean,
-      default: () => false,
-    },
-    charactersRemaining: {
-      type: Number,
-      default: () => 0,
-    },
-    popoutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    replyButtonClass() {
-      return {
-        'is-active': this.mode === REPLY_EDITOR_MODES.REPLY,
-      };
-    },
-    noteButtonClass() {
-      return {
-        'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
-      };
-    },
-    charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
-    },
-    characterLengthWarning() {
-      return this.charactersRemaining < 0
-        ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
-        : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
-    },
-  },
-  methods: {
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyP': {
-          action: () => this.handleNoteClick(),
-          allowOnFocusedInput: true,
-        },
-        'Alt+KeyL': {
-          action: () => this.handleReplyClick(),
-          allowOnFocusedInput: true,
-        },
-      };
-    },
-    handleReplyClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
-    },
-    handleNoteClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .button-group {

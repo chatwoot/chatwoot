@@ -18,6 +18,7 @@
       "AND": "ÉS",
       "OR": "VAGY"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Egyenlő",
       "not_equal_to": "Nem egyenlő",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Jelölőnégyzet",
       "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Kötelező megadni"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard szűrők",

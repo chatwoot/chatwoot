@@ -1,3 +1,42 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+
+export default {
+  components: {
+    Thumbnail,
+  },
+  props: {
+    notificationItem: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  emits: ['openNotification'],
+  computed: {
+    notificationAssignee() {
+      const { primary_actor: primaryActor } = this.notificationItem;
+      return primaryActor?.meta?.assignee;
+    },
+    hasNotificationAssignee() {
+      return !!this.notificationAssignee;
+    },
+    notificationAssigneeName() {
+      return this.notificationAssignee?.name || '';
+    },
+    notificationAssigneeThumbnail() {
+      return this.notificationAssignee?.thumbnail || '';
+    },
+  },
+  methods: {
+    dynamicTime,
+    onClickOpenNotification() {
+      this.$emit('openNotification', this.notificationItem);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="w-full">
     <woot-button
@@ -14,12 +53,12 @@
           v-if="!notificationItem.read_at"
           class="w-2 h-2 rounded-full bg-woot-500"
         />
-        <div v-else class="w-2 flex" />
+        <div v-else class="flex w-2" />
         <div
           class="flex-col ml-2.5 overflow-hidden w-full flex justify-between"
         >
           <div class="flex justify-between">
-            <div class="items-center flex">
+            <div class="flex items-center">
               <span class="font-bold text-slate-800 dark:text-slate-100">
                 {{
                   `#${
@@ -40,22 +79,22 @@
               </span>
             </div>
             <div v-if="hasNotificationAssignee">
-              <thumbnail
+              <Thumbnail
                 :src="notificationAssigneeThumbnail"
                 size="16px"
                 :username="notificationAssigneeName"
               />
             </div>
           </div>
-          <div class="w-full flex">
+          <div class="flex w-full">
             <span
-              class="text-slate-700 dark:text-slate-200 font-normal overflow-hidden whitespace-nowrap text-ellipsis"
+              class="overflow-hidden font-normal text-slate-700 dark:text-slate-200 whitespace-nowrap text-ellipsis"
             >
               {{ notificationItem.push_message_title }}
             </span>
           </div>
           <span
-            class="mt-1 text-slate-500 dark:text-slate-400 text-xxs font-semibold flex"
+            class="flex mt-1 font-semibold text-slate-500 dark:text-slate-400 text-xxs"
           >
             {{ dynamicTime(notificationItem.last_activity_at) }}
           </span>
@@ -64,41 +103,3 @@
     </woot-button>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import timeMixin from 'dashboard/mixins/time';
-
-export default {
-  components: {
-    Thumbnail,
-  },
-  mixins: [timeMixin],
-  props: {
-    notificationItem: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  computed: {
-    notificationAssignee() {
-      const { primary_actor: primaryActor } = this.notificationItem;
-      return primaryActor?.meta?.assignee;
-    },
-    hasNotificationAssignee() {
-      return !!this.notificationAssignee;
-    },
-    notificationAssigneeName() {
-      return this.notificationAssignee?.name || '';
-    },
-    notificationAssigneeThumbnail() {
-      return this.notificationAssignee?.thumbnail || '';
-    },
-  },
-  methods: {
-    onClickOpenNotification() {
-      this.$emit('open-notification', this.notificationItem);
-    },
-  },
-};
-</script>

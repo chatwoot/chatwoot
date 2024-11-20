@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "S'estan obtenint integracions",
+    "NO_HOOK_CONFIGURED": "No hi ha integracions {integrationId} configurades en aquest compte.",
+    "HEADER": "Aplicacions",
     "STATUS": {
       "ENABLED": "Habilita",
       "DISABLED": "Inhabilita"
     },
     "CONFIGURE": "Configura",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "Afegeix un nou hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Confirma la supressió",
+        "ACCOUNT": "Desconnecta"
       },
       "MESSAGE": {
         "INBOX": "N'estàs segur?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "ACCOUNT": "Segur que us desconnecteu?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Si, esborra",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Sí, desconnecta"
       },
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "S'ha esborrat el Hook correctament",
         "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "Recollint els hooks d'integració",
+      "INBOX": "Safata d'entrada",
       "DELETE": {
         "BUTTON_TEXT": "Esborrar"
       }
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Selecciona Safata d'entrada",
+          "PLACEHOLDER": "Selecciona Safata d'entrada"
         },
         "SUBMIT": "Crear",
         "CANCEL": "Cancel·la"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "El hook d'integració s'ha afegit correctament",
         "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Connectar"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Desconnecta"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow és una plataforma de comprensió del llenguatge natural que facilita el disseny i la integració d'una interfície d'usuari conversacional a la teva aplicació mòbil, aplicació web, dispositiu, bot, sistema interactiu de resposta de veu, etc. <br /> <br /> La integració de Dialogflow amb {installationName} us permet configurar un bot de Dialogflow amb les teves safates d'entrada, la qual cosa permet al bot gestionar les consultes inicialment i lliurar-les a un agent quan sigui necessari. Dialogflow es pot utilitzar per qualificar els clients potencials, reduir la càrrega de treball dels agents proporcionant preguntes freqüents, etc. <br /> <br /> Per afegir Dialogflow, has de crear un compte de servei a la consola del vostre projecte de Google i compartir les credencials. Consulta els documents de Dialogflow per obtenir més informació."
     }
   }
 }

@@ -1,9 +1,161 @@
+<script>
+import { getUnixTime } from 'date-fns';
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { emitter } from 'shared/helpers/mitt';
+import wootConstants from 'dashboard/constants/globals';
+import {
+  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+  CMD_BULK_ACTION_REOPEN_CONVERSATION,
+  CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+} from 'dashboard/helper/commandbar/events';
+
+import AgentSelector from './AgentSelector.vue';
+import UpdateActions from './UpdateActions.vue';
+import LabelActions from './LabelActions.vue';
+import TeamActions from './TeamActions.vue';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+export default {
+  components: {
+    AgentSelector,
+    UpdateActions,
+    LabelActions,
+    TeamActions,
+    CustomSnoozeModal,
+  },
+  props: {
+    conversations: {
+      type: Array,
+      default: () => [],
+    },
+    allConversationsSelected: {
+      type: Boolean,
+      default: false,
+    },
+    selectedInboxes: {
+      type: Array,
+      default: () => [],
+    },
+    showOpenAction: {
+      type: Boolean,
+      default: false,
+    },
+    showResolvedAction: {
+      type: Boolean,
+      default: false,
+    },
+    showSnoozedAction: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: [
+    'selectAllConversations',
+    'assignAgent',
+    'updateConversations',
+    'assignLabels',
+    'assignTeam',
+    'resolveConversations',
+  ],
+  data() {
+    return {
+      showAgentsList: false,
+      showUpdateActions: false,
+      showLabelActions: false,
+      showTeamsList: false,
+      popoverPositions: {},
+      showCustomTimeSnoozeModal: false,
+    };
+  },
+  mounted() {
+    emitter.on(
+      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+      this.onCmdSnoozeConversation
+    );
+    emitter.on(
+      CMD_BULK_ACTION_REOPEN_CONVERSATION,
+      this.onCmdReopenConversation
+    );
+    emitter.on(
+      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+      this.onCmdResolveConversation
+    );
+  },
+  unmounted() {
+    emitter.off(
+      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+      this.onCmdSnoozeConversation
+    );
+    emitter.off(
+      CMD_BULK_ACTION_REOPEN_CONVERSATION,
+      this.onCmdReopenConversation
+    );
+    emitter.off(
+      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+      this.onCmdResolveConversation
+    );
+  },
+  methods: {
+    onCmdSnoozeConversation(snoozeType) {
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.showCustomTimeSnoozeModal = true;
+      } else {
+        this.updateConversations('snoozed', findSnoozeTime(snoozeType) || null);
+      }
+    },
+    onCmdReopenConversation() {
+      this.updateConversations('open', null);
+    },
+    onCmdResolveConversation() {
+      this.updateConversations('resolved', null);
+    },
+    customSnoozeTime(customSnoozedTime) {
+      this.showCustomTimeSnoozeModal = false;
+      if (customSnoozedTime) {
+        this.updateConversations('snoozed', getUnixTime(customSnoozedTime));
+      }
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomTimeSnoozeModal = false;
+    },
+    selectAll(e) {
+      this.$emit('selectAllConversations', e.target.checked);
+    },
+    submit(agent) {
+      this.$emit('assignAgent', agent);
+    },
+    updateConversations(status, snoozedUntil) {
+      this.$emit('updateConversations', status, snoozedUntil);
+    },
+    assignLabels(labels) {
+      this.$emit('assignLabels', labels);
+    },
+    assignTeam(team) {
+      this.$emit('assignTeam', team);
+    },
+    resolveConversations() {
+      this.$emit('resolveConversations');
+    },
+    toggleUpdateActions() {
+      this.showUpdateActions = !this.showUpdateActions;
+    },
+    toggleLabelActions() {
+      this.showLabelActions = !this.showLabelActions;
+    },
+    toggleAgentList() {
+      this.showAgentsList = !this.showAgentsList;
+    },
+    toggleTeamsList() {
+      this.showTeamsList = !this.showTeamsList;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="bulk-action__container">
     <div class="flex items-center justify-between">
-      <label class="bulk-action__panel flex items-center justify-between">
+      <label class="flex items-center justify-between bulk-action__panel">
         <input
-          ref="selectAllCheck"
           type="checkbox"
           class="checkbox"
           :checked="allConversationsSelected"
@@ -18,7 +170,7 @@
           }}
         </span>
       </label>
-      <div class="bulk-action__actions flex gap-1 items-center">
+      <div class="flex items-center gap-1 bulk-action__actions">
         <woot-button
           v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
           size="tiny"
@@ -53,7 +205,7 @@
         />
       </div>
       <transition name="popover-animation">
-        <label-actions
+        <LabelActions
           v-if="showLabelActions"
           class="label-actions-box"
           @assign="assignLabels"
@@ -61,7 +213,7 @@
         />
       </transition>
       <transition name="popover-animation">
-        <update-actions
+        <UpdateActions
           v-if="showUpdateActions"
           class="update-actions-box"
           :selected-inboxes="selectedInboxes"
@@ -74,7 +226,7 @@
         />
       </transition>
       <transition name="popover-animation">
-        <agent-selector
+        <AgentSelector
           v-if="showAgentsList"
           class="agent-actions-box"
           :selected-inboxes="selectedInboxes"
@@ -84,7 +236,7 @@
         />
       </transition>
       <transition name="popover-animation">
-        <team-actions
+        <TeamActions
           v-if="showTeamsList"
           class="team-actions-box"
           @assign-team="assignTeam"
@@ -95,90 +247,17 @@
     <div v-if="allConversationsSelected" class="bulk-action__alert">
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
+    <woot-modal
+      v-model:show="showCustomTimeSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <CustomSnoozeModal
+        @close="hideCustomSnoozeModal"
+        @choose-time="customSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
-
-<script>
-import AgentSelector from './AgentSelector.vue';
-import UpdateActions from './UpdateActions.vue';
-import LabelActions from './LabelActions.vue';
-import TeamActions from './TeamActions.vue';
-export default {
-  components: {
-    AgentSelector,
-    UpdateActions,
-    LabelActions,
-    TeamActions,
-  },
-  props: {
-    conversations: {
-      type: Array,
-      default: () => [],
-    },
-    allConversationsSelected: {
-      type: Boolean,
-      default: false,
-    },
-    selectedInboxes: {
-      type: Array,
-      default: () => [],
-    },
-    showOpenAction: {
-      type: Boolean,
-      default: false,
-    },
-    showResolvedAction: {
-      type: Boolean,
-      default: false,
-    },
-    showSnoozedAction: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      showAgentsList: false,
-      showUpdateActions: false,
-      showLabelActions: false,
-      showTeamsList: false,
-      popoverPositions: {},
-    };
-  },
-  methods: {
-    selectAll(e) {
-      this.$emit('select-all-conversations', e.target.checked);
-    },
-    submit(agent) {
-      this.$emit('assign-agent', agent);
-    },
-    updateConversations(status) {
-      this.$emit('update-conversations', status);
-    },
-    assignLabels(labels) {
-      this.$emit('assign-labels', labels);
-    },
-    assignTeam(team) {
-      this.$emit('assign-team', team);
-    },
-    resolveConversations() {
-      this.$emit('resolve-conversations');
-    },
-    toggleUpdateActions() {
-      this.showUpdateActions = !this.showUpdateActions;
-    },
-    toggleLabelActions() {
-      this.showLabelActions = !this.showLabelActions;
-    },
-    toggleAgentList() {
-      this.showAgentsList = !this.showAgentsList;
-    },
-    toggleTeamsList() {
-      this.showTeamsList = !this.showTeamsList;
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 // For RTL direction view

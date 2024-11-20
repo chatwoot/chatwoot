@@ -1,15 +1,3 @@
-<template>
-  <span class="text-sm text-slate-700 dark:text-slate-200 font-medium">
-    {{
-      $t('GENERAL.SHOWING_RESULTS', {
-        firstIndex,
-        lastIndex,
-        totalCount,
-      })
-    }}
-  </span>
-</template>
-
 <script setup>
 defineProps({
   firstIndex: {
@@ -26,3 +14,15 @@ defineProps({
   },
 });
 </script>
+
+<template>
+  <span class="text-sm text-slate-700 dark:text-slate-200 font-medium">
+    {{
+      $t('GENERAL.SHOWING_RESULTS', {
+        firstIndex,
+        lastIndex,
+        totalCount,
+      })
+    }}
+  </span>
+</template>

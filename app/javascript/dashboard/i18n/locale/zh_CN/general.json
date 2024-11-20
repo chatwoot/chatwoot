@@ -1,5 +1,9 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "搜索",
+      "EMPTY_STATE": "没有检索到相关信息"
+    }
   }
 }

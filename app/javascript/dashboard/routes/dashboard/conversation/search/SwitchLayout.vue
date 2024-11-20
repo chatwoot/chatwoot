@@ -1,3 +1,20 @@
+<script>
+export default {
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['toggle'],
+  methods: {
+    toggle() {
+      this.$emit('toggle');
+    },
+  },
+};
+</script>
+
 <template>
   <woot-button
     v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
@@ -10,22 +27,6 @@
     @click="toggle"
   />
 </template>
-
-<script>
-export default {
-  props: {
-    isOnExpandedLayout: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  methods: {
-    toggle() {
-      this.$emit('toggle');
-    },
-  },
-};
-</script>
 
 <style lang="scss" soped>
 .layout-switch__container {

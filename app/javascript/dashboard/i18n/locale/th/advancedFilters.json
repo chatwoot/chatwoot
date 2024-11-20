@@ -18,6 +18,7 @@
       "AND": "และ",
       "OR": "หรือ"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "เท่ากับ",
       "not_equal_to": "ไม่เท่ากับ",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "ช่องทำเครื่องหมาย",
       "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "โปรดระบุค่า"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

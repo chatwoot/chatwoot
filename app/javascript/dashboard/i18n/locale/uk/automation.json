@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Автоматизація",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Додати правило автоматизації",
     "LOADING": "Отримання правил автоматизації",
-    "SIDEBAR_TXT": "<p><b>Правила автоматизації</b> <p>Автоматизація може замінити і автоматизувати існуючі процеси, які потребують ручних зусиль. За допомогою автоматизації можна зробити багато речей, включаючи додавання ярликів і призначення бесід найкращому агенту. Тож команда зосереджена на тому, що вона робить найкраще, та витрачає мало часу на завдання з ручної роботи.</p>",
     "ADD": {
       "TITLE": "Додати правило автоматизації",
       "SUBMIT": "Створити",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Ви повинні мати принаймні одну дію для збереження",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Введіть ваше повідомлення тут",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Обрати команди"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Обрати команди",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Активувати правило автоматизації",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Завантажується...",
       "LABEL_UPLOADED": "Успішно завантажено",
       "LABEL_UPLOAD_FAILED": "Не вдалося завантажити"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Необхідно вказати значення",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
       "CONTACT_LABELS": "Libellés des contacts",
-      "PREVIOUS_CONVERSATIONS": "Conversations précédentes"
+      "PREVIOUS_CONVERSATIONS": "Conversations précédentes",
+      "NO_RECORDS_FOUND": "Aucun attribut trouvé"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Exporter les contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Résumé",
-      "DELETE_WARNING": "Le contact de <strong>%{primaryContactName}</strong> sera supprimé.",
-      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>%{primaryContactName}</strong> seront copiées vers <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Le contact de <strong>{primaryContactName}</strong> sera supprimé.",
+      "ATTRIBUTE_WARNING": "Les coordonnées de <strong>{primaryContactName}</strong> seront copiées vers <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact fusionné avec succès",
       "ERROR_MESSAGE": "Impossible de fusionner les contacts, essayez à nouveau !"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

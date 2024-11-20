@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Macrocomenzi",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Adaugă un nou webhook",
     "HEADER_BTN_TXT_SAVE": "Salvarea macrocomenzii",
     "LOADING": "Preluarea macrocomenzilor",
-    "SIDEBAR_TXT": "<p><b>Macrocomenzi</b><p>O macrocomandă este un set de acțiuni salvate care ajută agenții de servicii pentru clienți să finalizeze cu ușurință activitățile. Agenții pot defini un set de acțiuni, cum ar fi etichetarea unei conversații cu o etichetă, trimiterea unei transcrieri a e-mailului, actualizarea unui atribut particularizat etc., și pot rula aceste acțiuni cu un singur clic. Când agenții execută macrocomanda, acțiunile vor fi efectuate secvențial în ordinea în care sunt definite. Macrocomenzile îmbunătățesc productivitatea și cresc consecvența acțiunilor. </p><p>O macrocomandă poate fi utilă în 2 moduri. </p><p><b>În calitate de agent de asistență:</b> Dacă un agent efectuează un set de acțiuni de mai multe ori, îl poate salva ca macrocomandă și poate executa toate acțiunile împreună folosind un singur clic.</p><p><b>Ca opțiune de a înscrie un membru al echipei:</b> Fiecare agent trebuie să efectueze multe verificări / acțiuni diferite în timpul fiecărei conversații. Înscrierea unui nou membru al echipei de asistență va fi ușoară dacă macrocomenzi predefinite sunt disponibile în cont. În loc să descrie fiecare pas în detaliu, coordonatorul manager/echipă poate indica spre macrocomenzile utilizate în diferite scenarii.</p>",
     "ERROR": "Ceva nu a mers bine. Vă rugăm să încercați din nou",
     "ORDER_INFO": "Macrocomenzile vor rula în ordinea în care adăugați acțiunile. Le puteți rearanja trăgându-le de mânerul de lângă fiecare nod.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Executa",
       "PREVIEW": "Previzualizarea macrocomenzii",
       "EXECUTED_SUCCESSFULLY": "Macrocomandă executată cu succes"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Este necesară o valoare validă",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

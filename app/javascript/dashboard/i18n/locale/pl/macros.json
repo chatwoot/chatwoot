@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Makra",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Dodaj nowe makro",
     "HEADER_BTN_TXT_SAVE": "Zapisz makro",
     "LOADING": "Pobieranie makr",
-    "SIDEBAR_TXT": "<p><b>Makra</b><p>Makro to zestaw zapisanych czynności, które pomagają agentom obsługi klienta łatwo wykonywać zadania. Agenci mogą zdefiniować zestaw czynności, takich jak oznaczenie rozmowy etykietą, wysłanie transkryptu rozmowy e-mailem, aktualizacja niestandardowego atrybutu, itp., a następnie uruchamiać te czynności za pomocą jednego kliknięcia. Kiedy agenci uruchamiają makro, czynności są wykonywane sekwencyjnie w kolejności, w jakiej są zdefiniowane. Makra poprawiają produktywność i zwiększają spójność działań. </p><p>Makro może być pomocne na dwa sposoby. </p><p><b>Jako pomoc dla agenta:</b> Jeśli agent wykonuje zestaw czynności wielokrotnie, może je zapisać jako makro i uruchamiać wszystkie czynności za pomocą jednego kliknięcia.</p><p><b>Jako opcja wprowadzenia nowego członka zespołu:</b> Każdy agent musi wykonywać wiele różnych czynności sprawdzających/operacyjnych podczas każdej rozmowy. Wprowadzenie nowego członka zespołu wsparcia będzie łatwiejsze, jeśli w ramach konta będą dostępne predefiniowane makra. Zamiast szczegółowego opisywania każdego kroku, menedżer/kierownik zespołu może wskazać na makra używane w różnych scenariuszach.</p>",
     "ERROR": "Wystąpił błąd. Spróbuj ponownie",
     "ORDER_INFO": "Makra będą uruchamiane w kolejności, w jakiej dodajesz czynności. Możesz zmieniać ich kolejność, przeciągając je za uchwyt obok każdego węzła.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Wykonaj",
       "PREVIEW": "Podgląd makra",
       "EXECUTED_SUCCESSFULLY": "Makro pomyślnie wykonane"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Wartość jest wymagana",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

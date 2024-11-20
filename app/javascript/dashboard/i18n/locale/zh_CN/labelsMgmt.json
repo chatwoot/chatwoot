@@ -3,8 +3,9 @@
     "HEADER": "标签",
     "HEADER_BTN_TXT": "添加标签",
     "LOADING": "正在获取标签",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "没有任何项目符合此查询",
-    "SIDEBAR_TXT": "<p><b>标签</b> <p>可以帮助您对对话进行分类和排序。 您可以从侧面板给对话指定标签。 <br /><br />标签被绑定到帐户，可以用于创建您组织中的自定义工作流。 您可以将自定义颜色分配给标签，使它更容易识别标签。 您将能够在侧边栏上显示标签，方便地过滤对话。</p>",
     "LIST": {
       "404": "此帐户中没有可用的标签。",
       "TITLE": "管理标签",
@@ -49,7 +50,8 @@
       "DISMISS": "取消",
       "ADD_SELECTED_LABELS": "Add selected labels",
       "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "添加标签",

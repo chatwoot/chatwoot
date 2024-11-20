@@ -53,28 +53,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Letzte Aktivität: Älteste zuerst"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Letzte Aktivität: Neueste zuerst"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Erstellt am: Neueste zuerst"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Erstellt am: Älteste zuerst"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Priorität: Höchste zuerst"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Priorität: Niedrigste zuerst"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Ausstehende Antwort: Längste zuerst"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Ausstehende Antwort: Kürzeste zuerst"
       }
     },
     "ATTACHMENTS": {

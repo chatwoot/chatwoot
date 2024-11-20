@@ -3,8 +3,9 @@
     "HEADER": "Marcadores",
     "HEADER_BTN_TXT": "Adicionar marcador",
     "LOADING": "Buscando marcadores",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Aprenda mais sobre rótulos",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Marcadores</b> <p>Os marcadores o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir o marcador a uma conversa a partir do menu lateral. <br /><br />Os marcadores estão vinculados à conta e podem ser usados para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para um marcador, facilitando a identificação. Você será capaz de exibir o marcador na barra lateral para filtrar as conversas com mais facilidade.</p>",
     "LIST": {
       "404": "Não há marcadores disponíveis nesta conta.",
       "TITLE": "Gerenciar marcadores",
@@ -49,7 +50,8 @@
       "DISMISS": "Recusar",
       "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
       "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
-      "ADD_ALL_LABELS": "Adicionar todas as etiquetas"
+      "ADD_ALL_LABELS": "Adicionar todas as etiquetas",
+      "SUGGESTED_LABELS": "Rótulos sugeridos"
     },
     "ADD": {
       "TITLE": "Adicionar marcador",

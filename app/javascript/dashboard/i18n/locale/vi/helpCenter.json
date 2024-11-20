@@ -41,6 +41,7 @@
         "UPLOADING": "Đang tải lên...",
         "SUCCESS": "Ảnh tải lên thành công",
         "ERROR": "Lỗi khi tải ảnh lên",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Kích thước ảnh phải nhỏ hơn {size}MB",
         "ERROR_FILE_FORMAT": "Ảnh phải có định dạng jpg, jpeg hoặc png",
         "ERROR_FILE_DIMENSIONS": "Kích thước ảnh phải nhỏ hơn 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Chưa được phân loại",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Đang tìm kiếm...",
       "INSERT_ARTICLE": "Thêm vào",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

@@ -1,3 +1,26 @@
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    subTitle: {
+      type: String,
+      default: '',
+    },
+    showBorder: {
+      type: Boolean,
+      default: true,
+    },
+    note: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="ml-0 mr-0 flex py-8 w-full xl:w-3/4 flex-col xl:flex-row"
@@ -30,26 +53,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    subTitle: {
-      type: String,
-      default: '',
-    },
-    showBorder: {
-      type: Boolean,
-      default: true,
-    },
-    note: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

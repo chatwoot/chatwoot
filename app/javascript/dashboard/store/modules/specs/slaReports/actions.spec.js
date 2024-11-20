@@ -3,9 +3,9 @@ import { actions } from '../../SLAReports';
 import appliedSlas from './fixtures';
 import types from '../../../mutation-types';
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {

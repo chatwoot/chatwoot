@@ -1,9 +1,10 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Agenti",
+    "HEADER_BTN_TXT": "Dodaj agenta",
+    "LOADING": "Dohvaćanje popisa agenata",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
@@ -12,66 +13,67 @@
       "404": "There are no agents associated to this account",
       "TITLE": "Manage agents in your team",
       "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
+      "NAME": "Ime",
+      "EMAIL": "E-pošta",
       "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "ACTIONS": "Radnje",
+      "VERIFIED": "Potvrđen",
+      "VERIFICATION_PENDING": "Potvrda na čekanju",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
+      "TITLE": "Dodaj agenta u svoj tim",
       "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
+          "LABEL": "Ime agenta",
           "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
+          "LABEL": "Uloga",
           "PLACEHOLDER": "Please select a role",
           "ERROR": "Role is required"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
+          "LABEL": "Adresa e-pošte",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Dodaj agenta"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
+        "SUCCESS_MESSAGE": "Uspješno dodan agent",
         "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "SUCCESS_MESSAGE": "Agent uspješno izbrisan",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Potvrdi brisanje",
         "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Da, izbriši",
+        "NO": "Ne, zadrži"
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Uredi agenta",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
+          "LABEL": "Ime agenta",
           "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Uloga",
+          "PLACEHOLDER": "Molimo odaberite ulogu",
+          "ERROR": "Potrebno je unijeti ulogu"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
+          "LABEL": "Adresa e-pošte",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
         "AGENT_AVAILABILITY": {
@@ -79,16 +81,16 @@
           "PLACEHOLDER": "Izaberi status raspoloživosti",
           "ERROR": "Potrebna je raspoloživost"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Uredi agenta"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Uredi",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "SUCCESS_MESSAGE": "Agent uspješno ažuriran",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
+        "ADMIN_RESET_BUTTON": "Ponovno postvljanje lozinke",
         "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
         "SUCCESS_MESSAGE": "Agent password reset successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"

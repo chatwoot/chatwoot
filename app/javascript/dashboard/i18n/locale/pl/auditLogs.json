@@ -3,6 +3,8 @@
     "HEADER": "Dzienniki Audytu",
     "HEADER_BTN_TXT": "Dodaj Dzienniki Audytu",
     "LOADING": "Pobieranie Dzienników Audytu",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
     "SIDEBAR_TXT": "<p><b>Dzienniki Audytu</b></p><p>Dzienniki Audytu to ślady działań i zdarzeń w systemie Chatwoot.</p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} dodał nową regułę automatyzacji (#%{id})",
-      "EDIT": "%{agentName} zaktualizował regułę automatyzacji (#%{id})",
-      "DELETE": "%{agentName} usunął regułę automatyzacji (#%{id})"
+      "ADD": "{agentName} dodał nową regułę automatyzacji (#{id})",
+      "EDIT": "{agentName} zaktualizował regułę automatyzacji (#{id})",
+      "DELETE": "{agentName} usunął regułę automatyzacji (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} zaprosił %{invitee} do konta jako %{role}",
+      "ADD": "{agentName} zaprosił {invitee} do konta jako {role}",
       "EDIT": {
-        "SELF": "%{agentName} zmienił swoje %{attributes} na %{values}",
-        "OTHER": "%{agentName} zmienił %{attributes} użytkownika %{user} na %{values}"
+        "SELF": "{agentName} zmienił swoje {attributes} na {values}",
+        "OTHER": "{agentName} zmienił {attributes} użytkownika {user} na {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} dodał nową skrzynkę odbiorczą (#%{id})",
-      "EDIT": "%{agentName} zaktualizował skrzynkę odbiorczą (#%{id})",
-      "DELETE": "%{agentName} usunął skrzynkę odbiorczą (#%{id})"
+      "ADD": "{agentName} dodał nową skrzynkę odbiorczą (#{id})",
+      "EDIT": "{agentName} zaktualizował skrzynkę odbiorczą (#{id})",
+      "DELETE": "{agentName} usunął skrzynkę odbiorczą (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} dodał nowy webhook (#%{id})",
-      "EDIT": "%{agentName} zaktualizował webhook (#%{id})",
-      "DELETE": "%{agentName} usunął webhook (#%{id})"
+      "ADD": "{agentName} dodał nowy webhook (#{id})",
+      "EDIT": "{agentName} zaktualizował webhook (#{id})",
+      "DELETE": "{agentName} usunął webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} zalogował się",
-      "SIGN_OUT": "%{agentName} wylogował się"
+      "SIGN_IN": "{agentName} zalogował się",
+      "SIGN_OUT": "{agentName} wylogował się"
     },
     "TEAM": {
-      "ADD": "%{agentName} dodał nowy zespół (#%{id})",
-      "EDIT": "%{agentName} zaktualizował zespół (#%{id})",
-      "DELETE": "%{agentName} usunął zespół (#%{id})"
+      "ADD": "{agentName} dodał nowy zespół (#{id})",
+      "EDIT": "{agentName} zaktualizował zespół (#{id})",
+      "DELETE": "{agentName} usunął zespół (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} utworzył nowe makro (#%{id})",
-      "EDIT": "%{agentName} zaktualizował makroinstrukcję (#%{id})",
-      "DELETE": "%{agentName} usunął makroinstrukcję (#%{id})"
+      "ADD": "{agentName} utworzył nowe makro (#{id})",
+      "EDIT": "{agentName} zaktualizował makroinstrukcję (#{id})",
+      "DELETE": "{agentName} usunął makroinstrukcję (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} dodał %{user} do skrzynki odbiorczej(#%{inbox_id})",
-      "REMOVE": "%{agentName} usunął %{user} ze skrzynki odbiorczej(#%{inbox_id})"
+      "ADD": "{agentName} dodał {user} do skrzynki odbiorczej(#{inbox_id})",
+      "REMOVE": "{agentName} usunął {user} ze skrzynki odbiorczej(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} dodał %{user} do zespołu(#%{team_id})",
-      "REMOVE": "%{agentName} usunął %{user} z zespołu(#%{team_id})"
+      "ADD": "{agentName} dodał {user} do zespołu(#{team_id})",
+      "REMOVE": "{agentName} usunął {user} z zespołu(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} zaktualizował konfigurację konta (#%{id})"
+      "EDIT": "{agentName} zaktualizował konfigurację konta (#{id})"
     }
   }
 }

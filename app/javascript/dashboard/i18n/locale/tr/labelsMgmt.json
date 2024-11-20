@@ -3,8 +3,9 @@
     "HEADER": "Etiketler",
     "HEADER_BTN_TXT": "Etiket ekleyin",
     "LOADING": "Etiketler getiriliyor",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-    "SIDEBAR_TXT": "<p> <b> Etiketler </b> <p> Etiketler, sohbetleri kategorize etmenize ve önceliklerini belirlemenize yardımcı olur. Yan panelden bir görüşmeye etiket atayabilirsiniz. <br /> <br /> Etiketler hesaba bağlıdır ve kuruluşunuzda özel iş akışları oluşturmak için kullanılabilir. Bir etikete özel renk atayabilirsiniz, etiketin tanımlanmasını kolaylaştırır. Sohbetleri kolayca filtrelemek için kenar çubuğunda etiketi görüntüleyebileceksiniz. </p>",
     "LIST": {
       "404": "Bu hesapta mevcut etiket yok.",
       "TITLE": "Etiketleri yönet",
@@ -49,7 +50,8 @@
       "DISMISS": "Kapat",
       "ADD_SELECTED_LABELS": "Seçili etiketleri ekle",
       "ADD_SELECTED_LABEL": "Seçili etiketi ekle",
-      "ADD_ALL_LABELS": "Tüm etiketleri ekle"
+      "ADD_ALL_LABELS": "Tüm etiketleri ekle",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Etiket ekleyin",

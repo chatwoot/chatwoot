@@ -1,8 +1,12 @@
+export const useInstallationName = (str, installationName) => {
+  if (str && installationName) {
+    return str.replace(/Chatwoot/g, installationName);
+  }
+  return str;
+};
+
 export default {
   methods: {
-    // eslint-disable-next-line default-param-last
-    useInstallationName(str = '', installationName) {
-      return str.replace(/Chatwoot/g, installationName);
-    },
+    useInstallationName,
   },
 };

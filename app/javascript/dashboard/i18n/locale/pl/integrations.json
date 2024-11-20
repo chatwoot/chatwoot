@@ -1,8 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracje",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subskrybowane wydarzenia",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Anuluj",
         "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
@@ -66,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Potwierdź usunięcie",
-          "MESSAGE": "Czy na pewno chcesz usunąć webhook? (%{webhookURL})",
+          "MESSAGE": "Czy na pewno chcesz usunąć webhook? ({webhookURL})",
           "YES": "Tak, usuń ",
           "NO": "Nie, zostaw"
         }
@@ -104,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -169,6 +179,7 @@
       "HEADER_BTN_TXT": "Dodaj nową aplikację na pulpicie",
       "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu Chatwoot w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu Chatwoot, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
       "DESCRIPTION": "Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Na tym koncie nie skonfigurowano jeszcze aplikacji na pulpicie",
         "LOADING": "Pobieranie aplikacji na pulpicie...",
@@ -205,9 +216,90 @@
         "CONFIRM_YES": "Tak, usuń",
         "CONFIRM_NO": "Nie, zostaw",
         "TITLE": "Potwierdzenie usunięcia",
-        "MESSAGE": "Czy na pewno chcesz usunąć aplikację - %{appName}?",
+        "MESSAGE": "Czy na pewno chcesz usunąć aplikację - {appName}?",
         "API_SUCCESS": "Aplikacja na pulpicie została pomyślnie usunięta",
         "API_ERROR": "Nie udało się usunąć aplikacji. Spróbuj ponownie później"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Stwórz",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Tytuł",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Tytuł jest wymagany"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Opis",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Zespół",
+            "PLACEHOLDER": "Wybierz zespół",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Priorytet",
+            "PLACEHOLDER": "Wybierz priorytet",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Etykieta",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Status",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Stwórz",
+        "CANCEL": "Anuluj",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Status",
+        "PRIORITY": "Priorytet",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Etykiety",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

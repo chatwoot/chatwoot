@@ -11,8 +11,9 @@
       "CONVERSATIONS": "Бесіди",
       "MESSAGES": "Текст повідомлень"
     },
-    "EMPTY_STATE": "На запит '%{query} не знайдено %{item}",
-    "EMPTY_STATE_FULL": "Немає результатів за запитом '%{query}",
+    "SEARCHING_DATA": "Шукаємо",
+    "EMPTY_STATE": "На запит '{query} не знайдено {item}",
+    "EMPTY_STATE_FULL": "Немає результатів за запитом '{query}",
     "PLACEHOLDER_KEYBINDING": "/ фокус",
     "INPUT_PLACEHOLDER": "Введіть 3 або більше символів для пошуку",
     "EMPTY_STATE_DEFAULT": "Пошук бесід по id, email, тел. номеру, повідомлень для кращого пошуку результатів. ",

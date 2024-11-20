@@ -23,13 +23,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -234,13 +234,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -301,13 +301,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -368,13 +368,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Razgovori prema agentima",
@@ -536,6 +537,7 @@
       "LABELS": "Oznaka",
       "TEAMS": "Tim"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

@@ -1,8 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "אינטגרציות",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "ביטול",
         "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
@@ -66,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "אשר מחיקה",
-          "MESSAGE": "האם אתה בטוח שתמחק את ה-webhook? (%{webhookURL})",
+          "MESSAGE": "האם אתה בטוח שתמחק את ה-webhook? ({webhookURL})",
           "YES": "כן, מחק ",
           "NO": "לא, השאר"
         }
@@ -104,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -131,7 +141,7 @@
         "KEY_PLACEHOLDER": "Enter your OpenAI API key",
         "BUTTONS": {
           "NEED_HELP": "זקוק לעזרה?",
-          "DISMISS": "Dismiss",
+          "DISMISS": "סגור",
           "FINISH": "Finish Setup"
         },
         "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
@@ -169,6 +179,7 @@
       "HEADER_BTN_TXT": "הוסף אפליקציית לוח מחוונים חדשה",
       "SIDEBAR_TXT": "<p><b>אפליקציות לוח מחוונים</b></p><p>אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים של Chatwoot כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה בתוך לוח המחוונים כדי לספק מידע על המשתמש, ההזמנות שלו או היסטוריית התשלומים הקודמת שלו.</p><p>כאשר תטמיע את האפליקציה שלך באמצעות לוח המחוונים ב-Chatwoot, האפליקציה שלך תהיה קבל את ההקשר של השיחה והקשר כאירוע חלון. הטמיע מאזין לאירוע ההודעה בדף שלך כדי לקבל את ההקשר.</p><p>כדי להוסיף אפליקציית לוח מחוונים חדשה, לחץ על הלחצן 'הוסף אפליקציית לוח מחוונים חדשה'.</p>",
       "DESCRIPTION": "אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה כדי לספק מידע על המשתמש, ההזמנות שלהם או היסטוריית התשלומים הקודמת שלהם.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
         "LOADING": "מביא אפליקציות לוח מחוונים...",
@@ -205,9 +216,90 @@
         "CONFIRM_YES": "כן, מחק את זה",
         "CONFIRM_NO": "לא, שמור את זה",
         "TITLE": "אשר מחיקה",
-        "MESSAGE": "האם אתה בטוח שתמחק את האפליקציה - %{appName}?",
+        "MESSAGE": "האם אתה בטוח שתמחק את האפליקציה - {appName}?",
         "API_SUCCESS": "אפליקציית לוח המחוונים נמחקה בהצלחה",
         "API_ERROR": "לא הצלחנו למחוק את האפליקציה. אנא נסה שוב מאוחר יותר"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "צור",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "קישור",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "כותרת",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "כותרת שדה חובה"
+          },
+          "DESCRIPTION": {
+            "LABEL": "תיאור",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "צוות",
+            "PLACEHOLDER": "בחר קבוצה",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Priority",
+            "PLACEHOLDER": "Select priority",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "תווית",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "מצב",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "צור",
+        "CANCEL": "ביטול",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "מצב",
+        "PRIORITY": "Priority",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "תוויות",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

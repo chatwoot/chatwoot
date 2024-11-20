@@ -1,3 +1,21 @@
+<script>
+import { CONVERSATION_STATUS } from 'shared/constants/messages';
+
+export default {
+  props: {
+    status: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      CONVERSATION_STATUS,
+    };
+  },
+};
+</script>
+
 <template>
   <div class="inline-flex items-center justify-center rounded-md">
     <!-- Pending -->
@@ -66,21 +84,3 @@
     </svg>
   </div>
 </template>
-
-<script>
-import { CONVERSATION_STATUS } from 'shared/constants/messages';
-
-export default {
-  props: {
-    status: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      CONVERSATION_STATUS,
-    };
-  },
-};
-</script>

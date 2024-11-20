@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Ajouter une macro",
     "HEADER_BTN_TXT_SAVE": "Enregistrer une macro",
     "LOADING": "Récupération des macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>Une macro est un ensemble d'actions enregistrées qui aident les agents du service client à compléter facilement des tâches. Les agents peuvent définir un ensemble d'actions comme le marquage d'une conversation avec une étiquette, l'envoi d'une transcription d'e-mail, la mise à jour d'un attribut personnalisé, etc. et ils peuvent exécuter ces actions en un seul clic. Lorsque les agents exécutent la macro, les actions sont exécutées séquentiellement dans l'ordre dans lequel elles sont définies. Les macros améliorent la productivité et augmentent la cohérence des actions. </p><p>Une macro peut être utile de 2 manières. </p><p><b>En tant qu'assistant d'agent :</b> Si un agent effectue un ensemble d'actions plusieurs fois, ils peuvent l'enregistrer comme une macro et exécuter toutes les actions ensemble en un seul clic.</p><p><b>En tant qu'option pour embarquer dans un membre de l'équipe:</b> Chaque agent doit effectuer plusieurs vérifications/actions différentes lors de chaque conversation. L'intégration d'un nouveau membre de l'équipe d'assistance sera facile si des macros prédéfinies sont disponibles sur le compte. Au lieu de décrire chaque étape en détail, le manager/responsable de l'équipe peut pointer vers les macros utilisées dans différents scénarios.</p>",
     "ERROR": "Une erreur s'est produite. Veuillez réessayer",
     "ORDER_INFO": "Les macros s'exécuteront dans l'ordre où vous ajoutez vos actions. Vous pouvez les réorganiser en les glissant par la poignée à côté de chaque nœud.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Exécuter",
       "PREVIEW": "Aperçu de la macro",
       "EXECUTED_SUCCESSFULLY": "Macro exécutée"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "La valeur est requise",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

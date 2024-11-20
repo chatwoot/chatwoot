@@ -3,7 +3,8 @@
     "HEADER": "Agen",
     "HEADER_BTN_TXT": "Tambahkan Agen",
     "LOADING": "Mendapatkan Daftar Agen",
-    "SIDEBAR_TXT": "<p><b>Agen</b></p> <p> Seorang <b>Agen</b> adalah anggota tim Dukungan Pelanggan Anda. </p><p> Agen akan dapat melihat dan membalas pesan dari pengguna Anda. Daftar ini menunjukkan semua agen yang saat ini ada di akun Anda. </p><p> Klik Pada <b>Tambah Agent</b> untuk menambahkan agen baru. Agen yang Anda tambahkan akan menerima email dengan tautan konfirmasi untuk mengaktifkan akun mereka, setelah itu mereka dapat mengakses Chatwoot dan menanggapi pesan. </p><p> Akses ke fitur Chatwoot didasarkan pada wewenang berikut. </p><p> <b>Agen</b> - Agen dengan wewenang ini hanya dapat mengakses kotak masuk, laporan, dan percakapan. Mereka dapat menetapkan percakapan ke agen lain atau diri mereka sendiri dan menyelesaikan percakapan.</p><p> <b>Administrator</b> - Administrator akan memiliki akses ke semua fitur Chatwoot yang diaktifkan untuk akun Anda, termasuk pengaturan, bersama dengan semua hak istimewa agen normal.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agen"
@@ -17,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Aksi",
       "VERIFIED": "Diverifikasi",
-      "VERIFICATION_PENDING": "Verifikasi Pending"
+      "VERIFICATION_PENDING": "Verifikasi Pending",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Tambahkan agen ke tim Anda",

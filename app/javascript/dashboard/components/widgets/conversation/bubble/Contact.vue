@@ -1,30 +1,11 @@
-<template>
-  <div class="contact--group">
-    <fluent-icon icon="call" class="file--icon" size="18" />
-    <div class="meta">
-      <p
-        class="overflow-hidden whitespace-nowrap text-ellipsis margin-bottom-0"
-      >
-        {{ phoneNumber }}
-      </p>
-    </div>
-    <div v-if="formattedPhoneNumber" class="link-wrap">
-      <woot-button variant="clear" size="small" @click.prevent="addContact">
-        {{ $t('CONVERSATION.SAVE_CONTACT') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
+import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [alertMixin],
   props: {
     name: {
       type: String,
@@ -52,18 +33,18 @@ export default {
             'contacts/create',
             this.getContactObject()
           );
-          this.showAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
+          useAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
         }
         this.openContactNewTab(contact.id);
       } catch (error) {
         if (error instanceof DuplicateContactException) {
           if (error.data.includes('phone_number')) {
-            this.showAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
+            useAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
           }
         } else if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
+          useAlert(error.data);
         } else {
-          this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+          useAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
         }
       }
     },
@@ -98,6 +79,24 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="contact--group">
+    <fluent-icon icon="call" class="file--icon" size="18" />
+    <div class="meta">
+      <p
+        class="overflow-hidden whitespace-nowrap text-ellipsis margin-bottom-0"
+      >
+        {{ phoneNumber }}
+      </p>
+    </div>
+    <div v-if="formattedPhoneNumber" class="link-wrap">
+      <woot-button variant="clear" size="small" @click.prevent="addContact">
+        {{ $t('CONVERSATION.SAVE_CONTACT') }}
+      </woot-button>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .contact--group {

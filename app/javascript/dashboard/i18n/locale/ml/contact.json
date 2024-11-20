@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
+      "PREVIOUS_CONVERSATIONS": "മുമ്പത്തെ സംഭാഷണങ്ങൾ",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

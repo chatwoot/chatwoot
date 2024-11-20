@@ -14,6 +14,7 @@ defineProps({
 const formatDate = timestamp =>
   format(fromUnixTime(timestamp), 'MMM dd, yyyy, hh:mm a');
 </script>
+
 <template>
   <div class="flex justify-between w-full">
     <span

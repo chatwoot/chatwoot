@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
       "CONTACT_LABELS": "Ετικέτες Επαφών",
-      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες"
+      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες",
+      "NO_RECORDS_FOUND": "Δεν βρέθηκαν ιδιότητες"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Σύνοψη",
-      "DELETE_WARNING": "Η επαφή του <strong>%{primaryContactName}</strong>θα διαγραφεί.",
-      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{primaryContactName}</strong> θα αντιγραφούν στο <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Η επαφή του <strong>{primaryContactName}</strong>θα διαγραφεί.",
+      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>{primaryContactName}</strong> θα αντιγραφούν στο <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
       "ERROR_MESSAGE": "Δεν ήταν δυνατή η συγχώνευση επαφών, προσπαθήστε ξανά!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

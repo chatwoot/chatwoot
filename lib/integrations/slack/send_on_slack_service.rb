@@ -58,10 +58,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def message_text
-    if message.content.present?
-      message.content.gsub(MENTION_REGEX, '\1')
+    content = message.processed_message_content || message.content
+
+    if content.present?
+      content.gsub(MENTION_REGEX, '\1')
     else
-      message.content
+      content
     end
   end
 

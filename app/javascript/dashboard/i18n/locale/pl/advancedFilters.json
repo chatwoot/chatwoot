@@ -18,6 +18,7 @@
       "AND": "i",
       "OR": "lub"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Równe",
       "not_equal_to": "Nierówne",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole Wyboru",
       "CREATED_AT": "Utworzono",
       "LAST_ACTIVITY": "Ostatnia aktywność"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wartość jest wymagana"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardowe filtry",

@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "حسب ضرورت اوصاف",
       "CONTACT_LABELS": "کانٹیکٹ لیبلز",
-      "PREVIOUS_CONVERSATIONS": "پچھلی بات چیت"
+      "PREVIOUS_CONVERSATIONS": "پچھلی بات چیت",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "خلاصہ",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
-      "ATTRIBUTE_WARNING": "<strong>%{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>%{parentContactName}</strong> پر کاپی کی جائیں گی۔."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> کا کانٹیکٹ حذف کر دیا جائے گا۔.",
+      "ATTRIBUTE_WARNING": "<strong>{primaryContactName}</strong> کے کانٹیکٹ کی تفصیلات <strong>{parentContactName}</strong> پر کاپی کی جائیں گی۔."
     },
     "SEARCH": {
       "ERROR": "خامی کا پیغام"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے ضم ہو گیا۔",
       "ERROR_MESSAGE": "کانٹیکٹ کو ضم نہیں کیا جا سکا، دوبارہ کوشش کریں!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

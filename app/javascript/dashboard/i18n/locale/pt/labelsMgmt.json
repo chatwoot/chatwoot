@@ -1,16 +1,17 @@
 {
   "LABEL_MGMT": {
     "HEADER": "Etiquetas",
-    "HEADER_BTN_TXT": "Adicionar Etiqueta",
-    "LOADING": "Buscando etiquetas",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>As etiquetas o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir a etiqueta a uma conversa a partir do painel lateral. <br /><br />As etiquetas estão vinculadas à conta e podem ser usadas para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para uma etiqueta, facilitando a identificação da etiqueta. Você será capaz de exibir o rótulo na barra lateral para filtrar as conversas facilmente.</p>",
+    "HEADER_BTN_TXT": "Adicionar etiqueta",
+    "LOADING": "A procurar etiquetas",
+    "DESCRIPTION": "As etiquetas ajudam-no a categorizar e priorizar conversas e leads. Pode atribuir uma etiqueta a uma conversa ou entrar em contacto usando o painel lateral.",
+    "LEARN_MORE": "Saber mais sobre etiquetas",
+    "SEARCH_404": "Não existem itens correspondentes à sua pesquisa",
     "LIST": {
       "404": "Não há etiquetas disponíveis nesta conta.",
       "TITLE": "Gerir etiquetas",
-      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
+      "DESC": "As etiquetas permitem agrupar conversas.",
       "TABLE_HEADER": [
-        "Nome:",
+        "Nome",
         "Descrição",
         "Cor"
       ]
@@ -19,9 +20,9 @@
       "NAME": {
         "LABEL": "Nome da etiqueta",
         "PLACEHOLDER": "Nome da etiqueta",
-        "REQUIRED_ERROR": "O nome da etiqueta é obrigatório",
-        "MINIMUM_LENGTH_ERROR": "O tamanho mínimo obrigatório é 2",
-        "VALID_ERROR": "Apenas são permitidos Alfabetos, Números, Hífen e Underscores"
+        "REQUIRED_ERROR": "Nome da etiqueta obrigatório",
+        "MINIMUM_LENGTH_ERROR": "A etiqueta deve ter, no mínimo, 2 caracteres",
+        "VALID_ERROR": "Apenas são permitidas letras, números, hífen e underscores"
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",
@@ -33,15 +34,15 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Mostrar etiqueta na barra lateral"
       },
-      "EDIT": "Alterar",
+      "EDIT": "Editar",
       "CREATE": "Criar",
-      "DELETE": "excluir",
-      "CANCEL": "cancelar"
+      "DELETE": "Excluir",
+      "CANCEL": "Cancelar"
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
         "SINGLE_SUGGESTION": "Adicionar etiqueta à conversa",
-        "MULTIPLE_SUGGESTION": "Selecione esta etiqueta",
+        "MULTIPLE_SUGGESTION": "Selecionar esta etiqueta",
         "DESELECT": "Desmarcar etiqueta",
         "DISMISS": "Descartar sugestão"
       },
@@ -49,34 +50,35 @@
       "DISMISS": "Descartar",
       "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
       "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
-      "ADD_ALL_LABELS": "Adicionar todas as etiquetas"
+      "ADD_ALL_LABELS": "Adicionar todas as etiquetas",
+      "SUGGESTED_LABELS": "Etiquetas sugeridas"
     },
     "ADD": {
-      "TITLE": "Adicionar Etiqueta",
-      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
+      "TITLE": "Adicionar etiqueta",
+      "DESC": "As etiquetas permitem agrupar conversas.",
       "API": {
         "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
       }
     },
     "EDIT": {
       "TITLE": "Editar etiqueta",
       "API": {
-        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+        "SUCCESS_MESSAGE": "Etiqueta atualizada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "excluir",
+      "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Etiqueta eliminada com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+        "SUCCESS_MESSAGE": "Etiqueta excluída com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
       },
       "CONFIRM": {
-        "TITLE": "Confirmar Exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir ",
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem a certeza que pretende excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, Manter "
+        "NO": "Não, manter "
       }
     }
   }

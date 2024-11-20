@@ -23,13 +23,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -167,13 +167,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -234,13 +234,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -301,13 +301,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -368,13 +368,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -480,8 +480,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Ruch rozmów",
       "NO_CONVERSATIONS": "Brak rozmów",
-      "CONVERSATION": "%{count} rozmowa",
-      "CONVERSATIONS": "%{count} rozmowy"
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Rozmowy według agentów",
@@ -536,6 +537,7 @@
       "LABELS": "Etykieta",
       "TEAMS": "Zespół"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",

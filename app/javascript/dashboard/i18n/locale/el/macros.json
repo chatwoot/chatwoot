@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Μακροεντολές",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Προσθήκη νέας μακροεντολής",
     "HEADER_BTN_TXT_SAVE": "Αποθήκευση μακροεντολής",
     "LOADING": "Λήψη μακροεντολών",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>Μια μακροεντολή είναι ένα σύνολο αποθηκευμένων ενεργειών που βοηθούν τους πράκτορες εξυπηρέτησης πελατών να ολοκληρώσουν εύκολα εργασίες. Οι πράκτορες μπορούν να ορίσουν ένα σύνολο ενεργειών όπως η σήμανση μιας συνομιλίας με μια ετικέτα, η αποστολή της μεταγραφής μέσω ηλεκτρονικού ταχυδρομείου, η ενημέρωση μιας προσαρμοζόμενης ιδίότητας, κλπ. όλες αυτές οι ενέργειες μπορούν να να γίνουν με ένα απλό κλικ. Όταν οι πράκτορες εκτελούν την μακροεντολή, οι ενέργειες θα εκτελούνται διαδοχικά με τη σειρά που έχουν οριστεί. Οι μακροεντολές βελτιώνουν την παραγωγικότητα και αυξάνουν τη συνοχή των ενεργειών. </p><p>Μια μακροεντολή μπορεί να είναι χρήσιμη με 2 τρόπους. </p><p><b>Ως βοηθός πράκτορα:</b> Εάν ένας πράκτορας εκτελεί ένα σύνολο ενεργειών πολλές φορές, μπορεί να το αποθηκεύσει ως μακροεντολή και να εκτελέσει όλες τις ενέργειες μαζί χρησιμοποιώντας ένα μόνο κλικ.</p><p><b>Ως επιλογή να ανατεθεί σε ένα μέλος της ομάδας:</b> Κάθε πράκτορας πρέπει να εκτελεί πολλά διαφορετικά checks/actions κατά τη διάρκεια κάθε συνομιλίας. Κατά την ανάθεση σε ένα νέο μέλος της ομάδας υποστήριξης θα είναι εύκολο εάν οι προκαθορισμένες μακροεντολές είναι διαθέσιμες στο λογαριασμό. Αντί να περιγράφει λεπτομερώς κάθε βήμα, ο επικεφαλής ομάδας μπορεί να υποδυκνείει τις μακροεντολές που θα χρησιμοποιούνται σε διαφορετικά σενάρια.</p>",
     "ERROR": "Κάτι πήγε στραβά. Παρακαλώ προσπαθήστε ξανά",
     "ORDER_INFO": "Μακροεντολές θα εκτελεστούν με τη σειρά που θα προσθέσετε τις ενέργειές σας. Μπορείτε να τις αναδιατάξετε σύροντάς τις από τη λαβή δίπλα σε κάθε κόμβο.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Εκτέλεση",
       "PREVIEW": "Προεπισκόπηση Μακροεντολής",
       "EXECUTED_SUCCESSFULLY": "Η μακροεντολή εκτελέστηκε επιτυχώς"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Απαιτείται τιμή",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

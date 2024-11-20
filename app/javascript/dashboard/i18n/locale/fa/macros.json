@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "ماکروها",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "افزودن ماکرو جدید",
     "HEADER_BTN_TXT_SAVE": "ذخیره ماکرو",
     "LOADING": "در حال گرفتن ماکروها",
-    "SIDEBAR_TXT": "<p><b>ماکروها</b><p>یک ماکرو مجموعه ای از اقدامات ذخیره شده است که به نمایندگی های خدمات مشتری کمک می کند تا وظایف را به راحتی انجام دهند. نمایندگان می توانند مجموعه ای از اقدامات مانند برچسب گذاری یک مکالمه با برچسب، ارسال متن ایمیل، به روز رسانی یک ویژگی سفارشی و غیره را تعریف کنند و می توانند این اقدامات را با یک کلیک اجرا کنند. هنگامی که عامل ها ماکرو را اجرا می کنند، اقدامات به ترتیب به ترتیبی که تعریف شده اند انجام می شوند. ماکروها بهره وری را بهبود می بخشند و ثبات در اقدامات را افزایش می دهند. </p><p>یک ماکرو از دو جهت می تواند مفید باشد. </p><p><b>به‌عنوان کمک عامل:</b> اگر یک عامل مجموعه‌ای از اقدامات را چندین بار انجام دهد، می‌تواند آن را به‌عنوان یک ماکرو ذخیره کند و همه اقدامات را با هم با یک کلیک انجام دهد.</b> p><p><b>به‌عنوان گزینه‌ای برای حضور در یک عضو تیم:</b> هر نماینده باید در طول هر مکالمه، بررسی‌ها/عملکردهای مختلفی را انجام دهد. در صورتی که ماکروهای از پیش تعریف شده در حساب موجود باشد، ورود به یک عضو تیم پشتیبانی جدید آسان خواهد بود. به جای توصیف هر مرحله با جزئیات، مدیر/سرپرست تیم می‌تواند به ماکروهای مورد استفاده در سناریوهای مختلف اشاره کند.</p>",
     "ERROR": "مشکلی پیش آمد. لطفا دوباره تلاش کنید",
     "ORDER_INFO": "ماکروها به ترتیبی که اقدامات خود را اضافه می کنید اجرا می شوند. می توانید با کشیدن آنها توسط دسته کنار هر گره آنها را دوباره مرتب کنید.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "اجرا کردن",
       "PREVIEW": "پیش‌نمایش ماکرو",
       "EXECUTED_SUCCESSFULLY": "ماکرو با موفقیت اجرا شد"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "مقدار الزامی است",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

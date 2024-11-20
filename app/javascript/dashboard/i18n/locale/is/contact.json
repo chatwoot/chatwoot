@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Sérsniðnir Eiginleikar",
       "CONTACT_LABELS": "Merkingar Tengiliða",
-      "PREVIOUS_CONVERSATIONS": "Fyrri samtöl"
+      "PREVIOUS_CONVERSATIONS": "Fyrri samtöl",
+      "NO_RECORDS_FOUND": "Engir eiginleikar fundust"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Samantekt",
-      "DELETE_WARNING": "Tengilið <strong>%{primaryContactName}</strong> verður eytt.",
-      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>%{primaryContactName}</strong> verða afritaðar á <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Tengilið <strong>{primaryContactName}</strong> verður eytt.",
+      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>{primaryContactName}</strong> verða afritaðar á <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Tengiliður sameinaður",
       "ERROR_MESSAGE": "Tókst ekki að sameina tengiliði, reyndu aftur!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

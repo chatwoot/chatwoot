@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
+    "HEADER": "Автоматизация",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Добавяне правило за автоматизация",
     "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
       "TITLE": "Добавяне правило за автоматизация",
       "SUBMIT": "Създаване",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "You need to have atleast one action to save",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Качване...",
       "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Изисква се стойност",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

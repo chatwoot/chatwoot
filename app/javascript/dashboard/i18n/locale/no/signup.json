@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Bedriftse-postadresse",
-      "PLACEHOLDER": "Skriv inn din profesjonelle e-postadresse. F.eks: ola@olasbedrift.no",
+      "PLACEHOLDER": "Skriv inn din profesjonelle e-postadresse. F.eks: ola{'@'}olasbedrift.no",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

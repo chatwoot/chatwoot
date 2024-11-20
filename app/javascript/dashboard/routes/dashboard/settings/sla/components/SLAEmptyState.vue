@@ -1,12 +1,12 @@
 <script setup>
 import BaseEmptyState from './BaseEmptyState.vue';
 
-const emit = defineEmits(['primary-action']);
-const primaryAction = () => emit('primary-action');
+const emit = defineEmits(['primaryAction']);
+const primaryAction = () => emit('primaryAction');
 </script>
 
 <template>
-  <base-empty-state>
+  <BaseEmptyState>
     <p class="max-w-xs text-sm font-medium text-center">
       {{ $t('SLA.LIST.404') }}
     </p>
@@ -18,5 +18,5 @@ const primaryAction = () => emit('primary-action');
     >
       {{ $t('SLA.ADD_ACTION_LONG') }}
     </woot-button>
-  </base-empty-state>
+  </BaseEmptyState>
 </template>

@@ -1,29 +1,11 @@
-<template>
-  <blockquote
-    ref="messageContainer"
-    class="message border-l-2 border-slate-100 dark:border-slate-700"
-  >
-    <p class="header">
-      <strong class="text-slate-700 dark:text-slate-100">
-        {{ author }}
-      </strong>
-      {{ $t('SEARCH.WROTE') }}
-    </p>
-    <read-more :shrink="isOverflowing" @expand="isOverflowing = false">
-      <div v-dompurify-html="prepareContent(content)" class="message-content" />
-    </read-more>
-  </blockquote>
-</template>
-
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ReadMore from './ReadMore.vue';
 
 export default {
   components: {
     ReadMore,
   },
-  mixins: [messageFormatterMixin],
   props: {
     author: {
       type: String,
@@ -37,6 +19,13 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { formatMessage, highlightContent } = useMessageFormatter();
+    return {
+      formatMessage,
+      highlightContent,
+    };
   },
   data() {
     return {
@@ -80,6 +69,23 @@ export default {
   },
 };
 </script>
+
+<template>
+  <blockquote
+    ref="messageContainer"
+    class="message border-l-2 border-slate-100 dark:border-slate-700"
+  >
+    <p class="header">
+      <strong class="text-slate-700 dark:text-slate-100">
+        {{ author }}
+      </strong>
+      {{ $t('SEARCH.WROTE') }}
+    </p>
+    <ReadMore :shrink="isOverflowing" @expand="isOverflowing = false">
+      <div v-dompurify-html="prepareContent(content)" class="message-content" />
+    </ReadMore>
+  </blockquote>
+</template>
 
 <style scoped lang="scss">
 .message {

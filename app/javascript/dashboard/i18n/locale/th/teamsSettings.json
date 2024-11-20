@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "สร้างทีมใหม่",
     "HEADER": "ทีม",
-    "SIDEBAR_TXT": "<p><b>ทีม</b></p> <p>คุณสามารถจัดกลุ่มให้กับพนักงานตามความรับผิดชอบที่พวกเขาได้รับ <br /> พนักงานหนึ่งคนสามารถเข้าร่วมได้หลายทีม มอบหมายการสนทนาให้กับทีมเมื่อต้องทำงานร่วมกัน </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "ยังไม่มีทีมที่ถูกสร้างในบัญชีนี้",
-      "EDIT_TEAM": "แก้ไขทีม"
+      "EDIT_TEAM": "แก้ไขทีม",
+      "NONE": "ไม่มี"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "เพิ่มพนักงานเข้าทีม",
-        "TITLE": "เพิ่มพนักงานเข้าทีม %{teamName}",
+        "TITLE": "เพิ่มพนักงานเข้าทีม {teamName}",
         "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ ซึ่งจะช่วยให้คุณทำงานร่วมกันเป็นทีมเพื่อตอบรับการสนทนาและรับการแจ้งเตือนจากการสนทนาเดียวกัน"
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "อัพเดทพนักงานในทีม",
-        "TITLE": "เพิ่มพนักงานเข้าทีม %{teamName}",
+        "TITLE": "เพิ่มพนักงานเข้าทีม {teamName}",
         "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ พนักงานทุกคนในทีมจะได้รับการแจ้งเตือนเมื่อทีมได้รับมอบหมายให้ดูแลการสนทนา"
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "กำลังเพิ่มพนักงานเข้าทีมของคุณ...",
       "SELECT": "เลือก",
       "SELECT_ALL": "เลือกพนักงานทั้งหมด",
-      "SELECTED_COUNT": "เลือก %{selected} จากพนักงานทั้งหมด %{total} คน"
+      "SELECTED_COUNT": "เลือก {selected} จากพนักงานทั้งหมด {total} คน"
     },
     "ADD": {
-      "TITLE": "เพิ่มพนักงานเข้าทีม %{teamName}",
+      "TITLE": "เพิ่มพนักงานเข้าทีม {teamName}",
       "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ ซึ่งจะช่วยให้คุณทำงานร่วมกันเป็นทีมเพื่อตอบรับการสนทนาและรับการแจ้งเตือนจากการสนทนาเดียวกัน",
       "SELECT": "เลือก",
       "SELECT_ALL": "เลือกพนักงานทั้งหมด",
-      "SELECTED_COUNT": "เลือก %{selected} จากพนักงานทั้งหมด %{total} คน",
+      "SELECTED_COUNT": "เลือก {selected} จากพนักงานทั้งหมด {total} คน",
       "BUTTON_TEXT": "เพิ่มพนักงาน",
       "AGENT_VALIDATION_ERROR": "เลือกพนักงานอย่างน้อย 1 คน"
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "ไม่สามารถลบทีมได้ โปรดลองใหม่อีกครั้ง"
       },
       "CONFIRM": {
-        "TITLE": "คุณแน่ใจว่าต้องการลบ %{teamName} หรือไม่",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "โปรดพิมพ์ {teamName} เพื่อยืนยัน",
         "MESSAGE": "การลบทีมจะยกเลิกการมอบหมายการสนทนาที่ทีมนี้รับผิดชอบไปด้วย",
         "YES": "ลบ ",

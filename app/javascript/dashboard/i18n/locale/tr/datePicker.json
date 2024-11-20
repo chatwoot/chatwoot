@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Uygula",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Son 7 gün",
+      "LAST_30_DAYS": "Son 30 gün",
+      "LAST_3_MONTHS": "Son 3 ay",
+      "LAST_6_MONTHS": "Son 6 ay",
+      "LAST_YEAR": "Geçen yıl",
+      "CUSTOM_RANGE": "Özel tarih aralığı"
+    }
+  }
+}

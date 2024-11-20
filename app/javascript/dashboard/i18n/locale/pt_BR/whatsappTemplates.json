@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Templates do Whatsapp",
             "SUBTITLE": "Selecione o template do whatsapp que você deseja enviar",
-            "TEMPLATE_SELECTED_SUBTITLE": "Processar %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Processar {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Pesquisar Templates",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Variáveis",
-            "VARIABLE_PLACEHOLDER": "Insira o valor para %{variable}",
+            "VARIABLE_PLACEHOLDER": "Insira o valor para {variable}",
             "GO_BACK_LABEL": "Voltar",
             "SEND_MESSAGE_LABEL": "Enviar Mensagem",
             "FORM_ERROR_MESSAGE": "Por favor, preencha todas as variáveis antes de enviar"

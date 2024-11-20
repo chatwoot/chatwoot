@@ -18,6 +18,7 @@
       "AND": "와/과",
       "OR": "혹은"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "동일한",
       "not_equal_to": "비동일한",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "값이 필요합니다."
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

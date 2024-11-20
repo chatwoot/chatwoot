@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "שדות מותאמים אישית",
       "CONTACT_LABELS": "תגיות אנשי קשר",
-      "PREVIOUS_CONVERSATIONS": "שיחות קודמות"
+      "PREVIOUS_CONVERSATIONS": "שיחות קודמות",
+      "NO_RECORDS_FOUND": "לא נמצאו מאפיינים"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "סיכום",
-      "DELETE_WARNING": "איש הקשר של <strong>%{primaryContactName}</strong> יימחק.",
-      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{primaryContactName}</strong> יועתקו אל <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "איש הקשר של <strong>{primaryContactName}</strong> יימחק.",
+      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>{primaryContactName}</strong> יועתקו אל <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "הודעת שגיאה"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "איש הקשר מוזג בהצלחה",
       "ERROR_MESSAGE": "לא ניתן למזג אנשי קשר, נסה שוב!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

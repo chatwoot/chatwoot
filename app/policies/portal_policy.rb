@@ -37,3 +37,5 @@ class PortalPolicy < ApplicationPolicy
     @record.first.members.include?(@user)
   end
 end
+
+PortalPolicy.prepend_mod_with('Enterprise::PortalPolicy')

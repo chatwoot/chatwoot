@@ -1,72 +1,3 @@
-<template>
-  <div class="day-wrap">
-    <div class="checkbox-wrap">
-      <input
-        v-model="isDayEnabled"
-        name="enable-day"
-        class="enable-checkbox"
-        type="checkbox"
-        :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
-      />
-    </div>
-    <div class="day">
-      <span>{{ dayName }}</span>
-    </div>
-    <div v-if="isDayEnabled" class="hours-select-wrap">
-      <div class="hours-range">
-        <div class="checkbox-wrap open-all-day">
-          <input
-            v-model="isOpenAllDay"
-            name="enable-open-all-day"
-            class="enable-checkbox"
-            type="checkbox"
-            :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
-          />
-          <span>{{ $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY') }}</span>
-        </div>
-        <multiselect
-          v-model="fromTime"
-          :options="fromTimeSlots"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-          :allow-empty="false"
-          :disabled="isOpenAllDay"
-        />
-        <div class="separator-icon">
-          <fluent-icon icon="subtract" type="solid" size="16" />
-        </div>
-        <multiselect
-          v-model="toTime"
-          :options="toTimeSlots"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-          :allow-empty="false"
-          :disabled="isOpenAllDay"
-        />
-      </div>
-      <div v-if="hasError" class="date-error">
-        <span class="error">{{
-          $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
-        }}</span>
-      </div>
-    </div>
-    <div v-else class="day-unavailable">
-      <span>
-        {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}
-      </span>
-    </div>
-    <div>
-      <span v-if="isDayEnabled && !hasError" class="label">
-        {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
-      </span>
-    </div>
-  </div>
-</template>
-
 <script>
 import parse from 'date-fns/parse';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
@@ -79,7 +10,6 @@ export default {
   props: {
     dayName: {
       type: String,
-      default: '',
       required: true,
     },
     timeSlot: {
@@ -90,6 +20,7 @@ export default {
       }),
     },
   },
+  emits: ['update'],
   computed: {
     fromTimeSlots() {
       return timeSlots;
@@ -101,7 +32,7 @@ export default {
     },
     isDayEnabled: {
       get() {
-        return this.timeSlot.from && this.timeSlot.to;
+        return Boolean(this.timeSlot.from && this.timeSlot.to);
       },
       set(value) {
         const newSlot = value
@@ -201,6 +132,91 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="day-wrap flex py-2 px-0 min-h-[3rem] box-content border-b border-solid border-slate-50 dark:border-slate-600"
+  >
+    <div class="checkbox-wrap flex items-center">
+      <input
+        v-model="isDayEnabled"
+        name="enable-day"
+        class="m-0"
+        type="checkbox"
+        :title="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.ENABLE')"
+      />
+    </div>
+    <div
+      class="day flex items-center py-0 px-3 text-sm font-medium flex-shrink-0 min-w-28"
+    >
+      <span>{{ dayName }}</span>
+    </div>
+    <div
+      v-if="isDayEnabled"
+      class="flex flex-col flex-shrink-0 flex-grow relative"
+    >
+      <div class="flex items-center flex-shrink-0 flex-grow">
+        <div class="checkbox-wrap flex items-center open-all-day mr-6">
+          <input
+            v-model="isOpenAllDay"
+            name="enable-open-all-day"
+            class="enable-checkbox text-sm font-medium"
+            type="checkbox"
+            :title="$t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')"
+          />
+          <span class="text-sm font-medium ml-1">{{
+            $t('INBOX_MGMT.BUSINESS_HOURS.ALL_DAY')
+          }}</span>
+        </div>
+        <multiselect
+          v-model="fromTime"
+          :options="fromTimeSlots"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :allow-empty="false"
+          :disabled="isOpenAllDay"
+        />
+        <div class="separator-icon flex items-center py-0 px-3">
+          <fluent-icon icon="subtract" type="solid" size="16" />
+        </div>
+        <multiselect
+          v-model="toTime"
+          :options="toTimeSlots"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :allow-empty="false"
+          :disabled="isOpenAllDay"
+        />
+      </div>
+      <div v-if="hasError" class="date-error pt-1">
+        <span class="error text-xs text-red-300 dark:text-red-500">{{
+          $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
+        }}</span>
+      </div>
+    </div>
+    <div
+      v-else
+      class="flex items-center flex-shrink-0 flex-grow text-sm text-slate-500 dark:text-slate-300"
+    >
+      <span>
+        {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}
+      </span>
+    </div>
+    <div>
+      <span
+        v-if="isDayEnabled && !hasError"
+        class="label bg-woot-50 dark:bg-woot-600 text-woot-700 dark:text-woot-100 text-xs inline-block px-2 py-1 rounded-sm cursor-default whitespace-nowrap"
+      >
+        {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
+      </span>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .day-wrap::v-deep .multiselect {
   @apply m-0 w-[7.5rem];
@@ -211,61 +227,6 @@ export default {
     .multiselect__single {
       @apply text-sm leading-6 py-2 px-0;
     }
-  }
-}
-.day-wrap {
-  @apply flex items-center justify-between py-2 px-0 min-h-[3rem] box-content border-b border-solid border-slate-50 dark:border-slate-600;
-}
-
-.enable-checkbox {
-  @apply m-0;
-}
-
-.hours-select-wrap {
-  @apply flex flex-col flex-shrink-0 flex-grow relative;
-}
-
-.hours-range,
-.day-unavailable {
-  @apply flex items-center flex-shrink-0 flex-grow;
-}
-
-.day-unavailable {
-  @apply text-sm text-slate-500 dark:text-slate-300;
-}
-
-.checkbox-wrap {
-  @apply flex items-center;
-}
-
-.separator-icon,
-.day {
-  @apply flex items-center py-0 px-3;
-}
-
-.day {
-  @apply text-sm font-medium w-[8.125rem];
-}
-
-.label {
-  @apply bg-woot-50 dark:bg-woot-600 text-woot-700 dark:text-woot-100 text-xs inline-block px-2 py-1 rounded-sm cursor-default whitespace-nowrap;
-}
-
-.date-error {
-  @apply pt-1;
-}
-
-.error {
-  @apply text-xs text-red-300 dark:text-red-500;
-}
-
-.open-all-day {
-  @apply mr-6;
-  span {
-    @apply text-sm font-medium ml-1;
-  }
-  input {
-    @apply text-sm font-medium;
   }
 }
 </style>

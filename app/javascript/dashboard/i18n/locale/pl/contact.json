@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
       "CONTACT_LABELS": "Etykiety kontaktu",
-      "PREVIOUS_CONVERSATIONS": "Poprzednie rozmowy"
+      "PREVIOUS_CONVERSATIONS": "Poprzednie rozmowy",
+      "NO_RECORDS_FOUND": "Brak wyników"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Eksportuj kontakty",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -365,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Podsumowanie",
-      "DELETE_WARNING": "Kontakt <strong>%{primaryContactName}</strong> zostanie usunięty.",
-      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>%{primaryContactName}</strong> zostaną skopiowane do <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>{primaryContactName}</strong> zostanie usunięty.",
+      "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>{primaryContactName}</strong> zostaną skopiowane do <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "Błąd"
@@ -379,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakty zostały pomyślnie połączone",
       "ERROR_MESSAGE": "Nie można połączyć kontaktów. Spróbuj ponownie!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

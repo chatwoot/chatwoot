@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "电话号码是必填项",
         "DIAL_CODE_VALID_ERROR": "请选择国家代码",
         "VALID_ERROR": "请输入一个有效的电话号码",
-        "DROPDOWN_EMPTY": "没有检索到相关信息"
+        "DROPDOWN_EMPTY": "没有检索到相关信息",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "消息",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "搜索表情符号",
-    "NOT_FOUND": "没有适合你的搜索结果"
+    "NOT_FOUND": "没有适合你的搜索结果",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "评价您的对话",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "分享了一个网址"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "回复："
   }
 }

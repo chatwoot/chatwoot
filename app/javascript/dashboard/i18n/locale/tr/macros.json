@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Makrolar",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Yeni bir makro ekle",
     "HEADER_BTN_TXT_SAVE": "Makroyu Kaydet",
     "LOADING": "Makrolar alınıyor",
-    "SIDEBAR_TXT": "<p><b>Makrolar</b></p><p>Bir makro, müşteri hizmetleri temsilcilerinin görevleri kolayca tamamlamalarına yardımcı olan bir dizi kaydedilmiş eylemdir. Temsilciler, bir konuşmayı bir etiketle etiketleme, bir e-posta transkripti gönderme, özel bir öznitelik güncelleme vb. gibi bir dizi eylemi tanımlayabilir ve bu eylemleri tek bir tıklamada çalıştırabilirler. Temsilciler makroyu çalıştırdığında eylemler tanımlanan sırayla ardışık olarak gerçekleştirilir. Makrolar üretkenliği artırır ve eylemlerde tutarlılığı sağlar.</p><p>Bir makro 2 şekilde faydalı olabilir. </p><p><b>Bir temsilci yardımcısı olarak:</b> Eğer bir temsilci bir dizi eylemi birden çok kez gerçekleştiriyorsa, bunu bir makro olarak kaydedip tüm eylemleri tek bir tıklama ile gerçekleştirebilir.</p><p><b>Bir ekip üyesini onboard etmek için bir seçenek olarak:</b> Her temsilcinin her konuşma sırasında birçok farklı kontrol/eylem yapması gereklidir. Yeni bir destek ekibi üyesini onboard etmek, hesapta önceden tanımlanmış makrolar mevcut ise kolay olacaktır. Her adımı detaylı bir şekilde açıklamak yerine, yönetici/takım lideri farklı senaryolarda kullanılan makrolara işaret edebilir.</p>",
     "ERROR": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin",
     "ORDER_INFO": "Makrolar eklediğiniz sırayla çalışacaktır. Bunları sürükleyerek her düğmenin yanındaki tutamakla yeniden düzenleyebilirsiniz.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Çalıştır",
       "PREVIEW": "Makro Önizlemesi",
       "EXECUTED_SUCCESSFULLY": "Makro başarıyla çalıştırıldı"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Değer gereklidir",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

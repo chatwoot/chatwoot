@@ -18,6 +18,7 @@
       "AND": "DAN",
       "OR": "ATAU"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Sama dengan",
       "not_equal_to": "Tak sama dengan",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai diperlukan"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

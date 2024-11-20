@@ -17,38 +17,38 @@
     "OFFLINE": "Trenutačno nismo online"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day",
-    "BACK_IN": "We will be back online"
+    "IN_A_FEW_MINUTES": "Obično odgovara za nekoliko minuta",
+    "IN_A_FEW_HOURS": "Obično odgovara za nekoliko sati",
+    "IN_A_DAY": "Obično odgovara u roku jednog dana",
+    "BACK_IN": "Bit ćemo ponovno online"
   },
   "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    "Nedjelja",
+    "Ponedjeljak",
+    "Utorak",
+    "Srijeda",
+    "Četvrtak",
+    "Petak",
+    "Subota"
   ],
-  "START_CONVERSATION": "Start Conversation",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "YOU": "You",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "START_CONVERSATION": "Započnite razgovor",
+  "END_CONVERSATION": "Završite razgovor",
+  "CONTINUE_CONVERSATION": "Nastavite razgovor",
+  "YOU": "Vi",
+  "START_NEW_CONVERSATION": "Započnite novi razgovor",
+  "VIEW_UNREAD_MESSAGES": "Imate nepročitane poruke",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close",
-    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Pogledajte nove poruke",
+    "CLOSE_MESSAGES_BUTTON": "Zatvori",
+    "COMPANY_FROM": "od",
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Čavrljajte s nama"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
+  "POWERED_BY": "Pokreće Chatwoot",
+  "EMAIL_PLACEHOLDER": "Unesite svoju e-mail adresu",
+  "CHAT_PLACEHOLDER": "Unesite svoju poruku",
   "TODAY": "Danas",
   "YESTERDAY": "Jučer",
   "PRE_CHAT_FORM": {
@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Potrebno je unijeti broj telefona",
         "DIAL_CODE_VALID_ERROR": "Molimo odaberite kod države",
         "VALID_ERROR": "Molimo unesite validan broj telefona",
-        "DROPDOWN_EMPTY": "Nisu pronađeni rezultati"
+        "DROPDOWN_EMPTY": "Nisu pronađeni rezultati",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Poruka",
@@ -78,60 +79,64 @@
         "ERROR": "Poruka je prekratka"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required",
-    "REGEX_ERROR": "Please provide a valid input"
+    "CAMPAIGN_HEADER": "Molimo unesite svoje ime i e-mail prije početka razgovora",
+    "IS_REQUIRED": "je obavezno",
+    "REQUIRED": "Obavezno",
+    "REGEX_ERROR": "Molimo unesite važeći unos"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Datoteka prelazi ograničenje priloga za {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Nevažeće polje"
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Pretraži emojije",
+    "NOT_FOUND": "Nema emojija koji odgovaraju vašoj pretrazi",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Ocijenite vaš razgovor",
+    "SUBMITTED_TITLE": "Hvala vam na ocjeni",
+    "PLACEHOLDER": "Recite nam više..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
+    "BUTTON_TEXT": "Zatražite transkript razgovora",
+    "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspješno poslan",
+    "SEND_EMAIL_ERROR": "Došlo je do pogreške, molimo pokušajte ponovo"
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Kliknite ovdje za pridruživanje",
+      "LEAVE_THE_ROOM": "Napustite poziv"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "Popularni članci",
+    "VIEW_ALL_ARTICLES": "Pogledajte sve članke",
+    "IFRAME_LOAD_ERROR": "Došlo je do pogreške pri učitavanju članka, molimo osvježite stranicu i pokušajte ponovo"
   },
   "ATTACHMENTS": {
     "image": {
-      "CONTENT": "Picture message"
+      "CONTENT": "Poruka sa slikom"
     },
     "audio": {
-      "CONTENT": "Audio message"
+      "CONTENT": "Poruka sa zvukom"
     },
     "video": {
-      "CONTENT": "Video message"
+      "CONTENT": "Video poruka"
     },
     "file": {
-      "CONTENT": "File Attachment"
+      "CONTENT": "Privitak datoteke"
     },
     "location": {
-      "CONTENT": "Location"
+      "CONTENT": "Lokacija"
     },
     "fallback": {
-      "CONTENT": "has shared a url"
+      "CONTENT": "je podijelio/la url"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

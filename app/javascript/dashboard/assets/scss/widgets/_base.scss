@@ -12,7 +12,6 @@ h6 {
 
 p {
   text-rendering: optimizeLegibility;
-  word-spacing: 0.12em;
 
   @apply mb-2 leading-[1.65] text-sm;
 
@@ -32,7 +31,13 @@ hr {
 ul,
 ol,
 dl {
-  @apply mb-2 list-disc list-outside leading-[1.65];
+  @apply list-disc list-outside leading-[1.65];
+}
+
+ul:not(.reset-base),
+ol:not(.reset-base),
+dl:not(.reset-base) {
+  @apply mb-0;
 }
 
 // Form elements

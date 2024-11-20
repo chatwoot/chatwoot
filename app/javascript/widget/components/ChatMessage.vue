@@ -1,18 +1,3 @@
-<template>
-  <UserMessage
-    v-if="isUserMessage"
-    :id="`cwmsg-${message.id}`"
-    :message="message"
-    :reply-to="replyTo"
-  />
-  <AgentMessage
-    v-else
-    :id="`cwmsg-${message.id}`"
-    :message="message"
-    :reply-to="replyTo"
-  />
-</template>
-
 <script>
 import AgentMessage from 'widget/components/AgentMessage.vue';
 import UserMessage from 'widget/components/UserMessage.vue';
@@ -45,6 +30,21 @@ export default {
 };
 </script>
 
+<template>
+  <UserMessage
+    v-if="isUserMessage"
+    :id="`cwmsg-${message.id}`"
+    :message="message"
+    :reply-to="replyTo"
+  />
+  <AgentMessage
+    v-else
+    :id="`cwmsg-${message.id}`"
+    :message="message"
+    :reply-to="replyTo"
+  />
+</template>
+
 <style scoped lang="scss">
 .message-wrap {
   display: flex;
@@ -55,7 +55,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .chat-bubble .message-content,
 .chat-bubble.user {

@@ -18,6 +18,7 @@
       "AND": "ȘI",
       "OR": "SAU"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Egal cu",
       "not_equal_to": "Nu este egal cu",
@@ -53,6 +54,9 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
       "CREATED_AT": "Creat la",
       "LAST_ACTIVITY": "Ultima activitate"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Este necesară o valoare validă"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
 
@@ -64,6 +63,14 @@ export const getters = {
       account => account.id === $getters.getCurrentAccountId
     );
     return currentAccount.role;
+  },
+
+  getCurrentCustomRoleId($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.custom_role_id;
   },
 
   getCurrentUser($state) {
@@ -144,8 +151,15 @@ export const actions = {
     }
   },
 
-  updateAvailability: async ({ commit, dispatch }, params) => {
+  updateAvailability: async (
+    { commit, dispatch, getters: _getters },
+    params
+  ) => {
+    const previousStatus = _getters.getCurrentUserAvailability;
+
     try {
+      // optimisticly update current status
+      commit(types.SET_CURRENT_USER_AVAILABILITY, params.availability);
       const response = await authAPI.updateAvailability(params);
       const userData = response.data;
       const { id } = userData;
@@ -155,16 +169,23 @@ export const actions = {
         availabilityStatus: params.availability,
       });
     } catch (error) {
-      // Ignore error
+      // revert back to previous status if update fails
+      commit(types.SET_CURRENT_USER_AVAILABILITY, previousStatus);
     }
   },
 
-  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
+  updateAutoOffline: async (
+    { commit, getters: _getters },
+    { accountId, autoOffline }
+  ) => {
+    const previousAutoOffline = _getters.getCurrentUserAutoOffline;
+
     try {
+      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, autoOffline);
       const response = await authAPI.updateAutoOffline(accountId, autoOffline);
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
-      // Ignore error
+      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, previousAutoOffline);
     }
   },
 
@@ -200,29 +221,42 @@ export const mutations = {
       }
       return account;
     });
-    Vue.set(_state, 'currentUser', {
+    _state.currentUser = {
       ..._state.currentUser,
       accounts,
+    };
+  },
+  [types.SET_CURRENT_USER_AUTO_OFFLINE](_state, autoOffline) {
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === _state.currentUser.account_id) {
+        return { ...account, autoOffline: autoOffline };
+      }
+      return account;
     });
+
+    _state.currentUser = {
+      ..._state.currentUser,
+      accounts,
+    };
   },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;
   },
   [types.SET_CURRENT_USER](_state, currentUser) {
-    Vue.set(_state, 'currentUser', currentUser);
+    _state.currentUser = currentUser;
   },
   [types.SET_CURRENT_USER_UI_SETTINGS](_state, { uiSettings }) {
-    Vue.set(_state, 'currentUser', {
+    _state.currentUser = {
       ..._state.currentUser,
       ui_settings: {
         ..._state.currentUser.ui_settings,
         ...uiSettings,
       },
-    });
+    };
   },
 
   [types.SET_CURRENT_USER_UI_FLAGS](_state, { isFetching }) {
-    Vue.set(_state, 'uiFlags', { isFetching });
+    _state.uiFlags = { isFetching };
   },
 };
 

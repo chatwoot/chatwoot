@@ -41,6 +41,7 @@
         "UPLOADING": "Téléversement...",
         "SUCCESS": "Image téléchargée avec succès",
         "ERROR": "Erreur lors du téléchargement de l'image",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "La taille de l'image doit être inférieure à {size}Mo",
         "ERROR_FILE_FORMAT": "Le format d'image doit être jpg, jpeg ou png",
         "ERROR_FILE_DIMENSIONS": "Les dimensions de l'image doivent être inférieures à 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Non catégorisé",
-      "SEARCH_RESULTS": "Résultats de la recherche pour %{query}",
+      "SEARCH_RESULTS": "Résultats de la recherche pour {query}",
       "EMPTY_TEXT": "Rechercher des articles à insérer dans les réponses.",
       "SEARCH_LOADER": "Recherche en cours...",
       "INSERT_ARTICLE": "Insérer",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Utilisez le portail comme un CMS sans tête avec des frameworks front-end tiers en utilisant nos API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

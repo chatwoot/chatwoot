@@ -41,6 +41,7 @@
         "UPLOADING": "Mengunggah...",
         "SUCCESS": "Gambar berhasil diunggah",
         "ERROR": "Terjadi kesalahan saat mengunggah gambar",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Ukuran gambar harus kurang dari {size}MB",
         "ERROR_FILE_FORMAT": "Format gambar harus jpg, jpeg, atau png",
         "ERROR_FILE_DIMENSIONS": "Dimensi gambar harus kurang dari 2000 x 2000"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Tanpa Kategori",
-      "SEARCH_RESULTS": "Search results for %{query}",
+      "SEARCH_RESULTS": "Search results for {query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
       "SEARCH_LOADER": "Sedang mencari...",
       "INSERT_ARTICLE": "Sisipkan",
@@ -481,6 +482,7 @@
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

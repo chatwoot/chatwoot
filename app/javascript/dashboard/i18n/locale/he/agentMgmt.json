@@ -3,7 +3,8 @@
     "HEADER": "סוכנים",
     "HEADER_BTN_TXT": "הוסף סוכן",
     "LOADING": "טוען רשימת סוכנים",
-    "SIDEBAR_TXT": "<p> <b> נציג</b> </p> <p> <b> נציג</b> חבר בצוות תמיכת הלקוחות שלך. </p> <p> נציגים יוכלו לצפות ולהשיב להודעות מהמשתמשים שלך. הרשימה מציגה את כל הסוכנים הנמצאים כעת בחשבונך. </p> <p> לחץ על <b> הוסף נציג</b> כדי להוסיף נציג חדש. הנציג שאתה מוסיף יקבל דוא\"ל עם קישור אישור להפעלת חשבונו, ולאחר מכן יוכל לגשת ל- Chatwoot ולהגיב להודעות. </p> <p> הגישה לתכונות של Chatwoot מבוססת על תפקידים הבאים. </p> <p> <b> נציג </b> - סוכנים בעלי התפקיד הזה יכולים לגשת לתיבות דואר נכנס, לדוחות ולשיחות בלבד. הם יכולים להקצות שיחות לסוכנים אחרים או לעצמם ולפתור שיחות. </P> <p> <b> מנהל </b> - למנהל תהיה גישה לכל תכונות Chatwoot המופעלות בחשבון שלך, כולל הגדרות, יחד עם כל הרשאות נציגים רגילות. </p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "אדמין",
       "AGENT": "סוכן"
@@ -17,7 +18,8 @@
       "STATUS": "מצב",
       "ACTIONS": "פעולות",
       "VERIFIED": "אומת",
-      "VERIFICATION_PENDING": "מחכה לאימות"
+      "VERIFICATION_PENDING": "מחכה לאימות",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "הוסף סוכן לצוות שלך",

@@ -1,32 +1,34 @@
 {
   "AGENT_MGMT": {
     "HEADER": "Agentes",
-    "HEADER_BTN_TXT": "Adicionar Agente",
-    "LOADING": "Buscando lista de agente",
-    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é um membro da sua equipa de Suporte ao Cliente. </p><p> Os agentes podem ver e responder às mensagens dos seus utilizadores. A lista mostra todos os agentes atualmente na sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. O agente que adicionar receberá um e-mail com um link de confirmação para ativar a sua conta, de forma a poderem aceder ao Chatwoot e responder às mensagens. </p><p> Os acessos aos recursos do Chatwoot têm como base as seguintes funções. </p><p> <b>Agentes</b> - Só podem aceder às caixas de entrada, relatórios e conversas. Podem atribuir conversas a outros agentes ou a eles próprios e responder a pedidos.</p><p> <b>Administrador</b> - Têm acesso a todos os recursos do Chatwoot ativados na sua conta, incluindo configurações e todos os privilégios que os Agentes normais têm.</p>",
+    "HEADER_BTN_TXT": "Adicionar agente",
+    "LOADING": "A procurar lista de agentes",
+    "DESCRIPTION": "Um agente é um membro da sua equipa de suporte que pode visualizar e responder às mensagens de clientes. A lista abaixo mostra todos os agentes da sua conta.",
+    "LEARN_MORE": "Saber mais sobre os papéis de utilizadores",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
-      "AGENT": "Representante"
+      "AGENT": "Agente"
     },
     "LIST": {
       "404": "Não há agentes associados a esta conta",
-      "TITLE": "Gerenciar agentes na sua equipe",
-      "DESC": "Você pode adicionar/remover agentes para/da sua equipe.",
+      "TITLE": "Gerir agentes na sua equipa",
+      "DESC": "Pode adicionar/remover agentes para/da sua equipa.",
       "NAME": "Nome:",
       "EMAIL": "E-mail:",
-      "STATUS": "SItuação",
-      "ACTIONS": "Ações.",
+      "STATUS": "Situação",
+      "ACTIONS": "Ações",
       "VERIFIED": "Verificada",
-      "VERIFICATION_PENDING": "Verificação pendente"
+      "VERIFICATION_PENDING": "Verificação pendente",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
-      "TITLE": "Adicionar agente à sua equipe",
-      "DESC": "Você pode adicionar pessoas que serão capazes de lidar com o suporte de suas caixas de entrada.",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "TITLE": "Adicionar agente à sua equipa",
+      "DESC": "Pode adicionar pessoas que serão capazes de lidar com o suporte das suas caixas de entrada.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome do Representante",
-          "PLACEHOLDER": "Por favor, insira um nome para o agente"
+          "LABEL": "Nome do agente",
+          "PLACEHOLDER": "Por favor, insira o nome do agente"
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
@@ -35,35 +37,35 @@
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
-          "PLACEHOLDER": "Por favor insira um endereço de e-mail do agente"
+          "PLACEHOLDER": "Por favor, insira o endereço de e-mail do agente"
         },
-        "SUBMIT": "Adicionar Agente"
+        "SUBMIT": "Adicionar agente"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agente adicionado com sucesso",
-        "EXIST_MESSAGE": "E-mail do representante já está em uso, por favor tente outro endereço de e-mail",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "EXIST_MESSAGE": "O e-mail do agente já está a ser utilizado, por favor tente outro endereço de e-mail",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor, tente novamente mais tarde"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "excluir",
+      "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor, tente novamente mais tarde"
       },
       "CONFIRM": {
-        "TITLE": "Confirmar Exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir ",
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir agente ",
         "YES": "Sim, excluir ",
-        "NO": "Não, Manter "
+        "NO": "Não, manter "
       }
     },
     "EDIT": {
-      "TITLE": "Editar Representante",
+      "TITLE": "Editar agente",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome do Representante",
-          "PLACEHOLDER": "Por favor, insira um nome para o agente"
+          "LABEL": "Nome do agente",
+          "PLACEHOLDER": "Por favor, insira o nome do agente"
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
@@ -72,26 +74,26 @@
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
-          "PLACEHOLDER": "Por favor insira um endereço de e-mail do agente"
+          "PLACEHOLDER": "Por favor, insira o endereço de e-mail do agente"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Disponibilidade",
-          "PLACEHOLDER": "Por favor, selecione um status de disponibilidade",
+          "PLACEHOLDER": "Por favor, selecione um estado de disponibilidade",
           "ERROR": "Disponibilidade é necessária"
         },
-        "SUBMIT": "Editar Agente"
+        "SUBMIT": "Editar agente"
       },
-      "BUTTON_TEXT": "Alterar",
-      "CANCEL_BUTTON_TEXT": "cancelar",
+      "BUTTON_TEXT": "Editar",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Agente atualizado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor, tente novamente mais tarde"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Redefinir a senha",
-        "ADMIN_SUCCESS_MESSAGE": "Um e-mail com instruções de redefinição de senha foi enviado para o agente",
-        "SUCCESS_MESSAGE": "Senha do agente redefinida com sucesso",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+        "ADMIN_RESET_BUTTON": "Redefinir a palavra-passe",
+        "ADMIN_SUCCESS_MESSAGE": "Um e-mail com instruções para redefinir a palavra-passe foi enviado para o agente",
+        "SUCCESS_MESSAGE": "Palavra-passe do agente redefinida com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor, tente novamente mais tarde"
       }
     },
     "SEARCH": {
@@ -101,16 +103,16 @@
       "PLACEHOLDER": "Nenhum",
       "TITLE": {
         "AGENT": "Escolher agente",
-        "TEAM": "Escolher Equipa"
+        "TEAM": "Escolher equipa"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nenhum agente encontrado",
-          "TEAM": "Nenhuma Equipa encontrada"
+          "TEAM": "Nenhuma equipa encontrada"
         },
         "PLACEHOLDER": {
           "AGENT": "Procurar agentes",
-          "TEAM": "Procurar Equipas",
+          "TEAM": "Procurar equipas",
           "INPUT": "Procurar agentes"
         }
       }

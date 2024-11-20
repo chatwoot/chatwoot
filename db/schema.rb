@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_23_215335) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -37,8 +37,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.datetime "active_at", precision: nil
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
+    t.bigint "custom_role_id"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
+    t.index ["custom_role_id"], name: "index_account_users_on_custom_role_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
   end
 
@@ -145,6 +147,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.jsonb "meta", default: {}
     t.string "slug", null: false
     t.integer "position"
+    t.string "locale", default: "en", null: false
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
@@ -426,6 +429,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.boolean "blocked", default: false, null: false
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["account_id", "last_activity_at"], name: "index_contacts_on_account_id_and_last_activity_at", order: { last_activity_at: "DESC NULLS LAST" }
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["blocked"], name: "index_contacts_on_blocked"
@@ -483,7 +487,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
-    t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["priority"], name: "index_conversations_on_priority"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["status", "priority"], name: "index_conversations_on_status_and_priority"
@@ -536,6 +539,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_custom_filters_on_account_id"
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
+  end
+
+  create_table "custom_roles", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "account_id", null: false
+    t.text "permissions", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_custom_roles_on_account_id"
   end
 
   create_table "dashboard_apps", force: :cascade do |t|
@@ -696,6 +709,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin

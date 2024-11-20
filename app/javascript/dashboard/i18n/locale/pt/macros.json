@@ -1,31 +1,32 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Adicionar uma nova macro",
-    "HEADER_BTN_TXT_SAVE": "Salvar macro",
-    "LOADING": "Procurando macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>Uma macro é um conjunto de ações salvas que ajudam os agentes concluírem facilmente as tarefas. Os agentes podem definir um conjunto de ações como marcar uma conversa com uma tag, enviar uma transcrição de e-mail, atualizando um atributo personalizado, etc. e eles podem executar essas ações com um único clique. Quando os agentes executam a macro, as ações são executadas sequencialmente na ordem em que foram</p> definidas. Macros melhoram a produtividade e aumentam a consistência em ações. </p><p>Uma macro pode ser útil de 2 maneiras. </p><p><b>Como um assistente do agente:</b> Se um agente executa um conjunto de ações várias vezes, eles podem salvá-lo como uma macro e executar todas as ações juntas usando um único clique.</p><p><b>Como opção para integrar um membro da equipe:</b> Todos os agentes devem realizar verificações/ações diferentes durante cada conversa. Integrar um novo membro da equipe de suporte será fácil se macros predefinidos estiverem disponíveis na conta. Em vez de descrever cada passo em detalhe, o gerente da equipe pode apontar para as macros usadas em diferentes cenários.</p>",
-    "ERROR": "Algo deu errado. Tente novamente",
-    "ORDER_INFO": "As macros serão executadas em ordem. Você pode reorganizá-las arrastando-as.",
+    "DESCRIPTION": "Uma macro é um conjunto de ações guardadas que ajudam os agentes de apoio ao cliente a completarem tarefas facilmente. Os agentes podem definir um conjunto de ações, como adicionar uma etiqueta a uma conversa, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e, posteriormente, executarem essas ações com um único clique.",
+    "LEARN_MORE": "Saber mais sobre macros",
+    "HEADER_BTN_TXT": "Adicionar nova macro",
+    "HEADER_BTN_TXT_SAVE": "Guardar macro",
+    "LOADING": "A procurar macros",
+    "ERROR": "Ocorreu um erro! Por favor, tente novamente",
+    "ORDER_INFO": "As macros serão executadas pela ordem em que adicionar as suas ações. Pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
     "ADD": {
       "FORM": {
         "NAME": {
           "LABEL": "Nome da macro",
-          "PLACEHOLDER": "Insira um nome para a sua macro",
+          "PLACEHOLDER": "Insira um nome para a macro",
           "ERROR": "O nome é obrigatório para criar uma macro"
         },
         "ACTIONS": {
-          "LABEL": "Ações."
+          "LABEL": "Ações"
         }
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro adicionada com sucesso",
-        "ERROR_MESSAGE": "Não é possível criar a macro, por favor tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível criar a macro. Por favor, tente novamente mais tarde"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Nome:",
+        "Nome",
         "Criada por",
         "Ultima atualização por",
         "Visibilidade"
@@ -35,12 +36,12 @@
     "DELETE": {
       "TOOLTIP": "Apagar macro",
       "CONFIRM": {
-        "MESSAGE": "Tem certeza que deseja excluir ",
+        "MESSAGE": "Tem a certeza que pretende excluir ",
         "YES": "Sim, excluir",
-        "NO": "Não"
+        "NO": "Não, manter"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro apagada com sucesso",
+        "SUCCESS_MESSAGE": "Macro excluída com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir a macro. Por favor, tente novamente mais tarde"
       }
     },
@@ -48,19 +49,19 @@
       "TOOLTIP": "Editar macro",
       "API": {
         "SUCCESS_MESSAGE": "Macro atualizada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar Macro, por favor, tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível atualizar a macro. Por favor, tente novamente mais tarde"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Inicio do fluxo",
+      "START_FLOW": "Início do fluxo",
       "END_FLOW": "Fim do fluxo",
       "LOADING": "A obter macro",
       "ADD_BTN_TOOLTIP": "Adicionar nova ação",
-      "DELETE_BTN_TOOLTIP": "Apagar ação",
+      "DELETE_BTN_TOOLTIP": "Excluir ação",
       "VISIBILITY": {
         "LABEL": "Visibilidade da macro",
         "GLOBAL": {
-          "LABEL": "Publica",
+          "LABEL": "Pública",
           "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes nesta conta."
         },
         "PERSONAL": {
@@ -71,8 +72,17 @@
     },
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Executar",
-      "PREVIEW": "Pré-visualizar Macro",
+      "PREVIEW": "Pré-visualizar macro",
       "EXECUTED_SUCCESSFULLY": "Macro executada com sucesso"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Chave do atributo necessária",
+      "FILTER_OPERATOR_REQUIRED": "Operador do filtro necessário",
+      "VALUE_REQUIRED": "Valor obrigatório",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "O valor deve ser entre 1 e 998",
+      "ACTION_PARAMETERS_REQUIRED": "Parâmetros de ação obrigatórios",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
     }
   }
 }

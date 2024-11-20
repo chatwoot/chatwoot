@@ -1,3 +1,51 @@
+<script setup>
+import { computed, ref } from 'vue';
+import InitialsAvatar from './InitialsAvatar.vue';
+const props = defineProps({
+  src: {
+    type: String,
+    default: '',
+  },
+  name: {
+    type: String,
+    default: '',
+  },
+});
+
+const emit = defineEmits(['change', 'delete']);
+
+const hasImageLoaded = ref(false);
+const imageLoadedError = ref(false);
+const fileInputRef = ref(null);
+
+const shouldShowImage = computed(() => props.src && !imageLoadedError.value);
+
+const onImageLoadError = () => {
+  imageLoadedError.value = true;
+};
+
+const onImageLoad = () => {
+  hasImageLoaded.value = true;
+  imageLoadedError.value = false;
+};
+
+const openFileInput = () => {
+  fileInputRef.value.click();
+};
+
+const onImageUpload = event => {
+  const [file] = event.target.files;
+  emit('change', {
+    file,
+    url: file ? URL.createObjectURL(file) : null,
+  });
+};
+
+const onAvatarDelete = () => {
+  emit('delete');
+};
+</script>
+
 <template>
   <div class="relative rounded-xl h-[72px] w-[72px] cursor-pointe group">
     <img
@@ -9,7 +57,7 @@
       @load="onImageLoad"
       @error="onImageLoadError"
     />
-    <initials-avatar v-else-if="!shouldShowImage" :name="name" :size="72" />
+    <InitialsAvatar v-else-if="!shouldShowImage" :name="name" :size="72" />
 
     <input
       ref="fileInputRef"
@@ -35,50 +83,3 @@
     </div>
   </div>
 </template>
-<script setup>
-import { computed, ref } from 'vue';
-import InitialsAvatar from './InitialsAvatar.vue';
-const props = defineProps({
-  src: {
-    type: String,
-    default: '',
-  },
-  name: {
-    type: String,
-    default: '',
-  },
-});
-
-const emits = defineEmits(['change', 'delete']);
-
-const hasImageLoaded = ref(false);
-const imageLoadedError = ref(false);
-const fileInputRef = ref(null);
-
-const shouldShowImage = computed(() => props.src && !imageLoadedError.value);
-
-const onImageLoadError = () => {
-  imageLoadedError.value = true;
-};
-
-const onImageLoad = () => {
-  hasImageLoaded.value = true;
-  imageLoadedError.value = false;
-};
-
-const openFileInput = () => {
-  fileInputRef.value.click();
-};
-
-const onImageUpload = event => {
-  const [file] = event.target.files;
-  emits('change', {
-    file,
-    url: file ? URL.createObjectURL(file) : null,
-  });
-};
-
-const onAvatarDelete = () => {
-  emits('delete');
-};
-</script>

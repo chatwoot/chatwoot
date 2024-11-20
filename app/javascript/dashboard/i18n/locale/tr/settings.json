@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profil Resmi",
       "ERROR": "Lütfen form hatalarını düzeltin",
       "REMOVE_IMAGE": "Kaldır",
@@ -42,7 +43,7 @@
         "API_SUCCESS": "İmza başarıyla kaydedildi",
         "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
         "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
-        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir"
+        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir",
+        "COPY": "Kopyala"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
         "NOTE": "Yeni mesajlar ve konuşmalar için panelde sesli bildirimleri etkinleştirin.",
+        "ALERT_TYPES": {
+          "NONE": "Hiç",
+          "MINE": "Assigned",
+          "ALL": "Hepsi"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Uyarı olayları:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Hiçbiri",
           "ASSIGNED": "Atanmış Konuşmalar",
           "ALL_CONVERSATIONS": "Tüm Konuşmalar"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-Posta",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -121,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Uygunluk",
-        "STATUSES_LIST": [
-          "Çevrimiçi",
-          "Meşgul",
-          "Çevrimdışı"
-        ],
+        "STATUSES_LIST": ["Çevrimiçi", "Meşgul", "Çevrimdışı"],
         "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
         "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
       },
@@ -215,6 +235,7 @@
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
+    "CAPTAIN": "Captain",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "AGENT_BOTS": "Botlar",
@@ -252,9 +273,10 @@
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
-    "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
       "ALL_ARTICLES": "Tüm Makaleler",
@@ -275,7 +297,7 @@
     "TITLE": "Fatura",
     "CURRENT_PLAN": {
       "TITLE": "Mevcut Plan",
-      "PLAN_NOTE": "Şu anda **%{plan}** planına **%{quantity}** lisans abonesisiniz"
+      "PLAN_NOTE": "Şu anda **{plan}** planına **{quantity}** lisans abonesisiniz"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Aboneliğinizi yönetin",
@@ -320,7 +342,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Raporlar kenar çubuğuna git",
       "MOVE_TO_NEXT_TAB": "Konuşma listesinde bir sonraki sekmeye git",
       "GO_TO_SETTINGS": "Ayarlar'a git",
-      "SWITCH_CONVERSATION_STATUS": "Sonraki konuşma durumuna geç",
       "SWITCH_TO_PRIVATE_NOTE": "Özel Not'a geç",
       "SWITCH_TO_REPLY": "Yanıt'a geç",
       "TOGGLE_SNOOZE_DROPDOWN": "Snooze açılır menüsünü aç/kapat"
