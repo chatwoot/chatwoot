@@ -505,6 +505,11 @@ function initalizeAppliedFiltersToModal() {
 }
 
 function onToggleAdvanceFiltersModal() {
+  if (showAdvancedFilters.value === true) {
+    closeAdvanceFiltersModal();
+    return;
+  }
+
   if (!hasAppliedFilters.value && !hasActiveFolders.value) {
     initializeExistingFilterToModal();
   }
