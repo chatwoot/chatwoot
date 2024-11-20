@@ -114,31 +114,10 @@ function setContextValue(code) {
   context.node.input(localValue.value);
 }
 
-function dynamicallySetCountryCode(value) {
-  const safeValue = unref(value);
-  // This function is used to set the country code dynamically.
-  // The country and dial code is used to set from the value of the phone number field in the pre-chat form.
-  if (!safeValue) return;
-
-  // check the number first four digit and check weather it is available in the countries array or not.
-  const country = countries.value.find(code =>
-    safeValue.startsWith(code.dial_code)
-  );
-
-  if (country) {
-    // if it is available then set the country code and dial code.
-    activeCountryCode.value = country.id;
-    activeDialCode.value = country.dial_code;
-    // set the phone number without dial code.
-    phoneNumber.value = safeValue.replace(country.dial_code, '');
-  }
-}
-
 function onChange(e) {
   phoneNumber.value = e.target.value;
-  dynamicallySetCountryCode(phoneNumber);
   // This function is used to set the context value when the user types in the phone number field.
-  setContextValue(activeDialCode);
+  setContextValue(activeDialCode.value);
 }
 
 function focusedOrActiveItem(className) {
@@ -157,8 +136,8 @@ function scrollToFocusedOrActiveItem(item) {
   if (focusedOrActiveItemLocal.length > 0) {
     const dropdown = dropdownRef.value;
     const dropdownHeight = dropdown.clientHeight;
-    const itemTop = focusedOrActiveItem[0].offsetTop;
-    const itemHeight = focusedOrActiveItem[0].offsetHeight;
+    const itemTop = focusedOrActiveItemLocal[0]?.offsetTop;
+    const itemHeight = focusedOrActiveItemLocal[0]?.offsetHeight;
     const scrollPosition = itemTop - dropdownHeight / 2 + itemHeight / 2;
     dropdown.scrollTo({
       top: scrollPosition,
