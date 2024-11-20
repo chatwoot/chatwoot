@@ -119,7 +119,7 @@ const addTag = async () => {
     return;
   }
 
-  if (props.type === 'email' && props.allowCreate) {
+  if (props.type === 'email' || props.allowCreate) {
     if (!(await v$.value.$validate())) return;
     emitDataOnAdd(trimmedTag);
   }
@@ -155,6 +155,13 @@ const handleFocus = () => {
   emit('focus');
   tagInputRef.value?.focus();
   isFocused.value = true;
+};
+
+const handleKeydown = event => {
+  if (event.key === ',') {
+    event.preventDefault();
+    addTag();
+  }
 };
 
 const handleClickOutside = () => {
@@ -218,6 +225,7 @@ const handleBlur = e => emit('blur', e);
         @focus="handleFocus"
         @input="handleInput"
         @blur="handleBlur"
+        @keydown="handleKeydown"
       />
       <DropdownMenu
         v-if="showDropdownMenu"
