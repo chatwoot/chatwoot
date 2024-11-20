@@ -6,7 +6,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   label: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   variant: {
@@ -47,9 +47,9 @@ const STYLE_CONFIG = {
     blue: {
       solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
+        'bg-n-brand/10 text-n-blue-text hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text outline-n-blue-border',
-      link: 'text-n-brand hover:underline outline-transparent',
+      link: 'text-n-blue-text hover:underline outline-transparent',
     },
     ruby: {
       solid: 'bg-n-ruby-9 text-white hover:bg-n-ruby-10 outline-transparent',
@@ -161,7 +161,7 @@ const linkButtonClasses = computed(() => {
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
 
     <slot v-if="label || $slots.default" name="default">
-      <span class="min-w-0 truncate">{{ label }}</span>
+      <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     </slot>
   </button>
 </template>
