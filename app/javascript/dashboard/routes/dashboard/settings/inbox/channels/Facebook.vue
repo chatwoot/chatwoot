@@ -207,7 +207,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class=" h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <div
       v-if="!hasLoginStarted"
@@ -246,12 +246,11 @@ export default {
         <div class="w-full">
           <PageHeader
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
-            :header-content="
-              useInstallationName(
-                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
-                globalConfig.installationName
-              )
-            "
+            :header-content="useInstallationName(
+              $t('INBOX_MGMT.ADD.DETAILS.DESC'),
+              globalConfig.installationName
+            )
+              "
           />
         </div>
         <div class="w-3/5">

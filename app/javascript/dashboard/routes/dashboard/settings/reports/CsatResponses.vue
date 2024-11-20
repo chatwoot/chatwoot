@@ -108,24 +108,26 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <ReportFilterSelector
-      show-agents-filter
-      show-inbox-filter
-      show-rating-filter
-      :show-team-filter="isTeamsEnabled"
-      :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
-    />
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
-      @click="downloadReports"
-    >
-      {{ $t('CSAT_REPORTS.DOWNLOAD') }}
-    </woot-button>
-    <CsatMetrics :filters="requestPayload" />
-    <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
+  <div class="flex-1 p-1 overflow-auto">
+    <div class="max-w-[960px] w-full mx-auto mb-10">
+      <ReportFilterSelector
+        show-agents-filter
+        show-inbox-filter
+        show-rating-filter
+        :show-team-filter="isTeamsEnabled"
+        :show-business-hours-switch="false"
+        @filter-change="onFilterChange"
+      />
+      <woot-button
+        color-scheme="success"
+        class-names="button--fixed-top"
+        icon="arrow-download"
+        @click="downloadReports"
+      >
+        {{ $t('CSAT_REPORTS.DOWNLOAD') }}
+      </woot-button>
+      <CsatMetrics :filters="requestPayload" />
+      <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
+    </div>
   </div>
 </template>

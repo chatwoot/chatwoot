@@ -44,11 +44,12 @@ export default {
 <template>
   <div class="macros__nodes">
     <div class="macro__node">
-      <div>
-        <woot-label
-          :title="$t('MACROS.EDITOR.START_FLOW')"
-          color-scheme="primary"
-        />
+      <div class="relative z-10">
+        <div
+          class="bg-n-solid-2 rounded-lg inline mt-2 text-sm p-2 border-n-weak border"
+        >
+          {{ $t('MACROS.EDITOR.START_FLOW') }}
+        </div>
       </div>
     </div>
     <Draggable
@@ -68,13 +69,12 @@ export default {
             type="add"
             :index="i"
             :error-key="errors[`action_${i}`]"
-            :file-name="
-              fileName(
-                actionData[i].action_params[0],
-                actionData[i].action_name,
-                files
-              )
-            "
+            :file-name="fileName(
+              actionData[i].action_params[0],
+              actionData[i].action_name,
+              files
+            )
+              "
             :single-node="actionData.length === 1"
             @reset-action="$emit('resetAction', i)"
             @delete-node="$emit('deleteNode', i)"
@@ -96,12 +96,11 @@ export default {
         </woot-button>
       </div>
     </div>
-    <div class="macro__node">
-      <div>
-        <woot-label
-          :title="$t('MACROS.EDITOR.END_FLOW')"
-          color-scheme="primary"
-        />
+    <div class="macro__node relative">
+      <div
+        class="bg-n-solid-2 rounded-lg inline mt-2 text-sm p-2 border-n-weak border"
+      >
+        {{ $t('MACROS.EDITOR.END_FLOW') }}
       </div>
     </div>
   </div>
@@ -139,6 +138,7 @@ export default {
 
 .macros__node-action-container {
   position: relative;
+
   .drag-handle {
     position: absolute;
     left: var(--space-minus-medium);

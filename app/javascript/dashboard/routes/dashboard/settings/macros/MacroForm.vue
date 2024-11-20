@@ -110,7 +110,7 @@ export default {
 <template>
   <div class="flex flex-col w-full h-auto md:flex-row md:h-full">
     <div
-      class="flex-1 w-full h-full max-h-full px-12 py-4 overflow-y-auto md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
+      class="flex-1 w-full h-full max-h-full px-6 py-4 overflow-y-auto md:w-auto"
     >
       <MacroNodes
         v-model="macro.actions"
@@ -121,7 +121,7 @@ export default {
         @reset-action="resetNode"
       />
     </div>
-    <div class="w-full md:w-1/3">
+    <div class="w-96 p-4">
       <MacroProperties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"
@@ -132,21 +132,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-
-@layer components {
-  .macro-gradient-radial {
-    background-image: radial-gradient(#ebf0f5 1.2px, transparent 0);
-  }
-
-  .macro-dark-gradient-radial {
-    background-image: radial-gradient(#293f51 1.2px, transparent 0);
-  }
-
-  .macro-gradient-radial-size {
-    background-size: 1rem 1rem;
-  }
-}
-</style>

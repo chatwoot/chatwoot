@@ -63,11 +63,9 @@ const dropdownValues = () => {
       class="absolute cursor-move -left-8 macros__node-drag-handle"
     />
     <div
-      class="flex-grow p-2 mr-2 rounded-md shadow-sm"
+      class="flex-grow p-2 mr-2 rounded-md shadow outline outline-1 outline-n-container"
       :class="
-        errorKey
-          ? 'bg-red-50 animate-shake dark:bg-red-800'
-          : 'bg-white dark:bg-slate-700'
+        errorKey ? 'bg-red-50 animate-shake dark:bg-red-800' : 'bg-n-solid-2'
       "
     >
       <ActionInput
@@ -87,6 +85,7 @@ const dropdownValues = () => {
       v-tooltip="$t('MACROS.EDITOR.DELETE_BTN_TOOLTIP')"
       icon="delete"
       size="small"
+      class="min-w-8"
       variant="smooth"
       color-scheme="alert"
       @click="$emit('deleteNode')"

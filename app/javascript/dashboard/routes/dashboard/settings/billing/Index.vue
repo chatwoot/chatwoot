@@ -58,7 +58,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-6 overflow-auto dark:bg-slate-900">
+  <div class="flex-1 py-6 overflow-auto mx-auto max-w-[960px] w-full">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
     <div v-else-if="!hasABillingPlan">
       <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>

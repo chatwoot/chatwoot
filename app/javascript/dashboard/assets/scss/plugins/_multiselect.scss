@@ -18,7 +18,7 @@
   }
 
   &.multiselect--disabled {
-    @apply opacity-50 border border-slate-200 dark:border-slate-600 rounded-md cursor-not-allowed;
+    @apply opacity-50 border border-n-weak rounded-md cursor-not-allowed;
 
     .multiselect__select {
       @apply cursor-not-allowed bg-white dark:bg-slate-900 rounded-md;
@@ -44,7 +44,7 @@
   }
 
   .multiselect__content-wrapper {
-    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-100;
+    @apply bg-white dark:bg-slate-900 border border-solid border-n-weak text-slate-800 dark:text-slate-100;
   }
 
   .multiselect__content {
@@ -96,7 +96,7 @@
   }
 
   .multiselect__tags {
-    @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 m-0 min-h-[2.875rem] pt-0;
+    @apply bg-n-slate-1 border border-solid border-n-weak m-0 min-h-[2.875rem] pt-0;
 
     input {
       @apply border-0 border-none;
@@ -121,7 +121,7 @@
 
   .multiselect__input {
     @include ghost-input;
-    @apply text-sm h-[2.875rem] mb-0 p-0;
+    @apply text-sm !h-[2.375rem] mb-0 !py-0 ;
   }
 
   .multiselect__single {
@@ -179,7 +179,7 @@
   .multiselect__tags,
   .multiselect__input,
   .multiselect {
-    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-[5px] text-sm  min-h-[2.5rem];
+    @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-lg text-sm  min-h-[2.5rem];
   }
 
   .multiselect__input {

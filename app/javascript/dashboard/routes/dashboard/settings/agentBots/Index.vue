@@ -45,7 +45,9 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
+  <div
+    class="flex-1 p-4 max-w-[960px] w-full mx-auto shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 px-6 py-5"
+  >
     <div class="flex flex-row gap-4">
       <div class="w-full lg:w-3/5">
         <woot-loading-state

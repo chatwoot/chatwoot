@@ -201,10 +201,10 @@ export default {
 
 <style lang="scss" scoped>
 .filter {
-  @apply bg-slate-50 dark:bg-slate-800 p-2 border border-solid border-slate-75 dark:border-slate-600 rounded-md mb-2;
+  @apply p-2 border border-solid border-slate-75 dark:border-slate-600 rounded-md mb-2;
 
   &.is-a-macro {
-    @apply mb-0 bg-white dark:bg-slate-700 p-0 border-0 rounded-none;
+    @apply mb-0 p-0 border-0 rounded-none;
   }
 }
 
@@ -244,6 +244,7 @@ export default {
     @apply mb-0;
   }
 }
+
 .filter__answer {
   &.answer--text-input {
     @apply mb-0;
@@ -270,9 +271,11 @@ export default {
 .multiselect {
   @apply mb-0;
 }
+
 .action-message {
   @apply mt-2 mx-0 mb-0;
 }
+
 // Prosemirror does not have a native way of hiding the menu bar, hence
 ::v-deep .ProseMirror-menubar {
   @apply hidden;

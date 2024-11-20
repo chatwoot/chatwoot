@@ -32,7 +32,7 @@ const greetingMessage = computed(() => {
   >
     <div class="col-span-full self-start">
       <p
-        class="text-xl font-semibold text-slate-900 dark:text-white font-interDisplay tracking-[0.3px]"
+        class="text-xl font-semibold text-slate-900 dark:text-white  tracking-[0.3px]"
       >
         {{ greetingMessage }}
       </p>

@@ -36,7 +36,7 @@ defineProps({
     </div>
     <div class="mt-auto">
       <p
-        class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
+        class="text-base text-slate-800 dark:text-slate-100  font-semibold tracking-[0.3px]"
       >
         {{ title }}
       </p>

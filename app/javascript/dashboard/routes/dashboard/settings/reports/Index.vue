@@ -98,20 +98,22 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
-      @click="downloadAgentReports"
-    >
-      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
-    </woot-button>
-    <ReportFilterSelector
-      :show-agents-filter="false"
-      show-group-by-filter
-      @filter-change="onFilterChange"
-    />
-    <ReportContainer :group-by="groupBy" />
+  <div class="flex-1 p-1 overflow-auto">
+    <div class="max-w-[960px] w-full mx-auto mb-10">
+      <woot-button
+        color-scheme="success"
+        class-names="button--fixed-top"
+        icon="arrow-download"
+        @click="downloadAgentReports"
+      >
+        {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+      </woot-button>
+      <ReportFilterSelector
+        :show-agents-filter="false"
+        show-group-by-filter
+        @filter-change="onFilterChange"
+      />
+      <ReportContainer :group-by="groupBy" />
+    </div>
   </div>
 </template>

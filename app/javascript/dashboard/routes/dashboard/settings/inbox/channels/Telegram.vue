@@ -54,7 +54,7 @@ export default {
       } catch (error) {
         useAlert(
           error.message ||
-            this.$t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.API.ERROR_MESSAGE')
+          this.$t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.API.ERROR_MESSAGE')
         );
       }
     },
@@ -64,7 +64,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class=" h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.TITLE')"
@@ -77,9 +77,8 @@ export default {
           <input
             v-model="botToken"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.BOT_TOKEN.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.BOT_TOKEN.PLACEHOLDER')
+              "
             @blur="v$.botToken.$touch"
           />
         </label>

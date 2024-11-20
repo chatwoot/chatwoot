@@ -161,9 +161,8 @@ export default {
 
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
-        return `${this.inbox.name} (${
-          this.inbox.messaging_service_sid || this.inbox.phone_number
-        })`;
+        return `${this.inbox.name} (${this.inbox.messaging_service_sid || this.inbox.phone_number
+          })`;
       }
       if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
@@ -289,8 +288,8 @@ export default {
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
             ? this.portals.find(
-                portal => portal.slug === this.selectedPortalSlug
-              ).id
+              portal => portal.slug === this.selectedPortalSlug
+            ).id
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           sender_name_type: this.senderNameType,
@@ -359,7 +358,7 @@ export default {
 
 <template>
   <div
-    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto bg-white settings dark:bg-slate-800"
+    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 max-w-[960px] mx-auto shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 px-6 py-5 mb-10"
   >
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
@@ -404,11 +403,10 @@ export default {
           :class="{ error: v$.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
-          :error="
-            v$.selectedInboxName.$error
+          :error="v$.selectedInboxName.$error
               ? $t('INBOX_MGMT.ADD.CHANNEL_NAME.ERROR')
               : ''
-          "
+            "
           @blur="v$.selectedInboxName.$touch"
         />
         <woot-input
@@ -416,17 +414,14 @@ export default {
           v-model="webhookUrl"
           class="w-3/4 pb-4"
           :class="{ error: v$.webhookUrl.$error }"
-          :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
-          "
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
-          "
-          :error="
-            v$.webhookUrl.$error
+          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
+            "
+          :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
+            "
+          :error="v$.webhookUrl.$error
               ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
               : ''
-          "
+            "
           @blur="v$.webhookUrl.$touch"
         />
         <woot-input
@@ -434,36 +429,31 @@ export default {
           v-model="channelWebsiteUrl"
           class="w-3/4 pb-4"
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
-          "
+          :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
+            "
         />
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model="channelWelcomeTitle"
           class="w-3/4 pb-4"
-          :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
-          "
-          :placeholder="
-            $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
-            )
-          "
+          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
+            "
+          :placeholder="$t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
+          )
+            "
         />
 
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model="channelWelcomeTagline"
           class="w-3/4 pb-4"
-          :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
-          "
-          :placeholder="
-            $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
-            )
-          "
+          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
+            "
+          :placeholder="$t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+          )
+            "
         />
 
         <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
@@ -507,16 +497,14 @@ export default {
         <div v-if="greetingEnabled" class="pb-4">
           <GreetingsEditor
             v-model="greetingMessage"
-            :label="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
-              )
-            "
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-              )
-            "
+            :label="$t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
+            )
+              "
+            :placeholder="$t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+            )
+              "
             :richtext="!textAreaChannels"
           />
         </div>
@@ -723,11 +711,10 @@ export default {
               <input
                 ref="businessNameInput"
                 v-model="businessName"
-                :placeholder="
-                  $t(
-                    'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.PLACEHOLDER'
-                  )
-                "
+                :placeholder="$t(
+                  'INBOX_MGMT.EDIT.SENDER_NAME_SECTION.BUSINESS_NAME.PLACEHOLDER'
+                )
+                  "
                 class="mb-0"
                 type="text"
               />

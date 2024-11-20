@@ -74,7 +74,10 @@ input[type='password']:not(.reset-base),
 input[type='date']:not(.reset-base),
 input[type='email']:not(.reset-base),
 input[type='url']:not(.reset-base) {
-  @apply block box-border w-full transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] h-10 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md text-base font-normal bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
+  @apply block box-border w-full transition-colors;
+  @apply focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out];
+  @apply h-10 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md font-normal text-sm;
+  @apply bg-n-slate-1 text-n-slate-12 border border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 focus:border-n-brand dark:focus:border-n-brand;
 
   &[disabled] {
     @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed;
@@ -90,7 +93,9 @@ select {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
   background-position: right -1rem center;
   background-size: 9px 6px;
-  @apply h-10 mx-0 mt-0 mb-4 bg-origin-content focus-visible:outline-none bg-no-repeat py-2 pr-6 pl-2 rounded-md w-full text-base font-normal appearance-none transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
+  @apply h-10 mx-0 mt-0 mb-4 bg-origin-content focus-visible:outline-none bg-no-repeat py-2 pr-6 pl-2;
+  @apply rounded-md w-full text-base font-normal appearance-none transition-colors;
+  @apply text-sm duration-[0.25s] ease-[ease-in-out] bg-n-slate-1 text-n-slate-12 border border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 focus:border-n-brand dark:focus:border-n-brand;
 }
 
 // Textarea

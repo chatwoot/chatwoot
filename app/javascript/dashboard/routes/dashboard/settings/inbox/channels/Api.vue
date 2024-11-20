@@ -64,7 +64,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class=" h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.API_CHANNEL.TITLE')"
@@ -77,9 +77,8 @@ export default {
           <input
             v-model="channelName"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.API_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.API_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
+              "
             @blur="v$.channelName.$touch"
           />
           <span v-if="v$.channelName.$error" class="message">{{
@@ -94,9 +93,8 @@ export default {
           <input
             v-model="webhookUrl"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.API_CHANNEL.WEBHOOK_URL.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.API_CHANNEL.WEBHOOK_URL.PLACEHOLDER')
+              "
             @blur="v$.webhookUrl.$touch"
           />
         </label>

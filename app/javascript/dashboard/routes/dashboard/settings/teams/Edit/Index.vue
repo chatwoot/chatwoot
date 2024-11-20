@@ -27,10 +27,12 @@ export default {
 </script>
 
 <template>
-  <div
-    class="overflow-auto p-4 max-w-full my-auto flex flex-row flex-nowrap h-full bg-slate-25 dark:bg-slate-800"
-  >
-    <woot-wizard class="hidden md:block w-1/4" :items="items" />
-    <router-view />
+  <div class="overflow-auto p-4 h-full w-full">
+    <div
+      class="mx-auto max-w-[960px] flex flex-row overflow-auto shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 px-6 py-5 mb-10"
+    >
+      <woot-wizard class="hidden md:block w-1/4" :items="items" />
+      <router-view />
+    </div>
   </div>
 </template>

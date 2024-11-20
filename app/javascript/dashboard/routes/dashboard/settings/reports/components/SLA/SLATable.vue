@@ -57,11 +57,9 @@ export default {
 <template>
   <div>
     <div
-      class="min-w-full border rounded-xl border-slate-75 dark:border-slate-700/50"
+      class="min-w-full shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
     >
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 px-6 py-0 border-b bg-slate-25 border-slate-75 dark:border-slate-800 rounded-t-xl dark:bg-slate-900"
-      >
+      <div class="grid content-center h-12 grid-cols-12 gap-4 px-6 py-0">
         <TableHeaderCell
           :span="6"
           :label="$t('SLA_REPORTS.TABLE.HEADER.CONVERSATION')"
@@ -77,10 +75,7 @@ export default {
         <TableHeaderCell :span="2" label="" />
       </div>
 
-      <div
-        v-if="isLoading"
-        class="flex items-center justify-center h-32 bg-white rounded-b-xl dark:bg-slate-900"
-      >
+      <div v-if="isLoading" class="flex items-center justify-center h-32">
         <Spinner />
         <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
       </div>

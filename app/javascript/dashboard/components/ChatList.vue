@@ -751,7 +751,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap bg-n-solid-1 border-n-weak"
     :class="[
       { hidden: !showConversationList },
       isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
@@ -892,6 +892,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .flex-basis-clamp {
     flex-basis: clamp(20rem, 4vw + 21.25rem, 27.5rem);

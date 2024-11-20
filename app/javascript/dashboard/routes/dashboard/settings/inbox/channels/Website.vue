@@ -63,7 +63,7 @@ export default {
       } catch (error) {
         useAlert(
           error.message ||
-            this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.API.ERROR_MESSAGE')
+          this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.API.ERROR_MESSAGE')
         );
       }
     },
@@ -73,7 +73,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class=" h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
@@ -104,9 +104,8 @@ export default {
           <input
             v-model="channelWebsiteUrl"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
+              "
           />
         </label>
       </div>
@@ -124,11 +123,10 @@ export default {
           <input
             v-model="channelWelcomeTitle"
             type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
-              )
-            "
+            :placeholder="$t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
+            )
+              "
           />
         </label>
       </div>
@@ -140,11 +138,10 @@ export default {
           <input
             v-model="channelWelcomeTagline"
             type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
-              )
-            "
+            :placeholder="$t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+            )
+              "
           />
         </label>
       </div>
@@ -178,14 +175,12 @@ export default {
         v-if="greetingEnabled"
         v-model="greetingMessage"
         class="w-full"
-        :label="
-          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
-        "
-        :placeholder="
-          $t(
-            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-          )
-        "
+        :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+          "
+        :placeholder="$t(
+          'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+        )
+          "
         :richtext="!textAreaChannels"
       />
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">

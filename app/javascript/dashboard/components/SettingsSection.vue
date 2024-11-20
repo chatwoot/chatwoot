@@ -23,13 +23,13 @@ export default {
 
 <template>
   <div
-    class="ml-0 mr-0 flex py-8 w-full xl:w-3/4 flex-col xl:flex-row"
+    class="ml-0 mr-0 flex py-8 w-full flex-col xl:flex-row"
     :class="{
       'border-b border-solid border-slate-50 dark:border-slate-700/30':
         showBorder,
     }"
   >
-    <div class="w-full xl:w-1/4 min-w-0 xl:max-w-[30%] pr-12">
+    <div class="w-full xl:w-1/3 min-w-0 xl:max-w-[40%] pr-12">
       <p
         v-if="title"
         class="text-base text-woot-500 dark:text-woot-500 mb-0 font-medium"
@@ -48,7 +48,7 @@ export default {
         {{ note }}
       </p>
     </div>
-    <div class="w-full xl:w-1/2 min-w-0 xl:max-w-[50%]">
+    <div class="w-full xl:w-2/3 min-w-0 xl:max-w-[50%]">
       <slot />
     </div>
   </div>

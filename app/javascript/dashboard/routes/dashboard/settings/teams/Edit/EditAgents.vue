@@ -104,7 +104,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 overflow-x-auto dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="overflow-x-auto h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <form
       class="flex flex-wrap mx-0 overflow-x-auto"
@@ -129,9 +129,8 @@ export default {
           :selected-agents="selectedAgents"
           :update-selected-agents="updateSelectedAgents"
           :is-working="isCreating"
-          :submit-button-text="
-            $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
-          "
+          :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
+            "
         />
         <Spinner v-else />
       </div>

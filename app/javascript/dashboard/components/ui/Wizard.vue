@@ -89,7 +89,7 @@ export default {
         @apply bg-woot-500 dark:bg-woot-500;
       }
 
-      & + .item {
+      &+.item {
         &::before {
           @apply bg-woot-500 dark:bg-woot-500;
         }

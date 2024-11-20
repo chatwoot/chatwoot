@@ -198,30 +198,32 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
-      @click="downloadReports"
-    >
-      {{ downloadButtonLabel }}
-    </woot-button>
-    <ReportFilters
-      v-if="filterItemsList"
-      :type="type"
-      :filter-items-list="filterItemsList"
-      :group-by-filter-items-list="groupByfilterItemsList"
-      :selected-group-by-filter="selectedGroupByFilter"
-      @date-range-change="onDateRangeChange"
-      @filter-change="onFilterChange"
-      @group-by-filter-change="onGroupByFilterChange"
-      @business-hours-toggle="onBusinessHoursToggle"
-    />
-    <ReportContainer
-      v-if="filterItemsList.length"
-      :group-by="groupBy"
-      :report-keys="reportKeys"
-    />
+  <div class="flex-1 p-1 overflow-auto">
+    <div class="max-w-[960px] w-full mx-auto mb-10">
+      <woot-button
+        color-scheme="success"
+        class-names="button--fixed-top"
+        icon="arrow-download"
+        @click="downloadReports"
+      >
+        {{ downloadButtonLabel }}
+      </woot-button>
+      <ReportFilters
+        v-if="filterItemsList"
+        :type="type"
+        :filter-items-list="filterItemsList"
+        :group-by-filter-items-list="groupByfilterItemsList"
+        :selected-group-by-filter="selectedGroupByFilter"
+        @date-range-change="onDateRangeChange"
+        @filter-change="onFilterChange"
+        @group-by-filter-change="onGroupByFilterChange"
+        @business-hours-toggle="onBusinessHoursToggle"
+      />
+      <ReportContainer
+        v-if="filterItemsList.length"
+        :group-by="groupBy"
+        :report-keys="reportKeys"
+      />
+    </div>
   </div>
 </template>

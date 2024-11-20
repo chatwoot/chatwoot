@@ -135,7 +135,7 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 p-2 bg-white border rounded-md md:grid-cols-2 lg:grid-cols-3 dark:bg-slate-800 border-slate-100 dark:border-slate-700"
+    class="grid grid-cols-1 px-6 py-5 md:grid-cols-2 lg:grid-cols-3 shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
   >
     <div
       v-for="metric in metrics"

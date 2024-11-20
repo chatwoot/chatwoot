@@ -22,9 +22,7 @@ const showNewButton = computed(
 </script>
 
 <template>
-  <div
-    class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900 overflow-auto"
-  >
+  <div class="w-full h-full bg-n-background overflow-auto">
     <SettingsHeader
       button-route="new"
       :icon="icon"

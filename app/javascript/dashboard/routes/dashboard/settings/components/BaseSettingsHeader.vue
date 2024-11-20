@@ -38,7 +38,9 @@ const openInNewTab = url => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-2 pt-4">
+  <div
+    class="flex flex-col items-start w-full gap-2 pt-4 max-w-[960px] mx-auto"
+  >
     <BackButton
       v-if="backButtonLabel"
       compact
@@ -62,7 +64,7 @@ const openInNewTab = url => {
           </div>
         </div>
         <h1
-          class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25"
+          class="text-2xl font-semibold tracking-[0.3px] text-slate-900 dark:text-slate-25"
         >
           {{ title }}
         </h1>

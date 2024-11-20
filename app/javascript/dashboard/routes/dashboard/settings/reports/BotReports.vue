@@ -84,19 +84,21 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <ReportFilterSelector
-      :show-agents-filter="false"
-      show-group-by-filter
-      :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
-    />
+  <div class="flex-1 p-1 overflow-auto">
+    <div class="max-w-[960px] w-full mx-auto mb-10">
+      <ReportFilterSelector
+        :show-agents-filter="false"
+        show-group-by-filter
+        :show-business-hours-switch="false"
+        @filter-change="onFilterChange"
+      />
 
-    <BotMetrics :filters="requestPayload" />
-    <ReportContainer
-      account-summary-key="getBotSummary"
-      :group-by="groupBy"
-      :report-keys="reportKeys"
-    />
+      <BotMetrics :filters="requestPayload" />
+      <ReportContainer
+        account-summary-key="getBotSummary"
+        :group-by="groupBy"
+        :report-keys="reportKeys"
+      />
+    </div>
   </div>
 </template>

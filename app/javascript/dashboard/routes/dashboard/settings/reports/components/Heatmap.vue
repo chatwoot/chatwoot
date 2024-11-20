@@ -63,8 +63,7 @@ function getDayOfTheWeek(date) {
   return days[dayIndex];
 }
 function getHeatmapLevelClass(value) {
-  if (!value)
-    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+  if (!value) return 'outline-n-weak bg-n-solid-2';
 
   let level = [...quantileRange.value, Infinity].findIndex(
     range => value <= range && value > 0

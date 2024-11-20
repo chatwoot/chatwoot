@@ -70,7 +70,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class=" h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.TITLE')"
@@ -83,9 +83,8 @@ export default {
           <input
             v-model="channelName"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.LINE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.LINE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
+              "
             @blur="v$.channelName.$touch"
           />
           <span v-if="v$.channelName.$error" class="message">{{
@@ -100,9 +99,8 @@ export default {
           <input
             v-model="lineChannelId"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_ID.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_ID.PLACEHOLDER')
+              "
             @blur="v$.lineChannelId.$touch"
           />
         </label>
@@ -114,9 +112,8 @@ export default {
           <input
             v-model="lineChannelSecret"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_SECRET.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_SECRET.PLACEHOLDER')
+              "
             @blur="v$.lineChannelSecret.$touch"
           />
         </label>
@@ -128,9 +125,8 @@ export default {
           <input
             v-model="lineChannelToken"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_TOKEN.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.LINE_CHANNEL.LINE_CHANNEL_TOKEN.PLACEHOLDER')
+              "
             @blur="v$.lineChannelToken.$touch"
           />
         </label>

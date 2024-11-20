@@ -193,7 +193,7 @@ export default {
 </script>
 
 <template>
-  <section class="bg-white conversation-page dark:bg-slate-900">
+  <section class="conversation-page bg-n-background">
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"

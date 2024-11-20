@@ -83,7 +83,9 @@ const tableHeaders = computed(() => {
       feature-name="audit_logs"
     />
 
-    <div class="mt-6 flex-1 text-slate-700 dark:text-slate-300">
+    <div
+      class="mt-6 flex-1 w-full max-w-[960px] mx-auto text-slate-700 dark:text-slate-300"
+    >
       <woot-loading-state
         v-if="uiFlags.fetchingList"
         :message="$t('AUDIT_LOGS.LOADING')"

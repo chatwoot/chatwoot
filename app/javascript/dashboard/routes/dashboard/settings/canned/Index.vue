@@ -133,8 +133,7 @@ const tableHeaders = computed(() => {
         </woot-button>
       </template>
     </BaseSettingsHeader>
-
-    <div class="mt-6 flex-1">
+    <div class="mt-6 flex-1 w-full max-w-[960px] mx-auto">
       <woot-loading-state
         v-if="uiFlags.fetchingList"
         :message="$t('CANNED_MGMT.LOADING')"
@@ -213,7 +212,6 @@ const tableHeaders = computed(() => {
         </tbody>
       </table>
     </div>
-
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <AddCanned :on-close="hideAddPopup" />
     </woot-modal>

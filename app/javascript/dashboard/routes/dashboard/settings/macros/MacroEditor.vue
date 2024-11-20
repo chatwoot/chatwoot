@@ -122,7 +122,9 @@ const saveMacro = async macroData => {
 </script>
 
 <template>
-  <div class="flex flex-col flex-1 h-full overflow-auto">
+  <div
+    class="flex flex-col flex-1 pb-10 max-w-[960px] mx-auto w-full overflow-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
+  >
     <woot-loading-state
       v-if="uiFlags.isFetchingItem"
       :message="t('MACROS.EDITOR.LOADING')"
@@ -135,3 +137,33 @@ const saveMacro = async macroData => {
     />
   </div>
 </template>
+
+<style scoped>
+@tailwind components;
+
+@layer components {
+  .macro-gradient-radial {
+    background-image: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        #fdfdfd 80%
+      ),
+      radial-gradient(#cbe5ff 1.2px, transparent 0);
+  }
+
+  .macro-dark-gradient-radial {
+    background-image: radial-gradient(
+        circle at center,
+        transparent 0%,
+        #121213 70%
+      ),
+      radial-gradient(#293f51 1.2px, transparent 0);
+  }
+
+  .macro-gradient-radial-size {
+    background-size:
+      100% 100%,
+      1rem 1rem;
+  }
+}
+</style>

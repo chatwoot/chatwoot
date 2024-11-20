@@ -25,7 +25,7 @@ export default {
 
 <template>
   <div
-    class="metric-card mb-2 p flex flex-col m-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem]"
+    class="metric-card mb-2 p flex flex-col m-2 px-6 py-5 overflow-hidden flex-grow text-slate-700 dark:text-slate-100 min-h-[10rem] shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
   >
     <div
       class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"

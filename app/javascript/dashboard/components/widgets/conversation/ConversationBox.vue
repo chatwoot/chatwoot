@@ -95,7 +95,7 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
+    class="conversation-details-wrap"
     :class="{ 'with-border-right': !isOnExpandedLayout }"
   >
     <ConversationHeader

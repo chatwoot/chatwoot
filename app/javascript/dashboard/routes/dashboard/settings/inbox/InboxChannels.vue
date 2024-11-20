@@ -40,14 +40,16 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-row overflow-auto p-4 h-full bg-slate-25 dark:bg-slate-800"
-  >
-    <woot-wizard
-      class="hidden md:block w-1/4"
-      :global-config="globalConfig"
-      :items="items"
-    />
-    <router-view />
+  <div class="max-w-[960px] mx-auto w-full flex">
+    <div
+      class="flex flex-row overflow-auto shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 px-6 py-5 mb-10"
+    >
+      <woot-wizard
+        class="hidden md:block w-1/4"
+        :global-config="globalConfig"
+        :items="items"
+      />
+      <router-view />
+    </div>
   </div>
 </template>

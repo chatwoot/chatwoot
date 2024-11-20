@@ -46,11 +46,16 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-auto overflow-auto">
+  <div
+    class="max-w-[960px] mx-auto w-full shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 mb-10"
+  >
     <div class="flex flex-row">
       <div class="w-[68%]">
         <div class="h-[calc(100vh-56px)] relative">
-          <CsmlMonacoEditor v-model="bot.csmlContent" class="w-full h-full" />
+          <CsmlMonacoEditor
+            v-model="bot.csmlContent"
+            class="w-full h-full rounded-tl-xl"
+          />
           <div
             v-if="v$.bot.csmlContent.$error"
             class="bg-red-100 dark:bg-red-200 text-white dark:text-white absolute bottom-0 w-full p-2.5 flex items-center text-xs justify-center flex-shrink-0"
