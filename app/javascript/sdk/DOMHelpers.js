@@ -9,7 +9,7 @@ export const loadCSS = () => {
 };
 
 // This is a method specific to Turbo
-// The body replacing strategy removes Chatwoot styles
+// The body replacing strategy removes ChatsappAI styles
 // as well as the widget, this help us get it back
 export const restoreElement = (id, newBody) => {
   const element = document.getElementById(id);

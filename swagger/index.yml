@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: This is the API documentation for Chatwoot server.
+  description: This is the API documentation for ChatsappAI server.
   version: 1.0.0
   title: Chatwoot
   termsOfService:	https://www.chatwoot.com/terms-of-service/

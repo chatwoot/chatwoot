@@ -1,7 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracijos",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "ChatsappAI integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -15,7 +15,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Atšaukti",
-        "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų Chatwoot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
+        "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų ChatsappAI paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
         "SUBSCRIPTIONS": {
           "LABEL": "Įvykiai",
           "EVENTS": {
@@ -90,14 +90,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack integracijos naudojimas",
-        "BODY": "<br/><p>Dabar Chatwoot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>",
+        "BODY": "<br/><p>Dabar ChatsappAI sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>",
         "SELECTED": "pasirinkta"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Pasirinkite kanalą",
         "UPDATE": "Atnaujinti",
         "BUTTON_TEXT": "Prijunkite kanalą",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the ChatsappAI app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Reikalingas dėmesys",
         "EXPIRED": "Jūsų Slack integracijos galiojimo laikas baigėsi. Norėdami ir toliau gauti pranešimus Slack, ištrinkite integraciją ir vėl prijunkite savo darbo erdvę."
       },

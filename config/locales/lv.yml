@@ -197,10 +197,10 @@ lv:
       meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
-      description: "Integrējiet Chatwoot ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
+      description: "Integrējiet ChatsappAI ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
     webhooks:
       name: "Webhooks"
-      description: "Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Chatwoot kontā. Varat abonēt vēlamos notikumus, un Chatwoot nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem."
+      description: "Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu ChatsappAI kontā. Varat abonēt vēlamos notikumus, un ChatsappAI nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem."
     dialogflow:
       name: "Dialogflow"
       description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un viegli integrējiet tos savā iesūtnē. Šīs robotprogrammatūras var apstrādāt sākotnējos vaicājumus pirms to nodošanas klientu apkalpošanas aģentam."

@@ -16,7 +16,7 @@ RSpec.describe 'Super Admin Instance status', type: :request do
         sign_in(super_admin, scope: :super_admin)
         get '/super_admin/instance_status'
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Chatwoot version')
+        expect(response.body).to include('ChatsappAI version')
         expect(response.body).to include(GIT_HASH)
       end
     end

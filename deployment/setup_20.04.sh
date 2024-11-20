@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Description: Install and manage a Chatwoot installation.
+# Description: Install and manage a ChatsappAI installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
 # Script Version: 3.0.0
 # Run this script as root
@@ -146,12 +146,12 @@ function exit_handler() {
 #   None
 ##############################################################################
 function get_domain_info() {
-  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com): ' domain_name
+  read -rp 'Enter the domain/subdomain for ChatsappAI (e.g., chatwoot.domain.com): ' domain_name
   read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
   cat << EOF
 
 This script will generate SSL certificates via LetsEncrypt and
-serve Chatwoot at https://$domain_name.
+serve ChatsappAI at https://$domain_name.
 Proceed further once you have pointed your DNS to the IP of the instance.
 
 EOF
@@ -374,7 +374,7 @@ EOF
 }
 
 ##############################################################################
-# Setup Chatwoot systemd services and cwctl CLI
+# Setup ChatsappAI systemd services and cwctl CLI
 # Globals:
 #   None
 # Arguments:
@@ -445,7 +445,7 @@ function ssl_success_message() {
     cat << EOF
 
 ***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete.
+Woot! Woot!! ChatsappAI server installation is complete.
 The server will be accessible at https://$domain_name
 
 Join the community at https://chatwoot.com/community?utm_source=cwctl
@@ -455,7 +455,7 @@ EOF
 }
 
 function cwctl_message() {
-  echo $'\U0001F680 Try out the all new Chatwoot CLI tool to manage your installation.'
+  echo $'\U0001F680 Try out the all new ChatsappAI CLI tool to manage your installation.'
   echo $'\U0001F680 Type "cwctl --help" to learn more.'
 }
 
@@ -488,7 +488,7 @@ function install() {
   cat << EOF
 
 ***************************************************************************
-              Chatwoot Installation (v$CW_VERSION)
+              ChatsappAI Installation (v$CW_VERSION)
 ***************************************************************************
 
 For more verbose logs, open up a second terminal and follow along using,
@@ -554,7 +554,7 @@ EOF
 ➥ 9/9 Skipping SSL/TLS setup.
 
 ***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete.
+Woot! Woot!! ChatsappAI server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
 To configure a domain and SSL certificate, follow the guide at
@@ -618,7 +618,7 @@ function help() {
 
   cat <<EOF
 Usage: cwctl [OPTION]...
-Install and manage your Chatwoot installation.
+Install and manage your ChatsappAI installation.
 
 Example: cwctl -i master
 Example: cwctl -l web
@@ -628,15 +628,15 @@ Example: cwctl -c
 
 Installation/Upgrade:
   -i, --install             Install the latest stable version of Chatwoot
-  -I                        Install Chatwoot from a git branch
-  -u, --upgrade             Upgrade Chatwoot to the latest stable version
+  -I                        Install ChatsappAI from a git branch
+  -u, --upgrade             Upgrade ChatsappAI to the latest stable version
   -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
   -w, --webserver           Install and configure Nginx webserver with SSL
 
 Management:
   -c, --console             Open ruby console
   -l, --logs                View logs from Chatwoot. Supported values include web/worker.
-  -r, --restart             Restart Chatwoot server
+  -r, --restart             Restart ChatsappAI server
 
 Miscellaneous:
   -d, --debug               Show debug messages
@@ -653,7 +653,7 @@ EOF
 }
 
 ##############################################################################
-# Get Chatwoot web/worker logs (-l/--logs)
+# Get ChatsappAI web/worker logs (-l/--logs)
 # Globals:
 #   None
 # Arguments:
@@ -748,7 +748,7 @@ function upgrade_redis() {
     return
   fi
 
-  echo "Upgrading Redis to v7+ for Rails 7 support(Chatwoot v2.17+)"
+  echo "Upgrading Redis to v7+ for Rails 7 support(ChatsappAI v2.17+)"
 
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
@@ -793,7 +793,7 @@ function upgrade_node() {
 }
 
 ##############################################################################
-# Install pnpm - this replaces yarn starting from Chatwoot 4.0
+# Install pnpm - this replaces yarn starting from ChatsappAI 4.0
 # Globals:
 #   None
 # Arguments:
@@ -828,7 +828,7 @@ EOF
 function upgrade() {
   cwctl_upgrade_check
   get_cw_version
-  echo "Upgrading Chatwoot to v$CW_VERSION"
+  echo "Upgrading ChatsappAI to v$CW_VERSION"
   sleep 3
   upgrade_prereq
   upgrade_redis
@@ -836,7 +836,7 @@ function upgrade() {
   get_pnpm
   sudo -i -u chatwoot << "EOF"
 
-  # Navigate to the Chatwoot directory
+  # Navigate to the ChatsappAI directory
   cd chatwoot
 
   # Pull the latest version of the master branch
@@ -876,7 +876,7 @@ EOF
 }
 
 ##############################################################################
-# Restart Chatwoot server (-r/--restart)
+# Restart ChatsappAI server (-r/--restart)
 # Globals:
 #   None
 # Arguments:

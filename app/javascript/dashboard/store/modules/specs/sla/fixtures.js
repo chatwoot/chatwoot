@@ -23,7 +23,7 @@ export default [
     id: 3,
     name: 'Business SLA',
     description:
-      'Chatwoot cloud Business and self-hosted Business customers SLA',
+      'ChatsappAI cloud Business and self-hosted Business customers SLA',
     first_response_time_threshold: null,
     next_response_time_threshold: null,
     resolution_time_threshold: null,

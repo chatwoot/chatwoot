@@ -41,7 +41,7 @@
         "PLACEHOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. Chatwoot vašim privatnim porukama nikada ne može pristupiti.",
+        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. ChatsappAI vašim privatnim porukama nikada ne može pristupiti.",
         "CHOOSE_PAGE": "Izaberite stranicu",
         "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
         "INBOX_NAME": "Naziv prijemnog sandučeta",
@@ -343,7 +343,7 @@
       },
       "AUTH": {
         "TITLE": "Izaberite kanal",
-        "DESC": "Chatwoot podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod."
+        "DESC": "ChatsappAI podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod."
       },
       "AGENTS": {
         "TITLE": "Agenti",

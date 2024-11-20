@@ -1,7 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrācijas",
-    "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
+    "DESCRIPTION": "ChatsappAI integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
     "LOADING": "Integrāciju iegūšana",
     "CAPTAIN": {
@@ -15,7 +15,7 @@
       "LEARN_MORE": "Uzzināt vairāk par webhooks",
       "FORM": {
         "CANCEL": "Atcelt",
-        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
+        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu ChatsappAI kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
         "SUBSCRIPTIONS": {
           "LABEL": "Notikumi",
           "EVENTS": {
@@ -97,7 +97,7 @@
         "OPTION_LABEL": "Izvēlēties kanālu",
         "UPDATE": "Atjaunināt",
         "BUTTON_TEXT": "Pievienot kanālu",
-        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni Chatwoot Slack kanālam.",
+        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni ChatsappAI Slack kanālam.",
         "ATTENTION_REQUIRED": "Nepieciešama uzmanība",
         "EXPIRED": "Jūsu Slack integrācijas derīguma termiņš ir beidzies. Lai turpinātu saņemt ziņojumus pakalpojumā Slack, lūdzu, izdzēsiet integrāciju un vēlreiz pievienojiet savu workspace."
       },
@@ -177,7 +177,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Informācijas paneļa lietotnes",
       "HEADER_BTN_TXT": "Pievienot jaunu informācijas paneļa lietotni",
-      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
+      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu ChatsappAI informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot ChatsappAI informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
       "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
       "LIST": {

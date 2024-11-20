@@ -41,7 +41,7 @@
         "PLACEHOLDER": "Įveskite savo internetinio puslapio pavadinimą (pvz.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Po autorizacijos turėsime prieigą tik prie jūsų pranešimų puslapyje. Chatwoot asmeniniai pranešimai nebus pasiekiami.",
+        "HELP": "PS: Po autorizacijos turėsime prieigą tik prie jūsų pranešimų puslapyje. ChatsappAI asmeniniai pranešimai nebus pasiekiami.",
         "CHOOSE_PAGE": "Pasirinkti Puslapį",
         "CHOOSE_PLACEHOLDER": "Psirinkti puslapį iš sąrašo",
         "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
@@ -343,7 +343,7 @@
       },
       "AUTH": {
         "TITLE": "Pasirinkti Kanalą",
-        "DESC": "Chatwoot palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų."
+        "DESC": "ChatsappAI palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų."
       },
       "AGENTS": {
         "TITLE": "Agentai",

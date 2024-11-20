@@ -41,7 +41,7 @@
         "PLACEHOLDER": "Introdueix el nom del vostre lloc web (per exemple: Acme Inc)"
       },
       "FB": {
-        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats.",
+        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. ChatsappAI mai no podrà accedir als vostres missatges privats.",
         "CHOOSE_PAGE": "Trieu la pàgina",
         "CHOOSE_PLACEHOLDER": "Selecciona una pàgina de la llista",
         "INBOX_NAME": "Nom de la safata d'entrada",
@@ -343,7 +343,7 @@
       },
       "AUTH": {
         "TITLE": "Escull un canal",
-        "DESC": "Chatwoot admet widgets de xat en directe, Facebook Messenger, WhatsApp, correus electrònics, etc., com a canals. Si voleu crear un canal personalitzat, podeu crear-lo mitjançant el canal API. Per començar, tria un dels canals següents."
+        "DESC": "ChatsappAI admet widgets de xat en directe, Facebook Messenger, WhatsApp, correus electrònics, etc., com a canals. Si voleu crear un canal personalitzat, podeu crear-lo mitjançant el canal API. Per començar, tria un dels canals següents."
       },
       "AGENTS": {
         "TITLE": "Agents",

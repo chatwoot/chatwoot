@@ -1,7 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
-    "DESCRIPTION": "O Chatwoot integra-se com várias ferramentas e serviços para melhorar a eficiência da sua equipa. Explore a lista abaixo para configurar as suas aplicações favoritas. ",
+    "DESCRIPTION": "O ChatsappAI integra-se com várias ferramentas e serviços para melhorar a eficiência da sua equipa. Explore a lista abaixo para configurar as suas aplicações favoritas. ",
     "LEARN_MORE": "Saber mais sobre integrações",
     "LOADING": "A procurar integrações",
     "CAPTAIN": {
@@ -90,14 +90,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Como usar a integração da Slack?",
-        "BODY": "Com esta integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** na Slack. Pode gerir todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão as principais características da integração:\n\n**Responder a conversas a partir da Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, digite simplemente a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot.\n\n**Criar notas privadas:** Se quiser criar notas privadas em vez de respostas, inicie a sua mensagem com ***'nota:'***. Isto garante que a sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu na Slack tem um perfil de agente no Chatwoot com o mesmo e-mail, as respostas serão associadas automaticamente a esse perfil de agente. Isto significa que pode facilmente controlar quem disse o quê e quando. Por outro lado, quando quem responde não tem um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
+        "BODY": "Com esta integração, todas as suas conversas recebidas serão sincronizadas com o canal ***{selectedChannelName}*** na Slack. Pode gerir todas as suas conversas com clientes diretamente no canal e nunca perder uma mensagem.\n\nAqui estão as principais características da integração:\n\n**Responder a conversas a partir da Slack:** Para responder a uma conversa no canal ***{selectedChannelName}*** Slack, digite simplemente a sua mensagem e envie-a como um tópico. Isso criará uma resposta ao cliente através do Chatwoot.\n\n**Criar notas privadas:** Se quiser criar notas privadas em vez de respostas, inicie a sua mensagem com ***'nota:'***. Isto garante que a sua mensagem seja privada e não seja visível para o cliente.\n\n**Associar um perfil de agente:** Se a pessoa que respondeu na Slack tem um perfil de agente no ChatsappAI com o mesmo e-mail, as respostas serão associadas automaticamente a esse perfil de agente. Isto significa que pode facilmente controlar quem disse o quê e quando. Por outro lado, quando quem responde não tem um perfil de agente associado, as respostas aparecerão do perfil do bot para o cliente.",
         "SELECTED": "selecionado"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Selecionar um canal",
         "UPDATE": "Atualizar",
         "BUTTON_TEXT": "Conectar canal",
-        "DESCRIPTION": "O seu espaço de trabalho Slack está agora conectado ao Chatwoot. No entanto, a integração está, de momento, inativa. Para ativar a integração e conectar um canal ao Chatwoot, por favor, clique no botão abaixo.\n\n**Nota:** Se está a tentar conectar-se a um canal privado, adicione a aplicação Chatwoot ao canal da Slack antes de prosseguir com esta etapa.",
+        "DESCRIPTION": "O seu espaço de trabalho Slack está agora conectado ao Chatwoot. No entanto, a integração está, de momento, inativa. Para ativar a integração e conectar um canal ao Chatwoot, por favor, clique no botão abaixo.\n\n**Nota:** Se está a tentar conectar-se a um canal privado, adicione a aplicação ChatsappAI ao canal da Slack antes de prosseguir com esta etapa.",
         "ATTENTION_REQUIRED": "Atenção necessária",
         "EXPIRED": "A sua integração com a Slack expirou. Para continuar a receber mensagens na Slack, elimine a integração e conecte o seu espaço de trabalho novamente."
       },
@@ -177,8 +177,8 @@
     "DASHBOARD_APPS": {
       "TITLE": "Apps de dashboard",
       "HEADER_BTN_TXT": "Adicionar nova app ao dashboard",
-      "SIDEBAR_TXT": "<p><b>Apps de dashboard</b></p><p>Apps de dashboard permitem que as organizações incorporem uma aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou o seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do Chatwoot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar uma nova app ao dashboard, clique no botão 'Adicionar nova app ao dashboard'.</p>",
-      "DESCRIPTION": "Apps de dashboard permitem que as organizações incorporem um aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou o seu histórico de pagamentos.",
+      "SIDEBAR_TXT": "<p><b>Apps de dashboard</b></p><p>Apps de dashboard permitem que as organizações incorporem uma aplicação dentro do dashboard do ChatsappAI para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou o seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do Chatwoot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar uma nova app ao dashboard, clique no botão 'Adicionar nova app ao dashboard'.</p>",
+      "DESCRIPTION": "Apps de dashboard permitem que as organizações incorporem um aplicação dentro do dashboard do ChatsappAI para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou o seu histórico de pagamentos.",
       "LEARN_MORE": "Saber mais sobre apps de dashboard",
       "LIST": {
         "404": "Não há apps de dashboard configuradas nesta conta.",
