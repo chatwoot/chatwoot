@@ -13,7 +13,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :bookings, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
@@ -113,6 +113,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def avatar
     @contact.avatar.purge if @contact.avatar.attached?
     @contact
+  end
+
+  def bookings
+    is_admin = Current.account_user.role == 'administrator'
+    query = ContactBooking.where(contact_id: @contact.id)
+    query = query.where(user_id: Current.user.id) unless is_admin
+    contact_bookings = query
+    render json: contact_bookings
   end
 
   private

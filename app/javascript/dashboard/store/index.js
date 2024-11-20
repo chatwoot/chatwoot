@@ -14,6 +14,7 @@ import campaigns from './modules/campaigns';
 import cannedResponse from './modules/cannedResponse';
 import categories from './modules/helpCenterCategories';
 import contactConversations from './modules/contactConversations';
+import contactBookings from './modules/contactBookings';
 import contactLabels from './modules/contactLabels';
 import contactNotes from './modules/contactNotes';
 import contacts from './modules/contacts';
@@ -65,6 +66,7 @@ export default new Vuex.Store({
     cannedResponse,
     categories,
     contactConversations,
+    contactBookings,
     contactLabels,
     contactNotes,
     contacts,

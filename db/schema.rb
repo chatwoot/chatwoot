@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_22_122141) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_14_081144) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -412,6 +412,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_22_122141) do
     t.index ["account_id"], name: "index_chatbots_on_account_id"
   end
 
+  create_table "contact_bookings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "host_name"
+    t.string "booking_location"
+    t.string "booking_eventtype"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "account_id", null: false
+    t.string "booking_uid"
+    t.datetime "booking_startTime"
+    t.datetime "booking_endTime"
+    t.index ["account_id"], name: "index_contact_bookings_on_account_id"
+    t.index ["contact_id"], name: "index_contact_bookings_on_contact_id"
+    t.index ["user_id"], name: "index_contact_bookings_on_user_id"
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -710,6 +727,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_22_122141) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+    t.integer "account_user_id"
   end
 
   create_table "keycloak_session_infos", force: :cascade do |t|
@@ -1083,7 +1101,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_22_122141) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contact_bookings", "accounts"
+  add_foreign_key "contact_bookings", "contacts"
+  add_foreign_key "contact_bookings", "users"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "integrations_hooks", "account_users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

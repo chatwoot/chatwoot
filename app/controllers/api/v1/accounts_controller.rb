@@ -166,17 +166,18 @@ class Api::V1::AccountsController < Api::BaseController
   def activate_ltd(coupon_code)
     code_prefix = coupon_code.code[0, 2]
     partner_name = ''
-    if code_prefix == 'AS'
+    case code_prefix
+    when 'AS'
       partner_name = 'AppSumo'
-    elsif code_prefix == 'DM'
+    when 'DM'
       partner_name = 'DealMirror'
-    elsif code_prefix == 'PG'
+    when 'PG'
       partner_name = 'PitchGround'
-    elsif code_prefix == 'RH'
+    when 'RH'
       partner_name = 'RocketHub'
-    elsif code_prefix == 'DF'
+    when 'DF'
       partner_name = 'DealFuel'
-    elsif code_prefix == 'OH'
+    when 'OH'
       partner_name = 'OneHash'
     end
 
@@ -184,19 +185,20 @@ class Api::V1::AccountsController < Api::BaseController
       agent = nil
       ltd_plan_name = nil
       coupon_code_used = @account.coupon_code_used
-      if coupon_code_used == 0
+      case coupon_code_used
+      when 0
         agent = 3
         ltd_plan_name = 'Tier 1'
-      elsif coupon_code_used == 1
+      when 1
         agent = 5
         ltd_plan_name = 'Tier 2'
-      elsif coupon_code_used == 2
+      when 2
         agent = 15
         ltd_plan_name = 'Tier 3'
-      elsif coupon_code_used == 3
+      when 3
         agent = 15
         ltd_plan_name = 'Tier 3'
-      elsif coupon_code_used == 4
+      when 4
         agent = 100_000
         ltd_plan_name = 'Tier 4'
       end
@@ -221,16 +223,17 @@ class Api::V1::AccountsController < Api::BaseController
       agent = nil
       ltd_plan_name = nil
       coupon_code_used = @account.coupon_code_used
-      if tier == 'T1'
+      case tier
+      when 'T1'
         agent = 3
         ltd_plan_name = 'Tier 1'
-      elsif tier == 'T2'
+      when 'T2'
         agent = 5
         ltd_plan_name = 'Tier 2'
-      elsif tier == 'T3'
+      when 'T3'
         agent = 15
         ltd_plan_name = 'Tier 3'
-      elsif tier == 'T4'
+      when 'T4'
         agent = 100_000
         ltd_plan_name = 'Tier 4'
       end
