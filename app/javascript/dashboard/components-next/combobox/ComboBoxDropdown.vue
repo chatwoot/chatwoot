@@ -11,10 +11,6 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  searchValue: {
-    type: String,
-    required: true,
-  },
   searchPlaceholder: {
     type: String,
     default: '',
@@ -33,9 +29,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:searchValue', 'select', 'search']);
+const emit = defineEmits(['select', 'search']);
 
 const { t } = useI18n();
+
+const searchValue = defineModel('searchValue', {
+  type: String,
+  default: '',
+});
 
 const searchInput = ref(null);
 
@@ -47,7 +48,7 @@ const isSelected = option => {
 };
 
 const onInputSearch = event => {
-  emit('update:searchValue', event.target.value);
+  searchValue.value = event.target.value;
   emit('search', event.target.value);
 };
 
