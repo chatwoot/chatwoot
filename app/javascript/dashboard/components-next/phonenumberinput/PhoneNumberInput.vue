@@ -140,7 +140,7 @@ watch(phoneNumber, async value => {
 });
 
 watch(
-  () => modelValue,
+  modelValue,
   newValue => {
     const number = parsePhoneNumber(newValue);
     if (number) {
