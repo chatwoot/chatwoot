@@ -5,10 +5,6 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 defineProps({
-  modelValue: {
-    type: String,
-    required: true,
-  },
   isEmailOrWebWidgetInbox: {
     type: Boolean,
     required: true,
@@ -23,9 +19,12 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
-
 const { t } = useI18n();
+
+const modelValue = defineModel({
+  type: String,
+  default: '',
+});
 </script>
 
 <template>
@@ -35,7 +34,7 @@ const { t } = useI18n();
     :class="!hasAttachments && 'min-h-[200px]'"
   >
     <Editor
-      :model-value="modelValue"
+      v-model="modelValue"
       :placeholder="
         t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
       "
@@ -46,12 +45,11 @@ const { t } = useI18n();
           : ''
       "
       :show-character-count="false"
-      @update:model-value="emit('update:modelValue', $event)"
     />
   </div>
   <div v-else class="flex-1 h-full" :class="!hasAttachments && 'min-h-[200px]'">
     <TextArea
-      :model-value="modelValue"
+      v-model="modelValue"
       :placeholder="
         t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
       "
@@ -62,7 +60,6 @@ const { t } = useI18n();
           ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
           : ''
       "
-      @update:model-value="emit('update:modelValue', $event)"
     />
   </div>
 </template>

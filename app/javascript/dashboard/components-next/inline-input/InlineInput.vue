@@ -2,10 +2,6 @@
 import { ref, onMounted, nextTick } from 'vue';
 
 const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
   type: {
     type: String,
     default: 'text',
@@ -40,7 +36,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'enterPress', 'input', 'blur']);
+const emit = defineEmits(['enterPress', 'input', 'blur']);
+
+const modelValue = defineModel({
+  type: [String, Number],
+  default: '',
+});
 
 const inlineInputRef = ref(null);
 
@@ -50,7 +51,7 @@ const onEnterPress = () => {
 
 const handleInput = event => {
   emit('input', event.target.value);
-  emit('update:modelValue', event.target.value);
+  modelValue.value = event.target.value;
 };
 
 const handleBlur = event => {
@@ -87,7 +88,7 @@ defineExpose({
     <input
       :id="id"
       ref="inlineInputRef"
-      :value="modelValue"
+      v-model="modelValue"
       :type="type"
       :placeholder="placeholder"
       :disabled="disabled"

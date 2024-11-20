@@ -6,7 +6,6 @@ import { email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 
 const props = defineProps({
-  modelValue: { type: Array, default: () => [] },
   placeholder: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
   type: { type: String, default: 'text' },
@@ -38,6 +37,11 @@ const emit = defineEmits([
   'add',
   'remove',
 ]);
+
+const modelValue = defineModel({
+  type: Array,
+  default: () => [],
+});
 
 const MODE = {
   SINGLE: 'single',
@@ -126,13 +130,13 @@ const addTag = async () => {
 
   tags.value.push(trimmedTag);
   newTag.value = '';
-  emit('update:modelValue', tags.value);
+  modelValue.value = tags.value;
   tagInputRef.value?.focus();
 };
 
 const removeTag = index => {
   tags.value.splice(index, 1);
-  emit('update:modelValue', tags.value);
+  modelValue.value = tags.value;
   emit('remove');
 };
 
@@ -147,7 +151,7 @@ const handleDropdownAction = async ({ email: emailAddress, ...rest }) => {
 
   tags.value.push(emailAddress);
   newTag.value = '';
-  emit('update:modelValue', tags.value);
+  modelValue.value = tags.value;
   tagInputRef.value?.focus();
 };
 
