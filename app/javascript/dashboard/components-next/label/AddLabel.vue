@@ -27,7 +27,7 @@ const showDropdown = ref(false);
     >
       <span class="i-lucide-plus" />
       <span class="text-sm text-n-slate-11">
-        {{ t('CONTACTS_LAYOUT.DETAILS.TAG_BUTTON') }}
+        {{ t('LABEL.TAG_BUTTON') }}
       </span>
     </button>
     <DropdownMenu
