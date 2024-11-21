@@ -6,7 +6,7 @@ import { OnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import ArticleEditorProperties from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorProperties.vue';
 
@@ -50,7 +50,7 @@ const author = computed(() => {
 });
 
 const authorName = computed(
-  () => author.value?.name || author.value?.available_name || '-'
+  () => author.value?.name || author.value?.available_name || ''
 );
 const authorThumbnailSrc = computed(() => author.value?.thumbnail);
 
@@ -186,17 +186,14 @@ onMounted(() => {
           text-variant="info"
           @click="openAgentsList = !openAgentsList"
         >
-          <Thumbnail
-            :author="author"
+          <Avatar
             :name="authorName"
-            :size="20"
             :src="authorThumbnailSrc"
+            :size="20"
+            rounded-full
           />
-          <span
-            v-if="author"
-            class="text-sm text-n-slate-12 hover:text-n-slate-11"
-          >
-            {{ author.available_name }}
+          <span class="text-sm text-n-slate-12 hover:text-n-slate-11">
+            {{ authorName || '-' }}
           </span>
         </Button>
         <DropdownMenu

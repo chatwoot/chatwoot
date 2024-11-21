@@ -14,7 +14,7 @@ const props = defineProps({
   },
   title: {
     type: String,
-    required: true,
+    default: '',
   },
   description: {
     type: String,
@@ -52,6 +52,11 @@ const props = defineProps({
   overflowYAuto: {
     type: Boolean,
     default: false,
+  },
+  width: {
+    type: String,
+    default: 'lg',
+    validator: value => ['3xl', '2xl', 'xl', 'lg', 'md', 'sm'].includes(value),
   },
 });
 
@@ -107,7 +112,7 @@ defineExpose({ open, close });
           class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
           @click.stop
         >
-          <div class="flex flex-col gap-2">
+          <div v-if="title || description" class="flex flex-col gap-2">
             <h3 class="text-base font-medium leading-6 text-n-slate-12">
               {{ title }}
             </h3>
@@ -117,8 +122,28 @@ defineExpose({ open, close });
               </p>
             </slot>
           </div>
-          <slot name="form">
-            <!-- Form content will be injected here -->
+          <slot />
+          <!-- Dialog content will be injected here -->
+          <slot name="footer">
+            <div class="flex items-center justify-between w-full gap-3">
+              <Button
+                v-if="showCancelButton"
+                variant="faded"
+                color="slate"
+                :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
+                class="w-full"
+                @click="close"
+              />
+              <Button
+                v-if="showConfirmButton"
+                :color="type === 'edit' ? 'blue' : 'ruby'"
+                :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
+                class="w-full"
+                :is-loading="isLoading"
+                :disabled="disableConfirmButton || isLoading"
+                @click="confirm"
+              />
+            </div>
           </slot>
           <slot name="footer">
             <div class="flex items-center justify-between w-full gap-3">
