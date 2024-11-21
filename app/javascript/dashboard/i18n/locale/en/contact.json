@@ -398,7 +398,7 @@
       "NO_INBOX_ALERT": "There are no inboxes available to start a new conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "To :",
-        "TAG_INPUT_PLACEHOLDER": "Search or enter email and press Enter",
+        "TAG_INPUT_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
