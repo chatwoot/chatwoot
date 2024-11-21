@@ -411,7 +411,7 @@
         "CC_LABEL": "Cc :",
         "CC_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
         "BCC_LABEL": "Bcc :",
-        "BCC_PLACEHOLDER": "Search or enter email and press Enter",
+        "BCC_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {
