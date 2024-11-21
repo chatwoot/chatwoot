@@ -8,11 +8,20 @@
     "EMPTY_STATE": "نتیجه‌ای یافت نشد.",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "نتیجه‌ای یافت نشد."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "انصراف",
       "CONFIRM": "تایید"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "لطفاً یک کد شماره گیری را از لیست انتخاب کنید"
   },
   "THUMBNAIL": {
     "AUTHOR": {
