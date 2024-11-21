@@ -135,7 +135,7 @@ const handleInputUpdate = async () => {
       @click="toggleEditValue(!isEditingView)"
     >
       <a
-        v-if="isAttributeTypeLink && attribute.value"
+        v-if="isAttributeTypeLink && attribute.value && isEditingView"
         :href="attribute.value"
         target="_blank"
         rel="noopener noreferrer"
