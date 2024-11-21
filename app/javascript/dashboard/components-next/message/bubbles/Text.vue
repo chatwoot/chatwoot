@@ -1,27 +1,32 @@
 <script setup>
 import { computed } from 'vue';
+import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
+
 const props = defineProps({
   variant: {
     type: String,
     required: true,
-    validator: value => ['user', 'agent', 'system', 'private'].includes(value),
+    validator: value => Object.values(MESSAGE_VARIANTS).includes(value),
   },
   orientation: {
     type: String,
-    default: 'left',
-    validator: value => ['left', 'right', 'center'].includes(value),
+    required: true,
+    validator: value => Object.values(ORIENTATION).includes(value),
   },
-  text: {
+  content: {
     type: String,
-    default: 'Hello World',
+    required: true,
   },
 });
 
 const varaintBaseMap = {
-  agent: 'bg-n-solid-blue p-3 text-n-slate-12',
-  private: 'bg-n-solid-amber p-3 text-n-amber-12',
-  user: 'bg-n-slate-4 p-3 text-n-slate-12',
-  system: 'bg-n-alpha-1 px-2 py-0.5 text-n-slate-11 text-sm',
+  [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue p-3 text-n-slate-12',
+  [MESSAGE_VARIANTS.PRIVATE]: 'bg-n-solid-amber p-3 text-n-amber-12',
+  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 p-3 text-n-slate-12',
+  [MESSAGE_VARIANTS.ACTIVITY]:
+    'bg-n-alpha-1 px-2 py-0.5 text-n-slate-11 text-sm',
+  [MESSAGE_VARIANTS.BOT]: 'bg-n-teal-5 p-3 text-n-slate-12',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-teal-5 p-3 text-n-slate-12',
 };
 
 const orientationMap = {
@@ -44,6 +49,6 @@ const messageClass = computed(() => {
 
 <template>
   <div class="max-w-md text-sm" :class="messageClass">
-    {{ text }}
+    {{ content }}
   </div>
 </template>
