@@ -8,7 +8,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
 
-  enterprise_attribute_types = if ChatwootApp.Community?
+  enterprise_attribute_types = if ChatwootApp.Enterprise?
                                  {
                                    limits: Enterprise::AccountLimitsField,
                                    all_features: Enterprise::AccountFeaturesField
@@ -46,7 +46,7 @@ class AccountDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  enterprise_show_page_attributes = ChatwootApp.Community? ? %i[custom_attributes limits all_features] : []
+  enterprise_show_page_attributes = ChatwootApp.Enterprise? ? %i[custom_attributes limits all_features] : []
   SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
