@@ -17,6 +17,7 @@ export const EVENT_VARIABLES = {
     { name: 'Número do pedido', value: 'order.order_number' },
     { name: 'Status do pedido', value: 'order.status' },
     { name: 'Link de envio de fotos', value: 'link.photo' },
+    { name: 'Código de rastreio', value: 'order.tracking_code' },
   ],
 
   cart_recovery: [
