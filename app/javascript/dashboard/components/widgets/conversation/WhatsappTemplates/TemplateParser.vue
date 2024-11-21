@@ -20,6 +20,7 @@
           {{ key }}
         </span>
         <input-select
+          v-if="options.length > 0"
           v-model="processedParams[key]"
           type="text"
           class="variable-input"
@@ -28,13 +29,26 @@
           @input="variableChanged()"
           @variable="value => eventVariableChanged(value, key)"
         />
+        <woot-input
+          v-else
+          v-model="processedParams[key]"
+          type="text"
+          class="variable-input"
+          :styles="{ marginBottom: 0 }"
+          @input="variableChanged()"
+        />
       </div>
       <p v-if="$v.$dirty && $v.$invalid" class="error">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>
     </div>
     <footer>
-      <woot-button variant="smooth" @click="$emit('resetTemplate')">
+      <woot-button
+        :disabled="disableResetButton"
+        variant="smooth"
+        type="button"
+        @click="$emit('resetTemplate')"
+      >
         {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
       </woot-button>
       <woot-button v-if="showMessageButton" type="button" @click="sendMessage">
@@ -83,10 +97,8 @@ export default {
   data() {
     return {
       processedParams: {},
-      selected: 'item1',
+      disableResetButton: true,
       eventVariables: {},
-      test: '## header',
-      input: '',
     };
   },
   computed: {
@@ -116,6 +128,7 @@ export default {
 
   mounted() {
     this.generateVariables();
+    this.setDisableResetButton();
   },
   methods: {
     sendMessage() {
@@ -152,6 +165,12 @@ export default {
     eventVariableChanged(value, key) {
       this.eventVariables[key] = value;
       this.$emit('changeEventVariable', this.eventVariables);
+    },
+
+    setDisableResetButton() {
+      setTimeout(() => {
+        this.disableResetButton = false;
+      }, 100);
     },
   },
 };

@@ -8,7 +8,6 @@ class Whatsapp::OneoffWhatsappCampaignService
     raise 'Completed Campaign' if campaign.completed?
 
     # marks campaign completed so that other jobs won't pick it up
-    campaign.completed!
 
     audience_label_ids = campaign.audience.select { |audience| audience['type'] == 'Label' }.pluck('id')
     audience_labels = campaign.account.labels.where(id: audience_label_ids).pluck(:title)
@@ -26,6 +25,7 @@ class Whatsapp::OneoffWhatsappCampaignService
 
       template = fetch_template(campaign.whatsapp_template)
       template_params = template_params(template)
+      build_contact_inbox(contact)
       send_template(to: contact.phone_number, template_info: template_params)
     end
   end
@@ -64,27 +64,28 @@ class Whatsapp::OneoffWhatsappCampaignService
     template_str.gsub(/{{([^}]+)}}/) do |_match|
       variable = Regexp.last_match(1)
       variable_key = process_variable(variable)
-
-      processed_params[variable_key] || "{{#{variable}}}"
+      campaign.template_variables[variable_key] || "{{#{variable}}}"
     end
   end
 
   def processable_channel_message_template(template_params)
+    template = fetch_template(campaign.whatsapp_template)
+    template_string = processed_string(template)
+
     if template_params.present?
       return [
         template_params[0],
         template_params[1],
         template_params[2],
-        template_params[4]&.map { |_, value| { type: 'text', text: value } }
+        template_params[4]&.map { |_, value| { type: 'text', text: value } },
+        template_string
       ]
     end
 
-    template = fetch_template(campaign.whatsapp_template)
     match_obj = template_match_object(template)
 
     processed_parameters = match_obj.captures.map { |x| { type: 'text', text: x } }
-
-    [template['name'], template['namespace'], template['language'], processed_parameters]
+    [template['name'], template['namespace'], template['language'], processed_parameters, template_string]
   end
 
   def template_match_object(template)
@@ -117,12 +118,36 @@ class Whatsapp::OneoffWhatsappCampaignService
   end
 
   def send_template(to:, template_info:)
-    name, namespace, lang_code, processed_parameters = processable_channel_message_template(template_info)
+    name, namespace, lang_code, processed_parameters, template_string = processable_channel_message_template(template_info)
+
     channel.send_template(to, {
                             name: name,
                             namespace: namespace,
                             lang_code: lang_code,
                             parameters: processed_parameters
                           })
+
+    create_conversation(template_string)
+  end
+
+  def create_conversation(message)
+    campaign.update!(message: message)
+    campaign.completed!
+    ::Campaigns::OneoffConversationBuilder.new(
+      contact_inbox_id: @contact_inbox.id,
+      campaign_display_id: campaign.display_id,
+      conversation_additional_attributes: {},
+      custom_attributes: {}
+    ).perform
+  end
+
+  def build_contact_inbox(contact)
+    source_id = contact[:phone_number].gsub(/^\+/, '')
+    @contact_inbox = ContactInboxBuilder.new(
+      contact: contact,
+      inbox: campaign.inbox,
+      source_id: source_id,
+      hmac_verified: ActiveModel::Type::Boolean.new.cast(contact[:hmac_verified]).present?
+    ).perform
   end
 end
