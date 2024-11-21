@@ -29,16 +29,6 @@ const orientationMap = {
   right: 'rounded-xl rounded-br-sm',
 };
 
-const containetFlexJustify = computed(() => {
-  const map = {
-    left: 'justify-start',
-    right: 'justify-end',
-    center: 'justify-center',
-  };
-
-  return map[props.orientation];
-});
-
 const messageClass = computed(() => {
   const classToApply = [varaintBaseMap[props.variant]];
 
@@ -53,9 +43,7 @@ const messageClass = computed(() => {
 </script>
 
 <template>
-  <div class="flex w-full" :class="containetFlexJustify">
-    <div class="max-w-md text-sm" :class="messageClass">
-      {{ text }}
-    </div>
+  <div class="max-w-md text-sm" :class="messageClass">
+    {{ text }}
   </div>
 </template>
