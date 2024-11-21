@@ -8,11 +8,20 @@
     "EMPTY_STATE": "Aucun résultat trouvé.",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "Aucun résultat trouvé."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Annuler",
       "CONFIRM": "Confirmer"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Veuillez sélectionner un code d'appel dans la liste"
   },
   "THUMBNAIL": {
     "AUTHOR": {
