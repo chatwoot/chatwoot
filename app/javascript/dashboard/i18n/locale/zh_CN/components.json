@@ -8,11 +8,20 @@
     "EMPTY_STATE": "未找到结果。",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "未找到结果。"
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "取消",
       "CONFIRM": "Confirm"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "搜索国家/地区",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "请从列表中选择拨号代码"
   },
   "THUMBNAIL": {
     "AUTHOR": {
