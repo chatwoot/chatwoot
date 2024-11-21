@@ -112,42 +112,40 @@ onBeforeUnmount(closeModal);
     width="3xl"
     @close="() => emit('close')"
   >
-    <template #form>
-      <div v-if="props.isFolderView" class="">
-        <label class="border-b border-n-weak pb-6">
-          <div class="text-n-slate-11 text-sm mb-2">
-            {{ t('FILTER.FOLDER_LABEL') }}
-          </div>
-          <input
-            v-model="folderNameLocal"
-            class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
-            :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
-          />
-        </label>
-      </div>
-      <ul class="grid gap-4 list-none">
-        <template v-for="(filter, index) in filters" :key="filter.id">
-          <ConditionRow
-            v-if="index === 0"
-            ref="conditionsRef"
-            v-model:attribute-key="filter.attribute_key"
-            v-model:filter-operator="filter.filter_operator"
-            v-model:values="filter.values"
-            is-first
-            @remove="removeFilter(index)"
-          />
-          <ConditionRow
-            v-else
-            ref="conditionsRef"
-            v-model:attribute-key="filter.attribute_key"
-            v-model:filter-operator="filter.filter_operator"
-            v-model:query-operator="filters[index - 1].query_operator"
-            v-model:values="filter.values"
-            @remove="removeFilter(index)"
-          />
-        </template>
-      </ul>
-    </template>
+    <div v-if="props.isFolderView" class="">
+      <label class="border-b border-n-weak pb-6">
+        <div class="text-n-slate-11 text-sm mb-2">
+          {{ t('FILTER.FOLDER_LABEL') }}
+        </div>
+        <input
+          v-model="folderNameLocal"
+          class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
+          :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+        />
+      </label>
+    </div>
+    <ul class="grid gap-4 list-none">
+      <template v-for="(filter, index) in filters" :key="filter.id">
+        <ConditionRow
+          v-if="index === 0"
+          ref="conditionsRef"
+          v-model:attribute-key="filter.attribute_key"
+          v-model:filter-operator="filter.filter_operator"
+          v-model:values="filter.values"
+          is-first
+          @remove="removeFilter(index)"
+        />
+        <ConditionRow
+          v-else
+          ref="conditionsRef"
+          v-model:attribute-key="filter.attribute_key"
+          v-model:filter-operator="filter.filter_operator"
+          v-model:query-operator="filters[index - 1].query_operator"
+          v-model:values="filter.values"
+          @remove="removeFilter(index)"
+        />
+      </template>
+    </ul>
     <template #footer>
       <div class="flex gap-2 justify-between">
         <Button sm ghost blue @click="addFilter">
