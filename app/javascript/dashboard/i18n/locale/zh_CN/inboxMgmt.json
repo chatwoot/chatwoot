@@ -739,7 +739,7 @@
         "USER_MESSAGE": "嗨",
         "AGENT_MESSAGE": "您好"
       },
-      "BRANDING_TEXT": "由 Chatwoot 支持",
+      "BRANDING_TEXT": "由 xping 支持",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
