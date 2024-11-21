@@ -12,31 +12,32 @@ import TextBubble from './bubbles/Text.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'next/icon/Icon.vue';
 
-// id: 5272,
-// content: 'Hey, how are ya, I had a few questions about Chatwoot?',
-// inbox_id: 475,
-// conversation_id: 43,
-// message_type: 0,
-// content_type: 'text',
-// status: 'sent',
-// content_attributes: {
-//   in_reply_to: null,
-// },
-// created_at: 1732195656,
-// private: false,
-// source_id: null,
-// sender: {
-//   additional_attributes: {},
-//   custom_attributes: {},
-//   email: 'hey@example.com',
-//   id: 597,
-//   identifier: null,
-//   name: 'hey',
-//   phone_number: null,
-//   thumbnail: '',
-//   type: 'contact',
-// },
-//
+/**
+ * @typedef {Object} Sender
+ * @property {Object} additional_attributes - Additional attributes of the sender
+ * @property {Object} custom_attributes - Custom attributes of the sender
+ * @property {string} email - Email of the sender
+ * @property {number} id - ID of the sender
+ * @property {string|null} identifier - Identifier of the sender
+ * @property {string} name - Name of the sender
+ * @property {string|null} phone_number - Phone number of the sender
+ * @property {string} thumbnail - Thumbnail URL of the sender
+ * @property {string} type - Type of sender
+ */
+
+/**
+ * @typedef {Object} Props
+ * @property {number} id - The unique identifier for the message
+ * @property {number} messageType - The type of message (must be one of MESSAGE_TYPES)
+ * @property {('sent'|'delivered'|'read'|'failed')} status - The delivery status of the message
+ * @property {boolean} [private=false] - Whether the message is private
+ * @property {number} createdAt - Timestamp when the message was created
+ * @property {Sender|null} [sender=null] - The sender information
+ * @property {number|null} [senderId=null] - The ID of the sender
+ * @property {string|null} [senderType=null] - The type of the sender
+ * @property {string} content - The message content
+ * @property {number} currentUserId - The ID of the current user
+ */
 
 const props = defineProps({
   id: { type: Number, required: true },
@@ -80,30 +81,27 @@ const props = defineProps({
   },
 });
 
+/**
+ * Computes the message variant based on props
+ * @type {import('vue').ComputedRef<'user'|'agent'|'activity'|'private'|'bot'|'template'>}
+ */
 const variant = computed(() => {
-  if (props.private) {
-    return MESSAGE_VARIANTS.PRIVATE;
-  }
+  if (props.private) return MESSAGE_VARIANTS.PRIVATE;
 
-  if (props.messageType === MESSAGE_TYPES.INCOMING) {
-    return MESSAGE_VARIANTS.USER;
-  }
+  const variants = {
+    [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
+    [MESSAGE_TYPES.ACTIVITY]: MESSAGE_VARIANTS.ACTIVITY,
+    [MESSAGE_TYPES.OUTGOING]: MESSAGE_VARIANTS.AGENT,
+    [MESSAGE_TYPES.TEMPLATE]: MESSAGE_VARIANTS.TEMPLATE,
+  };
 
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
-    return MESSAGE_VARIANTS.ACTIVITY;
-  }
-
-  if (props.messageType === MESSAGE_TYPES.OUTGOING) {
-    return MESSAGE_VARIANTS.AGENT;
-  }
-
-  if (props.messageType === MESSAGE_TYPES.TEMPLATE) {
-    return MESSAGE_VARIANTS.TEMPLATE;
-  }
-
-  return MESSAGE_VARIANTS.USER;
+  return variants[props.messageType] || MESSAGE_VARIANTS.USER;
 });
 
+/**
+ * Computes the message orientation based on sender type and message type
+ * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
+ */
 const orientation = computed(() => {
   if (
     props.senderType === SENDER_TYPES.USER &&
