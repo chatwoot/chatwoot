@@ -389,7 +389,7 @@
 
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "Could not search for contacts. Please try again later."
+      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "View",
