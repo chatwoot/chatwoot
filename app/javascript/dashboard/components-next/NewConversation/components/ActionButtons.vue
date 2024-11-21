@@ -76,8 +76,11 @@ const EmojiInput = defineAsyncComponent(
 const messageSignature = useMapGetter('getMessageSignature');
 const signatureToApply = computed(() => messageSignature.value);
 
-const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
-  useUISettings();
+const {
+  fetchSignatureFlagFromUISettings,
+  setSignatureFlagForInbox,
+  isEditorHotKeyEnabled,
+} = useUISettings();
 
 const sendWithSignature = computed(() => {
   return fetchSignatureFlagFromUISettings(props.channelType);
@@ -125,10 +128,35 @@ const { onFileUpload } = useFileUpload({
   },
 });
 
+const sendButtonLabel = computed(() => {
+  const keyCode = isEditorHotKeyEnabled('cmd_enter') ? '⌘ + ↵' : '↵';
+  return t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.SEND', {
+    keyCode,
+  });
+});
+
 const keyboardEvents = {
   Enter: {
-    action: () =>
-      !props.isWhatsappInbox && !props.isDropdownActive && emit('sendMessage'),
+    action: () => {
+      if (
+        isEditorHotKeyEnabled('enter') &&
+        !props.isWhatsappInbox &&
+        !props.isDropdownActive
+      ) {
+        emit('sendMessage');
+      }
+    },
+  },
+  '$mod+Enter': {
+    action: () => {
+      if (
+        isEditorHotKeyEnabled('cmd_enter') &&
+        !props.isWhatsappInbox &&
+        !props.isDropdownActive
+      ) {
+        emit('sendMessage');
+      }
+    },
   },
 };
 useKeyboardEvents(keyboardEvents);
@@ -205,7 +233,7 @@ useKeyboardEvents(keyboardEvents);
       />
       <Button
         v-if="!isWhatsappInbox"
-        :label="t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.SEND')"
+        :label="sendButtonLabel"
         size="sm"
         class="!text-xs font-medium"
         :disabled="isLoading || disableSendButton"
