@@ -8,11 +8,20 @@
     "EMPTY_STATE": "Nav atrasts.",
     "SEARCH_PLACEHOLDER": "Meklēt..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Meklēt...",
+    "EMPTY_STATE": "Nav atrasts."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Atcelt",
       "CONFIRM": "Apstiprināt"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Meklēt valsti",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta"
   },
   "THUMBNAIL": {
     "AUTHOR": {
