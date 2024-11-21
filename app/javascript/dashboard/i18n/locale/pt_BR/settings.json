@@ -177,9 +177,9 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_ACCOUNTS": "Alterar conta",
+    "SWITCH_WORKSPACE": "Trocar workspace",
+    "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Profile settings",
     "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
@@ -242,7 +242,7 @@
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contato",
-    "CAPTAIN": "Capitain",
+    "CAPTAIN": "Capitão",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -274,7 +274,7 @@
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
-    "REPORTS_SLA": "",
+    "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Robôs",
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",
@@ -282,14 +282,14 @@
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
     "SET_YOUR_AVAILABILITY": "Definir a sua disponibilidade",
-    "SLA": "",
+    "SLA": "SLA",
     "CUSTOM_ROLES": "Regras Personalizadas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
     "HELP_CENTER": {
       "TITLE": "Central de Ajuda",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Artigos",
       "CATEGORIES": "Categorias",
       "LOCALES": "Localidades",
       "SETTINGS": "Confirgurações"
@@ -298,7 +298,7 @@
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar offline automaticamente",
       "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos"
   },
