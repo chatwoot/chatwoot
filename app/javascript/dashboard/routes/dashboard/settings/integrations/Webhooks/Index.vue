@@ -105,7 +105,7 @@ export default {
         <template #actions>
           <woot-button
             class="button nice rounded-md"
-            icon="add-circle"
+            icon="add"
             @click="openAddPopup"
           >
             {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
@@ -114,7 +114,7 @@ export default {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -155,11 +155,10 @@ export default {
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="
-        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE', {
-          webhookURL: selectedWebHook.url,
-        })
-      "
+      :message="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE', {
+        webhookURL: selectedWebHook.url,
+      })
+        "
       :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
       :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
     />

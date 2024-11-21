@@ -2,6 +2,7 @@
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
 import {
   useStoreGetters,
@@ -149,20 +150,19 @@ const confirmDeletion = () => {
         feature-name="agents"
       >
         <template #actions>
-          <woot-button
-            class="inline-flex items-center justify-center min-w-0 gap-2 transition-all duration-200 ease-in-out border-0 rounded-lg outline-1 outline disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50 !bg-n-brand text-white hover:brightness-110 outline-transparent px-3 !text-sm"
-            icon="add"
+          <Button
+            :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
+            icon="i-lucide-plus"
+            size="sm"
             @click="openAddPopup"
-          >
-            {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="divide-y divide-n-weak">
         <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+          class="divide-y divide-n-weak text-slate-700 dark:text-slate-300"
         >
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">

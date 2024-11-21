@@ -8,6 +8,7 @@ import AddLabel from './AddLabel.vue';
 import EditLabel from './EditLabel.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -94,19 +95,18 @@ onBeforeMount(() => {
         feature-name="labels"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            :label="$t('LABEL_MGMT.HEADER_BTN_TXT')"
+            icon="i-lucide-plus"
+            size="sm"
             @click="openAddPopup"
-          >
-            {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
       <table
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
+        class="min-w-full overflow-x-auto divide-y divide-n-weak"
       >
         <thead>
           <th

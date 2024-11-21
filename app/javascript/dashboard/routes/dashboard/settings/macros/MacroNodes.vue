@@ -69,13 +69,12 @@ export default {
             type="add"
             :index="i"
             :error-key="errors[`action_${i}`]"
-            :file-name="
-              fileName(
-                actionData[i].action_params[0],
-                actionData[i].action_name,
-                files
-              )
-            "
+            :file-name="fileName(
+              actionData[i].action_params[0],
+              actionData[i].action_name,
+              files
+            )
+              "
             :single-node="actionData.length === 1"
             @reset-action="$emit('resetAction', i)"
             @delete-node="$emit('deleteNode', i)"
@@ -90,7 +89,7 @@ export default {
           class="macros__action-button"
           color-scheme="success"
           variant="smooth"
-          icon="add-circle"
+          icon="add"
           @click="$emit('addNewNode')"
         >
           {{ $t('MACROS.EDITOR.ADD_BTN_TOOLTIP') }}

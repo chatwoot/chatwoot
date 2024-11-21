@@ -3,6 +3,8 @@ import { useAlert } from 'dashboard/composables';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -185,18 +187,17 @@ const tableHeaders = computed(() => {
         feature-name="automation"
       >
         <template #actions>
-          <woot-button
-            class="button nice rounded-md"
-            icon="add-circle"
+          <Button
+            :label="$t('AUTOMATION.HEADER_BTN_TXT')"
+            icon="i-lucide-plus"
+            size="sm"
             @click="openAddPopup"
-          >
-            {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -207,7 +208,7 @@ const tableHeaders = computed(() => {
           </th>
         </thead>
         <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+          class="divide-y divide-n-weak text-slate-700 dark:text-slate-300"
         >
           <AutomationRuleRow
             v-for="automation in records"

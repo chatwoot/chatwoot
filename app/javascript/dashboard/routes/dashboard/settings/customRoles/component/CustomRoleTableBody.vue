@@ -26,7 +26,7 @@ const getFormattedPermissions = role => {
 
 <template>
   <tbody
-    class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+    class="divide-y divide-n-weak text-slate-700 dark:text-slate-300"
   >
     <tr v-for="(customRole, index) in roles" :key="index">
       <td

@@ -8,6 +8,7 @@ import CustomRolePaywall from './component/CustomRolePaywall.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const store = useStore();
 const { t } = useI18n();
@@ -134,14 +135,13 @@ const confirmDeletion = () => {
         feature-name="canned_responses"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            :label="$t('CUSTOM_ROLE.HEADER_BTN_TXT')"
+            icon="i-lucide-plus"
+            size="sm"
             :disabled="isBehindAPaywall"
             @click="openAddModal"
-          >
-            {{ $t('CUSTOM_ROLE.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
@@ -150,7 +150,7 @@ const confirmDeletion = () => {
       <CustomRolePaywall v-if="isBehindAPaywall" />
       <table
         v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
+        class="min-w-full overflow-x-auto divide-y divide-n-weak"
       >
         <thead>
           <th

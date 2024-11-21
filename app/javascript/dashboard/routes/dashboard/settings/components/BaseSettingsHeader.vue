@@ -38,33 +38,14 @@ const openInNewTab = url => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col items-start w-full gap-2 pt-4 max-w-[960px] mx-auto"
-  >
-    <BackButton
-      v-if="backButtonLabel"
-      compact
-      :button-label="backButtonLabel"
-    />
-    <div class="flex items-center justify-between w-full gap-4">
-      <div class="flex items-center gap-3">
-        <div
-          v-if="iconName"
-          class="flex items-center w-10 h-10 p-1 rounded-full bg-woot-25/60 dark:bg-woot-900/60"
-        >
-          <div
-            class="flex items-center justify-center w-full h-full rounded-full bg-woot-75/70 dark:bg-woot-800/40"
-          >
-            <fluent-icon
-              size="14"
-              :icon="iconName"
-              type="outline"
-              class="flex-shrink-0 text-woot-500 dark:text-woot-500"
-            />
-          </div>
-        </div>
+  <div class="flex flex-col items-start w-full gap-2 max-w-[960px] mx-auto">
+    <div
+      class="flex items-center justify-between w-full gap-4 h-20 border-b border-n-weak"
+    >
+      <div class="flex gap-3">
+        <BackButton v-if="backButtonLabel" compact />
         <h1
-          class="text-xl font-interDisplay font-semibold tracking-[0.3px] text-slate-900 dark:text-slate-25"
+          class="text-xl font-interDisplay tracking-[0.3px] font-medium text-n-slate-12"
         >
           {{ title }}
         </h1>
@@ -74,9 +55,9 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 w-full">
+    <div class="flex flex-col gap-4 text-n-slate-11 w-full pt-3">
       <p
-        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl leading-5"
+        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl leading-6"
       >
         <slot name="description">{{ description }}</slot>
       </p>

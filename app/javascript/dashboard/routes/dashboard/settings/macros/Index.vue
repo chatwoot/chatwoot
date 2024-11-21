@@ -6,9 +6,12 @@ import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useRouter } from 'vue-router';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
+const router = useRouter();
 const { t } = useI18n();
 
 const showDeleteConfirmationPopup = ref(false);
@@ -54,6 +57,10 @@ const tableHeaders = computed(() => {
     t('MACROS.LIST.TABLE_HEADER.VISIBILITY'),
   ];
 });
+
+const onClickNewMacro = () => {
+  router.push({ name: 'macros_new' });
+};
 </script>
 
 <template>
@@ -72,20 +79,17 @@ const tableHeaders = computed(() => {
         feature-name="macros"
       >
         <template #actions>
-          <router-link
-            :to="{ name: 'macros_new' }"
-            class="button rounded-md primary"
-          >
-            <fluent-icon icon="add-circle" />
-            <span class="button__content">
-              {{ $t('MACROS.HEADER_BTN_TXT') }}
-            </span>
-          </router-link>
+          <Button
+            :label="$t('MACROS.HEADER_BTN_TXT')"
+            icon="i-lucide-plus"
+            size="sm"
+            @click="onClickNewMacro"
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -96,7 +100,7 @@ const tableHeaders = computed(() => {
           </th>
         </thead>
         <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+          class="divide-y divide-n-weak text-slate-700 dark:text-slate-300"
         >
           <MacrosTableRow
             v-for="(macro, index) in records"

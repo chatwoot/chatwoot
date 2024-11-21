@@ -18,10 +18,10 @@ export default {
 </script>
 
 <template>
-  <div class="flex-shrink flex-grow overflow-auto p-4">
+  <div class="flex-shrink flex-grow overflow-auto p-1">
     <div class="flex flex-col">
       <div
-        class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-xl mb-4 p-4"
+        class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
       >
         <div class="flex">
           <div class="flex h-[6.25rem] w-[6.25rem]">
@@ -35,12 +35,10 @@ export default {
             />
           </div>
           <div class="flex flex-col justify-center m-0 mx-4 flex-1">
-            <h3
-              class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100"
-            >
+            <h3 class="text-xl font-medium mb-1 text-n-slate-12">
               {{ integration.name }}
             </h3>
-            <p class="text-slate-700 dark:text-slate-200">
+            <p class="text-n-slate-11">
               {{ integration.description }}
             </p>
           </div>

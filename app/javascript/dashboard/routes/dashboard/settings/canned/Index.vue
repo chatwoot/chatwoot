@@ -3,6 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import { computed, onMounted, ref, defineOptions } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
@@ -124,13 +125,12 @@ const tableHeaders = computed(() => {
       feature-name="canned_responses"
     >
       <template #actions>
-        <woot-button
-          class="button nice rounded-md"
-          icon="add-circle"
+        <Button
+          :label="$t('CANNED_MGMT.HEADER_BTN_TXT')"
+          icon="i-lucide-plus"
+          size="sm"
           @click="openAddPopup"
-        >
-          {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
-        </woot-button>
+        />
       </template>
     </BaseSettingsHeader>
     <div class="mt-6 flex-1 w-full max-w-[960px] mx-auto">
@@ -144,10 +144,7 @@ const tableHeaders = computed(() => {
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -173,7 +170,7 @@ const tableHeaders = computed(() => {
           </th>
         </thead>
         <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+          class="divide-y divide-n-weak text-slate-700 dark:text-slate-300"
         >
           <tr
             v-for="(cannedItem, index) in records"

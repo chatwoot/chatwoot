@@ -97,7 +97,7 @@ const tableHeaders = computed(() => {
         {{ $t('AUDIT_LOGS.LIST.404') }}
       </p>
       <div v-else class="min-w-full overflow-x-auto">
-        <table class="divide-y divide-slate-75 dark:divide-slate-700">
+        <table class="divide-y divide-n-weak">
           <thead>
             <th
               v-for="thHeader in tableHeaders"
@@ -108,7 +108,7 @@ const tableHeaders = computed(() => {
             </th>
           </thead>
           <tbody
-            class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
+            class="divide-y divide-n-weak text-slate-700 dark:text-slate-300"
           >
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
               <td class="py-4 pr-4 break-all whitespace-nowrap">

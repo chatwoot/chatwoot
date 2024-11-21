@@ -77,10 +77,10 @@ export default {
 <template>
   <div
     v-if="integrationLoaded && !uiFlags.isCreatingSlack"
-    class="flex flex-col flex-1 overflow-auto"
+    class="flex flex-col flex-1 overflow-auto max-w-[960px] mx-auto p-1 gap-4 pb-10"
   >
     <div
-      class="p-4 bg-white border-b border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
+      class="rounded-2xl shadow outline-1 outline outline-n-container bg-n-solid-2 px-6 py-5"
     >
       <Integration
         :integration-id="integration.id"
@@ -96,7 +96,7 @@ export default {
         }"
       />
     </div>
-    <div v-if="areHooksAvailable" class="flex-1 p-6">
+    <div v-if="areHooksAvailable" class="flex-1 flex flex-col gap-4">
       <SelectChannelWarning
         v-if="!isIntegrationHookEnabled"
         :has-connected-a-channel="hasConnectedAChannel"

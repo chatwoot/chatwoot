@@ -5,9 +5,11 @@ import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
+    NextButton,
     BaseSettingsHeader,
     DashboardAppModal,
     DashboardAppsRow,
@@ -93,16 +95,15 @@ export default {
       :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
     >
       <template #actions>
-        <woot-button
-          class="rounded-md button nice"
-          icon="add-circle"
+        <NextButton
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT')"
+          icon="i-lucide-plus"
+          size="sm"
           @click="openCreatePopup"
-        >
-          {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT') }}
-        </woot-button>
+        />
       </template>
     </BaseSettingsHeader>
-    <div class="w-full overflow-x-auto text-slate-700 dark:text-slate-200">
+    <div class="w-full overflow-x-auto text-n-slate-12 max-w-[960px] mx-auto">
       <p
         v-if="!uiFlags.isFetching && !records.length"
         class="flex flex-col items-center justify-center h-full"
@@ -115,18 +116,18 @@ export default {
       />
       <table
         v-if="!uiFlags.isFetching && records.length"
-        class="min-w-full divide-y divide-slate-75 dark:divide-slate-700"
+        class="min-w-full divide-y divide-n-weak"
       >
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+            class="py-4 pr-4 font-semibold text-left text-n-slate-12"
           >
             {{ thHeader }}
           </th>
         </thead>
-        <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+        <tbody class="divide-y divide-n-weak">
           <DashboardAppsRow
             v-for="(dashboardAppItem, index) in records"
             :key="dashboardAppItem.id"
@@ -152,14 +153,12 @@ export default {
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.TITLE')"
-      :message="
-        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.MESSAGE', {
-          appName: selectedApp.title,
-        })
-      "
-      :confirm-text="
-        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_YES')
-      "
+      :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.MESSAGE', {
+        appName: selectedApp.title,
+      })
+        "
+      :confirm-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_YES')
+        "
       :reject-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_NO')"
     />
   </div>

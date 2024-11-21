@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 import AddAttribute from './AddAttribute.vue';
 import CustomAttribute from './CustomAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -68,13 +70,12 @@ const onClickTabChange = index => {
         feature-name="custom_attributes"
       >
         <template #actions>
-          <woot-button
-            class="button nice rounded-md"
-            icon="add-circle"
+          <Button
+            :label="$t('ATTRIBUTES_MGMT.HEADER_BTN_TXT')"
+            icon="i-lucide-plus"
+            size="sm"
             @click="openAddPopup"
-          >
-            {{ $t('ATTRIBUTES_MGMT.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>

@@ -8,9 +8,12 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import ChannelName from './components/ChannelName.vue';
+import { useRouter } from 'vue-router';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
+const router = useRouter();
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
 
@@ -59,6 +62,10 @@ const openDelete = inbox => {
   showDeletePopup.value = true;
   selectedInbox.value = inbox;
 };
+
+const onClickNewInbox = () => {
+  router.push({ name: 'settings_inbox_new' });
+};
 </script>
 
 <template>
@@ -75,21 +82,18 @@ const openDelete = inbox => {
         feature-name="inboxes"
       >
         <template #actions>
-          <router-link
+          <Button
             v-if="isAdmin"
-            class="button nice rounded-md"
-            :to="{ name: 'settings_inbox_new' }"
-          >
-            <fluent-icon icon="add-circle" />
-            {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
-          </router-link>
+            :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
+            icon="i-lucide-plus"
+            size="sm"
+            @click="onClickNewInbox"
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <tbody
           class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
         >

@@ -23,14 +23,12 @@ const goBack = () => {
   }
 };
 
-const buttonStyleClass = props.compact
-  ? 'text-sm text-slate-600 dark:text-slate-300'
-  : 'text-base text-woot-500 dark:text-woot-500';
+const buttonStyleClass = props.compact ? 'text-sm' : 'text-base';
 </script>
 
 <template>
   <button
-    class="flex items-center p-0 font-normal cursor-pointer"
+    class="flex items-center p-0 font-normal cursor-pointer text-n-slate-11"
     :class="buttonStyleClass"
     @click.capture="goBack"
   >

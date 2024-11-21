@@ -65,7 +65,9 @@ export default {
         class="ml-2 mr-4"
       />
       <slot />
-      <span class="text-xl font-medium text-n-slate-12">
+      <span
+        class="text-xl font-medium text-n-slate-12 font-interDisplay tracking-[0.3px]"
+      >
         {{ headerTitle }}
       </span>
     </h1>
@@ -75,7 +77,7 @@ export default {
       :to="buttonRoute"
       class="button success px-3.5 py-1 rounded-[5px] flex gap-2"
     >
-      <fluent-icon icon="add-circle" />
+      <fluent-icon icon="add" />
       <span class="button__content">
         {{ buttonText }}
       </span>

@@ -23,7 +23,7 @@ defineProps({
   <div class="flex flex-col w-full h-full gap-8">
     <slot name="header" />
     <!-- Added to render any templates that should be rendered before body -->
-    <div class="mx-auto max-w-[960px] w-full">
+    <div class="mx-auto max-w-[960px] w-full pb-10">
       <slot name="preBody" />
       <slot v-if="isLoading" name="loading">
         <woot-loading-state :message="loadingMessage" />

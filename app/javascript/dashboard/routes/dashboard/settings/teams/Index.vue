@@ -3,10 +3,13 @@ import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 
+const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -63,6 +66,10 @@ const confirmPlaceHolderText = computed(() =>
     teamName: selectedTeam.value.name,
   })
 );
+
+const onClickNewTeam = () => {
+  router.push({ name: 'settings_teams_new' });
+};
 </script>
 
 <template>
@@ -74,16 +81,13 @@ const confirmPlaceHolderText = computed(() =>
       feature-name="team_management"
     >
       <template #actions>
-        <router-link
+        <Button
           v-if="isAdmin"
-          :to="{ name: 'settings_teams_new' }"
-          class="button rounded-md primary"
-        >
-          <fluent-icon icon="add-circle" />
-          <span class="button__content">
-            {{ $t('TEAMS_SETTINGS.NEW_TEAM') }}
-          </span>
-        </router-link>
+          :label="$t('TEAMS_SETTINGS.NEW_TEAM')"
+          icon="i-lucide-plus"
+          size="sm"
+          @click="onClickNewTeam"
+        />
       </template>
     </BaseSettingsHeader>
     <div
@@ -100,11 +104,8 @@ const confirmPlaceHolderText = computed(() =>
         {{ $t('TEAMS_SETTINGS.LIST.404') }}
       </p>
 
-      <table
-        v-else
-        class="min-w-full divide-y divide-slate-75 dark:divide-slate-700"
-      >
-        <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+      <table v-else class="min-w-full divide-y divide-n-weak">
+        <tbody class="divide-y divide-n-weak">
           <tr v-for="team in teamsList" :key="team.id">
             <td class="py-4 pr-4">
               <span class="block font-medium capitalize">{{ team.name }}</span>
