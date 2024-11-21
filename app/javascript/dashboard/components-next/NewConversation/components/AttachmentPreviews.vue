@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { fileNameWithEllipsis } from 'shared/helpers/FileHelper';
+import { fileNameWithEllipsis } from '@chatwoot/utils';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -69,7 +69,7 @@ const removeAttachment = id => {
       <div
         v-for="attachment in filteredNonImageAttachments"
         :key="attachment.id"
-        class="max-w-[300px] inline-flex items-center h-8 min-w-0 bg-n-solid-3 rounded-lg gap-3 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2"
+        class="max-w-[300px] inline-flex items-center h-8 min-w-0 bg-n-alpha-2 dark:bg-n-solid-3 rounded-lg gap-3 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2"
       >
         <span class="text-sm font-medium text-n-slate-11">
           {{ fileNameWithEllipsis(attachment.resource) }}
