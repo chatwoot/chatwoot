@@ -6,6 +6,8 @@ import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
 import FloatingVue from 'floating-vue';
 import store from 'dashboard/store';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -23,4 +25,5 @@ export const setupVue3 = defineSetupVue3(({ app }) => {
     arrowOverflow: false,
     disposeTimeout: 5000000,
   });
+  app.use(VueDOMPurifyHTML, domPurifyConfig);
 });
