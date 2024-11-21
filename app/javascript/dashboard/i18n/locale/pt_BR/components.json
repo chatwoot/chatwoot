@@ -8,11 +8,20 @@
     "EMPTY_STATE": "Nenhum resultado encontrado.",
     "SEARCH_PLACEHOLDER": "Pesquisar..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Pesquisar...",
+    "EMPTY_STATE": "Nenhum resultado encontrado."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Cancelar",
       "CONFIRM": "Confirmar"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Selecione o país",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Por favor, selecione um código de discagem da lista"
   },
   "THUMBNAIL": {
     "AUTHOR": {
