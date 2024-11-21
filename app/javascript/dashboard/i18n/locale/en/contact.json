@@ -430,7 +430,7 @@
       },
       "ACTION_BUTTONS": {
         "DISCARD": "Discard",
-        "SEND": "Send (↵)"
+        "SEND": "Send ({keyCode})"
       }
     }
   }
