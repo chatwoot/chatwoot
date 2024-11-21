@@ -197,6 +197,12 @@ const getFormBinding = key => {
   });
 };
 
+const getMessageType = key => {
+  return isValidationField(key) && v$.value[getValidationKey(key)]?.$error
+    ? 'error'
+    : 'info';
+};
+
 watch(() => props.contactData, prepareStateBasedOnProps, {
   immediate: true,
   deep: true,
@@ -240,12 +246,7 @@ defineExpose({
             v-else
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
-            :message-type="
-              isValidationField(item.key) &&
-              v$[getValidationKey(item.key)]?.$error
-                ? 'error'
-                : 'info'
-            "
+            :message-type="getMessageType(item.key)"
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
               !isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
             }`"
