@@ -33,11 +33,11 @@ const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
   LAST_NAME: { field: 'lastName' },
   EMAIL_ADDRESS: { field: 'email' },
-  PHONE_NUMBER: { field: 'phone_number' },
-  CITY: { field: 'additional_attributes.city' },
-  COUNTRY: { field: 'additional_attributes.country' },
-  BIO: { field: 'additional_attributes.description' },
-  COMPANY_NAME: { field: 'additional_attributes.company_name' },
+  PHONE_NUMBER: { field: 'phoneNumber' },
+  CITY: { field: 'additionalAttributes.city' },
+  COUNTRY: { field: 'additionalAttributes.country' },
+  BIO: { field: 'additionalAttributes.description' },
+  COMPANY_NAME: { field: 'additionalAttributes.company_name' },
 };
 
 const SOCIAL_CONFIG = {
@@ -55,13 +55,13 @@ const defaultState = {
   firstName: '',
   lastName: '',
   phone_number: '',
-  additional_attributes: {
+  additionalAttributes: {
     description: '',
     company_name: '',
     country_code: '',
     country: '',
     city: '',
-    social_profiles: {
+    socialProfiles: {
       facebook: '',
       github: '',
       instagram: '',
@@ -75,29 +75,33 @@ const state = reactive({ ...defaultState });
 
 const validationRules = {
   firstName: { required, minLength: minLength(2) },
-  email: { required, email },
+  email: { email },
 };
 
 const v$ = useVuelidate(validationRules, state);
 
-const updateState = () => {
-  if (props.isNewContact) return; // Added to prevent state update for new contact form
+const prepareStateBasedOnProps = () => {
+  if (props.isNewContact) {
+    return; // Added to prevent state update for new contact form
+  }
+
   const {
     id,
     name = '',
     email: emailAddress,
     phoneNumber,
-    additionalAttributes: {
-      description,
-      companyName,
-      countryCode,
-      country,
-      city,
-      socialProfiles = {},
-    } = {},
+    additionalAttributes = {},
   } = props.contactData || {};
 
   const [firstName = '', lastName = ''] = name.split(' ');
+  const {
+    description,
+    companyName,
+    countryCode,
+    country,
+    city,
+    socialProfiles = {},
+  } = additionalAttributes || {};
 
   Object.assign(state, {
     id,
@@ -105,14 +109,14 @@ const updateState = () => {
     firstName,
     lastName,
     email: emailAddress,
-    phone_number: phoneNumber,
-    additional_attributes: {
+    phoneNumber,
+    additionalAttributes: {
       description,
       company_name: companyName,
       country_code: countryCode,
       country,
       city,
-      social_profiles: socialProfiles,
+      socialProfiles: socialProfiles || {},
     },
   });
 };
@@ -192,12 +196,13 @@ const getFormBinding = key => {
   });
 };
 
-watch(() => props.contactData, updateState, { immediate: true, deep: true });
+watch(() => props.contactData, prepareStateBasedOnProps, {
+  immediate: true,
+  deep: true,
+});
 
 // Expose state to parent component for avatar upload
-defineExpose({
-  state,
-});
+defineExpose({ state });
 </script>
 
 <template>
@@ -210,7 +215,7 @@ defineExpose({
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
-            v-model="state.additional_attributes.country"
+            v-model="state.additionalAttributes.country"
             :options="countryOptions"
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"
@@ -271,9 +276,7 @@ defineExpose({
             class="flex-shrink-0 text-n-slate-11 size-4"
           />
           <input
-            v-model="state.additional_attributes.social_profiles[
-              item.key.toLowerCase()
-              ]
+            v-model="state.additionalAttributes.social_profiles[item.key.toLowerCase()]
               "
             class="w-auto min-w-[100px] text-sm bg-transparent reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"

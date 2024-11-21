@@ -1,27 +1,6 @@
 <script setup>
-import ContactsForm from './ContactsForm.vue';
-
-// Sample contact data based on the structure from ContactsCard.vue
-const contactData = {
-  id: 370,
-  name: 'John Doe',
-  email: 'johndoe@chatwoot.com',
-  phoneNumber: '+918634322418',
-  additionalAttributes: {
-    city: 'Kerala',
-    country: 'India',
-    description: 'Curious about the web.',
-    companyName: 'Chatwoot',
-    countryCode: 'IN',
-    socialProfiles: {
-      github: 'johndoe',
-      twitter: 'johndoe',
-      facebook: 'johndoe',
-      linkedin: 'johndoe',
-      instagram: 'johndoe',
-    },
-  },
-};
+import ContactsForm from '../ContactsForm.vue';
+import contactData from './fixtures';
 
 const handleUpdate = updatedData => {
   console.log('Form updated:', updatedData);
