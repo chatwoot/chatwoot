@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
 const props = defineProps({
@@ -32,6 +33,7 @@ const varaintBaseMap = {
 const orientationMap = {
   left: 'rounded-xl rounded-bl-sm',
   right: 'rounded-xl rounded-br-sm',
+  center: 'rounded-md',
 };
 
 const messageClass = computed(() => {
@@ -45,10 +47,14 @@ const messageClass = computed(() => {
 
   return classToApply;
 });
+
+const formattedContent = computed(() => {
+  return new MessageFormatter(props.content).formattedMessage;
+});
 </script>
 
 <template>
   <div class="max-w-md text-sm" :class="messageClass">
-    {{ content }}
+    <span class="prose prose-sm" v-html="formattedContent" />
   </div>
 </template>
