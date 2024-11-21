@@ -58,23 +58,24 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 py-6 overflow-auto mx-auto max-w-[960px] w-full">
+  <div class="flex-1 py-6 overflow-auto mx-auto max-w-[960px] w-full p-1">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
     <div v-else-if="!hasABillingPlan">
       <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
     </div>
-    <div v-else class="w-full">
-      <div class="current-plan--details">
-        <h6>{{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}</h6>
+    <div v-else class="w-full flex flex-col gap-5">
+      <div class="border-b border-n-weak pb-4">
+        <h6 class="text-n-slate-12">
+          {{ $t('BILLING_SETTINGS.CURRENT_PLAN.TITLE') }}
+        </h6>
         <div
-          v-dompurify-html="
-            formatMessage(
-              $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
-                plan: planName,
-                quantity: subscribedQuantity,
-              })
-            )
-          "
+          v-dompurify-html="formatMessage(
+            $t('BILLING_SETTINGS.CURRENT_PLAN.PLAN_NOTE', {
+              plan: planName,
+              quantity: subscribedQuantity,
+            })
+          )
+            "
         />
       </div>
       <BillingItem
@@ -93,31 +94,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.manage-subscription {
-  @apply bg-white dark:bg-slate-800 flex justify-between mb-2 py-6 px-4 items-center rounded-md border border-solid border-slate-75 dark:border-slate-700;
-}
-
-.current-plan--details {
-  @apply border-b border-solid border-slate-75 dark:border-slate-800 mb-4 pb-4;
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
-  }
-
-  p {
-    @apply text-slate-600 dark:text-slate-200;
-  }
-}
-
-.manage-subscription {
-  .manage-subscription--description {
-    @apply mb-0 text-slate-600 dark:text-slate-200;
-  }
-
-  h6 {
-    @apply text-slate-800 dark:text-slate-100;
-  }
-}
-</style>
