@@ -8,11 +8,20 @@
     "EMPTY_STATE": "검색 결과가 없습니다.",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "검색 결과가 없습니다."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "취소",
       "CONFIRM": "Confirm"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "국가 검색",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
   },
   "THUMBNAIL": {
     "AUTHOR": {
