@@ -53,6 +53,7 @@ const filteredAttrs = computed(() => {
 
 const computedVariant = computed(() => {
   if (props.variant) return props.variant;
+  // The useAttrs method returns attributes values an empty string (not boolean value as in props).
   if (attrs.solid || attrs.solid === '') return 'solid';
   if (attrs.outline || attrs.outline === '') return 'outline';
   if (attrs.faded || attrs.faded === '') return 'faded';
