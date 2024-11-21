@@ -461,6 +461,13 @@
           "CANCEL": "Cancel",
           "CONFIRM": "Merge contact"
         }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Add a note",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     }
   }
