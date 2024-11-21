@@ -3,28 +3,29 @@ import { computed, useSlots, useAttrs } from 'vue';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import {
+  VARIANT_OPTIONS,
+  COLOR_OPTIONS,
+  SIZE_OPTIONS,
+  EXCLUDED_ATTRS,
+} from './constants.js';
 
 const props = defineProps({
   label: { type: [String, Number], default: '' },
   variant: {
     type: String,
     default: null,
-    validator: value =>
-      ['solid', 'outline', 'faded', 'link', 'ghost'].includes(value) ||
-      value === null,
+    validator: value => VARIANT_OPTIONS.includes(value) || value === null,
   },
   color: {
     type: String,
     default: null,
-    validator: value =>
-      ['blue', 'ruby', 'amber', 'slate', 'teal'].includes(value) ||
-      value === null,
+    validator: value => COLOR_OPTIONS.includes(value) || value === null,
   },
   size: {
     type: String,
     default: null,
-    validator: value =>
-      ['xs', 'sm', 'md', 'lg'].includes(value) || value === null,
+    validator: value => SIZE_OPTIONS.includes(value) || value === null,
   },
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
@@ -33,6 +34,22 @@ const props = defineProps({
 
 const slots = useSlots();
 const attrs = useAttrs();
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const filteredAttrs = computed(() => {
+  const standardAttrs = {};
+
+  Object.entries(attrs)
+    .filter(([key]) => !EXCLUDED_ATTRS.includes(key))
+    .forEach(([key, value]) => {
+      standardAttrs[key] = value;
+    });
+
+  return standardAttrs;
+});
 
 const computedVariant = computed(() => {
   if (props.variant) return props.variant;
@@ -169,6 +186,7 @@ const linkButtonClasses = computed(() => {
 
 <template>
   <button
+    v-bind="filteredAttrs"
     :class="{
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
