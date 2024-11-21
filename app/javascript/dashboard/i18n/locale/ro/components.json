@@ -8,11 +8,20 @@
     "EMPTY_STATE": "Niciun rezultat găsit.",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "Niciun rezultat găsit."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Renunță",
       "CONFIRM": "Confirmă"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Vă rugăm să selectați un cod de apelare din listă"
   },
   "THUMBNAIL": {
     "AUTHOR": {
