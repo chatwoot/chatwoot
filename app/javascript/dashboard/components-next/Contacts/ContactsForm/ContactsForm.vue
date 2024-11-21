@@ -33,11 +33,11 @@ const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
   LAST_NAME: { field: 'lastName' },
   EMAIL_ADDRESS: { field: 'email' },
-  PHONE_NUMBER: { field: 'phone_number' },
-  CITY: { field: 'additional_attributes.city' },
-  COUNTRY: { field: 'additional_attributes.country' },
-  BIO: { field: 'additional_attributes.description' },
-  COMPANY_NAME: { field: 'additional_attributes.company_name' },
+  PHONE_NUMBER: { field: 'phoneNumber' },
+  CITY: { field: 'additionalAttributes.city' },
+  COUNTRY: { field: 'additionalAttributes.country' },
+  BIO: { field: 'additionalAttributes.description' },
+  COMPANY_NAME: { field: 'additionalAttributes.companyName' },
 };
 
 const SOCIAL_CONFIG = {
@@ -54,14 +54,14 @@ const defaultState = {
   email: '',
   firstName: '',
   lastName: '',
-  phone_number: '',
-  additional_attributes: {
+  phoneNumber: '',
+  additionalAttributes: {
     description: '',
-    company_name: '',
-    country_code: '',
+    companyName: '',
+    countryCode: '',
     country: '',
     city: '',
-    social_profiles: {
+    socialProfiles: {
       facebook: '',
       github: '',
       instagram: '',
@@ -75,16 +75,39 @@ const state = reactive({ ...defaultState });
 
 const validationRules = {
   firstName: { required, minLength: minLength(2) },
-  email: { required, email },
+  email: { email },
 };
 
 const v$ = useVuelidate(validationRules, state);
 
-const updateState = () => {
-  if (props.isNewContact) return; // Added to prevent state update for new contact form
+const prepareStateBasedOnProps = () => {
+  if (props.isNewContact) {
+    return; // Added to prevent state update for new contact form
+  }
+
   const {
     id,
     name = '',
+    email: emailAddress,
+    phoneNumber,
+    additionalAttributes = {},
+  } = props.contactData || {};
+
+  const [firstName = '', lastName = ''] = name.split(' ');
+  const {
+    description,
+    companyName,
+    countryCode,
+    country,
+    city,
+    socialProfiles = {},
+  } = additionalAttributes || {};
+
+  Object.assign(state, {
+    id,
+    name,
+    firstName,
+    lastName,
     email: emailAddress,
     phoneNumber,
     additionalAttributes: {
@@ -93,26 +116,7 @@ const updateState = () => {
       countryCode,
       country,
       city,
-      socialProfiles = {},
-    } = {},
-  } = props.contactData || {};
-
-  const [firstName = '', lastName = ''] = name.split(' ');
-
-  Object.assign(state, {
-    id,
-    name,
-    firstName,
-    lastName,
-    email: emailAddress,
-    phone_number: phoneNumber,
-    additional_attributes: {
-      description,
-      company_name: companyName,
-      country_code: countryCode,
-      country,
-      city,
-      social_profiles: socialProfiles,
+      socialProfiles,
     },
   });
 };
@@ -147,38 +151,39 @@ const getValidationKey = key => {
   return FORM_CONFIG[key]?.field;
 };
 
-// Creates a computed property for form field binding based on FORM_CONFIG
+// Creates a computed property for two-way form field binding
 const getFormBinding = key => {
-  // Get field path from config
-  // Example: FORM_CONFIG.name = { field: 'contact.name' }
   const field = FORM_CONFIG[key]?.field;
   if (!field) return null;
 
   return computed({
-    // Get value from state
-    // Example 1 (nested): field = 'contact.name' returns state.contact.name = "John Doe"
-    // Example 2 (root): field = 'email' returns state.email = "john@example.com"
     get: () => {
+      // Handle firstName/lastName fields
       if (field === 'firstName' || field === 'lastName') {
         return state[field]?.toString() || '';
       }
+
+      // Handle nested vs non-nested fields
       const [base, nested] = field.split('.');
+      // Example: 'email' → state.email
+      // Example: 'additionalAttributes.city' → state.additionalAttributes.city
       return (nested ? state[base][nested] : state[base])?.toString() || '';
     },
 
-    // Set value in state and emit update
-    // Example 1 (nested): field = 'contact.name', value = "Jane Doe" → state.contact.name = "Jane Doe"
-    // Example 2 (root): field = 'email', value = "jane@example.com" → state.email = "jane@example.com"
     set: async value => {
+      // Handle name fields specially to maintain the combined 'name' field
       if (field === 'firstName' || field === 'lastName') {
         state[field] = value;
-        // Combine first and last name into the name field
+        // Example: firstName="John", lastName="Doe" → name="John Doe"
         state.name = `${state.firstName} ${state.lastName}`.trim();
       } else {
+        // Handle nested vs non-nested fields
         const [base, nested] = field.split('.');
         if (nested) {
+          // Example: additionalAttributes.city = "New York"
           state[base][nested] = value;
         } else {
+          // Example: email = "test@example.com"
           state[base] = value;
         }
       }
@@ -192,7 +197,16 @@ const getFormBinding = key => {
   });
 };
 
-watch(() => props.contactData, updateState, { immediate: true, deep: true });
+const getMessageType = key => {
+  return isValidationField(key) && v$.value[getValidationKey(key)]?.$error
+    ? 'error'
+    : 'info';
+};
+
+watch(() => props.contactData, prepareStateBasedOnProps, {
+  immediate: true,
+  deep: true,
+});
 
 // Expose state to parent component for avatar upload
 defineExpose({
@@ -210,7 +224,7 @@ defineExpose({
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
-            v-model="state.additional_attributes.country"
+            v-model="state.additionalAttributes.country"
             :options="countryOptions"
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"
@@ -232,12 +246,7 @@ defineExpose({
             v-else
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
-            :message-type="
-              isValidationField(item.key) &&
-              v$[getValidationKey(item.key)]?.$error
-                ? 'error'
-                : 'info'
-            "
+            :message-type="getMessageType(item.key)"
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
               !isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
             }`"
@@ -274,9 +283,7 @@ defineExpose({
           />
           <input
             v-model="
-              state.additional_attributes.social_profiles[
-                item.key.toLowerCase()
-              ]
+              state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
             "
             class="w-auto min-w-[100px] text-sm bg-transparent reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"

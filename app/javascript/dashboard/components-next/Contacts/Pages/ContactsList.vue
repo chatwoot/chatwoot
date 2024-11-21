@@ -37,8 +37,6 @@ const ROUTE_MAPPINGS = {
 };
 
 const onClickViewDetails = async id => {
-  await store.dispatch('contacts/show', { id });
-
   const dynamicRouteName =
     ROUTE_MAPPINGS[route.name] || 'contacts_dashboard_edit_index';
 
