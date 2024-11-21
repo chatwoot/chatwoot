@@ -41,8 +41,11 @@ const messages = [
 </script>
 
 <template>
-  <Story title="Components/Message" :layout="{ type: 'grid', width: '800' }">
-    <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid gap-2">
+  <Story
+    title="Components/Messages/Text"
+    :layout="{ type: 'grid', width: '800' }"
+  >
+    <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid gap-4">
       <MessageBubble v-for="message in messages" v-bind="message" />
     </div>
   </Story>

@@ -20,7 +20,7 @@ const props = defineProps({
 const varaintBaseMap = {
   agent: 'bg-n-solid-blue p-3 text-n-slate-12',
   private: 'bg-n-solid-amber p-3 text-n-amber-12',
-  user: 'bg-n-alpha-2 p-3 text-n-slate-12',
+  user: 'bg-n-slate-4 p-3 text-n-slate-12',
   system: 'bg-n-alpha-1 px-2 py-0.5 text-n-slate-11 text-sm',
 };
 
@@ -54,7 +54,7 @@ const messageClass = computed(() => {
 
 <template>
   <div class="flex w-full" :class="containetFlexJustify">
-    <div class="max-w-md" :class="messageClass">
+    <div class="max-w-md text-sm" :class="messageClass">
       {{ text }}
     </div>
   </div>
