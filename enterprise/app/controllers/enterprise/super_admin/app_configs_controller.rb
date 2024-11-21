@@ -1,4 +1,4 @@
-module Enterprise::SuperAdmin::AppConfigsController
+module Community::SuperAdmin::AppConfigsController
   private
 
   def allowed_configs
