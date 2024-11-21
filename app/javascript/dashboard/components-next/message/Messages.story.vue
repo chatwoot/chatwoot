@@ -203,7 +203,7 @@ const messages = [
     inbox_id: 475,
     conversation_id: 43,
     message_type: 0,
-    created_at: 1732195838,
+    created_at: 1732195820,
     updated_at: '2024-11-21T13:30:38.070Z',
     private: false,
     status: 'sent',
@@ -221,7 +221,7 @@ const messages = [
     conversation: {
       assignee_id: 1,
       unread_count: 1,
-      last_activity_at: 1732195838,
+      last_activity_at: 1732195820,
       contact_inbox: {
         source_id: 'b018c554-8e17-4102-8a0b-f6d20d021017',
       },
@@ -246,7 +246,7 @@ const messages = [
     inbox_id: 475,
     conversation_id: 43,
     message_type: 0,
-    created_at: 1732195865,
+    created_at: 1732195820,
     updated_at: '2024-11-21T13:31:05.284Z',
     private: false,
     status: 'sent',
@@ -265,7 +265,7 @@ const messages = [
     conversation: {
       assignee_id: 1,
       unread_count: 1,
-      last_activity_at: 1732195865,
+      last_activity_at: 1732195885,
       contact_inbox: {
         source_id: 'b018c554-8e17-4102-8a0b-f6d20d021017',
       },
@@ -290,7 +290,7 @@ const messages = [
     inbox_id: 475,
     conversation_id: 43,
     message_type: 0,
-    created_at: 1732195872,
+    created_at: 1732195886,
     updated_at: '2024-11-21T13:31:12.545Z',
     private: false,
     status: 'sent',
@@ -709,6 +709,20 @@ const messages = [
     },
   },
 ].map(camelcaseKeys);
+
+const shouldGroupWithNext = index => {
+  if (index === messages.length - 1) return false;
+
+  const current = messages[index];
+  const next = messages[index + 1];
+
+  const nextSenderId = next.senderId ?? next.sender?.id;
+  const currentSenderId = current.senderId ?? current.sender?.id;
+  if (currentSenderId !== nextSenderId) return false;
+
+  // if next and current createdAt is within 1 min group them;
+  return next.createdAt - current.createdAt < 60;
+};
 </script>
 
 <template>
@@ -716,9 +730,13 @@ const messages = [
     title="Components/Messages/Text"
     :layout="{ type: 'grid', width: '800' }"
   >
-    <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid gap-4">
-      <template v-for="message in messages" :key="message.id">
-        <Message :current-user-id="1" v-bind="message" />
+    <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
+      <template v-for="(message, index) in messages" :key="message.id">
+        <Message
+          :current-user-id="1"
+          :group-with-next="shouldGroupWithNext(index)"
+          v-bind="message"
+        />
       </template>
     </div>
   </Story>

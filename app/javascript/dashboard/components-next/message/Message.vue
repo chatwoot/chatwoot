@@ -79,6 +79,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  groupWithNext: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /**
@@ -151,7 +155,10 @@ const gridTemplate = computed(() => {
 </script>
 
 <template>
-  <div class="flex w-full" :class="flexOrientationClass">
+  <div
+    class="flex w-full"
+    :class="[flexOrientationClass, { 'mb-4': !groupWithNext }]"
+  >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
       <TextBubble v-bind="props" :variant :orientation />
     </div>
@@ -163,7 +170,7 @@ const gridTemplate = computed(() => {
         gridTemplateAreas: gridTemplate,
       }"
     >
-      <div class="[grid-area:avatar] flex items-end">
+      <div v-if="!groupWithNext" class="[grid-area:avatar] flex items-end">
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
       </div>
       <TextBubble
@@ -173,10 +180,11 @@ const gridTemplate = computed(() => {
         class="[grid-area:bubble]"
       />
       <div
+        v-if="!groupWithNext"
         class="[grid-area:meta] text-xs text-n-slate-11 flex items-center gap-1.5"
         :class="flexOrientationClass"
       >
-        <span>{{ sender ? sender.name : '' }} {{ '• 1m ago' }}</span>
+        <span>{{ sender ? sender.name + ' •' : '' }} {{ '1m ago' }}</span>
         <Icon
           v-if="variant === MESSAGE_VARIANTS.PRIVATE"
           icon="i-lucide-lock-keyhole"
