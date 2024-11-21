@@ -53,30 +53,30 @@ const filteredAttrs = computed(() => {
 
 const computedVariant = computed(() => {
   if (props.variant) return props.variant;
-  if (attrs.solid !== undefined) return 'solid';
-  if (attrs.outline !== undefined) return 'outline';
-  if (attrs.faded !== undefined) return 'faded';
-  if (attrs.link !== undefined) return 'link';
-  if (attrs.ghost !== undefined) return 'ghost';
+  if (attrs.solid || attrs.solid === '') return 'solid';
+  if (attrs.outline || attrs.outline === '') return 'outline';
+  if (attrs.faded || attrs.faded === '') return 'faded';
+  if (attrs.link || attrs.link === '') return 'link';
+  if (attrs.ghost || attrs.ghost === '') return 'ghost';
   return 'solid'; // Default variant
 });
 
 const computedColor = computed(() => {
   if (props.color) return props.color;
-  if (attrs.blue !== undefined) return 'blue';
-  if (attrs.ruby !== undefined) return 'ruby';
-  if (attrs.amber !== undefined) return 'amber';
-  if (attrs.slate !== undefined) return 'slate';
-  if (attrs.teal !== undefined) return 'teal';
+  if (attrs.blue || attrs.blue === '') return 'blue';
+  if (attrs.ruby || attrs.ruby === '') return 'ruby';
+  if (attrs.amber || attrs.amber === '') return 'amber';
+  if (attrs.slate || attrs.slate === '') return 'slate';
+  if (attrs.teal || attrs.teal === '') return 'teal';
   return 'blue'; // Default color
 });
 
 const computedSize = computed(() => {
   if (props.size) return props.size;
-  if (attrs.xs !== undefined) return 'xs';
-  if (attrs.sm !== undefined) return 'sm';
-  if (attrs.md !== undefined) return 'md';
-  if (attrs.lg !== undefined) return 'lg';
+  if (attrs.xs || attrs.xs === '') return 'xs';
+  if (attrs.sm || attrs.sm === '') return 'sm';
+  if (attrs.md || attrs.md === '') return 'md';
+  if (attrs.lg || attrs.lg === '') return 'lg';
   return 'md';
 });
 
