@@ -39,7 +39,7 @@ const orientationMap = {
 const messageClass = computed(() => {
   const classToApply = [varaintBaseMap[props.variant]];
 
-  if (props.variant !== 'system') {
+  if (props.variant !== MESSAGE_VARIANTS.ACTIVITY) {
     classToApply.push(orientationMap[props.orientation]);
   } else {
     classToApply.push('rounded-lg');
@@ -49,6 +49,10 @@ const messageClass = computed(() => {
 });
 
 const formattedContent = computed(() => {
+  if (props.variant === MESSAGE_VARIANTS.ACTIVITY) {
+    return props.content;
+  }
+
   return new MessageFormatter(props.content).formattedMessage;
 });
 </script>
@@ -58,3 +62,9 @@ const formattedContent = computed(() => {
     <span v-html="formattedContent" />
   </div>
 </template>
+
+<style>
+p:last-child {
+  margin-bottom: 0;
+}
+</style>
