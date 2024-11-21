@@ -137,7 +137,7 @@ const { onFileUpload } = useFileUpload({
 });
 
 const sendButtonLabel = computed(() => {
-  const keyCode = isEditorHotKeyEnabled('cmd_enter') ? '(⌘ + ↵)' : '(↵)';
+  const keyCode = isEditorHotKeyEnabled('cmd_enter') ? '⌘ + ↵' : '↵';
   return t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.SEND', {
     keyCode,
   });
