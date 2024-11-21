@@ -35,13 +35,13 @@ const onClickViewDetails = async () => {
       <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
       <div class="flex flex-col gap-1">
         <div class="flex items-center gap-2">
-          <span class="text-sm font-medium truncate text-n-slate-12">{{
-            name
-          }}</span>
+          <span class="text-sm font-medium truncate text-n-slate-12">
+            {{ name }}
+          </span>
           <template v-if="additionalAttributes?.companyName">
-            <span class="text-sm text-n-slate-11">{{
-              t('CONTACTS_LAYOUT.CARD.OF')
-            }}</span>
+            <span class="text-sm text-n-slate-11">
+              {{ t('CONTACTS_LAYOUT.CARD.OF') }}
+            </span>
             <span class="text-sm font-medium truncate text-n-slate-12">
               {{ additionalAttributes.companyName }}
             </span>
@@ -50,9 +50,9 @@ const onClickViewDetails = async () => {
         <div class="flex items-center gap-3">
           <span v-if="email" class="text-sm text-n-slate-11">{{ email }}</span>
           <div v-if="email" class="w-px h-3 bg-n-slate-6" />
-          <span v-if="phoneNumber" class="text-sm text-n-slate-11">{{
-            phoneNumber
-          }}</span>
+          <span v-if="phoneNumber" class="text-sm text-n-slate-11">
+            {{ phoneNumber }}
+          </span>
           <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
           <Button
             :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
