@@ -409,7 +409,7 @@
         "SUBJECT_LABEL": "Subject :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc :",
-        "CC_PLACEHOLDER": "Search or enter email and press Enter",
+        "CC_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
         "BCC_LABEL": "Bcc :",
         "BCC_PLACEHOLDER": "Search or enter email and press Enter",
         "BCC_BUTTON": "Bcc"
