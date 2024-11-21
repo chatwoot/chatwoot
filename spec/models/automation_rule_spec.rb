@@ -31,7 +31,7 @@ RSpec.describe AutomationRule do
         actions: [
           {
             action_name: :send_message,
-            action_params: ['Welcome to the chatwoot platform.']
+            action_params: ['Welcome to the XPING LIVE CHAT platform.']
           },
           {
             action_name: :assign_team,
