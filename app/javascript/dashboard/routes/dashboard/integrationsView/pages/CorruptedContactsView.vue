@@ -131,6 +131,9 @@
     <contact-merge-modal
       v-if="showMergeModal"
       :primary-contact="selectedContact"
+      :suggested-contact-id="
+        selectedContact.custom_attributes.contact_corrupted[0].toString()
+      "
       :show="showMergeModal"
       @close="toggleMergeModal"
       @sucess="deleteAtributes"
