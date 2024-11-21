@@ -31,5 +31,11 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "tag"
   }
 }

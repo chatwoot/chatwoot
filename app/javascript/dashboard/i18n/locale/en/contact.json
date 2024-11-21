@@ -502,7 +502,6 @@
       }
     },
     "DETAILS": {
-      "TAG_BUTTON": "tag",
       "CREATED_AT": "Created {date}",
       "LAST_ACTIVITY": "Last active {date}",
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",

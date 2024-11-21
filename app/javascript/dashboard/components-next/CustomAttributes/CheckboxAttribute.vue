@@ -1,8 +1,10 @@
-<!-- Attribute type "Checkbox" -->
 <script setup>
-import Button from 'dashboard/components-next/button/Button.vue';
+import { ref } from 'vue';
 
-defineProps({
+import Button from 'dashboard/components-next/button/Button.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
+
+const props = defineProps({
   attribute: {
     type: Object,
     required: true,
@@ -15,8 +17,10 @@ defineProps({
 
 const emit = defineEmits(['update', 'delete']);
 
-const handleChange = event => {
-  emit('update', event.target.checked);
+const attributeValue = ref(Boolean(props.attribute.value));
+
+const handleChange = value => {
+  emit('update', value);
 };
 </script>
 
@@ -28,13 +32,7 @@ const handleChange = event => {
       'justify-end': !isEditingView,
     }"
   >
-    <input
-      :checked="Boolean(attribute.value)"
-      class="px-2 py-1 text-sm border rounded bg-n-solid-2 border-n-slate-5"
-      type="checkbox"
-      @change="handleChange"
-    />
-
+    <Switch v-model="attributeValue" @change="handleChange" />
     <Button
       v-if="isEditingView"
       variant="faded"

@@ -1,4 +1,3 @@
-<!-- Attribute type "Date" -->
 <script setup>
 import { ref, computed } from 'vue';
 import { parseISO } from 'date-fns';

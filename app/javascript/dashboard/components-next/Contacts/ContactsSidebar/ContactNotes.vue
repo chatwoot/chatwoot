@@ -3,20 +3,16 @@ import { reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ContactNoteItem from './components/ContactNoteItem.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
-
-const { formatMessage } = useMessageFormatter();
 
 const state = reactive({
   message: '',
@@ -88,45 +84,13 @@ useKeyboardEvents(keyboardEvents);
       <Spinner />
     </div>
     <div v-else-if="notes.length > 0">
-      <div
+      <ContactNoteItem
         v-for="note in notes"
         :key="note.id"
-        class="flex flex-col gap-2 px-6 py-2 border-b border-n-strong group/note"
-      >
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-1.5 py-2.5 min-w-0">
-            <Avatar
-              :name="note.user.name"
-              :src="note.user.thumbnail"
-              :size="16"
-              rounded-full
-            />
-            <div class="min-w-0 truncate">
-              <span
-                class="inline-flex items-center gap-1 text-sm text-n-slate-11"
-              >
-                <span class="font-medium">{{ getWrittenBy(note) }}</span>
-                {{ $t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-                <span class="font-medium">{{
-                  dynamicTime(note.createdAt)
-                }}</span>
-              </span>
-            </div>
-          </div>
-          <Button
-            variant="faded"
-            color="ruby"
-            size="xs"
-            icon="i-lucide-trash"
-            class="opacity-0 group-hover/note:opacity-100"
-            @click="onDelete(note.id)"
-          />
-        </div>
-        <p
-          v-dompurify-html="formatMessage(note.content || '')"
-          class="mb-0 prose-sm prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
-        />
-      </div>
+        :note="note"
+        :written-by="getWrittenBy(note)"
+        @delete="onDelete"
+      />
     </div>
     <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
       {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.EMPTY_STATE') }}
