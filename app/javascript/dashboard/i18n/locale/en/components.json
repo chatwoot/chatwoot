@@ -32,5 +32,8 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Breadcrumb"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "tag"
   }
 }
