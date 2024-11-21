@@ -1,4 +1,3 @@
-<!-- Attribute type "Checkbox" -->
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
 
