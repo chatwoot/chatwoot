@@ -61,7 +61,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  enterprise_form_attributes = ChatwootApp.Community? ? %i[limits all_features] : []
+  enterprise_form_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
   FORM_ATTRIBUTES = (%i[
     name
     locale
