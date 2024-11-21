@@ -55,6 +55,6 @@ const formattedContent = computed(() => {
 
 <template>
   <div class="max-w-md text-sm" :class="messageClass">
-    <span class="prose prose-sm" v-html="formattedContent" />
+    <span v-html="formattedContent" />
   </div>
 </template>
