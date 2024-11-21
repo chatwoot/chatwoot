@@ -157,15 +157,15 @@ const gridTemplate = computed(() => {
 <template>
   <div
     class="flex w-full"
-    :class="[flexOrientationClass, { 'mb-4': !groupWithNext }]"
+    :class="[flexOrientationClass, groupWithNext ? 'mb-2' : 'mb-4']"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
       <TextBubble v-bind="props" :variant :orientation />
     </div>
     <div
       v-else
-      :class="gridClass"
-      class="gap-x-3 gap-y-2 grid-area"
+      :class="[gridClass, { 'gap-y-2': !groupWithNext }]"
+      class="gap-x-3"
       :style="{
         gridTemplateAreas: gridTemplate,
       }"
