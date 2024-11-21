@@ -8,11 +8,20 @@
     "EMPTY_STATE": "Ni rezultatov.",
     "SEARCH_PLACEHOLDER": "Iskanje ..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Iskanje ...",
+    "EMPTY_STATE": "Ni rezultatov."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Prekliči",
       "CONFIRM": "Potrdi"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Poišči državo",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
   },
   "THUMBNAIL": {
     "AUTHOR": {
