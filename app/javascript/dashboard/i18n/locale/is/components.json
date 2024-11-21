@@ -8,11 +8,20 @@
     "EMPTY_STATE": "Engar niðurstöður fundust.",
     "SEARCH_PLACEHOLDER": "Search..."
   },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "Engar niðurstöður fundust."
+  },
   "DIALOG": {
     "BUTTONS": {
       "CANCEL": "Hætta við",
       "CONFIRM": "Confirm"
     }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Vinsamlegast veldu landsnúmer úr listanum"
   },
   "THUMBNAIL": {
     "AUTHOR": {
