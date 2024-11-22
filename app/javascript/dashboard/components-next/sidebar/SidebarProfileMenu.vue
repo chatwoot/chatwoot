@@ -67,7 +67,7 @@ const menuItems = computed(() => {
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
       click: () => {
-        window.open('https://www.chatwoot.com/hc/user-guide/en', '_blank');
+        window.open('https://xping.online/hc/user-guide/en', '_blank');
       },
     },
     {

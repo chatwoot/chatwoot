@@ -719,10 +719,10 @@ RSpec.describe Conversation do
   end
 
   describe 'validate valid referer url' do
-    let(:conversation) { create(:conversation, additional_attributes: { referer: 'https://www.chatwoot.com/' }) }
+    let(:conversation) { create(:conversation, additional_attributes: { referer: 'https://xping.online/' }) }
 
     it 'returns nil' do
-      expect(conversation['additional_attributes']['referer']).to eq('https://www.chatwoot.com/')
+      expect(conversation['additional_attributes']['referer']).to eq('https://xping.online/')
     end
   end
 
