@@ -33,5 +33,8 @@
   },
   "SWITCH": {
     "TOGGLE": "Toggle switch"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "tag"
   }
 }
