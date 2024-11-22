@@ -49,7 +49,7 @@ describe('#actions', () => {
         { commit },
         {
           websiteToken: 'XDsafmADasd',
-          currentURL: 'https://www.chatwoot.com',
+          currentURL: 'https://www.xping.online',
           isInBusinessHours: true,
         }
       );
