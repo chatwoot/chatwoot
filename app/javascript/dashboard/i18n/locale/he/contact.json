@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "מזג אנשי קשר",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "איש קשר ראשי",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "להימחק",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "חפש איש קשר",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "איש הקשר מוזג בהצלחה",
+        "ERROR_MESSAGE": "לא ניתן למזג אנשי קשר, נסה שוב!",
+        "IS_SEARCHING": "Searching...",
+        "BUTTONS": {
+          "CANCEL": "ביטול",
+          "CONFIRM": "מזג אנשי קשר"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "הוסף הערה",
+        "WROTE": "נכתב",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
