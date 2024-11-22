@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "Gabungkan Kontak",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Kontak Utama",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Akan dihapus",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Cari kontak",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Kontak berhasil digabungkan",
+        "ERROR_MESSAGE": "Tidak dapat menggabungkan kontak, coba lagi!",
+        "IS_SEARCHING": "Sedang mencari...",
+        "BUTTONS": {
+          "CANCEL": "Batalkan",
+          "CONFIRM": "Gabungkan Kontak"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Tambahkan Catatan",
+        "WROTE": "menulis",
+        "YOU": "Anda",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
