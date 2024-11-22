@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "Îmbinare contact",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Contact principal",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "De eliminat",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Caută un contact",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Contact unit cu succes",
+        "ERROR_MESSAGE": "Contactele nu au putut fi îmbinate, încercați din nou!",
+        "IS_SEARCHING": "In căutare...",
+        "BUTTONS": {
+          "CANCEL": "Renunță",
+          "CONFIRM": "Îmbinare contact"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Adaugă o notă",
+        "WROTE": "scrisese",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
