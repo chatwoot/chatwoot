@@ -4,59 +4,21 @@ export const label = {
   color: '#A2FDD5',
 };
 
-export const labelMenuItems = [
-  {
-    label: 'delivery',
-    value: 3,
-    thumbnail: {
-      color: '#A2FDD5',
-    },
-    isSelected: true,
-    action: 'addLabel',
-  },
-  {
-    label: 'lead',
-    value: 6,
-    thumbnail: {
-      color: '#F161C8',
-    },
-    isSelected: false,
-    action: 'addLabel',
-  },
-  {
-    label: 'ops-handover',
-    value: 4,
-    thumbnail: {
-      color: '#A53326',
-    },
-    isSelected: false,
-    action: 'addLabel',
-  },
-  {
-    label: 'billing',
-    value: 1,
-    thumbnail: {
-      color: '#28AD21',
-    },
-    isSelected: false,
-    action: 'addLabel',
-  },
-  {
-    label: 'premium-customer',
-    value: 5,
-    thumbnail: {
-      color: '#6FD4EF',
-    },
-    isSelected: false,
-    action: 'addLabel',
-  },
-  {
-    label: 'software',
-    value: 2,
-    thumbnail: {
-      color: '#8F6EF2',
-    },
-    isSelected: false,
-    action: 'addLabel',
-  },
+const labelsData = [
+  { label: 'delivery', id: 3, color: '#A2FDD5' },
+  { label: 'lead', id: 6, color: '#F161C8' },
+  { label: 'ops-handover', id: 4, color: '#A53326' },
+  { label: 'billing', id: 1, color: '#28AD21' },
+  { label: 'premium-customer', id: 5, color: '#6FD4EF' },
+  { label: 'software', id: 2, color: '#8F6EF2' },
 ];
+
+export const labelMenuItems = labelsData.map(item => ({
+  label: item.label,
+  value: item.id,
+  thumbnail: {
+    color: item.color,
+  },
+  isSelected: item.label === 'delivery',
+  action: 'addLabel',
+}));
