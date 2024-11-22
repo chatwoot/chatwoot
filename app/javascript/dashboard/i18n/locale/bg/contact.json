@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "Обединяване на контакти",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Основен контакт",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Да бъде изтрит",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Търсене на контакт",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Успешно обединяване на контакта",
+        "ERROR_MESSAGE": "Контактите не бяха обединени, опитайте отново!",
+        "IS_SEARCHING": "Searching...",
+        "BUTTONS": {
+          "CANCEL": "Отмени",
+          "CONFIRM": "Обединяване на контакти"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Добавяне на бележка",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
