@@ -63,7 +63,7 @@ const updateContact = async updatedData => {
 
 const handleFormUpdate = debounce(
   updatedData => updateContact(updatedData),
-  500,
+  600,
   false
 );
 
