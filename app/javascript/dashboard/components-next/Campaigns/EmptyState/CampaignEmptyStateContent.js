@@ -17,7 +17,7 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
     enabled: true,
     campaign_type: 'ongoing',
     trigger_rules: {
-      url: 'https://www.chatwoot.com/features/chatbot/',
+      url: '#',
       time_on_page: 10,
     },
     trigger_only_during_business_hours: true,
