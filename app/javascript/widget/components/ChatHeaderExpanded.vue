@@ -34,7 +34,7 @@ export default {
 
 <template>
   <header
-    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
+    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent" style="direction: rtl;"
   >
     <div
       class="flex items-start"
