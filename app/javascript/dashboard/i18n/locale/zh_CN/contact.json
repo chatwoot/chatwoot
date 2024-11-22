@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "合并联系人",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "主联系人",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "将被删除",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "搜索联系人",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "已成功合并联系人",
+        "ERROR_MESSAGE": "无法合并联系人，请重试！",
+        "IS_SEARCHING": "搜索中...",
+        "BUTTONS": {
+          "CANCEL": "取消",
+          "CONFIRM": "合并联系人"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "添加备注",
+        "WROTE": "wrote",
+        "YOU": "您",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
