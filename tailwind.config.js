@@ -35,7 +35,8 @@ const tailwindConfig = {
     extend: {
       fontFamily: {
         sans: defaultSansFonts,
-        inter: ['Vazirmatn', ...defaultSansFonts],
+        inter: ['Inter', ...defaultSansFonts],
+        interDisplay: ['Inter Display', ...defaultSansFonts],
       },
     },
     screens: {
