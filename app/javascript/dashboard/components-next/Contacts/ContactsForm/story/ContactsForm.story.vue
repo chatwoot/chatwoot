@@ -1,6 +1,6 @@
 <script setup>
 import ContactsForm from '../ContactsForm.vue';
-import contactData from './fixtures';
+import { contactData } from './fixtures';
 
 const handleUpdate = updatedData => {
   console.log('Form updated:', updatedData);
