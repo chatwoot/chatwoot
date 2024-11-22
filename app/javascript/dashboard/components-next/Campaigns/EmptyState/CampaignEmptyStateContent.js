@@ -42,7 +42,7 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
     enabled: false,
     campaign_type: 'ongoing',
     trigger_rules: {
-      url: 'https://xping.online/pricings',
+      url: 'https://www.chatwoot.com/pricings',
       time_on_page: 10,
     },
     trigger_only_during_business_hours: false,
