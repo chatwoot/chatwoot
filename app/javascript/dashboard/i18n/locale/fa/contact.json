@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "ادغام مخاطبین",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "مخاطب اصلی",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "حذف شود",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "جستجو برای یک مخاطب",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "مخاطب با موفقیت ادغام شد",
+        "ERROR_MESSAGE": "نمی توان مخاطبین را ادغام کرد، دوباره امتحان کنید!",
+        "IS_SEARCHING": "در حال جستجو...",
+        "BUTTONS": {
+          "CANCEL": "انصراف",
+          "CONFIRM": "ادغام مخاطبین"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "افزودن یادداشت",
+        "WROTE": "نوشت",
+        "YOU": "شما",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
