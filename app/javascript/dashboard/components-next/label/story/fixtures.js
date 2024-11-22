@@ -9,7 +9,6 @@ export const labelMenuItems = [
     label: 'delivery',
     value: 3,
     thumbnail: {
-      name: 'delivery',
       color: '#A2FDD5',
     },
     isSelected: true,
@@ -19,7 +18,6 @@ export const labelMenuItems = [
     label: 'lead',
     value: 6,
     thumbnail: {
-      name: 'lead',
       color: '#F161C8',
     },
     isSelected: false,
@@ -29,7 +27,6 @@ export const labelMenuItems = [
     label: 'ops-handover',
     value: 4,
     thumbnail: {
-      name: 'ops-handover',
       color: '#A53326',
     },
     isSelected: false,
@@ -39,7 +36,6 @@ export const labelMenuItems = [
     label: 'billing',
     value: 1,
     thumbnail: {
-      name: 'billing',
       color: '#28AD21',
     },
     isSelected: false,
@@ -49,7 +45,6 @@ export const labelMenuItems = [
     label: 'premium-customer',
     value: 5,
     thumbnail: {
-      name: 'premium-customer',
       color: '#6FD4EF',
     },
     isSelected: false,
@@ -59,7 +54,6 @@ export const labelMenuItems = [
     label: 'software',
     value: 2,
     thumbnail: {
-      name: 'software',
       color: '#8F6EF2',
     },
     isSelected: false,

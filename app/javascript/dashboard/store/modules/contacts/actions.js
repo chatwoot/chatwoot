@@ -4,6 +4,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
+import decamelizeKeys from 'decamelize-keys';
 import AccountActionsAPI from '../../../api/accountActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -90,11 +91,16 @@ export const actions = {
   },
 
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
+    const decamelizedContactParams = decamelizeKeys(contactParams, {
+      deep: true,
+    });
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(
         id,
-        isFormData ? buildContactFormData(contactParams) : contactParams
+        isFormData
+          ? buildContactFormData(decamelizedContactParams)
+          : decamelizedContactParams
       );
       commit(types.EDIT_CONTACT, response.data.payload);
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });

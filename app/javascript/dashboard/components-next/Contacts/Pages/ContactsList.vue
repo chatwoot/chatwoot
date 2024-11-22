@@ -27,7 +27,7 @@ const updateContact = async ({ id, updatedData }) => {
 
 const handleFormUpdate = debounce(
   ({ id, updatedData }) => updateContact({ id, updatedData }),
-  500,
+  600,
   false
 );
 
