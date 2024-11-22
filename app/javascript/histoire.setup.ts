@@ -4,6 +4,8 @@ import i18nMessages from 'dashboard/i18n';
 import { createI18n } from 'vue-i18n';
 import { vResizeObserver } from '@vueuse/components';
 import store from 'dashboard/store';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -15,4 +17,5 @@ export const setupVue3 = defineSetupVue3(({ app }) => {
   app.use(store);
   app.use(i18n);
   app.directive('resize', vResizeObserver);
+  app.use(VueDOMPurifyHTML, domPurifyConfig);
 });
