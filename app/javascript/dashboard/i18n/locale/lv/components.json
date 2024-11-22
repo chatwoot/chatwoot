@@ -20,7 +20,7 @@
   },
   "PHONE_INPUT": {
     "SEARCH_PLACEHOLDER": "Meklēt valsti",
-    "ERROR": "Phone number should be empty or in E.164 format",
+    "ERROR": "Tālruņa numuram ir jābūt tukšam vai E.164 formātā",
     "DIAL_CODE_ERROR": "Lūdzu, izvēlieties sastādīšanas kodu no saraksta"
   },
   "THUMBNAIL": {
@@ -30,5 +30,8 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Rīvmaize"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "marķēt"
   }
 }
