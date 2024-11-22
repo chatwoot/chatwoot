@@ -388,31 +388,31 @@
   },
   "CONTACTS_LAYOUT": {
     "CARD": {
-      "OF": "of",
+      "OF": "no",
       "VIEW_DETAILS": "Skatīt detalizētu informāciju",
       "EDIT_DETAILS_FORM": {
         "TITLE": "Rediģēt kontaktinformāciju",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Enter the first name"
+            "PLACEHOLDER": "Ievadiet vārdu"
           },
           "LAST_NAME": {
-            "PLACEHOLDER": "Enter the last name"
+            "PLACEHOLDER": "Ievadiet uzvārdu"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address"
+            "PLACEHOLDER": "Ievadiet e-pasta adresi"
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number"
+            "PLACEHOLDER": "Ievadiet tālruņa numuru"
           },
           "CITY": {
             "PLACEHOLDER": "Ievadiet pilsētas nosaukumu"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "Izvēlieties valsti"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "Ievadiet biogrāfiju"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu"
@@ -420,24 +420,53 @@
         }
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "Rediģēt sociālās saites",
         "FORM": {
           "FACEBOOK": {
-            "PLACEHOLDER": "Add Facebook"
+            "PLACEHOLDER": "Pievienot Facebook"
           },
           "GITHUB": {
-            "PLACEHOLDER": "Add Github"
+            "PLACEHOLDER": "Pievienot Github"
           },
           "INSTAGRAM": {
-            "PLACEHOLDER": "Add Instagram"
+            "PLACEHOLDER": "Pievienot Instagram"
           },
           "LINKEDIN": {
-            "PLACEHOLDER": "Add LinkedIn"
+            "PLACEHOLDER": "Pievienot LinkedIn"
           },
           "TWITTER": {
-            "PLACEHOLDER": "Add Twitter"
+            "PLACEHOLDER": "Pievienot Twitter"
           }
         }
+      }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "Apvienot kontaktu",
+        "DESCRIPTION": "Apvienot divus profilus vienā, iekļaujot visus atribūtus un sarunas. Konfliktu gadījumā primārās kontaktpersonas atribūtiem būs prioritāte.",
+        "PRIMARY": "Primārā kontaktpersona",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Jādzēš",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Meklēt kontaktpersonu",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi apvienota",
+        "ERROR_MESSAGE": "Nevarēja apvienot kontaktpersonas, mēģiniet vēlreiz!",
+        "IS_SEARCHING": "Meklēšana...",
+        "BUTTONS": {
+          "CANCEL": "Atcelt",
+          "CONFIRM": "Apvienot kontaktu"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Pievienot piezīmi",
+        "WROTE": "rakstīja",
+        "YOU": "Jūs",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     }
   }
