@@ -98,7 +98,7 @@ export default {
     class="z-50 flex flex-col flex-1 w-full rounded-md"
     :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
   >
-    <div class="w-full px-4 pt-4" style="direction: rtl;" > 
+    <div class="w-full px-4 pt-4"> 
       <TeamAvailability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
