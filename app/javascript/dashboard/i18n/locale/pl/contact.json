@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "Połącz kontakty",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Główny kontakt",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Usunięcie",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Wyszukaj kontakty",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Kontakty zostały pomyślnie połączone",
+        "ERROR_MESSAGE": "Nie można połączyć kontaktów. Spróbuj ponownie!",
+        "IS_SEARCHING": "Wyszukiwanie...",
+        "BUTTONS": {
+          "CANCEL": "Anuluj",
+          "CONFIRM": "Połącz kontakty"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Dodaj notatkę",
+        "WROTE": "napisał/a",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
