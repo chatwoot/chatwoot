@@ -439,6 +439,35 @@
           }
         }
       }
+    },
+    "SIDEBAR": {
+      "MERGE": {
+        "TITLE": "Συγχώνευση επαφής",
+        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "PRIMARY": "Κύρια επαφή",
+        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+        "PARENT": "To be merged",
+        "PARENT_HELP_LABEL": "Να διαγραφεί",
+        "EMPTY_STATE": "No contacts found",
+        "PLACEHOLDER": "Search for primary contact",
+        "SEARCH_PLACEHOLDER": "Αναζήτηση επαφής",
+        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SUCCESS_MESSAGE": "Η επαφή συγχωνεύθηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η συγχώνευση επαφών, προσπαθήστε ξανά!",
+        "IS_SEARCHING": "Αναζήτηση...",
+        "BUTTONS": {
+          "CANCEL": "Άκυρο",
+          "CONFIRM": "Συγχώνευση επαφής"
+        }
+      },
+      "NOTES": {
+        "PLACEHOLDER": "Προσθήκη σημείωσης",
+        "WROTE": "wrote",
+        "YOU": "You",
+        "SAVE": "Save note",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+      }
     }
   }
 }
