@@ -445,14 +445,14 @@
         "TITLE": "Apvienot kontaktu",
         "DESCRIPTION": "Apvienot divus profilus vienā, iekļaujot visus atribūtus un sarunas. Konfliktu gadījumā primārās kontaktpersonas atribūtiem būs prioritāte.",
         "PRIMARY": "Primārā kontaktpersona",
-        "PRIMARY_HELP_LABEL": "To be saved",
-        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
+        "PRIMARY_HELP_LABEL": "Tiks saglabāts",
+        "PRIMARY_REQUIRED_ERROR": "Pirms turpināt, lūdzu, atlasiet kontaktpersonu, ar kuru apvienot",
+        "PARENT": "Tiks apvienots",
         "PARENT_HELP_LABEL": "Jādzēš",
-        "EMPTY_STATE": "No contacts found",
-        "PLACEHOLDER": "Search for primary contact",
+        "EMPTY_STATE": "Netika atrasta neviena kontaktpersona",
+        "PLACEHOLDER": "Meklēt primāro kontaktpersonu",
         "SEARCH_PLACEHOLDER": "Meklēt kontaktpersonu",
-        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+        "SEARCH_ERROR_MESSAGE": "Radās kļūda meklējot kontaktpersonas. Lūdzu, vēlāk mēģiniet vēlreiz.",
         "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi apvienota",
         "ERROR_MESSAGE": "Nevarēja apvienot kontaktpersonas, mēģiniet vēlreiz!",
         "IS_SEARCHING": "Meklēšana...",
@@ -465,8 +465,8 @@
         "PLACEHOLDER": "Pievienot piezīmi",
         "WROTE": "rakstīja",
         "YOU": "Jūs",
-        "SAVE": "Save note",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "SAVE": "Saglabāt piezīmi",
+        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā."
       }
     }
   }
