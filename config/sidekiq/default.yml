@@ -18,14 +18,9 @@
   - critical
   - high
   - medium
-  - default
-  - mailers
+  - default  
   - action_mailbox_routing
   - low
-  - async_database_migration
-  - active_storage_analysis
-  - active_storage_purge
-  - action_mailbox_incineration
 
 # you can override concurrency based on environment
 production:
