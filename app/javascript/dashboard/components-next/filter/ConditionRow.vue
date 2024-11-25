@@ -47,13 +47,13 @@ const currentFilter = computed(() => {
 });
 
 const currentOperator = computed(() => {
-  const operatorFromOptions = currentFilter.value.filter_operators.find(
+  const operatorFromOptions = currentFilter.value.filterOperators.find(
     operator => {
       return operator.value === filterOperator.value;
     }
   );
 
-  if (!operatorFromOptions) return currentFilter.value.filter_operators[0];
+  if (!operatorFromOptions) return currentFilter.value.filterOperators[0];
   return operatorFromOptions;
 });
 
@@ -90,7 +90,7 @@ const validationError = computed(() => {
 });
 
 const reset = () => {
-  filterOperator.value = currentFilter.value.filter_operators[0].value;
+  filterOperator.value = currentFilter.value.filterOperators[0].value;
   values.value = '';
 };
 
@@ -131,7 +131,7 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="currentFilter.filter_operators"
+        :options="currentFilter.filterOperators"
       />
       <template v-if="currentOperator.hasInput">
         <MultiSelect
