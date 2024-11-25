@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Ja",
+        "NO": "Nein",
+        "TRIGGER": {
+          "SELECT": "Wert wählen",
+          "INPUT": "Wert eintragen"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Gültiger Wert ist erforderlich",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Ungültige URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Keine Attribute gefunden",
+        "API": {
+          "SUCCESS_MESSAGE": "Attribut erfolgreich aktualisiert",
+          "DELETE_SUCCESS_MESSAGE": "Attribut erfolgreich gelöscht",
+          "UPDATE_ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal",
+          "DELETE_ERROR": "Attribut kann nicht gelöscht werden. Bitte versuchen Sie es später noch einmal"
+        }
+      },
       "MERGE": {
         "TITLE": "Kontakte zusammenführen",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
