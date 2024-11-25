@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Yes",
+        "NO": "No",
+        "TRIGGER": {
+          "SELECT": "Изберете стойност",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Необходима е валидна стойност",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Невалиден URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Няма намерени атрибути",
+        "API": {
+          "SUCCESS_MESSAGE": "Атрибута е обновен успешно",
+          "DELETE_SUCCESS_MESSAGE": "Успешно изтриване на атрибута",
+          "UPDATE_ERROR": "Атрибута не бе обновен. Моля, опитайте отново по-късно",
+          "DELETE_ERROR": "Атрибута не бе изтрита. Моля, опитайте отново по-късно"
+        }
+      },
       "MERGE": {
         "TITLE": "Обединяване на контакти",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
