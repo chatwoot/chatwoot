@@ -18,18 +18,13 @@ function onChange(e) {
       style="direction: ltr; "class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
     >
       <!-- نمایش ثابت پرچم یا آیکون کشور -->
-      <div
-        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
-      >
-        <h5 class="mb-0 text-xl">🇮🇷</h5>
-      </div>
 
       <!-- نمایش کد کشور ثابت -->
       <span class="py-2 pl-2 pr-0 text-base">{{ activeDialCode }}</span>
 
       <!-- فیلد شماره تلفن -->
       <input
-        v-model="phoneNumber" <!-- اتصال دوطرفه با phoneNumber -->
+        v-model="phoneNumber"
         type="text"
         class="w-full h-full py-2 pl-2 pr-3 leading-tight border-0 rounded-r outline-none"
         name="phoneNumber"
