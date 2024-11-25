@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Áno",
+        "NO": "Nie",
+        "TRIGGER": {
+          "SELECT": "Vybrať hodnotu",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Vyžaduje sa platná hodnota",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Neplatná URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Žiadne atribúty neboli nájdené",
+        "API": {
+          "SUCCESS_MESSAGE": "Atribút úspešne nahraný",
+          "DELETE_SUCCESS_MESSAGE": "Aitribút úspešne vymazaný",
+          "UPDATE_ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr",
+          "DELETE_ERROR": "Nie je možné odstrániť atribút. Skúste to prosím neskôr"
+        }
+      },
       "MERGE": {
         "TITLE": "Zlúčiť kontakt",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
