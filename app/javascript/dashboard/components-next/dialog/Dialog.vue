@@ -53,11 +53,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  width: {
-    type: String,
-    default: 'lg',
-    validator: value => ['3xl', '2xl', 'xl', 'lg', 'md', 'sm'].includes(value),
-  },
 });
 
 const emit = defineEmits(['confirm', 'close']);
