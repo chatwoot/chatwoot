@@ -89,10 +89,10 @@ const validationError = computed(() => {
   });
 });
 
-watch(attributeKey, () => {
+const reset = () => {
   filterOperator.value = currentFilter.value.filter_operators[0].value;
   values.value = '';
-});
+};
 
 watch([attributeKey, values, filterOperator], () => {
   showErrors.value = false;
@@ -126,6 +126,7 @@ defineExpose({ validate });
         v-model="attributeKey"
         variant="faded"
         :options="filterTypes"
+        @update:model-value="reset"
       />
       <FilterSelect
         v-model="filterOperator"
