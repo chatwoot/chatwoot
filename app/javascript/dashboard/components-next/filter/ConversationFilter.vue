@@ -3,6 +3,7 @@ import { useTemplateRef, onBeforeUnmount, onMounted, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
+import { vOnClickOutside } from '@vueuse/components';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import Button from 'next/button/Button.vue';
@@ -38,7 +39,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const resetFilter = () => {
-  filters.value = [{ ...DEFAULT_FILTER }];
+  filters.value = [DEFAULT_FILTER];
 };
 
 const removeFilter = index => {
@@ -50,7 +51,7 @@ const removeFilter = index => {
 };
 
 const addFilter = () => {
-  filters.value.push([{ ...DEFAULT_FILTER }]);
+  filters.value.push(DEFAULT_FILTER);
 };
 
 const conditionsRef = useTemplateRef('conditionsRef');
@@ -96,17 +97,21 @@ const filterModalHeaderTitle = computed(() => {
     : t('FILTER.EDIT_CUSTOM_FILTER');
 });
 
-onMounted(() => dialogRef.value.open());
-onBeforeUnmount(closeModal);
+onBeforeUnmount(() => emit('close'));
+const outsideClickHandler = [
+  () => emit('close'),
+  { ignore: ['#toggleConversationFilterButton'] },
+];
 </script>
 
 <template>
-  <Dialog
-    ref="dialogRef"
-    :title="filterModalHeaderTitle"
-    width="3xl"
-    @close="() => emit('close')"
+  <div
+    v-on-click-outside="outsideClickHandler"
+    class="z-[999] max-w-3xl lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
   >
+    <h3 class="text-base font-medium leading-6 text-n-slate-12">
+      {{ filterModalHeaderTitle }}
+    </h3>
     <div v-if="props.isFolderView" class="">
       <label class="border-b border-n-weak pb-6">
         <div class="text-n-slate-11 text-sm mb-2">
@@ -143,30 +148,28 @@ onBeforeUnmount(closeModal);
         />
       </template>
     </ul>
-    <template #footer>
-      <div class="flex gap-2 justify-between">
-        <Button sm ghost blue @click="addFilter">
-          {{ $t('FILTER.ADD_NEW_FILTER') }}
+    <div class="flex gap-2 justify-between">
+      <Button sm ghost blue @click="addFilter">
+        {{ $t('FILTER.ADD_NEW_FILTER') }}
+      </Button>
+      <div class="flex gap-2">
+        <Button sm faded slate @click="resetFilter">
+          {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
         </Button>
-        <div class="flex gap-2">
-          <Button sm faded slate @click="resetFilter">
-            {{ t('FILTER.CLEAR_BUTTON_LABEL') }}
-          </Button>
-          <Button
-            v-if="isFolderView"
-            sm
-            solid
-            blue
-            :disabled="!folderNameLocal"
-            @click="updateSavedCustomViews"
-          >
-            {{ t('FILTER.UPDATE_BUTTON_LABEL') }}
-          </Button>
-          <Button v-else sm solid blue @click="validateAndSubmit">
-            {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
-          </Button>
-        </div>
+        <Button
+          v-if="isFolderView"
+          sm
+          solid
+          blue
+          :disabled="!folderNameLocal"
+          @click="updateSavedCustomViews"
+        >
+          {{ t('FILTER.UPDATE_BUTTON_LABEL') }}
+        </Button>
+        <Button v-else sm solid blue @click="validateAndSubmit">
+          {{ t('FILTER.SUBMIT_BUTTON_LABEL') }}
+        </Button>
       </div>
-    </template>
-  </Dialog>
+    </div>
+  </div>
 </template>
