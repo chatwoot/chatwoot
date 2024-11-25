@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Já",
+        "NO": "Nei",
+        "TRIGGER": {
+          "SELECT": "Veldu gildi",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Það þarf að slá inn gilt gildi",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Ógilt URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Engir eiginleikar fundust",
+        "API": {
+          "SUCCESS_MESSAGE": "Eiginleika breytt",
+          "DELETE_SUCCESS_MESSAGE": "Eiginleika eytt",
+          "UPDATE_ERROR": "Ekki er hægt að uppfæra eigindina. Vinsamlegast reyndu aftur síðar",
+          "DELETE_ERROR": "Ekki er hægt að eyða eigindinni. Vinsamlegast reyndu aftur síðar"
+        }
+      },
       "MERGE": {
         "TITLE": "Sameina tengilið",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
