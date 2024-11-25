@@ -209,9 +209,6 @@ function onSelect() {
       style="direction: ltr; "class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
       :class="inputHasError"
     >
-    <div
-        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
-      >
       </div>
       <span
         v-if="activeDialCode"
