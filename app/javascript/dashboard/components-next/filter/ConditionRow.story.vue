@@ -11,14 +11,14 @@ const DEFAULT_FILTER = {
   queryOperator: 'and',
 };
 
-const filters = ref([DEFAULT_FILTER]);
+const filters = ref([{ ...DEFAULT_FILTER }]);
 
 const removeFilter = index => {
   filters.value.splice(index, 1);
 };
 
 const addFilter = () => {
-  filters.value.push(DEFAULT_FILTER);
+  filters.value.push({ ...DEFAULT_FILTER });
 };
 </script>
 
@@ -28,7 +28,7 @@ const addFilter = () => {
     :layout="{ type: 'grid', width: '600px' }"
   >
     <div class="min-h-[400px] p-2 space-y-2">
-      <template v-for="(filter, index) in filters" :key="filter.id">
+      <template v-for="(filter, index) in filters">
         <ConditionRow
           v-if="index === 0"
           :key="`filter-${filter.attributeKey}-0`"
