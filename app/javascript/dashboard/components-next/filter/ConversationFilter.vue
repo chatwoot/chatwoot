@@ -129,6 +129,7 @@ onBeforeUnmount(closeModal);
         <ConditionRow
           v-if="index === 0"
           ref="conditionsRef"
+          :key="`filter-${filter.attribute_key}-0`"
           v-model:attribute-key="filter.attribute_key"
           v-model:filter-operator="filter.filter_operator"
           v-model:values="filter.values"
@@ -137,6 +138,7 @@ onBeforeUnmount(closeModal);
         />
         <ConditionRow
           v-else
+          :key="`filter-${filter.attribute_key}-${index}`"
           ref="conditionsRef"
           v-model:attribute-key="filter.attribute_key"
           v-model:filter-operator="filter.filter_operator"
