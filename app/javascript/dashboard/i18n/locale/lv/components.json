@@ -5,8 +5,10 @@
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Izvēlieties opciju...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Nav atrasts.",
-    "SEARCH_PLACEHOLDER": "Meklēt..."
+    "SEARCH_PLACEHOLDER": "Meklēt...",
+    "MORE": "+{count} vairāk"
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Meklēt...",
@@ -30,6 +32,9 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Rīvmaize"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
   },
   "LABEL": {
     "TAG_BUTTON": "marķēt"
