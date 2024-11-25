@@ -5,8 +5,10 @@
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Izberite možnost ...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Ni rezultatov.",
-    "SEARCH_PLACEHOLDER": "Iskanje ..."
+    "SEARCH_PLACEHOLDER": "Iskanje ...",
+    "MORE": "+{count} more"
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Iskanje ...",
@@ -30,6 +32,9 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Drobtina"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
   },
   "LABEL": {
     "TAG_BUTTON": "tag"
