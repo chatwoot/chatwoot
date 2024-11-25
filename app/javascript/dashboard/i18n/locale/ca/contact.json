@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Si",
+        "NO": "No",
+        "TRIGGER": {
+          "SELECT": "Selecciona valor",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Un valor vàlid és necessari",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL no vàlid",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "No s'han trobat atributs",
+        "API": {
+          "SUCCESS_MESSAGE": "Atribut actualitzat correctament",
+          "DELETE_SUCCESS_MESSAGE": "Atribut esborrat correctament",
+          "UPDATE_ERROR": "No es pot actualitzar l'atribut. Si us plau, intenta-ho més tard",
+          "DELETE_ERROR": "No es pot esborrar l'atribut. Si us plau, intenta-ho més tard"
+        }
+      },
       "MERGE": {
         "TITLE": "Reagrupa contacte",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
