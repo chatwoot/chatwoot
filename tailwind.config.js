@@ -29,6 +29,7 @@ const tailwindConfig = {
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
+    './app/javascript/dashboard/components-next/**/*.js',
     './app/views/**/*.html.erb',
   ],
   theme: {

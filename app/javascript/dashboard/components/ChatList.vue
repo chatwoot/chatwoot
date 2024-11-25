@@ -22,7 +22,7 @@ import {
 // https://tanstack.com/virtual/latest/docs/framework/vue/examples/variable
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import ChatListHeader from './ChatListHeader.vue';
-import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
+import ConversationFilter from 'next/filter/ConversationFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
@@ -493,19 +493,31 @@ function initializeFolderToFilterModal(newActiveFolder) {
     values: Array.isArray(filter.values)
       ? generateValuesForEditCustomViews(filter, setParamsForEditFolderModal())
       : [],
-    query_operator: filter.query_operator,
+    query_operator: filter.query_operator ?? 'and',
     custom_attribute_type: filter.custom_attribute_type,
   }));
 
   appliedFilter.value = [...appliedFilter.value, ...newFilters];
 }
 
+function initalizeAppliedFiltersToModal() {
+  appliedFilter.value = [...appliedFilters.value];
+}
+
 function onToggleAdvanceFiltersModal() {
+  if (showAdvancedFilters.value === true) {
+    closeAdvanceFiltersModal();
+    return;
+  }
+
   if (!hasAppliedFilters.value && !hasActiveFolders.value) {
     initializeExistingFilterToModal();
   }
   if (hasActiveFolders.value) {
     initializeFolderToFilterModal(activeFolder.value);
+  }
+  if (hasAppliedFilters.value) {
+    initalizeAppliedFiltersToModal();
   }
 
   showAdvancedFilters.value = true;
@@ -751,7 +763,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="flex flex-col flex-shrink-0 border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="[
       { hidden: !showConversationList },
       isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
@@ -871,22 +883,16 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
       </DynamicScroller>
     </div>
-    <woot-modal
-      v-model:show="showAdvancedFilters"
-      :on-close="closeAdvanceFiltersModal"
-      size="medium"
-    >
-      <ConversationAdvancedFilter
-        v-if="showAdvancedFilters"
-        :initial-filter-types="advancedFilterTypes"
-        :initial-applied-filters="appliedFilter"
-        :active-folder-name="activeFolderName"
-        :on-close="closeAdvanceFiltersModal"
+    <Teleport v-if="showAdvancedFilters" to="#conversationFilterTeleportTarget">
+      <ConversationFilter
+        v-model="appliedFilter"
+        :folder-name="activeFolderName"
         :is-folder-view="hasActiveFolders"
         @apply-filter="onApplyFilter"
         @update-folder="onUpdateSavedFilter"
+        @close="closeAdvanceFiltersModal"
       />
-    </woot-modal>
+    </Teleport>
   </div>
 </template>
 
