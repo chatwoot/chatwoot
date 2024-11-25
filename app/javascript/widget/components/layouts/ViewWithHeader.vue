@@ -109,7 +109,7 @@ export default {
   >
     <div class="relative flex flex-col h-full">
       <div
-        class="sticky top-0 z-40 transition-all header-wrap"
+        dir="rtl" class="sticky top-0 z-40 transition-all header-wrap"
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
