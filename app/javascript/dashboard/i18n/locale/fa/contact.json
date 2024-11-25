@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "بله",
+        "NO": "خیر",
+        "TRIGGER": {
+          "SELECT": "مقدار را انتخاب کنید",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "مقدار معتبر مورد نیاز است",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL نامعتبر",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "هیچ ویژگی یافت نشد",
+        "API": {
+          "SUCCESS_MESSAGE": "ویژگی با موفقیت به روز شد",
+          "DELETE_SUCCESS_MESSAGE": "ویژگی با موفقیت حذف شد",
+          "UPDATE_ERROR": "امکان به روزرسانی ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید",
+          "DELETE_ERROR": "امکان حذف ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
+        }
+      },
       "MERGE": {
         "TITLE": "ادغام مخاطبین",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
