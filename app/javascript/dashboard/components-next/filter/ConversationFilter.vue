@@ -38,7 +38,7 @@ const { t } = useI18n();
 const store = useStore();
 
 const resetFilter = () => {
-  filters.value = [DEFAULT_FILTER];
+  filters.value = [{ ...DEFAULT_FILTER }];
 };
 
 const removeFilter = index => {
@@ -50,7 +50,7 @@ const removeFilter = index => {
 };
 
 const addFilter = () => {
-  filters.value.push(DEFAULT_FILTER);
+  filters.value.push([{ ...DEFAULT_FILTER }]);
 };
 
 const conditionsRef = useTemplateRef('conditionsRef');
