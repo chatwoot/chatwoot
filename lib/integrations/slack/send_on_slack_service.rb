@@ -117,7 +117,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def upload_file
-    return if message.attachments.first.file.blank?
+    return unless message.attachments.first.with_attached_file?
 
     result = slack_client.files_upload({
       channels: hook.reference_id,
