@@ -292,11 +292,5 @@ function onSelect() {
     }
   }
 
-
-  .country-dropdown {
-    min-width: 6rem;
-    max-width: 14.8rem;
-    width: 100%;
-  }
 }
 </style>
