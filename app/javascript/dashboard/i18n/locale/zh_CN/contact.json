@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "是",
+        "NO": "否",
+        "TRIGGER": {
+          "SELECT": "选择值",
+          "INPUT": "填写内容"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "需要有效的值",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "无效的 URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "未找到属性",
+        "API": {
+          "SUCCESS_MESSAGE": "已成功更新属性",
+          "DELETE_SUCCESS_MESSAGE": "已成功删除属性",
+          "UPDATE_ERROR": "无法更新属性，请稍后再试。",
+          "DELETE_ERROR": "无法删除属性，请稍后再试。"
+        }
+      },
       "MERGE": {
         "TITLE": "合并联系人",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
