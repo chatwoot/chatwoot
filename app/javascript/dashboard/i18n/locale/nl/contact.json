@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Ja",
+        "NO": "Nee",
+        "TRIGGER": {
+          "SELECT": "Selecteer waarde",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Geldige waarde is vereist",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Ongeldige URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Geen attributen gevonden",
+        "API": {
+          "SUCCESS_MESSAGE": "Attribuut succesvol toegevoegd",
+          "DELETE_SUCCESS_MESSAGE": "Attribuut succesvol verwijderd",
+          "UPDATE_ERROR": "Kan het attribuut niet bijwerken. Probeer het later opnieuw",
+          "DELETE_ERROR": "Attribuut verwijderen mislukt. Probeer het later opnieuw"
+        }
+      },
       "MERGE": {
         "TITLE": "Contact samenvoegen",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
