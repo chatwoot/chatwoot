@@ -16,7 +16,7 @@ const selected = ref(options[0]);
 
 <template>
   <Story
-    title="Filters/Single Select Input"
+    title="Components/Filters/Single Select Input"
     :layout="{ type: 'grid', width: '400px' }"
   >
     <Variant title="With Search">

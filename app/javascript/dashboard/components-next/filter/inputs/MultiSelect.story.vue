@@ -16,7 +16,7 @@ const selected = ref([]);
 
 <template>
   <Story
-    title="Filters/Multiselect Input"
+    title="Components/Filters/Multiselect Input"
     :layout="{ type: 'grid', width: '600px' }"
   >
     <div class="min-h-[400px]">
