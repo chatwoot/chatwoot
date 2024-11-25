@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Có",
+        "NO": "Không",
+        "TRIGGER": {
+          "SELECT": "Chọn giá trị",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Giá trị hợp lệ bắt buộc có",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL không hợp lệ",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Không có thuộc tính nào được tìm thấy",
+        "API": {
+          "SUCCESS_MESSAGE": "Thuộc tính được cập nhật thành công",
+          "DELETE_SUCCESS_MESSAGE": "Thuộc tính được xoá thành công",
+          "UPDATE_ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau",
+          "DELETE_ERROR": "Không thể xoá thuộc tính. Vui lòng thử lại sau"
+        }
+      },
       "MERGE": {
         "TITLE": "Hợp nhất liên hệ",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
