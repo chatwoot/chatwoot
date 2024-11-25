@@ -108,7 +108,7 @@ const outsideClickHandler = [
     <h3 class="text-base font-medium leading-6 text-n-slate-12">
       {{ filterModalHeaderTitle }}
     </h3>
-    <div v-if="props.isFolderView" class="">
+    <div v-if="props.isFolderView">
       <label class="border-b border-n-weak pb-6">
         <div class="text-n-slate-11 text-sm mb-2">
           {{ t('FILTER.FOLDER_LABEL') }}
