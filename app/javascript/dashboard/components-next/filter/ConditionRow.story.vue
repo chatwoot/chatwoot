@@ -24,7 +24,7 @@ const addFilter = () => {
 
 <template>
   <Story
-    title="Filters/ConditionRow"
+    title="Components/Filters/ConditionRow"
     :layout="{ type: 'grid', width: '600px' }"
   >
     <div class="min-h-[400px] p-2 space-y-2">
