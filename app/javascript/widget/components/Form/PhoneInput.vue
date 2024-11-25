@@ -214,6 +214,12 @@ function onSelect() {
       >
         <h5 class="mb-0 text-xl">🇮🇷</h5>
       </div>
+      
+      <div
+        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
+        :class="dropdownClass"
+        @click="toggleCountryDropdown"
+      >
         <h5 v-if="activeCountry.emoji" class="mb-0 text-xl">
           {{ activeCountry.emoji }}
         </h5>
