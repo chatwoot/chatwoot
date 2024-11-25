@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Taip",
+        "NO": "Ne",
+        "TRIGGER": {
+          "SELECT": "Pasirinkti reikšmę",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Reikalinga tinkama vertė",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Neteisingas URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Požymių nerasta",
+        "API": {
+          "SUCCESS_MESSAGE": "Požymis atnaujintas sėkmingai",
+          "DELETE_SUCCESS_MESSAGE": "Požymis ištrintas sėkmingai",
+          "UPDATE_ERROR": "Nepavyko atnaujinti požymio. Pabandykite dar kartą vėliau",
+          "DELETE_ERROR": "Nepavyko ištrinti požymio. Pabandykite dar kartą vėliau"
+        }
+      },
       "MERGE": {
         "TITLE": "Sujungti kontaktą",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
