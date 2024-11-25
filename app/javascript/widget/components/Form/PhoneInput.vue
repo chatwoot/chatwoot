@@ -180,7 +180,7 @@ function closeDropdown() {
 function onSelectCountry(country) {
   activeCountryCode.value = country.id;
   searchCountry.value = '';
-  activeDialCode.value = country.dial_code ? country.dial_code : '';
+  activeDialCode.value = country.dial_code || ''; // استفاده از مقدار پیش‌فرض در صورت نبود dial_code
   setContextValue(country.dial_code);
   closeDropdown();
 }
