@@ -10,7 +10,9 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
     if message.attachments.present?
       message.attachments.each do |attachment|
-        send_message_to_facebook fb_attachment_message_params(attachment)
+        retryable(tries: 3, on: Facebook::Messenger::FacebookError, sleep: 3) do
+          send_message_to_facebook fb_attachment_message_params(attachment)
+        end
       end
     end
   rescue Facebook::Messenger::FacebookError => e
