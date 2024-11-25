@@ -5,8 +5,10 @@
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Selecione uma opção...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Nenhum resultado encontrado.",
-    "SEARCH_PLACEHOLDER": "Pesquisar..."
+    "SEARCH_PLACEHOLDER": "Pesquisar...",
+    "MORE": "+{count} mais"
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Pesquisar...",
@@ -30,6 +32,9 @@
   },
   "BREADCRUMB": {
     "ARIA_LABEL": "Mapa"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
   },
   "LABEL": {
     "TAG_BUTTON": "tag"
