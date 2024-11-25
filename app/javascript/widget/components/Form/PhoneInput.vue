@@ -28,7 +28,7 @@ function onChange(e) {
         type="text"
         class="w-full h-full py-2 pl-2 pr-3 leading-tight border-0 rounded-r outline-none"
         name="phoneNumber"
-        placeholder="Enter your phone number"
+        placeholder="شماره تماس:"
       />
     </div>
     <!-- نمایش مقدار فعلی شماره تلفن برای اطمینان -->
