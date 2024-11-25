@@ -20,7 +20,7 @@ export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
  *
  * @returns {string|null} An error message if validation fails, or null if validation passes.
  */
-const validateSingleFilter = filter => {
+export const validateSingleFilter = filter => {
   if (!filter.attribute_key) {
     return ATTRIBUTE_KEY_REQUIRED;
   }
