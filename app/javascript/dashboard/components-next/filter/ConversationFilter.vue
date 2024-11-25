@@ -31,10 +31,10 @@ const filters = defineModel({
 const folderNameLocal = ref(props.folderName);
 
 const DEFAULT_FILTER = {
-  attribute_key: 'status',
-  filter_operator: 'equal_to',
+  attributeKey: 'status',
+  filterOperator: 'equal_to',
   values: '',
-  query_operator: 'and',
+  queryOperator: 'and',
 };
 
 const { t } = useI18n();
@@ -79,10 +79,10 @@ function validateAndSubmit() {
   );
   emit('applyFilter', filters.value);
   useTrack(CONVERSATION_EVENTS.APPLY_FILTER, {
-    applied_filters: filters.value.map(filter => ({
-      key: filter.attribute_key,
-      operator: filter.filter_operator,
-      query_operator: filter.query_operator,
+    appliedFilters: filters.value.map(filter => ({
+      key: filter.attributeKey,
+      operator: filter.filterOperator,
+      queryOperator: filter.queryOperator,
     })),
   });
 }
@@ -125,9 +125,9 @@ const outsideClickHandler = [
         <ConditionRow
           v-if="index === 0"
           ref="conditionsRef"
-          :key="`filter-${filter.attribute_key}-0`"
-          v-model:attribute-key="filter.attribute_key"
-          v-model:filter-operator="filter.filter_operator"
+          :key="`filter-${filter.attributeKey}-0`"
+          v-model:attribute-key="filter.attributeKey"
+          v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
           :filter-types="filterTypes"
           is-first
@@ -135,11 +135,11 @@ const outsideClickHandler = [
         />
         <ConditionRow
           v-else
-          :key="`filter-${filter.attribute_key}-${index}`"
+          :key="`filter-${filter.attributeKey}-${index}`"
           ref="conditionsRef"
-          v-model:attribute-key="filter.attribute_key"
-          v-model:filter-operator="filter.filter_operator"
-          v-model:query-operator="filters[index - 1].query_operator"
+          v-model:attribute-key="filter.attributeKey"
+          v-model:filter-operator="filter.filterOperator"
+          v-model:query-operator="filters[index - 1].queryOperator"
           v-model:values="filter.values"
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
