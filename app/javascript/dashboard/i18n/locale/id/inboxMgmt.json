@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Kotak masuk",
-    "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke Chatwoot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun Chatwoot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Klik tombol Masuk dengan Microsoft untuk memulai. Anda akan dialihkan ke halaman masuk email. Setelah Anda menerima izin yang diminta, Anda akan diarahkan kembali ke langkah pembuatan kotak masuk.",
         "EMAIL_PLACEHOLDER": "Masukkan alamat email",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "Untuk menambahkan akun Microsoft Anda sebagai saluran, Anda perlu mengotentikasi akun Microsoft Anda dengan mengeklik 'Masuk dengan Microsoft' ",
         "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Microsoft, harap coba lagi"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Masukkan alamat email",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Mengautentikasi Anda dengan Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Ada yang tidak beres, Harap refresh halaman...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Penyedia Lain"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Channel"
     }
   }
 }

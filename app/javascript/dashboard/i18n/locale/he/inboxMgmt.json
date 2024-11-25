@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "תיבות דואר נכנס",
-    "SIDEBAR_TXT": "<p><b>תיבת דואר נכנס</b></p> <p> כאשר אתה מחבר אתר אינטרנט או דף פייסבוק ל-Chatwoot, זה נקרא <b>תיבת דואר נכנס</b>. אתה יכול לקבל תיבות דואר נכנס בלתי מוגבלות בחשבון Chatwoot שלך. </p><p> לחץ על <b>הוסף תיבת דואר נכנס</b> כדי לחבר אתר או דף פייסבוק. </p><p> בלוח המחוונים, תוכל לראות את כל השיחות מכל תיבות הדואר הנכנס שלך במקום אחד ולהגיב להן בכרטיסייה 'שיחות'. </p><p> תוכל גם לראות שיחות ספציפיות לתיבת דואר נכנס על ידי לחיצה על שם תיבת הדואר הנכנס בחלונית השמאלית של לוח המחוונים. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "לחץ על Sign in with Microsoft בכדי להתחיל. אתה תופנה למסך ההתחברות של Microsoft. ברגע שתאשר את בקשת ההרשאות, תופנה חזרה להגדרות תיבת הדואר.",
         "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "בכדי להוסיף חשבון Microsoft כערוץ, עליך להתחבר לחשבונך ע\"י לחיצה על 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "אירעה שגיאה בהתחברות ל- Microsoft, אנא נסה שנית"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "מאמת אותך עם פייסבוק...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "משהו השתבש, אנא רענן את הדף...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "מיקרוסופט",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "ספקים אחרים"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "טוויטר",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "אימייל",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "ערוץ API"
     }
   }
 }

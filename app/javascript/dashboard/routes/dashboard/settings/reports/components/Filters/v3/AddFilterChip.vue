@@ -88,7 +88,7 @@ const closeDropdown = () => {
                 "
                 :enable-search="enableSearch"
                 class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
-                @click="addFilter"
+                @select="addFilter"
               />
             </template>
           </FilterListItemButton>

@@ -1,19 +1,27 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
-const REPORTS_KEYS = {
-  CONVERSATIONS: 'conversations_count',
-  INCOMING_MESSAGES: 'incoming_messages_count',
-  OUTGOING_MESSAGES: 'outgoing_messages_count',
-  FIRST_RESPONSE_TIME: 'avg_first_response_time',
-  RESOLUTION_TIME: 'avg_resolution_time',
-  RESOLUTION_COUNT: 'resolutions_count',
-  REPLY_TIME: 'reply_time',
+const GROUP_BY_OPTIONS = {
+  DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
+  WEEK: [
+    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+  ],
+  MONTH: [
+    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
+  ],
+  YEAR: [
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
+    { id: 4, groupByKey: 'REPORT.GROUPING_OPTIONS.YEAR' },
+  ],
 };
 
 export default {
@@ -45,7 +53,7 @@ export default {
       to: 0,
       selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],
-      groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
+      groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
       selectedGroupByFilter: null,
       businessHours: false,
     };
@@ -53,6 +61,22 @@ export default {
   computed: {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
+    },
+    isAgentType() {
+      return this.type === 'agent';
+    },
+    reportKeys() {
+      return {
+        CONVERSATIONS: 'conversations_count',
+        ...(!this.isAgentType && {
+          INCOMING_MESSAGES: 'incoming_messages_count',
+        }),
+        OUTGOING_MESSAGES: 'outgoing_messages_count',
+        FIRST_RESPONSE_TIME: 'avg_first_response_time',
+        RESOLUTION_TIME: 'avg_resolution_time',
+        RESOLUTION_COUNT: 'resolutions_count',
+        REPLY_TIME: 'reply_time',
+      };
     },
   },
   mounted() {
@@ -74,19 +98,11 @@ export default {
       }
     },
     fetchChartData() {
-      [
-        'CONVERSATIONS',
-        'INCOMING_MESSAGES',
-        'OUTGOING_MESSAGES',
-        'FIRST_RESPONSE_TIME',
-        'RESOLUTION_TIME',
-        'RESOLUTION_COUNT',
-        'REPLY_TIME',
-      ].forEach(async key => {
+      Object.keys(this.reportKeys).forEach(async key => {
         try {
           const { from, to, groupBy, businessHours } = this;
           this.$store.dispatch('fetchAccountReport', {
-            metric: REPORTS_KEYS[key],
+            metric: this.reportKeys[key],
             from,
             to,
             type: this.type,
@@ -116,7 +132,7 @@ export default {
     onDateRangeChange({ from, to, groupBy }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
-        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        useTrack(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
           reportType: this.type,
         });
@@ -146,7 +162,7 @@ export default {
       this.groupBy = GROUP_BY_FILTER[payload.id];
       this.fetchAllData();
 
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'groupBy',
         filterValue: this.groupBy?.period,
         reportType: this.type,
@@ -155,20 +171,23 @@ export default {
     fetchFilterItems(groupBy) {
       switch (groupBy) {
         case GROUP_BY_FILTER[2].period:
-          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
+          return GROUP_BY_OPTIONS.WEEK.map(this.translateOptions);
         case GROUP_BY_FILTER[3].period:
-          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
+          return GROUP_BY_OPTIONS.MONTH.map(this.translateOptions);
         case GROUP_BY_FILTER[4].period:
-          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
+          return GROUP_BY_OPTIONS.YEAR.map(this.translateOptions);
         default:
-          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
+          return GROUP_BY_OPTIONS.DAY.map(this.translateOptions);
       }
+    },
+    translateOptions(opts) {
+      return { id: opts.id, groupBy: this.$t(opts.groupByKey) };
     },
     onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
 
-      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'businessHours',
         filterValue: value,
         reportType: this.type,
@@ -194,11 +213,15 @@ export default {
       :filter-items-list="filterItemsList"
       :group-by-filter-items-list="groupByfilterItemsList"
       :selected-group-by-filter="selectedGroupByFilter"
-      @dateRangeChange="onDateRangeChange"
-      @filterChange="onFilterChange"
-      @groupByFilterChange="onGroupByFilterChange"
-      @businessHoursToggle="onBusinessHoursToggle"
+      @date-range-change="onDateRangeChange"
+      @filter-change="onFilterChange"
+      @group-by-filter-change="onGroupByFilterChange"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
-    <ReportContainer v-if="filterItemsList.length" :group-by="groupBy" />
+    <ReportContainer
+      v-if="filterItemsList.length"
+      :group-by="groupBy"
+      :report-keys="reportKeys"
+    />
   </div>
 </template>

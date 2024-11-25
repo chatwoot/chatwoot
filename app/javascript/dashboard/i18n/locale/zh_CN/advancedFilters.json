@@ -55,6 +55,9 @@
       "CREATED_AT": "创建者",
       "LAST_ACTIVITY": "上次操作"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "必须填写值"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "常规筛选器",
       "ADDITIONAL_FILTERS": "附加筛选条件",

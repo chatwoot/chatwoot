@@ -2,7 +2,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
-import { getEventNamei18n } from './webhookHelper';
+import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -32,6 +32,7 @@ export default {
       required: true,
     },
   },
+  emits: ['submit', 'cancel'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -69,7 +70,7 @@ export default {
         subscriptions: this.subscriptions,
       });
     },
-    getEventNamei18n,
+    getI18nKey,
   },
 };
 </script>
@@ -80,7 +81,7 @@ export default {
       <label :class="{ error: v$.url.$error }">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.LABEL') }}
         <input
-          v-model.trim="url"
+          v-model="url"
           type="text"
           name="url"
           :placeholder="webhookURLInputPlaceholder"
@@ -108,13 +109,20 @@ export default {
             class="mr-2"
           />
           <label :for="event" class="text-sm">
-            {{ `${$t(getEventNamei18n(event))} (${event})` }}
+            {{
+              `${$t(
+                getI18nKey(
+                  'INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.EVENTS',
+                  event
+                )
+              )} (${event})`
+            }}
           </label>
         </div>
       </div>
     </div>
 
-    <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+    <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
       <div class="w-full">
         <woot-button
           :disabled="v$.$invalid || isSubmitting"

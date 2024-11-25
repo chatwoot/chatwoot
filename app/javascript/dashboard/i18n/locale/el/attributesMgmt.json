@@ -3,7 +3,8 @@
     "HEADER": "Προσαρμοζόμενες Ιδιότητες",
     "HEADER_BTN_TXT": "Προσθήκη προσαρμοσμένης ιδιότητας",
     "LOADING": "Λήψη προσαρμοσμένων ιδιοτήτων",
-    "SIDEBAR_TXT": "<p><b>Προσαρμοσμένες Ιδιότητες</b> <p>Μία προσαρμοσμένη ιδιότητα παρακολουθεί γεγονότα σχετικά με τις επαφές σας/συνομιλία σας — όπως το σχέδιο συνδρομής, ή όταν παραγγέλλουν το πρώτο αντικείμενο κ. λπ. <br /><br />Για τη δημιουργία μίας προσαρμοσμένης Ιδιότητας, απλά κάντε κλικ στο<b>Προσθήκη προσαρμοσμένης Ιδιότητας.</b> Μπορείτε επίσης να επεξεργαστείτε ή να διαγράψετε μια υπάρχουσα Προσαρμοσμένη Ιδιότητα κάνοντας κλικ στο κουμπί Επεξεργασία ή Διαγραφή.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Προσθήκη προσαρμοσμένης ιδιότητας",
       "SUBMIT": "Δημιουργία",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή της ιδιότητας. Δοκιμάστε ξανά."
       },
       "CONFIRM": {
-        "TITLE": "Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα %{attributeName}",
+        "TITLE": "Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα {attributeName}",
         "PLACE_HOLDER": "Παρακαλώ πληκτρολογήστε {attributeName} για επιβεβαίωση",
         "MESSAGE": "Η Διαγραφή θα καταργήσει την ιδιότητα",
         "YES": "Διαγραφή ",

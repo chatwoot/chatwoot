@@ -9,6 +9,7 @@ import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
@@ -16,6 +17,7 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
+  emits: ['replaceText'],
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
 
@@ -80,7 +82,7 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(CMD_AI_ASSIST, this.onAIAssist);
+    emitter.on(CMD_AI_ASSIST, this.onAIAssist);
     this.initializeMessage(this.draftMessage);
   },
 
@@ -124,7 +126,7 @@ export default {
     <div v-if="isAIIntegrationEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
-        @click="openAIAssist"
+        @open="openAIAssist"
       />
       <woot-button
         v-else
@@ -136,19 +138,19 @@ export default {
         @click="openAIAssist"
       />
       <woot-modal
-        :show.sync="showAIAssistanceModal"
+        v-model:show="showAIAssistanceModal"
         :on-close="hideAIAssistanceModal"
       >
         <AIAssistanceModal
           :ai-option="aiOption"
-          @applyText="insertText"
+          @apply-text="insertText"
           @close="hideAIAssistanceModal"
         />
       </woot-modal>
     </div>
     <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
       <AIAssistanceCTAButton @click="openAICta" />
-      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
+      <woot-modal v-model:show="showAICtaModal" :on-close="hideAICtaModal">
         <AICTAModal @close="hideAICtaModal" />
       </woot-modal>
     </div>

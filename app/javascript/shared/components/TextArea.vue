@@ -9,7 +9,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       required: true,
     },
@@ -18,9 +18,15 @@ export default {
       default: '',
     },
   },
-  methods: {
-    onChange(event) {
-      this.$emit('input', event.target.value);
+  emits: ['update:modelValue'],
+  computed: {
+    computedModel: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
     },
   },
 };
@@ -39,6 +45,7 @@ export default {
       {{ label }}
     </div>
     <textarea
+      v-model="computedModel"
       class="w-full px-3 py-2 leading-tight border rounded outline-none resize-none text-slate-700"
       :class="{
         'border-black-200 hover:border-black-300 focus:border-black-300':
@@ -46,8 +53,6 @@ export default {
         'border-red-200 hover:border-red-300 focus:border-red-300': error,
       }"
       :placeholder="placeholder"
-      :value="value"
-      @change="onChange"
     />
     <div v-if="error" class="mt-2 text-xs font-medium text-red-400">
       {{ error }}

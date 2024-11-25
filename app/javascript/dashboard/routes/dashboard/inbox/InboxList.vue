@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -98,7 +98,7 @@ export default {
       this.page += 1;
     },
     markNotificationAsRead(notification) {
-      this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_READ);
+      useTrack(INBOX_EVENTS.MARK_NOTIFICATION_AS_READ);
       const {
         id,
         primary_actor_id: primaryActorId,
@@ -116,7 +116,7 @@ export default {
         });
     },
     markNotificationAsUnRead(notification) {
-      this.$track(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
+      useTrack(INBOX_EVENTS.MARK_NOTIFICATION_AS_UNREAD);
       this.redirectToInbox();
       const { id } = notification;
       this.$store
@@ -128,7 +128,7 @@ export default {
         });
     },
     deleteNotification(notification) {
-      this.$track(INBOX_EVENTS.DELETE_NOTIFICATION);
+      useTrack(INBOX_EVENTS.DELETE_NOTIFICATION);
       this.redirectToInbox();
       this.$store
         .dispatch('notifications/delete', {
@@ -188,11 +188,11 @@ export default {
           :key="notificationItem.id"
           :active="currentNotificationId === notificationItem.id"
           :notification-item="notificationItem"
-          @markNotificationAsRead="markNotificationAsRead"
-          @markNotificationAsUnRead="markNotificationAsUnRead"
-          @deleteNotification="deleteNotification"
-          @contextMenuOpen="isInboxContextMenuOpen = true"
-          @contextMenuClose="isInboxContextMenuOpen = false"
+          @mark-notification-as-read="markNotificationAsRead"
+          @mark-notification-as-un-read="markNotificationAsUnRead"
+          @delete-notification="deleteNotification"
+          @context-menu-open="isInboxContextMenuOpen = true"
+          @context-menu-close="isInboxContextMenuOpen = false"
         />
         <div v-if="uiFlags.isFetching" class="text-center">
           <span class="mt-4 mb-4 spinner" />

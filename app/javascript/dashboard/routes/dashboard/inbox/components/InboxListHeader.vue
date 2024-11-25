@@ -1,5 +1,5 @@
 <script>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import InboxOptionMenu from './InboxOptionMenu.vue';
 import InboxDisplayMenu from './InboxDisplayMenu.vue';
@@ -15,6 +15,7 @@ export default {
       default: false,
     },
   },
+  emits: ['redirect', 'filter'],
   data() {
     return {
       showInboxDisplayMenu: false,
@@ -34,7 +35,7 @@ export default {
   },
   methods: {
     markAllRead() {
-      this.$track(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
+      useTrack(INBOX_EVENTS.MARK_ALL_NOTIFICATIONS_AS_READ);
       this.$store.dispatch('notifications/readAll').then(() => {
         useAlert(this.$t('INBOX.ALERTS.MARK_ALL_READ'));
       });
@@ -126,7 +127,7 @@ export default {
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
         class="absolute top-9 ltr:right-0 ltr:md:right-[unset] rtl:left-0 rtl:md:left-[unset]"
-        @optionClick="onInboxOptionMenuClick"
+        @option-click="onInboxOptionMenuClick"
       />
     </div>
   </div>

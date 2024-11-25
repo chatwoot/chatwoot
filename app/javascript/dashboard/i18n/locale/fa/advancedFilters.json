@@ -55,6 +55,9 @@
       "CREATED_AT": "ایجاد شده در",
       "LAST_ACTIVITY": "آخرین فعالیت"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "مقدار الزامی است"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "فیلترهای استاندارد",
       "ADDITIONAL_FILTERS": "فیلترهای اضافی",

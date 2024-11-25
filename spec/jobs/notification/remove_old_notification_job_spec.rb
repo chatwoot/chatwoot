@@ -5,9 +5,8 @@ RSpec.describe Notification::RemoveOldNotificationJob do
   let(:conversation) { create(:conversation) }
 
   it 'enqueues the job' do
-    notification = create(:notification, user: user, notification_type: 'conversation_creation', primary_actor: conversation)
     expect do
-      described_class.perform_later(notification)
+      described_class.perform_later
     end.to have_enqueued_job(described_class)
       .on_queue('low')
   end

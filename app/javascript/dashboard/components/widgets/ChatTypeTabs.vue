@@ -21,8 +21,11 @@ const activeTabIndex = computed(() => {
 });
 
 const onTabChange = selectedTabIndex => {
-  if (props.items[selectedTabIndex].key !== props.activeTab) {
-    emit('chatTabChange', props.items[selectedTabIndex].key);
+  if (selectedTabIndex >= 0 && selectedTabIndex < props.items.length) {
+    const selectedItem = props.items[selectedTabIndex];
+    if (selectedItem.key !== props.activeTab) {
+      emit('chatTabChange', selectedItem.key);
+    }
   }
 };
 
@@ -32,7 +35,8 @@ const keyboardEvents = {
       if (props.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
         onTabChange(0);
       } else {
-        onTabChange(activeTabIndex.value + 1);
+        const nextIndex = (activeTabIndex.value + 1) % props.items.length;
+        onTabChange(nextIndex);
       }
     },
   },
@@ -48,8 +52,9 @@ useKeyboardEvents(keyboardEvents);
     @change="onTabChange"
   >
     <woot-tabs-item
-      v-for="item in items"
+      v-for="(item, index) in items"
       :key="item.key"
+      :index="index"
       :name="item.name"
       :count="item.count"
     />

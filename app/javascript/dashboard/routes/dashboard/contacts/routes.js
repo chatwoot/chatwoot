@@ -1,14 +1,14 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-const ContactsView = () => import('./components/ContactsView.vue');
-const ContactManageView = () => import('./pages/ContactManageView.vue');
+import ContactsView from './components/ContactsView.vue';
+import ContactManageView from './pages/ContactManageView.vue';
 
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/contacts'),
     name: 'contacts_dashboard',
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
     component: ContactsView,
   },
@@ -16,7 +16,7 @@ export const routes = [
     path: frontendURL('accounts/:accountId/contacts/custom_view/:id'),
     name: 'contacts_segments_dashboard',
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
     component: ContactsView,
     props: route => {
@@ -27,7 +27,7 @@ export const routes = [
     path: frontendURL('accounts/:accountId/labels/:label/contacts'),
     name: 'contacts_labels_dashboard',
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
     component: ContactsView,
     props: route => {
@@ -38,7 +38,7 @@ export const routes = [
     path: frontendURL('accounts/:accountId/contacts/:contactId'),
     name: 'contact_profile_dashboard',
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
     component: ContactManageView,
     props: route => {

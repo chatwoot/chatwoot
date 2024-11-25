@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const AuditLogsHome = () => import('./Index.vue');
+import SettingsWrapper from '../SettingsWrapper.vue';
+import AuditLogsHome from './Index.vue';
 
 export default {
   routes: [
@@ -11,7 +11,9 @@ export default {
       children: [
         {
           path: '',
-          redirect: 'list',
+          redirect: to => {
+            return { name: 'auditlogs_list', params: to.params };
+          },
         },
         {
           path: 'list',

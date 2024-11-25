@@ -29,6 +29,7 @@ id:
       invalid: Acara tidak valid
     signup:
       disposable_email: Kami tidak mengizinkan email sekali pakai
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Anda telah memasukkan email yang tidak valid
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -261,10 +262,14 @@ id:
     button: Buka percakapan
   time_units:
     days:
+      one: "%{count} day"
       other: "%{count} days"
     hours:
+      one: "%{count} hour"
       other: "%{count} hours"
     minutes:
+      one: "%{count} minute"
       other: "%{count} minutes"
     seconds:
+      one: "%{count} second"
       other: "%{count} seconds"

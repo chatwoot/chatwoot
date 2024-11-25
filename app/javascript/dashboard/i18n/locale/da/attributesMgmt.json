@@ -3,7 +3,8 @@
     "HEADER": "Brugerdefinerede Egenskaber",
     "HEADER_BTN_TXT": "Tilføj Tilpasset Attribut",
     "LOADING": "Henter brugerdefinerede attributter",
-    "SIDEBAR_TXT": "<p><b>Brugerdefinerede attributter</b> <p>En brugerdefineret attribut sporer fakta om dine kontakter/samtale — såsom abonnementet, eller når de bestilte det første element osv. <br /><br />For at oprette en brugerdefineret attribut, klik blot på<b>Tilføj brugerdefineret attribut.</b> Du kan også redigere eller slette en eksisterende brugerdefineret attribut ved at klikke på Rediger eller Slet knappen.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Tilføj Tilpasset Attribut",
       "SUBMIT": "Opret",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Kunne ikke slette den brugerdefinerede attribut. Prøv igen."
       },
       "CONFIRM": {
-        "TITLE": "Er du sikker på du vil slette - %{attributeName}",
+        "TITLE": "Er du sikker på du vil slette - {attributeName}",
         "PLACE_HOLDER": "Skriv venligst {attributeName} for at bekræfte",
         "MESSAGE": "Sletning vil fjerne den brugerdefinerede attribut",
         "YES": "Slet ",

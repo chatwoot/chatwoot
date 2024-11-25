@@ -19,26 +19,47 @@ const HEADERS = {
  * The function uses FormData to wrap the file and axios to send the request.
  *
  * @param {File} file - The file to be uploaded. It should be a File object (typically coming from a file input element).
+ * @param {string} accountId - The account ID.
  * @returns {Promise} A promise that resolves with the server's response when the upload is successful, or rejects if there's an error.
  */
 export async function uploadFile(file, accountId) {
-  // Create a new FormData instance.
-  let formData = new FormData();
-
   if (!accountId) {
     accountId = window.location.pathname.split('/')[3];
   }
 
   // Append the file to the FormData instance under the key 'attachment'.
+  let formData = new FormData();
   formData.append('attachment', file);
 
-  // Use axios to send a POST request to the upload endpoint.
   const { data } = await axios.post(
     `/api/${API_VERSION}/accounts/${accountId}/upload`,
     formData,
-    {
-      headers: HEADERS,
-    }
+    { headers: HEADERS }
+  );
+
+  return {
+    fileUrl: data.file_url,
+    blobKey: data.blob_key,
+    blobId: data.blob_id,
+  };
+}
+
+/**
+ * Uploads an image from an external URL.
+ *
+ * @param {string} url - The external URL of the image.
+ * @param {string} accountId - The account ID.
+ * @returns {Promise} A promise that resolves with the server's response.
+ */
+export async function uploadExternalImage(url, accountId) {
+  if (!accountId) {
+    accountId = window.location.pathname.split('/')[3];
+  }
+
+  const { data } = await axios.post(
+    `/api/${API_VERSION}/accounts/${accountId}/upload`,
+    { external_url: url },
+    { headers: { 'Content-Type': 'application/json' } }
   );
 
   return {

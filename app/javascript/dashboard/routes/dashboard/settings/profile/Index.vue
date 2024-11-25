@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
@@ -14,12 +15,18 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
+import Policy from 'dashboard/components/policy.vue';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
     MessageSignature,
     FormSection,
     UserProfilePicture,
+    Policy,
     UserBasicDetails,
     HotKeyCard,
     ChangePassword,
@@ -71,6 +78,8 @@ export default {
             '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
+      notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      audioNotificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
     };
   },
   computed: {
@@ -101,9 +110,7 @@ export default {
 
         return true; // return the value so that the status can be known
       } catch (error) {
-        alertMessage = error?.response?.data?.error
-          ? error.response.data.error
-          : errorMessage;
+        alertMessage = parseAPIErrorResponse(error) || errorMessage;
 
         return false; // return the value so that the status can be known
       } finally {
@@ -192,7 +199,7 @@ export default {
         :display-name="displayName"
         :email="email"
         :email-enabled="!globalConfig.disableUserProfileUpdate"
-        @updateUser="updateProfile"
+        @update-user="updateProfile"
       />
     </div>
 
@@ -202,7 +209,7 @@ export default {
     >
       <MessageSignature
         :message-signature="messageSignature"
-        @updateSignature="updateSignature"
+        @update-signature="updateSignature"
       />
     </FormSection>
     <FormSection
@@ -235,17 +242,21 @@ export default {
     >
       <ChangePassword />
     </FormSection>
-    <FormSection
-      :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
-      :description="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
-      "
-    >
-      <AudioNotifications />
-    </FormSection>
-    <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
-      <NotificationPreferences />
-    </FormSection>
+    <Policy :permissions="audioNotificationPermissions">
+      <FormSection
+        :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+        "
+      >
+        <AudioNotifications />
+      </FormSection>
+    </Policy>
+    <Policy :permissions="notificationPermissions">
+      <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+        <NotificationPreferences />
+      </FormSection>
+    </Policy>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
@@ -255,7 +266,7 @@ export default {
         )
       "
     >
-      <AccessToken :value="currentUser.access_token" @onCopy="onCopyToken" />
+      <AccessToken :value="currentUser.access_token" @on-copy="onCopyToken" />
     </FormSection>
   </div>
 </template>

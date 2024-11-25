@@ -1,7 +1,7 @@
 {
   "INTEGRATION_APPS": {
     "FETCHING": "S'estan obtenint integracions",
-    "NO_HOOK_CONFIGURED": "No hi ha integracions %{integrationId} configurades en aquest compte.",
+    "NO_HOOK_CONFIGURED": "No hi ha integracions {integrationId} configurades en aquest compte.",
     "HEADER": "Aplicacions",
     "STATUS": {
       "ENABLED": "Habilita",
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Desconnecta"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow és una plataforma de comprensió del llenguatge natural que facilita el disseny i la integració d'una interfície d'usuari conversacional a la teva aplicació mòbil, aplicació web, dispositiu, bot, sistema interactiu de resposta de veu, etc. <br /> <br /> La integració de Dialogflow amb %{installationName} us permet configurar un bot de Dialogflow amb les teves safates d'entrada, la qual cosa permet al bot gestionar les consultes inicialment i lliurar-les a un agent quan sigui necessari. Dialogflow es pot utilitzar per qualificar els clients potencials, reduir la càrrega de treball dels agents proporcionant preguntes freqüents, etc. <br /> <br /> Per afegir Dialogflow, has de crear un compte de servei a la consola del vostre projecte de Google i compartir les credencials. Consulta els documents de Dialogflow per obtenir més informació."
+      "DIALOGFLOW": "Dialogflow és una plataforma de comprensió del llenguatge natural que facilita el disseny i la integració d'una interfície d'usuari conversacional a la teva aplicació mòbil, aplicació web, dispositiu, bot, sistema interactiu de resposta de veu, etc. <br /> <br /> La integració de Dialogflow amb {installationName} us permet configurar un bot de Dialogflow amb les teves safates d'entrada, la qual cosa permet al bot gestionar les consultes inicialment i lliurar-les a un agent quan sigui necessari. Dialogflow es pot utilitzar per qualificar els clients potencials, reduir la càrrega de treball dels agents proporcionant preguntes freqüents, etc. <br /> <br /> Per afegir Dialogflow, has de crear un compte de servei a la consola del vostre projecte de Google i compartir les credencials. Consulta els documents de Dialogflow per obtenir més informació."
     }
   }
 }

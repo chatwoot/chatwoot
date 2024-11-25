@@ -29,6 +29,7 @@ zh_TW:
       invalid: Invalid events
     signup:
       disposable_email: 我們不允許一次性電子郵件。
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: 您輸入的電子郵件無效。
       email_already_exists: "您已經註冊了一個帳號%{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -261,10 +262,14 @@ zh_TW:
     button: 開啟對話
   time_units:
     days:
+      one: "%{count} day"
       other: "%{count} days"
     hours:
+      one: "%{count} hour"
       other: "%{count} hours"
     minutes:
+      one: "%{count} minute"
       other: "%{count} minutes"
     seconds:
+      one: "%{count} second"
       other: "%{count} seconds"

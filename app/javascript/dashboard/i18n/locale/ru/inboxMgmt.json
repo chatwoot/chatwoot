@@ -1,7 +1,8 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Источники",
-    "SIDEBAR_TXT": "<p><b>Источники</b></p> <p> Когда вы подключаете страницу Facebook к Chatwoot, это называется <b>Источником</b>. У вас может быть неограниченное количество источников в вашем аккаунте Chatwoot. </p><p> Нажмите на <b>Добавить источник</b> для подключения сайта или страницы на Facebook. </p><p> На главной страницы вы увидите все диалоги из всех источников и можете отвечать на них во вкладке `Диалоги`. </p><p> Вы можете просмотреть диалоги конкретного источника по нажатию на его имя в левой части главной страницы. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "LIST": {
@@ -367,12 +368,19 @@
         "DESCRIPTION": "Нажмите на кнопку Войти с помощью Microsoft, чтобы начать. Вы будете перенаправлены на страницу входа по электронной почте. Как только вы согласитесь с запрошенными правами, вы будете перенаправлены обратно на этап создания входящих сообщений.",
         "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
         "SIGN_IN": "Войти с помощью Microsoft",
-        "HELP": "Чтобы добавить учетную запись Microsoft в качестве канала, вам нужно авторизоваться в учетной записи Майкрософт, нажав на кнопку \"Войти с помощью Microsoft\" ",
         "ERROR_MESSAGE": "Произошла ошибка при подключении к Microsoft, попробуйте еще раз"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Введите адрес электронной почты",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Авторизуемся через Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Что-то пошло не так, обновите страницу...",
       "ERROR_FB_UNAUTHORIZED": "Вы не авторизованы для выполнения этого действия. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Пожалуйста, убедитесь, что у вас есть доступ к странице Facebook с полными правами. Подробнее о ролях в Facebook можно прочитать <a href=\" https://www.facebook.com/help/187316341316631\">здесь</a>.",
@@ -736,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Другие провайдеры"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Сайт",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Источник API"
     }
   }
 }

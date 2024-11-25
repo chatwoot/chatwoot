@@ -22,6 +22,7 @@ export default {
       default: '',
     },
   },
+  emits: ['completed', 'edit', 'delete'],
 
   methods: {
     onClick() {

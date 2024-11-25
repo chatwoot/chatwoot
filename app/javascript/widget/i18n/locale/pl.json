@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Numer telefonu jest wymagany",
         "DIAL_CODE_VALID_ERROR": "Proszę wybrać kod kraju",
         "VALID_ERROR": "Wprowadź poprawny numer telefonu",
-        "DROPDOWN_EMPTY": "Brak wyników"
+        "DROPDOWN_EMPTY": "Brak wyników",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Wiadomość",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Wyszukaj emoji",
-    "NOT_FOUND": "Nie znaleziono emoji pasującego do wyszukiwania"
+    "NOT_FOUND": "Nie znaleziono emoji pasującego do wyszukiwania",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Oceń udzielone Ci wsparcie",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "udostępnił adres URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

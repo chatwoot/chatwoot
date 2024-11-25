@@ -3,7 +3,8 @@
     "HEADER": "Пользовательские атрибуты",
     "HEADER_BTN_TXT": "Добавить пользовательский атрибут",
     "LOADING": "Получение пользовательских атрибутов",
-    "SIDEBAR_TXT": "<p><b>Пользовательские Атрибуты</b> <p>Пользовательский атрибут отслеживает факты о ваших контактах/диалогах — например план подписки, или когда клиент сделал первый заказ и т. д. <br /><br />Для создания атрибутов, просто нажмите кнопку<b>Добавить атрибут.</b> Вы также можете редактировать или удалять существующие атрибуты, нажав на кнопку Редактировать или Удалить.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Добавить пользовательский атрибут",
       "SUBMIT": "Создать",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Не возможно удалить пользовательский атрибут. Попробуйте еще раз."
       },
       "CONFIRM": {
-        "TITLE": "Вы уверены, что хотите удалить - %{attributeName}",
+        "TITLE": "Вы уверены, что хотите удалить - {attributeName}",
         "PLACE_HOLDER": "Пожалуйста, введите {attributeName} для подтверждения",
         "MESSAGE": "Удаление приведет к окончательному удалению атрибута",
         "YES": "Удалить ",

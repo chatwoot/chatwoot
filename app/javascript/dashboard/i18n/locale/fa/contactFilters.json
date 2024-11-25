@@ -30,6 +30,9 @@
       "is_lesser_than": "کوچکتر از",
       "days_before": "x روز قبل است"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "مقدار الزامی است"
+    },
     "ATTRIBUTES": {
       "NAME": "نام",
       "EMAIL": "ایمیل",
