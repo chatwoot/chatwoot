@@ -27,18 +27,18 @@ const filters = defineModel({
 });
 const folderNameLocal = ref(props.folderName);
 
+const DEFAULT_FILTER = {
+  attribute_key: 'status',
+  filter_operator: 'equal_to',
+  values: '',
+  query_operator: 'and',
+};
+
 const { t } = useI18n();
 const store = useStore();
 
 const resetFilter = () => {
-  filters.value = [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: '',
-      query_operator: 'and',
-    },
-  ];
+  filters.value = [DEFAULT_FILTER];
 };
 
 const removeFilter = index => {
@@ -50,12 +50,7 @@ const removeFilter = index => {
 };
 
 const addFilter = () => {
-  filters.value.push({
-    attribute_key: 'status',
-    filter_operator: 'equal_to',
-    values: '',
-    query_operator: 'and',
-  });
+  filters.value.push(DEFAULT_FILTER);
 };
 
 const conditionsRef = useTemplateRef('conditionsRef');
