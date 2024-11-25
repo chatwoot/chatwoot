@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "ใช่",
+        "NO": "ไม่",
+        "TRIGGER": {
+          "SELECT": "เลือกค่า",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "โปรดระบุค่าที่ถูกต้อง",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "URL ไม่ถูกต้อง",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "ไม่พบข้อมูล",
+        "API": {
+          "SUCCESS_MESSAGE": "อัปเดตแอตทริบิวต์เรียบร้อยแล้ว",
+          "DELETE_SUCCESS_MESSAGE": "ลบแอตทริบิวต์สำเร็จแล้ว",
+          "UPDATE_ERROR": "ไม่สามารถอัปเดตแอตทริบิวต์ได้ โปรดลองใหม่อีกครั้ง",
+          "DELETE_ERROR": "ไม่สามารถลบแอตทริบิวต์ได้ โปรดลองใหม่อีกครั้ง"
+        }
+      },
       "MERGE": {
         "TITLE": "รวมผู้ติดต่อ",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
