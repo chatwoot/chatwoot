@@ -185,7 +185,22 @@ function onSelectCountry(country) {
   closeDropdown();
 }
 
+function toggleCountryDropdown() {
+  showDropdown.value = !showDropdown.value;
+  selectedIndex.value = -1;
+  if (showDropdown.value) {
+    nextTick(() => {
+      searchbarRef.value.focus();
+      // This is used to scroll the dropdown to the active item.
+      scrollToFocusedOrActiveItem(focusedOrActiveItem('active'));
+    });
+  }
+}
 
+function onSelect() {
+  if (!showDropdown.value || selectedIndex.value === -1) return;
+  onSelectCountry(items.value[selectedIndex.value]);
+}
 </script>
 
 <template>
