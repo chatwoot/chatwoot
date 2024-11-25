@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Da",
+        "NO": "Ne",
+        "TRIGGER": {
+          "SELECT": "Izaberite vrednost",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Ispravna vrednost je obavezna",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Neispravna adresa",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Nijedan atribut nije pronađen",
+        "API": {
+          "SUCCESS_MESSAGE": "Atribut je uspešno izmenjen",
+          "DELETE_SUCCESS_MESSAGE": "Atribut je uspešno obrisan",
+          "UPDATE_ERROR": "Nije bilo moguće izmeniti atribut. Molim vas pokušajte ponovo",
+          "DELETE_ERROR": "Nije bilo moguće obrisati atribut. Molim vas pokušajte ponovo"
+        }
+      },
       "MERGE": {
         "TITLE": "Spoji kontakt",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
