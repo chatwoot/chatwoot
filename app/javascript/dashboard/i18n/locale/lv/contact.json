@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Jā",
+        "NO": "Nē",
+        "TRIGGER": {
+          "SELECT": "Izvēlieties vērtību",
+          "INPUT": "Ievadiet vērtību"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Nepieciešama derīga vērtība",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Nederīgs URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Īpašības nav atrastas",
+        "API": {
+          "SUCCESS_MESSAGE": "Īpašība ir veiksmīgi atjaunināta",
+          "DELETE_SUCCESS_MESSAGE": "Īpašība ir veiksmīgi izdzēsta",
+          "UPDATE_ERROR": "Nevar atjaunināt īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz",
+          "DELETE_ERROR": "Nevar izdzēst īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"
+        }
+      },
       "MERGE": {
         "TITLE": "Apvienot kontaktu",
         "DESCRIPTION": "Apvienot divus profilus vienā, iekļaujot visus atribūtus un sarunas. Konfliktu gadījumā primārās kontaktpersonas atribūtiem būs prioritāte.",
