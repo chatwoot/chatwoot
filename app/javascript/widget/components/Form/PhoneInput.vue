@@ -292,12 +292,6 @@ function onSelect() {
     }
   }
 
-  .country-emoji--wrap {
-    border-bottom-left-radius: 0.18rem;
-    border-top-left-radius: 0.18rem;
-    min-width: 3.6rem;
-    width: 3.6rem;
-  }
 
   .country-dropdown {
     min-width: 6rem;
