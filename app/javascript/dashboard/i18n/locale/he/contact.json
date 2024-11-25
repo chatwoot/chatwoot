@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "כן",
+        "NO": "לא",
+        "TRIGGER": {
+          "SELECT": "בחר ערך",
+          "INPUT": "הזן ערך"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "נדרש ערך חוקי",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "כתובת אתר לא חוקית",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "לא נמצאו מאפיינים",
+        "API": {
+          "SUCCESS_MESSAGE": "המאפיין עודכן בהצלחה",
+          "DELETE_SUCCESS_MESSAGE": "המאפיין נמחק בהצלחה",
+          "UPDATE_ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר",
+          "DELETE_ERROR": "לא ניתן למחוק מאפיין. בבקשה נסה שוב מאוחר יותר"
+        }
+      },
       "MERGE": {
         "TITLE": "מזג אנשי קשר",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
