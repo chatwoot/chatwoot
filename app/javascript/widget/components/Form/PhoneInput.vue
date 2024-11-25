@@ -298,6 +298,7 @@ function onSelect() {
 
     input:placeholder-shown {
       text-overflow: ellipsis;
+      direction: rtl;
     }
   }
 
