@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "Ja",
+        "NO": "Nej",
+        "TRIGGER": {
+          "SELECT": "Vælg værdi",
+          "INPUT": "Enter value"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "Gyldig værdi er påkrævet",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "Ugyldig URL",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "Ingen attributter fundet",
+        "API": {
+          "SUCCESS_MESSAGE": "Attributten er opdateret",
+          "DELETE_SUCCESS_MESSAGE": "Attributten blev slettet",
+          "UPDATE_ERROR": "Kan ikke opdatere attributten. Prøv igen senere",
+          "DELETE_ERROR": "Kan ikke slette attributten. Prøv igen senere"
+        }
+      },
       "MERGE": {
         "TITLE": "Sammenflet kontakt",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
