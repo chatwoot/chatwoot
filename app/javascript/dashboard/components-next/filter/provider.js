@@ -62,7 +62,7 @@ const customAttributeInputType = key => {
 
 /**
  * Composable that provides conversation filtering context
- * @returns {{ filterTypes: import('vue').ComputedRef<FilterType[]>, fitlerGroups: import('vue').ComputedRef<FilterGroup[]> }}
+ * @returns {{ filterTypes: import('vue').ComputedRef<FilterType[]>, filterGroups: import('vue').ComputedRef<FilterGroup[]> }}
  */
 export function useConversationFilterContext() {
   const { t } = useI18n();
@@ -272,7 +272,7 @@ export function useConversationFilterContext() {
     ...customFilterTypes.value,
   ]);
 
-  const fitlerGroups = computed(() => {
+  const filterGroups = computed(() => {
     return [
       {
         name: t(`FILTER.GROUPS.STANDARD_FILTERS`),
@@ -295,5 +295,5 @@ export function useConversationFilterContext() {
     ];
   });
 
-  return { filterTypes, fitlerGroups };
+  return { filterTypes, filterGroups };
 }

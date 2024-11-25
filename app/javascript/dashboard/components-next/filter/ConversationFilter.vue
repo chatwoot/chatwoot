@@ -1,5 +1,5 @@
 <script setup>
-import { useTemplateRef, onBeforeUnmount, computed, ref } from 'vue';
+import { useTemplateRef, onBeforeUnmount, onMounted, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
@@ -8,6 +8,7 @@ import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import Button from 'next/button/Button.vue';
 import ConditionRow from './ConditionRow.vue';
+import Dialog from 'next/dialog/Dialog.vue';
 
 const props = defineProps({
   isFolderView: {
@@ -27,18 +28,18 @@ const filters = defineModel({
 });
 const folderNameLocal = ref(props.folderName);
 
+const DEFAULT_FILTER = {
+  attribute_key: 'status',
+  filter_operator: 'equal_to',
+  values: '',
+  query_operator: 'and',
+};
+
 const { t } = useI18n();
 const store = useStore();
 
 const resetFilter = () => {
-  filters.value = [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: '',
-      query_operator: 'and',
-    },
-  ];
+  filters.value = [DEFAULT_FILTER];
 };
 
 const removeFilter = index => {
@@ -50,15 +51,11 @@ const removeFilter = index => {
 };
 
 const addFilter = () => {
-  filters.value.push({
-    attribute_key: 'status',
-    filter_operator: 'equal_to',
-    values: '',
-    query_operator: 'and',
-  });
+  filters.value.push(DEFAULT_FILTER);
 };
 
 const conditionsRef = useTemplateRef('conditionsRef');
+const dialogRef = useTemplateRef('dialogRef');
 
 function updateSavedCustomViews() {
   const isValid = conditionsRef.value
@@ -89,6 +86,11 @@ function validateAndSubmit() {
   });
 }
 
+const closeModal = () => {
+  dialogRef.value.close();
+  emit('close');
+};
+
 const filterModalHeaderTitle = computed(() => {
   return !props.isFolderView
     ? t('FILTER.TITLE')
@@ -96,7 +98,6 @@ const filterModalHeaderTitle = computed(() => {
 });
 
 onBeforeUnmount(() => emit('close'));
-
 const outsideClickHandler = [
   () => emit('close'),
   { ignore: ['#toggleConversationFilterButton'] },
@@ -128,6 +129,7 @@ const outsideClickHandler = [
         <ConditionRow
           v-if="index === 0"
           ref="conditionsRef"
+          :key="`filter-${filter.attribute_key}-0`"
           v-model:attribute-key="filter.attribute_key"
           v-model:filter-operator="filter.filter_operator"
           v-model:values="filter.values"
@@ -136,6 +138,7 @@ const outsideClickHandler = [
         />
         <ConditionRow
           v-else
+          :key="`filter-${filter.attribute_key}-${index}`"
           ref="conditionsRef"
           v-model:attribute-key="filter.attribute_key"
           v-model:filter-operator="filter.filter_operator"

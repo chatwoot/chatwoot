@@ -3,28 +3,29 @@ import { computed, useSlots, useAttrs } from 'vue';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import {
+  VARIANT_OPTIONS,
+  COLOR_OPTIONS,
+  SIZE_OPTIONS,
+  EXCLUDED_ATTRS,
+} from './constants.js';
 
 const props = defineProps({
-  label: { type: String, default: '' },
+  label: { type: [String, Number], default: '' },
   variant: {
     type: String,
     default: null,
-    validator: value =>
-      ['solid', 'outline', 'faded', 'link', 'ghost'].includes(value) ||
-      value === null,
+    validator: value => VARIANT_OPTIONS.includes(value) || value === null,
   },
   color: {
     type: String,
     default: null,
-    validator: value =>
-      ['blue', 'ruby', 'amber', 'slate', 'teal'].includes(value) ||
-      value === null,
+    validator: value => COLOR_OPTIONS.includes(value) || value === null,
   },
   size: {
     type: String,
     default: null,
-    validator: value =>
-      ['xs', 'sm', 'md', 'lg'].includes(value) || value === null,
+    validator: value => SIZE_OPTIONS.includes(value) || value === null,
   },
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
@@ -34,32 +35,49 @@ const props = defineProps({
 const slots = useSlots();
 const attrs = useAttrs();
 
+defineOptions({
+  inheritAttrs: false,
+});
+
+const filteredAttrs = computed(() => {
+  const standardAttrs = {};
+
+  Object.entries(attrs)
+    .filter(([key]) => !EXCLUDED_ATTRS.includes(key))
+    .forEach(([key, value]) => {
+      standardAttrs[key] = value;
+    });
+
+  return standardAttrs;
+});
+
 const computedVariant = computed(() => {
   if (props.variant) return props.variant;
-  if (attrs.solid !== undefined) return 'solid';
-  if (attrs.outline !== undefined) return 'outline';
-  if (attrs.faded !== undefined) return 'faded';
-  if (attrs.link !== undefined) return 'link';
-  if (attrs.ghost !== undefined) return 'ghost';
+  // The useAttrs method returns attributes values an empty string (not boolean value as in props).
+  if (attrs.solid || attrs.solid === '') return 'solid';
+  if (attrs.outline || attrs.outline === '') return 'outline';
+  if (attrs.faded || attrs.faded === '') return 'faded';
+  if (attrs.link || attrs.link === '') return 'link';
+  if (attrs.ghost || attrs.ghost === '') return 'ghost';
   return 'solid'; // Default variant
 });
 
 const computedColor = computed(() => {
   if (props.color) return props.color;
-  if (attrs.blue !== undefined) return 'blue';
-  if (attrs.ruby !== undefined) return 'ruby';
-  if (attrs.amber !== undefined) return 'amber';
-  if (attrs.slate !== undefined) return 'slate';
-  if (attrs.teal !== undefined) return 'teal';
+  if (attrs.blue || attrs.blue === '') return 'blue';
+  if (attrs.ruby || attrs.ruby === '') return 'ruby';
+  if (attrs.amber || attrs.amber === '') return 'amber';
+  if (attrs.slate || attrs.slate === '') return 'slate';
+  if (attrs.teal || attrs.teal === '') return 'teal';
   return 'blue'; // Default color
 });
 
 const computedSize = computed(() => {
   if (props.size) return props.size;
-  if (attrs.xs !== undefined) return 'xs';
-  if (attrs.sm !== undefined) return 'sm';
-  if (attrs.md !== undefined) return 'md';
-  if (attrs.lg !== undefined) return 'lg';
+  if (attrs.xs || attrs.xs === '') return 'xs';
+  if (attrs.sm || attrs.sm === '') return 'sm';
+  if (attrs.md || attrs.md === '') return 'md';
+  if (attrs.lg || attrs.lg === '') return 'lg';
   return 'md';
 });
 
@@ -68,9 +86,9 @@ const STYLE_CONFIG = {
     blue: {
       solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-slate-12 hover:bg-n-brand/20 outline-transparent',
+        'bg-n-brand/10 text-n-blue-text hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text outline-n-blue-border',
-      link: 'text-n-brand hover:underline outline-transparent',
+      link: 'text-n-blue-text hover:underline outline-transparent',
     },
     ruby: {
       solid: 'bg-n-ruby-9 text-white hover:bg-n-ruby-10 outline-transparent',
@@ -169,6 +187,7 @@ const linkButtonClasses = computed(() => {
 
 <template>
   <button
+    v-bind="filteredAttrs"
     :class="{
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
@@ -183,7 +202,7 @@ const linkButtonClasses = computed(() => {
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
 
     <slot v-if="label || $slots.default" name="default">
-      <span class="min-w-0 truncate">{{ label }}</span>
+      <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     </slot>
   </button>
 </template>
