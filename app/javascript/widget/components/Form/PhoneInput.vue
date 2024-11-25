@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, useTemplateRef, nextTick, unref } from 'vue';
+import countriesList from 'shared/constants/countries.js';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import {
@@ -205,9 +206,25 @@ function onSelect() {
 <template>
   <div class="relative mt-2 phone-input--wrap">
     <div
-      style="direction: ltr; "class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
+      style="direction: ltr;" class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
       :class="inputHasError"
     >
+    <div
+        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
+      >
+        <h5 class="mb-0 text-xl">🇮🇷</h5>
+      </div>
+      
+      <div
+        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
+        :class="dropdownClass"
+        @click="toggleCountryDropdown"
+      >
+        <h5 v-if="activeCountry.emoji" class="mb-0 text-xl">
+          {{ activeCountry.emoji }}
+        </h5>
+        <FluentIcon v-else icon="globe" class="fluent-icon" size="20" />
+        <FluentIcon icon="chevron-down" class="fluent-icon" size="12" />
       </div>
       <span
         v-if="activeDialCode"
@@ -291,5 +308,17 @@ function onSelect() {
     }
   }
 
+  .country-emoji--wrap {
+    border-bottom-left-radius: 0.18rem;
+    border-top-left-radius: 0.18rem;
+    min-width: 3.6rem;
+    width: 3.6rem;
+  }
+
+  .country-dropdown {
+    min-width: 6rem;
+    max-width: 14.8rem;
+    width: 100%;
+  }
 }
 </style>
