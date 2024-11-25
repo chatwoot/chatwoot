@@ -197,10 +197,6 @@ function toggleCountryDropdown() {
   }
 }
 
-function onSelect() {
-  if (!showDropdown.value || selectedIndex.value === -1) return;
-  onSelectCountry(items.value[selectedIndex.value]);
-}
 </script>
 
 <template>
