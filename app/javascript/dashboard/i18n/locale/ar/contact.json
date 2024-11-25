@@ -441,6 +441,31 @@
       }
     },
     "SIDEBAR": {
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Search for attributes",
+        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "YES": "نعم",
+        "NO": "لا",
+        "TRIGGER": {
+          "SELECT": "اختر قيمة",
+          "INPUT": "أدخل القيمة"
+        },
+        "VALIDATIONS": {
+          "INVALID_NUMBER": "Invalid number",
+          "REQUIRED": "القيمة الصالحة مطلوبة",
+          "INVALID_INPUT": "Invalid input",
+          "INVALID_URL": "عنوان الرابط غير صالح",
+          "INVALID_DATE": "Invalid date"
+        },
+        "NO_ATTRIBUTES": "لم يتم العثور على سمات",
+        "API": {
+          "SUCCESS_MESSAGE": "تم تحديث الصفة المخصصة بنجاح",
+          "DELETE_SUCCESS_MESSAGE": "تم حذف الصفة المخصصة بنجاح",
+          "UPDATE_ERROR": "غير قادر على تحديث الصفة. الرجاء المحاولة مرة أخرى لاحقاً",
+          "DELETE_ERROR": "غير قادر على حذف الصفة. الرجاء المحاولة مرة أخرى لاحقاً"
+        }
+      },
       "MERGE": {
         "TITLE": "دمج جهة الاتصال",
         "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
