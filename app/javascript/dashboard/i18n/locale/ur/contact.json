@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "کانٹیکٹس",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "پیغام",
+      "BREADCRUMB": {
+        "CONTACTS": "کانٹیکٹس"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "سی ایس وی فائل کے ذریعے کانٹیکٹ درآمد کریں۔.",
+          "DOWNLOAD_LABEL": "ایک نمونہ سی ایس وی ڈاؤن لوڈ کریں۔.",
+          "LABEL": "سی ایس وی فائل:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Change",
+          "CANCEL": "منسوخ کریں۔",
+          "IMPORT": "درآمد کریں۔",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
+        },
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "NAME": "نام",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "فون نمبر",
+            "COMPANY": "کمپنی",
+            "COUNTRY": "ملک",
+            "CITY": "شہر",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Created at"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "تفصیلات دیکھیں",
