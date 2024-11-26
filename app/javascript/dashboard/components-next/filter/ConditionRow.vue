@@ -10,7 +10,7 @@ import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
 const { filterTypes } = defineProps({
-  isFirst: { type: Boolean, default: false },
+  showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
 });
 
@@ -24,7 +24,7 @@ const attributeKey = defineModel('attributeKey', {
 });
 
 const values = defineModel('values', {
-  type: [String, Number, Array],
+  type: [String, Number, Array, Object],
   required: true,
 });
 
@@ -36,30 +36,39 @@ const filterOperator = defineModel('filterOperator', {
 const queryOperator = defineModel('queryOperator', {
   type: String,
   required: false,
-  default: 'and',
+  default: undefined,
   validator: value => ['and', 'or'].includes(value),
 });
 
-const currentFilter = computed(() => {
-  return filterTypes.find(filterObj => {
-    return filterObj.attributeKey === attributeKey.value;
-  });
-});
+const getFilterFromFilterTypes = key =>
+  filterTypes.find(filterObj => filterObj.attributeKey === key);
 
-const currentOperator = computed(() => {
-  const operatorFromOptions = currentFilter.value.filterOperators.find(
-    operator => {
-      return operator.value === filterOperator.value;
-    }
+const currentFilter = computed(() =>
+  getFilterFromFilterTypes(attributeKey.value)
+);
+
+const getOperator = (filter, selectedOperator) => {
+  const operatorFromOptions = filter.filterOperators.find(
+    operator => operator.value === selectedOperator
   );
 
-  if (!operatorFromOptions) return currentFilter.value.filterOperators[0];
-  return operatorFromOptions;
-});
+  if (!operatorFromOptions) {
+    return filter.filterOperators[0];
+  }
 
-const inputType = computed(() => {
-  return currentOperator.value.inputOverride ?? currentFilter.value.inputType;
-});
+  return operatorFromOptions;
+};
+
+const currentOperator = computed(() =>
+  getOperator(currentFilter.value, filterOperator.value)
+);
+
+const getInputType = (operator, filter) =>
+  operator.inputOverride ?? filter.inputType;
+
+const inputType = computed(() =>
+  getInputType(currentOperator.value, currentFilter.value)
+);
 
 const queryOperatorOptions = computed(() => {
   return [
@@ -89,9 +98,24 @@ const validationError = computed(() => {
   });
 });
 
-const reset = () => {
-  filterOperator.value = currentFilter.value.filterOperators[0].value;
-  values.value = '';
+const resetModelOnAttributeKeyChange = newAttributeKey => {
+  /**
+   * Resets the filter values and operator when the attribute key changes. This ensures that
+   * the values and operator remain compatible with the new attribute type. For example,
+   * switching from a text field to a multi-select should reset the value from '' (empty string)
+   * to an empty array.
+   */
+  const filter = getFilterFromFilterTypes(newAttributeKey);
+  const newOperator = getOperator(filter, filterOperator.value);
+  const newInputType = getInputType(newOperator, filter);
+  if (newInputType === 'multiSelect') {
+    values.value = [];
+  } else if (['searchSelect', 'booleanSelect'].includes(newInputType)) {
+    values.value = {};
+  } else {
+    values.value = '';
+  }
+  filterOperator.value = newOperator.value;
 };
 
 watch([attributeKey, values, filterOperator], () => {
@@ -115,7 +139,7 @@ defineExpose({ validate });
       }"
     >
       <FilterSelect
-        v-if="!isFirst"
+        v-if="showQueryOperator"
         v-model="queryOperator"
         variant="faded"
         hide-icon
@@ -126,7 +150,7 @@ defineExpose({ validate });
         v-model="attributeKey"
         variant="faded"
         :options="filterTypes"
-        @update:model-value="reset"
+        @update:model-value="resetModelOnAttributeKeyChange"
       />
       <FilterSelect
         v-model="filterOperator"
