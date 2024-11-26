@@ -94,7 +94,7 @@ class Integrations::Hook < ApplicationRecord
 
     Rails.logger.info 'Enqueuing disintegration job'
 
-    from_oauth_controller = Thread.current[:from_oauth_controller] || false
-    ProcessOneHashCalDisintegrateJob.perform_later(id, account_user_id, settings['cal_user_id'], account_id, from_oauth_controller)
+    # from_oauth_controller = Thread.current[:from_oauth_controller] || false
+    ProcessOneHashCalDisintegrateJob.perform_later(id, account_user_id, settings['cal_user_id'], account_id)
   end
 end

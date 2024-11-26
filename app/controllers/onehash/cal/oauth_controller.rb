@@ -11,15 +11,15 @@ class Onehash::Cal::OauthController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    Thread.current[:from_oauth_controller] = true
+    # Thread.current[:from_oauth_controller] = true
 
     account_user = Current.account_user
 
     Integrations::Hook.where(account_user_id: account_user.id, app_id: 'onehash_cal').destroy_all
 
     render json: { message: 'Account User hooks deleted successfully' }, status: :ok
-  ensure
-    Thread.current[:from_oauth_controller] = nil
+    # ensure
+    #   Thread.current[:from_oauth_controller] = nil
   end
 
   private
