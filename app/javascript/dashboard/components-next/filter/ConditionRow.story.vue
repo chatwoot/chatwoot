@@ -31,7 +31,7 @@ const addFilter = () => {
       <template v-for="(filter, index) in filters">
         <ConditionRow
           v-if="index === 0"
-          :key="`filter-${filter.attributeKey}-0`"
+          :key="`filter-${index}-0`"
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
@@ -41,7 +41,7 @@ const addFilter = () => {
         />
         <ConditionRow
           v-else
-          :key="`filter-${filter.attributeKey}-${index}`"
+          :key="`filter-${index}-${index}`"
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
           v-model:query-operator="filters[index - 1].queryOperator"
