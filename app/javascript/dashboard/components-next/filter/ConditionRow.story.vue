@@ -7,7 +7,7 @@ import { filterTypes } from './fixtures/filterTypes.js';
 const DEFAULT_FILTER = {
   attributeKey: 'status',
   filterOperator: 'equal_to',
-  values: '',
+  values: [],
   queryOperator: 'and',
 };
 
@@ -28,24 +28,24 @@ const addFilter = () => {
     :layout="{ type: 'grid', width: '600px' }"
   >
     <div class="min-h-[400px] p-2 space-y-2">
-      <template v-for="(filter, index) in filters">
+      <template v-for="(filter, index) in filters" :key="`filter-${index}`">
         <ConditionRow
           v-if="index === 0"
-          :key="`filter-${index}-0`"
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
-          is-first
+          :show-query-operator="false"
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
         />
+
         <ConditionRow
           v-else
-          :key="`filter-${index}-${index}`"
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
-          v-model:query-operator="filters[index - 1].queryOperator"
           v-model:values="filter.values"
+          v-model:query-operator="filters[index - 1].queryOperator"
+          :show-query-operator="true"
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
         />

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel, h, watch, ref, nextTick } from 'vue';
+import { computed, defineModel, h, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './inputs/FilterSelect.vue';
@@ -10,7 +10,7 @@ import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
 const { filterTypes } = defineProps({
-  isFirst: { type: Boolean, default: false },
+  showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
 });
 
@@ -36,7 +36,7 @@ const filterOperator = defineModel('filterOperator', {
 const queryOperator = defineModel('queryOperator', {
   type: String,
   required: false,
-  default: 'and',
+  default: undefined,
   validator: value => ['and', 'or'].includes(value),
 });
 
@@ -139,7 +139,7 @@ defineExpose({ validate });
       }"
     >
       <FilterSelect
-        v-if="!isFirst"
+        v-if="showQueryOperator"
         v-model="queryOperator"
         variant="faded"
         hide-icon
