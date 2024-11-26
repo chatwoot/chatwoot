@@ -44,7 +44,7 @@ const selected = ref(options[0].value);
 
 <template>
   <Story
-    title="Filters/Filter Select"
+    title="Components/Filters/Filter Select"
     :layout="{ type: 'grid', width: '250px' }"
   >
     <Variant title="With Icon & Label">
