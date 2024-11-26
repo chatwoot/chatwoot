@@ -1,7 +1,7 @@
 class ProcessOneHashCalDisintegrateJob < ApplicationJob
   queue_as :default
 
-  def perform(id, account_user_id, cal_user_id, account_id, from_oauth_controller)
+  def perform(id, account_user_id, cal_user_id, account_id)
     # Ensure all necessary parameters are present
     return unless id && account_user_id && cal_user_id && account_id
 
@@ -12,7 +12,7 @@ class ProcessOneHashCalDisintegrateJob < ApplicationJob
 
     remove_cal_event_from_user(user_id, account_id)
     remove_user_contact_booking(user_id, account_id)
-    return unless from_oauth_controller
+    # return unless from_oauth_controller
 
     remove_integration_from_cal(account_user_id, cal_user_id)
   end
