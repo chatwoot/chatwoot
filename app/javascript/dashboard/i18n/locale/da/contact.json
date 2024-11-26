@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontakter",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Besked",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontakter"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importér kontakter via en CSV-fil.",
+          "DOWNLOAD_LABEL": "Download en prøve csv.",
+          "LABEL": "CSV Fil:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Skift",
+          "CANCEL": "Annuller",
+          "IMPORT": "Importér",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
+        },
+        "SORT_BY": {
+          "LABEL": "Sorter efter",
+          "OPTIONS": {
+            "NAME": "Navn",
+            "EMAIL": "E-mail",
+            "PHONE_NUMBER": "Telefonnummer",
+            "COMPANY": "Virksomhed",
+            "COUNTRY": "Land",
+            "CITY": "By",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Oprettet den"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Se detaljer",
