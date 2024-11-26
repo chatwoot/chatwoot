@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontakty",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Wiadomość",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontakty"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importuj kontakty z pliku CSV.",
+          "DOWNLOAD_LABEL": "Pobierz przykładowy plik CSV",
+          "LABEL": "Plik CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Zmień dostępność",
+          "CANCEL": "Anuluj",
+          "IMPORT": "Importuj",
+          "SUCCESS_MESSAGE": "Otrzymasz powiadomienie e-mailem, gdy import zostanie zakończony.",
+          "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Eksportuj",
+          "SUCCESS_MESSAGE": "Eksportowanie w toku, otrzymasz powiadomienie e-mailem, gdy plik będzie gotowy do pobrania.",
+          "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
+        },
+        "SORT_BY": {
+          "LABEL": "Sortuj według",
+          "OPTIONS": {
+            "NAME": "Imię",
+            "EMAIL": "E-mail",
+            "PHONE_NUMBER": "Numer telefonu",
+            "COMPANY": "Firma",
+            "COUNTRY": "Kraj",
+            "CITY": "Miasto",
+            "LAST_ACTIVITY": "Ostatnia aktywność",
+            "CREATED_AT": "Data utworzenia"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Zobacz szczegóły",
