@@ -50,4 +50,8 @@ class ContactPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def bookings?
+    true
+  end
 end

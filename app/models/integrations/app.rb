@@ -84,8 +84,9 @@ class Integrations::App
 
     def handle_onehash_apps(app)
       enabled_map = {
-        onehash_cal: Current.user.custom_attributes&.key?('cal_events') || false
+        onehash_cal: Integrations::Hook.exists?(app_id: 'onehash_cal', account_user_id: Current.account_user.id)
       }
+
       app.internal_apps.each do |_key, internal_app|
         enabled = enabled_map[internal_app.id.to_sym] || false
         dynamic_object = {

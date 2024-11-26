@@ -142,8 +142,10 @@ export const actions = {
       const response =
         await IntegrationsAPI.addOneHashIntegration(integrationId);
       commit(types.default.ADD_INTEGRATION, response.data);
+      return response;
     } catch (error) {
       throwErrorMessage(error);
+      return null;
     }
   },
 };

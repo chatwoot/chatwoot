@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       showDeleteConfirmationPopup: false,
+      loading: false,
     };
   },
   computed: {
@@ -54,14 +55,18 @@ export default {
 
     async addIntegration() {
       try {
-        await this.$store.dispatch(
+        this.loading = true;
+        const res = await this.$store.dispatch(
           'integrations/addOneHashIntegration',
           this.integrationId
         );
-        window.location.reload();
-        useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.SUCCESS_MESSAGE'));
+        if (res.data.redirect_url) {
+          window.location.href = res.data.redirect_url;
+        }
       } catch (error) {
         useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.ERROR_MESSAGE'));
+      } finally {
+        this.loading = false;
       }
     },
   },
@@ -101,7 +106,7 @@ export default {
         </button>
       </div>
       <div v-else>
-        <button class="button nice" @click="addIntegration">
+        <button class="button nice" loading="loading" @click="addIntegration">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
         </button>
       </div>
