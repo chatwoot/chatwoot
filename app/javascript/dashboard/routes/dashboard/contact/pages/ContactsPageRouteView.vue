@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { debounce } from '@chatwoot/utils';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 
 import ContactsListLayout from 'dashboard/components-next/Contacts/ContactsListLayout.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
@@ -25,6 +26,7 @@ const contacts = useMapGetter('contacts/getContactsList');
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const customViewsUiFlags = useMapGetter('customViews/getUIFlags');
 const segments = useMapGetter('customViews/getContactCustomViews');
+const appliedFilters = useMapGetter('contacts/getAppliedContactFilters');
 const meta = useMapGetter('contacts/getMeta');
 
 const searchQuery = computed(() => route.query?.search);
@@ -66,17 +68,30 @@ const hasContacts = computed(() => contacts.value.length > 0);
 const isContactIndexView = computed(
   () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
+const hasAppliedFilters = computed(() => {
+  return appliedFilters.value.length > 0;
+});
+const showEmptyStateLayout = computed(() => {
+  return (
+    !searchQuery.value &&
+    !hasContacts.value &&
+    isContactIndexView.value &&
+    !hasAppliedFilters.value
+  );
+});
+const showEmptyText = computed(() => {
+  return (
+    (searchQuery.value ||
+      hasAppliedFilters.value ||
+      !isContactIndexView.value) &&
+    !hasContacts.value
+  );
+});
 
 const headerTitle = computed(() => {
-  if (searchQuery.value) {
-    return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
-  }
-  if (activeSegmentId.value) {
-    return activeSegment.value?.name;
-  }
-  if (activeLabel.value) {
-    return `#${activeLabel.value}`;
-  }
+  if (searchQuery.value) return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
+  if (activeSegmentId.value) return activeSegment.value?.name;
+  if (activeLabel.value) return `#${activeLabel.value}`;
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
 });
 
@@ -108,9 +123,8 @@ const fetchContacts = async (page = 1) => {
   updatePageParam(page);
 };
 
-const fetchSavedFilteredContact = async (payload, page = 1) => {
-  if (!activeSegmentId.value) return;
-
+const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
+  if (!activeSegmentId.value && !hasAppliedFilters.value) return;
   await store.dispatch('contacts/filter', {
     ...getCommonFetchParams(page),
     queryPayload: payload,
@@ -146,8 +160,13 @@ const handleSort = async ({ sort, order }) => {
     return;
   }
 
-  await (activeSegmentId.value
-    ? fetchSavedFilteredContact(activeSegment.value?.query, pageNumber.value)
+  await (activeSegmentId.value || hasAppliedFilters.value
+    ? fetchSavedOrAppliedFilteredContact(
+        activeSegmentId.value
+          ? activeSegment.value?.query
+          : filterQueryGenerator(appliedFilters.value),
+        pageNumber.value
+      )
     : fetchContacts(pageNumber.value));
 };
 
@@ -167,23 +186,20 @@ watch(
   { immediate: true }
 );
 
-watch(activeLabel, () => {
+watch([activeLabel, activeSegment], () => {
   if (searchQuery.value) return;
 
   searchValue.value = '';
-  if (!activeSegmentId.value) {
+  if (activeLabel.value) {
     fetchContacts();
-  }
-});
-
-watch(activeSegment, () => {
-  if (searchQuery.value) return;
-
-  searchValue.value = '';
-  if (activeSegment.value && activeSegmentId.value) {
-    fetchSavedFilteredContact(activeSegment.value.query, pageNumber.value);
-  } else if (!activeLabel.value) {
-    fetchContacts(pageNumber.value);
+  } else if (hasAppliedFilters.value || activeSegmentId.value) {
+    fetchSavedOrAppliedFilteredContact(
+      activeSegmentId.value
+        ? activeSegment.value.query
+        : filterQueryGenerator(appliedFilters.value)
+    );
+  } else {
+    fetchContacts();
   }
 });
 
@@ -194,8 +210,13 @@ watch(pageNumber, async page => {
     await searchContacts(searchQuery.value, page);
     return;
   }
-  if (activeSegmentId.value) {
-    await fetchSavedFilteredContact(activeSegment.value.query, page);
+  if (hasAppliedFilters.value || activeSegmentId.value) {
+    fetchSavedOrAppliedFilteredContact(
+      activeSegmentId.value
+        ? activeSegment.value.query
+        : filterQueryGenerator(appliedFilters.value),
+      page
+    );
   } else {
     await fetchContacts(page);
   }
@@ -218,7 +239,7 @@ onMounted(async () => {
     }
     await fetchContacts(pageNumber.value);
   } else if (activeSegment.value && activeSegmentId.value) {
-    await fetchSavedFilteredContact(
+    await fetchSavedOrAppliedFilteredContact(
       activeSegment.value.query,
       pageNumber.value
     );
@@ -238,9 +259,14 @@ onMounted(async () => {
       :show-pagination-footer="!isFetchingList && hasContacts"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
+      :active-segment="activeSegment"
+      :segments-id="activeSegmentId"
+      :has-applied-filters="hasAppliedFilters"
       @update:current-page="page => updatePageParam(page, searchValue)"
       @search="searchContacts"
       @update:sort="handleSort"
+      @apply-filter="fetchSavedOrAppliedFilteredContact"
+      @clear-filters="fetchContacts"
     >
       <div
         v-if="isFetchingList"
@@ -251,7 +277,7 @@ onMounted(async () => {
 
       <template v-else>
         <ContactEmptyState
-          v-if="!searchQuery && !hasContacts && isContactIndexView"
+          v-if="showEmptyStateLayout"
           class="pt-14"
           :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
           :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
@@ -260,12 +286,12 @@ onMounted(async () => {
         />
 
         <div
-          v-else-if="(searchQuery || !isContactIndexView) && !hasContacts"
+          v-else-if="showEmptyText"
           class="flex items-center justify-center py-10"
         >
           <span class="text-base text-n-slate-11">
             {{
-              searchQuery
+              searchQuery || !hasAppliedFilters
                 ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
                 : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
             }}

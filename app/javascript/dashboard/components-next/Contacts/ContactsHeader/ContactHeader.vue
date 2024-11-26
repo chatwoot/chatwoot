@@ -18,10 +18,10 @@ defineProps({
     type: String,
     required: true,
   },
-  buttonLabel: {
-    type: String,
-    required: true,
-  },
+  //   buttonLabel: {
+  //     type: String,
+  //     default: '',
+  //   },
   activeSort: {
     type: String,
     default: 'last_activity_at',
@@ -30,13 +30,21 @@ defineProps({
     type: String,
     default: '',
   },
+  isSegmentsView: {
+    type: Boolean,
+    default: false,
+  },
+  hasActiveFilters: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
   'search',
   'filter',
   'update:sort',
-  'message',
+  //   'message',
   'add',
   'import',
   'export',
@@ -72,12 +80,20 @@ const emit = defineEmits([
         </div>
         <div class="flex items-center gap-2">
           <Button
-            icon="i-lucide-list-filter"
+            :icon="
+              isSegmentsView ? 'i-lucide-pen-line' : 'i-lucide-list-filter'
+            "
             color="slate"
             size="sm"
+            class="relative"
             variant="ghost"
             @click="emit('filter')"
-          />
+          >
+            <div
+              v-if="hasActiveFilters && !isSegmentsView"
+              class="absolute top-0 right-0 w-2 h-2 rounded-full bg-n-brand"
+            />
+          </Button>
           <ContactSortMenu
             :active-sort="activeSort"
             :active-ordering="activeOrdering"
@@ -89,8 +105,9 @@ const emit = defineEmits([
             @export="emit('export')"
           />
         </div>
-        <div class="w-px h-4 bg-n-strong" />
-        <Button :label="buttonLabel" size="sm" @click="emit('message')" />
+        <!-- TODO: Add this when we enabling message feature -->
+        <!-- <div class="w-px h-4 bg-n-strong" /> -->
+        <!-- <Button :label="buttonLabel" size="sm" @click="emit('message')" /> -->
       </div>
     </div>
   </header>

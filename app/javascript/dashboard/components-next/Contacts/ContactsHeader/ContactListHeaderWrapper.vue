@@ -1,16 +1,21 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import contactFilterItems from 'dashboard/routes/dashboard/contacts/contactFilterItems';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import countries from 'shared/constants/countries';
 
 import ContactsHeader from 'dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue';
 import CreateNewContactDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateNewContactDialog.vue';
 import ContactExportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactExportDialog.vue';
 import ContactImportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactImportDialog.vue';
+import ContactsAdvancedFilters from 'dashboard/routes/dashboard/contacts/components/ContactsAdvancedFilters.vue';
 
-defineProps({
+const props = defineProps({
   showSearch: {
     type: Boolean,
     default: true,
@@ -31,9 +36,26 @@ defineProps({
     type: String,
     default: '',
   },
+  segmentsId: {
+    type: [String, Number],
+    default: 0,
+  },
+  activeSegment: {
+    type: Object,
+    default: null,
+  },
+  hasAppliedFilters: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:sort', 'search']);
+const emit = defineEmits([
+  'update:sort',
+  'search',
+  'applyFilter',
+  'clearFilters',
+]);
 
 const { t } = useI18n();
 const store = useStore();
@@ -41,6 +63,21 @@ const store = useStore();
 const createNewContactDialogRef = ref(null);
 const contactExportDialogRef = ref(null);
 const contactImportDialogRef = ref(null);
+
+const showFiltersModal = ref(false);
+const appliedFilter = ref([]);
+
+const hasActiveSegments = computed(
+  () => props.activeSegment && props.segmentsId !== 0
+);
+const activeSegmentName = computed(() => props.activeSegment?.name);
+
+const contactFilterItemsList = computed(() =>
+  contactFilterItems.map(filter => ({
+    ...filter,
+    attributeName: t(`CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+  }))
+);
 
 const openCreateNewContactDialog = () =>
   createNewContactDialogRef.value?.dialogRef.open();
@@ -79,6 +116,64 @@ const onExport = async query => {
     );
   }
 };
+
+const closeAdvanceFiltersModal = () => {
+  showFiltersModal.value = false;
+  appliedFilter.value = [];
+};
+
+const clearFilters = async () => {
+  await store.dispatch('contacts/clearContactFilters');
+  emit('clearFilters');
+};
+
+const onApplyFilter = async payload => {
+  emit('applyFilter', filterQueryGenerator(payload));
+  showFiltersModal.value = false;
+};
+
+const onUpdateSegment = async (payload, segmentName) => {
+  const payloadData = {
+    ...props.activeSegment,
+    name: segmentName,
+    query: filterQueryGenerator(payload),
+  };
+  await store.dispatch('customViews/update', payloadData);
+  closeAdvanceFiltersModal();
+};
+
+const setParamsForEditSegmentModal = () => {
+  return {
+    countries,
+    filterTypes: contactFilterItems,
+    allCustomAttributes:
+      store.getters['attributes/getAttributesByModel']('contact_attribute'),
+  };
+};
+
+const initializeSegmentToFilterModal = segment => {
+  const query = segment?.query?.payload;
+  if (!Array.isArray(query)) return;
+
+  appliedFilter.value = query.map(filter => ({
+    attribute_key: filter.attribute_key,
+    attribute_model: filter.attribute_model,
+    filter_operator: filter.filter_operator,
+    values: Array.isArray(filter.values)
+      ? generateValuesForEditCustomViews(filter, setParamsForEditSegmentModal())
+      : [],
+    query_operator: filter.query_operator,
+    custom_attribute_type: filter.custom_attribute_type,
+  }));
+};
+
+const onToggleFilters = () => {
+  appliedFilter.value = [];
+  if (hasActiveSegments.value) {
+    initializeSegmentToFilterModal(props.activeSegment);
+  }
+  showFiltersModal.value = true;
+};
 </script>
 
 <template>
@@ -88,14 +183,36 @@ const onExport = async query => {
     :active-sort="activeSort"
     :active-ordering="activeOrdering"
     :header-title="headerTitle"
+    :is-segments-view="hasActiveSegments"
+    :has-active-filters="hasAppliedFilters"
     :button-label="t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
     @search="emit('search', $event)"
     @update:sort="emit('update:sort', $event)"
     @add="openCreateNewContactDialog"
     @import="openContactImportDialog"
     @export="openContactExportDialog"
+    @filter="onToggleFilters"
   />
+
   <CreateNewContactDialog ref="createNewContactDialogRef" @create="onCreate" />
   <ContactExportDialog ref="contactExportDialogRef" @export="onExport" />
   <ContactImportDialog ref="contactImportDialogRef" @import="onImport" />
+
+  <woot-modal
+    v-model:show="showFiltersModal"
+    :on-close="closeAdvanceFiltersModal"
+    size="medium"
+  >
+    <ContactsAdvancedFilters
+      v-if="showFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
+      :initial-filter-types="contactFilterItemsList"
+      :initial-applied-filters="appliedFilter"
+      :active-segment-name="activeSegmentName"
+      :is-segments-view="hasActiveSegments"
+      @apply-filter="onApplyFilter"
+      @update-segment="onUpdateSegment"
+      @clear-filters="clearFilters"
+    />
+  </woot-modal>
 </template>

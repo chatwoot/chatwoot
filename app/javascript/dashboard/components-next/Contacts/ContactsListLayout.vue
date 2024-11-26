@@ -38,9 +38,27 @@ defineProps({
     type: String,
     default: '',
   },
+  activeSegment: {
+    type: Object,
+    default: null,
+  },
+  segmentsId: {
+    type: [String, Number],
+    default: 0,
+  },
+  hasAppliedFilters: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:currentPage', 'update:sort', 'search']);
+const emit = defineEmits([
+  'update:currentPage',
+  'update:sort',
+  'search',
+  'applyFilter',
+  'clearFilters',
+]);
 
 const route = useRoute();
 
@@ -64,8 +82,13 @@ const updateCurrentPage = page => {
         :active-sort="activeSort"
         :active-ordering="activeOrdering"
         :header-title="headerTitle"
+        :active-segment="activeSegment"
+        :segments-id="segmentsId"
+        :has-applied-filters="hasAppliedFilters"
         @update:sort="emit('update:sort', $event)"
         @search="emit('search', $event)"
+        @apply-filter="emit('applyFilter', $event)"
+        @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 px-6 overflow-y-auto xl:px-px">
         <div class="w-full py-4 mx-auto max-w-[900px]">
