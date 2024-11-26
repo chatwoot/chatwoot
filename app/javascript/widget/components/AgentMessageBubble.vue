@@ -133,6 +133,7 @@ export default {
         v-if="isCalEventConfirmation"
         :event-payload="messageContentAttributes.event_payload"
       />
+      
       <ConnectWithTeamInput v-if="isConnectWithTeam" :message-id="messageId" />
     </div>
     <div v-if="isOptions">
