@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontaktpersonas",
+      "SEARCH_TITLE": "Meklēt kontaktpersonas",
+      "SEARCH_PLACEHOLDER": "Meklēt...",
+      "MESSAGE_BUTTON": "Ziņojums",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontaktpersonas"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Pievienot kontaktpersonu",
+          "EXPORT_CONTACT": "Eksportēt kontaktpersonas",
+          "IMPORT_CONTACT": "Importēt kontaktpersonas",
+          "SAVE_CONTACT": "Saglabāt kontaktpersonu"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Importēt kontaktpersonas",
+          "DESCRIPTION": "Importēt kontaktpersonas, izmantojot CSV failu.",
+          "DOWNLOAD_LABEL": "Lejupielādēt csv paraugu.",
+          "LABEL": "CSV Fails:",
+          "CHOOSE_FILE": "Izvēlēties failu",
+          "CHANGE": "Mainīt",
+          "CANCEL": "Atcelt",
+          "IMPORT": "Importēt",
+          "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
+          "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Eksportēt kontaktpersonas",
+          "DESCRIPTION": "Ātri eksportējiet csv failu ar visaptverošu informāciju par jūsu kontaktpersonām",
+          "CONFIRM": "Eksportēt",
+          "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
+          "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        },
+        "SORT_BY": {
+          "LABEL": "Kārtot pēc",
+          "OPTIONS": {
+            "NAME": "Nosaukums",
+            "EMAIL": "E-pasts",
+            "PHONE_NUMBER": "Telefona numurs",
+            "COMPANY": "Uzņēmums",
+            "COUNTRY": "Valsts",
+            "CITY": "Pilsēta",
+            "LAST_ACTIVITY": "Pēdējā darbība",
+            "CREATED_AT": "Izveidots plkst"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Šķirošana",
+          "OPTIONS": {
+            "ASCENDING": "Augoša",
+            "DESCENDING": "Dilstoša"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "no",
       "VIEW_DETAILS": "Skatīt detalizētu informāciju",
@@ -442,9 +498,9 @@
     },
     "SIDEBAR": {
       "ATTRIBUTES": {
-        "SEARCH_PLACEHOLDER": "Search for attributes",
-        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
-        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "SEARCH_PLACEHOLDER": "Meklēt atribūtus",
+        "UNUSED_ATTRIBUTES": "{count} Izmantoti atribūti | {count} Neizmantoti atribūti",
+        "EMPTY_STATE": "Šajā kontā nav pieejami pielāgoti kontaktpersonu atribūti. Jūs varat iestatījumos izveidot pielāgotu atribūtu.",
         "YES": "Jā",
         "NO": "Nē",
         "TRIGGER": {
@@ -452,11 +508,11 @@
           "INPUT": "Ievadiet vērtību"
         },
         "VALIDATIONS": {
-          "INVALID_NUMBER": "Invalid number",
+          "INVALID_NUMBER": "Nederīgs numurs",
           "REQUIRED": "Nepieciešama derīga vērtība",
-          "INVALID_INPUT": "Invalid input",
+          "INVALID_INPUT": "Nederīga ievade",
           "INVALID_URL": "Nederīgs URL",
-          "INVALID_DATE": "Invalid date"
+          "INVALID_DATE": "Nederīgs datums"
         },
         "NO_ATTRIBUTES": "Īpašības nav atrastas",
         "API": {
