@@ -1,6 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -53,6 +54,9 @@ const getters = {
 
       return isChatMine;
     });
+  },
+  getAppliedConversationFiltersV2: _state => {
+    return _state.appliedFilters.map(camelcaseKeys);
   },
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
