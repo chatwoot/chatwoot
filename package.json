@@ -77,6 +77,7 @@
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
     "semver": "7.6.3",
+    "snakecase-keys": "^8.0.1",
     "timezone-phone-codes": "^0.0.2",
     "tinykeys": "^3.0.0",
     "turbolinks": "^5.2.0",
