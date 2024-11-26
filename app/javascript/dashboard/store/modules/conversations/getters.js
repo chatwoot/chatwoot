@@ -56,6 +56,7 @@ const getters = {
     });
   },
   getAppliedConversationFiltersV2: _state => {
+    // TODO: Replace existing one with V2 after migrating the filters to use camelcase
     return _state.appliedFilters.map(camelcaseKeys);
   },
   getAppliedConversationFilters: _state => {
