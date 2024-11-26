@@ -91,8 +91,9 @@ const booleanOptions = computed(() => [
 ]);
 
 const validationError = computed(() => {
+  // TOOD: Migrate validateSingleFilter to use camelcase and then use camelcase here too
   return validateSingleFilter({
-    attributeKey: attributeKey.value,
+    attribute_key: attributeKey.value,
     filter_operator: filterOperator.value,
     values: values.value,
   });
