@@ -5,7 +5,7 @@
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Izvēlieties opciju...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "EMPTY_SEARCH_RESULTS": "Meklēšanas vienumam `{searchTerm}` netika atrasts neviens vienums",
     "EMPTY_STATE": "Nav atrasts.",
     "SEARCH_PLACEHOLDER": "Meklēt...",
     "MORE": "+{count} vairāk"
@@ -34,7 +34,7 @@
     "ARIA_LABEL": "Rīvmaize"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "Pārslēgšanas slēdzis"
   },
   "LABEL": {
     "TAG_BUTTON": "marķēt"
