@@ -1,3 +1,5 @@
+// NOTE: In the future if performance becomes an issue, we can memoize the functions
+
 import { unref } from 'vue';
 import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
