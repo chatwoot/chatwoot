@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Контакты",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Сообщение",
+      "BREADCRUMB": {
+        "CONTACTS": "Контакты"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Импорт контактов из CSV-файла.",
+          "DOWNLOAD_LABEL": "Скачать образец csv-файла.",
+          "LABEL": "CSV файл:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Изменить",
+          "CANCEL": "Отменить",
+          "IMPORT": "Импортировать",
+          "SUCCESS_MESSAGE": "Вы будете уведомлены по электронной почте, когда импорт будет завершен.",
+          "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Экспорт",
+          "SUCCESS_MESSAGE": "Выполняется экспорт. Вы будете уведомлены по электронной почте, когда файл экспорта будет готов к загрузке.",
+          "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+        },
+        "SORT_BY": {
+          "LABEL": "Сортировать по",
+          "OPTIONS": {
+            "NAME": "Имя",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Номер телефона",
+            "COMPANY": "Компания",
+            "COUNTRY": "Страна",
+            "CITY": "Город",
+            "LAST_ACTIVITY": "Последние действия",
+            "CREATED_AT": "Дата создания"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Просмотреть подробности",
