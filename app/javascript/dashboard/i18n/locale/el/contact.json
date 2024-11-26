@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Επαφές",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Μήνυμα",
+      "BREADCRUMB": {
+        "CONTACTS": "Επαφές"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Εισαγωγή επαφών μέσω αρχείου CSV.",
+          "DOWNLOAD_LABEL": "Λήψη δείγματος csv.",
+          "LABEL": "Αρχείο CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Να αλλάξει",
+          "CANCEL": "Άκυρο",
+          "IMPORT": "Εισαγωγή",
+          "SUCCESS_MESSAGE": "Θα ειδοποιηθείτε μέσω email όταν ολοκληρωθεί η εισαγωγή.",
+          "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+        },
+        "SORT_BY": {
+          "LABEL": "Ταξινόμηση κατά",
+          "OPTIONS": {
+            "NAME": "Όνομα",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+            "COMPANY": "Εταιρία",
+            "COUNTRY": "Χώρα",
+            "CITY": "Πόλη",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Δημιουργήθηκε στις"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Προβολή λεπτομεριών",
