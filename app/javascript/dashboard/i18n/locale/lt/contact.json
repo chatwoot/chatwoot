@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontaktai",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Žinutė",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontaktai"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importuoti kontaktus CSV failo pagalba.",
+          "DOWNLOAD_LABEL": "Užkrauti csv. pavyzdį.",
+          "LABEL": "CSV failas:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Keisti",
+          "CANCEL": "Atšaukti",
+          "IMPORT": "Importuoti",
+          "SUCCESS_MESSAGE": "Jūs gausite pranešimą el. paštu, kai importas bus užbaigtas.",
+          "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Eksportuoti",
+          "SUCCESS_MESSAGE": "Vykdomas eksportavimas. Jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
+          "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+        },
+        "SORT_BY": {
+          "LABEL": "Rūšiuoti pagal",
+          "OPTIONS": {
+            "NAME": "Vardas",
+            "EMAIL": "El. paštas",
+            "PHONE_NUMBER": "Telefono numeris",
+            "COMPANY": "Įmonė",
+            "COUNTRY": "Šalis",
+            "CITY": "Miestas",
+            "LAST_ACTIVITY": "Paskutiniai veiksmai",
+            "CREATED_AT": "Sukurta"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Pažiūrėti detaliau",
