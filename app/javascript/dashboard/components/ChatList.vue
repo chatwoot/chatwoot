@@ -107,7 +107,7 @@ const unAssignedChatsList = useMapGetter('getUnAssignedChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
-const appliedFilters = useMapGetter('getAppliedConversationFilters');
+const appliedFilters = useMapGetter('getAppliedConversationFiltersV2');
 const folders = useMapGetter('customViews/getConversationCustomViews');
 const agentList = useMapGetter('agents/getAgents');
 const teamsList = useMapGetter('teams/getTeams');
@@ -487,14 +487,14 @@ function initializeFolderToFilterModal(newActiveFolder) {
   if (!Array.isArray(query)) return;
 
   const newFilters = query.map(filter => ({
-    attribute_key: filter.attribute_key,
-    attribute_model: filter.attribute_model,
-    filter_operator: filter.filter_operator,
+    attributeKey: filter.attributeKey,
+    attributeModel: filter.attributeModel,
+    filterOperator: filter.filterOperator,
     values: Array.isArray(filter.values)
       ? generateValuesForEditCustomViews(filter, setParamsForEditFolderModal())
       : [],
-    query_operator: filter.query_operator ?? 'and',
-    custom_attribute_type: filter.custom_attribute_type,
+    queryOperator: filter.queryOperator ?? 'and',
+    customAttributeType: filter.customAttributeType,
   }));
 
   appliedFilter.value = [...appliedFilter.value, ...newFilters];
