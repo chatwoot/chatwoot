@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kontakte",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Nachricht",
+      "BREADCRUMB": {
+        "CONTACTS": "Kontakte"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Kontakte über CSV-Datei importieren.",
+          "DOWNLOAD_LABEL": "Ein CSV-Beispiel herunterladen.",
+          "LABEL": "CSV-Datei:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Ändern",
+          "CANCEL": "Stornieren",
+          "IMPORT": "Importieren",
+          "SUCCESS_MESSAGE": "Sie werden per E-Mail benachrichtigt, wenn der Import abgeschlossen ist.",
+          "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Exportieren",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+        },
+        "SORT_BY": {
+          "LABEL": "Sortieren nach",
+          "OPTIONS": {
+            "NAME": "Name",
+            "EMAIL": "E-Mail",
+            "PHONE_NUMBER": "Telefonnummer",
+            "COMPANY": "Firma",
+            "COUNTRY": "Land",
+            "CITY": "Stadt",
+            "LAST_ACTIVITY": "Letzte Aktivität",
+            "CREATED_AT": "Erstellt am"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Details anzeigen",
