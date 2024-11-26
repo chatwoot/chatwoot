@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Контакти",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Текст повідомлення",
+      "BREADCRUMB": {
+        "CONTACTS": "Контакти"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Імпортувати контакти через файл CSV.",
+          "DOWNLOAD_LABEL": "Завантажити зразок csv.",
+          "LABEL": "Файл CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Змінити",
+          "CANCEL": "Скасувати",
+          "IMPORT": "Імпорт",
+          "SUCCESS_MESSAGE": "Ви будете повідомлені по електронній пошті, коли завершиться імпорт.",
+          "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Експорт",
+          "SUCCESS_MESSAGE": "Триває експорт, з'явиться повідомлення коли він буде готовий для скачування.",
+          "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+        },
+        "SORT_BY": {
+          "LABEL": "Сортувати за",
+          "OPTIONS": {
+            "NAME": "Ім'я",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Номер телефону",
+            "COMPANY": "Організація",
+            "COUNTRY": "Країна",
+            "CITY": "Місто",
+            "LAST_ACTIVITY": "Остання активність",
+            "CREATED_AT": "Створений в"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Докладніше",
