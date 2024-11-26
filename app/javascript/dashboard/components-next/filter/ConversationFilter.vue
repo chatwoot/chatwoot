@@ -130,7 +130,7 @@ const outsideClickHandler = [
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
           :filter-types="filterTypes"
-          is-first
+          :show-query-operator="false"
           @remove="removeFilter(index)"
         />
         <ConditionRow
@@ -141,6 +141,7 @@ const outsideClickHandler = [
           v-model:filter-operator="filter.filterOperator"
           v-model:query-operator="filters[index - 1].queryOperator"
           v-model:values="filter.values"
+          show-query-operator
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
         />
