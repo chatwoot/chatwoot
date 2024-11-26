@@ -52,10 +52,10 @@ const emit = defineEmits([
     <div
       class="flex items-center justify-between w-full h-20 gap-2 mx-auto max-w-[900px]"
     >
-      <span class="text-xl font-medium text-n-slate-12">
+      <span class="text-xl font-medium truncate text-n-slate-12">
         {{ headerTitle }}
       </span>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center flex-shrink-0 gap-4">
         <div
           v-if="!isEmptyState && isNotSegmentView"
           class="flex items-center gap-2"
