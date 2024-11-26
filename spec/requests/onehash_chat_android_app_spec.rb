@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'OnehashChatAndroidApps', type: :request do
+RSpec.describe 'OnehashChatAndroidApps' do
   describe 'GET /index' do
     pending "add some examples (or delete) #{__FILE__}"
   end

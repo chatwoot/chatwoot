@@ -101,6 +101,8 @@ class User < ApplicationRecord
                      class_name: :Portal,
                      dependent: :nullify
   has_many :macros, foreign_key: 'created_by_id'
+  has_many :contact_bookings, dependent: :destroy_async
+
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 
