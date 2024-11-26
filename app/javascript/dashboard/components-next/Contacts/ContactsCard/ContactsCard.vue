@@ -31,31 +31,39 @@ const onClickViewDetails = async () => {
 
 <template>
   <CardLayout :key="id" layout="row">
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center justify-start gap-4 flex-1">
       <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
-      <div class="flex flex-col gap-1">
-        <div class="flex items-center gap-2">
-          <span class="text-sm font-medium truncate text-n-slate-12">
+      <div class="flex flex-col gap-0.5 flex-1">
+        <div class="flex items-center gap-4">
+          <span class="text-base font-medium truncate text-n-slate-12">
             {{ name }}
           </span>
-          <span
-            v-if="additionalAttributes?.companyName"
-            class="i-lucide-briefcase-business size-4 text-n-slate-11"
-          />
-          <span
-            v-if="additionalAttributes?.companyName"
-            class="text-sm truncate text-n-slate-11"
-          >
-            {{ additionalAttributes.companyName }}
+          <span class="inline-flex gap-1 items-center">
+            <span
+              v-if="additionalAttributes?.companyName"
+              class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
+            />
+            <span
+              v-if="additionalAttributes?.companyName"
+              class="text-sm truncate text-n-slate-11"
+            >
+              {{ additionalAttributes.companyName }}
+            </span>
           </span>
         </div>
-        <div class="flex items-center gap-3">
-          <span v-if="email" class="text-sm text-n-slate-11">{{ email }}</span>
-          <div v-if="email" class="w-px h-3 bg-n-slate-6" />
-          <span v-if="phoneNumber" class="text-sm text-n-slate-11">
-            {{ phoneNumber }}
-          </span>
-          <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
+        <div class="flex items-center gap-3 justify-start">
+          <div class="flex items-center gap-3">
+            <div v-if="email" class="max-w-72 truncate" :title="email">
+              <span class="text-sm text-n-slate-11">
+                {{ email }}
+              </span>
+            </div>
+            <div v-if="email" class="w-px h-3 bg-n-slate-6 truncate" />
+            <span v-if="phoneNumber" class="text-sm text-n-slate-11 truncate">
+              {{ phoneNumber }}
+            </span>
+            <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6 truncate" />
+          </div>
           <Button
             :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
             variant="link"
