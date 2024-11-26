@@ -17,6 +17,8 @@ const removeFilter = index => {
   filters.value.splice(index, 1);
 };
 
+const showQueryOperator = true;
+
 const addFilter = () => {
   filters.value.push({ ...DEFAULT_FILTER });
 };
@@ -45,7 +47,7 @@ const addFilter = () => {
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
           v-model:query-operator="filters[index - 1].queryOperator"
-          :show-query-operator="true"
+          :show-query-operator
           :filter-types="filterTypes"
           @remove="removeFilter(index)"
         />
