@@ -127,9 +127,8 @@ const handleInputUpdate = async () => {
       :class="{
         'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
           !isEditingView,
-        'text-n-slate-12 truncate flex-1':
-          isEditingView && !isAttributeTypeLink,
-        'truncate flex-1 hover:text-n-brand text-n-blue-text':
+        'text-n-slate-12 truncate': isEditingView && !isAttributeTypeLink,
+        'truncate hover:text-n-brand text-n-blue-text':
           isEditingView && isAttributeTypeLink,
       }"
       @click="toggleEditValue(!isEditingView)"

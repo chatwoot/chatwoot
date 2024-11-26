@@ -95,11 +95,11 @@ const prepareStateBasedOnProps = () => {
 
   const [firstName = '', lastName = ''] = name.split(' ');
   const {
-    description,
-    companyName,
-    countryCode,
-    country,
-    city,
+    description = '',
+    companyName = '',
+    countryCode = '',
+    country = '',
+    city = '',
     socialProfiles = {},
   } = additionalAttributes || {};
 

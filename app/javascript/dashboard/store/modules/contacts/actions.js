@@ -91,9 +91,11 @@ export const actions = {
   },
 
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
-    const decamelizedContactParams = decamelizeKeys(contactParams, {
-      deep: true,
-    });
+    const { avatar, ...paramsToDecamelize } = contactParams;
+    const decamelizedContactParams = {
+      ...decamelizeKeys(paramsToDecamelize, { deep: true }),
+      ...(avatar && { avatar }),
+    };
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(
