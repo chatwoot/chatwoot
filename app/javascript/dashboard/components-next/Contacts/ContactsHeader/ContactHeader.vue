@@ -48,6 +48,8 @@ const emit = defineEmits([
   'add',
   'import',
   'export',
+  'createSegment',
+  'deleteSegment',
 ]);
 </script>
 
@@ -94,6 +96,24 @@ const emit = defineEmits([
               class="absolute top-0 right-0 w-2 h-2 rounded-full bg-n-brand"
             />
           </Button>
+          <Button
+            v-if="hasActiveFilters && !isSegmentsView"
+            icon="i-lucide-save"
+            color="slate"
+            size="sm"
+            class="relative"
+            variant="ghost"
+            @click="emit('createSegment')"
+          />
+          <Button
+            v-if="isSegmentsView"
+            icon="i-lucide-trash"
+            color="slate"
+            size="sm"
+            class="relative"
+            variant="ghost"
+            @click="emit('deleteSegment')"
+          />
           <ContactSortMenu
             :active-sort="activeSort"
             :active-ordering="activeOrdering"

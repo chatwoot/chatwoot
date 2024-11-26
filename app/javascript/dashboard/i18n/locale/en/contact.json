@@ -441,6 +441,25 @@
             "ASCENDING": "Ascending",
             "DESCENDING": "Descending"
           }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Do you want to save this filter?",
+            "CONFIRM": "Save filter",
+            "LABEL": "Name",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Confirm Deletion",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Yes, Delete",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
         }
       }
     },

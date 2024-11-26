@@ -58,11 +58,10 @@ const isFetchingList = computed(
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
-const activeSegment = computed(() =>
-  activeSegmentId.value
-    ? segments.value.find(view => view.id === Number(activeSegmentId.value))
-    : undefined
-);
+const activeSegment = computed(() => {
+  if (!activeSegmentId.value) return undefined;
+  return segments.value.find(view => view.id === Number(activeSegmentId.value));
+});
 
 const hasContacts = computed(() => contacts.value.length > 0);
 const isContactIndexView = computed(
@@ -186,41 +185,30 @@ watch(
   { immediate: true }
 );
 
-watch([activeLabel, activeSegment], () => {
-  if (searchQuery.value) return;
+watch(
+  [pageNumber, activeLabel, activeSegment],
+  async ([page]) => {
+    if (isFetchingList.value || !page) return;
 
-  searchValue.value = '';
-  if (activeLabel.value) {
-    fetchContacts();
-  } else if (hasAppliedFilters.value || activeSegmentId.value) {
-    fetchSavedOrAppliedFilteredContact(
-      activeSegmentId.value
-        ? activeSegment.value.query
-        : filterQueryGenerator(appliedFilters.value)
-    );
-  } else {
-    fetchContacts();
-  }
-});
+    if (searchQuery.value) {
+      await searchContacts(searchQuery.value, page);
+      return;
+    }
 
-watch(pageNumber, async page => {
-  if (isFetchingList.value) return;
+    // If there are applied filters or active segment with query
+    if (hasAppliedFilters.value || activeSegment.value?.query) {
+      const queryPayload =
+        activeSegment.value?.query ||
+        filterQueryGenerator(appliedFilters.value);
+      await fetchSavedOrAppliedFilteredContact(queryPayload, page);
+      return;
+    }
 
-  if (searchQuery.value) {
-    await searchContacts(searchQuery.value, page);
-    return;
-  }
-  if (hasAppliedFilters.value || activeSegmentId.value) {
-    fetchSavedOrAppliedFilteredContact(
-      activeSegmentId.value
-        ? activeSegment.value.query
-        : filterQueryGenerator(appliedFilters.value),
-      page
-    );
-  } else {
+    // Default case: fetch regular contacts
     await fetchContacts(page);
-  }
-});
+  },
+  { deep: true }
+);
 
 watch(searchQuery, value => {
   if (isFetchingList.value) return;

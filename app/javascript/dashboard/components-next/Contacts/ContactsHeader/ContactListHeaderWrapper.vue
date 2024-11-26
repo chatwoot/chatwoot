@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
+import { useRouter } from 'vue-router';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
@@ -13,6 +14,8 @@ import ContactsHeader from 'dashboard/components-next/Contacts/ContactsHeader/Co
 import CreateNewContactDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateNewContactDialog.vue';
 import ContactExportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactExportDialog.vue';
 import ContactImportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactImportDialog.vue';
+import CreateSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateSegmentDialog.vue';
+import DeleteSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/DeleteSegmentDialog.vue';
 import ContactsAdvancedFilters from 'dashboard/routes/dashboard/contacts/components/ContactsAdvancedFilters.vue';
 
 const props = defineProps({
@@ -59,13 +62,17 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 const store = useStore();
+const router = useRouter();
 
 const createNewContactDialogRef = ref(null);
 const contactExportDialogRef = ref(null);
 const contactImportDialogRef = ref(null);
+const createSegmentDialogRef = ref(null);
+const deleteSegmentDialogRef = ref(null);
 
 const showFiltersModal = ref(false);
 const appliedFilter = ref([]);
+const segmentsQuery = ref({});
 
 const hasActiveSegments = computed(
   () => props.activeSegment && props.segmentsId !== 0
@@ -85,6 +92,10 @@ const openContactImportDialog = () =>
   contactImportDialogRef.value?.dialogRef.open();
 const openContactExportDialog = () =>
   contactExportDialogRef.value?.dialogRef.open();
+const openCreateSegmentDialog = () =>
+  createSegmentDialogRef.value?.dialogRef.open();
+const openDeleteSegmentDialog = () =>
+  deleteSegmentDialogRef.value?.dialogRef.open();
 
 const onCreate = async contact => {
   await store.dispatch('contacts/create', contact);
@@ -117,6 +128,47 @@ const onExport = async query => {
   }
 };
 
+const onCreateSegment = async payload => {
+  try {
+    const payloadData = {
+      ...payload,
+      query: segmentsQuery.value,
+    };
+    await store.dispatch('customViews/create', payloadData);
+    createSegmentDialogRef.value?.dialogRef.close();
+    useAlert(
+      t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS.CREATE_SEGMENT.SUCCESS_MESSAGE')
+    );
+  } catch {
+    useAlert(
+      t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS.CREATE_SEGMENT.ERROR_MESSAGE')
+    );
+  }
+};
+
+const onDeleteSegment = async payload => {
+  try {
+    await store.dispatch('customViews/delete', {
+      id: Number(props.segmentsId),
+      ...payload,
+    });
+    router.push({
+      name: 'contacts_dashboard_index',
+      query: {
+        page: 1,
+      },
+    });
+    deleteSegmentDialogRef.value?.dialogRef.close();
+    useAlert(
+      t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS.DELETE_SEGMENT.SUCCESS_MESSAGE')
+    );
+  } catch (error) {
+    useAlert(
+      t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS.DELETE_SEGMENT.ERROR_MESSAGE')
+    );
+  }
+};
+
 const closeAdvanceFiltersModal = () => {
   showFiltersModal.value = false;
   appliedFilter.value = [];
@@ -128,6 +180,7 @@ const clearFilters = async () => {
 };
 
 const onApplyFilter = async payload => {
+  segmentsQuery.value = filterQueryGenerator(payload);
   emit('applyFilter', filterQueryGenerator(payload));
   showFiltersModal.value = false;
 };
@@ -192,12 +245,15 @@ const onToggleFilters = () => {
     @import="openContactImportDialog"
     @export="openContactExportDialog"
     @filter="onToggleFilters"
+    @create-segment="openCreateSegmentDialog"
+    @delete-segment="openDeleteSegmentDialog"
   />
 
   <CreateNewContactDialog ref="createNewContactDialogRef" @create="onCreate" />
   <ContactExportDialog ref="contactExportDialogRef" @export="onExport" />
   <ContactImportDialog ref="contactImportDialogRef" @import="onImport" />
-
+  <CreateSegmentDialog ref="createSegmentDialogRef" @create="onCreateSegment" />
+  <DeleteSegmentDialog ref="deleteSegmentDialogRef" @delete="onDeleteSegment" />
   <woot-modal
     v-model:show="showFiltersModal"
     :on-close="closeAdvanceFiltersModal"
