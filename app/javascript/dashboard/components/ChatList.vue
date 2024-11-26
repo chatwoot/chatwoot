@@ -37,11 +37,14 @@ import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import {
+  useCamelCase,
+  useSnakeCase,
+} from 'dashboard/composables/useTransformKeys';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useEventListener } from '@vueuse/core';
 
 import { emitter } from 'shared/helpers/mitt';
-import camelcaseKeys from 'camelcase-keys';
 
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterOptions from './widgets/conversation/advancedFilterItems';
@@ -373,6 +376,7 @@ function emitConversationLoaded() {
 }
 
 function fetchFilteredConversations(payload) {
+  payload = useSnakeCase(payload);
   let page = currentFiltersPage.value + 1;
   store
     .dispatch('fetchFilteredConversations', {
@@ -385,6 +389,7 @@ function fetchFilteredConversations(payload) {
 }
 
 function fetchSavedFilteredConversations(payload) {
+  payload = useSnakeCase(payload);
   let page = currentFiltersPage.value + 1;
   store
     .dispatch('fetchFilteredConversations', {
@@ -395,6 +400,7 @@ function fetchSavedFilteredConversations(payload) {
 }
 
 function onApplyFilter(payload) {
+  payload = useSnakeCase(payload);
   resetBulkActions();
   foldersQuery.value = filterQueryGenerator(payload);
   store.dispatch('conversationPage/reset');
@@ -463,19 +469,19 @@ function initializeExistingFilterToModal() {
     currentUserDetails.value,
     activeAssigneeTab.value
   );
-  // TODO: Remove the usage of camelcaseKeys after migrating useFilter to camelcase
+  // TODO: Remove the usage of useCamelCase after migrating useFilter to camelcase
   if (statusFilter) {
-    appliedFilter.value = [...appliedFilter.value, camelcaseKeys(statusFilter)];
+    appliedFilter.value = [...appliedFilter.value, useCamelCase(statusFilter)];
   }
 
-  // TODO: Remove the usage of camelcaseKeys after migrating useFilter to camelcase
+  // TODO: Remove the usage of useCamelCase after migrating useFilter to camelcase
   const otherFilters = initializeInboxTeamAndLabelFilterToModal(
     props.conversationInbox,
     inbox.value,
     props.teamId,
     activeTeam.value,
     props.label
-  ).map(camelcaseKeys);
+  ).map(useCamelCase);
 
   appliedFilter.value = [...appliedFilter.value, ...otherFilters];
 }
