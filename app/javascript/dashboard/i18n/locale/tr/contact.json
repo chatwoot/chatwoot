@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Kişiler",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Mesaj",
+      "BREADCRUMB": {
+        "CONTACTS": "Kişiler"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Kişileri CSV dosyası olarak içe aktar.",
+          "DOWNLOAD_LABEL": "Örnek CSV dosyası indir.",
+          "LABEL": "CSV Dosyası:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Durumu Değiştir",
+          "CANCEL": "İptal Et",
+          "IMPORT": "İçe Aktar",
+          "SUCCESS_MESSAGE": "İçe aktarma işlemi tamamlandığında e-posta ile bildirileceksiniz.",
+          "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Dışa Aktar",
+          "SUCCESS_MESSAGE": "Dışa aktarma işlemi devam ediyor, dışa aktarma dosyası indirmeye hazır olduğunda e-posta ile bildirileceksiniz.",
+          "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+        },
+        "SORT_BY": {
+          "LABEL": "Sırala",
+          "OPTIONS": {
+            "NAME": "İsim",
+            "EMAIL": "E-Posta",
+            "PHONE_NUMBER": "Telefon numarası",
+            "COMPANY": "Şirket",
+            "COUNTRY": "Ülke",
+            "CITY": "Şehir",
+            "LAST_ACTIVITY": "Son etkinlik",
+            "CREATED_AT": "Oluşturma zamanı"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Detayları Göster",
