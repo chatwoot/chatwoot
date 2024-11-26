@@ -11,11 +11,6 @@ import snakecaseKeys from 'snakecase-keys';
  */
 export function useCamelCase(payload) {
   const unrefPayload = unref(payload);
-
-  if (Array.isArray(unrefPayload)) {
-    return unrefPayload.map(camelcaseKeys);
-  }
-
   return camelcaseKeys(unrefPayload);
 }
 
@@ -26,10 +21,5 @@ export function useCamelCase(payload) {
  */
 export function useSnakeCase(payload) {
   const unrefPayload = unref(payload);
-
-  if (Array.isArray(unrefPayload)) {
-    return unrefPayload.map(snakecaseKeys);
-  }
-
   return snakecaseKeys(unrefPayload);
 }
