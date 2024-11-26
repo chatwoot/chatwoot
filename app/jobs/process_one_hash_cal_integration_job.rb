@@ -3,11 +3,12 @@ class ProcessOneHashCalIntegrationJob < ApplicationJob
 
   def perform(integration_hook_id)
     hook = Integrations::Hook.find_by(id: integration_hook_id)
+    Rails.logger.info "__ProcessOneHashCalIntegrationJob :Hook #{hook.inspect}"
+
     return unless hook
 
     # Check if account_user is present
     @account_user = hook.account_user
-    return unless @account_user
 
     @account = @account_user.account
 
@@ -23,6 +24,7 @@ class ProcessOneHashCalIntegrationJob < ApplicationJob
   private
 
   def process_hook_data(hook)
+    Rails.logger.info "__ProcessOneHashCalIntegrationJob :Hook Inside process_hook_data with cal_user_id #{hook.settings['cal_user_id']}"
     initial_data = get_initial_data_from_cal(hook.settings['cal_user_id'])
     if initial_data
       add_cal_event_to_user(initial_data['cal_events'], hook.account_id)
