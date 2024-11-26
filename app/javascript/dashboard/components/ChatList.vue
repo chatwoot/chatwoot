@@ -40,6 +40,9 @@ import { useI18n } from 'vue-i18n';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useEventListener } from '@vueuse/core';
 
+import { emitter } from 'shared/helpers/mitt';
+import camelcaseKeys from 'camelcase-keys';
+
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterOptions from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
@@ -51,12 +54,11 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
-import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
-import { emitter } from 'shared/helpers/mitt';
 import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
+import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
@@ -461,17 +463,19 @@ function initializeExistingFilterToModal() {
     currentUserDetails.value,
     activeAssigneeTab.value
   );
+  // TODO: Remove the usage of camelcaseKeys after migrating useFilter to camelcase
   if (statusFilter) {
-    appliedFilter.value = [...appliedFilter.value, statusFilter];
+    appliedFilter.value = [...appliedFilter.value, camelcaseKeys(statusFilter)];
   }
 
+  // TODO: Remove the usage of camelcaseKeys after migrating useFilter to camelcase
   const otherFilters = initializeInboxTeamAndLabelFilterToModal(
     props.conversationInbox,
     inbox.value,
     props.teamId,
     activeTeam.value,
     props.label
-  );
+  ).map(camelcaseKeys);
 
   appliedFilter.value = [...appliedFilter.value, ...otherFilters];
 }
