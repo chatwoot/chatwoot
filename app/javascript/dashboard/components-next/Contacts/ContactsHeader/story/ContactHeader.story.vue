@@ -45,7 +45,7 @@ const onSort = ({ sort, order }) => {
     <Variant title="Empty State">
       <div class="w-full">
         <ContactHeader
-          is-empty-state
+          :show-search="false"
           header-title="Contacts"
           button-label="Message"
           :search-value="searchValue"
@@ -65,7 +65,7 @@ const onSort = ({ sort, order }) => {
     <Variant title="Segment View">
       <div class="w-full">
         <ContactHeader
-          is-segment-view
+          :show-search="false"
           header-title="Segment: VIP Customers"
           button-label="Message"
           :search-value="searchValue"

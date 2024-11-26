@@ -6,11 +6,7 @@ import ContactSortMenu from './components/ContactSortMenu.vue';
 import ContactMoreActions from './components/ContactMoreActions.vue';
 
 defineProps({
-  isEmptyState: {
-    type: Boolean,
-    default: false,
-  },
-  isSegmentView: {
+  showSearch: {
     type: Boolean,
     default: true,
   },
@@ -56,10 +52,7 @@ const emit = defineEmits([
         {{ headerTitle }}
       </span>
       <div class="flex items-center flex-shrink-0 gap-4">
-        <div
-          v-if="!isEmptyState && !isSegmentView"
-          class="flex items-center gap-2"
-        >
+        <div v-if="showSearch" class="flex items-center gap-2">
           <Input
             :model-value="searchValue"
             type="search"
@@ -79,7 +72,6 @@ const emit = defineEmits([
         </div>
         <div class="flex items-center gap-2">
           <Button
-            v-if="!isEmptyState"
             icon="i-lucide-list-filter"
             color="slate"
             size="sm"
@@ -87,7 +79,6 @@ const emit = defineEmits([
             @click="emit('filter')"
           />
           <ContactSortMenu
-            v-if="!isEmptyState"
             :active-sort="activeSort"
             :active-ordering="activeOrdering"
             @update:sort="emit('update:sort', $event)"
