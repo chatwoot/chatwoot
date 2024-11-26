@@ -196,7 +196,10 @@ watch(
     }
 
     // If there are applied filters or active segment with query
-    if (hasAppliedFilters.value || activeSegment.value?.query) {
+    if (
+      (hasAppliedFilters.value || activeSegment.value?.query) &&
+      !activeLabel.value
+    ) {
       const queryPayload =
         activeSegment.value?.query ||
         filterQueryGenerator(appliedFilters.value);
@@ -204,7 +207,7 @@ watch(
       return;
     }
 
-    // Default case: fetch regular contacts
+    // Default case: fetch regular contacts + label
     await fetchContacts(page);
   },
   { deep: true }
