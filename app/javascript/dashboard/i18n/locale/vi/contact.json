@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Danh bạ",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Tin nhắn",
+      "BREADCRUMB": {
+        "CONTACTS": "Danh bạ"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Nhập liên hệ bằng một file CSV.",
+          "DOWNLOAD_LABEL": "Tải xuống tệp CSV mẫu.",
+          "LABEL": "Tệp CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Đổi",
+          "CANCEL": "Huỷ",
+          "IMPORT": "Nhập",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        },
+        "SORT_BY": {
+          "LABEL": "Sắp bởi",
+          "OPTIONS": {
+            "NAME": "Tên",
+            "EMAIL": "Email",
+            "PHONE_NUMBER": "Số điện thoại",
+            "COMPANY": "Công ty",
+            "COUNTRY": "Quốc gia",
+            "CITY": "Tỉnh / Thành phố",
+            "LAST_ACTIVITY": "Hành động cuối cùng",
+            "CREATED_AT": "Tạo vào lúc"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Xem chi tiết",
