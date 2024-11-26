@@ -94,7 +94,7 @@ const headerTitle = computed(() => {
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
 });
 
-const updatePageParam = (page, search = searchValue.value) => {
+const updatePageParam = (page, search = '') => {
   const query = {
     ...route.query,
     page: page.toString(),
@@ -194,6 +194,8 @@ watch(
       await searchContacts(searchQuery.value, page);
       return;
     }
+    // Reset the search value when we change the view
+    searchValue.value = '';
 
     // If there are applied filters or active segment with query
     if (
