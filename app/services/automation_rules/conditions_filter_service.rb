@@ -32,7 +32,6 @@ class AutomationRules::ConditionsFilterService < FilterService
 
       apply_filter(query_hash, current_index)
     end
-
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
     records = perform_attribute_changed_filter(records) if @attribute_changed_query_filter.any?
 
@@ -151,7 +150,8 @@ class AutomationRules::ConditionsFilterService < FilterService
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.id #{filter_operator_value} #{query_operator} "
+        label_query = Conversation.tagged_with(query_hash['values']).select(:id).to_sql
+        " conversations.id IN (#{label_query}) "
       else
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end

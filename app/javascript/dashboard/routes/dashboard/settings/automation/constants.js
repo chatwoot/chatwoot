@@ -50,6 +50,18 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
       },
+      {
+        key: 'labels',
+        name: 'Labels',
+        attributeI18nKey: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: [
+          {
+            value: 'contains',
+            label: 'Contains',
+          },
+        ],
+      }
     ],
     actions: [
       {
@@ -186,6 +198,18 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'labels',
+        name: 'Labels',
+        attributeI18nKey: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: [
+          {
+            value: 'contains',
+            label: 'Contains',
+          },
+        ],
       },
     ],
     actions: [
@@ -332,6 +356,18 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'Labels',
+        attributeI18nKey: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: [
+          {
+            value: 'contains',
+            label: 'Contains',
+          },
+        ],
+      },
     ],
     actions: [
       {
@@ -469,6 +505,18 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'labels',
+        name: 'Labels',
+        attributeI18nKey: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: [
+          {
+            value: 'contains',
+            label: 'Contains',
+          },
+        ],
       },
     ],
     actions: [

@@ -111,5 +111,21 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
     end
+
+    context 'when conditions based on labels' do
+      before do
+        rule.conditions = [{ 'values': ['priority'], 'attribute_key': 'labels', 'query_operator': nil, 'filter_operator': 'contains' }]
+      end
+
+      it 'will return true when conditions matches' do
+        conversation.update_labels(%w[support priority])
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'will return false when conditions in rule does not match' do
+        conversation.update_labels(%w[support])
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+    end
   end
 end

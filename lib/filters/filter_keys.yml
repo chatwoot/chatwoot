@@ -70,10 +70,7 @@ conversations:
     attribute_type: "standard"
     data_type: "labels"
     filter_operators:
-      - "equal_to"
-      - "not_equal_to"
-      - "is_present"
-      - "is_not_present"
+      - "contains"
   browser_language:
     attribute_type: "additional_attributes"
     data_type: "text"
@@ -185,10 +182,7 @@ contacts:
     attribute_type: "standard"
     data_type: "labels"
     filter_operators:
-      - "equal_to"
-      - "not_equal_to"
-      - "is_present"
-      - "is_not_present"
+      - "contains"
   created_at:
     attribute_type: "standard"
     data_type: "date"

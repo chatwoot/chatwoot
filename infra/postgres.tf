@@ -5,10 +5,10 @@ module "postgres" {
   engine                 = "postgres"
   engine_version         = "15.7"
   parameter_group_family = "postgres15"
-  db_port                = 5432
   db_name                = "outline"
   multi_az               = true
   apply_immediately      = true
+  create_db_subnet_group = true
 }
 
 resource "aws_security_group_rule" "postgres" {
