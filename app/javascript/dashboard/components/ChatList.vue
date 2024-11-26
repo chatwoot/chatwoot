@@ -496,16 +496,21 @@ function initializeFolderToFilterModal(newActiveFolder) {
   const query = unref(newActiveFolder)?.query?.payload;
   if (!Array.isArray(query)) return;
 
-  const newFilters = query.map(filter => ({
-    attributeKey: filter.attributeKey,
-    attributeModel: filter.attributeModel,
-    filterOperator: filter.filterOperator,
-    values: Array.isArray(filter.values)
+  const newFilters = query.map(filter => {
+    const transformed = useCamelCase(filter);
+    const values = Array.isArray(transformed.values)
       ? generateValuesForEditCustomViews(filter, setParamsForEditFolderModal())
-      : [],
-    queryOperator: filter.queryOperator ?? 'and',
-    customAttributeType: filter.customAttributeType,
-  }));
+      : [];
+
+    return {
+      attributeKey: transformed.attributeKey,
+      attributeModel: transformed.attributeModel,
+      customAttributeType: transformed.customAttributeType,
+      filterOperator: transformed.filterOperator,
+      queryOperator: transformed.queryOperator ?? 'and',
+      values,
+    };
+  });
 
   appliedFilter.value = [...appliedFilter.value, ...newFilters];
 }
