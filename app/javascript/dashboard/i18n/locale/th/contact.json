@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "ผู้ติดต่อ",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "ข้อความ",
+      "BREADCRUMB": {
+        "CONTACTS": "ผู้ติดต่อ"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "นำเข้ารายชื่อผู้ติดต่อผ่านไฟล์ CSV",
+          "DOWNLOAD_LABEL": "ดาวน์โหลดตัวอย่าง csv",
+          "LABEL": "ไฟล์ CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "เปลี่ยน",
+          "CANCEL": "ยกเลิก",
+          "IMPORT": "นำเข้า",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Export",
+          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
+          "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+        },
+        "SORT_BY": {
+          "LABEL": "เรียงด้วย",
+          "OPTIONS": {
+            "NAME": "ชื่อ",
+            "EMAIL": "อีเมล์",
+            "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+            "COMPANY": "บริษัท",
+            "COUNTRY": "ประเทศ",
+            "CITY": "เมือง",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "สร้างเมื่อ"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "ดูรายละเอียด",
