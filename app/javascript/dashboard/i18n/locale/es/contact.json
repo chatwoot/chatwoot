@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Contactos",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Mensaje",
+      "BREADCRUMB": {
+        "CONTACTS": "Contactos"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importar contactos a través de un archivo CSV.",
+          "DOWNLOAD_LABEL": "Descarga un ejemplo de csv.",
+          "LABEL": "Archivo CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Cambiar",
+          "CANCEL": "Cancelar",
+          "IMPORT": "Importar",
+          "SUCCESS_MESSAGE": "Se le notificará por correo electrónico cuando se complete la importación.",
+          "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Exportar",
+          "SUCCESS_MESSAGE": "El proceso de exportar esta en proceso. Será notificado por correo cuando el archivo esté listo para descargar.",
+          "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+        },
+        "SORT_BY": {
+          "LABEL": "Ordenar por",
+          "OPTIONS": {
+            "NAME": "Nombre",
+            "EMAIL": "E-mail",
+            "PHONE_NUMBER": "Número de teléfono",
+            "COMPANY": "Empresa",
+            "COUNTRY": "País",
+            "CITY": "Ciudad",
+            "LAST_ACTIVITY": "Última actividad",
+            "CREATED_AT": "Creado el"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Ver detalles",
