@@ -7,14 +7,35 @@ const searchValue = ref('');
 const activeSort = ref('last_activity_at');
 const activeOrdering = ref('');
 
-// Event handlers
 const onSearch = value => {
   searchValue.value = value;
+  console.log('🔍 Search:', value);
 };
 
 const onSort = ({ sort, order }) => {
   activeSort.value = sort;
   activeOrdering.value = order;
+  console.log('🔄 Sort changed:', { sort, order });
+};
+
+const onFilter = () => {
+  console.log('🏷️ Filter clicked');
+};
+
+const onMessage = () => {
+  console.log('💬 Message clicked');
+};
+
+const onAdd = () => {
+  console.log('➕ Add contact clicked');
+};
+
+const onImport = () => {
+  console.log('📥 Import contacts clicked');
+};
+
+const onExport = () => {
+  console.log('📤 Export contacts clicked');
 };
 </script>
 
@@ -32,12 +53,12 @@ const onSort = ({ sort, order }) => {
           :active-sort="activeSort"
           :active-ordering="activeOrdering"
           @search="onSearch"
-          @filter="() => {}"
+          @filter="onFilter"
           @update:sort="onSort"
-          @message="() => {}"
-          @add="() => {}"
-          @import="() => {}"
-          @export="() => {}"
+          @message="onMessage"
+          @add="onAdd"
+          @import="onImport"
+          @export="onExport"
         />
       </div>
     </Variant>
@@ -52,12 +73,12 @@ const onSort = ({ sort, order }) => {
           :active-sort="activeSort"
           :active-ordering="activeOrdering"
           @search="onSearch"
-          @filter="() => {}"
+          @filter="onFilter"
           @update:sort="onSort"
-          @message="() => {}"
-          @add="() => {}"
-          @import="() => {}"
-          @export="() => {}"
+          @message="onMessage"
+          @add="onAdd"
+          @import="onImport"
+          @export="onExport"
         />
       </div>
     </Variant>
@@ -72,12 +93,12 @@ const onSort = ({ sort, order }) => {
           :active-sort="activeSort"
           :active-ordering="activeOrdering"
           @search="onSearch"
-          @filter="() => {}"
+          @filter="onFilter"
           @update:sort="onSort"
-          @message="() => {}"
-          @add="() => {}"
-          @import="() => {}"
-          @export="() => {}"
+          @message="onMessage"
+          @add="onAdd"
+          @import="onImport"
+          @export="onExport"
         />
       </div>
     </Variant>
