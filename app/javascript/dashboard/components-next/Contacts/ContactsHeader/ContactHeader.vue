@@ -10,7 +10,7 @@ defineProps({
     type: Boolean,
     default: false,
   },
-  isNotSegmentView: {
+  isSegmentView: {
     type: Boolean,
     default: true,
   },
@@ -57,7 +57,7 @@ const emit = defineEmits([
       </span>
       <div class="flex items-center flex-shrink-0 gap-4">
         <div
-          v-if="!isEmptyState && isNotSegmentView"
+          v-if="!isEmptyState && !isSegmentView"
           class="flex items-center gap-2"
         >
           <Input

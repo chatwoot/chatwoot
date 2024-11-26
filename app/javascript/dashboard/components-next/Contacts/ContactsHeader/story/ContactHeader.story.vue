@@ -65,7 +65,7 @@ const onSort = ({ sort, order }) => {
     <Variant title="Segment View">
       <div class="w-full">
         <ContactHeader
-          :is-not-segment-view="false"
+          is-segment-view
           header-title="Segment: VIP Customers"
           button-label="Message"
           :search-value="searchValue"
