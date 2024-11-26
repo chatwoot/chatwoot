@@ -80,10 +80,10 @@ const initials = computed(() => {
   return words.length === 1
     ? words[0].charAt(0).toUpperCase()
     : words
-        .slice(0, 2)
-        .map(word => word.charAt(0))
-        .join('')
-        .toUpperCase();
+      .slice(0, 2)
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase();
 });
 
 const getColorsByNameLength = computed(() => {
@@ -132,7 +132,7 @@ const iconStyles = computed(() => ({
 }));
 
 const initialsStyles = computed(() => ({
-  fontSize: `${props.size / 2}px`,
+  fontSize: `${props.size > 32 ? 16 : props.size / 2}px`,
 }));
 
 const invalidateCurrentImage = () => {
