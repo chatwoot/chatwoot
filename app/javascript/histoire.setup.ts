@@ -8,6 +8,7 @@ import { directive as onClickaway } from 'vue3-click-away';
 import FloatingVue from 'floating-vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import { directive as onClickaway } from 'vue3-click-away';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -27,4 +28,5 @@ export const setupVue3 = defineSetupVue3(({ app }) => {
   app.directive('resize', vResizeObserver);
   app.directive('on-clickaway', onClickaway);
   app.use(VueDOMPurifyHTML, domPurifyConfig);
+  app.directive('on-clickaway', onClickaway);
 });
