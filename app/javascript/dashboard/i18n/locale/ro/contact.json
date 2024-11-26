@@ -387,6 +387,62 @@
     }
   },
   "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "TITLE": "Contacte",
+      "SEARCH_TITLE": "Search contacts",
+      "SEARCH_PLACEHOLDER": "Search...",
+      "MESSAGE_BUTTON": "Mesaj",
+      "BREADCRUMB": {
+        "CONTACTS": "Contacte"
+      },
+      "ACTIONS": {
+        "CONTACT_CREATION": {
+          "ADD_CONTACT": "Add contact",
+          "EXPORT_CONTACT": "Export contacts",
+          "IMPORT_CONTACT": "Import contacts",
+          "SAVE_CONTACT": "Save contact"
+        },
+        "IMPORT_CONTACT": {
+          "TITLE": "Import contacts",
+          "DESCRIPTION": "Importă contactele printr-un fișier CSV.",
+          "DOWNLOAD_LABEL": "Descarcă un formular csv.",
+          "LABEL": "Fișier CSV:",
+          "CHOOSE_FILE": "Choose file",
+          "CHANGE": "Schimba",
+          "CANCEL": "Renunță",
+          "IMPORT": "Importă",
+          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+          "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+        },
+        "EXPORT_CONTACT": {
+          "TITLE": "Export contacts",
+          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "CONFIRM": "Exportă",
+          "SUCCESS_MESSAGE": "Exportul este în desfășurare, veți fi notificat prin e-mail când fișierul de export este gata de descărcare.",
+          "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+        },
+        "SORT_BY": {
+          "LABEL": "Sortați după",
+          "OPTIONS": {
+            "NAME": "Nume",
+            "EMAIL": "E-mail",
+            "PHONE_NUMBER": "Număr de telefon",
+            "COMPANY": "Companie",
+            "COUNTRY": "Țară",
+            "CITY": "Oraș",
+            "LAST_ACTIVITY": "Ultima activitate",
+            "CREATED_AT": "Creat la"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Ordering",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Vezi detaliile",
