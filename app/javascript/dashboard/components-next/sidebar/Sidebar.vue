@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import SidebarGroup from './SidebarGroup.vue';
@@ -59,7 +60,11 @@ provideSidebarContext({
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const teams = useMapGetter('teams/getMyTeams');
+const currentAccountId = useMapGetter('getCurrentAccountId');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
@@ -77,6 +82,13 @@ onMounted(() => {
 const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
 );
+
+const showV4Feature = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    currentAccountId.value,
+    FEATURE_FLAGS.CHATWOOT_V4
+  );
+});
 
 const menuItems = computed(() => {
   return [
@@ -189,46 +201,119 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
-      name: 'Contacts',
-      label: t('SIDEBAR.CONTACTS'),
-      icon: 'i-lucide-contact',
-      children: [
-        {
-          name: 'All Contacts',
-          label: t('SIDEBAR.ALL_CONTACTS'),
-          to: accountScopedRoute('contacts_dashboard'),
+    !showV4Feature.value
+      ? {
+          name: 'Contacts',
+          label: t('SIDEBAR.CONTACTS'),
+          icon: 'i-lucide-contact',
+          children: [
+            {
+              name: 'All Contacts',
+              label: t('SIDEBAR.ALL_CONTACTS'),
+              to: accountScopedRoute('contacts_dashboard'),
+            },
+            {
+              name: 'Segments',
+              icon: 'i-lucide-group',
+              label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
+              children: contactCustomViews.value.map(view => ({
+                name: `${view.name}-${view.id}`,
+                label: view.name,
+                to: accountScopedRoute('contacts_segments_dashboard', {
+                  id: view.id,
+                }),
+              })),
+            },
+            {
+              name: 'Tagged With',
+              icon: 'i-lucide-tag',
+              label: t('SIDEBAR.TAGGED_WITH'),
+              children: labels.value.map(label => ({
+                name: `${label.title}-${label.id}`,
+                label: label.title,
+                icon: h('span', {
+                  class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+                  style: { backgroundColor: label.color },
+                }),
+                to: accountScopedRoute('contacts_labels_dashboard', {
+                  label: label.title,
+                }),
+              })),
+            },
+          ],
+        }
+      : {
+          name: 'Contacts',
+          label: t('SIDEBAR.CONTACTS'),
+          icon: 'i-lucide-contact',
+          children: [
+            {
+              name: 'All Contacts',
+              label: t('SIDEBAR.ALL_CONTACTS'),
+              to: accountScopedRoute(
+                'contacts_dashboard_index',
+                {},
+                {
+                  page: 1,
+                  search: undefined,
+                }
+              ),
+              activeOn: [
+                'contacts_dashboard_index',
+                'contacts_dashboard_edit_index',
+              ],
+            },
+            {
+              name: 'Segments',
+              icon: 'i-lucide-group',
+              label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
+              children: contactCustomViews.value.map(view => ({
+                name: `${view.name}-${view.id}`,
+                label: view.name,
+                to: accountScopedRoute(
+                  'contacts_dashboard_segments_index',
+                  {
+                    segmentId: view.id,
+                  },
+                  {
+                    page: 1,
+                  }
+                ),
+                activeOn: [
+                  'contacts_dashboard_segments_index',
+                  'contacts_dashboard_segments_edit_index',
+                ],
+              })),
+            },
+            {
+              name: 'Tagged With',
+              icon: 'i-lucide-tag',
+              label: t('SIDEBAR.TAGGED_WITH'),
+              children: labels.value.map(label => ({
+                name: `${label.title}-${label.id}`,
+                label: label.title,
+                icon: h('span', {
+                  class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+                  style: { backgroundColor: label.color },
+                }),
+                to: accountScopedRoute(
+                  'contacts_dashboard_labels_index',
+                  {
+                    label: label.title,
+                  },
+                  {
+                    page: 1,
+                    search: undefined,
+                  }
+                ),
+                activeOn: [
+                  'contacts_dashboard_labels_index',
+                  'contacts_dashboard_labels_edit_index',
+                ],
+              })),
+            },
+          ],
         },
-        {
-          name: 'Segments',
-          icon: 'i-lucide-group',
-          label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
-          children: contactCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute('contacts_segments_dashboard', {
-              id: view.id,
-            }),
-          })),
-        },
-        {
-          name: 'Tagged With',
-          icon: 'i-lucide-tag',
-          label: t('SIDEBAR.TAGGED_WITH'),
-          children: labels.value.map(label => ({
-            name: `${label.title}-${label.id}`,
-            label: label.title,
-            icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
-            to: accountScopedRoute('contacts_labels_dashboard', {
-              label: label.title,
-            }),
-          })),
-        },
-      ],
-    },
     {
       name: 'Reports',
       label: t('SIDEBAR.REPORTS'),
@@ -343,18 +428,6 @@ const menuItems = computed(() => {
             navigationPath: 'portals_settings_index',
           }),
         },
-      ],
-      activeOn: [
-        'portals_new',
-        'portals_index',
-        'portals_articles_index',
-        'portals_articles_new',
-        'portals_articles_edit',
-        'portals_categories_index',
-        'portals_categories_articles_index',
-        'portals_categories_articles_edit',
-        'portals_locales_index',
-        'portals_settings_index',
       ],
     },
     {

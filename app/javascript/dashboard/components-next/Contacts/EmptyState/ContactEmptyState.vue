@@ -1,5 +1,8 @@
 <script setup>
+import { ref } from 'vue';
+
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
+import CreateNewContactDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateNewContactDialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
 import contactContent from 'dashboard/components-next/Contacts/EmptyState/contactEmptyStateContent';
@@ -22,6 +25,14 @@ defineProps({
     default: '',
   },
 });
+
+const emit = defineEmits(['create']);
+
+const createNewContactDialogRef = ref(null);
+
+const onClick = () => {
+  createNewContactDialogRef.value?.dialogRef.open();
+};
 </script>
 
 <template>
@@ -45,6 +56,10 @@ defineProps({
     <template #actions>
       <div v-if="showButton">
         <Button :label="buttonLabel" icon="i-lucide-plus" @click="onClick" />
+        <CreateNewContactDialog
+          ref="createNewContactDialogRef"
+          @create="emit('create', $event)"
+        />
       </div>
     </template>
   </EmptyStateLayout>

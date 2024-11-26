@@ -38,14 +38,16 @@ const onClickViewDetails = async () => {
           <span class="text-sm font-medium truncate text-n-slate-12">
             {{ name }}
           </span>
-          <template v-if="additionalAttributes?.companyName">
-            <span class="text-sm text-n-slate-11">
-              {{ t('CONTACTS_LAYOUT.CARD.OF') }}
-            </span>
-            <span class="text-sm font-medium truncate text-n-slate-12">
-              {{ additionalAttributes.companyName }}
-            </span>
-          </template>
+          <span
+            v-if="additionalAttributes?.companyName"
+            class="i-lucide-briefcase-business size-4 text-n-slate-11"
+          />
+          <span
+            v-if="additionalAttributes?.companyName"
+            class="text-sm truncate text-n-slate-11"
+          >
+            {{ additionalAttributes.companyName }}
+          </span>
         </div>
         <div class="flex items-center gap-3">
           <span v-if="email" class="text-sm text-n-slate-11">{{ email }}</span>

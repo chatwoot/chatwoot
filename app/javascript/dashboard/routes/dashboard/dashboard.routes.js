@@ -7,6 +7,7 @@ import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
+import contactsRoutes from './contact/contact.routes';
 
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -38,6 +39,7 @@ export default {
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
+        ...contactsRoutes.routes,
       ],
     },
     {

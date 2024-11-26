@@ -203,6 +203,12 @@ const getMessageType = key => {
     : 'info';
 };
 
+const handleCountrySelection = value => {
+  const selectedCountry = countries.find(option => option.name === value);
+  state.additionalAttributes.countryCode = selectedCountry?.id || '';
+  emit('update', state);
+};
+
 watch(() => props.contactData, prepareStateBasedOnProps, {
   immediate: true,
   deep: true,
@@ -234,7 +240,7 @@ defineExpose({
               '[&>div>button]:!outline-n-weak [&>div>button]:hover:!outline-n-strong [&>div>button]:!bg-n-alpha-black2':
                 isDetailsView,
             }"
-            @update:model-value="emit('update', state)"
+            @update:model-value="handleCountrySelection"
           />
           <PhoneNumberInput
             v-else-if="item.key === 'PHONE_NUMBER'"
