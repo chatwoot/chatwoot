@@ -16,15 +16,19 @@ defineProps({
 
 <template>
   <table :class="{ 'table-fixed': fixed }">
-    <thead class="sticky top-0 z-10 rounded-xl bg-n-alpha-2">
-      <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+    <thead class="sticky top-0 z-10 bg-n-slate-2">
+      <tr
+        v-for="headerGroup in table.getHeaderGroups()"
+        :key="headerGroup.id"
+        class="rounded-xl"
+      >
         <th
           v-for="header in headerGroup.headers"
           :key="header.id"
           :style="{
             width: `${header.getSize()}px`,
           }"
-          class="text-left py-3 px-5 font-normal text-sm"
+          class="text-left py-3 px-5 font-normal text-sm first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
           <div
@@ -46,7 +50,7 @@ defineProps({
         <td
           v-for="cell in row.getVisibleCells()"
           :key="cell.id"
-          class="py-2 px-5"
+          class="py-4 px-5"
         >
           <FlexRender
             :render="cell.column.columnDef.cell"
