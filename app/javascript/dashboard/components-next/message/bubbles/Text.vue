@@ -24,7 +24,7 @@ const formattedContent = computed(() => {
 </script>
 
 <template>
-  <BaseBubble>
+  <BaseBubble class="p-3">
     <span v-html="formattedContent" />
   </BaseBubble>
 </template>

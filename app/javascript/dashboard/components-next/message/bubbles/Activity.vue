@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <BaseBubble>
+  <BaseBubble class="px-2 py-0.5">
     <span v-html="content" />
   </BaseBubble>
 </template>
