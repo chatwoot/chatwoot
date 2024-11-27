@@ -133,7 +133,7 @@ const tailwindConfig = {
             },
           },
         },
-        ...getIconCollections(['lucide', 'logos', 'ri', 'ph']),
+        ...getIconCollections(['lucide', 'logos', 'ri', 'ph', 'teenyicons']),
       },
     }),
   ],
