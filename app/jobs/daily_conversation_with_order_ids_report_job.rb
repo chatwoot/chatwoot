@@ -39,7 +39,7 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
   def generate_report(account_id)
     # Using ActiveRecord::Base directly for sanitization
     sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id }])
-      SELECT
+      SELECT DISTINCT ON (conversations.id)
           conversations.id AS conversation_id,
           conversations.display_id AS conversation_display_id,
           conversations.created_at AS conversation_created_at,
@@ -64,18 +64,18 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
           JOIN inboxes ON conversations.inbox_id = inboxes.id
           JOIN contacts ON conversations.contact_id = contacts.id
           JOIN account_users ON conversations.assignee_id = account_users.user_id
-          JOIN users ON account_users.user_id = users.id
           LEFT JOIN reporting_events AS reporting_events_first_response
               ON conversations.id = reporting_events_first_response.conversation_id
               AND reporting_events_first_response.name = 'first_response'
           LEFT JOIN LATERAL (
-              SELECT value
+              SELECT value, user_id
               FROM reporting_events AS re
               WHERE re.conversation_id = conversations.id
               AND re.name = 'conversation_resolved'
               ORDER BY re.created_at DESC
               LIMIT 1
           ) AS latest_conversation_resolved ON true
+          JOIN users ON COALESCE(latest_conversation_resolved.user_id, account_users.user_id) = users.id
       WHERE
           conversations.account_id = :account_id
           AND conversations.updated_at >= NOW() - INTERVAL '24 hours'
@@ -86,7 +86,9 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
   # rubocop:enable Metrics/MethodLength
 
   def extract_phone_numbers_and_dates(report)
-    report.map { |row| { phoneNumber: row['customer_phone_number'], createdAt: row['created_at'] } }
+    report
+      .reject { |row| row['customer_phone_number'].nil? }
+      .map { |row| { phoneNumber: row['customer_phone_number'], createdAt: row['conversation_created_at'] } }
   end
 
   def fetch_order_ids(account_id, phone_numbers_and_dates)
