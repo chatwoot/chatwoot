@@ -80,10 +80,10 @@ const initials = computed(() => {
   return words.length === 1
     ? words[0].charAt(0).toUpperCase()
     : words
-      .slice(0, 2)
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase();
+        .slice(0, 2)
+        .map(word => word.charAt(0))
+        .join('')
+        .toUpperCase();
 });
 
 const getColorsByNameLength = computed(() => {

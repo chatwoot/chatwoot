@@ -147,6 +147,29 @@ const searchContacts = debounce(async (value, page = 1) => {
   });
 }, DEBOUNCE_DELAY);
 
+const fetchContactsBasedOnContext = async page => {
+  updatePageParam(page, searchValue.value);
+  if (isFetchingList.value) return;
+  if (searchQuery.value) {
+    await searchContacts(searchQuery.value, page);
+    return;
+  }
+  // Reset the search value when we change the view
+  searchValue.value = '';
+  // If there are applied filters or active segment with query
+  if (
+    (hasAppliedFilters.value || activeSegment.value?.query) &&
+    !activeLabel.value
+  ) {
+    const queryPayload =
+      activeSegment.value?.query || filterQueryGenerator(appliedFilters.value);
+    await fetchSavedOrAppliedFilteredContact(queryPayload, page);
+    return;
+  }
+  // Default case: fetch regular contacts + label
+  await fetchContacts(page);
+};
+
 const handleSort = async ({ sort, order }) => {
   Object.assign(sortState, { activeSort: sort, activeOrdering: order });
 
@@ -155,7 +178,7 @@ const handleSort = async ({ sort, order }) => {
   });
 
   if (searchQuery.value) {
-    await searchContacts(searchValue.value, pageNumber.value);
+    await searchContacts(searchValue.value);
     return;
   }
 
@@ -163,10 +186,9 @@ const handleSort = async ({ sort, order }) => {
     ? fetchSavedOrAppliedFilteredContact(
         activeSegmentId.value
           ? activeSegment.value?.query
-          : filterQueryGenerator(appliedFilters.value),
-        pageNumber.value
+          : filterQueryGenerator(appliedFilters.value)
       )
-    : fetchContacts(pageNumber.value));
+    : fetchContacts());
 };
 
 const createContact = async contact => {
@@ -186,31 +208,9 @@ watch(
 );
 
 watch(
-  [pageNumber, activeLabel, activeSegment],
-  async ([page]) => {
-    if (isFetchingList.value || !page) return;
-
-    if (searchQuery.value) {
-      await searchContacts(searchQuery.value, page);
-      return;
-    }
-    // Reset the search value when we change the view
-    searchValue.value = '';
-
-    // If there are applied filters or active segment with query
-    if (
-      (hasAppliedFilters.value || activeSegment.value?.query) &&
-      !activeLabel.value
-    ) {
-      const queryPayload =
-        activeSegment.value?.query ||
-        filterQueryGenerator(appliedFilters.value);
-      await fetchSavedOrAppliedFilteredContact(queryPayload, page);
-      return;
-    }
-
-    // Default case: fetch regular contacts + label
-    await fetchContacts(page);
+  [activeLabel, activeSegment],
+  () => {
+    fetchContactsBasedOnContext(pageNumber.value);
   },
   { deep: true }
 );
@@ -255,7 +255,7 @@ onMounted(async () => {
       :active-segment="activeSegment"
       :segments-id="activeSegmentId"
       :has-applied-filters="hasAppliedFilters"
-      @update:current-page="page => updatePageParam(page, searchValue)"
+      @update:current-page="fetchContactsBasedOnContext"
       @search="searchContacts"
       @update:sort="handleSort"
       @apply-filter="fetchSavedOrAppliedFilteredContact"
