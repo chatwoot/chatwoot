@@ -4,7 +4,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 defineProps({
   user: {
     type: Object,
-    default: () => { },
+    default: () => ({}),
   },
   size: {
     type: String,
