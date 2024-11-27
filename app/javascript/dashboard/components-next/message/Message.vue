@@ -157,25 +157,34 @@ const gridTemplate = computed(() => {
 
   return map[orientation.value];
 });
+
+const shouldGroupWithNext = computed(() => {
+  if (props.error) return false;
+
+  return props.groupWithNext;
+});
 </script>
 
 <template>
   <div
     class="flex w-full"
-    :class="[flexOrientationClass, groupWithNext ? 'mb-2' : 'mb-4']"
+    :class="[flexOrientationClass, shouldGroupWithNext ? 'mb-2' : 'mb-4']"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
       <TextBubble v-bind="props" :variant :orientation />
     </div>
     <div
       v-else
-      :class="[gridClass, { 'gap-y-2': !groupWithNext }]"
+      :class="[gridClass, { 'gap-y-2': !shouldGroupWithNext }]"
       class="gap-x-3"
       :style="{
         gridTemplateAreas: gridTemplate,
       }"
     >
-      <div v-if="!groupWithNext" class="[grid-area:avatar] flex items-end">
+      <div
+        v-if="!shouldGroupWithNext"
+        class="[grid-area:avatar] flex items-end"
+      >
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
       </div>
       <TextBubble
@@ -185,7 +194,29 @@ const gridTemplate = computed(() => {
         class="[grid-area:bubble]"
       />
       <div
-        v-if="!groupWithNext"
+        v-if="error"
+        class="[grid-area:meta] text-xs text-n-ruby-11 flex items-center gap-1.5"
+        :class="flexOrientationClass"
+      >
+        <span>{{ 'Failed to send' }}</span>
+        <div class="relative group">
+          <div
+            class="bg-n-alpha-2 rounded-sm size-5 grid place-content-center cursor-pointer"
+          >
+            <Icon
+              icon="i-lucide-alert-triangle"
+              class="text-n-ruby-11 size-[14px]"
+            />
+          </div>
+          <div
+            class="absolute bg-n-alpha-3 px-4 py-3 border rounded-xl border-n-strong text-n-slate-12 bottom-6 w-52 right-0 text-xs backdrop-blur-[100px] shadow-[0px_0px_24px_0px_rgba(0,0,0,0.12)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
+          >
+            {{ error }}
+          </div>
+        </div>
+      </div>
+      <div
+        v-else-if="!shouldGroupWithNext"
         class="[grid-area:meta] text-xs text-n-slate-11 flex items-center gap-1.5"
         :class="flexOrientationClass"
       >
