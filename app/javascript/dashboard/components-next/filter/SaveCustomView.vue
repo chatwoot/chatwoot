@@ -3,12 +3,16 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { vOnClickOutside } from '@vueuse/components';
 import { useTrack } from 'dashboard/composables';
-import Button from 'next/button/Button.vue';
+import NextButton from 'next/button/Button.vue';
 
 export default {
   components: {
-    Button,
+    NextButton,
+  },
+  directives: {
+    onClickOutside: vOnClickOutside,
   },
   props: {
     filterType: {
@@ -32,10 +36,6 @@ export default {
     return {
       show: true,
       name: '',
-      outsideClickHandler: [
-        () => this.emit('close'),
-        { ignore: ['#saveFilterTeleportTarget'] },
-      ],
     };
   },
 
@@ -93,14 +93,17 @@ export default {
 
 <template>
   <div
-    v-on-click-outside="outsideClickHandler"
+    v-on-click-outside="[
+      () => $emit('close'),
+      { ignore: ['#saveFilterTeleportTarget'] },
+    ]"
     class="z-40 max-w-3xl lg:w-[500px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
   >
     <h3 class="text-base font-medium leading-6 text-n-slate-12">
       {{ $t('FILTER.CUSTOM_VIEWS.ADD.TITLE') }}
     </h3>
-    <form class="w-full" @submit.prevent="saveCustomViews">
-      <div class="w-full">
+    <form class="w-full grid gap-6" @submit.prevent="saveCustomViews">
+      <div>
         <input
           v-model="name"
           class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
@@ -113,14 +116,14 @@ export default {
         >
           {{ $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') }}
         </span>
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <Button sm solid blue :disabled="isButtonDisabled">
-            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
-          </Button>
-          <Button faded slate sm @click.prevent="onClose">
-            {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL_BUTTON') }}
-          </Button>
-        </div>
+      </div>
+      <div class="flex flex-row justify-end w-full gap-2">
+        <NextButton sm solid blue :disabled="isButtonDisabled">
+          {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
+        </NextButton>
+        <NextButton faded slate sm @click.prevent="onClose">
+          {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL_BUTTON') }}
+        </NextButton>
       </div>
     </form>
   </div>
