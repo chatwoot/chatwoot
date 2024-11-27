@@ -103,6 +103,7 @@ gem 'grpc'
 # this dependency breaks the slack-ruby-client gem
 gem 'google-cloud-translate-v3', '>= 0.7.0'
 
+
 ##-- apm and error monitoring ---#
 # loaded only when environment variables are set.
 # ref application.rb

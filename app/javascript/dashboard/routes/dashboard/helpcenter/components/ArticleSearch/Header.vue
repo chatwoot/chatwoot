@@ -5,7 +5,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 defineProps({
   title: {
     type: String,
-    default: 'Chatwoot',
+    default: 'Atendefy',
   },
 });
 

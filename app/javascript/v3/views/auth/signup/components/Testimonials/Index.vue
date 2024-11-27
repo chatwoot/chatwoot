@@ -49,10 +49,7 @@ export default {
         <TestimonialCard
           v-for="(testimonial, index) in testimonials"
           :key="testimonial.id"
-          :review-content="testimonial.authorReview"
-          :author-image="testimonial.authorImage"
-          :author-name="testimonial.authorName"
-          :author-designation="testimonial.authorCompany"
+      
           :class="!index ? 'mt-[20%] -mr-4 z-50' : ''"
         />
       </div>

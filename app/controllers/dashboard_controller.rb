@@ -18,7 +18,7 @@ class DashboardController < ActionController::Base
     @global_config = GlobalConfig.get(
       'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
       'INSTALLATION_NAME',
-      'WIDGET_BRAND_URL', 'TERMS_URL',
+      'WIDGET_BRAND_URL',
       'BRAND_URL', 'BRAND_NAME',
       'PRIVACY_URL',
       'DISPLAY_MANIFEST',

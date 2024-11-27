@@ -21,7 +21,7 @@ export default defineConfig({
   },
   defaultStoryProps: {
     icon: 'carbon:cube',
-    iconColor: '#1F93FF',
+    iconColor: '#0097b2',
     layout: {
       type: 'grid',
       width: '80%',

@@ -3,8 +3,7 @@ import { ref } from 'vue';
 // constants & helpers
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
-import { getInboxSource } from 'dashboard/helper/inbox';
+import { getInboxSource, INBOX_TYPES } from 'dashboard/helper/inbox';
 
 // store
 import { mapGetters } from 'vuex';

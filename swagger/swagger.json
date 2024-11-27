@@ -4,7 +4,7 @@
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
     "title": "Chatwoot",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    
     "contact": {
       "email": "hello@chatwoot.com"
     },
@@ -6777,7 +6777,7 @@
               "en",
               "es"
             ],
-            "default_locale": "en"
+            "default_locale": "pt_BR"
           }
         },
         "custom_domain": {

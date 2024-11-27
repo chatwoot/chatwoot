@@ -46,7 +46,7 @@ export default {
   width: 34px;
 
   &.active {
-    background-color: var(--w-500);
+    background-color: #0097b2;
   }
 
   &.small {
