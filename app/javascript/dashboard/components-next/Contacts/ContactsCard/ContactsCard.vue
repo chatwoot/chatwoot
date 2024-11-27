@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import countries from 'shared/constants/countries';
 
 const props = defineProps({
   id: { type: Number, required: true },
@@ -31,6 +32,34 @@ const getInitialContactData = () => ({
 
 const contactData = ref(getInitialContactData());
 
+const countriesMap = computed(() => {
+  return countries.reduce((acc, country) => {
+    acc[country.code] = country;
+    acc[country.id] = country;
+    return acc;
+  }, {});
+});
+
+const countryDetails = computed(() => {
+  const attributes = props.additionalAttributes || {};
+  const { country, countryCode, city } = attributes;
+
+  if (!country && !countryCode) return null;
+
+  const activeCountry =
+    countriesMap.value[country] || countriesMap.value[countryCode];
+
+  if (!activeCountry) return null;
+
+  const parts = [
+    activeCountry.emoji,
+    city ? `${city},` : null,
+    activeCountry.name,
+  ].filter(Boolean);
+
+  return parts.length ? parts.join(' ') : null;
+});
+
 const onClickExpand = () => {
   emit('toggle');
   contactData.value = getInitialContactData();
@@ -50,7 +79,7 @@ const onClickViewDetails = async () => {
     <div class="flex items-center justify-start flex-1 gap-4">
       <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
       <div class="flex flex-col gap-0.5 flex-1">
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
           <span class="text-base font-medium truncate text-n-slate-12">
             {{ name }}
           </span>
@@ -67,19 +96,21 @@ const onClickViewDetails = async () => {
             </span>
           </span>
         </div>
-        <div class="flex items-center justify-start gap-3">
-          <div class="flex items-center gap-3">
-            <div v-if="email" class="truncate max-w-72" :title="email">
-              <span class="text-sm text-n-slate-11">
-                {{ email }}
-              </span>
-            </div>
-            <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
-            <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
-              {{ phoneNumber }}
+        <div class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1">
+          <div v-if="email" class="truncate max-w-72" :title="email">
+            <span class="text-sm text-n-slate-11">
+              {{ email }}
             </span>
-            <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
           </div>
+          <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
+          <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
+            {{ phoneNumber }}
+          </span>
+          <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
+          <span v-if="countryDetails" class="text-sm truncate text-n-slate-11">
+            {{ countryDetails }}
+          </span>
+          <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
           <Button
             :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
             variant="link"
@@ -104,8 +135,8 @@ const onClickViewDetails = async () => {
         enter-active-class="overflow-hidden transition-all duration-300 ease-out"
         leave-active-class="overflow-hidden transition-all duration-300 ease-in"
         enter-from-class="overflow-hidden opacity-0 max-h-0"
-        enter-to-class="opacity-100 max-h-[360px]"
-        leave-from-class="opacity-100 max-h-[360px]"
+        enter-to-class="opacity-100 max-h-[620px] sm:max-h-[420px] md:max-h-[360px]"
+        leave-from-class="opacity-100 max-h-[620px] sm:max-h-[420px] md:max-h-[360px]"
         leave-to-class="overflow-hidden opacity-0 max-h-0"
       >
         <div v-show="isExpanded" class="w-full">

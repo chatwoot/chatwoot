@@ -231,7 +231,7 @@ defineExpose({
       <span class="py-1 text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
       </span>
-      <div class="grid w-full grid-cols-2 gap-4">
+      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
