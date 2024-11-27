@@ -212,7 +212,7 @@ const shouldShowAvatar = computed(() => {
 });
 
 const componentToRender = computed(() => {
-  if (props.attachments.length === 1) {
+  if (props.attachments.length === 1 && !props.content) {
     const fileType = props.attachments[0].fileType;
     if (MEDIA_TYPES.includes(fileType)) return MediaBubble;
     if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
