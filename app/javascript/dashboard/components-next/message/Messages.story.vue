@@ -505,7 +505,7 @@ const messages = camelcaseKeys(
     },
     {
       conversation_id: 43,
-      status: 'read',
+      status: 'progress',
       content_type: 'text',
       processed_message_content: ' Happy to help :)',
       id: 5285,

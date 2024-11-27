@@ -31,4 +31,5 @@ export const MESSAGE_STATUS = {
   DELIVERED: 'delivered',
   READ: 'read',
   FAILED: 'failed',
+  PROGRESS: 'progress',
 };
