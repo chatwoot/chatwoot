@@ -47,7 +47,7 @@ class DailyConversationReportJob < ApplicationJob
               elsif job[:frequency] == 'weekly'
                 { since: 1.week.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               else
-                { since: 1.day.ago.beginning_of_day, until: 1.day.ago.end_of_day }
+                { since: 24.hours.ago, until: Time.current }
               end
 
       process_account(job[:account_id], current_date, range, false, job[:frequency])
