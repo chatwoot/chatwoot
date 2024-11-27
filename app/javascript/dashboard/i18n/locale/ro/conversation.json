@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nimic",
         "INPUT_PLACEHOLDER": "Selectați prioritatea",
         "NO_RESULTS": "Niciun rezultat găsit",
-        "SUCCESSFUL": "A schimbat prioritatea ID-ului conversației %{conversationId} în %{priority}",
+        "SUCCESSFUL": "A schimbat prioritatea ID-ului conversației {conversationId} în {priority}",
         "FAILED": "Nu s-a putut schimba prioritatea. Vă rugăm să încercați din nou."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Atribuiți echipă",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Id conversație %{conversationId} atribuit la \"%{agentName}\"",
+          "SUCCESFUL": "Id conversație {conversationId} atribuit la \"{agentName}\"",
           "FAILED": "Nu s-a putut atribui agentul. Vă rugăm încercați din nou."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etichetă atribuită #%{labelName} la conversația cu id %{conversationId}",
+          "SUCCESFUL": "Etichetă atribuită #{labelName} la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui eticheta. Vă rugăm încercați din nou."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Echipa atribuită #%{team} la conversația cu id %{conversationId}",
+          "SUCCESFUL": "Echipa atribuită #{team} la conversația cu id {conversationId}",
           "FAILED": "Nu s-a putut atribui echipa. Vă rugăm să încercaţi din nou."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hei 👋, Bine ati venit la %{installationName}!",
-    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de %{installationName}. Iată câteva lucruri pe care le puteți face în %{installationName} pentru a face experiența încântătoare.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Hei 👋, Bine ati venit la {installationName}!",
+    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de {installationName}. Iată câteva lucruri pe care le puteți face în {installationName} pentru a face experiența încântătoare.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Citiți cele mai recente actualizări ale noastre",
     "ALL_CONVERSATION": {
       "TITLE": "Toate conversațiile într-un singur loc",
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Participanți la conversație",
     "NO_RECORDS_FOUND": "Niciun rezultat găsit",
     "ADD_PARTICIPANTS": "Selectarea participanților",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} altele",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} altele",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} participă oamenii.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} persoană participă.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} altele",
+    "REMANING_PARTICIPANT_TEXT": "+{count} altele",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} participă oamenii.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} persoană participă.",
     "NO_PARTICIPANTS_TEXT": "Nimeni nu participă!.",
     "WATCH_CONVERSATION": "Începe conversația",
     "YOU_ARE_WATCHING": "Participați",

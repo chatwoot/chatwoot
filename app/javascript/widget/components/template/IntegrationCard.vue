@@ -85,7 +85,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .video-call--container {
   position: fixed;

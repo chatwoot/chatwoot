@@ -2,7 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import 'shared/assets/fonts/plus-jakarta';
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
 
@@ -34,19 +33,181 @@
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
 
 .tooltip {
-  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
+  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900 max-w-96;
+}
+
+#app {
+  @apply h-full w-full;
 }
 
 .hide {
   @apply hidden;
 }
 
-@layer base {
+.n-blue-border {
+  @apply border-n-blue-border;
+}
 
-  // scss-lint:disable PropertySortOrder
+.n-blue-text {
+  @apply text-n-blue-text;
+}
+
+// scss-lint:disable PropertySortOrder
+@layer base {
+  /* NEXT COLORS START */
+  :root {
+    /* slate */
+    --slate-1: 252 252 253;
+    --slate-2: 249 249 251;
+    --slate-3: 240 240 243;
+    --slate-4: 232 232 236;
+    --slate-5: 224 225 230;
+    --slate-6: 217 217 224;
+    --slate-7: 205 206 214;
+    --slate-8: 185 187 198;
+    --slate-9: 139 141 152;
+    --slate-10: 128 131 141;
+    --slate-11: 96 100 108;
+    --slate-12: 28 32 36;
+
+    --ruby-1: 255 252 253;
+    --ruby-2: 255 247 248;
+    --ruby-3: 254 234 237;
+    --ruby-4: 255 220 225;
+    --ruby-5: 255 206 214;
+    --ruby-6: 248 191 200;
+    --ruby-7: 239 172 184;
+    --ruby-8: 229 146 163;
+    --ruby-9: 229 70 102;
+    --ruby-10: 220 59 93;
+    --ruby-11: 202 36 77;
+    --ruby-12: 100 23 43;
+
+    --amber-1: 254 253 251;
+    --amber-2: 254 251 233;
+    --amber-3: 255 247 194;
+    --amber-4: 255 238 156;
+    --amber-5: 251 229 119;
+    --amber-6: 243 214 115;
+    --amber-7: 233 193 98;
+    --amber-8: 226 163 54;
+    --amber-9: 255 197 61;
+    --amber-10: 255 186 24;
+    --amber-11: 171 100 0;
+    --amber-12: 79 52 34;
+
+    --teal-1: 250 254 253;
+    --teal-2: 243 251 249;
+    --teal-3: 224 248 243;
+    --teal-4: 204 243 234;
+    --teal-5: 184 234 224;
+    --teal-6: 161 222 210;
+    --teal-7: 131 205 193;
+    --teal-8: 83 185 171;
+    --teal-9: 18 165 148;
+    --teal-10: 13 155 138;
+    --teal-11: 0 133 115;
+    --teal-12: 13 61 56;
+
+    --background-color: 253 253 253;
+    --text-blue: 8 109 224;
+    --border-container: 236 236 236;
+    --border-strong: 235 235 235;
+    --border-weak: 234 234 234;
+    --solid-1: 255 255 255;
+    --solid-2: 255 255 255;
+    --solid-3: 255 255 255;
+    --solid-active: 255 255 255;
+    --solid-amber: 252 232 193;
+    --solid-blue: 218 236 255;
+
+    --alpha-1: 67, 67, 67, 0.06;
+    --alpha-2: 201, 202, 207, 0.15;
+    --alpha-3: 255, 255, 255, 0.96;
+    --black-alpha-1: 0, 0, 0, 0.12;
+    --black-alpha-2: 0, 0, 0, 0.04;
+    --border-blue: 39, 129, 246, 0.5;
+    --white-alpha: 255, 255, 255, 0.1;
+  }
+
+  body.dark {
+    /* slate */
+    --slate-1: 17 17 19;
+    --slate-2: 24 25 27;
+    --slate-3: 33 34 37;
+    --slate-4: 39 42 45;
+    --slate-5: 46 49 53;
+    --slate-6: 54 58 63;
+    --slate-7: 67 72 78;
+    --slate-8: 90 97 105;
+    --slate-9: 105 110 119;
+    --slate-10: 119 123 132;
+    --slate-11: 176 180 186;
+    --slate-12: 237 238 240;
+
+    --ruby-1: 25 17 19;
+    --ruby-2: 30 21 23;
+    --ruby-3: 58 20 30;
+    --ruby-4: 78 19 37;
+    --ruby-5: 94 26 46;
+    --ruby-6: 111 37 57;
+    --ruby-7: 136 52 71;
+    --ruby-8: 179 68 90;
+    --ruby-9: 229 70 102;
+    --ruby-10: 236 90 114;
+    --ruby-11: 255 148 157;
+    --ruby-12: 254 210 225;
+
+    --amber-1: 22 18 12;
+    --amber-2: 29 24 15;
+    --amber-3: 48 32 8;
+    --amber-4: 63 39 0;
+    --amber-5: 77 48 0;
+    --amber-6: 92 61 5;
+    --amber-7: 113 79 25;
+    --amber-8: 143 100 36;
+    --amber-9: 255 197 61;
+    --amber-10: 255 214 10;
+    --amber-11: 255 202 22;
+    --amber-12: 255 231 179;
+
+    --teal-1: 13 21 20;
+    --teal-2: 17 28 27;
+    --teal-3: 13 45 42;
+    --teal-4: 2 59 55;
+    --teal-5: 8 72 67;
+    --teal-6: 20 87 80;
+    --teal-7: 28 105 97;
+    --teal-8: 32 126 115;
+    --teal-9: 18 165 148;
+    --teal-10: 14 179 158;
+    --teal-11: 11 216 182;
+    --teal-12: 173 240 221;
+
+    --background-color: 18 18 19;
+    --border-strong: 52 52 52;
+    --border-weak: 38 38 42;
+    --solid-1: 23 23 26;
+    --solid-2: 29 30 36;
+    --solid-3: 44 45 54;
+    --solid-active: 53 57 66;
+    --solid-amber: 42 37 30;
+    --solid-blue: 16 49 91;
+    --text-blue: 126 182 255;
+
+    --alpha-1: 36, 36, 36, 0.8;
+    --alpha-2: 139, 147, 182, 0.15;
+    --alpha-3: 36, 38, 45, 0.9;
+    --black-alpha-1: 0, 0, 0, 0.3;
+    --black-alpha-2: 0, 0, 0, 0.2;
+    --border-blue: 39, 129, 246, 0.5;
+    --border-container: 236, 236, 236, 0;
+    --white-alpha: 255, 255, 255, 0.1;
+  }
+  /* NEXT COLORS END */
+
   :root {
     --color-amber-25: 254 253 251;
     --color-amber-50: 255 249 237;
@@ -387,5 +548,17 @@
     --color-orange-700: 255 128 31;
     --color-orange-800: 255 160 87;
     --color-orange-900: 255 224 194;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }

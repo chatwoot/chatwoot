@@ -72,7 +72,7 @@ class DashboardController < ActionController::Base
     @application_pack = if request.path.include?('/auth') || request.path.include?('/login')
                           'v3app'
                         else
-                          'application'
+                          'dashboard'
                         end
   end
 

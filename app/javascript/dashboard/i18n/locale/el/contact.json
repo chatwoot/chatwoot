@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Σύνοψη",
-      "DELETE_WARNING": "Η επαφή του <strong>%{primaryContactName}</strong>θα διαγραφεί.",
-      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>%{primaryContactName}</strong> θα αντιγραφούν στο <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Η επαφή του <strong>{primaryContactName}</strong>θα διαγραφεί.",
+      "ATTRIBUTE_WARNING": "Τα στοιχεία επικοινωνίας του <strong>{primaryContactName}</strong> θα αντιγραφούν στο <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

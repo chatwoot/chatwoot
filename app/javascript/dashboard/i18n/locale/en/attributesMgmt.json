@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "TITLE": "Are you sure want to delete - {attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Delete ",
@@ -92,12 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Type",
-        "Key"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "Edit",
         "DELETE": "Delete"

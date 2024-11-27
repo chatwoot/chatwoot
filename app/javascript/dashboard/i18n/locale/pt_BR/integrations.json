@@ -76,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar exclusão",
-          "MESSAGE": "Tem certeza que deseja excluir o webhook? (%{webhookURL})",
+          "MESSAGE": "Tem certeza que deseja excluir o webhook? ({webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, mantenha"
         }
@@ -114,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "Assistente Open AI",
-      "WITH_AI": " %{option} com IA ",
+      "WITH_AI": " {option} com IA ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Sugestão de resposta",
         "SUMMARIZE": "Resumir",
@@ -216,7 +216,7 @@
         "CONFIRM_YES": "Sim, exclua-o",
         "CONFIRM_NO": "Não, mantenha-o",
         "TITLE": "Confirmar exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - %{appName}?",
+        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - {appName}?",
         "API_SUCCESS": "Aplicativo da dashboard excluído com sucesso",
         "API_ERROR": "Não conseguimos excluir o aplicativo. Por favor, tente novamente mais tarde"
       }
@@ -235,7 +235,7 @@
         "ERROR": "",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -294,7 +294,7 @@
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Marcadores",
-        "CREATED_AT": "Criado em %{createdAt}"
+        "CREATED_AT": "Criado em {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Desvincular",

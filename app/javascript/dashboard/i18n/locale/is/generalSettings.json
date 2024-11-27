@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
       }
     },
-    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "UPDATE_CHATWOOT": "Uppfærsla {latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
     "LEARN_MORE": "Læra meira",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",

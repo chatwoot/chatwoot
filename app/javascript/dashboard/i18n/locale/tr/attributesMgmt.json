@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Özel nitelik silinemedi. Tekrar deneyin."
       },
       "CONFIRM": {
-        "TITLE": "Silmek istediğinizden emin misiniz - %{attributeName}",
+        "TITLE": "Silmek istediğinizden emin misiniz - {attributeName}",
         "PLACE_HOLDER": "{attributeName}'ı onaylamak için lütfen yazın",
         "MESSAGE": "Silme işlemi özel niteliği kaldıracaktır",
         "YES": "Sil ",
@@ -92,12 +92,7 @@
       "CONTACT": "İletişim"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Ad",
-        "Açıklama",
-        "Tip",
-        "Anahtar"
-      ],
+      "TABLE_HEADER": ["Ad", "Açıklama", "Tip", "Anahtar"],
       "BUTTONS": {
         "EDIT": "Düzenle",
         "DELETE": "Sil"

@@ -1,4 +1,4 @@
-@import '~vue2-datepicker/scss/index';
+@import 'vue-datepicker-next/scss/index';
 
 .date-picker {
   // To be removed one SLA reports date picker is created
@@ -25,7 +25,7 @@
   }
 
   .mx-input {
-    @apply h-[2.5rem] flex border border-solid border-slate-200 dark:border-slate-600 rounded-md shadow-none;
+    @apply h-[2.5rem] flex border border-solid border-n-weak rounded-md shadow-none;
   }
 
   .mx-input:disabled,
@@ -39,7 +39,7 @@
 }
 
 .mx-datepicker-main {
-  @apply border-0 bg-white dark:bg-slate-800;
+  @apply border-0 bg-n-solid-2 rounded-xl;
 
   .cell {
     &.disabled {
@@ -51,6 +51,14 @@
     &.in-range {
       @apply bg-slate-75 dark:bg-slate-700 text-slate-900 dark:text-slate-100;
     }
+  }
+
+  .mx-calendar+.mx-calendar {
+    @apply border-l border-n-weak;
+  }
+
+  .mx-datepicker-footer {
+    @apply border border-n-weak;
   }
 
   .mx-time {

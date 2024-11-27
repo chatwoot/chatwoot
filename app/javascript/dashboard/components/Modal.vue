@@ -1,78 +1,69 @@
-<script>
-export default {
-  props: {
-    closeOnBackdropClick: {
-      type: Boolean,
-      default: true,
-    },
-    show: Boolean,
-    showCloseButton: {
-      type: Boolean,
-      default: true,
-    },
-    onClose: {
-      type: Function,
-      required: true,
-    },
-    fullWidth: {
-      type: Boolean,
-      default: false,
-    },
-    modalType: {
-      type: String,
-      default: 'centered',
-    },
-    size: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      mousedDownOnBackdrop: false,
-    };
-  },
-  computed: {
-    modalClassName() {
-      const modalClassNameMap = {
-        centered: '',
-        'right-aligned': 'right-aligned',
-      };
+<script setup>
+// [TODO] Use Teleport to move the modal to the end of the body
+import { ref, computed, defineEmits, onMounted } from 'vue';
+import { useEventListener } from '@vueuse/core';
 
-      return `modal-mask skip-context-menu ${
-        modalClassNameMap[this.modalType] || ''
-      }`;
-    },
-  },
-  mounted() {
-    document.addEventListener('keydown', e => {
-      if (this.show && e.code === 'Escape') {
-        this.onClose();
-      }
-    });
+const { modalType, closeOnBackdropClick, onClose } = defineProps({
+  closeOnBackdropClick: { type: Boolean, default: true },
+  showCloseButton: { type: Boolean, default: true },
+  onClose: { type: Function, required: true },
+  fullWidth: { type: Boolean, default: false },
+  modalType: { type: String, default: 'centered' },
+  size: { type: String, default: '' },
+});
 
-    document.body.addEventListener('mouseup', this.onMouseUp);
-  },
-  beforeDestroy() {
-    document.body.removeEventListener('mouseup', this.onMouseUp);
-  },
-  methods: {
-    handleMouseDown() {
-      this.mousedDownOnBackdrop = true;
-    },
-    close() {
-      this.onClose();
-    },
-    onMouseUp() {
-      if (this.mousedDownOnBackdrop) {
-        this.mousedDownOnBackdrop = false;
-        if (this.closeOnBackdropClick) {
-          this.onClose();
-        }
-      }
-    },
-  },
+const emit = defineEmits(['close']);
+const show = defineModel('show', { type: Boolean, default: false });
+
+const modalClassName = computed(() => {
+  const modalClassNameMap = {
+    centered: '',
+    'right-aligned': 'right-aligned',
+  };
+
+  return `modal-mask skip-context-menu ${modalClassNameMap[modalType] || ''}`;
+});
+
+// [TODO] Revisit this logic to use outside click directive
+const mousedDownOnBackdrop = ref(false);
+
+const handleMouseDown = () => {
+  mousedDownOnBackdrop.value = true;
 };
+
+const close = () => {
+  show.value = false;
+  emit('close');
+  onClose();
+};
+
+const onMouseUp = () => {
+  if (mousedDownOnBackdrop.value) {
+    mousedDownOnBackdrop.value = false;
+    if (closeOnBackdropClick) {
+      close();
+    }
+  }
+};
+
+const onKeydown = e => {
+  if (show.value && e.code === 'Escape') {
+    close();
+    e.stopPropagation();
+  }
+};
+
+useEventListener(document.body, 'mouseup', onMouseUp);
+useEventListener(document, 'keydown', onKeydown);
+
+onMounted(() => {
+  if (onClose && typeof onClose === 'function') {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[DEPRECATED] The 'onClose' prop is deprecated. Please use the 'close' event instead."
+    );
+  }
+});
 </script>
 
 <template>

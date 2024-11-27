@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Özet",
-      "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Şu: <strong>%{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>%{parentContactName}</strong> kişiye kopyalanacaktır."
+      "DELETE_WARNING": "<strong>{primaryContactName}</strong> kişisi silinecek.",
+      "ATTRIBUTE_WARNING": "Şu: <strong>{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>{parentContactName}</strong> kişiye kopyalanacaktır."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

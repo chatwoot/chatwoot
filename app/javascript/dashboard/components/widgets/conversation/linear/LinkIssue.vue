@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
@@ -120,8 +120,8 @@ const linkIssue = async () => {
           :loading-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING')"
           enable-search
           class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
-          @onSearch="onSearch"
-          @click="onSelectIssue"
+          @on-search="onSearch"
+          @select="onSelectIssue"
         />
       </template>
     </FilterButton>

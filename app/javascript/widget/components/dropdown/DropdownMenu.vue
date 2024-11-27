@@ -28,7 +28,7 @@ export default {
   mounted() {
     document.addEventListener('keydown', this.onEscape);
   },
-  beforeDestroy() {
+  unmounted() {
     document.removeEventListener('keydown', this.onEscape);
   },
   methods: {
@@ -76,7 +76,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .menu-content {
   width: max-content;

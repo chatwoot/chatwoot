@@ -41,6 +41,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <woot-button
     v-if="isVideoIntegrationEnabled"

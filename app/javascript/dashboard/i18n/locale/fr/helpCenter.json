@@ -84,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Non catégorisé",
-      "SEARCH_RESULTS": "Résultats de la recherche pour %{query}",
+      "SEARCH_RESULTS": "Résultats de la recherche pour {query}",
       "EMPTY_TEXT": "Rechercher des articles à insérer dans les réponses.",
       "SEARCH_LOADER": "Recherche en cours...",
       "INSERT_ARTICLE": "Insérer",

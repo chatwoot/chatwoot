@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Darba e-pasts",
-      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram, bruce@wayne.enterprises",
+      "PLACEHOLDER": "Ievadiet savu darba e-pasta adresi. Piemēram, bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Lūdzu, ievadiet derīgu darba e-pasta adresi."
     },
     "PASSWORD": {

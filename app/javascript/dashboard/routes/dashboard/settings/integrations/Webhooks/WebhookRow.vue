@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   webhook: {
@@ -14,6 +14,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(['edit', 'delete']);
 const { t } = useI18n();
 const subscribedEvents = computed(() => {
   const { subscriptions } = props.webhook;
@@ -51,7 +53,7 @@ const subscribedEvents = computed(() => {
           size="tiny"
           color-scheme="secondary"
           icon="edit"
-          @click="$emit('edit', webhook)"
+          @click="emit('edit', webhook)"
         />
         <woot-button
           v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')"
@@ -59,7 +61,7 @@ const subscribedEvents = computed(() => {
           color-scheme="alert"
           size="tiny"
           icon="dismiss-circle"
-          @click="$emit('delete', webhook, index)"
+          @click="emit('delete', webhook, index)"
         />
       </div>
     </td>

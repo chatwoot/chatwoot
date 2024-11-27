@@ -1,8 +1,10 @@
 <script>
 export default {
-  // The value types are dynamic, hence prop validation removed to work with our action schema
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['teams', 'value'],
+  props: {
+    teams: { type: Array, required: true },
+    modelValue: { type: Object, required: true },
+  },
+  emits: ['update:modelValue'],
   data() {
     return {
       selectedTeams: [],
@@ -10,13 +12,13 @@ export default {
     };
   },
   mounted() {
-    const { team_ids: teamIds } = this.value;
+    const { team_ids: teamIds } = this.modelValue;
     this.selectedTeams = teamIds;
-    this.message = this.value.message;
+    this.message = this.modelValue.message;
   },
   methods: {
     updateValue() {
-      this.$emit('input', {
+      this.$emit('update:modelValue', {
         team_ids: this.selectedTeams.map(team => team.id),
         message: this.message,
       });
@@ -40,7 +42,7 @@ export default {
         :max-height="160"
         :options="teams"
         :allow-empty="false"
-        @input="updateValue"
+        @update:model-value="updateValue"
       />
       <textarea
         v-model="message"

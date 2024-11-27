@@ -96,11 +96,6 @@ export default {
       );
     },
   },
-  methods: {
-    handleClick(evt) {
-      this.$emit('click', evt);
-    },
-  },
 };
 </script>
 
@@ -110,7 +105,6 @@ export default {
     :type="type"
     :class="buttonClasses"
     :disabled="isDisabled || isLoading"
-    @click="handleClick"
   >
     <Spinner
       v-if="isLoading"

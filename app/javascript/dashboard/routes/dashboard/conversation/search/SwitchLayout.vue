@@ -6,6 +6,7 @@ export default {
       default: false,
     },
   },
+  emits: ['toggle'],
   methods: {
     toggle() {
       this.$emit('toggle');

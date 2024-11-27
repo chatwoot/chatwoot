@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Resum",
-      "DELETE_WARNING": "El contacte de <strong>%{primaryContactName}</strong> es suprimirà.",
-      "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>%{primaryContactName}</strong> es copiaran a <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "El contacte de <strong>{primaryContactName}</strong> es suprimirà.",
+      "ATTRIBUTE_WARNING": "Les dades de contacte de <strong>{primaryContactName}</strong> es copiaran a <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

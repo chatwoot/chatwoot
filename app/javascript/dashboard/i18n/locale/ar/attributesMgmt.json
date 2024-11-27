@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "تعذر حذف الصفة المخصصة. حاول مرة أخرى."
       },
       "CONFIRM": {
-        "TITLE": "هل أنت متأكد من أنك تريد حذف - %{attributeName}",
+        "TITLE": "هل أنت متأكد من أنك تريد حذف - {attributeName}",
         "PLACE_HOLDER": "الرجاء كتابة {attributeName} للتأكيد",
         "MESSAGE": "الحذف سوف يزيل الصفة المخصصة",
         "YES": "حذف ",

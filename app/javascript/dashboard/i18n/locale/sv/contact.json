@@ -367,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Sammanfattning",
-      "DELETE_WARNING": "Kontakt för <strong>%{primaryContactName}</strong> kommer att tas bort.",
-      "ATTRIBUTE_WARNING": "Kontaktuppgifter till <strong>%{primaryContactName}</strong> kommer att kopieras till <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Kontakt för <strong>{primaryContactName}</strong> kommer att tas bort.",
+      "ATTRIBUTE_WARNING": "Kontaktuppgifter till <strong>{primaryContactName}</strong> kommer att kopieras till <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "FEL_MESSAGE"

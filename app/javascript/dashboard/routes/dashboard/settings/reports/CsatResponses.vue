@@ -1,12 +1,14 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import CsatMetrics from './components/CsatMetrics.vue';
 import CsatTable from './components/CsatTable.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import V4Button from 'dashboard/components-next/button/Button.vue';
+import ReportHeader from './components/ReportHeader.vue';
 
 export default {
   name: 'CsatResponses',
@@ -14,10 +16,12 @@ export default {
     CsatMetrics,
     CsatTable,
     ReportFilterSelector,
+    ReportHeader,
+    V4Button,
   },
   data() {
     return {
-      pageIndex: 1,
+      pageIndex: 0,
       from: 0,
       to: 0,
       userIds: [],
@@ -59,7 +63,7 @@ export default {
     },
     getResponses() {
       this.$store.dispatch('csat/get', {
-        page: this.pageIndex,
+        page: this.pageIndex + 1,
         ...this.requestPayload,
       });
     },
@@ -88,7 +92,7 @@ export default {
     }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
-        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        useTrack(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
           reportType: 'csat',
         });
@@ -108,24 +112,26 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
+  <ReportHeader :header-title="$t('CSAT_REPORTS.HEADER')">
+    <V4Button
+      :label="$t('CSAT_REPORTS.DOWNLOAD')"
+      icon="i-ph-download-simple"
+      size="sm"
+      @click="downloadReports"
+    />
+  </ReportHeader>
+
+  <div class="flex flex-col gap-4">
     <ReportFilterSelector
       show-agents-filter
       show-inbox-filter
       show-rating-filter
       :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
-      @filterChange="onFilterChange"
+      @filter-change="onFilterChange"
     />
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
-      @click="downloadReports"
-    >
-      {{ $t('CSAT_REPORTS.DOWNLOAD') }}
-    </woot-button>
+
     <CsatMetrics :filters="requestPayload" />
-    <CsatTable :page-index="pageIndex" @pageChange="onPageNumberChange" />
+    <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>
 </template>
