@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-
+import { provideMessageContext } from './provider.js';
 import {
   MESSAGE_TYPES,
   MESSAGE_VARIANTS,
@@ -186,6 +186,12 @@ const shouldShowAvatar = computed(() => {
 
   return true;
 });
+
+provideMessageContext({
+  variant,
+  orientation,
+  isMyMessage,
+});
 </script>
 
 <template>
@@ -210,12 +216,7 @@ const shouldShowAvatar = computed(() => {
       >
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
       </div>
-      <TextBubble
-        v-bind="props"
-        :variant
-        :orientation
-        class="[grid-area:bubble]"
-      />
+      <TextBubble v-bind="props" class="[grid-area:bubble]" />
       <MessageError
         v-if="contentAttributes.externalError"
         class="[grid-area:meta]"
