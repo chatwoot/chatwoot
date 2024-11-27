@@ -7,7 +7,7 @@ class DailyInboxReportJob < ApplicationJob
   # TODO: [P0] fix why numbers not visible in the report
 
   # TODO: add new .json file for label wise report
-  # JOB_DATA_URL = 'https://bitespeed-app.s3.amazonaws.com/InternalAccess/cw-auto-conversation-report.json'.freeze
+  # JOB_DATA_URL = 'https://bitespeed-app.s3.us-east-1.amazonaws.com/InternalAccess/cw-auto-conversation-report.json'.freeze
 
   def perform
     set_statement_timeout
