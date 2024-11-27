@@ -330,17 +330,15 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .selector-wrap {
-    @apply m-0 top-1;
+:deep(.selector-wrap) {
+  @apply m-0 top-1;
 
-    .selector-name {
-      @apply ml-0;
-    }
-  }
-
-  .name {
+  .selector-name {
     @apply ml-0;
   }
+}
+
+:deep(.name) {
+  @apply ml-0;
 }
 </style>

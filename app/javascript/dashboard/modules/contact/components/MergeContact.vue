@@ -189,25 +189,23 @@ export default {
   @apply mt-0;
 }
 
-::v-deep {
-  .multiselect {
-    @apply rounded-md;
-  }
+:deep(.multiselect) {
+  @apply rounded-md;
+}
 
-  .multiselect--disabled {
-    @apply border-0;
+:deep(.multiselect--disabled) {
+  @apply border-0;
 
-    .multiselect__tags {
-      @apply border;
-    }
+  :deep(.multiselect__tags) {
+    @apply border;
   }
+}
 
-  .multiselect__tags {
-    @apply h-auto;
-  }
+:deep(.multiselect__tags) {
+  @apply h-auto;
+}
 
-  .multiselect__select {
-    @apply mt-px mr-1;
-  }
+:deep(.multiselect__select) {
+  @apply mt-px mr-1;
 }
 </style>

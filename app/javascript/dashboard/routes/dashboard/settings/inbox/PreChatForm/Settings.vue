@@ -176,10 +176,8 @@ export default {
 .message-editor {
   @apply px-3;
 
-  ::v-deep {
-    .ProseMirror-menubar {
-      @apply rounded-tl-[4px];
-    }
+  :deep(.ProseMirror-menubar) {
+    @apply rounded-tl-[4px];
   }
 }
 </style>

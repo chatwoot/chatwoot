@@ -169,17 +169,15 @@ export default {
 }
 
 .dashboard-app--tabs {
-  ::v-deep {
-    .tabs-title {
-      a {
-        @apply pb-2 pt-1;
-      }
+  :deep(.tabs-title) {
+    a {
+      @apply pb-2 pt-1;
     }
   }
 }
 
 .conversation-sidebar-wrap {
-  &::v-deep .contact--panel {
+  :deep(.contact--panel) {
     @apply w-full h-full max-w-full;
   }
 }

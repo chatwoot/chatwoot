@@ -141,17 +141,15 @@ export default {
 </template>
 
 <style scoped lang="scss">
-::v-deep {
-  .ProseMirror-menubar {
-    @apply hidden;
-  }
+:deep(.ProseMirror-menubar) {
+  @apply hidden;
+}
 
-  .ProseMirror-woot-style {
-    @apply min-h-[12.5rem];
+.ProseMirror-woot-style {
+  @apply min-h-[12.5rem];
 
-    p {
-      @apply text-base;
-    }
+  p {
+    @apply text-base;
   }
 }
 </style>

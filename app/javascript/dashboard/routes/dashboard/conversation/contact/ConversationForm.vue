@@ -584,10 +584,8 @@ export default {
 .message-editor {
   @apply px-3;
 
-  ::v-deep {
-    .ProseMirror-menubar {
-      @apply rounded-tl-[4px];
-    }
+  :deep(.ProseMirror-menubar) {
+    @apply rounded-tl-[4px];
   }
 }
 
@@ -596,16 +594,12 @@ export default {
 }
 
 .multiselect-wrap--small.has-multi-select-error {
-  ::v-deep {
-    .multiselect__tags {
-      @apply border-red-500;
-    }
+  :deep(.multiselect__tags) {
+    @apply border-red-500;
   }
 }
 
-::v-deep {
-  .mention--box {
-    @apply left-0 m-auto right-0 top-auto h-fit;
-  }
+:deep(.mention--box) {
+  @apply left-0 m-auto right-0 top-auto h-fit;
 }
 </style>

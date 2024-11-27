@@ -123,10 +123,8 @@ export default {
 // For RTL direction view
 .app-rtl--wrapper {
   .note__content {
-    ::v-deep {
-      p {
-        unicode-bidi: plaintext;
-      }
+    :deep(p) {
+      unicode-bidi: plaintext;
     }
   }
 }

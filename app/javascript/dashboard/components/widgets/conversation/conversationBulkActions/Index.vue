@@ -263,7 +263,7 @@ export default {
 // For RTL direction view
 .app-rtl--wrapper {
   .bulk-action__actions {
-    ::v-deep .button--only-icon:last-child {
+    :deep(.button--only-icon:last-child) {
       margin-right: var(--space-smaller);
     }
   }

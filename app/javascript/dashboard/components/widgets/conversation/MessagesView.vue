@@ -573,26 +573,24 @@ export default {
 .modal-mask {
   @apply absolute;
 
-  &::v-deep {
-    .ProseMirror-woot-style {
-      @apply max-h-[25rem];
-    }
+  :deep(.ProseMirror-woot-style) {
+    @apply max-h-[25rem];
+  }
 
-    .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
-    }
+  :deep(.reply-box) {
+    @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+  }
 
-    .reply-box .reply-box__top {
-      @apply relative min-h-[27.5rem];
-    }
+  :deep(.reply-box .reply-box__top) {
+    @apply relative min-h-[27.5rem];
+  }
 
-    .reply-box__top .input {
-      @apply min-h-[27.5rem];
-    }
+  :deep(.reply-box__top .input) {
+    @apply min-h-[27.5rem];
+  }
 
-    .emoji-dialog {
-      @apply absolute left-auto bottom-1;
-    }
+  :deep(.emoji-dialog) {
+    @apply absolute left-auto bottom-1;
   }
 }
 </style>

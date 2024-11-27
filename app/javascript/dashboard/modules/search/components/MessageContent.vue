@@ -91,8 +91,8 @@ export default {
 .message {
   @apply py-0 px-2 mt-2;
 }
-.message-content::v-deep p,
-.message-content::v-deep li::marker {
+:deep(.message-content p),
+:deep(.message-content li::marker) {
   @apply text-slate-700 dark:text-slate-100 mb-1;
 }
 
@@ -104,7 +104,7 @@ export default {
   @apply break-words text-slate-600 dark:text-slate-200;
 }
 
-.message-content::v-deep .searchkey--highlight {
+:deep(.message-content .searchkey--highlight) {
   @apply text-woot-600 dark:text-woot-500 text-sm font-semibold;
 }
 </style>

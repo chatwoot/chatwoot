@@ -121,7 +121,7 @@ const variableKey = (item = {}) => {
   }
 }
 
-.canned-item__button::v-deep .button__content {
+:deep(.canned-item__button .button__content) {
   @apply overflow-hidden text-ellipsis whitespace-nowrap;
 }
 </style>

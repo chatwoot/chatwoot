@@ -66,10 +66,8 @@ export default {
 .colorpicker--chrome.vc-chrome {
   @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-slate-75 dark:border-slate-600 rounded;
 
-  ::v-deep {
-    input {
-      @apply bg-white dark:bg-white;
-    }
+  :deep(input) {
+    @apply bg-white dark:bg-white;
   }
 }
 </style>

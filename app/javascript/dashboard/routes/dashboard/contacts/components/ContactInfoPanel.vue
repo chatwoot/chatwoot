@@ -157,10 +157,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .contact--profile {
-    @apply pb-3 mb-4;
-  }
+:deep(.contact--profile) {
+  @apply pb-3 mb-4;
 }
 
 .list-group {

@@ -218,14 +218,16 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.day-wrap::v-deep .multiselect {
-  @apply m-0 w-[7.5rem];
+.day-wrap {
+  :deep(.multiselect) {
+    @apply m-0 w-[7.5rem];
 
-  > .multiselect__tags {
-    @apply pl-3;
+    > .multiselect__tags {
+      @apply pl-3;
 
-    .multiselect__single {
-      @apply text-sm leading-6 py-2 px-0;
+      .multiselect__single {
+        @apply text-sm leading-6 py-2 px-0;
+      }
     }
   }
 }

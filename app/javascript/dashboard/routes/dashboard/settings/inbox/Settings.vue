@@ -785,7 +785,7 @@ export default {
 
 <style scoped lang="scss">
 .settings--tabs {
-  ::v-deep .tabs {
+  :deep(.tabs) {
     @apply p-0;
   }
 }

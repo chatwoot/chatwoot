@@ -270,19 +270,15 @@ export default {
   }
 }
 
-.context-menu--delete-modal {
-  ::v-deep {
-    .modal-container {
-      @apply max-w-[30rem];
+:deep(.context-menu--delete-modal .modal-container) {
+  @apply max-w-[30rem];
 
-      h2 {
-        @apply font-medium text-base;
-      }
-    }
-
-    .modal-footer {
-      @apply pt-4 pb-8 px-8;
-    }
+  h2 {
+    @apply font-medium text-base;
   }
+}
+
+:deep(.context-menu--delete-modal .modal-footer) {
+  @apply pt-4 pb-8 px-8;
 }
 </style>

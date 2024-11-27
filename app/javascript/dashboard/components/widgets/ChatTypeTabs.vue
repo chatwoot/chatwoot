@@ -63,10 +63,8 @@ useKeyboardEvents(keyboardEvents);
 
 <style scoped lang="scss">
 .tab--chat-type {
-  ::v-deep {
-    .tabs {
-      @apply p-0;
-    }
+  :deep(.tabs) {
+    @apply p-0;
   }
 }
 </style>

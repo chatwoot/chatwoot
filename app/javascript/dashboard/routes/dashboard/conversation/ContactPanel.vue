@@ -225,18 +225,18 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .contact--profile {
-    @apply pb-3 border-b border-solid border-slate-75 dark:border-slate-700;
+:deep(.contact--profile) {
+  @apply pb-3 border-b border-solid border-slate-75 dark:border-slate-700;
+}
+
+:deep(.conversation--actions .multiselect-wrap--small) {
+  :deep(.multiselect) {
+    @apply box-border pl-6;
   }
-  .conversation--actions .multiselect-wrap--small {
-    .multiselect {
-      @apply box-border pl-6;
-    }
-    .multiselect__element {
-      span {
-        @apply w-full;
-      }
+
+  :deep(.multiselect__element) {
+    span {
+      @apply w-full;
     }
   }
 }

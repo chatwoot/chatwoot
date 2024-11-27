@@ -50,12 +50,12 @@ useKeyboardEvents(keyboardEvents);
 
 <style lang="scss" scoped>
 .input--note {
-  &::v-deep .ProseMirror-menubar {
+  :deep(.ProseMirror-menubar) {
     padding: 0;
     margin-top: var(--space-minus-small);
   }
 
-  &::v-deep .ProseMirror-woot-style {
+  :deep(.ProseMirror-woot-style) {
     max-height: 22.5rem;
   }
 }

@@ -289,25 +289,21 @@ export default {
   }
 
   .invalid {
-    ::v-deep {
-      .multiselect__tags {
-        border: 1px solid var(--r-400);
-      }
+    :deep(.multiselect__tags) {
+      border: 1px solid var(--r-400);
     }
   }
 }
 
-::v-deep {
-  .multiselect {
-    margin-bottom: 0;
-  }
+:deep(.multiselect) {
+  margin-bottom: 0;
+}
 
-  .multiselect__content-wrapper {
-    display: none;
-  }
+:deep(.multiselect__content-wrapper) {
+  display: none;
+}
 
-  .multiselect--active .multiselect__tags {
-    border-radius: var(--border-radius-normal);
-  }
+:deep(.multiselect--active .multiselect__tags) {
+  border-radius: var(--border-radius-normal);
 }
 </style>

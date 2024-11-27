@@ -139,32 +139,30 @@ watch(
 
 <style lang="scss" scoped>
 .editor-wrapper {
-  ::v-deep {
-    .ProseMirror-menubar-wrapper {
-      @apply gap-2 !important;
+  :deep(.ProseMirror-menubar-wrapper) {
+    @apply gap-2 !important;
 
-      .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5  !important;
+    .ProseMirror-menubar {
+      @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5  !important;
 
-        .ProseMirror-menuitem {
-          @apply h-5 !important;
-        }
-
-        .ProseMirror-icon {
-          @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
-        }
+      .ProseMirror-menuitem {
+        @apply h-5 !important;
       }
-      .ProseMirror.ProseMirror-woot-style {
-        p {
-          @apply first:mt-0 !important;
-        }
 
-        .empty-node {
-          @apply m-0 !important;
+      .ProseMirror-icon {
+        @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
+      }
+    }
+    .ProseMirror.ProseMirror-woot-style {
+      p {
+        @apply first:mt-0 !important;
+      }
 
-          &::before {
-            @apply text-n-slate-11 dark:text-n-slate-11 !important;
-          }
+      .empty-node {
+        @apply m-0 !important;
+
+        &::before {
+          @apply text-n-slate-11 dark:text-n-slate-11 !important;
         }
       }
     }
