@@ -62,7 +62,7 @@ const end = computed(() => {
         <woot-button
           :disabled="!table.getCanPreviousPage()"
           variant="clear"
-          class="size-8 flex items-center border border-n-weak"
+          class="h-8 border-0 flex items-center"
           color-scheme="secondary"
           @click="table.setPageIndex(0)"
         >
@@ -70,7 +70,7 @@ const end = computed(() => {
         </woot-button>
         <woot-button
           variant="clear"
-          class="size-8 flex items-center border border-n-weak"
+          class="h-8 border-0 flex items-center"
           color-scheme="secondary"
           :disabled="!table.getCanPreviousPage()"
           @click="table.previousPage()"
@@ -81,7 +81,7 @@ const end = computed(() => {
           v-for="page in visiblePages"
           :key="page"
           variant="clear"
-          class="h-8 flex items-center justify-center border text-xs leading-none text-center"
+          class="h-8 flex items-center justify-center text-xs leading-none text-center"
           :class="page == currentPage ? 'border-n-brand' : 'border-slate-50'"
           color-scheme="secondary"
           @click="table.setPageIndex(page - 1)"
@@ -96,7 +96,7 @@ const end = computed(() => {
         <woot-button
           :disabled="!table.getCanNextPage()"
           variant="clear"
-          class="size-8 flex items-center border border-slate-50"
+          class="h-8 border-0 flex items-center"
           color-scheme="secondary"
           @click="table.nextPage()"
         >
@@ -105,7 +105,7 @@ const end = computed(() => {
         <woot-button
           :disabled="!table.getCanNextPage()"
           variant="clear"
-          class="size-8 flex items-center border border-slate-50"
+          class="h-8 border-0 flex items-center"
           color-scheme="secondary"
           @click="table.setPageIndex(table.getPageCount() - 1)"
         >

@@ -1,8 +1,9 @@
 <script setup>
 import { FlexRender } from '@tanstack/vue-table';
 import SortButton from './SortButton.vue';
+import { computed } from 'vue';
 
-defineProps({
+const props = defineProps({
   table: {
     type: Object,
     required: true,
@@ -11,12 +12,23 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  type: {
+    type: String,
+    default: 'relaxed',
+  },
 });
+
+const isRelaxed = computed(() => props.type === 'relaxed');
+const headerClass = computed(() =>
+  isRelaxed.value
+    ? 'first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg'
+    : ''
+);
 </script>
 
 <template>
   <table :class="{ 'table-fixed': fixed }">
-    <thead class="sticky top-0 z-10 bg-n-slate-2">
+    <thead class="sticky top-0 z-10 bg-n-slate-1">
       <tr
         v-for="headerGroup in table.getHeaderGroups()"
         :key="headerGroup.id"
@@ -28,7 +40,8 @@ defineProps({
           :style="{
             width: `${header.getSize()}px`,
           }"
-          class="text-left py-3 px-5 font-normal text-sm first:rounded-bl-lg first:rounded-tl-lg last:rounded-br-lg last:rounded-tr-lg"
+          class="text-left py-3 px-5 font-normal text-sm"
+          :class="headerClass"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
           <div
@@ -45,12 +58,12 @@ defineProps({
       </tr>
     </thead>
 
-    <tbody class="divide-y divide-n-weak">
+    <tbody class="divide-y divide-n-slate-2">
       <tr v-for="row in table.getRowModel().rows" :key="row.id">
         <td
           v-for="cell in row.getVisibleCells()"
           :key="cell.id"
-          class="py-4 px-5"
+          :class="isRelaxed ? 'py-4 px-5' : 'py-2 px-5'"
         >
           <FlexRender
             :render="cell.column.columnDef.cell"

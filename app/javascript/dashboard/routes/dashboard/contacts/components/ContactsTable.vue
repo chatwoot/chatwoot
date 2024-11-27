@@ -171,7 +171,7 @@ const table = useVueTable({
 <template>
   <section class="flex-1 h-full overflow-auto bg-white dark:bg-slate-900">
     <section class="overflow-x-auto">
-      <Table fixed :table="table" />
+      <Table fixed :table="table" type="compact" />
     </section>
 
     <EmptyState
