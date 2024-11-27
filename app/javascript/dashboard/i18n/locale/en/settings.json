@@ -55,10 +55,6 @@
         "NOTE": "Updating your password would reset your logins in multiple devices.",
         "BTN_TEXT": "Change password"
       },
-      "ACCOUNT_DELETE_SECTION": {
-        "TITLE": "Delete your Account",
-        "NOTE": "Once you deleted your account your all data will deleted."
-      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration",

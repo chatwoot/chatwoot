@@ -9,6 +9,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import DeleteAccount from './DeleteAccount.vue';
 
 export default {
   setup() {
@@ -18,6 +19,9 @@ export default {
     const v$ = useVuelidate();
 
     return { updateUISettings, v$, enabledLanguages, accountId };
+  },
+  components: {
+    DeleteAccount,
   },
   data() {
     return {
@@ -156,6 +160,13 @@ export default {
         rtl_view: isRTLSupported,
       });
     },
+    // Delete Function
+    openDeletePopup() {
+      this.showDeletePopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeletePopup = false;
+    },
   },
 };
 </script>
@@ -265,6 +276,43 @@ export default {
           <woot-code :script="getAccountId" />
         </div>
       </div>
+
+     
+
+      <woot-submit-button
+        class="button nice success button--fixed-top"
+        :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
+        :loading="isUpdating"
+      />
+    </form>
+    <div v-if="!uiFlags.isFetchingItem">
+      <div
+        class="flex flex-row p-4 border-t border-slate-25 dark:border-slate-800 text-black-900 dark:text-slate-300"
+      >
+        <div
+          class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
+        >
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
+            {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.TITLE') }}
+          </h4>
+          <p>
+            {{ $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.NOTE') }}
+          </p>
+        </div>
+        <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
+          <woot-submit-button
+          button-class="alert button nice"
+          :button-text="$t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE.BUTTON_TEXT')"
+          :loading="showDeletePopup"
+          @click="openDeletePopup()"
+        />
+        </div>
+      </div>
+      
+      <woot-modal :show.sync="showDeletePopup" :on-close="closeDeletePopup">
+        <DeleteAccount :on-close="closeDeletePopup" />
+      </woot-modal>
+
       <div class="p-4 text-sm text-center">
         <div>{{ `v${globalConfig.appVersion}` }}</div>
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
@@ -279,13 +327,7 @@ export default {
         </div>
       </div>
 
-      <woot-submit-button
-        class="button nice success button--fixed-top"
-        :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
-        :loading="isUpdating"
-      />
-    </form>
-
+    </div>
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>

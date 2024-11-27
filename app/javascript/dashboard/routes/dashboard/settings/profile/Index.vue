@@ -16,7 +16,7 @@ import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
 import Policy from 'dashboard/components/policy.vue';
-import DeleteAccount from './DeleteAccount.vue';
+
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -24,7 +24,6 @@ import {
 
 export default {
   components: {
-    DeleteAccount,
     MessageSignature,
     FormSection,
     UserProfilePicture,
@@ -179,13 +178,6 @@ export default {
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
-    // Delete Function
-    openDeletePopup() {
-      this.showDeletePopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeletePopup = false;
-    },
   },
 };
 </script>
@@ -277,24 +269,5 @@ export default {
     >
       <AccessToken :value="currentUser.access_token" @on-copy="onCopyToken" />
     </FormSection>
-      <div class="profile--settings--row row">
-      <div class="columns small-3 ">
-        <h4 class="block-title">
-          {{ $t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE_SECTION.TITLE') }}
-        </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE_SECTION.NOTE') }}</p>
-      </div>
-      <div class="columns small-9 medium-5">
-        <woot-submit-button
-          button-class="alert button nice"
-          :button-text="$t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE.BUTTON_TEXT')"
-          :loading="showDeletePopup"
-          @click="openDeletePopup()"
-        />
-      </div>
-    </div>
-    <woot-modal :show.sync="showDeletePopup" :on-close="closeDeletePopup">
-      <delete-account :on-close="closeDeletePopup" />
-    </woot-modal>
   </div>
 </template>

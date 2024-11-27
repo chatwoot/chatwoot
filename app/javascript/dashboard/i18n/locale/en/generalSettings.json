@@ -8,6 +8,10 @@
       "ERROR": "Could not update settings, try again!",
       "SUCCESS": "Successfully updated account settings"
     },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you deleted your account your all data will deleted."
+    },
     "FORM": {
       "ERROR": "Please fix form errors",
       "GENERAL_SECTION": {
