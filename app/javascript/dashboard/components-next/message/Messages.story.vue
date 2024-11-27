@@ -1,10 +1,10 @@
 <script setup>
 import Message from './Message.vue';
 
-import textOnly from '../fixtures/textOnly.js';
-// import textWithMedia from '../fixtures/textWithMedia.js';
+// import textOnly from './fixtures/textOnly.js';
+import textWithMedia from './fixtures/textWithMedia.js';
 
-const messages = textOnly;
+const messages = textWithMedia;
 
 const shouldGroupWithNext = index => {
   if (index === messages.length - 1) return false;
