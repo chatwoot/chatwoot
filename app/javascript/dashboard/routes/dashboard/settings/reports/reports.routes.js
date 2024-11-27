@@ -40,6 +40,38 @@ export default {
           },
           component: Index,
         },
+        {
+          path: 'agent',
+          name: 'agent_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: AgentReports,
+        },
+        {
+          path: 'label',
+          name: 'label_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: LabelReports,
+        },
+        {
+          path: 'inboxes',
+          name: 'inbox_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: InboxReports,
+        },
+        {
+          path: 'teams',
+          name: 'team_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: TeamReports,
+        },
       ],
     },
     {
@@ -78,81 +110,6 @@ export default {
             featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
           },
           component: BotReports,
-        },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'AGENT_REPORTS.HEADER',
-        icon: 'people',
-        keepAlive: false,
-      },
-      children: [
-        {
-          path: 'agent',
-          name: 'agent_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
-          component: AgentReports,
-        },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'LABEL_REPORTS.HEADER',
-        icon: 'tag',
-        keepAlive: false,
-      },
-      children: [
-        {
-          path: 'label',
-          name: 'label_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
-          component: LabelReports,
-        },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'INBOX_REPORTS.HEADER',
-        icon: 'mail-inbox-all',
-        keepAlive: false,
-      },
-      children: [
-        {
-          path: 'inboxes',
-          name: 'inbox_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
-          component: InboxReports,
-        },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'TEAM_REPORTS.HEADER',
-        icon: 'people-team',
-      },
-      children: [
-        {
-          path: 'teams',
-          name: 'team_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
-          component: TeamReports,
         },
       ],
     },
