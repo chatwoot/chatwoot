@@ -414,10 +414,11 @@ function closeAdvanceFiltersModal() {
 }
 
 function onUpdateSavedFilter(payload, folderName) {
+  const transformedPayload = useSnakeCase(payload);
   const payloadData = {
     ...unref(activeFolder),
     name: unref(folderName),
-    query: filterQueryGenerator(payload),
+    query: filterQueryGenerator(transformedPayload),
   };
   store.dispatch('customViews/update', payloadData);
   closeAdvanceFiltersModal();
@@ -499,7 +500,10 @@ function initializeFolderToFilterModal(newActiveFolder) {
   const newFilters = query.map(filter => {
     const transformed = useCamelCase(filter);
     const values = Array.isArray(transformed.values)
-      ? generateValuesForEditCustomViews(filter, setParamsForEditFolderModal())
+      ? generateValuesForEditCustomViews(
+          useSnakeCase(filter),
+          setParamsForEditFolderModal()
+        )
       : [];
 
     return {
