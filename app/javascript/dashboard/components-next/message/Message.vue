@@ -9,6 +9,7 @@ import {
 } from './constants';
 
 import TextBubble from './bubbles/Text.vue';
+import MessageError from './MessageError.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'next/icon/Icon.vue';
 
@@ -193,28 +194,12 @@ const shouldGroupWithNext = computed(() => {
         :orientation
         class="[grid-area:bubble]"
       />
-      <div
+      <MessageError
         v-if="error"
-        class="[grid-area:meta] text-xs text-n-ruby-11 flex items-center gap-1.5"
+        class="[grid-area:meta]"
         :class="flexOrientationClass"
-      >
-        <span>{{ 'Failed to send' }}</span>
-        <div class="relative group">
-          <div
-            class="bg-n-alpha-2 rounded-sm size-5 grid place-content-center cursor-pointer"
-          >
-            <Icon
-              icon="i-lucide-alert-triangle"
-              class="text-n-ruby-11 size-[14px]"
-            />
-          </div>
-          <div
-            class="absolute bg-n-alpha-3 px-4 py-3 border rounded-xl border-n-strong text-n-slate-12 bottom-6 w-52 right-0 text-xs backdrop-blur-[100px] shadow-[0px_0px_24px_0px_rgba(0,0,0,0.12)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
-          >
-            {{ error }}
-          </div>
-        </div>
-      </div>
+        :error="error"
+      />
       <div
         v-else-if="!shouldGroupWithNext"
         class="[grid-area:meta] text-xs text-n-slate-11 flex items-center gap-1.5"
