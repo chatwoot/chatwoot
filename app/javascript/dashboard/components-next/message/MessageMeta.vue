@@ -5,7 +5,7 @@ import { messageTimestamp } from 'shared/helpers/timeHelper';
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
 
-import { MESSAGE_TYPES, MESSAGE_STATUS } from './constants';
+import { MESSAGE_STATUS } from './constants';
 
 /**
  * @typedef {Object} Sender
