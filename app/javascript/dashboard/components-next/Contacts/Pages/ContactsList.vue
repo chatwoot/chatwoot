@@ -1,9 +1,8 @@
 <script setup>
-import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
+import { ref, computed } from 'vue';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { debounce } from '@chatwoot/utils';
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
@@ -20,22 +19,20 @@ const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
+const uiFlags = useMapGetter('contacts/getUIFlags');
+const isUpdating = computed(() => uiFlags.value.isUpdating);
+
 // Manage expanded state here
 const expandedCardId = ref(null);
 
-const updateContact = async ({ id, updatedData }) => {
+const updateContact = async updatedData => {
   try {
-    await store.dispatch('contacts/update', { id, ...updatedData });
+    await store.dispatch('contacts/update', updatedData);
+    useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
   }
 };
-
-const handleFormUpdate = debounce(
-  ({ id, updatedData }) => updateContact({ id, updatedData }),
-  400,
-  false
-);
 
 const ROUTE_MAPPINGS = {
   contacts_dashboard_labels_index: 'contacts_dashboard_labels_edit_index',
@@ -74,8 +71,9 @@ const toggleExpanded = id => {
       :phone-number="contact.phoneNumber"
       :additional-attributes="contact.additionalAttributes"
       :is-expanded="expandedCardId === contact.id"
+      :is-updating="isUpdating"
       @toggle="toggleExpanded(contact.id)"
-      @update-contact="handleFormUpdate"
+      @update-contact="updateContact"
       @show-contact="onClickViewDetails"
     />
   </div>

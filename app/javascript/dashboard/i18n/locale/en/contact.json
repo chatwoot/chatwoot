@@ -497,6 +497,8 @@
             "PLACEHOLDER": "Enter the company name"
           }
         },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
         "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
