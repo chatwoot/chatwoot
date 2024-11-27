@@ -75,6 +75,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  error: {
+    type: String,
+    default: '',
+  },
   currentUserId: {
     type: Number,
     required: true,
@@ -91,6 +95,7 @@ const props = defineProps({
  */
 const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
+  if (props.error) return MESSAGE_VARIANTS.ERROR;
 
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,

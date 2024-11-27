@@ -556,6 +556,8 @@ const messages = [
     content:
       "Let us know if you have any questions, I'll close this conversation for now",
     account_id: 1,
+    error:
+      'Business account is restricted from messaging users in this country.',
     inbox_id: 475,
     message_type: 1,
     created_at: 1732196013,
