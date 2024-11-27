@@ -56,6 +56,31 @@
         @apply border-n-weak text-sm;
       }
     }
+
+    .multiselect__option {
+      @apply flex items-center;
+    }
+
+    .mx-datepicker {
+      .mx-input {
+        @apply bg-n-alpha-3;
+      }
+
+      .mx-input-wrapper input::placeholder {
+        @apply text-n-slate-11;
+      }
+
+      .mx-input-wrapper input {
+        @apply text-n-slate-11;
+      }
+    }
+
+    .multiselect--active:not(.multiselect--above) .multiselect__current,
+    .multiselect--active:not(.multiselect--above) .multiselect__input,
+    .multiselect--active:not(.multiselect--above) .multiselect__tags {
+      @apply rounded-b-none;
+    }
   }
 }
+
 </style>
