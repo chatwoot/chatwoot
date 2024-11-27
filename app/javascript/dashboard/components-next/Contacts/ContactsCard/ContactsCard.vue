@@ -16,11 +16,14 @@ const props = defineProps({
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   isExpanded: { type: Boolean, default: false },
+  isUpdating: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['toggle', 'updateContact', 'showContact']);
 
 const { t } = useI18n();
+
+const contactsFormRef = ref(null);
 
 const getInitialContactData = () => ({
   id: props.id,
@@ -31,6 +34,8 @@ const getInitialContactData = () => ({
 });
 
 const contactData = ref(getInitialContactData());
+
+const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 
 const countriesMap = computed(() => {
   return countries.reduce((acc, country) => {
@@ -60,18 +65,20 @@ const countryDetails = computed(() => {
   return parts.length ? parts.join(' ') : null;
 });
 
+const handleFormUpdate = updatedData => {
+  Object.assign(contactData.value, updatedData);
+};
+
+const handleUpdateContact = () => {
+  emit('updateContact', contactData.value);
+};
+
 const onClickExpand = () => {
   emit('toggle');
   contactData.value = getInitialContactData();
 };
 
-const handleFormUpdate = updatedData => {
-  emit('updateContact', { id: props.id, updatedData });
-};
-
-const onClickViewDetails = async () => {
-  emit('showContact', props.id);
-};
+const onClickViewDetails = () => emit('showContact', props.id);
 </script>
 
 <template>
@@ -135,16 +142,28 @@ const onClickViewDetails = async () => {
         enter-active-class="overflow-hidden transition-all duration-300 ease-out"
         leave-active-class="overflow-hidden transition-all duration-300 ease-in"
         enter-from-class="overflow-hidden opacity-0 max-h-0"
-        enter-to-class="opacity-100 max-h-[620px] sm:max-h-[420px] md:max-h-[360px]"
-        leave-from-class="opacity-100 max-h-[620px] sm:max-h-[420px] md:max-h-[360px]"
+        enter-to-class="opacity-100 max-h-[690px] sm:max-h-[470px] md:max-h-[410px]"
+        leave-from-class="opacity-100 max-h-[690px] sm:max-h-[470px] md:max-h-[410px]"
         leave-to-class="overflow-hidden opacity-0 max-h-0"
       >
         <div v-show="isExpanded" class="w-full">
-          <div class="p-6 border-t border-n-strong">
+          <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
             <ContactsForm
+              ref="contactsFormRef"
               :contact-data="contactData"
               @update="handleFormUpdate"
             />
+            <div>
+              <Button
+                :label="
+                  t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
+                "
+                size="sm"
+                :is-loading="isUpdating"
+                :disabled="isUpdating || isFormInvalid"
+                @click="handleUpdateContact"
+              />
+            </div>
           </div>
         </div>
       </transition>

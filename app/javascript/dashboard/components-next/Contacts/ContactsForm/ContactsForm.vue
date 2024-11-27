@@ -80,6 +80,8 @@ const validationRules = {
 
 const v$ = useVuelidate(validationRules, state);
 
+const isFormInvalid = computed(() => v$.value.$invalid);
+
 const prepareStateBasedOnProps = () => {
   if (props.isNewContact) {
     return; // Added to prevent state update for new contact form
@@ -222,6 +224,7 @@ watch(() => props.contactData, prepareStateBasedOnProps, {
 defineExpose({
   state,
   resetValidation,
+  isFormInvalid,
 });
 </script>
 
