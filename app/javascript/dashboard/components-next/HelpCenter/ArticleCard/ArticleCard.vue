@@ -13,7 +13,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   id: {
@@ -101,7 +101,7 @@ const categoryName = computed(() => {
 });
 
 const authorName = computed(() => {
-  return props.author?.name || props.author?.availableName || '-';
+  return props.author?.name || props.author?.availableName || '';
 });
 
 const authorThumbnailSrc = computed(() => {
@@ -124,75 +124,72 @@ const handleClick = id => {
 
 <template>
   <CardLayout>
-    <template #header>
-      <div class="flex justify-between gap-1">
+    <div class="flex justify-between w-full gap-1">
+      <span
+        class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12 line-clamp-1"
+        @click="handleClick(id)"
+      >
+        {{ title }}
+      </span>
+      <div class="flex items-center gap-2">
         <span
-          class="text-base cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12 line-clamp-1"
-          @click="handleClick(id)"
+          class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
+          :class="statusTextColor"
         >
-          {{ title }}
+          {{ statusText }}
         </span>
-        <div class="flex items-center gap-2">
-          <span
-            class="text-xs font-medium inline-flex items-center h-6 px-2 py-0.5 rounded-md bg-n-alpha-2"
-            :class="statusTextColor"
-          >
-            {{ statusText }}
-          </span>
-          <div
-            v-on-clickaway="() => toggleDropdown(false)"
-            class="relative flex items-center group"
-          >
-            <Button
-              icon="i-lucide-ellipsis-vertical"
-              color="slate"
-              size="xs"
-              class="rounded-md group-hover:bg-n-alpha-2"
-              @click="toggleDropdown()"
-            />
-            <DropdownMenu
-              v-if="showActionsDropdown"
-              :menu-items="articleMenuItems"
-              class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
-              @action="handleArticleAction($event)"
-            />
-          </div>
+        <div
+          v-on-clickaway="() => toggleDropdown(false)"
+          class="relative flex items-center group"
+        >
+          <Button
+            icon="i-lucide-ellipsis-vertical"
+            color="slate"
+            size="xs"
+            class="rounded-md group-hover:bg-n-alpha-2"
+            @click="toggleDropdown()"
+          />
+          <DropdownMenu
+            v-if="showActionsDropdown"
+            :menu-items="articleMenuItems"
+            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 top-full"
+            @action="handleArticleAction($event)"
+          />
         </div>
       </div>
-    </template>
-    <template #footer>
-      <div class="flex items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-1">
-            <Thumbnail
-              :author="author"
-              :name="authorName"
-              :src="authorThumbnailSrc"
-            />
-            <span class="text-sm text-n-slate-11">
-              {{ authorName }}
-            </span>
-          </div>
-          <span class="block text-sm whitespace-nowrap text-n-slate-11">
-            {{ categoryName }}
+    </div>
+    <div class="flex items-center justify-between w-full gap-4">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-1">
+          <Avatar
+            :name="authorName"
+            :src="authorThumbnailSrc"
+            :size="16"
+            rounded-full
+          />
+          <span class="text-sm truncate text-n-slate-11">
+            {{ authorName || '-' }}
           </span>
-          <div
-            class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
-          >
-            <Icon icon="i-lucide-eye" class="size-4" />
-            <span class="text-sm">
-              {{
-                t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {
-                  count: views,
-                })
-              }}
-            </span>
-          </div>
         </div>
-        <span class="text-sm text-n-slate-11 line-clamp-1">
-          {{ lastUpdatedAt }}
+        <span class="block text-sm whitespace-nowrap text-n-slate-11">
+          {{ categoryName }}
         </span>
+        <div
+          class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
+        >
+          <Icon icon="i-lucide-eye" class="size-4" />
+          <span class="text-sm">
+            {{
+              t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {
+                count: views,
+              })
+            }}
+          </span>
+        </div>
       </div>
-    </template>
+      <span class="text-sm text-n-slate-11 line-clamp-1">
+        {{ lastUpdatedAt }}
+      </span>
+    </div>
   </CardLayout>
 </template>

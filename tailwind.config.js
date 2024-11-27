@@ -29,6 +29,7 @@ const tailwindConfig = {
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
+    './app/javascript/dashboard/components-next/**/*.js',
     './app/views/**/*.html.erb',
   ],
   theme: {
@@ -112,6 +113,11 @@ const tailwindConfig = {
       collections: {
         woot: {
           icons: {
+            'logic-or': {
+              body: `<rect x="14" y="5" width="2" height="13" rx="1" fill="currentColor"/><rect x="8" y="5" width="2" height="13" rx="1" fill="currentColor"/>`,
+              width: 24,
+              height: 24,
+            },
             alert: {
               body: `<path d="M1.81348 0.9375L1.69727 7.95117H0.302734L0.179688 0.9375H1.81348ZM1 11.1025C0.494141 11.1025 0.0908203 10.7061 0.0976562 10.2207C0.0908203 9.72852 0.494141 9.33203 1 9.33203C1.49219 9.33203 1.89551 9.72852 1.90234 10.2207C1.89551 10.7061 1.49219 11.1025 1 11.1025Z" fill="currentColor" />`,
               width: 2,
@@ -126,7 +132,7 @@ const tailwindConfig = {
             },
           },
         },
-        ...getIconCollections(['lucide', 'logos', 'ri']),
+        ...getIconCollections(['lucide', 'logos', 'ri', 'ph']),
       },
     }),
   ],
