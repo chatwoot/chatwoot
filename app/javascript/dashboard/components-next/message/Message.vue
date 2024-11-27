@@ -31,6 +31,11 @@ import MessageStatus from './MessageStatus.vue';
  */
 
 /**
+ * @typedef {Object} ContentAttributes
+ * @property {string} externalError - an error message to be shown if the message failed to send
+ */
+
+/**
  * @typedef {Object} Props
  * @property {number} id - The unique identifier for the message
  * @property {number} messageType - The type of message (must be one of MESSAGE_TYPES)
@@ -38,6 +43,7 @@ import MessageStatus from './MessageStatus.vue';
  * @property {boolean} [private=false] - Whether the message is private
  * @property {number} createdAt - Timestamp when the message was created
  * @property {Sender|null} [sender=null] - The sender information
+ * @property {ContentAttributes} [contentAttributes={}] - Additional attributes of the message content
  * @property {number|null} [senderId=null] - The ID of the sender
  * @property {string|null} [senderType=null] - The type of the sender
  * @property {string|null} [error=null] - Error message if the message failed to send
@@ -81,9 +87,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  error: {
-    type: String,
-    default: '',
+  contentAttributes: {
+    type: Object,
+    default: () => {},
   },
   currentUserId: {
     type: Number,
@@ -101,7 +107,7 @@ const props = defineProps({
  */
 const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
-  if (props.error) return MESSAGE_VARIANTS.ERROR;
+  if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
 
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
@@ -207,10 +213,10 @@ const shouldShowAvatar = computed(() => {
         class="[grid-area:bubble]"
       />
       <MessageError
-        v-if="error"
+        v-if="contentAttributes.externalError"
         class="[grid-area:meta]"
         :class="flexOrientationClass"
-        :error="error"
+        :error="contentAttributes.externalError"
       />
       <div
         v-else-if="!shouldGroupWithNext"
