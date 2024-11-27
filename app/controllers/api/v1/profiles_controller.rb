@@ -38,21 +38,6 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
-  def destroy
-    if params['email']&.downcase == @user.email.downcase
-
-      sign_out
-      if @user.destroy
-        Current.reset
-
-        # TODO: Fix 404 response
-        return head :ok
-      end
-    end
-
-    head :unprocessable_entity
-  end
-
   private
 
   def set_user

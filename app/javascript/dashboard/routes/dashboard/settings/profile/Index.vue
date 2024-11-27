@@ -16,7 +16,7 @@ import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
 import Policy from 'dashboard/components/policy.vue';
-import DeleteAccount from './DeleteAccount';
+import DeleteAccount from './DeleteAccount.vue';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,

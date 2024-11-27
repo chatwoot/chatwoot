@@ -56,6 +56,10 @@ class Api::V1::AccountsController < Api::BaseController
     head :ok
   end
 
+  def destroy
+    # TODO: delete the account
+  end
+
   private
 
   def ensure_account_name
