@@ -25,6 +25,9 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+// variables
+let currentRequestId = 0;
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -38,18 +41,21 @@ const actions = {
   },
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
+    const requestId = ++currentRequestId;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
       const {
         data: { data },
       } = await ConversationApi.get(params);
-      buildConversationList(
-        { commit, dispatch },
-        params,
-        data,
-        params.assigneeType
-      );
+      if (requestId === currentRequestId) {
+        buildConversationList(
+          { commit, dispatch },
+          params,
+          data,
+          params.assigneeType
+        );
+      }
     } catch (error) {
       // Handle error
     }
