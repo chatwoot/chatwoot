@@ -25,3 +25,10 @@ export const ORIENTATION = {
   RIGHT: 'right',
   CENTER: 'center',
 };
+
+export const MESSAGE_STATUS = {
+  SENT: 'sent',
+  DELIVERED: 'delivered',
+  READ: 'read',
+  FAILED: 'failed',
+};

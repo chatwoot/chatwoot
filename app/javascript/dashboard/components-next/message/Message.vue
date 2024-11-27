@@ -6,12 +6,16 @@ import {
   MESSAGE_VARIANTS,
   SENDER_TYPES,
   ORIENTATION,
+  MESSAGE_STATUS,
 } from './constants';
 
-import TextBubble from './bubbles/Text.vue';
-import MessageError from './MessageError.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'next/icon/Icon.vue';
+
+import TextBubble from './bubbles/Text.vue';
+
+import MessageError from './MessageError.vue';
+import MessageStatus from './MessageStatus.vue';
 
 /**
  * @typedef {Object} Sender
@@ -36,6 +40,7 @@ import Icon from 'next/icon/Icon.vue';
  * @property {Sender|null} [sender=null] - The sender information
  * @property {number|null} [senderId=null] - The ID of the sender
  * @property {string|null} [senderType=null] - The type of the sender
+ * @property {string|null} [error=null] - Error message if the message failed to send
  * @property {string} content - The message content
  * @property {number} currentUserId - The ID of the current user
  */
@@ -50,7 +55,7 @@ const props = defineProps({
   status: {
     type: String,
     required: true,
-    validator: value => ['sent', 'delivered', 'read', 'failed'].includes(value),
+    validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
   private: {
     type: Boolean,
@@ -160,7 +165,7 @@ const gridTemplate = computed(() => {
 });
 
 const shouldGroupWithNext = computed(() => {
-  if (props.error) return false;
+  if (props.status === MESSAGE_STATUS.FAILED) return false;
 
   return props.groupWithNext;
 });
@@ -218,6 +223,7 @@ const shouldShowAvatar = computed(() => {
           icon="i-lucide-lock-keyhole"
           class="text-n-slate-10 size-3"
         />
+        <MessageStatus v-if="messageType === MESSAGE_TYPES.OUTGOING" :status />
       </div>
     </div>
   </div>
