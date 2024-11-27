@@ -10,12 +10,11 @@ import {
 } from './constants';
 
 import Avatar from 'next/avatar/Avatar.vue';
-import Icon from 'next/icon/Icon.vue';
 
 import TextBubble from './bubbles/Text.vue';
 
 import MessageError from './MessageError.vue';
-import MessageStatus from './MessageStatus.vue';
+import MessageMeta from './MessageMeta.vue';
 
 /**
  * @typedef {Object} Sender
@@ -119,15 +118,20 @@ const variant = computed(() => {
   return variants[props.messageType] || MESSAGE_VARIANTS.USER;
 });
 
+const isMyMessage = computed(() => {
+  const senderId = props.senderId ?? props.sender?.id;
+
+  return (
+    props.senderType === SENDER_TYPES.USER && props.currentUserId === senderId
+  );
+});
+
 /**
  * Computes the message orientation based on sender type and message type
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
-  if (
-    props.senderType === SENDER_TYPES.USER &&
-    props.currentUserId === props.senderId
-  ) {
+  if (isMyMessage.value) {
     return ORIENTATION.RIGHT;
   }
 
@@ -218,19 +222,16 @@ const shouldShowAvatar = computed(() => {
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
       />
-      <div
+      <MessageMeta
         v-else-if="!shouldGroupWithNext"
-        class="[grid-area:meta] text-xs text-n-slate-11 flex items-center gap-1.5"
+        class="[grid-area:meta]"
         :class="flexOrientationClass"
-      >
-        <span>{{ sender ? sender.name + ' •' : '' }} {{ '1m ago' }}</span>
-        <Icon
-          v-if="variant === MESSAGE_VARIANTS.PRIVATE"
-          icon="i-lucide-lock-keyhole"
-          class="text-n-slate-10 size-3"
-        />
-        <MessageStatus v-if="messageType === MESSAGE_TYPES.OUTGOING" :status />
-      </div>
+        :sender="props.sender"
+        :status="props.status"
+        :private="props.private"
+        :is-my-message="isMyMessage"
+        :created-at="props.createdAt"
+      />
     </div>
   </div>
 </template>
