@@ -1,6 +1,6 @@
 <script>
 // [TODO] The popout events are needlessly complex and should be simplified
-import { defineAsyncComponent, defineModel } from 'vue';
+import { defineAsyncComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';

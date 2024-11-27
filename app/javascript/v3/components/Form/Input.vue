@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineModel } from 'vue';
 import WithLabel from './WithLabel.vue';
 
 defineProps({

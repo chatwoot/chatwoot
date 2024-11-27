@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel, h, watch, ref } from 'vue';
+import { computed, h, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Button from 'next/button/Button.vue';
 import FilterSelect from './inputs/FilterSelect.vue';

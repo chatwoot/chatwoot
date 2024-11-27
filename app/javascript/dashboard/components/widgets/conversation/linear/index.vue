@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted, watch, defineOptions, provide } from 'vue';
+import { computed, ref, onMounted, watch, provide } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';

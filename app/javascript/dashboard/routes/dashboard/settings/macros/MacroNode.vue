@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, defineModel } from 'vue';
+import { computed, inject } from 'vue';
 import { useMacros } from 'dashboard/composables/useMacros';
 import { useI18n } from 'vue-i18n';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';

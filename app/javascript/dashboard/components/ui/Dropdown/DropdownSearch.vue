@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits, defineModel } from 'vue';
 defineProps({
   inputPlaceholder: {
     type: String,

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, nextTick, defineEmits } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 
 const { x, y } = defineProps({
   x: { type: Number, default: 0 },

@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref, computed, defineEmits } from 'vue';
+import { h, ref, computed } from 'vue';
 import {
   useVueTable,
   createColumnHelper,

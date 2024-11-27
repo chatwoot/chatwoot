@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, computed, h } from 'vue';
+import { computed, h } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 
