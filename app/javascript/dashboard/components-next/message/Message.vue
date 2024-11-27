@@ -12,6 +12,7 @@ import {
 import Avatar from 'next/avatar/Avatar.vue';
 
 import TextBubble from './bubbles/Text.vue';
+import ActivityBubble from './bubbles/Activity.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -200,7 +201,7 @@ provideMessageContext({
     :class="[flexOrientationClass, shouldGroupWithNext ? 'mb-2' : 'mb-4']"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
-      <TextBubble v-bind="props" :variant :orientation />
+      <ActivityBubble :content="content" />
     </div>
     <div
       v-else
@@ -216,7 +217,7 @@ provideMessageContext({
       >
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
       </div>
-      <TextBubble v-bind="props" class="[grid-area:bubble]" />
+      <TextBubble :content="content" class="[grid-area:bubble]" />
       <MessageError
         v-if="contentAttributes.externalError"
         class="[grid-area:meta]"
