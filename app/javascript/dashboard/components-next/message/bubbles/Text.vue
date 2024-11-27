@@ -53,7 +53,7 @@ const mediaAttachments = computed(() => {
 <template>
   <BaseBubble class="p-3">
     <span v-html="formattedContent" />
-    <div v-if="mediaAttachments" class="mt-[10px] flex gap-[10px]">
+    <div v-if="mediaAttachments.length" class="mt-[10px] flex gap-[10px]">
       <div
         v-for="attachment in mediaAttachments"
         :key="attachment.id"
