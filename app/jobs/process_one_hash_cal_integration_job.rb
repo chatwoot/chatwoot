@@ -1,13 +1,13 @@
 class ProcessOneHashCalIntegrationJob < ApplicationJob
   queue_as :default
 
-  retry_on ActiveRecord::RecordNotFound, wait: :exponentially_longer, attempts: 5
+  retry_on HookNotFoundError, wait: :exponentially_longer, attempts: 5
 
   def perform(integration_hook_id)
     hook = Integrations::Hook.find_by(id: integration_hook_id)
     Rails.logger.info "__ProcessOneHashCalIntegrationJob :Hook #{hook.inspect}"
 
-    return unless hook
+    raise HookNotFoundError, "Hook not found with id #{integration_hook_id}" unless hook
 
     # Check if account_user is present
     @account_user = hook.account_user
