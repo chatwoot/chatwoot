@@ -5,7 +5,11 @@ const getTimeOffset = () => -new Date().getTimezoneOffset() / 60;
 
 class ReportsAPI extends ApiClient {
   constructor() {
-    super('reports', { accountScoped: true, apiVersion: 'v2' });
+    super('reports', {
+      accountScoped: true,
+      apiVersion: 'v2',
+      cancelPreviousRequests: true,
+    });
   }
 
   getReports({
@@ -17,7 +21,8 @@ class ReportsAPI extends ApiClient {
     groupBy,
     businessHours,
   }) {
-    return axios.get(`${this.url}`, {
+    return this.request('GET', {
+      customRequestKey: `${metric}-report-GET`,
       params: {
         metric,
         since: from,
@@ -47,7 +52,9 @@ class ReportsAPI extends ApiClient {
   }
 
   getConversationMetric(type = 'account', page = 1) {
-    return axios.get(`${this.url}/conversations`, {
+    return this.request('GET', {
+      requestPath: `${this.url}/conversations`,
+
       params: {
         type,
         page,
