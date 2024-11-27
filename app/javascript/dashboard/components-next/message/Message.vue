@@ -198,6 +198,7 @@ provideMessageContext({
 <template>
   <div
     class="flex w-full"
+    :data-message-id="props.id"
     :class="[flexOrientationClass, shouldGroupWithNext ? 'mb-2' : 'mb-4']"
   >
     <div v-if="variant === MESSAGE_VARIANTS.ACTIVITY">
