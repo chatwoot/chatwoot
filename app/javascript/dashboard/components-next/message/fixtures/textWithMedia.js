@@ -332,9 +332,9 @@ export default camelcaseKeys(
           account_id: 2,
           extension: null,
           data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaUFLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--0f76a0caba1df9a5217630b5ca1fdfb09c9111d3/image.png',
+            'https://images.pexels.com/photos/28379994/pexels-photo-28379994/free-photo-of-a-laptop-with-a-yellow-phone-on-top-of-it.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           thumb_url:
-            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaUFLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--0f76a0caba1df9a5217630b5ca1fdfb09c9111d3/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/image.png',
+            'https://images.pexels.com/photos/28379994/pexels-photo-28379994/free-photo-of-a-laptop-with-a-yellow-phone-on-top-of-it.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           file_size: 983912,
           width: null,
           height: null,

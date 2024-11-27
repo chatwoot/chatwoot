@@ -33,3 +33,16 @@ export const MESSAGE_STATUS = {
   FAILED: 'failed',
   PROGRESS: 'progress',
 };
+
+export const ATTACHMENT_TYPES = {
+  IMAGE: 'image',
+  AUDIO: 'audio',
+  VIDEO: 'video',
+  FILE: 'file',
+  LOCATION: 'location',
+  FALLBACK: 'fallback',
+  SHARE: 'share',
+  STORY_MENTION: 'story_mention',
+  CONTACT: 'contact',
+  IG_REEL: 'ig_reel',
+};

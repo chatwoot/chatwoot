@@ -13,9 +13,24 @@ import Avatar from 'next/avatar/Avatar.vue';
 
 import TextBubble from './bubbles/Text.vue';
 import ActivityBubble from './bubbles/Activity.vue';
+import MediaBubble from './bubbles/Media.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
+
+/**
+ * @typedef {Object} Attachment
+ * @property {number} id - Unique identifier for the attachment
+ * @property {number} messageId - ID of the associated message
+ * @property {'image'|'audio'|'video'|'file'|'location'|'fallback'|'share'|'story_mention'|'contact'|'ig_reel'} fileType - Type of the attachment (file or image)
+ * @property {number} accountId - ID of the associated account
+ * @property {string|null} extension - File extension
+ * @property {string} dataUrl - URL to access the full attachment data
+ * @property {string} thumbUrl - URL to access the thumbnail version
+ * @property {number} fileSize - Size of the file in bytes
+ * @property {number|null} width - Width of the image if applicable
+ * @property {number|null} height - Height of the image if applicable
+ */
 
 /**
  * @typedef {Object} Sender
@@ -37,18 +52,19 @@ import MessageMeta from './MessageMeta.vue';
 
 /**
  * @typedef {Object} Props
+ * @property {('sent'|'delivered'|'read'|'failed')} status - The delivery status of the message
+ * @property {ContentAttributes} [contentAttributes={}] - Additional attributes of the message content
+ * @property {Attachment[]} [attachments=[]] - The attachments associated with the message
+ * @property {Sender|null} [sender=null] - The sender information
+ * @property {boolean} [private=false] - Whether the message is private
+ * @property {number|null} [senderId=null] - The ID of the sender
+ * @property {number} createdAt - Timestamp when the message was created
+ * @property {number} currentUserId - The ID of the current user
  * @property {number} id - The unique identifier for the message
  * @property {number} messageType - The type of message (must be one of MESSAGE_TYPES)
- * @property {('sent'|'delivered'|'read'|'failed')} status - The delivery status of the message
- * @property {boolean} [private=false] - Whether the message is private
- * @property {number} createdAt - Timestamp when the message was created
- * @property {Sender|null} [sender=null] - The sender information
- * @property {ContentAttributes} [contentAttributes={}] - Additional attributes of the message content
- * @property {number|null} [senderId=null] - The ID of the sender
- * @property {string|null} [senderType=null] - The type of the sender
  * @property {string|null} [error=null] - Error message if the message failed to send
+ * @property {string|null} [senderType=null] - The type of the sender
  * @property {string} content - The message content
- * @property {number} currentUserId - The ID of the current user
  */
 
 const props = defineProps({
@@ -62,6 +78,10 @@ const props = defineProps({
     type: String,
     required: true,
     validator: value => Object.values(MESSAGE_STATUS).includes(value),
+  },
+  attachments: {
+    type: Array,
+    default: () => [],
   },
   private: {
     type: Boolean,
@@ -188,6 +208,14 @@ const shouldShowAvatar = computed(() => {
   return true;
 });
 
+const componentToRender = computed(() => {
+  if (props.attachments.length === 1) {
+    return MediaBubble;
+  }
+
+  return TextBubble;
+});
+
 provideMessageContext({
   variant,
   orientation,
@@ -218,7 +246,11 @@ provideMessageContext({
       >
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
       </div>
-      <TextBubble :content="content" class="[grid-area:bubble]" />
+      <Component
+        :is="componentToRender"
+        v-bind="props"
+        class="[grid-area:bubble]"
+      />
       <MessageError
         v-if="contentAttributes.externalError"
         class="[grid-area:meta]"
