@@ -23,6 +23,7 @@ import {
 import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
+import SaveCustomView from 'next/filter/SaveCustomView.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
@@ -801,12 +802,14 @@ watch(conversationFilters, (newVal, oldVal) => {
       @basic-filter-change="onBasicFilterChange"
     />
 
-    <AddCustomViews
-      v-if="showAddFoldersModal"
-      :custom-views-query="foldersQuery"
-      :open-last-saved-item="openLastSavedItemInFolder"
-      @close="onCloseAddFoldersModal"
-    />
+    <Teleport v-if="showAddFoldersModal" to="#saveFilterTeleportTarget">
+      <SaveCustomView
+        v-model="appliedFilter"
+        :custom-views-query="foldersQuery"
+        :open-last-saved-item="openLastSavedItemInFolder"
+        @close="onCloseAddFoldersModal"
+      />
+    </Teleport>
 
     <DeleteCustomViews
       v-if="showDeleteFoldersModal"

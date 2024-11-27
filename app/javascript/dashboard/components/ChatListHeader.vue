@@ -62,14 +62,18 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
     </div>
     <div class="flex items-center gap-1">
       <template v-if="hasAppliedFilters && !hasActiveFolders">
-        <woot-button
-          v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="save"
-          @click="emit('addFolders')"
-        />
+        <div class="relative">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="save"
+            @click="emit('addFolders')"
+          />
+          <div id="saveFilterTeleportTarget" class="absolute mt-2 z-40" />
+        </div>
+
         <woot-button
           v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
           size="tiny"
