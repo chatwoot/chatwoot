@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useIntervalFn } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 import { MESSAGE_STATUS } from './constants';
 
 import Icon from 'next/icon/Icon.vue';
@@ -12,6 +13,8 @@ const { status } = defineProps({
     validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
 });
+
+const { t } = useI18n();
 
 const progresIconSequence = [
   'i-lucide-clock-1',
@@ -60,13 +63,31 @@ const statusColor = computed(() => {
 
   return statusIconMap[status];
 });
+
+const tooltipText = computed(() => {
+  const statusTextMap = {
+    [MESSAGE_STATUS.SENT]: t('CHAT_LIST.SENT'),
+    [MESSAGE_STATUS.DELIVERED]: t('CHAT_LIST.DELIVERED'),
+    [MESSAGE_STATUS.READ]: t('CHAT_LIST.MESSAGE_READ'),
+    [MESSAGE_STATUS.PROGRESS]: t('CHAT_LIST.SENDING'),
+  };
+
+  return statusTextMap[status];
+});
 </script>
 
 <template>
   <Icon
     v-if="status === MESSAGE_STATUS.PROGRESS"
+    v-tooltip.top-start="tooltipText"
     :icon="progessIcon"
     class="text-n-slate-10"
   />
-  <Icon v-else :icon="statusIcon" :class="statusColor" class="size-[14px]" />
+  <Icon
+    v-else
+    v-tooltip.top-start="tooltipText"
+    :icon="statusIcon"
+    :class="statusColor"
+    class="size-[14px]"
+  />
 </template>
