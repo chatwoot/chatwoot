@@ -72,6 +72,15 @@ export default {
           },
           component: TeamReports,
         },
+        {
+          path: 'sla',
+          name: 'sla_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+            featureFlag: FEATURE_FLAGS.SLA,
+          },
+          component: SLAReports,
+        },
       ],
     },
     {
@@ -110,26 +119,6 @@ export default {
             featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
           },
           component: BotReports,
-        },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'SLA_REPORTS.HEADER',
-        icon: 'document-list-clock',
-        keepAlive: false,
-      },
-      children: [
-        {
-          path: 'sla',
-          name: 'sla_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-            featureFlag: FEATURE_FLAGS.SLA,
-          },
-          component: SLAReports,
         },
       ],
     },
