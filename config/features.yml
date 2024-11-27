@@ -79,7 +79,7 @@
   enabled: false
 - name: sla
   enabled: false
-  premium: true
+  premium: false
 - name: help_center_embedding_search
   enabled: false
   premium: true
