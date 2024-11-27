@@ -1,17 +1,17 @@
 <script setup>
 import Icon from 'next/icon/Icon.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
-  error: {
-    type: String,
-    required: true,
-  },
+  error: { type: String, required: true },
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="text-xs text-n-ruby-11 flex items-center gap-1.5">
-    <span>{{ 'Failed to send' }}</span>
+    <span>{{ t('CHAT_LIST.FAILED_TO_SEND') }}</span>
     <div class="relative group">
       <div
         class="bg-n-alpha-2 rounded-md size-5 grid place-content-center cursor-pointer"

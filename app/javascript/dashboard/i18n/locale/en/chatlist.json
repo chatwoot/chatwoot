@@ -6,6 +6,7 @@
     "LIST": {
       "404": "There are no active conversations in this group."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
