@@ -41,7 +41,8 @@ const actions = {
   },
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
-    const requestId = ++currentRequestId;
+    currentRequestId += 1;
+    const requestId = currentRequestId;
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
