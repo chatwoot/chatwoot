@@ -759,9 +759,9 @@ export default camelcaseKeys(
           account_id: 2,
           extension: null,
           data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaUlLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--ffd23d216c4a6c15a7fae0f15c84620ba98d002e/letterhead-with-margin.png',
+            'https://images.pexels.com/photos/2526935/pexels-photo-2526935.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           thumb_url:
-            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaUlLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--ffd23d216c4a6c15a7fae0f15c84620ba98d002e/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/letterhead-with-margin.png',
+            'https://images.pexels.com/photos/2526935/pexels-photo-2526935.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
           file_size: 287949,
           width: null,
           height: null,
@@ -777,6 +777,20 @@ export default camelcaseKeys(
           thumb_url:
             'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaU1LIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--9f15e48e101a6b85f454aacd5f9584039ba0a6b9/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9UY21WemFYcGxYM1J2WDJacGJHeGJCMmtCK2pBPSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--5c454d5f03daf1f9f4068cb242cf9885cc1815b6/letterhead.pdf',
           file_size: 99844,
+          width: null,
+          height: null,
+        },
+        {
+          id: 22,
+          message_id: 5314,
+          file_type: 'image',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'https://images.pexels.com/photos/3893788/pexels-photo-3893788.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          thumb_url:
+            'https://images.pexels.com/photos/3893788/pexels-photo-3893788.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          file_size: 287949,
           width: null,
           height: null,
         },
