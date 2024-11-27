@@ -86,8 +86,10 @@ const contactFilterItemsList = computed(() =>
   }))
 );
 
-const openCreateNewContactDialog = () =>
+const openCreateNewContactDialog = async () => {
+  await createNewContactDialogRef.value?.contactsFormRef.resetValidation();
   createNewContactDialogRef.value?.dialogRef.open();
+};
 const openContactImportDialog = () =>
   contactImportDialogRef.value?.dialogRef.open();
 const openContactExportDialog = () =>

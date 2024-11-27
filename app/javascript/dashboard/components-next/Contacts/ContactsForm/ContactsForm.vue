@@ -209,6 +209,10 @@ const handleCountrySelection = value => {
   emit('update', state);
 };
 
+const resetValidation = () => {
+  v$.value.$reset();
+};
+
 watch(() => props.contactData, prepareStateBasedOnProps, {
   immediate: true,
   deep: true,
@@ -217,6 +221,7 @@ watch(() => props.contactData, prepareStateBasedOnProps, {
 // Expose state to parent component for avatar upload
 defineExpose({
   state,
+  resetValidation,
 });
 </script>
 
