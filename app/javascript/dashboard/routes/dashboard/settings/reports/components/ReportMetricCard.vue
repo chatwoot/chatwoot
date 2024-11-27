@@ -22,7 +22,6 @@ defineProps({
 <template>
   <div
     data-test-id="reportMetricContainer"
-    class="p-4 m-0"
     :class="{
       'grayscale pointer-events-none opacity-30': disabled,
     }"

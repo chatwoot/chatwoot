@@ -81,6 +81,14 @@ export default {
           },
           component: SLAReports,
         },
+        {
+          path: 'csat',
+          name: 'csat_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: CsatResponses,
+        },
       ],
     },
     {
@@ -91,16 +99,7 @@ export default {
         icon: 'emoji',
         keepAlive: false,
       },
-      children: [
-        {
-          path: 'csat',
-          name: 'csat_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
-          component: CsatResponses,
-        },
-      ],
+      children: [],
     },
     {
       path: frontendURL('accounts/:accountId/reports'),

@@ -142,10 +142,10 @@ export default {
             :key="index"
             class="flex-1 min-w-0 pb-2"
           >
-            <h3 class="text-base text-slate-700 dark:text-slate-100">
+            <h3 class="text-base text-n-slate-11">
               {{ name }}
             </h3>
-            <p class="text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1">
+            <p class="text-n-slate-12 text-3xl mb-0 mt-1">
               {{ metric }}
             </p>
           </div>
@@ -158,10 +158,10 @@ export default {
             :key="index"
             class="flex-1 min-w-0 pb-2"
           >
-            <h3 class="text-base text-slate-700 dark:text-slate-100">
+            <h3 class="text-base text-n-slate-11">
               {{ name }}
             </h3>
-            <p class="text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1">
+            <p class="text-n-slate-12 text-3xl mb-0 mt-1">
               {{ metric }}
             </p>
           </div>
