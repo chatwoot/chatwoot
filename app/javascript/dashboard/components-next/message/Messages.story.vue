@@ -722,8 +722,8 @@ const shouldGroupWithNext = index => {
   const currentSenderId = current.senderId ?? current.sender?.id;
   if (currentSenderId !== nextSenderId) return false;
 
-  // if next and current createdAt is within 1 min group them;
-  return next.createdAt - current.createdAt < 60;
+  // Check if messages are in the same minute by rounding down to nearest minute
+  return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
 };
 </script>
 
