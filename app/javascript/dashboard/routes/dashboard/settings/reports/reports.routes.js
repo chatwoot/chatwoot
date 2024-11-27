@@ -17,11 +17,6 @@ export default {
     {
       path: frontendURL('accounts/:accountId/reports'),
       component: ReportsWrapper,
-      props: {
-        headerTitle: 'OVERVIEW_REPORTS.HEADER',
-        icon: 'arrow-trending-lines',
-        keepAlive: false,
-      },
       children: [
         {
           path: '',
@@ -37,17 +32,6 @@ export default {
           },
           component: LiveReports,
         },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'REPORT.HEADER',
-        icon: 'chat',
-        keepAlive: false,
-      },
-      children: [
         {
           path: 'conversation',
           name: 'conversation_reports',
