@@ -34,15 +34,36 @@ const attachment = computed(() => {
 });
 
 const hasError = ref(false);
+
+const downloadAttachment = async () => {
+  const response = await fetch(attachment.value.dataUrl);
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `attachment${attachment.value.extension || ''}`;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+};
 </script>
 
 <template>
   <BaseBubble class="overflow-hidden relative group">
     <img :src="attachment.thumbUrl" @click="onClick" @error="hasError = true" />
     <div
-      class="inset-0 absolute bg-gradient-to-t from-n-slate-12/10 to-transparent hidden group-hover:flex items-end justify-end"
+      class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
     >
-      <Button xs faded slate icon="i-lucide-download" />
+      <Button xs solid slate icon="i-lucide-expand" class="opacity-60" />
+      <Button
+        xs
+        solid
+        slate
+        icon="i-lucide-download"
+        class="opacity-60"
+        @click="downloadAttachment"
+      />
     </div>
   </BaseBubble>
 </template>
