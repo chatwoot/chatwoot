@@ -9,6 +9,7 @@ class DailyConversationReportJob < ApplicationJob
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/MethodLength
   def perform
     set_statement_timeout
 
@@ -21,6 +22,19 @@ class DailyConversationReportJob < ApplicationJob
     job_data.each do |job|
       current_date = Date.current
       current_day = current_date.wday
+
+      report_time = job[:report_time]
+
+      if report_time.present?
+        report_time = Time.strptime(report_time, '%H:%M').in_time_zone('Asia/Kolkata').utc.strftime('%H:%M')
+        current_time = Time.current.in_time_zone('UTC').strftime('%H:%M')
+
+        report_minutes = report_time.split(':').map(&:to_i).inject(0) { |sum, n| (sum * 60) + n }
+        current_minutes = current_time.split(':').map(&:to_i).inject(0) { |sum, n| (sum * 60) + n }
+
+        # should trigger only when close to report_time (max 10 minutes difference)
+        next if (current_minutes - report_minutes).abs > 10
+      end
 
       # should trigger only on 1st day of the month
       next if job[:frequency] == 'monthly' && current_date.day != 1
@@ -40,6 +54,7 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
 

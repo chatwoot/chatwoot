@@ -34,7 +34,7 @@ daily_conversation_with_order_ids_report_job:
   queue: scheduled_jobs
 
 daily_conversation_report_job:
-  cron: '30 1 * * *'
+  cron: '30 1,13 * * *'
   class: 'DailyConversationReportJob'
   queue: scheduled_jobs
 
