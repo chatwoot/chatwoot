@@ -63,7 +63,7 @@ const showSender = computed(() => !props.isMyMessage && props.sender);
 <template>
   <div class="text-xs text-n-slate-11 flex items-center gap-1.5">
     <div class="inline">
-      <span v-if="showSender" class="inline">{{ sender.name }}</span>
+      <span v-if="showSender" class="inline capitalize">{{ sender.name }}</span>
       <span v-if="showSender && readableTime" class="inline"> • </span>
       <span class="inline">{{ readableTime }}</span>
     </div>
