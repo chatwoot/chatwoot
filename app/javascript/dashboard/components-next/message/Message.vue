@@ -138,7 +138,7 @@ const flexOrientationClass = computed(() => {
 const gridClass = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: 'grid grid-cols-[24px_1fr]',
-    [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
+    [ORIENTATION.RIGHT]: 'grid grid-cols-1fr',
   };
 
   return map[orientation.value];
@@ -151,8 +151,8 @@ const gridTemplate = computed(() => {
       "spacer meta"
     `,
     [ORIENTATION.RIGHT]: `
-      "bubble avatar"
-      "meta spacer"
+      "bubble"
+      "meta"
     `,
   };
 
@@ -163,6 +163,13 @@ const shouldGroupWithNext = computed(() => {
   if (props.error) return false;
 
   return props.groupWithNext;
+});
+
+const shouldShowAvatar = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+  if (orientation.value === ORIENTATION.RIGHT) return false;
+
+  return true;
 });
 </script>
 
@@ -183,7 +190,7 @@ const shouldGroupWithNext = computed(() => {
       }"
     >
       <div
-        v-if="!shouldGroupWithNext"
+        v-if="!shouldGroupWithNext && shouldShowAvatar"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
