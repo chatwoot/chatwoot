@@ -110,11 +110,12 @@ export default {
       @click="downloadAgentReports"
     />
   </ReportHeader>
-
-  <ReportFilterSelector
-    :show-agents-filter="false"
-    show-group-by-filter
-    @filter-change="onFilterChange"
-  />
-  <ReportContainer :group-by="groupBy" />
+  <div class="flex flex-col gap-3">
+    <ReportFilterSelector
+      :show-agents-filter="false"
+      show-group-by-filter
+      @filter-change="onFilterChange"
+    />
+    <ReportContainer :group-by="groupBy" />
+  </div>
 </template>

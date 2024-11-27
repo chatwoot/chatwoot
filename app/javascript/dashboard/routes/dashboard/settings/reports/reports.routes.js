@@ -89,33 +89,11 @@ export default {
           },
           component: CsatResponses,
         },
-      ],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'CSAT_REPORTS.HEADER',
-        icon: 'emoji',
-        keepAlive: false,
-      },
-      children: [],
-    },
-    {
-      path: frontendURL('accounts/:accountId/reports'),
-      component: ReportsWrapper,
-      props: {
-        headerTitle: 'BOT_REPORTS.HEADER',
-        icon: 'bot',
-        keepAlive: false,
-      },
-      children: [
         {
           path: 'bot',
           name: 'bot_reports',
           meta: {
             permissions: ['administrator', 'report_manage'],
-            featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
           },
           component: BotReports,
         },

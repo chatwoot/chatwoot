@@ -52,7 +52,7 @@ export default {
     },
     reportTitle: {
       type: String,
-      default: '',
+      default: 'Download Reports',
     },
   },
   data() {
