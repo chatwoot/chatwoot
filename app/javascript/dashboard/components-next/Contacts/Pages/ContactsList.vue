@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -13,6 +15,7 @@ defineProps({
   },
 });
 
+const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
@@ -21,13 +24,16 @@ const route = useRoute();
 const expandedCardId = ref(null);
 
 const updateContact = async ({ id, updatedData }) => {
-  await store.dispatch('contacts/update', updatedData);
-  await store.dispatch('contacts/fetchContactableInbox', id);
+  try {
+    await store.dispatch('contacts/update', { id, ...updatedData });
+  } catch (error) {
+    useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
+  }
 };
 
 const handleFormUpdate = debounce(
   ({ id, updatedData }) => updateContact({ id, updatedData }),
-  600,
+  400,
   false
 );
 

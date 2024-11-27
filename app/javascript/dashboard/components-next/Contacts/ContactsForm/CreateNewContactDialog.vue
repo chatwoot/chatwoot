@@ -12,6 +12,7 @@ const emit = defineEmits(['create']);
 const { t } = useI18n();
 
 const dialogRef = ref(null);
+const contactsFormRef = ref(null);
 const contact = ref(null);
 
 const uiFlags = useMapGetter('contacts/getUIFlags');
@@ -30,12 +31,16 @@ const closeDialog = () => {
   dialogRef.value.close();
 };
 
-defineExpose({ dialogRef });
+defineExpose({ dialogRef, contactsFormRef });
 </script>
 
 <template>
   <Dialog ref="dialogRef" width="3xl" @confirm="handleDialogConfirm">
-    <ContactsForm is-new-contact @update="createNewContact" />
+    <ContactsForm
+      ref="contactsFormRef"
+      is-new-contact
+      @update="createNewContact"
+    />
     <template #footer>
       <div class="flex items-center justify-between w-full gap-3">
         <Button

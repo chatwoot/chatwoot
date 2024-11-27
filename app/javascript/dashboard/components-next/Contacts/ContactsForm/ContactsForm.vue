@@ -209,6 +209,10 @@ const handleCountrySelection = value => {
   emit('update', state);
 };
 
+const resetValidation = () => {
+  v$.value.$reset();
+};
+
 watch(() => props.contactData, prepareStateBasedOnProps, {
   immediate: true,
   deep: true,
@@ -217,6 +221,7 @@ watch(() => props.contactData, prepareStateBasedOnProps, {
 // Expose state to parent component for avatar upload
 defineExpose({
   state,
+  resetValidation,
 });
 </script>
 
@@ -226,7 +231,7 @@ defineExpose({
       <span class="py-1 text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
       </span>
-      <div class="grid w-full grid-cols-2 gap-4">
+      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"

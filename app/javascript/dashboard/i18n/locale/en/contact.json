@@ -496,7 +496,8 @@
           "COMPANY_NAME": {
             "PLACEHOLDER": "Enter the company name"
           }
-        }
+        },
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
