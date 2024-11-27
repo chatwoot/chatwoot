@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-import SettingsContent from '../Wrapper.vue';
+import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
 import AgentReports from './AgentReports.vue';
 import LabelReports from './LabelReports.vue';
@@ -16,7 +16,7 @@ export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'OVERVIEW_REPORTS.HEADER',
         icon: 'arrow-trending-lines',
@@ -41,7 +41,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'REPORT.HEADER',
         icon: 'chat',
@@ -60,7 +60,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'CSAT_REPORTS.HEADER',
         icon: 'emoji',
@@ -79,7 +79,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'BOT_REPORTS.HEADER',
         icon: 'bot',
@@ -99,7 +99,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'AGENT_REPORTS.HEADER',
         icon: 'people',
@@ -118,7 +118,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'LABEL_REPORTS.HEADER',
         icon: 'tag',
@@ -137,7 +137,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'INBOX_REPORTS.HEADER',
         icon: 'mail-inbox-all',
@@ -156,7 +156,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'TEAM_REPORTS.HEADER',
         icon: 'people-team',
@@ -174,7 +174,7 @@ export default {
     },
     {
       path: frontendURL('accounts/:accountId/reports'),
-      component: SettingsContent,
+      component: ReportsWrapper,
       props: {
         headerTitle: 'SLA_REPORTS.HEADER',
         icon: 'document-list-clock',
