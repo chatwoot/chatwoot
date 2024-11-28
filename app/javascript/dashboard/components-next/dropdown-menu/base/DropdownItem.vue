@@ -27,8 +27,8 @@ const componentIs = computed(() => {
 const triggerClick = () => {
   if (props.click) {
     props.click();
-    if (!props.preserveOpen) closeMenu();
   }
+  if (!props.preserveOpen) closeMenu();
 };
 </script>
 
