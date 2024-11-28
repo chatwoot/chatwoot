@@ -767,6 +767,34 @@ export default camelcaseKeys(
           height: null,
         },
         {
+          id: 25,
+          message_id: 5314,
+          file_type: 'image',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'https://images.pexels.com/photos/29429907/pexels-photo-29429907/free-photo-of-close-up-of-pelican-with-vibrant-bill-by-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          thumb_url:
+            'https://images.pexels.com/photos/29429907/pexels-photo-29429907/free-photo-of-close-up-of-pelican-with-vibrant-bill-by-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          file_size: 287949,
+          width: null,
+          height: null,
+        },
+        {
+          id: 26,
+          message_id: 5314,
+          file_type: 'image',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'https://images.pexels.com/photos/29352713/pexels-photo-29352713/free-photo-of-scenic-open-road-under-clear-blue-sky.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          thumb_url:
+            'https://images.pexels.com/photos/29352713/pexels-photo-29352713/free-photo-of-scenic-open-road-under-clear-blue-sky.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          file_size: 287949,
+          width: null,
+          height: null,
+        },
+        {
           id: 20,
           message_id: 5314,
           file_type: 'file',
@@ -783,13 +811,13 @@ export default camelcaseKeys(
         {
           id: 22,
           message_id: 5314,
-          file_type: 'image',
+          file_type: 'video',
           account_id: 2,
           extension: null,
           data_url:
-            'https://images.pexels.com/photos/3893788/pexels-photo-3893788.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+            'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4',
           thumb_url:
-            'https://images.pexels.com/photos/3893788/pexels-photo-3893788.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+            'https://videos.pexels.com/video-files/1739010/1739010-hd_1920_1080_30fps.mp4',
           file_size: 287949,
           width: null,
           height: null,
