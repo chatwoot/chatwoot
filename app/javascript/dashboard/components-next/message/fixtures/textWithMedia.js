@@ -1356,6 +1356,99 @@ export default camelcaseKeys(
         },
       ],
     },
+    {
+      conversation_id: 43,
+      status: 'progress',
+      content_type: 'text',
+      processed_message_content: ' Happy to help :)',
+      id: 5285,
+      content: ' Happy to help :)',
+      account_id: 1,
+      inbox_id: 475,
+      message_type: 1,
+      created_at: 1732195991,
+      updated_at: '2024-11-21T13:33:12.229Z',
+      private: false,
+      source_id: null,
+      content_attributes: {},
+      sender_type: 'User',
+      sender_id: 1,
+      external_source_ids: {},
+      additional_attributes: {},
+      sentiment: {},
+      conversation: {
+        assignee_id: 1,
+        unread_count: 0,
+        last_activity_at: 1732195991,
+        contact_inbox: {
+          source_id: 'b018c554-8e17-4102-8a0b-f6d20d021017',
+        },
+      },
+      sender: {
+        id: 1,
+        name: 'John',
+        available_name: 'John',
+        avatar_url:
+          'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDBLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4e625d80e7ef2dc41354392bc214832fbe640840/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/picologo.png',
+        type: 'user',
+        availability_status: null,
+        thumbnail:
+          'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDBLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4e625d80e7ef2dc41354392bc214832fbe640840/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/picologo.png',
+      },
+      previous_changes: {
+        updated_at: ['2024-11-21T13:33:11.667Z', '2024-11-21T13:33:12.229Z'],
+        status: ['sent', 'read'],
+      },
+    },
+    {
+      conversation_id: 43,
+      status: 'failed',
+      content_type: 'text',
+      processed_message_content:
+        "Let us know if you have any questions, I'll close this conversation for now",
+      id: 5286,
+      content:
+        "Let us know if you have any questions, I'll close this conversation for now",
+      account_id: 1,
+      inbox_id: 475,
+      message_type: 1,
+      created_at: 1732196013,
+      updated_at: '2024-11-21T13:33:33.879Z',
+      private: false,
+      source_id: null,
+      content_attributes: {
+        external_error:
+          'Business account is restricted from messaging users in this country.',
+      },
+      sender_type: 'User',
+      sender_id: 1,
+      external_source_ids: {},
+      additional_attributes: {},
+      sentiment: {},
+      conversation: {
+        assignee_id: 1,
+        unread_count: 0,
+        last_activity_at: 1732196013,
+        contact_inbox: {
+          source_id: 'b018c554-8e17-4102-8a0b-f6d20d021017',
+        },
+      },
+      sender: {
+        id: 1,
+        name: 'John',
+        available_name: 'John',
+        avatar_url:
+          'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDBLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4e625d80e7ef2dc41354392bc214832fbe640840/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/picologo.png',
+        type: 'user',
+        availability_status: null,
+        thumbnail:
+          'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDBLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4e625d80e7ef2dc41354392bc214832fbe640840/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/picologo.png',
+      },
+      previous_changes: {
+        updated_at: ['2024-11-21T13:33:33.511Z', '2024-11-21T13:33:33.879Z'],
+        status: ['sent', 'read'],
+      },
+    },
   ],
   { deep: true }
 );
