@@ -85,8 +85,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
           browser_token: token,
           metadata: token_response
         )
-        ENV.fetch('FRONTEND_URL', nil)
-        use_secure_cookies = frontend_url && frontend_url.start_with?('https://')
+        frontend_url = ENV.fetch('FRONTEND_URL', nil)
+        use_secure_cookies = (frontend_url && frontend_url.start_with?('https://')) || false
 
         cookies[:keycloak_token] = {
           value: token,
@@ -96,6 +96,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
           same_site: use_secure_cookies ? 'None' : 'Lax',
           max_age: 7_776_000
         }
+
         get_resource_from_user_info
       else
         render json: { message: 'User info from token failed', redirect_url: '/' }, status: :unprocessable_entity
