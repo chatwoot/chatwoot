@@ -226,9 +226,7 @@ const menuItems = computed(() => {
                 page: 1,
               }
             ),
-            activeOn: [
-              'contacts_dashboard_segments_index',
-            ],
+            activeOn: ['contacts_dashboard_segments_index'],
           })),
         },
         {
