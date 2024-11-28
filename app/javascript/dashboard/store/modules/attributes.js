@@ -20,6 +20,16 @@ export const getters = {
   getAttributes: _state => {
     return _state.records;
   },
+  getConversationAttributes: _state => {
+    return _state.records
+      .filter(record => record.attribute_model === 'conversation_attribute')
+      .map(camelcaseKeys);
+  },
+  getContactAttributes: _state => {
+    return _state.records
+      .filter(record => record.attribute_model === 'contact_attribute')
+      .map(camelcaseKeys);
+  },
   getAttributesByModel: _state => attributeModel => {
     return _state.records.filter(
       record => record.attribute_model === attributeModel

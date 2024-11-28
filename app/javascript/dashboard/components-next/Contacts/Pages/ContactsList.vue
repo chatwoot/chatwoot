@@ -4,15 +4,13 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
-
+import {
+  DuplicateContactException,
+  ExceptionWithMessage,
+} from 'shared/helpers/CustomErrors';
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
 
-defineProps({
-  contacts: {
-    type: Array,
-    required: true,
-  },
-});
+defineProps({ contacts: { type: Array, required: true } });
 
 const { t } = useI18n();
 const store = useStore();
@@ -21,8 +19,6 @@ const route = useRoute();
 
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const isUpdating = computed(() => uiFlags.value.isUpdating);
-
-// Manage expanded state here
 const expandedCardId = ref(null);
 
 const updateContact = async updatedData => {
@@ -30,28 +26,30 @@ const updateContact = async updatedData => {
     await store.dispatch('contacts/update', updatedData);
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
+    const i18nPrefix = 'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM';
+    if (error instanceof DuplicateContactException) {
+      if (error.data.includes('email')) {
+        useAlert(t(`${i18nPrefix}.EMAIL_ADDRESS.DUPLICATE`));
+      } else if (error.data.includes('phone_number')) {
+        useAlert(t(`${i18nPrefix}.PHONE_NUMBER.DUPLICATE`));
+      }
+    } else if (error instanceof ExceptionWithMessage) {
+      useAlert(error.data);
+    } else {
+      useAlert(t(`${i18nPrefix}.ERROR_MESSAGE`));
+    }
   }
 };
 
-const ROUTE_MAPPINGS = {
-  contacts_dashboard_labels_index: 'contacts_dashboard_labels_edit_index',
-  contacts_dashboard_segments_index: 'contacts_dashboard_segments_edit_index',
-};
-
 const onClickViewDetails = async id => {
-  const dynamicRouteName =
-    ROUTE_MAPPINGS[route.name] || 'contacts_dashboard_edit_index';
-
   const params = { contactId: id };
-
   if (route.name.includes('segments')) {
     params.segmentId = route.params.segmentId;
   } else if (route.name.includes('labels')) {
     params.label = route.params.label;
   }
 
-  await router.push({ name: dynamicRouteName, params, query: route.query });
+  await router.push({ name: 'contacts_edit', params, query: route.query });
 };
 
 const toggleExpanded = id => {
@@ -60,7 +58,7 @@ const toggleExpanded = id => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 p-6">
     <ContactsCard
       v-for="contact in contacts"
       :id="contact.id"

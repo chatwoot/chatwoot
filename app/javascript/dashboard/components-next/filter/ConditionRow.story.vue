@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 import ConditionRow from './ConditionRow.vue';
 import Button from 'next/button/Button.vue';
 import { filterTypes } from './fixtures/filterTypes.js';
@@ -12,6 +12,7 @@ const DEFAULT_FILTER = {
 };
 
 const filters = ref([{ ...DEFAULT_FILTER }]);
+const conditionsRef = useTemplateRef('conditionsRef');
 
 const removeFilter = index => {
   filters.value.splice(index, 1);
@@ -21,6 +22,10 @@ const showQueryOperator = true;
 
 const addFilter = () => {
   filters.value.push({ ...DEFAULT_FILTER });
+};
+
+const saveFilter = () => {
+  console.log(conditionsRef.value.every(condition => condition.validate()));
 };
 </script>
 
@@ -33,6 +38,7 @@ const addFilter = () => {
       <template v-for="(filter, index) in filters" :key="`filter-${index}`">
         <ConditionRow
           v-if="index === 0"
+          ref="conditionsRef"
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
@@ -43,6 +49,7 @@ const addFilter = () => {
 
         <ConditionRow
           v-else
+          ref="conditionsRef"
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
@@ -52,7 +59,10 @@ const addFilter = () => {
           @remove="removeFilter(index)"
         />
       </template>
-      <Button sm label="Add Filter" @click="addFilter" />
+      <div class="flex gap-3 mt-2">
+        <Button sm ghost label="Add Filter" @click="addFilter" />
+        <Button sm label="Save Filter" @click="saveFilter" />
+      </div>
     </div>
   </Story>
 </template>
