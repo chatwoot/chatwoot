@@ -91,7 +91,7 @@ const updateCurrentPage = page => {
         @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 px-6 overflow-y-auto xl:px-px">
-        <div class="w-full py-4 mx-auto max-w-[900px]">
+        <div class="w-full mx-auto max-w-[960px]">
           <slot name="default" />
         </div>
       </main>
