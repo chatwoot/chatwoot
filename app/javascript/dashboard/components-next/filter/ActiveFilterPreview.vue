@@ -24,6 +24,11 @@ defineProps({
 
 const emit = defineEmits(['clearFilters']);
 
+const capitalizeFirstLetter = key => {
+  const attributeKeys = ['email'];
+  return !attributeKeys.includes(key);
+};
+
 const formatOperatorLabel = operator => {
   const operators = {
     equal_to: 'is',
@@ -70,7 +75,11 @@ const formatFilterValue = value => {
         </span>
         <span
           v-if="filter.values"
-          class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
+          class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 text-n-slate-12 border-n-weak bg-n-solid-2"
+          :class="
+            capitalizeFirstLetter(filter.attributeKey) &&
+            'first-letter:capitalize'
+          "
         >
           {{ formatFilterValue(filter.values) }}
         </span>

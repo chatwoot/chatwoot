@@ -567,7 +567,7 @@ export const sampleActiveFilters = [
   {
     attributeKey: 'email',
     filterOperator: 'does_not_contain',
-    values: 'test',
+    values: 'test@chatwoot.com',
     queryOperator: 'or',
   },
   {
@@ -586,6 +586,12 @@ export const sampleActiveFilters = [
     attributeKey: 'last_activity',
     filterOperator: 'days_before',
     values: '30',
+    queryOperator: 'and',
+  },
+  {
+    attributeKey: 'date_of_birth',
+    filterOperator: 'is_not_present',
+    values: '',
     queryOperator: 'and',
   },
   {
