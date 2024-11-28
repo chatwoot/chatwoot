@@ -5,6 +5,8 @@ import { useMessageContext } from '../provider.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import ImageChip from 'next/message/chips/Image.vue';
 import VideoChip from 'next/message/chips/Video.vue';
+import AudioChip from 'next/message/chips/Audio.vue';
+
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { MESSAGE_VARIANTS, ATTACHMENT_TYPES } from '../constants';
 /**
@@ -52,6 +54,12 @@ const mediaAttachments = computed(() => {
       allowedTypes.indexOf(a.fileType) - allowedTypes.indexOf(b.fileType)
   );
 });
+
+const recordings = computed(() => {
+  return props.attachments.filter(
+    attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
+  );
+});
 </script>
 
 <template>
@@ -68,6 +76,13 @@ const mediaAttachments = computed(() => {
           :attachment="attachment"
         />
       </template>
+    </div>
+    <div v-if="recordings.length" class="mt-[10px] flex gap-[10px]">
+      <AudioChip
+        v-for="attachment in recordings"
+        :key="attachment.id"
+        :attachment="attachment"
+      />
     </div>
   </BaseBubble>
 </template>

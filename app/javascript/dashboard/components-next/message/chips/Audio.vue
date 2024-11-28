@@ -1,0 +1,121 @@
+<script setup>
+import { computed, useTemplateRef, ref } from 'vue';
+import Icon from 'next/icon/Icon.vue';
+import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
+
+const { attachment } = defineProps({
+  attachment: {
+    type: Object,
+    required: true,
+  },
+});
+
+const timeStampURL = computed(() => {
+  return timeStampAppendedURL(attachment.dataUrl);
+});
+
+const audioPlayer = useTemplateRef('audioPlayer');
+
+const isPlaying = ref(false);
+const isMuted = ref(false);
+const currentTime = ref(0);
+const duration = ref(0);
+
+const onLoadedMetadata = () => {
+  duration.value = audioPlayer.value.duration;
+};
+
+const formatTime = time => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
+
+const toggleMute = () => {
+  audioPlayer.value.muted = !audioPlayer.value.muted;
+  isMuted.value = audioPlayer.value.muted;
+};
+
+const onTimeUpdate = () => {
+  currentTime.value = audioPlayer.value.currentTime;
+};
+
+const seek = event => {
+  const time = Number(event.target.value);
+  audioPlayer.value.currentTime = time;
+  currentTime.value = time;
+};
+
+const playOrPause = () => {
+  if (isPlaying.value) {
+    audioPlayer.value.pause();
+    isPlaying.value = false;
+  } else {
+    audioPlayer.value.play();
+    isPlaying.value = true;
+  }
+};
+
+const onEnd = () => {
+  isPlaying.value = false;
+  currentTime.value = 0;
+};
+
+const downloadAudio = () => {
+  const anchor = document.createElement('a');
+  anchor.href = timeStampURL.value;
+  anchor.download = timeStampURL.value.split('/').pop() || 'audio';
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+};
+</script>
+
+<template>
+  <audio
+    ref="audioPlayer"
+    controls
+    class="hidden"
+    @loadedmetadata="onLoadedMetadata"
+    @timeupdate="onTimeUpdate"
+    @ended="onEnd"
+  >
+    <source :src="timeStampURL" />
+  </audio>
+  <div class="rounded-lg w-full h-8 bg-n-alpha-3 gap-1 flex items-center">
+    <button class="p-0 border-0 size-8" @click="playOrPause">
+      <Icon
+        v-if="isPlaying"
+        class="size-8"
+        icon="i-teenyicons-pause-small-solid"
+      />
+      <Icon v-else class="size-8" icon="i-teenyicons-play-small-solid" />
+    </button>
+    <div class="tabular-nums text-xs">
+      {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+    </div>
+    <div class="flex items-center px-2">
+      <input
+        type="range"
+        min="0"
+        :max="duration"
+        :value="currentTime"
+        class="w-full h-1 bg-n-slate-10 rounded-lg appearance-none cursor-pointer accent-n-slate-12"
+        @input="seek"
+      />
+    </div>
+    <button
+      class="p-0 border-0 size-8 grid place-content-center"
+      @click="toggleMute"
+    >
+      <Icon v-if="isMuted" class="size-4" icon="i-teenyicons-sound-off-solid" />
+      <Icon v-else class="size-4" icon="i-teenyicons-sound-on-solid" />
+    </button>
+    <button
+      class="p-0 border-0 size-8 grid place-content-center"
+      @click="downloadAudio"
+    >
+      <Icon class="size-4" icon="i-lucide-download" />
+    </button>
+  </div>
+</template>
