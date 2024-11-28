@@ -34,7 +34,7 @@ const folderNameLocal = ref(props.folderName);
 const DEFAULT_FILTER = {
   attributeKey: 'status',
   filterOperator: 'equal_to',
-  values: '',
+  values: [],
   queryOperator: 'and',
 };
 
@@ -59,20 +59,20 @@ const addFilter = () => {
 
 const conditionsRef = useTemplateRef('conditionsRef');
 
-function updateSavedCustomViews() {
-  const isValid = conditionsRef.value
-    .map(condition => condition.validate())
-    .every(Boolean);
-  if (!isValid) return;
+const isConditionsValid = () => {
+  return conditionsRef.value.every(condition => condition.validate());
+};
 
-  emit('updateFolder', filters.value, folderNameLocal.value);
-}
+const updateSavedCustomViews = () => {
+  if (isConditionsValid()) {
+    emit('updateFolder', filters.value, folderNameLocal.value);
+  }
+};
 
 function validateAndSubmit() {
-  const isValid = conditionsRef.value
-    .map(condition => condition.validate())
-    .every(Boolean);
-  if (!isValid) return;
+  if (!isConditionsValid()) {
+    return;
+  }
 
   store.dispatch(
     'setConversationFilters',
