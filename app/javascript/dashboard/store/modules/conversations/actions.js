@@ -41,7 +41,6 @@ const actions = {
   },
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
-
     if (abortController) {
       abortController.abort();
     }
