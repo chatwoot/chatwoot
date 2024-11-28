@@ -1,9 +1,9 @@
 {
   "name": "Atendefy",
-  "description": "Chatwoot is a customer support tool for instant messaging channels",
+  "description": "Atendefy is a customer support tool for instant messaging channels",
   "website": "",
-  "repository": "https://github.com/chatwoot/chatwoot",
-  "logo": "https://app.chatwoot.com/brand-assets/logo_thumbnail.svg",
+  "repository": "",
+  "logo": "",
   "keywords": [
     "live chat",
     "customer support",

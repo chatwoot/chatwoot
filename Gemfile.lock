@@ -473,6 +473,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    mutex_m (0.3.0)
     neighbor (0.2.3)
       activerecord (>= 5.2)
     net-http (0.4.1)
@@ -902,6 +903,7 @@ DEPENDENCIES
   maxminddb
   meta_request (>= 0.8.3)
   mock_redis
+  mutex_m
   neighbor
   net-smtp (~> 0.3.4)
   newrelic-sidekiq-metrics (>= 1.6.2)

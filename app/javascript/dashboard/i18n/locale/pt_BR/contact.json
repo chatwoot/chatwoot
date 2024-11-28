@@ -76,25 +76,25 @@
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Exportar",
+  "BUTTON_LABEL": "Exportar",
+  "TITLE": "Exportar contatos",
+  "DESC": "Exportar contatos para um arquivo CSV.",
+  "SUCCESS_MESSAGE": "A exportação está em andamento. Você será notificado por e-mail quando o arquivo de exportação estiver pronto para download.",
+  "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente.",
+  "CONFIRM": {
     "TITLE": "Exportar contatos",
-    "DESC": "Exportar contatos para arquivo CSV.",
-    "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente",
-    "CONFIRM": {
-      "TITLE": "Exportar contatos",
-      "MESSAGE": "Tem certeza de que deseja exportar todos os contatos?",
-      "FILTERED_MESSAGE": "Tem certeza de que deseja exportar todos os contatos filtrados?",
-      "YES": "Sim, Exportar",
-      "NO": "Não, Cancelar"
-    }
-  },
+    "MESSAGE": "Tem certeza de que deseja exportar todos os contatos?",
+    "FILTERED_MESSAGE": "Tem certeza de que deseja exportar todos os contatos filtrados?",
+    "YES": "Sim, exportar",
+    "NO": "Não, cancelar"
+  }
+},
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Confirmar exclusão",
-      "MESSAGE": "Tem certeza que deseja excluir esta nota?",
-      "YES": "Sim, exclua",
-      "NO": "Não, mantenha"
+    "TITLE": "Confirmar exclusão",
+    "MESSAGE": "Tem certeza que deseja excluir esta nota?",
+    "YES": "Sim, exclua",
+    "NO": "Não, mantenha"
     }
   },
   "DELETE_CONTACT": {

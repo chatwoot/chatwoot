@@ -158,7 +158,7 @@
             "DELETE_ERROR": "Error while deleting portal"
           }
         }
-      },
+      }, 
       "EDIT": {
         "HEADER_TEXT": "Edit portal",
         "TABS": {
@@ -334,7 +334,7 @@
       "CONTENT_PLACEHOLDER": "Write your article here",
       "API": {
         "ERROR": "Error while saving article"
-      }
+      }  
     },
     "PUBLISH_ARTICLE": {
       "API": {
@@ -790,3 +790,4 @@
     }
   }
 }
+

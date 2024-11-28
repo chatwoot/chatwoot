@@ -1,19 +1,19 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Adicionar uma nova macro",
+    "DESCRIPTION": "Uma macro é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como marcar uma conversa com um rótulo, enviar uma transcrição por e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
+    "LEARN_MORE": "Saiba mais sobre macros",
+    "HEADER_BTN_TXT": "Adicionar nova macro",
     "HEADER_BTN_TXT_SAVE": "Salvar macro",
-    "LOADING": "Obtendo macros",
+    "LOADING": "Buscando macros",
     "ERROR": "Algo deu errado. Por favor, tente novamente",
-    "ORDER_INFO": "As macros serão executadas na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
+    "ORDER_INFO": "As macros serão executadas na ordem em que você adicionar suas ações. Você pode reorganizá-las arrastando-as pela alça ao lado de cada nó.",
     "ADD": {
       "FORM": {
         "NAME": {
           "LABEL": "Nome da macro",
           "PLACEHOLDER": "Digite um nome para sua macro",
-          "ERROR": "Nome é necessário para criar uma macro"
+          "ERROR": "O nome é obrigatório para criar uma macro"
         },
         "ACTIONS": {
           "LABEL": "Ações"
@@ -21,23 +21,23 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro adicionada com sucesso",
-        "ERROR_MESSAGE": "Não é possível criar a macro, por favor, tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível criar a macro, por favor, tente novamente mais tarde"
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nome",
-        "Criada por",
-        "Ultima atualização por",
-        "Visibilidade"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "CREATED BY": "Criado por",
+        "LAST_UPDATED_BY": "Última atualização por",
+        "VISIBILITY": "Visibilidade"
+      },
       "404": "Nenhuma macro encontrada"
     },
     "DELETE": {
       "TOOLTIP": "Excluir macro",
       "CONFIRM": {
-        "MESSAGE": "Você tem certeza que deseja excluir ",
-        "YES": "Sim, excluir",
+        "MESSAGE": "Tem certeza de que deseja excluir ",
+        "YES": "Sim, Excluir",
         "NO": "Não"
       },
       "API": {
@@ -49,24 +49,24 @@
       "TOOLTIP": "Editar macro",
       "API": {
         "SUCCESS_MESSAGE": "Macro atualizada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar Macro, Por favor, tente novamente mais tarde"
+        "ERROR_MESSAGE": "Não foi possível atualizar a macro, por favor, tente novamente mais tarde"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Inicio do fluxo",
-      "END_FLOW": "Fim do Fluxo",
-      "LOADING": "Obtendo macro",
+      "START_FLOW": "Iniciar Fluxo",
+      "END_FLOW": "Finalizar Fluxo",
+      "LOADING": "Buscando macro",
       "ADD_BTN_TOOLTIP": "Adicionar nova ação",
       "DELETE_BTN_TOOLTIP": "Excluir Ação",
       "VISIBILITY": {
         "LABEL": "Visibilidade da Macro",
         "GLOBAL": {
-          "LABEL": "Publico",
-          "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes desta conta."
+          "LABEL": "Público",
+          "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes nesta conta."
         },
         "PERSONAL": {
           "LABEL": "Privada",
-          "DESCRIPTION": "Esta macro será privada para você e não estará disponível para outras pessoas."
+          "DESCRIPTION": "Esta macro será privada para você e não estará disponível para outros."
         }
       }
     },
@@ -76,13 +76,13 @@
       "EXECUTED_SUCCESSFULLY": "Macro executada com sucesso"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Valor obrigatório",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATTRIBUTE_KEY_REQUIRED": "A chave do atributo é obrigatória",
+      "FILTER_OPERATOR_REQUIRED": "O operador do filtro é obrigatório",
+      "VALUE_REQUIRED": "O valor é obrigatório",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "O valor deve estar entre 1 e 998",
+      "ACTION_PARAMETERS_REQUIRED": "Os parâmetros da ação são obrigatórios",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
     }
   }
 }
