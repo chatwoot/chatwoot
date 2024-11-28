@@ -202,7 +202,7 @@ const setParamsForEditSegmentModal = () => {
   return {
     countries,
     filterTypes: contactFilterItems,
-    allCustomAttributes: contactAttributes.value,
+    allCustomAttributes: useSnakeCase(contactAttributes.value),
   };
 };
 

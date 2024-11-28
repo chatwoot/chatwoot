@@ -2,6 +2,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { buildAttributesFilterTypes } from './helper/filterHelper.js';
 import countries from 'shared/constants/countries.js';
 
 /**
@@ -39,26 +40,6 @@ import countries from 'shared/constants/countries.js';
  */
 
 /**
- * Determines the input type for a custom attribute based on its key
- * @param {string} key - The attribute display type key
- * @returns {'date'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
- */
-const customAttributeInputType = key => {
-  switch (key) {
-    case 'date':
-      return 'date';
-    case 'text':
-      return 'plainText';
-    case 'list':
-      return 'searchSelect';
-    case 'checkbox':
-      return 'booleanSelect';
-    default:
-      return 'plainText';
-  }
-};
-
-/**
  * Composable that provides conversation filtering context
  * @returns {{ filterTypes: import('vue').ComputedRef<FilterType[]>, filterGroups: import('vue').ComputedRef<FilterGroup[]> }}
  */
@@ -77,23 +58,9 @@ export function useContactFilterContext() {
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
    */
-  const customFilterTypes = computed(() => {
-    return contactAttributes.value.map(attr => {
-      return {
-        attributeKey: attr.attributeKey,
-        value: attr.attributeKey,
-        attributeName: attr.attributeDisplayName,
-        label: attr.attributeDisplayName,
-        inputType: customAttributeInputType(attr.attributeDisplayType),
-        filterOperators: getOperatorTypes(attr.attributeDisplayType),
-        options:
-          attr.attributeDisplayType === 'list'
-            ? attr.attributeValues.map(item => ({ id: item, name: item }))
-            : [],
-        attributeModel: 'customAttributes',
-      };
-    });
-  });
+  const customFilterTypes = computed(() =>
+    buildAttributesFilterTypes(contactAttributes.value, getOperatorTypes)
+  );
 
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
@@ -213,28 +180,5 @@ export function useContactFilterContext() {
     ...customFilterTypes.value,
   ]);
 
-  const filterGroups = computed(() => {
-    return [
-      {
-        name: t(`CONTACTS_LAYOUT.FILTER.GROUPS.STANDARD_FILTERS`),
-        attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'standard'
-        ),
-      },
-      {
-        name: t(`CONTACTS_LAYOUT.FILTER.GROUPS.ADDITIONAL_FILTERS`),
-        attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'additional'
-        ),
-      },
-      {
-        name: t(`CONTACTS_LAYOUT.FILTER.GROUPS.CUSTOM_ATTRIBUTES`),
-        attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'customAttributes'
-        ),
-      },
-    ];
-  });
-
-  return { filterTypes, filterGroups };
+  return { filterTypes };
 }
