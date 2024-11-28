@@ -17,6 +17,7 @@ import ActivityBubble from './bubbles/Activity.vue';
 import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
+import AttachmentsBubble from './bubbles/Attachments.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -217,6 +218,10 @@ const componentToRender = computed(() => {
     if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
     if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
     if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
+  }
+
+  if (props.attachments.length > 1 && !props.content) {
+    return AttachmentsBubble;
   }
 
   return TextBubble;

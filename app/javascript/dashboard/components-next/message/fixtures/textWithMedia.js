@@ -1212,27 +1212,31 @@ export default camelcaseKeys(
     },
     {
       id: 5323,
-      content: null,
+      content: 'These are all the files you requested',
       inbox_id: 486,
       echo_id: '9f7432284767',
       conversation_id: 1016,
-      message_type: 1,
+      message_type: 0,
       content_type: 'text',
       status: 'sent',
       content_attributes: {},
       created_at: 1732795624,
       private: false,
       source_id: null,
+      sender_type: 'Contact',
+      sender_id: 599,
       sender: {
-        id: 1,
-        name: 'John',
-        available_name: 'John',
-        avatar_url:
-          'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDBLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4e625d80e7ef2dc41354392bc214832fbe640840/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/picologo.png',
-        type: 'user',
-        availability_status: 'offline',
-        thumbnail:
-          'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDBLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4e625d80e7ef2dc41354392bc214832fbe640840/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--ebe60765d222d11ade39165eae49cc4b2de18d89/picologo.png',
+        additional_attributes: {
+          created_at_ip: '::1',
+        },
+        custom_attributes: {},
+        email: 'anthony@example.com',
+        id: 599,
+        identifier: null,
+        name: 'anthony',
+        phone_number: null,
+        thumbnail: '',
+        type: 'contact',
       },
       attachments: [
         {
@@ -1257,6 +1261,93 @@ export default camelcaseKeys(
           extension: null,
           data_url:
             'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/multi.webp',
+          thumb_url:
+            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/multi.webp',
+          file_size: 58696,
+          width: null,
+          height: null,
+        },
+        {
+          id: 28,
+          message_id: 5323,
+          file_type: 'file',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/multi.zip',
+          thumb_url:
+            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/multi.webp',
+          file_size: 58696,
+          width: null,
+          height: null,
+        },
+      ],
+    },
+    {
+      id: 5323,
+      content: null,
+      inbox_id: 486,
+      echo_id: '9f7432284767',
+      conversation_id: 1016,
+      message_type: 0,
+      content_type: 'text',
+      status: 'sent',
+      content_attributes: {},
+      created_at: 1732795624,
+      private: false,
+      source_id: null,
+      sender_type: 'Contact',
+      sender_id: 599,
+      sender: {
+        additional_attributes: {
+          created_at_ip: '::1',
+        },
+        custom_attributes: {},
+        email: 'anthony@example.com',
+        id: 599,
+        identifier: null,
+        name: 'anthony',
+        phone_number: null,
+        thumbnail: '',
+        type: 'contact',
+      },
+      attachments: [
+        {
+          id: 27,
+          message_id: 5323,
+          file_type: 'image',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXNLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dfc1dcfd6733fe82ad318036e8f5926f2d7634/scrubbing.webp',
+          thumb_url:
+            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXNLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dfc1dcfd6733fe82ad318036e8f5926f2d7634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/scrubbing.webp',
+          file_size: 26126,
+          width: null,
+          height: null,
+        },
+        {
+          id: 28,
+          message_id: 5323,
+          file_type: 'image',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/multi.webp',
+          thumb_url:
+            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/multi.webp',
+          file_size: 58696,
+          width: null,
+          height: null,
+        },
+        {
+          id: 28,
+          message_id: 5323,
+          file_type: 'file',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/list-with-all-data.csv',
           thumb_url:
             'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/multi.webp',
           file_size: 58696,

@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue';
-import { useMessageContext } from '../provider.js';
 
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import ImageChip from 'next/message/chips/Image.vue';
@@ -8,8 +7,7 @@ import VideoChip from 'next/message/chips/Video.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
 import FileChip from 'next/message/chips/File.vue';
 
-import MessageFormatter from 'shared/helpers/MessageFormatter.js';
-import { MESSAGE_VARIANTS, ATTACHMENT_TYPES } from '../constants';
+import { ATTACHMENT_TYPES } from '../constants';
 /**
  * @typedef {Object} Attachment
  * @property {number} id - Unique identifier for the attachment
@@ -24,24 +22,10 @@ import { MESSAGE_VARIANTS, ATTACHMENT_TYPES } from '../constants';
  * @property {number|null} height - Height of the image if applicable
  */
 const props = defineProps({
-  content: {
-    type: String,
-    required: true,
-  },
   attachments: {
     type: Array,
     default: () => [],
   },
-});
-
-const { variant } = useMessageContext();
-
-const formattedContent = computed(() => {
-  if (variant.value === MESSAGE_VARIANTS.ACTIVITY) {
-    return props.content;
-  }
-
-  return new MessageFormatter(props.content).formattedMessage;
 });
 
 const mediaAttachments = computed(() => {
@@ -70,9 +54,8 @@ const files = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="p-3 grid gap-3">
-    <span v-if="content" v-html="formattedContent" />
-    <div v-if="mediaAttachments.length" class="flex gap-2">
+  <BaseBubble class="grid gap-2 bg-transparent">
+    <div v-if="mediaAttachments.length" class="flex gap-1">
       <template v-for="attachment in mediaAttachments" :key="attachment.id">
         <ImageChip
           v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
@@ -84,7 +67,7 @@ const files = computed(() => {
         />
       </template>
     </div>
-    <div v-if="recordings.length" class="flex flex-wrap gap-2">
+    <div v-if="recordings.length" class="flex flex-wrap gap-1">
       <AudioChip
         v-for="attachment in recordings"
         :key="attachment.id"
@@ -92,7 +75,7 @@ const files = computed(() => {
         :attachment="attachment"
       />
     </div>
-    <div v-if="files.length" class="flex flex-wrap gap-2">
+    <div v-if="files.length" class="flex flex-wrap gap-1">
       <FileChip
         v-for="attachment in files"
         :key="attachment.id"
@@ -101,9 +84,3 @@ const files = computed(() => {
     </div>
   </BaseBubble>
 </template>
-
-<style>
-p:last-child {
-  margin-bottom: 0;
-}
-</style>
