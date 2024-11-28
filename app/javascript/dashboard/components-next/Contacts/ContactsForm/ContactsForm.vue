@@ -3,7 +3,7 @@ import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email, minLength } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
+import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -94,8 +94,7 @@ const prepareStateBasedOnProps = () => {
     phoneNumber,
     additionalAttributes = {},
   } = props.contactData || {};
-
-  const [firstName = '', lastName = ''] = name.split(' ');
+  const { firstName, lastName } = splitName(name);
   const {
     description,
     companyName,
@@ -261,18 +260,17 @@ defineExpose({
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
-            :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
-            }`"
+            :custom-input-class="`h-8 !pt-1 !pb-1 ${!isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
+              }`"
             class="w-full"
             @input="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
-            "
+              v$[getValidationKey(item.key)].$touch()
+              "
             @blur="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
-            "
+              v$[getValidationKey(item.key)].$touch()
+              "
           />
         </template>
       </div>
@@ -296,9 +294,8 @@ defineExpose({
             class="flex-shrink-0 text-n-slate-11 size-4"
           />
           <input
-            v-model="
-              state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
-            "
+            v-model="state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
+              "
             class="w-auto min-w-[100px] text-sm bg-transparent reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
