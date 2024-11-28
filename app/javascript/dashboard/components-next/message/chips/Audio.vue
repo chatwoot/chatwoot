@@ -10,6 +10,10 @@ const { attachment } = defineProps({
   },
 });
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const timeStampURL = computed(() => {
   return timeStampAppendedURL(attachment.dataUrl);
 });
@@ -82,7 +86,7 @@ const downloadAudio = () => {
   >
     <source :src="timeStampURL" />
   </audio>
-  <div class="rounded-lg w-full h-8 bg-n-alpha-3 gap-1 flex items-center">
+  <div v-bind="$attrs" class="rounded-lg w-full gap-1 flex items-center">
     <button class="p-0 border-0 size-8" @click="playOrPause">
       <Icon
         v-if="isPlaying"
@@ -100,7 +104,7 @@ const downloadAudio = () => {
         min="0"
         :max="duration"
         :value="currentTime"
-        class="w-full h-1 bg-n-slate-10 rounded-lg appearance-none cursor-pointer accent-n-slate-12"
+        class="w-full h-1 bg-n-slate-8 rounded-lg appearance-none cursor-pointer accent-current"
         @input="seek"
       />
     </div>
