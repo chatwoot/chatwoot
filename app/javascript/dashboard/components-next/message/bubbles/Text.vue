@@ -64,8 +64,8 @@ const recordings = computed(() => {
 
 <template>
   <BaseBubble class="p-3">
-    <span v-html="formattedContent" />
-    <div v-if="mediaAttachments.length" class="mt-[10px] flex gap-[10px]">
+    <span v-if="content" class="mb-[10px]" v-html="formattedContent" />
+    <div v-if="mediaAttachments.length" class="flex gap-[10px]">
       <template v-for="attachment in mediaAttachments" :key="attachment.id">
         <ImageChip
           v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
@@ -81,6 +81,7 @@ const recordings = computed(() => {
       <AudioChip
         v-for="attachment in recordings"
         :key="attachment.id"
+        class="bg-n-alpha-3 text-n-slate-12"
         :attachment="attachment"
       />
     </div>
