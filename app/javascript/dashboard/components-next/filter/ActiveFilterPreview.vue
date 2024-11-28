@@ -69,6 +69,7 @@ const formatFilterValue = value => {
           {{ formatOperatorLabel(filter.filterOperator) }}
         </span>
         <span
+          v-if="filter.values"
           class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
         >
           {{ formatFilterValue(filter.values) }}
