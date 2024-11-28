@@ -1,10 +1,12 @@
 <script setup>
 import { computed } from 'vue';
-import MessageFormatter from 'shared/helpers/MessageFormatter.js';
-import BaseBubble from './Base.vue';
 import { useMessageContext } from '../provider.js';
-import { MESSAGE_VARIANTS, MEDIA_TYPES } from '../constants';
 
+import BaseBubble from 'next/message/bubbles/Base.vue';
+import ImageChip from 'next/message/chips/Image.vue';
+import VideoChip from 'next/message/chips/Video.vue';
+import MessageFormatter from 'shared/helpers/MessageFormatter.js';
+import { MESSAGE_VARIANTS, ATTACHMENT_TYPES } from '../constants';
 /**
  * @typedef {Object} Attachment
  * @property {number} id - Unique identifier for the attachment
@@ -40,12 +42,14 @@ const formattedContent = computed(() => {
 });
 
 const mediaAttachments = computed(() => {
+  const allowedTypes = [ATTACHMENT_TYPES.IMAGE, ATTACHMENT_TYPES.VIDEO];
   const mediaTypes = props.attachments.filter(attachment =>
-    MEDIA_TYPES.includes(attachment.fileType)
+    allowedTypes.includes(attachment.fileType)
   );
 
   return mediaTypes.sort(
-    (a, b) => MEDIA_TYPES.indexOf(a.fileType) - MEDIA_TYPES.indexOf(b.fileType)
+    (a, b) =>
+      allowedTypes.indexOf(a.fileType) - allowedTypes.indexOf(b.fileType)
   );
 });
 </script>
@@ -54,13 +58,16 @@ const mediaAttachments = computed(() => {
   <BaseBubble class="p-3">
     <span v-html="formattedContent" />
     <div v-if="mediaAttachments.length" class="mt-[10px] flex gap-[10px]">
-      <div
-        v-for="attachment in mediaAttachments"
-        :key="attachment.id"
-        class="size-[72px] overflow-hidden contain-content rounded-xl"
-      >
-        <img class="object-contain" :src="attachment.dataUrl" />
-      </div>
+      <template v-for="attachment in mediaAttachments" :key="attachment.id">
+        <ImageChip
+          v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
+          :attachment="attachment"
+        />
+        <VideoChip
+          v-else-if="attachment.fileType === ATTACHMENT_TYPES.VIDEO"
+          :attachment="attachment"
+        />
+      </template>
     </div>
   </BaseBubble>
 </template>
