@@ -1,9 +1,15 @@
 <script setup>
 import { computed } from 'vue';
+
+import { emitter } from 'shared/helpers/mitt';
 import { useMessageContext } from '../provider.js';
+import { useI18n } from 'vue-i18n';
+
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { MESSAGE_VARIANTS } from '../constants';
 
-const { variant, orientation } = useMessageContext();
+const { variant, orientation, inReplyTo } = useMessageContext();
+const { t } = useI18n();
 
 const varaintBaseMap = {
   [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
@@ -32,10 +38,39 @@ const messageClass = computed(() => {
 
   return classToApply;
 });
+
+const scrollToMessage = () => {
+  emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+    messageId: this.message.id,
+  });
+};
+
+const previewMessage = computed(() => {
+  if (!inReplyTo) return '';
+
+  const { content, attachments } = inReplyTo;
+
+  if (content) return content;
+  if (attachments.length) {
+    const [{ fileType } = {}] = inReplyTo.attachments;
+    return t(`CHAT_LIST.ATTACHMENTS.${fileType}.CONTENT`);
+  }
+
+  return '';
+});
 </script>
 
 <template>
   <div class="max-w-md text-sm" :class="messageClass">
+    <div
+      v-if="inReplyTo"
+      class="bg-n-alpha-black1 rounded-lg p-2"
+      @click="scrollToMessage"
+    >
+      <span class="line-clamp-2">
+        {{ previewMessage }}
+      </span>
+    </div>
     <slot />
   </div>
 </template>

@@ -123,6 +123,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  inReplyTo: {
+    type: Object,
+    default: null,
+  },
 });
 
 /**
@@ -229,6 +233,7 @@ const componentToRender = computed(() => {
 
 provideMessageContext({
   variant,
+  inReplyTo: props.inReplyTo,
   orientation,
   isMyMessage,
 });

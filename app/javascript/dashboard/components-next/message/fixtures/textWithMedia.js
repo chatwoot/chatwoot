@@ -129,10 +129,10 @@ export default camelcaseKeys(
       status: 'read',
       content_type: 'text',
       processed_message_content:
-        "Hey, I am Shivam, I'll be helping you today. What kind of repair are you looking for?",
+        "Hey, I am Shivam, I'll be helping you today. What kind of repair are you looking for? I see you own a Macbook Pro 2022 Model. Is that correct?",
       id: 5301,
       content:
-        "Hey, I am Shivam, I'll be helping you today. What kind of repair are you looking for?",
+        "Hey, I am Shivam, I'll be helping you today. What kind of repair are you looking for? I see you own a Macbook Pro 2022 Model. Is that correct?",
       account_id: 2,
       inbox_id: 486,
       message_type: 1,
@@ -140,7 +140,9 @@ export default camelcaseKeys(
       updated_at: '2024-11-27T12:32:43.458Z',
       private: false,
       source_id: null,
-      content_attributes: {},
+      content_attributes: {
+        in_reply_to: 5296,
+      },
       sender_type: 'User',
       sender_id: 1,
       external_source_ids: {},
@@ -185,7 +187,7 @@ export default camelcaseKeys(
       source_id: null,
       content_type: 'text',
       content_attributes: {
-        in_reply_to: null,
+        in_reply_to: 5301,
       },
       sender_type: 'Contact',
       sender_id: 599,

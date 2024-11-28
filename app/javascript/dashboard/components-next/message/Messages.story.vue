@@ -21,6 +21,13 @@ const shouldGroupWithNext = index => {
   // Check if messages are in the same minute by rounding down to nearest minute
   return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
 };
+
+const getReplyToMessage = message => {
+  const idToCheck = message.contentAttributes.inReplyTo;
+  if (!idToCheck) return null;
+
+  return messages.find(candidate => idToCheck === candidate.id);
+};
 </script>
 
 <template>
@@ -30,6 +37,7 @@ const shouldGroupWithNext = index => {
         <Message
           :current-user-id="1"
           :group-with-next="shouldGroupWithNext(index)"
+          :in-reply-to="getReplyToMessage(message)"
           v-bind="message"
         />
       </template>
