@@ -6,6 +6,7 @@ import FilterSelect from './inputs/FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
 import SingleSelect from './inputs/SingleSelect.vue';
 
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
@@ -91,11 +92,14 @@ const booleanOptions = computed(() => [
 ]);
 
 const validationError = computed(() => {
-  return validateSingleFilter({
-    attributeKey: attributeKey.value,
-    filter_operator: filterOperator.value,
-    values: values.value,
-  });
+  // TOOD: Migrate validateSingleFilter to use camelcase and then remove useSnakeCase here too
+  return validateSingleFilter(
+    useSnakeCase({
+      attributeKey: attributeKey.value,
+      filterOperator: filterOperator.value,
+      values: values.value,
+    })
+  );
 });
 
 const resetModelOnAttributeKeyChange = newAttributeKey => {
