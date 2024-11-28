@@ -6,6 +6,7 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import ImageChip from 'next/message/chips/Image.vue';
 import VideoChip from 'next/message/chips/Video.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
+import FileChip from 'next/message/chips/File.vue';
 
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { MESSAGE_VARIANTS, ATTACHMENT_TYPES } from '../constants';
@@ -60,11 +61,17 @@ const recordings = computed(() => {
     attachment => attachment.fileType === ATTACHMENT_TYPES.AUDIO
   );
 });
+
+const files = computed(() => {
+  return props.attachments.filter(
+    attachment => attachment.fileType === ATTACHMENT_TYPES.FILE
+  );
+});
 </script>
 
 <template>
-  <BaseBubble class="p-3">
-    <span v-if="content" class="mb-[10px]" v-html="formattedContent" />
+  <BaseBubble class="p-3 space-y-[10px]">
+    <span v-if="content" v-html="formattedContent" />
     <div v-if="mediaAttachments.length" class="flex gap-[10px]">
       <template v-for="attachment in mediaAttachments" :key="attachment.id">
         <ImageChip
@@ -77,11 +84,18 @@ const recordings = computed(() => {
         />
       </template>
     </div>
-    <div v-if="recordings.length" class="mt-[10px] flex gap-[10px]">
+    <div v-if="recordings.length" class="flex flex-wrap gap-[10px]">
       <AudioChip
         v-for="attachment in recordings"
         :key="attachment.id"
         class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
+        :attachment="attachment"
+      />
+    </div>
+    <div v-if="files.length" class="flex flex-wrap gap-[10px]">
+      <FileChip
+        v-for="attachment in files"
+        :key="attachment.id"
         :attachment="attachment"
       />
     </div>
