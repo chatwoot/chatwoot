@@ -25,8 +25,8 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
-// variables
-let currentRequestId = 0;
+// abort controller
+let abortController = null;
 
 // actions
 const actions = {
@@ -41,22 +41,28 @@ const actions = {
   },
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
-    currentRequestId += 1;
-    const requestId = currentRequestId;
+
+    if (abortController) {
+      abortController.abort();
+    }
+
+    abortController = new AbortController();
+
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
       const {
         data: { data },
-      } = await ConversationApi.get(params);
-      if (requestId === currentRequestId) {
-        buildConversationList(
-          { commit, dispatch },
-          params,
-          data,
-          params.assigneeType
-        );
-      }
+      } = await ConversationApi.get({
+        ...params,
+        signal: abortController.signal,
+      });
+      buildConversationList(
+        { commit, dispatch },
+        params,
+        data,
+        params.assigneeType
+      );
     } catch (error) {
       // Handle error
     }
