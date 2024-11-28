@@ -41,24 +41,15 @@ const updateContact = async updatedData => {
   }
 };
 
-const ROUTE_MAPPINGS = {
-  contacts_dashboard_labels_index: 'contacts_dashboard_labels_edit_index',
-  contacts_dashboard_segments_index: 'contacts_dashboard_segments_edit_index',
-};
-
 const onClickViewDetails = async id => {
-  const dynamicRouteName =
-    ROUTE_MAPPINGS[route.name] || 'contacts_dashboard_edit_index';
-
   const params = { contactId: id };
-
   if (route.name.includes('segments')) {
     params.segmentId = route.params.segmentId;
   } else if (route.name.includes('labels')) {
     params.label = route.params.label;
   }
 
-  await router.push({ name: dynamicRouteName, params, query: route.query });
+  await router.push({ name: 'contacts_edit', params, query: route.query });
 };
 
 const toggleExpanded = id => {

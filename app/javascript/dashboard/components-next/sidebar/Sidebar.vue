@@ -228,7 +228,6 @@ const menuItems = computed(() => {
             ),
             activeOn: [
               'contacts_dashboard_segments_index',
-              'contacts_dashboard_segments_edit_index',
             ],
           })),
         },
@@ -253,10 +252,7 @@ const menuItems = computed(() => {
                 search: undefined,
               }
             ),
-            activeOn: [
-              'contacts_dashboard_labels_index',
-              'contacts_dashboard_labels_edit_index',
-            ],
+            activeOn: ['contacts_dashboard_labels_index'],
           })),
         },
       ],
