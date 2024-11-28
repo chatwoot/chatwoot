@@ -556,3 +556,42 @@ export const filterTypes = [
     attributeModel: 'customAttributes',
   },
 ];
+
+export const sampleActiveFilters = [
+  {
+    attributeKey: 'name',
+    filterOperator: 'contains',
+    values: 'John',
+    queryOperator: 'and',
+  },
+  {
+    attributeKey: 'email',
+    filterOperator: 'does_not_contain',
+    values: 'test',
+    queryOperator: 'or',
+  },
+  {
+    attributeKey: 'phone_number',
+    filterOperator: 'is_present',
+    values: '+928383822',
+    queryOperator: 'and',
+  },
+  {
+    attributeKey: 'created_at',
+    filterOperator: 'is_greater_than',
+    values: '2024-01-01',
+    queryOperator: 'and',
+  },
+  {
+    attributeKey: 'last_activity',
+    filterOperator: 'days_before',
+    values: '30',
+    queryOperator: 'and',
+  },
+  {
+    attributeKey: 'country',
+    filterOperator: 'not_equal_to',
+    values: { id: 1, name: 'India' },
+    queryOperator: 'and',
+  },
+];
