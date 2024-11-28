@@ -13,11 +13,12 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }, params) => {
+  get: async ({ commit, state: $state }, params) => {
     const currentTime = new Date();
-    const lastUpdatedTime = new Date(state.updatedOn);
+    const lastUpdatedTime = new Date($state.updatedOn);
 
-    if (currentTime - lastUpdatedTime < 10000) {
+    // Skip large accounts from making too many requests
+    if (currentTime - lastUpdatedTime < 10000 && $state.allCount > 1000) {
       console.warn('Skipping conversation meta fetch');
       return;
     }
