@@ -26,8 +26,8 @@ importers:
         specifier: 1.1.1-next
         version: 1.1.1-next
       '@chatwoot/utils':
-        specifier: ^0.0.25
-        version: 0.0.25
+        specifier: ^0.0.30
+        version: 0.0.30
       '@formkit/core':
         specifier: ^1.6.7
         version: 1.6.7
@@ -118,6 +118,9 @@ importers:
       date-fns-tz:
         specifier: ^1.3.3
         version: 1.3.8(date-fns@2.21.1)
+      decamelize-keys:
+        specifier: ^2.0.1
+        version: 2.0.1
       dompurify:
         specifier: 3.1.6
         version: 3.1.6
@@ -401,8 +404,8 @@ packages:
   '@chatwoot/prosemirror-schema@1.1.1-next':
     resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
-  '@chatwoot/utils@0.0.25':
-    resolution: {integrity: sha512-2bGfRewHu0Bra47vHwJa3SdZ0VqXK/2q2ampcc6TT3z8ojSfZqpfMdb+1RKJ/Q1tQEYn/0rJTdWtLDRjePF92A==}
+  '@chatwoot/utils@0.0.30':
+    resolution: {integrity: sha512-UfKn2GUV/9PF7zoj17dAoyx5RZkJihjjclhWTtG0SHRfRizKS/pg0SpXSt9ToAEDeNeRtqmD7RrVMUaso8TZxw==}
     engines: {node: '>=10'}
 
   '@codemirror/commands@6.7.0':
@@ -2436,6 +2439,14 @@ packages:
     peerDependenciesMeta:
       supports-color:
         optional: true
+
+  decamelize-keys@2.0.1:
+    resolution: {integrity: sha512-nrNeSCtU2gV3Apcmn/EZ+aR20zKDuNDStV67jPiupokD3sOAFeMzslLMCFdKv1sPqzwoe5ZUhsSW9IAVgKSL/Q==}
+    engines: {node: '>=14.16'}
+
+  decamelize@6.0.0:
+    resolution: {integrity: sha512-Fv96DCsdOgB6mdGl67MT5JaTNKRzrzill5OH5s8bjYJXVlcXyPYGyPsUkWyGV5p1TXI5esYIYMMeDJL0hEIwaA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   decimal.js@10.4.3:
     resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
@@ -4676,6 +4687,10 @@ packages:
     resolution: {integrity: sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==}
     engines: {node: '>=10'}
 
+  type-fest@3.13.1:
+    resolution: {integrity: sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==}
+    engines: {node: '>=14.16'}
+
   type-fest@4.26.1:
     resolution: {integrity: sha512-yOGpmOAL7CkKe/91I5O3gPICmJNLJ1G4zFYVAsRHg7M64biSnPtRj0WNQt++bRkjYOqjWXrhnUw1utzmVErAdg==}
     engines: {node: '>=16'}
@@ -5235,7 +5250,7 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)
       prosemirror-view: 1.34.1
 
-  '@chatwoot/utils@0.0.25':
+  '@chatwoot/utils@0.0.30':
     dependencies:
       date-fns: 2.29.3
 
@@ -7512,6 +7527,15 @@ snapshots:
   debug@4.3.7:
     dependencies:
       ms: 2.1.3
+
+  decamelize-keys@2.0.1:
+    dependencies:
+      decamelize: 6.0.0
+      map-obj: 4.3.0
+      quick-lru: 6.1.2
+      type-fest: 3.13.1
+
+  decamelize@6.0.0: {}
 
   decimal.js@10.4.3: {}
 
@@ -10109,6 +10133,8 @@ snapshots:
   type-fest@0.20.2: {}
 
   type-fest@1.4.0: {}
+
+  type-fest@3.13.1: {}
 
   type-fest@4.26.1: {}
 

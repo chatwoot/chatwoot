@@ -28,10 +28,11 @@ export function useAccount() {
     return `/app/accounts/${accountId.value}/${url}`;
   };
 
-  const accountScopedRoute = (name, params) => {
+  const accountScopedRoute = (name, params, query) => {
     return {
       name,
       params: { accountId: accountId.value, ...params },
+      query: { ...query },
     };
   };
 
