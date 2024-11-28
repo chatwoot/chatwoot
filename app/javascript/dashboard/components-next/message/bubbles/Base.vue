@@ -16,8 +16,8 @@ const varaintBaseMap = {
   [MESSAGE_VARIANTS.PRIVATE]: 'bg-n-solid-amber text-n-amber-12',
   [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
-  [MESSAGE_VARIANTS.BOT]: 'bg-n-teal-5 text-n-slate-12',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-teal-5 text-n-slate-12',
+  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
+  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
 };
 
@@ -56,7 +56,7 @@ const previewMessage = computed(() => {
     return t(`CHAT_LIST.ATTACHMENTS.${fileType}.CONTENT`);
   }
 
-  return '';
+  return t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND');
 });
 </script>
 
