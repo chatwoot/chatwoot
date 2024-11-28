@@ -81,21 +81,25 @@ const emit = defineEmits([
           </Input>
         </div>
         <div class="flex items-center gap-2">
-          <Button
-            :icon="
-              isSegmentsView ? 'i-lucide-pen-line' : 'i-lucide-list-filter'
-            "
-            color="slate"
-            size="sm"
-            class="relative"
-            variant="ghost"
-            @click="emit('filter')"
-          >
-            <div
-              v-if="hasActiveFilters && !isSegmentsView"
-              class="absolute top-0 right-0 w-2 h-2 rounded-full bg-n-brand"
-            />
-          </Button>
+          <div class="relative">
+            <Button
+              id="toggleContactsFilterButton"
+              :icon="
+                isSegmentsView ? 'i-lucide-pen-line' : 'i-lucide-list-filter'
+              "
+              color="slate"
+              size="sm"
+              class="relative"
+              variant="ghost"
+              @click="emit('filter')"
+            >
+              <div
+                v-if="hasActiveFilters && !isSegmentsView"
+                class="absolute top-0 right-0 w-2 h-2 rounded-full bg-n-brand"
+              />
+            </Button>
+            <slot name="filter" />
+          </div>
           <Button
             v-if="hasActiveFilters && !isSegmentsView"
             icon="i-lucide-save"
