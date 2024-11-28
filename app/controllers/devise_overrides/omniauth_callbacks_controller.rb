@@ -85,14 +85,14 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
           browser_token: token,
           metadata: token_response
         )
-        # frontend_url = ENV.fetch('FRONTEND_URL', nil)
-        # use_secure_cookies = (frontend_url && frontend_url.start_with?('https://')) || false
+        frontend_url = ENV.fetch('FRONTEND_URL', nil)
+        use_secure_cookies = (frontend_url && frontend_url.start_with?('https://')) || false
 
         cookies[:keycloak_token] = {
           value: token,
-          httponly: true,
-          # secure: use_secure_cookies,
-          # same_site: use_secure_cookies ? 'None' : 'Lax',
+          # httponly: true,
+          secure: use_secure_cookies,
+          same_site: use_secure_cookies ? 'None' : 'Lax',
           max_age: 7_776_000
         }
 
