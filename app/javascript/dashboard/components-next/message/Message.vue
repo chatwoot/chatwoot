@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { provideMessageContext } from './provider.js';
 import {
   MESSAGE_TYPES,
-  MEDIA_TYPES,
   ATTACHMENT_TYPES,
   MESSAGE_VARIANTS,
   SENDER_TYPES,
@@ -15,8 +14,9 @@ import Avatar from 'next/avatar/Avatar.vue';
 
 import TextBubble from './bubbles/Text.vue';
 import ActivityBubble from './bubbles/Activity.vue';
-import MediaBubble from './bubbles/Media.vue';
+import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
+import AudioBubble from './bubbles/Audio.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -214,8 +214,9 @@ const shouldShowAvatar = computed(() => {
 const componentToRender = computed(() => {
   if (props.attachments.length === 1 && !props.content) {
     const fileType = props.attachments[0].fileType;
-    if (MEDIA_TYPES.includes(fileType)) return MediaBubble;
+    if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
     if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
+    if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
   }
 
   return TextBubble;
