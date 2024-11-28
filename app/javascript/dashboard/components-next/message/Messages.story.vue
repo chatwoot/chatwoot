@@ -24,10 +24,7 @@ const shouldGroupWithNext = index => {
 </script>
 
 <template>
-  <Story
-    title="Components/Messages/Text"
-    :layout="{ type: 'grid', width: '800' }"
-  >
+  <Story title="Components/Messages/Text" :layout="{ type: 'single' }">
     <div class="p-4 bg-n-background rounded-lg w-full min-w-5xl grid">
       <template v-for="(message, index) in messages" :key="message.id">
         <Message
