@@ -90,8 +90,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
         cookies[:keycloak_token] = {
           value: token,
+          httponly: true,
           # secure: use_secure_cookies,
-          # httponly: true,
           # same_site: use_secure_cookies ? 'None' : 'Lax',
           max_age: 7_776_000
         }
