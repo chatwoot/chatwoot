@@ -49,7 +49,7 @@ const formatFilterValue = value => {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-start w-full gap-2 mx-auto">
+  <div class="flex flex-wrap items-center w-full gap-2 mx-auto">
     <template
       v-for="(filter, index) in appliedFilters"
       :key="filter.attributeKey"
@@ -59,17 +59,17 @@ const formatFilterValue = value => {
         class="inline-flex items-center gap-2 h-7"
       >
         <span
-          class="content-center h-full px-2 text-xs lowercase border rounded-lg first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
+          class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
         >
           {{ replaceUnderscoreWithSpace(filter.attributeKey) }}
         </span>
         <span
-          class="content-center h-full px-1 text-xs rounded-lg text-n-slate-10"
+          class="content-center h-full px-1 text-xs truncate rounded-lg text-n-slate-10"
         >
           {{ formatOperatorLabel(filter.filterOperator) }}
         </span>
         <span
-          class="content-center h-full px-2 text-xs lowercase border rounded-lg first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
+          class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
         >
           {{ formatFilterValue(filter.values) }}
         </span>
@@ -88,17 +88,13 @@ const formatFilterValue = value => {
     >
       {{ moreFiltersLabel }}
     </div>
-    <div class="inline-flex items-center h-7">
-      <div class="w-px h-3 rounded-lg bg-n-strong" />
-    </div>
-    <div class="inline-flex items-center px-1 h-7">
-      <Button
-        :label="clearButtonLabel"
-        size="xs"
-        class="!px-1"
-        variant="ghost"
-        @click="emit('clearFilters')"
-      />
-    </div>
+    <div class="w-px h-3 rounded-lg bg-n-strong" />
+    <Button
+      :label="clearButtonLabel"
+      size="xs"
+      class="!px-1"
+      variant="ghost"
+      @click="emit('clearFilters')"
+    />
   </div>
 </template>
