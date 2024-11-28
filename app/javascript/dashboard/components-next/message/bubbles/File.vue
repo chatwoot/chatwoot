@@ -57,8 +57,10 @@ const fileType = computed(() => {
       <FileIcon :file-type="fileType" class="size-4" />
       {{ decodeURI(fileName) }}
     </span>
-    <Button xs solid slate class="w-full mt-2" icon="i-lucide-download">
-      {{ $t('CONVERSATION.DOWNLOAD') }}
-    </Button>
+    <a :href="url" rel="noreferrer noopener nofollow" target="_blank">
+      <Button xs solid slate class="w-full mt-2" icon="i-lucide-download">
+        {{ $t('CONVERSATION.DOWNLOAD') }}
+      </Button>
+    </a>
   </BaseBubble>
 </template>
