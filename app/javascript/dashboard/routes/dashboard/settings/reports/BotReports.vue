@@ -5,11 +5,13 @@ import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
 import ReportContainer from './ReportContainer.vue';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import ReportHeader from './components/ReportHeader.vue';
 
 export default {
   name: 'BotReports',
   components: {
     BotMetrics,
+    ReportHeader,
     ReportFilterSelector,
     ReportContainer,
   },
@@ -84,7 +86,8 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
+  <ReportHeader :header-title="$t('BOT_REPORTS.HEADER')" />
+  <div class="flex flex-col gap-4">
     <ReportFilterSelector
       :show-agents-filter="false"
       show-group-by-filter

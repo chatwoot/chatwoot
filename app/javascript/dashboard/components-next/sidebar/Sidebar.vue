@@ -250,11 +250,6 @@ const menuItems = computed(() => {
           to: accountScopedRoute('csat_reports'),
         },
         {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
-        {
           name: 'Reports Agent',
           label: t('SIDEBAR.REPORTS_AGENT'),
           to: accountScopedRoute('agent_reports'),
@@ -278,6 +273,11 @@ const menuItems = computed(() => {
           name: 'Reports SLA',
           label: t('SIDEBAR.REPORTS_SLA'),
           to: accountScopedRoute('sla_reports'),
+        },
+        {
+          name: 'Reports Bot',
+          label: t('SIDEBAR.REPORTS_BOT'),
+          to: accountScopedRoute('bot_reports'),
         },
       ],
     },
