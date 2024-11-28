@@ -104,7 +104,7 @@ const downloadAudio = () => {
         min="0"
         :max="duration"
         :value="currentTime"
-        class="w-full h-1 bg-n-slate-8 rounded-lg appearance-none cursor-pointer accent-current"
+        class="w-full h-1 bg-n-slate-12/40 rounded-lg appearance-none cursor-pointer accent-current"
         @input="seek"
       />
     </div>

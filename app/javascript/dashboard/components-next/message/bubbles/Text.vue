@@ -81,7 +81,7 @@ const recordings = computed(() => {
       <AudioChip
         v-for="attachment in recordings"
         :key="attachment.id"
-        class="bg-n-alpha-3 text-n-slate-12"
+        class="bg-n-alpha-3 dark:bg-n-alpha-2 text-n-slate-12"
         :attachment="attachment"
       />
     </div>
