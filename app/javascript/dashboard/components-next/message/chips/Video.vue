@@ -22,11 +22,11 @@ defineProps({
       class="absolute w-full h-full inset-0 p-1 flex items-center justify-center"
     >
       <div
-        class="size-7 bg-n-alpha-2 backdrop-blur-sm rounded-full overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.4)]"
+        class="size-7 bg-n-slate-1/60 backdrop-blur-sm rounded-full overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.4)]"
       >
         <Icon
           icon="i-teenyicons-play-small-solid"
-          class="size-7 text-n-slate-12/60 backdrop-blur"
+          class="size-7 text-n-slate-12/80 backdrop-blur"
         />
       </div>
     </div>

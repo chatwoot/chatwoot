@@ -30,7 +30,7 @@ const fileType = computed(() => {
 
 <template>
   <div
-    class="h-9 bg-n-solid-3 gap-2 items-center flex px-2 rounded-lg border border-n-strong"
+    class="h-9 bg-n-alpha-3 gap-2 items-center flex px-2 rounded-lg border border-n-strong"
   >
     <FileIcon class="flex-shrink-0" :file-type="fileType" />
     <span class="mr-1 max-w-32 truncate">{{ fileName }}</span>
