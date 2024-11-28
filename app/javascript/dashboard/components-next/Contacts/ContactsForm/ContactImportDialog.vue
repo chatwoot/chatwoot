@@ -18,7 +18,7 @@ const fileInput = ref(null);
 const hasSelectedFile = ref(null);
 const selectedFileName = ref('');
 
-const csvUrl = () => '/downloads/import-contacts-sample.csv';
+const csvUrl = '/downloads/import-contacts-sample.csv';
 
 const handleFileClick = () => fileInput.value?.click();
 
@@ -72,7 +72,7 @@ defineExpose({ dialogRef });
           :href="csvUrl"
           target="_blank"
           rel="noopener noreferrer"
-          download="import-contacts-sample"
+          download="import-contacts-sample.csv"
           class="text-n-blue-text"
         >
           {{
@@ -96,7 +96,7 @@ defineExpose({ dialogRef });
             :label="
               t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.CHOOSE_FILE')
             "
-            icon="i-lucide-download"
+            icon="i-lucide-upload"
             color="slate"
             variant="ghost"
             size="sm"
