@@ -45,6 +45,9 @@ export default {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
     backUrl() {
+      if (window.history.state?.back || window.history.length > 1) {
+        return '';
+      }
       return `/app/accounts/${this.$route.params.accountId}/contacts`;
     },
   },

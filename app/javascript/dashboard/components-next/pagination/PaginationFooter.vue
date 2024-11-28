@@ -17,6 +17,10 @@ const props = defineProps({
     type: Number,
     default: 16,
   },
+  currentPageInfo: {
+    type: String,
+    default: '',
+  },
 });
 const emit = defineEmits(['update:currentPage']);
 const { t } = useI18n();
@@ -39,11 +43,14 @@ const changePage = newPage => {
 };
 
 const currentPageInformation = computed(() => {
-  return t('PAGINATION_FOOTER.SHOWING', {
-    startItem: startItem.value,
-    endItem: endItem.value,
-    totalItems: props.totalItems,
-  });
+  return t(
+    props.currentPageInfo ? props.currentPageInfo : 'PAGINATION_FOOTER.SHOWING',
+    {
+      startItem: startItem.value,
+      endItem: endItem.value,
+      totalItems: props.totalItems,
+    }
+  );
 });
 
 const pageInfo = computed(() => {
@@ -84,7 +91,7 @@ const pageInfo = computed(() => {
         <span class="px-3 tabular-nums py-0.5 bg-n-alpha-black2 rounded-md">
           {{ currentPage }}
         </span>
-        <span>{{ pageInfo }}</span>
+        <span class="truncate">{{ pageInfo }}</span>
       </div>
       <Button
         icon="i-lucide-chevron-right"
