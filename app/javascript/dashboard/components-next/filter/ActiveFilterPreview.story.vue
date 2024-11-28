@@ -52,7 +52,7 @@ const maxVisibleFilters = ref(2);
 
     <Variant title="With Object Values">
       <ActiveFilterPreview
-        :applied-filters="[appliedFilters[6]]"
+        :applied-filters="[appliedFilters[5]]"
         :max-visible-filters="maxVisibleFilters"
         clear-button-label="Clear Filters"
         @clear-filters="() => {}"
