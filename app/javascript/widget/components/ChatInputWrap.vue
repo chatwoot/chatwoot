@@ -133,7 +133,7 @@ export default {
 
 <template>
   <div
-    dir="rtl" class="chat-message--input is-focused"
+    style="padding-left: 8px;"dir="rtl" class="chat-message--input is-focused"
     :class="getThemeClass('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
