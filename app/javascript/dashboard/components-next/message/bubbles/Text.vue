@@ -72,7 +72,7 @@ const files = computed(() => {
 <template>
   <BaseBubble class="p-3 grid gap-3">
     <span v-if="content" v-html="formattedContent" />
-    <div v-if="mediaAttachments.length" class="flex gap-2">
+    <div v-if="mediaAttachments.length" class="flex flex-wrap gap-2">
       <template v-for="attachment in mediaAttachments" :key="attachment.id">
         <ImageChip
           v-if="attachment.fileType === ATTACHMENT_TYPES.IMAGE"
