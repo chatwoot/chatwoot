@@ -440,8 +440,30 @@
             "ASCENDING": "Ascending",
             "DESCENDING": "Descending"
           }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "El akarod menteni ezt a szűrőt?",
+            "CONFIRM": "Szűrő mentése",
+            "LABEL": "Név",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Törlés megerősítése",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "Igen, Törlés",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
         }
       }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "CARD": {
       "OF": "of",
@@ -456,10 +478,12 @@
             "PLACEHOLDER": "Enter the last name"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address"
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number"
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
           },
           "CITY": {
             "PLACEHOLDER": "Add meg a város nevét"
@@ -473,7 +497,10 @@
           "COMPANY_NAME": {
             "PLACEHOLDER": "Cégnév megadása"
           }
-        }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -549,6 +576,13 @@
         "SAVE": "Save note",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "Nincs a keresésnek megfelelő kontakt 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
     }
   }
 }
