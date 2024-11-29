@@ -65,12 +65,17 @@ const onEnd = () => {
   currentTime.value = 0;
 };
 
-const downloadAudio = () => {
+const downloadAudio = async () => {
+  const response = await fetch(timeStampURL.value);
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
   const anchor = document.createElement('a');
-  anchor.href = timeStampURL.value;
-  anchor.download = timeStampURL.value.split('/').pop() || 'audio';
+  anchor.href = url;
+  const filename = timeStampURL.value.split('/').pop().split('?')[0] || 'audio';
+  anchor.download = filename;
   document.body.appendChild(anchor);
   anchor.click();
+  window.URL.revokeObjectURL(url);
   document.body.removeChild(anchor);
 };
 </script>
