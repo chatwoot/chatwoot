@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "Lig med",
       "not_equal_to": "Ikke lig med",
-      "contains": "Indeholder",
       "does_not_contain": "Indeholder ikke",
       "is_present": "Er til stede",
       "is_not_present": "Er ikke til stede",
       "is_greater_than": "Er større end",
       "is_less_than": "Er mindre end",
       "days_before": "Er x dage før",
-      "starts_with": "Starts with"
+      "starts_with": "Starts with",
+      "equalTo": "Lig med",
+      "notEqualTo": "Ikke lig med",
+      "contains": "Indeholder",
+      "doesNotContain": "Indeholder ikke",
+      "isPresent": "Er til stede",
+      "isNotPresent": "Er ikke til stede",
+      "isGreaterThan": "Er større end",
+      "isLessThan": "Er mindre end",
+      "daysBefore": "Er x dage før",
+      "startsWith": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Sandt",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "Last activity"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "Værdi er påkrævet"
+      "VALUE_REQUIRED": "Værdi er påkrævet",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
