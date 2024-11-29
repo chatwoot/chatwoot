@@ -440,8 +440,30 @@
             "ASCENDING": "Ascending",
             "DESCENDING": "Descending"
           }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "你要儲存這個篩選條件嗎？",
+            "CONFIRM": "儲存篩選條件",
+            "LABEL": "姓名",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "確認刪除",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "是，刪除",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
         }
       }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "CARD": {
       "OF": "of",
@@ -456,10 +478,12 @@
             "PLACEHOLDER": "Enter the last name"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address"
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number"
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "This phone number is in use for another contact."
           },
           "CITY": {
             "PLACEHOLDER": "Enter the city name"
@@ -473,7 +497,10 @@
           "COMPANY_NAME": {
             "PLACEHOLDER": "請輸入公司名稱"
           }
-        }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -549,6 +576,13 @@
         "SAVE": "Save note",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "找不到符合條件的聯絡人 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
     }
   }
 }
