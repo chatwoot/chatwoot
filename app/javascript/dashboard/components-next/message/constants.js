@@ -13,6 +13,7 @@ export const MESSAGE_VARIANTS = {
   BOT: 'bot',
   ERROR: 'error',
   TEMPLATE: 'template',
+  EMAIL: 'email',
 };
 
 export const SENDER_TYPES = {

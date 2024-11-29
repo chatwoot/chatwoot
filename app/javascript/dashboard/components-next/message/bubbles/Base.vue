@@ -6,7 +6,7 @@ import { useMessageContext } from '../provider.js';
 import { useI18n } from 'vue-i18n';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { MESSAGE_VARIANTS } from '../constants';
+import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
 const { variant, orientation, inReplyTo } = useMessageContext();
 const { t } = useI18n();
@@ -19,12 +19,13 @@ const varaintBaseMap = {
   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
+  [MESSAGE_VARIANTS.EMAIL]: 'bg-n-alpha-2 w-full',
 };
 
 const orientationMap = {
-  left: 'rounded-xl rounded-bl-sm',
-  right: 'rounded-xl rounded-br-sm',
-  center: 'rounded-md',
+  [ORIENTATION.LEFT]: 'rounded-xl rounded-bl-sm',
+  [ORIENTATION.RIGHT]: 'rounded-xl rounded-br-sm',
+  [ORIENTATION.CENTER]: 'rounded-md',
 };
 
 const messageClass = computed(() => {
@@ -61,7 +62,15 @@ const previewMessage = computed(() => {
 </script>
 
 <template>
-  <div class="max-w-md text-sm" :class="messageClass">
+  <div
+    class="text-sm"
+    :class="[
+      messageClass,
+      {
+        'max-w-md': variant !== MESSAGE_VARIANTS.EMAIL,
+      },
+    ]"
+  >
     <div
       v-if="inReplyTo"
       class="bg-n-alpha-black1 rounded-lg p-2"
