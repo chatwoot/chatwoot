@@ -265,11 +265,14 @@ provideMessageContext({
       >
         <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
       </div>
-      <Component
-        :is="componentToRender"
-        v-bind="props"
+      <div
         class="[grid-area:bubble]"
-      />
+        :class="{
+          'pl-9': ORIENTATION.RIGHT === orientation,
+        }"
+      >
+        <Component :is="componentToRender" v-bind="props" />
+      </div>
       <MessageError
         v-if="contentAttributes.externalError"
         class="[grid-area:meta]"
