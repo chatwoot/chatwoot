@@ -1,8 +1,8 @@
 class Integrations::CustomApi::UpdateOrderStatusService
-  def initialize(order_key, status, traking_code)
+  def initialize(order_key, status, tracking_code)
     @order_key = order_key
     @status = status
-    @tracking_code = traking_code
+    @tracking_code = tracking_code
   end
 
   def perform
