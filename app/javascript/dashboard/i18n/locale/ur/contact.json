@@ -440,8 +440,30 @@
             "ASCENDING": "Ascending",
             "DESCENDING": "Descending"
           }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Do you want to save this filter?",
+            "CONFIRM": "فلٹر محفوظ کریں۔",
+            "LABEL": "نام",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "حذف کرنے کی تصدیق کریں۔",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "ہاں، حذف کریں۔ ",
+            "CANCEL": "No, Cancel",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
         }
       }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "CARD": {
       "OF": "of",
@@ -456,10 +478,12 @@
             "PLACEHOLDER": "Enter the last name"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address"
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number"
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "یہ فون نمبر دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
           },
           "CITY": {
             "PLACEHOLDER": "Enter the city name"
@@ -473,7 +497,10 @@
           "COMPANY_NAME": {
             "PLACEHOLDER": "کمپنی کا نام درج کریں۔"
           }
-        }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -549,6 +576,13 @@
         "SAVE": "Save note",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
     }
   }
 }
