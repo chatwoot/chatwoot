@@ -18,6 +18,7 @@ import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
+import EmailBubble from './bubbles/Email.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -127,6 +128,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  isEmailInbox: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /**
@@ -136,6 +141,12 @@ const props = defineProps({
 const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
+  if (props.isEmailInbox) {
+    const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
+    if (emailInboxTypes.includes(props.messageType)) {
+      return MESSAGE_VARIANTS.EMAIL;
+    }
+  }
 
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
@@ -152,6 +163,7 @@ const isMyMessage = computed(() => {
   const senderType = props.senderType ?? props.sender?.type;
 
   if (!senderType || !senderId) return false;
+
   return (
     senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
     props.currentUserId === senderId
@@ -220,6 +232,11 @@ const shouldShowAvatar = computed(() => {
 });
 
 const componentToRender = computed(() => {
+  if (props.isEmailInbox && !props.private) {
+    const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
+    if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
+  }
+
   if (props.attachments.length === 1 && !props.content) {
     const fileType = props.attachments[0].fileType;
     if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
