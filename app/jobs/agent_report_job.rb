@@ -35,7 +35,7 @@ class AgentReportJob < ApplicationJob
                 { since: 1.day.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               end
 
-      params = range.merge({ business_hours: true })
+      params = range.merge({ business_hours: working_hours_enabled?(job[:account_id]) })
 
       process_account(Account.find(job[:account_id]), range, params, false, job[:frequency])
     end
@@ -48,6 +48,10 @@ class AgentReportJob < ApplicationJob
     set_statement_timeout
 
     process_account(account, range, params, bitespeed_bot, 'custom')
+  end
+
+  def working_hours_enabled?(account_id)
+    Account.find(account_id).inboxes.any?(&:working_hours_enabled?)
   end
 
   def set_statement_timeout

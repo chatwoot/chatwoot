@@ -59,17 +59,30 @@ module ReportHelper
     scope.messages.where(account_id: account.id, created_at: range).outgoing.unscope(:order)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def resolutions
     if params[:assignee_id].present?
-      # rubocop:disable Layout/LineLength
-      scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved, user_id: params[:assignee_id],
-                                                                                 conversations: { status: :resolved }, created_at: range).distinct
-      # rubocop:enable Layout/LineLength
+      scope.reporting_events.joins(:conversation)
+           .select(:conversation_id)
+           .where(
+             account_id: account.id,
+             name: :conversation_resolved,
+             user_id: params[:assignee_id],
+             conversations: { status: :resolved },
+             created_at: range
+           ).distinct
     else
-      scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
-                                                                                 conversations: { status: :resolved }, created_at: range).distinct
+      scope.reporting_events.joins(:conversation)
+           .select(:conversation_id)
+           .where(
+             account_id: account.id,
+             name: :conversation_resolved,
+             conversations: { status: :resolved },
+             created_at: range
+           ).distinct
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def bot_resolutions
     scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_bot_resolved,
@@ -102,14 +115,29 @@ module ReportHelper
     grouped_reporting_events.average(:value)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def avg_resolution_time_summary
-    if params[:assignee_id].present?
-      reporting_events = scope.reporting_events
-                              .where(name: 'conversation_resolved', account_id: account.id, created_at: range, user_id: params[:assignee_id])
-    else
-      reporting_events = scope.reporting_events
-                              .where(name: 'conversation_resolved', account_id: account.id, created_at: range)
-    end
+    reporting_events = if params[:assignee_id].present?
+                         scope.reporting_events.joins(:conversation)
+                              .select(:value, :value_in_business_hours)
+                              .where(
+                                account_id: account.id,
+                                name: :conversation_resolved,
+                                user_id: params[:assignee_id],
+                                conversations: { status: :resolved },
+                                created_at: range
+                              )
+                       else
+                         scope.reporting_events.joins(:conversation)
+                              .select(:value, :value_in_business_hours)
+                              .where(
+                                account_id: account.id,
+                                name: :conversation_resolved,
+                                conversations: { status: :resolved },
+                                created_at: range
+                              )
+                       end
     avg_rt = if params[:business_hours].present?
                reporting_events.average(:value_in_business_hours)
              else
@@ -120,6 +148,8 @@ module ReportHelper
 
     avg_rt
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def reply_time_summary
     reporting_events = scope.reporting_events

@@ -46,9 +46,12 @@ class LabelReportJob < ApplicationJob
     ActiveRecord::Base.connection.execute("SET statement_timeout = '60s'")
   end
 
+  def working_hours_enabled?(account_id)
+    Account.find(account_id).inboxes.any?(&:working_hours_enabled?)
+  end
+
   def process_account(account_id, range, bitespeed_bot, frequency = 'daily')
-    agents = AccountUser.where(account_id: account_id)
-    agent_users = User.where(id: agents.pluck(:user_id))
+    agents = AccountUser.includes(:user).where(account_id: account_id)
     reports = []
 
     agents.each do |agent|
@@ -62,7 +65,7 @@ class LabelReportJob < ApplicationJob
       start_date = range[:since].strftime('%Y-%m-%d')
       end_date = range[:until].strftime('%Y-%m-%d')
 
-      csv_content = generate_csv(reports, agent_users, start_date, end_date)
+      csv_content = generate_csv(reports, agents, start_date, end_date)
       upload_csv(account_id, range, csv_content, frequency, bitespeed_bot)
     else
       Rails.logger.info "No data found for account_id: #{account_id}"
@@ -71,10 +74,11 @@ class LabelReportJob < ApplicationJob
 
   def generate_label_report_per_agent(account_id, range, agent)
     account = Account.find(account_id)
+    business_hours = working_hours_enabled?(account_id)
     account.labels.map do |label|
       report = generate_report(account,
                                { type: :label, id: label.id, since: range[:since], until: range[:until], assignee_id: agent.user_id,
-                                 business_hours: true })
+                                 business_hours: business_hours })
       [label.title] + generate_readable_report_metrics(report)
     end
   end
@@ -101,13 +105,13 @@ class LabelReportJob < ApplicationJob
     ]
   end
 
-  def generate_csv(results, agent_users, start_date, end_date)
+  def generate_csv(results, agents, start_date, end_date)
     CSV.generate(headers: true) do |csv|
       csv << ["Reporting period #{start_date} to #{end_date}"]
       csv << []
 
-      agent_users.each_with_index do |agent_user, index|
-        csv << ["Agent Name: #{agent_user.name}"]
+      agents.each_with_index do |agent, index|
+        csv << ["Agent Name: #{agent.user.name}"]
         csv << ['Label', 'No. of conversations', 'Avg first response time', 'Avg resolution time', 'Open conversations', 'Unattended conversations',
                 'Resolved conversations']
 
