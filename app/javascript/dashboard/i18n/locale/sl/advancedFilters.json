@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "Enako",
       "not_equal_to": "Ni enako",
-      "contains": "Vsebuje",
       "does_not_contain": "Ne vsebuje",
       "is_present": "Je prisoten",
       "is_not_present": "Ni prisoten",
       "is_greater_than": "Je večje od",
       "is_less_than": "Je manjše od",
       "days_before": "Je x dni prej",
-      "starts_with": "Začne se z"
+      "starts_with": "Začne se z",
+      "equalTo": "Enako",
+      "notEqualTo": "Ni enako",
+      "contains": "Vsebuje",
+      "doesNotContain": "Ne vsebuje",
+      "isPresent": "Je prisoten",
+      "isNotPresent": "Ni prisoten",
+      "isGreaterThan": "Je večje od",
+      "isLessThan": "Je manjše od",
+      "daysBefore": "Je x dni prej",
+      "startsWith": "Začne se z"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "Zadnja aktivnost"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "Vrednost je obvezna"
+      "VALUE_REQUIRED": "Vrednost je obvezna",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardni filtri",
