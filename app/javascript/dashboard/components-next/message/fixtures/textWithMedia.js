@@ -333,10 +333,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'https://images.pexels.com/photos/28379994/pexels-photo-28379994/free-photo-of-a-laptop-with-a-yellow-phone-on-top-of-it.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-          thumb_url:
-            'https://images.pexels.com/photos/28379994/pexels-photo-28379994/free-photo-of-a-laptop-with-a-yellow-phone-on-top-of-it.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 983912,
           width: null,
           height: null,
@@ -760,10 +758,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'https://images.pexels.com/photos/2526935/pexels-photo-2526935.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-          thumb_url:
-            'https://images.pexels.com/photos/2526935/pexels-photo-2526935.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 287949,
           width: null,
           height: null,
@@ -774,10 +770,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'https://images.pexels.com/photos/29429907/pexels-photo-29429907/free-photo-of-close-up-of-pelican-with-vibrant-bill-by-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-          thumb_url:
-            'https://images.pexels.com/photos/29429907/pexels-photo-29429907/free-photo-of-close-up-of-pelican-with-vibrant-bill-by-water.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 287949,
           width: null,
           height: null,
@@ -788,10 +782,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'https://images.pexels.com/photos/29352713/pexels-photo-29352713/free-photo-of-scenic-open-road-under-clear-blue-sky.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-          thumb_url:
-            'https://images.pexels.com/photos/29352713/pexels-photo-29352713/free-photo-of-scenic-open-road-under-clear-blue-sky.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 287949,
           width: null,
           height: null,
@@ -966,7 +958,7 @@ export default camelcaseKeys(
           account_id: 2,
           extension: null,
           data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVlLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--9f0cff1a4a9ae79518d878ebd16d0c864275c50f/9bcbcc4d44aa.mp3',
+            'https://cdn.freesound.org/previews/769/769025_16085454-lq.mp3',
           thumb_url: '',
           file_size: 345644,
           width: null,
@@ -1025,7 +1017,7 @@ export default camelcaseKeys(
           account_id: 2,
           extension: null,
           data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaVlLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--9f0cff1a4a9ae79518d878ebd16d0c864275c50f/9bcbcc4d44aa.mp3',
+            'https://cdn.freesound.org/previews/769/769025_16085454-lq.mp3',
           thumb_url: '',
           file_size: 345644,
           width: null,
@@ -1247,10 +1239,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXNLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dfc1dcfd6733fe82ad318036e8f5926f2d7634/scrubbing.webp',
-          thumb_url:
-            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXNLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dfc1dcfd6733fe82ad318036e8f5926f2d7634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/scrubbing.webp',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 26126,
           width: null,
           height: null,
@@ -1261,10 +1251,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/multi.webp',
-          thumb_url:
-            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/multi.webp',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 58696,
           width: null,
           height: null,
@@ -1320,10 +1308,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXNLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dfc1dcfd6733fe82ad318036e8f5926f2d7634/scrubbing.webp',
-          thumb_url:
-            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXNLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dfc1dcfd6733fe82ad318036e8f5926f2d7634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/scrubbing.webp',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 26126,
           width: null,
           height: null,
@@ -1334,10 +1320,8 @@ export default camelcaseKeys(
           file_type: 'image',
           account_id: 2,
           extension: null,
-          data_url:
-            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/multi.webp',
-          thumb_url:
-            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--3aa5f4c3a2a034b6e68800d4787d369254ab1eb4/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2h3Ym1jNkUzSmxjMmw2WlY5MGIxOW1hV3hzV3dkcEFmb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--328463286cffa0d7d9a36a3a30bfa1daed3a5ee6/multi.webp',
+          data_url: 'https://picsum.photos/500',
+          thumb_url: 'https://picsum.photos/500',
           file_size: 58696,
           width: null,
           height: null,
