@@ -440,8 +440,30 @@
             "ASCENDING": "Augoša",
             "DESCENDING": "Dilstoša"
           }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "Vai vēlaties saglabāt šo filtru?",
+            "CONFIRM": "Saglabāt filtru",
+            "LABEL": "Nosaukums",
+            "PLACEHOLDER": "Ievadiet filtra nosaukumu",
+            "ERROR": "Ievadiet derīgu nosaukumu",
+            "SUCCESS_MESSAGE": "Filtrs ir veiksmīgi saglabāts",
+            "ERROR_MESSAGE": "Nevar saglabāt filtru. Lūdzu, vēlāk mēģiniet vēlreiz."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "Apstiprināt Dzēšanu",
+            "DESCRIPTION": "Vai tiešām vēlaties dzēst šo filtru?",
+            "CONFIRM": "Jā, Dzēst",
+            "CANCEL": "Nē, Atcelt",
+            "SUCCESS_MESSAGE": "Filtrs ir veiksmīgi izdzēsts",
+            "ERROR_MESSAGE": "Nevar izdzēst filtru. Lūdzu, vēlāk mēģiniet vēlreiz."
+          }
         }
       }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Rāda {startItem} - {endItem} no {totalItems} kontaktpersonām"
     },
     "CARD": {
       "OF": "no",
@@ -456,10 +478,12 @@
             "PLACEHOLDER": "Ievadiet uzvārdu"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Ievadiet e-pasta adresi"
+            "PLACEHOLDER": "Ievadiet e-pasta adresi",
+            "DUPLICATE": "Šī e-pasta adrese tiek izmantota citai kontaktpersonai."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Ievadiet tālruņa numuru"
+            "PLACEHOLDER": "Ievadiet tālruņa numuru",
+            "DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai."
           },
           "CITY": {
             "PLACEHOLDER": "Ievadiet pilsētas nosaukumu"
@@ -473,7 +497,10 @@
           "COMPANY_NAME": {
             "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu"
           }
-        }
+        },
+        "UPDATE_BUTTON": "Atjaunināt kontaktpersonu",
+        "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Nevar atjaunināt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Rediģēt sociālās saites",
@@ -549,6 +576,13 @@
         "SAVE": "Saglabāt piezīmi",
         "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā."
       }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "Šajā kontā nav atrasta neviena kontaktpersona",
+      "SUBTITLE": "Sāciet pievienot jaunas kontaktpersonas, noklikšķinot uz tālāk esošās pogas",
+      "BUTTON_LABEL": "Pievienot kontaktpersonu",
+      "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
+      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋"
     }
   }
 }
