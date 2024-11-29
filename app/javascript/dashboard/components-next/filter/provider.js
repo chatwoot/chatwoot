@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
+import { buildAttributesFilterTypes } from './helper/filterHelper';
 import countries from 'shared/constants/countries.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
@@ -41,26 +42,6 @@ import languages from 'dashboard/components/widgets/conversation/advancedFilterI
  */
 
 /**
- * Determines the input type for a custom attribute based on its key
- * @param {string} key - The attribute display type key
- * @returns {'date'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
- */
-const customAttributeInputType = key => {
-  switch (key) {
-    case 'date':
-      return 'date';
-    case 'text':
-      return 'plainText';
-    case 'list':
-      return 'searchSelect';
-    case 'checkbox':
-      return 'booleanSelect';
-    default:
-      return 'plainText';
-  }
-};
-
-/**
  * Composable that provides conversation filtering context
  * @returns {{ filterTypes: import('vue').ComputedRef<FilterType[]>, filterGroups: import('vue').ComputedRef<FilterGroup[]> }}
  */
@@ -88,23 +69,9 @@ export function useConversationFilterContext() {
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
    */
-  const customFilterTypes = computed(() => {
-    return conversationAttributes.value.map(attr => {
-      return {
-        attributeKey: attr.attributeKey,
-        value: attr.attributeKey,
-        attributeName: attr.attributeDisplayName,
-        label: attr.attributeDisplayName,
-        inputType: customAttributeInputType(attr.attributeDisplayType),
-        filterOperators: getOperatorTypes(attr.attributeDisplayType),
-        options:
-          attr.attributeDisplayType === 'list'
-            ? attr.attributeValues.map(item => ({ id: item, name: item }))
-            : [],
-        attributeModel: 'customAttributes',
-      };
-    });
-  });
+  const customFilterTypes = computed(() =>
+    buildAttributesFilterTypes(conversationAttributes.value, getOperatorTypes)
+  );
 
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
@@ -272,28 +239,5 @@ export function useConversationFilterContext() {
     ...customFilterTypes.value,
   ]);
 
-  const filterGroups = computed(() => {
-    return [
-      {
-        name: t(`FILTER.GROUPS.STANDARD_FILTERS`),
-        attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'standard'
-        ),
-      },
-      {
-        name: t(`FILTER.GROUPS.ADDITIONAL_FILTERS`),
-        attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'additional'
-        ),
-      },
-      {
-        name: t(`FILTER.GROUPS.CUSTOM_ATTRIBUTES`),
-        attributes: filterTypes.value.filter(
-          filter => filter.attributeModel === 'customAttributes'
-        ),
-      },
-    ];
-  });
-
-  return { filterTypes, filterGroups };
+  return { filterTypes };
 }
