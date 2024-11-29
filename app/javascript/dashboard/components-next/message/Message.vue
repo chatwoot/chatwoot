@@ -151,6 +151,7 @@ const isMyMessage = computed(() => {
   const senderId = props.senderId ?? props.sender?.id;
   const senderType = props.senderType ?? props.sender?.type;
 
+  if (!senderType || !senderId) return false;
   return (
     senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
     props.currentUserId === senderId
