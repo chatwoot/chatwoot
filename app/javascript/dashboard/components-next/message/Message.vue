@@ -149,9 +149,11 @@ const variant = computed(() => {
 
 const isMyMessage = computed(() => {
   const senderId = props.senderId ?? props.sender?.id;
+  const senderType = props.senderType ?? props.sender?.type;
 
   return (
-    props.senderType === SENDER_TYPES.USER && props.currentUserId === senderId
+    senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
+    props.currentUserId === senderId
   );
 });
 
