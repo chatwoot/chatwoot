@@ -24,9 +24,9 @@ defineProps({
 
 const emit = defineEmits(['clearFilters']);
 
-const capitalizeFirstLetter = key => {
-  const attributeKeys = ['email'];
-  return !attributeKeys.includes(key);
+const shouldCapitalizeFirstLetter = key => {
+  const lowercaseKeys = ['email'];
+  return !lowercaseKeys.includes(key);
 };
 
 const formatOperatorLabel = operator => {
@@ -63,29 +63,32 @@ const formatFilterValue = value => {
         v-if="index < maxVisibleFilters"
         class="inline-flex items-center gap-2 h-7"
       >
-        <span
-          class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 first-letter:capitalize text-n-slate-12 border-n-weak bg-n-solid-2"
+        <div
+          class="flex items-center h-full min-w-0 gap-1 px-2 py-1 text-xs border rounded-lg max-w-72 border-n-weak"
         >
-          {{ replaceUnderscoreWithSpace(filter.attributeKey) }}
-        </span>
-        <span
-          class="content-center h-full px-1 text-xs truncate rounded-lg text-n-slate-10"
-        >
-          {{ formatOperatorLabel(filter.filterOperator) }}
-        </span>
-        <span
-          v-if="filter.values"
-          class="content-center h-full px-2 text-xs lowercase truncate border rounded-lg max-w-52 text-n-slate-12 border-n-weak bg-n-solid-2"
-          :class="
-            capitalizeFirstLetter(filter.attributeKey) &&
-            'first-letter:capitalize'
-          "
-        >
-          {{ formatFilterValue(filter.values) }}
-        </span>
+          <span
+            class="lowercase whitespace-nowrap first-letter:capitalize text-n-slate-12"
+          >
+            {{ replaceUnderscoreWithSpace(filter.attributeKey) }}
+          </span>
+          <span class="px-1 text-xs text-n-slate-10 whitespace-nowrap">
+            {{ formatOperatorLabel(filter.filterOperator) }}
+          </span>
+          <span
+            v-if="filter.values"
+            class="lowercase truncate text-n-slate-12"
+            :class="{
+              'first-letter:capitalize': shouldCapitalizeFirstLetter(
+                filter.attributeKey
+              ),
+            }"
+          >
+            {{ formatFilterValue(filter.values) }}
+          </span>
+        </div>
         <template v-if="index < appliedFilters.length - 1">
           <span
-            class="content-center h-full px-1 text-xs uppercase rounded-lg text-n-slate-10"
+            class="content-center h-full px-1 text-xs font-medium uppercase rounded-lg text-n-slate-10"
           >
             {{ filter.queryOperator }}
           </span>
