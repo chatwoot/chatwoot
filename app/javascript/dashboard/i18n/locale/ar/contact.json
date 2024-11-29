@@ -440,8 +440,30 @@
             "ASCENDING": "Ascending",
             "DESCENDING": "Descending"
           }
+        },
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "TITLE": "هل تريد حفظ هذه التصفية؟",
+            "CONFIRM": "حفظ التصفية",
+            "LABEL": "الاسم",
+            "PLACEHOLDER": "Enter the name of the filter",
+            "ERROR": "Enter a valid name",
+            "SUCCESS_MESSAGE": "Filter saved successfully",
+            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+          },
+          "DELETE_SEGMENT": {
+            "TITLE": "تأكيد الحذف",
+            "DESCRIPTION": "Are you sure you want to delete this filter?",
+            "CONFIRM": "نعم، احذف",
+            "CANCEL": "لا، إلغاء",
+            "SUCCESS_MESSAGE": "Filter deleted successfully",
+            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+          }
         }
       }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
     "CARD": {
       "OF": "of",
@@ -456,10 +478,12 @@
             "PLACEHOLDER": "Enter the last name"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address"
+            "PLACEHOLDER": "Enter the email address",
+            "DUPLICATE": "عنوان البريد الإلكتروني هذا مستخدم من قبل جهة اتصال أخرى."
           },
           "PHONE_NUMBER": {
-            "PLACEHOLDER": "Enter the phone number"
+            "PLACEHOLDER": "Enter the phone number",
+            "DUPLICATE": "رقم الهاتف هذا مستخدم لجهة اتصال أخرى."
           },
           "CITY": {
             "PLACEHOLDER": "إدخال اسم المدينة"
@@ -473,7 +497,10 @@
           "COMPANY_NAME": {
             "PLACEHOLDER": "أدخل اسم الشركة"
           }
-        }
+        },
+        "UPDATE_BUTTON": "Update contact",
+        "SUCCESS_MESSAGE": "Contact updated successfully",
+        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -549,6 +576,13 @@
         "SAVE": "Save note",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
+    },
+    "EMPTY_STATE": {
+      "TITLE": "No contacts found in this account",
+      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "BUTTON_LABEL": "Add contact",
+      "SEARCH_EMPTY_STATE_TITLE": "لا توجد جهات اتصال تطابق بحثك 🔍",
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
     }
   }
 }
