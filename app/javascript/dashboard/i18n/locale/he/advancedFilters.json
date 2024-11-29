@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "שווה ל",
       "not_equal_to": "לא שווה ל",
-      "contains": "מכיל",
       "does_not_contain": "לא מכיל",
       "is_present": "נוכח",
       "is_not_present": "לא נוכח",
       "is_greater_than": "גדול מ",
       "is_less_than": "קטן מ",
       "days_before": "הוא x ימים לפני",
-      "starts_with": "מתחיל עם"
+      "starts_with": "מתחיל עם",
+      "equalTo": "שווה ל",
+      "notEqualTo": "לא שווה ל",
+      "contains": "מכיל",
+      "doesNotContain": "לא מכיל",
+      "isPresent": "נוכח",
+      "isNotPresent": "לא נוכח",
+      "isGreaterThan": "גדול מ",
+      "isLessThan": "הוא פחות מ",
+      "daysBefore": "הוא x ימים לפני",
+      "startsWith": "מתחיל עם"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "נכון",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "פעילות אחרונה"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "חובה ערך"
+      "VALUE_REQUIRED": "חובה ערך",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "סננים סטנדרטיים",
