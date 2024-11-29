@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "等於",
       "not_equal_to": "不等於",
-      "contains": "包含",
       "does_not_contain": "不包含",
       "is_present": "存在",
       "is_not_present": "不存在",
       "is_greater_than": "大於",
       "is_less_than": "小於",
       "days_before": "x 天前",
-      "starts_with": "從這開始"
+      "starts_with": "從這開始",
+      "equalTo": "等於",
+      "notEqualTo": "不等於",
+      "contains": "包含",
+      "doesNotContain": "不包含",
+      "isPresent": "存在",
+      "isNotPresent": "不存在",
+      "isGreaterThan": "大於",
+      "isLessThan": "小於",
+      "daysBefore": "x 天前",
+      "startsWith": "從這開始"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "最後活動"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "此欄位為必填項目"
+      "VALUE_REQUIRED": "此欄位為必填項目",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "一般查詢條件",
