@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Ім'я",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Номер телефону",
+      "IDENTIFIER": "Ідентифікатор",
+      "COUNTRY": "Країна",
+      "CITY": "Місто",
+      "CREATED_AT": "Створений в",
+      "LAST_ACTIVITY": "Остання активність",
+      "REFERER_LINK": "Посилання",
+      "BLOCKED": "Заблоковано",
+      "BLOCKED_TRUE": "Так",
+      "BLOCKED_FALSE": "Ні",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Очистити фільтри",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Застосувати фільтри",
+        "ADD_FILTER": "Додати фільтр"
+      },
+      "TITLE": "Фільтрувати контакти",
+      "EDIT_SEGMENT": "Редагувати сегмент",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Стандартні фільтри",
+        "ADDITIONAL_FILTERS": "Додаткові фільтри",
+        "CUSTOM_ATTRIBUTES": "Спеціальні атрибути"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Докладніше",
