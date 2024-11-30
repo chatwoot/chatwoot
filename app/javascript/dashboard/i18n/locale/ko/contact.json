@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "이름",
+      "EMAIL": "이메일",
+      "PHONE_NUMBER": "휴대폰 번호",
+      "IDENTIFIER": "식별자",
+      "COUNTRY": "국가",
+      "CITY": "도시",
+      "CREATED_AT": "에 만들어짐",
+      "LAST_ACTIVITY": "최근 활동",
+      "REFERER_LINK": "참고 링크",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "참",
+      "BLOCKED_FALSE": "거짓",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "필터 적용하기",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "상세보기",
