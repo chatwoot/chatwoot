@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "姓名：",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "电话号码",
+      "IDENTIFIER": "标识符",
+      "COUNTRY": "国家",
+      "CITY": "城市",
+      "CREATED_AT": "创建于",
+      "LAST_ACTIVITY": "上次操作",
+      "REFERER_LINK": "引用链接",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "真的",
+      "BLOCKED_FALSE": "错误",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "清除过滤器",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "应用过滤器",
+        "ADD_FILTER": "添加过滤器"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "编辑分段",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "常规筛选器",
+        "ADDITIONAL_FILTERS": "附加筛选条件",
+        "CUSTOM_ATTRIBUTES": "自定义属性"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "查看详细信息",
