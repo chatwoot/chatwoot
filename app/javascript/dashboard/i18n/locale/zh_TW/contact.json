@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "姓名",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "電話號碼",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "國家",
+      "CITY": "城市",
+      "CREATED_AT": "建立於",
+      "LAST_ACTIVITY": "最後活動",
+      "REFERER_LINK": "推薦人連結",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "清除查詢條件",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "篩選",
+        "ADD_FILTER": "添加查詢條件"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "一般查詢條件",
+        "ADDITIONAL_FILTERS": "田家查詢條件",
+        "CUSTOM_ATTRIBUTES": "自訂屬性"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "查看詳細資訊",
