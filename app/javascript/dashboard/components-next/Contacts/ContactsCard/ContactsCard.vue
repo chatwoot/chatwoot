@@ -147,7 +147,7 @@ const onClickViewDetails = () => emit('showContact', props.id);
         leave-to-class="overflow-hidden opacity-0 max-h-0"
       >
         <div v-show="isExpanded" class="w-full">
-          <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
+          <div class="flex flex-col gap-6 p-6 border-t border-n-strong"style="direction: ltr;">
             <ContactsForm
               ref="contactsFormRef"
               :contact-data="contactData"
