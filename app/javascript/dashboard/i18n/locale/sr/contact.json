@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Ime",
+      "EMAIL": "E-pošta",
+      "PHONE_NUMBER": "Broj telefona",
+      "IDENTIFIER": "Identifikator",
+      "COUNTRY": "Država",
+      "CITY": "Grad",
+      "CREATED_AT": "Napravljena u",
+      "LAST_ACTIVITY": "Poslednja aktivnost",
+      "REFERER_LINK": "Veza reference",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Istinito",
+      "BLOCKED_FALSE": "Neistinito",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Primenite filtere",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filtriraj kontakte",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Pogledaj detalje",
