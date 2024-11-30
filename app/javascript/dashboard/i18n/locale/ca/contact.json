@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Nom",
+      "EMAIL": "Correu electrònic",
+      "PHONE_NUMBER": "Número de telèfon",
+      "IDENTIFIER": "Identificador",
+      "COUNTRY": "País",
+      "CITY": "Ciutat",
+      "CREATED_AT": "Creat per",
+      "LAST_ACTIVITY": "Darrera activitat",
+      "REFERER_LINK": "Enllaç de referència",
+      "BLOCKED": "Blocat",
+      "BLOCKED_TRUE": "Cert",
+      "BLOCKED_FALSE": "Fals",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Esborra els filtres",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Aplicar filtres",
+        "ADD_FILTER": "Afegeix un filtre"
+      },
+      "TITLE": "Filtra els contactes",
+      "EDIT_SEGMENT": "Edita segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Filtres estàndard",
+        "ADDITIONAL_FILTERS": "Filtres addicionals",
+        "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Veure detalls",
