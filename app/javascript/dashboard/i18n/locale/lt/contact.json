@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Vardas",
+      "EMAIL": "El. paštas",
+      "PHONE_NUMBER": "Telefono numeris",
+      "IDENTIFIER": "Identifikatorius",
+      "COUNTRY": "Šalis",
+      "CITY": "Miestas",
+      "CREATED_AT": "Sukurta",
+      "LAST_ACTIVITY": "Paskutiniai veiksmai",
+      "REFERER_LINK": "Siuntimo nuoroda",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Tiesa",
+      "BLOCKED_FALSE": "Netiesa",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Išvalyti filtrus",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Taikyti filtrus",
+        "ADD_FILTER": "Pridėti Filtrą"
+      },
+      "TITLE": "Filtruoti kontaktus",
+      "EDIT_SEGMENT": "Redaguoti segmentą",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standartinis Filtras",
+        "ADDITIONAL_FILTERS": "Papildomas Filtras",
+        "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Pažiūrėti detaliau",
