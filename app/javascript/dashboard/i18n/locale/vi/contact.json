@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Tên",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Số điện thoại",
+      "IDENTIFIER": "Định danh",
+      "COUNTRY": "Quốc gia",
+      "CITY": "Tỉnh / Thành phố",
+      "CREATED_AT": "Tạo vào lúc",
+      "LAST_ACTIVITY": "Hành động cuối cùng",
+      "REFERER_LINK": "Liên kết người giới thiệu",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Đúng",
+      "BLOCKED_FALSE": "Sai",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Xóa các bộ lọc",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Áp dụng bộ lọc",
+        "ADD_FILTER": "Thêm bộ lọc"
+      },
+      "TITLE": "Lọc liên hệ",
+      "EDIT_SEGMENT": "Sửa bộ lọc",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
+        "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
+        "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Xem chi tiết",
