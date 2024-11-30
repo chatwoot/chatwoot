@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Naam",
+      "EMAIL": "E-mailadres",
+      "PHONE_NUMBER": "Telefoon nummer",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "Land",
+      "CITY": "Woonplaats",
+      "CREATED_AT": "Aangemaakt op",
+      "LAST_ACTIVITY": "Laatste Activiteit",
+      "REFERER_LINK": "Verwijzende link",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Waar",
+      "BLOCKED_FALSE": "Onwaar",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Filters wissen",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Filters toepassen",
+        "ADD_FILTER": "Filter toevoegen"
+      },
+      "TITLE": "Contacten filteren",
+      "EDIT_SEGMENT": "Segment bewerken",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standaard filters",
+        "ADDITIONAL_FILTERS": "Aanvullende filters",
+        "CUSTOM_ATTRIBUTES": "Aangepaste attributen"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Details bekijken",
