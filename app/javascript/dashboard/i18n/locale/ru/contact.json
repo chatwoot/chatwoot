@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Имя",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Номер телефона",
+      "IDENTIFIER": "Идентификатор",
+      "COUNTRY": "Страна",
+      "CITY": "Город",
+      "CREATED_AT": "Дата создания",
+      "LAST_ACTIVITY": "Последние действия",
+      "REFERER_LINK": "Ссылка реферера",
+      "BLOCKED": "Заблокирован",
+      "BLOCKED_TRUE": "Истина",
+      "BLOCKED_FALSE": "Ложь",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Очистить фильтры",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Применить фильтры",
+        "ADD_FILTER": "Добавить фильтр"
+      },
+      "TITLE": "Фильтровать контакты",
+      "EDIT_SEGMENT": "Редактировать сегмент",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Стандартные фильтры",
+        "ADDITIONAL_FILTERS": "Дополнительные фильтры",
+        "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Просмотреть подробности",
