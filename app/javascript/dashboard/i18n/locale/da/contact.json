@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Navn",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Telefonnummer",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "Land",
+      "CITY": "By",
+      "CREATED_AT": "Oprettet den",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "Refererer link",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Sandt",
+      "BLOCKED_FALSE": "Falsk",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Anvend filtre",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filtrer kontaktpersoner",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Se detaljer",
