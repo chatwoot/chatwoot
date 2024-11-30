@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "نام",
+      "EMAIL": "ایمیل",
+      "PHONE_NUMBER": "شماره تلفن",
+      "IDENTIFIER": "شناسه",
+      "COUNTRY": "کشور",
+      "CITY": "شهر",
+      "CREATED_AT": "ایجاد شده در",
+      "LAST_ACTIVITY": "آخرین فعالیت",
+      "REFERER_LINK": "پیوند ارجاع‌دهنده",
+      "BLOCKED": "مسدود شده",
+      "BLOCKED_TRUE": "درست",
+      "BLOCKED_FALSE": "نادرست",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "پاک کردن فیلترها",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "اعمال فیلترها",
+        "ADD_FILTER": "افزودن فیلتر"
+      },
+      "TITLE": "فیلتر مخاطبین",
+      "EDIT_SEGMENT": "ویرایش بخش",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "فیلترهای استاندارد",
+        "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+        "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "مشاهده جزئیات",
