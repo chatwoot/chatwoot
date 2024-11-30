@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Nama",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Nomor Telepon",
+      "IDENTIFIER": "Pengenal",
+      "COUNTRY": "Negara",
+      "CITY": "Kota",
+      "CREATED_AT": "Dibuat pada",
+      "LAST_ACTIVITY": "Aktivitas terakhir",
+      "REFERER_LINK": "Tautan Referer",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Benar",
+      "BLOCKED_FALSE": "Salah",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Terapkan filter",
+        "ADD_FILTER": "Tambah filter"
+      },
+      "TITLE": "Filter kontak",
+      "EDIT_SEGMENT": "Edit Segmen",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Atribut kostum"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Lihat Detail",
