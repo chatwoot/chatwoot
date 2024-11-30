@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "ชื่อ",
+      "EMAIL": "อีเมล์",
+      "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+      "IDENTIFIER": "ตัวระบุ",
+      "COUNTRY": "ประเทศ",
+      "CITY": "เมือง",
+      "CREATED_AT": "สร้างเมื่อ",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "ลิงก์อ้างอิง",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "จริง",
+      "BLOCKED_FALSE": "เท็จ",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "ใช้ตัวกรอง",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "ตัวกรองรายชื่อผู้ติดต่อ",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "ดูรายละเอียด",
