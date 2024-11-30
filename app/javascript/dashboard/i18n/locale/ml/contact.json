@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "പേര്",
+      "EMAIL": "ഇമെയിൽ",
+      "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+      "IDENTIFIER": "Identifier",
+      "COUNTRY": "രാജ്യം",
+      "CITY": "നഗരം",
+      "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "റഫറർ ലിങ്ക്",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക",
+        "ADD_FILTER": "ഫിൽട്ടർ ചേർക്കുക"
+      },
+      "TITLE": "Filter contacts",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക",
