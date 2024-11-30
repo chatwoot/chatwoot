@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Név",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Telefonszám",
+      "IDENTIFIER": "Azonosító",
+      "COUNTRY": "Ország",
+      "CITY": "Város",
+      "CREATED_AT": "Létrehozva",
+      "LAST_ACTIVITY": "Utolsó aktivitás",
+      "REFERER_LINK": "Hivatkozás link",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Igaz",
+      "BLOCKED_FALSE": "Hamis",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Szűrők törlése",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Szűrők alkalmazása",
+        "ADD_FILTER": "Szűrő hozzáadása"
+      },
+      "TITLE": "Kontaktok szűrése",
+      "EDIT_SEGMENT": "Szegmens szerkesztése",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard szűrők",
+        "ADDITIONAL_FILTERS": "További szűrők",
+        "CUSTOM_ATTRIBUTES": "Egyéni tulajdonságok"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Részletek megtekintése",
