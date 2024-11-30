@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Rāda {startItem} - {endItem} no {totalItems} kontaktpersonām"
     },
+    "FILTER": {
+      "NAME": "Nosaukums",
+      "EMAIL": "E-pasts",
+      "PHONE_NUMBER": "Telefona numurs",
+      "IDENTIFIER": "Identifikators",
+      "COUNTRY": "Valsts",
+      "CITY": "Pilsēta",
+      "CREATED_AT": "Izveidots plkst",
+      "LAST_ACTIVITY": "Pēdējā darbība",
+      "REFERER_LINK": "Atsauces saite",
+      "BLOCKED": "Bloķēts",
+      "BLOCKED_TRUE": "Patiesi",
+      "BLOCKED_FALSE": "Nepatiesi",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Notīrīt filtrus",
+        "UPDATE_SEGMENT": "Atjaunināt segmentu",
+        "APPLY_FILTERS": "Lietot filtrus",
+        "ADD_FILTER": "Pievienot filtru"
+      },
+      "TITLE": "Filtrēt kontaktpersonas",
+      "EDIT_SEGMENT": "Rediģēt segmentu",
+      "SEGMENT": {
+        "LABEL": "Segmenta nosaukums",
+        "INPUT_PLACEHOLDER": "Ievadiet segmenta nosaukumu"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standarta filtri",
+        "ADDITIONAL_FILTERS": "Papildu filtri",
+        "CUSTOM_ATTRIBUTES": "Pielāgoti atribūti"
+      }
+    },
     "CARD": {
       "OF": "no",
       "VIEW_DETAILS": "Skatīt detalizētu informāciju",
