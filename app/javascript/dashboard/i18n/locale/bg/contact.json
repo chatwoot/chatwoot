@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Име",
+      "EMAIL": "Имейл",
+      "PHONE_NUMBER": "Телефон",
+      "IDENTIFIER": "Идентификатор",
+      "COUNTRY": "Държава",
+      "CITY": "Град",
+      "CREATED_AT": "Създаден в",
+      "LAST_ACTIVITY": "Last activity",
+      "REFERER_LINK": "Референтна връзка",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "True",
+      "BLOCKED_FALSE": "False",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Прилагане на филтри",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Филтриране на контакти",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Вижте детайлите",
