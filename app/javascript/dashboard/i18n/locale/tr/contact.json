@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "İsim",
+      "EMAIL": "E-Posta",
+      "PHONE_NUMBER": "Telefon numarası",
+      "IDENTIFIER": "Doğrulayıcı",
+      "COUNTRY": "Ülke",
+      "CITY": "Şehir",
+      "CREATED_AT": "Oluşturma zamanı",
+      "LAST_ACTIVITY": "Son etkinlik",
+      "REFERER_LINK": "Yönlendiren Bağlantı",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Doğru",
+      "BLOCKED_FALSE": "Yanlış",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Filtreleri Temizle",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Filtreleri Uygula",
+        "ADD_FILTER": "Filtre Ekle"
+      },
+      "TITLE": "Kişileri filtrele",
+      "EDIT_SEGMENT": "Segmenti düzenle",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standart Filtreler",
+        "ADDITIONAL_FILTERS": "Ek Filtreler",
+        "CUSTOM_ATTRIBUTES": "Özel Özellikler"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Detayları Göster",
