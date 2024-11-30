@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Imię",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Numer telefonu",
+      "IDENTIFIER": "Identyfikator",
+      "COUNTRY": "Kraj",
+      "CITY": "Miasto",
+      "CREATED_AT": "Data utworzenia",
+      "LAST_ACTIVITY": "Ostatnia aktywność",
+      "REFERER_LINK": "Link odsyłający",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Prawda",
+      "BLOCKED_FALSE": "Fałsz",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Wyczyść filtry",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Zastosuj filtry",
+        "ADD_FILTER": "Dodaj filtr"
+      },
+      "TITLE": "Filtruj kontakty",
+      "EDIT_SEGMENT": "Edytuj segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standardowe filtry",
+        "ADDITIONAL_FILTERS": "Dodatkowe filtry",
+        "CUSTOM_ATTRIBUTES": "Atrybuty niestandardowe"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Zobacz szczegóły",
