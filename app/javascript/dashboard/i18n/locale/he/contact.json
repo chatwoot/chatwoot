@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "שם",
+      "EMAIL": "אימייל",
+      "PHONE_NUMBER": "מספר טלפון",
+      "IDENTIFIER": "מזהה",
+      "COUNTRY": "מדינה",
+      "CITY": "עיר",
+      "CREATED_AT": "נוצר בזמן",
+      "LAST_ACTIVITY": "פעילות אחרונה",
+      "REFERER_LINK": "קישור מפנה",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "נכון",
+      "BLOCKED_FALSE": "לא נכון",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "נקה מסננים",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "שמור סננים",
+        "ADD_FILTER": "הוסף מסנן"
+      },
+      "TITLE": "סינון אנשי קשר",
+      "EDIT_SEGMENT": "Edit segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "סננים סטנדרטיים",
+        "ADDITIONAL_FILTERS": "פילטרים נוספים",
+        "CUSTOM_ATTRIBUTES": "מאפיינים מותאמים אישית"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "הצג פרטים",
