@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "Nume",
+      "EMAIL": "E-mail",
+      "PHONE_NUMBER": "Număr de telefon",
+      "IDENTIFIER": "Identificator",
+      "COUNTRY": "Țară",
+      "CITY": "Oraș",
+      "CREATED_AT": "Creat la",
+      "LAST_ACTIVITY": "Ultima activitate",
+      "REFERER_LINK": "Link referer",
+      "BLOCKED": "Blocked",
+      "BLOCKED_TRUE": "Adevărat",
+      "BLOCKED_FALSE": "Fals",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "Clear filters",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "Aplicarea filtrelor",
+        "ADD_FILTER": "Add filter"
+      },
+      "TITLE": "Filtrarea persoanelor de contact",
+      "EDIT_SEGMENT": "Modifică segment",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "Standard filters",
+        "ADDITIONAL_FILTERS": "Additional filters",
+        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "Vezi detaliile",
