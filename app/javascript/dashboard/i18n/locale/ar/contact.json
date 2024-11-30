@@ -465,6 +465,37 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "FILTER": {
+      "NAME": "الاسم",
+      "EMAIL": "البريد الإلكتروني",
+      "PHONE_NUMBER": "رقم الهاتف",
+      "IDENTIFIER": "المعرف",
+      "COUNTRY": "الدولة",
+      "CITY": "المدينة",
+      "CREATED_AT": "تم إنشاؤها في",
+      "LAST_ACTIVITY": "آخر نشاط",
+      "REFERER_LINK": "رابط المرجع",
+      "BLOCKED": "محظور",
+      "BLOCKED_TRUE": "صحيح",
+      "BLOCKED_FALSE": "خاطئ",
+      "BUTTONS": {
+        "CLEAR_FILTERS": "مسح التصفيات",
+        "UPDATE_SEGMENT": "Update segment",
+        "APPLY_FILTERS": "تطبيق التصفيات",
+        "ADD_FILTER": "إضافة تصفية"
+      },
+      "TITLE": "تصفية جهات الاتصال",
+      "EDIT_SEGMENT": "تحرير الجزء",
+      "SEGMENT": {
+        "LABEL": "Segment name",
+        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+      },
+      "GROUPS": {
+        "STANDARD_FILTERS": "التصفيات القياسية",
+        "ADDITIONAL_FILTERS": "التصفيات الإضافية",
+        "CUSTOM_ATTRIBUTES": "الخصائص المخصصة"
+      }
+    },
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "عرض التفاصيل",
