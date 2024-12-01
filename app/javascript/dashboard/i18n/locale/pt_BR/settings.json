@@ -181,12 +181,12 @@
     "SWITCH_WORKSPACE": "Trocar workspace",
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "Configurações do Perfil",
+    "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
+    "APPEARANCE": "Alterar Tema",
+    "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
+    "DOCS": "Ler documentação",
+    "LOGOUT": "Encerrar sessão"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
@@ -229,7 +229,7 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
+    "NO_ITEMS": "Nenhum item",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
     "INBOX_VIEW": "",
@@ -269,7 +269,7 @@
     "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "LIVE_CHAT": "Chat ao vivo",
     "SMS": "SMS",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
