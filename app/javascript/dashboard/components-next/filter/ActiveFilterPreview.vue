@@ -86,7 +86,11 @@ const formatFilterValue = value => {
             {{ formatFilterValue(filter.values) }}
           </span>
         </div>
-        <template v-if="index < appliedFilters.length - 1">
+        <template
+          v-if="
+            index < maxVisibleFilters - 1 && index < appliedFilters.length - 1
+          "
+        >
           <span
             class="content-center h-full px-1 text-xs font-medium uppercase rounded-lg text-n-slate-10"
           >

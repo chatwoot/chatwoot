@@ -1,10 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { sampleActiveFilters } from './fixtures/filterTypes';
 import ActiveFilterPreview from './ActiveFilterPreview.vue';
 
 const appliedFilters = ref([...sampleActiveFilters]);
 const maxVisibleFilters = ref(2);
+
+const moreFiltersLabel = computed(
+  () => `${appliedFilters.value.length - maxVisibleFilters.value} more filters`
+);
 </script>
 
 <template>
@@ -15,7 +19,7 @@ const maxVisibleFilters = ref(2);
     <Variant title="Default (2 visible filters)">
       <ActiveFilterPreview
         :applied-filters="appliedFilters.slice(0, 2)"
-        :max-visible-filters="maxVisibleFilters"
+        :max-visible-filters="2"
         clear-button-label="Clear Filters"
         more-filters-label=""
         @clear-filters="() => {}"
@@ -27,7 +31,7 @@ const maxVisibleFilters = ref(2);
         :applied-filters="appliedFilters"
         :max-visible-filters="maxVisibleFilters"
         clear-button-label="Clear Filters"
-        :more-filters-label="`${appliedFilters.length - maxVisibleFilters} more filters`"
+        :more-filters-label="moreFiltersLabel"
         @clear-filters="() => {}"
       />
     </Variant>
