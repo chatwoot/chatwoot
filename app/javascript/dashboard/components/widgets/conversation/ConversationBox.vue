@@ -5,10 +5,12 @@ import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
+import CopilotContainer from '../../copilot/CopilotContainer.vue';
 
 export default {
   components: {
     ContactPanel,
+    CopilotContainer,
     ConversationHeader,
     DashboardAppFrame,
     EmptyState,
@@ -135,7 +137,7 @@ export default {
         v-if="!currentChat.id && !isInboxView"
         :is-on-expanded-layout="isOnExpandedLayout"
       />
-      <div
+      <!-- <div
         v-show="showContactPanel"
         class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
       >
@@ -145,7 +147,8 @@ export default {
           :inbox-id="currentChat.inbox_id"
           :on-toggle="onToggleContactPanel"
         />
-      </div>
+      </div> -->
+      <CopilotContainer />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

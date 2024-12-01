@@ -14,14 +14,14 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex flex-row gap-3">
+  <div class="flex flex-row gap-2">
     <Avatar
       :name="supportAgent.name"
       :src="supportAgent.thumbnail"
-      :size="28"
+      :size="24"
       rounded-full
     />
-    <div class="space-y-2">
+    <div class="space-y-1 text-n-slate-12">
       <div class="font-medium">{{ $t('CAPTAIN.COPILOT.YOU') }}</div>
       <div class="break-words">
         {{ message.content }}

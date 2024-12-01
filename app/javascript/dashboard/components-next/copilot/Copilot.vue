@@ -3,8 +3,9 @@ import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
+import { nextTick, ref, watch } from 'vue';
 
-defineProps({
+const props = defineProps({
   supportAgent: {
     type: Object,
     default: () => ({}),
@@ -23,11 +24,29 @@ const emit = defineEmits(['sendMessage']);
 const sendMessage = message => {
   emit('sendMessage', message);
 };
+const chatContainer = ref(null);
+
+const scrollToBottom = async () => {
+  await nextTick();
+  if (chatContainer.value) {
+    chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+  }
+};
+
+watch(
+  [props.messages, props.isCaptainTyping],
+  () => {
+    scrollToBottom();
+  },
+  { deep: true }
+);
 </script>
 
 <template>
-  <div class="flex flex-col bg-n-solid-2 max-w-96 mx-auto h-full">
-    <div class="flex-1 overflow-y-auto py-4 space-y-6 px-6">
+  <div
+    class="flex flex-col bg-n-solid-2 max-w-96 mx-auto h-full text-sm font-interDisplay tracking-[0.3px]"
+  >
+    <div ref="chatContainer" class="flex-1 overflow-y-auto py-4 space-y-6 px-4">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
           v-if="message.type === 'user'"
@@ -43,6 +62,6 @@ const sendMessage = message => {
       <CopilotLoader v-if="isCaptainTyping" />
     </div>
 
-    <CopilotInput @send="sendMessage" />
+    <CopilotInput class="mx-3 mb-4 mt-px" @send="sendMessage" />
   </div>
 </template>
