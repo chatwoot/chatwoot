@@ -38,11 +38,29 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
+    update_campaign_read_count if @processed_params[:statuses].first[:status] == 'read'
     return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
 
     update_message_with_status(@message, @processed_params[:statuses].first)
+    status = @processed_params[:statuses].first
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
+  end
+
+  def update_campaign_read_count
+    # Only increment read count if status is 'read'
+    status = @processed_params[:statuses].first[:status]
+    id = @processed_params[:statuses].first[:id]
+    return unless status == 'read'
+
+    # Find the campaign through the message
+    campaign = CampaignContact.find_campaign_by_message_id(id)
+    return unless campaign
+
+    # Use atomic increment to safely update read count
+    campaign.increment!(:read_count)
+  rescue StandardError => e
+    Rails.logger.error "Error updating campaign read count: #{e.message}"
   end
 
   def update_message_with_status(message, status)

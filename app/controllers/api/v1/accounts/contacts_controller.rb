@@ -9,7 +9,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
-  RESULTS_PER_PAGE = 15
+  RESULTS_PER_PAGE = 30
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]

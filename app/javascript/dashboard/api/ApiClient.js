@@ -52,7 +52,11 @@ class ApiClient {
   }
 
   update(id, data) {
-    return axios.patch(`${this.url}/${id}`, data);
+    const endpoint = `${this.url}/${id}`;
+
+    return axios.patch(endpoint, data).catch(error => {
+      throw error;
+    });
   }
 
   delete(id) {

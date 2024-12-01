@@ -4,10 +4,12 @@ import { useAlert } from 'dashboard/composables';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import CampaignsTable from './CampaignsTable.vue';
 import EditCampaign from './EditCampaign.vue';
+import EditWhatsappCampaign from './EditWhatsappCampaign.vue';
 export default {
   components: {
     CampaignsTable,
     EditCampaign,
+    EditWhatsappCampaign,
   },
   mixins: [campaignMixin],
   props: {
@@ -34,6 +36,9 @@ export default {
       const hasEmptyResults =
         !this.uiFlags.isFetching && this.campaigns.length === 0;
       return hasEmptyResults;
+    },
+    isWhatsappType() {
+      return this.campaignType === 'whatsapp';
     },
   },
   methods: {
@@ -79,7 +84,14 @@ export default {
       @delete="openDeletePopup"
     />
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <!-- Conditionally render the appropriate edit component -->
+      <EditWhatsappCampaign
+        v-if="isWhatsappType"
+        :selected-campaign="selectedCampaign"
+        @onClose="hideEditPopup"
+      />
       <EditCampaign
+        v-else
         :selected-campaign="selectedCampaign"
         @onClose="hideEditPopup"
       />
