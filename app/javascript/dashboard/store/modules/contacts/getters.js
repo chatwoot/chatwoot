@@ -27,4 +27,7 @@ export const getters = {
   getAppliedContactFilters: _state => {
     return _state.appliedFilters;
   },
+  getAppliedContactFiltersV4: _state => {
+    return _state.appliedFilters.map(camelcaseKeys);
+  },
 };
