@@ -1,36 +1,55 @@
 <script setup>
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
+import IntegrationsAPI from 'dashboard/api/integrations';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { ref } from 'vue';
+const props = defineProps({
+  conversationId: {
+    type: [Number, String],
+    required: true,
+  },
+});
 const currentUser = useMapGetter('getCurrentUser');
-
 const messages = ref([]);
 
 const isCaptainTyping = ref(false);
 
-const sendMessage = message => {
+const sendMessage = async message => {
   // Add user message
   messages.value.push({
     id: messages.value.length + 1,
-    type: 'user',
+    role: 'user',
     content: message,
   });
-
-  // Simulate AI response
   isCaptainTyping.value = true;
-  setTimeout(() => {
-    isCaptainTyping.value = false;
-    messages.value.push({
-      id: messages.value.length + 1,
-      type: 'assistant',
-      content: 'This is a simulated AI response.',
+
+  try {
+    const { data } = await IntegrationsAPI.requestCaptainCopilot({
+      previous_history: messages.value
+        .map(m => ({
+          role: m.role,
+          content: m.content,
+        }))
+        .slice(0, -1),
+      message,
+      conversation_id: props.conversationId,
     });
-  }, 2000);
+    messages.value.push({
+      id: new Date().getTime(),
+      role: 'assistant',
+      content: data.message,
+    });
+  } catch (error) {
+    // eslint-disable-next-line
+    console.log(error);
+  } finally {
+    isCaptainTyping.value = false;
+  }
 };
 </script>
 
 <template>
-  <div class="border-n-weak border-l w-80">
+  <div class="border-n-weak border-l w-96">
     <Copilot
       :messages="messages"
       :support-agent="currentUser"

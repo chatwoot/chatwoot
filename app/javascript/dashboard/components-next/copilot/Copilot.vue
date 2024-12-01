@@ -44,17 +44,17 @@ watch(
 
 <template>
   <div
-    class="flex flex-col bg-n-solid-2 max-w-96 mx-auto h-full text-sm font-interDisplay tracking-[0.3px]"
+    class="flex flex-col bg-n-solid-2 min-w-96 mx-auto h-full text-sm font-interDisplay tracking-[0.3px]"
   >
     <div ref="chatContainer" class="flex-1 overflow-y-auto py-4 space-y-6 px-4">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
-          v-if="message.type === 'user'"
+          v-if="message.role === 'user'"
           :support-agent="supportAgent"
           :message="message"
         />
         <CopilotAssistantMessage
-          v-else-if="['assistant', 'system'].includes(message.type)"
+          v-else-if="['assistant', 'system'].includes(message.role)"
           :message="message"
         />
       </template>

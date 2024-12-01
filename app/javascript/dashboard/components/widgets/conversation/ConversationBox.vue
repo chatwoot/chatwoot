@@ -148,7 +148,10 @@ export default {
           :on-toggle="onToggleContactPanel"
         />
       </div> -->
-      <CopilotContainer />
+      <CopilotContainer
+        :key="currentChat.id"
+        :conversation-id="currentChat.id"
+      />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"
