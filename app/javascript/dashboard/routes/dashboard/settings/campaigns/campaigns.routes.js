@@ -44,5 +44,23 @@ export default {
         },
       ],
     },
+    {
+      path: frontendURL('accounts/:accountId/campaigns'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'CAMPAIGN.WHATSAPP.HEADER', // New header for WhatsApp campaigns
+        icon: 'whatsapp',
+      },
+      children: [
+        {
+          path: 'whatsapp',
+          name: 'whatsapp_campaigns', // New route for WhatsApp campaigns
+          meta: {
+            permissions: ['administrator'],
+          },
+          component: Index,
+        },
+      ],
+    },
   ],
 };

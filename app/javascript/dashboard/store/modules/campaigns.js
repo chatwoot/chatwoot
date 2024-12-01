@@ -55,8 +55,7 @@ export const actions = {
       const response = await CampaignsAPI.update(id, updateObj);
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
       commit(types.EDIT_CAMPAIGN, response.data);
-    } catch (error) {
-      throw new Error(error);
+      return response.data;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }

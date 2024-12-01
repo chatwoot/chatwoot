@@ -4,13 +4,28 @@
     "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
     "HEADER_BTN_TXT": {
       "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONGOING": "Create a ongoing campaign",
+      "WHATSAPP": "Create a WhatsApp campaign"
+    },
+    "METRICS": {
+      "SUCCESSFUL": "Successful",
+      "READ": "Read",
+      "FAILED": "Failed",
+      "REPLIED": "Replied"
+    },
+    "CONTACT_SELECTOR": {
+      "SEARCH_PLACEHOLDER": "Search The contacts",
+      "SELECT_ALL": "Select All",
+      "CLEAR": "Clear",
+      "SELECTED_CONTACTS": "Selected"
     },
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "CREATE_BUTTON_TEXT": "Create",
+      "BACK_BUTTON_TEXT": "Go Back",
+      "NEXT_BUTTON_TEXT": "Next",
       "FORM": {
         "TITLE": {
           "LABEL": "Title",
@@ -28,10 +43,20 @@
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
+        "AUDIENCES": {
+          "LABEL": "Select Audience",
+          "PLACEHOLDER": "Select an audience",
+          "ERROR": "Please select at least one audience"
+        },
         "INBOX": {
           "LABEL": "Select Inbox",
           "PLACEHOLDER": "Select Inbox",
           "ERROR": "Inbox is required"
+        },
+        "SELECT_TEMPLATE": {
+          "LABEL": "Select Template",
+          "PLACEHOLDER": "Template Message",
+          "ERROR": "Template is required"
         },
         "MESSAGE": {
           "LABEL": "Message",
@@ -78,6 +103,7 @@
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "Update",
+      "DESC": "Edit the details of your WhatsApp campaign.",
       "API": {
         "SUCCESS_MESSAGE": "Campaign updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
@@ -121,6 +147,11 @@
       "HEADER": "Ongoing campaigns",
       "404": "There are no ongoing campaigns created",
       "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+    },
+    "WHATSAPP": {
+      "HEADER": "WhatsApp Campaigns",
+      "404": "There are no WhatsApp campaigns created.",
+      "INBOXES_NOT_FOUND": "Please create a WhatsApp inbox and start adding campaigns."
     }
   }
 }
