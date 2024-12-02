@@ -18,10 +18,10 @@ defineProps({
     type: String,
     required: true,
   },
-  buttonLabel: {
-    type: String,
-    required: true,
-  },
+  //   buttonLabel: {
+  //     type: String,
+  //     default: '',
+  //   },
   activeSort: {
     type: String,
     default: 'last_activity_at',
@@ -30,23 +30,33 @@ defineProps({
     type: String,
     default: '',
   },
+  isSegmentsView: {
+    type: Boolean,
+    default: false,
+  },
+  hasActiveFilters: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
   'search',
   'filter',
   'update:sort',
-  'message',
+  //   'message',
   'add',
   'import',
   'export',
+  'createSegment',
+  'deleteSegment',
 ]);
 </script>
 
 <template>
-  <header class="sticky top-0 z-10 px-6 xl:px-0">
+  <header class="sticky top-0 z-10">
     <div
-      class="flex items-center justify-between w-full h-20 gap-2 mx-auto max-w-[960px]"
+      class="flex items-center justify-between w-full h-20 px-6 gap-2 mx-auto max-w-[960px]"
     >
       <span class="text-xl font-medium truncate text-n-slate-12">
         {{ headerTitle }}
@@ -71,12 +81,42 @@ const emit = defineEmits([
           </Input>
         </div>
         <div class="flex items-center gap-2">
+          <div class="relative">
+            <Button
+              id="toggleContactsFilterButton"
+              :icon="
+                isSegmentsView ? 'i-lucide-pen-line' : 'i-lucide-list-filter'
+              "
+              color="slate"
+              size="sm"
+              class="relative"
+              variant="ghost"
+              @click="emit('filter')"
+            >
+              <div
+                v-if="hasActiveFilters && !isSegmentsView"
+                class="absolute top-0 right-0 w-2 h-2 rounded-full bg-n-brand"
+              />
+            </Button>
+            <slot name="filter" />
+          </div>
           <Button
-            icon="i-lucide-list-filter"
+            v-if="hasActiveFilters && !isSegmentsView"
+            icon="i-lucide-save"
             color="slate"
             size="sm"
+            class="relative"
             variant="ghost"
-            @click="emit('filter')"
+            @click="emit('createSegment')"
+          />
+          <Button
+            v-if="isSegmentsView"
+            icon="i-lucide-trash"
+            color="slate"
+            size="sm"
+            class="relative"
+            variant="ghost"
+            @click="emit('deleteSegment')"
           />
           <ContactSortMenu
             :active-sort="activeSort"
@@ -89,8 +129,9 @@ const emit = defineEmits([
             @export="emit('export')"
           />
         </div>
-        <div class="w-px h-4 bg-n-strong" />
-        <Button :label="buttonLabel" size="sm" @click="emit('message')" />
+        <!-- TODO: Add this when we enabling message feature -->
+        <!-- <div class="w-px h-4 bg-n-strong" /> -->
+        <!-- <Button :label="buttonLabel" size="sm" @click="emit('message')" /> -->
       </div>
     </div>
   </header>

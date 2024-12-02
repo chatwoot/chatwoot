@@ -4,7 +4,7 @@ const contacts = accountId => ({
   parentNav: 'contacts',
   routes: [
     'contacts_dashboard',
-    'contact_profile_dashboard',
+    'contacts_edit',
     'contacts_segments_dashboard',
     'contacts_labels_dashboard',
   ],

@@ -1,10 +1,12 @@
 <script setup>
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import countries from 'shared/constants/countries';
 
 const props = defineProps({
   id: { type: Number, required: true },
@@ -14,46 +16,108 @@ const props = defineProps({
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   isExpanded: { type: Boolean, default: false },
+  isUpdating: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['toggle', 'updateContact', 'showContact']);
 
 const { t } = useI18n();
 
+const contactsFormRef = ref(null);
+
+const getInitialContactData = () => ({
+  id: props.id,
+  name: props.name,
+  email: props.email,
+  phoneNumber: props.phoneNumber,
+  additionalAttributes: props.additionalAttributes,
+});
+
+const contactData = ref(getInitialContactData());
+
+const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
+
+const countriesMap = computed(() => {
+  return countries.reduce((acc, country) => {
+    acc[country.code] = country;
+    acc[country.id] = country;
+    return acc;
+  }, {});
+});
+
+const countryDetails = computed(() => {
+  const attributes = props.additionalAttributes || {};
+  const { country, countryCode, city } = attributes;
+
+  if (!country && !countryCode) return null;
+
+  const activeCountry =
+    countriesMap.value[country] || countriesMap.value[countryCode];
+
+  if (!activeCountry) return null;
+
+  const parts = [
+    activeCountry.emoji,
+    city ? `${city},` : null,
+    activeCountry.name,
+  ].filter(Boolean);
+
+  return parts.length ? parts.join(' ') : null;
+});
+
 const handleFormUpdate = updatedData => {
-  emit('updateContact', { id: props.id, updatedData });
+  Object.assign(contactData.value, updatedData);
 };
 
-const onClickViewDetails = async () => {
-  emit('showContact', props.id);
+const handleUpdateContact = () => {
+  emit('updateContact', contactData.value);
 };
+
+const onClickExpand = () => {
+  emit('toggle');
+  contactData.value = getInitialContactData();
+};
+
+const onClickViewDetails = () => emit('showContact', props.id);
 </script>
 
 <template>
   <CardLayout :key="id" layout="row">
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center justify-start flex-1 gap-4">
       <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
-      <div class="flex flex-col gap-1">
-        <div class="flex items-center gap-2">
-          <span class="text-sm font-medium truncate text-n-slate-12">
+      <div class="flex flex-col gap-0.5 flex-1">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span class="text-base font-medium truncate text-n-slate-12">
             {{ name }}
           </span>
-          <template v-if="additionalAttributes?.companyName">
-            <span class="text-sm text-n-slate-11">
-              {{ t('CONTACTS_LAYOUT.CARD.OF') }}
-            </span>
-            <span class="text-sm font-medium truncate text-n-slate-12">
+          <span class="inline-flex items-center gap-1">
+            <span
+              v-if="additionalAttributes?.companyName"
+              class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
+            />
+            <span
+              v-if="additionalAttributes?.companyName"
+              class="text-sm truncate text-n-slate-11"
+            >
               {{ additionalAttributes.companyName }}
             </span>
-          </template>
+          </span>
         </div>
-        <div class="flex items-center gap-3">
-          <span v-if="email" class="text-sm text-n-slate-11">{{ email }}</span>
-          <div v-if="email" class="w-px h-3 bg-n-slate-6" />
-          <span v-if="phoneNumber" class="text-sm text-n-slate-11">
+        <div class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1">
+          <div v-if="email" class="truncate max-w-72" :title="email">
+            <span class="text-sm text-n-slate-11">
+              {{ email }}
+            </span>
+          </div>
+          <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
+          <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
             {{ phoneNumber }}
           </span>
-          <div v-if="phoneNumber" class="w-px h-3 bg-n-slate-6" />
+          <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
+          <span v-if="countryDetails" class="text-sm truncate text-n-slate-11">
+            {{ countryDetails }}
+          </span>
+          <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
           <Button
             :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
             variant="link"
@@ -70,7 +134,7 @@ const onClickViewDetails = async () => {
       color="slate"
       size="xs"
       :class="{ 'rotate-180': isExpanded }"
-      @click="emit('toggle')"
+      @click="onClickExpand"
     />
 
     <template #after>
@@ -78,22 +142,28 @@ const onClickViewDetails = async () => {
         enter-active-class="overflow-hidden transition-all duration-300 ease-out"
         leave-active-class="overflow-hidden transition-all duration-300 ease-in"
         enter-from-class="overflow-hidden opacity-0 max-h-0"
-        enter-to-class="opacity-100 max-h-[360px]"
-        leave-from-class="opacity-100 max-h-[360px]"
+        enter-to-class="opacity-100 max-h-[690px] sm:max-h-[470px] md:max-h-[410px]"
+        leave-from-class="opacity-100 max-h-[690px] sm:max-h-[470px] md:max-h-[410px]"
         leave-to-class="overflow-hidden opacity-0 max-h-0"
       >
         <div v-show="isExpanded" class="w-full">
-          <div class="p-6 border-t border-n-strong">
+          <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
             <ContactsForm
-              :contact-data="{
-                id,
-                name,
-                email,
-                phoneNumber,
-                additionalAttributes,
-              }"
+              ref="contactsFormRef"
+              :contact-data="contactData"
               @update="handleFormUpdate"
             />
+            <div>
+              <Button
+                :label="
+                  t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
+                "
+                size="sm"
+                :is-loading="isUpdating"
+                :disabled="isUpdating || isFormInvalid"
+                @click="handleUpdateContact"
+              />
+            </div>
           </div>
         </div>
       </transition>
