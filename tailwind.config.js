@@ -57,7 +57,7 @@ const tailwindConfig = {
             },
             h2: {
               color: 'rgb(var(--slate-12))',
-              fontWeight: '600',
+              fontWeight: '700',
               fontSize: '1rem',
               '&:first-child': {
                 marginTop: '0',
@@ -65,7 +65,7 @@ const tailwindConfig = {
             },
             h3: {
               color: 'rgb(var(--slate-12))',
-              fontWeight: '500',
+              fontWeight: '700',
               fontSize: '1rem',
               '&:first-child': {
                 marginTop: '0',
