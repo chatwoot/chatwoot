@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   include DateRangeHelper
@@ -25,6 +26,27 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def attachments
     @attachments = @conversation.attachments
+  end
+
+  def mark_intent
+    intent = params[:intent]
+    # intent is a string like "PRE_SALES"
+    @conversation.update({
+                           additional_attributes: @conversation.additional_attributes.merge(
+                             intent: intent
+                           )
+                         })
+    head :ok
+  end
+
+  def update_orders
+    existing_orders = @conversation.additional_attributes[:orders] || []
+    @conversation.update(
+      additional_attributes: @conversation.additional_attributes.merge(
+        orders: existing_orders + [params[:order]]
+      )
+    )
+    head :ok
   end
 
   def show; end
@@ -220,3 +242,4 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 end
 
 Api::V1::Accounts::ConversationsController.prepend_mod_with('Api::V1::Accounts::ConversationsController')
+# rubocop:enable Metrics/ClassLength
