@@ -1,5 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
+import AccountAPI from 'dashboard/api/account';
 import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -176,9 +177,17 @@ export default {
     closeDeletePopup() {
       this.showDeletePopup = false;
     },
-    confirmAccountDeletion() {
-      // TODO: Implement account deletion
+    async confirmAccountDeletion() {
       this.closeDeletePopup();
+      try {
+        const response = await AccountAPI.delete(this.accountId);
+        const message =
+          response.data.message ||
+          this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.SUCCESS');
+        useAlert(message);
+      } catch (error) {
+        useAlert(this.$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.FAILURE'));
+      }
     },
   },
 };

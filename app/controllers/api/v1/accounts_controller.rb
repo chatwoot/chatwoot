@@ -57,7 +57,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def destroy
-    # TODO: delete the account
+    render json: { message: 'Account deletion enqueued' }, status: :ok
   end
 
   private

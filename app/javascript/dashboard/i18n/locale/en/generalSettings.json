@@ -18,7 +18,9 @@
         "BUTTON_TEXT": "Delete",
         "DISMISS": "Cancel",
         "PLACE_HOLDER": "Please type {accountName} to confirm"
-      }
+      },
+      "SUCCESS": "Account deletion enqueued",
+      "FAILURE": "Could not delete account, try again!"
     },
     "FORM": {
       "ERROR": "Please fix form errors",
