@@ -108,7 +108,7 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
-      return handleContactOperationErrors(error);
+      handleContactOperationErrors(error);
     }
   },
 
