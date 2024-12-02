@@ -47,6 +47,16 @@ const tailwindConfig = {
             lineHeight: '1.6',
             fontSize: '14px',
 
+            strong: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+            },
+
+            b: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+            },
+
             h1: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '700',
@@ -90,7 +100,7 @@ const tailwindConfig = {
             blockquote: {
               fontStyle: 'italic',
               color: 'rgb(var(--slate-11))',
-              borderLeft: `4px solid rgb(var(--strong))`,
+              borderLeft: `4px solid rgb(var(--border-strong))`,
               paddingLeft: '1em',
             },
             code: {
@@ -112,13 +122,17 @@ const tailwindConfig = {
             },
             th: {
               padding: '0.75em',
-              borderBottom: `1px solid rgb(var(--strong))`,
+              color: 'rgb(var(--slate-12))',
+              borderBottom: `1px solid rgb(var(--border-strong))`,
               textAlign: 'left',
               fontWeight: '600',
             },
+            tr: {
+              borderBottom: `1px solid rgb(var(--border-strong))`,
+            },
             td: {
               padding: '0.75em',
-              borderBottom: `1px solid rgb(var(--strong))`,
+              borderBottom: `1px solid rgb(var(--border-strong))`,
             },
             img: {
               maxWidth: '100%',
