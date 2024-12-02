@@ -491,10 +491,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Standard filters",
-        "ADDITIONAL_FILTERS": "Additional filters",
-        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
       }
     },
     "CARD": {
