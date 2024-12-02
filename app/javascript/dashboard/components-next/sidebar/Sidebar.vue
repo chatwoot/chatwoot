@@ -200,15 +200,9 @@ const menuItems = computed(() => {
           to: accountScopedRoute(
             'contacts_dashboard_index',
             {},
-            {
-              page: 1,
-              search: undefined,
-            }
+            { page: 1, search: undefined }
           ),
-          activeOn: [
-            'contacts_dashboard_index',
-            'contacts_dashboard_edit_index',
-          ],
+          activeOn: ['contacts_dashboard_index', 'contacts_edit'],
         },
         {
           name: 'Segments',
@@ -219,14 +213,13 @@ const menuItems = computed(() => {
             label: view.name,
             to: accountScopedRoute(
               'contacts_dashboard_segments_index',
-              {
-                segmentId: view.id,
-              },
-              {
-                page: 1,
-              }
+              { segmentId: view.id },
+              { page: 1 }
             ),
-            activeOn: ['contacts_dashboard_segments_index'],
+            activeOn: [
+              'contacts_dashboard_segments_index',
+              'contacts_edit_segment',
+            ],
           })),
         },
         {
@@ -242,15 +235,13 @@ const menuItems = computed(() => {
             }),
             to: accountScopedRoute(
               'contacts_dashboard_labels_index',
-              {
-                label: label.title,
-              },
-              {
-                page: 1,
-                search: undefined,
-              }
+              { label: label.title },
+              { page: 1, search: undefined }
             ),
-            activeOn: ['contacts_dashboard_labels_index'],
+            activeOn: [
+              'contacts_dashboard_labels_index',
+              'contacts_edit_label',
+            ],
           })),
         },
       ],

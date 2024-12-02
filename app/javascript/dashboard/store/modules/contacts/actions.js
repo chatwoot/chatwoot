@@ -34,7 +34,7 @@ const buildContactFormData = contactParams => {
   return formData;
 };
 
-export const raiseContactCreateErrors = error => {
+export const handleContactOperationErrors = error => {
   if (error.response?.status === 422) {
     throw new DuplicateContactException(error.response.data.attributes);
   } else if (error.response?.data?.message) {
@@ -108,11 +108,7 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
-      if (error.response?.status === 422) {
-        throw new DuplicateContactException(error.response.data.attributes);
-      } else {
-        throw new Error(error);
-      }
+      return handleContactOperationErrors(error);
     }
   },
 
@@ -134,7 +130,7 @@ export const actions = {
       return response.data.payload.contact;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
-      return raiseContactCreateErrors(error);
+      return handleContactOperationErrors(error);
     }
   },
 
