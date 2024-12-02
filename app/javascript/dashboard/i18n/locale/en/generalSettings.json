@@ -10,7 +10,7 @@
     },
     "ACCOUNT_DELETE_SECTION": {
       "TITLE": "Delete your Account",
-      "NOTE": "Once you deleted your account your all data will deleted.",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
       "BUTTON_TEXT": "Delete Your Account",
       "CONFIRM": {
         "TITLE": "Delete Account",
