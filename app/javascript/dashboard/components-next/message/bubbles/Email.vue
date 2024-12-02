@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, useTemplateRef, ref, watch } from 'vue';
 import { Letter } from 'vue-letter';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
@@ -17,6 +17,19 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+const isOverflowing = ref(false);
+const contentContainer = useTemplateRef('contentContainer');
+
+watch(
+  contentContainer,
+  el => {
+    if (el) {
+      isOverflowing.value = el.scrollHeight > el.clientHeight;
+    }
+  },
+  { immediate: true }
+);
 
 const contentToShow = computed(() => {
   return props.contentAttributes?.email?.htmlContent?.full ?? props.content;
@@ -80,7 +93,7 @@ const subject = computed(() => {
         {{ subject }}
       </div>
     </div>
-    <div class="p-4">
+    <div ref="contentContainer" class="p-4 max-h-96 overflow-hidden">
       <Letter
         class-name="prose prose-email"
         :html="contentToShow"
