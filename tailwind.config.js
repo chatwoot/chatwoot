@@ -66,8 +66,6 @@ const tailwindConfig = {
               color: 'rgb(var(--text-blue))',
               textDecoration: 'underline',
             },
-
-            // Lists
             'ul li': {
               margin: '0 0 0.5em 1.5em',
               listStyleType: 'disc',
@@ -76,16 +74,12 @@ const tailwindConfig = {
               margin: '0 0 0.5em 1.5em',
               listStyleType: 'decimal',
             },
-
-            // Blockquotes
             blockquote: {
               fontStyle: 'italic',
               color: 'rgb(var(--slate-11))',
-              borderLeft: `4px solid rgb(var(--strong))}`,
+              borderLeft: `4px solid rgb(var(--strong))`,
               paddingLeft: '1em',
             },
-
-            // Code Blocks
             code: {
               backgroundColor: 'rgb(var(--alpha-3))',
               color: 'rgb(var(--solid-amber))',
@@ -99,22 +93,20 @@ const tailwindConfig = {
               borderRadius: '6px',
               overflowX: 'auto',
             },
-
             table: {
               width: '100%',
               borderCollapse: 'collapse',
             },
             th: {
               padding: '0.75em',
-              borderBottom: `1px solid rgb(var(--strong))}`,
+              borderBottom: `1px solid rgb(var(--strong))`,
               textAlign: 'left',
               fontWeight: '600',
             },
             td: {
               padding: '0.75em',
-              borderBottom: `1px solid rgb(var(--strong))}`,
+              borderBottom: `1px solid rgb(var(--strong))`,
             },
-
             img: {
               maxWidth: '100%',
               height: 'auto',
