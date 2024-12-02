@@ -40,6 +40,91 @@ const tailwindConfig = {
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['Inter Display', ...defaultSansFonts],
       },
+      typography: theme => ({
+        email: {
+          css: {
+            color: theme('colors.n.slate.12'),
+            lineHeight: '1.6',
+            fontSize: '14px',
+
+            h1: {
+              color: theme('colors.n.slate.12'),
+              fontWeight: '700',
+              fontSize: '2em',
+            },
+            h2: {
+              color: theme('colors.n.slate.12'),
+              fontWeight: '600',
+              fontSize: '1.5em',
+            },
+            h3: {
+              color: theme('colors.n.slate.12'),
+              fontWeight: '500',
+              fontSize: '1.25em',
+            },
+            a: {
+              color: theme('colors.n.solid.blue'),
+              textDecoration: 'underline',
+              '&:hover': {
+                color: theme('colors.blue.800'),
+              },
+            },
+
+            // Lists
+            'ul li': {
+              margin: '0 0 0.5em 1.5em',
+              listStyleType: 'disc',
+            },
+            'ol li': {
+              margin: '0 0 0.5em 1.5em',
+              listStyleType: 'decimal',
+            },
+
+            // Blockquotes
+            blockquote: {
+              fontStyle: 'italic',
+              color: theme('colors.n.slate.11'),
+              borderLeft: `4px solid ${theme('colors.n.strong')}`,
+              paddingLeft: '1em',
+            },
+
+            // Code Blocks
+            code: {
+              backgroundColor: theme('colors.n.alpha.3'),
+              color: theme('colors.n.solid.amber'),
+              padding: '0.2em 0.4em',
+              borderRadius: '4px',
+              fontSize: '0.95em',
+            },
+            pre: {
+              backgroundColor: theme('colors.n.alpha.3'),
+              padding: '1em',
+              borderRadius: '6px',
+              overflowX: 'auto',
+            },
+
+            table: {
+              width: '100%',
+              borderCollapse: 'collapse',
+            },
+            th: {
+              padding: '0.75em',
+              borderBottom: `1px solid ${theme('colors.n.strong')}`,
+              textAlign: 'left',
+              fontWeight: '600',
+            },
+            td: {
+              padding: '0.75em',
+              borderBottom: `1px solid ${theme('colors.n.strong')}`,
+            },
+
+            img: {
+              maxWidth: '100%',
+              height: 'auto',
+            },
+          },
+        },
+      }),
     },
     screens: {
       xs: '480px',
