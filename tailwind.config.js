@@ -51,16 +51,25 @@ const tailwindConfig = {
               color: 'rgb(var(--slate-12))',
               fontWeight: '700',
               fontSize: '1.25rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
             },
             h2: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '600',
               fontSize: '1rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
             },
             h3: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '500',
               fontSize: '1rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
             },
             hr: {
               marginTop: '1.5em',
