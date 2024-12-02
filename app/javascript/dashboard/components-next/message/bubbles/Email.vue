@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Letter } from 'vue-letter';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
@@ -12,6 +12,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  sender: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const contentToShow = computed(() => {
@@ -21,11 +25,62 @@ const contentToShow = computed(() => {
 const textToShow = computed(() => {
   return props.contentAttributes?.email?.textContent?.full ?? props.content;
 });
+
+const fromEmail = computed(() => {
+  return props.contentAttributes?.email?.from ?? [];
+});
+
+const toEmail = computed(() => {
+  return props.contentAttributes?.email?.to ?? [];
+});
+
+const ccEmail = computed(() => {
+  return (
+    props.contentAttributes?.ccEmail ?? props.contentAttributes?.email?.cc ?? []
+  );
+});
+
+const senderName = computed(() => {
+  return props.sender.name ?? '';
+});
+
+const bccEmail = computed(() => {
+  return (
+    props.contentAttributes?.bccEmail ??
+    props.contentAttributes?.email?.bcc ??
+    []
+  );
+});
+
+const subject = computed(() => {
+  return props.contentAttributes?.email?.subject ?? '';
+});
 </script>
 
 <template>
   <BaseBubble class="w-full">
-    <div class="p-3">
+    <div class="p-4 text-n-slate-11 space-y-1 pr-9 border-b border-n-strong">
+      <div v-if="fromEmail[0]">
+        <span class="text-n-slate-12">{{ senderName }}</span>
+        &lt;{{ fromEmail[0] }}&gt;
+      </div>
+      <div v-if="toEmail.length">
+        {{ $t('EMAIL_HEADER.TO') }}: {{ toEmail.join(', ') }}
+      </div>
+      <div v-if="ccEmail.length">
+        {{ $t('EMAIL_HEADER.CC') }}:
+        {{ ccEmail }}
+      </div>
+      <div v-if="bccEmail.length">
+        {{ $t('EMAIL_HEADER.BCC') }}:
+        {{ bccEmail }}
+      </div>
+      <div v-if="subject">
+        {{ $t('EMAIL_HEADER.SUBJECT') }}:
+        {{ subject }}
+      </div>
+    </div>
+    <div class="p-4">
       <Letter
         class-name="prose prose-email"
         :html="contentToShow"
