@@ -182,7 +182,6 @@ const closeAdvanceFiltersModal = () => {
 };
 
 const clearFilters = async () => {
-  await store.dispatch('contacts/clearContactFilters');
   emit('clearFilters');
 };
 

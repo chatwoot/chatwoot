@@ -88,6 +88,7 @@ const STYLE_CONFIG = {
       faded:
         'bg-n-brand/10 text-n-blue-text hover:bg-n-brand/20 outline-transparent',
       outline: 'text-n-blue-text outline-n-blue-border',
+      ghost: 'text-n-blue-text hover:bg-n-alpha-2 outline-transparent',
       link: 'text-n-blue-text hover:underline outline-transparent',
     },
     ruby: {
@@ -95,6 +96,7 @@ const STYLE_CONFIG = {
       faded:
         'bg-n-ruby-9/10 text-n-ruby-11 hover:bg-n-ruby-9/20 outline-transparent',
       outline: 'text-n-ruby-11 hover:bg-n-ruby-9/10 outline-n-ruby-8',
+      ghost: 'text-n-ruby-11 hover:bg-n-alpha-2 outline-transparent',
       link: 'text-n-ruby-9 hover:underline outline-transparent',
     },
     amber: {
@@ -103,6 +105,7 @@ const STYLE_CONFIG = {
         'bg-n-amber-9/10 text-n-slate-12 hover:bg-n-amber-9/20 outline-transparent',
       outline: 'text-n-amber-11 hover:bg-n-amber-9/10 outline-n-amber-9',
       link: 'text-n-amber-9 hover:underline outline-transparent',
+      ghost: 'text-n-amber-9 hover:bg-n-alpha-2 outline-transparent',
     },
     slate: {
       solid:
@@ -111,6 +114,7 @@ const STYLE_CONFIG = {
         'bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20 outline-transparent',
       outline: 'text-n-slate-11 outline-n-strong hover:bg-n-slate-9/10',
       link: 'text-n-slate-11 hover:text-n-slate-12 hover:underline outline-transparent',
+      ghost: 'text-n-slate-12 hover:bg-n-alpha-2 outline-transparent',
     },
     teal: {
       solid: 'bg-n-teal-9 text-white hover:bg-n-teal-10 outline-transparent',
@@ -118,6 +122,7 @@ const STYLE_CONFIG = {
         'bg-n-teal-9/10 text-n-slate-12 hover:bg-n-teal-9/20 outline-transparent',
       outline: 'text-n-teal-11 hover:bg-n-teal-9/10 outline-n-teal-9',
       link: 'text-n-teal-9 hover:underline outline-transparent',
+      ghost: 'text-n-teal-9 hover:bg-n-alpha-2 outline-transparent',
     },
   },
   sizes: {
@@ -151,7 +156,7 @@ const STYLE_CONFIG = {
 
 const variantClasses = computed(() => {
   const variantMap = {
-    ghost: 'text-n-slate-12 hover:bg-n-alpha-2 outline-transparent',
+    ghost: `${STYLE_CONFIG.colors[computedColor.value].ghost}`,
     link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-4`,
     outline: STYLE_CONFIG.colors[computedColor.value].outline,
     faded: STYLE_CONFIG.colors[computedColor.value].faded,
