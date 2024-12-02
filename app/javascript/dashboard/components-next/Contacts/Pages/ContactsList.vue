@@ -58,7 +58,7 @@ const toggleExpanded = id => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-6">
+  <div class="flex flex-col gap-4 px-6 pt-4 pb-6">
     <ContactsCard
       v-for="contact in contacts"
       :id="contact.id"

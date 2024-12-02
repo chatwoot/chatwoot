@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import ContactListHeaderWrapper from 'dashboard/components-next/Contacts/ContactsHeader/ContactListHeaderWrapper.vue';
+import ContactsActiveFiltersPreview from 'dashboard/components-next/Contacts/ContactsHeader/components/ContactsActiveFiltersPreview.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
 defineProps({
@@ -90,8 +91,12 @@ const updateCurrentPage = page => {
         @apply-filter="emit('applyFilter', $event)"
         @clear-filters="emit('clearFilters')"
       />
-      <main class="flex-1 px-6 overflow-y-auto xl:px-px">
+      <main class="flex-1 overflow-y-auto">
         <div class="w-full mx-auto max-w-[960px]">
+          <ContactsActiveFiltersPreview
+            v-if="hasAppliedFilters && isNotSegmentView"
+            @clear-filters="emit('clearFilters')"
+          />
           <slot name="default" />
         </div>
       </main>

@@ -75,6 +75,7 @@ const pageInfo = computed(() => {
         icon="i-lucide-chevrons-left"
         variant="ghost"
         size="sm"
+        color="slate"
         class="!w-8 !h-6"
         :disabled="isFirstPage"
         @click="changePage(1)"
@@ -82,6 +83,7 @@ const pageInfo = computed(() => {
       <Button
         icon="i-lucide-chevron-left"
         variant="ghost"
+        color="slate"
         size="sm"
         class="!w-8 !h-6"
         :disabled="isFirstPage"
@@ -96,6 +98,7 @@ const pageInfo = computed(() => {
       <Button
         icon="i-lucide-chevron-right"
         variant="ghost"
+        color="slate"
         size="sm"
         class="!w-8 !h-6"
         :disabled="isLastPage"
@@ -104,6 +107,7 @@ const pageInfo = computed(() => {
       <Button
         icon="i-lucide-chevrons-right"
         variant="ghost"
+        color="slate"
         size="sm"
         class="!w-8 !h-6"
         :disabled="isLastPage"
