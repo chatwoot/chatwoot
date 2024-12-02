@@ -5,9 +5,21 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
 
   def index
     @labels = policy_scope(Current.account.labels)
+
+    @labels = @labels.map do |label|
+      label.as_json.merge(tag_id: label.tag_id)
+    end
+    @labels
   end
 
-  def show; end
+  def show
+    @labels = policy_scope(Current.account.labels)
+
+    @labels = @labels.map do |label|
+      label.as_json.merge(tag_id: label.tag_id)
+    end
+    @labels
+  end
 
   def create
     @label = Current.account.labels.create!(permitted_params)

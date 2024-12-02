@@ -145,6 +145,17 @@ class AutomationRules::ConditionsFilterService < FilterService
       " contacts.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       " contacts.#{attribute_key} #{filter_operator_value} #{query_operator} "
+    when 'label'
+      <<~SQL.squish
+        EXISTS (
+          SELECT 1
+          FROM taggings
+          WHERE taggings.taggable_type = 'Contact'
+          AND taggings.context = 'labels'
+          AND taggings.taggable_id = contacts.id
+          AND taggings.tag_id #{filter_operator_value}
+        ) #{query_operator}
+      SQL
     end
   end
 
@@ -166,8 +177,17 @@ class AutomationRules::ConditionsFilterService < FilterService
     when 'additional_attributes'
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
-      if attribute_key == 'labels'
-        " tags.id #{filter_operator_value} #{query_operator} "
+      if attribute_key == 'conversation_label'
+        <<~SQL.squish
+          EXISTS (
+            SELECT 1
+            FROM taggings
+            WHERE taggings.taggable_type = 'Conversation'
+            AND taggings.context = 'labels'
+            AND taggings.taggable_id = #{table_name}.id
+            AND taggings.tag_id #{filter_operator_value}
+          ) #{query_operator}
+        SQL
       else
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
