@@ -50,17 +50,21 @@ const tailwindConfig = {
             h1: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '700',
-              fontSize: '2em',
+              fontSize: '1.25rem',
             },
             h2: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '600',
-              fontSize: '1.5em',
+              fontSize: '1rem',
             },
             h3: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '500',
-              fontSize: '1.25em',
+              fontSize: '1rem',
+            },
+            hr: {
+              marginTop: '1.5em',
+              marginBottom: '1.5em',
             },
             a: {
               color: 'rgb(var(--text-blue))',
