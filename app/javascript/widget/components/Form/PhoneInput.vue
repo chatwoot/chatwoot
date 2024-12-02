@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 const { context } = defineProps({
   context: {
@@ -53,12 +52,6 @@ function onChange(e) {
       style="direction: ltr;" class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
       :class="inputHasError"
     >
-      <div
-        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
-        :class="$dm('bg-slate-100 text-slate-700', 'dark:bg-slate-700 dark:text-slate-50')"
-      >
-        <h5 class="mb-0 text-xl">🇮🇷</h5>
-      </div>
       <span
         class="py-2 pl-2 pr-0 text-base"
         :class="$dm('text-slate-700', 'dark:text-slate-50')"
@@ -90,13 +83,6 @@ function onChange(e) {
       text-overflow: ellipsis;
       direction: rtl;
     }
-  }
-
-  .country-emoji--wrap {
-    border-bottom-left-radius: 0.18rem;
-    border-top-left-radius: 0.18rem;
-    min-width: 3.6rem;
-    width: 3.6rem;
   }
 }
 </style>
