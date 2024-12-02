@@ -1,6 +1,7 @@
 import {
   getCustomAttributeInputType,
   buildAttributesFilterTypes,
+  replaceUnderscoreWithSpace,
 } from './filterHelper';
 
 describe('filterHelper', () => {
@@ -121,6 +122,16 @@ describe('filterHelper', () => {
     it('handles empty attributes array', () => {
       const result = buildAttributesFilterTypes([], mockGetOperatorTypes);
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('replaceUnderscoreWithSpace', () => {
+    it('replaces underscores with spaces', () => {
+      expect(replaceUnderscoreWithSpace('test_key')).toBe('test key');
+    });
+
+    it('returns empty string if input is null', () => {
+      expect(replaceUnderscoreWithSpace(null)).toBe('');
     });
   });
 });

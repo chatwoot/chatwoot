@@ -182,6 +182,7 @@ onMounted(() => {
       <OnClickOutside @trigger="openAgentsList = false">
         <Button
           variant="ghost"
+          color="slate"
           class="!px-0 font-normal hover:!bg-transparent"
           text-variant="info"
           @click="openAgentsList = !openAgentsList"
@@ -214,6 +215,7 @@ onMounted(() => {
           "
           :icon="!selectedCategory?.icon ? 'i-lucide-shapes' : ''"
           variant="ghost"
+          color="slate"
           class="!px-2 font-normal hover:!bg-transparent"
           @click="openCategoryList = !openCategoryList"
         >
@@ -244,6 +246,7 @@ onMounted(() => {
           "
           icon="i-lucide-plus"
           variant="ghost"
+          color="slate"
           :disabled="isNewArticle"
           class="!px-2 font-normal hover:!bg-transparent hover:!text-n-slate-11"
           @click="openProperties = !openProperties"
