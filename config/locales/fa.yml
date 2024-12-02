@@ -181,7 +181,7 @@ fa:
           reply_with_name: "%{assignee_name} از %{inbox_name} «%{from_email}»"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "پیام‌های جدید در این مکالمه"
-      transcript_subject: "متن مکالمه"
+      transcript_subject: "Conversation Transcript"
     survey:
       response: "لطفاً به مکالمه امتیاز دهید %{link}"
   contacts:
