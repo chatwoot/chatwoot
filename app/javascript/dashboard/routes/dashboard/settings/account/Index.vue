@@ -9,9 +9,12 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import DeleteAccount from './DeleteAccount.vue';
+import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
 
 export default {
+  components: {
+    WootConfirmDeleteModal,
+  },
   setup() {
     const { updateUISettings } = useUISettings();
     const { enabledLanguages } = useConfig();
@@ -19,9 +22,6 @@ export default {
     const v$ = useVuelidate();
 
     return { updateUISettings, v$, enabledLanguages, accountId };
-  },
-  components: {
-    DeleteAccount,
   },
   data() {
     return {
@@ -33,6 +33,7 @@ export default {
       features: {},
       autoResolveDuration: null,
       latestChatwootVersion: null,
+      showDeletePopup: false,
     };
   },
   validations: {
@@ -98,6 +99,14 @@ export default {
 
     getAccountId() {
       return this.id.toString();
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t(
+        'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.PLACE_HOLDER',
+        {
+          accountName: this.name,
+        }
+      )}`;
     },
   },
   mounted() {
@@ -166,6 +175,10 @@ export default {
     },
     closeDeletePopup() {
       this.showDeletePopup = false;
+    },
+    confirmAccountDeletion() {
+      // TODO: Implement account deletion
+      this.closeDeletePopup();
     },
   },
 };
@@ -301,17 +314,25 @@ export default {
         </div>
         <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
           <woot-submit-button
-          button-class="alert button nice"
-          :button-text="$t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE.BUTTON_TEXT')"
-          :loading="showDeletePopup"
-          @click="openDeletePopup()"
+            button-class="alert button nice"
+            :button-text="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')"
+            :loading="showDeletePopup"
+            @click="openDeletePopup()"
         />
         </div>
       </div>
-      
-      <woot-modal :show.sync="showDeletePopup" :on-close="closeDeletePopup">
-        <DeleteAccount :on-close="closeDeletePopup" />
-      </woot-modal>
+      <WootConfirmDeleteModal
+        v-if="showDeletePopup"
+        v-model:show="showDeletePopup"
+        :title="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.TITLE')"
+        :message="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.MESSAGE')"
+        :confirm-text="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.BUTTON_TEXT')"
+        :reject-text="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.DISMISS')"
+        :confirm-value="name"
+        :confirm-place-holder-text="confirmPlaceHolderText"
+        @on-confirm="confirmAccountDeletion"
+        @on-close="closeDeletePopup"
+      />
 
       <div class="p-4 text-sm text-center">
         <div>{{ `v${globalConfig.appVersion}` }}</div>

@@ -172,21 +172,6 @@
         "LABEL": "Confirm new password",
         "ERROR": "Confirm password should match the password",
         "PLACEHOLDER": "Please re-enter your new password"
-      },
-      "ACCOUNT_DELETE": {
-        "BUTTON_TEXT": "Delete Your Account",
-        "API": {
-          "SUCCESS_MESSAGE": "Account deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
-        },
-        "CONFIRM": {
-          "EMAIL_ERROR": "Email doesn't not match.",
-          "PLACEHOLDER": "Email",
-          "TITLE": "Delete Account",
-          "MESSAGE": "Deleting your Account is irreversible. Enter your email below to confirm you want to permanently delete it",
-          "NO": "No, Keep",
-          "YES": "Yes, Delete Account"
-        }
       }
     }
   },
