@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useTemplateRef, ref, watch } from 'vue';
 import { Letter } from 'vue-letter';
+import Button from 'next/button/Button.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 
 const props = defineProps({
@@ -19,6 +20,7 @@ const props = defineProps({
 });
 
 const isOverflowing = ref(false);
+const isExpanded = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 watch(
@@ -81,7 +83,7 @@ const showMeta = computed(() => {
 </script>
 
 <template>
-  <BaseBubble class="w-full">
+  <BaseBubble class="w-full overflow-hidden">
     <div
       v-if="showMeta"
       class="p-4 text-n-slate-11 space-y-1 pr-9 border-b border-n-strong"
@@ -106,7 +108,27 @@ const showMeta = computed(() => {
         {{ subject }}
       </div>
     </div>
-    <div ref="contentContainer" class="p-4 max-h-96 overflow-hidden">
+    <div
+      ref="contentContainer"
+      class="p-4"
+      :class="{
+        'max-h-96 overflow-hidden relative': !isExpanded,
+      }"
+    >
+      <div
+        v-if="isOverflowing && !isExpanded"
+        class="absolute left-0 right-0 bottom-0 h-28 grid place-content-center bg-gradient-to-t dark:from-[#24252b] from-[#F5F5F6] dark:via-[rgba(36,37,43,0.5)] via-[rgba(245,245,246,0.50)] dark:to-transparent to-[rgba(245,245,246,0.00)]"
+      >
+        <Button
+          icon="i-lucide-maximize-2"
+          ghost
+          slate
+          class="text-n-slate-1"
+          @click="isExpanded = true"
+        >
+          {{ $t('EMAIL_HEADER.EXPAND') }}:
+        </Button>
+      </div>
       <Letter
         class-name="prose prose-email"
         :html="contentToShow"

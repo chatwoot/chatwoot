@@ -40,34 +40,31 @@ const tailwindConfig = {
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['Inter Display', ...defaultSansFonts],
       },
-      typography: theme => ({
+      typography: {
         email: {
           css: {
-            color: theme('colors.n.slate.12'),
+            color: 'rgb(var(--slate-11))',
             lineHeight: '1.6',
             fontSize: '14px',
 
             h1: {
-              color: theme('colors.n.slate.12'),
+              color: 'rgb(var(--slate-12))',
               fontWeight: '700',
               fontSize: '2em',
             },
             h2: {
-              color: theme('colors.n.slate.12'),
+              color: 'rgb(var(--slate-12))',
               fontWeight: '600',
               fontSize: '1.5em',
             },
             h3: {
-              color: theme('colors.n.slate.12'),
+              color: 'rgb(var(--slate-12))',
               fontWeight: '500',
               fontSize: '1.25em',
             },
             a: {
-              color: theme('colors.n.solid.blue'),
+              color: 'rgb(var(--text-blue))',
               textDecoration: 'underline',
-              '&:hover': {
-                color: theme('colors.blue.800'),
-              },
             },
 
             // Lists
@@ -83,21 +80,21 @@ const tailwindConfig = {
             // Blockquotes
             blockquote: {
               fontStyle: 'italic',
-              color: theme('colors.n.slate.11'),
-              borderLeft: `4px solid ${theme('colors.n.strong')}`,
+              color: 'rgb(var(--slate-11))',
+              borderLeft: `4px solid rgb(var(--strong))}`,
               paddingLeft: '1em',
             },
 
             // Code Blocks
             code: {
-              backgroundColor: theme('colors.n.alpha.3'),
-              color: theme('colors.n.solid.amber'),
+              backgroundColor: 'rgb(var(--alpha-3))',
+              color: 'rgb(var(--solid-amber))',
               padding: '0.2em 0.4em',
               borderRadius: '4px',
               fontSize: '0.95em',
             },
             pre: {
-              backgroundColor: theme('colors.n.alpha.3'),
+              backgroundColor: 'rgb(var(--alpha-3))',
               padding: '1em',
               borderRadius: '6px',
               overflowX: 'auto',
@@ -109,13 +106,13 @@ const tailwindConfig = {
             },
             th: {
               padding: '0.75em',
-              borderBottom: `1px solid ${theme('colors.n.strong')}`,
+              borderBottom: `1px solid rgb(var(--strong))}`,
               textAlign: 'left',
               fontWeight: '600',
             },
             td: {
               padding: '0.75em',
-              borderBottom: `1px solid ${theme('colors.n.strong')}`,
+              borderBottom: `1px solid rgb(var(--strong))}`,
             },
 
             img: {
@@ -124,7 +121,7 @@ const tailwindConfig = {
             },
           },
         },
-      }),
+      },
     },
     screens: {
       xs: '480px',
