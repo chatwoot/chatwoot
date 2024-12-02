@@ -39,3 +39,11 @@ export const buildAttributesFilterTypes = (attributes, getOperatorTypes) => {
     attributeModel: 'customAttributes',
   }));
 };
+
+/**
+ * Replaces underscores with spaces in a string
+ * @param {string} text - The input string
+ * @returns {string} The string with underscores replaced by spaces
+ */
+export const replaceUnderscoreWithSpace = text =>
+  text?.replaceAll('_', ' ') ?? '';
