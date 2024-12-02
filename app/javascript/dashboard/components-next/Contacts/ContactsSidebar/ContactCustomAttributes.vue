@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
+import { toCamelCase } from 'dashboard/composables/useTransformKeys';
 
 import ContactCustomAttributeItem from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributeItem.vue';
 
@@ -24,16 +25,13 @@ const hasContactAttributes = computed(
   () => contactAttributes.value?.length > 0
 );
 
-// Convert attribute key value from snake_case to camelCase
-const toCamelCase = str =>
-  str.toLowerCase().replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
-
 const usedAttributes = computed(() => {
   if (!contactAttributes.value || !props.selectedContact?.customAttributes) {
     return [];
   }
   return contactAttributes.value
     .filter(attribute => {
+      // Convert attribute key value from snake_case to camelCase
       const camelKey = toCamelCase(attribute.attributeKey);
       return props.selectedContact.customAttributes[camelKey] !== undefined;
     })
@@ -53,6 +51,7 @@ const unusedAttributes = computed(() => {
 
   return contactAttributes.value
     .filter(attribute => {
+      // Convert attribute key value from snake_case to camelCase
       const camelKey = toCamelCase(attribute.attributeKey);
       const attributeValue = props.selectedContact.customAttributes[camelKey];
 

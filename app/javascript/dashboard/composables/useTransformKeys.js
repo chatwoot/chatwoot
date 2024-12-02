@@ -23,3 +23,14 @@ export function useSnakeCase(payload) {
   const unrefPayload = unref(payload);
   return snakecaseKeys(unrefPayload);
 }
+
+/**
+ * Converts a string from snake_case to camelCase
+ * @param {string} str - String to convert
+ * @returns {string} Converted string in camelCase
+ */
+export function toCamelCase(str) {
+  return str
+    .toLowerCase()
+    .replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+}
