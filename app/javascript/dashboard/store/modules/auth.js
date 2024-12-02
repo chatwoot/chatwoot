@@ -141,16 +141,6 @@ export const actions = {
     }
   },
 
-  deleteAccount: async ({ commit }, params) => {
-    try {
-      await authAPI.deleteAccount(params);
-      commit(types.default.CLEAR_USER);
-      clearCookiesOnLogout();
-    } catch (error) {
-      // Ignore error
-    }
-  },
-
   updateUISettings: async ({ commit }, params) => {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
