@@ -1,7 +1,8 @@
 class Integrations::CustomApi::UpdateOrderStatusService
-  def initialize(order_key, status)
+  def initialize(order_key, status, tracking_code)
     @order_key = order_key
     @status = status
+    @tracking_code = tracking_code
   end
 
   def perform
@@ -12,7 +13,8 @@ class Integrations::CustomApi::UpdateOrderStatusService
 
   def update_order_status
     order = Order.find_by(order_key: @order_key)
-    order.update!(status: map_status(@status))
+    order.update!(status: map_status(@status),
+                  tracking_code: @tracking_code)
     order
   end
 
