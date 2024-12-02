@@ -68,11 +68,24 @@ const bccEmail = computed(() => {
 const subject = computed(() => {
   return props.contentAttributes?.email?.subject ?? '';
 });
+
+const showMeta = computed(() => {
+  return (
+    fromEmail.value[0] ||
+    toEmail.value.length ||
+    ccEmail.value.length ||
+    bccEmail.value.length ||
+    subject.value
+  );
+});
 </script>
 
 <template>
   <BaseBubble class="w-full">
-    <div class="p-4 text-n-slate-11 space-y-1 pr-9 border-b border-n-strong">
+    <div
+      v-if="showMeta"
+      class="p-4 text-n-slate-11 space-y-1 pr-9 border-b border-n-strong"
+    >
       <div v-if="fromEmail[0]">
         <span class="text-n-slate-12">{{ senderName }}</span>
         &lt;{{ fromEmail[0] }}&gt;
