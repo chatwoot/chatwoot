@@ -1,6 +1,14 @@
+import camelcaseKeys from 'camelcase-keys';
+
 export const getters = {
   getContacts($state) {
     return $state.sortOrder.map(contactId => $state.records[contactId]);
+  },
+  getContactsList($state) {
+    const contacts = $state.sortOrder.map(
+      contactId => $state.records[contactId]
+    );
+    return camelcaseKeys(contacts, { deep: true });
   },
   getUIFlags($state) {
     return $state.uiFlags;
@@ -14,5 +22,8 @@ export const getters = {
   },
   getAppliedContactFilters: _state => {
     return _state.appliedFilters;
+  },
+  getAppliedContactFiltersV4: _state => {
+    return _state.appliedFilters.map(camelcaseKeys);
   },
 };
