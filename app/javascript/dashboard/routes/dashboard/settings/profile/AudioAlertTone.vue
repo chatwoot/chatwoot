@@ -48,30 +48,15 @@ const selectedValue = computed({
   },
 });
 
-const getAudioContext = () => {
-  return new (window.AudioContext || window.webkitAudioContext)();
-};
+const audio = new Audio();
 
 const playAudio = async () => {
-  const audioCtx = getAudioContext();
-
-  if (audioCtx) {
-    const resourceUrl = `/audio/dashboard/${selectedValue.value}.mp3`;
-    const audioRequest = new Request(resourceUrl);
-
-    try {
-      const response = await fetch(audioRequest);
-      const buffer = await response.arrayBuffer();
-      const audioBuffer = await audioCtx.decodeAudioData(buffer);
-
-      const source = audioCtx.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(audioCtx.destination);
-      source.loop = false;
-      source.start();
-    } catch (error) {
-      Sentry.captureException(error);
-    }
+  try {
+    // Has great support https://caniuse.com/mdn-api_htmlaudioelement
+    audio.src = `/audio/dashboard/${selectedValue.value}.mp3`;
+    await audio.play();
+  } catch (error) {
+    Sentry.captureException(error);
   }
 };
 </script>
