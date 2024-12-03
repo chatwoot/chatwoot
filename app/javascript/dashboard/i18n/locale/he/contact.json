@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "כתובת דוא\"ל זו נמצאת בשימוש עבור איש קשר אחר.",
+          "PHONE_NUMBER_DUPLICATE": "מספר טלפון זה נמצאת בשימוש עבור איש קשר אחר.",
+          "SUCCESS_MESSAGE": "איש הקשר נשמר בהצלחה",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "סננים סטנדרטיים",
-        "ADDITIONAL_FILTERS": "פילטרים נוספים",
-        "CUSTOM_ATTRIBUTES": "מאפיינים מותאמים אישית"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "נקה מסננים"
       }
     },
     "CARD": {
