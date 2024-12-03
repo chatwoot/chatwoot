@@ -17,7 +17,7 @@ const NOTIFICATION_TIME = 30000;
 class DashboardAudioNotificationHelper {
   constructor() {
     this.recurringNotificationTimer = null;
-    this.audioAlertType = 'none';
+    this.audioAlertType = ['none'];
     this.playAlertOnlyWhenHidden = true;
     this.alertIfUnreadConversationExist = false;
     this.currentUser = null;
@@ -47,7 +47,7 @@ class DashboardAudioNotificationHelper {
     audioAlertType,
     audioAlertTone,
   }) => {
-    this.audioAlertType = audioAlertType;
+    this.audioAlertType = audioAlertType.split('+').filter(Boolean);
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
     this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
     this.currentUser = currentUser;
@@ -96,9 +96,10 @@ class DashboardAudioNotificationHelper {
 
   playAudioEvery30Seconds = () => {
     //  Audio alert is disabled dismiss the timer
-    if (this.audioAlertType === 'none') {
+    if (this.audioAlertType.includes('none')) {
       return;
     }
+
     // If assigned conversation flag is disabled dismiss the timer
     if (!this.alertIfUnreadConversationExist) {
       return;
@@ -144,22 +145,21 @@ class DashboardAudioNotificationHelper {
   };
 
   shouldNotifyOnMessage = message => {
-    const splitAlert = this.audioAlertType.split('+').filter(Boolean);
-    if (splitAlert.includes('none')) return false;
-    if (splitAlert.includes('all')) return true;
+    if (this.audioAlertType.includes('none')) return false;
+    if (this.audioAlertType.includes('all')) return true;
 
     const assignedToMe = this.isConversationAssignedToCurrentUser(message);
     const isUnattended = this.isConversationUnattended(message);
 
     const shouldPlayAudio = [];
 
-    if (splitAlert.includes(EVENT_TYPES.ASSIGNED)) {
+    if (this.audioAlertType.includes(EVENT_TYPES.ASSIGNED)) {
       shouldPlayAudio.push(assignedToMe);
     }
-    if (splitAlert.includes(EVENT_TYPES.UNATTENDED)) {
+    if (this.audioAlertType.includes(EVENT_TYPES.UNATTENDED)) {
       shouldPlayAudio.push(isUnattended);
     }
-    if (splitAlert.includes(EVENT_TYPES.NOTME)) {
+    if (this.audioAlertType.includes(EVENT_TYPES.NOTME)) {
       shouldPlayAudio.push(!isUnattended && !assignedToMe);
     }
 
