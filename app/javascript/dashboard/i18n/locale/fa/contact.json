@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "این آدرس ایمیل برای مخاطب دیگری در حال استفاده است.",
+          "PHONE_NUMBER_DUPLICATE": "این شماره تلفن برای مخاطب دیگری در حال استفاده است.",
+          "SUCCESS_MESSAGE": "مخاطب با موفقیت ذخیره شد",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "فیلترهای استاندارد",
-        "ADDITIONAL_FILTERS": "فیلترهای اضافی",
-        "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "پاک کردن فیلترها"
       }
     },
     "CARD": {
