@@ -29,6 +29,7 @@ ta:
       invalid: Invalid events
     signup:
       disposable_email: களைந்துவிடும் இமெயில்களை நாங்கள் அனுமதிக்க மாட்டோம்
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: நீங்கள் தவறான ஈ-மெயிலை உள்ளிட்டுள்ளீர்கள்
       email_already_exists: "நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்"
       invalid_params: 'Invalid, please check the signup paramters and try again'

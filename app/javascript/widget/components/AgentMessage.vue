@@ -11,7 +11,7 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -28,7 +28,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [configMixin, messageMixin, darkModeMixin],
+  mixins: [configMixin, messageMixin],
   props: {
     message: {
       type: Object,
@@ -38,6 +38,12 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return {
+      getThemeClass,
+    };
   },
   data() {
     return {
@@ -80,11 +86,9 @@ export default {
       return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
-      // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : BotImage;
+        : '/assets/images/chatwoot_bot.png';
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return displayImage;
@@ -192,7 +196,9 @@ export default {
             <div
               v-if="hasAttachments"
               class="space-y-2 chat-bubble has-attachment agent"
-              :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+              :class="
+                (wrapClass, getThemeClass('bg-white', 'dark:bg-slate-700'))
+              "
             >
               <div
                 v-for="attachment in message.attachments"
@@ -231,7 +237,7 @@ export default {
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
           class="agent-name"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
         />
       </div>
     </div>

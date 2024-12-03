@@ -1,4 +1,9 @@
 import { frontendURL } from '../../../helper/URLHelper';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
 import agentBot from './agentBots/agentBot.routes';
@@ -6,7 +11,6 @@ import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
 import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
-import campaigns from './campaigns/campaigns.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
 import integrations from './integrations/integrations.routes';
@@ -16,6 +20,7 @@ import reports from './reports/reports.routes';
 import store from '../../../store';
 import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
+import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
 
 export default {
@@ -24,13 +29,17 @@ export default {
       path: frontendURL('accounts/:accountId/settings'),
       name: 'settings_home',
       meta: {
-        permissions: ['administrator', 'agent'],
+        permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       },
-      redirect: () => {
-        if (store.getters.getCurrentRole === 'administrator') {
-          return frontendURL('accounts/:accountId/settings/general');
+      redirect: to => {
+        if (
+          store.getters.getCurrentRole === 'administrator' &&
+          store.getters.getCurrentCustomRoleId === null
+        ) {
+          return { name: 'general_settings_index', params: to.params };
         }
-        return frontendURL('accounts/:accountId/settings/canned-response');
+
+        return { name: 'canned_list', params: to.params };
       },
     },
     ...account.routes,
@@ -40,7 +49,6 @@ export default {
     ...automation.routes,
     ...auditlogs.routes,
     ...billing.routes,
-    ...campaigns.routes,
     ...canned.routes,
     ...inbox.routes,
     ...integrations.routes,
@@ -49,6 +57,7 @@ export default {
     ...reports.routes,
     ...sla.routes,
     ...teams.routes,
+    ...customRoles.routes,
     ...profile.routes,
   ],
 };

@@ -1,6 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
@@ -183,7 +183,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(error);
+      throw error;
     }
   },
   createFBChannel: async ({ commit }, params) => {

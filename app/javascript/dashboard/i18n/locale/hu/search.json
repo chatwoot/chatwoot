@@ -12,8 +12,8 @@
       "MESSAGES": "Üzenetek"
     },
     "SEARCHING_DATA": "Keresés",
-    "EMPTY_STATE": "Nem található %{item}, a keresésre: '%{query}'",
-    "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '%{query}'",
+    "EMPTY_STATE": "Nem található {item}, a keresésre: '{query}'",
+    "EMPTY_STATE_FULL": "Nincs eredménye a következő keresésnek: '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ a fókuszáláshoz",
     "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",

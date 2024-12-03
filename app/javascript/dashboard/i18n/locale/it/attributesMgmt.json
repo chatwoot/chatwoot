@@ -3,7 +3,8 @@
     "HEADER": "Attributi personalizzati",
     "HEADER_BTN_TXT": "Aggiungi attributo personalizzato",
     "LOADING": "Recupero degli attributi personalizzati",
-    "SIDEBAR_TXT": "<p><b>Attributi personalizzati</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un attributo personalizzato, basta cliccare sul pulsante <b>Aggiungi attributo personalizzato.</b> Puoi anche modificare o eliminare un attributo personalizzato esistente facendo clic sul pulsante Modifica o Elimina.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Aggiungi attributo personalizzato",
       "SUBMIT": "Crea",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
+        "TITLE": "Sei sicuro di voler eliminare - {attributeName}",
         "PLACE_HOLDER": "Digita {attributeName} per confermare",
         "MESSAGE": "L'eliminazione rimuoverà l'attributo personalizzato",
         "YES": "Elimina ",

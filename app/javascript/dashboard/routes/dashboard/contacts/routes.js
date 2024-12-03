@@ -1,44 +1,40 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
-const ContactsView = () => import('./components/ContactsView.vue');
-const ContactManageView = () => import('./pages/ContactManageView.vue');
+import ContactsIndex from './pages/ContactsIndex.vue';
+import ContactManageView from './pages/ContactManageView.vue';
 
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/contacts'),
-    name: 'contacts_dashboard',
+    component: ContactsIndex,
+    name: 'contacts_dashboard_index',
     meta: {
-      permissions: ['administrator', 'agent'],
-    },
-    component: ContactsView,
-  },
-  {
-    path: frontendURL('accounts/:accountId/contacts/custom_view/:id'),
-    name: 'contacts_segments_dashboard',
-    meta: {
-      permissions: ['administrator', 'agent'],
-    },
-    component: ContactsView,
-    props: route => {
-      return { segmentsId: route.params.id };
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
   },
+
   {
-    path: frontendURL('accounts/:accountId/labels/:label/contacts'),
-    name: 'contacts_labels_dashboard',
+    path: frontendURL('accounts/:accountId/contacts/segments/:segmentId'),
+    component: ContactsIndex,
+    name: 'contacts_dashboard_segments_index',
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
-    component: ContactsView,
-    props: route => {
-      return { label: route.params.label };
+  },
+
+  {
+    path: frontendURL('accounts/:accountId/contacts/labels/:label'),
+    component: ContactsIndex,
+    name: 'contacts_dashboard_labels_index',
+    meta: {
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
   },
   {
     path: frontendURL('accounts/:accountId/contacts/:contactId'),
-    name: 'contact_profile_dashboard',
+    name: 'contacts_edit',
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'contact_manage'],
     },
     component: ContactManageView,
     props: route => {

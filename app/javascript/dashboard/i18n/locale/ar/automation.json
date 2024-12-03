@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "الأتمتة",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "إضافة قاعدة أتمتة",
     "LOADING": "جلب قواعد الأتمتة",
-    "SIDEBAR_TXT": "<p><b>قواعد الأتمتة الآليه</b> <p>يمكن للأتمتة استبدال وأتمتة العمليات القائمة التي تتطلب جهداً يدوياً. يمكنك القيام بالعديد من الأشياء مع التشغيل الآلي، بما في ذلك إضافة تسميات وتعيين المحادثة لأفضل وكيل. لذا يركز الفريق على ما يفعلونه على أفضل وجه ويقضي وقتاً قليلاً على المهام اليدوية.</p>",
     "ADD": {
       "TITLE": "إضافة قاعدة أتمتة",
       "SUBMIT": "إنشاء",
@@ -94,8 +95,8 @@
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "اكتب رسالتك هنا",
       "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "EMAIL_INPUT_PLACEHOLDER": "أدخل البريد الإلكتروني",
+      "URL_INPUT_PLACEHOLDER": "أدخل رابط"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",

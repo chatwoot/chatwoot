@@ -16,6 +16,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import countries from 'shared/constants/countries.js';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import { useTrack } from 'dashboard/composables';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -31,6 +32,11 @@ export default {
     ContactsAdvancedFilters,
     AddCustomViews,
     DeleteCustomViews,
+  },
+  provide() {
+    return {
+      openContactInfoPanel: this.openContactInfoPanel,
+    };
   },
   props: {
     label: { type: String, default: '' },
@@ -65,7 +71,7 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
-      segments: 'customViews/getCustomViews',
+      segments: 'customViews/getContactCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
@@ -272,7 +278,7 @@ export default {
       const sortBy =
         Object.entries(params).find(pair => Boolean(pair[1])) || [];
 
-      this.$track(CONTACTS_EVENTS.APPLY_SORT, {
+      useTrack(CONTACTS_EVENTS.APPLY_SORT, {
         appliedOn: sortBy[0],
         order: sortBy[1],
       });
@@ -396,30 +402,29 @@ export default {
         :header-title="pageTitle"
         :segments-id="segmentsId"
         this-selected-contact-id=""
-        @onInputSearch="onInputSearch"
-        @onToggleCreate="onToggleCreate"
-        @onToggleFilter="onToggleFilters"
-        @onSearchSubmit="onSearchSubmit"
-        @onToggleImport="onToggleImport"
-        @onExportSubmit="onExportSubmit"
-        @onToggleSaveFilter="onToggleSaveFilters"
-        @onToggleDeleteFilter="onToggleDeleteFilters"
-        @onToggleEditFilter="onToggleFilters"
+        @on-input-search="onInputSearch"
+        @on-toggle-create="onToggleCreate"
+        @on-toggle-filter="onToggleFilters"
+        @on-search-submit="onSearchSubmit"
+        @on-toggle-import="onToggleImport"
+        @on-export-submit="onExportSubmit"
+        @on-toggle-save-filter="onToggleSaveFilters"
+        @on-toggle-delete-filter="onToggleDeleteFilters"
+        @on-toggle-edit-filter="onToggleFilters"
       />
       <ContactsTable
         :contacts="records"
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
-        :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
-        @onSortChange="onSortChange"
+        @on-sort-change="onSortChange"
       />
       <TableFooter
         class="border-t border-slate-75 dark:border-slate-700/50"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
-        @pageChange="onPageChange"
+        @page-change="onPageChange"
       />
     </div>
 
@@ -432,7 +437,7 @@ export default {
     />
     <DeleteCustomViews
       v-if="showDeleteSegmentsModal"
-      :show-delete-popup.sync="showDeleteSegmentsModal"
+      v-model:show="showDeleteSegmentsModal"
       :active-custom-view="activeSegment"
       :custom-views-id="segmentsId"
       :active-filter-type="filterType"
@@ -446,11 +451,11 @@ export default {
       :on-close="closeContactInfoPanel"
     />
     <CreateContact :show="showCreateModal" @cancel="onToggleCreate" />
-    <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
+    <woot-modal v-model:show="showImportModal" :on-close="onToggleImport">
       <ImportContacts v-if="showImportModal" :on-close="onToggleImport" />
     </woot-modal>
     <woot-modal
-      :show.sync="showFiltersModal"
+      v-model:show="showFiltersModal"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
@@ -461,9 +466,9 @@ export default {
         :initial-applied-filters="appliedFilter"
         :active-segment-name="activeSegmentName"
         :is-segments-view="hasActiveSegments"
-        @applyFilter="onApplyFilter"
-        @updateSegment="onUpdateSegment"
-        @clearFilters="clearFilters"
+        @apply-filter="onApplyFilter"
+        @update-segment="onUpdateSegment"
+        @clear-filters="clearFilters"
       />
     </woot-modal>
   </div>

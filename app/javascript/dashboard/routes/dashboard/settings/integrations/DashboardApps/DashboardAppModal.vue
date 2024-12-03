@@ -18,6 +18,7 @@ export default {
       default: () => ({}),
     },
   },
+  emits: ['close'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -110,7 +111,7 @@ export default {
       <woot-modal-header :header-title="header" />
       <form class="w-full" @submit.prevent="submit">
         <woot-input
-          v-model.trim="app.title"
+          v-model="app.title"
           :class="{ error: v$.app.title.$error }"
           class="w-full"
           :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_LABEL')"
@@ -124,9 +125,10 @@ export default {
           "
           data-testid="app-title"
           @input="v$.app.title.$touch"
+          @blur="v$.app.title.$touch"
         />
         <woot-input
-          v-model.trim="app.content.url"
+          v-model="app.content.url"
           :class="{ error: v$.app.content.url.$error }"
           class="w-full"
           :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
@@ -140,6 +142,7 @@ export default {
           "
           data-testid="app-url"
           @input="v$.app.content.url.$touch"
+          @blur="v$.app.content.url.$touch"
         />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button

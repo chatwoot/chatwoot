@@ -29,6 +29,7 @@ ja:
       invalid: Invalid events
     signup:
       disposable_email: 使い捨てメールは許可されません
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: 無効なメールアドレスを入力しました。
       email_already_exists: "あなたは既に %{email} でアカウントにサインアップしています"
       invalid_params: 'Invalid, please check the signup paramters and try again'
@@ -261,10 +262,14 @@ ja:
     button: Open conversation
   time_units:
     days:
+      one: "%{count} day"
       other: "%{count} days"
     hours:
+      one: "%{count} hour"
       other: "%{count} hours"
     minutes:
+      one: "%{count} minute"
       other: "%{count} minutes"
     seconds:
+      one: "%{count} second"
       other: "%{count} seconds"

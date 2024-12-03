@@ -1,6 +1,6 @@
 <script setup>
 import { shallowRef, computed, onMounted } from 'vue';
-import emojis from 'shared/components/emoji/emojisGroup.json';
+import emojiGroups from 'shared/components/emoji/emojisGroup.json';
 import MentionBox from '../mentions/MentionBox.vue';
 
 const props = defineProps({
@@ -10,7 +10,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['selectEmoji']);
 
 const allEmojis = shallowRef([]);
 
@@ -23,16 +23,18 @@ const items = computed(() => {
 });
 
 function loadEmojis() {
-  allEmojis.value = emojis.flatMap(group =>
-    group.emojis.map(emoji => ({
-      ...emoji,
-      searchString: `${emoji.slug} ${emoji.name}`.toLowerCase(),
+  allEmojis.value = emojiGroups.flatMap(({ emojis }) =>
+    emojis.map(({ name, slug, ...rest }) => ({
+      ...rest,
+      name,
+      slug,
+      searchString: `${name.replace(/\s+/g, '')} ${slug}`.toLowerCase(), // Remove all whitespace and convert to lowercase
     }))
   );
 }
 
 function handleMentionClick(item = {}) {
-  emit('click', item.emoji);
+  emit('selectEmoji', item.emoji);
 }
 
 onMounted(() => {
@@ -46,7 +48,7 @@ onMounted(() => {
     v-if="items.length"
     type="emoji"
     :items="items"
-    @mentionSelect="handleMentionClick"
+    @mention-select="handleMentionClick"
   >
     <template #default="{ item, selected }">
       <span
@@ -60,7 +62,7 @@ onMounted(() => {
             'font-normal': !selected,
           }"
         >
-          :{{ item.slug }}
+          :{{ item.name }}
         </p>
       </span>
     </template>

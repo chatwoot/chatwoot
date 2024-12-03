@@ -3,7 +3,7 @@ import '@chatwoot/ninja-keys';
 import { ref, computed, watchEffect, onMounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { useAppearanceHotKeys } from 'dashboard/composables/commands/useAppearanceHotKeys';
 import { useInboxHotKeys } from 'dashboard/composables/commands/useInboxHotKeys';
 import { useGoToCommandHotKeys } from 'dashboard/composables/commands/useGoToCommandHotKeys';
@@ -13,7 +13,6 @@ import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
-const track = useTrack();
 const { t } = useI18n();
 
 const ninjakeys = ref(null);
@@ -55,7 +54,7 @@ const onSelected = item => {
     selectedSnoozeType.value = null;
   }
 
-  track(GENERAL_EVENTS.COMMAND_BAR, {
+  useTrack(GENERAL_EVENTS.COMMAND_BAR, {
     section,
     action: title,
   });
@@ -97,7 +96,7 @@ onMounted(setCommandBarData);
 <style lang="scss">
 ninja-keys {
   --ninja-accent-color: var(--w-500);
-  --ninja-font-family: 'PlusJakarta';
+  --ninja-font-family: 'Inter';
   z-index: 9999;
 }
 

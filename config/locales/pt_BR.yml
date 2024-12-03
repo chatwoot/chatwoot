@@ -29,6 +29,7 @@ pt_BR:
       invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
+      blocked_domain: Este domínio não é permitido. Se você acredita que isso é um erro, por favor contate o suporte.
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se cadastrou para uma conta com %{email}"
       invalid_params: 'Inválido, por favor, verifique os parâmetros de inscrição e tente novamente'
@@ -189,32 +190,32 @@ pt_BR:
   integration_apps:
     dashboard_apps:
       name: "Apps da Dashboard"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      description: "Apps do Painel permitem que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente."
     dyte:
       name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
+      description: "Dyte é um produto que integra as funcionalidades de áudio e vídeo em seu aplicativo. Com esta integração, seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do Chatwoot."
       meeting_name: "%{agent_name} começou a reunião"
     slack:
       name: "Slack"
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "Integre Chatwoot com Slack para manter sua equipe em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      description: "Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações."
     dialogflow:
       name: "Fluxo de diálogo"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      description: "Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente."
     google_translate:
       name: "Tradutor do Google"
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
     openai:
       name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      description: "Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos."
     linear:
       name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+      description: "Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente."
     captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: "Capitain"
+      description: "O Captain é um assistente nativo de IA, construído para o seu produto e treinado na base de conhecimento da sua empresa. Ele responde como um humano e resolve as consultas aos clientes efetivamente. Configure nas suas caixas de entrada facilmente."
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...

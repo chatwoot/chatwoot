@@ -101,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Nenhuma",
         "INPUT_PLACEHOLDER": "Selecionar prioridade",
         "NO_RESULTS": "Nenhum resultado encontrado",
-        "SUCCESSFUL": "Alterada a prioridade do ID da conversa %{conversationId} para %{priority}",
+        "SUCCESSFUL": "Alterada a prioridade do ID da conversa {conversationId} para {priority}",
         "FAILED": "Não foi possível alterar a prioridade. Por favor, tente novamente."
       }
     },
@@ -122,15 +122,15 @@
       "ASSIGN_TEAM": "Atribuir equipe",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "ID da conversa %{conversationId} atribuído para \"%{agentName}\"",
+          "SUCCESFUL": "ID da conversa {conversationId} atribuído para \"{agentName}\"",
           "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta #%{labelName} atribuída para o id de conversa %{conversationId}",
+          "SUCCESFUL": "Etiqueta #{labelName} atribuída para o id de conversa {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipe %{team} atribuído para o id de conversa %{conversationId}",
+          "SUCCESFUL": "Equipe {team} atribuído para o id de conversa {conversationId}",
           "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
         }
       }
@@ -239,11 +239,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
-    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de %{installationName}. Aqui estão algumas coisas que você consegue fazer no(a) %{installationName} para que tenha uma experiência agradável.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "Olá, 👋. Bem-vindo ao {installationName}!",
+    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de {installationName}. Aqui estão algumas coisas que você consegue fazer no(a) {installationName} para que tenha uma experiência agradável.",
+    "GREETING_MORNING": "👋 Bom dia, {name}. Bem-vindo a {installationName}.",
+    "GREETING_AFTERNOON": "👋 Boa tarde, {name}. Bem-vindo a {installationName}.",
+    "GREETING_EVENING": "👋 Boa noite, {name}. Bem-vindo a {installationName}.",
     "READ_LATEST_UPDATES": "Leia as últimas atualizações",
     "ALL_CONVERSATION": {
       "TITLE": "Todas as suas conversas em um só lugar",
@@ -261,9 +261,9 @@
       "NEW_LINK": "Clique aqui para criar marcadores"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "Criar respostas prontas",
+      "DESCRIPTION": "Os modelos de resposta rápida ajudam você a responder rapidamente a uma conversa. Os agentes podem digitar o caractere '/' seguido pelo atalho para inserir uma resposta.",
+      "NEW_LINK": "Clique aqui para criar uma resposta pronta"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -317,10 +317,10 @@
     "SIDEBAR_TITLE": "Participantes da conversa",
     "NO_RECORDS_FOUND": "Nenhum resultado encontrado",
     "ADD_PARTICIPANTS": "Selecionar participantes",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} participantes",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} participante",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} pessoas estão participando.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} pessoa está participando.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} participantes",
+    "REMANING_PARTICIPANT_TEXT": "+{count} participante",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} pessoas estão participando.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} pessoa está participando.",
     "NO_PARTICIPANTS_TEXT": "Ninguém está participando!",
     "WATCH_CONVERSATION": "Participar da conversa",
     "YOU_ARE_WATCHING": "Você está participando",
@@ -335,5 +335,10 @@
     "ORIGINAL_CONTENT": "Conteúdo original",
     "TRANSLATED_CONTENT": "Conteúdo traduzido",
     "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
+  },
+  "TYPING": {
+    "ONE": "{user} está digitando",
+    "TWO": "{user} e {secondUser} estão digitando",
+    "MULTIPLE": "{user} e {count} outros estão digitando"
   }
 }

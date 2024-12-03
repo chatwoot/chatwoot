@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā."
       }
     },
-    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot %{latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
+    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot {latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
     "LEARN_MORE": "Uzzināt vairāk",
     "PAYMENT_PENDING": "Jūsu maksājums tiek gaidīts. Lūdzu, atjauniniet savu maksājumu informāciju, lai turpinātu lietot Chatwoot",
     "LIMITS_UPGRADE": "Jūsu konts ir pārsniedzis lietošanas ierobežojumus. Lūdzu, uzlabojiet savu abonementu, lai turpinātu izmantot Chatwoot",

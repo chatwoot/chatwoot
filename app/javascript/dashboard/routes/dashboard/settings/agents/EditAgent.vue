@@ -1,203 +1,226 @@
-<script>
+<script setup>
+import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import { mapGetters } from 'vuex';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
-import Modal from '../../../../components/Modal.vue';
+import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    default: '',
+  },
+  type: {
+    type: String,
+    default: '',
+  },
+  availability: {
+    type: String,
+    default: '',
+  },
+  customRoleId: {
+    type: Number,
+    default: null,
+  },
+});
+
+const emit = defineEmits(['close']);
+
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
-export default {
-  components: {
-    WootSubmitButton,
-    Modal,
-  },
-  props: {
-    id: {
-      type: Number,
-      required: true,
+const store = useStore();
+const { t } = useI18n();
+
+const agentName = ref(props.name);
+const agentAvailability = ref(props.availability);
+const selectedRoleId = ref(props.customRoleId || props.type);
+const agentCredentials = ref({ email: props.email });
+
+const rules = {
+  agentName: { required, minLength: minLength(1) },
+  selectedRoleId: { required },
+  agentAvailability: { required },
+};
+
+const v$ = useVuelidate(rules, {
+  agentName,
+  selectedRoleId,
+  agentAvailability,
+});
+
+const pageTitle = computed(
+  () => `${t('AGENT_MGMT.EDIT.TITLE')} - ${props.name}`
+);
+
+const uiFlags = useMapGetter('agents/getUIFlags');
+const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+
+const roles = computed(() => {
+  const defaultRoles = [
+    {
+      id: 'administrator',
+      name: 'administrator',
+      label: t('AGENT_MGMT.AGENT_TYPES.ADMINISTRATOR'),
     },
-    name: {
-      type: String,
-      required: true,
+    {
+      id: 'agent',
+      name: 'agent',
+      label: t('AGENT_MGMT.AGENT_TYPES.AGENT'),
     },
-    email: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String,
-      default: '',
-    },
-    availability: {
-      type: String,
-      default: '',
-    },
-    onClose: {
-      type: Function,
-      required: true,
-    },
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      roles: [
-        {
-          name: 'administrator',
-          label: this.$t('AGENT_MGMT.AGENT_TYPES.ADMINISTRATOR'),
-        },
-        {
-          name: 'agent',
-          label: this.$t('AGENT_MGMT.AGENT_TYPES.AGENT'),
-        },
-      ],
-      agentName: this.name,
-      agentAvailability: this.availability,
-      agentType: this.type,
-      agentCredentials: {
-        email: this.email,
-      },
-      show: true,
+  ];
+
+  const customRoles = getCustomRoles.value.map(role => ({
+    id: role.id,
+    name: `custom_${role.id}`,
+    label: role.name,
+  }));
+
+  return [...defaultRoles, ...customRoles];
+});
+
+const selectedRole = computed(() =>
+  roles.value.find(
+    role =>
+      role.id === selectedRoleId.value || role.name === selectedRoleId.value
+  )
+);
+
+const statusList = computed(() => {
+  return [
+    t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.ONLINE'),
+    t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.BUSY'),
+    t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.OFFLINE'),
+  ];
+});
+
+const availabilityStatuses = computed(() =>
+  statusList.value.map((statusLabel, index) => ({
+    label: statusLabel,
+    value: AVAILABILITY_STATUS_KEYS[index],
+    disabled: props.availability === AVAILABILITY_STATUS_KEYS[index],
+  }))
+);
+
+const editAgent = async () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) return;
+
+  try {
+    const payload = {
+      id: props.id,
+      name: agentName.value,
+      availability: agentAvailability.value,
     };
-  },
-  validations: {
-    agentName: {
-      required,
-      minLength: minLength(1),
-    },
-    agentType: {
-      required,
-    },
-    agentAvailability: {
-      required,
-    },
-  },
-  computed: {
-    pageTitle() {
-      return `${this.$t('AGENT_MGMT.EDIT.TITLE')} - ${this.name}`;
-    },
-    ...mapGetters({
-      uiFlags: 'agents/getUIFlags',
-    }),
-    availabilityStatuses() {
-      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        (statusLabel, index) => ({
-          label: statusLabel,
-          value: AVAILABILITY_STATUS_KEYS[index],
-          disabled:
-            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
-        })
-      );
-    },
-  },
-  methods: {
-    async editAgent() {
-      try {
-        await this.$store.dispatch('agents/update', {
-          id: this.id,
-          name: this.agentName,
-          role: this.agentType,
-          availability: this.agentAvailability,
-        });
-        useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-        this.onClose();
-      } catch (error) {
-        useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-    async resetPassword() {
-      try {
-        await Auth.resetPassword(this.agentCredentials);
-        useAlert(
-          this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE')
-        );
-      } catch (error) {
-        useAlert(this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
-      }
-    },
-  },
+
+    if (selectedRole.value.name.startsWith('custom_')) {
+      payload.custom_role_id = selectedRole.value.id;
+    } else {
+      payload.role = selectedRole.value.name;
+      payload.custom_role_id = null;
+    }
+
+    await store.dispatch('agents/update', payload);
+    useAlert(t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+    emit('close');
+  } catch (error) {
+    useAlert(t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
+  }
+};
+
+const resetPassword = async () => {
+  try {
+    await Auth.resetPassword(agentCredentials.value);
+    useAlert(t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
+  }
 };
 </script>
 
 <template>
-  <Modal :show.sync="show" :on-close="onClose">
-    <div class="flex flex-col h-auto overflow-auto">
-      <woot-modal-header :header-title="pageTitle" />
-      <form class="w-full" @submit.prevent="editAgent()">
-        <div class="w-full">
-          <label :class="{ error: v$.agentName.$error }">
-            {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
-            <input
-              v-model.trim="agentName"
-              type="text"
-              :placeholder="$t('AGENT_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
-              @input="v$.agentName.$touch"
-            />
-          </label>
-        </div>
+  <div class="flex flex-col h-auto overflow-auto">
+    <woot-modal-header :header-title="pageTitle" />
+    <form class="w-full" @submit.prevent="editAgent">
+      <div class="w-full">
+        <label :class="{ error: v$.agentName.$error }">
+          {{ $t('AGENT_MGMT.EDIT.FORM.NAME.LABEL') }}
+          <input
+            v-model="agentName"
+            type="text"
+            :placeholder="$t('AGENT_MGMT.EDIT.FORM.NAME.PLACEHOLDER')"
+            @input="v$.agentName.$touch"
+          />
+        </label>
+      </div>
 
-        <div class="w-full">
-          <label :class="{ error: v$.agentType.$error }">
-            {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
-            <select v-model="agentType">
-              <option v-for="role in roles" :key="role.name" :value="role.name">
-                {{ role.label }}
-              </option>
-            </select>
-            <span v-if="v$.agentType.$error" class="message">
-              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.ERROR') }}
-            </span>
-          </label>
-        </div>
+      <div class="w-full">
+        <label :class="{ error: v$.selectedRoleId.$error }">
+          {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
+          <select v-model="selectedRoleId" @change="v$.selectedRoleId.$touch">
+            <option v-for="role in roles" :key="role.id" :value="role.id">
+              {{ role.label }}
+            </option>
+          </select>
+          <span v-if="v$.selectedRoleId.$error" class="message">
+            {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.ERROR') }}
+          </span>
+        </label>
+      </div>
 
-        <div class="w-full">
-          <label :class="{ error: v$.agentAvailability.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
-            <select v-model="agentAvailability">
-              <option
-                v-for="role in availabilityStatuses"
-                :key="role.value"
-                :value="role.value"
-              >
-                {{ role.label }}
-              </option>
-            </select>
-            <span v-if="v$.agentAvailability.$error" class="message">
-              {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
-            </span>
-          </label>
-        </div>
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <div class="w-[50%]">
-            <WootSubmitButton
-              :disabled="
-                v$.agentType.$invalid ||
-                v$.agentName.$invalid ||
-                uiFlags.isUpdating
-              "
-              :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
-              :loading="uiFlags.isUpdating"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-            </button>
-          </div>
-          <div class="w-[50%] text-right">
-            <woot-button
-              icon="lock-closed"
-              variant="clear"
-              @click.prevent="resetPassword"
+      <div class="w-full">
+        <label :class="{ error: v$.agentAvailability.$error }">
+          {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
+          <select
+            v-model="agentAvailability"
+            @change="v$.agentAvailability.$touch"
+          >
+            <option
+              v-for="status in availabilityStatuses"
+              :key="status.value"
+              :value="status.value"
             >
-              {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
-            </woot-button>
-          </div>
+              {{ status.label }}
+            </option>
+          </select>
+          <span v-if="v$.agentAvailability.$error" class="message">
+            {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
+          </span>
+        </label>
+      </div>
+
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+        <div class="w-[50%]">
+          <WootSubmitButton
+            :disabled="v$.$invalid || uiFlags.isUpdating"
+            :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
+            :loading="uiFlags.isUpdating"
+          />
+          <button class="button clear" @click.prevent="emit('close')">
+            {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
+          </button>
         </div>
-      </form>
-    </div>
-  </Modal>
+        <div class="w-[50%] text-right">
+          <woot-button
+            icon="lock-closed"
+            variant="clear"
+            @click.prevent="resetPassword"
+          >
+            {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
+          </woot-button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>

@@ -3,7 +3,8 @@
     "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
     "HEADER_BTN_TXT": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
     "LOADING": "กำลังดึงแอตทริบิวต์ที่กำหนดเอง",
-    "SIDEBAR_TXT": "<p><b>แอตทริบิวต์เเบบกำหนดเอง</b> <p>แอตทริบิวต์เเบบกำหนดเองใช้สำหรับการติดตามข้อมูลต่างๆของผู้ติดต่อหรือการสนทนา เช่น แพ็คเกจที่ใช้, วันที่ลูกค้าเริ่มใช้บริการ เป็นต้น<br /><br />ในการสร้างแอตทริบิวต์เเบบกำหนดเอง ให้คลิกปุ่ม <b>แอตทริบิวต์เเบบกำหนดเอง</b> คุณสามารถปรับแต่งและลบแอตทริบิวต์เเบบกำหนดเองโดยการคลิกปุ่มปรับแต่ง หรือปุ่มลบ</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
       "SUBMIT": "สร้าง",
@@ -64,7 +65,7 @@
         "ERROR_MESSAGE": "ไม่สามารถลบแอตทริบิวต์เเบบกำหนดเอง โปรดลองอีกครั้ง"
       },
       "CONFIRM": {
-        "TITLE": "คุณแน่ใจว่าต้องการลบ %{attributeName} หรือไม่",
+        "TITLE": "คุณแน่ใจว่าต้องการลบ {attributeName} หรือไม่",
         "PLACE_HOLDER": "โปรดใส่ {attributeName} เพื่อยืนยัน",
         "MESSAGE": "การลบจะทำให้แอตทริบิวต์เเบบกำหนดเองจะหายไป",
         "YES": "ลบ ",
@@ -91,12 +92,7 @@
       "CONTACT": "รายชื่อผู้ติดต่อ"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "ชื่อ",
-        "คำอธิบาย",
-        "ประเภท",
-        "คีย์"
-      ],
+      "TABLE_HEADER": ["ชื่อ", "คำอธิบาย", "ประเภท", "คีย์"],
       "BUTTONS": {
         "EDIT": "เเก้ไข",
         "DELETE": "ลบ"

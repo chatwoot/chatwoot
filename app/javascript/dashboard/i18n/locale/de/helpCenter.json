@@ -41,6 +41,7 @@
         "UPLOADING": "Hochladen...",
         "SUCCESS": "Bild erfolgreich hochgeladen",
         "ERROR": "Fehler beim Hochladen des Bildes",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Bildgröße sollte kleiner als {size}MB sein",
         "ERROR_FILE_FORMAT": "Bildformat sollte jpg, jpeg oder png sein",
         "ERROR_FILE_DIMENSIONS": "Bildgröße sollte kleiner als 2000 x 2000 sein"
@@ -83,7 +84,7 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Nicht kategorisiert",
-      "SEARCH_RESULTS": "Suchergebnisse für %{query}",
+      "SEARCH_RESULTS": "Suchergebnisse für {query}",
       "EMPTY_TEXT": "Suche nach Artikeln, um sie in Antworten einzufügen.",
       "SEARCH_LOADER": "Suchen...",
       "INSERT_ARTICLE": "Einfügen",

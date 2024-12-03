@@ -9,7 +9,7 @@ export default {
     WootMessageEditor,
   },
   props: {
-    value: {
+    modelValue: {
       type: Object,
       default: () => null,
     },
@@ -38,24 +38,27 @@ export default {
       default: false,
     },
   },
+  emits: ['update:modelValue', 'input', 'removeAction', 'resetAction'],
   computed: {
     action_name: {
       get() {
-        if (!this.value) return null;
-        return this.value.action_name;
+        if (!this.modelValue) return null;
+        return this.modelValue.action_name;
       },
       set(value) {
-        const payload = this.value || {};
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, action_name: value });
         this.$emit('input', { ...payload, action_name: value });
       },
     },
     action_params: {
       get() {
-        if (!this.value) return null;
-        return this.value.action_params;
+        if (!this.modelValue) return null;
+        return this.modelValue.action_params;
       },
       set(value) {
-        const payload = this.value || {};
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, action_params: value });
         this.$emit('input', { ...payload, action_params: value });
       },
     },

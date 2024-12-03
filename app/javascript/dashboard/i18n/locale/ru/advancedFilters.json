@@ -55,6 +55,9 @@
       "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необходимо указать значение"
+    },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",
       "ADDITIONAL_FILTERS": "Дополнительные фильтры",

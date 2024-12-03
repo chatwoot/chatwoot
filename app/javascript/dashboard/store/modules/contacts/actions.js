@@ -4,6 +4,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
+import decamelizeKeys from 'decamelize-keys';
 import AccountActionsAPI from '../../../api/accountActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -90,11 +91,16 @@ export const actions = {
   },
 
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
+    const decamelizedContactParams = decamelizeKeys(contactParams, {
+      deep: true,
+    });
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(
         id,
-        isFormData ? buildContactFormData(contactParams) : contactParams
+        isFormData
+          ? buildContactFormData(decamelizedContactParams)
+          : decamelizedContactParams
       );
       commit(types.EDIT_CONTACT, response.data.payload);
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
@@ -109,10 +115,15 @@ export const actions = {
   },
 
   create: async ({ commit }, { isFormData = false, ...contactParams }) => {
+    const decamelizedContactParams = decamelizeKeys(contactParams, {
+      deep: true,
+    });
     commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });
     try {
       const response = await ContactAPI.create(
-        isFormData ? buildContactFormData(contactParams) : contactParams
+        isFormData
+          ? buildContactFormData(decamelizedContactParams)
+          : decamelizedContactParams
       );
 
       AnalyticsHelper.track(CONTACTS_EVENTS.CREATE_CONTACT);
@@ -126,12 +137,12 @@ export const actions = {
   },
 
   import: async ({ commit }, file) => {
-    commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });
+    commit(types.SET_CONTACT_UI_FLAG, { isImporting: true });
     try {
       await ContactAPI.importContacts(file);
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isImporting: false });
     } catch (error) {
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isImporting: false });
       if (error.response?.data?.message) {
         throw new ExceptionWithMessage(error.response.data.message);
       }
@@ -139,12 +150,13 @@ export const actions = {
   },
 
   export: async ({ commit }, { payload, label }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isExporting: true });
     try {
       await ContactAPI.exportContacts({ payload, label });
 
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isExporting: false });
     } catch (error) {
-      commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
+      commit(types.SET_CONTACT_UI_FLAG, { isExporting: false });
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
       } else {

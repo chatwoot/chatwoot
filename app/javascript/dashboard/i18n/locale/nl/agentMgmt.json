@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Acties",
       "VERIFIED": "Geverifieerd",
-      "VERIFICATION_PENDING": "Verificatie in behandeling"
+      "VERIFICATION_PENDING": "Verificatie in behandeling",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Voeg medewerker toe aan je team",

@@ -45,6 +45,9 @@ export default {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
     backUrl() {
+      if (window.history.state?.back || window.history.length > 1) {
+        return '';
+      }
       return `/app/accounts/${this.$route.params.accountId}/contacts`;
     },
   },
@@ -98,8 +101,9 @@ export default {
         <div class="w-3/4 h-full">
           <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
             <woot-tabs-item
-              v-for="tab in tabs"
+              v-for="(tab, index) in tabs"
               :key="tab.key"
+              :index="index"
               :name="tab.name"
               :show-badge="false"
             />
