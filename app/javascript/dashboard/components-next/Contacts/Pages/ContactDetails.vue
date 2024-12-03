@@ -103,6 +103,7 @@ const handleAvatarDelete = async () => {
     }
     avatarFile.value = null;
     avatarUrl.value = '';
+    contactData.value.thumbnail = null;
   } catch (error) {
     useAlert(
       error.message
@@ -118,7 +119,7 @@ const handleAvatarDelete = async () => {
     <div class="flex flex-col items-start gap-3">
       <Avatar
         :src="avatarSrc || ''"
-        :name="contactData.name || ''"
+        :name="selectedContact?.name || ''"
         :size="72"
         allow-upload
         @upload="handleAvatarUpload"
@@ -126,7 +127,7 @@ const handleAvatarDelete = async () => {
       />
       <div class="flex flex-col gap-1">
         <h3 class="text-base font-medium text-n-slate-12">
-          {{ contactData.name }}
+          {{ selectedContact?.name }}
         </h3>
         <span class="text-sm text-n-slate-11">
           {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
@@ -138,7 +139,7 @@ const handleAvatarDelete = async () => {
           }}
         </span>
       </div>
-      <ContactLabels :contact-id="selectedContact.id" />
+      <ContactLabels :contact-id="selectedContact?.id" />
     </div>
     <div class="flex flex-col items-start gap-6">
       <ContactsForm
