@@ -22,26 +22,33 @@ const alertEventValues = Object.values(EVENT_TYPES);
 const selectedValue = computed({
   get: () => {
     if (props.value === 'none') return [];
-
-    return props.value
+    const validValues = props.value
       .split('+')
       .filter(value => alertEventValues.includes(value));
+
+    return [...new Set(validValues)];
   },
   set: value => {
     const sortedValues = value.filter(Boolean).sort();
-    if (sortedValues.length === 0) {
+    const uniqueValues = [...new Set(sortedValues)];
+
+    if (uniqueValues.length === 0) {
       emit('update', 'none');
       return;
     }
 
-    emit('update', sortedValues.join('+'));
+    emit('update', uniqueValues.join('+'));
   },
 });
 
-const setValue = (isChecked, [value]) => {
-  const updatedValue = isChecked
-    ? [...selectedValue.value, value]
-    : selectedValue.value.filter(item => item !== value);
+const setValue = (isChecked, value) => {
+  let updatedValue = selectedValue.value;
+  if (isChecked) {
+    updatedValue.push(value);
+  } else {
+    updatedValue = updatedValue.filter(item => item !== value);
+  }
+
   selectedValue.value = updatedValue;
 };
 
@@ -53,7 +60,7 @@ const alertDescription = computed(() => {
     return base + 'NONE';
   }
 
-  return base + props.value.toUpperCase();
+  return base + selectedValue.value.join('+').toUpperCase();
 });
 </script>
 
