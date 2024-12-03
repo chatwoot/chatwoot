@@ -28,7 +28,7 @@ const selectedValue = computed({
       .filter(value => alertEventValues.includes(value));
   },
   set: value => {
-    const sortedValues = value.sort().filter(Boolean);
+    const sortedValues = value.filter(Boolean).sort();
     if (sortedValues.length === 0) {
       emit('update', 'none');
       return;
@@ -38,7 +38,7 @@ const selectedValue = computed({
   },
 });
 
-const setValue = (isChecked, value) => {
+const setValue = (isChecked, [value]) => {
   const updatedValue = isChecked
     ? [...selectedValue.value, value]
     : selectedValue.value.filter(item => item !== value);
@@ -49,7 +49,7 @@ const alertDescription = computed(() => {
   const base =
     'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_COMBINATIONS.';
 
-  if (props.value === '') {
+  if (props.value === '' || props.value === 'none') {
     return base + 'NONE';
   }
 
