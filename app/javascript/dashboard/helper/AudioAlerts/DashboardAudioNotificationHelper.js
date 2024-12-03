@@ -148,18 +148,22 @@ class DashboardAudioNotificationHelper {
     if (splitAlert.includes('none')) return false;
     if (splitAlert.includes('all')) return true;
 
-    const shouldPlay = [];
+    const assignedToMe = this.isConversationAssignedToCurrentUser(message);
+    const isUnattended = this.isConversationUnattended(message);
+
+    const shouldPlayAudio = [];
+
     if (splitAlert.includes(EVENT_TYPES.ASSIGNED)) {
-      shouldPlay.push(this.isConversationAssignedToCurrentUser(message));
+      shouldPlayAudio.push(assignedToMe);
     }
     if (splitAlert.includes(EVENT_TYPES.UNATTENDED)) {
-      shouldPlay.push(this.isConversationUnattended(message));
+      shouldPlayAudio.push(isUnattended);
     }
     if (splitAlert.includes(EVENT_TYPES.ME)) {
-      shouldPlay.push(!this.isConversationAssignedToCurrentUser(message));
+      shouldPlayAudio.push(!isUnattended && !assignedToMe);
     }
 
-    return shouldPlay.some(Boolean);
+    return shouldPlayAudio.some(Boolean);
   };
 
   onNewMessage = message => {
