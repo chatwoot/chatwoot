@@ -62,12 +62,7 @@ const alertDescription = computed(() => {
         />
         <label
           :for="`checkbox-${option.value}`"
-          class="text-sm font-medium"
-          :class="
-            selectedValue.includes(option.value)
-              ? 'text-ash-900'
-              : 'text-ash-800'
-          "
+          class="text-sm text-ash-900 font-normal"
         >
           {{
             $t(
