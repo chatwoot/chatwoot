@@ -78,7 +78,8 @@ class DailyConversationWithOrderIdsReportJob < ApplicationJob
           JOIN users ON COALESCE(latest_conversation_resolved.user_id, account_users.user_id) = users.id
       WHERE
           conversations.account_id = :account_id
-          AND conversations.updated_at >= NOW() - INTERVAL '24 hours'
+          AND conversations.updated_at >= ((NOW() AT TIME ZONE 'Asia/Kolkata')::DATE - INTERVAL '1 day 5 hours 30 minutes')
+          AND conversations.updated_at < ((NOW() AT TIME ZONE 'Asia/Kolkata')::DATE - INTERVAL '5 hours 30 minutes')
     SQL
 
     ActiveRecord::Base.connection.exec_query(sql).to_a
