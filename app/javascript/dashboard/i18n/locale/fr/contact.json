@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
+          "PHONE_NUMBER_DUPLICATE": "Ce numéro de téléphone est utilisé par un autre contact.",
+          "SUCCESS_MESSAGE": "Contact enregistré avec succès",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Filtres standards",
-        "ADDITIONAL_FILTERS": "Filtres supplémentaires",
-        "CUSTOM_ATTRIBUTES": "Attributs personnalisés"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Effacer les filtres"
       }
     },
     "CARD": {
