@@ -159,7 +159,7 @@ class DashboardAudioNotificationHelper {
     if (splitAlert.includes(EVENT_TYPES.UNATTENDED)) {
       shouldPlayAudio.push(isUnattended);
     }
-    if (splitAlert.includes(EVENT_TYPES.ME)) {
+    if (splitAlert.includes(EVENT_TYPES.NOTME)) {
       shouldPlayAudio.push(!isUnattended && !assignedToMe);
     }
 
