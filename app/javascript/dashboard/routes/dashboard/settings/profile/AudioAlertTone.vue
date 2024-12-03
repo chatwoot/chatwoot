@@ -8,7 +8,8 @@ const props = defineProps({
   value: {
     type: String,
     required: true,
-    validator: value => ['ding', 'bell'].includes(value),
+    validator: value =>
+      ['ding', 'bell', 'chime', 'magic', 'ping'].includes(value),
   },
   label: {
     type: String,
