@@ -25,16 +25,16 @@ export default {
     };
   },
   computed: {
-  brandRedirectURL() {
-    try {
-      // Return the simplified URL directly
-      return `${this.globalConfig.widgetBrandURL}`;
-    } catch (e) {
-      // Suppressing the error as getter is not defined in some cases
-    }
-    return '';
+    brandRedirectURL() {
+      try {
+        // Return the simplified URL directly
+        return `${this.globalConfig.widgetBrandURL}`;
+      } catch (e) {
+        // Suppressing the error as getter is not defined in some cases
+      }
+      return '';
+    },
   },
- }
 };
 </script>
 
