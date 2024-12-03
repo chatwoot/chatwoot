@@ -32,16 +32,24 @@ const setValue = (isChecked, value) => {
     : selectedValue.value.filter(item => item !== value);
   selectedValue.value = updatedValue;
 };
+
+const alertDescription = computed(() => {
+  const base =
+    'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_COMBINATIONS.';
+  if (props.value === '') {
+    return base + 'NONE';
+  }
+
+  return base + props.value.toUpperCase();
+});
 </script>
 
 <template>
   <div>
-    <label
-      class="flex justify-between pb-1 text-sm font-medium leading-6 text-ash-900"
-    >
+    <label class="pb-1 text-sm font-medium leading-6 text-ash-900">
       {{ label }}
     </label>
-    <div class="grid gap-2">
+    <div class="grid gap-3 mt-2">
       <div
         v-for="option in alertEvents"
         :key="option.value"
@@ -67,6 +75,9 @@ const setValue = (isChecked, value) => {
             )
           }}
         </label>
+      </div>
+      <div class="text-n-slate-11 text-sm font-medium mt-2">
+        {{ $t(alertDescription) }}
       </div>
     </div>
   </div>

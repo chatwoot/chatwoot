@@ -67,11 +67,12 @@
           "NONE": "None",
           "MINE": "Assigned",
           "ALL": "All",
-          "ASSIGNED": "Assigned",
-          "UNATTENDED": "Unattended",
-          "UNASSIGNED": "Unassigned"
+          "ASSIGNED": "Assigned Conversations",
+          "UNATTENDED": "Unattended Conversations",
+          "UNASSIGNED": "Unassigned Conversations"
         },
         "ALERT_COMBINATIONS": {
+          "NONE": "You'll not receive any audio alerts",
           "ASSIGNED": "You'll be notified for all conversations assigned to you",
           "UNATTENDED": "You'll be notified for all unattended conversations",
           "UNASSIGNED": "You'll be notified for all unassigned conversations",
@@ -81,7 +82,7 @@
           "ASSIGNED+UNASSIGNED+UNATTENDED": "You'll be notified for all incoming messages"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "None",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
