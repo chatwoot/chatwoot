@@ -38,19 +38,15 @@ export const NOTIFICATION_TYPES = [
 
 export const ALERT_EVENTS = [
   {
-    value: 'none',
-    label: 'none',
+    value: 'assigned',
+    label: 'assigned',
   },
   {
-    value: 'mine',
-    label: 'mine',
+    value: 'unattended',
+    label: 'unattended',
   },
   {
-    value: 'mine+unattended',
-    label: 'mine+unattended',
-  },
-  {
-    value: 'all',
-    label: 'all',
+    value: 'unassigned',
+    label: 'unassigned',
   },
 ];

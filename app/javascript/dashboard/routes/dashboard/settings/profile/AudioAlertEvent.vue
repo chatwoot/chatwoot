@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import CheckBox from 'v3/components/Form/CheckBox.vue';
 import { ALERT_EVENTS } from './constants';
 
 const props = defineProps({
@@ -9,7 +10,7 @@ const props = defineProps({
   },
   value: {
     type: String,
-    default: 'all',
+    default: '',
   },
 });
 
@@ -18,11 +19,19 @@ const emit = defineEmits(['update']);
 const alertEvents = ALERT_EVENTS;
 
 const selectedValue = computed({
-  get: () => props.value,
+  get: () => props.value.split('+'),
   set: value => {
-    emit('update', value);
+    const sortedValues = value.sort().filter(Boolean);
+    emit('update', sortedValues.join('+'));
   },
 });
+
+const setValue = (isChecked, value) => {
+  const updatedValue = isChecked
+    ? [...selectedValue.value, value]
+    : selectedValue.value.filter(item => item !== value);
+  selectedValue.value = updatedValue;
+};
 </script>
 
 <template>
@@ -32,26 +41,24 @@ const selectedValue = computed({
     >
       {{ label }}
     </label>
-    <div
-      class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-xl border-ash-200"
-    >
+    <div class="grid gap-2">
       <div
         v-for="option in alertEvents"
         :key="option.value"
-        class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow last:border-r-0"
+        class="flex items-center gap-2"
       >
-        <input
-          :id="`radio-${option.value}`"
-          v-model="selectedValue"
-          class="shadow-sm cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-4 h-4 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[14px] checked:before:h-[14px] checked:border checked:border-primary-600"
-          type="radio"
-          :value="option.value"
+        <CheckBox
+          :id="`checkbox-${option.value}`"
+          :is-checked="selectedValue.includes(option.value)"
+          @update="(_val, isChecked) => setValue(isChecked, option.value)"
         />
         <label
-          :for="`radio-${option.value}`"
+          :for="`checkbox-${option.value}`"
           class="text-sm font-medium"
           :class="
-            selectedValue === option.value ? 'text-ash-900' : 'text-ash-800'
+            selectedValue.includes(option.value)
+              ? 'text-ash-900'
+              : 'text-ash-800'
           "
         >
           {{
