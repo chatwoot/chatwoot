@@ -73,14 +73,14 @@
           "NOTME": "Open conversations assigned to everyone else"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You'll not receive any audio alerts",
-          "ASSIGNED": "You'll be notified for all conversations assigned to you",
-          "UNATTENDED": "You'll be notified for all unattended conversations",
-          "NOTME": "You'll be notified for all conversations not assigned to you",
-          "ASSIGNED+UNATTENDED": "You'll be notified for all assigned and unattended conversations until they are assigned",
-          "ASSIGNED+NOTME": "You'll be notified for all incoming messages",
-          "NOTME+UNATTENDED": "You'll be notified for all incoming messages for a conversation until it is assigned to someone",
-          "ASSIGNED+NOTME+UNATTENDED": "You'll be notified for all incoming messages"
+          "NONE": "You won't receive any audio alerts",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you",
+          "UNATTENDED": "You'll receive alerts for any unattended conversations",
+          "NOTME": "You'll receive alerts for conversations assigned to others",
+          "ASSIGNED+UNATTENDED": "You'll receive alerts for your assigned conversations and any unattended ones",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to your both yours and others",
+          "NOTME+UNATTENDED": "You'll receive alerts for unattended conversations and those assigned to others",
+          "ASSIGNED+NOTME+UNATTENDED": "You'll receive alerts for all conversation"
         },
         "ALERT_TYPE": {
           "TITLE": "Alert events for conversations",
