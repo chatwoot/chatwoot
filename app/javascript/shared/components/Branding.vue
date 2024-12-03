@@ -24,7 +24,6 @@ export default {
       },
     };
   },
-  
   computed: {
   brandRedirectURL() {
     try {
@@ -35,7 +34,8 @@ export default {
     }
     return '';
   },
-}    
+ }
+};
 </script>
 
 <template>
