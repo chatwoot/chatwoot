@@ -68,9 +68,9 @@
           "NONE": "None",
           "MINE": "Assigned",
           "ALL": "All",
-          "ASSIGNED": "Assigned Conversations",
-          "UNATTENDED": "Unattended Conversations",
-          "UNASSIGNED": "Unassigned Conversations"
+          "ASSIGNED": "My assigned conversations",
+          "UNATTENDED": "New conversations needing attention",
+          "UNASSIGNED": "Open unassigned conversations"
         },
         "ALERT_COMBINATIONS": {
           "NONE": "You'll not receive any audio alerts",
