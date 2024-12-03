@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Pievienot kontaktpersonu",
           "EXPORT_CONTACT": "Eksportēt kontaktpersonas",
           "IMPORT_CONTACT": "Importēt kontaktpersonas",
-          "SAVE_CONTACT": "Saglabāt kontaktpersonu"
+          "SAVE_CONTACT": "Saglabāt kontaktpersonu",
+          "EMAIL_ADDRESS_DUPLICATE": "Šī e-pasta adrese tiek izmantota citai kontaktpersonai.",
+          "PHONE_NUMBER_DUPLICATE": "Šis tālruņa numurs tiek izmantots citai kontaktpersonai.",
+          "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi saglabāta",
+          "ERROR_MESSAGE": "Nevar saglabāt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Importēt kontaktpersonas",
@@ -490,10 +494,9 @@
         "LABEL": "Segmenta nosaukums",
         "INPUT_PLACEHOLDER": "Ievadiet segmenta nosaukumu"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Standarta filtri",
-        "ADDITIONAL_FILTERS": "Papildu filtri",
-        "CUSTOM_ATTRIBUTES": "Pielāgoti atribūti"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} papildu filtri",
+        "CLEAR_FILTERS": "Notīrīt filtrus"
       }
     },
     "CARD": {
