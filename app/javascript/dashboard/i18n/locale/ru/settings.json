@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Ваш пароль успешно изменен",
     "AFTER_EMAIL_CHANGED": "Ваш профиль был успешно обновлен, пожалуйста, войдите снова, так как ваши учетные данные были изменены",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Изображение профиля",
       "AVATAR": "Изображение",
       "ERROR": "Пожалуйста, исправьте ошибки",
       "REMOVE_IMAGE": "Удалить",
@@ -65,7 +65,7 @@
         "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
         "ALERT_TYPES": {
           "NONE": "Ничего",
-          "MINE": "Assigned",
+          "MINE": "Назначено",
           "ALL": "Все"
         },
         "ALERT_TYPE": {
@@ -96,21 +96,21 @@
         "SLA_MISSED_RESOLUTION": "Отправить уведомление по электронной почте, если разговор не соответствует SLA"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Настройки уведомлений",
+        "TYPE_TITLE": "Тип уведомления",
         "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "PUSH": "Push-уведомления",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "CONVERSATION_CREATED": "Новый диалог создан",
+          "CONVERSATION_ASSIGNED": "Вам назначен диалог",
+          "CONVERSATION_MENTION": "Вас упомянули в диалоге",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение создано в назначенном диалоге",
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
           "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Включите push-уведомления для вашего браузера, чтобы вы могли их получать"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -177,16 +177,16 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Изменить",
-    "CHANGE_ACCOUNTS": "Switch account",
+    "CHANGE_ACCOUNTS": "Сменить аккаунт",
     "SWITCH_WORKSPACE": "Switch workspace",
-    "CONTACT_SUPPORT": "Contact support",
+    "CONTACT_SUPPORT": "Связаться с поддержкой",
     "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "Настройки профиля",
+    "KEYBOARD_SHORTCUTS": "Горячие клавиши",
+    "APPEARANCE": "Изменить внешний вид",
+    "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
+    "DOCS": "Открыть документацию",
+    "LOGOUT": "Выйти из системы"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
@@ -229,7 +229,7 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
+    "NO_ITEMS": "Нет элементов",
     "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
     "SWITCH": "Переключить",
     "INBOX_VIEW": "Просмотр входящих сообщений",
@@ -242,7 +242,7 @@
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
-    "CAPTAIN": "Captain",
+    "CAPTAIN": "Капитан",
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "AGENT_BOTS": "Боты",
@@ -269,7 +269,7 @@
     "NEW_INBOX": "Новые канал",
     "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "LIVE_CHAT": "Онлайн чат",
     "SMS": "SMS",
     "CAMPAIGNS": "Кампании",
     "ONGOING": "Повторяющиеся",
@@ -283,13 +283,13 @@
     "SET_AVAILABILITY_TITLE": "Установить себя",
     "SET_YOUR_AVAILABILITY": "Настройте ваши рабочие часы",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Пользовательские роли",
     "BETA": "Бета",
     "REPORTS_OVERVIEW": "Обзор",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Срок действия вашего источника истек, пожалуйста, переподключите\n чтобы снова получать и отправлять сообщения",
     "HELP_CENTER": {
       "TITLE": "Центр поддержки",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Статьи",
       "CATEGORIES": "Категории",
       "LOCALES": "Locales",
       "SETTINGS": "Настройки"
@@ -298,7 +298,7 @@
     "SET_AUTO_OFFLINE": {
       "TEXT": "Отметить автоматически",
       "INFO_TEXT": "Позволить системе автоматически отмечать вас в автономном режиме, если вы не используете приложение или приборную панель.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_SHORT": "Автоматически отмечать оффлайн, когда вы не используете приложение."
     },
     "DOCS": "Открыть документацию"
   },
