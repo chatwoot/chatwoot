@@ -424,7 +424,7 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Отчеты о боте",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Количество диалогов",
