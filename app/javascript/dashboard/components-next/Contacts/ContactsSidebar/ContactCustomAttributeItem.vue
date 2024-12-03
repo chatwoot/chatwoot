@@ -75,11 +75,11 @@ const CurrentAttributeComponent = computed(() => {
 
 <template>
   <div
-    class="grid grid-cols-[140px,1fr] group/attribute items-center w-full gap-1"
+    class="grid grid-cols-[140px,1fr] group/attribute items-center w-full gap-2"
     :class="isEditingView ? 'min-h-10' : 'min-h-11'"
   >
     <div class="flex items-center justify-between truncate">
-      <span class="text-sm font-medium text-n-slate-12">
+      <span class="text-sm font-medium truncate text-n-slate-12">
         {{ attribute.attributeDisplayName }}
       </span>
     </div>

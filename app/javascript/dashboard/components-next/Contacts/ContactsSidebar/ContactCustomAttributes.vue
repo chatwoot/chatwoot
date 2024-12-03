@@ -33,7 +33,8 @@ const usedAttributes = computed(() => {
     .filter(attribute => {
       // Convert attribute key value from snake_case to camelCase
       const camelKey = toCamelCase(attribute.attributeKey);
-      return props.selectedContact.customAttributes[camelKey] !== undefined;
+      // Check if the key exists in customAttributes
+      return camelKey in props.selectedContact.customAttributes;
     })
     .map(attribute => ({
       ...attribute,
@@ -53,22 +54,12 @@ const unusedAttributes = computed(() => {
     .filter(attribute => {
       // Convert attribute key value from snake_case to camelCase
       const camelKey = toCamelCase(attribute.attributeKey);
-      const attributeValue = props.selectedContact.customAttributes[camelKey];
-
-      // For checkbox type, consider both true/false as valid values
-      if (attribute.attributeDisplayType === 'checkbox') {
-        return typeof attributeValue !== 'boolean';
-      }
-
-      // For other types, check if value doesn't exist or is null/undefined
-      return attributeValue === undefined || attributeValue === null;
+      // Check if the key does NOT exist in customAttributes
+      return !(camelKey in props.selectedContact.customAttributes);
     })
     .map(attribute => ({
       ...attribute,
-      value:
-        props.selectedContact.customAttributes[
-          toCamelCase(attribute.attributeKey)
-        ] ?? '',
+      value: '',
     }));
 });
 
