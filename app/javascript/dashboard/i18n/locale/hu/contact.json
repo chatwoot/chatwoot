@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik.",
+          "PHONE_NUMBER_DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik.",
+          "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Standard szűrők",
-        "ADDITIONAL_FILTERS": "További szűrők",
-        "CUSTOM_ATTRIBUTES": "Egyéni tulajdonságok"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Szűrők törlése"
       }
     },
     "CARD": {
