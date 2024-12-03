@@ -32,8 +32,8 @@ const alertTones = computed(() => [
     label: 'Chime',
   },
   {
-    value: 'marimba',
-    label: 'Marimba',
+    value: 'magic',
+    label: 'Magic',
   },
   {
     value: 'ping',
