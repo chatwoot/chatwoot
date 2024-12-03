@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
+          "PHONE_NUMBER_DUPLICATE": "이 전화번호는 다른 연락처에 사용 중입니다.",
+          "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Standard filters",
-        "ADDITIONAL_FILTERS": "Additional filters",
-        "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Clear filters"
       }
     },
     "CARD": {
