@@ -9,6 +9,7 @@ import {
   ROLES,
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
+import { EVENT_TYPES } from 'dashboard/routes/dashboard/settings/profile/constants.js';
 import { getUserPermissions } from 'dashboard/helper/permissionsHelper.js';
 
 const NOTIFICATION_TIME = 30000;
@@ -112,6 +113,12 @@ class DashboardAudioNotificationHelper {
   };
 
   // eslint-disable-next-line class-methods-use-this
+  isConversationUnattended = message => {
+    const conversationAssigneeId = message?.conversation?.assignee_id;
+    return !conversationAssigneeId;
+  };
+
+  // eslint-disable-next-line class-methods-use-this
   isMessageFromCurrentConversation = message => {
     return (
       window.WOOT_STORE.getters.getSelectedChat?.id === message.conversation_id
@@ -137,10 +144,22 @@ class DashboardAudioNotificationHelper {
   };
 
   shouldNotifyOnMessage = message => {
-    if (this.audioAlertType === 'mine') {
-      return this.isConversationAssignedToCurrentUser(message);
+    const splitAlert = this.audioAlertType.split('+').filter(Boolean);
+    if (splitAlert.includes('none')) return false;
+    if (splitAlert.includes('all')) return true;
+
+    const shouldPlay = [];
+    if (splitAlert.includes(EVENT_TYPES.ASSIGNED)) {
+      shouldPlay.push(this.isConversationAssignedToCurrentUser(message));
     }
-    return this.audioAlertType === 'all';
+    if (splitAlert.includes(EVENT_TYPES.UNATTENDED)) {
+      shouldPlay.push(this.isConversationUnattended(message));
+    }
+    if (splitAlert.includes(EVENT_TYPES.ME)) {
+      shouldPlay.push(!this.isConversationAssignedToCurrentUser(message));
+    }
+
+    return shouldPlay.some(Boolean);
   };
 
   onNewMessage = message => {
@@ -149,12 +168,12 @@ class DashboardAudioNotificationHelper {
       return;
     }
 
-    // If the message is sent by the current user or the
-    // correct notification is not enabled, then dismiss the alert
-    if (
-      this.isMessageFromCurrentUser(message) ||
-      !this.shouldNotifyOnMessage(message)
-    ) {
+    // If the message is sent by the current user then dismiss the alert
+    if (this.isMessageFromCurrentUser(message)) {
+      return;
+    }
+
+    if (!this.shouldNotifyOnMessage(message)) {
       return;
     }
 
