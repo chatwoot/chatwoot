@@ -74,7 +74,7 @@ class Digitaltolk::MessagesParquetService
         @columns['private'] << !!(message&.private)
         @columns['source_id'] << message&.source_id.to_s
         @columns['agent_score'] << message&.agent_score.to_f
-        @columns['agent_score_criteria'] << message&.agent_score_criteria.to_s
+        @columns['agent_score_criteria'] << message&.agent_score_criteria.to_h.to_json
       end
       report.increment_progress(processed_count: index * batch_size)
       message_batch = nil
