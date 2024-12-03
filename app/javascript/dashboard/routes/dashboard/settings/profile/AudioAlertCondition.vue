@@ -31,11 +31,15 @@ const onChange = (id, value) => {
         class="flex flex-row items-start gap-2"
       >
         <CheckBox
+          :id="`checkbox-condition-${item.value}`"
           :is-checked="item.model"
           :value="item.value"
           @update="onChange"
         />
-        <label class="text-sm font-normal text-ash-900">
+        <label
+          class="text-sm font-normal text-ash-900"
+          :for="`checkbox-condition-${item.value}`"
+        >
           {{ item.label }}
         </label>
       </div>
