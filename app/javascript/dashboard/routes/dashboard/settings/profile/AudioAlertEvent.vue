@@ -17,11 +17,23 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const alertEvents = ALERT_EVENTS;
+const alertEventValues = alertEvents.map(event => event.value);
 
 const selectedValue = computed({
-  get: () => props.value.split('+'),
+  get: () => {
+    if (props.value === 'none') return [];
+
+    return props.value
+      .split('+')
+      .filter(value => alertEventValues.includes(value));
+  },
   set: value => {
     const sortedValues = value.sort().filter(Boolean);
+    if (sortedValues.length === 0) {
+      emit('update', 'none');
+      return;
+    }
+
     emit('update', sortedValues.join('+'));
   },
 });
@@ -36,6 +48,7 @@ const setValue = (isChecked, value) => {
 const alertDescription = computed(() => {
   const base =
     'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_COMBINATIONS.';
+
   if (props.value === '') {
     return base + 'NONE';
   }
