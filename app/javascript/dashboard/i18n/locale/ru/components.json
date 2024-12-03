@@ -5,13 +5,13 @@
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "EMPTY_SEARCH_RESULTS": "Не найдено элементов для поиска `{searchTerm}`",
     "EMPTY_STATE": "Результаты не найдены.",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "SEARCH_PLACEHOLDER": "Поиск...",
+    "MORE": "+{count} еще"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Поиск...",
     "EMPTY_STATE": "Результаты не найдены."
   },
   "DIALOG": {
@@ -21,8 +21,8 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
+    "SEARCH_PLACEHOLDER": "Поиск по стране",
+    "ERROR": "Номер телефона должен быть пустым или в формате E.164",
     "DIAL_CODE_ERROR": "Пожалуйста, выберите код набора из списка"
   },
   "THUMBNAIL": {
@@ -31,12 +31,12 @@
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "Навигация"
   },
   "SWITCH": {
     "TOGGLE": "Toggle switch"
   },
   "LABEL": {
-    "TAG_BUTTON": "tag"
+    "TAG_BUTTON": "тег"
   }
 }
