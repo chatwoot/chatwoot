@@ -42,8 +42,8 @@ class SmartActionBuilder
       :link,
       :content,
       :score,
-      :criteria,
-      :sentiment
+      :sentiment,
+      criteria: {}
     )
   end
 end
