@@ -46,6 +46,10 @@ export const ALERT_EVENTS = [
     label: 'mine',
   },
   {
+    value: 'mine+unattended',
+    label: 'mine+unattended',
+  },
+  {
     value: 'all',
     label: 'all',
   },

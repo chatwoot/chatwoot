@@ -66,7 +66,8 @@
         "ALERT_TYPES": {
           "NONE": "None",
           "MINE": "Assigned",
-          "ALL": "All"
+          "ALL": "All",
+          "MINE+UNATTENDED": "Assigned & Unattended"
         },
         "ALERT_TYPE": {
           "TITLE": "Alert events for conversations:",

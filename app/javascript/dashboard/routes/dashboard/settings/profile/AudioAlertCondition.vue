@@ -10,6 +10,7 @@ defineProps({
     required: true,
   },
 });
+
 const emit = defineEmits(['change']);
 const onChange = (id, value) => {
   emit('change', id, value);
