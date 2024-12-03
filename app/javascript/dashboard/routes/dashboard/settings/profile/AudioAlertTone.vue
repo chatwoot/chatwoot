@@ -27,6 +27,18 @@ const alertTones = computed(() => [
     value: 'bell',
     label: 'Bell',
   },
+  {
+    value: 'chime',
+    label: 'Chime',
+  },
+  {
+    value: 'marimba',
+    label: 'Marimba',
+  },
+  {
+    value: 'ping',
+    label: 'Ping',
+  },
 ]);
 
 const selectedValue = computed({
