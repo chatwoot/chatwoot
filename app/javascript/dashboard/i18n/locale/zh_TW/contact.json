@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。",
+          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
+          "SUCCESS_MESSAGE": "聯絡人儲存成功",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "一般查詢條件",
-        "ADDITIONAL_FILTERS": "田家查詢條件",
-        "CUSTOM_ATTRIBUTES": "自訂屬性"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "清除查詢條件"
       }
     },
     "CARD": {
