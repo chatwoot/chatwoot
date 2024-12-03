@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
+          "PHONE_NUMBER_DUPLICATE": "Số điện thoại này đang được dùng cho một liên hệ khác.",
+          "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
-        "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
-        "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Xóa các bộ lọc"
       }
     },
     "CARD": {
