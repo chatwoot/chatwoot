@@ -44,15 +44,15 @@ export const EVENT_TYPES = {
 
 export const ALERT_EVENTS = [
   {
-    value: [EVENT_TYPES.ASSIGNED],
+    value: EVENT_TYPES.ASSIGNED,
     label: 'assigned',
   },
   {
-    value: [EVENT_TYPES.UNATTENDED],
+    value: EVENT_TYPES.UNATTENDED,
     label: 'unattended',
   },
   {
-    value: [EVENT_TYPES.NOTME],
+    value: EVENT_TYPES.NOTME,
     label: 'notme',
   },
 ];
