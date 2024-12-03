@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "此电子邮件地址正在用于另一个联系人。",
+          "PHONE_NUMBER_DUPLICATE": "此电话号码正在用于另一个联系人。",
+          "SUCCESS_MESSAGE": "联系人保存成功",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "常规筛选器",
-        "ADDITIONAL_FILTERS": "附加筛选条件",
-        "CUSTOM_ATTRIBUTES": "自定义属性"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "清除过滤器"
       }
     },
     "CARD": {
