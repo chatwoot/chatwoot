@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import CheckBox from 'v3/components/Form/CheckBox.vue';
-import { ALERT_EVENTS } from './constants';
+import { ALERT_EVENTS, EVENT_TYPES } from './constants';
 
 const props = defineProps({
   label: {
@@ -17,7 +17,7 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const alertEvents = ALERT_EVENTS;
-const alertEventValues = alertEvents.map(event => event.value);
+const alertEventValues = Object.values(EVENT_TYPES);
 
 const selectedValue = computed({
   get: () => {

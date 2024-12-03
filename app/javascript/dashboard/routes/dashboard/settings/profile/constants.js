@@ -36,17 +36,23 @@ export const NOTIFICATION_TYPES = [
   },
 ];
 
+export const EVENT_TYPES = {
+  ASSIGNED: 'assigned',
+  UNASSIGNED: 'unassigned',
+  UNATTENDED: 'unattended',
+};
+
 export const ALERT_EVENTS = [
   {
-    value: 'assigned',
+    value: [EVENT_TYPES.ASSIGNED],
     label: 'assigned',
   },
   {
-    value: 'unattended',
+    value: [EVENT_TYPES.UNATTENDED],
     label: 'unattended',
   },
   {
-    value: 'unassigned',
+    value: [EVENT_TYPES.UNASSIGNED],
     label: 'unassigned',
   },
 ];
