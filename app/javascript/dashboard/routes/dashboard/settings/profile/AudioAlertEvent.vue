@@ -21,7 +21,11 @@ const alertEventValues = Object.values(EVENT_TYPES);
 
 const selectedValue = computed({
   get: () => {
+    // maintain backward compatibility
     if (props.value === 'none') return [];
+    if (props.value === 'mine') return [EVENT_TYPES.ASSIGNED];
+    if (props.value === 'all') return [...alertEventValues];
+
     const validValues = props.value
       .split('+')
       .filter(value => alertEventValues.includes(value));
