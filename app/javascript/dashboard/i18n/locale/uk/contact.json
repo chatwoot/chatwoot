@@ -400,7 +400,11 @@
           "ADD_CONTACT": "Add contact",
           "EXPORT_CONTACT": "Export contacts",
           "IMPORT_CONTACT": "Import contacts",
-          "SAVE_CONTACT": "Save contact"
+          "SAVE_CONTACT": "Save contact",
+          "EMAIL_ADDRESS_DUPLICATE": "Ця електронна адреса вже використовується для іншого контакту.",
+          "PHONE_NUMBER_DUPLICATE": "Цей номер телефону використовується для іншого контакту.",
+          "SUCCESS_MESSAGE": "Контакт успішно збережено",
+          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
@@ -490,10 +494,9 @@
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
       },
-      "GROUPS": {
-        "STANDARD_FILTERS": "Стандартні фільтри",
-        "ADDITIONAL_FILTERS": "Додаткові фільтри",
-        "CUSTOM_ATTRIBUTES": "Спеціальні атрибути"
+      "ACTIVE_FILTERS": {
+        "MORE_FILTERS": "+ {count} more filters",
+        "CLEAR_FILTERS": "Очистити фільтри"
       }
     },
     "CARD": {
