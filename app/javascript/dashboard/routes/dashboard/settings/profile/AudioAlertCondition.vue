@@ -24,7 +24,7 @@ const onChange = (id, value) => {
     >
       {{ label }}
     </label>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-3 mt-2">
       <div
         v-for="item in items"
         :key="item.id"
