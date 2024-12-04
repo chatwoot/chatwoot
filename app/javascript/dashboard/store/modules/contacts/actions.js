@@ -93,7 +93,7 @@ export const actions = {
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
     const { avatar, customAttributes, ...paramsToDecamelize } = contactParams;
     const decamelizedContactParams = {
-      ...snakecaseKeys(paramsToDecamelize),
+      ...snakecaseKeys(paramsToDecamelize, { deep: true }),
       ...(customAttributes && { custom_attributes: customAttributes }),
       ...(avatar && { avatar }),
     };
