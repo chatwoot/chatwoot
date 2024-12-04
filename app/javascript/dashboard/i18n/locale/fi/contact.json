@@ -557,7 +557,41 @@
         }
       }
     },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Poista yhteystieto",
+      "DELETE_DIALOG": {
+        "TITLE": "Vahvista poistaminen",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "Kyllä, poista",
+        "API": {
+          "SUCCESS_MESSAGE": "Yhteystiedon poistaminen onnistui",
+          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
     "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notes",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Tähän yhteystietoon ei liity aikaisempia keskusteluja"
+      },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
