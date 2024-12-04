@@ -1,5 +1,7 @@
 <script setup>
-import { computed, useTemplateRef, ref, watch } from 'vue';
+import { computed, useTemplateRef, ref } from 'vue';
+import { vResizeObserver } from '@vueuse/components';
+
 import { Letter } from 'vue-letter';
 
 import Icon from 'next/icon/Icon.vue';
@@ -39,15 +41,11 @@ const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
-watch(
-  contentContainer,
-  el => {
-    if (el) {
-      isOverflowing.value = el.scrollHeight > el.clientHeight;
-    }
-  },
-  { immediate: true }
-);
+function onResizeObserver() {
+  const el = contentContainer.value;
+  if (!el) return;
+  isOverflowing.value = el.scrollHeight > el.clientHeight;
+}
 
 const fullHTML = computed(() => {
   return props.contentAttributes?.email?.htmlContent?.full ?? props.content;
@@ -73,6 +71,7 @@ const textToShow = computed(() => {
     <EmailMeta :status :sender :content-attributes />
     <section
       ref="contentContainer"
+      v-resize-observer="onResizeObserver"
       class="p-4"
       :class="{
         'max-h-[400px] overflow-hidden relative': !isExpanded,
@@ -104,7 +103,7 @@ const textToShow = computed(() => {
       />
       <button
         v-if="hasQuotedMessage"
-        class="text-n-slate-11 px-0 text-center flex items-center gap-2"
+        class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"
         @click="showQuotedMessage = !showQuotedMessage"
       >
         <template v-if="showQuotedMessage">
@@ -113,9 +112,14 @@ const textToShow = computed(() => {
         <template v-else>
           {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
         </template>
+        <Icon
+          :icon="
+            showQuotedMessage ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+          "
+        />
       </button>
     </section>
-    <section class="px-4 pb-4">
+    <section v-if="attachments.length" class="px-4 pb-4">
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
   </BaseBubble>
