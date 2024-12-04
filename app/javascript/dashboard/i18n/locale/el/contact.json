@@ -557,7 +557,41 @@
         }
       }
     },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Διαγραφή Επαφής",
+      "DELETE_DIALOG": {
+        "TITLE": "Επιβεβαίωση Διαγραφής",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "Ναι, Διέγραψε το",
+        "API": {
+          "SUCCESS_MESSAGE": "Η επαφή διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Το Avatar διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
     "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Ιδιότητες",
+        "HISTORY": "History",
+        "NOTES": "Σημειώσεις",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή"
+      },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
