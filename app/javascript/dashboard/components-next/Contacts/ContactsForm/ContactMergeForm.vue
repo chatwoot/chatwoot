@@ -98,7 +98,7 @@ const { t } = useI18n();
           :size="32"
           rounded-full
         />
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col w-full min-w-0 gap-1">
           <span class="text-sm leading-4 truncate text-n-slate-11">
             {{ selectedContact.name }}
           </span>

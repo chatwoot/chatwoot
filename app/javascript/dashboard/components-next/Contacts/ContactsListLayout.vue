@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import ContactListHeaderWrapper from 'dashboard/components-next/Contacts/ContactsHeader/ContactListHeaderWrapper.vue';
@@ -63,12 +63,22 @@ const emit = defineEmits([
 
 const route = useRoute();
 
+const contactListHeaderWrapper = ref(null);
+
 const isNotSegmentView = computed(() => {
   return route.name !== 'contacts_dashboard_segments_index';
 });
 
+const isLabelView = computed(
+  () => route.name === 'contacts_dashboard_labels_index'
+);
+
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
+};
+
+const openFilter = () => {
+  contactListHeaderWrapper.value?.onToggleFilters();
 };
 </script>
 
@@ -78,6 +88,7 @@ const updateCurrentPage = page => {
   >
     <div class="flex flex-col w-full h-full transition-all duration-300">
       <ContactListHeaderWrapper
+        ref="contactListHeaderWrapper"
         :show-search="isNotSegmentView"
         :search-value="searchValue"
         :active-sort="activeSort"
@@ -86,6 +97,7 @@ const updateCurrentPage = page => {
         :active-segment="activeSegment"
         :segments-id="segmentsId"
         :has-applied-filters="hasAppliedFilters"
+        :is-label-view="isLabelView"
         @update:sort="emit('update:sort', $event)"
         @search="emit('search', $event)"
         @apply-filter="emit('applyFilter', $event)"
@@ -96,6 +108,7 @@ const updateCurrentPage = page => {
           <ContactsActiveFiltersPreview
             v-if="hasAppliedFilters && isNotSegmentView"
             @clear-filters="emit('clearFilters')"
+            @open-filter="openFilter"
           />
           <slot name="default" />
         </div>
