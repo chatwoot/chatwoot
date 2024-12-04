@@ -46,6 +46,11 @@ const tailwindConfig = {
             color: 'rgb(var(--slate-11))',
             lineHeight: '1.6',
             fontSize: '14px',
+            '*': {
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
 
             strong: {
               color: 'rgb(var(--slate-12))',
