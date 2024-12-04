@@ -557,7 +557,41 @@
         }
       }
     },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Удалить контакт",
+      "DELETE_DIALOG": {
+        "TITLE": "Подтвердите удаление",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "Да, удалить",
+        "API": {
+          "SUCCESS_MESSAGE": "Кампания успешно удалена",
+          "ERROR_MESSAGE": "Не удалось удалить канал. Пожалуйста, повторите попытку позже."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Аватар успешно удален",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
     "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Свойства",
+        "HISTORY": "History",
+        "NOTES": "Заметки",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Нет предыдущих диалогов, связанных с этим контактом"
+      },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Поиск по атрибутам",
         "UNUSED_ATTRIBUTES": "{count} Используемый атрибут | {count} Неиспользуемые атрибуты",
