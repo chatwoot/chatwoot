@@ -38,6 +38,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isLabelView: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -81,7 +85,7 @@ const emit = defineEmits([
           </Input>
         </div>
         <div class="flex items-center gap-2">
-          <div class="relative">
+          <div v-if="!isLabelView" class="relative">
             <Button
               id="toggleContactsFilterButton"
               :icon="
@@ -101,7 +105,7 @@ const emit = defineEmits([
             <slot name="filter" />
           </div>
           <Button
-            v-if="hasActiveFilters && !isSegmentsView"
+            v-if="hasActiveFilters && !isSegmentsView && !isLabelView"
             icon="i-lucide-save"
             color="slate"
             size="sm"
@@ -110,7 +114,7 @@ const emit = defineEmits([
             @click="emit('createSegment')"
           />
           <Button
-            v-if="isSegmentsView"
+            v-if="isSegmentsView && !isLabelView"
             icon="i-lucide-trash"
             color="slate"
             size="sm"

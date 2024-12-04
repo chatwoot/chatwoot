@@ -42,14 +42,17 @@ const updateContact = async updatedData => {
 };
 
 const onClickViewDetails = async id => {
-  const params = { contactId: id };
-  if (route.name.includes('segments')) {
-    params.segmentId = route.params.segmentId;
-  } else if (route.name.includes('labels')) {
-    params.label = route.params.label;
-  }
+  const routeTypes = {
+    contacts_dashboard_segments_index: ['contacts_edit_segment', 'segmentId'],
+    contacts_dashboard_labels_index: ['contacts_edit_label', 'label'],
+  };
+  const [name, paramKey] = routeTypes[route.name] || ['contacts_edit'];
+  const params = {
+    contactId: id,
+    ...(paramKey && { [paramKey]: route.params[paramKey] }),
+  };
 
-  await router.push({ name: 'contacts_edit', params, query: route.query });
+  await router.push({ name, params, query: route.query });
 };
 
 const toggleExpanded = id => {

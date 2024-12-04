@@ -4,7 +4,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import ActiveFilterPreview from 'dashboard/components-next/filter/ActiveFilterPreview.vue';
 
-const emit = defineEmits(['clearFilters']);
+const emit = defineEmits(['clearFilters', 'openFilter']);
 
 const { t } = useI18n();
 
@@ -24,6 +24,7 @@ const appliedFilters = useMapGetter('contacts/getAppliedContactFiltersV4');
       t('CONTACTS_LAYOUT.FILTER.ACTIVE_FILTERS.CLEAR_FILTERS')
     "
     class="max-w-[960px] px-6"
+    @open-filter="emit('openFilter')"
     @clear-filters="emit('clearFilters')"
   />
 </template>
