@@ -30,7 +30,7 @@ export default camelcaseKeys(
           message_id:
             'CAM_Qp+-tdJ2Muy4XZmQfYKOPzsFwrH5H=6j=snsFZEDw@mail.gmail.com',
           multipart: true,
-          number_of_attachments: 1,
+          number_of_attachments: 2,
           subject: 'Inquiry and Quotation for Cotton Fabric',
           text_content: {
             full: 'Dear Sam,\n\nWe are looking for high-quality cotton fabric for our T-shirt production.\nPlease find attached a document with our specifications and requirements.\nCould you provide us with a quotation and lead time?\n\nLooking forward to your response.\n\nBest regards,\nAlex\nT-Shirt Co.\n',
@@ -72,6 +72,20 @@ export default camelcaseKeys(
           thumb_url:
             'https://staging.chatwoot.com/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdFdKIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--10170e22f42401a9259e17eba6e59877127353d0/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9UY21WemFYcGxYM1J2WDJacGJHeGJCMmtCK2pBPSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--31a6ed995cc4ac2dd2fa023068ee23b23efa1efb/requirements.pdf',
           file_size: 841909,
+          width: null,
+          height: null,
+        },
+        {
+          id: 18,
+          message_id: 5307,
+          file_type: 'file',
+          account_id: 2,
+          extension: null,
+          data_url:
+            'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaUVLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4f7e671db635b73d12ee004e87608bc098ef6b3b/quantity-requirements.xls',
+          thumb_url:
+            'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaUVLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--4f7e671db635b73d12ee004e87608bc098ef6b3b/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9UY21WemFYcGxYM1J2WDJacGJHeGJCMmtCK2pBPSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--5c454d5f03daf1f9f4068cb242cf9885cc1815b6/all-files.zip',
+          file_size: 99844,
           width: null,
           height: null,
         },
