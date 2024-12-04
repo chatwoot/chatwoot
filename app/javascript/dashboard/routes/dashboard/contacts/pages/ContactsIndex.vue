@@ -133,6 +133,7 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
 };
 
 const searchContacts = debounce(async (value, page = 1) => {
+  await store.dispatch('contacts/clearContactFilters');
   searchValue.value = value;
 
   if (!value) {

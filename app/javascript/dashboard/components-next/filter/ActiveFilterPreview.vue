@@ -22,7 +22,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['clearFilters']);
+const emit = defineEmits(['clearFilters', 'openFilter']);
 
 const shouldCapitalizeFirstLetter = key => {
   const lowercaseKeys = ['email'];
@@ -64,7 +64,8 @@ const formatFilterValue = value => {
         class="inline-flex items-center gap-2 h-7"
       >
         <div
-          class="flex items-center h-full min-w-0 gap-1 px-2 py-1 text-xs border rounded-lg max-w-72 border-n-weak"
+          class="flex items-center h-full min-w-0 gap-1 px-2 py-1 text-xs border rounded-lg hover:bg-n-solid-2 max-w-72 border-n-weak hover:cursor-pointer"
+          @click="emit('openFilter')"
         >
           <span
             class="lowercase whitespace-nowrap first-letter:capitalize text-n-slate-12"
@@ -101,7 +102,8 @@ const formatFilterValue = value => {
     </template>
     <div
       v-if="appliedFilters.length > maxVisibleFilters"
-      class="inline-flex items-center content-center px-1 text-xs rounded-lg text-n-slate-10 h-7"
+      class="inline-flex items-center content-center px-1 text-xs rounded-lg text-n-slate-10 hover:text-n-slate-11 h-7 hover:cursor-pointer"
+      @click="emit('openFilter')"
     >
       {{ moreFiltersLabel }}
     </div>

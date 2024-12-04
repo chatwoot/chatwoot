@@ -96,11 +96,11 @@ const prepareStateBasedOnProps = () => {
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name);
   const {
-    description,
-    companyName,
-    countryCode,
-    country,
-    city,
+    description = '',
+    companyName = '',
+    countryCode = '',
+    country = '',
+    city = '',
     socialProfiles = {},
   } = additionalAttributes || {};
 
