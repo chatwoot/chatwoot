@@ -1,7 +1,5 @@
 <script setup>
-import { computed, useTemplateRef, ref } from 'vue';
-import { vResizeObserver } from '@vueuse/components';
-
+import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
 
 import Icon from 'next/icon/Icon.vue';
@@ -36,16 +34,14 @@ const props = defineProps({
   },
 });
 
-const isOverflowing = ref(false);
+const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
-function onResizeObserver() {
-  const el = contentContainer.value;
-  if (!el) return;
-  isOverflowing.value = el.scrollHeight > el.clientHeight;
-}
+onMounted(() => {
+  isExpandable.value = contentContainer.value.scrollHeight > 400;
+});
 
 const fullHTML = computed(() => {
   return props.contentAttributes?.email?.htmlContent?.full ?? props.content;
@@ -71,14 +67,13 @@ const textToShow = computed(() => {
     <EmailMeta :status :sender :content-attributes />
     <section
       ref="contentContainer"
-      v-resize-observer="onResizeObserver"
       class="p-4"
       :class="{
-        'max-h-[400px] overflow-hidden relative': !isExpanded,
+        'max-h-[400px] overflow-hidden relative': !isExpanded && isExpandable,
       }"
     >
       <div
-        v-if="isOverflowing && !isExpanded"
+        v-if="isExpandable && !isExpanded"
         class="absolute left-0 right-0 bottom-0 h-40 p-8 flex items-end bg-gradient-to-t dark:from-[#24252b] from-[#F5F5F6] dark:via-[rgba(36,37,43,0.5)] via-[rgba(245,245,246,0.50)] dark:to-transparent to-[rgba(245,245,246,0.00)]"
       >
         <button
