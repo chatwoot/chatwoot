@@ -23,35 +23,22 @@ export default {
       type: Boolean,
       default: false,
     },
-    fixedCountryCode: {
-      type: String,
-      default: '+98', // Set your desired country code here
-    },
   },
   emits: ['blur', 'update:modelValue'],
   data() {
     return {
-      phoneNumber: this.modelValue.replace(this.fixedCountryCode, ''),
+      phoneNumber: this.modelValue,
     };
   },
   watch: {
     modelValue() {
-      const number = parsePhoneNumber(this.modelValue);
-      if (number) {
-        this.phoneNumber = this.modelValue.replace(
-          `+${number.countryCallingCode}`,
-          ''
-        );
-      }
+      this.phoneNumber = this.modelValue;
     },
   },
   methods: {
     onChange(e) {
       this.phoneNumber = e.target.value;
-      this.$emit(
-        'update:modelValue',
-        `${this.fixedCountryCode}${this.phoneNumber}`
-      );
+      this.$emit('update:modelValue', this.phoneNumber);
     },
     onBlur(e) {
       this.$emit('blur', e.target.value);
@@ -70,16 +57,11 @@ export default {
           : 'mb-4 border-slate-200 dark:border-slate-600'
       "
     >
-      <span
-        class="flex py-2 pl-2 pr-0 text-base font-normal leading-normal bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
-      >
-        {{ fixedCountryCode }}
-      </span>
       <input
         ref="phoneNumberInput"
         :value="phoneNumber"
         type="tel"
-        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
+        class="!mb-0 !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"
