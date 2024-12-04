@@ -557,7 +557,41 @@
         }
       }
     },
+    "DETAILS": {
+      "CREATED_AT": "Izveidots {date}",
+      "LAST_ACTIVITY": "Pēdējā aktivitāte {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Neatgriezeniski dzēst šo kontaktpersonu. Šī darbība ir neatgriezeniska",
+      "DELETE_CONTACT": "Dzēst kontaktpersonu",
+      "DELETE_DIALOG": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "DESCRIPTION": "Vai tiešām vēlaties dzēst šo {contactName} kontaktpersonu?",
+        "CONFIRM": "Jā, Dzēst",
+        "API": {
+          "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi izdzēsta",
+          "ERROR_MESSAGE": "Nevarēja izdzēst kontaktpersonu. Lūdzu, vēlāk pamēģiniet vēlreiz."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Nevar augšupielādēt avataru. Lūdzu, vēlāk mēģiniet vēlreiz.",
+          "SUCCESS_MESSAGE": "Avatars ir veiksmīgi augšupielādēts"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatārs ir veiksmīgi izdzēsts",
+          "ERROR_MESSAGE": "Nevarēja izdzēst avataru. Lūdzu, vēlāk mēģiniet vēlreiz."
+        }
+      }
+    },
     "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Atribūti",
+        "HISTORY": "Vēsture",
+        "NOTES": "Piezīmes",
+        "MERGE": "Apvienot"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas"
+      },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Meklēt atribūtus",
         "UNUSED_ATTRIBUTES": "{count} Izmantoti atribūti | {count} Neizmantoti atribūti",
