@@ -12,15 +12,33 @@ export const getAudioContext = () => {
 
 // eslint-disable-next-line default-param-last
 export const getAlertAudio = async (baseUrl = '', requestContext) => {
-  const { type = 'dashboard', alertTone = 'ding' } = requestContext || {};
-  const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
-
-  const audio = new Audio(resourceUrl);
-  window.playAudioAlert = () => {
-    audio.play().catch(() => {
-      // Handle play() error
-    });
+  const audioCtx = getAudioContext();
+  const playSound = audioBuffer => {
+    window.playAudioAlert = () => {
+      if (audioCtx) {
+        const source = audioCtx.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioCtx.destination);
+        source.loop = false;
+        source.start();
+      }
+    };
   };
 
-  return audio.load();
+  if (audioCtx) {
+    const { type = 'dashboard', alertTone = 'ding' } = requestContext || {};
+    const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
+    const audioRequest = new Request(resourceUrl);
+
+    fetch(audioRequest)
+      .then(response => response.arrayBuffer())
+      .then(buffer => {
+        audioCtx.decodeAudioData(buffer).then(playSound);
+        // eslint-disable-next-line no-promise-executor-return
+        return new Promise(res => res());
+      })
+      .catch(() => {
+        // error
+      });
+  }
 };
