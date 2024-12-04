@@ -3,6 +3,7 @@ import { computed, useTemplateRef, ref, watch } from 'vue';
 import { Letter } from 'vue-letter';
 
 import Icon from 'next/icon/Icon.vue';
+import { EmailQuoteExtractor } from './removeReply.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 
@@ -35,6 +36,7 @@ const props = defineProps({
 
 const isOverflowing = ref(false);
 const isExpanded = ref(false);
+const showQuotedMessage = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 watch(
@@ -47,8 +49,16 @@ watch(
   { immediate: true }
 );
 
-const contentToShow = computed(() => {
+const fullHTML = computed(() => {
   return props.contentAttributes?.email?.htmlContent?.full ?? props.content;
+});
+
+const unquotedHTML = computed(() => {
+  return EmailQuoteExtractor.extractQuotes(fullHTML.value);
+});
+
+const hasQuotedMessage = computed(() => {
+  return EmailQuoteExtractor.hasQuotes(fullHTML.value);
 });
 
 const textToShow = computed(() => {
@@ -81,10 +91,29 @@ const textToShow = computed(() => {
         </button>
       </div>
       <Letter
+        v-if="showQuotedMessage"
         class-name="prose prose-email"
-        :html="contentToShow"
+        :html="fullHTML"
         :text="textToShow"
       />
+      <Letter
+        v-else
+        class-name="prose prose-email"
+        :html="unquotedHTML"
+        :text="textToShow"
+      />
+      <button
+        v-if="hasQuotedMessage"
+        class="text-n-slate-11 px-0 text-center flex items-center gap-2"
+        @click="showQuotedMessage = !showQuotedMessage"
+      >
+        <template v-if="showQuotedMessage">
+          {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
+        </template>
+        <template v-else>
+          {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
+        </template>
+      </button>
     </section>
     <section class="px-4 pb-4">
       <AttachmentChips :attachments="attachments" class="gap-1" />
