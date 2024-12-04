@@ -120,7 +120,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
-  def process_template_analytics_response(response) 
+  def process_template_analytics_response(response)
     error_subcode = response.dig('error', 'error_subcode')
 
     if response.success?
@@ -134,16 +134,33 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def template_body_parameters(template_info)
+    coupon_data = fetch_coupon_data(template_info[:name])
+    components = [{
+      type: 'body',
+      parameters: template_info[:parameters]
+    }]
+
+    if coupon_data[:coupon_code] && coupon_data[:copy_code_index]
+      components << {
+        type: 'button',
+        sub_type: 'COPY_CODE',
+        index: coupon_data[:copy_code_index],
+        parameters: [
+          {
+            type: 'coupon_code',
+            coupon_code: coupon_data[:coupon_code]
+          }
+        ]
+      }
+    end
+
     {
       name: template_info[:name],
       language: {
         policy: 'deterministic',
         code: template_info[:lang_code]
       },
-      components: [{
-        type: 'body',
-        parameters: template_info[:parameters]
-      }]
+      components: components
     }
   end
 
@@ -176,7 +193,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def get_template_analytics(start_date, end_date, template_ids)
 
     response = HTTParty.get("#{business_account_path}/template_analytics?start=#{start_date}&end=#{end_date}&granularity=daily&metric_types=cost%2Cclicked%2Cdelivered%2Cread%2Csent&template_ids=#{template_ids}" ,
-    headers: api_headers)
+                            headers: api_headers)
 
     process_template_analytics_response(response)
   end
