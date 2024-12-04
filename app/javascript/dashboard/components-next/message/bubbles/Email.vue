@@ -181,7 +181,7 @@ const files = computed(() => {
         :text="textToShow"
       />
     </section>
-    <section class="p-4">
+    <section class="px-4 pb-4">
       <div v-if="mediaAttachments.length" class="flex flex-wrap gap-2">
         <template v-for="attachment in mediaAttachments" :key="attachment.id">
           <ImageChip
