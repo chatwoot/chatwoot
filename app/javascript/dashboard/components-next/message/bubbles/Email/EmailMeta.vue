@@ -12,6 +12,10 @@ const props = defineProps({
     required: true,
     validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
+  sender: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const hasError = computed(() => {

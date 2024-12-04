@@ -18,7 +18,7 @@ import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
-import EmailBubble from './bubbles/Email.vue';
+import EmailBubble from './bubbles/Email/Index.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
