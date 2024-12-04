@@ -557,7 +557,41 @@
         }
       }
     },
+    "DETAILS": {
+      "CREATED_AT": "Created {date}",
+      "LAST_ACTIVITY": "Last active {date}",
+      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+      "DELETE_CONTACT": "Șterge contact",
+      "DELETE_DIALOG": {
+        "TITLE": "Confirmă ștergerea",
+        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "CONFIRM": "Da, șterge",
+        "API": {
+          "SUCCESS_MESSAGE": "Contact șters cu succes",
+          "ERROR_MESSAGE": "Nu s-a putut șterge contactul. Vă rugăm să încercați din nou mai târziu."
+        }
+      },
+      "AVATAR": {
+        "UPLOAD": {
+          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
+        },
+        "DELETE": {
+          "SUCCESS_MESSAGE": "Avatar șters cu succes",
+          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
+        }
+      }
+    },
     "SIDEBAR": {
+      "TABS": {
+        "ATTRIBUTES": "Attributes",
+        "HISTORY": "History",
+        "NOTES": "Notițe",
+        "MERGE": "Merge"
+      },
+      "HISTORY": {
+        "EMPTY_STATE": "Nu există conversații anterioare asociate cu acest contact"
+      },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
