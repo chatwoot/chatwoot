@@ -54,7 +54,9 @@ const contentToShow = computed(() => {
 });
 
 const textToShow = computed(() => {
-  return props.contentAttributes?.email?.textContent?.full ?? props.content;
+  const text =
+    props.contentAttributes?.email?.textContent?.full ?? props.content;
+  return text.replace(/\n/g, '<br>');
 });
 
 const fromEmail = computed(() => {
