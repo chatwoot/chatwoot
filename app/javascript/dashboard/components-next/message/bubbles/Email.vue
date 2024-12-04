@@ -3,6 +3,7 @@ import { computed, useTemplateRef, ref, watch } from 'vue';
 import { Letter } from 'vue-letter';
 import Icon from 'next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import { MESSAGE_STATUS } from '../constants';
 
 const props = defineProps({
   content: {
@@ -12,6 +13,11 @@ const props = defineProps({
   contentAttributes: {
     type: Object,
     default: () => ({}),
+  },
+  status: {
+    type: String,
+    required: true,
+    validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
   sender: {
     type: Object,
@@ -32,6 +38,10 @@ watch(
   },
   { immediate: true }
 );
+
+const hasError = computed(() => {
+  return props.status === MESSAGE_STATUS.FAILED;
+});
 
 const contentToShow = computed(() => {
   return props.contentAttributes?.email?.htmlContent?.full ?? props.content;
@@ -86,10 +96,13 @@ const showMeta = computed(() => {
   <BaseBubble class="w-full overflow-hidden">
     <div
       v-if="showMeta"
-      class="p-4 text-n-slate-11 space-y-1 pr-9 border-b border-n-strong"
+      class="p-4 space-y-1 pr-9 border-b border-n-strong"
+      :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
     >
       <div v-if="fromEmail[0]">
-        <span class="text-n-slate-12">{{ senderName }}</span>
+        <span :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'">
+          {{ senderName }}
+        </span>
         &lt;{{ fromEmail[0] }}&gt;
       </div>
       <div v-if="toEmail.length">

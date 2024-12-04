@@ -140,13 +140,13 @@ const props = defineProps({
  */
 const variant = computed(() => {
   if (props.private) return MESSAGE_VARIANTS.PRIVATE;
-  if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
   if (props.isEmailInbox) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) {
       return MESSAGE_VARIANTS.EMAIL;
     }
   }
+  if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
 
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
