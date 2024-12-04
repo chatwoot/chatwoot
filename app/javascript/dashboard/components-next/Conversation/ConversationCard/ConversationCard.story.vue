@@ -412,7 +412,7 @@ const accountLabels = computed(() => [
 
 <template>
   <Story
-    title="Components/ConversationCard"
+    title="Components/Conversation/ConversationCard"
     :layout="{ type: 'grid', width: '600px' }"
   >
     <Variant title="Conversation without meta">

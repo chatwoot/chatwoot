@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
+
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -35,7 +37,7 @@ const handleSelect = value => {
 
 <template>
   <div
-    v-on-clickaway="() => (isOpen = false)"
+    v-on-click-outside="() => (isOpen = false)"
     class="relative flex flex-col gap-1 w-fit"
   >
     <Button
@@ -44,7 +46,7 @@ const handleSelect = value => {
       trailing-icon
       color="slate"
       variant="faded"
-      class="!w-fit"
+      class="!w-fit max-w-40"
       :class="{ 'dark:!bg-n-alpha-2 !bg-n-slate-9/20': isOpen }"
       :label="labelValue"
       @click="toggleMenu"
