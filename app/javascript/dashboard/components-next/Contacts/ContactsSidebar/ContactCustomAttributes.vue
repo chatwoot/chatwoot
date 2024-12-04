@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
-import { toCamelCase } from 'dashboard/composables/useTransformKeys';
 
 import ContactCustomAttributeItem from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributeItem.vue';
 
@@ -30,18 +29,14 @@ const usedAttributes = computed(() => {
     return [];
   }
   return contactAttributes.value
-    .filter(attribute => {
-      // Convert attribute key value from snake_case to camelCase
-      const camelKey = toCamelCase(attribute.attributeKey);
-      // Check if the key exists in customAttributes
-      return camelKey in props.selectedContact.customAttributes;
-    })
+    .filter(
+      attribute =>
+        attribute.attributeKey in props.selectedContact.customAttributes
+    )
     .map(attribute => ({
       ...attribute,
       value:
-        props.selectedContact.customAttributes[
-          toCamelCase(attribute.attributeKey)
-        ] ?? '',
+        props.selectedContact.customAttributes[attribute.attributeKey] ?? '',
     }));
 });
 
@@ -53,7 +48,7 @@ const unusedAttributes = computed(() => {
   return contactAttributes.value
     .filter(attribute => {
       // Convert attribute key value from snake_case to camelCase
-      const camelKey = toCamelCase(attribute.attributeKey);
+      const camelKey = attribute.attributeKey;
       // Check if the key does NOT exist in customAttributes
       return !(camelKey in props.selectedContact.customAttributes);
     })
@@ -101,9 +96,8 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
         <input
           v-model="searchQuery"
           type="search"
-          :placeholder="
-            t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
-          "
+          :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
+            "
           class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
         />
       </div>

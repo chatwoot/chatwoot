@@ -46,7 +46,7 @@ const handleUpdate = async value => {
   try {
     await store.dispatch('contacts/update', {
       id: route.params.contactId,
-      custom_attributes: {
+      customAttributes: {
         [props.attribute.attributeKey]: value,
       },
     });

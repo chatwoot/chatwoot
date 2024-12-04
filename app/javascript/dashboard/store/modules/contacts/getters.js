@@ -19,7 +19,10 @@ export const getters = {
   },
   getContactById: $state => id => {
     const contact = $state.records[id];
-    return camelcaseKeys(contact || {}, { deep: true });
+    return camelcaseKeys(contact || {}, {
+      deep: true,
+      stopPaths: ['custom_attributes'],
+    });
   },
   getMeta: $state => {
     return $state.meta;

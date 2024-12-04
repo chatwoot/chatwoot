@@ -91,9 +91,10 @@ export const actions = {
   },
 
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
-    const { avatar, ...paramsToDecamelize } = contactParams;
+    const { avatar, customAttributes, ...paramsToDecamelize } = contactParams;
     const decamelizedContactParams = {
-      ...decamelizeKeys(paramsToDecamelize, { deep: true }),
+      ...decamelizeKeys(paramsToDecamelize),
+      ...(customAttributes && { custom_attributes: customAttributes }),
       ...(avatar && { avatar }),
     };
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
