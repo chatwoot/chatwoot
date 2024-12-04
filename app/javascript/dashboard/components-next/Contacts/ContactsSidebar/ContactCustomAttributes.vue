@@ -16,10 +16,7 @@ const { t } = useI18n();
 
 const searchQuery = ref('');
 
-const contactAttributes = computed(() => {
-  const attributes = useMapGetter('attributes/getAttributesByModelType');
-  return attributes.value('contact_attribute') || [];
-});
+const contactAttributes = useMapGetter('attributes/getContactAttributes') || [];
 
 const hasContactAttributes = computed(
   () => contactAttributes.value?.length > 0
