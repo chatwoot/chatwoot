@@ -35,6 +35,12 @@ export const getters = {
       record => record.attribute_model === attributeModel
     );
   },
+  getAttributesByModelType: _state => attributeModel => {
+    const records = _state.records.filter(
+      record => record.attribute_model === attributeModel
+    );
+    return camelcaseKeys(records, { deep: true });
+  },
 };
 
 export const actions = {
