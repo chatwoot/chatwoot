@@ -149,18 +149,18 @@ class DashboardAudioNotificationHelper {
     if (this.audioAlertType.includes('all')) return true;
 
     const assignedToMe = this.isConversationAssignedToCurrentUser(message);
-    const isUnattended = this.isConversationUnattended(message);
+    const isUnassigned = this.isConversationUnattended(message);
 
     const shouldPlayAudio = [];
 
     if (this.audioAlertType.includes(EVENT_TYPES.ASSIGNED)) {
       shouldPlayAudio.push(assignedToMe);
     }
-    if (this.audioAlertType.includes(EVENT_TYPES.UNATTENDED)) {
-      shouldPlayAudio.push(isUnattended);
+    if (this.audioAlertType.includes(EVENT_TYPES.UNASSIGNED)) {
+      shouldPlayAudio.push(isUnassigned);
     }
     if (this.audioAlertType.includes(EVENT_TYPES.NOTME)) {
-      shouldPlayAudio.push(!isUnattended && !assignedToMe);
+      shouldPlayAudio.push(!isUnassigned && !assignedToMe);
     }
 
     return shouldPlayAudio.some(Boolean);
