@@ -34,7 +34,7 @@ const buildContactFormData = contactParams => {
   return formData;
 };
 
-export const raiseContactCreateErrors = error => {
+export const handleContactOperationErrors = error => {
   if (error.response?.status === 422) {
     throw new DuplicateContactException(error.response.data.attributes);
   } else if (error.response?.data?.message) {
@@ -91,9 +91,12 @@ export const actions = {
   },
 
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
-    const decamelizedContactParams = decamelizeKeys(contactParams, {
-      deep: true,
-    });
+    const { avatar, customAttributes, ...paramsToDecamelize } = contactParams;
+    const decamelizedContactParams = {
+      ...decamelizeKeys(paramsToDecamelize),
+      ...(customAttributes && { custom_attributes: customAttributes }),
+      ...(avatar && { avatar }),
+    };
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(
@@ -106,11 +109,7 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
-      if (error.response?.status === 422) {
-        throw new DuplicateContactException(error.response.data.attributes);
-      } else {
-        throw new Error(error);
-      }
+      handleContactOperationErrors(error);
     }
   },
 
@@ -132,7 +131,7 @@ export const actions = {
       return response.data.payload.contact;
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
-      return raiseContactCreateErrors(error);
+      return handleContactOperationErrors(error);
     }
   },
 
