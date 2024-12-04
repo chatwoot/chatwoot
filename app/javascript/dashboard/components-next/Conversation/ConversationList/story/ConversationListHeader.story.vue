@@ -31,7 +31,7 @@ const updateActiveOrdering = newOrdering => {
           title="Conversations"
           :active-status="activeStatus"
           :active-ordering="activeOrdering"
-          class="w-[400px]"
+          class="max-w-[400px] w-full"
           @filter="filter"
           @update:active-status="updateActiveStatus"
           @update:active-ordering="updateActiveOrdering"

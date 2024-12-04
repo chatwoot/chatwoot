@@ -28,7 +28,9 @@ const emit = defineEmits([
   <div
     class="flex items-center justify-between gap-2 pt-4 pb-4 ltr:pl-6 rtl:pr-6 ltr:pr-5 rtl:pl-5"
   >
-    <h4 class="text-base font-semibold leading-5 text-n-slate-12">
+    <h4
+      class="min-w-0 text-base font-semibold leading-5 truncate text-n-slate-12"
+    >
       {{ title }}
     </h4>
     <div class="flex items-center gap-2">
