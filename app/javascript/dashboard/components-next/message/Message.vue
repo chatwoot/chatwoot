@@ -270,7 +270,13 @@ provideMessageContext({
     </div>
     <div
       v-else
-      :class="[gridClass, { 'gap-y-2': !shouldGroupWithNext }]"
+      :class="[
+        gridClass,
+        {
+          'gap-y-2': !shouldGroupWithNext,
+          'w-full': variant === MESSAGE_VARIANTS.EMAIL,
+        },
+      ]"
       class="gap-x-3"
       :style="{
         gridTemplateAreas: gridTemplate,
