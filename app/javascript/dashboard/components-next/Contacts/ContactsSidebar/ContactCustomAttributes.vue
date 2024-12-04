@@ -16,46 +16,53 @@ const { t } = useI18n();
 
 const searchQuery = ref('');
 
-const attributes = useMapGetter('attributes/getAttributesByModelType');
-
-const contactAttributes = computed(() => attributes.value('contact_attribute'));
+const contactAttributes = computed(() => {
+  const attributes = useMapGetter('attributes/getAttributesByModelType');
+  return attributes.value('contact_attribute') || [];
+});
 
 const hasContactAttributes = computed(
   () => contactAttributes.value?.length > 0
 );
 
-const usedAttributes = computed(() => {
-  if (!contactAttributes.value || !props.selectedContact?.customAttributes) {
+const processContactAttributes = (
+  attributes,
+  customAttributes,
+  filterCondition
+) => {
+  if (!attributes.length || !customAttributes) {
     return [];
   }
-  return contactAttributes.value
-    .filter(
-      attribute =>
-        attribute.attributeKey in props.selectedContact.customAttributes
-    )
-    .map(attribute => ({
-      ...attribute,
-      value:
-        props.selectedContact.customAttributes[attribute.attributeKey] ?? '',
-    }));
+
+  return attributes.reduce((result, attribute) => {
+    const { attributeKey } = attribute;
+    const meetsCondition = filterCondition(attributeKey, customAttributes);
+
+    if (meetsCondition) {
+      result.push({
+        ...attribute,
+        value: customAttributes[attributeKey] ?? '',
+      });
+    }
+
+    return result;
+  }, []);
+};
+
+const usedAttributes = computed(() => {
+  return processContactAttributes(
+    contactAttributes.value,
+    props.selectedContact?.customAttributes,
+    (key, custom) => key in custom
+  );
 });
 
 const unusedAttributes = computed(() => {
-  if (!contactAttributes.value || !props.selectedContact?.customAttributes) {
-    return [];
-  }
-
-  return contactAttributes.value
-    .filter(attribute => {
-      // Convert attribute key value from snake_case to camelCase
-      const camelKey = attribute.attributeKey;
-      // Check if the key does NOT exist in customAttributes
-      return !(camelKey in props.selectedContact.customAttributes);
-    })
-    .map(attribute => ({
-      ...attribute,
-      value: '',
-    }));
+  return processContactAttributes(
+    contactAttributes.value,
+    props.selectedContact?.customAttributes,
+    (key, custom) => !(key in custom)
+  );
 });
 
 const filteredUnusedAttributes = computed(() => {
