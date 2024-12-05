@@ -15,9 +15,9 @@
     "build:sdk": "BUILD_MODE=library vite build",
     "prepare": "husky install",
     "size": "size-limit",
-    "story:dev": "histoire dev",
-    "story:build": "histoire build",
-    "story:preview": "histoire preview"
+    "story:dev": "BUILD_MODE=story histoire dev",
+    "story:build": "BUILD_MODE=story histoire build",
+    "story:preview": "BUILD_MODE=story histoire preview"
   },
   "size-limit": [
     {
