@@ -288,14 +288,13 @@ export default {
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
     it assumes we are trying to make a multicheckbox. This is the best we have for now -->
-<FormKit
+    <FormKit
   v-for="item in enabledPreChatFields"
   :key="item.name"
   :name="item.name"
   :type="item.type"
   :label="getLabel(item)"
   :placeholder="getPlaceHolder(item)"
-  :validation="getValidation(item)"
   v-bind="
     item.type === 'select'
       ? {
@@ -310,7 +309,6 @@ export default {
   type="textarea"
   :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
   :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-  validation="required"
 />
 
 <CustomButton
