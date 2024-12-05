@@ -567,7 +567,7 @@ Rails.application.routes.draw do
     namespace :cal do
       resources :contacts, only: [:create, :index]
       resources :cal_event, only: [:update, :destroy]
-      resources :action, only: [:destroy]
+      resources :action, only: [:destroy, :create]
     end
   end
 
@@ -582,10 +582,9 @@ Rails.application.routes.draw do
   patch 'api/oh/integrations/cal_event', to: 'onehash/cal/cal_event#update'
   delete 'api/oh/integrations/cal_event', to: 'onehash/cal/cal_event#destroy'
 
-  # Cal oauth routes
-  get 'api/oh/integrations/cal/callback', to: 'onehash/cal/oauth_callback#callback'
-  get 'api/v1/accounts/:account_id/integrations/onehash_cal', to: 'onehash/cal/oauth#redirect'
-  delete 'api/v1/accounts/:account_id/integrations/onehash_cal', to: 'onehash/cal/oauth#destroy'
+  # Cal integration routes
+  get 'api/v1/accounts/:account_id/integrations/onehash_cal', to: 'onehash/cal/internal#notify'
+  delete 'api/v1/accounts/:account_id/integrations/onehash_cal', to: 'onehash/cal/internal#destroy'
 
   # Send Cal event and event confirmation routes
   post 'api/send_cal_event/', to: 'onehash/send_cal_event#send_event_handler'
