@@ -4,7 +4,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
-import decamelizeKeys from 'decamelize-keys';
+import snakecaseKeys from 'snakecase-keys';
 import AccountActionsAPI from '../../../api/accountActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -93,7 +93,7 @@ export const actions = {
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
     const { avatar, customAttributes, ...paramsToDecamelize } = contactParams;
     const decamelizedContactParams = {
-      ...decamelizeKeys(paramsToDecamelize),
+      ...snakecaseKeys(paramsToDecamelize, { deep: true }),
       ...(customAttributes && { custom_attributes: customAttributes }),
       ...(avatar && { avatar }),
     };
@@ -114,7 +114,7 @@ export const actions = {
   },
 
   create: async ({ commit }, { isFormData = false, ...contactParams }) => {
-    const decamelizedContactParams = decamelizeKeys(contactParams, {
+    const decamelizedContactParams = snakecaseKeys(contactParams, {
       deep: true,
     });
     commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });

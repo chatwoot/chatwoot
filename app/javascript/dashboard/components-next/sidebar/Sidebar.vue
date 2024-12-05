@@ -45,7 +45,7 @@ useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 const expandedItem = useStorage(
   'next-sidebar-expanded-item',
   null,
-  localStorage
+  sessionStorage
 );
 
 const setExpandedItem = name => {
