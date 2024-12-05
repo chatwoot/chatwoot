@@ -256,6 +256,7 @@ onMounted(async () => {
       :active-ordering="sortState.activeOrdering"
       :active-segment="activeSegment"
       :segments-id="activeSegmentId"
+      :is-fetching-list="isFetchingList"
       :has-applied-filters="hasAppliedFilters"
       @update:current-page="fetchContactsBasedOnContext"
       @search="searchContacts"
