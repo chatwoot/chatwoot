@@ -10,8 +10,9 @@ import {
   isConversationUnassigned,
   isMessageFromCurrentUser,
 } from './AudioMessageHelper';
+import WindowVisibilityHelper from './WindowVisibilityHelper';
 
-const NOTIFICATION_TIME = 30000;
+const NOTIFICATION_TIME = 3000;
 const ALERT_PATH_PREFIX = '/audio/dashboard/';
 const DEFAULT_TONE = 'ding';
 const DEFAULT_ALERT_TYPE = ['none'];
@@ -33,16 +34,14 @@ export class DashboardAudioNotificationHelper {
 
     this.audioConfig = {
       audio: null,
-      toneType: DEFAULT_TONE,
+      tone: DEFAULT_TONE,
     };
 
     this.currentUser = null;
-
-    this.playAudioEvery30Seconds();
   }
 
   intializeAudio = () => {
-    const resourceUrl = `${ALERT_PATH_PREFIX}${this.audioConfig.toneType}.mp3`;
+    const resourceUrl = `${ALERT_PATH_PREFIX}${this.audioConfig.tone}.mp3`;
     this.audioConfig.audio = new Audio(resourceUrl);
     return this.audioConfig.audio.load();
   };
@@ -56,7 +55,7 @@ export class DashboardAudioNotificationHelper {
     }
   };
 
-  setInstanceValues = ({
+  set = ({
     currentUser,
     alwaysPlayAudioAlert,
     alertIfUnreadConversationExist,
@@ -72,16 +71,26 @@ export class DashboardAudioNotificationHelper {
 
     this.currentUser = currentUser;
 
+    const previousAudioTone = this.audioConfig.tone;
     this.audioConfig = {
       ...this.audioConfig,
-      toneType: audioAlertTone,
+      tone: audioAlertTone,
     };
-    this.intializeAudio();
+
+    if (previousAudioTone !== audioAlertTone) {
+      this.intializeAudio();
+    }
+
     initFaviconSwitcher();
+    this.clearRecurringTimer();
+    this.playAudioEvery30Seconds();
   };
 
   shouldPlayAlert = () => {
-    return !this.notificationConfig.playAlertOnlyWhenHidden || document.hidden;
+    if (this.notificationConfig.playAlertOnlyWhenHidden) {
+      return !WindowVisibilityHelper.isWindowVisible();
+    }
+    return true;
   };
 
   executeRecurringNotification = () => {
@@ -92,10 +101,14 @@ export class DashboardAudioNotificationHelper {
     this.resetRecurringTimer();
   };
 
-  resetRecurringTimer = () => {
+  clearRecurringTimer = () => {
     if (this.recurringNotificationTimer) {
       clearTimeout(this.recurringNotificationTimer);
     }
+  };
+
+  resetRecurringTimer = () => {
+    this.clearRecurringTimer();
     this.recurringNotificationTimer = setTimeout(
       this.executeRecurringNotification,
       NOTIFICATION_TIME
@@ -162,15 +175,16 @@ export class DashboardAudioNotificationHelper {
     if (messageType !== MESSAGE_TYPE.INCOMING && !isPrivate) {
       return;
     }
+    console.log(WindowVisibilityHelper.isWindowVisible());
 
-    if (!document.hidden) {
+    if (WindowVisibilityHelper.isWindowVisible()) {
       // If the user looking at the conversation, then dismiss the alert
       if (this.store.isMessageFromCurrentConversation(message)) {
         return;
       }
 
       // If the user has disabled alerts when active on the dashboard, the dismiss the alert
-      if (this.playAlertOnlyWhenHidden) {
+      if (this.notificationConfig.playAlertOnlyWhenHidden) {
         return;
       }
     }

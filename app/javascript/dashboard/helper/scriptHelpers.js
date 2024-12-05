@@ -14,7 +14,7 @@ export const initializeAnalyticsEvents = () => {
   });
 };
 
-const initializeAudioAlerts = user => {
+export const initializeAudioAlerts = user => {
   const { ui_settings: uiSettings } = user || {};
   const {
     always_play_audio_alert: alwaysPlayAudioAlert,
@@ -25,7 +25,7 @@ const initializeAudioAlerts = user => {
     // entire payload for the user during the signup process.
   } = uiSettings || {};
 
-  DashboardAudioNotificationHelper.setInstanceValues({
+  DashboardAudioNotificationHelper.set({
     currentUser: user,
     audioAlertType: audioAlertType || 'none',
     audioAlertTone: audioAlertTone || 'ding',
