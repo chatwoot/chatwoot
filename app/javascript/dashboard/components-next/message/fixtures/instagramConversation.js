@@ -1059,6 +1059,38 @@ export default camelcaseKeys(
         type: 'contact',
       },
     },
+    {
+      id: 89129832,
+      content: null,
+      inbox_id: 27355,
+      conversation_id: 26942,
+      message_type: 0,
+      content_type: 'text',
+      status: 'sent',
+      content_attributes: {
+        in_reply_to_external_id: null,
+        is_unsupported: true,
+      },
+      created_at: 1733399171,
+      private: false,
+      source_id:
+        'aWdfZAG1faXRlbToxOklHTWVzc2FnZAUlEOjE3ODQxNDQ3NTU5OTYxMzk4OjM0MDI4MjM2Njg0MTcxMDMwMTI0NDI1OTM2Nzg4MDM2MjUyNjUwNjozMTk3NTU3MDg2NDAzNzQ0ODY5NjA0NDc2MzA5MjA5MDg4MAZDZD',
+      sender: {
+        additional_attributes: {
+          social_profiles: {
+            instagram: 'cwtestinglocal',
+          },
+        },
+        custom_attributes: {},
+        email: null,
+        id: 70222869,
+        identifier: null,
+        name: 'Jane Doe',
+        phone_number: null,
+        thumbnail: '',
+        type: 'contact',
+      },
+    },
   ],
   { deep: true }
 );

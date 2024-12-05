@@ -22,6 +22,7 @@ import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import LocationBubble from './bubbles/Location.vue';
+import UnsupportedBubble from './bubbles/Unsupported.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -150,6 +151,8 @@ const variant = computed(() => {
     }
   }
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
+  if (props.contentAttributes.isUnsupported)
+    return MESSAGE_VARIANTS.UNSUPPORTED;
 
   const variants = {
     [MESSAGE_TYPES.INCOMING]: MESSAGE_VARIANTS.USER,
@@ -238,6 +241,10 @@ const componentToRender = computed(() => {
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
+  }
+
+  if (props.contentAttributes.isUnsupported) {
+    return UnsupportedBubble;
   }
 
   if (props.contentAttributes.imageType === 'story_mention') {
