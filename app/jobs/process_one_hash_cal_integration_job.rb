@@ -44,18 +44,22 @@ class ProcessOneHashCalIntegrationJob < ApplicationJob
     # url = 'http://localhost:3001/api/integrations/oh/chat'
 
     auth_token = ENV.fetch('ONEHASH_API_KEY', nil)
+    params = {
+      account_user_id: @account_user.id,
+      account_name: @account.name,
+      user_name: @user.name,
+      user_email: @user.email,
+      user_id: user_id
+    }
+
+    # Encode params as query string
+    query_string = params.to_query
     begin
-      response = RestClient.post(url, {
-        account_user_id: @account_user.id,
-        account_name: @account.name,
-        user_name: @user.name,
-        user_email: @user.email,
-        user_id: user_id
-      }.to_json, {
-        content_type: :json,
-        accept: :json,
-        Authorization: "Bearer #{auth_token}"
-      })
+      response = RestClient.get("#{url}?#{query_string}", {
+                                  accept: :json,
+                                  Authorization: "Bearer #{auth_token}"
+                                })
+
       JSON.parse(response.body)
     rescue RestClient::ExceptionWithResponse => e
       Rails.logger.error("Failed to fetch data from external API (status: #{e.http_code}): #{e.response}")
