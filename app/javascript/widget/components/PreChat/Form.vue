@@ -151,33 +151,6 @@ export default {
     },
   },
   methods: {
-    labelClass(context) {
-      const { hasErrors } = context;
-      if (!hasErrors) {
-        return `text-xs font-medium ${this.getThemeClass(
-          'text-black-800',
-          'dark:text-slate-50'
-        )}`;
-      }
-      return `text-xs font-medium ${this.getThemeClass(
-        'text-red-400',
-        'dark:text-red-400'
-      )}`;
-    },
-    inputClass(input) {
-      const { state, family: classification, type } = input.context;
-      const hasErrors = state.invalid;
-      if (classification === 'box' && type === 'checkbox') {
-        return '';
-      }
-      if (type === 'phoneInput') {
-        this.hasErrorInPhoneInput = hasErrors;
-      }
-      if (!hasErrors) {
-        return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;
-      }
-      return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
-    },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
@@ -198,7 +171,7 @@ export default {
       let regex = regex_pattern ? getRegexp(regex_pattern) : null;
       const validations = {
         emailAddress: 'email',
-        phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
+        phoneNumber: '',
         url: 'url',
         date: 'date',
         text: null,
@@ -265,6 +238,47 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <FormKit
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item)"
+      :validation="getValidation(item)"
+      v-bind="
+        item.type === 'select'
+          ? {
+              options: getOptions(item),
+            }
+          : undefined
+      "
+    />
+    <FormKit
+      v-if="!hasActiveCampaign"
+      name="message"
+      type="textarea"
+      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
+      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
+      validation="required"
+    />
+
+    <CustomButton
+      class="mt-2 mb-5 font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      :disabled="isCreating"
+      @click="onSubmit"
+    >
+      <Spinner v-if="isCreating" class="p-0" />
+      {{ $t('START_CONVERSATION') }}
+    </CustomButton>
+  </div>
+</template>
 
 <template>
   <!-- hide the default submit button for now -->
