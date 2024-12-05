@@ -42,6 +42,7 @@ const emit = defineEmits([
   'updateTargetInbox',
   'clearSelectedContact',
   'createConversation',
+  'resetContactSearch',
 ]);
 
 const showContactsDropdown = ref(false);
@@ -157,6 +158,7 @@ const handleDropdownUpdate = (type, value) => {
 };
 
 const toggleBccInput = () => {
+  emit('resetContactSearch');
   showBccInput.value = !showBccInput.value;
 };
 
@@ -175,6 +177,7 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
   emit('updateSelectedContact', { value, action, ...rest });
   showContactsDropdown.value = false;
   showInboxesDropdown.value = true;
+  emit('resetContactSearch');
 };
 
 const handleInboxAction = ({ value, action, ...rest }) => {
@@ -256,7 +259,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
 
 <template>
   <div
-    class="absolute right-0 w-[670px] mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="absolute right-0 w-[670px] z-50 mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
   >
     <ContactSelector
       :contacts="contacts"

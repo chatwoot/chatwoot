@@ -393,6 +393,7 @@
       "SEARCH_TITLE": "Search contacts",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Message",
+      "SEND_MESSAGE": "Send message",
       "BREADCRUMB": {
         "CONTACTS": "Contacts"
       },

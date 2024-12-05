@@ -56,7 +56,7 @@ const removeAttachment = id => {
         <Button
           variant="ghost"
           icon="i-lucide-trash"
-          color="slate"
+          color="ruby"
           class="absolute top-1 right-1 !w-5 !h-5 transition-opacity duration-150 ease-in-out opacity-0 group-hover/image:opacity-100"
           @click="removeAttachment(attachment.resource.id)"
         />

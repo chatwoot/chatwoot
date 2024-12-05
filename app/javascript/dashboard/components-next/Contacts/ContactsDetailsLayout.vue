@@ -2,24 +2,22 @@
 import { computed, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-// import Button from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
-  // buttonLabel: {
-  //   type: String,
-  //   default: '',
-  // },
+  buttonLabel: {
+    type: String,
+    default: '',
+  },
   selectedContact: {
     type: Object,
     default: () => ({}),
   },
 });
 
-const emit = defineEmits([
-  // 'message',
-  'goToContactsList',
-]);
+const emit = defineEmits(['goToContactsList']);
 
 const { t } = useI18n();
 const slots = useSlots();
@@ -62,7 +60,11 @@ const handleBreadcrumbClick = () => {
               :items="breadcrumbItems"
               @click="handleBreadcrumbClick"
             />
-            <!-- <Button :label="buttonLabel" size="sm" @click="emit('message')" /> -->
+            <ComposeConversation>
+              <template #trigger="{ toggle }">
+                <Button :label="buttonLabel" size="sm" @click="toggle" />
+              </template>
+            </ComposeConversation>
           </div>
         </div>
       </header>

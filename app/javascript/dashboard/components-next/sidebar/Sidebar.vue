@@ -7,14 +7,16 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
-
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
+
+import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const emit = defineEmits([
   'openNotificationPanel',
@@ -27,7 +29,6 @@ const { accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
-const enableNewConversation = false;
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -481,7 +482,7 @@ const menuItems = computed(() => {
       <div class="flex gap-2 px-2">
         <RouterLink
           :to="{ name: 'search' }"
-          class="flex items-center w-full gap-2 px-2 py-1 border rounded-lg border-n-weak bg-n-solid-3 dark:bg-n-black/30"
+          class="flex items-center w-full gap-2 px-2 py-1 rounded-lg h-7 outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
         >
           <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-11" />
           <span class="flex-grow text-left">
@@ -493,14 +494,17 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
-        <button
-          v-if="enableNewConversation"
-          class="flex items-center w-full gap-2 px-2 py-1 border rounded-lg border-n-weak bg-n-solid-3"
-        >
-          <span
-            class="flex-shrink-0 i-lucide-square-pen size-4 text-n-slate-11"
-          />
-        </button>
+        <ComposeConversation class="[&>div]:!left-0 [&>div]:!right-[unset]">
+          <template #trigger="{ toggle }">
+            <Button
+              icon="i-lucide-square-pen"
+              color="slate"
+              size="sm"
+              class="!h-7"
+              @click="toggle"
+            />
+          </template>
+        </ComposeConversation>
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
