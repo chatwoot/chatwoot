@@ -17,6 +17,7 @@ import ActivityBubble from './bubbles/Activity.vue';
 import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
+import VideoBubble from './bubbles/Video.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 
@@ -242,6 +243,8 @@ const componentToRender = computed(() => {
     if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
     if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
     if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
+    if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
+    if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
   }
 
   if (props.attachments.length > 1 && !props.content) {
