@@ -67,9 +67,14 @@ export default function useAutomationValues() {
    * @returns {Array} An array of condition dropdown values.
    */
   const getConditionDropdownValues = type => {
+    console.log('labels', labels.value)
     return getConditionOptions({
       agents: agents.value,
       booleanFilterOptions: booleanFilterOptions.value,
+      label: labels.value.map(label => ({
+        id: label.title,
+        name: label.title,
+      })),
       campaigns: campaigns.value,
       contacts: contacts.value,
       customAttributes: getters['attributes/getAttributes'].value,
