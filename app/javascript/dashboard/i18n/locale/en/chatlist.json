@@ -94,6 +94,9 @@
       "location": {
         "CONTENT": "Location"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "has shared a url"
       }
