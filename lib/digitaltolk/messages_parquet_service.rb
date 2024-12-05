@@ -36,7 +36,7 @@ class Digitaltolk::MessagesParquetService
       Arrow::Field.new('created_at', :int64),
       Arrow::Field.new('private', :boolean),
       Arrow::Field.new('source_id', :string),
-      Arrow::Field.new('agent_score', :decimal),
+      Arrow::Field.new('agent_score', Arrow::Decimal128DataType.new(10, 2)),
       Arrow::Field.new('agent_score_criteria', :string),
     ]
   end
