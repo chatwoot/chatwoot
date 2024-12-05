@@ -1,8 +1,4 @@
-<script setup>
-import { ref } from 'vue';
-import ComposeNewConversationForm from './ComposeNewConversationForm.vue';
-
-const contacts = [
+export const contacts = [
   {
     additionalAttributes: {
       city: 'kerala',
@@ -37,7 +33,7 @@ const contacts = [
   },
 ];
 
-const selectedContact = ref({
+export const activeContact = {
   email: 'ozler@chatwoot.com',
   id: 29,
   label: 'Abraham Ozlers (ozler@chatwoot.com)',
@@ -155,103 +151,18 @@ const selectedContact = ref({
       channelType: 'Channel::Api',
     },
   ],
-});
+};
 
-const targetInbox = ref({
+export const emailInbox = {
   id: 7,
   label: 'PaperLayer Email (testba@paperlayer.test)',
   name: 'PaperLayer Email',
   email: 'testba@paperlayer.test',
   channelType: 'Channel::Email',
-});
+};
 
-const currentUser = {
+export const currentUser = {
   id: 1,
   name: 'John Doe',
   email: 'john@example.com',
 };
-
-// Event handlers
-const onSearchContacts = query => {
-  console.log('Searching contacts:', query);
-};
-
-const onUpdateSelectedContact = contact => {
-  console.log('Selected contact updated:', contact);
-};
-
-const onUpdateTargetInbox = inbox => {
-  console.log('Target inbox updated:', inbox);
-  targetInbox.value = inbox;
-  console.log('Target inbox updated:', inbox);
-};
-
-const onClearSelectedContact = () => {
-  console.log('Contact cleared');
-};
-
-const onCreateConversation = payload => {
-  console.log('Creating conversation:', payload);
-};
-
-const onDiscard = () => {
-  console.log('Form discarded');
-};
-</script>
-
-<template>
-  <Story
-    title="Components/Compose/ComposeNewConversationForm"
-    :layout="{ type: 'grid', width: '800px' }"
-  >
-    <Variant title="With all props">
-      <div class="h-[600px] w-full relative">
-        <ComposeNewConversationForm
-          :contacts="contacts"
-          contact-id=""
-          :is-loading="false"
-          :current-user="currentUser"
-          :selected-contact="selectedContact"
-          :target-inbox="targetInbox"
-          :is-creating-contact="false"
-          is-fetching-inboxes
-          is-direct-uploads-enabled
-          :contact-conversations-ui-flags="{ isCreating: false }"
-          :contacts-ui-flags="{ isFetching: false }"
-          class="!top-0"
-          @search-contacts="onSearchContacts"
-          @update-selected-contact="onUpdateSelectedContact"
-          @update-target-inbox="onUpdateTargetInbox"
-          @clear-selected-contact="onClearSelectedContact"
-          @create-conversation="onCreateConversation"
-          @discard="onDiscard"
-        />
-      </div>
-    </Variant>
-
-    <Variant title="With no target inbox">
-      <div class="h-[200px] w-full relative">
-        <ComposeNewConversationForm
-          :contacts="contacts"
-          contact-id=""
-          :is-loading="false"
-          :current-user="currentUser"
-          :selected-contact="{ ...selectedContact, contactInboxes: [] }"
-          :target-inbox="null"
-          :is-creating-contact="false"
-          :is-fetching-inboxes="false"
-          is-direct-uploads-enabled
-          :contact-conversations-ui-flags="{ isCreating: false }"
-          :contacts-ui-flags="{ isFetching: false }"
-          class="!top-0"
-          @search-contacts="onSearchContacts"
-          @update-selected-contact="onUpdateSelectedContact"
-          @update-target-inbox="onUpdateTargetInbox"
-          @clear-selected-contact="onClearSelectedContact"
-          @create-conversation="onCreateConversation"
-          @discard="onDiscard"
-        />
-      </div>
-    </Variant>
-  </Story>
-</template>
