@@ -7,50 +7,18 @@ import ContactsActiveFiltersPreview from 'dashboard/components-next/Contacts/Con
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
 defineProps({
-  searchValue: {
-    type: String,
-    default: '',
-  },
-  headerTitle: {
-    type: String,
-    default: '',
-  },
-  showPaginationFooter: {
-    type: Boolean,
-    default: true,
-  },
-  currentPage: {
-    type: Number,
-    default: 1,
-  },
-  totalItems: {
-    type: Number,
-    default: 100,
-  },
-  itemsPerPage: {
-    type: Number,
-    default: 15,
-  },
-  activeSort: {
-    type: String,
-    default: '',
-  },
-  activeOrdering: {
-    type: String,
-    default: '',
-  },
-  activeSegment: {
-    type: Object,
-    default: null,
-  },
-  segmentsId: {
-    type: [String, Number],
-    default: 0,
-  },
-  hasAppliedFilters: {
-    type: Boolean,
-    default: false,
-  },
+  searchValue: { type: String, default: '' },
+  headerTitle: { type: String, default: '' },
+  showPaginationFooter: { type: Boolean, default: true },
+  currentPage: { type: Number, default: 1 },
+  totalItems: { type: Number, default: 100 },
+  itemsPerPage: { type: Number, default: 15 },
+  activeSort: { type: String, default: '' },
+  activeOrdering: { type: String, default: '' },
+  activeSegment: { type: Object, default: null },
+  segmentsId: { type: [String, Number], default: 0 },
+  hasAppliedFilters: { type: Boolean, default: false },
+  isFetchingList: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -106,7 +74,12 @@ const openFilter = () => {
       <main class="flex-1 overflow-y-auto">
         <div class="w-full mx-auto max-w-[960px]">
           <ContactsActiveFiltersPreview
-            v-if="hasAppliedFilters && isNotSegmentView"
+            v-if="
+              (hasAppliedFilters || !isNotSegmentView) &&
+              !isFetchingList &&
+              !isLabelView
+            "
+            :active-segment="activeSegment"
             @clear-filters="emit('clearFilters')"
             @open-filter="openFilter"
           />
