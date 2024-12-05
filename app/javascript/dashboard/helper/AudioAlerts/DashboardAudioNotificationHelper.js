@@ -175,7 +175,6 @@ export class DashboardAudioNotificationHelper {
     if (messageType !== MESSAGE_TYPE.INCOMING && !isPrivate) {
       return;
     }
-    console.log(WindowVisibilityHelper.isWindowVisible());
 
     if (WindowVisibilityHelper.isWindowVisible()) {
       // If the user looking at the conversation, then dismiss the alert
