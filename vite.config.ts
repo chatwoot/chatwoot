@@ -10,7 +10,7 @@ if (isLibraryMode) {
 } else if (isTestMode) {
   config = import('./vite.config.test');
 } else if (isStoryMode) {
-  config = import('./vite.config.test');
+  config = import('./vite.config.story');
 } else {
   config = import('./vite.config.dev');
 }
