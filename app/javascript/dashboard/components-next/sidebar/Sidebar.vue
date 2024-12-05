@@ -500,7 +500,7 @@ const menuItems = computed(() => {
               icon="i-lucide-pen-line"
               color="slate"
               size="sm"
-              class="!h-7"
+              class="!h-7 !bg-n-solid-3 dark:!bg-n-black/30 !outline-n-weak !text-n-slate-11"
               @click="toggle"
             />
           </template>
