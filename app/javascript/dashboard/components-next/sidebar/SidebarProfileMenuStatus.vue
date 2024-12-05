@@ -67,7 +67,7 @@ function updateAutoOffline(autoOffline) {
 <template>
   <DropdownSection>
     <div class="grid gap-0">
-      <DropdownItem>
+      <DropdownItem preserve-open>
         <div class="flex-grow flex items-center gap-1">
           {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
         </div>
@@ -90,7 +90,7 @@ function updateAutoOffline(autoOffline) {
               </div>
             </Button>
           </template>
-          <DropdownBody class="min-w-32">
+          <DropdownBody class="min-w-32 z-20">
             <DropdownItem
               v-for="status in availabilityStatuses"
               :key="status.value"

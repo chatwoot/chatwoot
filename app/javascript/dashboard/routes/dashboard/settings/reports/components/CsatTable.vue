@@ -146,12 +146,12 @@ const table = useVueTable({
 
 <template>
   <div
-    class="shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2 px-6 py-5"
+    class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
   >
     <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <div
       v-show="!tableData.length"
-      class="flex items-center -mt-1 justify-center h-48 w-full border-0 text-slate-600 dark:text-slate-200"
+      class="h-48 flex items-center justify-center text-n-slate-12 text-sm"
     >
       {{ $t('CSAT_REPORTS.NO_RECORDS') }}
     </div>

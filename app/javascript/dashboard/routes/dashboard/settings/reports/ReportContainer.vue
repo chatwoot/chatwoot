@@ -135,7 +135,7 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 px-6 py-5 md:grid-cols-2 gap-5 shadow outline-1 outline outline-n-container group/cardLayout rounded-2xl bg-n-solid-2"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <div v-for="metric in metrics" :key="metric.KEY">
       <ChartStats :metric="metric" :account-summary-key="accountSummaryKey" />

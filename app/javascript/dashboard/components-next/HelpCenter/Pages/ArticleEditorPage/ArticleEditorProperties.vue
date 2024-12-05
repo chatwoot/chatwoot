@@ -66,6 +66,7 @@ onMounted(() => {
         icon="i-lucide-x"
         size="sm"
         variant="ghost"
+        color="slate"
         class="hover:text-n-slate-11"
         @click="emit('close')"
       />
