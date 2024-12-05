@@ -21,6 +21,7 @@ import VideoBubble from './bubbles/Video.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
+import LocationBubble from './bubbles/Location.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -250,6 +251,7 @@ const componentToRender = computed(() => {
     if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
     if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
     if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
+    if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
   }
 
   if (props.attachments.length > 1 && !props.content) {
