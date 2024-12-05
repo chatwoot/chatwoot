@@ -11,8 +11,10 @@ import {
   isMessageFromCurrentUser,
 } from './AudioMessageHelper';
 import WindowVisibilityHelper from './WindowVisibilityHelper';
+import { useAlert } from 'dashboard/composables';
 
-const NOTIFICATION_TIME = 3000;
+const NOTIFICATION_TIME = 30000;
+const ALERT_DURATION = 10000;
 const ALERT_PATH_PREFIX = '/audio/dashboard/';
 const DEFAULT_TONE = 'ding';
 const DEFAULT_ALERT_TYPE = ['none'];
@@ -35,6 +37,7 @@ export class DashboardAudioNotificationHelper {
     this.audioConfig = {
       audio: null,
       tone: DEFAULT_TONE,
+      hasSentSoundPermissionsRequest: false,
     };
 
     this.currentUser = null;
@@ -50,8 +53,16 @@ export class DashboardAudioNotificationHelper {
     try {
       await this.audioConfig.audio.play();
     } catch (error) {
-      // eslint-disable-next-line
-      console.log(error.name);
+      if (
+        error.name === 'NotAllowedError' &&
+        !this.hasSentSoundPermissionsRequest
+      ) {
+        this.hasSentSoundPermissionsRequest = true;
+        useAlert(
+          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.SOUND_PERMISSION_ERROR',
+          { usei18n: true, duration: ALERT_DURATION }
+        );
+      }
     }
   };
 
