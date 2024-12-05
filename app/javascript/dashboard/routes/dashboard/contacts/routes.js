@@ -1,44 +1,60 @@
-/* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
+
+const commonMeta = {
+  permissions: ['administrator', 'agent', 'contact_manage'],
+};
 
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/contacts'),
     component: ContactsIndex,
-    name: 'contacts_dashboard_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
-  },
-
-  {
-    path: frontendURL('accounts/:accountId/contacts/segments/:segmentId'),
-    component: ContactsIndex,
-    name: 'contacts_dashboard_segments_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
-  },
-
-  {
-    path: frontendURL('accounts/:accountId/contacts/labels/:label'),
-    component: ContactsIndex,
-    name: 'contacts_dashboard_labels_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
+    meta: commonMeta,
+    children: [
+      {
+        path: '',
+        name: 'contacts_dashboard_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+      {
+        path: 'segments/:segmentId',
+        name: 'contacts_dashboard_segments_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+      {
+        path: 'labels/:label',
+        name: 'contacts_dashboard_labels_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+    ],
   },
   {
     path: frontendURL('accounts/:accountId/contacts/:contactId'),
-    name: 'contacts_edit',
-    meta: {
-      permissions: ['administrator', 'agent', 'contact_manage'],
-    },
     component: ContactManageView,
-    props: route => {
-      return { contactId: route.params.contactId };
-    },
+    meta: commonMeta,
+    children: [
+      {
+        path: '',
+        name: 'contacts_edit',
+        component: ContactManageView,
+        meta: commonMeta,
+      },
+      {
+        path: 'segments/:segmentId',
+        name: 'contacts_edit_segment',
+        component: ContactManageView,
+        meta: commonMeta,
+      },
+      {
+        path: 'labels/:label',
+        name: 'contacts_edit_label',
+        component: ContactManageView,
+        meta: commonMeta,
+      },
+    ],
   },
 ];
