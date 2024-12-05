@@ -497,7 +497,7 @@ const menuItems = computed(() => {
         <ComposeConversation class="[&>div]:!left-0 [&>div]:!right-[unset]">
           <template #trigger="{ toggle }">
             <Button
-              icon="i-lucide-square-pen"
+              icon="i-lucide-pen-line"
               color="slate"
               size="sm"
               class="!h-7"
