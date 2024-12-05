@@ -98,6 +98,7 @@ const closeCompose = () => {
   showComposeNewConversation.value = false;
   selectedContact.value = null;
   targetInbox.value = null;
+  onContactSearch('');
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
