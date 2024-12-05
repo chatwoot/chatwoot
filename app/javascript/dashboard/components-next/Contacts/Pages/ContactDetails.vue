@@ -68,7 +68,8 @@ const handleFormUpdate = updatedData => {
 
 const updateContact = async () => {
   try {
-    await store.dispatch('contacts/update', contactData.value);
+    const { customAttributes, ...basicContactData } = contactData.value;
+    await store.dispatch('contacts/update', basicContactData);
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
