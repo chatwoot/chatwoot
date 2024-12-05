@@ -4,6 +4,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 // import { useFileUpload } from 'dashboard/composables/useFileUpload';
+import { vOnClickOutside } from '@vueuse/components';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -182,7 +183,7 @@ useKeyboardEvents(keyboardEvents);
       />
       <div
         v-if="!isWhatsappInbox && !hasNoInbox"
-        v-on-clickaway="() => (isEmojiPickerOpen = false)"
+        v-on-click-outside="() => (isEmojiPickerOpen = false)"
         class="relative"
       >
         <Button

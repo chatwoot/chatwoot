@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { vOnClickOutside } from '@vueuse/components';
 import { generateLabelForContactableInboxesList } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -67,7 +68,7 @@ const targetInboxLabel = computed(() => {
     </div>
     <div
       v-else
-      v-on-clickaway="() => emit('toggleDropdown', false)"
+      v-on-click-outside="() => emit('toggleDropdown', false)"
       class="relative flex items-center h-7"
     >
       <Button

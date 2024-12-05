@@ -4,7 +4,6 @@ import i18nMessages from 'dashboard/i18n';
 import { createI18n } from 'vue-i18n';
 import { vResizeObserver } from '@vueuse/components';
 import store from 'dashboard/store';
-import { directive as onClickaway } from 'vue3-click-away';
 import FloatingVue from 'floating-vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
@@ -26,7 +25,6 @@ export const setupVue3 = defineSetupVue3(({ app }) => {
   });
 
   app.directive('resize', vResizeObserver);
-  app.directive('on-clickaway', onClickaway);
   app.use(VueDOMPurifyHTML, domPurifyConfig);
   app.directive('on-clickaway', onClickaway);
 });

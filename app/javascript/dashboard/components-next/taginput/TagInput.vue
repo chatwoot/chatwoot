@@ -1,9 +1,11 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
-import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
-import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import { vOnClickOutside } from '@vueuse/components';
 import { email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
+
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 const props = defineProps({
   placeholder: { type: String, default: '' },
@@ -195,7 +197,7 @@ const handleBlur = e => emit('blur', e);
 
 <template>
   <div
-    v-on-clickaway="() => handleClickOutside()"
+    v-on-click-outside="() => handleClickOutside()"
     class="flex flex-wrap w-full gap-2 border border-transparent focus:outline-none"
     tabindex="0"
     @focus="handleFocus"
