@@ -299,8 +299,6 @@ export default {
         </div>
       </div>
 
-     
-
       <woot-submit-button
         class="button nice success button--fixed-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
@@ -324,10 +322,12 @@ export default {
         <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
           <woot-submit-button
             button-class="alert button nice"
-            :button-text="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')"
+            :button-text="
+              $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.BUTTON_TEXT')
+            "
             :loading="showDeletePopup"
             @click="openDeletePopup()"
-        />
+          />
         </div>
       </div>
       <WootConfirmDeleteModal
@@ -335,8 +335,12 @@ export default {
         v-model:show="showDeletePopup"
         :title="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.TITLE')"
         :message="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.MESSAGE')"
-        :confirm-text="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.BUTTON_TEXT')"
-        :reject-text="$t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.DISMISS')"
+        :confirm-text="
+          $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.BUTTON_TEXT')
+        "
+        :reject-text="
+          $t('GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.DISMISS')
+        "
         :confirm-value="name"
         :confirm-place-holder-text="confirmPlaceHolderText"
         @on-confirm="confirmAccountDeletion"
@@ -356,7 +360,6 @@ export default {
           <div>{{ `Build ${globalConfig.gitSha}` }}</div>
         </div>
       </div>
-
     </div>
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
