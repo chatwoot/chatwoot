@@ -1,6 +1,4 @@
 <script>
-import parsePhoneNumber from 'libphonenumber-js';
-
 export default {
   props: {
     modelValue: {
@@ -71,3 +69,18 @@ export default {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@import 'widget/assets/scss/variables.scss';
+
+.phone-input--wrap {
+  .phone-input {
+    height: 2.8rem;
+
+    input:placeholder-shown {
+      text-overflow: ellipsis;
+      direction: rtl;
+    }
+  }
+}
+</style>
