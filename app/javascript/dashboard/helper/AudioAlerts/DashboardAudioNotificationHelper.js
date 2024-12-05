@@ -5,13 +5,16 @@ import { initFaviconSwitcher } from './faviconHelper';
 import { EVENT_TYPES } from 'dashboard/routes/dashboard/settings/profile/constants.js';
 import GlobalStore from 'dashboard/store';
 import AudioNotificationStore from './AudioNotificationStore';
+import {
+  isConversationAssignedToMe,
+  isConversationUnassigned,
+  isMessageFromCurrentUser,
+} from './AudioMessageHelper';
 
 const NOTIFICATION_TIME = 30000;
 const ALERT_PATH_PREFIX = '/audio/dashboard/';
 const DEFAULT_TONE = 'ding';
 const DEFAULT_ALERT_TYPE = ['none'];
-
-const isConversationUnassigned = message => !message?.conversation?.assignee_id;
 
 export class DashboardAudioNotificationHelper {
   constructor(store) {
@@ -112,21 +115,15 @@ export class DashboardAudioNotificationHelper {
     this.resetRecurringTimer();
   };
 
-  isConversationAssignedToCurrentUser = message => {
-    const conversationAssigneeId = message?.conversation?.assignee_id;
-    return conversationAssigneeId === this.currentUser.id;
-  };
-
-  isMessageFromCurrentUser = message => {
-    return message?.sender_id === this.currentUser.id;
-  };
-
   shouldNotifyOnMessage = message => {
     const { audioAlertType } = this.notificationConfig;
     if (audioAlertType.includes('none')) return false;
     if (audioAlertType.includes('all')) return true;
 
-    const assignedToMe = this.isConversationAssignedToCurrentUser(message);
+    const assignedToMe = isConversationAssignedToMe(
+      message,
+      this.currentUser.id
+    );
     const isUnassigned = isConversationUnassigned(message);
 
     const shouldPlayAudio = [];
@@ -152,7 +149,7 @@ export class DashboardAudioNotificationHelper {
     }
 
     // If the message is sent by the current user then dismiss the alert
-    if (this.isMessageFromCurrentUser(message)) {
+    if (isMessageFromCurrentUser(message, this.currentUser.id)) {
       return;
     }
 
