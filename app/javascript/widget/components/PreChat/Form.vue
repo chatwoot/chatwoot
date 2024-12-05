@@ -288,61 +288,41 @@ export default {
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
     it assumes we are trying to make a multicheckbox. This is the best we have for now -->
-    <FormKit
-      v-for="item in enabledPreChatFields"
-      :key="item.name"
-      :name="item.name"
-      :type="item.type"
-      :label="getLabel(item)"
-      :placeholder="getPlaceHolder(item)"
-      :validation="getValidation(item)"
-      v-bind="
-        item.type === 'select'
-          ? {
-              options: getOptions(item),
-            }
-          : undefined
-      "
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :validation-messages="{
-        startsWithPlus: $t(
-          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
-        ),
-        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
-        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: $t('PRE_CHAT_FORM.REQUIRED'),
-        matches: item.regex_cue
-          ? item.regex_cue
-          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
-      }"
-      :has-error-in-phone-input="hasErrorInPhoneInput"
-    />
-    <FormKit
-      v-if="!hasActiveCampaign"
-      name="message"
-      type="textarea"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      validation="required"
-      :validation-messages="{
-        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
-      }"
-    />
+<FormKit
+  v-for="item in enabledPreChatFields"
+  :key="item.name"
+  :name="item.name"
+  :type="item.type"
+  :label="getLabel(item)"
+  :placeholder="getPlaceHolder(item)"
+  :validation="getValidation(item)"
+  v-bind="
+    item.type === 'select'
+      ? {
+          options: getOptions(item),
+        }
+      : undefined
+  "
+/>
+<FormKit
+  v-if="!hasActiveCampaign"
+  name="message"
+  type="textarea"
+  :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
+  :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
+  validation="required"
+/>
 
-    <CustomButton
-      class="mt-2 mb-5 font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      :disabled="isCreating"
-    >
-      <Spinner v-if="isCreating" class="p-0" />
-      {{ $t('START_CONVERSATION') }}
-    </CustomButton>
-  </FormKit>
+<CustomButton
+  class="mt-2 mb-5 font-medium"
+  block
+  :bg-color="widgetColor"
+  :text-color="textColor"
+  :disabled="isCreating"
+>
+  <Spinner v-if="isCreating" class="p-0" />
+  {{ $t('START_CONVERSATION') }}
+</CustomButton>
 </template>
 
 <style lang="scss">
