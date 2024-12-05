@@ -35,9 +35,7 @@ class Digitaltolk::MessagesParquetService
       Arrow::Field.new('status', :string),
       Arrow::Field.new('created_at', :int64),
       Arrow::Field.new('private', :boolean),
-      Arrow::Field.new('source_id', :string),
-      Arrow::Field.new('agent_score', Arrow::Decimal128DataType.new(10, 2)),
-      Arrow::Field.new('agent_score_criteria', :string),
+      Arrow::Field.new('source_id', :string)
     ]
   end
 
@@ -73,8 +71,6 @@ class Digitaltolk::MessagesParquetService
         @columns['created_at'] << message&.created_at.to_i
         @columns['private'] << !!(message&.private)
         @columns['source_id'] << message&.source_id.to_s
-        @columns['agent_score'] << message&.agent_score.to_f
-        @columns['agent_score_criteria'] << message&.agent_score_criteria.to_h.to_json
       end
       report.increment_progress(processed_count: index * batch_size)
       message_batch = nil
@@ -98,9 +94,7 @@ class Digitaltolk::MessagesParquetService
       Arrow::StringArray.new(@columns['status']),
       Arrow::Int64Array.new(@columns['created_at']),
       Arrow::BooleanArray.new(@columns['private']),
-      Arrow::StringArray.new(@columns['source_id']),
-      Arrow::Decimal128Array.new(@columns['agent_score']),
-      Arrow::StringArray.new(@columns['agent_score_criteria'])
+      Arrow::StringArray.new(@columns['source_id'])
     ]
   end
 
