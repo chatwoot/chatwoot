@@ -59,8 +59,6 @@ const state = reactive({
   attachedFiles: [],
 });
 
-const showBccInput = ref(false);
-
 const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
   isTwilio: props.targetInbox?.channelType === INBOX_TYPES.TWILIO,
@@ -154,10 +152,6 @@ const handleDropdownUpdate = (type, value) => {
   } else {
     showContactsDropdown.value = value;
   }
-};
-
-const toggleBccInput = () => {
-  showBccInput.value = !showBccInput.value;
 };
 
 const searchCcEmails = value => {
@@ -294,12 +288,10 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :contacts="contacts"
       :show-cc-emails-dropdown="showCcEmailsDropdown"
       :show-bcc-emails-dropdown="showBccEmailsDropdown"
-      :show-bcc-input="showBccInput"
       :is-loading="isLoading"
       :has-errors="validationStates.isSubjectInvalid"
       @search-cc-emails="searchCcEmails"
       @search-bcc-emails="searchBccEmails"
-      @toggle-bcc="toggleBccInput"
       @update-dropdown="handleDropdownUpdate"
     />
 
