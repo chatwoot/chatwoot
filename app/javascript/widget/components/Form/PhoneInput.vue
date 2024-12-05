@@ -35,7 +35,7 @@ const inputHasError = computed(() =>
 function setContextValue() {
   // This function is used to set the context value.
   // The context value is used to set the value of the phone number field in the pre-chat form.
-  localValue.value = `+98${phoneNumber.value}`;
+  localValue.value = `${phoneNumber.value}`;
   context.node.input(localValue.value);
 }
 
@@ -52,16 +52,10 @@ function onChange(e) {
       style="direction: ltr;" class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
       :class="inputHasError"
     >
-      <span
-        class="py-2 pl-2 pr-0 text-base"
-        :class="$dm('text-slate-700', 'dark:text-slate-50')"
-      >
-        +98
-      </span>
       <input
         :value="phoneNumber"
         type="phoneInput"
-        class="w-full h-full py-2 pl-2 pr-3 leading-tight border-0 rounded-r outline-none"
+        class="w-full h-full py-2 pl-2 pr-3 leading-tight border-0 rounded outline-none"
         name="phoneNumber"
         :placeholder="placeholder"
         :class="inputLightAndDarkModeColor"
