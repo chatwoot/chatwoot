@@ -151,6 +151,33 @@ export default {
     },
   },
   methods: {
+    labelClass(context) {
+      const { hasErrors } = context;
+      if (!hasErrors) {
+        return `text-xs font-medium ${this.getThemeClass(
+          'text-black-800',
+          'dark:text-slate-50'
+        )}`;
+      }
+      return `text-xs font-medium ${this.getThemeClass(
+        'text-red-400',
+        'dark:text-red-400'
+      )}`;
+    },
+    inputClass(input) {
+      const { state, family: classification, type } = input.context;
+      const hasErrors = state.invalid;
+      if (classification === 'box' && type === 'checkbox') {
+        return '';
+      }
+      if (type === 'phoneInput') {
+        this.hasErrorInPhoneInput = hasErrors;
+      }
+      if (!hasErrors) {
+        return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;
+      }
+      return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
+    },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
@@ -171,7 +198,7 @@ export default {
       let regex = regex_pattern ? getRegexp(regex_pattern) : null;
       const validations = {
         emailAddress: 'email',
-        phoneNumber: '',
+        phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
         url: 'url',
         date: 'date',
         text: null,
@@ -240,47 +267,6 @@ export default {
 </script>
 
 <template>
-  <div>
-    <FormKit
-      v-for="item in enabledPreChatFields"
-      :key="item.name"
-      :name="item.name"
-      :type="item.type"
-      :label="getLabel(item)"
-      :placeholder="getPlaceHolder(item)"
-      :validation="getValidation(item)"
-      v-bind="
-        item.type === 'select'
-          ? {
-              options: getOptions(item),
-            }
-          : undefined
-      "
-    />
-    <FormKit
-      v-if="!hasActiveCampaign"
-      name="message"
-      type="textarea"
-      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      validation="required"
-    />
-
-    <CustomButton
-      class="mt-2 mb-5 font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      :disabled="isCreating"
-      @click="onSubmit"
-    >
-      <Spinner v-if="isCreating" class="p-0" />
-      {{ $t('START_CONVERSATION') }}
-    </CustomButton>
-  </div>
-</template>
-
-<template>
   <!-- hide the default submit button for now -->
   <FormKit
     v-model="formValues"
@@ -303,38 +289,60 @@ export default {
     If we just pass the options as is even with null or undefined or false,
     it assumes we are trying to make a multicheckbox. This is the best we have for now -->
     <FormKit
-  v-for="item in enabledPreChatFields"
-  :key="item.name"
-  :name="item.name"
-  :type="item.type"
-  :label="getLabel(item)"
-  :placeholder="getPlaceHolder(item)"
-  v-bind="
-    item.type === 'select'
-      ? {
-          options: getOptions(item),
-        }
-      : undefined
-  "
-/>
-<FormKit
-  v-if="!hasActiveCampaign"
-  name="message"
-  type="textarea"
-  :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
-  :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-/>
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item)"
+      :validation="getValidation(item)"
+      v-bind="
+        item.type === 'select'
+          ? {
+              options: getOptions(item),
+            }
+          : undefined
+      "
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :validation-messages="{
+        startsWithPlus: $t(
+          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
+        ),
+        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+        required: $t('PRE_CHAT_FORM.REQUIRED'),
+        matches: item.regex_cue
+          ? item.regex_cue
+          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
+      }"
+      :has-error-in-phone-input="hasErrorInPhoneInput"
+    />
+    <FormKit
+      v-if="!hasActiveCampaign"
+      name="message"
+      type="textarea"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
+      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
+      validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
+    />
 
-<CustomButton
-  class="mt-2 mb-5 font-medium"
-  block
-  :bg-color="widgetColor"
-  :text-color="textColor"
-  :disabled="isCreating"
->
-  <Spinner v-if="isCreating" class="p-0" />
-  {{ $t('START_CONVERSATION') }}
-</CustomButton>
+    <CustomButton
+      class="mt-2 mb-5 font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      :disabled="isCreating"
+    >
+      <Spinner v-if="isCreating" class="p-0" />
+      {{ $t('START_CONVERSATION') }}
+    </CustomButton>
+  </FormKit>
 </template>
 
 <style lang="scss">
