@@ -118,6 +118,7 @@ const getCommonFetchParams = (page = 1) => ({
 });
 
 const fetchContacts = async (page = 1) => {
+  await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/get', getCommonFetchParams(page));
   updatePageParam(page);
 };
@@ -132,6 +133,7 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
 };
 
 const searchContacts = debounce(async (value, page = 1) => {
+  await store.dispatch('contacts/clearContactFilters');
   searchValue.value = value;
 
   if (!value) {

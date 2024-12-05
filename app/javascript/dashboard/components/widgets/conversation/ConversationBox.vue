@@ -62,10 +62,13 @@ export default {
     },
   },
   watch: {
-    'currentChat.inbox_id'(inboxId) {
-      if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
-      }
+    'currentChat.inbox_id': {
+      immediate: true,
+      handler(inboxId) {
+        if (inboxId) {
+          this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+        }
+      },
     },
     'currentChat.id'() {
       this.fetchLabels();

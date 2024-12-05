@@ -96,11 +96,11 @@ const prepareStateBasedOnProps = () => {
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name);
   const {
-    description,
-    companyName,
-    countryCode,
-    country,
-    city,
+    description = '',
+    companyName = '',
+    countryCode = '',
+    country = '',
+    city = '',
     socialProfiles = {},
   } = additionalAttributes || {};
 
@@ -214,6 +214,10 @@ const resetValidation = () => {
   v$.value.$reset();
 };
 
+const resetForm = () => {
+  Object.assign(state, defaultState);
+};
+
 watch(() => props.contactData, prepareStateBasedOnProps, {
   immediate: true,
   deep: true,
@@ -224,6 +228,7 @@ defineExpose({
   state,
   resetValidation,
   isFormInvalid,
+  resetForm,
 });
 </script>
 
@@ -261,7 +266,7 @@ defineExpose({
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView ? '[&:not(.error)]:!border-transparent' : ''
+              !isDetailsView ? '[&:not(.error,.focus)]:!border-transparent' : ''
             }`"
             class="w-full"
             @input="
