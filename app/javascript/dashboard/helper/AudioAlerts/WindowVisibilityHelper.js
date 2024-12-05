@@ -1,4 +1,4 @@
-class WindowVisibilityHelper {
+export class WindowVisibilityHelper {
   constructor() {
     this.isVisible = true;
     this.initializeEvent();
