@@ -3,4 +3,4 @@ export const isConversationUnassigned = message => !getAssignee(message);
 export const isConversationAssignedToMe = (message, currentUserId) =>
   getAssignee(message) === currentUserId;
 export const isMessageFromCurrentUser = (message, currentUserId) =>
-  message?.sender_id === currentUserId;
+  message?.sender?.id === currentUserId;
