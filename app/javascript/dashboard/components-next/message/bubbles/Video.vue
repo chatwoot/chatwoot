@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
 import { ATTACHMENT_TYPES } from '../constants';
@@ -29,6 +29,13 @@ const props = defineProps({
     required: true,
   },
 });
+const emit = defineEmits(['error']);
+const hasError = ref(false);
+
+const handleError = () => {
+  hasError.value = true;
+  emit('error');
+};
 
 const attachment = computed(() => {
   return props.attachments[0];
@@ -54,7 +61,7 @@ const isReel = computed(() => {
         'max-w-48': isReel,
         'max-w-full': !isReel,
       }"
-      @error="hasError = true"
+      @error="handleError"
     />
   </BaseBubble>
 </template>

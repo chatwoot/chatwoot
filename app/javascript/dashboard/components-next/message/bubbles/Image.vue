@@ -29,11 +29,18 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['error']);
+
 const attachment = computed(() => {
   return props.attachments[0];
 });
 
 const hasError = ref(false);
+
+const handleError = () => {
+  hasError.value = true;
+  emit('error');
+};
 
 const downloadAttachment = async () => {
   const response = await fetch(attachment.value.dataUrl);
@@ -51,7 +58,7 @@ const downloadAttachment = async () => {
 
 <template>
   <BaseBubble class="overflow-hidden relative group">
-    <img :src="attachment.thumbUrl" @click="onClick" @error="hasError = true" />
+    <img :src="attachment.thumbUrl" @click="onClick" @error="handleError" />
     <div
       class="inset-0 p-2 absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex items-end justify-end gap-1.5"
     >

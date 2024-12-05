@@ -18,6 +18,7 @@ import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
+import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 
@@ -236,6 +237,10 @@ const componentToRender = computed(() => {
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
+  }
+
+  if (props.contentAttributes.imageType === 'story_mention') {
+    return InstagramStoryBubble;
   }
 
   if (props.attachments.length === 1 && !props.content) {
