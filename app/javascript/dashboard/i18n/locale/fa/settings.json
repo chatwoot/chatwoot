@@ -61,15 +61,29 @@
         "COPY": "کپی"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "اعلان های صوتی",
-        "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "هیچکدام",
           "MINE": "اختصاص داده",
-          "ALL": "همه"
+          "ALL": "همه",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "هیچکدام",
           "ASSIGNED": "مکالمات اختصاص داده شده",
           "ALL_CONVERSATIONS": "همه گفتگوها"
@@ -81,7 +95,9 @@
           "TITLE": "شرط‌های هشدار:",
           "CONDITION_ONE": "فقط در صورتی که پنجره مرورگر فعال نباشد، هشدارهای صوتی را ارسال کنید",
           "CONDITION_TWO": "هر 30 ثانیه یک بار هشدار ارسال کنید تا زمانی که تمام مکالمات اختصاص داده شده خوانده شود"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "ادامه مطلب"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "اعلامیه‌ به ایمیل",
