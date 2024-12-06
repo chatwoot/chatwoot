@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "کوئی نتیجہ نہیں."
+    "EMPTY_STATE": "کوئی نتیجہ نہیں.",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
