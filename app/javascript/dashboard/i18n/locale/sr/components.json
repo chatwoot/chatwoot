@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Ništa nije pronađeno."
+    "EMPTY_STATE": "Ništa nije pronađeno.",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
