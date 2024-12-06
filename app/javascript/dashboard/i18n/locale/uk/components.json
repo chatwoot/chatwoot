@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Результатів не знайдено."
+    "EMPTY_STATE": "Результатів не знайдено.",
+    "SEARCHING": "Шукаємо..."
   },
   "DIALOG": {
     "BUTTONS": {
