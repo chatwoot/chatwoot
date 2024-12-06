@@ -61,15 +61,29 @@
         "COPY": "Copia"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificacions d'àudio",
-        "NOTE": "Activa les notificacions d'àudio al tauler per a missatges i converses nous.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Ningú",
           "MINE": "Assignat",
-          "ALL": "Totes"
+          "ALL": "Totes",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Esdeveniments d'alerta per a converses:",
+          "TITLE": "Esdeveniments d'alerta per a converses",
           "NONE": "Ningú",
           "ASSIGNED": "Converses assignades",
           "ALL_CONVERSATIONS": "Totes les converses"
@@ -81,7 +95,9 @@
           "TITLE": "Condicions d'alerta:",
           "CONDITION_ONE": "Envia alertes d'àudio només si la finestra del navegador no està activa",
           "CONDITION_TWO": "Envia alertes cada 30 segons fins que es llegeixin totes les converses assignades"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Llegir més"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificacions per correu electrònic",
