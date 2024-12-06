@@ -241,9 +241,9 @@ export default {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-solid-3/80 group"
     :class="{
-      'active animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500':
+      'active animate-card-select bg-n-alpha-2 dark:bg-n-solid-3/90 border-woot-500':
         isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
@@ -272,7 +272,7 @@ export default {
       size="40px"
     />
     <div
-      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-slate-50 dark:border-slate-800/75 w-[calc(100%-40px)]"
+      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)]"
     >
       <div class="flex justify-between">
         <InboxName v-if="showInboxName" :inbox="inbox" />
@@ -292,14 +292,14 @@ export default {
         </div>
       </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-n-slate-12"
       >
         {{ currentContact.name }}
       </h4>
       <MessagePreview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
-        class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-slate-700 dark:text-slate-200"
+        class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-n-slate-12"
       />
       <p
         v-else
