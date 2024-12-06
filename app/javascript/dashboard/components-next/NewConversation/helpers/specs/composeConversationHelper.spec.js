@@ -6,19 +6,6 @@ import * as helpers from '../composeConversationHelper';
 vi.mock('dashboard/api/contacts');
 
 describe('composeConversationHelper', () => {
-  describe('convertChannelTypeToLabel', () => {
-    it('converts channel type with namespace to capitalized label', () => {
-      expect(helpers.convertChannelTypeToLabel('Channel::Email')).toBe('Email');
-      expect(helpers.convertChannelTypeToLabel('Channel::Whatsapp')).toBe(
-        'Whatsapp'
-      );
-    });
-
-    it('returns original value if no namespace found', () => {
-      expect(helpers.convertChannelTypeToLabel('email')).toBe('email');
-    });
-  });
-
   describe('generateLabelForContactableInboxesList', () => {
     const contact = {
       name: 'John Doe',
@@ -59,7 +46,7 @@ describe('composeConversationHelper', () => {
           ...contact,
           channelType: 'Channel::Api',
         })
-      ).toBe('John Doe (Api)');
+      ).toBe('John Doe');
     });
   });
 
@@ -83,6 +70,7 @@ describe('composeConversationHelper', () => {
       const result = helpers.buildContactableInboxesList(inboxes);
       expect(result[0]).toMatchObject({
         id: 1,
+        icon: 'i-ri-mail-line',
         label: 'Email Inbox (support@example.com)',
         action: 'inbox',
         value: 1,

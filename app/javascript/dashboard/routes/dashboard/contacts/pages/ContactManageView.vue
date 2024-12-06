@@ -145,6 +145,7 @@ onMounted(() => {
             ref="contactMergeRef"
             :selected-contact="selectedContact"
             @go-to-contacts-list="goToContactsList"
+            @reset-tab="handleTabChange(CONTACT_TABS_OPTIONS[0])"
           />
         </template>
       </template>
