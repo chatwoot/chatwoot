@@ -481,7 +481,7 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel px-4">
+    <ul class="conversation-panel px-4 bg-n-background">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
