@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "검색 결과가 없습니다."
+    "EMPTY_STATE": "검색 결과가 없습니다.",
+    "SEARCHING": "검색중..."
   },
   "DIALOG": {
     "BUTTONS": {
