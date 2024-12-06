@@ -29,7 +29,7 @@ remove_stale_contact_inboxes_job.rb:
 
 # executed daily at 2230 UTC
 # which is our lowest traffic time
-remove_stale_redis_keys_job.rb:
-  cron: '30 22 * * *'
-  class: 'Internal::RemoveStaleRedisKeysJob'
-  queue: scheduled_jobs
+# remove_stale_redis_keys_job.rb:
+#   cron: '30 22 * * *'
+#   class: 'Internal::RemoveStaleRedisKeysJob'
+#   queue: scheduled_jobs
