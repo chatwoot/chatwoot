@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Поиск...",
-    "EMPTY_STATE": "Результаты не найдены."
+    "EMPTY_STATE": "Результаты не найдены.",
+    "SEARCHING": "Идёт поиск..."
   },
   "DIALOG": {
     "BUTTONS": {
