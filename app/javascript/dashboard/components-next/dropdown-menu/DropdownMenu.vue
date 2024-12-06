@@ -25,6 +25,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isSearching: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['action']);
@@ -81,7 +85,6 @@ onMounted(() => {
       }"
       :disabled="item.disabled"
       @click="handleAction(item)"
-      @keydown.enter="handleAction(item)"
     >
       <slot name="thumbnail" :item="item">
         <Avatar
@@ -102,7 +105,11 @@ onMounted(() => {
       v-if="filteredMenuItems.length === 0"
       class="text-sm text-n-slate-11 px-2 py-1.5"
     >
-      {{ t('DROPDOWN_MENU.EMPTY_STATE') }}
+      {{
+        isSearching
+          ? t('DROPDOWN_MENU.SEARCHING')
+          : t('DROPDOWN_MENU.EMPTY_STATE')
+      }}
     </div>
   </div>
 </template>
