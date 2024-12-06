@@ -3,6 +3,15 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
 
+const CHANNEL_PRIORITY = {
+  'Channel::Email': 1,
+  'Channel::Whatsapp': 2,
+  'Channel::Sms': 3,
+  'Channel::TwilioSms': 4,
+  'Channel::WebWidget': 5,
+  'Channel::Api': 6,
+};
+
 export const generateLabelForContactableInboxesList = ({
   name,
   email,
@@ -21,27 +30,49 @@ export const generateLabelForContactableInboxesList = ({
   return name;
 };
 
+const transformInbox = ({
+  name,
+  id,
+  email,
+  channelType,
+  phoneNumber,
+  ...rest
+}) => ({
+  id,
+  icon: getInboxIconByType(channelType, phoneNumber, 'line'),
+  label: generateLabelForContactableInboxesList({
+    name,
+    email,
+    channelType,
+    phoneNumber,
+  }),
+  action: 'inbox',
+  value: id,
+  name,
+  email,
+  phoneNumber,
+  channelType,
+  ...rest,
+});
+
+export const compareInboxes = (a, b) => {
+  // Channels that have no priority defined should come at the end.
+  const priorityA = CHANNEL_PRIORITY[a.channelType] || 999;
+  const priorityB = CHANNEL_PRIORITY[b.channelType] || 999;
+
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
+  }
+
+  const nameA = a.name || '';
+  const nameB = b.name || '';
+  return nameA.localeCompare(nameB);
+};
+
 export const buildContactableInboxesList = contactInboxes => {
   if (!contactInboxes) return [];
-  return contactInboxes.map(
-    ({ name, id, email, channelType, phoneNumber, ...rest }) => ({
-      id,
-      icon: getInboxIconByType(channelType, phoneNumber, 'line'),
-      label: generateLabelForContactableInboxesList({
-        name,
-        email,
-        channelType,
-        phoneNumber,
-      }),
-      action: 'inbox',
-      value: id,
-      name,
-      email,
-      phoneNumber,
-      channelType,
-      ...rest,
-    })
-  );
+
+  return contactInboxes.map(transformInbox).sort(compareInboxes);
 };
 
 export const getCapitalizedNameFromEmail = email => {
