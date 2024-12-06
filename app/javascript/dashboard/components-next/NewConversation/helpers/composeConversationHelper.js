@@ -1,4 +1,6 @@
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import camelcaseKeys from 'camelcase-keys';
+import ContactAPI from 'dashboard/api/contacts';
 
 export const convertChannelTypeToLabel = channelType => {
   const [, type] = channelType.split('::');
@@ -43,6 +45,18 @@ export const buildContactableInboxesList = contactInboxes => {
       ...rest,
     })
   );
+};
+
+export const getCapitalizedNameFromEmail = email => {
+  const name = email.match(/^([^@]*)@/)?.[1] || email.split('@')[0];
+  return name.charAt(0).toUpperCase() + name.slice(1);
+};
+
+export const processContactableInboxes = inboxes => {
+  return inboxes.map(inbox => ({
+    ...inbox.inbox,
+    sourceId: inbox.sourceId,
+  }));
 };
 
 export const prepareAttachmentPayload = (
@@ -115,4 +129,58 @@ export const prepareWhatsAppMessagePayload = ({
     message: { content: message, template_params: templateParams },
     assigneeId: currentUser.id,
   };
+};
+
+export const generateContactQuery = ({ keys = ['email'], query }) => {
+  return {
+    payload: keys.map(key => {
+      const filterPayload = {
+        attribute_key: key,
+        filter_operator: 'contains',
+        values: [query],
+        attribute_model: 'standard',
+      };
+      if (keys.findIndex(k => k === key) !== keys.length - 1) {
+        filterPayload.query_operator = 'or';
+      }
+      return filterPayload;
+    }),
+  };
+};
+
+// API Calls
+export const searchContacts = async ({ keys, query }) => {
+  const {
+    data: { payload },
+  } = await ContactAPI.filter(
+    undefined,
+    'name',
+    generateContactQuery({ keys, query })
+  );
+  return camelcaseKeys(payload, { deep: true });
+};
+
+export const createNewContact = async email => {
+  const payload = {
+    name: getCapitalizedNameFromEmail(email),
+    email,
+  };
+
+  const {
+    data: {
+      payload: { contact: newContact },
+    },
+  } = await ContactAPI.create(payload);
+
+  return camelcaseKeys(newContact, { deep: true });
+};
+
+export const fetchContactableInboxes = async contactId => {
+  const {
+    data: { payload: inboxes = [] },
+  } = await ContactAPI.getContactableInboxes(contactId);
+
+  const convertInboxesToCamelKeys = camelcaseKeys(inboxes, { deep: true });
+
+  return processContactableInboxes(convertInboxesToCamelKeys);
 };

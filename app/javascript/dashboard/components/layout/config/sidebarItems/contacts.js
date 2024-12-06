@@ -3,10 +3,12 @@ import { frontendURL } from '../../../../helper/URLHelper';
 const contacts = accountId => ({
   parentNav: 'contacts',
   routes: [
-    'contacts_dashboard',
+    'contacts_dashboard_index',
+    'contacts_dashboard_segments_index',
+    'contacts_dashboard_labels_index',
     'contacts_edit',
-    'contacts_segments_dashboard',
-    'contacts_labels_dashboard',
+    'contacts_edit_segment',
+    'contacts_edit_label',
   ],
   menuItems: [
     {
@@ -14,7 +16,7 @@ const contacts = accountId => ({
       label: 'ALL_CONTACTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/contacts`),
-      toStateName: 'contacts_dashboard',
+      toStateName: 'contacts_dashboard_index',
     },
   ],
 });

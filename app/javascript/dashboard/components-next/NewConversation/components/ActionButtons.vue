@@ -3,7 +3,7 @@ import { defineAsyncComponent, ref, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-// import { useFileUpload } from 'dashboard/composables/useFileUpload';
+import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -110,19 +110,10 @@ const onClickInsertEmoji = emoji => {
   emit('insertEmoji', emoji);
 };
 
-const useFileUpload = () => {
-  // Empty function for testing purposes
-  // TODO: Will use useFileUpload composable later
-  return {
-    onFileUpload: () => {},
-  };
-};
-
 const { onFileUpload } = useFileUpload({
   isATwilioSMSChannel: props.isTwilioSmsInbox,
   attachFile: ({ blob, file }) => {
     if (!file) return;
-
     const reader = new FileReader();
     reader.readAsDataURL(file.file);
     reader.onloadend = () => {
