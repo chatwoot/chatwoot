@@ -61,15 +61,29 @@
         "COPY": "Kopiëren"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notificaties",
-        "NOTE": "Audio-meldingen inschakelen in dashboard voor nieuwe berichten en gesprekken.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Geen",
           "MINE": "Assigned",
-          "ALL": "Allemaal"
+          "ALL": "Allemaal",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Geen",
           "ASSIGNED": "Toegewezen gesprekken",
           "ALL_CONVERSATIONS": "Alle gesprekken"
@@ -81,7 +95,9 @@
           "TITLE": "Voorwaarden voor notificaties:",
           "CONDITION_ONE": "Stuur alleen audio notificaties als het browservenster niet actief is",
           "CONDITION_TWO": "Verstuur notificaties om de 30 seconden tot alle toegewezen gesprekken zijn gelezen"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Meer lezen"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail notificaties",
