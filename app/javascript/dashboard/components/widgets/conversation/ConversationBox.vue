@@ -98,7 +98,7 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
+    class="conversation-details-wrap bg-n-background"
     :class="{ 'with-border-right': !isOnExpandedLayout }"
   >
     <ConversationHeader
@@ -112,7 +112,7 @@ export default {
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="-mt-px bg-white dashboard-app--tabs dark:bg-slate-900"
+      class="-mt-px bg-n-background !border-n-weak/50 dashboard-app--tabs"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -123,10 +123,7 @@ export default {
         :show-badge="false"
       />
     </woot-tabs>
-    <div
-      v-show="!activeIndex"
-      class="flex h-full min-h-0 m-0 bg-slate-25 dark:bg-slate-800"
-    >
+    <div v-show="!activeIndex" class="flex h-full min-h-0 m-0 bg-n-background">
       <MessagesView
         v-if="currentChat.id"
         :inbox-id="inboxId"

@@ -130,7 +130,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col items-center justify-between px-4 py-2 bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 md:flex-row"
+    class="flex flex-col items-center justify-between px-4 py-2 border-b bg-n-background border-n-weak/50 dark:border-n-background/50 md:flex-row"
   >
     <div
       class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
