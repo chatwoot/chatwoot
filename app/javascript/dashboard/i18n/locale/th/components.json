@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "ไม่พบผลการค้นหา"
+    "EMPTY_STATE": "ไม่พบผลการค้นหา",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
