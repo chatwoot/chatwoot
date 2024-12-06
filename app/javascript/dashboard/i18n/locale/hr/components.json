@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Nisu pronađeni rezultati."
+    "EMPTY_STATE": "Nisu pronađeni rezultati.",
+    "SEARCHING": "Tražim..."
   },
   "DIALOG": {
     "BUTTONS": {
