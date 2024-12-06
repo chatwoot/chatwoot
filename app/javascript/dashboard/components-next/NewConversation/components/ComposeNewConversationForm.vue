@@ -141,6 +141,7 @@ const isAnyDropdownActive = computed(() => {
 });
 
 const handleContactSearch = value => {
+  showContactsDropdown.value = true;
   emit('searchContacts', {
     keys: ['email', 'phone_number', 'name'],
     query: value,
