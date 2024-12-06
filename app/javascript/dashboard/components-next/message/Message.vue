@@ -311,7 +311,11 @@ provideMessageContext({
         v-if="!shouldGroupWithNext && shouldShowAvatar"
         class="[grid-area:avatar] flex items-end"
       >
-        <Avatar :name="sender ? sender.name : ''" src="" :size="24" />
+        <Avatar
+          :name="sender ? sender.name : ''"
+          :src="sender.thumbnail"
+          :size="24"
+        />
       </div>
       <div
         class="[grid-area:bubble]"
