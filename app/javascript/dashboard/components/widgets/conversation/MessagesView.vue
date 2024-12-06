@@ -4,10 +4,12 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
+// import Message from './Message.vue';
+import NextMessage from 'next/message/Message.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -34,9 +36,25 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
+function shouldGroupWithNext(index, messages) {
+  if (index === messages.length - 1) return false;
+
+  const current = messages[index];
+  const next = messages[index + 1];
+
+  if (next.status === 'failed') return false;
+
+  const nextSenderId = next.senderId ?? next.sender?.id;
+  const currentSenderId = current.senderId ?? current.sender?.id;
+  if (currentSenderId !== nextSenderId) return false;
+
+  // Check if messages are in the same minute by rounding down to nearest minute
+  return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
+}
+
 export default {
   components: {
-    Message,
+    NextMessage,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -106,6 +124,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -153,15 +172,18 @@ export default {
       return messages;
     },
     readMessages() {
-      return getReadMessages(
-        this.getMessages,
-        this.currentChat.agent_last_seen_at
+      return useCamelCase(
+        getReadMessages(this.getMessages, this.currentChat.agent_last_seen_at),
+        { deep: true }
       );
     },
     unReadMessages() {
-      return getUnreadMessages(
-        this.getMessages,
-        this.currentChat.agent_last_seen_at
+      return useCamelCase(
+        getUnreadMessages(
+          this.getMessages,
+          this.currentChat.agent_last_seen_at
+        ),
+        { deep: true }
       );
     },
     shouldShowSpinner() {
@@ -436,11 +458,10 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
     getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
+      if (!parentMessage) return null;
+      const inReplyToMessageId = parentMessage.contentAttributes?.inReplyTo;
+      if (!inReplyToMessageId) return null;
 
       return this.currentChat?.messages.find(message => {
         if (message.id === inReplyToMessageId) {
@@ -449,6 +470,7 @@ export default {
         return false;
       });
     },
+    shouldGroupWithNext: shouldGroupWithNext,
   },
 };
 </script>
@@ -475,27 +497,21 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <ul class="conversation-panel px-4 bg-n-background">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <Message
-        v-for="message in readMessages"
+      <NextMessage
+        v-for="(message, index) in readMessages"
         :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        v-bind="message"
         :in-reply-to="getInReplyToMessage(message)"
+        :group-with-next="shouldGroupWithNext(index, readMessages)"
+        :current-user-id="currentUserId"
+        data-clarity-mask="True"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -507,19 +523,14 @@ export default {
           }}
         </span>
       </li>
-      <Message
-        v-for="message in unReadMessages"
+      <NextMessage
+        v-for="(message, index) in unReadMessages"
         :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        v-bind="message"
         :in-reply-to="getInReplyToMessage(message)"
+        :group-with-next="shouldGroupWithNext(index, unReadMessages)"
+        :current-user-id="currentUserId"
+        data-clarity-mask="True"
       />
       <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
