@@ -61,15 +61,29 @@
         "COPY": "Copiază"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificări audio",
-        "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Nimic",
           "MINE": "Assigned",
-          "ALL": "Toate"
+          "ALL": "Toate",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Nimic",
           "ASSIGNED": "Conversații atribuite",
           "ALL_CONVERSATIONS": "Toate conversațiile"
@@ -81,7 +95,9 @@
           "TITLE": "Condiții de alertă:",
           "CONDITION_ONE": "Trimiteți alerte audio numai dacă fereastra browserului nu este activă",
           "CONDITION_TWO": "Trimiteți alerte la fiecare 30 de ani până când toate conversațiile atribuite sunt citite"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Citeşte mai mult"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări prin e-mail",
