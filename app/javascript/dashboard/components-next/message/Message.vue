@@ -21,10 +21,11 @@ import VideoBubble from './bubbles/Video.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
+import UnsupportedBubble from './bubbles/Unsupported.vue';
+import ContactBubble from './bubbles/Contact.vue';
 const LocationBubble = defineAsyncComponent(
   () => import('./bubbles/Location.vue')
 );
-import UnsupportedBubble from './bubbles/Unsupported.vue';
 
 import MessageError from './MessageError.vue';
 import MessageMeta from './MessageMeta.vue';
@@ -253,14 +254,19 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
-  if (props.attachments.length === 1 && !props.content) {
+  if (props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
-    if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
-    if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
-    if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
-    if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
-    if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
-    if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
+
+    if (!props.content) {
+      if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
+      if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
+      if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
+      if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
+      if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
+      if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
+    }
+    // Attachment content is the name of the contact
+    if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;
   }
 
   if (props.attachments.length > 1 && !props.content) {
