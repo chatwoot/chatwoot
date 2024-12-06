@@ -459,9 +459,9 @@ export default {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
     getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
+      if (!parentMessage) return null;
+      const inReplyToMessageId = parentMessage.contentAttributes?.inReplyTo;
+      if (!inReplyToMessageId) return null;
 
       return this.currentChat?.messages.find(message => {
         if (message.id === inReplyToMessageId) {
@@ -508,6 +508,7 @@ export default {
         v-for="(message, index) in readMessages"
         :key="message.id"
         v-bind="message"
+        :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, readMessages)"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
@@ -526,6 +527,7 @@ export default {
         v-for="(message, index) in unReadMessages"
         :key="message.id"
         v-bind="message"
+        :in-reply-to="getInReplyToMessage(message)"
         :group-with-next="shouldGroupWithNext(index, unReadMessages)"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
