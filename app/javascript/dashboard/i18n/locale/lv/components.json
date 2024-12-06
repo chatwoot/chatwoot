@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Meklēt...",
-    "EMPTY_STATE": "Nav atrasts."
+    "EMPTY_STATE": "Nav atrasts.",
+    "SEARCHING": "Meklēšana..."
   },
   "DIALOG": {
     "BUTTONS": {
