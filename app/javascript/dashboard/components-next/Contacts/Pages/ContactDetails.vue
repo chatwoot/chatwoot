@@ -70,6 +70,10 @@ const updateContact = async () => {
   try {
     const { customAttributes, ...basicContactData } = contactData.value;
     await store.dispatch('contacts/update', basicContactData);
+    await store.dispatch(
+      'contacts/fetchContactableInbox',
+      props.selectedContact.id
+    );
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
