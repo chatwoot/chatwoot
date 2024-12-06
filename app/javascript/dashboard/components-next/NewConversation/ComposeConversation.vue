@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { vOnClickOutside } from '@vueuse/components';
 import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -20,6 +21,10 @@ const props = defineProps({
   alignPosition: {
     type: String,
     default: 'left',
+  },
+  isFromSidebar: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -149,6 +154,7 @@ const toggle = () => {
 watch(
   activeContact,
   () => {
+    if (props.isFromSidebar) return;
     if (activeContact.value && contactId.value) {
       // Add null check for contactInboxes
       const contactInboxes = activeContact.value?.contactInboxes || [];
@@ -177,7 +183,10 @@ useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div class="relative z-40">
+  <div
+    v-on-click-outside="() => (showComposeNewConversation = false)"
+    class="relative z-40"
+  >
     <slot
       name="trigger"
       :is-open="showComposeNewConversation"

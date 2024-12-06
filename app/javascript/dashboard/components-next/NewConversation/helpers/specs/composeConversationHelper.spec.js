@@ -297,6 +297,70 @@ describe('composeConversationHelper', () => {
         });
       });
 
+      it('searches contacts and returns only contacts with email or phone number', async () => {
+        const mockPayload = [
+          {
+            id: 1,
+            name: 'John Doe',
+            email: 'john@example.com',
+            phone_number: '+1234567890',
+            created_at: '2023-01-01',
+          },
+          {
+            id: 2,
+            name: 'Jane Doe',
+            email: null,
+            phone_number: null,
+            created_at: '2023-01-01',
+          },
+          {
+            id: 3,
+            name: 'Bob Smith',
+            email: 'bob@example.com',
+            phone_number: null,
+            created_at: '2023-01-01',
+          },
+        ];
+
+        ContactAPI.filter.mockResolvedValue({
+          data: { payload: mockPayload },
+        });
+
+        const result = await helpers.searchContacts({
+          keys: ['email'],
+          query: 'john',
+        });
+
+        // Should only return contacts with either email or phone number
+        expect(result).toEqual([
+          {
+            id: 1,
+            name: 'John Doe',
+            email: 'john@example.com',
+            phoneNumber: '+1234567890',
+            createdAt: '2023-01-01',
+          },
+          {
+            id: 3,
+            name: 'Bob Smith',
+            email: 'bob@example.com',
+            phoneNumber: null,
+            createdAt: '2023-01-01',
+          },
+        ]);
+
+        expect(ContactAPI.filter).toHaveBeenCalledWith(undefined, 'name', {
+          payload: [
+            {
+              attribute_key: 'email',
+              filter_operator: 'contains',
+              values: ['john'],
+              attribute_model: 'standard',
+            },
+          ],
+        });
+      });
+
       it('handles empty search results', async () => {
         ContactAPI.filter.mockResolvedValue({
           data: { payload: [] },
@@ -310,6 +374,8 @@ describe('composeConversationHelper', () => {
         const mockPayload = [
           {
             id: 1,
+            name: 'John Doe',
+            phone_number: '+1234567890',
             contact_inboxes: [
               {
                 inbox_id: 1,
@@ -332,6 +398,8 @@ describe('composeConversationHelper', () => {
         expect(result).toEqual([
           {
             id: 1,
+            name: 'John Doe',
+            phoneNumber: '+1234567890',
             contactInboxes: [
               {
                 inboxId: 1,

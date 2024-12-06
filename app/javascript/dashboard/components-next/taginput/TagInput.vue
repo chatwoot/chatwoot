@@ -81,17 +81,19 @@ const filteredMenuItems = computed(() => {
     item => !tags.value.includes(item.label)
   );
 
-  // Only show typed value as suggestion if:
+  // Show typed value as suggestion only if:
   // 1. There's a value being typed
   // 2. The value isn't already in the tags
-  // 3. There are no menu items available
+  // 3. Email validation passes (if type is email) and There are no menu items available
   const trimmedNewTag = newTag.value.trim();
-  if (
+  const shouldShowTypedValue =
     trimmedNewTag &&
     !tags.value.includes(trimmedNewTag) &&
+    !props.isLoading &&
     !availableMenuItems.length &&
-    !props.isLoading
-  ) {
+    (props.type === 'email' ? !isNewTagInValidType.value : true);
+
+  if (shouldShowTypedValue) {
     return [
       {
         label: trimmedNewTag,
