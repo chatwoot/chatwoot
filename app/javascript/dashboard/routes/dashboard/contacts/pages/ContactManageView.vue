@@ -62,7 +62,7 @@ const goToContactsList = () => {
 
 const fetchActiveContact = async () => {
   if (route.params.contactId) {
-    store.dispatch('contacts/show', { id: route.params.contactId });
+    await store.dispatch('contacts/show', { id: route.params.contactId });
     await store.dispatch(
       'contacts/fetchContactableInbox',
       route.params.contactId

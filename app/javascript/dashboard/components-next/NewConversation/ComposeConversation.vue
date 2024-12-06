@@ -153,7 +153,6 @@ watch(
   activeContact,
   () => {
     if (activeContact.value && props.contactId) {
-      // Add null check for contactInboxes
       const contactInboxes = activeContact.value?.contactInboxes || [];
       selectedContact.value = {
         ...activeContact.value,
