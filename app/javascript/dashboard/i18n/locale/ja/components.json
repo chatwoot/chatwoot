@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "該当結果が見つかりませんでした。"
+    "EMPTY_STATE": "該当結果が見つかりませんでした。",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
