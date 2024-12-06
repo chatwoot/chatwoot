@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
+import { useRouter, useRoute } from 'vue-router';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -28,6 +30,9 @@ const props = defineProps({
   },
 });
 
+const router = useRouter();
+const route = useRoute();
+
 const currentContact = computed(() => props.contact);
 
 const currentContactName = computed(() => currentContact.value?.name);
@@ -54,11 +59,31 @@ const showMessagePreviewWithoutMeta = computed(() => {
   const { slaPolicyId, labels = [] } = props.conversation;
   return !slaPolicyId && labels.length === 0;
 });
+
+const onCardClick = e => {
+  const path = frontendURL(
+    conversationUrl({
+      accountId: route.params.accountId,
+      id: props.conversation.id,
+    })
+  );
+
+  if (e.metaKey || e.ctrlKey) {
+    window.open(
+      window.chatwootConfig.hostURL + path,
+      '_blank',
+      'noopener noreferrer nofollow'
+    );
+    return;
+  }
+  router.push({ path });
+};
 </script>
 
 <template>
   <div
-    class="flex w-full gap-3 px-3 py-4 transition-colors duration-300 ease-in-out rounded-xl"
+    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
+    @click="onCardClick"
   >
     <Avatar
       :name="currentContactName"
@@ -75,7 +100,7 @@ const showMessagePreviewWithoutMeta = computed(() => {
         <div class="flex items-center gap-2">
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
-            v-tooltip.top-start="inboxName"
+            v-tooltip.left="inboxName"
             class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
           >
             <Icon
