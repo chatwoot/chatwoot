@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Không tìm thấy kết quả."
+    "EMPTY_STATE": "Không tìm thấy kết quả.",
+    "SEARCHING": "Đang tìm kiếm..."
   },
   "DIALOG": {
     "BUTTONS": {
