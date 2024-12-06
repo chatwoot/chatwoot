@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { debounce } from '@chatwoot/utils';
@@ -21,9 +21,12 @@ const props = defineProps({
     type: String,
     default: 'left',
   },
+  contactId: {
+    type: String,
+    default: null,
+  },
 });
 
-const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
@@ -44,8 +47,8 @@ const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
 );
-const contactId = computed(() => route.params.contactId || null);
-const activeContact = computed(() => contactById.value(contactId.value));
+
+const activeContact = computed(() => contactById.value(props.contactId));
 
 const composePopoverClass = computed(() => {
   return props.alignPosition === 'right'
@@ -149,7 +152,7 @@ const toggle = () => {
 watch(
   activeContact,
   () => {
-    if (activeContact.value && contactId.value) {
+    if (activeContact.value && props.contactId) {
       // Add null check for contactInboxes
       const contactInboxes = activeContact.value?.contactInboxes || [];
       selectedContact.value = {
@@ -177,7 +180,10 @@ useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div class="relative z-40">
+  <div
+    v-on-click-outside="() => (showComposeNewConversation = false)"
+    class="relative z-40"
+  >
     <slot
       name="trigger"
       :is-open="showComposeNewConversation"

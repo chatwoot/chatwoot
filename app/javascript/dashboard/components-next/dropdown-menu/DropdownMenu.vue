@@ -95,7 +95,7 @@ onMounted(() => {
           rounded-full
         />
       </slot>
-      <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
+      <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0 size-3.5" />
       <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
       <span v-if="item.label" class="min-w-0 text-sm truncate">{{
         item.label

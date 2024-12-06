@@ -11,18 +11,31 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
 };
 
-const INBOX_ICON_MAP = {
-  [INBOX_TYPES.WEB]: 'i-ri-global',
-  [INBOX_TYPES.FB]: 'i-ri-messenger',
-  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x',
-  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp',
-  [INBOX_TYPES.API]: 'i-ri-cloudy',
-  [INBOX_TYPES.EMAIL]: 'i-ri-mail',
-  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram',
-  [INBOX_TYPES.LINE]: 'i-ri-line',
+const INBOX_ICON_MAP_FILL = {
+  [INBOX_TYPES.WEB]: 'i-ri-global-fill',
+  [INBOX_TYPES.FB]: 'i-ri-messenger-fill',
+  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-fill',
+  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-fill',
+  [INBOX_TYPES.API]: 'i-ri-cloudy-fill',
+  [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
+  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
+  [INBOX_TYPES.LINE]: 'i-ri-line-fill',
 };
 
-const DEFAULT_ICON = 'i-ri-chat-1';
+const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
+
+const INBOX_ICON_MAP_LINE = {
+  [INBOX_TYPES.WEB]: 'i-ri-global-line',
+  [INBOX_TYPES.FB]: 'i-ri-messenger-line',
+  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-line',
+  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-line',
+  [INBOX_TYPES.API]: 'i-ri-cloudy-line',
+  [INBOX_TYPES.EMAIL]: 'i-ri-mail-line',
+  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-line',
+  [INBOX_TYPES.LINE]: 'i-ri-line-line',
+};
+
+const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
 export const getInboxSource = (type, phoneNumber, inbox) => {
   switch (type) {
@@ -111,15 +124,17 @@ export const getInboxClassByType = (type, phoneNumber) => {
 };
 
 export const getInboxIconByType = (type, phoneNumber, variant = 'fill') => {
+  const iconMap =
+    variant === 'fill' ? INBOX_ICON_MAP_FILL : INBOX_ICON_MAP_LINE;
+  const defaultIcon =
+    variant === 'fill' ? DEFAULT_ICON_FILL : DEFAULT_ICON_LINE;
+
   // Special case for Twilio (whatsapp and sms)
-  if (type === INBOX_TYPES.TWILIO) {
-    return phoneNumber?.startsWith('whatsapp')
-      ? `i-ri-whatsapp-${variant}`
-      : `i-ri-chat-1-${variant}`;
+  if (type === INBOX_TYPES.TWILIO && phoneNumber?.startsWith('whatsapp')) {
+    return iconMap[INBOX_TYPES.WHATSAPP];
   }
 
-  const baseIcon = INBOX_ICON_MAP[type] ?? DEFAULT_ICON;
-  return `${baseIcon}-${variant}`;
+  return iconMap[type] ?? defaultIcon;
 };
 
 export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
