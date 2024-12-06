@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Keine Ergebnisse gefunden."
+    "EMPTY_STATE": "Keine Ergebnisse gefunden.",
+    "SEARCHING": "Suchen..."
   },
   "DIALOG": {
     "BUTTONS": {
