@@ -211,12 +211,13 @@ describe('composeConversationHelper', () => {
             filter_operator: 'contains',
             values: [query],
             attribute_model: 'standard',
-            custom_attribute_type: '',
           },
         ],
       };
 
-      expect(helpers.generateContactQuery({ query })).toEqual(expected);
+      expect(helpers.generateContactQuery({ keys: ['email'], query })).toEqual(
+        expected
+      );
     });
 
     it('handles empty query', () => {
@@ -227,12 +228,40 @@ describe('composeConversationHelper', () => {
             filter_operator: 'contains',
             values: [''],
             attribute_model: 'standard',
-            custom_attribute_type: '',
           },
         ],
       };
 
-      expect(helpers.generateContactQuery({ query: '' })).toEqual(expected);
+      expect(
+        helpers.generateContactQuery({ keys: ['email'], query: '' })
+      ).toEqual(expected);
+    });
+
+    it('handles mutliple keys', () => {
+      const expected = {
+        payload: [
+          {
+            attribute_key: 'email',
+            filter_operator: 'contains',
+            values: ['john'],
+            attribute_model: 'standard',
+            query_operator: 'or',
+          },
+          {
+            attribute_key: 'phone_number',
+            filter_operator: 'contains',
+            values: ['john'],
+            attribute_model: 'standard',
+          },
+        ],
+      };
+
+      expect(
+        helpers.generateContactQuery({
+          keys: ['email', 'phone_number'],
+          query: 'john',
+        })
+      ).toEqual(expected);
     });
   });
 
@@ -253,7 +282,10 @@ describe('composeConversationHelper', () => {
           data: { payload: mockPayload },
         });
 
-        const result = await helpers.searchContacts('john');
+        const result = await helpers.searchContacts({
+          keys: ['email'],
+          query: 'john',
+        });
 
         expect(result).toEqual([
           {
@@ -265,11 +297,16 @@ describe('composeConversationHelper', () => {
           },
         ]);
 
-        expect(ContactAPI.filter).toHaveBeenCalledWith(
-          undefined,
-          'name',
-          helpers.generateContactQuery({ query: 'john' })
-        );
+        expect(ContactAPI.filter).toHaveBeenCalledWith(undefined, 'name', {
+          payload: [
+            {
+              attribute_key: 'email',
+              filter_operator: 'contains',
+              values: ['john'],
+              attribute_model: 'standard',
+            },
+          ],
+        });
       });
 
       it('handles empty search results', async () => {
