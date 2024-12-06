@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "نتیجه‌ای یافت نشد."
+    "EMPTY_STATE": "نتیجه‌ای یافت نشد.",
+    "SEARCHING": "در حال جستجو..."
   },
   "DIALOG": {
     "BUTTONS": {
