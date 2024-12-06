@@ -123,7 +123,10 @@ export default {
         :show-badge="false"
       />
     </woot-tabs>
-    <div v-show="!activeIndex" class="flex h-full min-h-0 m-0 bg-n-background">
+    <div
+      v-show="!activeIndex"
+      class="flex h-full min-h-0 m-0 bg-slate-25 dark:bg-slate-800"
+    >
       <MessagesView
         v-if="currentChat.id"
         :inbox-id="inboxId"
