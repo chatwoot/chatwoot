@@ -12,7 +12,7 @@ import {
   createNewContact,
   fetchContactableInboxes,
   processContactableInboxes,
-} from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
+} from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
 
@@ -57,6 +57,10 @@ const onContactSearch = debounce(
   false
 );
 
+const resetContacts = () => {
+  contacts.value = [];
+};
+
 const handleSelectedContact = async ({ value, action, ...rest }) => {
   let contact;
   if (action === 'create') {
@@ -86,7 +90,7 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
 
 const handleTargetInbox = inbox => {
   targetInbox.value = inbox;
-  onContactSearch('');
+  resetContacts();
 };
 
 const clearSelectedContact = () => {
@@ -98,7 +102,7 @@ const closeCompose = () => {
   showComposeNewConversation.value = false;
   selectedContact.value = null;
   targetInbox.value = null;
-  onContactSearch('');
+  resetContacts();
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
@@ -144,9 +148,7 @@ watch(
   { immediate: true, deep: true }
 );
 
-onMounted(() => {
-  onContactSearch('');
-});
+onMounted(() => resetContacts());
 
 const keyboardEvents = {
   Escape: {
@@ -181,7 +183,7 @@ useKeyboardEvents(keyboardEvents);
       :contact-conversations-ui-flags="uiFlags"
       :contacts-ui-flags="contactsUiFlags"
       @search-contacts="onContactSearch"
-      @reset-contact-search="onContactSearch('')"
+      @reset-contact-search="resetContacts"
       @update-selected-contact="handleSelectedContact"
       @update-target-inbox="handleTargetInbox"
       @clear-selected-contact="clearSelectedContact"

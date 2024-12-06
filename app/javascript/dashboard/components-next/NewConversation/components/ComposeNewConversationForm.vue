@@ -141,7 +141,10 @@ const isAnyDropdownActive = computed(() => {
 });
 
 const handleContactSearch = value => {
-  emit('searchContacts', value);
+  emit('searchContacts', {
+    keys: ['email', 'phone_number', 'name'],
+    query: value,
+  });
 };
 
 const handleDropdownUpdate = (type, value) => {
@@ -156,12 +159,12 @@ const handleDropdownUpdate = (type, value) => {
 
 const searchCcEmails = value => {
   showCcEmailsDropdown.value = true;
-  emit('searchContacts', value);
+  emit('searchContacts', { keys: ['email'], query: value });
 };
 
 const searchBccEmails = value => {
   showBccEmailsDropdown.value = true;
-  emit('searchContacts', value);
+  emit('searchContacts', { keys: ['email'], query: value });
 };
 
 const setSelectedContact = async ({ value, action, ...rest }) => {

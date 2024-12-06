@@ -56,7 +56,7 @@ const { t } = useI18n();
 const contactsList = computed(() => {
   return props.contacts?.map(({ name, id, thumbnail, email, ...rest }) => ({
     id,
-    label: `${name} (${email})`,
+    label: name + email ? `(${email})` : '',
     value: id,
     thumbnail: { name, src: thumbnail },
     ...rest,
@@ -96,8 +96,8 @@ const selectedContactLabel = computed(() => {
           {{
             isCreatingContact
               ? t(
-                  'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.CONTACT_CREATING'
-                )
+                'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.CONTACT_CREATING'
+              )
               : selectedContactLabel
           }}
         </span>
@@ -112,11 +112,10 @@ const selectedContactLabel = computed(() => {
       </div>
       <TagInput
         v-else
-        :placeholder="
-          t(
-            'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.TAG_INPUT_PLACEHOLDER'
-          )
-        "
+        :placeholder="t(
+          'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR.TAG_INPUT_PLACEHOLDER'
+        )
+          "
         mode="single"
         :menu-items="contactsList"
         :show-dropdown="showContactsDropdown"
@@ -125,11 +124,11 @@ const selectedContactLabel = computed(() => {
         allow-create
         type="email"
         class="flex-1 min-h-7"
-        :class="
-          hasErrors
+        :class="hasErrors
             ? '[&_input]:placeholder:!text-n-ruby-9 [&_input]:dark:placeholder:!text-n-ruby-9'
             : ''
-        "
+          "
+        focus-on-mount
         @focus="emit('updateDropdown', 'contacts', true)"
         @input="emit('searchContacts', $event)"
         @on-click-outside="emit('updateDropdown', 'contacts', false)"

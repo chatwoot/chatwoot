@@ -131,28 +131,31 @@ export const prepareWhatsAppMessagePayload = ({
   };
 };
 
-export const generateContactQuery = ({ query }) => {
+export const generateContactQuery = ({ keys = ['email'], query }) => {
   return {
-    payload: [
-      {
-        attribute_key: 'email',
+    payload: keys.map(key => {
+      const filterPayload = {
+        attribute_key: key,
         filter_operator: 'contains',
         values: [query],
         attribute_model: 'standard',
-        custom_attribute_type: '',
-      },
-    ],
+      };
+      if (keys.findIndex(k => k === key) !== keys.length - 1) {
+        filterPayload.query_operator = 'or';
+      }
+      return filterPayload;
+    }),
   };
 };
 
 // API Calls
-export const searchContacts = async query => {
+export const searchContacts = async ({ keys, query }) => {
   const {
     data: { payload },
   } = await ContactAPI.filter(
     undefined,
     'name',
-    generateContactQuery({ query })
+    generateContactQuery({ keys, query })
   );
   return camelcaseKeys(payload, { deep: true });
 };
