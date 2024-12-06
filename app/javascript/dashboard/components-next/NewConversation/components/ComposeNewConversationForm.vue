@@ -42,7 +42,6 @@ const emit = defineEmits([
   'updateTargetInbox',
   'clearSelectedContact',
   'createConversation',
-  'resetContactSearch',
 ]);
 
 const showContactsDropdown = ref(false);
@@ -59,8 +58,6 @@ const state = reactive({
   bccEmails: '',
   attachedFiles: [],
 });
-
-const showBccInput = ref(false);
 
 const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
@@ -157,11 +154,6 @@ const handleDropdownUpdate = (type, value) => {
   }
 };
 
-const toggleBccInput = () => {
-  emit('resetContactSearch');
-  showBccInput.value = !showBccInput.value;
-};
-
 const searchCcEmails = value => {
   showCcEmailsDropdown.value = true;
   emit('searchContacts', value);
@@ -177,7 +169,6 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
   emit('updateSelectedContact', { value, action, ...rest });
   showContactsDropdown.value = false;
   showInboxesDropdown.value = true;
-  emit('resetContactSearch');
 };
 
 const handleInboxAction = ({ value, action, ...rest }) => {
@@ -259,7 +250,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
 
 <template>
   <div
-    class="absolute right-0 w-[670px] z-50 mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="absolute right-0 w-[670px] mt-2 divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
   >
     <ContactSelector
       :contacts="contacts"
@@ -297,12 +288,10 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :contacts="contacts"
       :show-cc-emails-dropdown="showCcEmailsDropdown"
       :show-bcc-emails-dropdown="showBccEmailsDropdown"
-      :show-bcc-input="showBccInput"
       :is-loading="isLoading"
       :has-errors="validationStates.isSubjectInvalid"
       @search-cc-emails="searchCcEmails"
       @search-bcc-emails="searchBccEmails"
-      @toggle-bcc="toggleBccInput"
       @update-dropdown="handleDropdownUpdate"
     />
 

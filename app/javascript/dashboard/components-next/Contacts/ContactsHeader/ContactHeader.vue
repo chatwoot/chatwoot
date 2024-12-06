@@ -93,7 +93,7 @@ const emit = defineEmits([
               "
               color="slate"
               size="sm"
-              class="relative"
+              class="relative w-8"
               variant="ghost"
               @click="emit('filter')"
             >
@@ -109,7 +109,6 @@ const emit = defineEmits([
             icon="i-lucide-save"
             color="slate"
             size="sm"
-            class="relative"
             variant="ghost"
             @click="emit('createSegment')"
           />
@@ -118,7 +117,6 @@ const emit = defineEmits([
             icon="i-lucide-trash"
             color="slate"
             size="sm"
-            class="relative"
             variant="ghost"
             @click="emit('deleteSegment')"
           />
