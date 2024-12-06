@@ -61,15 +61,29 @@
         "COPY": "Salin"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Pemberitahuan Audio",
-        "NOTE": "Aktifkan pemberitahuan audio di dashboard untuk pesan dan percakapan baru.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Tidak ada",
           "MINE": "Assigned",
-          "ALL": "Semua"
+          "ALL": "Semua",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Tidak ada",
           "ASSIGNED": "Percakapan yang ditetapkan",
           "ALL_CONVERSATIONS": "Semua Percakapan"
@@ -81,7 +95,9 @@
           "TITLE": "Kondisi pemberitahuan:",
           "CONDITION_ONE": "Kirim pemberitahuan audio hanya jika jendela browser tidak aktif",
           "CONDITION_TWO": "Kirim pemberitahuan setiap 30 detik hingga semua percakapan yang ditetapkan dibaca"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Baca lebih lanjut"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
