@@ -393,6 +393,7 @@
       "SEARCH_TITLE": "Search contacts",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Message",
+      "SEND_MESSAGE": "Send message",
       "BREADCRUMB": {
         "CONTACTS": "Contacts"
       },
@@ -666,7 +667,7 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "To:",
-        "TAG_INPUT_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
+        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
@@ -677,9 +678,9 @@
         "SUBJECT_LABEL": "Subject :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
+        "CC_PLACEHOLDER": "Search for a contact with their email address",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Type an email address to search for the contact and press Enter",
+        "BCC_PLACEHOLDER": "Search for a contact with their email address",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

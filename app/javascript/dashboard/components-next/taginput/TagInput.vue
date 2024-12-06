@@ -216,9 +216,11 @@ const handleBlur = e => emit('blur', e);
         @click.stop="removeTag(index)"
       />
     </div>
-    <div class="relative flex items-center gap-2 flex-1 min-w-[200px] w-full">
+    <div
+      v-if="showInput || showDropdownMenu"
+      class="relative flex items-center gap-2 flex-1 min-w-[200px] w-full"
+    >
       <InlineInput
-        v-if="showInput"
         ref="tagInputRef"
         v-model="newTag"
         :placeholder="placeholder"
