@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "未找到结果。"
+    "EMPTY_STATE": "未找到结果。",
+    "SEARCHING": "搜索中..."
   },
   "DIALOG": {
     "BUTTONS": {
