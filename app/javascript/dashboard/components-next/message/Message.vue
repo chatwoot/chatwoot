@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
 import { provideMessageContext } from './provider.js';
 import {
   MESSAGE_TYPES,
@@ -21,7 +21,9 @@ import VideoBubble from './bubbles/Video.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import AttachmentsBubble from './bubbles/Attachments.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
-import LocationBubble from './bubbles/Location.vue';
+const LocationBubble = defineAsyncComponent(
+  () => import('./bubbles/Location.vue')
+);
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 
 import MessageError from './MessageError.vue';

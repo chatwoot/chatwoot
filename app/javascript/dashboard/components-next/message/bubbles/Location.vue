@@ -49,10 +49,9 @@ const mapUrl = computed(
   () => `https://maps.google.com/?q=${lat.value},${long.value}`
 );
 
-const setupMap = async () => {
-  await nextTick();
+const setupMap = () => {
   const map = new maplibregl.Map({
-    style: 'https://tiles.openfreemap.org/styles/liberty',
+    style: 'https://tiles.openfreemap.org/styles/positron',
     center: [long.value, lat.value],
     zoom: 9.5,
     container: 'map',
@@ -69,7 +68,10 @@ const setupMap = async () => {
   return map;
 };
 
-onMounted(setupMap);
+onMounted(async () => {
+  await nextTick();
+  setupMap();
+});
 </script>
 
 <template>
