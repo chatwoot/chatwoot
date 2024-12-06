@@ -61,15 +61,29 @@
         "COPY": "Копіювати"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Звукові сповіщення",
-        "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Нiчого",
           "MINE": "Призначено",
-          "ALL": "Всі"
+          "ALL": "Всі",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Сповіщення про події для розмов:",
+          "TITLE": "Сповіщення про події для розмов",
           "NONE": "Нiчого",
           "ASSIGNED": "Призначені розмови",
           "ALL_CONVERSATIONS": "Всі розмови"
@@ -81,7 +95,9 @@
           "TITLE": "Умови оповіщення:",
           "CONDITION_ONE": "Надсилати аудіосповіщення тільки якщо вікно браузера не активне",
           "CONDITION_TWO": "Надсилати сповіщення кожні 30 секунд, поки всі призначені розмови не будуть переглянуті"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Детальніше"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
