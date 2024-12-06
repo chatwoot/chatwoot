@@ -65,7 +65,14 @@ const contactsList = computed(() => {
 });
 
 const selectedContactLabel = computed(() => {
-  return `${props.selectedContact?.name} (${props.selectedContact?.email})`;
+  const { name, email = '', phoneNumber = '' } = props.selectedContact || {};
+  if (email) {
+    return `${name} (${email})`;
+  }
+  if (phoneNumber) {
+    return `${name} (${phoneNumber})`;
+  }
+  return name || '';
 });
 
 const errorClass = computed(() => {

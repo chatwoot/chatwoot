@@ -154,7 +154,12 @@ export const searchContacts = async ({ keys, query }) => {
     'name',
     generateContactQuery({ keys, query })
   );
-  return camelcaseKeys(payload, { deep: true });
+  const camelCasedPayload = camelcaseKeys(payload, { deep: true });
+  // Filter contacts that have either phone_number or email
+  const filteredPayload = camelCasedPayload?.filter(
+    contact => contact.phoneNumber || contact.email
+  );
+  return filteredPayload || [];
 };
 
 export const createNewContact = async email => {
