@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Δεν βρέθηκαν αποτελέσματα."
+    "EMPTY_STATE": "Δεν βρέθηκαν αποτελέσματα.",
+    "SEARCHING": "Αναζήτηση..."
   },
   "DIALOG": {
     "BUTTONS": {
