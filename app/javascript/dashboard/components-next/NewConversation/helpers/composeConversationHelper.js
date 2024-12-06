@@ -3,6 +3,15 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
 
+const CHANNEL_PRIORITY = {
+  'Channel::Email': 1,
+  'Channel::Whatsapp': 2,
+  'Channel::Sms': 3,
+  'Channel::TwilioSms': 4,
+  'Channel::WebWidget': 5,
+  'Channel::Api': 6,
+};
+
 export const generateLabelForContactableInboxesList = ({
   name,
   email,
@@ -21,27 +30,58 @@ export const generateLabelForContactableInboxesList = ({
   return name;
 };
 
+const transformInbox = ({
+  name,
+  id,
+  email,
+  channelType,
+  phoneNumber,
+  ...rest
+}) => ({
+  id,
+  icon: getInboxIconByType(channelType, phoneNumber, 'line'),
+  label: generateLabelForContactableInboxesList({
+    name,
+    email,
+    channelType,
+    phoneNumber,
+  }),
+  action: 'inbox',
+  value: id,
+  name,
+  email,
+  phoneNumber,
+  channelType,
+  ...rest,
+});
+
+const compareInboxNames = (a, b) => {
+  return (a.name || '').localeCompare(b.name || '');
+};
+
+const compareInboxesByPriority = (a, b) => {
+  const priorityA = CHANNEL_PRIORITY[a.channelType];
+  const priorityB = CHANNEL_PRIORITY[b.channelType];
+
+  // Both channels have priority
+  if (priorityA && priorityB) {
+    return priorityA !== priorityB
+      ? priorityA - priorityB
+      : compareInboxNames(a, b);
+  }
+
+  // Only one channel has priority
+  if (priorityA) return -1;
+  if (priorityB) return 1;
+
+  // Neither channel has priority
+  return compareInboxNames(a, b);
+};
+
 export const buildContactableInboxesList = contactInboxes => {
   if (!contactInboxes) return [];
-  return contactInboxes.map(
-    ({ name, id, email, channelType, phoneNumber, ...rest }) => ({
-      id,
-      icon: getInboxIconByType(channelType, phoneNumber, 'line'),
-      label: generateLabelForContactableInboxesList({
-        name,
-        email,
-        channelType,
-        phoneNumber,
-      }),
-      action: 'inbox',
-      value: id,
-      name,
-      email,
-      phoneNumber,
-      channelType,
-      ...rest,
-    })
-  );
+
+  return contactInboxes.map(transformInbox).sort(compareInboxesByPriority);
 };
 
 export const getCapitalizedNameFromEmail = email => {
