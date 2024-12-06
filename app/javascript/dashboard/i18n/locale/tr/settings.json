@@ -61,15 +61,29 @@
         "COPY": "Kopyala"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Sesli Bildirimler",
-        "NOTE": "Yeni mesajlar ve konuşmalar için panelde sesli bildirimleri etkinleştirin.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Hiç",
           "MINE": "Assigned",
-          "ALL": "Hepsi"
+          "ALL": "Hepsi",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Hiçbiri",
           "ASSIGNED": "Atanmış Konuşmalar",
           "ALL_CONVERSATIONS": "Tüm Konuşmalar"
@@ -81,7 +95,9 @@
           "TITLE": "Uyarı koşulları:",
           "CONDITION_ONE": "Tarayıcı penceresi etkin değilse sadece sesli uyarı gönder",
           "CONDITION_TWO": "Atanmış konuşmaların hepsi okunana kadar her 30 saniyede bir uyarı gönder"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Daha fazla bilgi edinin"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",
