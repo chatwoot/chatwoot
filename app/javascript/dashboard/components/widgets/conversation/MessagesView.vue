@@ -36,6 +36,22 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
+function shouldGroupWithNext(index, messages) {
+  if (index === messages.length - 1) return false;
+
+  const current = messages[index];
+  const next = messages[index + 1];
+
+  if (next.status === 'failed') return false;
+
+  const nextSenderId = next.senderId ?? next.sender?.id;
+  const currentSenderId = current.senderId ?? current.sender?.id;
+  if (currentSenderId !== nextSenderId) return false;
+
+  // Check if messages are in the same minute by rounding down to nearest minute
+  return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);
+}
+
 export default {
   components: {
     NextMessage,
@@ -442,7 +458,6 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
     getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
@@ -455,6 +470,7 @@ export default {
         return false;
       });
     },
+    shouldGroupWithNext: shouldGroupWithNext,
   },
 };
 </script>
@@ -489,9 +505,10 @@ export default {
         </li>
       </transition>
       <NextMessage
-        v-for="message in readMessages"
+        v-for="(message, index) in readMessages"
         :key="message.id"
         v-bind="message"
+        :group-with-next="shouldGroupWithNext(index, readMessages)"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
       />
@@ -506,9 +523,10 @@ export default {
         </span>
       </li>
       <NextMessage
-        v-for="message in unReadMessages"
+        v-for="(message, index) in unReadMessages"
         :key="message.id"
         v-bind="message"
+        :group-with-next="shouldGroupWithNext(index, unReadMessages)"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
       />
