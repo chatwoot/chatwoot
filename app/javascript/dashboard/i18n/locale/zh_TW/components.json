@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "查無結果。"
+    "EMPTY_STATE": "查無結果。",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
