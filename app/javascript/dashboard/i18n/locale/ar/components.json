@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "لم يتم العثور على النتائج."
+    "EMPTY_STATE": "لم يتم العثور على النتائج.",
+    "SEARCHING": "جاري البحث..."
   },
   "DIALOG": {
     "BUTTONS": {
