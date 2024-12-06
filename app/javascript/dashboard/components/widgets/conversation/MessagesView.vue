@@ -4,10 +4,12 @@ import { ref } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
+// import Message from './Message.vue';
+import NextMessage from 'next/message/Message.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -36,7 +38,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 
 export default {
   components: {
-    Message,
+    NextMessage,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -106,6 +108,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -153,15 +156,18 @@ export default {
       return messages;
     },
     readMessages() {
-      return getReadMessages(
-        this.getMessages,
-        this.currentChat.agent_last_seen_at
+      return useCamelCase(
+        getReadMessages(this.getMessages, this.currentChat.agent_last_seen_at),
+        { deep: true }
       );
     },
     unReadMessages() {
-      return getUnreadMessages(
-        this.getMessages,
-        this.currentChat.agent_last_seen_at
+      return useCamelCase(
+        getUnreadMessages(
+          this.getMessages,
+          this.currentChat.agent_last_seen_at
+        ),
+        { deep: true }
       );
     },
     shouldShowSpinner() {
@@ -475,27 +481,19 @@ export default {
         @click="onToggleContactPanel"
       />
     </div>
-    <ul class="conversation-panel">
+    <ul class="conversation-panel px-4">
       <transition name="slide-up">
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <li class="min-h-[4rem]">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <Message
+      <NextMessage
         v-for="message in readMessages"
         :key="message.id"
-        class="message--read ph-no-capture"
+        v-bind="message"
+        :current-user-id="currentUserId"
         data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
       />
       <li v-show="unreadMessageCount != 0" class="unread--toast">
         <span>
@@ -507,19 +505,12 @@ export default {
           }}
         </span>
       </li>
-      <Message
+      <NextMessage
         v-for="message in unReadMessages"
         :key="message.id"
-        class="message--unread ph-no-capture"
+        v-bind="message"
+        :current-user-id="currentUserId"
         data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
       />
       <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
