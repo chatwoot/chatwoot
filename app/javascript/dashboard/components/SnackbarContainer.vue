@@ -26,7 +26,13 @@ export default {
     emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage({ message, action }) {
+    onNewToastMessage({ message: originalMessage, action }) {
+      // FIX ME: This is a temporary workaround to pass string from functions
+      // that doesn't have the context of the VueApp.
+      const usei18n = action?.usei18n;
+      const duration = action?.duration || this.duration;
+      const message = usei18n ? this.$t(originalMessage) : originalMessage;
+
       this.snackMessages.push({
         key: new Date().getTime(),
         message,
@@ -34,7 +40,7 @@ export default {
       });
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
-      }, this.duration);
+      }, duration);
     },
   },
 };
