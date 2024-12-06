@@ -495,7 +495,7 @@ const menuItems = computed(() => {
           </span>
         </RouterLink>
         <ComposeConversation
-          class="[&>div]:!left-0 [&>div]:!right-[unset] z-50"
+          class="[&>div]:!left-0 [&>div]:!right-[unset] z-40"
         >
           <template #trigger="{ toggle }">
             <Button
