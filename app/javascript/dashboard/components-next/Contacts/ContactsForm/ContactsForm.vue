@@ -41,11 +41,11 @@ const FORM_CONFIG = {
 };
 
 const SOCIAL_CONFIG = {
-  FACEBOOK: 'i-ri-facebook-circle-fill',
-  GITHUB: 'i-ri-github-fill',
-  INSTAGRAM: 'i-ri-instagram-line',
   LINKEDIN: 'i-ri-linkedin-box-fill',
+  FACEBOOK: 'i-ri-facebook-circle-fill',
+  INSTAGRAM: 'i-ri-instagram-line',
   TWITTER: 'i-ri-twitter-x-fill',
+  GITHUB: 'i-ri-github-fill',
 };
 
 const defaultState = {
