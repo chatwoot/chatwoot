@@ -1,6 +1,10 @@
 <script setup>
 import { computed } from 'vue';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import wootConstants from 'dashboard/constants/globals';
+
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
+import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
 
 const props = defineProps({
   pageTitle: {
@@ -19,6 +23,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  isOnExpandedLayout: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const emit = defineEmits([
@@ -29,6 +37,8 @@ const emit = defineEmits([
   'filtersModal',
 ]);
 
+const { uiSettings, updateUISettings } = useUISettings();
+
 const onBasicFilterChange = (value, type) => {
   emit('basicFilterChange', value, type);
 };
@@ -36,11 +46,26 @@ const onBasicFilterChange = (value, type) => {
 const hasAppliedFiltersOrActiveFolders = computed(() => {
   return props.hasAppliedFilters || props.hasActiveFolders;
 });
+
+const toggleConversationLayout = () => {
+  const { LAYOUT_TYPES } = wootConstants;
+  const {
+    conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+  } = uiSettings.value;
+  const newViewType =
+    conversationDisplayType === LAYOUT_TYPES.CONDENSED
+      ? LAYOUT_TYPES.EXPANDED
+      : LAYOUT_TYPES.CONDENSED;
+  updateUISettings({
+    conversation_display_type: newViewType,
+    previously_used_conversation_display_type: newViewType,
+  });
+};
 </script>
 
 <template>
   <div
-    class="flex items-center justify-between px-4 py-0"
+    class="flex items-center justify-between px-4 pt-3 pb-0"
     :class="{
       'pb-3 border-b border-slate-75 dark:border-slate-700':
         hasAppliedFiltersOrActiveFolders,
@@ -71,7 +96,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
             icon="save"
             @click="emit('addFolders')"
           />
-          <div id="saveFilterTeleportTarget" class="absolute mt-2 z-40" />
+          <div id="saveFilterTeleportTarget" class="absolute z-40 mt-2" />
         </div>
 
         <woot-button
@@ -96,7 +121,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           />
           <div
             id="conversationFilterTeleportTarget"
-            class="absolute mt-2 z-40"
+            class="absolute z-40 mt-2"
           />
         </div>
         <woot-button
@@ -118,11 +143,15 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           size="tiny"
           @click="emit('filtersModal')"
         />
-        <div id="conversationFilterTeleportTarget" class="absolute mt-2 z-40" />
+        <div id="conversationFilterTeleportTarget" class="absolute z-40 mt-2" />
       </div>
       <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"
         @change-filter="onBasicFilterChange"
+      />
+      <SwitchLayout
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle="toggleConversationLayout"
       />
     </div>
   </div>

@@ -788,12 +788,12 @@ watch(conversationFilters, (newVal, oldVal) => {
       isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
     ]"
   >
-    <slot />
     <ChatListHeader
       :page-title="pageTitle"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
