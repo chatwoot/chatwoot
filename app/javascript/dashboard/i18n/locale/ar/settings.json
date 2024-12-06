@@ -61,15 +61,29 @@
         "COPY": "نسخ"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "الإشعارات الصوتية",
-        "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "لا شيء",
           "MINE": "المعين",
-          "ALL": "الكل"
+          "ALL": "الكل",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "تنبيه الأحداث للمحادثات:",
+          "TITLE": "تنبيه الأحداث للمحادثات",
           "NONE": "لا شيء",
           "ASSIGNED": "المحادثات المعينة",
           "ALL_CONVERSATIONS": "كل المحادثات"
@@ -81,7 +95,9 @@
           "TITLE": "شروط التنبيه:",
           "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
           "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "اقرأ المزيد"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
