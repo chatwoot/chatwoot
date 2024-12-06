@@ -12,17 +12,17 @@ export const INBOX_TYPES = {
 };
 
 const INBOX_ICON_MAP = {
-  [INBOX_TYPES.WEB]: 'i-ri-global-fill',
-  [INBOX_TYPES.FB]: 'i-ri-messenger-fill',
-  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-fill',
-  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-fill',
-  [INBOX_TYPES.API]: 'i-ri-cloudy-fill',
-  [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
-  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
-  [INBOX_TYPES.LINE]: 'i-ri-line-fill',
+  [INBOX_TYPES.WEB]: 'i-ri-global',
+  [INBOX_TYPES.FB]: 'i-ri-messenger',
+  [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x',
+  [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp',
+  [INBOX_TYPES.API]: 'i-ri-cloudy',
+  [INBOX_TYPES.EMAIL]: 'i-ri-mail',
+  [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram',
+  [INBOX_TYPES.LINE]: 'i-ri-line',
 };
 
-const DEFAULT_ICON = 'i-ri-chat-1-fill';
+const DEFAULT_ICON = 'i-ri-chat-1';
 
 export const getInboxSource = (type, phoneNumber, inbox) => {
   switch (type) {
@@ -110,15 +110,16 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
-export const getInboxIconByType = (type, phoneNumber) => {
+export const getInboxIconByType = (type, phoneNumber, variant = 'fill') => {
   // Special case for Twilio (whatsapp and sms)
   if (type === INBOX_TYPES.TWILIO) {
     return phoneNumber?.startsWith('whatsapp')
-      ? 'i-ri-whatsapp-fill'
-      : 'i-ri-chat-1-fill';
+      ? `i-ri-whatsapp-${variant}`
+      : `i-ri-chat-1-${variant}`;
   }
 
-  return INBOX_ICON_MAP[type] ?? DEFAULT_ICON;
+  const baseIcon = INBOX_ICON_MAP[type] ?? DEFAULT_ICON;
+  return `${baseIcon}-${variant}`;
 };
 
 export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
