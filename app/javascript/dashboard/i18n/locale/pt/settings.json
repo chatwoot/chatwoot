@@ -61,15 +61,29 @@
         "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificações de som",
-        "NOTE": "Ativar notificações de som no painel quando surgirem novas mensagens e conversas.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Nenhuma",
           "MINE": "Atribuída",
-          "ALL": "Todas"
+          "ALL": "Todas",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta para conversas:",
+          "TITLE": "Eventos de alerta para conversas",
           "NONE": "Nenhuma",
           "ASSIGNED": "Conversas atribuídas",
           "ALL_CONVERSATIONS": "Todas as conversas"
@@ -81,7 +95,9 @@
           "TITLE": "Condições de alerta:",
           "CONDITION_ONE": "Enviar alertas de áudio apenas quando a janela do navegador não estiver ativa",
           "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Ler mais"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
