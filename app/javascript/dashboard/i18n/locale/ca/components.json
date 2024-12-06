@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "No s'han trobat resultats."
+    "EMPTY_STATE": "No s'han trobat resultats.",
+    "SEARCHING": "S'està cercant..."
   },
   "DIALOG": {
     "BUTTONS": {
