@@ -15,7 +15,7 @@ const contacts = accountId => ({
       icon: 'contact-card-group',
       label: 'ALL_CONTACTS',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/contacts`),
+      toState: frontendURL(`accounts/${accountId}/contacts?page=1`),
       toStateName: 'contacts_dashboard_index',
     },
   ],
