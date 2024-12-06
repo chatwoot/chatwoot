@@ -61,7 +61,7 @@ const updateSelected = newValue => {
         />
       </slot>
     </template>
-    <DropdownBody class="top-0 min-w-48 z-[999]">
+    <DropdownBody class="top-0 min-w-48 z-50" strong>
       <DropdownSection class="max-h-80 overflow-scroll">
         <DropdownItem
           v-for="option in options"

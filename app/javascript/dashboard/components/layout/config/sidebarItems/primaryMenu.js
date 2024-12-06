@@ -31,7 +31,7 @@ const primaryMenuItems = accountId => [
     label: 'CONTACTS',
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
-    toStateName: 'contacts_dashboard',
+    toStateName: 'contacts_dashboard_index',
   },
   {
     icon: 'arrow-trending-lines',

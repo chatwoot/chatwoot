@@ -83,7 +83,7 @@ export default {
     this.filterTypes = [...this.filterTypes, ...filterTypes];
     this.filterGroups = filterGroups;
 
-    if (this.getAppliedContactFilters.length) {
+    if (this.getAppliedContactFilters.length && !this.isSegmentsView) {
       this.appliedFilters = [...this.getAppliedContactFilters];
     } else if (!this.isSegmentsView) {
       this.appliedFilters.push({
@@ -318,7 +318,7 @@ export default {
           @reset-filter="resetFilter(i, appliedFilters[i])"
           @remove-filter="removeFilter(i)"
         />
-        <div class="mt-4">
+        <div class="flex items-center gap-2 mt-4">
           <woot-button
             icon="add"
             color-scheme="success"
