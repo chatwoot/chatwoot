@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Žiadne výsledky neboli nájdené."
+    "EMPTY_STATE": "Žiadne výsledky neboli nájdené.",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
