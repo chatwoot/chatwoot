@@ -13,13 +13,11 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
-import SidebarNotificationBell from './SidebarNotificationBell.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const emit = defineEmits([
-  'openNotificationPanel',
   'closeKeyShortcutModal',
   'openKeyShortcutModal',
   'showCreateAccountModal',
@@ -522,12 +520,6 @@ const menuItems = computed(() => {
       <SidebarProfileMenu
         @open-key-shortcut-modal="emit('openKeyShortcutModal')"
       />
-      <div v-if="false" class="flex items-center">
-        <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
-        <SidebarNotificationBell
-          @open-notification-panel="emit('openNotificationPanel')"
-        />
-      </div>
     </section>
   </aside>
 </template>
