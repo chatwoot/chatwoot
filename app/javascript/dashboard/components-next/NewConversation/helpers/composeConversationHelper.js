@@ -1,11 +1,7 @@
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
-
-export const convertChannelTypeToLabel = channelType => {
-  const [, type] = channelType.split('::');
-  return type ? type.charAt(0).toUpperCase() + type.slice(1) : channelType;
-};
 
 export const generateLabelForContactableInboxesList = ({
   name,
@@ -22,7 +18,7 @@ export const generateLabelForContactableInboxesList = ({
   ) {
     return `${name} (${phoneNumber})`;
   }
-  return `${name} (${convertChannelTypeToLabel(channelType)})`;
+  return name;
 };
 
 export const buildContactableInboxesList = contactInboxes => {
@@ -30,6 +26,7 @@ export const buildContactableInboxesList = contactInboxes => {
   return contactInboxes.map(
     ({ name, id, email, channelType, phoneNumber, ...rest }) => ({
       id,
+      icon: getInboxIconByType(channelType, phoneNumber, 'line'),
       label: generateLabelForContactableInboxesList({
         name,
         email,
