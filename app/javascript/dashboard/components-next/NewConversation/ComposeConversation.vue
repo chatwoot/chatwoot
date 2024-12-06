@@ -16,6 +16,13 @@ import {
 
 import ComposeNewConversationForm from 'dashboard/components-next/NewConversation/components/ComposeNewConversationForm.vue';
 
+const props = defineProps({
+  alignPosition: {
+    type: String,
+    default: 'left',
+  },
+});
+
 const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
@@ -39,6 +46,12 @@ const directUploadsEnabled = computed(
 );
 const contactId = computed(() => route.params.contactId || null);
 const activeContact = computed(() => contactById.value(contactId.value));
+
+const composePopoverClass = computed(() => {
+  return props.alignPosition === 'right'
+    ? 'absolute ltr:left-0 ltr:right-[unset] rtl:right-0 rtl:left-[unset]'
+    : 'absolute rtl:left-0 rtl:right-[unset] ltr:right-0 ltr:left-[unset]';
+});
 
 const onContactSearch = debounce(
   async query => {
@@ -159,11 +172,12 @@ const keyboardEvents = {
     },
   },
 };
+
 useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative z-40">
     <slot
       name="trigger"
       :is-open="showComposeNewConversation"
@@ -182,6 +196,7 @@ useKeyboardEvents(keyboardEvents);
       :is-direct-uploads-enabled="directUploadsEnabled"
       :contact-conversations-ui-flags="uiFlags"
       :contacts-ui-flags="contactsUiFlags"
+      :class="composePopoverClass"
       @search-contacts="onContactSearch"
       @reset-contact-search="resetContacts"
       @update-selected-contact="handleSelectedContact"
