@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Niciun rezultat găsit."
+    "EMPTY_STATE": "Niciun rezultat găsit.",
+    "SEARCHING": "In căutare..."
   },
   "DIALOG": {
     "BUTTONS": {
