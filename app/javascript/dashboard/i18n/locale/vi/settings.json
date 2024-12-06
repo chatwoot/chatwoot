@@ -61,15 +61,29 @@
         "COPY": "Sao Chép"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Âm thanh Thông báo",
-        "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Không có",
           "MINE": "Assigned",
-          "ALL": "Tất cả"
+          "ALL": "Tất cả",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Không có",
           "ASSIGNED": "Cuộc trò chuyện được phân công",
           "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
@@ -81,7 +95,9 @@
           "TITLE": "Điều kiện cảnh báo:",
           "CONDITION_ONE": "Chỉ gửi cảnh báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
           "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",
