@@ -36,7 +36,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['enterPress', 'input', 'blur']);
+const emit = defineEmits(['enterPress', 'input', 'blur', 'focus']);
 
 const modelValue = defineModel({
   type: [String, Number],
@@ -56,6 +56,10 @@ const handleInput = event => {
 
 const handleBlur = event => {
   emit('blur', event.target.value);
+};
+
+const handleFocus = event => {
+  emit('focus', event.target.value);
 };
 
 onMounted(() => {
@@ -95,6 +99,7 @@ defineExpose({
       :class="customInputClass"
       class="flex w-full reset-base text-sm h-6 !mb-0 border-0 rounded-none bg-transparent dark:bg-transparent placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 dark:text-n-slate-12 transition-all duration-500 ease-in-out"
       @input="handleInput"
+      @focus="handleFocus"
       @blur="handleBlur"
       @keydown.enter.prevent="onEnterPress"
     />
