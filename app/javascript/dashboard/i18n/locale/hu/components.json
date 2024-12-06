@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Nincs találat."
+    "EMPTY_STATE": "Nincs találat.",
+    "SEARCHING": "Keresés..."
   },
   "DIALOG": {
     "BUTTONS": {
