@@ -49,7 +49,9 @@ const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
 );
-const contactId = computed(() => route.params.contactId || null);
+const contactId = computed(() =>
+  props.isFromSidebar ? null : route.params.contactId
+);
 const activeContact = computed(() => contactById.value(contactId.value));
 
 const composePopoverClass = computed(() => {
