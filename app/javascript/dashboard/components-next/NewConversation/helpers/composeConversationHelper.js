@@ -55,33 +55,24 @@ const transformInbox = ({
   ...rest,
 });
 
-const compareInboxNames = (a, b) => {
-  return (a.name || '').localeCompare(b.name || '');
-};
+export const compareInboxes = (a, b) => {
+  // Channels that have no priority defined should come at the end.
+  const priorityA = CHANNEL_PRIORITY[a.channelType] || 999;
+  const priorityB = CHANNEL_PRIORITY[b.channelType] || 999;
 
-const compareInboxesByPriority = (a, b) => {
-  const priorityA = CHANNEL_PRIORITY[a.channelType];
-  const priorityB = CHANNEL_PRIORITY[b.channelType];
-
-  // Both channels have priority
-  if (priorityA && priorityB) {
-    return priorityA !== priorityB
-      ? priorityA - priorityB
-      : compareInboxNames(a, b);
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
   }
 
-  // Only one channel has priority
-  if (priorityA) return -1;
-  if (priorityB) return 1;
-
-  // Neither channel has priority
-  return compareInboxNames(a, b);
+  const nameA = a.name || '';
+  const nameB = b.name || '';
+  return nameA.localeCompare(nameB);
 };
 
 export const buildContactableInboxesList = contactInboxes => {
   if (!contactInboxes) return [];
 
-  return contactInboxes.map(transformInbox).sort(compareInboxesByPriority);
+  return contactInboxes.map(transformInbox).sort(compareInboxes);
 };
 
 export const getCapitalizedNameFromEmail = email => {
