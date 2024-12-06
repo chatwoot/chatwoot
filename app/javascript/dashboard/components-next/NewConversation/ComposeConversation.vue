@@ -3,7 +3,6 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
-import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { debounce } from '@chatwoot/utils';
@@ -22,13 +21,12 @@ const props = defineProps({
     type: String,
     default: 'left',
   },
-  isFromSidebar: {
-    type: Boolean,
-    default: false,
+  contactId: {
+    type: String,
+    default: null,
   },
 });
 
-const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
@@ -49,10 +47,8 @@ const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const directUploadsEnabled = computed(
   () => globalConfig.value.directUploadsEnabled
 );
-const contactId = computed(() =>
-  props.isFromSidebar ? null : route.params.contactId
-);
-const activeContact = computed(() => contactById.value(contactId.value));
+
+const activeContact = computed(() => contactById.value(props.contactId));
 
 const composePopoverClass = computed(() => {
   return props.alignPosition === 'right'
@@ -156,8 +152,7 @@ const toggle = () => {
 watch(
   activeContact,
   () => {
-    if (props.isFromSidebar) return;
-    if (activeContact.value && contactId.value) {
+    if (activeContact.value && props.contactId) {
       // Add null check for contactInboxes
       const contactInboxes = activeContact.value?.contactInboxes || [];
       selectedContact.value = {
