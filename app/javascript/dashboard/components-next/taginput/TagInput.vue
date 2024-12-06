@@ -85,7 +85,7 @@ const filteredMenuItems = computed(() => {
   // 1. There's a value being typed
   // 2. The value isn't already in the tags
   // 3. Email validation passes (if type is email) and There are no menu items available
-  const trimmedNewTag = newTag.value.trim();
+  const trimmedNewTag = newTag.value?.trim();
   const shouldShowTypedValue =
     trimmedNewTag &&
     !tags.value.includes(trimmedNewTag) &&
@@ -119,7 +119,7 @@ const emitDataOnAdd = emailValue => {
 };
 
 const addTag = async () => {
-  const trimmedTag = newTag.value.trim();
+  const trimmedTag = newTag.value?.trim();
   if (!trimmedTag) return;
 
   if (props.mode === MODE.SINGLE && tags.value.length >= 1) {
