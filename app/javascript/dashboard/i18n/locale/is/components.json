@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Engar niðurstöður fundust."
+    "EMPTY_STATE": "Engar niðurstöður fundust.",
+    "SEARCHING": "Searching..."
   },
   "DIALOG": {
     "BUTTONS": {
