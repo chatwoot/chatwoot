@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Ingen resultater fundet."
+    "EMPTY_STATE": "Ingen resultater fundet.",
+    "SEARCHING": "Søger..."
   },
   "DIALOG": {
     "BUTTONS": {
