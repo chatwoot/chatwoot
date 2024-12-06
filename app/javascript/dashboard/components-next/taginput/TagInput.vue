@@ -187,7 +187,7 @@ watch(
 watch(
   () => newTag.value,
   async newValue => {
-    if (props.type === 'email' && newValue.trim()?.length > 2) {
+    if (props.type === 'email' && newValue?.trim()?.length > 2) {
       await v$.value.$validate();
     }
   }
