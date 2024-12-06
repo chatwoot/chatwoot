@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Tidak ada hasil ditemukan."
+    "EMPTY_STATE": "Tidak ada hasil ditemukan.",
+    "SEARCHING": "Sedang mencari..."
   },
   "DIALOG": {
     "BUTTONS": {
