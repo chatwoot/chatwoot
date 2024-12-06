@@ -54,7 +54,7 @@ const previewMessage = computed(() => {
   const { content, attachments } = inReplyTo;
 
   if (content) return content;
-  if (attachments.length) {
+  if (attachments?.length) {
     const [{ fileType } = {}] = inReplyTo.attachments;
     return t(`CHAT_LIST.ATTACHMENTS.${fileType}.CONTENT`);
   }
