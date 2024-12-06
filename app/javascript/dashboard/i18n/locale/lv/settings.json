@@ -61,15 +61,29 @@
         "COPY": "Kopēt"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Paziņojumi",
-        "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
+        "TITLE": "Audio Brīdinājumi",
+        "NOTE": "Ieslēgt audio brīdinājumus informācijas panelī, priekš jauniem ziņojumiem un sarunām.",
+        "PLAY": "Atskaņot skaņu",
         "ALERT_TYPES": {
           "NONE": "Nav",
           "MINE": "Piešķirts",
-          "ALL": "Visi"
+          "ALL": "Visi",
+          "ASSIGNED": "Man piešķirtās sarunas",
+          "UNASSIGNED": "Nepiešķirtās sarunas",
+          "NOTME": "Atvērt citiem piešķirtās sarunas"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "Jūs neesat izvēlējies nevienu opciju, jūs nesaņemsiet audio brīdinājumus.",
+          "ASSIGNED": "Jūs saņemsiet brīdinājumus par jums piešķirtajām sarunām.",
+          "UNASSIGNED": "Jūs saņemsiet brīdinājumus par nepiešķirtām sarunām.",
+          "NOTME": "Jūs saņemsiet brīdinājumus par sarunām, kas piešķirtas citiem.",
+          "ASSIGNED+UNASSIGNED": "Jūs saņemsiet brīdinājumus par piešķirtajām sarunām un visām bez uzraudzības atstātām sarunām.",
+          "ASSIGNED+NOTME": "Jūs saņemsiet brīdinājumus par sarunām, kas piešķirtas jums un citiem, bet ne par sarunām, kas nav piešķirtas.",
+          "NOTME+UNASSIGNED": "Jūs saņemsiet brīdinājumus par sarunām, kas ir bez uzraudzības, kā arī par sarunām, kas piešķirtas citiem.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Jūs saņemsiet brīdinājumus par visām sarunām."
         },
         "ALERT_TYPE": {
-          "TITLE": "Brīdinājuma notikumi sarunām:",
+          "TITLE": "Brīdinājuma notikumi sarunām",
           "NONE": "Nav",
           "ASSIGNED": "Piešķirtās Sarunas",
           "ALL_CONVERSATIONS": "Visas Sarunas"
@@ -81,7 +95,9 @@
           "TITLE": "Brīdinājumu nosacījumi:",
           "CONDITION_ONE": "Sūtīt audio brīdinājumus tikai tad, ja pārlūkprogrammas logs nav aktīvs",
           "CONDITION_TWO": "Sūtīt brīdinājumus ik pēc 30 sekundēm, līdz visas piešķirtās sarunas ir izlasītas"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Automātiskā atskaņošana jūsu pārlūkprogrammā ir atspējota. Lai automātiski dzirdētu brīdinājumus, pārlūkprogrammas iestatījumos iespējojiet skaņas atļauju vai mijiedarbojieties ar lapu.",
+        "READ_MORE": "Lasīt vairāk"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-pasta Ziņojumi",
