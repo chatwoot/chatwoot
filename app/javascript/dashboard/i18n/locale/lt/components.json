@@ -12,7 +12,8 @@
   },
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Nieko nerasta."
+    "EMPTY_STATE": "Nieko nerasta.",
+    "SEARCHING": "Ieškoma..."
   },
   "DIALOG": {
     "BUTTONS": {
