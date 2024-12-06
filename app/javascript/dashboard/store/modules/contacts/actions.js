@@ -78,7 +78,7 @@ export const actions = {
   show: async ({ commit }, { id }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingItem: true });
     try {
-      const response = await ContactAPI.showContact(id);
+      const response = await ContactAPI.show(id);
       commit(types.SET_CONTACT_ITEM, response.data.payload);
       commit(types.SET_CONTACT_UI_FLAG, {
         isFetchingItem: false,
@@ -99,7 +99,7 @@ export const actions = {
     };
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
-      const response = await ContactAPI.updateContact(
+      const response = await ContactAPI.update(
         id,
         isFormData
           ? buildContactFormData(decamelizedContactParams)

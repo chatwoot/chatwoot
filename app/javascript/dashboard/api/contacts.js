@@ -27,11 +27,11 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
-  showContact(id) {
+  show(id) {
     return axios.get(`${this.url}/${id}?include_contact_inboxes=false`);
   }
 
-  updateContact(id, data) {
+  update(id, data) {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
