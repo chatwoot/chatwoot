@@ -1,4 +1,4 @@
-# This file contains all the installation wide configuration which controls various settings in Chatwoot
+# This file contains all the installation wide configuration which controls various settings in xping
 # This is internal config and should not be modified by the user directly in database
 # Chatwoot might override and modify these values during the upgrade process
 # Configs which can be modified by the user are available in the dashboard under appropriate UI
@@ -14,7 +14,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'xping'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -38,7 +38,7 @@
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'xping'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
@@ -51,7 +51,7 @@
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
+  display_title: 'xping Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
