@@ -51,18 +51,30 @@
         "ACTIVE": "Остання активність"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Остання активність"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Остання активність: спочатку старіші"
       },
-      "sort_on_created_at": {
-        "TEXT": "Створений в"
+      "last_activity_at_desc": {
+        "TEXT": "Остання активність: спочатку нові"
       },
-      "sort_on_priority": {
-        "TEXT": "Пріоритет"
+      "created_at_desc": {
+        "TEXT": "Створено: спочатку нові"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_asc": {
+        "TEXT": "Створено у: спочатку старіші"
+      },
+      "priority_desc": {
+        "TEXT": "Пріоритет: спочатку найвищий"
+      },
+      "priority_asc": {
+        "TEXT": "Пріоритет: спочатку низький"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Очікує відповіді: спочатку довгі"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Очікує відповіді: спершу короткі"
       }
     },
     "ATTACHMENTS": {

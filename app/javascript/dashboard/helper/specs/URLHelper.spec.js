@@ -5,6 +5,8 @@ import {
   conversationListPageURL,
   getArticleSearchURL,
   hasValidAvatarUrl,
+  timeStampAppendedURL,
+  getHostNameFromURL,
 } from '../URLHelper';
 
 describe('#URL Helpers', () => {
@@ -188,6 +190,77 @@ describe('#URL Helpers', () => {
     test('should return false for empty or undefined URL', () => {
       expect(hasValidAvatarUrl('')).toBe(false);
       expect(hasValidAvatarUrl()).toBe(false);
+    });
+  });
+
+  describe('timeStampAppendedURL', () => {
+    const FIXED_TIMESTAMP = 1234567890000;
+
+    beforeEach(() => {
+      vi.spyOn(Date, 'now').mockImplementation(() => FIXED_TIMESTAMP);
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('should append timestamp to a URL without query parameters', () => {
+      const input = 'https://example.com/audio.mp3';
+      const expected = `https://example.com/audio.mp3?t=${FIXED_TIMESTAMP}`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should append timestamp to a URL with existing query parameters', () => {
+      const input = 'https://example.com/audio.mp3?volume=50';
+      const expected = `https://example.com/audio.mp3?volume=50&t=${FIXED_TIMESTAMP}`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should not append timestamp if it already exists', () => {
+      const input = 'https://example.com/audio.mp3?t=9876543210';
+      expect(timeStampAppendedURL(input)).toBe(input);
+    });
+
+    it('should handle URLs with hash fragments', () => {
+      const input = 'https://example.com/audio.mp3#section1';
+      const expected = `https://example.com/audio.mp3?t=${FIXED_TIMESTAMP}#section1`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should handle complex URLs', () => {
+      const input =
+        'https://example.com/path/to/audio.mp3?key1=value1&key2=value2#fragment';
+      const expected = `https://example.com/path/to/audio.mp3?key1=value1&key2=value2&t=${FIXED_TIMESTAMP}#fragment`;
+      expect(timeStampAppendedURL(input)).toBe(expected);
+    });
+
+    it('should throw an error for invalid URLs', () => {
+      const input = 'not a valid url';
+      expect(() => timeStampAppendedURL(input)).toThrow();
+    });
+  });
+
+  describe('getHostNameFromURL', () => {
+    it('should return the hostname from a valid URL', () => {
+      expect(getHostNameFromURL('https://example.com/path')).toBe(
+        'example.com'
+      );
+    });
+
+    it('should return null for an invalid URL', () => {
+      expect(getHostNameFromURL('not a valid url')).toBe(null);
+    });
+
+    it('should return null for an empty string', () => {
+      expect(getHostNameFromURL('')).toBe(null);
+    });
+
+    it('should return null for undefined input', () => {
+      expect(getHostNameFromURL(undefined)).toBe(null);
+    });
+
+    it('should correctly handle URLs with non-standard TLDs', () => {
+      expect(getHostNameFromURL('https://chatwoot.help')).toBe('chatwoot.help');
     });
   });
 });

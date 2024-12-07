@@ -40,8 +40,10 @@ class Conversations::EventDataPresenter < SimpleDelegator
     {
       agent_last_seen_at: agent_last_seen_at.to_i,
       contact_last_seen_at: contact_last_seen_at.to_i,
+      last_activity_at: last_activity_at.to_i,
       timestamp: last_activity_at.to_i,
       created_at: created_at.to_i
     }
   end
 end
+Conversations::EventDataPresenter.prepend_mod_with('Conversations::EventDataPresenter')

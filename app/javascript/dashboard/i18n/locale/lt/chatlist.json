@@ -51,18 +51,30 @@
         "ACTIVE": "Paskutiniai veiksmai"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Paskutiniai veiksmai"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Paskutinė veikla: nuo seniausio"
       },
-      "sort_on_created_at": {
-        "TEXT": "Sukurta"
+      "last_activity_at_desc": {
+        "TEXT": "Paskutinė veikla: nuo naujausio"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioritetas"
+      "created_at_desc": {
+        "TEXT": "Sukurta: nuo naujausio"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Laukiama atsakymo"
+      "created_at_asc": {
+        "TEXT": "Sukurta: nuo seniausio"
+      },
+      "priority_desc": {
+        "TEXT": "Prioritetas: nuo aukščiausio"
+      },
+      "priority_asc": {
+        "TEXT": "Prioritetas: nuo žemiausio"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Laukia atsakymo: nuo ilgiausio"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Laukia atsakymo: nuo trumpiausio"
       }
     },
     "ATTACHMENTS": {

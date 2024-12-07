@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "亲爱的客户 👋, 请花一点时间分享您与 %{inboxName} 的对话反馈。",
+    "DESCRIPTION": "亲爱的客户 👋, 请花一点时间分享您与 {inboxName} 的对话反馈。",
     "RATING": {
       "LABEL": "评价您的对话",
       "SUCCESS_MESSAGE": "感谢您的评分"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
     }
   },
-  "POWERED_BY": "由 Chatwoot 支持"
+  "POWERED_BY": "由 xping 支持"
 }

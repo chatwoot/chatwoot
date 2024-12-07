@@ -1,93 +1,10 @@
-<template>
-  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
-    <banner
-      v-if="!currentChat.can_reply"
-      color-scheme="alert"
-      :banner-message="replyWindowBannerMessage"
-      :href-link="replyWindowLink"
-      :href-link-text="replyWindowLinkText"
-    />
-    <div class="flex justify-end">
-      <woot-button
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[9.5rem] md:top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
-        :icon="isRightOrLeftIcon"
-        @click="onToggleContactPanel"
-      />
-    </div>
-    <ul class="conversation-panel">
-      <transition name="slide-up">
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
-        </li>
-      </transition>
-      <message
-        v-for="message in getReadMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
-      </li>
-      <message
-        v-for="message in getUnReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <conversation-label-suggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
-    <div
-      class="conversation-footer"
-      :class="{ 'modal-mask': isPopoutReplyBox }"
-    >
-      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
-        <div class="typing-indicator">
-          {{ typingUserNames }}
-          <img
-            class="gif"
-            src="~dashboard/assets/images/typing.gif"
-            alt="Someone is typing"
-          />
-        </div>
-      </div>
-      <reply-box
-        :conversation-id="currentChat.id"
-        :popout-reply-box.sync="isPopoutReplyBox"
-        @click="showPopoutReplyBox"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
+import { ref } from 'vue';
+// composable
+import { useConfig } from 'dashboard/composables/useConfig';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useAI } from 'dashboard/composables/useAI';
+
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
@@ -98,19 +15,18 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 
 // mixins
-import conversationMixin, {
-  filterDuplicateSourceMessages,
-} from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import configMixin from 'shared/mixins/configMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
+import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import {
+  filterDuplicateSourceMessages,
+  getReadMessages,
+  getUnreadMessages,
+} from 'dashboard/helper/conversationHelper';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -125,20 +41,56 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [
-    conversationMixin,
-    inboxMixin,
-    eventListenerMixins,
-    configMixin,
-    aiMixin,
-  ],
+  mixins: [inboxMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
       default: false,
     },
+    isInboxView: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['contactPanelToggle'],
+  setup() {
+    const isPopOutReplyBox = ref(false);
+    const { isEnterprise } = useConfig();
 
+    const closePopOutReplyBox = () => {
+      isPopOutReplyBox.value = false;
+    };
+
+    const showPopOutReplyBox = () => {
+      isPopOutReplyBox.value = !isPopOutReplyBox.value;
+    };
+
+    const keyboardEvents = {
+      Escape: {
+        action: closePopOutReplyBox,
+      },
+    };
+
+    useKeyboardEvents(keyboardEvents);
+
+    const {
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
+    } = useAI();
+
+    return {
+      isEnterprise,
+      isPopOutReplyBox,
+      closePopOutReplyBox,
+      showPopOutReplyBox,
+      isAIIntegrationEnabled,
+      isLabelSuggestionFeatureEnabled,
+      fetchIntegrationsIfRequired,
+      fetchLabelSuggestions,
+    };
+  },
   data() {
     return {
       isLoadingPrevious: true,
@@ -146,7 +98,6 @@ export default {
       conversationPanel: null,
       hasUserScrolled: false,
       isProgrammaticScroll: false,
-      isPopoutReplyBox: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
     };
@@ -154,14 +105,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       currentChat: 'getSelectedChat',
-      allConversations: 'getAllConversations',
-      inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      loadingChatList: 'getChatListLoadingStatus',
-      appIntegrations: 'integrations/getAppIntegrations',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
     isOpen() {
@@ -193,10 +138,9 @@ export default {
     },
     typingUserNames() {
       const userList = this.typingUsersList;
-
       if (this.isAnyoneTyping) {
-        const userListAsName = getTypingUsersText(userList);
-        return userListAsName;
+        const [i18nKey, params] = getTypingUsersText(userList);
+        return this.$t(i18nKey, params);
       }
 
       return '';
@@ -208,14 +152,14 @@ export default {
       }
       return messages;
     },
-    getReadMessages() {
-      return this.readMessages(
+    readMessages() {
+      return getReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
     },
-    getUnReadMessages() {
-      return this.unReadMessages(
+    unReadMessages() {
+      return getUnreadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
@@ -283,6 +227,9 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
       const outgoing =
@@ -305,12 +252,12 @@ export default {
   },
 
   created() {
-    bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
-    bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
+    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
-    bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
+    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
   },
@@ -321,7 +268,7 @@ export default {
     this.fetchSuggestions();
   },
 
-  beforeDestroy() {
+  unmounted() {
     this.removeBusListeners();
     this.removeScrollListener();
   },
@@ -377,7 +324,7 @@ export default {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
-      bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -391,17 +338,6 @@ export default {
         }
       });
       this.makeMessagesRead();
-    },
-    showPopoutReplyBox() {
-      this.isPopoutReplyBox = !this.isPopoutReplyBox;
-    },
-    closePopoutReplyBox() {
-      this.isPopoutReplyBox = false;
-    },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.closePopoutReplyBox();
-      }
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -447,7 +383,7 @@ export default {
       );
     },
     onToggleContactPanel() {
-      this.$emit('contact-panel-toggle');
+      this.$emit('contactPanelToggle');
     },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
@@ -493,7 +429,7 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
-      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
@@ -517,6 +453,109 @@ export default {
 };
 </script>
 
+<template>
+  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
+    <Banner
+      v-if="!currentChat.can_reply"
+      color-scheme="alert"
+      :banner-message="replyWindowBannerMessage"
+      :href-link="replyWindowLink"
+      :href-link-text="replyWindowLinkText"
+    />
+    <div class="flex justify-end">
+      <woot-button
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
+        :class="
+          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
+        "
+        :icon="isRightOrLeftIcon"
+        @click="onToggleContactPanel"
+      />
+    </div>
+    <ul class="conversation-panel">
+      <transition name="slide-up">
+        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+        <li class="min-h-[4rem]">
+          <span v-if="shouldShowSpinner" class="spinner message" />
+        </li>
+      </transition>
+      <Message
+        v-for="message in readMessages"
+        :key="message.id"
+        class="message--read ph-no-capture"
+        data-clarity-mask="True"
+        :data="message"
+        :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-an-email-inbox="isAnEmailChannel"
+        :is-instagram="isInstagramDM"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :in-reply-to="getInReplyToMessage(message)"
+      />
+      <li v-show="unreadMessageCount != 0" class="unread--toast">
+        <span>
+          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
+          {{
+            unreadMessageCount > 1
+              ? $t('CONVERSATION.UNREAD_MESSAGES')
+              : $t('CONVERSATION.UNREAD_MESSAGE')
+          }}
+        </span>
+      </li>
+      <Message
+        v-for="message in unReadMessages"
+        :key="message.id"
+        class="message--unread ph-no-capture"
+        data-clarity-mask="True"
+        :data="message"
+        :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram-dm="isInstagramDM"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :in-reply-to="getInReplyToMessage(message)"
+      />
+      <ConversationLabelSuggestion
+        v-if="shouldShowLabelSuggestions"
+        :suggested-labels="labelSuggestions"
+        :chat-labels="currentChat.labels"
+        :conversation-id="currentChat.id"
+      />
+    </ul>
+    <div
+      class="conversation-footer"
+      :class="{ 'modal-mask': isPopOutReplyBox }"
+    >
+      <div
+        v-if="isAnyoneTyping"
+        class="absolute flex items-center w-full h-0 -top-7"
+      >
+        <div
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+        >
+          {{ typingUserNames }}
+          <img
+            class="w-6 ltr:ml-2 rtl:mr-2"
+            src="assets/images/typing.gif"
+            alt="Someone is typing"
+          />
+        </div>
+      </div>
+      <ReplyBox
+        v-model:popout-reply-box="isPopOutReplyBox"
+        :conversation-id="currentChat.id"
+        @toggle-popout="showPopOutReplyBox"
+      />
+    </div>
+  </div>
+</template>
+
 <style scoped>
 @tailwind components;
 @layer components {
@@ -532,6 +571,8 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
+  @apply absolute;
+
   &::v-deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];

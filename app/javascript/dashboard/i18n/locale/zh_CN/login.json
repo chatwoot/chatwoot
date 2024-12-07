@@ -3,7 +3,7 @@
     "TITLE": "登录到xping Live chat",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "请输入一个有效的电子邮件"
     },
     "PASSWORD": {

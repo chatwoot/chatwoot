@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatisierungen",
+    "HEADER": "Automatisierung",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
     "LOADING": "Automatisierungsregeln abrufen",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation kann bestehende Prozesse ersetzen und automatisieren, die manuellen Aufwand erfordern. Mit der Automatisierung kannst Du viele Dinge tun, darunter das Hinzufügen von Labels und das Zuweisen von Gesprächen zum besten Agenten. Das Team konzentriert sich also auf das, was es am besten kann, und verbringt weniger Zeit mit manuellen Aufgaben.</p>",
     "ADD": {
       "TITLE": "Automatisierungsregel hinzufügen",
       "SUBMIT": "Erstellen",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen",
+      "EMAIL_INPUT_PLACEHOLDER": "E-Mail eingeben",
+      "URL_INPUT_PLACEHOLDER": "URL eingeben"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Automatisierungsregel aktivieren",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Hochladen...",
       "LABEL_UPLOADED": "Erfolgreich hochgeladen",
       "LABEL_UPLOAD_FAILED": "Upload fehlgeschlagen"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribut-Schlüssel ist erforderlich",
+      "FILTER_OPERATOR_REQUIRED": "Filter-Operator ist erforderlich",
+      "VALUE_REQUIRED": "Wert ist erforderlich",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wert muss zwischen 1 und 998 liegen",
+      "ACTION_PARAMETERS_REQUIRED": "Aktionsparameter sind erforderlich",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Mindestens eine Bedingung ist erforderlich",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Mindestens eine Aktion ist erforderlich"
     }
   }
 }

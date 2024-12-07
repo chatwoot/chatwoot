@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Quý khách \u001dk\u001dính \u001dmếm 👋, vui lòng dành một chút thời gian để chia sẻ phản hồi về hội thoại mà bạn đã có với %{inboxName}.",
+    "DESCRIPTION": "Quý khách \u001dk\u001dính \u001dmếm 👋, vui lòng dành một chút thời gian để chia sẻ phản hồi về hội thoại mà bạn đã có với {inboxName}.",
     "RATING": {
       "LABEL": "Đánh giá cuộc trò chuyện",
       "SUCCESS_MESSAGE": "Cảm ơn vì đã đánh giá"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
     }
   },
-  "POWERED_BY": "Cung cấp bởi Chatwoot"
+  "POWERED_BY": "Cung cấp bởi xping"
 }

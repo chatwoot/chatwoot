@@ -1,9 +1,13 @@
 {
   "LOGIN": {
+<<<<<<< HEAD
     "TITLE": "Login to xping Live chat",
+=======
+    "TITLE": "Login to XPING LIVE CHAT",
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
     "EMAIL": {
       "LABEL": "E-pasts",
-      "PLACEHOLDER": "piemers@firmasnosaukums.com",
+      "PLACEHOLDER": "piemers{'@'}firmasnosaukums.com",
       "ERROR": "Lūdzu, ievadiet derīgu e-pasta adresi"
     },
     "PASSWORD": {

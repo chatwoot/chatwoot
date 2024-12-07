@@ -1,9 +1,17 @@
 {
+<<<<<<< HEAD
   "name": "xping",
   "description": "xping",
   "website": "https://xping.online/",
   "repository": "https://github.com/Parsaa404/chatwoot",
   "logo": "https://github.com/Parsaa404/chatwoot/blob/develop/public/brand-assets/logo_thumbnail.svg",
+=======
+  "name": "XPING | LIVE CHAT",
+  "description": "XPING is a customer support tool for instant messaging channels",
+  "website": "https://xping.online/",
+  "repository": "https://github.com/Parsaa404/chatwoot",
+  "logo": "https://github.com/Parsaa404/chatwoot/blob/develop/public/brand-assets/logo.svg",
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
   "keywords": [
     "live chat",
     "customer support",
@@ -48,17 +56,17 @@
       "size": "basic"
     }
   },
-  "stack": "heroku-20",
+  "stack": "heroku-24",
   "image": "heroku/ruby",
   "addons": [
     {
       "plan": "heroku-redis:mini"
     },
     {
-      "plan": "heroku-postgresql:mini"
+      "plan": "heroku-postgresql:essential-0"
     }
   ],
-  "stack": "heroku-20",
+  "stack": "heroku-24",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -71,6 +79,11 @@
     "test": {
       "scripts": {
         "test": "bundle exec rake test"
+      }
+    },
+    "review": {
+      "scripts": {
+        "postdeploy": "bundle exec rails db:seed"
       }
     }
   }

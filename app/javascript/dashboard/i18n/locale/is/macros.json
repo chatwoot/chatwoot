@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Macros",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Add a new macro",
     "HEADER_BTN_TXT_SAVE": "Save macro",
     "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Fjölvi</b><p>Fjölvi er safn vistaðra aðgerða sem auðvelda þjónustufulltrúa að klára verkefni auðveldlega. Þjónustufulltrúarnir geta skilgreint mengi aðgerða eins og að merkja samtal með merkimiða, senda tölvupóstafrit, uppfæra sérsniðna eiginleika o.s.frv., og þeir geta keyrt þessar aðgerðir með einum smelli. Þegar þjónustufulltrúar keyra fjölva, yrðu aðgerðirnar framkvæmdar í þeirri röð sem þær eru skilgreindar. Fjölvi bæta framleiðni og auka samræmi í aðgerðum. </p><p>Fjölvi getur verið gagnlegt á tvo vegu. </p><p><b>Sem aðstoð fyrir þjónustufulltrúa:</b> Ef þjónustufulltrúi framkvæmir sett af aðgerðum mörgum sinnum, getur hann vistað það sem fjölva og framkvæmt allar aðgerðir saman með einum smelli.</ p><p><b>Sem valmöguleiki til þess að bæta við liðsmanni:</b> Sérhver þjónustufulltrúi þarf að framkvæma margar mismunandi athuganir/aðgerðir í hverju samtali. Auðvelt verður að taka inn nýjan teymismeðlim ef fyrirfram skilgreind fjölvi eru tiltæk á reikningnum. Í stað þess að lýsa hverju skrefi í smáatriðum getur stjórnandinn/teymisstjórinn bent á fjölva sem notuð eru við mismunandi aðstæður.</p>",
     "ERROR": "Something went wrong. Please try again",
     "ORDER_INFO": "Fjölvi mun keyra í þeirri röð sem þú bætir við aðgerðum þínum. Þú getur endurraðað þeim með því að draga þau í handfangið við hlið hverrar nóðu.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Execute",
       "PREVIEW": "Preview Macro",
       "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Value is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

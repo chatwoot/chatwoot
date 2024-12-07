@@ -12,6 +12,7 @@ class ContactMergeAction
       merge_conversations
       merge_messages
       merge_contact_inboxes
+      merge_contact_notes
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -31,6 +32,10 @@ class ContactMergeAction
 
   def merge_conversations
     Conversation.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
+  end
+
+  def merge_contact_notes
+    Note.where(contact_id: @mergee_contact.id, account_id: @mergee_contact.account_id).update(contact_id: @base_contact.id)
   end
 
   def merge_messages

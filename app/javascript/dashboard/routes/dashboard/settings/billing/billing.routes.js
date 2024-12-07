@@ -1,12 +1,14 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsContent = () => import('../Wrapper.vue');
-const Index = () => import('./Index.vue');
+import SettingsContent from '../Wrapper.vue';
+import Index from './Index.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/billing'),
-      roles: ['administrator'],
+      meta: {
+        permissions: ['administrator'],
+      },
       component: SettingsContent,
       props: {
         headerTitle: 'BILLING_SETTINGS.TITLE',
@@ -18,7 +20,9 @@ export default {
           path: '',
           name: 'billing_settings_index',
           component: Index,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

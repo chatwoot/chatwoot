@@ -29,8 +29,10 @@ lv:
       invalid: Nederīgi notikumi
     signup:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
+      blocked_domain: Šis domēns nav atļauts. Ja uzskatāt, ka tā ir kļūda, lūdzu, sazinieties ar atbalsta dienestu.
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
       email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
+      invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
       failed: Reģistrēšanās neizdevās
     data_import:
       data_type:
@@ -62,32 +64,48 @@ lv:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
     custom_filters:
       number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
+      invalid_attribute: Nederīga atribūta atslēga - [%{key}]. Atslēgai ir jābūt vienai no [%{allowed_keys}] vai pielāgotam atribūtam, kas definēts kontā.
+      invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
+      invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
-      conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      conversations_count: Piešķirtās sarunas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     inbox_csv:
       inbox_name: Iesūtnes nosaukums
       inbox_type: Iesūtnes tips
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     label_csv:
       label_title: Etiķete
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     team_csv:
       team_name: Komandas nosaukums
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
+    sla_csv:
+      conversation_id: Sarunas ID
+      sla_policy_breached: SLA politika
+      assignee: Uzdevuma saņēmējs
+      team: Komanda
+      inbox: Iesūtne
+      labels: Etiķetes
+      conversation_link: Saite uz sarunu
+      breached_events: Pārkāptie Notikumi
     default_group_by: diena
     csat:
       headers:
@@ -101,10 +119,15 @@ lv:
         recorded_at: Reģistrētais datums
   notifications:
     notification_title:
-      conversation_creation: "[Jauna saruna] - #%{display_id} ir izveidota iesūtnē %{inbox_name}"
-      conversation_assignment: "[Piešķirts Jums] - Jums ir piešķirts #%{display_id}"
-      assigned_conversation_new_message: "[Jauns ziņojums] - #%{display_id} %{content}"
-      conversation_mention: "Jūs pieminēja sarunā [ID - %{display_id}] kā %{name}"
+      conversation_creation: "Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}"
+      conversation_assignment: "Jums ir piešķirta saruna (#%{display_id})"
+      assigned_conversation_new_message: "Sarunā (#%{display_id}) ir izveidots jauns ziņojums"
+      conversation_mention: "Jūs esat pieminēts sarunā (#%{display_id})"
+      sla_missed_first_response: "SLA sarunas (#%{display_id}) pirmā atbilde nokavēta"
+      sla_missed_next_response: "SLA sarunas (#%{display_id}) nākamā atbilde nokavēta"
+      sla_missed_resolution: "SLA sarunas (#%{display_id}) atrisināšana nokavēta"
+    attachment: "Pielikums"
+    no_content: "Nav satura"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
@@ -136,6 +159,9 @@ lv:
       labels:
         added: "%{user_name} pievienoja %{labels}"
         removed: "%{user_name} noņēma %{labels}"
+      sla:
+        added: "%{user_name} pievienoja SLA politiku %{sla_name}"
+        removed: "%{user_name} noņēma SLA politiku %{sla_name}"
       muted: "%{user_name} izslēdza sarunu"
       unmuted: "%{user_name} ieslēdza sarunu"
     templates:
@@ -162,28 +188,34 @@ lv:
     online:
       delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
   integration_apps:
+    dashboard_apps:
+      name: "Informācijas paneļa Lietotnes"
+      description: "Informācijas paneļa Lietotnes ļauj izveidot un iegult lietojumprogrammas, kurās tiek parādīta lietotāja informācija, pasūtījumu vai maksājumu vēsture, nodrošinot plašāku kontekstu jūsu klientu atbalsta aģentiem."
     dyte:
       name: "Dyte"
-      description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no Chatwoot."
+      description: "Dyte ir produkts, kas integrē audio un video funkcijas jūsu lietojumprogrammā. Izmantojot šo integrāciju, jūsu aģenti var sākt video/balss zvanus ar klientiem tieši no Chatwoot."
       meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
-      description: "Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack."
+      description: "Integrējiet Chatwoot ar Slack, lai sinhronizētu savu komandu. Šī integrācija ļauj saņemt paziņojumus par jaunām sarunām un atbildēt uz tām tieši Slack saskarnē."
     webhooks:
       name: "Webhooks"
-      description: "WebHook notikumi sniedz Jums reāllaika informāciju par to, kas notiek Jūsu kontā. Jūs varat izmantot webhook, lai paziņotu notikumus savām iecienītākajām lietotnēm, piemēram, Slack vai Github. Noklikšķiniet uz Konfigurēt, lai iestatītu savus webhook."
+      description: "Webhook notikumi nodrošina reāllaika atjauninājumus par darbībām jūsu Chatwoot kontā. Varat abonēt vēlamos notikumus, un Chatwoot nosūtīs jums HTTP atzvanīšanas ziņojumus ar atjauninājumiem."
     dialogflow:
       name: "Dialogflow"
-      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un ātri savienojiet tos ar iesūtni. Ļaujiet botiem apstrādāt vaicājumus, pirms tos nododat klientu apkalpošanas aģentam."
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un viegli integrējiet tos savā iesūtnē. Šīs robotprogrammatūras var apstrādāt sākotnējos vaicājumus pirms to nodošanas klientu apkalpošanas aģentam."
     google_translate:
       name: "Google Tulkotājs"
-      description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
+      description: "Integrējiet Google tulkotāju, lai palīdzētu aģentiem viegli tulkot klientu ziņojumus. Šī integrācija automātiski nosaka valodu un pārslēdz to uz aģenta vai administratora vēlamo valodu."
     openai:
       name: "OpenAI"
-      description: "Integrēt jaudīgas AI funkcijas programmā Chatwoot, izmantojot OpenAI GPT modeļus."
+      description: "Izmantojiet OpenAI lielo valodu modeļu iespējas, tādas kā atbilžu ieteikumus, kopsavilkumus, ziņojumu pārfrāzēšanu, pareizrakstības pārbaudi un etiķešu klasifikāciju."
+    linear:
+      name: "Lineārs"
+      description: "Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu."
+    captain:
+      name: "Captain"
+      description: "Captain ir vietējais AI palīgs, kas ir izveidots jūsu produktam un ir apmācīts, izmantojot jūsu uzņēmuma zināšanu bāzi. Tas reaģē kā cilvēks un efektīvi atrisina klientu jautājumus. Viegli konfigurējams jūsu iesūtnēs."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
@@ -196,14 +228,29 @@ lv:
     common:
       home: Sākums
       last_updated_on: Pēdējo reizi atjaunināts %{last_updated_on}
-      view_all_articles: Skatīt visus rakstus
+      view_all_articles: Apskatīt visu
       article: raksts
       articles: raksti
+      author: autors
+      authors: autori
+      other: cits
+      others: citi
+      by: autors
       no_articles: Šeit nav neviena raksta
     footer:
       made_with: Veidots ar
     header:
-      go_to_homepage: Doties uz galveno vietni
+      go_to_homepage: Tīmekļa vietne
+      appearance:
+        system: Sistēma
+        light: Gaišs
+        dark: Tumšs
+      featured_articles: Piedāvātie raksti
+      uncategorized: Bez kategorijas
+    404:
+      title: Lapa nav atrasta
+      description: Mēs nevarējām atrast lapu, kuru meklējāt.
+      back_to_home: Doties uz sākumlapu
   slack_unfurl:
     fields:
       name: Nosaukums
@@ -213,3 +260,20 @@ lv:
       inbox_name: Iesūtne
       inbox_type: Iesūtnes Veids
     button: Atvērt sarunu
+  time_units:
+    days:
+      zero: "%{count} dienas"
+      one: "%{count} diena"
+      other: "%{count} dienas"
+    hours:
+      zero: "%{count} stundas"
+      one: "%{count} stunda"
+      other: "%{count} stundas"
+    minutes:
+      zero: "%{count} minūtes"
+      one: "%{count} minūte"
+      other: "%{count} minūtes"
+    seconds:
+      zero: "%{count} sekundes"
+      one: "%{count} sekunde"
+      other: "%{count} sekundes"

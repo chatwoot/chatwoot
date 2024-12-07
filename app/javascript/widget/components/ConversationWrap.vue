@@ -1,32 +1,9 @@
-<template>
-  <div class="conversation--container" :class="colorSchemeClass">
-    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
-      <div v-if="isFetchingList" class="message--loader">
-        <spinner />
-      </div>
-      <div
-        v-for="groupedMessage in groupedMessages"
-        :key="groupedMessage.date"
-        class="messages-wrap"
-      >
-        <date-separator :date="groupedMessage.date" />
-        <chat-message
-          v-for="message in groupedMessage.messages"
-          :key="message.id"
-          :message="message"
-        />
-      </div>
-      <agent-typing-bubble v-if="showStatusIndicator" />
-    </div>
-  </div>
-</template>
-
 <script>
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -38,12 +15,15 @@ export default {
     DateSeparator,
     Spinner,
   },
-  mixins: [darkModeMixin],
   props: {
     groupedMessages: {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    const { darkMode } = useDarkMode();
+    return { darkMode };
   },
   data() {
     return {
@@ -118,9 +98,32 @@ export default {
 };
 </script>
 
+<template>
+  <div class="conversation--container" :class="colorSchemeClass">
+    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
+      <div v-if="isFetchingList" class="message--loader">
+        <Spinner />
+      </div>
+      <div
+        v-for="groupedMessage in groupedMessages"
+        :key="groupedMessage.date"
+        class="messages-wrap"
+      >
+        <DateSeparator :date="groupedMessage.date" />
+        <ChatMessage
+          v-for="message in groupedMessage.messages"
+          :key="message.id"
+          :message="message"
+        />
+      </div>
+      <AgentTypingBubble v-if="showStatusIndicator" />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/mixins.scss';
 
 .conversation--container {
   display: flex;
@@ -132,6 +135,7 @@ export default {
   &.light-scheme {
     color-scheme: light;
   }
+
   &.dark-scheme {
     color-scheme: dark;
   }

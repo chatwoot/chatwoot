@@ -8,7 +8,7 @@ class Twilio::IncomingMessageService
 
     set_contact
     set_conversation
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: message_body,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -17,6 +17,7 @@ class Twilio::IncomingMessageService
       source_id: params[:SmsSid]
     )
     attach_files
+    @message.save!
   end
 
   private
@@ -107,23 +108,41 @@ class Twilio::IncomingMessageService
   def attach_files
     return if params[:MediaUrl0].blank?
 
-    attachment_file = Down.download(
+    attachment_file = download_attachment_file
+
+    return if attachment_file.blank?
+
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_type(params[:MediaContentType0]),
+      file: {
+        io: attachment_file,
+        filename: attachment_file.original_filename,
+        content_type: attachment_file.content_type
+      }
+    )
+  end
+
+  def download_attachment_file
+    download_with_auth
+  rescue Down::Error, Down::ClientError => e
+    handle_download_attachment_error(e)
+  end
+
+  def download_with_auth
+    Down.download(
       params[:MediaUrl0],
       # https://support.twilio.com/hc/en-us/articles/223183748-Protect-Media-Access-with-HTTP-Basic-Authentication-for-Programmable-Messaging
       http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
     )
+  end
 
-    attachment = @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: file_type(params[:MediaContentType0])
-    )
-
-    attachment.file.attach(
-      io: attachment_file,
-      filename: attachment_file.original_filename,
-      content_type: attachment_file.content_type
-    )
-
-    @message.save!
+  # This is just a temporary workaround since some users have not yet enabled media protection. We will remove this in the future.
+  def handle_download_attachment_error(error)
+    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying"
+    Down.download(params[:MediaUrl0])
+  rescue StandardError => e
+    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
+    nil
   end
 end

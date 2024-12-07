@@ -1,10 +1,3 @@
-<template>
-  <div class="agent-placeholder">
-    <spinner />
-    <p>{{ $t('CONVERSATION.CARD_CONTEXT_MENU.AGENTS_LOADING') }}</p>
-  </div>
-</template>
-
 <script>
 import Spinner from 'shared/components/Spinner.vue';
 
@@ -14,6 +7,13 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="agent-placeholder">
+    <Spinner />
+    <p>{{ $t('CONVERSATION.CARD_CONTEXT_MENU.AGENTS_LOADING') }}</p>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .agent-placeholder {

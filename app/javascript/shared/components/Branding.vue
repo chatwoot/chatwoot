@@ -1,27 +1,3 @@
-<template>
-  <div
-    v-if="globalConfig.brandName && !disableBranding"
-    class="px-0 py-3 flex justify-center"
-  >
-    <a
-      :href="brandRedirectURL"
-      rel="noreferrer noopener nofollow"
-      target="_blank"
-      class="branding--link justify-center items-center leading-3"
-    >
-      <img
-        class="branding--image"
-        :alt="globalConfig.brandName"
-        :src="globalConfig.logoThumbnail"
-      />
-      <span>
-        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
-      </span>
-    </a>
-  </div>
-  <div v-else class="p-3" />
-</template>
-
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
@@ -51,14 +27,8 @@ export default {
   computed: {
     brandRedirectURL() {
       try {
-        const referrerHost = this.$store.getters['appConfig/getReferrerHost'];
-        const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=${
-          referrerHost ? 'widget_branding' : 'survey_branding'
-        }`;
-        if (referrerHost) {
-          return `${baseURL}&utm_referrer=${referrerHost}`;
-        }
-        return baseURL;
+        // Return the simplified URL directly
+        return `${this.globalConfig.widgetBrandURL}`;
       } catch (e) {
         // Suppressing the error as getter is not defined in some cases
       }
@@ -68,8 +38,32 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    v-if="globalConfig.brandName && !disableBranding"
+    class="px-0 py-3 flex justify-center"
+  >
+    <a
+      :href="brandRedirectURL"
+      rel="noreferrer noopener nofollow"
+      target="_blank"
+      class="branding--link justify-center items-center leading-3"
+    >
+      <img
+        class="branding--image"
+        :alt="globalConfig.brandName"
+        :src="globalConfig.logoThumbnail"
+      />
+      <span>
+        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+      </span>
+    </a>
+  </div>
+  <div v-else class="p-3" />
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .branding--image {
   margin-right: $space-smaller;

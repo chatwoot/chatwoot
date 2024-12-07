@@ -1,7 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Prijemni sandučići",
-    "SIDEBAR_TXT": "<p><b>Prijemno sanduče</b></p> <p> Kada povežete veb sajt ili fejsbuk stranicu sa Chatwoot, to se zove <b>prijemno sanduče</b>. Možete imati neograničen broj prijemnih sandučića na vašem Chatwoot nalogu. </p><p> Kliknite na <b>Dodaj prijemno sanduče</b> da bi ste povezali veb sajt ili Fejsbuk stranicu. </p><p> U glavnoj tabli, na jednom mestu možete videti sve razgovore iz svih vaših prijemnih sandučića i odgovarati na njih pod karticom 'Razgovori'. </p><p> Takođe možete videti razgovore u određenom prijemnom sandučetu klikom na ime prijemnog sandučeta u levom panelu glavne table. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
     },
@@ -22,7 +25,7 @@
         "body": "Dodajte agente napravljenom prijamnom sandučetu."
       },
       {
-        "title": "Izvolite!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Sve je spremno za početak!"
       }
@@ -43,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
         "INBOX_NAME": "Naziv prijemnog sandučeta",
         "ADD_NAME": "Dodajte naziv vašem prijemnom sandučetu",
-        "PICK_NAME": "Izaberite naziv vašeg prijemnog sandučeta",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Izaberite vrednost"
       },
       "TWITTER": {
@@ -62,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Adresa veb zakačke",
-          "PLACEHOLDER": "Unesite adresu veb zakačke",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Molim vas unesite ispravnu adresu"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "API ključ",
-            "PLACEHOLDER": "Molim vas unesite Bandwidth API ključ",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Ovo polje je obavezno"
           },
           "API_SECRET": {
             "LABEL": "API tajna",
-            "PLACEHOLDER": "Molim vas unesite Bandwidth API tajnu",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Ovo polje je obavezno"
           },
           "APPLICATION_ID": {
@@ -239,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token potvrde veb zakačke",
-          "PLACEHOLDER": "Unesite token potvrde koji želite da podesite za fejsbuk veb zakačke.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Molim vas unesite ispravnu vrednost."
         },
         "API_KEY": {
@@ -269,7 +272,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Adresa veb zakačke",
-          "SUBTITLE": "Podesite adresu gde želite da primate povratne pozive za događaje.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Adresa veb zakačke"
         },
         "SUBMIT_BUTTON": "Napravite API kanal",
@@ -279,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Kanal e-pošte",
-        "DESC": "Integrišite prijemno sanduče vaše e-pošte.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Naziv kanala",
           "PLACEHOLDER": "Molim vas unesite naziv kanala",
@@ -345,7 +348,7 @@
       "AGENTS": {
         "TITLE": "Agenti",
         "DESC": "Ovde možete da dodate agente da upravljaju vašim novokreiranim poštaniskim sandučetom. Samo ovi agenti će imati pristup vašem poštanskom sandučetu. Agenti koji nisu deo ovog poštanskog sandučeta neće moći da vide ili odgovaraju na poruke u ovom poštanskom sandučetu kada se prijave. <br> <b>PS:</b> Kao administrator, ako vam je potreban pristup svim poštanskim sandučićima, trebalo bi da dodate sebe kao agenta u sve poštanske sandučiće koje napravite.",
-        "VALIDATION_ERROR": "Dodajte najmanje jednog agenta novom poštanskom sandučetu",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Izaberite agente za prijemno sanduče"
       },
       "DETAILS": {
@@ -364,12 +367,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentifikacija sa Fejsbukom...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Nešto je pošlo po zlu, Molim vas osvežite stranicu...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -406,7 +417,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +519,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Dozvoli poruke nakon rešavanja razgovora",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Dozvolite krajnjim korisnicima da šalju poruke čak i kada je razgovor rešen.",
       "WHATSAPP_SECTION_SUBHEADER": "Ovaj API ključ se koristi za integraciju sa WhatsApp API-jima.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API ključ",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Primeni",
-      "WHATSAPP_WEBHOOK_TITLE": "Token potvrde veb zakačke",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +580,7 @@
       "UPDATE": "Izmena podešavanja radnog vremena",
       "TOGGLE_AVAILABILITY": "Omogući vreme dostupnosti za ovo prijemno sanduče",
       "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
-      "TOGGLE_HELP": "Omogućavanje vremena dostupnosti će prikazati dostupno vreme na vidžetu ćaskanja čak i kada su svi agenti nedostupni. Van radnih sati posetioci će biti upozoreni porukom i formularom pre ćaskanja.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Omogućite dostupnost za ovaj dan",
         "UNAVAILABLE": "Nedostupan",
@@ -585,7 +596,7 @@
       "NOTE_TEXT": "Da bi ste omogućili SMTP, molim vas podesite IMAP.",
       "UPDATE": "Izmenite IMAP podešavanja",
       "TOGGLE_AVAILABILITY": "Omogući IMAP podešavanja za ovo prijemno sanduče",
-      "TOGGLE_HELP": "Omogućavanje IMAP-a će pomoći korisniku da prima e-poruke",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP podešavanja su uspešno izmenjena",
         "ERROR_MESSAGE": "Nije bilo moguče izmeniti IMAP podešavanja"
@@ -733,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-pošta",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API kanal"
     }
   }
 }

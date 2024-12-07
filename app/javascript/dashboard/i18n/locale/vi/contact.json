@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
     "IP_ADDRESS": "Địa chỉ IP",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Đã tạo",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
@@ -34,21 +34,22 @@
         "TITLE": "Thêm nhãn",
         "PLACEHOLDER": "Tìm nhãn",
         "NO_RESULT": "Không tìm thấy nhãn",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Tạo mới nhãn"
       }
     },
     "MERGE_CONTACT": "Hợp nhất liên hệ",
     "CONTACT_ACTIONS": "Hành động với liên hệ",
-    "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
-    "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
-    "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
-    "UNMUTED_SUCCESS": "Cuộc trò chuyện này được bật tiếng",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Gửi bản ghi",
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
       "CONTACT_LABELS": "Nhãn danh bạ",
-      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó",
+      "NO_RECORDS_FOUND": "Không có thuộc tính nào được tìm thấy"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -142,15 +150,15 @@
         "LABEL": "Tên công ty"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
-        "LABEL": "Tên Nước",
+        "PLACEHOLDER": "Nhập tên thành phố",
+        "LABEL": "Tên nước",
         "SELECT_PLACEHOLDER": "Chọn",
         "REMOVE": "Xoá",
         "SELECT_COUNTRY": "Select Country"
       },
       "CITY": {
         "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "LABEL": "Thành phố"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -205,8 +213,8 @@
         "ERROR": "Tin nhắn không được rỗng"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Chọn File",
+        "HELP_TEXT": "Kéo thả file đính kèm tại đây"
       },
       "SUBMIT": "Gửi tin nhắn",
       "CANCEL": "Huỷ",
@@ -217,13 +225,13 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Danh bạ",
-    "FIELDS": "Trường của liên hệ",
+    "FIELDS": "Các trường của liên hệ",
     "SEARCH_BUTTON": "Tìm kiếm",
     "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm liên hệ",
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "Sửa bộ lọc",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải liên hệ...",
       "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
@@ -236,7 +244,7 @@
         "CREATED_AT": "Tạo vào lúc",
         "COUNTRY": "Quốc gia",
         "CITY": "Tỉnh / Thành phố",
-        "SOCIAL_PROFILES": "Hồ sơ xã hội",
+        "SOCIAL_PROFILES": "Hồ sơ mạng xã hội",
         "COMPANY": "Công ty",
         "EMAIL_ADDRESS": "Email"
       },
@@ -277,7 +285,7 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Hoạt động"
+      "TITLE": "Các hoạt động"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "các ghi chú",
@@ -290,6 +298,8 @@
     "BUTTON": "Thêm thuộc tính tùy chỉnh",
     "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho liên hệ này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Sao chép thuộc tính",
       "DELETE": "Xoá thuộc tính",
@@ -339,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Giá trị hợp lệ bắt buộc có",
-      "INVALID_URL": "URL không hợp lệ"
+      "INVALID_URL": "URL không hợp lệ",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
@@ -356,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Tóm tắt",
-      "DELETE_WARNING": "Liên hệ của <strong>%{primaryContactName}</strong> sẽ bị xoá.",
-      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Liên hệ của <strong>{primaryContactName}</strong> sẽ bị xoá.",
+      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>{primaryContactName}</strong> \bsẽ được sao chép đến <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -370,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Liên hệ được gộp thành công",
       "ERROR_MESSAGE": "Không thể hợp nhất liên lạc, thử lại!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

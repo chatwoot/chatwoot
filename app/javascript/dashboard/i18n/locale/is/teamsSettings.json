@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Stofna nýtt teymi",
     "HEADER": "Teymi",
-    "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Það eru engin teymi til á þessum reikningi.",
-      "EDIT_TEAM": "Breyta teymi"
+      "EDIT_TEAM": "Breyta teymi",
+      "NONE": "Enginn"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Bæta þjónustufulltrúum við teymið",
-        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
         "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+        "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
         "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
+      "SELECTED_COUNT": "{selected} af {total} þjónustufulltrúum valdir."
     },
     "ADD": {
-      "TITLE": "Bæta þjónustufulltrúa við teymið - %{teamName}",
+      "TITLE": "Bæta þjónustufulltrúa við teymið - {teamName}",
       "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
+      "SELECTED_COUNT": "{selected} af {total} þjónustufulltrúum valdir.",
       "BUTTON_TEXT": "Bæta við þjónustufulltrúum",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Couldn't delete the team. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "Ef teyminu er eytt verður liðsúthlutunin fjarlægð úr samtölunum sem þessu teymi hefur verið úthlutað.",
         "YES": "Delete ",

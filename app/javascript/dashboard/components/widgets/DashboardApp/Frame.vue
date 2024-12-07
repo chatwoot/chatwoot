@@ -1,27 +1,6 @@
-<template>
-  <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
-    <div
-      v-for="(configItem, index) in config"
-      :key="index"
-      class="dashboard-app--list"
-    >
-      <loading-state
-        v-if="iframeLoading"
-        :message="$t('DASHBOARD_APPS.LOADING_MESSAGE')"
-        class="dashboard-app_loading-container"
-      />
-      <iframe
-        v-if="configItem.type === 'frame' && configItem.url"
-        :id="getFrameId(index)"
-        :src="configItem.url"
-        @load="() => onIframeLoad(index)"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+
 export default {
   components: {
     LoadingState,
@@ -73,19 +52,19 @@ export default {
       }
     },
   },
-
   mounted() {
-    window.onmessage = e => {
-      if (
-        typeof e.data !== 'string' ||
-        e.data !== 'chatwoot-dashboard-app:fetch-info'
-      ) {
-        return;
-      }
-      this.onIframeLoad(0);
-    };
+    window.addEventListener('message', this.triggerEvent);
+  },
+  unmounted() {
+    window.removeEventListener('message', this.triggerEvent);
   },
   methods: {
+    triggerEvent(event) {
+      if (!this.isVisible) return;
+      if (event.data === 'chatwoot-dashboard-app:fetch-info') {
+        this.onIframeLoad(0);
+      }
+    },
     getFrameId(index) {
       return `dashboard-app--frame-${this.position}-${index}`;
     },
@@ -101,6 +80,29 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
+    <div
+      v-for="(configItem, index) in config"
+      :key="index"
+      class="dashboard-app--list"
+    >
+      <LoadingState
+        v-if="iframeLoading"
+        :message="$t('DASHBOARD_APPS.LOADING_MESSAGE')"
+        class="dashboard-app_loading-container"
+      />
+      <iframe
+        v-if="configItem.type === 'frame' && configItem.url"
+        :id="getFrameId(index)"
+        :src="configItem.url"
+        @load="() => onIframeLoad(index)"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .dashboard-app--container,

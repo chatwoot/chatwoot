@@ -1,36 +1,17 @@
-<template>
-  <div class="colorpicker">
-    <div
-      class="colorpicker--selected"
-      :style="`background-color: ${value}`"
-      @click.prevent="toggleColorPicker"
-    />
-    <chrome
-      v-if="isPickerOpen"
-      v-on-clickaway="closeTogglePicker"
-      :disable-alpha="true"
-      :value="value"
-      class="colorpicker--chrome"
-      @input="updateColor"
-    />
-  </div>
-</template>
-
 <script>
-import { Chrome } from 'vue-color';
-import { mixin as clickaway } from 'vue-clickaway';
+import { Chrome } from '@lk77/vue3-color';
 
 export default {
   components: {
     Chrome,
   },
-  mixins: [clickaway],
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       isPickerOpen: false,
@@ -46,15 +27,33 @@ export default {
       this.isPickerOpen = !this.isPickerOpen;
     },
     updateColor(e) {
-      this.$emit('input', e.hex);
+      this.$emit('update:modelValue', e.hex);
     },
   },
 };
 </script>
 
+<template>
+  <div class="colorpicker">
+    <div
+      class="colorpicker--selected"
+      :style="`background-color: ${modelValue}`"
+      @click.prevent="toggleColorPicker"
+    />
+    <Chrome
+      v-if="isPickerOpen"
+      v-on-clickaway="closeTogglePicker"
+      disable-alpha
+      :model-value="modelValue"
+      class="colorpicker--chrome"
+      @update:model-value="updateColor"
+    />
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/mixins';
 
 .colorpicker {
   position: relative;

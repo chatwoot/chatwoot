@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su %{inboxName}.",
+    "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su {inboxName}.",
     "RATING": {
       "LABEL": "Įvertinkite savo pokalbį",
       "SUCCESS_MESSAGE": "Dėkojame, kad pateikėte įvertinimą"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
     }
   },
-  "POWERED_BY": "Parengta pagal Chatwoot"
+  "POWERED_BY": "Parengta pagal xping"
 }

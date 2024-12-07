@@ -1,24 +1,48 @@
+<script>
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import { useDarkMode } from 'widget/composables/useDarkMode';
+
+export default {
+  components: {
+    FluentIcon,
+  },
+  props: {
+    items: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup() {
+    const { truncateMessage } = useMessageFormatter();
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass, truncateMessage };
+  },
+};
+</script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
     v-if="!!items.length"
     class="chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
   >
     <div v-for="item in items" :key="item.link" class="article-item">
       <a :href="item.link" target="_blank" rel="noopener noreferrer nofollow">
         <span class="title flex items-center text-black-900 font-medium">
-          <fluent-icon
+          <FluentIcon
             icon="link"
             class="mr-1"
-            :class="$dm('text-black-900', 'dark:text-slate-50')"
+            :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
           />
-          <span :class="$dm('text-slate-900', 'dark:text-slate-50')">{{
-            item.title
-          }}</span>
+          <span :class="getThemeClass('text-slate-900', 'dark:text-slate-50')">
+            {{ item.title }}
+          </span>
         </span>
         <span
           class="description"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
         >
           {{ truncateMessage(item.description) }}
         </span>
@@ -27,27 +51,8 @@
   </div>
 </template>
 
-<script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-
-export default {
-  components: {
-    FluentIcon,
-  },
-  mixins: [messageFormatterMixin, darkModeMixin],
-  props: {
-    items: {
-      type: Array,
-      default: () => [],
-    },
-  },
-};
-</script>
-
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .article-item {
   border-bottom: 1px solid $color-border;

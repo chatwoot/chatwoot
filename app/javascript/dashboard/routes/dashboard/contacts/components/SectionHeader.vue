@@ -1,7 +1,27 @@
+<script>
+export default {
+  emits: ['notes', 'events', 'conversation'],
+
+  methods: {
+    onClickNotes() {
+      this.$emit('notes');
+    },
+
+    onClickEvents() {
+      this.$emit('events');
+    },
+
+    onClickConversation() {
+      this.$emit('conversation');
+    },
+  },
+};
+</script>
+
 <template>
   <div class="wrap">
     <div class="header">
-      <h5 class="block-title text-black-900 dark:text-slate-200">
+      <h5 class="text-lg text-black-900 dark:text-slate-200">
         {{ $t('EVENTS.HEADER.TITLE') }}
       </h5>
     </div>
@@ -36,24 +56,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    onClickNotes() {
-      this.$emit('notes');
-    },
-
-    onClickEvents() {
-      this.$emit('events');
-    },
-
-    onClickConversation() {
-      this.$emit('conversation');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .wrap {

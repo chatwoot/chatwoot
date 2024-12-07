@@ -29,8 +29,10 @@ fr:
       invalid: Événements non valides
     signup:
       disposable_email: Nous n'autorisons pas les courriels jetables
+      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: L'inscription a échoué
     data_import:
       data_type:
@@ -62,32 +64,48 @@ fr:
         name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
     custom_filters:
       number_of_records: Limite atteinte. Le nombre maximum de filtres personnalisés autorisés pour un utilisateur par compte est de 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Période de rapport %{since} à %{until}
     utc_warning: Le rapport généré est dans le fuseau horaire UTC
     agent_csv:
       agent_name: Nom de l'agent
-      conversations_count: Nombre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      conversations_count: Conversations assignées
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
+      resolution_count: Nombre de résolutions
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Nom de la boîte de réception
       inbox_type: Type de boîte de réception
       conversations_count: Nbre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
     label_csv:
       label_title: Libellé
       conversations_count: Nbre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
     team_csv:
       team_name: Nom de l'équipe
       conversations_count: Nombre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
+      resolution_count: Nombre de résolutions
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Fuseau horaire
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Équipes
+      inbox: Boîte de réception
+      labels: Étiquettes
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: jour
     csat:
       headers:
@@ -101,17 +119,22 @@ fr:
         recorded_at: Date d'enregistrement
   notifications:
     notification_title:
-      conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
-      conversation_assignment: "[Vous a été assigné] - #%{display_id} vous a été assigné"
-      assigned_conversation_new_message: "[Nouveau message] - #%{display_id} %{content}"
-      conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Code d'erreur : %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
@@ -136,6 +159,9 @@ fr:
       labels:
         added: "%{user_name} a ajouté %{labels}"
         removed: "%{user_name} a supprimé %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} a mis la conversation en sourdine"
       unmuted: "%{user_name} a rétabli le son de la conversation"
     templates:
@@ -162,28 +188,34 @@ fr:
     online:
       delete: "%{contact_name} est en ligne, veuillez réessayer plus tard"
   integration_apps:
+    dashboard_apps:
+      name: "Applications du tableau de bord"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte est un outil qui vous aide à ajouter de l'audio et de la vidéo en direct à votre application avec seulement quelques lignes de code. Cette intégration vous permet de donner une option à vos agents de passer un appel vidéo ou vocal avec vos clients sans quitter Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} a démarré une réunion"
     slack:
       name: "Slack"
-      description: "Slack est un outil de chat qui regroupe toutes vos communications en un seul endroit. En intégrant Slack, vous pouvez être notifié de toutes les nouvelles conversations de votre compte directement dans votre Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhooks"
-      description: "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte. Vous pouvez utiliser les webhooks pour communiquer les événements à vos applications préférées comme Slack ou Github. Cliquez sur Configurer pour configurer vos webhooks."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Construisez des chatbots en utilisant Dialogflow et connectez-les à votre boîte de réception rapidement. Laissez les bots s'occuper des requêtes avant de les transmettre à un agent de service à la clientèle."
-    fullcontact:
-      name: "Fullcontact"
-      description: "L'intégration FullContact permet d'enrichir les profils de visiteurs. Identifiez les utilisateurs dès qu'ils partagent leur adresse de courriel et offrez-leur un service client sur mesure. Connectez FullContact à votre compte en partageant la clé API FullContact."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Translate"
-      description: "Facilitez la traduction des messages par les agents en ajoutant une intégration de Google Translate. Google Translate permet d'identifier automatiquement la langue et de la convertir dans la langue choisie par l'agent/administrateur du compte."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Intégrez de puissantes fonctions d'IA dans Chatwoot en exploitant les modèles GPT d'OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+    linear:
+      name: "Linear"
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Rechercher un article par titre ou contenu...
@@ -196,14 +228,29 @@ fr:
     common:
       home: Page d'accueil
       last_updated_on: Dernière mise à jour le %{last_updated_on}
-      view_all_articles: Voir tous les articles
+      view_all_articles: Tout afficher
       article: article
       articles: articles
+      author: auteur
+      authors: auteurs
+      other: autre
+      others: autres
+      by: Par
       no_articles: Il n'y a pas d'articles ici
     footer:
       made_with: Réalisé avec
     header:
-      go_to_homepage: Aller à la page d'accueil
+      go_to_homepage: Site internet
+      appearance:
+        system: Système
+        light: Clair
+        dark: Sombre
+      featured_articles: Articles à la une
+      uncategorized: Non catégorisé
+    404:
+      title: Page introuvable
+      description: Nous n'avons pas pu trouver la page que vous cherchiez.
+      back_to_home: Aller à la page d'accueil
   slack_unfurl:
     fields:
       name: Nom
@@ -213,3 +260,16 @@ fr:
       inbox_name: Boîte de réception
       inbox_type: Type de boîte de réception
     button: Ouvrir la conversation
+  time_units:
+    days:
+      one: "%{count} jour"
+      other: "%{count} days"
+    hours:
+      one: "%{count} heure"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} seconde"
+      other: "%{count} seconds"

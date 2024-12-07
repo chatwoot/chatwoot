@@ -1,3 +1,19 @@
+<script>
+export default {
+  props: {
+    primaryContactName: {
+      type: String,
+      default: '',
+    },
+    parentContactName: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
     v-if="parentContactName"
@@ -31,18 +47,3 @@
     </ul>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    primaryContactName: {
-      type: String,
-      default: '',
-    },
-    parentContactName: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

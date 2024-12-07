@@ -1,8 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "整合方式",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "取消",
         "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
@@ -37,10 +47,7 @@
       "LIST": {
         "404": "此帳戶没有配置 webhooks。",
         "TITLE": "管理 webhooks",
-        "TABLE_HEADER": [
-          "Webhook 端点",
-          "操作"
-        ]
+        "TABLE_HEADER": ["Webhook 端点", "操作"]
       },
       "EDIT": {
         "BUTTON_TEXT": "編輯",
@@ -66,7 +73,7 @@
         },
         "CONFIRM": {
           "TITLE": "確認刪除",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
           "YES": "是，刪除 ",
           "NO": "否，保留它"
         }
@@ -104,7 +111,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -169,13 +176,11 @@
       "HEADER_BTN_TXT": "Add a new dashboard app",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": [
-          "姓名",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["姓名", "Endpoint"],
         "EDIT_TOOLTIP": "編輯應用程式",
         "DELETE_TOOLTIP": "刪除應用程式"
       },
@@ -205,9 +210,90 @@
         "CONFIRM_YES": "是，刪除",
         "CONFIRM_NO": "否，保留",
         "TITLE": "刪除確認",
-        "MESSAGE": "你確定要刪除應用程式 %{appName} 嗎？",
+        "MESSAGE": "你確定要刪除應用程式 {appName} 嗎？",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "建立",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "連結",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "標題",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "標題為必填"
+          },
+          "DESCRIPTION": {
+            "LABEL": "描述資訊",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Team",
+            "PLACEHOLDER": "選擇團隊",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "優先",
+            "PLACEHOLDER": "Select priority",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Label",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "狀態",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "建立",
+        "CANCEL": "取消",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "狀態",
+        "PRIORITY": "優先",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "標籤",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Description: Install and manage a Chatwoot installation.
-# OS: Ubuntu 20.04 LTS
-# Script Version: 2.7.0
+# OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
+# Script Version: 3.0.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.7.0"
+CWCTL_VERSION="3.0.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -171,10 +171,8 @@ EOF
 #   None
 ##############################################################################
 function install_dependencies() {
-  apt update && apt upgrade -y
-  apt install -y curl
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  apt-get update && apt-get upgrade -y
+  apt-get install -y curl
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   mkdir -p /etc/apt/keyrings
@@ -182,16 +180,17 @@ function install_dependencies() {
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
-  apt update
+  apt-get update
 
-  apt install -y \
+  apt-get install -y \
       git software-properties-common ca-certificates imagemagick libpq-dev \
       libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
       postgresql-client redis-tools \
-      nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
+      nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
       libvips python3-pip
+  npm install -g pnpm
 }
 
 ##############################################################################
@@ -204,7 +203,7 @@ function install_dependencies() {
 #   None
 ##############################################################################
 function install_databases() {
-  apt install -y postgresql postgresql-contrib redis-server
+  apt-get install -y postgresql postgresql-contrib redis-server
 }
 
 ##############################################################################
@@ -217,7 +216,7 @@ function install_databases() {
 #   None
 ##############################################################################
 function install_webserver() {
-  apt install -y nginx nginx-full certbot python3-certbot-nginx
+  apt-get install -y nginx nginx-full certbot python3-certbot-nginx
 }
 
 ##############################################################################
@@ -231,7 +230,7 @@ function install_webserver() {
 ##############################################################################
 function create_cw_user() {
   if ! id -u "chatwoot"; then
-    adduser --disabled-login --gecos "" chatwoot
+    adduser --disabled-password --gecos "" chatwoot
   fi
 }
 
@@ -336,14 +335,14 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.2.2"
-  rvm use 3.2.2 --default
+  rvm install "ruby-3.3.3"
+  rvm use 3.3.3 --default
 
   git clone https://github.com/parsa404/chatwoot.git
   cd chatwoot
   git checkout "$BRANCH"
   bundle
-  yarn
+  pnpm i
 
   cp .env.example .env
   sed -i -e "/SECRET_KEY_BASE/ s/=.*/=$secret/" .env
@@ -354,7 +353,7 @@ function setup_chatwoot() {
   sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
   echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
 
-  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 EOF
 }
 
@@ -505,7 +504,7 @@ EOF
   fi
 
   echo -en "\n"
-  read -rp 'Would you like to install Postgres and Redis? (Answer no if you plan to use external services): ' install_pg_redis
+  read -rp 'Would you like to install Postgres and Redis? (Answer no if you plan to use external services)(yes or no): ' install_pg_redis
 
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
@@ -558,6 +557,11 @@ EOF
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
+<<<<<<< HEAD
+=======
+To configure a domain and SSL certificate, follow the guide at
+https://www.xping.online/docs/deployment/deploy-chatwoot-in-linux-vm?utm_source=cwctl
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 
 ***************************************************************************
 
@@ -750,9 +754,9 @@ function upgrade_redis() {
 
   curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
-  apt update -y
-  apt upgrade redis-server -y
-  apt install libvips -y
+  apt-get update -y
+  apt-get upgrade redis-server -y
+  apt-get install libvips -y
 }
 
 
@@ -785,9 +789,33 @@ function upgrade_node() {
   NODE_MAJOR=20
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
-  apt update
-  apt install nodejs -y
+  apt-get update
+  apt-get install nodejs -y
 
+}
+
+##############################################################################
+# Install pnpm - this replaces yarn starting from Chatwoot 4.0
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function get_pnpm() {
+  # if pnpm is already installed, return
+  if command -v pnpm &> /dev/null; then
+    echo "pnpm is already installed. Skipping installation."
+    return
+  fi
+  echo "pnpm is not installed. Installing pnpm..."
+  npm install -g pnpm
+  echo "Cleaning up existing node_modules directory..."
+  sudo -i -u chatwoot << "EOF"
+  cd chatwoot
+  rm -rf node_modules
+EOF
 }
 
 ##############################################################################
@@ -807,6 +835,7 @@ function upgrade() {
   upgrade_prereq
   upgrade_redis
   upgrade_node
+  get_pnpm
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
@@ -823,10 +852,10 @@ function upgrade() {
 
   # Update dependencies
   bundle
-  yarn
+  pnpm i
 
   # Recompile the assets
-  rake assets:precompile RAILS_ENV=production NODE_OPTIONS=--openssl-legacy-provider
+  rake assets:precompile RAILS_ENV=production NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
 
   # Migrate the database schema
   RAILS_ENV=production POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:migrate
@@ -940,7 +969,7 @@ EOF
 #   None
 ##############################################################################
 function version() {
-  echo "cwctl v$CWCTL_VERSION beta build"
+  echo "cwctl v$CWCTL_VERSION"
 }
 
 ##############################################################################
@@ -962,13 +991,13 @@ function cwctl_upgrade_check() {
     #Check if pip is not installed, and install it if not
     if ! command -v pip3 &> /dev/null; then
         echo "Installing pip..."
-        apt install -y python3-pip
+        apt-get install -y python3-pip
     fi
 
     # Check if packaging library is installed, and install it if not
     if ! python3 -c "import packaging.version" &> /dev/null; then
         echo "Installing packaging library..."
-        python3 -m pip install packaging
+        install_packaging
     fi
 
     needs_update=$(python3 -c "from packaging import version; v1 = version.parse('$CWCTL_VERSION'); v2 = version.parse('$remote_version'); print(1 if v2 > v1 else 0)")
@@ -984,6 +1013,27 @@ function cwctl_upgrade_check() {
     fi
 
 }
+
+##############################################################################
+# Check for PEP 668 restrictions and install packaging accordingly
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function install_packaging() {
+  ubuntu_version=$(lsb_release -r | awk '{print $2}')
+  if [[ "$ubuntu_version" == "24.04" ]]; then
+    echo "Detected Ubuntu 24.04. Installing packaging library using apt."
+    apt-get install -y python3-packaging
+  else
+    echo "Installing packaging library using pip."
+    python3 -m pip install packaging
+  fi
+}
+
 
 
 ##############################################################################

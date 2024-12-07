@@ -3,6 +3,8 @@
     "HEADER": "Audit Logs",
     "HEADER_BTN_TXT": "Audit-logs toevoegen",
     "LOADING": "Ophalen van Audit Logs",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
     "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs zijn sporen voor gebeurtenissen en acties in een Chatwoot Systeem. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "Systeem",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} heeft een nieuwe automatiseringsregel aangemaakt (#%{id})",
-      "EDIT": "%{agentName} heeft een automatiseringsregel bijgewerkt (#%{id})",
-      "DELETE": "%{agentName} heeft een automatiseringsregel verwijderd (#%{id})"
+      "ADD": "{agentName} heeft een nieuwe automatiseringsregel aangemaakt (#{id})",
+      "EDIT": "{agentName} heeft een automatiseringsregel bijgewerkt (#{id})",
+      "DELETE": "{agentName} heeft een automatiseringsregel verwijderd (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} heeft %{invitee} uitgenodigd voor het account als een %{role}",
+      "ADD": "{agentName} heeft {invitee} uitgenodigd voor het account als een {role}",
       "EDIT": {
-        "SELF": "%{agentName} heeft zijn %{attributes} gewijzigd naar %{values}",
-        "OTHER": "%{agentName} heeft %{attributes} van %{user} gewijzigd naar %{values}"
+        "SELF": "{agentName} heeft zijn {attributes} gewijzigd naar {values}",
+        "OTHER": "{agentName} heeft {attributes} van {user} gewijzigd naar {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} heeft een nieuwe inbox aangemaakt (#%{id})",
-      "EDIT": "%{agentName} heeft een inbox bijgewerkt (#%{id})",
-      "DELETE": "%{agentName} heeft een inbox verwijderd (#%{id})"
+      "ADD": "{agentName} heeft een nieuwe inbox aangemaakt (#{id})",
+      "EDIT": "{agentName} heeft een inbox bijgewerkt (#{id})",
+      "DELETE": "{agentName} heeft een inbox verwijderd (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} heeft een nieuwe webhook aangemaakt (#%{id})",
-      "EDIT": "%{agentName} heeft een webhook bijgewerkt (#%{id})",
-      "DELETE": "%{agentName} heeft een webhook verwijderd (#%{id})"
+      "ADD": "{agentName} heeft een nieuwe webhook aangemaakt (#{id})",
+      "EDIT": "{agentName} heeft een webhook bijgewerkt (#{id})",
+      "DELETE": "{agentName} heeft een webhook verwijderd (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} is ingelogd",
-      "SIGN_OUT": "%{agentName} heeft zich afgemeld"
+      "SIGN_IN": "{agentName} is ingelogd",
+      "SIGN_OUT": "{agentName} heeft zich afgemeld"
     },
     "TEAM": {
-      "ADD": "%{agentName} heeft een nieuw team aangemaakt (#%{id})",
-      "EDIT": "%{agentName} heeft een team bijgewerkt (#%{id})",
-      "DELETE": "%{agentName} heeft een team verwijderd (#%{id})"
+      "ADD": "{agentName} heeft een nieuw team aangemaakt (#{id})",
+      "EDIT": "{agentName} heeft een team bijgewerkt (#{id})",
+      "DELETE": "{agentName} heeft een team verwijderd (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} heeft een nieuwe macro aangemaakt (#%{id})",
-      "EDIT": "%{agentName} heeft een macro bijgewerkt (#%{id})",
-      "DELETE": "%{agentName} heeft een macro verwijderd (#%{id})"
+      "ADD": "{agentName} heeft een nieuwe macro aangemaakt (#{id})",
+      "EDIT": "{agentName} heeft een macro bijgewerkt (#{id})",
+      "DELETE": "{agentName} heeft een macro verwijderd (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} heeft %{user} toegevoegd aan de inbox (#%{inbox_id})",
-      "REMOVE": "%{agentName} heeft %{user} verwijderd uit de inbox (#%{inbox_id})"
+      "ADD": "{agentName} heeft {user} toegevoegd aan de inbox (#{inbox_id})",
+      "REMOVE": "{agentName} heeft {user} verwijderd uit de inbox (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} heeft %{user} toegevoegd aan het team (#%{team_id})",
-      "REMOVE": "%{agentName} heeft %{user} verwijderd van het team (#%{team_id})"
+      "ADD": "{agentName} heeft {user} toegevoegd aan het team (#{team_id})",
+      "REMOVE": "{agentName} heeft {user} verwijderd van het team (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} heeft de accountconfiguratie bijgewerkt (#%{id})"
+      "EDIT": "{agentName} heeft de accountconfiguratie bijgewerkt (#{id})"
     }
   }
 }

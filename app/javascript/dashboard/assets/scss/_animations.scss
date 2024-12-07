@@ -31,23 +31,6 @@
   transform: translateX($space-medium);
 }
 
-.menu-list-enter-active,
-.menu-list-leave-active {
-  transition: opacity 0.3s var(--ease-out-cubic),
-    transform 0.2s var(--ease-out-cubic);
-}
-
-.menu-list-leave-to {
-  opacity: 0;
-  position: absolute;
-  transform: translateX($space-small);
-}
-
-.menu-list-enter {
-  opacity: 0;
-  transform: translateX(-$space-small);
-}
-
 .slide-up-enter-active {
   transition: all 0.3s var(--ease-in-cubic);
 }
@@ -65,7 +48,8 @@
 .menu-slide-enter-active,
 .menu-slide-leave-active {
   transform: translateY(0);
-  transition: transform 0.25s var(--ease-in-cubic),
+  transition:
+    transform 0.25s var(--ease-in-cubic),
     opacity 0.15s var(--ease-in-cubic);
 }
 

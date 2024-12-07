@@ -3,7 +3,8 @@
     "HEADER": "Atributos personalizados",
     "HEADER_BTN_TXT": "Añadir atributo personalizado",
     "LOADING": "Obtener atributos personalizados",
-    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Un atributo personalizado registra los datos de tus contactos/conversación — como el plan de suscripción, o cuando hayan pedido el primer artículo etc. <br /><br />Para crear un atributo personalizado, simplemente haga clic en el<b>Añadir atributo personalizado.</b> También puede editar o eliminar un atributo personalizado existente haciendo clic en el botón Editar o Borrar.</p>",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "Añadir atributo personalizado",
       "SUBMIT": "Crear",
@@ -39,6 +40,17 @@
           "PLACEHOLDER": "Introducir clave de atributo personalizado",
           "ERROR": "Clave es requerida",
           "IN_VALID": "Llave Invalida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Patrón de Regex",
+          "PLACEHOLDER": "Por favor, introduzca el patrón de regex de atributo personalizado. (Opcional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Por favor ingrese la pista de patrones regex. (opcional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Habilitar validación regex"
         }
       },
       "API": {
@@ -53,7 +65,7 @@
         "ERROR_MESSAGE": "No se pudo borrar el equipo. Intente nuevamente."
       },
       "CONFIRM": {
-        "TITLE": "¿Está seguro que quiere borrar - %{attributeName}?",
+        "TITLE": "¿Está seguro que quiere borrar - {attributeName}?",
         "PLACE_HOLDER": "Por favor, escriba {attributeName} para confirmar",
         "MESSAGE": "Borrar, eliminará el atributo personalizado",
         "YES": "Eliminar ",
@@ -93,6 +105,17 @@
       "EMPTY_RESULT": {
         "404": "No hay atributos personalizados creados",
         "NOT_FOUND": "No hay atributos personalizados configurados"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Patrón de Regex",
+        "PLACEHOLDER": "Por favor, introduzca el patrón de regex de atributo personalizado. (Opcional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Por favor ingrese la pista de patrones regex. (opcional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Habilitar validación regex"
       }
     }
   }

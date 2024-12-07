@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Prílohy sa nahrávajú...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
     "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
     "NO_RESPONSE": "Žiadna odpoveď",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
@@ -91,7 +101,7 @@
         "SELECT_PLACEHOLDER": "Žiadne",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Žiadne výsledky neboli nájdené",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
@@ -112,15 +122,15 @@
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -132,13 +142,15 @@
       "MSG_INPUT": "Shift + enter pre nový riadok. Ak chcete vybrať Uloženú odpoveď, začnite klávesou '/'.",
       "PRIVATE_MSG_INPUT": "Shift + enter pre nový riadok. Toto bude viditeľné len pre agentov",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Odpovedať",
       "PRIVATE_NOTE": "Súkromná správa",
       "SEND": "Poslať",
       "CREATE": "Pridať poznámku",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Zobraziť rozšírený textový editor",
@@ -227,27 +239,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ahoj 👋, vitaj v %{installationName}!",
-    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z %{installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v %{installationName}, aby ste si spríjemnili zážitok.",
+    "TITLE": "Ahoj 👋, vitaj v {installationName}!",
+    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z {installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v {installationName}, aby ste si spríjemnili zážitok.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Prečítajte si naše novinky",
     "ALL_CONVERSATION": {
       "TITLE": "Všetky vaše konverzácie na jednom mieste",
-      "DESCRIPTION": "Zobrazte si všetky konverzácie od svojich zákazníkov na jednom ovládacom paneli. Konverzácie môžete filtrovať podľa prichádzajúceho kanála, štítku a statusu."
+      "DESCRIPTION": "Zobrazte si všetky konverzácie od svojich zákazníkov na jednom ovládacom paneli. Konverzácie môžete filtrovať podľa prichádzajúceho kanála, štítku a statusu.",
+      "NEW_LINK": "Kliknite sem pre vytvorenie schránky"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvite členov svojho tímu",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kliknite sem pre pozvanie člena tímu"
     },
-    "INBOXES": {
-      "TITLE": "Spojiť schránky",
-      "DESCRIPTION": "Prepojte rôzne kanály, cez ktoré s vami vaši zákazníci komunikujú. Môže to byť webový live-chat, vaša stránka na Facebooku alebo Twitteri alebo dokonca vaše číslo na WhatsApp.",
-      "NEW_LINK": "Kliknite sem pre vytvorenie schránky"
-    },
     "LABELS": {
       "TITLE": "Usporiadajte si konverzácie pomocou štítkov",
       "DESCRIPTION": "Štítky umožňujú jednoduchšie kategorizovať konverzáciu. Vytvorte si niekoľko štítkov, napríklad #podpora-dotaz, #vyuctovanie-otazka atď., aby ste ich mohli neskôr použiť v konverzácii.",
       "NEW_LINK": "Kliknutím sem vytvoríte tagy"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -269,6 +285,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvoriť atribút",
+    "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené",
     "UPDATE": {
       "SUCCESS": "Atribút úspešne nahraný",
       "ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr"
@@ -300,10 +317,10 @@
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Žiadne výsledky neboli nájdené",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",

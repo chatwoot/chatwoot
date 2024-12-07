@@ -3,6 +3,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
+<<<<<<< HEAD
   src: url('~shared/assets/fonts/VazirmatnSans/Vazirmatn-Medium.woff2') format('woff2'),
        url('~shared/assets/fonts/VazirmatnSans/Vazirmatn-Medium.woff2') format('woff');
 }
@@ -14,4 +15,24 @@
   font-display: swap;
   src: url('~shared/assets/fonts/VazirmatnSans/Vazirmatn-Medium.woff2') format('woff2'),
        url('~shared/assets/fonts/VazirmatnSans/Vazirmatn-Medium.woff2') format('woff');
+=======
+  src: url('shared/assets/fonts/VazirmatnSans/Vazirmatn-Regular.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'Inter,';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('shared/assets/fonts/VazirmatnSans/Vazirmatn-Medium.woff2') format('woff2');
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
+}
+
+@font-face {
+  font-family: 'Inter,';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('shared/assets/fonts/VazirmatnSans/Vazirmatn-SemiBold.woff2') format('woff2');
+}
+

@@ -3,7 +3,8 @@
     "HEADER": "Agenti",
     "HEADER_BTN_TXT": "Přidat agenta",
     "LOADING": "Načítání seznamu agentů",
-    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> <b>Agent</b> je členem vašeho týmu zákaznické podpory. </p><p> Agenti budou moci prohlížet a odpovídat na zprávy od uživatelů. Seznam zobrazuje všechny agenty aktuálně na vašem účtu. </p><p> Pro přidání nového agenta klikněte na <b>Přidat agenta</b>. Přidaný agent obdrží e-mail s potvrzovacím odkazem pro aktivaci jejich účtu, poté bude mít přístup k Chatwoot a bude reagovat na zprávy. </p><p> Přístup k funkcím Chatwootu je založen na následujících rolích. </p><p> <b>Agent</b> - Agent s touto rolí může přistupovat pouze k doručeným zprávám, zprávám a konverzacím. Mohou přiřadit konverzace jiným agentům nebo sobě a řešit konverzace.</p><p> <b>Administrátor</b> - Správce bude mít přístup ke všem funkcím Chatwoot povoleným pro váš účet, včetně nastavení spolu se všemi obvyklými právy agenta.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrátor",
       "AGENT": "Agent"
@@ -17,7 +18,8 @@
       "STATUS": "Stav",
       "ACTIONS": "Akce",
       "VERIFIED": "Ověřeno",
-      "VERIFICATION_PENDING": "Probíhá ověření"
+      "VERIFICATION_PENDING": "Probíhá ověření",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Přidat agenta do vašeho týmu",

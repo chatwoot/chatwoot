@@ -1,7 +1,7 @@
 module Api::V2::Accounts::ReportsHelper
   def generate_agents_report
     Current.account.users.map do |agent|
-      agent_report = generate_report({ type: :agent, id: agent.id })
+      agent_report = report_builder({ type: :agent, id: agent.id }).summary
       [agent.name] + generate_readable_report_metrics(agent_report)
     end
   end
@@ -15,7 +15,7 @@ module Api::V2::Accounts::ReportsHelper
 
   def generate_teams_report
     Current.account.teams.map do |team|
-      team_report = generate_report({ type: :team, id: team.id })
+      team_report = report_builder({ type: :team, id: team.id }).summary
       [team.name] + generate_readable_report_metrics(team_report)
     end
   end
@@ -27,7 +27,7 @@ module Api::V2::Accounts::ReportsHelper
     end
   end
 
-  def generate_report(report_params)
+  def report_builder(report_params)
     V2::ReportBuilder.new(
       Current.account,
       report_params.merge(
@@ -37,7 +37,11 @@ module Api::V2::Accounts::ReportsHelper
           business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
         }
       )
-    ).summary
+    )
+  end
+
+  def generate_report(report_params)
+    report_builder(report_params).short_summary
   end
 
   private
@@ -45,12 +49,10 @@ module Api::V2::Accounts::ReportsHelper
   def generate_readable_report_metrics(report_metric)
     [
       report_metric[:conversations_count],
-      time_to_minutes(report_metric[:avg_first_response_time]),
-      time_to_minutes(report_metric[:avg_resolution_time])
+      Reports::TimeFormatPresenter.new(report_metric[:avg_first_response_time]).format,
+      Reports::TimeFormatPresenter.new(report_metric[:avg_resolution_time]).format,
+      Reports::TimeFormatPresenter.new(report_metric[:reply_time]).format,
+      report_metric[:resolutions_count]
     ]
-  end
-
-  def time_to_minutes(time_in_seconds)
-    (time_in_seconds / 60).to_i
   end
 end

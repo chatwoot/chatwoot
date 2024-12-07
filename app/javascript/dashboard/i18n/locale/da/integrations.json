@@ -1,8 +1,18 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrationer",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
+      "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Annuller",
         "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din Chatwoot-konto. Angiv en gyldig URL for at konfigurere et callback.",
@@ -66,7 +76,7 @@
         },
         "CONFIRM": {
           "TITLE": "Bekræft Sletning",
-          "MESSAGE": "Er du sikker på at du vil slette webhook? (%{webhookURL})",
+          "MESSAGE": "Er du sikker på at du vil slette webhook? ({webhookURL})",
           "YES": "Ja, Slet ",
           "NO": "Nej, behold det"
         }
@@ -104,7 +114,7 @@
     },
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "WITH_AI": " {option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -169,6 +179,7 @@
       "HEADER_BTN_TXT": "Tilføj en ny dashboard app",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps tillader organisationer at integrere en applikation i Chatwoot-dashboardet for at give konteksten til kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at inde i instrumentbrættet til at give brugerinformation, deres ordrer eller deres tidligere betalingshistorie.</p><p>Når du indlejrer din applikation ved hjælp af instrumentbrættet i Chatwoot, dit program vil få konteksten af samtalen og kontakt som en vinduesbegivenhed. Gennemfør en lytter til besked begivenheden på din side for at modtage konteksten.</p><p>For at tilføje en ny dashboard app, klik på knappen 'Tilføj en ny dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps giver organisationer mulighed for at integrere et program i instrumentbrættet for at give konteksten for kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at give brugeroplysninger, deres ordrer, eller deres tidligere betalingshistorik.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Der er ingen dashboard apps konfigureret på denne konto endnu",
         "LOADING": "Henter dashboard apps...",
@@ -205,9 +216,90 @@
         "CONFIRM_YES": "Ja, slet det",
         "CONFIRM_NO": "Nej, behold det",
         "TITLE": "Bekræft sletning",
-        "MESSAGE": "Er du sikker på at du vil slette appen - %{appName}?",
+        "MESSAGE": "Er du sikker på at du vil slette appen - {appName}?",
         "API_SUCCESS": "Dashboard app slettet",
         "API_ERROR": "Vi kunne ikke slette appen. Prøv igen senere"
+      }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Opret",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Titel",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Titel er påkrævet"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Beskrivelse",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Team",
+            "PLACEHOLDER": "Vælg hold",
+            "SEARCH": "Search team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Priority",
+            "PLACEHOLDER": "Select priority",
+            "SEARCH": "Search priority"
+          },
+          "LABEL": {
+            "LABEL": "Etiketter",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
+          },
+          "STATUS": {
+            "LABEL": "Status",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
+          },
+          "PROJECT": {
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
+          }
+        },
+        "CREATE": "Opret",
+        "CANCEL": "Annuller",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Status",
+        "PRIORITY": "Priority",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Etiketter",
+        "CREATED_AT": "Created at {createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }

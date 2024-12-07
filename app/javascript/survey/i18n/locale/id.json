@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Pelanggan yang terhormat 👋, harap luangkan waktu sejenak untuk memberikan umpan balik tentang percakapan yang Anda lakukan %{inboxName}.",
+    "DESCRIPTION": "Pelanggan yang terhormat 👋, harap luangkan waktu sejenak untuk memberikan umpan balik tentang percakapan yang Anda lakukan {inboxName}.",
     "RATING": {
       "LABEL": "Nilai percakapan Anda",
       "SUCCESS_MESSAGE": "Terima kasih telah mengirimkan penilaian"
@@ -15,5 +15,9 @@
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
     }
   },
+<<<<<<< HEAD
   "POWERED_BY": "PPowered by xping"
+=======
+  "POWERED_BY": "Powered by xping"
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 }

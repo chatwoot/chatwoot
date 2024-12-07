@@ -1,3 +1,46 @@
+<script>
+import Draggable from 'vuedraggable';
+import MacroNode from './MacroNode.vue';
+import { getFileName } from './macroHelper';
+
+export default {
+  components: {
+    Draggable,
+    MacroNode,
+  },
+  props: {
+    errors: {
+      type: Object,
+      default: () => ({}),
+    },
+    modelValue: {
+      type: Array,
+      default: () => [],
+    },
+    files: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  emits: ['update:modelValue', 'resetAction', 'deleteNode', 'addNewNode'],
+  computed: {
+    actionData: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+  },
+  methods: {
+    fileName() {
+      return getFileName(...arguments);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="macros__nodes">
     <div class="macro__node">
@@ -8,33 +51,37 @@
         />
       </div>
     </div>
-    <draggable
+    <Draggable
       :list="actionData"
       animation="200"
+      item-key="id"
       ghost-class="ghost"
       tag="div"
       class="macros__nodes-draggable"
       handle=".macros__node-drag-handle"
     >
-      <div v-for="(action, i) in actionData" :key="i" class="macro__node">
-        <macro-node
-          v-model="actionData[i]"
-          class="macros__node-action"
-          type="add"
-          :index="i"
-          :file-name="
-            fileName(
-              actionData[i].action_params[0],
-              actionData[i].action_name,
-              files
-            )
-          "
-          :single-node="actionData.length === 1"
-          @resetAction="$emit('resetAction', i)"
-          @deleteNode="$emit('deleteNode', i)"
-        />
-      </div>
-    </draggable>
+      <template #item="{ index: i }">
+        <div :key="i" class="macro__node">
+          <MacroNode
+            v-model="actionData[i]"
+            class="macros__node-action"
+            type="add"
+            :index="i"
+            :error-key="errors[`action_${i}`]"
+            :file-name="
+              fileName(
+                actionData[i].action_params[0],
+                actionData[i].action_name,
+                files
+              )
+            "
+            :single-node="actionData.length === 1"
+            @reset-action="$emit('resetAction', i)"
+            @delete-node="$emit('deleteNode', i)"
+          />
+        </div>
+      </template>
+    </Draggable>
     <div class="macro__node">
       <div>
         <woot-button
@@ -59,43 +106,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import Draggable from 'vuedraggable';
-import MacroNode from './MacroNode.vue';
-import { getFileName } from './macroHelper';
-export default {
-  components: {
-    Draggable,
-    MacroNode,
-  },
-  props: {
-    value: {
-      type: Array,
-      default: () => [],
-    },
-    files: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    actionData: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit('input', value);
-      },
-    },
-  },
-  methods: {
-    fileName() {
-      return getFileName(...arguments);
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .macros__nodes {

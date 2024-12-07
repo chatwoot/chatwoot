@@ -1,25 +1,26 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "All",
-      "CONTACTS": "Contacts",
-      "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "ALL": "Sve",
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke"
     },
     "SECTION": {
-      "CONTACTS": "Contacts",
-      "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "SEARCHING_DATA": "Tražim",
+    "EMPTY_STATE": "Pronađeno {item} za traženi pojam '{query}'",
+    "EMPTY_STATE_FULL": "Ništa nije pronađeno za traženi pojam '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ za fokusiranje",
+    "INPUT_PLACEHOLDER": "Unesi 3 ili više znakova za pretragu",
+    "EMPTY_STATE_DEFAULT": "Traži po conversation id, e-mail, broj telefona, poruke za bolje rezultate pretrage. ",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
-    "FROM": "from",
+    "READ_MORE": "Pročitaj više",
+    "WROTE": "napisao/la:",
+    "FROM": "od",
     "EMAIL": "email"
   }
 }

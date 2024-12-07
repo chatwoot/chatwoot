@@ -1,9 +1,3 @@
-<template>
-  <div class="h-full w-full antialiased" :class="theme">
-    <router-view />
-    <snackbar-container />
-  </div>
-</template>
 <script>
 import SnackbarContainer from './components/SnackBar/Container.vue';
 
@@ -42,12 +36,23 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="h-full min-h-screen w-full antialiased" :class="theme">
+    <router-view />
+    <SnackbarContainer />
+  </div>
+</template>
+
 <style lang="scss">
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
 @import 'shared/assets/fonts/Vazir-matn';
+=======
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 @import 'shared/assets/stylesheets/colors';
 @import 'shared/assets/stylesheets/spacing';
 @import 'shared/assets/stylesheets/font-size';
@@ -55,6 +60,7 @@ export default {
 
 html,
 body {
+<<<<<<< HEAD
   font-family:
     'Vazirmatn',
     -apple-system,
@@ -66,6 +72,10 @@ body {
     Cantarell,
     'Helvetica Neue',
     sans-serif;
+=======
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
   @apply h-full w-full;
 
   input,
@@ -78,7 +88,15 @@ body {
   @apply text-woot-500 font-medium hover:text-woot-600;
 }
 
-.tooltip {
-  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-300 dark:text-slate-900;
+.v-popper--theme-tooltip .v-popper__inner {
+  background: black !important;
+  font-size: 0.75rem;
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-container {
+  display: none;
 }
 </style>

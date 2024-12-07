@@ -3,7 +3,9 @@
 module CustomExceptions::Account
   class InvalidEmail < CustomExceptions::Base
     def message
-      if @data[:disposable]
+      if @data[:domain_blocked]
+        I18n.t 'errors.signup.blocked_domain'
+      elsif @data[:disposable]
         I18n.t 'errors.signup.disposable_email'
       elsif !@data[:valid]
         I18n.t 'errors.signup.invalid_email'
@@ -14,6 +16,12 @@ module CustomExceptions::Account
   class UserExists < CustomExceptions::Base
     def message
       I18n.t('errors.signup.email_already_exists', email: @data[:email])
+    end
+  end
+
+  class InvalidParams < CustomExceptions::Base
+    def message
+      I18n.t 'errors.signup.invalid_params'
     end
   end
 

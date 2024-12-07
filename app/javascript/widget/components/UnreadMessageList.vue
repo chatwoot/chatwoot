@@ -1,15 +1,72 @@
+<script>
+import { mapGetters } from 'vuex';
+import configMixin from '../mixins/configMixin';
+import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import UnreadMessage from 'widget/components/UnreadMessage.vue';
+import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
+import { emitter } from 'shared/helpers/mitt';
+
+export default {
+  name: 'Unread',
+  components: {
+    FluentIcon,
+    UnreadMessage,
+  },
+  mixins: [configMixin],
+  props: {
+    messages: {
+      type: Array,
+      required: true,
+    },
+  },
+  emits: ['close'],
+  computed: {
+    ...mapGetters({
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+    sender() {
+      const [firstMessage] = this.messages;
+      return firstMessage.sender || {};
+    },
+    isBackgroundLighter() {
+      return isWidgetColorLighter(this.widgetColor);
+    },
+  },
+  methods: {
+    openConversationView() {
+      emitter.emit(ON_UNREAD_MESSAGE_CLICK);
+    },
+    closeFullView() {
+      this.$emit('close');
+    },
+    getMessageContent(message) {
+      const { attachments, content } = message;
+      const hasAttachments = attachments && attachments.length;
+
+      if (content) return content;
+
+      if (hasAttachments) return `📑`;
+
+      return '';
+    },
+  },
+};
+</script>
+
 <template>
   <div class="unread-wrap">
     <div class="close-unread-wrap">
       <button class="button small close-unread-button" @click="closeFullView">
         <span class="flex items-center">
-          <fluent-icon class="mr-1" icon="dismiss" size="12" />
+          <FluentIcon class="mr-1" icon="dismiss" size="12" />
           {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
         </span>
       </button>
     </div>
     <div class="unread-messages">
-      <unread-message
+      <UnreadMessage
         v-for="(message, index) in messages"
         :key="message.id"
         :message-type="message.messageType"
@@ -36,7 +93,7 @@
             color: widgetColor,
           }"
         >
-          <fluent-icon class="mr-2" size="16" icon="arrow-right" />
+          <FluentIcon class="mr-2" size="16" icon="arrow-right" />
           {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
         </span>
       </button>
@@ -44,62 +101,8 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import configMixin from '../mixins/configMixin';
-import { ON_UNREAD_MESSAGE_CLICK } from '../constants/widgetBusEvents';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import UnreadMessage from 'widget/components/UnreadMessage.vue';
-import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
-
-export default {
-  name: 'Unread',
-  components: {
-    FluentIcon,
-    UnreadMessage,
-  },
-  mixins: [configMixin],
-  props: {
-    messages: {
-      type: Array,
-      required: true,
-    },
-  },
-  computed: {
-    ...mapGetters({
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    sender() {
-      const [firstMessage] = this.messages;
-      return firstMessage.sender || {};
-    },
-    isBackgroundLighter() {
-      return isWidgetColorLighter(this.widgetColor);
-    },
-  },
-  methods: {
-    openConversationView() {
-      bus.$emit(ON_UNREAD_MESSAGE_CLICK);
-    },
-    closeFullView() {
-      this.$emit('close');
-    },
-    getMessageContent(message) {
-      const { attachments, content } = message;
-      const hasAttachments = attachments && attachments.length;
-
-      if (content) return content;
-
-      if (hasAttachments) return `📑`;
-
-      return '';
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables';
+@import 'widget/assets/scss/variables';
 
 .unread-wrap {
   width: 100%;
@@ -146,6 +149,7 @@ export default {
       color: $color-body;
     }
   }
+
   .is-background-light {
     color: $color-body !important;
   }

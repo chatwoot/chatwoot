@@ -3,7 +3,8 @@
     "HEADER": "Agentai",
     "HEADER_BTN_TXT": "Pridėti Agentą",
     "LOADING": "Gaunamas agentų sąrašas",
-    "SIDEBAR_TXT": "<p><b>Makrokomandos</b><p>Makrokomandos yra išsaugotų veiksmų rinkinys, padedantis klientų aptarnavimo agentams lengvai atlikti užduotis. Agentai gali apibrėžti veiksmų rinkinį, pvz., pokalbio žymėjimą etikete, el. laiško nuorašo siuntimą, tinkinto atributo atnaujinimą ir pan., ir jie gali atlikti šiuos veiksmus vienu paspaudimu. Kai agentai vykdo makrokomandą, veiksmai bus atliekami nuosekliai tokia tvarka, kokia jie yra apibrėžti. Makrokomandos pagerina produktyvumą ir padidina veiksmų nuoseklumą. </p><p>Makrokomandas gali būti naudingas dviem būdais. </p><p><b>Kaip agento pagalba:</b> jei agentas kelis kartus atlieka veiksmų rinkinį, jis gali išsaugoti jį kaip makrokomandą ir atlikti visus veiksmus kartu vienu spustelėjimu.</b> p><p><b>Kaip galimybė įtraukti komandos narį:</b> kiekvienas agentas kiekvieno pokalbio metu turi atlikti daugybę skirtingų patikrinimų / veiksmų. Priimti naują palaikymo komandos narį bus lengva, jei paskyroje bus iš anksto nustatytų makrokomandų. Užuot išsamiai aprašęs kiekvieną veiksmą, vadovas / komandos vadovas gali nurodyti įvairiuose scenarijuose naudojamas makrokomandas.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administratorius",
       "AGENT": "Agentas"
@@ -17,7 +18,8 @@
       "STATUS": "Būsena",
       "ACTIONS": "Veiksmai",
       "VERIFIED": "Patikrinta",
-      "VERIFICATION_PENDING": "Laukiama patvirtinimo"
+      "VERIFICATION_PENDING": "Laukiama patvirtinimo",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Pridėti agentą prie komandos",

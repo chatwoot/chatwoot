@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
       "LABEL": "Ohodnoťte konverzáciu",
       "SUCCESS_MESSAGE": "Thank you for submitting the rating"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
     }
   },
-  "POWERED_BY": "Používame Chatwoot"
+  "POWERED_BY": "Používame xping"
 }

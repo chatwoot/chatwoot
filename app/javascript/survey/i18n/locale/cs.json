@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Vážený zákazníku 👋, věnujte prosím několik okamžiků zpětné vazbě na konverzaci, kterou jste vedli s %{inboxName}.",
+    "DESCRIPTION": "Vážený zákazníku 👋, věnujte prosím několik okamžiků zpětné vazbě na konverzaci, kterou jste vedli s {inboxName}.",
     "RATING": {
       "LABEL": "Ohodnoťte svou konverzaci",
       "SUCCESS_MESSAGE": "Děkujeme Vám za odeslání hodnocení"
@@ -15,5 +15,9 @@
       "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
     }
   },
+<<<<<<< HEAD
   "POWERED_BY": "PPowered by xping"
+=======
+  "POWERED_BY": "Powered by xping"
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 }

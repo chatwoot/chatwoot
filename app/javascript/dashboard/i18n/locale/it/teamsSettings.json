@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Crea un nuovo team",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams ti permette di organizzare i tuoi agenti in gruppi in base alle loro responsabilità. <br /> Un agente può far parte di più team. È possibile assegnare conversazioni a un team quando si lavora in collaborazione. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Non ci sono team creati su questo account.",
-      "EDIT_TEAM": "Modifica team"
+      "EDIT_TEAM": "Modifica team",
+      "NONE": "Nessuno"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Aggiungi agenti al team",
-        "TITLE": "Aggiungi agenti al team - %{teamName}",
+        "TITLE": "Aggiungi agenti al team - {teamName}",
         "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Aggiorna agenti nel team",
-        "TITLE": "Aggiungi agenti al team - %{teamName}",
+        "TITLE": "Aggiungi agenti al team - {teamName}",
         "DESC": "Aggiungi agenti al tuo team appena creato. Tutti gli agenti aggiunti verranno avvisati quando una conversazione viene assegnata a questo team."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Aggiunta di agenti al tuo team...",
       "SELECT": "seleziona",
       "SELECT_ALL": "seleziona tutti gli agenti",
-      "SELECTED_COUNT": "%{selected} su %{total} agenti selezionati."
+      "SELECTED_COUNT": "{selected} su {total} agenti selezionati."
     },
     "ADD": {
-      "TITLE": "Aggiungi agenti al team - %{teamName}",
+      "TITLE": "Aggiungi agenti al team - {teamName}",
       "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione.",
       "SELECT": "seleziona",
       "SELECT_ALL": "seleziona tutti gli agenti",
-      "SELECTED_COUNT": "%{selected} su %{total} agenti selezionati.",
+      "SELECTED_COUNT": "{selected} su {total} agenti selezionati.",
       "BUTTON_TEXT": "Aggiungi agenti",
       "AGENT_VALIDATION_ERROR": "Seleziona almeno un agente."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Impossibile eliminare il team. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Sei sicuro di voler eliminare - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Digita {teamName} per confermare",
         "MESSAGE": "L'eliminazione del team rimuoverà l'assegnazione del team dalle conversazioni assegnate a questo team.",
         "YES": "Elimina ",

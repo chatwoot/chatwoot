@@ -66,7 +66,7 @@ class Inbox < ApplicationRecord
   has_many :inbox_members, dependent: :destroy_async
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy_async
-  has_many :messages, through: :conversations
+  has_many :messages, dependent: :destroy_async
 
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
@@ -129,7 +129,16 @@ class Inbox < ApplicationRecord
   end
 
   def active_bot?
-    agent_bot_inbox&.active? || hooks.where(app_id: 'dialogflow', status: 'enabled').count.positive?
+    agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
+                                            status: 'enabled').count.positive? || captain_enabled?
+  end
+
+  def captain_enabled?
+    captain_hook = account.hooks.where(
+      app_id: %w[captain], status: 'enabled'
+    ).first
+
+    captain_hook.present? && captain_hook.settings['inbox_ids'].split(',').include?(id.to_s)
   end
 
   def inbox_type

@@ -3,7 +3,8 @@
     "HEADER": "Ejen",
     "HEADER_BTN_TXT": "Tambahkan ejen",
     "LOADING": "Mendapatkan senarai ejen",
-    "SIDEBAR_TXT": "<p><b>Ejen</b></p> <p> Seorang <b>Ejen</b> adalah ahli sistem bantuan anda. </p><p> Ejen boleh membaca dan menjawab mesej dari pengguna pengguna anda </p><p> Klik di <b>Tambah Ejen</b> untuk menambah bilangan ejen. Ejen yang ditambah akan menerima emel dengan pengesahan untuk mengaktifkan akaun mereka, selepas itu, mereka boleh akses Chatwoot dan respon kepada mesej. </p><p> Akses ke ciri-ciri Chatwoot adalah berdasarkan kepada peranan peranan berikut. </p><p> <b>Ejen</b> - Ejen dengan peranan ini boleh akses inbox, repot dan perbualan. Mereka boleh tugaskan perbualan kepada ejen lain atau mereka sendiri dan boleh selesaikan sendiri.</p><p> <b>Pentadbir</b> - Pentadbir boleh akses semua ciri-ciri Chatwoot yang dibenarkan terhadap akaun anda termasuk, settings dan apa apa yang ejen biasa boleh lakukan.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Pentadbir",
       "AGENT": "Ejen"
@@ -17,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Tindakan-tindakan",
       "VERIFIED": "Disahkan",
-      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai"
+      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Tambahkan ejen ke pasukan anda",

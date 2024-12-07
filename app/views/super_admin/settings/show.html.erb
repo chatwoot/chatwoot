@@ -13,6 +13,15 @@
   </div>
 </header>
 <section class="main-content__body">
+
+  <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
+    <strong class="font-bold">Alert!</strong>
+    <span class="block sm:inline">Unauthorized premium changes detected in Chatwoot. To keep using them, please upgrade your plan. 
+      Contact for help :</span><span class="inline rounded-full bg-red-200 px-2  text-white  ml-2">sales@chatwoot.com</span>
+    </div>
+  <% end %>
+
   <div class="bg-white py-2 px-3">
     <div class="mb-4">
       <div class="flex items-center gap-2">
@@ -44,7 +53,7 @@
     <% if ChatwootHub.pricing_plan != 'community' &&  User.count > ChatwootHub.pricing_plan_quantity %>
     <div role="alert">
       <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-        <p>You have <%= User.count %> agents. Please add more licenses.</p>
+        <p>You have <%= User.count %> agents. Please add more licenses to add more users.</p>
       </div>
     </div>
     <% end %>

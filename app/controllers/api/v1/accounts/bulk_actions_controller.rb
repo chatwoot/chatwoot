@@ -21,6 +21,6 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
   end
 
   def permitted_params
-    params.permit(:type, ids: [], fields: [:status, :assignee_id, :team_id], labels: [add: [], remove: []])
+    params.permit(:type, :snoozed_until, ids: [], fields: [:status, :assignee_id, :team_id], labels: [add: [], remove: []])
   end
 end

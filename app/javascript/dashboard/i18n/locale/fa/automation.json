@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "اتوماسیون ها",
+    "HEADER": "خودکارسازی",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "افزودن قانون خودکارسازی",
     "LOADING": "واکشی قوانین اتوماسیون",
-    "SIDEBAR_TXT": "<p><b>قوانین خودکارسازی</b> <p>اتوماسیون می‌تواند جایگزین و خودکار فرآیندهای موجودی باشد که نیاز به تلاش دستی دارند. شما می توانید بسیاری از کارها را با اتوماسیون انجام دهید، از جمله افزودن برچسب ها و اختصاص مکالمه به بهترین نماینده. بنابراین تیم روی کارهایی که به بهترین شکل انجام می‌دهند تمرکز می‌کنند و زمان کمی را برای کارهای دستی صرف می‌کنند.</p>",
     "ADD": {
       "TITLE": "افزودن قانون خودکارسازی",
       "SUBMIT": "ايجاد كردن",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "برای ذخیره باید حداقل یک اکشن داشته باشید",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "پیام خود را اینجا وارد کنید",
-      "TEAM_DROPDOWN_PLACEHOLDER": "انتخاب تیم‌ها"
+      "TEAM_DROPDOWN_PLACEHOLDER": "انتخاب تیم‌ها",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "فعال کردن قانون اتوماسیون",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "در حال بارگذاری...",
       "LABEL_UPLOADED": "با موفقیت آپلود شد",
       "LABEL_UPLOAD_FAILED": "بارگذاری انجام نشد"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "مقدار الزامی است",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

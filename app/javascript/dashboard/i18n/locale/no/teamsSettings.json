@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Create new team",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "EDIT_TEAM": "Edit team",
+      "NONE": "None"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "TITLE": "Add agents to team - {teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "{selected} out of {total} agents selected."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
+      "TITLE": "Add agents to team - {teamName}",
       "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "{selected} out of {total} agents selected.",
       "BUTTON_TEXT": "Legg til agenter",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Couldn't delete the team. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "Slett ",

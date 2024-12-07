@@ -1,5 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters, sortComparator } from './helpers';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -17,10 +19,10 @@ const getters = {
     );
     return selectedChat || {};
   },
-  getSelectedChatAttachments: (_state, _getters) => {
-    const selectedChat = _getters.getSelectedChat;
-    return selectedChat.attachments || [];
+  getSelectedChatAttachments: ({ selectedChatId, attachments }) => {
+    return attachments[selectedChatId] || [];
   },
+  getChatListFilters: ({ conversationFilters }) => conversationFilters,
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
@@ -53,8 +55,16 @@ const getters = {
       return isChatMine;
     });
   },
+  getAppliedConversationFiltersV2: _state => {
+    // TODO: Replace existing one with V2 after migrating the filters to use camelcase
+    return _state.appliedFilters.map(camelcaseKeys);
+  },
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
+  },
+  getAppliedConversationFiltersQuery: _state => {
+    const hasAppliedFilters = _state.appliedFilters.length !== 0;
+    return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
@@ -99,6 +109,10 @@ const getters = {
   },
   getConversationLastSeen: _state => {
     return _state.conversationLastSeen;
+  },
+
+  getContextMenuChatId: _state => {
+    return _state.contextMenuChatId;
   },
 };
 

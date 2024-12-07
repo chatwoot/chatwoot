@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "شماره تلفن مورد نیاز است",
         "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
         "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
-        "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد"
+        "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -80,7 +81,8 @@
     },
     "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
     "IS_REQUIRED": "مورد نیاز است",
-    "REQUIRED": "ضروری"
+    "REQUIRED": "ضروری",
+    "REGEX_ERROR": "لطفا یک ورودی معتبر ارائه دهید"
   },
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {
@@ -90,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "جستجوی ایموجی",
-    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد"
+    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",
@@ -132,5 +135,8 @@
     "fallback": {
       "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "در حال پاسخ دهی به:"
   }
 }

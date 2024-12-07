@@ -29,8 +29,10 @@ pt_BR:
       invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
+      blocked_domain: Este domínio não é permitido. Se você acredita que isso é um erro, por favor contate o suporte.
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se cadastrou para uma conta com %{email}"
+      invalid_params: 'Inválido, por favor, verifique os parâmetros de inscrição e tente novamente'
       failed: Registro falhou
     data_import:
       data_type:
@@ -62,32 +64,48 @@ pt_BR:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
     custom_filters:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 50.
+      invalid_attribute: Chave de atributo inválido - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
+      invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
+      invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
     agent_csv:
       agent_name: Nome do Agente
-      conversations_count: Contagem de conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      conversations_count: Conversas atribuídas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Tempo médio de espera do cliente
     inbox_csv:
       inbox_name: Nome da Caixa de Entrada
       inbox_type: Tipo da Caixa de Entrada
       conversations_count: Nº de Conversas
-      avg_first_response_time: Média de tempo da primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     label_csv:
       label_title: Nome do campo
       conversations_count: Nº de Conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Tempo médio de espera do cliente
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Fuso horário
+    sla_csv:
+      conversation_id: Conversas
+      sla_policy_breached: Política SLA
+      assignee: Responsável
+      team: Times
+      inbox: Caixa de Entrada
+      labels: Marcadores
+      conversation_link: Link para a conversa
+      breached_events: Eventos Violados
     default_group_by: dia
     csat:
       headers:
@@ -101,10 +119,15 @@ pt_BR:
         recorded_at: Data de gravação
   notifications:
     notification_title:
-      conversation_creation: "[Nova conversa] - #%{display_id} foi criado em %{inbox_name}"
-      conversation_assignment: "[Atribuído a você] - #%{display_id} foi atribuído a você"
-      assigned_conversation_new_message: "[Nova mensagem] - #%{display_id} %{content}"
-      conversation_mention: "Você foi mencionado na conversa [ID - %{display_id}] por %{name}"
+      conversation_creation: ""
+      conversation_assignment: "Uma conversa (#%{display_id}) foi atribuída a você"
+      assigned_conversation_new_message: "Uma nova mensagem foi criada na conversa (#%{display_id})"
+      conversation_mention: "Você foi mencionado em uma conversa (#%{display_id})"
+      sla_missed_first_response: "Primeira resposta da meta de SLA perdida para conversa (#%{display_id})"
+      sla_missed_next_response: ""
+      sla_missed_resolution: "Resolução de meta de SLA perdida para conversa (#%{display_id})"
+    attachment: "Anexo"
+    no_content: "Sem conteúdo"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na conversa: "
@@ -136,6 +159,9 @@ pt_BR:
       labels:
         added: "%{user_name} adicionou %{labels}"
         removed: "%{user_name} removeu %{labels}"
+      sla:
+        added: "%{user_name} adicionou política de SLA %{sla_name}"
+        removed: "%{user_name} removeu a política de SLA %{sla_name}"
       muted: "%{user_name} silenciou a conversa"
       unmuted: "%{user_name} reativou a conversa"
     templates:
@@ -162,28 +188,34 @@ pt_BR:
     online:
       delete: "%{contact_name} está Online, por favor, tente novamente mais tarde"
   integration_apps:
+    dashboard_apps:
+      name: "Apps da Dashboard"
+      description: "Apps do Painel permitem que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente."
     dyte:
       name: "Dyte"
-      description: "Dyte é uma ferramenta que ajuda você a adicionar áudio e vídeo ao vivo em sua aplicação com apenas algumas linhas de código. Essa integração permite dar uma opção aos seus agentes para ter uma chamada de vídeo ou voz com os seus clientes sem sair do Chatwoot."
+      description: "Dyte é um produto que integra as funcionalidades de áudio e vídeo em seu aplicativo. Com esta integração, seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do Chatwoot."
       meeting_name: "%{agent_name} começou a reunião"
     slack:
       name: "Slack"
-      description: "Slack é uma ferramenta que reúne todas as suas comunicações em um só lugar. Ao integrar o Slack, você pode ser notificado de todas as novas conversas da sua conta diretamente no seu Slack."
+      description: "Integre Chatwoot com Slack para manter sua equipe em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhooks fornecem informações em tempo real sobre o que está acontecendo em sua conta. Você pode usar os webhooks para comunicar eventos com seus aplicativos favoritos como Slack ou Github. Clique em Configurar para configurar seus webhooks."
+      description: "Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações."
     dialogflow:
-      name: "Dialogflow"
-      description: "Construa chatbots usando Dialogflow e conecte-os à sua caixa de entrada rapidamente. Deixe os bots lidarem com as consultas antes de entregá-los a um agente de atendimento ao cliente."
-    fullcontact:
-      name: "Contato completo"
-      description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
+      name: "Fluxo de diálogo"
+      description: "Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente."
     google_translate:
-      name: "Google Tradutor"
-      description: "Torne isso mais fácil para agentes traduzirem mensagens adicionando uma integração com o Tradutor do Google. O Tradutor do Google ajuda a identificar automaticamente o idioma e convertê-lo para o idioma escolhido pelo administrador de conta/agente."
+      name: "Tradutor do Google"
+      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
     openai:
       name: "OpenAI"
-      description: "Integre os poderosos recursos de IA ao Chatwoot aproveitando os modelos GPT da OpenAI."
+      description: "Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos."
+    linear:
+      name: "Linear"
+      description: "Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente."
+    captain:
+      name: "Capitain"
+      description: "O Captain é um assistente nativo de IA, construído para o seu produto e treinado na base de conhecimento da sua empresa. Ele responde como um humano e resolve as consultas aos clientes efetivamente. Configure nas suas caixas de entrada facilmente."
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
@@ -196,20 +228,48 @@ pt_BR:
     common:
       home: Principal
       last_updated_on: Última atualização em %{last_updated_on}
-      view_all_articles: Ver todos os artigos
+      view_all_articles: Visualizar tudo
       article: artigo
       articles: artigos
+      author: autor
+      authors: autores
+      other: outro
+      others: outros
+      by: Por
       no_articles: Não há artigos aqui
     footer:
       made_with: Criado com
     header:
-      go_to_homepage: Ir para o site principal
+      go_to_homepage: Site
+      appearance:
+        system: Sistema
+        light: Claro
+        dark: Escuro
+      featured_articles: Artigos em Destaque
+      uncategorized: Não categorizado
+    404:
+      title: Página não encontrada
+      description: Não conseguimos encontrar a página que você estava procurando.
+      back_to_home: Ir para a página inicial
   slack_unfurl:
     fields:
       name: Nome
-      email: e-mail
+      email: E-mail
       phone_number: Telefone
       company_name: Empresa
       inbox_name: Caixa de Entrada
       inbox_type: Tipo de Caixa de Entrada
     button: Abrir conversa
+  time_units:
+    days:
+      one: "%{count} dia"
+      other: "%{count} dias"
+    hours:
+      one: "%{count} hora"
+      other: "%{count} horas"
+    minutes:
+      one: "%{count} minuto"
+      other: "%{count} minutos"
+    seconds:
+      one: "%{count} segundo"
+      other: "%{count} segundos"

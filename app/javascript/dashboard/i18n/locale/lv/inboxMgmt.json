@@ -1,7 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Iesūtnes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Chatwoot risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu Chatwoot kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
+    "DESCRIPTION": "Kanāls ir saziņas veids, ko klients izvēlas saziņai ar jums. Iesūtne ir vieta, kur pārvaldāt mijiedarbības ar noteiktu kanālu. Tas var ietvert saziņu no dažādiem avotiem, piemēram, e-pasta, tiešsaistes tērzēšanas un sociālajiem medijiem.",
+    "LEARN_MORE": "Uzzināt vairāk par iesūtnēm",
+    "RECONNECTION_REQUIRED": "Jūsu iesūtne ir atvienota. Jūs nesaņemsiet jaunus ziņojumus, kamēr nebūsiet tos atkārtoti autorizējis.",
+    "CLICK_TO_RECONNECT": "Noklikšķiniet šeit, lai atkārtoti izveidotu savienojumu.",
     "LIST": {
       "404": "Šim kontam nav pievienota neviena Iesūtne."
     },
@@ -43,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
-        "PICK_NAME": "Izvēlieties savai iesūtnei nosaukumu",
+        "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
         "PICK_A_VALUE": "Izvēlieties vērtību"
       },
       "TWITTER": {
@@ -62,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Ievadiet savu Webhook URL",
+          "PLACEHOLDER": "Lūdzu ievadiet Webhook URL",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +146,7 @@
           "ERROR": "Šis lauks ir nepieciešams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Tālruņa numurs",
+          "LABEL": "Telefona numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
           "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
@@ -175,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "API atslēga",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API atslēgu",
+            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Key",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API Secret",
+            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Secret",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "APPLICATION_ID": {
@@ -239,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Pārbaudes Token",
-          "PLACEHOLDER": "Ievadiet verifikācijas token, kuru vēlaties nokonfigurēt priekš Facebook webhooks.",
+          "PLACEHOLDER": "Ievadiet verifikācijas token, ko vēlaties izmantot priekš Facebook webhook.",
           "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "API_KEY": {
@@ -279,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-pasta Kanāls",
-        "DESC": "Integrēt savu e-pasta iesūtni.",
+        "DESC": "Integrēt sava e-pasta iesūtni.",
         "CHANNEL_NAME": {
           "LABEL": "Kanāla Nosaukums",
           "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
@@ -345,7 +348,7 @@
       "AGENTS": {
         "TITLE": "Aģenti",
         "DESC": "Šeit Jūs varat pievienot aģentus, lai pārvaldītu savu jaunizveidoto iesūtni. Tikai šiem atlasītajiem aģentiem būs piekļuve Jūsu iesūtnei. Aģenti, kas neietilpst šajā iesūtnē, nevarēs redzēt ziņojumus vai atbildēt uz ziņojumiem šajā iesūtnē, kad būs pierakstījušies sistēmā. <br> <b>PS:</b> Ja jums kā administratoram ir nepieciešama piekļuve pie visām iesūtnēm, jums ir jāpievieno sevi kā aģentu visām izveidotajām iesūtnēm.",
-        "VALIDATION_ERROR": "Pievienojiet savai jaunajai Iesūtnei vismaz vienu aģentu",
+        "VALIDATION_ERROR": "Pievienojiet savai jaunajai iesūtnei vismaz vienu aģentu",
         "PICK_AGENTS": "Izvēlieties aģentus priekš iesūtnes"
       },
       "DETAILS": {
@@ -364,12 +367,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
         "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
+        "SIGN_IN": "Pierakstīties ar Microsoft",
         "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "GOOGLE": {
+        "TITLE": "Google e-pasts",
+        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Google. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
+        "SIGN_IN": "Pierakstīties ar Google",
+        "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Google, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
+      "ERROR_FB_LOADING": "Ielādējot Facebook SDK, radās kļūda. Lūdzu, atspējojiet visus reklāmu bloķētājus un mēģiniet vēlreiz no citas pārlūkprogrammas.",
       "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
       "ERROR_FB_UNAUTHORIZED": "Jums nav tiesību veikt šo darbību. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Lūdzu, pārliecinieties, ka Jums ir pilna piekļuve Facebook lapai. Vairāk par Facebook lomām varat lasīt <a href=\" https://www.facebook.com/help/187316341316631\">šeit</a>.",
@@ -406,7 +417,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sūtītāja vārds",
-        "SUB_TEXT": "Izvēlieties vārdu, kas uzrādīsies Jūsu klientam kad viņš saņems e-pasta ziņojumus no Jūsu aģentiem.",
+        "SUB_TEXT": "Izvēlieties vārdu, kas tiks rādīts jūsu klientam, saņemot e-pasta ziņojumus no jūsu aģentiem.",
         "FOR_EG": "Piemēram:",
         "FRIENDLY": {
           "TITLE": "Draudzīgs",
@@ -508,12 +519,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet jauno API atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
       "WHATSAPP_SECTION_TITLE": "API atslēga",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Pārbaudes Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifikācijas Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
     },
@@ -569,7 +580,7 @@
       "UPDATE": "Atjaunināt darba laika iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
+      "TOGGLE_HELP": "Iespējojot uzņēmuma pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts darba laiks, pat ja visi aģenti būs bezsaistē. Ārpus darba laika apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
         "ENABLE": "Iespējot pieejamību šai dienai",
         "UNAVAILABLE": "Nav pieejams",
@@ -733,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Tīmekļa vietne",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-pasts",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanāls"
     }
   }
 }

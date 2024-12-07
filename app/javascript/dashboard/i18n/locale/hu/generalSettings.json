@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Most már goadhatsz e-maileket az egyedi domaineden."
       }
     },
-    "UPDATE_CHATWOOT": "Egy frissítés elérhető a Chatwoothoz %{latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
+    "UPDATE_CHATWOOT": "Egy frissítés elérhető a Chatwoothoz {latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
     "LEARN_MORE": "Tudj meg többet",
     "PAYMENT_PENDING": "A fizetésed folyamatban van. Kérlek, frissítsd fizetési adataitat a Chatwoot használatának folytatásához",
     "LIMITS_UPGRADE": "A fiókod túllépte a használati korlátokat. Kérjük, frissítsd tervedet a Chatwoot használatának folytatásához",
@@ -87,12 +87,17 @@
       "conversation_assignment": "Beszélgetés hozzárendelve",
       "assigned_conversation_new_message": "Új üzenet",
       "participating_conversation_new_message": "Új üzenet",
-      "conversation_mention": "Megemlítés"
+      "conversation_mention": "Megemlítés",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Lecsatlakozva a Chatwootról"
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Frissítés"
@@ -104,6 +109,7 @@
       "GENERAL": "Általános",
       "REPORTS": "Jelentések",
       "CONVERSATION": "Beszélgetés",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Felelős megváltoztatása",
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",
       "CHANGE_TEAM": "Csapat megváltoztatása",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
       "SETTINGS": "Beállítások",
       "AI_ASSIST": "AI segítség",
-      "APPEARANCE": "Megjelenés"
+      "APPEARANCE": "Megjelenés",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Holnapig",
       "UNTIL_NEXT_MONTH": "Következő hónapig",
       "AN_HOUR_FROM_NOW": "Mostantól egy óráig",
-      "CUSTOM": "Speciális...",
+      "UNTIL_CUSTOM_TIME": "Speciális...",
       "CHANGE_APPEARANCE": "Megjelenés módosítása",
       "LIGHT_MODE": "Világos mód",
       "DARK_MODE": "Sötét mód",
-      "SYSTEM_MODE": "Rendszer"
+      "SYSTEM_MODE": "Rendszer",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

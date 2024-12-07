@@ -1,17 +1,3 @@
-<template>
-  <div class="csml-editor--container">
-    <loading-state
-      v-if="iframeLoading"
-      :message="$t('AGENT_BOTS.LOADING_EDITOR')"
-      class="dashboard-app_loading-container"
-    />
-    <iframe
-      id="csml-editor--frame"
-      :src="globalConfig.csmlEditorHost"
-      @load="onEditorLoad"
-    />
-  </div>
-</template>
 <script>
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
@@ -19,11 +5,12 @@ import { mapGetters } from 'vuex';
 export default {
   components: { LoadingState },
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       iframeLoading: true,
@@ -43,7 +30,7 @@ export default {
         return;
       }
       const csmlContent = e.data.replace('chatwoot-csml-editor:update', '');
-      this.$emit('input', csmlContent);
+      this.$emit('update:modelValue', csmlContent);
     };
   },
   methods: {
@@ -51,7 +38,7 @@ export default {
       const frameElement = document.getElementById(`csml-editor--frame`);
       const eventData = {
         event: 'editorContext',
-        data: this.value || '',
+        data: this.modelValue || '',
       };
       frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
       this.iframeLoading = false;
@@ -59,6 +46,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="csml-editor--container">
+    <LoadingState
+      v-if="iframeLoading"
+      :message="$t('AGENT_BOTS.LOADING_EDITOR')"
+      class="dashboard-app_loading-container"
+    />
+    <iframe
+      id="csml-editor--frame"
+      :src="globalConfig.csmlEditorHost"
+      @load="onEditorLoad"
+    />
+  </div>
+</template>
 
 <style scoped>
 #csml-editor--frame {

@@ -1,7 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Hộp thư đến",
-    "SIDEBAR_TXT": "<p><b>Hộp thư đến</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Chatwoot, nó được gọi là <b>Hộp thư đến</b>. Bạn có thể có hộp thư đến không giới hạn trong tài khoản Chatwoot của mình. </p><p> Click vào <b>Thêm hộp thư đến</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các hộp thư đến của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc trò chuyện`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một hộp thư đến bằng cách nhấp vào tên hộp thư đến trên ngăn bên trái của trang tổng quan. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Không có hộp thư đến nào được đính kèm với tài khoản này."
     },
@@ -22,7 +25,7 @@
         "body": "Thêm đại lý vào hộp thư đến đã tạo."
       },
       {
-        "title": "Tới rồi!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Bạn đã sẵn sàng để đi!"
       }
@@ -43,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
         "INBOX_NAME": "Tên hộp thư đến",
         "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
-        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Chọn một giá trị"
       },
       "TWITTER": {
@@ -62,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Điền Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Vui lòng nhập một URL hợp lệ"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +146,7 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Số Điện Thoại",
+          "LABEL": "Số điện thoại",
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
           "ERROR": "Vui lòng cung cấp số điện thoại hợp lệ bắt đầu bằng dấu `+` và không chứa bất kỳ dấu cách nào."
         },
@@ -175,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "Khoá API",
-            "PLACEHOLDER": "Vui lòng nhập Khoá API Bandwidth",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Trường này là bắt buộc"
           },
           "API_SECRET": {
             "LABEL": "Bí mật API",
-            "PLACEHOLDER": "Vui lòng nhập mật khẩu API Bandwidth",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Trường này là bắt buộc"
           },
           "APPLICATION_ID": {
@@ -239,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token xác thực Webhook",
-          "PLACEHOLDER": "Nhập mã xác thực mà bạn muốn định cấu hình cho webhook facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
         },
         "API_KEY": {
@@ -269,7 +272,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Định cấu hình URL mà bạn muốn nhận các cuộc gọi lại trên các events.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Tạo kênh API",
@@ -279,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Kênh Email",
-        "DESC": "Tích hợp hộp thư đến email của bạn.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Tên kênh",
           "PLACEHOLDER": "Vui lòng nhập tên kênh",
@@ -345,7 +348,7 @@
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
         "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những đại lý được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm đại lý cho tất cả các hộp thư đến mà bạn tạo.",
-        "VALIDATION_ERROR": "Thêm ít nhất một đại lý vào hộp thư đến mới của bạn",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Chọn đại lý cho hộp thư đến"
       },
       "DETAILS": {
@@ -364,12 +367,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Xác thực bạn bằng Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -406,7 +417,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +519,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc trò chuyện được giải quyết",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết.",
       "WHATSAPP_SECTION_SUBHEADER": "Khóa API này được sử dụng để tích hợp với các API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Khoá API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Cập nhật",
-      "WHATSAPP_WEBHOOK_TITLE": "Token xác thực Webhook",
+      "WHATSAPP_WEBHOOK_TITLE": "Mã xác minh Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +580,7 @@
       "UPDATE": "Cập nhật tuỳ chỉnh giờ làm việc",
       "TOGGLE_AVAILABILITY": "Kích hoạt tính khả dụng của doanh nghiệp cho hộp thư đến này",
       "UNAVAILABLE_MESSAGE_LABEL": "Thông báo không có sẵn cho khách truy cập",
-      "TOGGLE_HELP": "Việc kích hoạt tính khả dụng của doanh nghiệp sẽ hiển thị giờ có sẵn trên tiện ích trò chuyện trực tiếp ngay cả khi tất cả các đại lý đều ngoại tuyến. Ngoài giờ có sẵn, khách truy cập có thể được cảnh báo bằng thông điệp và biểu mẫu trò chuyện trước.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Kích hoạt tính khả dụng cho hôm nay",
         "UNAVAILABLE": "Không có sẵn",
@@ -585,7 +596,7 @@
       "NOTE_TEXT": "Để bật chế độ SMTP, xin hãy cấu hình IMAP.",
       "UPDATE": "Cập nhật chi tiết IMAP",
       "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình IMAP cho hộp thư đến này",
-      "TOGGLE_HELP": "Kích hoạt IMAP sẽ giúp cho người dùng nhận được email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Tuỳ chỉnh IMAP được cập nhật thành công",
         "ERROR_MESSAGE": "Không thể cập nhật tuỳ chỉnh IMAP"
@@ -733,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Kênh API"
     }
   }
 }

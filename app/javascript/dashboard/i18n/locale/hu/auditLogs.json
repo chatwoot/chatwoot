@@ -3,6 +3,8 @@
     "HEADER": "Audit logok",
     "HEADER_BTN_TXT": "Audit logok hozzáadása",
     "LOADING": "Audit logok betöltése",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Nincs megfelelő elem",
     "SIDEBAR_TXT": "<p><b>Auditnaplók</b> </p><p> Az auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "Rendszer",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName}új automatizálási szabályt hozott létre (#%{id})",
-      "EDIT": "%{agentName} frissített egy automatizálási szabályt (#%{id})",
-      "DELETE": "%{agentName} törölt egy automatizálási szabályt (#%{id})"
+      "ADD": "{agentName}új automatizálási szabályt hozott létre (#{id})",
+      "EDIT": "{agentName} frissített egy automatizálási szabályt (#{id})",
+      "DELETE": "{agentName} törölt egy automatizálási szabályt (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} meghívta %{invitee} a fiókba, mint %{role}",
+      "ADD": "{agentName} meghívta {invitee} a fiókba, mint {role}",
       "EDIT": {
-        "SELF": "%{agentName} megváltoztatta az %{attributes} -aikat %{values} - ra",
-        "OTHER": "%{agentName} megváltoztatta %{attributes}  %{user}  %{values} -ra"
+        "SELF": "{agentName} megváltoztatta az {attributes} -aikat {values} - ra",
+        "OTHER": "{agentName} megváltoztatta {attributes}  {user}  {values} -ra",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} új beérkező levelek mappát hozott létre (#%{id})",
-      "EDIT": "%{agentName} frissítette a beérkező leveleket (#%{id})",
-      "DELETE": "%{agentName} törölt egy beérkező levelet (#%{id})"
+      "ADD": "{agentName} új beérkező levelek mappát hozott létre (#{id})",
+      "EDIT": "{agentName} frissítette a beérkező leveleket (#{id})",
+      "DELETE": "{agentName} törölt egy beérkező levelet (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} létrehozott egy új webhookot (#%{id})",
-      "EDIT": "%{agentName} frissített egy webhookot (#%{id})",
-      "DELETE": "%{agentName} törölt egy webhookot (#%{id})"
+      "ADD": "{agentName} létrehozott egy új webhookot (#{id})",
+      "EDIT": "{agentName} frissített egy webhookot (#{id})",
+      "DELETE": "{agentName} törölt egy webhookot (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} aláírta",
-      "SIGN_OUT": "%{agentName} kijelentkezett"
+      "SIGN_IN": "{agentName} aláírta",
+      "SIGN_OUT": "{agentName} kijelentkezett"
     },
     "TEAM": {
-      "ADD": "%{agentName} létrehozott egy új csapatot (#%{id})",
-      "EDIT": "%{agentName} frissített egy csapatot (#%{id})",
-      "DELETE": "%{agentName} törölt egy csapatot (#%{id})"
+      "ADD": "{agentName} létrehozott egy új csapatot (#{id})",
+      "EDIT": "{agentName} frissített egy csapatot (#{id})",
+      "DELETE": "{agentName} törölt egy csapatot (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} létrehozott egy új makrót (#%{id})",
-      "EDIT": "%{agentName} frissített egy makrót (#%{id})",
-      "DELETE": "%{agentName} törölt egy makrót (#%{id})"
+      "ADD": "{agentName} létrehozott egy új makrót (#{id})",
+      "EDIT": "{agentName} frissített egy makrót (#{id})",
+      "DELETE": "{agentName} törölt egy makrót (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} hozzáadva %{user} a bejövő üzenetekhez %{inbox_id}",
-      "REMOVE": "%{agentName} eltávolítva %{user} a bejövő üzenetekből %{inbox_id}"
+      "ADD": "{agentName} hozzáadva {user} a bejövő üzenetekhez {inbox_id}",
+      "REMOVE": "{agentName} eltávolítva {user} a bejövő üzenetekből {inbox_id}"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} hozzáadva %{user} a csapathoz %{team_id}",
-      "REMOVE": "%{agentName} eltávolítva %{user} a csapatból %{team_id}"
+      "ADD": "{agentName} hozzáadva {user} a csapathoz {team_id}",
+      "REMOVE": "{agentName} eltávolítva {user} a csapatból {team_id}"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} frissítette a fiók konfigurációját %{id}"
+      "EDIT": "{agentName} frissítette a fiók konfigurációját {id}"
     }
   }
 }

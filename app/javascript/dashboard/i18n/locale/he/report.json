@@ -23,21 +23,29 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
         "DESC": "( Total )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "ספירת רזולוציות",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( Total )"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -130,7 +138,11 @@
         "groupBy": "חודש"
       }
     ],
-    "BUSINESS_HOURS": "שעות פעילות"
+    "BUSINESS_HOURS": "שעות פעילות",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "לא נמצאו תוצאות"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "סקירה כללית של סוכנים",
@@ -155,13 +167,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -222,13 +234,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -289,13 +301,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -356,13 +368,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -433,6 +445,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "סקירה כללית",
     "LIVE": "לחיות",
@@ -441,13 +474,15 @@
       "LOADING_MESSAGE": "טוען מדדי שיחה...",
       "OPEN": "פתח",
       "UNATTENDED": "ללא השגחה",
-      "UNASSIGNED": "לא הוקצתה"
+      "UNASSIGNED": "לא הוקצתה",
+      "PENDING": "ממתין ל"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "תנועת שיחות",
       "NO_CONVERSATIONS": "בלי שיחות",
-      "CONVERSATION": "שיחה %{count}",
-      "CONVERSATIONS": "%{count} שיחות"
+      "CONVERSATION": "שיחה {count}",
+      "CONVERSATIONS": "{count} שיחות",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "שיחות של סוכנים",
@@ -475,5 +510,55 @@
     "THURSDAY": "יום חמישי",
     "FRIDAY": "שישי",
     "SATURDAY": "יום שבת"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "הוסף מסנן",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "לא נמצאו תוצאות",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Agent name",
+        "INBOXES": "Inbox name",
+        "LABELS": "שם התווית",
+        "TEAMS": "שם קבוצה"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "תיבת הדואר הנכנס",
+      "AGENTS": "סוכן",
+      "LABELS": "תווית",
+      "TEAMS": "צוות"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "שיחה",
+        "AGENT": "סוכן"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
   }
 }

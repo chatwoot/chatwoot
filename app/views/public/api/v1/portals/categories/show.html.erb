@@ -32,17 +32,7 @@
             <h3 id="<%= !@is_plain_layout_enabled ? 'category-name' : '' %>" class="text-lg text-slate-900 tracking-[0.28px] dark:text-slate-50 font-semibold <%= @is_plain_layout_enabled ? 'group-hover:underline' : '' %>"><%= article.title %></h3>
             <p class="text-base font-normal text-slate-600 dark:text-slate-200 line-clamp-1 break-all"><%= render_category_content(article.content) %></p>
           </div>
-          <div class="flex flex-row items-center gap-1">
-            <div class="flex flex-row items-center gap-1">
-              <% author = article.author %>
-              <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
-              <% if author&.name.present? %>
-                <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= "#{I18n.t('public_portal.common.by')} #{author&.name}" %></span>
-              <% end %>
-            </div>
-            <span class="text-slate-600 dark:text-slate-400">•</span>
-            <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
-          </div>
+          <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
         </div>
       </a>
     </div>  

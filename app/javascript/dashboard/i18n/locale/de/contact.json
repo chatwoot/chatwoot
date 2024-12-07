@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Kontakte zusammenführen",
     "CONTACT_ACTIONS": "Kontakt-Aktionen",
-    "MUTE_CONTACT": "Unterhaltung stummschalten",
-    "UNMUTE_CONTACT": "Unterhaltung entstummen",
-    "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
-    "UNMUTED_SUCCESS": "Diese Unterhaltung ist nicht mehr stumm geschaltet",
+    "MUTE_CONTACT": "Kontakt blockieren",
+    "UNMUTE_CONTACT": "Kontakt entsperren",
+    "MUTED_SUCCESS": "Dieser Kontakt wurde erfolgreich blockiert. Sie werden über keine zukünftigen Konversationen benachrichtigt.",
+    "UNMUTED_SUCCESS": "Dieser Kontakt wurde erfolgreich entsperrt.",
     "SEND_TRANSCRIPT": "Transkript senden",
     "EDIT_LABEL": "Bearbeiten",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
       "CONTACT_LABELS": "Kontakt-Labels",
-      "PREVIOUS_CONVERSATIONS": "Vorherige Konversationen"
+      "PREVIOUS_CONVERSATIONS": "Vorherige Konversationen",
+      "NO_RECORDS_FOUND": "Keine Attribute gefunden"
     }
   },
   "EDIT_CONTACT": {
@@ -71,7 +72,7 @@
       "SUBMIT": "Importieren",
       "CANCEL": "Abbrechen"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Sie werden per E-Mail benachrichtigt, wenn der Import abgeschlossen ist.",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
   },
   "EXPORT_CONTACTS": {
@@ -79,7 +80,14 @@
     "TITLE": "Kontakte exportieren",
     "DESC": "Kontakte als CSV exportieren.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+    "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
+    "CONFIRM": {
+      "TITLE": "Kontakte exportieren",
+      "MESSAGE": "Sind Sie sicher, dass Sie alle Kontakte exportieren möchten?",
+      "FILTERED_MESSAGE": "Sind Sie sicher, dass Sie alle gefilterten Kontakte exportieren möchten?",
+      "YES": "Ja, exportieren",
+      "NO": "Nein, abbrechen"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -205,8 +213,8 @@
         "ERROR": "Nachricht darf nicht leer sein"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Dateien auswählen",
+        "HELP_TEXT": "Ziehe Dateien hierher oder wähle Dateien zum Anhängen aus"
       },
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
@@ -290,6 +298,8 @@
     "BUTTON": "Eigenes Attribut hinzufügen",
     "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
     "COPY_SUCCESSFUL": "Erfolgreich in die Zwischenablage kopiert",
+    "SHOW_MORE": "Alle Attribute anzeigen",
+    "SHOW_LESS": "Weniger Attribute anzeigen",
     "ACTIONS": {
       "COPY": "Attribut kopieren",
       "DELETE": "Attribut löschen",
@@ -339,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Gültiger Wert ist erforderlich",
-      "INVALID_URL": "Ungültige URL"
+      "INVALID_URL": "Ungültige URL",
+      "INVALID_INPUT": "Ungültige Eingabe"
     }
   },
   "MERGE_CONTACTS": {
@@ -356,8 +367,8 @@
     },
     "SUMMARY": {
       "TITLE": "Zusammenfassung",
-      "DELETE_WARNING": "Der Kontakt von <strong>%{primaryContactName}</strong> wird gelöscht.",
-      "ATTRIBUTE_WARNING": "Details von Kontakt <strong>%{primaryContactName}</strong> wird zu <strong>%{parentContactName}</strong> kopiert."
+      "DELETE_WARNING": "Der Kontakt von <strong>{primaryContactName}</strong> wird gelöscht.",
+      "ATTRIBUTE_WARNING": "Details von Kontakt <strong>{primaryContactName}</strong> wird zu <strong>{parentContactName}</strong> kopiert."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -370,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "Kontakt erfolgreich zusammengeführt",
       "ERROR_MESSAGE": "Kontakte konnten nicht zusammengeführt werden, bitte erneut versuchen!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }

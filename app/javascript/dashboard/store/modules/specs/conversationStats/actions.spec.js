@@ -2,16 +2,16 @@ import axios from 'axios';
 import { actions } from '../../conversationStats';
 import * as types from '../../../mutation-types';
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct mutations if API is success', async () => {
       axios.get.mockResolvedValue({ data: { meta: { mine_count: 1 } } });
       await actions.get(
-        { commit },
+        { commit, state: { updatedOn: null } },
         { inboxId: 1, assigneeTpe: 'me', status: 'open' }
       );
       expect(commit.mock.calls).toEqual([
@@ -21,7 +21,7 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.get(
-        { commit },
+        { commit, state: { updatedOn: null } },
         { inboxId: 1, assigneeTpe: 'me', status: 'open' }
       );
       expect(commit.mock.calls).toEqual([]);

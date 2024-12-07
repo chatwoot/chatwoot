@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <div
     dir="rtl" class="chat-message--input is-focused"
@@ -47,18 +48,19 @@
   </div>
 </template>
 
+=======
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { useDarkMode } from 'widget/composables/useDarkMode';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   name: 'ChatInputWrap',
@@ -69,7 +71,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -80,7 +82,10 @@ export default {
       default: () => {},
     },
   },
-
+  setup() {
+    const { getThemeClass } = useDarkMode();
+    return { getThemeClass };
+  },
   data() {
     return {
       userInput: '',
@@ -101,13 +106,16 @@ export default {
       return this.userInput.length > 0;
     },
     inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
+        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     emojiIconColor() {
       return this.showEmojiPicker
-        ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
-        : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
+        ? `text-woot-500 ${this.getThemeClass(
+            'text-black-900',
+            'dark:text-slate-100'
+          )}`
+        : `${this.getThemeClass('text-black-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
@@ -117,7 +125,7 @@ export default {
       }
     },
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {
@@ -175,9 +183,58 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    style="padding-left: 8px;"dir="rtl" class="chat-message--input is-focused"
+    :class="getThemeClass('bg-white ', 'dark:bg-slate-600')"
+    @keydown.esc="hideEmojiPicker"
+  >
+    <ResizableTextArea
+      id="chat-input"
+      ref="chatInput"
+      v-model="userInput"
+      :rows="1"
+      :aria-label="$t('CHAT_PLACEHOLDER')"
+      :placeholder="$t('CHAT_PLACEHOLDER')"
+      class="form-input user-message-input is-focused"
+      :class="inputColor"
+      @typing-off="onTypingOff"
+      @typing-on="onTypingOn"
+      @focus="onFocus"
+      @blur="onBlur"
+    />
+    <div class="button-wrap"> 
+      <ChatAttachmentButton
+        v-if="showAttachment"
+        :class="getThemeClass('text-black-900', 'dark:text-slate-100')"
+        :on-attach="onSendAttachment"
+      />
+      <button
+        v-if="hasEmojiPickerEnabled"
+        class="flex items-center justify-center icon-button"
+        :aria-label="$t('EMOJI.ARIA_LABEL')"
+        @click="toggleEmojiPicker"
+      >
+        <FluentIcon icon="emoji" :class="emojiIconColor" />
+      </button>
+      <EmojiInput
+        v-if="showEmojiPicker"
+        v-on-clickaway="hideEmojiPicker"
+        :on-click="emojiOnClick"
+        @keydown.esc="hideEmojiPicker"
+      />
+      <ChatSendButton
+        v-if="showSendButton"
+        :color="widgetColor"
+        @click="handleButtonClick"
+      />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/mixins.scss';
 
 .chat-message--input {
   align-items: center;
@@ -205,7 +262,11 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   //padding-left: $space-small;
+=======
+  padding-left: 0px;
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 }
 
 .user-message-input {

@@ -11,7 +11,7 @@ get:
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'pending', 'snoozed']
+      enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
       default: 'open'
       description: Filter by conversation status.
     - name: q

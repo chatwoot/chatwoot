@@ -6,7 +6,18 @@ module Enterprise::Account
     }
   end
 
+  def subscribed_features
+    plan_features = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLAN_FEATURES')&.value
+    return [] if plan_features.blank?
+
+    plan_features[plan_name]
+  end
+
   private
+
+  def plan_name
+    custom_attributes['plan_name']
+  end
 
   def agent_limits
     subscribed_quantity = custom_attributes['subscribed_quantity']

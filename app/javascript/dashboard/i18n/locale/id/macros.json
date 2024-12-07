@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "Makro",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "Tambahkan makro baru",
     "HEADER_BTN_TXT_SAVE": "Simpan makro",
     "LOADING": "Mengambil makro",
-    "SIDEBAR_TXT": "<p><b>Makro</b><p>Makro adalah kumpulan tindakan yang disimpan yang membantu agen layanan pelanggan menyelesaikan tugas dengan mudah. Para agen dapat menentukan serangkaian tindakan seperti memberi tanda pada percakapan dengan label, mengirim transkrip email, memperbarui atribut kustom, dll., dan mereka dapat menjalankan tindakan-tindakan ini dengan sekali klik. Ketika para agen menjalankan makro, tindakan-tindakan tersebut akan dilaksanakan secara berurutan sesuai dengan urutan yang ditentukan. Makro meningkatkan produktivitas dan meningkatkan konsistensi dalam tindakan-tindakan.</p><p>Satu makro dapat membantu dalam dua cara.</p><p><b>Sebagai bantuan bagi agen:</b> Jika seorang agen melakukan serangkaian tindakan berulang kali, mereka dapat menyimpannya sebagai makro dan menjalankan semua tindakan tersebut dengan sekali klik.</p><p><b>Sebagai opsi untuk melatih anggota tim baru:</b> Setiap agen harus melakukan banyak pemeriksaan/tindakan yang berbeda selama setiap percakapan. Pelatihan anggota tim pendukung baru akan menjadi lebih mudah jika makro yang telah ditentukan sebelumnya tersedia dalam akun. Alih-alih menjelaskan setiap langkah secara rinci, manajer/kepala tim dapat menunjukkan makro yang digunakan dalam skenario berbeda.</p>",
     "ERROR": "Terjadi kesalahan. Silakan coba lagi",
     "ORDER_INFO": "Makro akan dijalankan sesuai dengan urutan penambahan tindakan-tindakan Anda. Anda dapat mengatur ulang tindakan-tindakan tersebut dengan menggesernya menggunakan pegangan di sebelah setiap node.",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "Jalankan",
       "PREVIEW": "Pratinjau Makro",
       "EXECUTED_SUCCESSFULLY": "Makro berhasil dijalankan"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Nilai dibutuhkan",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

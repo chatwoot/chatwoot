@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :agent_bot do
     name { 'MyString' }
     description { 'MyString' }
-    outgoing_url { 'MyString' }
+    outgoing_url { 'localhost' }
     bot_config { {} }
     bot_type { 'webhook' }
 

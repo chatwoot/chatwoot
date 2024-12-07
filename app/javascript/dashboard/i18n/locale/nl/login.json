@@ -3,7 +3,7 @@
     "TITLE": "Inloggen bij xping Live chat",
     "EMAIL": {
       "LABEL": "E-mailadres",
-      "PLACEHOLDER": "voorbeeld@bedrijfsnaam.nl",
+      "PLACEHOLDER": "voorbeeld{'@'}bedrijfsnaam.nl",
       "ERROR": "Voer een geldig e-mailadres in"
     },
     "PASSWORD": {

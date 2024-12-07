@@ -3,7 +3,7 @@
     "TITLE": "Conectează-te la xping Live chat",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "exemplu@companyname.com",
+      "PLACEHOLDER": "exemplu{'@'}companyname.com",
       "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
     },
     "PASSWORD": {

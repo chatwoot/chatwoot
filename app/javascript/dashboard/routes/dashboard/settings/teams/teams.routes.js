@@ -1,43 +1,51 @@
-/* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const CreateStepWrap = () => import('./Create/Index.vue');
-const EditStepWrap = () => import('./Edit/Index.vue');
-const CreateTeam = () => import('./Create/CreateTeam.vue');
-const EditTeam = () => import('./Edit/EditTeam.vue');
-const AddAgents = () => import('./Create/AddAgents.vue');
-const EditAgents = () => import('./Edit/EditAgents.vue');
-const FinishSetup = () => import('./FinishSetup.vue');
-const SettingsContent = () => import('../Wrapper.vue');
-const TeamsHome = () => import('./Index.vue');
+import TeamsIndex from './Index.vue';
+import CreateStepWrap from './Create/Index.vue';
+import EditStepWrap from './Edit/Index.vue';
+import CreateTeam from './Create/CreateTeam.vue';
+import EditTeam from './Edit/EditTeam.vue';
+import AddAgents from './Create/AddAgents.vue';
+import EditAgents from './Edit/EditAgents.vue';
+import FinishSetup from './FinishSetup.vue';
+import SettingsContent from '../Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/teams'),
+      component: SettingsWrapper,
+      children: [
+        {
+          path: '',
+          redirect: to => {
+            return { name: 'settings_teams_list', params: to.params };
+          },
+        },
+        {
+          path: 'list',
+          name: 'settings_teams_list',
+          component: TeamsIndex,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/settings/teams'),
       component: SettingsContent,
-      props: params => {
-        const showBackButton = params.name !== 'settings_teams_list';
+      props: () => {
         return {
           headerTitle: 'TEAMS_SETTINGS.HEADER',
           headerButtonText: 'TEAMS_SETTINGS.NEW_TEAM',
           icon: 'people-team',
           newButtonRoutes: ['settings_teams_new'],
-          showBackButton,
+          showBackButton: true,
         };
       },
       children: [
-        {
-          path: '',
-          name: 'settings_teams',
-          redirect: 'list',
-        },
-        {
-          path: 'list',
-          name: 'settings_teams_list',
-          component: TeamsHome,
-          roles: ['administrator'],
-        },
         {
           path: 'new',
           component: CreateStepWrap,
@@ -46,18 +54,24 @@ export default {
               path: '',
               name: 'settings_teams_new',
               component: CreateTeam,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: ':teamId/finish',
               name: 'settings_teams_finish',
               component: FinishSetup,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: ':teamId/agents',
               name: 'settings_teams_add_agents',
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
               component: AddAgents,
             },
           ],
@@ -70,18 +84,24 @@ export default {
               path: '',
               name: 'settings_teams_edit',
               component: EditTeam,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: 'agents',
               name: 'settings_teams_edit_members',
               component: EditAgents,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: 'finish',
               name: 'settings_teams_edit_finish',
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
               component: FinishSetup,
             },
           ],

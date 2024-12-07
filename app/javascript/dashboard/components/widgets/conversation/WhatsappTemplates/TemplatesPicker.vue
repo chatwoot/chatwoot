@@ -1,59 +1,3 @@
-<template>
-  <div class="w-full">
-    <div class="templates__list-search">
-      <fluent-icon icon="search" class="search-icon" size="16" />
-      <input
-        ref="search"
-        v-model="query"
-        type="search"
-        :placeholder="$t('WHATSAPP_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
-        class="templates__search-input"
-      />
-    </div>
-    <div class="template__list-container">
-      <div v-for="(template, i) in filteredTemplateMessages" :key="template.id">
-        <button
-          class="template__list-item"
-          @click="$emit('onSelect', template)"
-        >
-          <div>
-            <div class="flex-between">
-              <p class="label-title">
-                {{ template.name }}
-              </p>
-              <span
-                class="inline-block py-1 px-2 rounded-sm text-xs leading-none cursor-default bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100"
-              >
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
-                {{ template.language }}
-              </span>
-            </div>
-            <div>
-              <p class="strong">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.TEMPLATE_BODY') }}
-              </p>
-              <p class="label-body">{{ getTemplatebody(template) }}</p>
-            </div>
-            <div class="label-category">
-              <p class="strong">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.CATEGORY') }}
-              </p>
-              <p>{{ template.category }}</p>
-            </div>
-          </div>
-        </button>
-        <hr v-if="i != filteredTemplateMessages.length - 1" :key="`hr-${i}`" />
-      </div>
-      <div v-if="!filteredTemplateMessages.length">
-        <p>
-          {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
-          <strong>{{ query }}</strong>
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 // TODO: Remove this when we support all formats
 const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
@@ -65,6 +9,7 @@ export default {
       default: undefined,
     },
   },
+  emits: ['onSelect'],
   data() {
     return {
       query: '',
@@ -96,11 +41,62 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.flex-between {
-  @apply flex justify-between mb-2.5;
-}
+<template>
+  <div class="w-full">
+    <div class="gap-1 templates__list-search">
+      <fluent-icon icon="search" class="search-icon" size="16" />
+      <input
+        v-model="query"
+        type="search"
+        :placeholder="$t('WHATSAPP_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
+        class="templates__search-input"
+      />
+    </div>
+    <div class="template__list-container">
+      <div v-for="(template, i) in filteredTemplateMessages" :key="template.id">
+        <button
+          class="template__list-item"
+          @click="$emit('onSelect', template)"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-2.5">
+              <p class="label-title">
+                {{ template.name }}
+              </p>
+              <span
+                class="inline-block px-2 py-1 text-xs leading-none bg-white rounded-sm cursor-default dark:bg-slate-700 text-slate-800 dark:text-slate-100"
+              >
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
+                {{ template.language }}
+              </span>
+            </div>
+            <div>
+              <p class="strong">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.TEMPLATE_BODY') }}
+              </p>
+              <p class="label-body">{{ getTemplatebody(template) }}</p>
+            </div>
+            <div class="label-category">
+              <p class="strong">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.CATEGORY') }}
+              </p>
+              <p>{{ template.category }}</p>
+            </div>
+          </div>
+        </button>
+        <hr v-if="i != filteredTemplateMessages.length - 1" :key="`hr-${i}`" />
+      </div>
+      <div v-if="!filteredTemplateMessages.length">
+        <p>
+          {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
+          <strong>{{ query }}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
 
+<style scoped lang="scss">
 .templates__list-search {
   @apply items-center flex bg-slate-25 dark:bg-slate-900 mb-2.5 py-0 px-2.5 rounded-md border border-solid border-slate-100 dark:border-slate-700;
 
@@ -109,7 +105,7 @@ export default {
   }
 
   .templates__search-input {
-    @apply bg-transparent border-0 text-xs h-auto m-0;
+    @apply bg-transparent border-0 text-xs h-9 m-0;
   }
 }
 .template__list-container {

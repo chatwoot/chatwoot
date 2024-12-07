@@ -1,17 +1,37 @@
-/* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../../helper/URLHelper';
-import channelFactory from './channel-factory';
+import ChannelFactory from './ChannelFactory.vue';
 
-const SettingsContent = () => import('../Wrapper.vue');
-const InboxHome = () => import('./Index.vue');
-const Settings = () => import('./Settings.vue');
-const InboxChannel = () => import('./InboxChannels.vue');
-const ChannelList = () => import('./ChannelList.vue');
-const AddAgents = () => import('./AddAgents.vue');
-const FinishSetup = () => import('./FinishSetup.vue');
+import SettingsContent from '../Wrapper.vue';
+import SettingWrapper from '../SettingsWrapper.vue';
+import InboxHome from './Index.vue';
+import Settings from './Settings.vue';
+import InboxChannel from './InboxChannels.vue';
+import ChannelList from './ChannelList.vue';
+import AddAgents from './AddAgents.vue';
+import FinishSetup from './FinishSetup.vue';
 
 export default {
   routes: [
+    {
+      path: frontendURL('accounts/:accountId/settings/inboxes'),
+      component: SettingWrapper,
+      children: [
+        {
+          path: '',
+          redirect: to => {
+            return { name: 'settings_inbox_list', params: to.params };
+          },
+        },
+        {
+          path: 'list',
+          name: 'settings_inbox_list',
+          component: InboxHome,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+      ],
+    },
     {
       path: frontendURL('accounts/:accountId/settings/inboxes'),
       component: SettingsContent,
@@ -27,17 +47,6 @@ export default {
       },
       children: [
         {
-          path: '',
-          name: 'settings_inbox',
-          redirect: 'list',
-        },
-        {
-          path: 'list',
-          name: 'settings_inbox_list',
-          component: InboxHome,
-          roles: ['administrator'],
-        },
-        {
           path: 'new',
           component: InboxChannel,
           children: [
@@ -45,27 +54,35 @@ export default {
               path: '',
               name: 'settings_inbox_new',
               component: ChannelList,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: ':inbox_id/finish',
               name: 'settings_inbox_finish',
               component: FinishSetup,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: ':sub_page',
               name: 'settings_inboxes_page_channel',
-              component: channelFactory.create(),
-              roles: ['administrator'],
+              component: ChannelFactory,
+              meta: {
+                permissions: ['administrator'],
+              },
               props: route => {
-                return { channel_name: route.params.sub_page };
+                return { channelName: route.params.sub_page };
               },
             },
             {
               path: ':inbox_id/agents',
               name: 'settings_inboxes_add_agents',
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
               component: AddAgents,
             },
           ],
@@ -74,7 +91,9 @@ export default {
           path: ':inboxId',
           name: 'settings_inbox_show',
           component: Settings,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

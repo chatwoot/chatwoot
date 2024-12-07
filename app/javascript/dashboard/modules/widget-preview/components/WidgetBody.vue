@@ -1,50 +1,45 @@
+<script setup>
+import { defineProps } from 'vue';
+
+defineProps({
+  config: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+</script>
+
 <template>
-  <div class="widget-body-container">
-    <div v-if="config.isDefaultScreen" class="availability-content">
-      <div class="availability-info">
-        <div class="team-status">
-          {{ getStatusText }}
-        </div>
-        <div class="reply-wait-message">
-          {{ config.replyTime }}
+  <div class="h-[calc(2rem*10)] px-4 overflow-y-auto">
+    <div>
+      <div>
+        <div
+          class="items-end flex justify-end ml-auto mb-1 mt-0 max-w-[85%] text-right"
+        >
+          <div
+            class="rounded-[1.25rem] rounded-br-[0.25rem] text-white dark:text-white text-sm px-4 py-3"
+            :style="{ background: config.color }"
+          >
+            <p class="m-0">
+              {{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.USER_MESSAGE') }}
+            </p>
+          </div>
         </div>
       </div>
-      <thumbnail username="J" size="40px" />
-    </div>
-    <div v-else class="conversation-content">
-      <div class="conversation-wrap">
-        <div class="message-wrap">
-          <div class="user-message-wrap">
-            <div class="user-message">
-              <div class="message-wrap">
-                <div
-                  class="chat-bubble user"
-                  :style="{ background: config.color }"
-                >
-                  <p>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.USER_MESSAGE') }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="agent-message-wrap">
-          <div class="agent-message">
-            <div class="avatar-wrap" />
-            <div class="message-wrap">
-              <div class="chat-bubble agent">
-                <div class="message-content">
-                  <p>
-                    {{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.AGENT_MESSAGE') }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+
+      <div
+        class="bg-white shadow rounded-[1.25rem] rounded-bl-[0.25rem] px-4 py-3 inline-block text-sm text-slate-900 dark:text-white dark:bg-slate-700"
+      >
+        <div>
+          <p class="m-0">
+            {{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.AGENT_MESSAGE') }}
+          </p>
         </div>
       </div>
     </div>
   </div>
 </template>
+<<<<<<< HEAD
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -158,3 +153,5 @@ export default {
   }
 }
 </style>
+=======
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5

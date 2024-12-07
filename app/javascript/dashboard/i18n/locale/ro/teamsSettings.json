@@ -2,10 +2,13 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Crează o echipă nouă",
     "HEADER": "Echipe",
-    "SIDEBAR_TXT": "<p><b>Echipe</b></p> <p>Echipele vă permit să vă organizați agenții în grupuri în funcție de responsabilitățile lor. <br /> Un agent poate face parte din mai multe echipe. Puteți atribui conversații unei echipe atunci când lucrați în colaborare. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "Nu există echipe create în acest cont.",
-      "EDIT_TEAM": "Editează echipa"
+      "EDIT_TEAM": "Editează echipa",
+      "NONE": "Nimic"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -14,7 +17,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Adaugă agenți în echipă",
-        "TITLE": "Adăugați agenți în echipă - %{teamName}",
+        "TITLE": "Adăugați agenți în echipă - {teamName}",
         "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație."
       },
       "WIZARD": [
@@ -43,7 +46,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Actualizați agenții din echipă",
-        "TITLE": "Adăugați agenți în echipă - %{teamName}",
+        "TITLE": "Adăugați agenți în echipă - {teamName}",
         "DESC": "Adăugați agenți în echipa nou creată. Toți agenții adăugați vor fi anunțați atunci când o conversație este atribuită acestei echipe."
       },
       "WIZARD": [
@@ -74,14 +77,14 @@
       "ADD_AGENTS": "Adăugarea agenților în echipa ta...",
       "SELECT": "selectează",
       "SELECT_ALL": "selectați toți agenții",
-      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați."
+      "SELECTED_COUNT": "{selected} din {total} agenți selectați."
     },
     "ADD": {
-      "TITLE": "Adăugați agenți în echipă - %{teamName}",
+      "TITLE": "Adăugați agenți în echipă - {teamName}",
       "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație.",
       "SELECT": "selectează",
       "SELECT_ALL": "selectați toți agenții",
-      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați.",
+      "SELECTED_COUNT": "{selected} din {total} agenți selectați.",
       "BUTTON_TEXT": "Adaugă Agent",
       "AGENT_VALIDATION_ERROR": "Selectați cel puțin un agent."
     },
@@ -97,7 +100,7 @@
         "ERROR_MESSAGE": "Nu a putut șterge echipa. Încearcă din nou."
       },
       "CONFIRM": {
-        "TITLE": "Sunteți sigur că doriți să ștergeți - %{teamName}",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Vă rugăm să tastați {teamName} pentru a confirma",
         "MESSAGE": "Ștergerea echipei va elimina atribuirea echipei din conversațiile atribuite acestei echipe.",
         "YES": "Şterge ",

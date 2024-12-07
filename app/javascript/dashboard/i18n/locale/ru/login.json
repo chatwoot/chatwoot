@@ -3,7 +3,7 @@
     "TITLE": "Войти в xping Live chat",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "пример @companyname.com",
+      "PLACEHOLDER": "пример {'@'}companyname.com",
       "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
     },
     "PASSWORD": {

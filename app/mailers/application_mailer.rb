@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'xping <accounts@xping.online>')
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'
@@ -30,6 +30,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def send_mail_with_liquid(*args)
+    Rails.logger.info "Email sent to #{args[0][:to]} with subject #{args[0][:subject]}"
     mail(*args) do |format|
       # explored sending a multipart email containing both text type and html
       # parsing the html with nokogiri will remove the links as well

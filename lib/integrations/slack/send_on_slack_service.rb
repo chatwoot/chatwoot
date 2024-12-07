@@ -58,10 +58,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def message_text
-    if message.content.present?
-      message.content.gsub(MENTION_REGEX, '\1')
+    content = message.processed_message_content || message.content
+
+    if content.present?
+      content.gsub(MENTION_REGEX, '\1')
     else
-      message.content
+      content
     end
   end
 
@@ -97,7 +99,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     post_message if message_content.present?
     upload_file if message.attachments.any?
   rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth,
-         Slack::Web::Api::Errors::ChannelNotFound => e
+         Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
     Rails.logger.error e
     hook.prompt_reauthorization!
     hook.disable
@@ -115,6 +117,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def upload_file
+    return unless message.attachments.first.with_attached_file?
+
     result = slack_client.files_upload({
       channels: hook.reference_id,
       initial_comment: 'Attached File!',

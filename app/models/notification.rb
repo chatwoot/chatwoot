@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  last_activity_at     :datetime
+#  meta                 :jsonb
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
@@ -38,7 +39,10 @@ class Notification < ApplicationRecord
     conversation_assignment: 2,
     assigned_conversation_new_message: 3,
     conversation_mention: 4,
-    participating_conversation_new_message: 5
+    participating_conversation_new_message: 5,
+    sla_missed_first_response: 6,
+    sla_missed_next_response: 7,
+    sla_missed_resolution: 8
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -46,10 +50,7 @@ class Notification < ApplicationRecord
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
-
-  # TODO: Get rid of default scope
-  # https://stackoverflow.com/a/1834250/939299
-  default_scope { order(id: :desc) }
+  after_update_commit :dispatch_update_event
 
   PRIMARY_ACTORS = ['Conversation'].freeze
 
@@ -64,21 +65,18 @@ class Notification < ApplicationRecord
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
       created_at: created_at.to_i,
+      last_activity_at: last_activity_at.to_i,
+      snoozed_until: snoozed_until,
+      meta: meta,
       account_id: account_id
 
     }
     if primary_actor.present?
-      payload[:primary_actor] = primary_actor_data
-      payload[:push_message_title] = push_message_title
+      payload[:primary_actor] = primary_actor&.push_event_data
+      # TODO: Rename push_message_title to push_message_body
+      payload[:push_message_title] = push_message_body
     end
     payload
-  end
-
-  def primary_actor_data
-    {
-      id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta]
-    }
   end
 
   def fcm_push_data
@@ -91,21 +89,41 @@ class Notification < ApplicationRecord
     }
   end
 
-  # TODO: move to a data presenter
+  # rubocop:disable Metrics/MethodLength
   def push_message_title
+    notification_title_map = {
+      'conversation_creation' => 'notifications.notification_title.conversation_creation',
+      'conversation_assignment' => 'notifications.notification_title.conversation_assignment',
+      'assigned_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
+      'participating_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
+      'conversation_mention' => 'notifications.notification_title.conversation_mention',
+      'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
+      'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
+      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
+    }
+
+    i18n_key = notification_title_map[notification_type]
+    return '' unless i18n_key
+
+    if notification_type == 'conversation_creation'
+      I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
+    elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
+             conversation_mention].include?(notification_type)
+      I18n.t(i18n_key, display_id: conversation.display_id)
+    else
+      I18n.t(i18n_key, display_id: primary_actor.display_id)
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def push_message_body
     case notification_type
-    when 'conversation_creation'
-      I18n.t('notifications.notification_title.conversation_creation', display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
-    when 'conversation_assignment'
-      I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message'
-      I18n.t(
-        'notifications.notification_title.assigned_conversation_new_message',
-        display_id: conversation.display_id,
-        content: content
-      )
-    when 'conversation_mention'
-      "[##{conversation&.display_id}] #{transform_user_mention_content content}"
+    when 'conversation_creation', 'sla_missed_first_response'
+      message_body(conversation.messages.first)
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
+      message_body(secondary_actor)
+    when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
+      message_body(conversation.messages.incoming.last)
     else
       ''
     end
@@ -115,26 +133,54 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
-  def content
-    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
-  end
-
   private
 
+  def message_body(actor)
+    sender_name = sender_name(actor)
+    content = message_content(actor)
+    "#{sender_name}: #{content}"
+  end
+
+  def sender_name(actor)
+    actor.try(:sender)&.name || ''
+  end
+
+  def message_content(actor)
+    content = actor.try(:content)
+    attachments = actor.try(:attachments)
+
+    if content.present?
+      transform_user_mention_content(content.truncate_words(10))
+    else
+      attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
+    end
+  end
+
   def process_notification_delivery
-    Notification::PushNotificationJob.perform_later(self)
+    Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')
 
     # Should we do something about the case where user subscribed to both push and email ?
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
-    Notification::EmailNotificationJob.perform_later(self)
+    Notification::EmailNotificationJob.perform_later(self) if user_subscribed_to_notification?('email')
 
-    # Remove duplicate notifications
     Notification::RemoveDuplicateNotificationJob.perform_later(self)
+  end
+
+  def user_subscribed_to_notification?(delivery_type)
+    notification_setting = user.notification_settings.find_by(account_id: account.id)
+    return false if notification_setting.blank?
+
+    # Check if the user has subscribed to the specified type of notification
+    notification_setting.public_send("#{delivery_type}_#{notification_type}?")
   end
 
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
+  end
+
+  def dispatch_update_event
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_UPDATED, Time.zone.now, notification: self)
   end
 
   def dispatch_destroy_event

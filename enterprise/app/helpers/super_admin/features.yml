@@ -1,3 +1,5 @@
+# TODO: Move this values to features.yml itself
+# No need to replicate the same values in two places
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
@@ -64,3 +66,9 @@ help_center:
   description: 'Allow agents to create help center articles and publish them in a portal.'
   enabled: true
   icon: 'icon-book-2-line'
+microsoft:
+  name: 'Microsoft'
+  description: 'Configuration for setting up Microsoft Email'
+  enabled: true
+  icon: 'icon-microsoft'
+  config_key: 'microsoft'

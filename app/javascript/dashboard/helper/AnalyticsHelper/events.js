@@ -5,6 +5,7 @@ export const CONVERSATION_EVENTS = Object.freeze({
   INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
   TRANSLATE_A_MESSAGE: 'Translated a message',
   INSERTED_A_VARIABLE: 'Inserted a variable',
+  INSERTED_AN_EMOJI: 'Inserted an emoji',
   USED_MENTIONS: 'Used mentions',
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
@@ -101,4 +102,19 @@ export const OPEN_AI_EVENTS = Object.freeze({
 
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
+});
+
+export const INBOX_EVENTS = Object.freeze({
+  OPEN_CONVERSATION_VIA_INBOX: 'Opened conversation via inbox',
+  MARK_NOTIFICATION_AS_READ: 'Marked notification as read',
+  MARK_ALL_NOTIFICATIONS_AS_READ: 'Marked all notifications as read',
+  MARK_NOTIFICATION_AS_UNREAD: 'Marked notification as unread',
+  DELETE_NOTIFICATION: 'Deleted notification',
+  DELETE_ALL_NOTIFICATIONS: 'Deleted all notifications',
+});
+
+export const SLA_EVENTS = Object.freeze({
+  CREATE: 'Created an SLA',
+  UPDATE: 'Updated an SLA',
+  DELETED: 'Deleted an SLA',
 });

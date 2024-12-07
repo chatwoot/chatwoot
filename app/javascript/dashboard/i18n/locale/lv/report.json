@@ -23,21 +23,29 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
         "DESC": "( Kopā )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Atrisināšanas Skaits",
+        "DESC": "( Kopā )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Nodošanas Skaits",
+        "DESC": "( Kopā )"
+      },
       "REPLY_TIME": {
         "NAME": "Klienta gaidīšanas laiks",
-        "TOOLTIP_TEXT": "Gaidīšanas laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Gaidīšanas laiks ir {metricValue} (pamatojoties uz {conversationCount} atbildēm)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -130,7 +138,11 @@
         "groupBy": "Mēnesis"
       }
     ],
-    "BUSINESS_HOURS": "Darba Laiks"
+    "BUSINESS_HOURS": "Darba Laiks",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Notīrīt filtru",
+      "EMPTY_LIST": "Nav atrasts"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Aģentu Pārskats",
@@ -155,13 +167,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -222,13 +234,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -289,13 +301,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -356,13 +368,13 @@
         "NAME": "Pirmās Atbildes Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Pirmās Atbildes Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Atrisināšanas Laiks",
         "DESC": "( Vidēji )",
         "INFO_TEXT": "Kopējais aprēķiniem izmantoto sarunu skaits:",
-        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Atrisināšanas Laiks ir {metricValue} (pamatojoties uz {conversationCount} sarunām)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Atrisināšanas Skaits",
@@ -433,6 +445,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "Robotu Atskaites",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Sarunu Skaits",
+        "TOOLTIP": "Kopējais robota apstrādāto sarunu skaits"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Kopējais atbilžu skaits",
+        "TOOLTIP": "Kopējais robota nosūtīto atbilžu skaits"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Atrisināšanas Apjoms",
+        "TOOLTIP": "Kopējais robota atrisināto sarunu skaits / kopējais robota apstrādāto sarunu skaits * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Nodošanas Apjoms",
+        "TOOLTIP": "Kopējais aģentiem nodoto sarunu skaits / kopējais robota apstrādāto sarunu skaits * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "Pārskats",
     "LIVE": "Tiešraide",
@@ -441,13 +474,15 @@
       "LOADING_MESSAGE": "Notiek sarunu metrikas ielāde...",
       "OPEN": "Atvērt",
       "UNATTENDED": "Bez uzraudzības",
-      "UNASSIGNED": "Nav piešķirtas"
+      "UNASSIGNED": "Nav piešķirtas",
+      "PENDING": "Gaida"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Sarunu Satiksme",
       "NO_CONVERSATIONS": "Nav sarunu",
-      "CONVERSATION": "%{count} saruna",
-      "CONVERSATIONS": "%{count} sarunas"
+      "CONVERSATION": "{count} saruna",
+      "CONVERSATIONS": "{count} sarunas",
+      "DOWNLOAD_REPORT": "Lejupielādēt atskaiti"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Aģentu sarunas",
@@ -475,5 +510,55 @@
     "THURSDAY": "Ceturtdiena",
     "FRIDAY": "Piektdiena",
     "SATURDAY": "Sestdiena"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Atskaites",
+    "NO_RECORDS": "SLA sarunas nav pieejamas.",
+    "LOADING": "Notiek SLA datu ielāde...",
+    "DOWNLOAD_SLA_REPORTS": "Lejupielādēt SLA atskaites",
+    "DOWNLOAD_FAILED": "Neizdevās lejupielādēt SLA atskaites",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Pievienot filtru",
+      "CLEAR_ALL": "Notīrīt visu",
+      "CLEAR_FILTER": "Notīrīt filtru",
+      "EMPTY_LIST": "Nav atrasts",
+      "NO_FILTER": "Nav pieejami filtri",
+      "SEARCH": "Meklēšanas filtrs",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA nosaukums",
+        "AGENTS": "Aģenta vārds",
+        "INBOXES": "Iesūtnes nosaukums",
+        "LABELS": "Etiķetes nosaukums",
+        "TEAMS": "Komandas nosaukums"
+      },
+      "SLA": "SLA politika",
+      "INBOXES": "Iesūtne",
+      "AGENTS": "Aģents",
+      "LABELS": "Etiķete",
+      "TEAMS": "Komanda"
+    },
+    "WITH": "ar",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Rezultātu Līmenis",
+        "TOOLTIP": "Izveidoto SLA procentuālā daļa tika veiksmīgi pabeigta"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Nokavēto Skaits",
+        "TOOLTIP": "Kopējais nokavēto SLA skaits noteiktā periodā"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Sarunu Skaits",
+        "TOOLTIP": "Kopējais sarunu skaits ar SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Politika",
+        "CONVERSATION": "Saruna",
+        "AGENT": "Aģents"
+      },
+      "VIEW_DETAILS": "Skatīt Detaļas"
+    }
   }
 }

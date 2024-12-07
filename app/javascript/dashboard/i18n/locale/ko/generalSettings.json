@@ -48,7 +48,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "지금 사용자 지정 도메인에서 이메일을 받을 수 있다."
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot에 대한 %{latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
+    "UPDATE_CHATWOOT": "Chatwoot에 대한 {latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
@@ -87,12 +87,17 @@
       "conversation_assignment": "대화 할당됨",
       "assigned_conversation_new_message": "새 메시지",
       "participating_conversation_new_message": "새 메시지",
-      "conversation_mention": "멘션"
+      "conversation_mention": "멘션",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "OFFLINE": "오프라인",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Refresh"
@@ -104,6 +109,7 @@
       "GENERAL": "General",
       "REPORTS": "보고서",
       "CONVERSATION": "Conversation",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
@@ -112,7 +118,8 @@
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "설정",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -149,11 +156,12 @@
       "UNTIL_TOMORROW": "Until tomorrow",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

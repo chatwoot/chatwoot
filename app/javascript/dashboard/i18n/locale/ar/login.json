@@ -1,9 +1,13 @@
 {
   "LOGIN": {
+<<<<<<< HEAD
     "TITLE": "تسجيل الدخول إلى xping Live chat",
+=======
+    "TITLE": "تسجيل الدخول إلى xping live chat",
+>>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
     "EMAIL": {
       "LABEL": "البريد الإلكتروني",
-      "PLACEHOLDER": "مثال: someone@example.com",
+      "PLACEHOLDER": "مثلاً: someone{'@'}example.com",
       "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
     },
     "PASSWORD": {
@@ -16,9 +20,9 @@
       "UNAUTH": "اسم المستخدم / كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "تسجيل الدخول بواسطة جوجل",
+      "BUSINESS_ACCOUNTS_ONLY": "الرجاء استخدام عنوان البريد الإلكتروني الخاص بشركتك لتسجيل الدخول",
+      "NO_ACCOUNT_FOUND": "لم نتمكن من العثور على حساب لعنوان البريد الإلكتروني الخاص بك."
     },
     "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
     "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",

@@ -25,10 +25,19 @@ shared_examples_for 'reauthorizable' do
 
   it 'prompt_reauthorization!' do
     obj = FactoryBot.create(model.to_s.underscore.tr('/', '_').to_sym)
+    mailer = double
+    mailer_method = double
+    allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).and_return(mailer)
+    # allow mailer to receive any methods and return mailer
+    allow(mailer).to receive(:method_missing).and_return(mailer_method)
+    allow(mailer_method).to receive(:deliver_later)
+
     expect(obj.reauthorization_required?).to be false
 
     obj.prompt_reauthorization!
     expect(obj.reauthorization_required?).to be true
+    expect(AdministratorNotifications::ChannelNotificationsMailer).to have_received(:with).with(account: obj.account)
+    expect(mailer_method).to have_received(:deliver_later)
   end
 
   it 'reauthorized!' do

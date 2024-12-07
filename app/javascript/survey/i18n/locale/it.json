@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Caro cliente 👋, si prega di prendere qualche minuto per condividere i commenti sulla conversazione che hai avuto con %{inboxName}.",
+    "DESCRIPTION": "Caro cliente 👋, si prega di prendere qualche minuto per condividere i commenti sulla conversazione che hai avuto con {inboxName}.",
     "RATING": {
       "LABEL": "Valuta la conversazione",
       "SUCCESS_MESSAGE": "Grazie per aver inviato la valutazione"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
     }
   },
-  "POWERED_BY": "Offerto da Chatwoot"
+  "POWERED_BY": "Offerto da xping"
 }

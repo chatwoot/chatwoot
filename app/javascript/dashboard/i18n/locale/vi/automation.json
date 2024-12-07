@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Tự động hoá",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Thêm luật Tự động hoá",
     "LOADING": "Đang lấy luật tự động hoá",
-    "SIDEBAR_TXT": "<p><b>Luật tự động hóa</b> <p>Tự động hóa có thể thay thế và tự động hóa các quy trình hiện có mà cần thao tác thủ công. Bạn có thể làm nhiều việc với tự động hóa, bao gồm thêm nhãn và gán cuộc trò chuyện cho người đại diện tốt nhất. Vì vậy, nhóm tập trung vào những gì họ làm tốt nhất và dành ít thời gian hơn cho các công việc thủ công.</p>",
     "ADD": {
       "TITLE": "Thêm Quy tắc Tự động hoá",
       "SUBMIT": "Tạo",
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Viết tin nhắn ở đây",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Kích hoạt Luật Tự động hoá",
@@ -113,6 +116,15 @@
       "LABEL_UPLOADING": "Đang tải lên...",
       "LABEL_UPLOADED": "Đã tải lên thành công",
       "LABEL_UPLOAD_FAILED": "Không tải lên được"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Giá trị bắt buộc có",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

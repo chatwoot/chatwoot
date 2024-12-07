@@ -29,6 +29,7 @@ RSpec.describe 'Notifications API', type: :request do
         expect(response_json['data']['meta']['count']).to eq 2
         # notification appear in descending order
         expect(response_json['data']['payload'].first['id']).to eq notification2.id
+        expect(response_json['data']['payload'].first['primary_actor']).not_to be_nil
       end
     end
   end
@@ -154,7 +155,7 @@ RSpec.describe 'Notifications API', type: :request do
     end
   end
 
-  describe 'PATCH /api/v1/accounts/{account.id}/notifications/:id/snooze' do
+  describe 'POST /api/v1/accounts/{account.id}/notifications/:id/snooze' do
     let(:admin) { create(:user, account: account, role: :administrator) }
     let!(:notification) { create(:notification, account: account, user: admin) }
 
@@ -178,6 +179,72 @@ RSpec.describe 'Notifications API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(notification.reload.snoozed_until).not_to eq('')
+        expect(notification.reload.meta['last_snoozed_at']).to be_nil
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/notifications/:id/unread' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let!(:notification) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/notifications/#{notification.id}/unread"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'updates the notification read at' do
+        post "/api/v1/accounts/#{account.id}/notifications/#{notification.id}/unread",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(notification.reload.read_at).to be_nil
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/notifications/destroy_all' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:notification1) { create(:notification, account: account, user: admin) }
+    let(:notification2) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/notifications/destroy_all"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'deletes all the read notifications' do
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :read)
+
+        post "/api/v1/accounts/#{account.id}/notifications/destroy_all",
+             headers: admin.create_new_auth_token,
+             params: { type: 'read' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'deletes all the notifications' do
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :all)
+
+        post "/api/v1/accounts/#{account.id}/notifications/destroy_all",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
       end
     end
   end

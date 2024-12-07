@@ -22,6 +22,12 @@ describe ContactIdentifyAction do
       expect(contact.reload.identifier).to eq 'test_id'
     end
 
+    it 'will not call avatar job if avatar is already attached' do
+      contact.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
+      contact_identify
+    end
+
     it 'merge deeply nested additional attributes' do
       create(:contact, account: account, identifier: '', email: 'test@test.com',
                        additional_attributes: { location: 'Bengaulru', company_name: 'Meta', social_profiles: { linkedin: 'saras' } })

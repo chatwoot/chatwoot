@@ -1,3 +1,32 @@
+<script>
+export default {
+  props: {
+    contentAttributes: {
+      type: Object,
+      default: () => ({}),
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: ['close'],
+  computed: {
+    translationsAvailable() {
+      return !!Object.keys(this.translations).length;
+    },
+    translations() {
+      return this.contentAttributes.translations || {};
+    },
+  },
+  methods: {
+    onClose() {
+      this.$emit('close');
+    },
+  },
+};
+</script>
+
 <template>
   <woot-modal
     modal-type="right-aligned"
@@ -5,11 +34,11 @@
     show
     :on-close="onClose"
   >
-    <div class="column content">
+    <div class="content">
       <p>
         <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>
       </p>
-      <p v-dompurify-html="content" />
+      <p v-dompurify-html="content" class="mb-0" />
       <br />
       <hr />
       <div v-if="translationsAvailable">
@@ -30,30 +59,3 @@
     </div>
   </woot-modal>
 </template>
-<script>
-export default {
-  props: {
-    contentAttributes: {
-      type: Object,
-      default: () => ({}),
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    translationsAvailable() {
-      return !!Object.keys(this.translations).length;
-    },
-    translations() {
-      return this.contentAttributes.translations || {};
-    },
-  },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-  },
-};
-</script>

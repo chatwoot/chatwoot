@@ -1,7 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Fiókok",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatwoottal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Chatwoot fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Nincs Inbox kapcsolva ehhez a fiókhoz."
     },
@@ -22,7 +25,7 @@
         "body": "Adj hozzá ügynököket a létrehozott inboxhoz."
       },
       {
-        "title": "Tadaaam!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Mindennel készen állsz!"
       }
@@ -43,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "Válaszd ki az oldalt a listából",
         "INBOX_NAME": "Fiók név",
         "ADD_NAME": "Adj nevet a fiókodnak",
-        "PICK_NAME": "Válassz nevet az inboxodnak",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Válassz értéket"
       },
       "TWITTER": {
@@ -62,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Add meg a Webhook URL-t",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Kérjük helyes URL-t adj meg"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "API kulcs",
-            "PLACEHOLDER": "Kérlek add meg a Bandwidth API kulcsot",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Ez a mező kötelező"
           },
           "API_SECRET": {
             "LABEL": "API titkos kulcs",
-            "PLACEHOLDER": "Kérlek add meg a Bandwidth Titkoskódot",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Ez a mező kötelező"
           },
           "APPLICATION_ID": {
@@ -239,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Azonosító Token",
-          "PLACEHOLDER": "Adj meg egy ellenőrző tokent, amelyet be szeretne állítani a facebook webhookhoz.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Kérlek adj meg egy érvényes értéket."
         },
         "API_KEY": {
@@ -269,7 +272,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Állítsd be az URL-t melyről fogadni szeretnéd a visszahívásokat az eseményekről.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "API csatorna létrehozása",
@@ -279,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-mail csatorna",
-        "DESC": "Inbox-al való integrálás.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Csatorna neve",
           "PLACEHOLDER": "Kérjük adj meg csatorna nevet",
@@ -345,7 +348,7 @@
       "AGENTS": {
         "TITLE": "Ügynökök",
         "DESC": "Itt hozzáadhatsz ügynököket az újonan létrehooztt inboxodhoz. Csak ezek a kiválasztott ügynökök fognak hozzáférni az inboxodhoz. Az ügynökök akik nem részei az inboxnak, nem látják és nem tudnak válaszolni az üzenetekre belépésük után. <br><b>UI:</b>Adminisztrátorként hozzáférésed van az összes inboxhoz, add hozzá magad az összes inboxhoz ügynökként.",
-        "VALIDATION_ERROR": "Adj legalább egy ügynököt az új inboxodhoz",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Válaszd ki az inboxhoz hozzárendelt ügynököket"
       },
       "DETAILS": {
@@ -364,12 +367,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "A kezdéshez kattintson a Bejelentkezés a Microsofttal gombra. A rendszer átirányítja az e-mail bejelentkezési oldalra. Miután elfogadta a kért engedélyeket, a rendszer visszairányítja a beérkező levelek létrehozásának lépéséhez.",
         "EMAIL_PLACEHOLDER": "E-mailcím megadása",
-        "HELP": "Ha Microsoft-fiókját csatornaként szeretné hozzáadni, hitelesítenie kell Microsoft-fiókját a \"Bejelentkezés Microsoft-fiókkal\" lehetőségre kattintva ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "Hiba történt a Microsoft szervereihez való csatlakozáskor, kérjük próbáld később"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "E-mailcím megadása",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Facebookkal azonosítunk...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Valami elromlott, kérjük töltsd újra az oldalt...",
       "ERROR_FB_UNAUTHORIZED": "Nincs jogosultsága erre a tevékenységre. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Bizonyosodjon meg, hogy teljes hozzáférése van a Facebook oldalhoz. Bővebb információt <a href=\" https://www.facebook.com/help/187316341316631\">itt talál</a>.",
@@ -406,7 +417,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Küldő neve",
-        "SUB_TEXT": "Válassza ki a nevet, amit a vevő lásson, amikor emailt kap.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Például:",
         "FRIENDLY": {
           "TITLE": "Barátságos",
@@ -508,12 +519,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Üzenetek engedélyezése a beszélgetés befejezése után",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Engedélyezze a végfelhasználók számára, hogy üzeneteket küldjenek a beszélgetés lezárása után is.",
       "WHATSAPP_SECTION_SUBHEADER": "Ezt az API-kulcsot a WhatsApp API-kkal való integrációhoz használják.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Adja meg a frissített kulcsot a WhatsApp API-kkal való integrációhoz.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API kulcs",
       "WHATSAPP_SECTION_UPDATE_TITLE": "API-kulcs frissítése",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Add meg az új API kulcsot",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Frissítés",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Azonosító Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Ez a token a webhook-végpont hitelességének ellenőrzésére szolgál.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Csevegés előtti űrlap beállításainak frissítése"
     },
@@ -569,7 +580,7 @@
       "UPDATE": "Nyitvatartási idő beállítások szerkesztése",
       "TOGGLE_AVAILABILITY": "Nyitvatartási idő beállítások engedélyezése erre az inboxra",
       "UNAVAILABLE_MESSAGE_LABEL": "Nem elérhető üzenetek a vendégek számára",
-      "TOGGLE_HELP": "A nyitvatartási idő megmutatja az elérhetőségetek idejét az élő chat widgeten akkor is ha minden ügynök offline. A nyitvatartási időben a vendégek figyelmeztetést kaphatnak üzenettel és chat előtti űrlappal.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Elérhetőség bekapcsolása erre a napra",
         "UNAVAILABLE": "Nem elérhető",
@@ -585,7 +596,7 @@
       "NOTE_TEXT": "Az SMTP engedélyezéséhez konfigurálja az IMAP-et.",
       "UPDATE": "IMAP beállítások frissítése",
       "TOGGLE_AVAILABILITY": "Engedélyezze az IMAP-konfigurációt ehhez a fiókhoz",
-      "TOGGLE_HELP": "Az IMAP engedélyezése segít a felhasználónak az e-mailek fogadásában",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP beállítások sikeresen frissítve",
         "ERROR_MESSAGE": "Nem sikerült frissíteni az IMAP-beállításokat"
@@ -733,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "360Dialog",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Más szolgáltató"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Honlap",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API csatorna"
     }
   }
 }

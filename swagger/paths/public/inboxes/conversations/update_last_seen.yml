@@ -1,0 +1,12 @@
+tags:
+  - Conversations API
+operationId: update-last-seen
+summary: Update last seen
+description: Updates the last seen time of the contact in a conversation
+responses:
+  200:
+    description: Last seen updated successfully
+  401:
+    description: Unauthorized
+  404:
+    description: Conversation not found

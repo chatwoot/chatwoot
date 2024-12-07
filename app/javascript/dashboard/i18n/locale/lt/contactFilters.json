@@ -30,6 +30,9 @@
       "is_lesser_than": "Yra mažesnis nei",
       "days_before": "Yra prieš x dienų"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Reikalinga vertė"
+    },
     "ATTRIBUTES": {
       "NAME": "Vardas",
       "EMAIL": "El. paštas",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Žymimasis langelis",
       "CREATED_AT": "Sukūrimo data",
       "LAST_ACTIVITY": "Paskutiniai veiksmai",
-      "REFERER_LINK": "Rekomendacijos nuoroda"
+      "REFERER_LINK": "Rekomendacijos nuoroda",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standartinis Filtras",

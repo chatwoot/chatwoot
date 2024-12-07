@@ -1,26 +1,3 @@
-<template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] h-auto">
-    <page-header
-      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
-      :header-content="
-        useInstallationName(
-          $t('INBOX_MGMT.ADD.AUTH.DESC'),
-          globalConfig.installationName
-        )
-      "
-    />
-    <div class="mt-6 mx-0 flex flex-wrap">
-      <channel-item
-        v-for="channel in channelList"
-        :key="channel.key"
-        :channel="channel"
-        :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 import router from '../../../index';
@@ -74,20 +51,39 @@ export default {
     },
     initChannelAuth(channel) {
       const params = {
-        page: 'new',
         sub_page: channel,
+        accountId: this.accountId,
       };
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
   },
 };
 </script>
-<style scoped>
-.height-auto {
-  height: auto;
-}
 
-.channel-list {
-  margin-top: var(--space-medium);
-}
-</style>
+<template>
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <PageHeader
+      class="max-w-4xl"
+      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
+      :header-content="
+        useInstallationName(
+          $t('INBOX_MGMT.ADD.AUTH.DESC'),
+          globalConfig.installationName
+        )
+      "
+    />
+    <div
+      class="grid max-w-3xl grid-cols-2 mx-0 mt-6 sm:grid-cols-3 lg:grid-cols-4"
+    >
+      <ChannelItem
+        v-for="channel in channelList"
+        :key="channel.key"
+        :channel="channel"
+        :enabled-features="enabledFeatures"
+        @channel-item-click="initChannelAuth"
+      />
+    </div>
+  </div>
+</template>

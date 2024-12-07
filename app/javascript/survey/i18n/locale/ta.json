@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
       "LABEL": "Rate your conversation",
       "SUCCESS_MESSAGE": "Thank you for submitting the rating"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
     }
   },
-  "POWERED_BY": "சாட்வுட் மூலம் இயக்கபடுகிறது"
+  "POWERED_BY": "Powered by xping"
 }

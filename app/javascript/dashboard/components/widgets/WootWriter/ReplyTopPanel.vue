@@ -1,69 +1,13 @@
-<template>
-  <div class="bg-black-50 flex justify-between dark:bg-slate-800">
-    <div class="button-group">
-      <woot-button
-        variant="clear"
-        class="button--reply"
-        :class="replyButtonClass"
-        @click="handleReplyClick"
-      >
-        {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </woot-button>
-
-      <woot-button
-        class="button--note"
-        variant="clear"
-        color-scheme="warning"
-        :class="noteButtonClass"
-        @click="handleNoteClick"
-      >
-        {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </woot-button>
-    </div>
-    <div class="flex items-center my-0 mx-4">
-      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
-        <span :class="charLengthClass">
-          {{ characterLengthWarning }}
-        </span>
-      </div>
-    </div>
-    <woot-button
-      v-if="popoutReplyBox"
-      variant="clear"
-      icon="dismiss"
-      color-scheme="secondary"
-      class-names="popout-button"
-      @click="$emit('click')"
-    />
-    <woot-button
-      v-else
-      variant="clear"
-      icon="resize-large"
-      color-scheme="secondary"
-      class-names="popout-button"
-      @click="$emit('click')"
-    />
-  </div>
-</template>
-
 <script>
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import {
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
-} from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+
 export default {
   name: 'ReplyTopPanel',
-  mixins: [eventListenerMixins],
   props: {
     mode: {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
-    },
-    setReplyMode: {
-      type: Function,
-      default: () => {},
     },
     isMessageLengthReachingThreshold: {
       type: Boolean,
@@ -77,6 +21,34 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  emits: ['setReplyMode', 'togglePopout'],
+  setup(props, { emit }) {
+    const setReplyMode = mode => {
+      emit('setReplyMode', mode);
+    };
+    const handleReplyClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.REPLY);
+    };
+    const handleNoteClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.NOTE);
+    };
+    const keyboardEvents = {
+      'Alt+KeyP': {
+        action: () => handleNoteClick(),
+        allowOnFocusedInput: true,
+      },
+      'Alt+KeyL': {
+        action: () => handleReplyClick(),
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+
+    return {
+      handleReplyClick,
+      handleNoteClick,
+    };
   },
   computed: {
     replyButtonClass() {
@@ -98,24 +70,56 @@ export default {
         : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
     },
   },
-  methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.handleNoteClick();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.handleReplyClick();
-      }
-    },
-    handleReplyClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
-    },
-    handleNoteClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
-    },
-  },
 };
 </script>
+
+<template>
+  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
+    <div class="button-group">
+      <woot-button
+        variant="clear"
+        class="button--reply"
+        :class="replyButtonClass"
+        @click="handleReplyClick"
+      >
+        {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
+      </woot-button>
+
+      <woot-button
+        class="button--note"
+        variant="clear"
+        color-scheme="warning"
+        :class="noteButtonClass"
+        @click="handleNoteClick"
+      >
+        {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+      </woot-button>
+    </div>
+    <div class="flex items-center mx-4 my-0">
+      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
+        <span :class="charLengthClass">
+          {{ characterLengthWarning }}
+        </span>
+      </div>
+    </div>
+    <woot-button
+      v-if="popoutReplyBox"
+      variant="clear"
+      icon="dismiss"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('togglePopout')"
+    />
+    <woot-button
+      v-else
+      variant="clear"
+      icon="resize-large"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('togglePopout')"
+    />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .button-group {
@@ -146,6 +150,6 @@ export default {
   }
 }
 .button--note {
-  @apply text-yellow-600 dark:text-yellow-600;
+  @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
 }
 </style>

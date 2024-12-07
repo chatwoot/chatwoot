@@ -3,6 +3,8 @@
     "HEADER": "Audit Logs",
     "HEADER_BTN_TXT": "Add Audit Logs",
     "LOADING": "Fetching Audit Logs",
+    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
+    "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Δεν υπάρχουν αντικείμενα να ταιριάζουν με αυτό το ερώτημα",
     "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} created a new automation rule (#%{id})",
-      "EDIT": "%{agentName} updated an automation rule (#%{id})",
-      "DELETE": "%{agentName} deleted an automation rule (#%{id})"
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} invited %{invitee} to the account as an %{role}",
+      "ADD": "{agentName} invited {invitee} to the account as an {role}",
       "EDIT": {
-        "SELF": "%{agentName} changed their %{attributes} to %{values}",
-        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}"
+        "SELF": "{agentName} changed their {attributes} to {values}",
+        "OTHER": "{agentName} changed {attributes} of {user} to {values}",
+        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} created a new inbox (#%{id})",
-      "EDIT": "%{agentName} updated an inbox (#%{id})",
-      "DELETE": "%{agentName} deleted an inbox (#%{id})"
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} created a new webhook (#%{id})",
-      "EDIT": "%{agentName} updated a webhook (#%{id})",
-      "DELETE": "%{agentName} deleted a webhook (#%{id})"
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} signed in",
-      "SIGN_OUT": "%{agentName} signed out"
+      "SIGN_IN": "{agentName} signed in",
+      "SIGN_OUT": "{agentName} signed out"
     },
     "TEAM": {
-      "ADD": "%{agentName} created a new team (#%{id})",
-      "EDIT": "%{agentName} updated a team (#%{id})",
-      "DELETE": "%{agentName} deleted a team (#%{id})"
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} created a new macro (#%{id})",
-      "EDIT": "%{agentName} updated a macro (#%{id})",
-      "DELETE": "%{agentName} deleted a macro (#%{id})"
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the inbox(#%{inbox_id})",
-      "REMOVE": "%{agentName} removed %{user} from the inbox(#%{inbox_id})"
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} added %{user} to the team(#%{team_id})",
-      "REMOVE": "%{agentName} removed %{user} from the team(#%{team_id})"
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} updated the account configuration (#%{id})"
+      "EDIT": "{agentName} updated the account configuration (#{id})"
     }
   }
 }

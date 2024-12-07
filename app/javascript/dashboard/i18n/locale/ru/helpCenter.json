@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Фильтровать по",
       "SORT": "Сортировать по",
+      "LOCALE": "Язык",
       "SETTINGS_BUTTON": "Настройки",
       "NEW_BUTTON": "Новая статья",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Мои статьи",
         "DRAFT": "Черновики статей",
         "ARCHIVED": "Архивы статей"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Выберите язык",
+        "PLACEHOLDER": "Выберите язык",
+        "NO_RESULT": "Язык не найден",
+        "SEARCH_PLACEHOLDER": "Поиск языка"
       }
     },
     "EDIT_HEADER": {
@@ -34,6 +41,7 @@
         "UPLOADING": "Загружаем...",
         "SUCCESS": "Изображение успешно загружено",
         "ERROR": "Ошибка при загрузке изображения",
+        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
         "ERROR_FILE_SIZE": "Размер изображения должен быть меньше, чем {size}MB",
         "ERROR_FILE_FORMAT": "Формат изображения должен быть jpg, jpeg или png",
         "ERROR_FILE_DIMENSIONS": "Размеры изображения должны быть меньше, чем 2000 x 2000"
@@ -76,6 +84,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Без категории",
+      "SEARCH_RESULTS": "Результаты поиска {query}",
+      "EMPTY_TEXT": "Поиск статей для вставки в ответы.",
+      "SEARCH_LOADER": "Идёт поиск...",
       "INSERT_ARTICLE": "Вставить",
       "NO_RESULT": "Статьи не найдены",
       "COPY_LINK": "Скопировать ссылку статьи в буфер",
@@ -220,7 +231,10 @@
         "LOGO": {
           "LABEL": "Логотип",
           "UPLOAD_BUTTON": "Загрузить логотип",
-          "HELP_TEXT": "Этот логотип будет показан в заголовке портала."
+          "HELP_TEXT": "Этот логотип будет показан в заголовке портала.",
+          "IMAGE_UPLOAD_SUCCESS": "Логотип успешно загружен",
+          "IMAGE_UPLOAD_ERROR": "Логотип успешно удалён",
+          "IMAGE_DELETE_ERROR": "Ошибка при удалении логотипа"
         },
         "NAME": {
           "LABEL": "Имя",
@@ -306,12 +320,13 @@
       "HEADERS": {
         "TITLE": "Название",
         "CATEGORY": "Категория",
-        "READ_COUNT": "Счетчик просмотров",
+        "READ_COUNT": "Просмотры",
         "STATUS": "Статус",
         "LAST_EDITED": "Последнее изменение"
       },
       "COLUMNS": {
-        "BY": "От"
+        "BY": "От",
+        "AUTHOR_NOT_AVAILABLE": "Автор недоступен"
       }
     },
     "EDIT_ARTICLE": {
@@ -365,7 +380,7 @@
         "NAME": {
           "LABEL": "Имя",
           "PLACEHOLDER": "Имя категории",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Название категории будет использоваться на портале общего доступа для классификации статей.",
           "ERROR": "Необходимо указать имя"
         },
         "SLUG": {
@@ -396,7 +411,7 @@
         "NAME": {
           "LABEL": "Имя",
           "PLACEHOLDER": "Имя категории",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Название категории будет использоваться на портале общего доступа для классификации статей.",
           "ERROR": "Необходимо указать имя"
         },
         "SLUG": {
@@ -426,6 +441,21 @@
         }
       }
     },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Поиск статей",
+      "PLACEHOLDER": "Поиск статей",
+      "NO_RESULT": "Статьи не найдены",
+      "SEARCHING": "Идёт поиск...",
+      "SEARCH_BUTTON": "Поиск",
+      "INSERT_ARTICLE": "Вставить ссылку",
+      "IFRAME_ERROR": "URL пуст или недействителен. Невозможно отобразить содержимое.",
+      "OPEN_ARTICLE_SEARCH": "Вставить статью из справочного центра",
+      "SUCCESS_ARTICLE_INSERTED": "Статья успешно вставлена",
+      "PREVIEW_LINK": "Предпросмотр статьи",
+      "CANCEL": "Закрыть",
+      "BACK": "Назад",
+      "BACK_RESULTS": "Назад к результатам"
+    },
     "UPGRADE_PAGE": {
       "TITLE": "Центр поддержки",
       "DESCRIPTION": "Создайте удобные для пользователя порталы самообслуживания. Помогите пользователям получить доступ к материалам и получите поддержку 24/7. Обновите свою подписку, чтобы включить эту функцию.",
@@ -452,6 +482,7 @@
           "DESCRIPTION": "Используйте портал в качестве бесконечного CMS с сторонними фронт-фреймворками, используя наши API."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

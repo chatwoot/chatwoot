@@ -3,7 +3,8 @@
     "HEADER": "Agenti",
     "HEADER_BTN_TXT": "Dodaj agenta",
     "LOADING": "Preuzimanje liste agenata",
-    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> <b>Agent</b> je član vašeg tima korisničke podršek. </p><p> Agenti će biti u mogućnosti da vide i odgovore na poruke od strane vaših korisnika. Spisak prikazuje sve trenutne agente na vašem nalogu. </p><p> Kliknite na <b>Dodaj agenta</b> da bi ste dodali novog agenta. Agent će dobiti e-poruku sa vezom za potvrdu aktiviranja njihovog naloga, nakon čega mogu da pristupe Chatwoot-u i odgovaraju na poruke. </p><p> Pristup mogućnostima Chatwoot-a zavisi od sledećih uloga. </p><p> <b>Agent</b> - Agent sa ovom ulogom može samo da pristupa prijamnim sandučićima, izveštajima i razgovorima. Oni mogu da dodele razgovore drugim agentima ili sami sebi i da rešavaju razgovore.</p><p> <b>Administrator</b> - Administrator ima pristup svim mogućnostima Chatwoot-a koja su aktivirana za vaš nalog, uključujući podešavanjima, pored svih normalnih privilegija agenata.</p>",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
@@ -17,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Akcije",
       "VERIFIED": "Provereno",
-      "VERIFICATION_PENDING": "Verifikacija na čekanju"
+      "VERIFICATION_PENDING": "Verifikacija na čekanju",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Dodajte agenta u Vaš tim",

@@ -3,7 +3,7 @@
     "TITLE": " xping Live chat",
     "EMAIL": {
       "LABEL": "இமெயில்",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "சரியான ஈமெயில் முகவரியை பதிவிடவும்"
     },
     "PASSWORD": {

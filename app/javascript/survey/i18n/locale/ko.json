@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
       "LABEL": "Rate your conversation",
       "SUCCESS_MESSAGE": "Thank you for submitting the rating"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
     }
   },
-  "POWERED_BY": "Chatwoot 작동중"
+  "POWERED_BY": "xping 작동중"
 }

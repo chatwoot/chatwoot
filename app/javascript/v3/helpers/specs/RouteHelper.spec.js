@@ -1,20 +1,23 @@
-import { validateRouteAccess } from '../RouteHelper';
+import { validateRouteAccess, isOnOnboardingView } from '../RouteHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
 import { replaceRouteWithReload } from '../CommonHelper';
 import Cookies from 'js-cookie';
 
-const next = jest.fn();
-jest.mock('dashboard/store/utils/api', () => ({
-  clearBrowserSessionCookies: jest.fn(),
+const next = vi.fn();
+vi.mock('dashboard/store/utils/api', () => ({
+  clearBrowserSessionCookies: vi.fn(),
 }));
-jest.mock('../CommonHelper', () => ({ replaceRouteWithReload: jest.fn() }));
+vi.mock('../CommonHelper', () => ({ replaceRouteWithReload: vi.fn() }));
 
-jest.mock('js-cookie', () => ({
-  getJSON: jest.fn(),
-}));
-
-Cookies.getJSON.mockReturnValueOnce(true).mockReturnValue(false);
 describe('#validateRouteAccess', () => {
+  beforeEach(() => {
+    vi.spyOn(Cookies, 'set');
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('reset cookies and continues to the login page if the SSO parameters are present', () => {
     validateRouteAccess(
       {
@@ -40,7 +43,8 @@ describe('#validateRouteAccess', () => {
   });
 
   it('redirects to dashboard if auth cookie is present', () => {
-    Cookies.getJSON.mockImplementation(() => true);
+    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
     validateRouteAccess({ name: 'login' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');
@@ -65,5 +69,26 @@ describe('#validateRouteAccess', () => {
     validateRouteAccess({ name: 'reset_password' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith();
+  });
+});
+
+describe('isOnOnboardingView', () => {
+  test('returns true for a route with onboarding name', () => {
+    const route = { name: 'onboarding_welcome' };
+    expect(isOnOnboardingView(route)).toBe(true);
+  });
+
+  test('returns false for a route without onboarding name', () => {
+    const route = { name: 'home' };
+    expect(isOnOnboardingView(route)).toBe(false);
+  });
+
+  test('returns false for a route with null name', () => {
+    const route = { name: null };
+    expect(isOnOnboardingView(route)).toBe(false);
+  });
+
+  test('returns false for an  undefined route object', () => {
+    expect(isOnOnboardingView()).toBe(false);
   });
 });

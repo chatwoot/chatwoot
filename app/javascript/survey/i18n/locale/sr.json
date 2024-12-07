@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Poštovani korisniče 👋, molim vas izdvojite jedan trenutak da podelite iskustvo o razgovoru koje ste obavili sa %{inboxName}.",
+    "DESCRIPTION": "Poštovani korisniče 👋, molim vas izdvojite jedan trenutak da podelite iskustvo o razgovoru koje ste obavili sa {inboxName}.",
     "RATING": {
       "LABEL": "Ocenite razgovor",
       "SUCCESS_MESSAGE": "Hvala vam na dostavljenoj oceni"
@@ -15,5 +15,5 @@
       "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
     }
   },
-  "POWERED_BY": "Pokreće Chatwoot"
+  "POWERED_BY": "Pokreće xping"
 }

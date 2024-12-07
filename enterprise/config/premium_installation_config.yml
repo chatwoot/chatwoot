@@ -1,0 +1,22 @@
+# ------- Branding Related Config ------- #
+- name: INSTALLATION_NAME
+  value: 'XPING | LIVE CHAT'
+- name: LOGO_THUMBNAIL
+  value: '/brand-assets/logo_thumbnail.svg'
+- name: LOGO
+  value: '/brand-assets/logo.svg'
+- name: LOGO_DARK
+  value: '/brand-assets/logo_dark.svg'
+- name: BRAND_URL
+  value: 'https://xping.online/'
+- name: WIDGET_BRAND_URL
+  value: 'https://xping.online/'
+- name: BRAND_NAME
+  value: 'xping'
+- name: TERMS_URL
+  value: 'https://xping.online/terms-of-service'
+- name: PRIVACY_URL
+  value: 'https://xping.online/privacy-policy'
+- name: DISPLAY_MANIFEST
+  value: true
+# ------- End of Branding Related Config ------- #

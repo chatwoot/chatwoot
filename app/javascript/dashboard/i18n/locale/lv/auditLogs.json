@@ -3,6 +3,8 @@
     "HEADER": "Audita Žurnāli",
     "HEADER_BTN_TXT": "Pievienot Audita Žurnālus",
     "LOADING": "Audita Žurnālu Iegūšana",
+    "DESCRIPTION": "Audita žurnāli saglabā ierakstus par jūsu konta darbību aktivitātēm, ļaujot jums izsekot un pārbaudīt savu kontu, komandu vai pakalpojumus.",
+    "LEARN_MORE": "Uzzināt vairāk par audita žurnāliem",
     "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
     "SIDEBAR_TXT": "<p><b>Audita Žurnāls</b> </p><p> Audita Žurnāli ir notikumu un darbību pēdas Chatwoot sistēmā. </p>",
     "LIST": {
@@ -21,51 +23,52 @@
     },
     "DEFAULT_USER": "Sistēma",
     "AUTOMATION_RULE": {
-      "ADD": "%{agentName} izveidoja jaunu automatizācijas noteikumu (#%{id})",
-      "EDIT": "%{agentName} atjaunināja automatizācijas noteikumu (#%{id})",
-      "DELETE": "%{agentName} izdzēsa automatizācijas noteikumu (#%{id})"
+      "ADD": "{agentName} izveidoja jaunu automatizācijas noteikumu (#{id})",
+      "EDIT": "{agentName} atjaunināja automatizācijas noteikumu (#{id})",
+      "DELETE": "{agentName} izdzēsa automatizācijas noteikumu (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "%{agentName} uzaicināja %{invitee} kontā kā %{role}",
+      "ADD": "{agentName} uzaicināja {invitee} kontā kā {role}",
       "EDIT": {
-        "SELF": "%{agentName} mainīja savu %{attributes} uz %{values}",
-        "OTHER": "%{agentName} mainīja %{user} %{attributes} uz %{values}"
+        "SELF": "{agentName} mainīja savu {attributes} uz {values}",
+        "OTHER": "{agentName} mainīja {user} {attributes} uz {values}",
+        "DELETED": "{agentName} mainīja dzēstā lietotāja {attributes} uz {values}"
       }
     },
     "INBOX": {
-      "ADD": "%{agentName} izveidoja jaunu iesūtni (#%{id})",
-      "EDIT": "%{agentName} atjaunināja iesūtni (#%{id})",
-      "DELETE": "%{agentName} izdzēsa iesūtni (#%{id})"
+      "ADD": "{agentName} izveidoja jaunu iesūtni (#{id})",
+      "EDIT": "{agentName} atjaunināja iesūtni (#{id})",
+      "DELETE": "{agentName} izdzēsa iesūtni (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "%{agentName} izveidoja jaunu webhook (#%{id})",
-      "EDIT": "%{agentName} atjaunināja webhook (#%{id})",
-      "DELETE": "%{agentName} izdzēsa webhook (#%{id})"
+      "ADD": "{agentName} izveidoja jaunu webhook (#{id})",
+      "EDIT": "{agentName} atjaunināja webhook (#{id})",
+      "DELETE": "{agentName} izdzēsa webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "%{agentName} pierakstījies",
-      "SIGN_OUT": "%{agentName} izrakstījies"
+      "SIGN_IN": "{agentName} pierakstījies",
+      "SIGN_OUT": "{agentName} izrakstījies"
     },
     "TEAM": {
-      "ADD": "%{agentName} izveidoja jaunu komandu (#%{id})",
-      "EDIT": "%{agentName} atjaunināja komandu (#%{id})",
-      "DELETE": "%{agentName} izdzēsa komandu (#%{id})"
+      "ADD": "{agentName} izveidoja jaunu komandu (#{id})",
+      "EDIT": "{agentName} atjaunināja komandu (#{id})",
+      "DELETE": "{agentName} izdzēsa komandu (#{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} izveidoja jaunu makro (#%{id})",
-      "EDIT": "%{agentName} atjaunināja makro (#%{id})",
-      "DELETE": "%{agentName} izdzēsa makro (#%{id})"
+      "ADD": "{agentName} izveidoja jaunu makro (#{id})",
+      "EDIT": "{agentName} atjaunināja makro (#{id})",
+      "DELETE": "{agentName} izdzēsa makro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} pievienoja %{user} iesūtnei(#%{inbox_id})",
-      "REMOVE": "%{agentName} noņēma %{user} no iesūtnes(#%{inbox_id})"
+      "ADD": "{agentName} pievienoja {user} iesūtnei(#{inbox_id})",
+      "REMOVE": "{agentName} noņēma {user} no iesūtnes(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} pievienoja %{user} komandai(#%{team_id})",
-      "REMOVE": "%{agentName} noņēma %{user} no komandas(#%{team_id})"
+      "ADD": "{agentName} pievienoja {user} komandai(#{team_id})",
+      "REMOVE": "{agentName} noņēma {user} no komandas(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "%{agentName} atjaunināja (#%{id}) konta konfigurāciju "
+      "EDIT": "{agentName} atjaunināja (#{id}) konta konfigurāciju "
     }
   }
 }

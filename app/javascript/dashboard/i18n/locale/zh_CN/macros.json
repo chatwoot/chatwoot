@@ -1,10 +1,11 @@
 {
   "MACROS": {
     "HEADER": "宏",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
     "HEADER_BTN_TXT": "添加一个新宏文件",
     "HEADER_BTN_TXT_SAVE": "保存宏文件",
     "LOADING": "获取宏中",
-    "SIDEBAR_TXT": "<p><b>宏</b><p>宏是一组保存的操作，帮助客户服务代理人员轻松完成任务。代理人员可以定义一组操作，如用标签标记对话，发送电子邮件记录，更新自定义属性等，并且他们可以通过单击一次来运行这些操作。当代理人员运行宏时，这些操作将按照定义的顺序依次执行。宏提高了生产力并增加了操作的一致性。</p><p>宏可以有两种用途。</p><p><b>作为代理人员的助手：</b>如果代理人员多次执行一组操作，他们可以将其保存为宏，并使用单击执行所有操作。</p><p><b>作为新团队成员的入职选项：</b>每个代理人员在每次对话中都必须执行许多不同的检查/操作。如果帐户上有预定义的宏，那么新的支持团队成员的入职将会很容易。经理/团队负责人可以指向不同情况下使用的宏，而不是详细描述每个步骤。</p>",
     "ERROR": "出错了。请重试",
     "ORDER_INFO": "宏将按照您添加操作的顺序运行。您可以通过拖动每个节点旁边的手柄来重新排列它们。",
     "ADD": {
@@ -73,6 +74,15 @@
       "BUTTON_TOOLTIP": "执行",
       "PREVIEW": "预览宏...",
       "EXECUTED_SUCCESSFULLY": "宏成功执行"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "必须填写值",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

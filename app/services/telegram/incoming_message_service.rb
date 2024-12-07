@@ -78,8 +78,11 @@ class Telegram::IncomingMessageService
 
   def additional_attributes
     {
+      # TODO: Remove this once we show the social_telegram_user_name in the UI instead of the username
       username: telegram_params_username,
-      language_code: telegram_params_language_code
+      language_code: telegram_params_language_code,
+      social_telegram_user_id: telegram_params_from_id,
+      social_telegram_user_name: telegram_params_username
     }
   end
 
@@ -99,6 +102,12 @@ class Telegram::IncomingMessageService
 
   def attach_files
     return unless file
+
+    file_download_path = inbox.channel.get_telegram_file_path(file[:file_id])
+    if file_download_path.blank?
+      Rails.logger.info "Telegram file download path is blank for #{file[:file_id]} : inbox_id: #{inbox.id}"
+      return
+    end
 
     attachment_file = Down.download(
       inbox.channel.get_telegram_file_path(file[:file_id])
@@ -121,6 +130,7 @@ class Telegram::IncomingMessageService
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: :location,
+      fallback_title: location_fallback_title,
       coordinates_lat: location['latitude'],
       coordinates_long: location['longitude']
     )
@@ -128,6 +138,16 @@ class Telegram::IncomingMessageService
 
   def file
     @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
+  end
+
+  def location_fallback_title
+    return '' if venue.blank?
+
+    venue[:title] || ''
+  end
+
+  def venue
+    @venue ||= params.dig(:message, :venue).presence
   end
 
   def location

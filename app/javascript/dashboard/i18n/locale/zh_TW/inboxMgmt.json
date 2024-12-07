@@ -1,7 +1,10 @@
 {
   "INBOX_MGMT": {
     "HEADER": "收件匣",
-    "SIDEBAR_TXT": "<p><b>收件匣</b></p> <p> 當您將網站或 Facebook 頁面連接到 Chatwoot 它被稱為一個 <b>收件匣</b>。 您可以在Chatwoot 帳戶中擁有無限的收件匣。 </p><p> 點擊 <b>建立收件匣</b> 連接網站或 Facebook 頁面。 </p><p> 在儀表板中 您可以在一個地方看到所有收件匣中的所有對話，並在“對話”選項卡下回覆。 </p><p> 您也可以通過點擊儀表板左側面板上的收件匣名稱看到該收件匣的對話。 </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "此帳戶没有收件匣。"
     },
@@ -22,7 +25,7 @@
         "body": "將客服增加到建立的收件匣。"
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "您已設定狀態為離開"
       }
@@ -43,7 +46,7 @@
         "CHOOSE_PLACEHOLDER": "從列表中選擇一個頁面",
         "INBOX_NAME": "收件匣名稱",
         "ADD_NAME": "為收件匣新增名稱",
-        "PICK_NAME": "選擇收件匣名稱",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "選擇一個數值"
       },
       "TWITTER": {
@@ -62,7 +65,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook 網址",
-          "PLACEHOLDER": "輸入你的 Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "請輸入一個有效的 URL"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +146,7 @@
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
-          "LABEL": "電話號碼",
+          "LABEL": "聯絡人電話",
           "PLACEHOLDER": "請輸入發送消息的電話號碼。",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
@@ -175,12 +178,12 @@
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "此欄位是必填項目"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "此欄位是必填項目"
           },
           "APPLICATION_ID": {
@@ -239,7 +242,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
@@ -269,7 +272,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook 網址",
-          "SUBTITLE": "設定接收回呼事件的網址。",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook 網址"
         },
         "SUBMIT_BUTTON": "建立 API 頻道",
@@ -279,7 +282,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "電子信箱頻道",
-        "DESC": "整合您的電子信箱收件匣",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "頻道類型",
           "PLACEHOLDER": "請輸入頻道名稱",
@@ -345,7 +348,7 @@
       "AGENTS": {
         "TITLE": "客服",
         "DESC": "在這裡您可以新增客服來管理您新建立的收件匣。只有這些選定的客服才能訪問您的收件匣。 不屬於此收件匣的客服在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
-        "VALIDATION_ERROR": "新增至少一位客服到新的收件匣",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "為收件匣挑選一些客服"
       },
       "DETAILS": {
@@ -364,12 +367,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "輸入電子信箱",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "輸入電子信箱",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "在 Facebook 上認證你... ..",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "出錯了，請刷新頁面...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -406,7 +417,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +519,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "更新 API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "在此輸入新的 API Key",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +580,7 @@
       "UPDATE": "更新服務時間設定",
       "TOGGLE_AVAILABILITY": "啟用收件匣可用服務時間",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "啟用服務時間將會在 live chat 小工具上顯示你的服務時間，就算所有客服都不在線上。若不在服務時間內，訪客將會被提醒及傳送 pre-chat 表單",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "無法使用",
@@ -585,7 +596,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update IMAP settings"
@@ -733,7 +744,20 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API 頻道"
     }
   }
 }
