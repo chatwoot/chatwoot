@@ -171,18 +171,10 @@ export default {
 </script>
 
 <template>
-<<<<<<< HEAD
-  <div class="relative items-center p-4 bg-white dark:bg-slate-900"style="
-    direction: ltr;">
-    <div class="text-left rtl:text-right">
-      <div class="flex justify-between flex-row">
-        <thumbnail
-=======
   <div class="relative items-center w-full p-4 bg-white dark:bg-slate-900" style="direction: ltr;">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
         <Thumbnail
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
           v-if="showAvatar"
           :src="contact.thumbnail"
           size="56px"

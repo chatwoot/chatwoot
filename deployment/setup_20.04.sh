@@ -557,11 +557,8 @@ EOF
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
-<<<<<<< HEAD
-=======
 To configure a domain and SSL certificate, follow the guide at
 https://www.xping.online/docs/deployment/deploy-chatwoot-in-linux-vm?utm_source=cwctl
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 
 ***************************************************************************
 

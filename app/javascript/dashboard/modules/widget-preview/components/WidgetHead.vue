@@ -52,11 +52,6 @@ const isDefaultScreen = computed(() => {
           </span>
         </div>
       </div>
-<<<<<<< HEAD
-      <div v-if="isDefaultScreen" class="header-expanded" dir="rtl">
-        <h2>{{ config.welcomeHeading }}</h2>
-        <p>{{ config.welcomeTagline }}</p>
-=======
       <div v-if="isDefaultScreen" class="overflow-auto max-h-60">
         <h2 class="mb-2 text-2xl break-words text-slate-900 dark:text-white">
           {{ config.welcomeHeading }}
@@ -64,7 +59,6 @@ const isDefaultScreen = computed(() => {
         <p class="text-sm break-words text-slate-600 dark:text-slate-100">
           {{ config.welcomeTagline }}
         </p>
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
       </div>
     </div>
   </div>

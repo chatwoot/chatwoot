@@ -100,11 +100,7 @@ export const DATE_RANGE_OPTIONS = {
 };
 
 export const CHART_FONT_FAMILY =
-<<<<<<< HEAD
-  'Vazirmatn';
-=======
   'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 
 export const DEFAULT_LINE_CHART = {
   type: 'line',

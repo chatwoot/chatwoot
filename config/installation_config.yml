@@ -14,13 +14,9 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-<<<<<<< HEAD
-  value: 'XPING'
-=======
   value: 'XPING | LIVE CHAT'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
   display_title: 'Logo Thumbnail'
@@ -35,16 +31,6 @@
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
   value: 'https://xping.online/'
-<<<<<<< HEAD
-- name: WIDGET_BRAND_URL
-  value: 'https://xping.online/'
-- name: BRAND_NAME
-  value: 'XPING'
-- name: TERMS_URL
-  value: 'https://xping.online//terms-of-service'
-- name: PRIVACY_URL
-  value: 'https://xping.online//privacy-policy'
-=======
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
@@ -63,7 +49,6 @@
   value: 'https://xping.online/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 - name: DISPLAY_MANIFEST
   value: true
   display_title: 'xping Metadata'

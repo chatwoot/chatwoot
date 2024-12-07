@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-<template>
-  <div style="direction: rtl;"class="flex flex-1 overflow-auto">
-    <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
-  </div>
-</template>
-=======
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 <script>
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';

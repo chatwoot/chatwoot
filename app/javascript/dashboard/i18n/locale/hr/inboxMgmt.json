@@ -739,11 +739,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-<<<<<<< HEAD
-      "BRANDING_TEXT": "Powered by xping",
-=======
       "BRANDING_TEXT": "Pokreće xping",
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

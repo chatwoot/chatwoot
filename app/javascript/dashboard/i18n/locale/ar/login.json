@@ -1,10 +1,8 @@
 {
   "LOGIN": {
-<<<<<<< HEAD
-    "TITLE": "تسجيل الدخول إلى xping Live chat",
-=======
+
     "TITLE": "تسجيل الدخول إلى xping live chat",
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
+
     "EMAIL": {
       "LABEL": "البريد الإلكتروني",
       "PLACEHOLDER": "مثلاً: someone{'@'}example.com",

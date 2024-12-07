@@ -49,11 +49,7 @@ function onChange(e) {
 <template>
   <div class="relative mt-2 phone-input--wrap">
     <div
-<<<<<<< HEAD
-      style="direction: ltr;"class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
-=======
       style="direction: ltr;" class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
       :class="inputHasError"
     >
       <span
@@ -88,22 +84,5 @@ function onChange(e) {
       direction: rtl;
     }
   }
-<<<<<<< HEAD
-
-  .country-emoji--wrap {
-    border-bottom-left-radius: 0.18rem;
-    border-top-left-radius: 0.18rem;
-    min-width: 3.6rem;
-    width: 3.6rem;
-  }
-
-  .country-dropdown {
-    min-width: 6rem;
-    max-width: 14.8rem;
-    width: 100%;
-    direction:ltr;
-  }
-=======
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 }
 </style>

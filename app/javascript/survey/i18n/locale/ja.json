@@ -15,9 +15,5 @@
       "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
     }
   },
-<<<<<<< HEAD
-  "POWERED_BY": "PPowered by xping"
-=======
   "POWERED_BY": "Powered by xping"
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 }

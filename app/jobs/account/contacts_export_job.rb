@@ -1,20 +1,10 @@
 class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
-<<<<<<< HEAD
-  def perform(account_id, column_names)
-    account = Account.find(account_id)
-    headers = valid_headers(column_names)
-    return if headers.empty?
-
-    generate_csv(account, headers)
-    file_url = account_contact_export_url(account)
-=======
   def perform(account_id, user_id, column_names, params)
     @account = Account.find(account_id)
     @params = params
     @account_user = @account.users.find(user_id)
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
 
     headers = valid_headers(column_names)
     generate_csv(headers)

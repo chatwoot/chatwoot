@@ -46,11 +46,7 @@
   "BUBBLE": {
     "LABEL": "คุยกับเรา"
   },
-<<<<<<< HEAD
-  "POWERED_BY": "PPowered by xping",
-=======
   "POWERED_BY": "Powered by xping",
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
   "EMAIL_PLACEHOLDER": "กรุณากรอกอีเมล์ของคุณ",
   "CHAT_PLACEHOLDER": "พิมพ์ข้อความ",
   "TODAY": "วันนี้",

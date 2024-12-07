@@ -46,15 +46,9 @@
   "BUBBLE": {
     "LABEL": "Čavrljajte s nama"
   },
-<<<<<<< HEAD
-  "POWERED_BY": "PPowered by xping",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-=======
   "POWERED_BY": "Pokreće xping",
   "EMAIL_PLACEHOLDER": "Unesite svoju e-mail adresu",
   "CHAT_PLACEHOLDER": "Unesite svoju poruku",
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
   "TODAY": "Danas",
   "YESTERDAY": "Jučer",
   "PRE_CHAT_FORM": {
