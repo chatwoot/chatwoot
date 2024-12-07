@@ -70,6 +70,10 @@ const updateContact = async () => {
   try {
     const { customAttributes, ...basicContactData } = contactData.value;
     await store.dispatch('contacts/update', basicContactData);
+    await store.dispatch(
+      'contacts/fetchContactableInbox',
+      props.selectedContact.id
+    );
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
@@ -130,15 +134,28 @@ const handleAvatarDelete = async () => {
         <h3 class="text-base font-medium text-n-slate-12">
           {{ selectedContact?.name }}
         </h3>
-        <span class="text-sm text-n-slate-11">
-          {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
-          •
-          {{
-            $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
-              date: lastActivityAt,
-            })
-          }}
-        </span>
+        <div class="flex flex-col gap-1.5">
+          <span
+            v-if="selectedContact?.identifier"
+            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+          >
+            <span class="i-ph-user-gear text-n-slate-10 size-4" />
+            {{ selectedContact?.identifier }}
+          </span>
+          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
+            <span
+              v-if="selectedContact?.identifier"
+              class="i-ph-activity text-n-slate-10 size-4"
+            />
+            {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
+            •
+            {{
+              $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
+                date: lastActivityAt,
+              })
+            }}
+          </span>
+        </div>
       </div>
       <ContactLabels :contact-id="selectedContact?.id" />
     </div>
