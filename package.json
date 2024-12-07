@@ -21,11 +21,11 @@
   },
   "size-limit": [
     {
-      "path": "public/vite/assets/widget-*.js",
+      "path": "/vite/assets/widget-*.js",
       "limit": "300 KB"
     },
     {
-      "path": "public/packs/js/sdk.js",
+      "path": "/packs/js/sdk.js",
       "limit": "40 KB"
     }
   ],
