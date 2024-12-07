@@ -5,7 +5,7 @@ import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
-import { messageStamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
@@ -36,6 +36,10 @@ export default {
       default: () => {},
     },
   },
+  setup() {
+    const { localeDateFormat } = useLocaleDateFormatter();
+    return { localeDateFormat };
+  },
   data() {
     return {
       hasImageError: false,
@@ -57,7 +61,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return messageStamp(createdAt);
+      return this.localeDateFormat(createdAt, 'dateM_timeM');
     },
     isFailed() {
       const { status = '' } = this.message;

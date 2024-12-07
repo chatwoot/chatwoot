@@ -1,6 +1,6 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 export default {
   components: {
@@ -13,6 +13,10 @@ export default {
     },
   },
   emits: ['openNotification'],
+  setup() {
+    const { localeDynamicTime } = useLocaleDateFormatter();
+    return { localeDynamicTime };
+  },
   computed: {
     notificationAssignee() {
       const { primary_actor: primaryActor } = this.notificationItem;
@@ -29,7 +33,6 @@ export default {
     },
   },
   methods: {
-    dynamicTime,
     onClickOpenNotification() {
       this.$emit('openNotification', this.notificationItem);
     },
@@ -96,7 +99,7 @@ export default {
           <span
             class="flex mt-1 font-semibold text-slate-500 dark:text-slate-400 text-xxs"
           >
-            {{ dynamicTime(notificationItem.last_activity_at) }}
+            {{ localeDynamicTime(notificationItem.last_activity_at) }}
           </span>
         </div>
       </div>

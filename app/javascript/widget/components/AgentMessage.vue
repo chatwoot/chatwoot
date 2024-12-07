@@ -2,7 +2,7 @@
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
-import { messageStamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
@@ -41,8 +41,10 @@ export default {
   },
   setup() {
     const { getThemeClass } = useDarkMode();
+    const { localeDateFormat } = useLocaleDateFormatter();
     return {
       getThemeClass,
+      localeDateFormat,
     };
   },
   data() {
@@ -64,7 +66,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return messageStamp(createdAt, 'LLL d yyyy, h:mm a');
+      return this.localeDateFormat(createdAt, 'dateM_timeM');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;

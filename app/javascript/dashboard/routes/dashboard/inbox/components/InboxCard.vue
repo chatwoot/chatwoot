@@ -4,7 +4,7 @@ import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
@@ -34,6 +34,10 @@ export default {
     'markNotificationAsUnRead',
     'deleteNotification',
   ],
+  setup() {
+    const { localeShortTimestamp } = useLocaleDateFormatter();
+    return { localeShortTimestamp };
+  },
   data() {
     return {
       isContextMenuOpen: false,
@@ -64,8 +68,10 @@ export default {
       );
     },
     lastActivityAt() {
-      const time = dynamicTime(this.notificationItem?.last_activity_at);
-      return shortTimestamp(time, true);
+      return this.localeShortTimestamp(
+        this.notificationItem?.last_activity_at,
+        true
+      );
     },
     menuItems() {
       const items = [

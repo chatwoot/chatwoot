@@ -1,5 +1,5 @@
 <script setup>
-import { messageStamp } from 'shared/helpers/timeHelper';
+import useLocaleDateFormatter from 'dashboard/composables/useLocaleDateFormatter';
 
 const props = defineProps({
   automation: {
@@ -14,9 +14,11 @@ const props = defineProps({
 
 const emit = defineEmits(['toggle', 'edit', 'delete', 'clone']);
 
-const readableDate = date => messageStamp(new Date(date), 'LLL d, yyyy');
+const { localeDateFormat } = useLocaleDateFormatter();
+
+const readableDate = date => localeDateFormat(new Date(date), 'dateM');
 const readableDateWithTime = date =>
-  messageStamp(new Date(date), 'LLL d, yyyy hh:mm a');
+  localeDateFormat(new Date(date), 'dateM_timeM');
 
 const toggle = () => {
   const { id, name, active } = props.automation;
