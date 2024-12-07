@@ -151,7 +151,7 @@ export default {
       @focus="onFocus"
       @blur="onBlur"
     />
-    <div class="button-wrap">
+    <div class="button-wrap"> 
       <ChatAttachmentButton
         v-if="showAttachment"
         :class="getThemeClass('text-black-900', 'dark:text-slate-100')"
@@ -210,7 +210,7 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
-  padding-left: $space-small;
+  padding-left: 0px;
 }
 
 .user-message-input {
