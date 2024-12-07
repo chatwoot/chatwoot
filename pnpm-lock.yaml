@@ -307,7 +307,7 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3(@types/node@22.7.0)(jiti@1.21.6)(sass@1.79.3)(terser@5.33.0)(yaml@2.5.1)
       vite-plugin-ruby:
-        specifier: ^5.1.1
+        specifier: ^5.0.0
         version: 5.1.1(vite@6.0.3(@types/node@22.7.0)(jiti@1.21.6)(sass@1.79.3)(terser@5.33.0)(yaml@2.5.1))
       vitest:
         specifier: ^2.1.8
