@@ -1,6 +1,6 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'XPING|Live chat'
+  value: 'XPING | LIVE CHAT'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
