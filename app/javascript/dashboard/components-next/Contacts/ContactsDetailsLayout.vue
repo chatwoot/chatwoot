@@ -57,7 +57,7 @@ const handleBreadcrumbClick = () => {
     <div
       class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"
     >
-      <header class="sticky top-0 z-10 px-6 xl:px-0">
+      <header class="sticky top-0 z-10 px-6 xl:px-0" style="direction: ltr;">
         <div class="w-full mx-auto max-w-[650px]">
           <div class="flex items-center justify-between w-full h-20 gap-2">
             <Breadcrumb
@@ -72,7 +72,7 @@ const handleBreadcrumbClick = () => {
           </div>
         </div>
       </header>
-      <main class="flex-1 px-6 overflow-y-auto xl:px-px">
+      <main class="flex-1 px-6 overflow-y-auto xl:px-px" style="direction: ltr;">
         <div class="w-full py-4 mx-auto max-w-[650px]">
           <slot name="default" />
         </div>
@@ -81,7 +81,7 @@ const handleBreadcrumbClick = () => {
 
     <div
       v-if="slots.sidebar"
-      class="overflow-y-auto justify-end min-w-[200px] w-full py-6 max-w-[440px] border-l border-n-weak bg-n-solid-2"
+      class="overflow-y-auto justify-end min-w-[200px] w-full py-6 max-w-[440px] border-l border-n-weak bg-n-solid-2" style="direction: ltr;" 
     >
       <slot name="sidebar" />
     </div>
