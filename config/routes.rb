@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # ----------------------------------
       # start of account scoped api routes
-      resources :accounts, only: [:create, :show, :update] do
+      resources :accounts, only: [:create, :show, :update, :destroy] do
         member do
           post :update_active_at
           get :cache_keys
