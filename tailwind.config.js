@@ -28,6 +28,7 @@ const tailwindConfig = {
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
+    './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/views/**/*.html.erb',
@@ -38,6 +39,112 @@ const tailwindConfig = {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['Inter Display', ...defaultSansFonts],
+      },
+      typography: {
+        email: {
+          css: {
+            color: 'rgb(var(--slate-11))',
+            lineHeight: '1.6',
+            fontSize: '14px',
+            '*': {
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+
+            strong: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+            },
+
+            b: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+            },
+
+            h1: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+              fontSize: '1.25rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            h2: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+              fontSize: '1rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            h3: {
+              color: 'rgb(var(--slate-12))',
+              fontWeight: '700',
+              fontSize: '1rem',
+              '&:first-child': {
+                marginTop: '0',
+              },
+            },
+            hr: {
+              marginTop: '1.5em',
+              marginBottom: '1.5em',
+            },
+            a: {
+              color: 'rgb(var(--text-blue))',
+              textDecoration: 'underline',
+            },
+            'ul li': {
+              margin: '0 0 0.5em 1.5em',
+              listStyleType: 'disc',
+            },
+            'ol li': {
+              margin: '0 0 0.5em 1.5em',
+              listStyleType: 'decimal',
+            },
+            blockquote: {
+              fontStyle: 'italic',
+              color: 'rgb(var(--slate-11))',
+              borderLeft: `4px solid rgb(var(--border-strong))`,
+              paddingLeft: '1em',
+            },
+            code: {
+              backgroundColor: 'rgb(var(--alpha-3))',
+              color: 'rgb(var(--solid-amber))',
+              padding: '0.2em 0.4em',
+              borderRadius: '4px',
+              fontSize: '0.95em',
+            },
+            pre: {
+              backgroundColor: 'rgb(var(--alpha-3))',
+              padding: '1em',
+              borderRadius: '6px',
+              overflowX: 'auto',
+            },
+            table: {
+              width: '100%',
+              borderCollapse: 'collapse',
+            },
+            th: {
+              padding: '0.75em',
+              color: 'rgb(var(--slate-12))',
+              borderBottom: `1px solid rgb(var(--border-strong))`,
+              textAlign: 'left',
+              fontWeight: '600',
+            },
+            tr: {
+              borderBottom: `1px solid rgb(var(--border-strong))`,
+            },
+            td: {
+              padding: '0.75em',
+              borderBottom: `1px solid rgb(var(--border-strong))`,
+            },
+            img: {
+              maxWidth: '100%',
+              height: 'auto',
+            },
+          },
+        },
       },
     },
     screens: {
@@ -132,7 +239,7 @@ const tailwindConfig = {
             },
           },
         },
-        ...getIconCollections(['lucide', 'logos', 'ri', 'ph']),
+        ...getIconCollections(['lucide', 'logos', 'ri', 'ph', 'teenyicons']),
       },
     }),
   ],
