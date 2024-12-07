@@ -7,19 +7,11 @@
 @import 'widget/assets/scss/buttons';
 @import 'widget/assets/scss/mixins';
 @import 'widget/assets/scss/forms';
-<<<<<<< HEAD
-@import 'shared/assets/fonts/Vazir-matn';
-
-html,
-body {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Vazir-matn, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-=======
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 
 html,
 body {
   font-family: 'InterDisplay', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;

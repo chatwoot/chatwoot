@@ -1,17 +1,4 @@
-<<<<<<< HEAD
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="primary"
-    :banner-message="bannerMessage"
-    href-link="https://github.com/parsa404/chatwoot/releases"
-    :href-link-text="$t('GENERAL_SETTINGS.LEARN_MORE')"
-    has-close-button
-    @close="dismissUpdateBanner"
-  />
-</template>
-=======
->>>>>>> 499218cecfdd39a077cd3ddeeae1800d2d0e7cf5
+
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
