@@ -332,13 +332,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'label',
-        name: 'Label',
-        attributeI18nKey: 'LABEL',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
+      // {
+      //   key: 'label',
+      //   name: 'Label',
+      //   attributeI18nKey: 'LABEL',
+      //   inputType: 'multi_select',
+      //   filterOperators: OPERATOR_TYPES_3,
+      // },
     ],
     actions: [
       {

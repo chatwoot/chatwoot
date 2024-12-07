@@ -130,14 +130,14 @@ export const getConditionOptions = ({
   contacts,
   countries,
   customAttributes,
-  label,
+  // label,
   inboxes,
   languages,
   statusFilterOptions,
   teams,
   type,
 }) => {
-  console.log(label)
+  // console.log(label)
   if (isCustomAttributeCheckbox(customAttributes, type)) {
     return booleanFilterOptions;
   }
@@ -154,7 +154,7 @@ export const getConditionOptions = ({
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
     conversation_language: languages,
-    label: label,
+    // label: label,
     country_code: countries,
     message_type: MESSAGE_CONDITION_VALUES,
     priority: PRIORITY_CONDITION_VALUES,

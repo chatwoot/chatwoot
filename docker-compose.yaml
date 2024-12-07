@@ -79,6 +79,12 @@ services:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
+      # - VITE_DEV_SERVER_HOST=0.0.0.0
+      # - VITE_RUBY_HOST=0.0.0.0
+      # - VITE_PORT=3036
+      # - NODE_ENV=development
+      # - RAILS_ENV=development
+      # - HOST=0.0.0.0
     entrypoint: docker/entrypoints/vite.sh
     command: bin/vite dev
 
@@ -92,7 +98,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
