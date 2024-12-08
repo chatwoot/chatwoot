@@ -1,5 +1,8 @@
 <script>
 import { ref } from 'vue';
+
+import MessageApi from '../../../api/inbox/message';
+
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -437,17 +440,28 @@ export default {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
 
-    getInReplyToMessage(parentMessage) {
+    async getInReplyToMessage(parentMessage) {
       if (!parentMessage) return {};
       const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
       if (!inReplyToMessageId) return {};
-
-      return this.currentChat?.messages.find(message => {
+      let replyToMessage = this.currentChat?.messages.find(message => {
         if (message.id === inReplyToMessageId) {
           return true;
         }
         return false;
       });
+      if (!replyToMessage) {
+        const params = {
+          conversationId: this.currentChat.id,
+          after: inReplyToMessageId - 1,
+          before: inReplyToMessageId + 1,
+        };
+        const {
+          data: { payload },
+        } = await MessageApi.getPreviousMessages(params);
+        replyToMessage = payload[0];
+      }
+      return replyToMessage;
     },
   },
 };
