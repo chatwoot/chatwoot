@@ -89,7 +89,7 @@ export default {
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
           <woot-input
             v-model="v$.toEmailsVal.$model"
             type="text"
@@ -106,7 +106,7 @@ export default {
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
           <woot-input
             v-model="v$.ccEmailsVal.$model"
             class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
@@ -134,7 +134,7 @@ export default {
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
           <woot-input
             v-model="v$.bccEmailsVal.$model"
             type="text"
@@ -159,7 +159,7 @@ export default {
   @apply text-sm text-red-500 dark:text-red-500;
 }
 .input-group {
-  @apply border-b border-solid border-slate-75 dark:border-slate-700 my-1 flex items-center gap-2;
+  @apply border-b border-solid border-n-weak dark:border-n-weak my-1 flex items-center gap-2;
 
   .input-group-label {
     @apply border-transparent bg-transparent text-xs font-semibold pl-0;

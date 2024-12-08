@@ -93,7 +93,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="overflow-y-auto bg-white border-l dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-slate-50 dark:border-slate-800/50 rtl:border-l-0 rtl:border-r contact--panel"
+    class="overflow-y-auto bg-white border-l dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-n-weak/50 dark:border-n-weak/50 rtl:border-l-0 rtl:border-r contact--panel"
   >
     <ContactInfo
       :contact="contact"

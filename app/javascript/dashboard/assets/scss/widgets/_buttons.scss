@@ -31,7 +31,7 @@ button {
 }
 
 .button {
-  @apply items-center bg-n-brand px-2.5 text-n-slate-12 dark:text-n-slate-12 inline-flex h-10 mb-0 gap-2 font-medium;
+  @apply items-center bg-n-brand px-2.5 text-white inline-flex h-10 mb-0 gap-2 font-medium;
 
   .button__content {
     @apply w-full whitespace-nowrap overflow-hidden text-ellipsis;
@@ -43,7 +43,7 @@ button {
   }
 
   &:hover {
-    @apply bg-woot-600 dark:bg-woot-600;
+    @apply bg-n-brand/80 dark:bg-n-brand/80;
   }
 
   &:disabled,
@@ -137,7 +137,7 @@ button {
       @apply hover:bg-n-brand/20 dark:hover:bg-n-brand/30 border-n-brand dark:border-n-brand/60;
 
       &.secondary {
-        @apply border-n-strong text-n-slate-12 dark:text-n-slate-12;
+        @apply border-n-strong text-n-slate-12 dark:text-n-slate-12 hover:bg-n-slate-4 dark:hover:bg-n-solid-2;
       }
 
       &.success {

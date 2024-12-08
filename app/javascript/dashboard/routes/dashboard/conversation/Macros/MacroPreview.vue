@@ -56,9 +56,9 @@ export default {
 
 <template>
   <div
-    class="macro-preview absolute max-h-[22.5rem] w-64 rounded-md bg-white dark:bg-slate-800 shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
+    class="macro-preview absolute max-h-[22.5rem] z-50 w-64 rounded-md bg-n-alpha-3 backdrop-blur-[100px] shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
   >
-    <h6 class="text-sm text-slate-800 dark:text-slate-100 mb-4">
+    <h6 class="mb-4 text-sm text-slate-800 dark:text-slate-100">
       {{ macro.name }}
     </h6>
     <div
@@ -73,7 +73,7 @@ export default {
       <div
         class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-white dark:bg-slate-200 border-2 border-solid border-slate-100 dark:border-slate-600"
       />
-      <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">
+      <p class="mb-1 text-xs text-slate-500 dark:text-slate-400">
         {{ action.actionName }}
       </p>
       <p class="text-slate-800 dark:text-slate-100">{{ action.actionValue }}</p>

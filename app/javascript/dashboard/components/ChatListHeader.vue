@@ -80,7 +80,7 @@ const toggleConversationLayout = () => {
       </h1>
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
-        class="p-1 my-0.5 mx-1 rounded-md capitalize dark:bg-n-solid-3 hover:bg-n-slate-3 text-xxs text-n-slate-11"
+        class="p-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 dark:bg-n-solid-3 hover:bg-n-slate-3 text-xxs text-n-slate-11"
       >
         {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
       </span>

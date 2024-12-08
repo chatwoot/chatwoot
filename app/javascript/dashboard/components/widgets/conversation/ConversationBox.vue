@@ -125,7 +125,7 @@ export default {
     </woot-tabs>
     <div
       v-show="!activeIndex"
-      class="flex h-full min-h-0 m-0 bg-slate-25 dark:bg-slate-800"
+      class="flex h-full min-h-0 m-0 bg-n-slate-2 dark:bg-n-solid-2"
     >
       <MessagesView
         v-if="currentChat.id"

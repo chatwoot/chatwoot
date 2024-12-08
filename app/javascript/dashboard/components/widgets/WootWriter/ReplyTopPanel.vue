@@ -74,7 +74,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
+  <div class="flex justify-between bg-n-slate-2 dark:bg-n-slate-2">
     <div class="button-group">
       <woot-button
         variant="clear"
@@ -132,16 +132,16 @@ export default {
     }
   }
   .button--reply {
-    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
+    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-n-strong dark:border-n-strong;
     &:hover,
     &:focus {
-      @apply border-r border-slate-50 dark:border-slate-700;
+      @apply border-r border-n-strong dark:border-n-strong;
     }
   }
   .button--note {
     @apply border-l-0 rounded-none;
     &.is-active {
-      @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-slate-50 dark:border-slate-700;
+      @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-n-strong dark:border-n-strong;
     }
     &:hover,
     &:active {
