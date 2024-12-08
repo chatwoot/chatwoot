@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "ابحث في الايموجي",
     "NOT_FOUND": "لا يوجد إيموجي يطابق بحثك",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "أداة اختيار الايموجي"
   },
   "CSAT": {
     "TITLE": "قيم محادثتك",
