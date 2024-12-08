@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
-import PopOverSearch from './search/PopOverSearch.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
@@ -13,7 +12,6 @@ export default {
   components: {
     ChatList,
     ConversationBox,
-    PopOverSearch,
     CmdBarConversationSnooze,
   },
   beforeRouteLeave(to, from, next) {
@@ -193,7 +191,7 @@ export default {
 </script>
 
 <template>
-  <section class="bg-white conversation-page dark:bg-slate-900">
+  <section class="conversation-page bg-n-solid-1">
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -203,12 +201,7 @@ export default {
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
       @conversation-load="onConversationLoad"
-    >
-      <PopOverSearch
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
-      />
-    </ChatList>
+    />
     <ConversationBox
       v-if="showMessageView"
       :inbox-id="inboxId"
