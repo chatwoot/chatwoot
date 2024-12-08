@@ -74,7 +74,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between bg-n-slate-2 dark:bg-n-slate-2">
+  <div class="flex justify-between bg-n-slate-2 dark:bg-n-solid-2">
     <div class="button-group">
       <woot-button
         variant="clear"
