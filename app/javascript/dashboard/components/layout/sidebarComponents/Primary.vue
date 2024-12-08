@@ -95,7 +95,7 @@ export default {
         v-if="!isACustomBrandedInstance"
         v-tooltip.right="$t(`SIDEBAR.DOCS`)"
         :href="helpDocsURL"
-        class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
+        class="relative flex items-center justify-center w-10 h-10 my-2 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-n-solid-3 dark:hover:text-slate-100 hover:text-slate-600"
         rel="noopener noreferrer nofollow"
         target="_blank"
       >

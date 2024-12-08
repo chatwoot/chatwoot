@@ -58,9 +58,9 @@ export default {
     active-class="active"
   >
     <li
-      class="h-7 my-1 hover:bg-slate-25 hover:text-bg-50 flex items-center px-2 rounded-md dark:hover:bg-slate-800"
+      class="flex items-center px-2 my-1 rounded-md h-7 hover:bg-slate-25 hover:text-bg-50 dark:hover:bg-n-solid-3"
       :class="{
-        'bg-woot-25 dark:bg-slate-800': isActive,
+        'bg-n-brand/5 dark:bg-n-brand/10': isActive,
         'text-ellipsis overflow-hidden whitespace-nowrap max-w-full':
           shouldTruncate,
       }"
@@ -68,7 +68,7 @@ export default {
     >
       <a
         :href="href"
-        class="inline-flex text-left max-w-full w-full items-center"
+        class="inline-flex items-center w-full max-w-full text-left"
       >
         <span
           v-if="icon"
@@ -77,7 +77,7 @@ export default {
           <fluent-icon
             class="text-xxs text-slate-700 dark:text-slate-200"
             :class="{
-              'text-woot-500 dark:text-woot-500': isActive,
+              '!text-n-blue-text dark:!text-n-blue-text': isActive,
             }"
             :icon="icon"
             size="12"
@@ -90,13 +90,13 @@ export default {
           :style="{ backgroundColor: labelColor }"
         />
         <div
-          class="items-center flex overflow-hidden whitespace-nowrap text-ellipsis w-full justify-between"
+          class="flex items-center justify-between w-full overflow-hidden whitespace-nowrap text-ellipsis"
         >
           <span
             :title="menuTitle"
             class="text-sm text-slate-700 dark:text-slate-100"
             :class="{
-              'text-woot-500 dark:text-woot-500': isActive,
+              '!text-n-blue-text dark:!text-n-blue-text': isActive,
               'text-ellipsis overflow-hidden whitespace-nowrap max-w-full':
                 shouldTruncate,
             }"
@@ -121,7 +121,7 @@ export default {
         >
           <fluent-icon
             v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"
-            class="text-xxs text-red-500 dark:text-red-300"
+            class="text-red-500 text-xxs dark:text-red-300"
             :icon="warningIcon"
             size="12"
           />
