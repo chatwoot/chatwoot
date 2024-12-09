@@ -63,7 +63,6 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
 
   # In campaigns_controller.rb
 def fetchCampaignContacts
-  CUSTOM_LOGGER.info("CampaignsController")
   processed_contacts = @campaign.processed_contacts.map do |contact|
     {
       id: contact.id,

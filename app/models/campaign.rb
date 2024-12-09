@@ -66,12 +66,10 @@ class Campaign < ApplicationRecord
   end
 
   def processed_contacts
-    CUSTOM_LOGGER.info("Processed ka Req aayi hai")
     contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'processed', campaign_id: self.id })
   end
   
   def failed_contacts
-    CUSTOM_LOGGER.info("Processed ka Req aayi hai")
     contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'failed', campaign_id: self.id })
   end
   
