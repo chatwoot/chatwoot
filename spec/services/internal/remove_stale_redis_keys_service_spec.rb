@@ -14,16 +14,16 @@ RSpec.describe Internal::RemoveStaleRedisKeysService do
         .with(account.id, 'Contact')
         .and_return(redis_key)
 
-      allow(OnlineStatusTracker).to receive_message_chain(:PRESENCE_DURATION)
+      allow(OnlineStatusTracker).to receive(:PRESENCE_DURATION)
         .and_return(presence_duration)
-      
+
       allow(Rails.logger).to receive(:info)
     end
 
     it 'logs the cleanup operation' do
       expect(Rails.logger).to receive(:info)
         .with("Removing redis stale keys for account ##{account.id}")
-      
+
       service.perform
     end
 
@@ -51,13 +51,12 @@ RSpec.describe Internal::RemoveStaleRedisKeysService do
     context 'when Redis operation fails' do
       before do
         allow(Redis::Alfred).to receive(:zremrangebyscore)
-          .and_raise(Redis::CommandError.new("Redis connection error"))
+          .and_raise(Redis::CommandError.new('Redis connection error'))
       end
 
       it 'raises the error' do
         expect { service.perform }.to raise_error(Redis::CommandError)
       end
     end
-
   end
 end
