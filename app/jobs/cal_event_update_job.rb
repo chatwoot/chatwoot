@@ -1,21 +1,24 @@
 class CalEventUpdateJob < ApplicationJob
   queue_as :default
 
-  def perform(user_id, events)
-    user = User.find(user_id)
+  def perform(account_user_ids, events)
+    account_users = AccountUser.includes(:user).where(id: account_user_ids)
 
-    # Ensure 'cal_events' is initialized
-    user.custom_attributes ||= {}
-    user.custom_attributes['cal_events'] ||= {}
+    # Extract unique users
+    users = account_users.map(&:user).uniq
 
-    events.each do |event|
-      user.custom_attributes['cal_events'].each_key do |account_id|
-        add_or_update_cal_event_to_user(user, account_id, event)
+    users.each do |user|
+      user.custom_attributes ||= {}
+      user.custom_attributes['cal_events'] ||= {}
+
+      events.each do |event|
+        user.custom_attributes['cal_events'].each_key do |account_id|
+          add_or_update_cal_event_to_user(user, account_id, event)
+        end
       end
-    end
 
-    # Save the user with updated cal_events
-    user.save
+      user.save
+    end
   end
 
   private
