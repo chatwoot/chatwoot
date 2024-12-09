@@ -12,6 +12,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       buttonText: 'Find a time',
       showModal: false,
     };
@@ -25,13 +26,15 @@ export default {
   },
   methods: {
     openModal() {
+      this.isLoading = true;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
       this.removeEventListener();
     },
-    setupMessageListener() {
+    handleOnLoad() {
+      this.isLoading = false;
       window.addEventListener('message', this.handleMessage);
     },
     removeEventListener() {
@@ -62,6 +65,7 @@ export default {
 
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-content">
+        <span v-if="isLoading" class="loader" />
         <button class="close-button" @click="closeModal">{{ 'X' }}</button>
         <iframe
           :src="getEventUrl"
@@ -69,7 +73,7 @@ export default {
           height="100%"
           frameborder="0"
           class="iframe"
-          @load="setupMessageListener"
+          @load="handleOnLoad"
         />
       </div>
     </div>
@@ -107,9 +111,42 @@ export default {
   top: 24px;
   right: 20px;
   color: black;
-  width: 30px; /* Button width */
-  height: 30px; /* Button height */
-  cursor: pointer; /* Cursor style */
-  font-size: 16px; /* Text size */
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.loader {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-width: 4px;
+  border-style: solid;
+  animation: loader 2s infinite ease;
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(180deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

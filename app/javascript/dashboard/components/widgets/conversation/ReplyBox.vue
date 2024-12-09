@@ -1091,6 +1091,7 @@ export default {
         conversation_id: this.currentChat.id,
         account_id: this.currentUser.account_id,
         event_url: payload.url,
+        title: payload.title,
       });
 
       this.hideSelectCalendarModal();

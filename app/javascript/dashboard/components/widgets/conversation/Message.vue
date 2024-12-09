@@ -147,7 +147,6 @@ export default {
             ratingTitle: this.$t('CONVERSATION.RATING_TITLE'),
             feedbackTitle: this.$t('CONVERSATION.FEEDBACK_TITLE'),
           },
-          calEventResponse: this.$t('CONVERSATION.CAL_EVENT_RESPONSE'),
         }
       );
 
